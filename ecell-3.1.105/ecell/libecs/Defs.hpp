@@ -672,6 +672,3 @@ static int lt_dlsetsearchpath(const char *search_path)
   $Date: 2006-05-27 19:28:17 -0700 (Sat, 27 May 2006) $
   $Locker$
 */
-
-
-
