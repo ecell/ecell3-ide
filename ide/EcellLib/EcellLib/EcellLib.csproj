@@ -1,0 +1,143 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EcellLib</RootNamespace>
+    <AssemblyName>EcellLib</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>ecelllib.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\EcellLib.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EcellCoreLibCLR, Version=1.0.2562.29984, Culture=neutral, PublicKeyToken=1f43c6bc1b2ace5d, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\EcellCoreLibCLR.dll</HintPath>
+    </Reference>
+    <Reference Include="Formulator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ea1c6da662013333, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\Formulator.dll</HintPath>
+    </Reference>
+    <Reference Include="IronMath, Version=1.0.2334.13494, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\IronMath.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython, Version=1.0.60523.1435, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\IronPython.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionManager.cs" />
+    <Compile Include="CommandManager.cs" />
+    <Compile Include="DataManager.cs" />
+    <Compile Include="EcellObject.cs" />
+    <Compile Include="FormulatorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormulatorWindow.designer.cs">
+      <DependentUpon>FormulatorWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlubinBase.cs" />
+    <Compile Include="PluginManager.cs">
+    </Compile>
+    <Compile Include="PrintPluginDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrintPluginDialog.Designer.cs">
+      <DependentUpon>PrintPluginDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertyEditor.Designer.cs">
+      <DependentUpon>PropertyEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util.cs" />
+    <Compile Include="VariableRefWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VariableRefWindow.designer.cs">
+      <DependentUpon>VariableRefWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VariableSelectWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VariableSelectWindow.designer.cs">
+      <DependentUpon>VariableSelectWindow.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FormulatorWindow.resx">
+      <DependentUpon>FormulatorWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrintPluginDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PrintPluginDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyEditor.resx">
+      <DependentUpon>PropertyEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VariableRefWindow.resx">
+      <DependentUpon>VariableRefWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VariableSelectWindow.resx">
+      <DependentUpon>VariableSelectWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ecelllib.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\bin
+XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\src\MainWindow\MainWindow\bin\$(ConfigurationName)
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>

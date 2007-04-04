@@ -1,0 +1,186 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Threading;
+using UMD.HCIL.Piccolo;
+using UMD.HCIL.Piccolo.Event;
+using UMD.HCIL.Piccolo.Nodes;
+using EcellLib.PathwayWindow.Node;
+using EcellLib.PathwayWindow.UIComponent;
+using EcellLib.PathwayWindow.Element;
+
+namespace EcellLib.PathwayWindow
+{
+    /// <summary>
+    /// Handler class for creating nodes (variables, process).
+    /// </summary>
+    public class CreateNodeMouseHandler : PBasicInputEventHandler
+    {
+        /// <summary>
+        /// PathwayView
+        /// </summary>
+        protected PathwayView m_view;
+
+        /// <summary>
+        /// PropertyEditor. By using this, parameters for new object will be input.
+        /// </summary>
+        protected PropertyEditor m_editor;
+
+        /// <summary>
+        /// CanvasViewComponentSet, on which a new object will be created.
+        /// </summary>
+        protected CanvasView m_set;
+
+        /// <summary>
+        /// The name of the canvas, on which a new object will be created.
+        /// </summary>
+        protected string m_canvasName;
+
+        /// <summary>
+        /// Where mouse was pressed down on pathwaycanvas.
+        /// </summary>
+        protected PointF m_downPos;
+
+        /// <summary>
+        /// A system, which surrounds the position where the mouse was pressed down.
+        /// </summary>
+        protected string m_surSystem;
+
+        public CreateNodeMouseHandler(PathwayView view)
+        {
+            this.m_view = view;
+        }
+
+        public override bool DoesAcceptEvent(PInputEventArgs e)
+        {
+            return e.Button != MouseButtons.Right;
+        }
+
+        /// <summary>
+        /// Called when the mouse is down on the canvas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void OnMouseDown(object sender, PInputEventArgs e)
+        {
+            base.OnMouseDown(sender, e);
+
+            if (e.PickedNode is PCamera)
+            {
+                m_set = m_view.CanvasDictionary[e.Canvas.Name];
+                m_canvasName = ((PCamera)sender).Canvas.Name;
+                m_downPos = e.Position;
+                m_surSystem = m_view.CanvasDictionary[e.Canvas.Name].GetSurroundingSystem(e.Position, null);
+
+                if (string.IsNullOrEmpty(m_surSystem))
+                {
+                    MessageBox.Show("You can't create an object outside the root system",
+                                    "Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return;
+                }
+
+                List<EcellObject> tmpList = DataManager.GetDataManager().GetData(m_view.Window.ModelID, m_surSystem);
+                EcellObject m_currentObj = null;
+                if (tmpList.Count > 0) m_currentObj = tmpList[0];
+
+                m_editor = new PropertyEditor();
+                m_editor.SetParentObject(m_currentObj);
+                m_editor.button1.Click += new EventHandler(NewOkButton_Click);
+                if (m_view.ComponentSettings[m_view.CheckedComponent].ComponentKind == ComponentType.Process)
+                {
+                    m_editor.SetDataType("Process");
+                    m_editor.m_propName = "ExpressionFluxProcess";
+                }
+                else
+                {
+                    m_editor.SetDataType("Variable");
+                }
+                m_editor.LayoutPropertyEditor();
+                m_editor.ShowDialog();
+
+            }
+        }
+
+        /// <summary>
+        /// Called when OK button is clicked of PathwayEditor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void NewOkButton_Click(object sender, EventArgs e)
+        {
+            EcellObject eo = m_editor.Collect();
+
+            if (eo != null)
+            {
+                if (m_view.ComponentSettings[m_view.CheckedComponent].ComponentKind == ComponentType.Variable)
+                {
+                    if (!string.IsNullOrEmpty(eo.key) && eo.key.EndsWith(":SIZE"))
+                    {
+                        MessageBox.Show("A \"SIZE\" variable can't be created on the pathway.\nPlease use other plugins");
+                        return;
+                    }
+                    if (m_view.CanvasDictionary[m_canvasName].Variables.ContainsKey(eo.key))
+                    {
+                        MessageBox.Show(eo.key + " has already existed.");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (m_view.CanvasDictionary[m_canvasName].Processes.ContainsKey(eo.key))
+                    {
+                        MessageBox.Show(eo.key + " has already existed.");
+                        return;
+                    }
+                }
+
+                ComponentType cType;
+                if (m_view.ComponentSettings[m_view.CheckedComponent].ComponentKind == ComponentType.Variable)
+                    cType = ComponentType.Variable;
+                else
+                    cType = ComponentType.Process;
+
+                ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
+
+                m_view.AddNewObj(m_canvasName, m_surSystem, cType, cs, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, eo);
+
+                m_editor.Dispose();
+            }
+            else
+                return;
+        }
+    }
+}

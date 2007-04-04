@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Font Name="MS UI Gothic" Size="9" />
+  <Class Name="EcellLib.PathwayWindow.PathwayWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PathwayWindow.cs</FileName>
+      <HashCode>UQAGADAAgCgAgAGAAAIABACIwAQCAAAABEBAIBBkACI=</HashCode>
+    </TypeIdentifier>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <Lollipop Position="0.731" Collapsed="true" />
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PEcellSystem" Collapsed="true">
+    <Position X="3.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PEcellSystem.cs</FileName>
+      <HashCode>AAAAAAAKAAAABEGmAAFAAAAAwAABAAMgACAAhEAJBAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PEcellProcess" Collapsed="true">
+    <Position X="7.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PEcellProcess.cs</FileName>
+      <HashCode>AAAAAAAAAIAAAAAEAAAAAAAAAAABAQQABAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PSystem" Collapsed="true">
+    <Position X="2" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PSystem.cs</FileName>
+      <HashCode>CAIAADBCACBAAUAEAAAAAAAAYgkBAAAAoEAABAAAIAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PEcellModel" Collapsed="true">
+    <Position X="1" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PEcellModel.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PEcellVariable" Collapsed="true">
+    <Position X="5.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PEcellVariable.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAEBAAAAAAAAAABAAQABAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PPathwayNode" Collapsed="true">
+    <Position X="6.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PPathwayNode.cs</FileName>
+      <HashCode>CAIAACBAACBAAQAEAAAAAAAAQAEBAAAAJAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PPathwayObject" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PPathwayObject.cs</FileName>
+      <HashCode>XCoACiBUg6BCDUakAhkGQKRgUAuZQgMGICEAkEJYAIQ=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.CanvasElement" Collapsed="true">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CanvasElement.cs</FileName>
+      <HashCode>AAAAAAAEAgAgAAAEAAAAQAAAAAAAoADQAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.CanvasViewComponentSet" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CanvasViewComponentSet.cs</FileName>
+      <HashCode>AABAUBACUCwACUAwGAbxcSYxUaoAl4AtoGhjwKDBNAg=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.ComponentSetting" Collapsed="true">
+    <Position X="21" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ComponentSetting.cs</FileName>
+      <HashCode>1AgAQBAQAQAAAQAAAgQAAYQABARAEAICAAAIEABAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.CreateNodeMouseHandler" Collapsed="true">
+    <Position X="22.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CreateNodeMouseHandler.cs</FileName>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAABAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.CreateSystemMouseHandler" Collapsed="true">
+    <Position X="24.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CreateSystemMouseHandler.cs</FileName>
+      <HashCode>AAQAACAAAABIAAAAAAAAAgAKAAAAAAQAJwAAABACAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.DefaultMouseHandler" Collapsed="true">
+    <Position X="19.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DefaultMouseHandler.cs</FileName>
+      <HashCode>AgAAAAAAAABAAAAAAAAAAgAAAAAAAAQAIQAAABACAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.LayerElement" Collapsed="true">
+    <Position X="9.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>LayerElement.cs</FileName>
+      <HashCode>AAAAAAAAABAAAAAEAAAAQAAAAAAAgAAAAAAAAEAASAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.NodeElement" Collapsed="true">
+    <Position X="2.75" Y="7.25" Width="3.5" />
+    <TypeIdentifier>
+      <FileName>NodeElement.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAQAAAAAAAAAAAAAAAYAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.NoSuchComponentClassException" Collapsed="true">
+    <Position X="24.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>NoSuchComponentClassException.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.NoSuchComponentKindException" Collapsed="true">
+    <Position X="19.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>NoSuchComponentKindException.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.OverviewCanvas" Collapsed="true">
+    <Position X="21" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>OverviewCanvas.cs</FileName>
+      <HashCode>AAAAEAAIACAAAAAAAAAAAAAAAAAAADAAAAAAAAQAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PathUtil" Collapsed="true">
+    <Position X="22.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PathUtil.cs</FileName>
+      <HashCode>AAAAAQAAAABAACAAAAAACEAAAAAAAAAAAICAAAAAIAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PathwayCanvas" Collapsed="true">
+    <Position X="24.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PathwayCanvas.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PathwayElement" Collapsed="true">
+    <Position X="3.25" Y="4.5" Width="5" />
+    <TypeIdentifier>
+      <FileName>PathwayElement.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PathwayView" Collapsed="true">
+    <Position X="19.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PathwayView.cs</FileName>
+      <HashCode>QQgAgJQHJAQACCCAAAQwEACEAYYBAQAEAERIBMBQgCA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PDisplayedArea" Collapsed="true">
+    <Position X="12.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PDisplayedArea.cs</FileName>
+      <HashCode>CAIAACDIACBIAQAEAABAAAAAQAEBAAAAIAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.ShowBtnDownward" Collapsed="true">
+    <Position X="14.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ShowBtnDownward.cs</FileName>
+      <HashCode>CAIAACBIACBABQAEBABACAAARAEBAACAIAAgAAAIAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.ShowBtnUpward" Collapsed="true">
+    <Position X="16.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ShowBtnUpward.cs</FileName>
+      <HashCode>CAIAACBIACBABQAEBABACAAARAEBAACAIAAgAAAIAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PathwayWindow.Resource1" Collapsed="true">
+    <Position X="24.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.ComponentElement" Collapsed="true">
+    <Position X="5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ComponentElement.cs</FileName>
+      <HashCode>AAABMAAAAAAgAAQAAAAAQAAAAACAgAAABQABAEAASAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.ElementArray" Collapsed="true">
+    <Position X="21" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ElementArray.cs</FileName>
+      <HashCode>IAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.ElementConverter" Collapsed="true">
+    <Position X="22.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ElementConverter.cs</FileName>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.PEcellComposite" Collapsed="true">
+    <Position X="10" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PEcellComposite.cs</FileName>
+      <HashCode>CAIAAChAACBAAQAEAAAAAAAAQAEBAAAAIAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.ResizeHandleDragHandler" Collapsed="true">
+    <Position X="22.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ResizeHandleDragHandler.cs</FileName>
+      <HashCode>AAAAAAAAAQAAAQAAAAhIAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.PathwayWindow.SystemElement" Collapsed="true">
+    <Position X="7" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SystemElement.cs</FileName>
+      <HashCode>AAAAAAAABAAAAAAFAAAAAEAAQAAAAACAAAAAAAAAYAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+</ClassDiagram>

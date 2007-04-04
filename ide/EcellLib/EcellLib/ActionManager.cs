@@ -1,0 +1,1078 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+//
+
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+
+namespace EcellLib
+{
+    public class ActionManager
+    {
+        #region Fields
+        /// <summary>
+        /// List of user action on IDE.
+        /// </summary>
+        private List<UserAction> m_list;
+        /// <summary>
+        /// s_instance (singleton instance)
+        /// </summary>
+        private static ActionManager s_instance = null;
+        /// <summary>
+        /// Whether duaring load the actions or others.
+        /// </summary>
+        private bool isLoadAction = false;
+        #endregion
+
+        /// <summary>
+        /// Constructor for ActionManager.
+        /// </summary>
+        public ActionManager()
+        {
+            m_list = new List<UserAction>();
+        }
+
+        /// <summary>
+        /// Get the count of UserAction.
+        /// </summary>
+        public int Count
+        {
+            get { return m_list.Count; }
+        }
+
+        /// <summary>
+        /// Add the UserAction to ActionManager.
+        /// </summary>
+        /// <param name="u">The adding UserAction.</param>
+        public void AddAction(UserAction u)
+        {
+            if (isLoadAction == true) return;
+            m_list.Add(u);
+        }
+
+        /// <summary>
+        /// Get the UserAction from ActionManager by index.
+        /// </summary>
+        /// <param name="index">The index of UserAction.</param>
+        /// <returns>The target UserAction.</returns>
+        public UserAction GetAction(int index)
+        {
+            if (index > m_list.Count || index < 0) return null;
+            return m_list[index];
+        }
+
+        /// <summary>
+        /// Clear the UserAction of ActionManager.
+        /// </summary>
+        public void Clear()
+        {
+            m_list.Clear();
+        }
+
+        /// <summary>
+        /// Load the information of UserAction and 
+        /// execute the UserActions.
+        /// </summary>
+        /// <param name="fileName">File name of UserActions.</param>
+        public void LoadActionFile(string fileName)
+        {
+            isLoadAction = true;
+            XmlDocument l_doc = new XmlDocument();
+            l_doc.Load(fileName);
+
+            XmlNodeList topList = l_doc.SelectNodes("MSS");
+            foreach (XmlNode top in topList)
+            {
+                XmlNodeList commandList = top.SelectNodes("Action");
+
+                foreach (XmlNode child in commandList)
+                {
+                    XmlNode cNode = child.Attributes.GetNamedItem("command");
+                    if (cNode == null) continue;
+                    string command = cNode.InnerText;
+                    UserAction act = null;
+                    if (command.Equals("DataAdd")) act = new DataAddAction();
+                    else if (command.Equals("DataDelete")) act = new DataDeleteAction();
+                    else if (command.Equals("DataChanged")) act = new DataChangeAction();
+                    else if (command.Equals("ImportModel")) act = new ImportModelAction();
+                    else if (command.Equals("NewProject")) act = new NewProjectAction();
+                    else if (command.Equals("LoadProject")) act = new LoadProjectAction();
+                    else if (command.Equals("AddStepper")) act = new AddStepperAction();
+                    else if (command.Equals("DeleteStepper")) act = new DeleteStepperAction();
+                    else if (command.Equals("UpdateStepper")) act = new UpdateStepperAction();
+                    else if (command.Equals("NewSimParam")) act = new NewSimParamAction();
+                    else if (command.Equals("DeleteSimParam")) act = new DeleteSimParamAction();
+                    else if (command.Equals("SetSimParam")) act = new SetSimParamAction();
+
+                    if (act != null)
+                    {
+                        act.LoadScript(child);
+                        m_list.Add(act);
+                    }
+                }
+            }
+            l_doc = null;
+
+            foreach (UserAction u in m_list)
+                u.Execute();
+            isLoadAction = false;
+        }
+
+        /// <summary>
+        /// Save the information of UserAction to the file.
+        /// </summary>
+        /// <param name="fileName">Saved file name.</param>
+        public void SaveActionFile(string fileName)
+        {
+            TextWriter streamWriter =
+                                new StreamWriter(fileName);
+            XmlTextWriter w = new XmlTextWriter(streamWriter);
+            w.Formatting = Formatting.Indented;
+
+            w.WriteStartElement("MSS");
+            foreach (UserAction u in m_list)
+                u.SaveScript(w);
+            w.WriteEndElement();
+
+            w.Close();
+            streamWriter.Close();
+        }
+
+        /// <summary>
+        /// Get ActionManager with using singleton pattern.
+        /// </summary>
+        /// <returns>The ActionManager in application.</returns>
+        public static ActionManager GetActionManager()
+        {
+            if (s_instance == null)
+            {
+                s_instance = new ActionManager();
+            }
+            return s_instance;
+        }
+    }
+
+    public abstract class UserAction
+    {
+        /// <summary>
+        /// Abstract function of UserAction.
+        /// </summary>
+        /// <param name="write">The object for writing the xml file.</param>
+        public abstract void SaveScript(XmlTextWriter write);
+        /// <summary>
+        /// Abstract function of UserAction.
+        /// </summary>
+        /// <param name="node">The node object to load.</param>
+        public abstract void LoadScript(XmlNode node);
+        /// <summary>
+        /// Abstract function of UserAction.
+        /// </summary>
+        public abstract void Execute();
+        /// <summary>
+        /// Convert the xml node to the EcellObject.
+        /// </summary>
+        /// <param name="node">The xml node.</param>
+        /// <returns>EcellObject.</returns>
+        static public EcellObject LoadObject(XmlNode node)
+        {
+            XmlNode tmp = node.Attributes.GetNamedItem("model");
+            string modelID = tmp.InnerText;
+            tmp = node.Attributes.GetNamedItem("type");
+            string type = tmp.InnerText;
+            tmp = node.Attributes.GetNamedItem("key");
+            string key = tmp.InnerText;
+            tmp = node.Attributes.GetNamedItem("classname");
+            string classname = tmp.InnerText;
+
+            XmlNodeList dataList = node.SelectNodes("Data");
+            List<EcellData> list = new List<EcellData>();
+            foreach (XmlNode data in dataList)
+            {
+                EcellData d = new EcellData();
+                tmp = data.Attributes.GetNamedItem("name");
+                d.M_name = tmp.InnerText;
+                tmp = data.Attributes.GetNamedItem("path");
+                d.M_entityPath = tmp.InnerText;
+
+                tmp = data.Attributes.GetNamedItem("isGetable");
+                if (tmp.InnerText == "true") d.M_isGettable = true;
+                else d.M_isGettable = false;
+
+                tmp = data.Attributes.GetNamedItem("isLoadable");
+                if (tmp.InnerText == "true") d.M_isLoadable = true;
+                else d.M_isLoadable = false;
+
+                tmp = data.Attributes.GetNamedItem("isLogable");
+                if (tmp.InnerText == "true") d.M_isLogable = true;
+                else d.M_isLogable = false;
+
+                tmp = data.Attributes.GetNamedItem("isLogger");
+                if (tmp.InnerText == "true") d.M_isLogger = true;
+                else d.M_isLogger = false;
+
+                tmp = data.Attributes.GetNamedItem("isSavable");
+                if (tmp.InnerText == "true") d.M_isSavable = true;
+                else d.M_isSavable = false;
+
+                tmp = data.Attributes.GetNamedItem("isSetable");
+                if (tmp.InnerText == "true") d.M_isSettable = true;
+                else d.M_isSettable = false;
+
+                XmlNodeList valueList = data.SelectNodes("Value");
+                foreach (XmlNode value in valueList)
+                {
+                    tmp = value.Attributes.GetNamedItem("value_type");
+                    string vtype = tmp.InnerText;
+                    tmp = value.Attributes.GetNamedItem("value");
+                    string valueData = tmp.InnerText;
+                    EcellValue v;
+                    if (vtype.Equals(typeof(string).ToString())) v = new EcellValue(valueData);
+                    else if (vtype.Equals(typeof(double).ToString()))
+                    {
+                        if (valueData == "1.79769313486232E+308")
+                            v = new EcellValue(Double.MaxValue);
+                        else 
+                            v = new EcellValue(Convert.ToDouble(valueData));
+                    }
+                    else if (vtype.Equals(typeof(int).ToString())) v = new EcellValue(Convert.ToInt32(valueData));
+                    else v = EcellValue.ToVariableReferenceList(valueData);
+                    d.M_value = v;
+                }
+
+                list.Add(d);
+            }
+            EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
+            obj.M_instances = new List<EcellObject>();
+
+            return obj;
+        }
+        /// <summary>
+        /// Write the information of EcellObject by xml format.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        /// <param name="m_obj">The wrote object.</param>
+        static public void WriteObject(XmlTextWriter writer, EcellObject m_obj)
+        {
+
+            writer.WriteAttributeString("model", null, m_obj.modelID);
+            writer.WriteAttributeString("type", null, m_obj.type);
+            writer.WriteAttributeString("key", null, m_obj.key);
+            writer.WriteAttributeString("classname", null, m_obj.classname);
+
+            if (m_obj.M_value != null)
+            {
+                foreach (EcellData d in m_obj.M_value)
+                {
+                    writer.WriteStartElement("Data");
+                    writer.WriteAttributeString("name", null, d.M_name);
+                    writer.WriteAttributeString("path", null, d.M_entityPath);
+                    if (d.M_isGettable == true) writer.WriteAttributeString("isGetable", null, "true");
+                    else writer.WriteAttributeString("isGetable", null, "false");
+                    if (d.M_isLoadable == true) writer.WriteAttributeString("isLoadable", null, "true");
+                    else writer.WriteAttributeString("isLoadable", null, "false");
+                    if (d.M_isLogable == true) writer.WriteAttributeString("isLogable", null, "true");
+                    else writer.WriteAttributeString("isLogable", null, "false");
+                    if (d.M_isLogger == true) writer.WriteAttributeString("isLogger", null, "true");
+                    else writer.WriteAttributeString("isLogger", null, "false");
+                    if (d.M_isSavable == true) writer.WriteAttributeString("isSavable", null, "true");
+                    else writer.WriteAttributeString("isSavable", null, "false");
+                    if (d.M_isSettable == true) writer.WriteAttributeString("isSetable", null, "true");
+                    else writer.WriteAttributeString("isSetable", null, "false");
+                    writer.WriteStartElement("Value");
+                    if (d.M_value != null)
+                    {
+                        writer.WriteAttributeString("value_type", null, d.M_value.M_type.ToString());
+                        writer.WriteAttributeString("value", null, d.M_value.M_value.ToString());
+                    }
+                    writer.WriteEndElement();
+                    writer.WriteEndElement();
+                }
+            }
+        }
+    }
+
+    public class ImportModelAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The file name to import the model information.
+        /// </summary>
+        private string m_fileName;
+        #endregion
+
+        /// <summary>
+        /// The constructor for ImportModelAction.
+        /// </summary>
+        public ImportModelAction()
+        {
+        }
+        /// <summary>
+        /// The constructor for ImportModelAction with initial parameters.
+        /// </summary>
+        /// <param name="fileName">The file name to import.</param>
+        public ImportModelAction(string fileName)
+        {
+            m_fileName = fileName;
+        }
+        /// <summary>
+        /// Write the information to import the model to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "ImportModel");
+            writer.WriteAttributeString("fileName", null, m_fileName);
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to import the model.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("fileName");
+            if (child == null) return;
+            m_fileName = child.InnerText;
+        }
+        /// <summary>
+        /// Execute to import the model using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            string modelID = DataManager.GetDataManager().LoadModel(m_fileName, true);
+            PluginManager.GetPluginManager().DataAdd(DataManager.GetDataManager().GetData(modelID, null));
+            PluginManager.GetPluginManager().ChangeStatus(Util.LOADED);
+        }
+    }
+
+    public class NewProjectAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The name of created project.
+        /// </summary>
+        private string m_prjName;
+        /// <summary>
+        /// The comment of created project.
+        /// </summary>
+        private string m_comment;
+        #endregion
+
+        /// <summary>
+        /// The constructor for NewProjectAction.
+        /// </summary>
+        public NewProjectAction()
+        {
+        }
+        /// <summary>
+        /// The constructor for NewProjectAction with initial parameters.
+        /// </summary>
+        /// <param name="prjName"></param>
+        /// <param name="comment"></param>
+        public NewProjectAction(string prjName, string comment)
+        {
+            m_prjName = prjName;
+            m_comment = comment;
+        }
+        /// <summary>
+        /// Write the information to create the project to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "NewProject");
+            writer.WriteAttributeString("project", null, m_prjName);
+            writer.WriteAttributeString("comment", null, m_comment);
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to create the project.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("project");
+            if (child == null) return;
+            m_prjName = child.InnerText;
+            child = node.Attributes.GetNamedItem("comment");
+            if (child == null) return;
+            m_comment = child.InnerText;
+        }
+        /// <summary>
+        /// Execute to create the project using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            DataManager.GetDataManager().NewProject(m_prjName, m_comment);
+            PluginManager.GetPluginManager().ChangeStatus(Util.LOADED);
+        }
+    }
+
+    public class DataAddAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The added EcellObject.
+        /// </summary>
+        private EcellObject m_obj;
+        #endregion
+
+        /// <summary>
+        /// The constructor for DataAddAction.
+        /// </summary>
+        public DataAddAction()
+        {
+            m_obj = null;
+        }
+        /// <summary>
+        /// The constructor for DataAddAction with initial parameters.
+        /// </summary>
+        /// <param name="obj"></param>
+        public DataAddAction(EcellObject obj)
+        {
+            m_obj = obj;
+        }
+        /// <summary>
+        /// Write the information to add the object to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "DataAdd");
+            UserAction.WriteObject(writer, m_obj);
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to add the object.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            m_obj = UserAction.LoadObject(node);
+            if (m_obj != null && m_obj.key == "/") m_obj = null;
+        }
+        /// <summary>
+        /// Execute to add the object using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            if (m_obj == null) return;
+            List<EcellObject> list = new List<EcellObject>();
+            list.Add(m_obj);
+            DataManager.GetDataManager().DataAdd(list);
+        }
+    }
+
+    public class DataDeleteAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The model ID of deleted object.
+        /// </summary>
+        private string m_modelID;
+        /// <summary>
+        /// The key of deleted object.
+        /// </summary>
+        private string m_key;
+        /// <summary>
+        /// The type of deleted object.
+        /// </summary>
+        private string m_type;
+        #endregion
+
+        /// <summary>
+        /// The constructor for DataDeleteAction.
+        /// </summary>
+        public DataDeleteAction()
+        {
+        }
+        /// <summary>
+        /// The constructor for DataDeleteAction with initial parameters.
+        /// </summary>
+        /// <param name="modelID">The modelID of deleted object.</param>
+        /// <param name="key">The key of deleted object.</param>
+        /// <param name="type">The type of deleted object.</param>
+        public DataDeleteAction(string modelID, string key, string type)
+        {
+            m_modelID = modelID;
+            m_key = key;
+            m_type = type;
+        }
+        /// <summary>
+        /// Write the information to delete the object to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "DataDelete");
+            writer.WriteAttributeString("model", null, m_modelID);
+            writer.WriteAttributeString("key", null, m_key);
+            writer.WriteAttributeString("type", null, m_type);
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to delete the object.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("model");
+            if (child == null) return;
+            m_modelID = child.InnerText;
+            child = node.Attributes.GetNamedItem("key");
+            if (child == null) return;
+            m_key = child.InnerText;
+            child = node.Attributes.GetNamedItem("type");
+            if (child == null) return;
+            m_type = child.InnerText;
+        }
+        /// <summary>
+        /// Execute to delete the object using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            DataManager.GetDataManager().DataDelete(m_modelID, m_key, m_type);
+        }
+    }
+
+    public class DataChangeAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The modelID of changed object.
+        /// </summary>
+        private string m_modelID;
+        /// <summary>
+        /// The key of changed object.
+        /// </summary>
+        private string m_key;
+        /// <summary>
+        /// The type of changed object.
+        /// </summary>
+        private string m_type;
+        /// <summary>
+        /// The changed object.
+        /// </summary>
+        private EcellObject m_obj;
+        #endregion
+
+        /// <summary>
+        /// The constructor for DataChangeAction.
+        /// </summary>
+        public DataChangeAction()
+        {
+        }
+        /// <summary>
+        /// The constructor for DataChangeAction with initial parameters.
+        /// </summary>
+        /// <param name="modelID">The modelID of changed object.</param>
+        /// <param name="key">The key of changed object.</param>
+        /// <param name="type">The type of changed type.</param>
+        /// <param name="obj">The changed object.</param>
+        public DataChangeAction(string modelID, string key,
+            string type, EcellObject obj)
+        {
+            m_modelID = modelID;
+            m_key = key;
+            m_type = type;
+            m_obj = obj;
+        }
+        /// <summary>
+        /// Write the information to change the object to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "DataChanged");
+            writer.WriteAttributeString("model", null, m_modelID);
+            writer.WriteAttributeString("key", null, m_key);
+            writer.WriteAttributeString("type", null, m_type);
+            writer.WriteStartElement("Changed");
+            UserAction.WriteObject(writer, m_obj);
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to change the object.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("model");
+            if (child == null) return;
+            m_modelID = child.InnerText;
+            child = node.Attributes.GetNamedItem("key");
+            if (child == null) return;
+            m_key = child.InnerText;
+            child = node.Attributes.GetNamedItem("type");
+            if (child == null) return;
+            m_type = child.InnerText;
+            XmlNodeList list = node.SelectNodes("Changed");
+            foreach (XmlNode n in list)
+            {
+                m_obj = UserAction.LoadObject(n);
+            }
+        }
+        /// <summary>
+        /// Execute to change the object using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            DataManager.GetDataManager().DataChanged(m_modelID, m_key, m_type, m_obj);
+        }
+    }
+
+    public class LoadProjectAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The load project ID.
+        /// </summary>
+        private string m_prjID;
+        #endregion
+
+        /// <summary>
+        /// The constructor for LoadProjectAction.
+        /// </summary>
+        public LoadProjectAction()
+        {
+        }
+        /// <summary>
+        /// The constructor for LoadProjectAction with initial parameters.
+        /// </summary>
+        /// <param name="prjID">The load project ID.</param>
+        public LoadProjectAction(string prjID)
+        {
+            m_prjID = prjID;
+        }
+        /// <summary>
+        /// Write the information to load the project to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "LoadProject");
+            writer.WriteAttributeString("prjID", null, m_prjID);
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to load the project.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("prjID");
+            if (child == null) return;
+            m_prjID = child.InnerText;
+        }
+        /// <summary>
+        /// Execute to load the project using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            DataManager.GetDataManager().LoadProject(m_prjID);
+            PluginManager.GetPluginManager().ChangeStatus(Util.LOADED);
+        }
+    }
+
+    public class AddStepperAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The parameter ID added the stepper.
+        /// </summary>
+        private string m_paramID;
+        /// <summary>
+        /// The stepper object.
+        /// </summary>
+        private EcellObject m_stepper;
+        #endregion
+
+        /// <summary>
+        /// The constructor for AddStepperAction.
+        /// </summary>
+        public AddStepperAction()
+        {
+        }
+        /// <summary>
+        /// The constructor for AddStepperAction with initial parameters.
+        /// </summary>
+        /// <param name="paramID">The parameter ID added the stepper.</param>
+        /// <param name="stepper">The stepper object.</param>
+        public AddStepperAction(string paramID, EcellObject stepper)
+        {
+            m_paramID = paramID;
+            m_stepper = stepper;
+        }
+        /// <summary>
+        /// Write the information to add the stepper to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "AddStepper");
+            writer.WriteAttributeString("paramID", null, m_paramID);
+            writer.WriteStartElement("Stepper");
+            UserAction.WriteObject(writer, m_stepper);
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to add the stepper.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("paramID");
+            if (child == null) return;
+            m_paramID = child.InnerText;
+            XmlNodeList list = node.SelectNodes("Stepper");
+            foreach (XmlNode n in list)
+            {
+                m_stepper = UserAction.LoadObject(n);
+            }
+        }
+        /// <summary>
+        /// Execute to add the stepper using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            DataManager.GetDataManager().AddStepperID(m_paramID, m_stepper);
+        }
+    }
+
+    public class DeleteStepperAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The parameter ID deleted the stepper.
+        /// </summary>
+        private string m_paramID;
+        /// <summary>
+        /// The deleted stepper.
+        /// </summary>
+        private EcellObject m_stepper;
+        #endregion
+
+        /// <summary>
+        /// The constructor for DeleteStepperAction.
+        /// </summary>
+        public DeleteStepperAction()
+        {
+        }
+        /// <summary>
+        /// The constructor for DeleteStepperAction with initial parameters.
+        /// </summary>
+        /// <param name="paramID">The parameter ID deleted the stepper.</param>
+        /// <param name="stepper">The deleted stepper.</param>
+        public DeleteStepperAction(string paramID, EcellObject stepper)
+        {
+            m_paramID = paramID;
+            m_stepper = stepper;
+        }
+        /// <summary>
+        /// Write the information to delete the stepper to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "DeleteStepper");
+            writer.WriteAttributeString("paramID", null, m_paramID);
+            writer.WriteStartElement("Stepper");
+            UserAction.WriteObject(writer, m_stepper);
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to delete the stepper.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("paramID");
+            if (child == null) return;
+            m_paramID = child.InnerText;
+            XmlNodeList list = node.SelectNodes("Stepper");
+            foreach (XmlNode n in list)
+            {
+                m_stepper = UserAction.LoadObject(n);
+            }
+        }
+        /// <summary>
+        /// Execute to delete the stepper using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            DataManager.GetDataManager().DeleteStepperID(m_paramID, m_stepper);
+        }
+    }
+
+    public class UpdateStepperAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The parameter id updated the stepper.
+        /// </summary>
+        private string m_paramID;
+        /// <summary>
+        /// The updated stepper.
+        /// </summary>
+        private List<EcellObject> m_stepperList;
+        #endregion
+
+        /// <summary>
+        /// The constructor for UpdateStepperAction.
+        /// </summary>
+        public UpdateStepperAction()
+        {
+            m_stepperList = new List<EcellObject>();
+        }
+        /// <summary>
+        /// The constructor for UpdateStepperAction with initial parameters.
+        /// </summary>
+        /// <param name="paramID">The parameter id updated the stepper.</param>
+        /// <param name="stepper">The updated stepper.</param>
+        public UpdateStepperAction(string paramID, List<EcellObject> stepper)
+        {
+            m_paramID = paramID;
+            m_stepperList = stepper;
+        }
+        /// <summary>
+        /// Write the information to update the stepper to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "UpdateStepper");
+            writer.WriteAttributeString("paramID", null, m_paramID);
+            foreach (EcellObject obj in m_stepperList)
+            {
+                writer.WriteStartElement("Stepper");
+                UserAction.WriteObject(writer, obj);
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to update the stepper.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("paramID");
+            if (child == null) return;
+            m_paramID = child.InnerText;
+            XmlNodeList list = node.SelectNodes("Stepper");
+            foreach (XmlNode n in list)
+            {
+                EcellObject obj = UserAction.LoadObject(n);
+                m_stepperList.Add(obj);
+            }
+        }
+        /// <summary>
+        /// Execute to update the stepper using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            DataManager.GetDataManager().UpdateStepperID(m_paramID, m_stepperList);
+        }
+    }
+
+    public class NewSimParamAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The created parameter id.
+        /// </summary>
+        private string m_paramID;
+        #endregion
+
+        /// <summary>
+        /// The constructor for NewSimParamAction.
+        /// </summary>
+        public NewSimParamAction()
+        {
+        }
+        /// <summary>
+        /// The constructor for NewSimParamAction with initial parameters.
+        /// </summary>
+        /// <param name="paramID">The created paramter ID.</param>
+        public NewSimParamAction(string paramID)
+        {
+            m_paramID = paramID;
+        }
+        /// <summary>
+        /// Write the information to create the simulation parameter to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "NewSimParam");
+            writer.WriteAttributeString("paramID", null, m_paramID);
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to create the simulation parameter.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("paramID");
+            if (child == null) return;
+            m_paramID = child.InnerText;
+        }
+        /// <summary>
+        /// Execute to create the simulation parameter using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            DataManager.GetDataManager().NewSimulationParameter(m_paramID);
+        }
+    }
+
+    public class DeleteSimParamAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The deleted parameter ID.
+        /// </summary>
+        private string m_paramID;
+        #endregion
+
+        /// <summary>
+        /// The constructor for DeleteSimParamAction.
+        /// </summary>
+        public DeleteSimParamAction()
+        {
+        }
+        /// <summary>
+        /// The constructor for DeleteSimParamAction with initial parameters.
+        /// </summary>
+        /// <param name="paramID">The deleted parameter ID.</param>
+        public DeleteSimParamAction(string paramID)
+        {
+            m_paramID = paramID;
+        }
+        /// <summary>
+        /// Write the information to delete the simulation parameter to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "DeleteSimParam");
+            writer.WriteAttributeString("paramID", null, m_paramID);
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to delete the simulation parameter.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("paramID");
+            if (child == null) return;
+            m_paramID = child.InnerText;
+        }
+        /// <summary>
+        /// Execute to delete the simulation parameter using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            DataManager.GetDataManager().DeleteSimulationParameter(m_paramID);
+        }
+    }
+
+    public class SetSimParamAction : UserAction
+    {
+        #region Fields
+        /// <summary>
+        /// The set parameter ID.
+        /// </summary>
+        private string m_paramID;
+        #endregion
+
+        /// <summary>
+        /// The constructor for SetSimParamAction.
+        /// </summary>
+        public SetSimParamAction()
+        {
+        }
+        /// <summary>
+        /// The constructor for SetSimParamAction with initial parameters.
+        /// </summary>
+        /// <param name="paramID"></param>
+        public SetSimParamAction(string paramID)
+        {
+            m_paramID = paramID;
+        }
+        /// <summary>
+        /// Write the information to set the simulation parameter to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "SetSimParam");
+            writer.WriteAttributeString("paramID", null, m_paramID);
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to set the simulation parameter.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("paramID");
+            if (child == null) return;
+            m_paramID = child.InnerText;
+        }
+        /// <summary>
+        /// Execute to set the simulation parameter using the information.
+        /// </summary>
+        public override void Execute()
+        {
+            DataManager.GetDataManager().SetSimulationParameter(m_paramID);
+        }
+    }
+}

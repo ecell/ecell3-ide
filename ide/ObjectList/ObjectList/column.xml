@@ -1,0 +1,16 @@
+﻿<columnList>
+	<columns type="Variable">
+		<column>Value</column>
+		<column>classname</column>
+	</columns>
+	<columns type="Process">
+		<column>Activity</column>
+		<column>StepperID</column>
+		<column>classname</column>
+	</columns>
+	<columns type="System">
+		<column>Size</column>
+		<column>StepperID</column>
+		<column>classname</column>
+	</columns>
+</columnList>
