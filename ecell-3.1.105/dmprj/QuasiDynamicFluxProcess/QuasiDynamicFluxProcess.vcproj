@@ -94,6 +94,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="XCOPY /Y $(OutDir)\dm\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\dm"
 			/>
 		</Configuration>
 		<Configuration

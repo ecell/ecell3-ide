@@ -27,6 +27,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="IF NOT EXIST C:\home\ecell\E-Cell_IDE\bin ( MKDIR C:\home\ecell\E-Cell_IDE\bin )&#x0D;&#x0A;IF NOT EXIST C:\home\ecell\E-Cell_IDE\dm ( MKDIR C:\home\ecell\E-Cell_IDE\dm )&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -42,6 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/I C:\home\ecell\Boost_1.33.1\include\ /I C:\home\ecell\GSL_1.7\include\ /I.\ /I..\ /I..\..\"
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ECELL_EXPORTS"
 				MinimalRebuild="true"
@@ -63,6 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="C:\home\ecell\GSL_1.7\lib\gsl.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -91,6 +94,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="XCOPY /Y $(OutDir)\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\bin"
 			/>
 		</Configuration>
 		<Configuration
@@ -103,6 +107,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="IF NOT EXIST C:\home\ecell\E-Cell_IDE\bin ( MKDIR C:\home\ecell\E-Cell_IDE\bin )&#x0D;&#x0A;IF NOT EXIST C:\home\ecell\E-Cell_IDE\dm ( MKDIR C:\home\ecell\E-Cell_IDE\dm )&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -168,7 +173,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /Y $(OutDir)\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\bin&#x0D;&#x0A;XCOPY /Y $(OutDir)\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\src\MainWindow\MainWindow\bin\Release&#x0D;&#x0A;XCOPY /Y $(OutDir)\$(ProjectName).lib C:\home\ecell\E-Cell_IDE\lib\toollauncher&#x0D;&#x0A;"
+				CommandLine="XCOPY /Y $(OutDir)\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\bin"
 			/>
 		</Configuration>
 	</Configurations>
