@@ -42,6 +42,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/I C:\home\ecell\Boost_1.33.1\include\ /I..\..\ /I..\..\ecell\ /I..\..\ecell\libecs\"
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ALGEBRAIC1PROCESS_EXPORTS"
 				MinimalRebuild="true"
@@ -63,6 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/I C:\home\ecell\Boost_1.33.1\include\ /I..\..\ /I..\..\ecell\ /I..\..\ecell\libecs\"
 				LinkIncremental="2"
 				ModuleDefinitionFile="Algebraic1Process.def"
 				GenerateDebugInformation="true"
@@ -92,6 +94,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="XCOPY /Y $(OutDir)\dm\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\dm"
 			/>
 		</Configuration>
 		<Configuration
@@ -138,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="..\..\release\libecs.lib"
+				AdditionalOptions="/I C:\home\ecell\Boost_1.33.1\include\ /I..\..\ /I..\..\ecell\ /I..\..\ecell\libecs\"
 				OutputFile="$(OutDir)\dm\$(ProjectName).dll"
 				LinkIncremental="1"
 				ModuleDefinitionFile=""

@@ -42,6 +42,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/I C:\home\ecell\Boost_1.33.1\include\ /I..\..\ /I..\..\ecell\ /I..\..\ecell\libecs\"
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ALGEBRAIC2PROCESS_EXPORTS"
 				MinimalRebuild="true"
@@ -63,6 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="..\..\release\libecs.lib"
 				LinkIncremental="2"
 				ModuleDefinitionFile="Algebraic2Process.def"
 				GenerateDebugInformation="true"
