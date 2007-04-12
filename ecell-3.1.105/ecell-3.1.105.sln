@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libecs", "ecell\libecs\libecs.vcproj", "{9802C0A5-0F16-40C0-84FA-2101E70655FA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libemc", "ecell\libemc\libemc.vcproj", "{43456F03-B80C-4977-A84B-6C2A8623A716}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9802C0A5-0F16-40C0-84FA-2101E70655FA} = {9802C0A5-0F16-40C0-84FA-2101E70655FA}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MichaelisUniUniFluxProcess", "dmprj\MichaelisUniUniFluxProcess\MichaelisUniUniFluxProcess.vcproj", "{89FB2200-D16C-45F6-BE4E-93E501BE5CE4}"
 EndProject
@@ -14,6 +17,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dmprj", "dmprj", "{4B443B20-9E0C-40CF-8D4A-8050C654DEBB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Algebraic1Process", "dmprj\Algebraic1Process\Algebraic1Process.vcproj", "{0CCB2919-15AD-42BD-B839-87145CD73AA2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9802C0A5-0F16-40C0-84FA-2101E70655FA} = {9802C0A5-0F16-40C0-84FA-2101E70655FA}
+		{43456F03-B80C-4977-A84B-6C2A8623A716} = {43456F03-B80C-4977-A84B-6C2A8623A716}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Algebraic2Process", "dmprj\Algebraic2Process\Algebraic2Process.vcproj", "{C208E49E-A49D-4BA4-BA51-93CB64DA342C}"
 EndProject
