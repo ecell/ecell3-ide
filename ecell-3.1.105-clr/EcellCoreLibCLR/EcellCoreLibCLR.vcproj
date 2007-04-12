@@ -40,6 +40,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/I C:\home\ecell\Boost_1.33.1\include /I ..\..\ecell-3.1.105\ /I ..\..\ecell-3.1.105\ecell\"
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
@@ -58,6 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="..\..\ecell-3.1.105\release\libecs.lib ..\..\ecell-3.1.105\release\libemc.lib"
 				AdditionalDependencies="$(NoInherit)"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
@@ -87,6 +89,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="XCOPY /Y $(OutDir)\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\bin"
 			/>
 		</Configuration>
 		<Configuration
@@ -138,7 +141,7 @@
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
-				KeyFile="C:\home\ecell\E-Cell_IDE\src\ecell-3.1.105CLR\EcellCoreLibCLR\ecell.snk"
+				KeyFile="ecell.snk"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -163,7 +166,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /Y $(OutDir)\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\bin&#x0D;&#x0A;XCOPY /Y $(OutDir)\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\src\MainWindow\MainWindow\bin\Release&#x0D;&#x0A;"
+				CommandLine="XCOPY /Y $(OutDir)\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\bin"
 			/>
 		</Configuration>
 	</Configurations>
