@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/I C:\home\ecell\Boost_1.33.1\include\ /I..\..\ /I..\..\ecell\ /I..\..\ecell\libecs\"
+				AdditionalOptions="..\..\release\libecs.lib"
 				LinkIncremental="2"
 				ModuleDefinitionFile="Algebraic1Process.def"
 				GenerateDebugInformation="true"
@@ -141,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/I C:\home\ecell\Boost_1.33.1\include\ /I..\..\ /I..\..\ecell\ /I..\..\ecell\libecs\"
+				AdditionalOptions="..\..\release\libecs.lib"
 				OutputFile="$(OutDir)\dm\$(ProjectName).dll"
 				LinkIncremental="1"
 				ModuleDefinitionFile=""
