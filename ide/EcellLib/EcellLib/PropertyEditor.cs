@@ -874,7 +874,16 @@ namespace EcellLib
                     if (pos.Column != 1) continue;
 
                     if ((string)c.Tag == "modelID") modelID = c.Text;
-                    else if ((string)c.Tag == "id") key = c.Text;
+                    else if ((string)c.Tag == "id")
+                    {
+                        key = c.Text;
+                        if (key.Contains("/") || key.Contains(":"))
+                        {
+                            MessageBox.Show("Id contains invalid character(\':\' or \'/\')\n",
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
                     else if ((string)c.Tag == "classname") classname = c.Text;
                     else if ((string)c.Tag == "type") type = c.Text;
                     else if ((string)c.Tag == "VariableReferenceList")
