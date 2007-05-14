@@ -722,6 +722,14 @@ namespace EcellLib.MainWindow
                     box.Items.Add(res + " : [SimulationResult]");
                 }
 
+                int i = 0, count = box.Items.Count;
+                box.CheckOnClick = true;
+                
+                for ( i = 0 ; i < count ; i++ )
+                {
+                    box.SetItemChecked(i, true);
+                }
+
                 m_savePrjDialog.ShowDialog();
 
             }
