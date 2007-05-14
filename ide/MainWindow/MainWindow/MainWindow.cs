@@ -96,8 +96,10 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// System status.
         /// </summary>
-        int m_type = 0;
+        private int m_type = 0;
         public List<string> m_pluginList;
+
+        private int m_editCount = 0;
         #endregion
 
         /// <summary>
@@ -154,6 +156,7 @@ namespace EcellLib.MainWindow
         public void LoadModelThread(string modelID)
         {
             m_pManager.LoadData(modelID);
+            m_editCount = 0;
         }
 
         /// <summary>
@@ -362,7 +365,7 @@ namespace EcellLib.MainWindow
         /// <param name="data">The value of the adding object.</param>
         public void DataAdd(List<EcellObject> data)
         {
-            // nothing
+            m_editCount++;
         }
 
         /// <summary>
@@ -374,7 +377,7 @@ namespace EcellLib.MainWindow
         /// <param name="data">Changed value of object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
-            // nothing
+            m_editCount++;
         }
 
         /// <summary>
@@ -386,7 +389,7 @@ namespace EcellLib.MainWindow
         /// <param name="path">The path of entity.</param>
         public void LoggerAdd(string modelID, string key, string type, string path)
         {
-            // nothing
+            m_editCount++;
         }
 
         /// <summary>
@@ -397,7 +400,7 @@ namespace EcellLib.MainWindow
         /// <param name="type">The object type of deleted object.</param>
         public void DataDelete(string modelID, string key, string type)
         {
-            // nothing
+            m_editCount++;
         }
 
         /// <summary>
@@ -602,6 +605,7 @@ namespace EcellLib.MainWindow
                     m_isLoadProject = true;
                     m_project = m_newPrjDialog.textName.Text;
                     m_pManager.ChangeStatus(1);
+                    m_editCount = 0;
                 }
                 catch (Exception ex)
                 {
@@ -670,6 +674,7 @@ namespace EcellLib.MainWindow
                     m_isLoadProject = true;
                     m_project = (string)m_openPrjDialog.dataGridView1.CurrentRow.Cells["PrjName"].Value;
                     m_pManager.ChangeStatus(1);
+                    m_editCount = 0;
                 }
             }
             catch (Exception ex)
@@ -782,6 +787,7 @@ namespace EcellLib.MainWindow
                                     null, 0.0, m_dManager.GetCurrentSimulationTime(), null, m_dManager.GetLoggerList());
                         }
                     }
+                    m_editCount = 0;
                 }
             }
             catch (Exception ex)
@@ -811,12 +817,22 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void CloseProjectMenuClick(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("Do you save this project before you close project?", 
-                "Confirm Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (res == DialogResult.Yes)
+            if (m_editCount > 0)
             {
-                m_isClose = true;
-                SaveProjectMenuClick(sender, e);
+                DialogResult res = MessageBox.Show("Do you save this project before you close project?",
+                    "Confirm Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    m_isClose = true;
+                    SaveProjectMenuClick(sender, e);
+                }
+                else
+                {
+                    m_isLoadProject = false;
+                    m_pManager.ChangeStatus(0);
+                    m_dManager.CloseProject(m_project);
+                    m_project = null;
+                }
             }
             else
             {
@@ -846,6 +862,7 @@ namespace EcellLib.MainWindow
                     m_project = "project";
                     m_isLoadProject = true;
                     m_pManager.ChangeStatus(1);
+                    m_editCount = 0;
                 }
                 
                 Thread t = new Thread(new ThreadStart(LoadModelData));
@@ -971,12 +988,22 @@ namespace EcellLib.MainWindow
 
                 Thread.Sleep(1000);
 
-                DialogResult res = MessageBox.Show("Do you save this project before you close project?",
-                    "Confirm Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (res == DialogResult.Yes)
+                if (m_editCount > 0)
                 {
-                    m_isClose = true;
-                    SaveProjectMenuClick(sender, e);
+                    DialogResult res = MessageBox.Show("Do you save this project before you close project?",
+                        "Confirm Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (res == DialogResult.Yes)
+                    {
+                        m_isClose = true;
+                        SaveProjectMenuClick(sender, e);
+                    }
+                    else
+                    {
+                        m_isLoadProject = false;
+                        m_pManager.ChangeStatus(0);
+                        m_dManager.CloseProject(m_project);
+                        m_project = null;
+                    }
                 }
                 else
                 {
