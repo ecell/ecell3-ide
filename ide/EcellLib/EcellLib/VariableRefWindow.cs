@@ -215,11 +215,11 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// Update variable reference list property.
+        /// Update variable reference list property and close this window.
         /// </summary>
         /// <param name="sender">Button(Update)</param>
         /// <param name="e">EventArgs</param>
-        public void UpdateVarReference(object sender, EventArgs e)
+        public void OKVarReference(object sender, EventArgs e)
         {
             string refStr = "(";
 
@@ -259,6 +259,51 @@ namespace EcellLib
             m_editor.m_refStr = refStr;
 
             this.Dispose();
+        }
+
+        /// <summary>
+        /// Update variable reference list property.
+        /// </summary>
+        /// <param name="sender">Button(Update)</param>
+        /// <param name="e">EventArgs</param>
+        public void ApplyVarReference(object sender, EventArgs e)
+        {
+            string refStr = "(";
+
+            for (int i = 0; i < this.dgv.RowCount; i++)
+            {
+                EcellReference v = new EcellReference();
+                v.name = (string)this.dgv[0, i].Value;
+                v.fullID = (string)this.dgv[1, i].Value;
+                try
+                {
+                    v.coefficient = Convert.ToInt32(this.dgv[2, i].Value);
+                    v.isFixed = Convert.ToInt32(this.dgv[3, i].Value);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Please input integer at coefficient and isFixed.",
+                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (v.name == "")
+                {
+                    MessageBox.Show("This input is invalid name.\nPlease input name again.",
+                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (v.fullID == "" || !v.fullID.StartsWith(":"))
+                {
+                    MessageBox.Show("This input is invalid fullID.\nPlease input FullID again.",
+                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (i == 0) refStr = refStr + v.ToString();
+                else refStr = refStr + ", " + v.ToString();
+            }
+            refStr = refStr + ")";
+            m_editor.m_refStr = refStr;
         }
 
         /// <summary>

@@ -1020,8 +1020,9 @@ namespace EcellLib
             m_win = new VariableRefWindow();
             m_win.button1.Click += new EventHandler(m_win.AddVarReference);
             m_win.button2.Click += new EventHandler(m_win.DeleteVarReference);
-            m_win.button3.Click += new EventHandler(m_win.UpdateVarReference);
+            m_win.button3.Click += new EventHandler(m_win.ApplyVarReference);
             m_win.button4.Click += new EventHandler(m_win.CloseVarReference);
+            m_win.button5.Click += new EventHandler(m_win.OKVarReference);
 
             List<EcellReference> list = EcellReference.ConvertString(m_refStr);
             foreach (EcellReference v in list)
