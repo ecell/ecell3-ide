@@ -73,17 +73,17 @@
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 0;
-            this.OKButton.Text = "OK";
+            this.OKButton.Text = "Apply";
             this.OKButton.UseVisualStyleBackColor = true;
             // 
-            // CancelButton
+            // CButton
             // 
             this.CButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.CButton.Location = new System.Drawing.Point(327, 3);
-            this.CButton.Name = "CancelButton";
+            this.CButton.Name = "CButton";
             this.CButton.Size = new System.Drawing.Size(75, 23);
             this.CButton.TabIndex = 1;
-            this.CButton.Text = "Cancel";
+            this.CButton.Text = "Close";
             this.CButton.UseVisualStyleBackColor = true;
             // 
             // FormulatorWindow
