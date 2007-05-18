@@ -135,6 +135,17 @@ namespace EcellLib
             return GetRegistryValue("ECELLIDE_ANALYSIS");
         }
 
+        static public bool IsNG(string l_key)
+        {
+            for (int i = 0; i < l_key.Length; i++)
+            {
+                if (Char.IsLetterOrDigit(l_key[i]) ||
+                    l_key[i] == '_') continue;
+                return true;
+            }
+            return false;
+        }
+
         static public string GetTmpDir()
         {
             return GetRegistryValue("ECELLIDE_TMP");

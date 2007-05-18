@@ -489,10 +489,19 @@ namespace EcellLib
                         id = c.Text;
                         if (c.Text == "")
                         {
+                            MessageBox.Show("Id is null. please input id.\n",
+                                            "WARNING",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Warning);
                             return null;
                         }
-                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
+                        else if (Util.IsNG(c.Text))
+//                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
                         {
+                            MessageBox.Show("Id contains invalid character.\n",
+                                            "WARNING", 
+                                            MessageBoxButtons.OK, 
+                                            MessageBoxIcon.Warning);
                             return null;
                         }
                         if (!m_type.Equals("System"))
@@ -609,9 +618,10 @@ namespace EcellLib
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        else if (c.Text.Contains(":") || (c.Text.Contains("/") && (m_currentObj.type != "Model" || c.Text != "/")))
+                        else if (Util.IsNG(c.Text))
+//                        else if (c.Text.Contains(":") || (c.Text.Contains("/") && (m_currentObj.type != "Model" || c.Text != "/")))
                         {
-                            MessageBox.Show("Id contains invalid character(\':\' or \'/\')\n",
+                            MessageBox.Show("Id contains invalid character.\n",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
@@ -709,9 +719,10 @@ namespace EcellLib
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                else if (modelID.Contains(":") || modelID.Contains("/"))
+                else if (Util.IsNG(modelID))
+//                else if (modelID.Contains(":") || modelID.Contains("/"))
                 {
-                    MessageBox.Show("Id contains invalid character(\':\' or \'/\')\n",
+                    MessageBox.Show("Id contains invalid character.\n",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -767,9 +778,10 @@ namespace EcellLib
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
+//                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
+                        else if (Util.IsNG(c.Text))
                         {
-                            MessageBox.Show("Id contains invalid character(\':\' or \'/\')\n",
+                            MessageBox.Show("Id contains invalid character.\n",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
@@ -877,9 +889,10 @@ namespace EcellLib
                     else if ((string)c.Tag == "id")
                     {
                         key = c.Text;
-                        if (key.Contains("/") || key.Contains(":"))
+                        if (Util.IsNG(key))
+//                        if (key.Contains("/") || key.Contains(":"))
                         {
-                            MessageBox.Show("Id contains invalid character(\':\' or \'/\')\n",
+                            MessageBox.Show("Id contains invalid character.\n",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
