@@ -97,7 +97,7 @@
             this.selectButton.Name = "selectButton";
             this.selectButton.Size = new System.Drawing.Size(173, 23);
             this.selectButton.TabIndex = 0;
-            this.selectButton.Text = "select";
+            this.selectButton.Text = "Select";
             this.selectButton.UseVisualStyleBackColor = true;
             // 
             // cancelButton
@@ -107,7 +107,7 @@
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(174, 23);
             this.cancelButton.TabIndex = 1;
-            this.cancelButton.Text = "cancel";
+            this.cancelButton.Text = "Close";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // VariableSelectWindow
