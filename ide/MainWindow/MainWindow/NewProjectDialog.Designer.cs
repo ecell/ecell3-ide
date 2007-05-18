@@ -137,7 +137,7 @@ namespace EcellLib.MainWindow
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(137, 24);
             this.button1.TabIndex = 4;
-            this.button1.Text = "OK";
+            this.button1.Text = "Apply";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // button2
@@ -147,7 +147,7 @@ namespace EcellLib.MainWindow
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(138, 24);
             this.button2.TabIndex = 5;
-            this.button2.Text = "Cancel";
+            this.button2.Text = "Close";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // label3
