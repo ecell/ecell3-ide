@@ -27,6 +27,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menustrip = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,11 +50,11 @@
             this.MenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.modelEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemAnalysis = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip = new System.Windows.Forms.ToolStrip();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -255,6 +256,12 @@
             this.modelEditorToolStripMenuItem.Text = "ModelEditor";
             this.modelEditorToolStripMenuItem.Click += new System.EventHandler(this.ModelEditorMenuClick);
             // 
+            // MenuItemLayout
+            // 
+            this.MenuItemLayout.Name = "MenuItemLayout";
+            this.MenuItemLayout.Size = new System.Drawing.Size(51, 20);
+            this.MenuItemLayout.Text = "Layout";
+            // 
             // MenuItemView
             // 
             this.MenuItemView.Name = "MenuItemView";
@@ -278,12 +285,6 @@
             this.MenuItemDebug.Name = "MenuItemDebug";
             this.MenuItemDebug.Size = new System.Drawing.Size(49, 20);
             this.MenuItemDebug.Text = "Debug";
-            // 
-            // MenuItemLayout
-            // 
-            this.MenuItemLayout.Name = "MenuItemLayout";
-            this.MenuItemLayout.Size = new System.Drawing.Size(51, 20);
-            this.MenuItemLayout.Text = "Layout";
             // 
             // MenuItemHelp
             // 
@@ -373,6 +374,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolstrip);
             this.Controls.Add(this.menustrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menustrip;
             this.Name = "MainWindow";
             this.Text = "E-CELL Integration Environment";
