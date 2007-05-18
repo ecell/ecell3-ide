@@ -853,7 +853,7 @@
             this.updateButton.Name = "updateButton";
             this.updateButton.Size = new System.Drawing.Size(261, 23);
             this.updateButton.TabIndex = 0;
-            this.updateButton.Text = "Update";
+            this.updateButton.Text = "Apply";
             this.updateButton.UseVisualStyleBackColor = true;
             // 
             // closeButton

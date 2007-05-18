@@ -30,11 +30,11 @@
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
+            this.paramTextBox = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.OKButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.paramTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -71,6 +71,24 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(286, 29);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(94, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "name";
+            // 
+            // paramTextBox
+            // 
+            this.paramTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.paramTextBox.Location = new System.Drawing.Point(103, 5);
+            this.paramTextBox.Name = "paramTextBox";
+            this.paramTextBox.Size = new System.Drawing.Size(180, 19);
+            this.paramTextBox.TabIndex = 1;
+            // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
@@ -86,16 +104,6 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(286, 29);
             this.tableLayoutPanel3.TabIndex = 1;
             // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "name";
-            // 
             // OKButton
             // 
             this.OKButton.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -103,7 +111,7 @@
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(137, 23);
             this.OKButton.TabIndex = 0;
-            this.OKButton.Text = "OK";
+            this.OKButton.Text = "Apply";
             this.OKButton.UseVisualStyleBackColor = true;
             // 
             // cancelButton
@@ -113,16 +121,8 @@
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(137, 23);
             this.cancelButton.TabIndex = 1;
-            this.cancelButton.Text = "Cancel";
+            this.cancelButton.Text = "Close";
             this.cancelButton.UseVisualStyleBackColor = true;
-            // 
-            // paramTextBox
-            // 
-            this.paramTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.paramTextBox.Location = new System.Drawing.Point(103, 5);
-            this.paramTextBox.Name = "paramTextBox";
-            this.paramTextBox.Size = new System.Drawing.Size(180, 19);
-            this.paramTextBox.TabIndex = 1;
             // 
             // NewParameterWindow
             // 
