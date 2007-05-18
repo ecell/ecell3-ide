@@ -586,7 +586,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         public void NewProject(object sender, EventArgs e)
         {
-            if (((Button)sender).Text == "OK")
+            if (((Button)sender).Text == "Apply")
             {
                 if (m_newPrjDialog.textName.Text == "") 
                 {
@@ -680,7 +680,7 @@ namespace EcellLib.MainWindow
         {
             try
             {
-                if (((Button)sender).Text == "OK")
+                if (((Button)sender).Text == "Apply")
                 {
                     if (m_openPrjDialog.dataGridView1.SelectedRows.Count <= 0)
                     {
@@ -774,7 +774,7 @@ namespace EcellLib.MainWindow
         {
             try
             {
-                if (((Button)sender).Text == "OK")
+                if (((Button)sender).Text == "Apply")
                 {
                     CheckedListBox box = m_savePrjDialog.checkedListBox1;
                     if (box.CheckedItems.Count <= 0)
@@ -919,7 +919,7 @@ namespace EcellLib.MainWindow
         public void ExportModel(object sender, EventArgs e)
         {
             Button b = (Button)sender;
-            if (b.Text == "OK")
+            if (b.Text == "Apply")
             {
                 List<string> list = new List<string>();
                 CheckedListBox box = m_savePrjDialog.checkedListBox1;
