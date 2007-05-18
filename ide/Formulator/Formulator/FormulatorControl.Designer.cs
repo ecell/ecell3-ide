@@ -225,7 +225,7 @@
             this.StringButton.Name = "StringButton";
             this.StringButton.Size = new System.Drawing.Size(75, 28);
             this.StringButton.TabIndex = 0;
-            this.StringButton.Text = "update";
+            this.StringButton.Text = "Apply";
             this.StringButton.UseVisualStyleBackColor = true;
             this.StringButton.Click += new System.EventHandler(this.StringButton_Click);
             // 
@@ -255,7 +255,7 @@
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(75, 28);
             this.AddButton.TabIndex = 3;
-            this.AddButton.Text = "Update";
+            this.AddButton.Text = "Apply";
             this.AddButton.UseVisualStyleBackColor = true;
             this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
