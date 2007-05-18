@@ -588,13 +588,31 @@ namespace EcellLib.MainWindow
         {
             if (((Button)sender).Text == "OK")
             {
-                if (m_newPrjDialog.textName.Text == "" ||
-                    m_newPrjDialog.textModelName.Text == "") 
+                if (m_newPrjDialog.textName.Text == "") 
                 {
-                    MessageBox.Show("Please input project name and model name.",
+                    MessageBox.Show("Prject name is null. Please input project name.",
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+                if (m_newPrjDialog.textModelName.Text == "")
+                {
+                    MessageBox.Show("Model name is null. Please input model name.",
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (Util.IsNG(m_newPrjDialog.textName.Text))
+                {
+                    MessageBox.Show("Project name includes invalid character.",
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (Util.IsNG(m_newPrjDialog.textModelName.Text))
+                {
+                    MessageBox.Show("Model name includes invalid character.",
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 try
                 {
                     m_dManager.NewProject(m_newPrjDialog.textName.Text,
