@@ -575,7 +575,7 @@ namespace EcellLib.MainWindow
             m_newPrjDialog.button1.Click += new System.EventHandler(this.NewProject);
             m_newPrjDialog.button2.Click += new System.EventHandler(this.NewProject);
 
-           m_newPrjDialog.Show();
+            m_newPrjDialog.ShowDialog();
         }
 
         /// <summary>
