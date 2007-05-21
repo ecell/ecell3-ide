@@ -149,6 +149,7 @@ namespace EcellLib
                     }
                 }
             }
+            m_selectWindow.selectTree.ExpandAll();
 
         }
 
