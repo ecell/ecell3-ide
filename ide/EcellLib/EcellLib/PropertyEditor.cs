@@ -504,6 +504,13 @@ namespace EcellLib
                                             MessageBoxIcon.Warning);
                             return null;
                         }
+                        else if (c.Text.ToUpper() == "SIZE")
+                        {
+                            MessageBox.Show("SIZE is the reserved name.\n",
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return null;
+                        }
+
                         if (!m_type.Equals("System"))
                         {
                             if (m_parentObj.key == "") key = c.Text;
@@ -899,6 +906,18 @@ namespace EcellLib
 //                        if (key.Contains("/") || key.Contains(":"))
                         {
                             MessageBox.Show("Id contains invalid character.\n",
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else if (c.Text == "")
+                        {
+                            MessageBox.Show("Can't read id text.Please input id of instance",
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else if (c.Text.ToUpper() == "SIZE")
+                        {
+                            MessageBox.Show("SIZE is the reserved name.\n",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
