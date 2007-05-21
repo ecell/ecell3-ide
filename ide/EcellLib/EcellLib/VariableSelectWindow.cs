@@ -104,7 +104,7 @@ namespace EcellLib
             string key = ":" + tag;
             while (true)
             {
-                id = "X" + j;
+                id = "P" + j;
                 bool isHit = false;
                 for (int i = 0; i < m_win.dgv.RowCount; i++)
                 {
