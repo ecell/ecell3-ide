@@ -43,5 +43,13 @@ namespace EcellLib.MainWindow
         {
             InitializeComponent();
         }
+
+        private void EnterKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                button1.PerformClick();
+            }
+        }
     }
 }

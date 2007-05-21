@@ -121,6 +121,7 @@ namespace EcellLib.MainWindow
             this.textName.Name = "textName";
             this.textName.Size = new System.Drawing.Size(138, 19);
             this.textName.TabIndex = 1;
+            this.textName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
             // textComment
             // 
@@ -129,6 +130,7 @@ namespace EcellLib.MainWindow
             this.textComment.Name = "textComment";
             this.textComment.Size = new System.Drawing.Size(138, 19);
             this.textComment.TabIndex = 2;
+            this.textComment.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
             // button1
             // 
@@ -167,6 +169,7 @@ namespace EcellLib.MainWindow
             this.textModelName.Name = "textModelName";
             this.textModelName.Size = new System.Drawing.Size(138, 19);
             this.textModelName.TabIndex = 3;
+            this.textModelName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
             // NewProjectDialog
             // 
