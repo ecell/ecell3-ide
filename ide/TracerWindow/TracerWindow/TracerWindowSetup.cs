@@ -19,5 +19,13 @@ namespace EcellLib.TracerWindow
         {
             this.Dispose();
         }
+
+        private void EnterKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                okButton.PerformClick();
+            }
+        }
     }
 }

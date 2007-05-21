@@ -121,6 +121,7 @@
             this.numberTextBox.Size = new System.Drawing.Size(173, 19);
             this.numberTextBox.TabIndex = 2;
             this.numberTextBox.Text = "10000";
+            this.numberTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
             // tableLayoutPanel3
             // 
