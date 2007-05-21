@@ -902,14 +902,7 @@ namespace EcellLib
                     else if ((string)c.Tag == "id")
                     {
                         key = c.Text;
-                        if (Util.IsNG(key))
-//                        if (key.Contains("/") || key.Contains(":"))
-                        {
-                            MessageBox.Show("Id contains invalid character.\n",
-                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-                        else if (c.Text == "")
+                        if (c.Text == "")
                         {
                             MessageBox.Show("Can't read id text.Please input id of instance",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
