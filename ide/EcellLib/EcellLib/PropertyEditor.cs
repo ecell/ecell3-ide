@@ -180,7 +180,12 @@ namespace EcellLib
             l.Dock = DockStyle.Fill;
             layoutPanel.Controls.Add(l, 0, 0);
             TextBox t = new TextBox();
-            if (m_currentObj == null) t.Text = "";
+            if (m_currentObj == null)
+            {
+                t.Text = "";
+                t.Focus();
+                t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+            }
             else
             {
                 t.Text = m_currentObj.modelID;
@@ -191,7 +196,6 @@ namespace EcellLib
             layoutPanel.Controls.Add(t, 1, 0);
             layoutPanel.ResumeLayout(false);
         }
-
 
         /// <summary>
         /// layout the column of property editor for System, Process and Variable.
@@ -217,6 +221,7 @@ namespace EcellLib
                 }
             }
 
+            Control cnt = null;
             int i = 0;
             int width = layoutPanel.Width;
             layoutPanel.Controls.Clear();
@@ -248,8 +253,13 @@ namespace EcellLib
                 layoutPanel.Controls.Add(l2, 0, i);
                 TextBox t2 = new TextBox();
                 t2.Tag = "id";
-                if (m_currentObj == null) t2.Text = "";
-                else 
+                if (m_currentObj == null)
+                {
+                    t2.Text = "";
+                    cnt = t2;
+                    t2.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                }
+                else
                 {
                     t2.ReadOnly = true;
                     t2.Text = m_currentObj.key;
@@ -356,6 +366,10 @@ namespace EcellLib
                         {
                             t.ReadOnly = true;
                         }
+                        else
+                        {
+                            t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                        }
                         layoutPanel.Controls.Add(t, 1, i);
 
                         if ((key == "Expression"))
@@ -373,12 +387,21 @@ namespace EcellLib
                 }
 //                layoutPanel.ResumeLayout(false);
                 panel1.ClientSize = panel1.Size;
+                this.ActiveControl = cnt;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Fail to layout process list window.\n" +
                     "Please close this window.\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        void EnterKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                button1.PerformClick();
             }
         }
 
