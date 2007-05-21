@@ -2614,6 +2614,7 @@ namespace EcellLib.PathwayWindow
                 if (e.PickedNode is PPathwayNode)
                 {
                     PPathwayNode pnode = (PPathwayNode)e.PickedNode;
+                    pnode.MemorizeCurrentPosition();
                     pnode.CancelAllParentOffsets();
                     m_set.ControlLayer.AddChild(pnode);
 

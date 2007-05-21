@@ -142,9 +142,37 @@ namespace EcellLib.PathwayWindow
                     i++;
                 }
 
+                String n = "";
+                String pre = "";
+                if (coefficient == 0)
+                {
+                    pre = "S";
+                }
+                else
+                {
+                    pre = "P";
+                }
+
+                int k = 0;
+                while (true)
+                {
+                    bool ishit = false;
+                    n = pre + k;
+                    foreach (EcellReference r in list)
+                    {
+                        if (r.name == n)
+                        {
+                            k++;
+                            ishit = true;
+                            continue;
+                        }
+                    }
+                    if (ishit == false) break;
+                }
+
                 EcellReference eref = new EcellReference();
-                eref.name = "X0";
-                eref.fullID = variable.Element.Key;
+                eref.name = n;
+                eref.fullID = ":" + variable.Element.Key;
                 eref.coefficient = coefficient;
                 eref.isFixed = 1;
 
