@@ -785,6 +785,12 @@ namespace EcellLib
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
+                        else if (c.Text.ToUpper() == "SIZE")
+                        {
+                            MessageBox.Show("SIZE is the reserved name.\n",
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
                         if (m_parentObj.key == "") key = c.Text;
                         else if (m_parentObj.key == "/") key = "/:" + c.Text;
                         else key = m_parentObj.key + ":" + c.Text;
