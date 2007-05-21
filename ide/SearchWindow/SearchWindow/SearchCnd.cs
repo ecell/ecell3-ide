@@ -99,6 +99,7 @@ namespace EcellLib.SearchWindow
                 if (list == null) continue;
                 foreach (EcellObject obj in list)
                 {
+                    if (obj.key == null) continue;
                     if (obj.key.Contains(searchId))
                     {
                         dgv.Rows.Add(new Object[] { obj.key, model, obj.type });

@@ -62,7 +62,7 @@ namespace EcellLib.SearchWindow
         public void ShowSearchWindow(object sender, EventArgs e)
         {
             m_cnd = new SearchCnd();
-            m_cnd.Show();
+            m_cnd.ShowDialog();
         }
         #endregion
 
