@@ -36,6 +36,8 @@ namespace EcellLib.MainWindow
 {
     static class Program
     {
+        internal static ApplicationContext ThisContext;
+
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
@@ -44,7 +46,9 @@ namespace EcellLib.MainWindow
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            ThisContext = new ApplicationContext(new frmSplash());
+            Application.Run(ThisContext);
+//            Application.Run(new MainWindow());
         }
     }
 }
