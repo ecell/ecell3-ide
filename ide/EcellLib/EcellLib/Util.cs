@@ -63,10 +63,14 @@ namespace EcellLib
         public const string s_headerTolerable = "Tolerable";
         public const string s_headerValue = "value";
         public const string s_parameterKey = "DefaultParameter";
-        public const string s_registryDMKey = "ECELLIDE_DM";
-        public const string s_registryBaseDirKey = "ECELLIDE_BASEDIR";
+        public const string s_registryAnalysisDirKey = "E-CELL IDE ANALYSIS";
+        public const string s_registryBaseDirKey = "E-CELL IDE BASE";
+        public const string s_registryDMDirKey = "E-CELL IDE DM";
+        public const string s_registryPluginDirKey = "E-CELL IDE PLUGIN";
+        public const string s_registryTmpDirKey = "E-CELL IDE TMP";
         public const string s_registryEnvKey = "Environment";
-        public const string s_registrySWKey = "software\\KeioUniv\\E-Cell_IDE";
+        public const string s_registrySWKey = "software\\KeioUniv\\E-Cell IDE";
+        public const string s_registrySW2Key = "software\\KeioUniv";
         public const string s_textComment = "Commnet";
         public const string s_textKey = "DefaultStepper";
         public const string s_textParameter = "SimulationParameter";
@@ -120,6 +124,11 @@ namespace EcellLib
         public const int ANALYSIS_DO = 1;
         public const int ANALYSIS_DONE = 2;
 
+        static public string GetAnalysisDir()
+        {
+            return GetRegistryValue(s_registryAnalysisDirKey);
+        }
+
         static public string GetBaseDir()
         {
             return GetRegistryValue(s_registryBaseDirKey);
@@ -127,12 +136,12 @@ namespace EcellLib
 
         static public string GetDMDir()
         {
-            return GetRegistryValue(s_registryDMKey);
+            return GetRegistryValue(s_registryDMDirKey);
         }
 
-        static public string GetAnalysisDir()
+        static public string GetPluginDir()
         {
-            return GetRegistryValue("ECELLIDE_ANALYSIS");
+            return GetRegistryValue(s_registryPluginDirKey);
         }
 
         static public bool IsNG(string l_key)
@@ -148,7 +157,7 @@ namespace EcellLib
 
         static public string GetTmpDir()
         {
-            return GetRegistryValue("ECELLIDE_TMP");
+            return GetRegistryValue(s_registryTmpDirKey);
         }
 
         static private string GetRegistryValue(string l_intendedKey)
@@ -160,9 +169,43 @@ namespace EcellLib
             {
                 l_subkey = l_key.OpenSubKey(s_registryEnvKey);
                 l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
-                if (l_currentDir == null)
+                if (l_currentDir != null)
+                    return l_currentDir;
+            }
+            finally
+            {
+                if (l_subkey != null)
                 {
-                    l_subkey = l_key.OpenSubKey(s_registrySWKey);
+                    l_subkey.Close();
+                }
+            }
+            try
+            {
+                l_subkey = l_key.OpenSubKey(s_registrySWKey);
+                if (l_subkey != null)
+                {
+                    l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
+                    if (l_currentDir != null)
+                        return l_currentDir;
+                }
+            }
+            finally
+            {
+                if (l_key != null)
+                {
+                    l_key.Close();
+                }
+                if (l_subkey != null)
+                {
+                    l_subkey.Close();
+                }
+            }
+            try
+            {
+                l_key = Microsoft.Win32.Registry.LocalMachine;
+                l_subkey = l_key.OpenSubKey(s_registrySWKey);
+                if (l_subkey != null)
+                {
                     l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
                 }
                 return l_currentDir;
