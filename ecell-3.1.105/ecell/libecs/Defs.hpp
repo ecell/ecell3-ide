@@ -523,9 +523,9 @@ typedef const mytype & mytype ## Cref;
 
 #define DM_PATH "dm"
 #define FILE_EXTENSION ".dll"
-#define REGISTORY_DM_KEY L"ECELLIDE_DM"
+#define REGISTORY_DM_KEY L"E-CELL IDE DM"
 #define REGISTORY_ENV_KEY L"Environment"
-#define REGISTORY_SW_KEY L"Software\\KeioUniv\\E-Cell_IDE"
+#define REGISTORY_SW_KEY L"Software\\KeioUniv\\E-Cell IDE"
 #define SIZE 10000
 class Util
 {
