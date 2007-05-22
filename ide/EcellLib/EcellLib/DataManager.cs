@@ -5480,7 +5480,16 @@ namespace EcellLib
             //
             // Searches the DM paths
             //
-            string[] l_dmPathArray = (Util.GetDMDir()).Split(Util.s_delimiterSemiColon.ToCharArray());
+            String dmDirName = Util.GetDMDir();
+            if (dmDirName == null)
+            {
+                MessageBox.Show("Can't find property of E-CELL IDE. Would you please re-install E-CELL IDE.\n",
+                            "ERROR",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                Application.Exit();
+            }
+            string[] l_dmPathArray = dmDirName.Split(Util.s_delimiterSemiColon.ToCharArray());
             bool l_searchFlag = false;
             foreach (string l_dmPath in l_dmPathArray)
             {
