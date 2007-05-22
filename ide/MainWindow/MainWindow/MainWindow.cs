@@ -109,9 +109,20 @@ namespace EcellLib.MainWindow
         {
             InitializeComponent();
 
+            try
+            {
+                m_dManager = DataManager.GetDataManager();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Can't find property of E-CELL IDE. Would you please re-install E-CELL IDE.\n",
+                        "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
+
             m_pManager = PluginManager.GetPluginManager();
             m_pManager.AddPlugin(this);
-            m_dManager = DataManager.GetDataManager();
+
 
             m_pluginList = new List<string>();
             m_isLoadProject = false;
