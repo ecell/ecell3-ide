@@ -141,7 +141,8 @@ namespace EcellLib.PathwayWindow
         public PathwayWindow()
         {
             // Read component settings from ComopnentSettings.xml
-            string settingFile = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
+            // string settingFile = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
+            string settingFile = EcellLib.Util.GetPluginDir();
             settingFile += "\\pathway\\ComponentSettings.xml";
 
             List<ComponentSetting> componentSettings = new List<ComponentSetting>();
@@ -969,20 +970,21 @@ namespace EcellLib.PathwayWindow
         private void CheckLayoutAlgorithmDlls()
         {
             // Read component settings from ComopnentSettings.xml
-            string pathwayDir = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
+            // string pathwayDir = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
+            string pathwayDir = EcellLib.Util.GetPluginDir();
 
             pathwayDir += "\\pathway";
             
             foreach(string pluginName in Directory.GetFiles(pathwayDir))
             {
                 // Only dlls will be loaded (NOT xml)!
-                if(!string.IsNullOrEmpty(pluginName) && pluginName.EndsWith(".dll"))
+                if (!string.IsNullOrEmpty(pluginName) && pluginName.EndsWith(EcellLib.Util.s_dmFileExtension))
                 {
                     try
                     {
                         Assembly handle = Assembly.LoadFile(pluginName);
-                        
-                        string className = Path.GetFileName(pluginName).Replace(".dll","");
+
+                        string className = Path.GetFileName(pluginName).Replace(EcellLib.Util.s_dmFileExtension, "");
                         
                         foreach(Type type in handle.GetTypes())
                         {

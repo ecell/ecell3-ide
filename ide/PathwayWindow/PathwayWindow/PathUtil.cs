@@ -35,6 +35,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
+using EcellLib;
 using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow
@@ -77,12 +78,12 @@ namespace EcellLib.PathwayWindow
                 return null;
 
             Microsoft.Win32.RegistryKey regkey = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey subkey = regkey.OpenSubKey("Environment");
+            Microsoft.Win32.RegistryKey subkey = regkey.OpenSubKey(EcellLib.Util.s_registryEnvKey);
             string dirName = (string)subkey.GetValue(key);            
             if (string.IsNullOrEmpty(dirName) || !Directory.Exists(dirName))
             {
                 subkey.Close();
-                subkey = regkey.OpenSubKey("software\\KeioUniv\\E-Cell_IDE");
+                subkey = regkey.OpenSubKey(EcellLib.Util.s_registrySWKey);
                 dirName = (string)subkey.GetValue(key);                
             }
             subkey.Close();
