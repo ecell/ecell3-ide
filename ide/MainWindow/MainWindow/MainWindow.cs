@@ -288,33 +288,59 @@ namespace EcellLib.MainWindow
             List<string> pluginList = new List<string>();
 
             Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey subkey = key.OpenSubKey("Environment");
-            m_pluginDir = (string)subkey.GetValue("ecellide_plugin");
+            Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Util.s_registryEnvKey);
+            m_pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
             if (m_pluginDir != null)
             {
                 if (Directory.Exists(m_pluginDir))
                 {
-                    foreach (string fileName in Directory.GetFiles(m_pluginDir, "*.dll"))
+                    foreach (string fileName in Directory.GetFiles(
+                        m_pluginDir, Util.s_delimiterWildcard + Util.s_dmFileExtension))
                     {
                         pluginList.Add(fileName);
                     }
                 }
             }
             subkey.Close();
+            key.Close();
 
-            subkey = key.OpenSubKey("software\\KeioUniv\\E-Cell_IDE");
-            m_pluginDir = (string)subkey.GetValue("ecellide_plugin");
-            if (m_pluginDir != null)
+            subkey = key.OpenSubKey(Util.s_registrySWKey);
+            if (subkey != null)
             {
-                if (Directory.Exists(m_pluginDir))
+                m_pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
+                if (m_pluginDir != null)
                 {
-                    foreach (string fileName in Directory.GetFiles(m_pluginDir, "*.dll"))
+                    if (Directory.Exists(m_pluginDir))
                     {
-                        pluginList.Add(fileName);
+                        foreach (string fileName in Directory.GetFiles(
+                            m_pluginDir, Util.s_delimiterWildcard + Util.s_dmFileExtension))
+                        {
+                            pluginList.Add(fileName);
+                        }
                     }
                 }
+                subkey.Close();
             }
-            subkey.Close();
+            key.Close();
+
+            key = Microsoft.Win32.Registry.LocalMachine;
+            subkey = key.OpenSubKey(Util.s_registrySWKey);
+            if (subkey != null)
+            {
+                m_pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
+                if (m_pluginDir != null)
+                {
+                    if (Directory.Exists(m_pluginDir))
+                    {
+                        foreach (string fileName in Directory.GetFiles(
+                            m_pluginDir, Util.s_delimiterWildcard + Util.s_dmFileExtension))
+                        {
+                            pluginList.Add(fileName);
+                        }
+                    }
+                }
+                subkey.Close();
+            }
             key.Close();
 
             m_currentDir = Util.GetBaseDir();
