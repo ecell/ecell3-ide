@@ -5488,6 +5488,7 @@ namespace EcellLib
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                 Application.Exit();
+                return;
             }
             string[] l_dmPathArray = dmDirName.Split(Util.s_delimiterSemiColon.ToCharArray());
             bool l_searchFlag = false;
