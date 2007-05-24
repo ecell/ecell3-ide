@@ -1039,29 +1039,35 @@ namespace EcellLib.MainWindow
         {
             if (m_type != Util.NOTLOAD)
             {
-                m_dManager.SimulationStop();
-
-                Thread.Sleep(1000);
-
                 if (m_editCount > 0)
                 {
                     DialogResult res = MessageBox.Show("Do you save this project before you close project?",
-                        "Confirm Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                     if (res == DialogResult.Yes)
                     {
+                        m_dManager.SimulationStop();
+                        Thread.Sleep(1000); 
                         m_isClose = true;
                         SaveProjectMenuClick(sender, e);
                     }
-                    else
+                    else if (res == DialogResult.No)
                     {
+                        m_dManager.SimulationStop();
+                        Thread.Sleep(1000); 
                         m_isLoadProject = false;
                         m_pManager.ChangeStatus(0);
                         m_dManager.CloseProject(m_project);
                         m_project = null;
                     }
+                    else
+                    {
+                        return;
+                    }
                 }
                 else
                 {
+                    m_dManager.SimulationStop();
+                    Thread.Sleep(1000);
                     m_isLoadProject = false;
                     m_pManager.ChangeStatus(0);
                     m_dManager.CloseProject(m_project);
