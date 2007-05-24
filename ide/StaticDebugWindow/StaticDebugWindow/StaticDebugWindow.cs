@@ -493,13 +493,14 @@ namespace EcellLib.StaticDebugWindow
             try
             {
                 Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
-                Microsoft.Win32.RegistryKey subkey = key.OpenSubKey("software\\KeioUniv\\E-Cell_IDE");
-                string m_pluginDir = (string)subkey.GetValue("ECellIDE_StaticDebug_Plugin");
+                Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Util.s_registrySWKey);
+                string m_pluginDir = (string)subkey.GetValue(Util.s_registryStaticDebugDirKey);
                 if (m_pluginDir != null)
                 {
                     if (Directory.Exists(m_pluginDir))
                     {
-                        foreach (string fileName in Directory.GetFiles(m_pluginDir, "*.dll"))
+                        foreach (string fileName in
+                            Directory.GetFiles(m_pluginDir, Util.s_delimiterWildcard + Util.s_dmFileExtension))
                         {
                             // StaticDebugPlugin p = LoadPlugin(fileName);
                             // if (p != null)
