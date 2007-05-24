@@ -17,6 +17,8 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>StaticDebugWindow.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,6 +65,9 @@
       <DependentUpon>StaticDebugSetupWindow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="StaticDebugWindow.snk" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -72,6 +77,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\plugin</PostBuildEvent>
+    <PostBuildEvent>XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\plugin
+gacutil /i $(TargetPath)</PostBuildEvent>
   </PropertyGroup>
 </Project>
