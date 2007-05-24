@@ -67,6 +67,7 @@ namespace EcellLib
         public const string s_registryBaseDirKey = "E-CELL IDE BASE";
         public const string s_registryDMDirKey = "E-CELL IDE DM";
         public const string s_registryPluginDirKey = "E-CELL IDE PLUGIN";
+        public const string s_registryStaticDebugDirKey = "E-CELL IDE STATICDEBUG PLUGIN";
         public const string s_registryTmpDirKey = "E-CELL IDE TMP";
         public const string s_registryEnvKey = "Environment";
         public const string s_registrySWKey = "software\\KeioUniv\\E-Cell IDE";
