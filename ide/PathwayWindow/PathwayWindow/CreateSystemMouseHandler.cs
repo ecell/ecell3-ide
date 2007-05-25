@@ -295,8 +295,20 @@ namespace EcellLib.PathwayWindow
             }
             string parentSystemName = PathUtil.GetParentSystemId(eo.key);
             ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
-            m_view.AddNewObj(m_set.CanvasID, parentSystemName, ComponentType.System, cs, eo.key, 
-                              true, m_rect.X, m_rect.Y, m_rect.Width, m_rect.Height, true, eo);
+            if (eo.M_instances.Count == 0)
+            {
+                m_view.AddNewObj(m_set.CanvasID, parentSystemName, ComponentType.System, cs, eo.key,
+                                  true, m_rect.X, m_rect.Y, m_rect.Width, m_rect.Height, true, eo);
+            }
+            else
+            {
+                List<EcellObject> tmpList = eo.M_instances;
+                eo.M_instances = new List<EcellObject>();
+                m_view.AddNewObj(m_set.CanvasID, parentSystemName, ComponentType.System, cs, eo.key,
+                                  true, m_rect.X, m_rect.Y, m_rect.Width, m_rect.Height, true, eo);
+                DataManager dManager = DataManager.GetDataManager();
+                dManager.DataAdd(tmpList);
+            }
 
             foreach (PPathwayObject node in newlySelectedList)
             {
