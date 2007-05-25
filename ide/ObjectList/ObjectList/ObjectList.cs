@@ -497,6 +497,7 @@ namespace EcellLib.ObjectList
                         {
                             foreach (EcellObject child in eo.M_instances)
                             {
+                                if (child.key.EndsWith(":SIZE")) continue;
                                 // When eo has a new type
                                 if (m_dict.ContainsKey(child.type))
                                 {
