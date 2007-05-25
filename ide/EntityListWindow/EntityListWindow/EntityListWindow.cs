@@ -1065,6 +1065,7 @@ namespace EcellLib.EntityListWindow
                 }
                 else if (obj.type == "Process" || obj.type == "Variable")
                 {
+                    if (obj.key.EndsWith("SIZE")) continue;
                     TreeNode current = GetTargetModel(obj.modelID);
                     if (current == null) return;
                     TreeNode node = GetTargetTreeNode(current, obj.key, obj.type);
@@ -1144,6 +1145,7 @@ namespace EcellLib.EntityListWindow
                         foreach (EcellObject eo in obj.M_instances)
                         {
                             if (eo.type != "Variable" && eo.type != "Process") continue;
+                            if (eo.key.EndsWith("SIZE")) continue;
                             string[] names = eo.key.Split(new char[] { ':' });
                             IEnumerator iter = node.Nodes.GetEnumerator();
                             bool isHit = false;
