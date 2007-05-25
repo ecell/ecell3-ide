@@ -226,9 +226,22 @@ namespace EcellLib
             int width = layoutPanel.Width;
             layoutPanel.Controls.Clear();
             layoutPanel.RowStyles.Clear();
-            layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 4));
-//            layoutPanel.SuspendLayout();
-            layoutPanel.RowCount = m_propDict.Keys.Count + 4;
+
+            if (m_currentObj == null && m_type.Equals("System"))
+            {
+                layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
+                layoutPanel.RowCount = m_propDict.Keys.Count + 5;
+            }
+            else if (m_currentObj != null && m_currentObj.type.Equals("System"))
+            {
+                layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
+                layoutPanel.RowCount = m_propDict.Keys.Count + 5;
+            }
+            else
+            {
+                layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 4));
+                layoutPanel.RowCount = m_propDict.Keys.Count + 4;
+            }
 
             try
             {
@@ -385,7 +398,50 @@ namespace EcellLib
                     }
                     i++;
                 }
-//                layoutPanel.ResumeLayout(false);
+
+                if (m_currentObj == null && m_type.Equals("System"))
+                {
+                    layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                    Label l = new Label();
+                    l.Text = "Defined Size";
+                    l.Dock = DockStyle.Fill;
+                    layoutPanel.Controls.Add(l, 0, i);
+
+                    TextBox t = new TextBox();
+                    t.Text = "";
+                    t.Tag = "DefinedSize";
+                    t.Dock = DockStyle.Fill;
+                    layoutPanel.Controls.Add(t, 1, i);
+                }
+                else if (m_currentObj != null && m_currentObj.type.Equals("System"))
+                {
+                    layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                    Label l = new Label();
+                    l.Text = "Defined Size";
+                    l.Dock = DockStyle.Fill;
+                    layoutPanel.Controls.Add(l, 0, i);
+
+                    TextBox t = new TextBox();
+                    t.Text = "";
+                    t.Tag = "DefinedSize";
+                    t.Dock = DockStyle.Fill;
+                    layoutPanel.Controls.Add(t, 1, i);
+
+                    foreach (EcellObject o in m_currentObj.M_instances)
+                    {
+                        if (o.key.EndsWith(":SIZE"))
+                        {
+                            foreach (EcellData d in o.M_value)
+                            {
+                                if (d.M_entityPath.EndsWith(":Value"))
+                                {
+                                    t.Text = d.M_value.ToString();
+                                }
+                            }
+                        }
+                    }
+                }
+
                 panel1.ClientSize = panel1.Size;
                 this.ActiveControl = cnt;
             }
@@ -493,6 +549,7 @@ namespace EcellLib
             string key = "";
             string classname = "";
             string type = "";
+            EcellObject sizeObj = null;
             List<EcellData> list = new List<EcellData>();
 
             try
@@ -566,6 +623,22 @@ namespace EcellLib
 
                         list.Add(data);
                     }
+                    else if ((string)c.Tag == "DefinedSize")
+                    {
+                        if (c.Text == "") continue;
+                        List<EcellData> dList = new List<EcellData>();
+                        Dictionary<string, EcellData> sList = DataManager.GetVariableProperty();
+                        foreach (string p in sList.Keys)
+                        {
+                            EcellData d = sList[p];
+                            if (p == "Value")
+                            {
+                                d.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                            }
+                            dList.Add(d);
+                        }
+                        sizeObj = EcellObject.CreateObject(modelID, key + ":SIZE", "Variable", "Variable", dList);
+                    }
                     else
                     {
                         EcellData data = new EcellData();
@@ -604,6 +677,7 @@ namespace EcellLib
 
                 EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
                 obj.M_instances = new List<EcellObject>();
+                if (sizeObj != null) obj.M_instances.Add(sizeObj);
 
                 return obj;
             }
@@ -625,6 +699,7 @@ namespace EcellLib
             string key = "";
             string classname = "";
             string type = "";
+            EcellObject sizeObj = null;
             List<EcellData> list = new List<EcellData>();
 
             try
@@ -661,6 +736,22 @@ namespace EcellLib
                     }
                     else if ((string)c.Tag == "classname") classname = c.Text;
                     else if ((string)c.Tag == "type") type = c.Text;
+                    else if ((string)c.Tag == "DefinedSize")
+                    {
+                        if (c.Text == "") continue;
+                        List<EcellData> dList = new List<EcellData>();
+                        Dictionary<string, EcellData> sList = DataManager.GetVariableProperty();
+                        foreach (string p in sList.Keys)
+                        {
+                            EcellData d = sList[p];
+                            if (p == "Value")
+                            {
+                                d.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                            }
+                            dList.Add(d);
+                        }
+                        sizeObj = EcellObject.CreateObject(modelID, key + ":SIZE", "Variable", "Variable", dList);
+                    }
                     else
                     {
                         EcellData data = new EcellData();
@@ -705,7 +796,9 @@ namespace EcellLib
                 obj.M_instances = new List<EcellObject>();
                 List<EcellObject> objList = new List<EcellObject>();
                 objList.Add(obj);
+                if (sizeObj != null) objList.Add(sizeObj);
                 m_dManager.DataAdd(objList);
+
 
                 Dispose();
             }
@@ -967,6 +1060,80 @@ namespace EcellLib
                         }
 
                         list.Add(data);
+                    }
+                    else if ((string)c.Tag == "DefinedSize")
+                    {
+                        EcellObject target = null;
+                        foreach (EcellObject o in m_currentObj.M_instances)
+                        {
+                            if (o.key.EndsWith(":SIZE"))
+                            {
+                                target = o;
+                                break;
+                            }
+                        }
+                        if (c.Text == "")
+                        {
+                            if (target != null)
+                            {
+                                m_dManager.DataDelete(target.modelID, target.key, target.type);
+                                m_currentObj.M_instances.Remove(target);
+                            }
+                        }
+                        else
+                        {
+                            if (target == null)
+                            {
+                                Dictionary<string, EcellData> plist = DataManager.GetVariableProperty();
+                                List<EcellData> dlist = new List<EcellData>();
+                                foreach (string pname in plist.Keys)
+                                {
+                                    if (pname.Equals("Value"))
+                                    {
+                                        EcellData d = plist[pname];
+                                        d.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                                        dlist.Add(d);                                        
+                                    }
+                                    else
+                                    {
+                                        dlist.Add(plist[pname]);
+                                    }
+                                }
+                                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID,
+                                    m_currentObj.key + ":SIZE", "Variable", "Variable", dlist);
+                                List<EcellObject> rList = new List<EcellObject>();
+                                rList.Add(obj);
+                                m_dManager.DataAdd(rList);
+                                m_currentObj.M_instances.Add(obj);
+                            }
+                            else
+                            {
+                                bool isChange = false;
+                                foreach (EcellData d in target.M_value)
+                                {
+                                    if (d.M_entityPath.EndsWith(":Value"))
+                                    {
+                                        if (d.M_value.CastToDouble() == Convert.ToDouble(c.Text))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            isChange = true;
+                                            target.M_value.Remove(d);
+                                            d.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                                            target.M_value.Add(d);
+                                        }
+                                        break;
+                                    }
+                                }
+                                if (isChange)
+                                {
+                                    m_dManager.DataChanged(target.modelID, target.key, target.type, target);
+                                }
+                                m_currentObj.M_instances.Remove(target);
+                                m_currentObj.M_instances.Add(target);
+                            }
+                        }
                     }
                     else
                     {
