@@ -18,6 +18,9 @@
     <SccProvider>
     </SccProvider>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>$(ECELL_STAGING_HOME)bin;$(REFPATH)</ReferencePath>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -38,7 +41,7 @@
   <ItemGroup>
     <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7d5574583093e55f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\EcellLib.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\EcellLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -47,7 +50,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="ZedGraph, Version=4.3.2.30706, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\ZedGraph.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\ZedGraph.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +98,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\plugin</PostBuildEvent>
+    <PostBuildEvent>
+IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

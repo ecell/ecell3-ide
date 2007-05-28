@@ -22,6 +22,9 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>pathwaywindow.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>$(ECELL_STAGING_HOME)bin;$(REFPATH)</ReferencePath>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -42,11 +45,11 @@
   <ItemGroup>
     <Reference Include="EcellCoreLibCLR, Version=1.0.2562.29984, Culture=neutral, PublicKeyToken=1f43c6bc1b2ace5d, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\EcellCoreLibCLR.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\EcellCoreLibCLR.dll</HintPath>
     </Reference>
     <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7d5574583093e55f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\EcellLib.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\EcellLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -54,14 +57,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="UMD.HCIL.Piccolo, Version=1.0.2565.31672, Culture=neutral, PublicKeyToken=0595ef1e13ea4b00, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\UMD.HCIL.Piccolo.dll</HintPath>
-    </Reference>
-    <Reference Include="UMD.HCIL.PiccoloX, Version=1.0.2565.31673, Culture=neutral, PublicKeyToken=812150c0796c09d4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\UMD.HCIL.PiccoloX.dll</HintPath>
-    </Reference>
+    <Reference Include="UMD.HCIL.Piccolo" />
+    <Reference Include="UMD.HCIL.PiccoloX" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreateReactionMouseHandler.cs" />
@@ -149,7 +146,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\plugin
-gacutil /i $(TargetPath)</PostBuildEvent>
+    <PostBuildEvent>
+IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
+"$(FrameworkSDKDir)Bin\gacutil" /i "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -20,6 +20,9 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>ecelllib.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>$(ECELL_STAGING_HOME)bin;$(REFPATH)</ReferencePath>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -39,21 +42,21 @@
     <DocumentationFile>bin\Release\EcellLib.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EcellCoreLibCLR, Version=1.0.2562.29984, Culture=neutral, PublicKeyToken=1f43c6bc1b2ace5d, processorArchitecture=x86">
+    <Reference Include="EcellCoreLibCLR">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\EcellCoreLibCLR.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\EcellCoreLibCLR.dll</HintPath>
     </Reference>
-    <Reference Include="Formulator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ea1c6da662013333, processorArchitecture=MSIL">
+    <Reference Include="Formulator">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\Formulator.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\Formulator.dll</HintPath>
     </Reference>
-    <Reference Include="IronMath, Version=1.0.2334.13494, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="IronMath">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\IronMath.dll</HintPath>
+      <HintPath>$(IRONPYTHONHOME)\IronMath.dll</HintPath>
     </Reference>
-    <Reference Include="IronPython, Version=1.0.60523.1435, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="IronPython">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\IronPython.dll</HintPath>
+      <HintPath>$(IRONPYTHONHOME)\IronPython.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -136,8 +139,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\bin
-XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\src\MainWindow\MainWindow\bin\$(ConfigurationName)
+    <PostBuildEvent>XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\bin"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -1,4 +1,6 @@
-﻿namespace EcellLib.MainWindow
+﻿using System.Security;
+using System.Security.Permissions;
+namespace EcellLib.MainWindow
 {
     partial class MainWindow
     {
@@ -21,6 +23,8 @@
         }
 
         #region Windows フォーム デザイナで生成されたコード
+[SecurityPermissionAttribute(SecurityAction.Demand, Unrestricted = true)]
+
         /// <summary>
         /// デザイナ サポートに必要なメソッドです。このメソッドの内容を
         /// コード エディタで変更しないでください。

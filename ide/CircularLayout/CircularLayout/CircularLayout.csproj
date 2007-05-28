@@ -18,6 +18,9 @@
     <SccProvider>
     </SccProvider>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>$(ECELL_STAGING_HOME)bin;$(REFPATH)</ReferencePath>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -38,7 +41,7 @@
   <ItemGroup>
     <Reference Include="PathwayWindow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5bcdc7f2279c386, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\plugin\PathwayWindow.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\plugin\PathwayWindow.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -59,7 +62,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\plugin\pathway
+    <PostBuildEvent>
+IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin\pathway" MKDIR "$(ECELL_STAGING_HOME)\plugin\pathway"
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin\pathway"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

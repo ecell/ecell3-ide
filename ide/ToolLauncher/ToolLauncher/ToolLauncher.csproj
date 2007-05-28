@@ -19,6 +19,9 @@
     <SccProvider>
     </SccProvider>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>$(ECELL_STAGING_HOME)bin;$(REFPATH)</ReferencePath>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -39,7 +42,7 @@
   <ItemGroup>
     <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\EcellLib.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\EcellLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -104,6 +107,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y $(ProjectName).exe C:\home\ecell\E-Cell_IDE\bin\</PostBuildEvent>
+    <PostBuildEvent>XCOPY /Y "$(ProjectName).exe" "$(ECELL_STAGING_HOME)\bin"</PostBuildEvent>
   </PropertyGroup>
 </Project>

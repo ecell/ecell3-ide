@@ -13,22 +13,6 @@ namespace EcellLib.MainWindow
         public frmSplash()
         {
             InitializeComponent();
-            Application.Idle += new EventHandler(Application_Idle);
         }
-
-        void Application_Idle(object sender, EventArgs e)
-        {
-            Application.Idle -= Application_Idle;
-            MainWindow frm = new MainWindow();
-            frm.Shown += new EventHandler(frm_Shown);
-            Program.ThisContext.MainForm = frm;
-            frm.Show();
-        }
-
-        void frm_Shown(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
     }
 }

@@ -108,14 +108,18 @@ namespace EcellLib.MainWindow
         public MainWindow()
         {
             InitializeComponent();
+            LoadPlugins();
+        }
 
+        void LoadPlugins()
+        {
             try
             {
                 m_dManager = DataManager.GetDataManager();
             }
             catch (Exception e)
             {
-                MessageBox.Show("Can't find property of E-CELL IDE. Would you please re-install E-CELL IDE.\n",
+                MessageBox.Show("Can't find property of E-CELL IDE. Would you please re-install E-CELL IDE.\n(" + e.Message + ")",
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }

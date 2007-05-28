@@ -32,6 +32,9 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>$(ECELL_STAGING_HOME)\bin;$(REFPATH)</ReferencePath>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -50,22 +53,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EcellCoreLibCLR, Version=1.0.2562.29984, Culture=neutral, PublicKeyToken=1f43c6bc1b2ace5d, processorArchitecture=x86">
+    <Reference Include="IronMath">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\EcellCoreLibCLR.dll</HintPath>
+      <HintPath>$(IRONPYTHONHOME)\IronMath.dll</HintPath>
     </Reference>
-    <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7d5574583093e55f, processorArchitecture=MSIL">
+    <Reference Include="IronPython">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\EcellLib.dll</HintPath>
+      <HintPath>$(IRONPYTHONHOME)\IronPython.dll</HintPath>
     </Reference>
-    <Reference Include="IronMath, Version=1.0.2334.13494, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\IronMath.dll</HintPath>
-    </Reference>
-    <Reference Include="IronPython, Version=1.0.60523.1435, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\IronPython.dll</HintPath>
-    </Reference>
+    <Reference Include="EcellLib" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -129,7 +125,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <BaseApplicationManifest Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -148,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ECellIDE.ico" />
+    <Content Include="Resources\splash.bmp" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -165,7 +164,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\bin
+    <PostBuildEvent>XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\bin"
 
 </PostBuildEvent>
   </PropertyGroup>

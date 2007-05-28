@@ -29,15 +29,14 @@
 //
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace EcellLib.MainWindow
 {
-    static class Program
+    class Program
     {
-        internal static ApplicationContext ThisContext;
-
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
@@ -46,9 +45,27 @@ namespace EcellLib.MainWindow
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            ThisContext = new ApplicationContext(new frmSplash());
-            Application.Run(ThisContext);
-//            Application.Run(new MainWindow());
+            frmSplash frmSplash = new frmSplash();
+            ApplicationContext me = new ApplicationContext();
+
+            EventHandler onIdle = null;
+            onIdle = delegate(object sender, EventArgs e)
+            {
+                Application.Idle -= onIdle;
+                MainWindow frmMainWnd = new MainWindow();
+
+                frmMainWnd.Shown += delegate(Object _sender, EventArgs _e)
+                {
+                    frmSplash.Close();
+                };
+
+                me.MainForm = frmMainWnd;
+                frmMainWnd.Show();
+            };
+
+            frmSplash.Show();
+            Application.Idle += onIdle;
+            Application.Run(me);
         }
     }
 }
