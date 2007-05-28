@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace EcellLib.MainWindow
 {
-    public partial class frmSplash : Form
+    public partial class Splash : Form
     {
-        public frmSplash()
+        public Splash()
         {
             InitializeComponent();
         }

@@ -1,6 +1,6 @@
 ﻿namespace EcellLib.MainWindow
 {
-    partial class frmSplash
+    partial class Splash
     {
         /// <summary>
         /// 必要なデザイナ変数です。

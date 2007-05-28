@@ -45,7 +45,7 @@ namespace EcellLib.MainWindow
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            frmSplash frmSplash = new frmSplash();
+            Splash frmSplash = new Splash();
             ApplicationContext me = new ApplicationContext();
 
             EventHandler onIdle = null;
