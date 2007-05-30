@@ -32,9 +32,27 @@ using System;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Resources;
+using System.Reflection;
 
 namespace EcellLib.MainWindow
 {
+    class _
+    {
+        static ResourceManager rm;
+
+        static _()
+        {
+            rm = new ResourceManager("MainWindow.Resources.Messages",
+                    Assembly.GetExecutingAssembly());
+        }
+
+        public static string Message(string key)
+        {
+            return rm.GetString(key);
+        }
+    }
+
     class Program
     {
         /// <summary>

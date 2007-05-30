@@ -60,10 +60,30 @@ namespace MainWindow.Properties {
             }
         }
         
+        /// <summary>
+        ///   © 2005-2007 Keio University
+        ///© 2005-2007 Mitsubishi Space Software Co., LTD.
+        ///All Rights Reserved. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CopyrightNotice {
+            get {
+                return ResourceManager.GetString("CopyrightNotice", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap splash {
             get {
                 object obj = ResourceManager.GetObject("splash", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Version に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
             }
         }
     }
