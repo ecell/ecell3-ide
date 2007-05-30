@@ -14,10 +14,8 @@ namespace EcellLib.MainWindow
         public Splash()
         {
             InitializeComponent();
-            label1.Text = _.Message("Version") + " "
-                          + Assembly.GetExecutingAssembly().GetName().Version
-                          + "\r\n"
-                          + global::MainWindow.Properties.Resources.CopyrightNotice;
+            VersionNumber.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            CopyrightNotice.Text = global::MainWindow.Properties.Resources.CopyrightNotice;
         }
     }
 }
