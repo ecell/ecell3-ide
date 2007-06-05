@@ -721,7 +721,7 @@ namespace EcellLib.TracerWindow
             {
                 manager.SaveSimulationResult(dirTextBox.Text, start, end, saveTypeCombo.Text, fullList);
             }
-            MessageBox.Show("Finish to save the simulation log.", "Information",
+            MessageBox.Show("Simulation log saved successfully.", "Information",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
