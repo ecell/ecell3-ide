@@ -634,6 +634,37 @@ namespace EcellLib.TracerWindow
             this.Dispose();
         }
 
+
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_SYSCOMMAND = 0x112;
+            const int SC_CLOSE = 0xF060;
+
+            if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
+            {
+                DialogResult res = MessageBox.Show("Do you really want to close this window?",
+                    "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (res == DialogResult.OK) this.Dispose();
+                return;
+            }
+
+            base.WndProc(ref m);
+        }
+
+        /*
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                const int CS_NOCLOSE = 0x200;
+                CreateParams cp = base.CreateParams;
+                cp.ClassStyle = cp.ClassStyle | CS_NOCLOSE;
+
+                return cp;
+            }
+        }
+        */
+
         /// The event of zoom on ZedGraphControl.
         /// </summary>
         /// <param name="control">ZedGraphControl.</param>

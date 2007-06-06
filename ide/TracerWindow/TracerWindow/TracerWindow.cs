@@ -178,7 +178,8 @@ namespace EcellLib.TracerWindow
             if (list == null) return;
             foreach (TraceWindow t in m_winList)
             {
-                t.AddPoints(m_currentMax, nextTime, list);
+                if (t.IsDisposed) continue;
+                    t.AddPoints(m_currentMax, nextTime, list);
             }
             list.Clear();
             list = null;
@@ -400,6 +401,7 @@ namespace EcellLib.TracerWindow
             m_win = new TraceWindow();
             m_win.m_parent = Form.ActiveForm;
             m_win.Disposed += new EventHandler(FormDisposed);
+//            m_win.FormClosed += new FormClosedEventHandler(FormDisposed);
             m_win.Shown += new EventHandler(m_win.ShownEvent);
             //            if (m_winList.Count == 0) m_win.m_entry = m_entry;
             //            else m_win.m_entry = new List<TagData>();
@@ -425,11 +427,21 @@ namespace EcellLib.TracerWindow
         /// <param name="e">EventArgs.</param>
         void FormDisposed(object sender, EventArgs e)
         {
-            Form form = m_win.m_parent;
+            TraceWindow tmp = sender as TraceWindow;
+
+            if (tmp == null) return;
+            m_winList.Remove(tmp);
+            if (m_win == tmp) m_win = null;
+            if (m_win == null && m_winList.Count > 0)
+            {
+                m_win = m_winList[m_winList.Count - 1];
+            }
+            /*
             List<TraceWindow> removeList = new List<TraceWindow>();
             foreach (TraceWindow t in m_winList)
             {
-                if (t.Disposing || t.IsDisposed) removeList.Add(t); ;
+                if (t.Disposing || t.IsDisposed) removeList.Add(t);
+                
             }
             foreach (TraceWindow t in removeList)
             {
@@ -439,7 +451,7 @@ namespace EcellLib.TracerWindow
             if (m_win == null && m_winList.Count > 0)
             {
                 m_win = m_winList[m_winList.Count - 1];
-            }
+            }*/
         }
         #endregion
 
