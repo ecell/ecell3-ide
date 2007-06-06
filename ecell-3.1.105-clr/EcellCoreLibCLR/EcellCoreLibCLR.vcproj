@@ -20,11 +20,12 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			ManagedExtensions="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="IF $(ECELL_STAGING_HOME) == &quot;&quot; ECHO &quot;ECELL_STAGING_HOME environment variable is not set.&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -40,9 +41,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/I C:\home\ecell\Boost_1.33.1\include /I ..\..\ecell-3.1.105\ /I ..\..\ecell-3.1.105\ecell\"
+				AdditionalOptions=""
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG"
+				AdditionalIncludeDirectories="$(ECELL_STAGING_HOME)\include;$(ECELL_STAGING_HOME)\include\ecell-3.1;$(INCLUDE)"
+				PreprocessorDefinitions="WIN32;_DEBUG;__STDC__"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -59,9 +61,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="..\..\ecell-3.1.105\release\libecs.lib ..\..\ecell-3.1.105\release\libemc.lib"
-				AdditionalDependencies="$(NoInherit)"
+				RegisterOutput="true"
+				AdditionalOptions=""
+				AdditionalDependencies="ecs.lib emc.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(ECELL_STAGING_HOME)\lib;$(LIB)"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				TargetMachine="1"
@@ -89,7 +93,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /Y $(OutDir)\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\bin"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\debug\bin&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -97,12 +101,13 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			ManagedExtensions="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="IF $(ECELL_STAGING_HOME) == &quot;&quot; ECHO &quot;ECELL_STAGING_HOME environment variable is not set.&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -118,8 +123,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/I C:\home\ecell\Boost_1.33.1\include /I ..\..\ecell-3.1.105\ /I ..\..\ecell-3.1.105\ecell\"
-				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories="$(ECELL_STAGING_HOME)\include;$(ECELL_STAGING_HOME)\include\ecell-3.1;$(INCLUDE)"
+				PreprocessorDefinitions="WIN32;NDEBUG;__STDC__"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -136,9 +142,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="..\..\ecell-3.1.105\release\libecs.lib ..\..\ecell-3.1.105\release\libemc.lib"
-				AdditionalDependencies="$(NoInherit)"
+				AdditionalOptions=""
+				AdditionalDependencies="ecs.lib emc.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(ECELL_STAGING_HOME)\lib;$(LIB)"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 				KeyFile="ecell.snk"
@@ -166,7 +173,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /Y $(OutDir)\$(ProjectName).dll C:\home\ecell\E-Cell_IDE\bin"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\bin&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -196,6 +203,10 @@
 			>
 			<File
 				RelativePath=".\AssemblyInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ReadMe.txt"
 				>
 			</File>
 			<File
@@ -259,10 +270,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
