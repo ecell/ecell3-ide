@@ -519,8 +519,8 @@ namespace EcellLib.MainWindow
             }
             else if (type == Util.LOADED || type == Util.STEP)
             {
-                newProjectToolStripMenuItem.Enabled = false;
-                openProjectToolStripMenuItem.Enabled = false;
+                newProjectToolStripMenuItem.Enabled = true;
+                openProjectToolStripMenuItem.Enabled = true;
                 saveProjectToolStripMenuItem.Enabled = true;
                 closeProjectToolStripMenuItem.Enabled = true;
                 exportModelToolStripMenuItem.Enabled = true;
@@ -612,6 +612,27 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void NewProjectMenuClick(object sender, EventArgs e)
         {
+            if (m_editCount > 0)
+            {
+                DialogResult res = MessageBox.Show("Do you save this project before you close project?",
+                    "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    m_isClose = true;
+                    SaveProjectMenuClick(sender, e);
+                }
+                else if (res == DialogResult.No)
+                {
+                    m_isLoadProject = false;
+                    m_pManager.ChangeStatus(0);
+                    m_dManager.CloseProject(m_project);
+                    m_project = null;
+                }
+                else
+                {
+                    return;
+                }
+            }
             m_newPrjDialog = new NewProjectDialog();
             m_newPrjDialog.button1.Click += new System.EventHandler(this.NewProject);
             m_newPrjDialog.button2.Click += new System.EventHandler(this.NewProject);
@@ -686,6 +707,28 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void OpenProjectMenuClick(object sender, EventArgs e)
         {
+            if (m_editCount > 0)
+            {
+                DialogResult res = MessageBox.Show("Do you save this project before you close project?",
+                    "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    m_isClose = true;
+                    SaveProjectMenuClick(sender, e);
+                }
+                else if (res == DialogResult.No)
+                {
+                    m_isLoadProject = false;
+                    m_pManager.ChangeStatus(0);
+                    m_dManager.CloseProject(m_project);
+                    m_project = null;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             m_openPrjDialog = new OpenProjectDialog();
             m_openPrjDialog.button1.Click += new System.EventHandler(this.OpenProject);
             m_openPrjDialog.button2.Click += new System.EventHandler(this.OpenProject);
@@ -879,18 +922,22 @@ namespace EcellLib.MainWindow
             if (m_editCount > 0)
             {
                 DialogResult res = MessageBox.Show("Do you save this project before you close project?",
-                    "Confirm Dialog", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
                     m_isClose = true;
                     SaveProjectMenuClick(sender, e);
                 }
-                else
+                else if (res == DialogResult.No)
                 {
                     m_isLoadProject = false;
                     m_pManager.ChangeStatus(0);
                     m_dManager.CloseProject(m_project);
                     m_project = null;
+                }
+                else
+                {
+                    return;
                 }
             }
             else
