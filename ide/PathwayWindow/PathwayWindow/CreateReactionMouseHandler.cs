@@ -174,7 +174,7 @@ namespace EcellLib.PathwayWindow
                 eref.name = n;
                 eref.fullID = ":" + variable.Element.Key;
                 eref.coefficient = coefficient;
-                eref.isFixed = 1;
+                eref.isAccessor = 1;
 
                 if (i == 0) refStr = refStr + eref.ToString();
                 else refStr = refStr + ", " + eref.ToString();
