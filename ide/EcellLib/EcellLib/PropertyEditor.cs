@@ -47,7 +47,7 @@ namespace EcellLib
         /// <summary>
         /// current variable reference list string.
         /// </summary>
-        public string m_refStr;
+        public string m_refStr = "";
         /// <summary>
         /// Data type displayed in PropertyEditor.
         /// </summary>
@@ -118,7 +118,16 @@ namespace EcellLib
             m_currentObj = obj;
             m_parentObj = null;
             if (m_currentObj.type.Equals("Process"))
+            {
                 m_propName = m_currentObj.classname;
+                foreach (EcellData d in m_currentObj.M_value)
+                {
+                    if (d.M_name.Equals("VariableReferenceList"))
+                    {
+                        m_refStr = d.M_value.ToString();
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -344,7 +353,6 @@ namespace EcellLib
                         b.Tag = "VariableReferenceList";
                         b.Dock = DockStyle.Fill;
                         b.Click += new EventHandler(ShowVarRefWindow);
-                        m_refStr = m_propDict[key].M_value.ToString();
                         layoutPanel.Controls.Add(b, 1, i);
                     }
                     else if (key == "StepperID")
@@ -1237,9 +1245,9 @@ namespace EcellLib
             {
                 DataGridViewRow row = new DataGridViewRow();
 
-                bool isFixed = false;
-                if (v.isFixed == 1) isFixed = true;
-                m_win.dgv.Rows.Add(new object[] { v.name, v.fullID, v.coefficient, isFixed });
+                bool isAccessor = false;
+                if (v.isAccessor == 1) isAccessor = true;
+                m_win.dgv.Rows.Add(new object[] { v.name, v.fullID, v.coefficient, isAccessor });
             }
 
             m_win.m_editor = this;
