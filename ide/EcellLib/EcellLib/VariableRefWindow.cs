@@ -232,11 +232,11 @@ namespace EcellLib
                 try
                 {
                     v.coefficient = Convert.ToInt32(this.dgv[2, i].Value);
-                    v.isFixed = Convert.ToInt32(this.dgv[3, i].Value);
+                    v.isAccessor = Convert.ToInt32(this.dgv[3, i].Value);
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Please input integer at coefficient and isFixed.",
+                    MessageBox.Show("Please input integer at coefficient and isAccessor.",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -279,11 +279,11 @@ namespace EcellLib
                 try
                 {
                     v.coefficient = Convert.ToInt32(this.dgv[2, i].Value);
-                    v.isFixed = Convert.ToInt32(this.dgv[3, i].Value);
+                    v.isAccessor = Convert.ToInt32(this.dgv[3, i].Value);
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Please input integer at coefficient and isFixed.",
+                    MessageBox.Show("Please input integer at coefficient and isAccessor.",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }

@@ -952,7 +952,7 @@ namespace EcellLib
         private string m_name;
         private string m_fullID;
         private int m_coeff;
-        private int m_fixed;
+        private int m_accessor;
 
         public EcellReference()
         {
@@ -968,7 +968,7 @@ namespace EcellLib
                 this.m_name = m.Groups["name"].Value;
                 this.m_fullID = m.Groups["id"].Value;
                 this.m_coeff = Convert.ToInt32(m.Groups["coe"].Value);
-                this.m_fixed = Convert.ToInt32(m.Groups["fix"].Value);
+                this.m_accessor = Convert.ToInt32(m.Groups["fix"].Value);
             }
         }
 
@@ -990,16 +990,16 @@ namespace EcellLib
             set { this.m_coeff = value; }
         }
 
-        public int isFixed
+        public int isAccessor
         {
-            get { return this.m_fixed; }
-            set { this.m_fixed = value; }
+            get { return this.m_accessor; }
+            set { this.m_accessor = value; }
         }
 
         public override string ToString()
         {
             string str = "";
-            str = "(\"" + m_name + "\", \"" + m_fullID + "\", " + m_coeff + ", " + m_fixed + ")";
+            str = "(\"" + m_name + "\", \"" + m_fullID + "\", " + m_coeff + ", " + m_accessor + ")";
             return str;
         }
 

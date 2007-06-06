@@ -30,16 +30,16 @@
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FullID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Coeff = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.datafix = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FullID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Coeff = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isAccessor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -69,7 +69,7 @@
             this.name,
             this.FullID,
             this.Coeff,
-            this.datafix});
+            this.isAccessor});
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv.Location = new System.Drawing.Point(3, 3);
             this.dgv.MultiSelect = false;
@@ -78,29 +78,6 @@
             this.dgv.RowTemplate.Height = 21;
             this.dgv.Size = new System.Drawing.Size(469, 225);
             this.dgv.TabIndex = 0;
-            // 
-            // name
-            // 
-            this.name.HeaderText = "name";
-            this.name.Name = "name";
-            // 
-            // FullID
-            // 
-            this.FullID.HeaderText = "FullID";
-            this.FullID.Name = "FullID";
-            // 
-            // Coeff
-            // 
-            this.Coeff.HeaderText = "Coefficient";
-            this.Coeff.Name = "Coeff";
-            // 
-            // datafix
-            // 
-            this.datafix.HeaderText = "Fixed";
-            this.datafix.Name = "datafix";
-            this.datafix.ReadOnly = true;
-            this.datafix.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.datafix.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // tableLayoutPanel2
             // 
@@ -172,6 +149,29 @@
             this.button5.Text = "OK";
             this.button5.UseVisualStyleBackColor = true;
             // 
+            // name
+            // 
+            this.name.HeaderText = "name";
+            this.name.Name = "name";
+            // 
+            // FullID
+            // 
+            this.FullID.HeaderText = "FullID";
+            this.FullID.Name = "FullID";
+            // 
+            // Coeff
+            // 
+            this.Coeff.HeaderText = "Coefficient";
+            this.Coeff.Name = "Coeff";
+            // 
+            // isAccessor
+            // 
+            this.isAccessor.HeaderText = "Accessor";
+            this.isAccessor.Name = "isAccessor";
+            this.isAccessor.ReadOnly = true;
+            this.isAccessor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.isAccessor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // VariableRefWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -196,10 +196,10 @@
         public System.Windows.Forms.Button button2;
         public System.Windows.Forms.Button button3;
         public System.Windows.Forms.Button button4;
+        public System.Windows.Forms.Button button5;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn FullID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Coeff;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn datafix;
-        public System.Windows.Forms.Button button5;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isAccessor;
     }
 }
