@@ -1,5 +1,3 @@
-#include <iostream>
-#include "libecs/VVector.h"
 #include "libemc/Simulator.hpp"
 #include "WrappedSimulator.hpp"
 
@@ -656,29 +654,14 @@ namespace EcellCoreLib {
             WrappedSimulator::m_simulator -> setEventHandler(libemc::EventHandlerSharedPtr(new EventHandler()));
             WrappedSimulator::m_simulator -> run();
         }
-        catch(vvector_full l_ex)
-        {
-            throw gcnew Exception(
-                "Can't execute the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
-        catch(vvector_write_error l_ex)
-        {
-            throw gcnew Exception(
-                "Can't execute the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
-        catch(vvector_read_error l_ex)
-        {
-            throw gcnew Exception(
-                "Can't execute the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
-        catch(vvector_init_error l_ex)
-        {
-            throw gcnew Exception(
-                "Can't execute the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
         catch(Exception ^ l_ex)
         {
             throw gcnew Exception("Can't execute the simulator. [" + l_ex->ToString() + "]");
+        }
+        catch(std::exception& l_ex)
+        {
+            throw gcnew Exception(
+                "Can't execute the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
         }
     }
 
@@ -698,22 +681,7 @@ namespace EcellCoreLib {
                 WrappedSimulator::m_simulator -> run(aDuration);
             }
         }
-        catch(vvector_full l_ex)
-        {
-            throw gcnew Exception(
-                "Can't execute the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
-        catch(vvector_write_error l_ex)
-        {
-            throw gcnew Exception(
-                "Can't execute the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
-        catch(vvector_read_error l_ex)
-        {
-            throw gcnew Exception(
-                "Can't execute the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
-        catch(vvector_init_error l_ex)
+        catch(std::exception& l_ex)
         {
             throw gcnew Exception(
                 "Can't execute the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
@@ -795,22 +763,7 @@ namespace EcellCoreLib {
         {
             WrappedSimulator::m_simulator -> step(l_numSteps);
         }
-        catch(vvector_full l_ex)
-        {
-            throw gcnew Exception(
-                "Can't step the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
-        catch(vvector_write_error l_ex)
-        {
-            throw gcnew Exception(
-                "Can't step the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
-        catch(vvector_read_error l_ex)
-        {
-            throw gcnew Exception(
-                "Can't step the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
-        catch(vvector_init_error l_ex)
+        catch(std::exception l_ex)
         {
             throw gcnew Exception(
                 "Can't step the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
