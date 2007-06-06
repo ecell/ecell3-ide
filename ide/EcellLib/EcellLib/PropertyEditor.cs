@@ -262,6 +262,7 @@ namespace EcellLib
                 TextBox t1 = new TextBox();
                 t1.Tag = "modelID";
                 t1.Dock = DockStyle.Fill;
+                t1.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 if (m_currentObj != null) t1.Text = m_currentObj.modelID;
                 else t1.Text = m_parentObj.modelID;
                 t1.ReadOnly = true;
@@ -321,6 +322,7 @@ namespace EcellLib
                 }
                 combo.Tag = "classname";
                 combo.Dock = DockStyle.Fill;
+                combo.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 layoutPanel.Controls.Add(combo, 1, i);
                 i++;
 
@@ -335,6 +337,7 @@ namespace EcellLib
                 t4.Dock = DockStyle.Fill;
                 t4.Text = m_type;
                 t4.ReadOnly = true;
+                t4.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 layoutPanel.Controls.Add(t4, 1, i);
                 i++;
 
@@ -353,6 +356,7 @@ namespace EcellLib
                         b.Tag = "VariableReferenceList";
                         b.Dock = DockStyle.Fill;
                         b.Click += new EventHandler(ShowVarRefWindow);
+                        b.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                         layoutPanel.Controls.Add(b, 1, i);
                     }
                     else if (key == "StepperID")
@@ -374,6 +378,7 @@ namespace EcellLib
                         }
                         t.Tag = key;
                         t.Dock = DockStyle.Fill;
+                        t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                         layoutPanel.Controls.Add(t, 1, i);
                     }
                     else
@@ -387,10 +392,7 @@ namespace EcellLib
                         {
                             t.ReadOnly = true;
                         }
-                        else
-                        {
-                            t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                        }
+                        t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                         layoutPanel.Controls.Add(t, 1, i);
 
                         if ((key == "Expression"))
@@ -419,6 +421,7 @@ namespace EcellLib
                     t.Text = "";
                     t.Tag = "DefinedSize";
                     t.Dock = DockStyle.Fill;
+                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                     layoutPanel.Controls.Add(t, 1, i);
                 }
                 else if (m_currentObj != null && m_currentObj.type.Equals("System"))
@@ -433,6 +436,7 @@ namespace EcellLib
                     t.Text = "";
                     t.Tag = "DefinedSize";
                     t.Dock = DockStyle.Fill;
+                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                     layoutPanel.Controls.Add(t, 1, i);
 
                     foreach (EcellObject o in m_currentObj.M_instances)
