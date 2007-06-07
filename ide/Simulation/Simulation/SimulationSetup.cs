@@ -455,6 +455,15 @@
                     list.Add(obj);
 
                     m_dManager.UpdateStepperID(paramID, list);
+                    foreach (EcellObject tmp in m_steppList)
+                    {
+                        if (tmp.M_value == null) continue;
+                        if (tmp.key != stepperID) continue;
+
+                        m_steppList.Remove(tmp);
+                        break;
+                    }
+                    m_steppList.Add(obj);
                 }
                 else if (tabControl1.SelectedTab.Text == "Logging")
                 {
