@@ -660,6 +660,7 @@ namespace EcellLib.PathwayWindow
             uc.Load += new EventHandler(m_view.SizeChanged);
             uc.Resize += new EventHandler(m_view.SizeChanged);
             uc.MouseWheel += new MouseEventHandler(uc_MouseWheel);
+            
             array.Add(uc);
 
             return array;
