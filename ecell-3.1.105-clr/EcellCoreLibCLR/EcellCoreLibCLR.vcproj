@@ -25,7 +25,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="IF $(ECELL_STAGING_HOME) == &quot;&quot; ECHO &quot;ECELL_STAGING_HOME environment variable is not set.&quot;"
+				CommandLine="IF &quot;$(ECELL_STAGING_HOME)&quot; == &quot;&quot; ECHO &quot;ECELL_STAGING_HOME environment variable is not set.&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -107,7 +107,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="IF $(ECELL_STAGING_HOME) == &quot;&quot; ECHO &quot;ECELL_STAGING_HOME environment variable is not set.&quot;"
+				CommandLine="IF &quot;$(ECELL_STAGING_HOME)&quot; == &quot;&quot; ECHO &quot;ECELL_STAGING_HOME environment variable is not set.&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
