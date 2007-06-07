@@ -704,6 +704,7 @@ namespace GridLayout
         class SystemContainer
         {
             #region Fields
+            private float m_defaultRootSize = 300;
             private float m_x;
             private float m_y;
             private float m_width;
@@ -828,6 +829,11 @@ namespace GridLayout
             {
                 float width = 2 * m_outlineWidth;
                 float height = 2 * m_outlineWidth;
+                if (m_self != null && m_self.Key.Equals("/") && m_childSystems.Count == 0)
+                {
+                    width = m_defaultRootSize;
+                    height = m_defaultRootSize;
+                }
                 if (m_childSystems.Count != 0)
                 {
                     float maxHeight = 0;
