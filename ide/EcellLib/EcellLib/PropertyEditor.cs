@@ -230,6 +230,23 @@ namespace EcellLib
                 }
             }
 
+            String preId = "";
+            IEnumerator iter = layoutPanel.Controls.GetEnumerator();
+            while (iter.MoveNext())
+            {
+                Control c = (Control)iter.Current;
+                if (c == null) continue;
+                TableLayoutPanelCellPosition pos =
+                    layoutPanel.GetPositionFromControl(c);
+                if (pos.Column != 1) continue;
+
+                if ((string)c.Tag == "id")
+                {
+                    preId = c.Text;
+                    break;
+                }
+            }
+
             Control cnt = null;
             int i = 0;
             int width = layoutPanel.Width;
@@ -278,7 +295,7 @@ namespace EcellLib
                 t2.Tag = "id";
                 if (m_currentObj == null)
                 {
-                    t2.Text = "";
+                    t2.Text = preId;
                     cnt = t2;
                     t2.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 }
