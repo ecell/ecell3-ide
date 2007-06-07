@@ -284,7 +284,6 @@ namespace EcellLib
                         + System.Environment.NewLine
                         + "\t[" + l_src.classname + "]->[" + l_dest.classname + "]"
                         + System.Environment.NewLine);
-                return;
             }
             if (!l_src.key.Equals(l_dest.key))
             {
@@ -295,78 +294,202 @@ namespace EcellLib
                         + "\t[" + l_src.key + "]->[" + l_dest.key + "]"
                         + System.Environment.NewLine);
             }
-            foreach (EcellData l_srcEcellData in l_src.M_value)
+            //
+            // Changes a className and not change a key.
+            //
+            if (!l_src.classname.Equals(l_dest.classname) && l_src.key.Equals(l_dest.key))
             {
-                foreach (EcellData l_destEcellData in l_dest.M_value)
+                foreach (EcellData l_srcEcellData in l_src.M_value)
                 {
-                    if (l_srcEcellData.M_name.Equals(l_destEcellData.M_name) &&
-                        l_srcEcellData.M_entityPath.Equals(l_destEcellData.M_entityPath))
+                    //
+                    // Changes the logger.
+                    //
+                    if (l_srcEcellData.M_isLogger)
                     {
-                        if (!l_srcEcellData.M_isLogger && l_destEcellData.M_isLogger)
+                        this.m_pManager.Message(
+                            Util.s_xpathSimulation.ToLower(),
+                            "Delete Logger: " + l_message + "[" + l_srcEcellData.M_name + "]"
+                                + System.Environment.NewLine);
+                    }
+                    //
+                    // Changes the initial parameter.
+                    //
+                    if (l_src.type.Equals(Util.s_xpathSystem)
+                        || l_src.type.Equals(Util.s_xpathProcess)
+                        || l_src.type.Equals(Util.s_xpathVariable))
+                    {
+                        if (l_srcEcellData.IsInitialized())
                         {
-                            this.m_pManager.Message(
-                                Util.s_xpathSimulation.ToLower(),
-                                "Create Logger: " + l_message + "[" + l_srcEcellData.M_name + "]"
-                                    + System.Environment.NewLine);
-                        }
-                        else if (l_srcEcellData.M_isLogger && !l_destEcellData.M_isLogger)
-                        {
-                            this.m_pManager.Message(
-                                Util.s_xpathSimulation.ToLower(),
-                                "Delete Logger: " + l_message + "[" + l_srcEcellData.M_name + "]"
-                                    + System.Environment.NewLine);
-                        }
-                        if (!l_srcEcellData.M_value.ToString()
-                                .Equals(l_destEcellData.M_value.ToString()))
-                        {
-                            this.m_pManager.Message(
-                                Util.s_xpathSimulation.ToLower(),
-                                "Update Data: " + l_message
-                                    + "[" + l_srcEcellData.M_name + "]"
-                                    + System.Environment.NewLine
-                                    + "\t[" + l_srcEcellData.M_value.ToString()
-                                    + "]->[" + l_destEcellData.M_value.ToString() + "]"
-                                    + System.Environment.NewLine);
-                        }
-                        //
-                        // Changes the initial parameter.
-                        //
-                        if (l_src.type.Equals(Util.s_xpathSystem)
-                            || l_src.type.Equals(Util.s_xpathProcess)
-                            || l_src.type.Equals(Util.s_xpathVariable))
-                        {
-                            if (!l_srcEcellData.M_value.Equals(l_destEcellData.M_value)
-                                && l_srcEcellData.M_value.IsDouble()
-                                && l_srcEcellData.M_isSettable)
+                            if (l_parameterID != null && l_parameterID.Length > 0)
                             {
-                                if (l_parameterID != null && l_parameterID.Length > 0)
+                                if (this.m_initialCondition[this.m_currentProjectID][l_parameterID]
+                                    [l_src.modelID][l_src.type].ContainsKey(l_srcEcellData.M_entityPath))
                                 {
-                                    if (this.m_initialCondition[this.m_currentProjectID][l_parameterID]
+                                    this.m_initialCondition[this.m_currentProjectID][l_parameterID]
+                                    [l_src.modelID][l_src.type].Remove(l_srcEcellData.M_entityPath);
+                                }
+                            }
+                            else
+                            {
+                                foreach (string l_keyParameterID
+                                    in this.m_initialCondition[this.m_currentProjectID].Keys)
+                                {
+                                    if (this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
                                         [l_src.modelID][l_src.type].ContainsKey(l_srcEcellData.M_entityPath))
                                     {
-                                        this.m_initialCondition[this.m_currentProjectID][l_parameterID]
-                                                [l_src.modelID][l_src.type][l_srcEcellData.M_entityPath]
-                                            = l_destEcellData.M_value.CastToDouble();
-                                    }
-                                }
-                                else
-                                {
-                                    foreach (string l_keyParameterID
-                                            in this.m_initialCondition[this.m_currentProjectID].Keys)
-                                    {
-                                        if (this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                                [l_src.modelID][l_src.type].ContainsKey(l_srcEcellData.M_entityPath))
-                                        {
-                                            this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                                    [l_src.modelID][l_src.type][l_srcEcellData.M_entityPath]
-                                                = l_destEcellData.M_value.CastToDouble();
-                                        }
-
+                                        this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
+                                        [l_src.modelID][l_src.type].Remove(l_srcEcellData.M_entityPath);
                                     }
                                 }
                             }
                         }
-                        break;
+                    }
+                }
+                foreach (EcellData l_destEcellData in l_dest.M_value)
+                {
+                    //
+                    // Changes the initial parameter.
+                    //
+                    if (l_dest.type.Equals(Util.s_xpathSystem)
+                        || l_dest.type.Equals(Util.s_xpathProcess)
+                        || l_dest.type.Equals(Util.s_xpathVariable))
+                    {
+                        if (l_destEcellData.IsInitialized())
+                        {
+                            if (l_parameterID != null && l_parameterID.Length > 0)
+                            {
+                                if (l_destEcellData.M_value.IsDouble())
+                                {
+                                    this.m_initialCondition[this.m_currentProjectID][l_parameterID]
+                                        [l_dest.modelID][l_dest.type][l_destEcellData.M_entityPath]
+                                        = l_destEcellData.M_value.CastToDouble();
+                                }
+                                else if (l_destEcellData.M_value.IsInt())
+                                {
+                                    this.m_initialCondition[this.m_currentProjectID][l_parameterID]
+                                        [l_dest.modelID][l_dest.type][l_destEcellData.M_entityPath]
+                                        = l_destEcellData.M_value.CastToInt();
+                                }
+                            }
+                            else
+                            {
+                                if (l_destEcellData.M_value.IsDouble())
+                                {
+                                    foreach (string l_keyParameterID
+                                        in this.m_initialCondition[this.m_currentProjectID].Keys)
+                                    {
+                                        this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
+                                            [l_dest.modelID][l_dest.type][l_destEcellData.M_entityPath]
+                                            = l_destEcellData.M_value.CastToDouble();
+                                    }
+                                }
+                                else if (l_destEcellData.M_value.IsInt())
+                                {
+                                    foreach (string l_keyParameterID
+                                        in this.m_initialCondition[this.m_currentProjectID].Keys)
+                                    {
+                                        this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
+                                            [l_dest.modelID][l_dest.type][l_destEcellData.M_entityPath]
+                                            = l_destEcellData.M_value.CastToInt();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (EcellData l_srcEcellData in l_src.M_value)
+                {
+                    foreach (EcellData l_destEcellData in l_dest.M_value)
+                    {
+                        if (l_srcEcellData.M_name.Equals(l_destEcellData.M_name) &&
+                            l_srcEcellData.M_entityPath.Equals(l_destEcellData.M_entityPath))
+                        {
+                            if (!l_srcEcellData.M_isLogger && l_destEcellData.M_isLogger)
+                            {
+                                this.m_pManager.Message(
+                                    Util.s_xpathSimulation.ToLower(),
+                                    "Create Logger: " + l_message + "[" + l_srcEcellData.M_name + "]"
+                                        + System.Environment.NewLine);
+                            }
+                            else if (l_srcEcellData.M_isLogger && !l_destEcellData.M_isLogger)
+                            {
+                                this.m_pManager.Message(
+                                    Util.s_xpathSimulation.ToLower(),
+                                    "Delete Logger: " + l_message + "[" + l_srcEcellData.M_name + "]"
+                                        + System.Environment.NewLine);
+                            }
+                            if (!l_srcEcellData.M_value.ToString()
+                                    .Equals(l_destEcellData.M_value.ToString()))
+                            {
+                                this.m_pManager.Message(
+                                    Util.s_xpathSimulation.ToLower(),
+                                    "Update Data: " + l_message
+                                        + "[" + l_srcEcellData.M_name + "]"
+                                        + System.Environment.NewLine
+                                        + "\t[" + l_srcEcellData.M_value.ToString()
+                                        + "]->[" + l_destEcellData.M_value.ToString() + "]"
+                                        + System.Environment.NewLine);
+                            }
+                            //
+                            // Changes the initial parameter.
+                            //
+                            if (l_src.type.Equals(Util.s_xpathSystem)
+                                || l_src.type.Equals(Util.s_xpathProcess)
+                                || l_src.type.Equals(Util.s_xpathVariable))
+                            {
+                                if (!l_srcEcellData.M_value.Equals(l_destEcellData.M_value)
+                                    && l_srcEcellData.IsInitialized())
+                                {
+                                    if (l_parameterID != null && l_parameterID.Length > 0)
+                                    {
+                                        if (this.m_initialCondition[this.m_currentProjectID][l_parameterID]
+                                            [l_src.modelID][l_src.type].ContainsKey(l_srcEcellData.M_entityPath))
+                                        {
+                                            if (l_destEcellData.M_value.IsDouble())
+                                            {
+                                                this.m_initialCondition[this.m_currentProjectID][l_parameterID]
+                                                        [l_src.modelID][l_src.type][l_srcEcellData.M_entityPath]
+                                                    = l_destEcellData.M_value.CastToDouble();
+                                            }
+                                            else if (l_destEcellData.M_value.IsInt())
+                                            {
+                                                this.m_initialCondition[this.m_currentProjectID][l_parameterID]
+                                                        [l_src.modelID][l_src.type][l_srcEcellData.M_entityPath]
+                                                    = l_destEcellData.M_value.CastToInt();
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (string l_keyParameterID
+                                                in this.m_initialCondition[this.m_currentProjectID].Keys)
+                                        {
+                                            if (this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
+                                                    [l_src.modelID][l_src.type].ContainsKey(
+                                                    l_srcEcellData.M_entityPath))
+                                            {
+                                                if (l_destEcellData.M_value.IsDouble())
+                                                {
+                                                    this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
+                                                            [l_src.modelID][l_src.type][l_srcEcellData.M_entityPath]
+                                                        = l_destEcellData.M_value.CastToDouble();
+                                                }
+                                                else if (l_destEcellData.M_value.IsInt())
+                                                {
+                                                    this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
+                                                            [l_src.modelID][l_src.type][l_srcEcellData.M_entityPath]
+                                                        = l_destEcellData.M_value.CastToInt();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
                     }
                 }
             }
@@ -993,14 +1116,27 @@ namespace EcellLib
                 {
                     foreach (EcellData l_data in l_ecellObject.M_value)
                     {
-                        if (l_data.M_isSettable)
+                        if (l_data.IsInitialized())
                         {
-                            foreach (string l_keyParameterID
-                                    in this.m_initialCondition[this.m_currentProjectID].Keys)
+                            if (l_data.M_value.IsDouble())
                             {
-                                this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                        [l_ecellObject.modelID][l_ecellObject.type][l_data.M_entityPath]
-                                    = l_data.M_value.CastToDouble();
+                                foreach (string l_keyParameterID
+                                        in this.m_initialCondition[this.m_currentProjectID].Keys)
+                                {
+                                    this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
+                                            [l_ecellObject.modelID][l_ecellObject.type][l_data.M_entityPath]
+                                        = l_data.M_value.CastToDouble();
+                                }
+                            }
+                            else if (l_data.M_value.IsInt())
+                            {
+                                foreach (string l_keyParameterID
+                                        in this.m_initialCondition[this.m_currentProjectID].Keys)
+                                {
+                                    this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
+                                            [l_ecellObject.modelID][l_ecellObject.type][l_data.M_entityPath]
+                                        = l_data.M_value.CastToInt();
+                                }
                             }
                         }
                     }
@@ -1135,14 +1271,27 @@ namespace EcellLib
             {
                 foreach (EcellData l_data in l_ecellObject.M_value)
                 {
-                    if (l_data.M_isSettable)
+                    if (l_data.IsInitialized())
                     {
-                        foreach (string l_keyParameterID
-                                in this.m_initialCondition[this.m_currentProjectID].Keys)
+                        if (l_data.M_value.IsDouble())
                         {
-                            this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                    [l_ecellObject.modelID][l_ecellObject.type][l_data.M_entityPath]
-                                = l_data.M_value.CastToDouble();
+                            foreach (string l_keyParameterID
+                                    in this.m_initialCondition[this.m_currentProjectID].Keys)
+                            {
+                                this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
+                                        [l_ecellObject.modelID][l_ecellObject.type][l_data.M_entityPath]
+                                    = l_data.M_value.CastToDouble();
+                            }
+                        }
+                        else if (l_data.M_value.IsInt())
+                        {
+                            foreach (string l_keyParameterID
+                                    in this.m_initialCondition[this.m_currentProjectID].Keys)
+                            {
+                                this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
+                                        [l_ecellObject.modelID][l_ecellObject.type][l_data.M_entityPath]
+                                    = l_data.M_value.CastToInt();
+                            }
                         }
                     }
                 }
@@ -2745,7 +2894,7 @@ namespace EcellLib
             EcellObject l_stepperEcellObject = null;
             try
             {
-                l_simulator = new WrappedSimulator();
+                l_simulator = new WrappedSimulator(Util.GetDMDir());
                 CreateDefaultSimulator(l_simulator, null, null);
                 l_systemEcellObject
                         = EcellObject.CreateObject(
@@ -3229,7 +3378,7 @@ namespace EcellLib
             EcellObject l_dummyEcellObject = null;
             try
             {
-                l_simulator = new WrappedSimulator();
+                l_simulator = new WrappedSimulator(Util.GetDMDir());
                 // CreateDefaultSimulator(l_simulator, l_dmName, null);
                 l_simulator.CreateEntity(
                     l_dmName,
@@ -3483,7 +3632,7 @@ namespace EcellLib
         public List<string> GetStepperList()
         {
             List<string> l_stepperList = new List<string>();
-            foreach (WrappedPolymorph l_polymorph in new WrappedSimulator().GetDMInfo().CastToList())
+            foreach (WrappedPolymorph l_polymorph in new WrappedSimulator(Util.GetDMDir()).GetDMInfo().CastToList())
             {
                 List<WrappedPolymorph> l_dmInfoList = l_polymorph.CastToList();
                 if (l_dmInfoList[0].CastToString().Equals(Util.s_xpathStepper))
@@ -3508,7 +3657,7 @@ namespace EcellLib
             EcellObject l_dummyEcellObject = null;
             try
             {
-                l_simulator = new WrappedSimulator();
+                l_simulator = new WrappedSimulator(Util.GetDMDir());
                 // CreateDefaultSimulator(l_simulator, null, l_dmName);
                 l_simulator.CreateStepper(l_dmName, Util.s_textKey);
                 l_dummyEcellObject = EcellObject.CreateObject("", Util.s_textKey, "", "", null);
@@ -3573,7 +3722,7 @@ namespace EcellLib
             EcellObject l_dummyEcellObject = null;
             try
             {
-                l_simulator = l_simulator = new WrappedSimulator();
+                l_simulator = l_simulator = new WrappedSimulator(Util.GetDMDir());
                 CreateDefaultSimulator(l_simulator, null, null);
                 ArrayList l_list = new ArrayList();
                 l_list.Clear();
@@ -3633,7 +3782,7 @@ namespace EcellLib
             EcellObject l_dummyEcellObject = null;
             try
             {
-                l_simulator = new WrappedSimulator();
+                l_simulator = new WrappedSimulator(Util.GetDMDir());
                 CreateDefaultSimulator(l_simulator, null, null);
                 l_dummyEcellObject = EcellObject.CreateObject(
                     "",
@@ -3707,7 +3856,7 @@ namespace EcellLib
         {
             try
             {
-                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator();
+                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(Util.GetDMDir());
                 //
                 // Loads steppers on the simulator.
                 //
@@ -4087,7 +4236,7 @@ namespace EcellLib
                 string l_modelID = null;
                 List<EcellObject> l_ecellObjectList = new List<EcellObject>();
                 // WrappedSimulator l_simulator = new WrappedSimulator();
-                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator();
+                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(Util.GetDMDir());
                 l_eml.Parse(l_fileName, this.m_simulatorDic[this.m_currentProjectID], l_ecellObjectList, ref l_modelID);
                 //
                 // Checks the old model ID
@@ -4297,7 +4446,7 @@ namespace EcellLib
                         //
                         this.m_currentProjectID = l_prjID;
                         this.m_currentParameterID = l_parameter;
-                        this.m_simulatorDic[l_prjID] = new WrappedSimulator();
+                        this.m_simulatorDic[l_prjID] = new WrappedSimulator(Util.GetDMDir());
                         this.m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
                         this.m_projectList.Add(new Project(l_prjID, l_comment, DateTime.Now.ToString()));
                         this.m_loggerPolicyDic[l_prjID] = new Dictionary<string, LoggerPolicy>();
@@ -4911,7 +5060,7 @@ namespace EcellLib
                 // Initialize
                 //
                 this.m_currentProjectID = l_prjID;
-                this.m_simulatorDic[l_prjID] = new WrappedSimulator();
+                this.m_simulatorDic[l_prjID] = new WrappedSimulator(Util.GetDMDir());
                 this.m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
                 l_prj = new Project(l_prjID, l_comment, DateTime.Now.ToString());
                 this.m_projectList.Add(l_prj);

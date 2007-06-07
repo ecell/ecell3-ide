@@ -463,6 +463,23 @@ namespace EcellLib
             }
             return false;
         }
+
+        /// <summary>
+        /// Tests whether it is possible to initialize this or not.
+        /// </summary>
+        /// <returns>true if it is possible to initialize; false otherwise</returns>
+        public bool IsInitialized()
+        {
+            if (!this.m_isSettable)
+            {
+                return false;
+            }
+            if (this.m_value == null || (!this.m_value.IsInt() && !this.m_value.IsDouble()))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 
 
