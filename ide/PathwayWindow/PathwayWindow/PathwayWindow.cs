@@ -1035,7 +1035,14 @@ namespace EcellLib.PathwayWindow
                 string systemName = PathUtil.GetParentSystemId(obj.key);
                 if (obj.type.Equals(PathwayView.SYSTEM_STRING))
                 {
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.key, false, 0, 0, 0, 0, false, null);
+                    if (systemName.Equals("/"))
+                    {
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.key, false, 0, 0, 1000, 1000, false, null);
+                    }
+                    else
+                    {
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.key, false, 0, 0, 0, 0, false, null);
+                    }
                 }
                 else if (obj.type.Equals(PathwayView.VARIABLE_STRING))
                     m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.key, false, 0, 0, 0, 0, false, null);                    
@@ -1240,6 +1247,12 @@ namespace EcellLib.PathwayWindow
                     systemElement.ModelID = obj.modelID;
                     systemElement.Type = obj.type;
                     systemElement.Key = obj.key;
+
+                    if (obj.key.Equals("/"))
+                    {
+                        systemElement.Width = 300;
+                        systemElement.Height = 300;
+                    }
 
                     pathElements.Add(systemElement);
 

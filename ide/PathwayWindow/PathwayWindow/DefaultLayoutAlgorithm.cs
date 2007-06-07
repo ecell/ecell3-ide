@@ -134,6 +134,7 @@ namespace EcellLib.PathwayWindow
         class SystemContainer
         {
             #region Fields
+            private float m_defaultRootSize = 300;
             private float m_x;
             private float m_y;
             private float m_width;
@@ -258,6 +259,11 @@ namespace EcellLib.PathwayWindow
             {
                 float width = 2 * m_outlineWidth;
                 float height = 2 * m_outlineWidth;
+                if (m_self.Key.Equals("/"))
+                {
+                    width = m_defaultRootSize;
+                    height = m_defaultRootSize;
+                }
                 if (m_childSystems.Count != 0)
                 {
                     float maxHeight = 0;
