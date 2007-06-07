@@ -125,6 +125,22 @@ namespace EcellLib.PathwayWindow.Element
                     string name = m.Groups["name"].Value;
                     EdgeDirection direction;
                     LineType type;
+                    int coe = Convert.ToInt32(m.Groups["coe"].Value);
+                    if (coe < 0 )
+                    {
+                        direction = EdgeDirection.Inward;
+                        type = LineType.Solid;
+                    }
+                    else if (coe == 0)
+                    {
+                        direction = EdgeDirection.None;
+                        type = LineType.Dashed;
+                    }
+                    else {
+                        direction = EdgeDirection.Outward;
+                        type = LineType.Solid;
+                    }
+                    /*
                     switch (Convert.ToInt32(m.Groups["coe"].Value))
                     {
                         case -1:
@@ -144,19 +160,20 @@ namespace EcellLib.PathwayWindow.Element
                             type = LineType.Unknown;
                             break;
                     }
-                    int isFixed = Convert.ToInt32(m.Groups["fix"].Value);
+                     */
+                    int isAccessor = Convert.ToInt32(m.Groups["fix"].Value);
 
                     if (key == null)
                         continue;
 
                     if(edgeInfos.ContainsKey(key))
                     {
-                        edgeInfos[key].AddRelation(name, direction, type, isFixed);
+                        edgeInfos[key].AddRelation(name, direction, type, isAccessor);
                     }
                     else
                     {
                         EdgeInfo edgeInfo = new EdgeInfo(key);
-                        edgeInfo.AddRelation(name,direction,type,isFixed);
+                        edgeInfo.AddRelation(name,direction,type,isAccessor);
                         edgeInfos.Add(key, edgeInfo);
                     }
                 }
