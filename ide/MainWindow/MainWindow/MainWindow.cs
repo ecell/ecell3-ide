@@ -90,6 +90,10 @@ namespace EcellLib.MainWindow
         /// </summary>
         public delegate void LoadModelDelegate(string modelID);
         /// <summary>
+        /// delegate function of close project.
+        /// </summary>
+        public delegate void CloseProjectDelegate(string projectID);
+        /// <summary>
         /// The flag whether close the project.
         /// </summary>
         private bool m_isClose = false;
@@ -162,7 +166,20 @@ namespace EcellLib.MainWindow
             {
                 MessageBox.Show("Can't create new thread for load model.\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CloseProjectDelegate dlg = new CloseProjectDelegate(CloseProject);
+                this.Invoke(dlg, new object[] { m_project });
+//                m_dManager.CloseProject(m_project);
+//                m_pManager.ChangeStatus(Util.NOTLOAD);
             }
+        }
+
+        private void CloseProject(String m_prjID)
+        {
+            if (m_prjID == null) return;
+            m_isLoadProject = false;
+            m_pManager.ChangeStatus(Util.NOTLOAD);
+            m_dManager.CloseProject(m_prjID);
+            m_project = null;
         }
 
         /// <summary>
@@ -931,7 +948,7 @@ namespace EcellLib.MainWindow
                 else if (res == DialogResult.No)
                 {
                     m_isLoadProject = false;
-                    m_pManager.ChangeStatus(0);
+                    m_pManager.ChangeStatus(Util.NOTLOAD);
                     m_dManager.CloseProject(m_project);
                     m_project = null;
                 }
