@@ -5,21 +5,21 @@
 		<Class>PEcellSystem</Class>
 	</Component>
 
-	<Component kind="Variable"  isDefault="true">
-		<Name>DefaultVariable</Name>
+	<Component kind="Process"  isDefault="true">
+		<Name>DefaultProcess</Name>
 		<Drawings>
 			<Draw type="Rectangle">-30,-20,60,40</Draw>
 		</Drawings>
 		<Color type="KnownColor">LightGreen</Color>
-		<Class>PEcellVariable</Class>
+		<Class>PEcellProcess</Class>
 	</Component>
 
-	<Component kind="Process"  isDefault="true">
-		<Name>DefaultProcess</Name>
+	<Component kind="Variable"  isDefault="true">
+		<Name>DefaultVariable</Name>
 		<Drawings>
 			<Draw type="Ellipse">-30,-20,60,40</Draw>
 		</Drawings>
 		<Color type="KnownColor">LightBlue</Color>
-		<Class>PEcellProcess</Class>
+		<Class>PEcellVariable</Class>
 	</Component>
 </ComponentList>
