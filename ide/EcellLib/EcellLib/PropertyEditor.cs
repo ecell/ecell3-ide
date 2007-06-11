@@ -265,8 +265,8 @@ namespace EcellLib
             }
             else
             {
-                layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 4));
-                layoutPanel.RowCount = m_propDict.Keys.Count + 4;
+                layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
+                layoutPanel.RowCount = m_propDict.Keys.Count + 5;
             }
 
             try
@@ -425,6 +425,16 @@ namespace EcellLib
                     }
                     i++;
                 }
+                if (m_type.Equals("Process") && m_propName.StartsWith("Expression"))
+                {
+                    Button b = new Button();
+                    b.Text = "Add Property";
+                    b.Tag = "Add Property";
+                    b.Dock = DockStyle.Fill;
+                    b.Click += new EventHandler(AddPropertyForProcess);
+                    layoutPanel.Controls.Add(b, 1, i);
+                    i++;
+                }
 
                 if (m_currentObj == null && m_type.Equals("System"))
                 {
@@ -480,6 +490,71 @@ namespace EcellLib
                     "Please close this window.\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        void AddPropertyForProcess(object sender, EventArgs e)
+        {
+            AddProperyDialog dialog = new AddProperyDialog();
+
+            String name = dialog.ShowPropertyDialog();
+            if (name == null) return;
+
+            if (m_currentObj != null)
+                m_propDict.Add(name, new EcellData(name, new EcellValue(0.0), 
+                    "Process:" + m_currentObj.key + ":" + name));
+            else
+                m_propDict.Add(name, new EcellData(name, new EcellValue(0.0),
+                    "Process:/dummy:" + name));
+
+            Control cnt = null;
+            int width = layoutPanel.Width;
+            layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
+            layoutPanel.RowCount = m_propDict.Keys.Count + 5;
+
+            try {
+                IEnumerator iter = layoutPanel.Controls.GetEnumerator();
+                    while (iter.MoveNext())
+                    {
+                        Control c = (Control)iter.Current;
+                        if (c == null) continue;
+                        TableLayoutPanelCellPosition pos =
+                            layoutPanel.GetPositionFromControl(c);
+                        if (pos.Column != 1) continue;
+                        if (c.Tag.Equals("Add Property"))
+                        {
+                            layoutPanel.Controls.Remove(c);
+                            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                            Label l = new Label();
+                            l.Text = name;
+                            l.Dock = DockStyle.Fill;
+                            layoutPanel.Controls.Add(l, 0, pos.Row);
+
+                            TextBox t = new TextBox();
+                            t.Text = "";
+                            t.Tag = name;
+                            t.Dock = DockStyle.Fill;
+                            t.Text = "0.0";
+                            layoutPanel.Controls.Add(t, 1, pos.Row);
+
+                            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                            Button b = new Button();
+                            b.Text = "Add Property";
+                            b.Tag = "Add Property";
+                            b.Dock = DockStyle.Fill;
+                            b.Click += new EventHandler(AddPropertyForProcess);
+                            layoutPanel.Controls.Add(b, 1, pos.Row + 1);
+
+                            break;
+                        }
+
+                    }
+
+            } catch (Exception ex)
+            {
+
+            }
+            panel1.ClientSize = panel1.Size;
+            this.ActiveControl = cnt;
         }
 
         void EnterKeyPress(object sender, KeyPressEventArgs e)
@@ -591,6 +666,7 @@ namespace EcellLib
                     TableLayoutPanelCellPosition pos =
                         layoutPanel.GetPositionFromControl(c);
                     if (pos.Column != 1) continue;
+                    if ((string)c.Tag == "Add Property") continue;
 
                     if ((string)c.Tag == "modelID") modelID = c.Text;
                     else if ((string)c.Tag == "id")
@@ -919,6 +995,7 @@ namespace EcellLib
                     TableLayoutPanelCellPosition pos =
                         layoutPanel.GetPositionFromControl(c);
                     if (pos.Column != 1) continue;
+                    if ((string)c.Tag == "Add Property") continue;
 
                     if ((string)c.Tag == "modelID") modelID = c.Text;
                     else if ((string)c.Tag == "id")
@@ -1043,6 +1120,7 @@ namespace EcellLib
                         layoutPanel.GetPositionFromControl(c);
                     if (pos.Column != 1) continue;
 
+                    if ((string)c.Tag == "Add Property") continue;
                     if ((string)c.Tag == "modelID") modelID = c.Text;
                     else if ((string)c.Tag == "id")
                     {

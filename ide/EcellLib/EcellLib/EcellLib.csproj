@@ -68,6 +68,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionManager.cs" />
+    <Compile Include="AddProperyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddProperyDialog.Designer.cs">
+      <DependentUpon>AddProperyDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="CommandManager.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="EcellObject.cs" />
@@ -108,6 +114,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddProperyDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AddProperyDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormulatorWindow.resx">
       <DependentUpon>FormulatorWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
