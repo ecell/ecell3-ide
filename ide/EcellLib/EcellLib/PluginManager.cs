@@ -89,8 +89,8 @@ namespace EcellLib
             // default image type
             m_imageDict.Add("Project", 0);
             m_imageDict.Add("System", 0);
-            m_imageDict.Add("Variable", 1);
-            m_imageDict.Add("Process", 2);
+            m_imageDict.Add("Variable", 2);
+            m_imageDict.Add("Process", 1);
             m_imageDict.Add("Model", 3);
         }
 
