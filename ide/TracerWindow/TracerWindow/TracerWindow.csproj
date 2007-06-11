@@ -55,6 +55,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LineStyleDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LineStyleDialog.Designer.cs">
+      <DependentUpon>LineStyleDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="TracerWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TracerWindowSetup.cs">
@@ -71,6 +82,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LineStyleDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LineStyleDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="TracerWindowSetup.resx">
       <DependentUpon>TracerWindowSetup.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -79,6 +99,21 @@
       <SubType>Designer</SubType>
       <DependentUpon>TraceWindow.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dash.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\solid.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dot.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dashdot.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dashdotdot.JPG" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

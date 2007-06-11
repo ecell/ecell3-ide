@@ -174,6 +174,13 @@ namespace EcellLib.TracerWindow
             g.FillRectangle(ColorCreator.GetColorBlush(ind), 3, 3, 14, 14);
             g.ReleaseHdc(g.GetHdc());
 
+            Bitmap b1 = new Bitmap(20, 20);
+            Graphics g1 = Graphics.FromImage(b1);
+            Pen pen = new Pen(ColorCreator.GetColorBlush(ind), 2);
+            pen.DashStyle = LineCreator.GetLine(ind);
+            g1.DrawLine(pen, 0, 10, 20, 10);
+            g1.ReleaseHdc(g1.GetHdc());            
+
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewCheckBoxCell c1 = new DataGridViewCheckBoxCell();
             c1.Value = true;
@@ -181,16 +188,20 @@ namespace EcellLib.TracerWindow
             DataGridViewImageCell c2 = new DataGridViewImageCell();
             c2.Value = b;
             r.Cells.Add(c2);
-            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-            c3.Value = tag.M_path;
+            DataGridViewImageCell c3 = new DataGridViewImageCell();
+            c3.Value = b1;
             r.Cells.Add(c3);
+            DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
+            c4.Value = tag.M_path;
+            r.Cells.Add(c4);
             r.Tag = new TagData(tag.M_modelID, tag.M_key, tag.M_type, tag.M_path);
             dgv.Rows.Add(r);
-            c3.ReadOnly = true;
+            c4.ReadOnly = true;
 
             LineItem i = m_zCnt.GraphPane.AddCurve(tag.M_path,
                     new PointPairList(), ColorCreator.GetColor(ind), SymbolType.None);
             i.Line.Width = 2;
+            i.Line.Style = LineCreator.GetLine(ind);
             LineItem i1 = m_zCnt.GraphPane.AddCurve(tag.M_path,
                     new PointPairList(), ColorCreator.GetColor(ind), SymbolType.None);
             i1.Line.Width = 2;
@@ -473,6 +484,101 @@ namespace EcellLib.TracerWindow
         }
 
         /// <summary>
+        /// Display the dialog to set the style of line.
+        /// </summary>
+        /// <param name="t">TagData of selected row.</param>
+        /// <param name="rowIndex">row index of selected cell.</param>
+        /// <param name="columnIndex">column index of selected cell.</param>
+        void ShowLineStyleDialog(TagData t, int rowIndex, int columnIndex)
+        {
+            LineStyleDialog dialog = new LineStyleDialog();
+            switch (m_paneDic[t.M_path].Line.Style)
+            {
+                case System.Drawing.Drawing2D.DashStyle.Solid:
+                    dialog.solidRadioButton.Checked = true;
+                    break;
+                case System.Drawing.Drawing2D.DashStyle.Dash:
+                    dialog.dashRadioButton.Checked = true;
+                    break;
+                case System.Drawing.Drawing2D.DashStyle.DashDot:
+                    dialog.dashDotRadioButton.Checked = true;
+                    break;
+                case System.Drawing.Drawing2D.DashStyle.Dot:
+                    dialog.dotRadioButton.Checked = true;
+                    break;
+                case System.Drawing.Drawing2D.DashStyle.DashDotDot:
+                    dialog.dashDotDotRadioButton.Checked = true;
+                    break;
+            }
+
+            System.Drawing.Drawing2D.DashStyle style = dialog.ShowLineStyleDialog();
+            if (style ==System.Drawing.Drawing2D.DashStyle.Custom) return;
+            DataGridViewImageCell cell = dgv.Rows[rowIndex].Cells[columnIndex] as DataGridViewImageCell;
+
+            Bitmap b1 = new Bitmap(20, 20);
+            Graphics g1 = Graphics.FromImage(b1);
+            Pen p1 = new Pen(m_paneDic[t.M_path].Color);            
+            p1.DashStyle = style;
+            p1.Width = 2;
+            g1.DrawLine(p1, 0, 10, 20, 10);
+            g1.ReleaseHdc(g1.GetHdc());
+            cell.Value = b1;
+
+            m_paneDic[t.M_path].Line.Style = style;
+            m_tmpPaneDic[t.M_path].Line.Style = style;
+            m_zCnt.Refresh();
+        }
+
+        /// <summary>
+        /// Display the dialog to set color of line.
+        /// </summary>
+        /// <param name="t">TagData of selected row.</param>
+        /// <param name="rowIndex">Row index of selected cell.</param>
+        /// <param name="columnIndex">Column index of selected cell.</param>
+        void ShowColorSetDialog(TagData t, int rowIndex, int columnIndex)
+        {
+            DataGridViewImageCell cell = dgv.Rows[rowIndex].Cells[columnIndex] as DataGridViewImageCell;
+            DataGridViewImageCell cell1 = dgv.Rows[rowIndex].Cells[columnIndex + 1] as DataGridViewImageCell;
+            if (cell == null || cell1 == null)
+            {
+                MessageBox.Show("ERROR : can't find the cell for color or line style", 
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DialogResult r = m_colorDialog.ShowDialog();
+            if (r == DialogResult.OK)
+            {
+                Bitmap b = new Bitmap(20, 20);
+                Graphics g = Graphics.FromImage(b);
+                Pen p = new Pen(m_colorDialog.Color);
+                g.FillRectangle(p.Brush, 3, 3, 14, 14);
+                g.ReleaseHdc(g.GetHdc());
+
+                m_paneDic[t.M_path].Color = m_colorDialog.Color;
+                m_tmpPaneDic[t.M_path].Color = m_colorDialog.Color;
+
+                Bitmap b1 = new Bitmap(20, 20);
+                Graphics g1 = Graphics.FromImage(b1);
+                Pen p1 = new Pen(m_colorDialog.Color);
+                p1.DashStyle = m_paneDic[t.M_path].Line.Style;
+                p1.Width = 2;
+                g1.DrawLine(p1, 0, 10, 20, 10);
+                g1.ReleaseHdc(g1.GetHdc());
+
+                cell.Value = b;
+                cell1.Value = b1;
+
+                m_paneDic[t.M_path].Color = m_colorDialog.Color;
+                m_tmpPaneDic[t.M_path].Color = m_colorDialog.Color;
+                m_zCnt.Refresh();
+
+
+                m_zCnt.Refresh();
+            }
+        }
+
+        /// <summary>
         /// The action of double clicking the cell in DataGridView.
         /// Show the color select dialog, change color of line in
         /// ZedGraphControl.t This action is avaiable at DataGridViewImageCell only.
@@ -486,20 +592,13 @@ namespace EcellLib.TracerWindow
             if (c == null) return;
 
             TagData t = (TagData)dgv.Rows[e.RowIndex].Tag;
-            DialogResult r = m_colorDialog.ShowDialog();
-            if (r == DialogResult.OK)
+            if (e.ColumnIndex != 1)
             {
-                Bitmap b = new Bitmap(20, 20);
-                Graphics g = Graphics.FromImage(b);
-                Pen p = new Pen(m_colorDialog.Color);
-                g.FillRectangle(p.Brush, 3, 3, 14, 14);
-                g.ReleaseHdc(g.GetHdc());
-
-                c.Value = b;
-
-                m_paneDic[t.M_path].Color = m_colorDialog.Color;
-                m_tmpPaneDic[t.M_path].Color = m_colorDialog.Color;
-                m_zCnt.Refresh();
+                ShowLineStyleDialog(t, e.RowIndex, e.ColumnIndex);
+            }
+            else
+            {
+                ShowColorSetDialog(t, e.RowIndex, e.ColumnIndex);
             }
         }
 

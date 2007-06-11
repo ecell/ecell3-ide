@@ -35,6 +35,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+using System.Drawing.Drawing2D;
 
 namespace EcellLib.TracerWindow
 {
@@ -462,9 +463,12 @@ namespace EcellLib.TracerWindow
         /// <returns>MenuStripItems</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
+//            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TracerWindow));
+
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
 
             m_showWin = new ToolStripMenuItem();
+//            resources.ApplyResources(this.m_showWin, "m_showWin");
             m_showWin.Name = "MenuItemShowTrace";
             m_showWin.Size = new Size(96, 22);
             m_showWin.Text = "Show TracerWindow";
@@ -901,6 +905,19 @@ namespace EcellLib.TracerWindow
         }
     }
 
+    public class LineCreator
+    {
+        public static DashStyle GetLine(int i)
+        {
+            int j = i / 3;
+            if (j == 0) return DashStyle.Solid;
+            else if (j == 1) return DashStyle.Dash;
+            else if (j == 2) return DashStyle.DashDot;
+            else if (j == 3) return DashStyle.Dot;
+            else return DashStyle.DashDotDot;
+        }
+    }
+
     /// <summary>
     /// The class to create color object and color brush.
     /// </summary>
@@ -913,26 +930,27 @@ namespace EcellLib.TracerWindow
         /// <returns>color object.</returns>
         public static Color GetColor(int i)
         {
-            if (i == 0) return Color.OrangeRed;
-            else if (i == 1) return Color.LightSkyBlue;
-            else if (i == 2) return Color.LightGreen;
-            else if (i == 3) return Color.LightSalmon;
-            else if (i == 4) return Color.Gold;
-            else if (i == 5) return Color.LimeGreen;
-            else if (i == 6) return Color.Coral;
-            else if (i == 7) return Color.Navy;
-            else if (i == 8) return Color.Lime;
-            else if (i == 9) return Color.Purple;
-            else if (i == 10) return Color.SkyBlue;
-            else if (i == 11) return Color.Green;
-            else if (i == 12) return Color.Plum;
-            else if (i == 13) return Color.HotPink;
-            else if (i == 14) return Color.Orchid;
-            else if (i == 15) return Color.Tomato;
-            else if (i == 16) return Color.Orange;
-            else if (i == 17) return Color.Magenta;
-            else if (i == 18) return Color.Blue;
-            else if (i == 19) return Color.Red;
+            int j = i % 3;
+            if (j == 0) return Color.OrangeRed;
+            else if (j == 1) return Color.LightSkyBlue;
+            else if (j == 2) return Color.LightGreen;
+            else if (j == 3) return Color.LightSalmon;
+            else if (j == 4) return Color.Gold;
+            else if (j == 5) return Color.LimeGreen;
+            else if (j == 6) return Color.Coral;
+            else if (j == 7) return Color.Navy;
+            else if (j == 8) return Color.Lime;
+            else if (j == 9) return Color.Purple;
+            else if (j == 10) return Color.SkyBlue;
+            else if (j == 11) return Color.Green;
+            else if (j == 12) return Color.Plum;
+            else if (j == 13) return Color.HotPink;
+            else if (j == 14) return Color.Orchid;
+            else if (j == 15) return Color.Tomato;
+            else if (j == 16) return Color.Orange;
+            else if (j == 17) return Color.Magenta;
+            else if (j == 18) return Color.Blue;
+            else if (j == 19) return Color.Red;
             else return Color.Black;
         }
 
@@ -943,26 +961,27 @@ namespace EcellLib.TracerWindow
         /// <returns>Brush.</returns>
         public static Brush GetColorBlush(int i)
         {
-            if (i == 0) return Brushes.OrangeRed;
-            else if (i == 1) return Brushes.LightSkyBlue;
-            else if (i == 2) return Brushes.LightGreen;
-            else if (i == 3) return Brushes.LightSalmon;
-            else if (i == 4) return Brushes.Gold;
-            else if (i == 5) return Brushes.LimeGreen;
-            else if (i == 6) return Brushes.Coral;
-            else if (i == 7) return Brushes.Navy;
-            else if (i == 8) return Brushes.Lime;
-            else if (i == 9) return Brushes.Purple;
-            else if (i == 10) return Brushes.SkyBlue;
-            else if (i == 11) return Brushes.Green;
-            else if (i == 12) return Brushes.Plum;
-            else if (i == 13) return Brushes.HotPink;
-            else if (i == 14) return Brushes.Orchid;
-            else if (i == 15) return Brushes.Tomato;
-            else if (i == 16) return Brushes.Orange;
-            else if (i == 17) return Brushes.Magenta;
-            else if (i == 18) return Brushes.Blue;
-            else if (i == 19) return Brushes.Red;
+            int j = i % 3;
+            if (j == 0) return Brushes.OrangeRed;
+            else if (j == 1) return Brushes.LightSkyBlue;
+            else if (j == 2) return Brushes.LightGreen;
+            else if (j == 3) return Brushes.LightSalmon;
+            else if (j == 4) return Brushes.Gold;
+            else if (j == 5) return Brushes.LimeGreen;
+            else if (j == 6) return Brushes.Coral;
+            else if (j == 7) return Brushes.Navy;
+            else if (j == 8) return Brushes.Lime;
+            else if (j == 9) return Brushes.Purple;
+            else if (j == 10) return Brushes.SkyBlue;
+            else if (j == 11) return Brushes.Green;
+            else if (j == 12) return Brushes.Plum;
+            else if (j == 13) return Brushes.HotPink;
+            else if (j == 14) return Brushes.Orchid;
+            else if (j == 15) return Brushes.Tomato;
+            else if (j == 16) return Brushes.Orange;
+            else if (j == 17) return Brushes.Magenta;
+            else if (j == 18) return Brushes.Blue;
+            else if (j == 19) return Brushes.Red;
             else return Brushes.Black;
         }
     }

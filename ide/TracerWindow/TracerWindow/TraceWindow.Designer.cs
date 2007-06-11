@@ -50,6 +50,7 @@
             this.dgv = new System.Windows.Forms.DataGridView();
             this.view = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.color = new System.Windows.Forms.DataGridViewImageColumn();
+            this.LineStyle = new System.Windows.Forms.DataGridViewImageColumn();
             this.full = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.m_folderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.m_colorDialog = new System.Windows.Forms.ColorDialog();
@@ -309,6 +310,7 @@
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.view,
             this.color,
+            this.LineStyle,
             this.full});
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv.Location = new System.Drawing.Point(3, 302);
@@ -320,19 +322,25 @@
             // 
             // view
             // 
-            this.view.FillWeight = 46.45733F;
+            this.view.FillWeight = 41.50502F;
             this.view.HeaderText = "view";
             this.view.Name = "view";
             // 
             // color
             // 
-            this.color.FillWeight = 45.68528F;
+            this.color.FillWeight = 40.81528F;
             this.color.HeaderText = "color";
             this.color.Name = "color";
             // 
+            // LineStyle
+            // 
+            this.LineStyle.FillWeight = 40F;
+            this.LineStyle.HeaderText = "LineStyle";
+            this.LineStyle.Name = "LineStyle";
+            // 
             // full
             // 
-            this.full.FillWeight = 207.8574F;
+            this.full.FillWeight = 185.7F;
             this.full.HeaderText = "FullID";
             this.full.Name = "full";
             // 
@@ -387,6 +395,7 @@
         public System.Windows.Forms.ColorDialog m_colorDialog;
         private System.Windows.Forms.DataGridViewCheckBoxColumn view;
         private System.Windows.Forms.DataGridViewImageColumn color;
+        private System.Windows.Forms.DataGridViewImageColumn LineStyle;
         private System.Windows.Forms.DataGridViewTextBoxColumn full;
     }
 }
