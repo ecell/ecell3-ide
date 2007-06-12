@@ -14,6 +14,13 @@ namespace EcellCoreLib {
         m_simulator = new libemc::Simulator();
     }
 
+    WrappedSimulator::WrappedSimulator(String ^ l_dmPath)
+    {
+        m_simulator = new libemc::Simulator();
+        std::string l_dmPathName = (char *)(void *)Marshal::StringToHGlobalAnsi(l_dmPath);
+        libecs::setDMSearchPath(l_dmPathName);
+    }
+
     void WrappedSimulator::CreateEntity(String ^ l_className, String ^ l_fullIDString)
     {
         try
