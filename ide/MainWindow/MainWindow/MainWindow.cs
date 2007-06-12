@@ -39,6 +39,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Threading;
+using System.Reflection;
 using IronPython.Hosting;
 using IronPython.Runtime;
 
@@ -130,6 +131,8 @@ namespace EcellLib.MainWindow
 
             m_pManager = PluginManager.GetPluginManager();
             m_pManager.AddPlugin(this);
+            m_pManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            m_pManager.CopyRight = global::MainWindow.Properties.Resources.CopyrightNotice; ;
 
 
             m_pluginList = new List<string>();
