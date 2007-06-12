@@ -222,11 +222,20 @@ namespace EcellLib
         /// <param name="e">EventArgs</param>
         public void OKVarReference(object sender, EventArgs e)
         {
+            List<String> nameList = new List<string>();
             string refStr = "(";
 
             for (int i = 0; i < this.dgv.RowCount; i++)
             {
                 EcellReference v = new EcellReference();
+                string name = (string)this.dgv[0, i].Value;
+                if (nameList.Contains(name))
+                {
+                    MessageBox.Show(name + " is already exists in this VariableReferenceList.", "ERROR",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                nameList.Add(name);
                 v.name = (string)this.dgv[0, i].Value;
                 v.fullID = (string)this.dgv[1, i].Value;
                 try
@@ -269,11 +278,20 @@ namespace EcellLib
         /// <param name="e">EventArgs</param>
         public void ApplyVarReference(object sender, EventArgs e)
         {
+            List<String> nameList = new List<string>();
             string refStr = "(";
 
             for (int i = 0; i < this.dgv.RowCount; i++)
             {
                 EcellReference v = new EcellReference();
+                string name = (string)this.dgv[0, i].Value;
+                if (nameList.Contains(name))
+                {
+                    MessageBox.Show(name + " is already exists in this VariableReferenceList.", "ERROR",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                nameList.Add(name);
                 v.name = (string)this.dgv[0, i].Value;
                 v.fullID = (string)this.dgv[1, i].Value;
                 try
