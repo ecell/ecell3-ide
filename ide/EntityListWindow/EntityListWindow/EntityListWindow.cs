@@ -515,8 +515,10 @@ namespace EcellLib.EntityListWindow
             {
                 TreeNode node = (TreeNode)nodes.Current;
                 TagData tag = (TagData)node.Tag;
-                if ((node.Text == keydata[0])
-                    || (keydata[0] == "" && node.Text == "/"))
+                String tmpText = node.Text;
+                tmpText = tmpText.Replace("[logged]", "");
+                if ((tmpText == keydata[0])
+                    || (keydata[0] == "" && tmpText == "/"))
                 {
                     if ((keydata.Length == 1 || key == "/") &&
                         (tag.m_type == type || type == null)) 
@@ -1075,7 +1077,20 @@ namespace EcellLib.EntityListWindow
                         string path = names[0];
                         node = GetTargetTreeNode(current, path, null);
 
-                        TreeNode childNode = new TreeNode(names[names.Length - 1]);
+                        bool isLog = false;
+                        foreach (EcellData d in obj.M_value)
+                        {
+                            if (d.M_isLogger)
+                            {
+                                isLog = true;
+                                break;
+                            }
+                        }
+                        TreeNode childNode = null;
+                        if (isLog)
+                            childNode = new TreeNode(names[names.Length - 1] + "[logged]");
+                        else
+                            childNode = new TreeNode(names[names.Length - 1]);
                         childNode.ImageIndex = m_pManager.GetImageIndex(obj.type);
                         childNode.SelectedImageIndex = childNode.ImageIndex;
                         childNode.Tag = new TagData(obj.modelID, obj.key, obj.type);
@@ -1091,7 +1106,20 @@ namespace EcellLib.EntityListWindow
                     {
                         if (obj.key == "/")
                         {
-                            node = new TreeNode(obj.key);
+                            bool isLog = false;
+                            foreach (EcellData d in obj.M_value)
+                            {
+                                if (d.M_isLogger)
+                                {
+                                    isLog = true;
+                                    break;
+                                }
+                            }
+                            if (isLog)
+                                node = new TreeNode(obj.key + "[logged]");
+                            else
+                                node = new TreeNode(obj.key);
+
                             node.ImageIndex = m_pManager.GetImageIndex(obj.type);
                             node.SelectedImageIndex = node.ImageIndex;
                             node.Tag = new TagData(obj.modelID, obj.key, obj.type);
@@ -1131,7 +1159,20 @@ namespace EcellLib.EntityListWindow
 
                             if (target != null)
                             {
-                                node = new TreeNode(elements[elements.Length - 1]);
+                                bool isLog = false;
+                                foreach (EcellData d in obj.M_value)
+                                {
+                                    if (d.M_isLogger)
+                                    {
+                                        isLog = true;
+                                        break;
+                                    }
+                                }
+
+                                if (isLog)
+                                    node = new TreeNode(elements[elements.Length - 1] + "[logged]");
+                                else
+                                    node = new TreeNode(elements[elements.Length - 1]);
                                 node.ImageIndex = m_pManager.GetImageIndex(obj.type);
                                 node.SelectedImageIndex = node.ImageIndex;
                                 node.Tag = new TagData(obj.modelID, obj.key, obj.type);
@@ -1162,7 +1203,22 @@ namespace EcellLib.EntityListWindow
                             }
                             if (isHit == true) continue;
 
-                            TreeNode childNode = new TreeNode(names[names.Length - 1]);
+                            bool isLog = false;
+                            foreach (EcellData d in eo.M_value)
+                            {
+                                if (d.M_isLogger)
+                                {
+                                    isLog = true;
+                                    break;
+                                }
+                            }
+
+                            TreeNode childNode = null;
+                            if (isLog)
+                                childNode = new TreeNode(names[names.Length - 1] + "[logged]");
+                            else
+                                childNode = new TreeNode(names[names.Length - 1]);
+
                             childNode.ImageIndex = m_pManager.GetImageIndex(eo.type);
                             childNode.SelectedImageIndex = childNode.ImageIndex;
                             childNode.Tag = new TagData(eo.modelID, eo.key, eo.type);
@@ -1221,6 +1277,20 @@ namespace EcellLib.EntityListWindow
                 {
                     target.Text = targetText;
                 }
+                bool isLog = false;
+                foreach (EcellData d in data.M_value)
+                {
+                    if (d.M_isLogger)
+                    {
+                        isLog = true;
+                        break;
+                    }
+                }
+                if (isLog)
+                {
+                    target.Text = target.Text + "[logged]";
+                }
+
                 if (key != data.key)
                 {
                     TreeNode change = GetTargetTreeNode(current, path, "System");
