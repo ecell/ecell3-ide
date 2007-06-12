@@ -258,7 +258,11 @@ namespace EcellLib.AboutWindow
         /// <param name="e">EventArgs</param>
         private void AboutMenuClick(object sender, EventArgs e)
         {
+            PluginManager pManager = PluginManager.GetPluginManager();
             AboutForm aboutForm = new AboutForm();
+            Version v = pManager.AppVersion;
+            aboutForm.versionLabel.Text = "version: " + v.ToString();
+            aboutForm.copyLabel.Text = pManager.CopyRight;
             aboutForm.Show();
         }
 
