@@ -70,6 +70,14 @@ namespace EcellLib
         /// s_instance (singleton instance)
         /// </summary>
         private static PluginManager s_instance = null;
+        /// <summary>
+        /// m_version (Application Version Information)
+        /// </summary>
+        private Version m_version;
+        /// <summary>
+        /// CopyRights String.
+        /// </summary>
+        private String m_copyright;
         #endregion
 
         /// <summary>
@@ -92,6 +100,24 @@ namespace EcellLib
             m_imageDict.Add("Variable", 2);
             m_imageDict.Add("Process", 1);
             m_imageDict.Add("Model", 3);
+        }
+
+        /// <summary>
+        /// get/set version of application.
+        /// </summary>
+        public Version AppVersion
+        {
+            get { return this.m_version; }
+            set { this.m_version = value; }
+        }
+
+        /// <summary>
+        /// get/set CopyRights.
+        /// </summary>
+        public String CopyRight
+        {
+            get { return this.m_copyright; }
+            set { this.m_copyright = value; }
         }
 
         /// <summary>
@@ -451,6 +477,10 @@ namespace EcellLib
                 bitmap.Dispose();
             }
         }
+
+
+
+
     }
 
     /// <summary>
