@@ -58,6 +58,7 @@ namespace EcellLib.StaticDebugWindow
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StaticDebugSetupWindow));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.debugResultView = new System.Windows.Forms.DataGridView();
             this.MessageColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -157,6 +158,7 @@ namespace EcellLib.StaticDebugWindow
             // debugButton
             // 
             this.debugButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.debugButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.debugButton.Location = new System.Drawing.Point(99, 3);
             this.debugButton.Name = "debugButton";
             this.debugButton.Size = new System.Drawing.Size(75, 28);
@@ -168,6 +170,7 @@ namespace EcellLib.StaticDebugWindow
             // closeButton
             // 
             this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.closeButton.Location = new System.Drawing.Point(372, 3);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 28);
@@ -204,6 +207,7 @@ namespace EcellLib.StaticDebugWindow
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(552, 529);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StaticDebugSetupWindow";
             this.Text = "StaticDebugSetupWindow";
             this.tableLayoutPanel1.ResumeLayout(false);
