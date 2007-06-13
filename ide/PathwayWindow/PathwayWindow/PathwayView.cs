@@ -689,7 +689,7 @@ namespace EcellLib.PathwayWindow
                         return true;
                     }
                     else
-                        return false;                    
+                        return false;
                 case ComponentType.Process:
                     if (m_keyProCanvasDict.ContainsKey(key))
                     {
@@ -733,7 +733,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="sender">ToolBoxMenuButton.</param>
         /// <param name="e">EventArgs.</param>
         public void ButtonStateChanged(object sender, EventArgs e)
-        {
+        {            
             if (CheckedComponent >= 0)
                 RemoveInputEventListener(m_objectHandlerList[CheckedComponent]);
             else if (CheckedComponent == -1)
@@ -755,6 +755,7 @@ namespace EcellLib.PathwayWindow
                 }
             }
 
+            m_splitCon.Cursor = Cursors.Arrow;
             if (CheckedComponent >= 0)
             {
                 AddInputEventListener(m_objectHandlerList[CheckedComponent]);
@@ -767,6 +768,7 @@ namespace EcellLib.PathwayWindow
             }
             else if (CheckedComponent == -2)
             {
+                m_splitCon.Cursor = Cursors.Hand;
                 AddInputEventListener(m_canvasHandlerList[1]);
                 SetRefreshOverview(true);
             }
@@ -875,7 +877,8 @@ namespace EcellLib.PathwayWindow
             ToolStripButton button0 = new ToolStripButton();
             button0.ImageTransparentColor = System.Drawing.Color.Magenta;
             button0.Name = "SelectMode";
-            button0.Image = new Bitmap(640, 640);
+            button0.Image = Resource1.arrow;
+            /*
             Graphics gra0 = Graphics.FromImage(button0.Image);
             Point[] arrowPoints = new Point[] { new Point(10,10),
                                                new Point(180,500),
@@ -886,8 +889,8 @@ namespace EcellLib.PathwayWindow
                                                new Point(480,200),
                                                new Point(10,10)};
             gra0.FillPolygon(Brushes.White, arrowPoints);
-            gra0.DrawLines(new Pen(Brushes.Black, 48), arrowPoints);
-            button0.Size = new System.Drawing.Size(640, 640);
+            gra0.DrawLines(new Pen(Brushes.Black, 48), arrowPoints);*/
+            //button0.Size = new System.Drawing.Size(640, 640);
             button0.Text = "";
             button0.CheckOnClick = true;
             button0.ToolTipText = "SelectMode";
