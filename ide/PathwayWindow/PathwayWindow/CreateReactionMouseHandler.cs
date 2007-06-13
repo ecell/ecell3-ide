@@ -133,6 +133,17 @@ namespace EcellLib.PathwayWindow
 
                 List<EcellReference> list =
                     EcellReference.ConvertString(d.M_value.ToString());
+
+                // If this process and variable are connected in the same direction, nothing will be done.
+                if (PathUtil.CheckReferenceListContainsEntity(list, variable.Element.Key, coefficient))
+                {
+                    MessageBox.Show("Already connected !",
+                     "Notice",
+                     MessageBoxButtons.OK,
+                     MessageBoxIcon.Exclamation);
+                    return;
+                }
+
                 String refStr = "(";
                 int i = 0;
                 foreach (EcellReference r in list)

@@ -64,6 +64,33 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         /// <summary>
+        /// This method checks whether an EcellReference list contain a key with same coefficient or not.
+        /// </summary>
+        /// <param name="list">list of EcellReference to be checked</param>
+        /// <param name="key">key of Entity</param>
+        /// <param name="coefficient">coefficient of reference</param>
+        /// <returns>true if a list contains a key. false if a list doesn't contain a key</returns>
+        public static bool CheckReferenceListContainsEntity(List<EcellReference> list, string key, int coefficient)
+        {
+            // null check
+            if (null == list || null == key)
+                return false;
+
+            bool contains = false;
+
+            foreach(EcellReference reference in list)
+            {
+                if (reference.fullID.EndsWith(key))
+                {
+                    if (reference.coefficient * coefficient >= 0)
+                        contains = true;
+                }
+            }
+
+            return contains;
+        }
+
+        /// <summary>
         /// Get an environment variable.
         /// If such an variable that has a key doesn't exist, registry will be searched.
         /// </summary>
