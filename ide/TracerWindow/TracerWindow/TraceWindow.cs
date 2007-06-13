@@ -105,6 +105,7 @@ namespace EcellLib.TracerWindow
         /// <param name="fullID">list of ids for saving.</param>
         delegate void SaveSimulationCallback(string dirName, double start, double end,
             string fileType, List<string> fullID);
+        delegate void DeleteEntryCallback(TagData tag);
         #endregion
 
         /// <summary>
@@ -195,6 +196,15 @@ namespace EcellLib.TracerWindow
             c4.Value = tag.M_path;
             r.Cells.Add(c4);
             r.Tag = new TagData(tag.M_modelID, tag.M_key, tag.M_type, tag.M_path);
+
+            ContextMenuStrip contextStrip = new ContextMenuStrip();
+            ToolStripMenuItem it = new ToolStripMenuItem();
+            it.Text = "Delete ";
+            it.ShortcutKeys = Keys.Control | Keys.D;
+            it.Click += new EventHandler(DeleteTraceItem);
+            it.Tag = r;
+            contextStrip.Items.AddRange(new ToolStripItem[] { it });
+            r.ContextMenuStrip = contextStrip;
             dgv.Rows.Add(r);
             c4.ReadOnly = true;
 
@@ -234,6 +244,9 @@ namespace EcellLib.TracerWindow
                 m_tmpPaneDic[tag.M_path].Clear();
                 m_zCnt.GraphPane.CurveList.Remove(m_tmpPaneDic[tag.M_path]);
                 m_tmpPaneDic.Remove(tag.M_path);
+
+                UpdateGraphCallBack dlg = new UpdateGraphCallBack(UpdateGraph);
+                this.Invoke(dlg, new object[] { true });
             }
         }
 
@@ -646,6 +659,70 @@ namespace EcellLib.TracerWindow
             {
                 StateChanged();
             }
+        }
+
+        public void DeleteTraceEntry(TagData tag)
+        {
+            EcellObject m_currentObj = null;
+            DataManager m_dManager = DataManager.GetDataManager();
+
+            string[] keys = tag.M_key.Split(new char[] { ':' });
+            List<EcellObject> list = m_dManager.GetData(tag.M_modelID, keys[0]);
+            if (list == null || list.Count == 0)
+            {
+                MessageBox.Show(
+                "Can't find data in DataManager [" + tag.M_modelID + "," + tag.M_key + "]",
+                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            for (int i = 0; i < list.Count; i++)
+            {
+                List<EcellObject> insList = list[i].M_instances;
+                if (insList == null || insList.Count == 0) continue;
+                for (int j = 0; j < insList.Count; j++)
+                {
+                    if (insList[j].key == tag.M_key && insList[j].type == tag.M_type)
+                    {
+                        m_currentObj = insList[j];
+                        break;
+                    }
+                }
+            }
+
+            if (m_currentObj == null) return;
+
+            EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID,
+                                            m_currentObj.key,
+                                            m_currentObj.type,
+                                            m_currentObj.classname,
+                                            new List<EcellData>());
+
+            foreach (EcellData d in m_currentObj.M_value)
+            {
+                if (d.M_entityPath == tag.M_path)
+                {
+                    d.M_isLogger = false;
+                }
+                obj.M_value.Add(d);
+            }
+
+            m_dManager.DataChanged(m_currentObj.modelID,
+                m_currentObj.key,
+                m_currentObj.type,
+                obj);
+        }
+
+
+        void DeleteTraceItem(object sender, EventArgs e)
+        {
+            DataGridViewRow r = ((ToolStripMenuItem)sender).Tag as DataGridViewRow;
+            if (r == null) return;
+            TagData tag = r.Tag as TagData;
+            if (tag == null) return;
+
+            DeleteEntryCallback f = new DeleteEntryCallback(DeleteTraceEntry);
+            this.Invoke(f, new object[] { tag });
+//            RemoveLoggerEntry(tag);
         }
 
         /// <summary>

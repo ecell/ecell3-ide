@@ -58,6 +58,7 @@ namespace EcellLib.TracerWindow
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LineStyleDialog));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dashDotDotRadioButton = new System.Windows.Forms.RadioButton();
             this.dotRadioButton = new System.Windows.Forms.RadioButton();
@@ -205,6 +206,7 @@ namespace EcellLib.TracerWindow
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(182, 272);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LineStyleDialog";
             this.Text = "Line Style";
             this.groupBox1.ResumeLayout(false);
