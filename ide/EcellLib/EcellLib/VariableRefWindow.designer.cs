@@ -28,18 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableRefWindow));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgv = new System.Windows.Forms.DataGridView();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FullID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Coeff = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isAccessor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FullID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Coeff = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isAccessor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -78,6 +79,29 @@
             this.dgv.RowTemplate.Height = 21;
             this.dgv.Size = new System.Drawing.Size(469, 225);
             this.dgv.TabIndex = 0;
+            // 
+            // name
+            // 
+            this.name.HeaderText = "name";
+            this.name.Name = "name";
+            // 
+            // FullID
+            // 
+            this.FullID.HeaderText = "FullID";
+            this.FullID.Name = "FullID";
+            // 
+            // Coeff
+            // 
+            this.Coeff.HeaderText = "Coefficient";
+            this.Coeff.Name = "Coeff";
+            // 
+            // isAccessor
+            // 
+            this.isAccessor.HeaderText = "Accessor";
+            this.isAccessor.Name = "isAccessor";
+            this.isAccessor.ReadOnly = true;
+            this.isAccessor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.isAccessor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // tableLayoutPanel2
             // 
@@ -149,35 +173,13 @@
             this.button5.Text = "OK";
             this.button5.UseVisualStyleBackColor = true;
             // 
-            // name
-            // 
-            this.name.HeaderText = "name";
-            this.name.Name = "name";
-            // 
-            // FullID
-            // 
-            this.FullID.HeaderText = "FullID";
-            this.FullID.Name = "FullID";
-            // 
-            // Coeff
-            // 
-            this.Coeff.HeaderText = "Coefficient";
-            this.Coeff.Name = "Coeff";
-            // 
-            // isAccessor
-            // 
-            this.isAccessor.HeaderText = "Accessor";
-            this.isAccessor.Name = "isAccessor";
-            this.isAccessor.ReadOnly = true;
-            this.isAccessor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.isAccessor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
             // VariableRefWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(475, 266);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VariableRefWindow";
             this.Text = "VariableRefWindow";
             this.tableLayoutPanel1.ResumeLayout(false);
