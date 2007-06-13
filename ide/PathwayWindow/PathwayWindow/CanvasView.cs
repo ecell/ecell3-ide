@@ -978,7 +978,10 @@ namespace EcellLib.PathwayWindow
                             this.ValidateSystem(eachSys);
                             eachSys.Reset();
                         }
-                        ResetSelectedSystem();
+                        m_systems[m_selectedSystemName].UpdateText();
+                        UpdateResizeHandlePositions();
+                        ResetSelectedObjects();
+                        ClearSurroundState();
 
                         return;
                     }
@@ -1839,8 +1842,8 @@ namespace EcellLib.PathwayWindow
                         if(!isFirst)
                             obj.OffsetBy(-1 * offsetToL.X, -1 * offsetToL.Y);
                         system.AddChild(obj);
-                        if (obj is PPathwayNode)
-                            ((PPathwayNode)obj).ParentObject = system;
+                        if (obj is PPathwayObject)
+                            ((PPathwayObject)obj).ParentObject = system;
                     }
                 }
             }
