@@ -600,7 +600,7 @@ namespace EcellLib.PathwayWindow
             // Preparing system handlers
             for (int m = 0; m < 8; m++)
             {
-                PPath handle = new PPath();
+                ResizeHandle handle = new ResizeHandle();
                 handle.Brush = Brushes.DarkOrange;
                 handle.Pen = new Pen(Brushes.DarkOliveGreen, 1);
 
@@ -1074,8 +1074,9 @@ namespace EcellLib.PathwayWindow
             float Y = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth - sysEle.HalfThickness;
             float width = m_lowerRightPoint.X - X;
             float height = m_lowerRightPoint.Y - Y;
-            if(width > PEcellSystem.MIN_X_LENGTH && height > PEcellSystem.MIN_Y_LENGTH)
+            if (width > PEcellSystem.MIN_X_LENGTH && height > PEcellSystem.MIN_Y_LENGTH)
             {
+                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.X = X;
                 sysEle.Y = Y;
                 sysEle.Width = width;
@@ -1094,6 +1095,11 @@ namespace EcellLib.PathwayWindow
                     system.Reset();
                 }
                 UpdateResizeHandlePositions(e.PickedNode);
+            }
+            else
+            {
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
             }
         }
 
@@ -1114,6 +1120,7 @@ namespace EcellLib.PathwayWindow
 
             if (height > PEcellSystem.MIN_Y_LENGTH)
             {
+                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.Y = Y;
                 sysEle.Height = height;
                 m_systems[m_selectedSystemName].UpdateText();
@@ -1126,6 +1133,10 @@ namespace EcellLib.PathwayWindow
                     system.Reset();
                 }
                 UpdateResizeHandlePositions(e.PickedNode);
+            }
+            else
+            {
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
             }
         }
 
@@ -1148,6 +1159,7 @@ namespace EcellLib.PathwayWindow
 
             if (width > PEcellSystem.MIN_X_LENGTH && height > PEcellSystem.MIN_Y_LENGTH)
             {
+                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.Y = Y;
                 sysEle.Width = width;
                 sysEle.Height = height;
@@ -1162,6 +1174,11 @@ namespace EcellLib.PathwayWindow
                     system.Reset();
                 }
                 UpdateResizeHandlePositions(e.PickedNode);
+            }
+            else
+            {
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
             }
         }
 
@@ -1181,6 +1198,7 @@ namespace EcellLib.PathwayWindow
                               - sysEle.X - m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer.X;
             if (width > PEcellSystem.MIN_X_LENGTH)
             {
+                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.Width = width;
                 m_systems[m_selectedSystemName].UpdateText();
                 foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
@@ -1190,6 +1208,10 @@ namespace EcellLib.PathwayWindow
                     system.Reset();
                 }
                 UpdateResizeHandlePositions(e.PickedNode);
+            }
+            else
+            {
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
             }
         }
 
@@ -1212,6 +1234,7 @@ namespace EcellLib.PathwayWindow
 
             if (width > PEcellSystem.MIN_X_LENGTH && height > PEcellSystem.MIN_Y_LENGTH)
             {
+                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.Width = width;
                 sysEle.Height = height;
                 m_systems[m_selectedSystemName].UpdateText();
@@ -1224,6 +1247,11 @@ namespace EcellLib.PathwayWindow
                     system.Reset();
                 }
                 UpdateResizeHandlePositions(e.PickedNode);
+            }
+            else
+            {
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
             }
         }
 
@@ -1244,6 +1272,7 @@ namespace EcellLib.PathwayWindow
 
             if (height > PEcellSystem.MIN_Y_LENGTH)
             {
+                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.Height = height;
                 m_systems[m_selectedSystemName].UpdateText();
 
@@ -1254,6 +1283,10 @@ namespace EcellLib.PathwayWindow
                     system.Reset();
                 }
                 UpdateResizeHandlePositions(e.PickedNode);
+            }
+            else
+            {
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
             }
         }
 
@@ -1276,6 +1309,7 @@ namespace EcellLib.PathwayWindow
 
             if (width > PEcellSystem.MIN_X_LENGTH && height > PEcellSystem.MIN_Y_LENGTH)
             {
+                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.X = X;
                 sysEle.Width = width;
                 sysEle.Height = height;
@@ -1290,6 +1324,11 @@ namespace EcellLib.PathwayWindow
                     system.Reset();
                 }
                 UpdateResizeHandlePositions(e.PickedNode);
+            }
+            else
+            {
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
             }
         }
 
@@ -1310,6 +1349,7 @@ namespace EcellLib.PathwayWindow
 
             if (width > PEcellSystem.MIN_X_LENGTH)
             {
+                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.X = X;
                 sysEle.Width = width;
                 m_systems[m_selectedSystemName].UpdateText();
@@ -1322,6 +1362,10 @@ namespace EcellLib.PathwayWindow
                     system.Reset();
                 }
                 UpdateResizeHandlePositions(e.PickedNode);
+            }
+            else
+            {
+                ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
             }
         }
 

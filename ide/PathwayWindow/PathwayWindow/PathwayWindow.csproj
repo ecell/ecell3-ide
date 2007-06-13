@@ -118,6 +118,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
+    <Compile Include="UIComponent\ResizeHandle.cs" />
     <Compile Include="UIComponent\ShowBtnDownward.cs" />
     <Compile Include="UIComponent\ShowBtnUpward.cs" />
     <Compile Include="Element\SystemElement.cs" />
