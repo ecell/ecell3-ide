@@ -46,6 +46,8 @@ using EcellLib.PathwayWindow.Node;
 using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Element;
 using EcellLib.PathwayWindow.Handler;
+using PathwayWindow;
+using PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow
 {
@@ -97,6 +99,49 @@ namespace EcellLib.PathwayWindow
         /// Name of DataColumn for indicating layer names (string)
         /// </summary>
         private static readonly string COLUMN_NAME4NAME = "Name";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for delete
+        /// </summary>
+        public static readonly string CANVAS_MENU_DELETE = "delete";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator1
+        /// </summary>
+        public static readonly string CANVAS_MENU_SEPARATOR1 = "separator1";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator2
+        /// </summary>
+        public static readonly string CANVAS_MENU_SEPARATOR2 = "separator2";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for rightArrow
+        /// </summary>
+        public static readonly string CANVAS_MENU_RIGHT_ARROW = "rightArrow";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for leftArrow
+        /// </summary>
+        public static readonly string CANVAS_MENU_LEFT_ARROW = "leftArrow";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for constantLine
+        /// </summary>
+        public static readonly string CANVAS_MENU_CONSTANT_LINE = "constantLine";
+
+        /// <summary>
+        /// ToolStripItem.Name for process -> variable
+        /// </summary>
+        public static readonly string NAME_FOR_PTOV = "ptov";
+        /// <summary>
+        /// ToolStripItem.Name for variable -> process
+        /// </summary>
+        public static readonly string NAME_FOR_VTOP = "vtop";
+        /// <summary>
+        /// ToolStripItem.Name for no direction
+        /// </summary>
+        public static readonly string NAME_FOR_NODIR = "nodir";
         #endregion
 
         #region Fields
@@ -191,6 +236,11 @@ namespace EcellLib.PathwayWindow
         /// List of PPathwayNode for selected object.
         /// </summary>
         List<PPathwayNode> m_selectedNodes = new List<PPathwayNode>();
+
+        /// <summary>
+        /// selected line
+        /// </summary>
+        Line m_selectedLine = null;
 
         /// <summary>
         /// List of ToolStripMenuItems for ContextMenu
@@ -511,14 +561,40 @@ namespace EcellLib.PathwayWindow
                 count++;
             }
 
-            ToolStripSeparator separator = new ToolStripSeparator();
-            m_nodeMenu.Items.Add(separator);
-            m_cMenuDict.Add("separator", separator);
+            ToolStripSeparator separator1 = new ToolStripSeparator();
+            m_nodeMenu.Items.Add(separator1);
+            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR1, separator1);
+
+            ToolStripItem rightArrow = new ToolStripMenuItem("Process -> Variable", Resource1.arrow_long_right_w);
+            rightArrow.Tag = 1;
+            rightArrow.Name = NAME_FOR_PTOV;
+            rightArrow.Click += new EventHandler(ChangeLineClick);
+            m_nodeMenu.Items.Add(rightArrow);
+            m_cMenuDict.Add( CANVAS_MENU_RIGHT_ARROW, rightArrow);
+
+            ToolStripItem leftArrow = new ToolStripMenuItem("Process <- Variable", Resource1.arrow_long_left_w);
+            leftArrow.Tag = -1;
+            leftArrow.Name = NAME_FOR_VTOP;
+            leftArrow.Click += new EventHandler(ChangeLineClick);
+            m_nodeMenu.Items.Add(leftArrow);
+            m_cMenuDict.Add( CANVAS_MENU_LEFT_ARROW, leftArrow);
+
+            ToolStripItem constant = new ToolStripMenuItem("Constant", Resource1.ten);
+            constant.Tag = 0;
+            constant.Name = NAME_FOR_NODIR;
+            constant.Click += new EventHandler(ChangeLineClick);
+            m_nodeMenu.Items.Add(constant);
+            m_cMenuDict.Add(CANVAS_MENU_CONSTANT_LINE, constant);
+
+            ToolStripSeparator separator2 = new ToolStripSeparator();
+            m_nodeMenu.Items.Add(separator2);
+            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR2, separator2);
 
             ToolStripItem delete = new ToolStripMenuItem("Delete");
             delete.Click += new EventHandler(DeleteClick);
             m_nodeMenu.Items.Add(delete);
-            m_cMenuDict.Add("delete", delete);
+            m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
+
             m_pathwayCanvas.ContextMenuStrip = m_nodeMenu;
 
             // Preparing system handlers
@@ -615,6 +691,47 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Called when a change line menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ChangeLineClick(object sender, EventArgs e)
+        {
+            if (sender is ToolStripItem)
+            {
+                ToolStripItem item = (ToolStripItem)sender;
+
+                EdgeInfo edgeInfo = ((Line)item.Tag).Info;
+
+                EcellLib.PathwayWindow.PathwayWindow.ChangeType changeType
+                    = PathwayWindow.ChangeType.Coefficient;
+                int coefficient = 0;
+
+                if(item.Name == NAME_FOR_PTOV)
+                {
+                    changeType = PathwayWindow.ChangeType.Coefficient;
+                    coefficient = 1;
+                }
+                else if (item.Name == NAME_FOR_VTOP)
+                {
+                    changeType = PathwayWindow.ChangeType.Coefficient;
+                    coefficient = -1;
+                }
+                else
+                {
+                    changeType = PathwayWindow.ChangeType.Coefficient;
+                    coefficient = 0;
+                }
+
+                m_pathwayView.NotifyVariableReferenceChanged(
+                    edgeInfo.ProcessKey,
+                    edgeInfo.VariableKey,
+                    changeType,
+                    coefficient);
+            }
+        }
+
+        /// <summary>
         /// Called when a delete menu of the context menu is clicked.
         /// </summary>
         /// <param name="sender"></param>
@@ -631,7 +748,7 @@ namespace EcellLib.PathwayWindow
                 return;
 
             //PPathwayObject obj = (PPathwayObject)m_nodeMenu.Tag;
-            PPathwayObject obj = (PPathwayObject)((ToolStripItem)sender).Tag;
+            Object obj = ((ToolStripItem)sender).Tag;
             if(obj is PPathwayNode)
             {
                 PPathwayNode deleteNode = (PPathwayNode)obj;
@@ -643,8 +760,8 @@ namespace EcellLib.PathwayWindow
                 {
                     m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Process);
                 }
-                if (obj.Parent != null)
-                    obj.Parent.RemoveChild(obj);
+                if (((PPathwayObject)obj).Parent != null)
+                    ((PPathwayObject)obj).Parent.RemoveChild((PPathwayObject)obj);
             }
             else if(obj is PEcellSystem)
             {
@@ -669,11 +786,19 @@ namespace EcellLib.PathwayWindow
                 }
 
                 m_pathwayView.NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System);
-                if(obj.IsHighLighted)
+                if (((PPathwayObject)obj).IsHighLighted)
                 {
                     HideResizeHandles();
                     m_selectedSystemName = null;
                 }
+            }
+            else if(obj is Line)
+            {
+                m_pathwayView.NotifyVariableReferenceChanged(
+                    ((Line)obj).Info.ProcessKey,
+                    ((Line)obj).Info.VariableKey,
+                    PathwayWindow.ChangeType.Delete,
+                    0);
             }
             ((ToolStripMenuItem)sender).Tag = null;
         }
@@ -2057,6 +2182,16 @@ namespace EcellLib.PathwayWindow
             m_pathwayView.NotifySelectChanged(systemName, type);
         }
 
+        public void AddSelectedLine(Line line)
+        {
+            if( null != m_selectedLine )
+            {
+                m_selectedLine.unhighlight();
+            }
+            line.highlight();
+            m_selectedLine = line;
+        }
+
         /// <summary>
         /// Get a key list of systems under a given system.
         /// </summary>
@@ -2501,6 +2636,16 @@ namespace EcellLib.PathwayWindow
             }
         }
 
+        public void ResetSelectedLine()
+        {
+            if( null != m_selectedLine )
+            {
+                m_selectedLine.unhighlight();                
+            }
+
+            m_selectedLine = null;
+        }
+
         /// <summary>
         /// reset the selected object(system and node).
         /// </summary>
@@ -2508,6 +2653,7 @@ namespace EcellLib.PathwayWindow
         {
             ResetSelectedSystem();
             ResetSelectedNodes();
+            ResetSelectedLine();
         }
 
         /// <summary>

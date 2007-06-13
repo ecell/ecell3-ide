@@ -64,6 +64,11 @@ namespace EcellLib.PathwayWindow
 {
     public class PathwayWindow : PluginBase
     {
+        /// <summary>
+        /// Type of change to one reference of VariableReference
+        /// </summary>
+        public enum ChangeType { Coefficient, Delete };
+
         #region Static fields
         /// <summary>
         /// The name of default layout algorithm
@@ -483,6 +488,69 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Inform the changing of EcellObject in PathwayEditor to DataManager.
+        /// </summary>
+        /// <param name="proKey"></param>
+        /// <param name="varKey"></param>
+        /// <param name="coefficient"></param>
+        public void NotifyVariableReferenceChanged(string proKey, string varKey, ChangeType changeType, int coefficient)
+        {
+            DataManager dm = DataManager.GetDataManager();
+
+            List<EcellObject> list = dm.GetData(m_modelId, PathUtil.GetParentSystemId(proKey));
+
+            EcellObject toBeChanged = null;
+            foreach(EcellObject system in list)
+            {
+                if (system.M_instances == null)
+                    continue;
+
+                foreach(EcellObject obj in system.M_instances)
+                {
+                    if (obj.key.Equals(proKey) && obj.type.Equals(PathwayView.PROCESS_STRING))
+                    {
+                        toBeChanged = obj;
+                        break;
+                    }
+                }
+            }
+
+            if (null == toBeChanged)
+                return;
+            
+            foreach(EcellData data in toBeChanged.M_value)
+            {
+                if(data.M_name == "VariableReferenceList")
+                {
+                    List<EcellReference> refList = EcellReference.ConvertString(data.M_value.ToString());
+                    List<EcellReference> newList = new List<EcellReference>();
+                    int i = 0;
+                    foreach (EcellReference v in refList)
+                    {
+                        if (v.fullID.EndsWith(varKey))
+                        {
+                            if (changeType == ChangeType.Delete)
+                                continue;
+                            v.coefficient = coefficient;
+                        }
+                        newList.Add(v);
+                    }
+
+                    string refStr = "(";
+                    foreach (EcellReference v in newList)
+                    {
+                        if (i == 0) refStr = refStr + v.ToString();
+                        else refStr = refStr + ", " + v.ToString();
+                    }
+                    refStr = refStr + ")";
+                    data.M_value = EcellValue.ToVariableReferenceList( refStr );
+                }
+            }
+            
+            dm.DataChanged(m_modelId, proKey, PathwayView.PROCESS_STRING, toBeChanged);
+        }
+
+        /// <summary>
         /// Inform the deleting of EcellObject in PathwayEditor to DataManager.
         /// </summary>
         /// <param name="key"></param>
@@ -561,26 +629,11 @@ namespace EcellLib.PathwayWindow
                 layoutMenu.DropDownItems.Add(eachLayoutItem);
                 count += 1;
             }
-            /*
-            ToolStripMenuItem debugMenu = new ToolStripMenuItem();
-            debugMenu.Text = "debug";
 
-            ToolStripMenuItem myDebugItem = new ToolStripMenuItem();
-            myDebugItem.Text = "my debug";
-            myDebugItem.Click += new EventHandler(debugItem_Click);
-            debugMenu.DropDownItems.Add(myDebugItem);
-
-            list.Add(debugMenu);
-            */
             list.Add(layoutMenu);
 
             return list;
         }
-        /*
-        void debugItem_Click(object sender, EventArgs e)
-        {
-            int x = 10;
-        }*/
 
         public void eachLayoutItem_Click(object sender, EventArgs e)
         {
@@ -1297,6 +1350,14 @@ namespace EcellLib.PathwayWindow
                         else if (node.type.Equals(PathwayView.PROCESS_STRING))
                         {
                             ProcessElement proElement = new ProcessElement();
+                            
+                            proElement.CanvasID = m_defCanvasId;
+                            proElement.LayerID = m_defLayerId;
+                            proElement.ModelID = node.modelID;
+                            proElement.Key = node.key;
+                            proElement.Type = node.type;
+                            proElement.CsId = m_view.ComponentSettingsManager.DefaultProcessSetting.Name;
+
                             foreach (EcellData ed in node.M_value)
                             {
                                 if (ed.M_name.Equals("VariableReferenceList"))
@@ -1304,13 +1365,6 @@ namespace EcellLib.PathwayWindow
                                     proElement.SetEdgesByStr(ed.M_value.ToString());
                                 }
                             }
-
-                            proElement.CanvasID = m_defCanvasId;
-                            proElement.LayerID = m_defLayerId;
-                            proElement.ModelID = node.modelID;
-                            proElement.Key = node.key;
-                            proElement.Type = node.type;
-                            proElement.CsId = m_view.ComponentSettingsManager.DefaultProcessSetting.Name;
 
                             pathElements.Add(proElement);
                         }

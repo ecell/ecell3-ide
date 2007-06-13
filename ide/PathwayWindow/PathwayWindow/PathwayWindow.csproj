@@ -89,6 +89,7 @@
     <Compile Include="NoSuchComponentClassException.cs" />
     <Compile Include="NoSuchComponentKindException.cs" />
     <Compile Include="PathwayException.cs" />
+    <Compile Include="UIComponent\Line.cs" />
     <Compile Include="UIComponent\OverviewCanvas.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -131,10 +132,13 @@
     <EmbeddedResource Include="Resources\hand.gif" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\arrow_long_left_w.gif" />
     <Content Include="Resources\arrow_long_right_w.gif" />
+    <None Include="Resources\arrow_long_right_w1.gif" />
     <Content Include="Resources\ten.GIF" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram2.cd" />
     <None Include="pathwaywindow.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

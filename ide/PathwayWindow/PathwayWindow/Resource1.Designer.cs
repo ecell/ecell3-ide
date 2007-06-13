@@ -60,6 +60,13 @@ namespace PathwayWindow {
             }
         }
         
+        internal static System.Drawing.Bitmap arrow_long_left_w {
+            get {
+                object obj = ResourceManager.GetObject("arrow_long_left_w", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap arrow_long_right_w {
             get {
                 object obj = ResourceManager.GetObject("arrow_long_right_w", resourceCulture);

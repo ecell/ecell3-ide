@@ -70,6 +70,11 @@ namespace EcellLib.PathwayWindow.Node
         /// system have this node.
         /// </summary>
         protected PEcellSystem m_system;
+
+        /// <summary>
+        /// handler for line
+        /// </summary>
+        protected PInputEventHandler m_handler4Line;
         #endregion
 
         #region Accessors
@@ -96,6 +101,12 @@ namespace EcellLib.PathwayWindow.Node
 
                 return returnP;
             }
+        }
+
+        public PInputEventHandler Handler4Line
+        {
+            get { return this.m_handler4Line; }
+            set { this.m_handler4Line = value; }
         }
         
         /// <summary>

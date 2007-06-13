@@ -36,6 +36,9 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Event;
+using EcellLib.PathwayWindow.Node;
+using PathwayWindow.UIComponent;
+using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -55,19 +58,59 @@ namespace EcellLib.PathwayWindow.UIComponent
                 return;
             if (e.Button == MouseButtons.Right)
             {
-                if (m_cview.NodeMenu.Tag != null)
+                if (m_cview.NodeMenu.Tag == null)
                 {
-                    m_cview.ContextMenuDict["delete"].Visible = true;
-                    m_cview.ContextMenuDict["separator"].Visible = true;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR1 ].Visible = false;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_RIGHT_ARROW ].Visible = false;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_LEFT_ARROW ].Visible = false;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_CONSTANT_LINE ].Visible = false;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR2 ].Visible = false;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_DELETE ].Visible = false;                    
                 }
-                else
+                else if(m_cview.NodeMenu.Tag is PPathwayNode)
                 {
-                    m_cview.ContextMenuDict["delete"].Visible = false;
-                    m_cview.ContextMenuDict["separator"].Visible = false;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR1 ].Visible = false;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_RIGHT_ARROW ].Visible = false;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_LEFT_ARROW ].Visible = false;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_CONSTANT_LINE ].Visible = false;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR2 ].Visible = true;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_DELETE ].Visible = true;                    
                 }
-            
+                else if(m_cview.NodeMenu.Tag is Line)
+                {
+                    EdgeInfo info = ((Line)m_cview.NodeMenu.Tag).Info;                    
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR1 ].Visible = true;
+                    if (info.Direction != EdgeDirection.Outward && info.Direction != EdgeDirection.Bidirection)
+                    {
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Visible = true;
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Tag = m_cview.NodeMenu.Tag;
+                    }
+                    else
+                    {
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Visible = false;
+                    }
+                    if (info.Direction != EdgeDirection.Inward && info.Direction != EdgeDirection.Bidirection)
+                    {
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = true;
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Tag = m_cview.NodeMenu.Tag;
+                    }
+                    else
+                    {
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = false;
+                    }
+                    if (info.Direction != EdgeDirection.None && info.Direction != EdgeDirection.Bidirection)
+                    {
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Visible = true;
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Tag = m_cview.NodeMenu.Tag;
+                    }
+                    else
+                    {
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Visible = false;
+                    }
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR2 ].Visible = true;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_DELETE ].Visible = true;                    
+                }
             }
-            
         }
     }
 }

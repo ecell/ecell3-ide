@@ -172,7 +172,7 @@ namespace EcellLib.PathwayWindow.Element
                     }
                     else
                     {
-                        EdgeInfo edgeInfo = new EdgeInfo(key);
+                        EdgeInfo edgeInfo = new EdgeInfo(this.m_key, key);
                         edgeInfo.AddRelation(name,direction,type,isAccessor);
                         edgeInfos.Add(key, edgeInfo);
                     }
@@ -195,10 +195,16 @@ namespace EcellLib.PathwayWindow.Element
     public class EdgeInfo
     {
         #region Fields
+
+        /// <summary>
+        /// Key of a process, an owner of this edge.
+        /// </summary>
+        protected string m_proKey;
+
         /// <summary>
         /// Key of a variable with which a process has an edge.
         /// </summary>
-        protected string m_key;
+        protected string m_varKey;
 
         /// <summary>
         /// Direction of this edge.
@@ -221,20 +227,29 @@ namespace EcellLib.PathwayWindow.Element
         /// The constructor
         /// </summary>
         /// <param name="key"></param>
-        public EdgeInfo(string key)
+        public EdgeInfo(string proKey, string varKey)
         {
-            m_key = key;
+            m_proKey = proKey;
+            m_varKey = varKey;
         }
         #endregion
 
         #region Accessors
         /// <summary>
-        /// Accessor for m_key.
+        /// Accessor for m_varkey.
         /// </summary>
-        public string Key
+        public string VariableKey
         {
-            get { return m_key; }
-            set { m_key = value; }
+            get { return m_varKey; }
+            set { m_varKey = value; }
+        }
+        /// <summary>
+        /// Accessor for m_varkey.
+        /// </summary>
+        public string ProcessKey
+        {
+            get { return m_proKey; }
+            set { m_proKey = value; }
         }
         /// <summary>
         /// Accessor for m_direction.

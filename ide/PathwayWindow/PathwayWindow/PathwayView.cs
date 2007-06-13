@@ -47,6 +47,7 @@ using EcellLib.PathwayWindow.Node;
 using EcellLib.PathwayWindow.Element;
 using EllLib.PathwayWindow;
 using PathwayWindow;
+using PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow
 {
@@ -1259,6 +1260,17 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Inform the changing of EcellObject in PathwayEditor to DataManager.
+        /// </summary>
+        /// <param name="proKey"></param>
+        /// <param name="varKey"></param>
+        /// <param name="coefficient"></param>
+        public void NotifyVariableReferenceChanged(string proKey, string varKey, EcellLib.PathwayWindow.PathwayWindow.ChangeType changeType, int coefficient)
+        {
+            m_pathwayWindow.NotifyVariableReferenceChanged( proKey, varKey, changeType, coefficient );
+        }
+
+        /// <summary>
         /// Notify DataDelete event to outsite.
         /// </summary>
         /// <param name="key">the key of deleted object.</param>
@@ -1619,8 +1631,9 @@ namespace EcellLib.PathwayWindow
                     foreach (VariableElement varEle in variableElements[set.CanvasID])
                     {
                         PPathwayNode pnode = this.CreateVariable(varEle);
-                        pnode.MouseDown += new PInputEventHandler(NodeSelected);
+                        pnode.MouseDown += new PInputEventHandler(NodeSelected);                        
                         pnode.CanvasView = set;
+
                         if (pnode == null)
                             continue;
                         set.AddChildToSelectedLayer(varEle.LayerID, varEle.ParentSystemID, pnode);
@@ -1634,6 +1647,7 @@ namespace EcellLib.PathwayWindow
                         pnode = this.CreateProcess(nodeEle);
 
                         pnode.MouseDown += new PInputEventHandler(NodeSelected);
+                        pnode.Handler4Line = new PInputEventHandler(LineSelected);
                         pnode.CanvasView = set;
 
                         if (pnode == null)
@@ -1888,6 +1902,27 @@ namespace EcellLib.PathwayWindow
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Called when a line is selected on the PathwayWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void LineSelected(object sender, PInputEventArgs e)
+        {
+            if (!(e.PickedNode is Line))
+                return;
+
+            Line line = (Line)e.PickedNode;
+
+            if (e.Button == MouseButtons.Right)
+            {
+                this.CanvasDictionary[e.Canvas.Name].NodeMenu.Tag = e.PickedNode;
+            }
+
+            this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
+            this.CanvasDictionary[e.Canvas.Name].AddSelectedLine(line);
         }
 
         public void NodeMoved(object sender, PInputEventArgs e)

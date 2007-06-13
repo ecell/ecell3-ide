@@ -38,6 +38,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
 using EcellLib.PathwayWindow.Element;
+using PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow.Node
 {
@@ -205,25 +206,30 @@ namespace EcellLib.PathwayWindow.Node
                     ProcessElement proEle = (ProcessElement)base.m_nodeElement;
                     foreach (EdgeInfo edge in proEle.Edges.Values)
                     {
-                        if (base.m_set.Variables.ContainsKey(edge.Key))
+                        if (base.m_set.Variables.ContainsKey(edge.VariableKey))
                         {
-                            PEcellVariable var = base.m_set.Variables[edge.Key];
-                            PPath path = new PPath();
+                            PEcellVariable var = base.m_set.Variables[edge.VariableKey];
+                            PPath path = new Line(edge);
+                            
+                            path.MouseDown += this.m_handler4Line;
                             path.Brush = Brushes.Black;
                             PointF endPos = var.GetContactPoint(base.CenterPointToCanvas);
                             PointF startPos = base.GetContactPoint(endPos);
 
                             if (base.ParentObject is PEcellSystem)
                             {
+                                startPos = ((PEcellSystem)base.ParentObject).CanvasPos2SystemPos(startPos);
                                 endPos = ((PEcellSystem)base.ParentObject).CanvasPos2SystemPos(endPos);
                             }
 
                             switch (edge.TypeOfLine)
                             {
                                 case LineType.Solid:
+                                    path.Pen = new Pen(Brushes.Black, 2);
                                     path.AddLine(startPos.X, startPos.Y, endPos.X, endPos.Y);
                                     break;
                                 case LineType.Dashed:
+                                    path.Pen = new Pen(Brushes.Black, 3);
                                     this.AddDashedLine(path, startPos.X, startPos.Y, endPos.X, endPos.Y);
                                     break;
                                 case LineType.Unknown:
@@ -247,7 +253,7 @@ namespace EcellLib.PathwayWindow.Node
                                     break;
                             }
 
-                            path.Pickable = false;
+                            path.Pickable = true;
                             this.ParentObject.AddChild(path);
                             this.NotifyAddRelatedVariable(var, path);
                             var.NotifyAddRelatedProcess(this);
@@ -270,9 +276,9 @@ namespace EcellLib.PathwayWindow.Node
                 ProcessElement proEle = (ProcessElement)base.m_nodeElement;
                 foreach (EdgeInfo edge in proEle.Edges.Values)
                 {
-                    if (base.m_set.Variables.ContainsKey(edge.Key))
+                    if (base.m_set.Variables.ContainsKey(edge.VariableKey))
                     {
-                        PEcellVariable var = base.m_set.Variables[edge.Key];
+                        PEcellVariable var = base.m_set.Variables[edge.VariableKey];
                         PointF baseCenter = base.CenterPointToCanvas;
                         PointF endPos = var.GetContactPoint(baseCenter);
 
@@ -291,13 +297,15 @@ namespace EcellLib.PathwayWindow.Node
                                 path.Parent.RemoveChild(path);
                                 base.ParentObject.AddChild(path);
                                 path.Reset();
-
+                                
                                 switch (edge.TypeOfLine)
                                 {
                                     case LineType.Solid:
+                                        path.Pen = new Pen(Brushes.Black, 2);
                                         path.AddLine(startPos.X, startPos.Y, endPos.X, endPos.Y);
                                         break;
                                     case LineType.Dashed:
+                                        path.Pen = new Pen(Brushes.Black, 3);
                                         this.AddDashedLine(path, startPos.X, startPos.Y, endPos.X, endPos.Y);
                                         break;
                                     case LineType.Unknown:
@@ -378,7 +386,7 @@ namespace EcellLib.PathwayWindow.Node
             ProcessElement proEle = (ProcessElement)base.m_nodeElement;
             foreach (EdgeInfo edge in proEle.Edges.Values)
             {
-                if (!base.m_set.Variables.ContainsKey(edge.Key))
+                if (!base.m_set.Variables.ContainsKey(edge.VariableKey))
                     isAllExist = false;
             }
 
