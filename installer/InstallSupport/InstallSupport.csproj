@@ -14,6 +14,9 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>$(ECELL_STAGING_HOME)\bin;$(REFPATH)</ReferencePath>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -30,8 +33,13 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7d5574583093e55f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\EcellLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
@@ -53,6 +61,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\bin</PostBuildEvent>
+    <PostBuildEvent>IF NOT EXIST "$(ECELL_STAGING_HOME)\lib" MKDIR "$(ECELL_STAGING_HOME)\lib"
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\lib"</PostBuildEvent>
   </PropertyGroup>
 </Project>

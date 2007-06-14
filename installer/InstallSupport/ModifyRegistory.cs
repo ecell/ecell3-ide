@@ -6,6 +6,7 @@ using System.Configuration.Install;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using EcellLib;
 
 namespace InstallSupport
 {
@@ -75,6 +76,32 @@ namespace InstallSupport
             l_regkey.Close();
         }
 
+        private void CleanRegistoryECELLIDEPath()
+        {
+            string[] l_subKeyNames = Registry.Users.GetSubKeyNames();
+            foreach (string l_subKeyName in l_subKeyNames)
+            {
+                RegistryKey l_regkey = Registry.Users.CreateSubKey(l_subKeyName);
+                if (l_regkey != null)
+                {
+                    try
+                    {
+                        l_regkey.DeleteSubKey(EcellLib.Util.s_registrySWKey);
+                        RegistryKey l_regSubkey = Registry.Users.CreateSubKey(l_subKeyName + "\\" + EcellLib.Util.s_registrySW2Key);
+                        MessageBox.Show(l_regSubkey.Name + ": " + l_regSubkey.GetSubKeyNames().Length);
+                        l_regSubkey.Close();
+                    }
+                    catch (ArgumentException)
+                    {
+                    }
+                    finally
+                    {
+                        l_regkey.Close();
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Cleans the "Path" environment.
         /// </summary>
@@ -115,6 +142,7 @@ namespace InstallSupport
             try
             {
                 base.Install(stateSaver);
+                /*
                 string addedPath = this.Context.Parameters[s_addedPathKey];
                 if (addedPath.IndexOf(s_delimKey) < 0)
                 {
@@ -128,6 +156,7 @@ namespace InstallSupport
                         this.AddRegistoryEnvironmentPath(addedPaths[i]);
                     }
                 }
+                 */
             }
             catch (Exception ex)
             {
@@ -144,6 +173,8 @@ namespace InstallSupport
             try
             {
                 base.Uninstall(savedState);
+                //this.CleanRegistoryECELLIDEPath();
+                /*
                 string cleanedPath = this.Context.Parameters[s_cleanedPathKey];
                 if (cleanedPath.IndexOf(s_delimKey) < 0)
                 {
@@ -157,6 +188,7 @@ namespace InstallSupport
                         this.CleanRegistoryEnvironmentPath(cleanedPaths[i]);
                     }
                 }
+                 */
             }
             catch (Exception ex)
             {
