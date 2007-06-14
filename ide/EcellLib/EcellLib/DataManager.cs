@@ -2067,17 +2067,19 @@ namespace EcellLib
                 l_ecellData.M_isGettable = l_flag[WrappedSimulator.s_flagGettable];
                 l_ecellData.M_isLoadable = l_flag[WrappedSimulator.s_flagLoadable];
                 l_ecellData.M_isSavable = l_flag[WrappedSimulator.s_flagSavable];
-                if (l_value != null)
+                if (l_ecellData.M_value != null)
                 {
-                    if (l_initialCondition != null && l_ecellData.M_isSettable)
+                    if (l_ecellData.M_value.IsDouble())
                     {
-                        if (l_ecellData.M_value.IsDouble())
+                        l_ecellData.M_isLogable = true;
+                        if (l_initialCondition != null && l_ecellData.M_isSettable)
                         {
-                            l_ecellData.M_isLogable = true;
                             l_initialCondition[l_ecellData.M_entityPath] = l_ecellData.M_value.CastToDouble();
                         }
-                        // else if (l_ecellData.M_value.IsInt() && !l_ecellData.M_name.StartsWith("Is"))
-                        else if (l_ecellData.M_value.IsInt())
+                    }
+                    else if (l_ecellData.M_value.IsInt())
+                    {
+                        if (l_initialCondition != null && l_ecellData.M_isSettable)
                         {
                             l_initialCondition[l_ecellData.M_entityPath] = l_ecellData.M_value.CastToInt();
                         }
@@ -2343,17 +2345,19 @@ namespace EcellLib
                 l_ecellData.M_isGettable = l_flag[WrappedSimulator.s_flagGettable];
                 l_ecellData.M_isLoadable = l_flag[WrappedSimulator.s_flagLoadable];
                 l_ecellData.M_isSavable = l_flag[WrappedSimulator.s_flagSavable];
-                if (l_value != null)
+                if (l_ecellData.M_value != null)
                 {
-                    if (l_initialCondition != null && l_ecellData.M_isSettable)
+                    if (l_ecellData.M_value.IsDouble())
                     {
-                        if (l_ecellData.M_value.IsDouble())
+                        l_ecellData.M_isLogable = true;
+                        if (l_initialCondition != null && l_ecellData.M_isSettable)
                         {
-                            l_ecellData.M_isLogable = true;
                             l_initialCondition[l_ecellData.M_entityPath] = l_ecellData.M_value.CastToDouble();
                         }
-                        // else if (l_ecellData.M_value.IsInt() && !l_ecellData.M_name.StartsWith("Is"))
-                        else if (l_ecellData.M_value.IsInt())
+                    }
+                    else if (l_ecellData.M_value.IsInt())
+                    {
+                        if (l_initialCondition != null && l_ecellData.M_isSettable)
                         {
                             l_initialCondition[l_ecellData.M_entityPath] = l_ecellData.M_value.CastToInt();
                         }
@@ -2478,17 +2482,19 @@ namespace EcellLib
                 l_ecellData.M_isGettable = l_flag[WrappedSimulator.s_flagGettable];
                 l_ecellData.M_isLoadable = l_flag[WrappedSimulator.s_flagLoadable];
                 l_ecellData.M_isSavable = l_flag[WrappedSimulator.s_flagSavable];
-                if (l_value != null)
+                if (l_ecellData.M_value != null)
                 {
-                    if (l_initialCondition != null && l_ecellData.M_isSettable)
+                    if (l_ecellData.M_value.IsDouble())
                     {
-                        if (l_ecellData.M_value.IsDouble())
+                        l_ecellData.M_isLogable = true;
+                        if (l_initialCondition != null && l_ecellData.M_isSettable)
                         {
-                            l_ecellData.M_isLogable = true;
                             l_initialCondition[l_ecellData.M_entityPath] = l_ecellData.M_value.CastToDouble();
                         }
-                        // else if (l_ecellData.M_value.IsInt() && !l_ecellData.M_name.StartsWith("Is"))
-                        else if (l_ecellData.M_value.IsInt())
+                    }
+                    else if (l_ecellData.M_value.IsInt())
+                    {
+                        if (l_initialCondition != null && l_ecellData.M_isSettable)
                         {
                             l_initialCondition[l_ecellData.M_entityPath] = l_ecellData.M_value.CastToInt();
                         }
