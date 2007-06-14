@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
 using EcellLib.PathwayWindow;
+using UMD.HCIL.Piccolo.Activities;
 
 namespace EcellLib.PathwayWindow.Handler
 {
@@ -127,7 +128,12 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 return true;
             }
-            return false;
+            else
+            {
+                if (null != base.DragActivity)
+                    base.DragActivity.Terminate();
+                return false;
+            }
         }
 
         #region Events
@@ -138,13 +144,20 @@ namespace EcellLib.PathwayWindow.Handler
 		protected override void OnDragActivityFirstStep(object sender, PInputEventArgs e) {
 			m_viewZoomPoint = e.Position;
 			base.OnDragActivityFirstStep(sender, e);
-		}
+        }
+
+        public new void ActivityStepped(PActivity activity)
+        {
+            base.ActivityStepped(activity);
+        }
 
 		/// <summary>
 		/// Overridden.  See <see cref="PDragSequenceEventHandler.OnDragActivityStep">
 		/// PDragSequenceEventHandler.OnDragActivityStep</see>.
 		/// </summary>
-		protected override void OnDragActivityStep(object sender, PInputEventArgs e) {
+		protected override void OnDragActivityStep(object sender, PInputEventArgs e)
+        {
+            
 			base.OnDragActivityStep(sender, e);
 
 			PCamera camera = e.Camera;
@@ -164,7 +177,17 @@ namespace EcellLib.PathwayWindow.Handler
 
 			camera.ScaleViewBy(scaleDelta, m_viewZoomPoint.X, m_viewZoomPoint.Y);
 		}
-
+        
+        protected override void OnStartDrag(object sender, PInputEventArgs e)
+        {
+            base.OnStartDrag(sender, e);
+            Console.WriteLine("   Start" + DateTime.Now);
+        }
+        
+        protected override void OnDrag(object sender, PInputEventArgs e)
+        {
+            base.OnDrag(sender, e);
+        }
         /// <summary>
         /// Called when drag finished.
         /// </summary>
@@ -177,6 +200,7 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 m_view.UpdateOverview();
             }
+            Console.WriteLine("   End" + DateTime.Now);
         }
 		#endregion
     }
