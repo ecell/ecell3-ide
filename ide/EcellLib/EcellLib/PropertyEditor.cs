@@ -466,15 +466,18 @@ namespace EcellLib
                     t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                     layoutPanel.Controls.Add(t, 1, i);
 
-                    foreach (EcellObject o in m_currentObj.M_instances)
+                    if (m_currentObj.M_instances != null)
                     {
-                        if (o.key.EndsWith(":SIZE"))
+                        foreach (EcellObject o in m_currentObj.M_instances)
                         {
-                            foreach (EcellData d in o.M_value)
+                            if (o.key.EndsWith(":SIZE"))
                             {
-                                if (d.M_entityPath.EndsWith(":Value"))
+                                foreach (EcellData d in o.M_value)
                                 {
-                                    t.Text = d.M_value.ToString();
+                                    if (d.M_entityPath.EndsWith(":Value"))
+                                    {
+                                        t.Text = d.M_value.ToString();
+                                    }
                                 }
                             }
                         }
