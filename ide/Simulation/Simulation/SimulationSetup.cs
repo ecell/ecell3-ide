@@ -627,6 +627,7 @@
                 m_dManager.DeleteStepperID(param, obj);
                 stepperListBox.Items.Remove(stepperID);
                 dgv.Rows.Clear();
+                stepperListBox.SelectedIndex = 0;
             }
 
             /// <summary>
