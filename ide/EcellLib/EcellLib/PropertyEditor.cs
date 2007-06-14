@@ -1174,74 +1174,78 @@ namespace EcellLib
                     else if ((string)c.Tag == "DefinedSize")
                     {
                         EcellObject target = null;
-                        foreach (EcellObject o in m_currentObj.M_instances)
+                        if (c.Text == null || c.Text.Equals("")) continue;
+                        if (m_currentObj.M_instances != null)
                         {
-                            if (o.key.EndsWith(":SIZE"))
+                            foreach (EcellObject o in m_currentObj.M_instances)
                             {
-                                target = o;
-                                break;
-                            }
-                        }
-                        if (c.Text == "")
-                        {
-                            if (target != null)
-                            {
-                                m_dManager.DataDelete(target.modelID, target.key, target.type);
-                                m_currentObj.M_instances.Remove(target);
-                            }
-                        }
-                        else
-                        {
-                            if (target == null)
-                            {
-                                Dictionary<string, EcellData> plist = DataManager.GetVariableProperty();
-                                List<EcellData> dlist = new List<EcellData>();
-                                foreach (string pname in plist.Keys)
+                                if (o.key.EndsWith(":SIZE"))
                                 {
-                                    if (pname.Equals("Value"))
-                                    {
-                                        EcellData d = plist[pname];
-                                        d.M_value = new EcellValue(Convert.ToDouble(c.Text));
-                                        dlist.Add(d);                                        
-                                    }
-                                    else
-                                    {
-                                        dlist.Add(plist[pname]);
-                                    }
+                                    target = o;
+                                    break;
                                 }
-                                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID,
-                                    m_currentObj.key + ":SIZE", "Variable", "Variable", dlist);
-                                List<EcellObject> rList = new List<EcellObject>();
-                                rList.Add(obj);
-                                m_dManager.DataAdd(rList);
-                                m_currentObj.M_instances.Add(obj);
+                            }
+                            if (c.Text == "")
+                            {
+                                if (target != null)
+                                {
+                                    m_dManager.DataDelete(target.modelID, target.key, target.type);
+                                    m_currentObj.M_instances.Remove(target);
+                                }
                             }
                             else
                             {
-                                bool isChange = false;
-                                foreach (EcellData d in target.M_value)
+                                if (target == null)
                                 {
-                                    if (d.M_entityPath.EndsWith(":Value"))
+                                    Dictionary<string, EcellData> plist = DataManager.GetVariableProperty();
+                                    List<EcellData> dlist = new List<EcellData>();
+                                    foreach (string pname in plist.Keys)
                                     {
-                                        if (d.M_value.CastToDouble() == Convert.ToDouble(c.Text))
+                                        if (pname.Equals("Value"))
                                         {
+                                            EcellData d = plist[pname];
+                                            d.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                                            dlist.Add(d);
                                         }
                                         else
                                         {
-                                            isChange = true;
-                                            target.M_value.Remove(d);
-                                            d.M_value = new EcellValue(Convert.ToDouble(c.Text));
-                                            target.M_value.Add(d);
+                                            dlist.Add(plist[pname]);
                                         }
-                                        break;
                                     }
+                                    EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID,
+                                        m_currentObj.key + ":SIZE", "Variable", "Variable", dlist);
+                                    List<EcellObject> rList = new List<EcellObject>();
+                                    rList.Add(obj);
+                                    m_dManager.DataAdd(rList);
+                                    m_currentObj.M_instances.Add(obj);
                                 }
-                                if (isChange)
+                                else
                                 {
-                                    m_dManager.DataChanged(target.modelID, target.key, target.type, target);
+                                    bool isChange = false;
+                                    foreach (EcellData d in target.M_value)
+                                    {
+                                        if (d.M_entityPath.EndsWith(":Value"))
+                                        {
+                                            if (d.M_value.CastToDouble() == Convert.ToDouble(c.Text))
+                                            {
+                                            }
+                                            else
+                                            {
+                                                isChange = true;
+                                                target.M_value.Remove(d);
+                                                d.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                                                target.M_value.Add(d);
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    if (isChange)
+                                    {
+                                        m_dManager.DataChanged(target.modelID, target.key, target.type, target);
+                                    }
+                                    m_currentObj.M_instances.Remove(target);
+                                    m_currentObj.M_instances.Add(target);
                                 }
-                                m_currentObj.M_instances.Remove(target);
-                                m_currentObj.M_instances.Add(target);
                             }
                         }
                     }
