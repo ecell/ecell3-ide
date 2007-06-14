@@ -126,22 +126,14 @@ namespace EcellLib.PathwayWindow
         public static readonly string CANVAS_MENU_LEFT_ARROW = "leftArrow";
 
         /// <summary>
+        /// Key definition of m_cMenuDict for bidirArrow
+        /// </summary>
+        public static readonly string CANVAS_MENU_BIDIR_ARROW = "bidirArrow";
+
+        /// <summary>
         /// Key definition of m_cMenuDict for constantLine
         /// </summary>
         public static readonly string CANVAS_MENU_CONSTANT_LINE = "constantLine";
-
-        /// <summary>
-        /// ToolStripItem.Name for process -> variable
-        /// </summary>
-        public static readonly string NAME_FOR_PTOV = "ptov";
-        /// <summary>
-        /// ToolStripItem.Name for variable -> process
-        /// </summary>
-        public static readonly string NAME_FOR_VTOP = "vtop";
-        /// <summary>
-        /// ToolStripItem.Name for no direction
-        /// </summary>
-        public static readonly string NAME_FOR_NODIR = "nodir";
         #endregion
 
         #region Fields
@@ -563,32 +555,35 @@ namespace EcellLib.PathwayWindow
 
             ToolStripSeparator separator1 = new ToolStripSeparator();
             m_nodeMenu.Items.Add(separator1);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR1, separator1);
+            m_cMenuDict.Add( CANVAS_MENU_SEPARATOR1, separator1 );
 
             ToolStripItem rightArrow = new ToolStripMenuItem("Process -> Variable", Resource1.arrow_long_right_w);
-            rightArrow.Tag = 1;
-            rightArrow.Name = NAME_FOR_PTOV;
+            rightArrow.Name = CANVAS_MENU_RIGHT_ARROW;
             rightArrow.Click += new EventHandler(ChangeLineClick);
             m_nodeMenu.Items.Add(rightArrow);
-            m_cMenuDict.Add( CANVAS_MENU_RIGHT_ARROW, rightArrow);
+            m_cMenuDict.Add( CANVAS_MENU_RIGHT_ARROW, rightArrow );
 
             ToolStripItem leftArrow = new ToolStripMenuItem("Process <- Variable", Resource1.arrow_long_left_w);
-            leftArrow.Tag = -1;
-            leftArrow.Name = NAME_FOR_VTOP;
+            leftArrow.Name = CANVAS_MENU_LEFT_ARROW;
             leftArrow.Click += new EventHandler(ChangeLineClick);
             m_nodeMenu.Items.Add(leftArrow);
-            m_cMenuDict.Add( CANVAS_MENU_LEFT_ARROW, leftArrow);
+            m_cMenuDict.Add( CANVAS_MENU_LEFT_ARROW, leftArrow );
+
+            ToolStripItem bidirArrow = new ToolStripMenuItem("Process <-> Variable", Resource1.arrow_long_bidir_w);
+            bidirArrow.Name = CANVAS_MENU_BIDIR_ARROW;
+            bidirArrow.Click += new EventHandler(ChangeLineClick);
+            m_nodeMenu.Items.Add(bidirArrow);
+            m_cMenuDict.Add( CANVAS_MENU_BIDIR_ARROW, bidirArrow );
 
             ToolStripItem constant = new ToolStripMenuItem("Constant", Resource1.ten);
-            constant.Tag = 0;
-            constant.Name = NAME_FOR_NODIR;
+            constant.Name = CANVAS_MENU_CONSTANT_LINE;
             constant.Click += new EventHandler(ChangeLineClick);
             m_nodeMenu.Items.Add(constant);
-            m_cMenuDict.Add(CANVAS_MENU_CONSTANT_LINE, constant);
+            m_cMenuDict.Add( CANVAS_MENU_CONSTANT_LINE, constant );
 
             ToolStripSeparator separator2 = new ToolStripSeparator();
             m_nodeMenu.Items.Add(separator2);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR2, separator2);
+            m_cMenuDict.Add( CANVAS_MENU_SEPARATOR2, separator2);
 
             ToolStripItem delete = new ToolStripMenuItem("Delete");
             delete.Click += new EventHandler(DeleteClick);
@@ -703,23 +698,28 @@ namespace EcellLib.PathwayWindow
 
                 EdgeInfo edgeInfo = ((Line)item.Tag).Info;
 
-                EcellLib.PathwayWindow.PathwayWindow.ChangeType changeType
-                    = PathwayWindow.ChangeType.Coefficient;
+                RefChangeType changeType
+                    = RefChangeType.SingleDir;
                 int coefficient = 0;
 
-                if(item.Name == NAME_FOR_PTOV)
+                if (item.Name == CANVAS_MENU_RIGHT_ARROW)
                 {
-                    changeType = PathwayWindow.ChangeType.Coefficient;
+                    changeType = RefChangeType.SingleDir;
                     coefficient = 1;
                 }
-                else if (item.Name == NAME_FOR_VTOP)
+                else if (item.Name == CANVAS_MENU_LEFT_ARROW)
                 {
-                    changeType = PathwayWindow.ChangeType.Coefficient;
+                    changeType = RefChangeType.SingleDir;
                     coefficient = -1;
+                }
+                else if (item.Name == CANVAS_MENU_BIDIR_ARROW)
+                {
+                    changeType = RefChangeType.BiDir;
+                    coefficient = 0;
                 }
                 else
                 {
-                    changeType = PathwayWindow.ChangeType.Coefficient;
+                    changeType = RefChangeType.SingleDir;
                     coefficient = 0;
                 }
 
@@ -797,7 +797,7 @@ namespace EcellLib.PathwayWindow
                 m_pathwayView.NotifyVariableReferenceChanged(
                     ((Line)obj).Info.ProcessKey,
                     ((Line)obj).Info.VariableKey,
-                    PathwayWindow.ChangeType.Delete,
+                    RefChangeType.Delete,
                     0);
             }
             ((ToolStripMenuItem)sender).Tag = null;
@@ -1863,12 +1863,30 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
+                // Get a vacant point where an incoming node should be placed.
+                List<PPathwayNode> nodeList = new List<PPathwayNode>();
+                foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                    foreach (PPathwayObject ppo in system.ChildObjectList)
+                        if(ppo is PPathwayNode)
+                            nodeList.Add((PPathwayNode)ppo);
+                PEcellSystem topSystem = m_systems[systemName].EcellSystems[0];
+                RectangleF sysRect = new RectangleF(
+                    topSystem.X + topSystem.OffsetX,
+                    topSystem.Y + topSystem.OffsetY,
+                    topSystem.Width,
+                    topSystem.Height);
+                PointF vacantPoint = GetVacantPoint(sysRect, nodeList);
+
                 foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
                 {
                     if (!hasCoords)
                     {
+                        obj.X = system.X + vacantPoint.X - obj.Width;
+                        obj.Y = system.Y + vacantPoint.Y - obj.Height;
+                        /*
                         obj.X = system.X + ((system.Width > 80) ? 80 : system.Width / 2) - obj.Width;
                         obj.Y = system.Y + ((system.Height > 80) ? 80 : system.Height / 2) - obj.Height;
+                         */
                         obj.X += system.OffsetToLayer.X;
                         obj.Y += system.OffsetToLayer.Y;
                         if (obj is PPathwayNode)
@@ -2725,7 +2743,55 @@ namespace EcellLib.PathwayWindow
                 m_ctrlLayer.Visible = false;
             m_pathwayCanvas.Refresh();
         }
-        
+
+        #region Private methods
+        private PointF GetVacantPoint(RectangleF wholeSpace, List<PPathwayNode> nodeList)
+        {
+            int numOfSampling = 20;
+
+            // List of point of coordinate of each node of nodeList
+            List<PointF> pointList = new List<PointF>();
+
+            foreach(PPathwayNode node in nodeList)
+            {
+                PointF point = new PointF(node.X + node.OffsetX, node.Y + node.OffsetY);
+                pointList.Add(point);
+            }
+
+            PointF vacantPoint = PointF.Empty;
+            float maxSumOfDistance = 0; // sum of distances between a vacant point and each node points.
+            Random rand = new Random();
+
+            // Repeat sampling for numOfSampling times, and settle most suitable vacant point
+            for ( int i = 0; i < numOfSampling; i++ )
+            {
+                PointF vacantPointCand
+                    = new PointF(wholeSpace.X + (float)rand.NextDouble() * wholeSpace.Width,
+                    wholeSpace.Y + (float)rand.NextDouble() * wholeSpace.Height);
+                float sumOfDistance = 0;
+
+                // Add distance between vacantPointCand and bound of space.
+                sumOfDistance += (vacantPointCand.X - wholeSpace.X < wholeSpace.Right - vacantPointCand.X)
+                    ? vacantPointCand.X - wholeSpace.X : wholeSpace.Right - vacantPointCand.X;
+                sumOfDistance += (vacantPointCand.Y - wholeSpace.Y < wholeSpace.Bottom - vacantPointCand.Y)
+                    ? vacantPointCand.Y - wholeSpace.Y : wholeSpace.Bottom - vacantPointCand.Y;
+                
+                foreach(PointF point in pointList)
+                {
+                    sumOfDistance += PathUtil.GetDistance(point, vacantPointCand);
+                }
+
+                if(maxSumOfDistance < sumOfDistance)
+                {
+                    maxSumOfDistance = sumOfDistance;
+                    vacantPoint = vacantPointCand;
+                }
+            }
+
+            return vacantPoint;
+        }
+        #endregion
+
         class NodeDragHandler : PDragEventHandler
         {
             #region Fields
@@ -3070,7 +3136,6 @@ namespace EcellLib.PathwayWindow
                 }
                 else
                 {
-                    Console.WriteLine("   Outof system");
                     m_set.TransferNodeTo(oldSystem, (PPathwayObject)node);
                     ((PPathwayNode)node).ReturnToMemorizedPosition();
                 }

@@ -62,13 +62,15 @@ using System.Collections.Specialized;
 
 namespace EcellLib.PathwayWindow
 {
+    #region enum
+    /// <summary>
+    /// Type of change to one reference of VariableReference
+    /// </summary>
+    public enum RefChangeType { SingleDir, BiDir, Delete };
+    #endregion
+
     public class PathwayWindow : PluginBase
     {
-        /// <summary>
-        /// Type of change to one reference of VariableReference
-        /// </summary>
-        public enum ChangeType { Coefficient, Delete };
-
         #region Static fields
         /// <summary>
         /// The name of default layout algorithm
@@ -493,7 +495,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="proKey"></param>
         /// <param name="varKey"></param>
         /// <param name="coefficient"></param>
-        public void NotifyVariableReferenceChanged(string proKey, string varKey, ChangeType changeType, int coefficient)
+        public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient)
         {
             DataManager dm = DataManager.GetDataManager();
 
@@ -524,16 +526,32 @@ namespace EcellLib.PathwayWindow
                 {
                     List<EcellReference> refList = EcellReference.ConvertString(data.M_value.ToString());
                     List<EcellReference> newList = new List<EcellReference>();
+                    EcellReference changedRef = null;
                     int i = 0;
                     foreach (EcellReference v in refList)
                     {
                         if (v.fullID.EndsWith(varKey))
+                            changedRef = v;                        
+                        else
+                            newList.Add(v);
+                    }
+
+                    if (null != changedRef || changeType == RefChangeType.Delete)
+                    {
+                        switch(changeType)
                         {
-                            if (changeType == ChangeType.Delete)
-                                continue;
-                            v.coefficient = coefficient;
+                            case RefChangeType.SingleDir:
+                                changedRef.coefficient = coefficient;
+                                newList.Add(changedRef);
+                                break;
+                            case RefChangeType.BiDir:
+                                EcellReference copyRef = PathUtil.CopyEcellReference(changedRef);
+                                changedRef.coefficient = -1;
+                                copyRef.coefficient = 1;
+                                newList.Add(changedRef);
+                                newList.Add(copyRef);
+                                break;
                         }
-                        newList.Add(v);
                     }
 
                     string refStr = "(";

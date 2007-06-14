@@ -91,6 +91,21 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Create new instance of EcellReference which has same information of an argument EcellReference
+        /// </summary>
+        /// <param name="reference"></param>
+        /// <returns></returns>
+        public static EcellReference CopyEcellReference(EcellReference reference)
+        {
+            EcellReference newRef = new EcellReference();
+            newRef.coefficient = reference.coefficient;
+            newRef.fullID = reference.fullID;
+            newRef.isAccessor = reference.isAccessor;
+            newRef.name = reference.name;
+            return newRef;
+        }
+
+        /// <summary>
         /// Get an environment variable.
         /// If such an variable that has a key doesn't exist, registry will be searched.
         /// </summary>

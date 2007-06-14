@@ -1268,7 +1268,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="proKey"></param>
         /// <param name="varKey"></param>
         /// <param name="coefficient"></param>
-        public void NotifyVariableReferenceChanged(string proKey, string varKey, EcellLib.PathwayWindow.PathwayWindow.ChangeType changeType, int coefficient)
+        public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient)
         {
             m_pathwayWindow.NotifyVariableReferenceChanged( proKey, varKey, changeType, coefficient );
         }

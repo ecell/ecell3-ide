@@ -80,33 +80,38 @@ namespace EcellLib.PathwayWindow.UIComponent
                 {
                     EdgeInfo info = ((Line)m_cview.NodeMenu.Tag).Info;                    
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR1 ].Visible = true;
-                    if (info.Direction != EdgeDirection.Outward && info.Direction != EdgeDirection.Bidirection)
+                    switch(info.Direction)
                     {
-                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Visible = true;
-                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Tag = m_cview.NodeMenu.Tag;
+                        case EdgeDirection.Inward:
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Visible = true;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = false;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_BIDIR_ARROW].Visible = true;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Visible = true;
+                            break;
+                        case EdgeDirection.Outward:
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Visible = false;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = true;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_BIDIR_ARROW].Visible = true;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Visible = true;
+                            break;
+                        case EdgeDirection.Bidirection:
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Visible = true;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = true;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_BIDIR_ARROW].Visible = false;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Visible = true;
+                            break;
+                        case EdgeDirection.None:
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Visible = true;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = true;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_BIDIR_ARROW].Visible = true;
+                            m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Visible = false;
+                            break;
                     }
-                    else
-                    {
-                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Visible = false;
-                    }
-                    if (info.Direction != EdgeDirection.Inward && info.Direction != EdgeDirection.Bidirection)
-                    {
-                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = true;
-                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Tag = m_cview.NodeMenu.Tag;
-                    }
-                    else
-                    {
-                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = false;
-                    }
-                    if (info.Direction != EdgeDirection.None && info.Direction != EdgeDirection.Bidirection)
-                    {
-                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Visible = true;
-                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Tag = m_cview.NodeMenu.Tag;
-                    }
-                    else
-                    {
-                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Visible = false;
-                    }
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Tag = m_cview.NodeMenu.Tag;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Tag = m_cview.NodeMenu.Tag;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_BIDIR_ARROW].Tag = m_cview.NodeMenu.Tag;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Tag = m_cview.NodeMenu.Tag;
+                    
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR2 ].Visible = true;
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_DELETE ].Visible = true;                    
                 }
