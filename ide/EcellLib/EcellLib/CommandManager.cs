@@ -301,7 +301,7 @@ namespace EcellLib
         /// <summary>
         /// Deletes the default stepper.
         /// </summary>
-        public void DeleteDefaultStepper()
+        public void DeleteDefaultStepperStub()
         {
             try
             {
@@ -1461,6 +1461,46 @@ namespace EcellLib
             }
 
             /// <summary>
+            /// Refines the information of the EcellObject.
+            /// </summary>
+            private void RefinedEcellObject()
+            {
+                //
+                // Refines the full ID
+                //
+                string l_key = null;
+                string l_type = null;
+                string l_systemKey = null;
+                this.RefinedFullID(ref l_key, ref l_type, ref l_systemKey);
+                //
+                // Searches the loaded "EcellObject".
+                //
+                foreach (EcellObject l_system
+                        in DataManager.GetDataManager().GetData(CommandManager.s_modelID, l_systemKey))
+                {
+                    if (l_type.Equals(Util.s_xpathSystem))
+                    {
+                        this.m_ecellObject = l_system;
+                        return;
+                    }
+                    else
+                    {
+                        if (l_system.M_instances != null && l_system.M_instances.Count > 0)
+                        {
+                            foreach (EcellObject l_entity in l_system.M_instances)
+                            {
+                                if (l_entity.type.Equals(l_type) && l_entity.key.Equals(l_key))
+                                {
+                                    this.m_ecellObject = l_entity;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            /// <summary>
             /// Refines the information of the full ID.
             /// </summary>
             /// <param name="l_fullID">the full ID</param>
@@ -1484,15 +1524,18 @@ namespace EcellLib
                 }
                 else
                 {
-                    l_key = l_infos[1] + Util.s_delimiterColon + l_infos[2];
                     if (l_infos[0].Equals(Util.s_xpathSystem))
                     {
+                        l_key = l_infos[1] + Util.s_delimiterPath + l_infos[2];
                         l_systemKey = l_infos[1] + Util.s_delimiterPath + l_infos[2];
                     }
                     else
                     {
+                        l_key = l_infos[1] + Util.s_delimiterColon + l_infos[2];
                         l_systemKey = l_infos[1];
                     }
+                    l_key = l_key.Replace(Util.s_delimiterPath + Util.s_delimiterPath, Util.s_delimiterPath);
+                    l_systemKey = l_systemKey.Replace(Util.s_delimiterPath + Util.s_delimiterPath, Util.s_delimiterPath);
                 }
             }
 
@@ -1505,6 +1548,13 @@ namespace EcellLib
             {
                 try
                 {
+                    //
+                    // Get a current EcellObject.
+                    //
+                    this.RefinedEcellObject();
+                    //
+                    // Set.
+                    //
                     if (this.m_ecellObject != null)
                     {
                         if (this.m_ecellObject.M_value != null && this.m_ecellObject.M_value.Count > 0)
@@ -1525,6 +1575,27 @@ namespace EcellLib
                                         try
                                         {
                                             l_data.M_value = EcellValue.ToVariableReferenceList(l_value);
+                                            //
+                                            // Exchange ":.:" for ":[path]:".
+                                            //
+                                            string l_path = this.m_fullID.Split(Util.s_delimiterColon.ToCharArray())[1];
+                                            for (int j = 0; j < l_data.M_value.CastToList().Count; j++)
+                                            {
+                                                string[] l_IDs
+                                                    = l_data.M_value.CastToList()[j].CastToList()[1].CastToString()
+                                                        .Split(Util.s_delimiterColon.ToCharArray());
+                                                if (l_IDs[1].Equals(Util.s_delimiterPeriod))
+                                                {
+                                                    l_IDs[1] = l_path;
+                                                }
+                                                string l_ID = null;
+                                                foreach (string l_IDElement in l_IDs)
+                                                {
+                                                    l_ID = l_ID + Util.s_delimiterColon + l_IDElement;
+                                                }
+                                                l_data.M_value.CastToList()[j].CastToList()[1]
+                                                    = new EcellValue(l_ID.Substring(1));
+                                            }
                                             l_findFlag = true;
                                         }
                                         catch (Exception l_ex)
@@ -1575,18 +1646,22 @@ namespace EcellLib
                                     }
                                 }
                             }
-                            if (l_findFlag)
+                            if (!l_findFlag)
                             {
-                                DataManager.GetDataManager().DataChanged(
-                                        this.m_ecellObject.modelID,
-                                        this.m_ecellObject.key,
-                                        this.m_ecellObject.type,
-                                        this.m_ecellObject);
+                                EcellData l_new
+                                    = new EcellData(
+                                        l_propertyName,
+                                        new EcellValue(Convert.ToDouble(l_value)),
+                                        this.m_fullID + Util.s_delimiterColon + l_propertyName);
+                                l_new.M_isLogable = true;
+                                this.m_ecellObject.M_value.Add(l_new);
+                                // throw new Exception("The property named [" + l_propertyName + "]" + "isn't found.");
                             }
-                            else
-                            {
-                                throw new Exception("The property named [" + l_propertyName + "]" + "isn't found.");
-                            }
+                            DataManager.GetDataManager().DataChanged(
+                                    this.m_ecellObject.modelID,
+                                    this.m_ecellObject.key,
+                                    this.m_ecellObject.type,
+                                    this.m_ecellObject);
                         }
                     }
                 }

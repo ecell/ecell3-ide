@@ -4014,6 +4014,7 @@ namespace EcellLib
                         this.m_simulatorDic[this.m_currentProjectID].CreateLogger(l_logger, l_loggerPolicy);
                     }
                 }
+                /*
                 //
                 // Stores the stepper.
                 //
@@ -4047,6 +4048,7 @@ namespace EcellLib
                         }
                     }
                 }
+                 */
                 //
                 // Messages
                 //
