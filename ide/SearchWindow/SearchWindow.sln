@@ -5,18 +5,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchWindow", "SearchWindo
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
+		Debug|x86_64 = Debug|x86_64
 		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
+		Release|x86_64 = Release|x86_64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Debug|x64.ActiveCfg = Debug|x64
-		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Debug|x64.Build.0 = Debug|x64
+		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Debug|x86_64.ActiveCfg = Debug|x86_64
+		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Debug|x86_64.Build.0 = Debug|x86_64
 		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Debug|x86.ActiveCfg = Debug|x86
 		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Debug|x86.Build.0 = Debug|x86
-		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Release|x64.ActiveCfg = Release|x64
-		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Release|x64.Build.0 = Release|x64
+		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Release|x86_64.ActiveCfg = Release|x86_64
+		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Release|x86_64.Build.0 = Release|x86_64
 		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Release|x86.ActiveCfg = Release|x86
 		{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection

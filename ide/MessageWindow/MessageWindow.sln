@@ -5,18 +5,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageWindow", "MessageWin
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
+		Debug|x86_64 = Debug|x86_64
 		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
+		Release|x86_64 = Release|x86_64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Debug|x64.ActiveCfg = Debug|x64
-		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Debug|x64.Build.0 = Debug|x64
+		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Debug|x86_64.ActiveCfg = Debug|x86_64
+		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Debug|x86_64.Build.0 = Debug|x86_64
 		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Debug|x86.ActiveCfg = Debug|x86
 		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Debug|x86.Build.0 = Debug|x86
-		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Release|x64.ActiveCfg = Release|x64
-		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Release|x64.Build.0 = Release|x64
+		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Release|x86_64.ActiveCfg = Release|x86_64
+		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Release|x86_64.Build.0 = Release|x86_64
 		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Release|x86.ActiveCfg = Release|x86
 		{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
