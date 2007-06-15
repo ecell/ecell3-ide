@@ -590,6 +590,12 @@ namespace EcellLib.PathwayWindow
             m_nodeMenu.Items.Add(delete);
             m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
 
+#if DEBUG
+            ToolStripItem debug = new ToolStripMenuItem("Debug");
+            debug.Click += new EventHandler(DebugClick);
+            m_nodeMenu.Items.Add(debug);
+            //m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
+#endif
             m_pathwayCanvas.ContextMenuStrip = m_nodeMenu;
 
             // Preparing system handlers
@@ -802,6 +808,24 @@ namespace EcellLib.PathwayWindow
             }
             ((ToolStripMenuItem)sender).Tag = null;
         }
+
+#if DEBUG
+        /// <summary>
+        /// Called when a debug menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void DebugClick(object sender, EventArgs e)
+        {
+            if (m_cMenuDict[CANVAS_MENU_DELETE].Tag is PPathwayObject)
+            {
+                PPathwayObject obj = (PPathwayObject)m_cMenuDict[CANVAS_MENU_DELETE].Tag;
+                MessageBox.Show("Name:" + obj.Name + "\nX:" + obj.X + "\nY:" + obj.Y
+                    + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY + "\nToString()"
+                    + obj.ToString());
+            }
+        }
+#endif
 
         #region Methods for System
         /// <summary>
@@ -1603,11 +1627,12 @@ namespace EcellLib.PathwayWindow
                 {
                     PointF offset = system.OffsetToLayer;
                     
+                    /*
                     if(system != obj.ParentObject && !(obj.ParentObject is PEcellComposite))
                     {
                         obj.X += ((PEcellSystem)obj.ParentObject).OffsetToLayer.X;
                         obj.Y += ((PEcellSystem)obj.ParentObject).OffsetToLayer.Y;                    
-                    }
+                    }*/
                     
                     obj.X -= offset.X;
                     obj.Y -= offset.Y;
@@ -1871,42 +1896,65 @@ namespace EcellLib.PathwayWindow
                             nodeList.Add((PPathwayNode)ppo);
                 PEcellSystem topSystem = m_systems[systemName].EcellSystems[0];
                 RectangleF sysRect = new RectangleF(
-                    topSystem.X + topSystem.OffsetX,
-                    topSystem.Y + topSystem.OffsetY,
+                    topSystem.X + topSystem.OffsetToLayer.X,
+                    topSystem.Y + topSystem.OffsetToLayer.Y,
                     topSystem.Width,
                     topSystem.Height);
-                PointF vacantPoint = GetVacantPoint(sysRect, nodeList);
+                List<RectangleF> excludeRectList = new List<RectangleF>();
+                List<PPathwayObject> childList = topSystem.ChildObjectList;
+                foreach(PPathwayObject child in childList)
+                {
+                    if (child is PEcellSystem)
+                    {
+                        excludeRectList.Add( new RectangleF(
+                            child.X + ((PEcellSystem)child).OffsetToLayer.X,
+                            child.Y + ((PEcellSystem)child).OffsetToLayer.Y,
+                            ((PEcellSystem)child).Width,
+                            ((PEcellSystem)child).Height) );
+                        
+                    }
+                }
+                PointF vacantPoint = GetVacantPoint(sysRect, excludeRectList, nodeList);
 
                 foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
                 {
-                    if (!hasCoords)
+                    if (system.Layer == m_layers[layer])
                     {
-                        obj.X = system.X + vacantPoint.X - obj.Width;
-                        obj.Y = system.Y + vacantPoint.Y - obj.Height;
-                        /*
-                        obj.X = system.X + ((system.Width > 80) ? 80 : system.Width / 2) - obj.Width;
-                        obj.Y = system.Y + ((system.Height > 80) ? 80 : system.Height / 2) - obj.Height;
-                         */
-                        obj.X += system.OffsetToLayer.X;
-                        obj.Y += system.OffsetToLayer.Y;
+                        obj.Layer = m_layers[layer];
+                        PointF offsetToL = system.OffsetToLayer;
+                        
+                        if (!hasCoords)
+                        {
+                            obj.X = vacantPoint.X - obj.Width;
+                            obj.Y = vacantPoint.Y - obj.Height;
+                            //obj.X = system.X + vacantPoint.X - obj.Width;
+                            //obj.Y = system.Y + vacantPoint.Y - obj.Height;
+                            /*
+                            obj.X = system.X + ((system.Width > 80) ? 80 : system.Width / 2) - obj.Width;
+                            obj.Y = system.Y + ((system.Height > 80) ? 80 : system.Height / 2) - obj.Height;
+                             */
+                            //obj.OffsetX += system.OffsetToLayer.X;
+                            //obj.OffsetY += system.OffsetToLayer.Y;
+                        }
+                        if (!isFirst)
+                        {
+                            obj.X -= offsetToL.X;
+                            obj.Y -= offsetToL.Y;
+                        }
                         if (obj is PPathwayNode)
                         {
                             ((PPathwayNode)obj).Element.X = obj.X;
                             ((PPathwayNode)obj).Element.Y = obj.Y;
                             ((PPathwayNode)obj).RefreshText();
                         }
-                    }
-
-                    if (system.Layer == m_layers[layer])
-                    {
-                        obj.Layer = m_layers[layer];
-                        PointF offsetToL = system.OffsetToLayer;
-                        if(!isFirst)
-                            obj.OffsetBy(-1 * offsetToL.X, -1 * offsetToL.Y);
+                        //if(!isFirst)
+                        //    obj.OffsetBy(-1 * offsetToL.X, -1 * offsetToL.Y);
                         system.AddChild(obj);
                         if (obj is PPathwayObject)
                             ((PPathwayObject)obj).ParentObject = system;
                     }
+                    if (obj is PEcellProcess)
+                        ((PEcellProcess)obj).CreateEdges();
                 }
             }
         }
@@ -2745,9 +2793,15 @@ namespace EcellLib.PathwayWindow
         }
 
         #region Private methods
-        private PointF GetVacantPoint(RectangleF wholeSpace, List<PPathwayNode> nodeList)
+        private PointF GetVacantPoint(RectangleF wholeSpace, List<RectangleF> excludeRectList, List<PPathwayNode> nodeList)
         {
             int numOfSampling = 20;
+
+            // Set margin. nodes can't be placed there.
+            wholeSpace.X = (float)(wholeSpace.X + wholeSpace.Width * 0.1);
+            wholeSpace.Width = (float)(wholeSpace.Width * 0.8);
+            wholeSpace.Y = (float)(wholeSpace.Y + wholeSpace.Height * 0.1);
+            wholeSpace.Height = (float)(wholeSpace.Height * 0.8);
 
             // List of point of coordinate of each node of nodeList
             List<PointF> pointList = new List<PointF>();
@@ -2768,6 +2822,13 @@ namespace EcellLib.PathwayWindow
                 PointF vacantPointCand
                     = new PointF(wholeSpace.X + (float)rand.NextDouble() * wholeSpace.Width,
                     wholeSpace.Y + (float)rand.NextDouble() * wholeSpace.Height);
+
+                if(this.DoRectsContainAPoint(vacantPointCand, excludeRectList))
+                {
+                    i--;
+                    continue;
+                }
+
                 float sumOfDistance = 0;
 
                 // Add distance between vacantPointCand and bound of space.
@@ -2790,8 +2851,24 @@ namespace EcellLib.PathwayWindow
 
             return vacantPoint;
         }
-        #endregion
 
+        /// <summary>
+        /// Return whether a list of rectangle contains a point.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="rectList"></param>
+        /// <returns>true if at least one rectangle of list contains a point, otherwise return false.</returns>
+        private bool DoRectsContainAPoint(PointF point, List<RectangleF> rectList)
+        {
+            foreach(RectangleF rect in rectList)
+            {
+                if (rect.Contains(point))
+                    return true;
+            }
+            return false;
+        }
+        #endregion
+        
         class NodeDragHandler : PDragEventHandler
         {
             #region Fields

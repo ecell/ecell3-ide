@@ -550,6 +550,7 @@ namespace EcellLib.PathwayWindow
                     ((PPathwayNode)obj).Element = (NodeElement)element;
                     ((PPathwayNode)obj).ShowingID = m_showingId;
                     obj.MouseDown += new PInputEventHandler(NodeSelected);
+                    ((PPathwayNode)obj).Handler4Line = new PInputEventHandler(LineSelected);
 
                     string layer = null;
                     if (m_dgv.SelectedRows.Count != 0)

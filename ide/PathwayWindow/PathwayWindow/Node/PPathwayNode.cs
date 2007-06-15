@@ -353,6 +353,12 @@ namespace EcellLib.PathwayWindow.Node
             m_idText.CenterBoundsOnPoint(m_nodeElement.X,
                                          m_nodeElement.Y);
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + ", m_idText.X:" + m_idText.X + ", m_idText.Y:" + m_idText.Y
+                + ", m_idText.OffsetX:" + m_idText.OffsetX + ", m_idText.OffsetY:" + m_idText.OffsetY;
+        }
         #endregion
     }
 }
