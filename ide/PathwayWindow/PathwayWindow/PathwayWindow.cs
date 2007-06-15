@@ -307,8 +307,8 @@ namespace EcellLib.PathwayWindow
                 ComponentSetting defVarCs = new ComponentSetting();
                 defVarCs.ComponentKind = ComponentType.Variable;
                 defVarCs.Name = "DefaultVariable";
-                defVarCs.NormalBrush = Brushes.LightGreen;
-                defVarCs.AddFigure("Rectangle","-30,-20,60,40");
+                defVarCs.NormalBrush = Brushes.LightBlue;
+                defVarCs.AddFigure("Ellipse", "-30,-20,60,40");
                 defVarCs.AddComponentClass("PEcellVariable");
                 componentSettings.Add(defVarCs);
                 manager.RegisterVariableSetting(defVarCs.Name, defVarCs, true);
@@ -320,8 +320,8 @@ namespace EcellLib.PathwayWindow
                 ComponentSetting defProCs = new ComponentSetting();
                 defProCs.ComponentKind = ComponentType.Process;
                 defProCs.Name = "DefaultProcess";
-                defProCs.NormalBrush = Brushes.LightBlue;
-                defProCs.AddFigure("Ellipse","-30,-20,60,40");
+                defProCs.NormalBrush = Brushes.LightGreen;
+                defProCs.AddFigure("Rectangle","-30,-20,60,40");
                 defProCs.AddComponentClass("PEcellProcess");
                 componentSettings.Add(defProCs);
                 manager.RegisterProcessSetting(defProCs.Name, defProCs, true);
