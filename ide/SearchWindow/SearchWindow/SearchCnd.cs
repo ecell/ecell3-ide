@@ -161,5 +161,10 @@ namespace EcellLib.SearchWindow
             }
         }
         #endregion
+
+        private void SearchCndShown(object sender, EventArgs e)
+        {
+            this.idText.Focus();
+        }
     }
 }

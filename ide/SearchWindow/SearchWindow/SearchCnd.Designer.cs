@@ -195,7 +195,8 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SearchCnd";
-            this.Text = "SearchWindow";
+            this.Text = "Search";
+            this.Shown += new System.EventHandler(this.SearchCndShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
