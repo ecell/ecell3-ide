@@ -43,5 +43,10 @@ namespace EcellLib.MainWindow
         {
             InitializeComponent();
         }
+
+        private void SaveProjectDialogShown(object sender, EventArgs e)
+        {
+            this.button1.Focus();
+        }
     }
 }

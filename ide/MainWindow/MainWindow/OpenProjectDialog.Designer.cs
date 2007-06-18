@@ -173,7 +173,7 @@ namespace EcellLib.MainWindow
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OpenProjectDialog";
-            this.Text = "OpenProjectDialog";
+            this.Text = "Open Project";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

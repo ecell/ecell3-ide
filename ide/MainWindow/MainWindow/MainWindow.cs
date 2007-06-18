@@ -682,13 +682,13 @@ namespace EcellLib.MainWindow
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (Util.IsNG(m_newPrjDialog.textName.Text))
+                if (Util.IsNGforID(m_newPrjDialog.textName.Text))
                 {
                     MessageBox.Show("Project name includes invalid character.",
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (Util.IsNG(m_newPrjDialog.textModelName.Text))
+                if (Util.IsNGforID(m_newPrjDialog.textModelName.Text))
                 {
                     MessageBox.Show("Model name includes invalid character.",
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);

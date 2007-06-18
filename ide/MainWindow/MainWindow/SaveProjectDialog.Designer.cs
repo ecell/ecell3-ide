@@ -136,7 +136,8 @@ namespace EcellLib.MainWindow
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SaveProjectDialog";
-            this.Text = "SaveProjectDialog";
+            this.Text = "Save Project";
+            this.Shown += new System.EventHandler(this.SaveProjectDialogShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);

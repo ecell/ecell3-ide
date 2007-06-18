@@ -51,5 +51,10 @@ namespace EcellLib.MainWindow
                 button1.PerformClick();
             }
         }
+
+        private void NewProjectDialogShown(object sender, EventArgs e)
+        {
+            this.textName.Focus();
+        }
     }
 }

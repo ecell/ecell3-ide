@@ -180,7 +180,8 @@ namespace EcellLib.MainWindow
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewProjectDialog";
-            this.Text = "NewProjectDialog";
+            this.Text = "Create Project";
+            this.Shown += new System.EventHandler(this.NewProjectDialogShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
