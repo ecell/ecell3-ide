@@ -647,5 +647,10 @@
                 m_newwin.ShowDialog();
             }
             #endregion
+
+            private void SimulationSetupShown(object sender, EventArgs e)
+            {
+                this.paramCombo.Focus();
+            }
         }
     }

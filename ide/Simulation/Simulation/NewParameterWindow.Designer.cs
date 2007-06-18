@@ -133,7 +133,8 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewParameterWindow";
-            this.Text = "NewParameterWindow";
+            this.Text = "Create Parameter";
+            this.Shown += new System.EventHandler(this.CreateParameterShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();

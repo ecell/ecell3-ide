@@ -875,7 +875,8 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SimulationSetup";
-            this.Text = "SimulationSetup";
+            this.Text = "Simulation Condition";
+            this.Shown += new System.EventHandler(this.SimulationSetupShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);

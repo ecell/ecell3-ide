@@ -162,5 +162,10 @@ namespace EcellLib.Simulation
             Dispose();
         }
         #endregion
+
+        private void CreateParameterShown(object sender, EventArgs e)
+        {
+            this.paramTextBox.Focus();
+        }
     }
 }
