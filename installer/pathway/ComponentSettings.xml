@@ -1,4 +1,5 @@
 <ComponentList>
+
 	<Component kind="System" isDefault="true">
 		<Name>DefaultSystem</Name>
 		<Color type="KnownColor">Black</Color>
@@ -22,4 +23,5 @@
 		<Color type="KnownColor">LightBlue</Color>
 		<Class>PEcellVariable</Class>
 	</Component>
+
 </ComponentList>
