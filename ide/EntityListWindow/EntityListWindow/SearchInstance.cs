@@ -110,5 +110,10 @@ namespace EcellLib.EntityListWindow
             }
         }
         #endregion
+
+        private void SearchInstanceShown(object sender, EventArgs e)
+        {
+            this.searchText.Focus();
+        }
     }
 }
