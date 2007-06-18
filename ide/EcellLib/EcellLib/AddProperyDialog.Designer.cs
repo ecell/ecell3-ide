@@ -135,7 +135,8 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddProperyDialog";
-            this.Text = "AddProperyDialog";
+            this.Text = "Add Property";
+            this.Shown += new System.EventHandler(this.AddPropertyDialogShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);

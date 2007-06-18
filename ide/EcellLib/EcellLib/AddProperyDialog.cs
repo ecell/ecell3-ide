@@ -33,5 +33,10 @@ namespace EcellLib
             this.ShowDialog();
             return m_resultName;
         }
+
+        private void AddPropertyDialogShown(object sender, EventArgs e)
+        {
+            this.PropertyTextBox.Focus();
+        }
     }
 }
