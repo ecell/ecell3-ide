@@ -93,5 +93,10 @@ namespace EcellLib.TracerWindow
                 m_style = System.Drawing.Drawing2D.DashStyle.DashDotDot;
             this.Close();
         }
+
+        private void LineStyleShown(object sender, EventArgs e)
+        {
+            this.ApplyButton.Focus();
+        }
     }
 }

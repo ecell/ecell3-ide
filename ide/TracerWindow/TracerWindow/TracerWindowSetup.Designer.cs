@@ -296,6 +296,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TracerWindowSetup";
             this.Text = "TracerWindowSetup";
+            this.Shown += new System.EventHandler(this.TracerWinSetupShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();

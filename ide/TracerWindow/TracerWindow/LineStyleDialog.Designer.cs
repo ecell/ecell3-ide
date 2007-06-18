@@ -209,6 +209,7 @@ namespace EcellLib.TracerWindow
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LineStyleDialog";
             this.Text = "Line Style";
+            this.Shown += new System.EventHandler(this.LineStyleShown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);

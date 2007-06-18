@@ -27,5 +27,10 @@ namespace EcellLib.TracerWindow
                 okButton.PerformClick();
             }
         }
+
+        private void TracerWinSetupShown(object sender, EventArgs e)
+        {
+            this.numberTextBox.Focus();
+        }
     }
 }
