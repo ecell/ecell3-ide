@@ -181,7 +181,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VariableRefWindow";
-            this.Text = "VariableRefWindow";
+            this.Text = "Variable Reference";
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);

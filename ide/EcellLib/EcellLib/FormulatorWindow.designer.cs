@@ -95,7 +95,7 @@
             this.Controls.Add(this.tableLayoutPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormulatorWindow";
-            this.Text = "FormulatorWindow";
+            this.Text = "Formulator";
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
