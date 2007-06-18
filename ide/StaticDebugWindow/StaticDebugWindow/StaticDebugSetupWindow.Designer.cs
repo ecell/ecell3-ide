@@ -209,7 +209,8 @@ namespace EcellLib.StaticDebugWindow
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StaticDebugSetupWindow";
-            this.Text = "StaticDebugSetupWindow";
+            this.Text = "Static DebugSetup";
+            this.Shown += new System.EventHandler(this.StaticDebugWinShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.debugResultView)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);

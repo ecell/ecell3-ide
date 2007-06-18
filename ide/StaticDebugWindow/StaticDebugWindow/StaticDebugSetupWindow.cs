@@ -252,5 +252,10 @@ namespace EcellLib.StaticDebugWindow
             this.Dispose();
         }
         #endregion
+
+        private void StaticDebugWinShown(object sender, EventArgs e)
+        {
+            this.debugButton.Focus();
+        }
     }
 }
