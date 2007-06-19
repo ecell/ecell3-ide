@@ -77,8 +77,14 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="UMD.HCIL.Piccolo" />
-    <Reference Include="UMD.HCIL.PiccoloX" />
+    <Reference Include="UMD.HCIL.Piccolo">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\UMD.HCIL.Piccolo.dll</HintPath>
+    </Reference>
+    <Reference Include="UMD.HCIL.PiccoloX">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\UMD.HCIL.PiccoloX.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreateReactionMouseHandler.cs" />
@@ -159,7 +165,6 @@
     <Content Include="Resources\ten.GIF" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram2.cd" />
     <None Include="pathwaywindow.snk" />
     <None Include="Resources\arrow.gif" />
   </ItemGroup>
