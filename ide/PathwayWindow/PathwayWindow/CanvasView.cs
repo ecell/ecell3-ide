@@ -486,7 +486,7 @@ namespace EcellLib.PathwayWindow
             m_pathwayCanvas.Camera.AddChild(m_showBtnDownward);
             m_pathwayCanvas.Name = name;
             m_pathwayCanvas.Camera.ScaleViewBy(0.7f);
-            
+
             if (lowerPanelShown)
                 m_showBtnDownward.Visible = true;
             else
@@ -1710,6 +1710,10 @@ namespace EcellLib.PathwayWindow
                         obj.OffsetX += po.OffsetX;
                         obj.OffsetY += po.OffsetY;
                     }
+                    obj.X += obj.OffsetX;
+                    obj.Y += obj.OffsetY;
+                    obj.OffsetX = 0;
+                    obj.OffsetY = 0;
                     if (obj is PPathwayNode)
                     {
                         ((PPathwayNode)obj).ParentObject = system;

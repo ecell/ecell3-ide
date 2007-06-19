@@ -730,7 +730,7 @@ namespace EcellLib.PathwayWindow
             uc.Dock = DockStyle.Fill;
             uc.Load += new EventHandler(m_view.SizeChanged);
             uc.Resize += new EventHandler(m_view.SizeChanged);
-            uc.MouseWheel += new MouseEventHandler(uc_MouseWheel);
+            uc.MouseWheel += new MouseEventHandler(uc_MouseWheel);            
             
             array.Add(uc);
 
