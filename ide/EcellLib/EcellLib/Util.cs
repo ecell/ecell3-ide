@@ -145,7 +145,7 @@ namespace EcellLib
             return GetRegistryValue(s_registryPluginDirKey);
         }
 
-        static public bool IsNG(string l_key)
+        static public bool IsNGforID(string l_key)
         {
             for (int i = 0; i < l_key.Length; i++)
             {
@@ -155,6 +155,20 @@ namespace EcellLib
             }
             return false;
         }
+
+        static public bool IsNGforFullID(string l_key)
+        {
+            for (int i = 0; i < l_key.Length; i++)
+            {
+                if (Char.IsLetterOrDigit(l_key[i]) ||
+                    l_key[i] == '_' ||
+                    l_key[i] == '/' ||
+                    l_key[i] == ':') continue;
+                return true;
+            }
+            return false;
+        }
+
 
         static public string GetTmpDir()
         {

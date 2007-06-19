@@ -301,7 +301,7 @@ namespace EcellLib
                 }
                 else
                 {
-                    t2.ReadOnly = true;
+//                    t2.ReadOnly = true;
                     t2.Text = m_currentObj.key;
                 }
                 t2.Dock = DockStyle.Fill;
@@ -683,7 +683,7 @@ namespace EcellLib
                                             MessageBoxIcon.Warning);
                             return null;
                         }
-                        else if (Util.IsNG(c.Text))
+                        else if (Util.IsNGforID(c.Text))
 //                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
                         {
                             MessageBox.Show("Id contains invalid character.\n",
@@ -696,6 +696,14 @@ namespace EcellLib
                         {
                             MessageBox.Show("SIZE is the reserved name.\n",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return null;
+                        }
+                        else if (m_currentObj != null && Util.IsNGforFullID(c.Text))
+                        {
+                            MessageBox.Show("Id contains invalid character.\n",
+                                            "WARNING", 
+                                            MessageBoxButtons.OK, 
+                                            MessageBoxIcon.Warning);
                             return null;
                         }
 
@@ -831,7 +839,7 @@ namespace EcellLib
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        else if (Util.IsNG(c.Text))
+                        else if (Util.IsNGforID(c.Text))
 //                        else if (c.Text.Contains(":") || (c.Text.Contains("/") && (m_currentObj.type != "Model" || c.Text != "/")))
                         {
                             MessageBox.Show("Id contains invalid character.\n",
@@ -950,7 +958,7 @@ namespace EcellLib
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                else if (Util.IsNG(modelID))
+                else if (Util.IsNGforID(modelID))
 //                else if (modelID.Contains(":") || modelID.Contains("/"))
                 {
                     MessageBox.Show("Id contains invalid character.\n",
@@ -1011,7 +1019,7 @@ namespace EcellLib
                             return;
                         }
 //                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
-                        else if (Util.IsNG(c.Text))
+                        else if (Util.IsNGforID(c.Text))
                         {
                             MessageBox.Show("Id contains invalid character.\n",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1139,6 +1147,23 @@ namespace EcellLib
                             MessageBox.Show("SIZE is the reserved name.\n",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
+                        }
+                        else if (Util.IsNGforFullID(c.Text))
+                        {
+                            MessageBox.Show("Id contains invalid character.\n",
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else if (m_currentObj.type.Equals("Process") ||
+                                    m_currentObj.type.Equals("Variable"))
+                        {
+                            int kpos = c.Text.IndexOf(':');
+                            if (kpos < 0 || kpos == c.Text.Length - 1)
+                            {
+                                MessageBox.Show("Input Id is invalid.\n",
+                                    "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
                         }
                     }
                     else if ((string)c.Tag == "classname") classname = c.Text;
