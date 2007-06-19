@@ -213,6 +213,19 @@ namespace EcellLib.PathwayWindow.Node
         }
 
         /// <summary>
+        /// Reconstruct edges.
+        /// </summary>
+        public void ReconstructEdges()
+        {
+            ValidateEdges();
+            foreach(PEcellProcess p in m_relatedProcesses)
+            {
+                p.DeleteEdges();
+                p.CreateEdges();
+            }
+        }
+
+        /// <summary>
         /// reconstruct the information of edge.
         /// </summary>
         public override void Refresh()

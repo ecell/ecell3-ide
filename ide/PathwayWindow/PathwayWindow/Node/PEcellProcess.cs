@@ -254,6 +254,7 @@ namespace EcellLib.PathwayWindow.Node
                             }
 
                             path.Pickable = true;
+                            
                             this.ParentObject.AddChild(path);
                             this.NotifyAddRelatedVariable(var, path);
                             var.NotifyAddRelatedProcess(this);

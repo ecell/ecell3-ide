@@ -1045,7 +1045,6 @@ namespace EcellLib.PathwayWindow
                             m_variables[newkey].Refresh();
                         }
                         
-
                         DataManager.GetDataManager().DataChanged(
                             obj.modelID, prevkey, obj.type, obj);
                     }
@@ -1053,8 +1052,20 @@ namespace EcellLib.PathwayWindow
                 // not implment 
                 // Fire DataChanged for child in system.!
                 m_systemChildrenBeforeDrag = null;
+
+                // Refresh edges
+                /*
+                foreach(PNode node in beforeDict.Values) {
+                    if(node is PEcellVariable){
+                        ((PEcellVariable)node).ReconstructEdges();
+                    }else if(node is PEcellProcess){
+                        ((PEcellProcess)node).DeleteEdges();
+                        ((PEcellProcess)node).CreateEdges();
+                    }
+                }*/
             }
             m_systems[m_selectedSystemName].UpdateText();
+            
             UpdateResizeHandlePositions();
             ResetSelectedObjects();
             ClearSurroundState();
@@ -1698,6 +1709,10 @@ namespace EcellLib.PathwayWindow
                     {
                         obj.OffsetX += po.OffsetX;
                         obj.OffsetY += po.OffsetY;
+                    }
+                    if (obj is PPathwayNode)
+                    {
+                        ((PPathwayNode)obj).ParentObject = system;
                     }
                 }
             }
@@ -2463,6 +2478,7 @@ namespace EcellLib.PathwayWindow
                     var.Element.Key = data.key;
                     var.Name = PathUtil.RemovePath(data.key);
                     m_variables.Add(data.key, var);
+                    var.ReconstructEdges();
                     break;
                 case ComponentType.Process:                    
                     if (!m_processes.ContainsKey(key))
