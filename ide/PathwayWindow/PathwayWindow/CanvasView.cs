@@ -1135,6 +1135,14 @@ namespace EcellLib.PathwayWindow
             {
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
+                if (width <= PEcellSystem.MIN_X_LENGTH)
+                {
+                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
+                }
+                if (height <= PEcellSystem.MIN_Y_LENGTH)
+                {
+                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
+                }
             }
         }
 
@@ -1214,6 +1222,15 @@ namespace EcellLib.PathwayWindow
             {
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
+
+                if (width <= PEcellSystem.MIN_X_LENGTH)
+                {
+                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
+                }
+                if (height <= PEcellSystem.MIN_Y_LENGTH)
+                {
+                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
+                }
             }
         }
 
@@ -1287,6 +1304,15 @@ namespace EcellLib.PathwayWindow
             {
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
+
+                if (width <= PEcellSystem.MIN_X_LENGTH)
+                {
+                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
+                }
+                if (height <= PEcellSystem.MIN_Y_LENGTH)
+                {
+                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
+                }
             }
         }
 
@@ -1364,6 +1390,15 @@ namespace EcellLib.PathwayWindow
             {
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
+
+                if (width <= PEcellSystem.MIN_X_LENGTH)
+                {
+                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
+                }
+                if (height <= PEcellSystem.MIN_Y_LENGTH)
+                {
+                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
+                }
             }
         }
 
