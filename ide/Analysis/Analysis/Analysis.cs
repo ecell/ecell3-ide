@@ -33,6 +33,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using System.Reflection;
 
 
 namespace EcellLib.Analysis
@@ -264,6 +265,11 @@ namespace EcellLib.Analysis
         public string GetPluginName()
         {
             return "Analysis";
+        }
+
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
         #endregion
     }
