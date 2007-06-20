@@ -64,6 +64,7 @@ namespace EcellLib.MainWindow
             this.MenuItemAnalysis = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowVersionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolstrip = new System.Windows.Forms.ToolStrip();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -303,8 +304,17 @@ namespace EcellLib.MainWindow
             // 
             // MenuItemHelp
             // 
+            this.MenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ShowVersionMenuItem});
             this.MenuItemHelp.Name = "MenuItemHelp";
             resources.ApplyResources(this.MenuItemHelp, "MenuItemHelp");
+            // 
+            // ShowVersionMenuItem
+            // 
+            this.ShowVersionMenuItem.Name = "ShowVersionMenuItem";
+            resources.ApplyResources(this.ShowVersionMenuItem, "ShowVersionMenuItem");
+            this.ShowVersionMenuItem.Tag = "100";
+            this.ShowVersionMenuItem.Click += new System.EventHandler(this.ShowPluginVersionClick);
             // 
             // toolstrip
             // 
@@ -382,6 +392,7 @@ namespace EcellLib.MainWindow
         public System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuItemAnalysis;
         private System.Windows.Forms.ToolStripMenuItem MenuItemLayout;
+        public System.Windows.Forms.ToolStripMenuItem ShowVersionMenuItem;
     }
 }
 

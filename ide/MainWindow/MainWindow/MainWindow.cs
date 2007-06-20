@@ -1289,6 +1289,12 @@ namespace EcellLib.MainWindow
             }
         }
         #endregion
+
+        private void ShowPluginVersionClick(object sender, EventArgs e)
+        {
+            PluginVersionListWindow w = new PluginVersionListWindow();
+            w.ShowDialog();
+        }
     }
 
     

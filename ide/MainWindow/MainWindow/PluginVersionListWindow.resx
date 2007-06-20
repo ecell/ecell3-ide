@@ -117,148 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="NameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="VersionColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="newProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="newProjectToolStripMenuItem.Text" xml:space="preserve">
-    <value>新規プロジェクト(&amp;N)...</value>
-  </data>
-  <data name="openProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="openProjectToolStripMenuItem.Text" xml:space="preserve">
-    <value>プロジェクトを開く(&amp;O)...</value>
-  </data>
-  <data name="saveProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="saveProjectToolStripMenuItem.Text" xml:space="preserve">
-    <value>プロジェクトの保存(&amp;S)...</value>
-  </data>
-  <data name="closeProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="closeProjectToolStripMenuItem.Text" xml:space="preserve">
-    <value>プロジェクトを閉じる(&amp;C)</value>
-  </data>
-  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 6</value>
-  </data>
-  <data name="importModelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="importModelToolStripMenuItem.Text" xml:space="preserve">
-    <value>モデルのインポート(&amp;I)...</value>
-  </data>
-  <data name="exportModelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="exportModelToolStripMenuItem.Text" xml:space="preserve">
-    <value>モデルのエクスポート(&amp;E)...</value>
-  </data>
-  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 6</value>
-  </data>
-  <data name="importScriptToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="importScriptToolStripMenuItem.Text" xml:space="preserve">
-    <value>スクリプトのインポート(&amp;M)...</value>
-  </data>
-  <data name="saveScriptToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="saveScriptToolStripMenuItem.Text" xml:space="preserve">
-    <value>スクリプトの保存(&amp;V)...</value>
-  </data>
-  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 6</value>
-  </data>
-  <data name="importActionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="importActionMenuItem.Text" xml:space="preserve">
-    <value>アクションのインポート(&amp;P)</value>
-  </data>
-  <data name="saveActionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="saveActionMenuItem.Text" xml:space="preserve">
-    <value>アクションの保存(&amp;E)...</value>
-  </data>
-  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 6</value>
-  </data>
-  <data name="printToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="printToolStripMenuItem.Text" xml:space="preserve">
-    <value>印刷(&amp;P)...</value>
-  </data>
-  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 6</value>
-  </data>
-  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 22</value>
-  </data>
-  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
-    <value>終了(&amp;X)</value>
-  </data>
-  <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 20</value>
-  </data>
-  <data name="MenuItemFile.Text" xml:space="preserve">
-    <value>ファイル(&amp;F)</value>
-  </data>
-  <data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 20</value>
-  </data>
-  <data name="MenuItemEdit.Text" xml:space="preserve">
-    <value>編集(&amp;E)</value>
-  </data>
-  <data name="MenuItemSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 20</value>
-  </data>
-  <data name="MenuItemSetup.Text" xml:space="preserve">
-    <value>設定(&amp;S)</value>
-  </data>
-  <data name="MenuItemLayout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 20</value>
-  </data>
-  <data name="MenuItemLayout.Text" xml:space="preserve">
-    <value>配置(&amp;L)</value>
-  </data>
-  <data name="MenuItemView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 20</value>
-  </data>
-  <data name="MenuItemView.Text" xml:space="preserve">
-    <value>表示(&amp;V)</value>
-  </data>
-  <data name="MenuItemRun.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 20</value>
-  </data>
-  <data name="MenuItemRun.Text" xml:space="preserve">
-    <value>実行(&amp;R)</value>
-  </data>
-  <data name="MenuItemAnalysis.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 20</value>
-  </data>
-  <data name="MenuItemAnalysis.Text" xml:space="preserve">
-    <value>分析(&amp;A)</value>
-  </data>
-  <data name="MenuItemDebug.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 20</value>
-  </data>
-  <data name="MenuItemDebug.Text" xml:space="preserve">
-    <value>デバッグ(&amp;D)</value>
-  </data>
-  <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 20</value>
-  </data>
-  <data name="MenuItemHelp.Text" xml:space="preserve">
-    <value>ヘルプ(&amp;H)</value>
-  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAMDAAAAEAIACoJQAAFgAAACgAAAAwAAAAYAAAAAEAIAAAAAAAgCUAAAAAAAAAAAAAAAAAAAAA
@@ -424,8 +289,5 @@
         AAB//wAA//AAAP//AAD//AAD//8AAP//gF///wAA////////AAD///////8AAP///////wAA////////
         AAA=
 </value>
-  </data>
-  <data name="ShowVersionMenuItem.Text" xml:space="preserve">
-    <value>プラグイン</value>
   </data>
 </root>
