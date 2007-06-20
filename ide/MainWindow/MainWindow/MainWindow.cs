@@ -604,6 +604,11 @@ namespace EcellLib.MainWindow
             return "MainWindow";
         }
 
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
         /// <summary>
         /// Check whether this plugin is MessageWindow.
         /// </summary>
