@@ -166,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="pathwaywindow.snk" />
+    <None Include="Properties\AssemblyInfo.cs.tmpl" />
     <None Include="Resources\arrow.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -181,5 +182,6 @@
 IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
 XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
 "$(FrameworkSDKDir)Bin\gacutil" /i "$(TargetPath)"</PostBuildEvent>
+    <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>

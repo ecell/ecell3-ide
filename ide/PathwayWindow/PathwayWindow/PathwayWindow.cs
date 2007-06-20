@@ -1031,6 +1031,11 @@ namespace EcellLib.PathwayWindow
         {
             return "PathwayWindow";
         }
+
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
         #endregion
 
         #region Internal use
