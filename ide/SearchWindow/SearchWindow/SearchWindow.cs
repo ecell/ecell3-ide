@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Text;
+using System.Reflection;
 
 namespace EcellLib.SearchWindow
 {
@@ -309,6 +310,11 @@ namespace EcellLib.SearchWindow
         public string GetPluginName()
         {
             return "SearchWindow";
+        }
+
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>
