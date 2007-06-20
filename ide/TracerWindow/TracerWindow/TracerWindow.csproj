@@ -133,6 +133,7 @@
     <None Include="Resources\dashdot.JPG" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\AssemblyInfo.cs.tmpl" />
     <None Include="Resources\dashdotdot.JPG" />
   </ItemGroup>
   <ItemGroup>
@@ -150,5 +151,6 @@
     <PostBuildEvent>XCOPY /Y ZedGraph.dll C:\home\ecell\E-Cell_IDE\src\MainWindow\MainWindow\bin\$(ConfigurationName)
 XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\plugin
 XCOPY /Y ZedGraph.dll C:\home\ecell\E-Cell_IDE\bin</PostBuildEvent>
+    <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>

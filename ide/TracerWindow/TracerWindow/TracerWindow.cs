@@ -36,6 +36,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Drawing.Drawing2D;
+using System.Reflection;
 
 namespace EcellLib.TracerWindow
 {
@@ -801,6 +802,11 @@ namespace EcellLib.TracerWindow
         public string GetPluginName()
         {
             return "TracerWindow";
+        }
+
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>
