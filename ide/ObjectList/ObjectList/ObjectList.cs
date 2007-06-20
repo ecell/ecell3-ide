@@ -37,6 +37,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using System.Reflection;
 
 using EcellLib;
 
@@ -751,6 +752,11 @@ namespace EcellLib.ObjectList
         public string GetPluginName()
         {
             return "ObjectList";
+        }
+
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>
