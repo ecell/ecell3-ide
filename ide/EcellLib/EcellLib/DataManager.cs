@@ -3777,6 +3777,57 @@ namespace EcellLib
             return this.m_dmDic[Util.s_xpathVariable];
         }
 
+        public String GetTemporaryID(string modelID, string type, string systemID)
+        {
+            String pref = "";
+            int i = 0;
+            if (type.Equals("Process")) pref = "P";
+            else if (type.Equals("Variable")) pref = "V";
+            else
+            {
+                while (true)
+                {
+                    string tmpID = "S" + i;
+                    string tmpSystemID = "";
+                    if (systemID.Equals("/"))
+                    {
+                        tmpSystemID = "/" + tmpID;
+                    }
+                    else
+                    {
+                        tmpSystemID = systemID + "/" + tmpID;
+                    }
+                    List<EcellObject> tmpList = GetData(modelID, tmpSystemID);
+                    if (tmpList.Count <= 0) return tmpID;
+                    i++;
+                }
+            }
+
+            List<EcellObject> list = GetData(modelID, systemID);
+            while (true)
+            {
+                bool isHit = false;
+                string tmpID = pref + i;
+                foreach (EcellObject obj1 in list)
+                {
+                    List<EcellObject> compList = obj1.M_instances;
+                    foreach (EcellObject obj2 in compList)
+                    {
+                        string[] ele = obj2.key.Split(new char[] { ':' });
+                        if (obj2.type.Equals(type) && tmpID.Equals(ele[ele.Length - 1]))
+                        {
+                            isHit = true;
+                        }
+                    }
+                }
+                if (!isHit)
+                {
+                    return tmpID;
+                }
+                i++;
+            }
+        }
+
         /// <summary>
         /// Returns the list of the "Variable" property. 
         /// </summary>

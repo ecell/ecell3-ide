@@ -66,5 +66,6 @@ namespace EcellLib
         bool IsEnablePrint();
         Bitmap Print();
         string GetPluginName();
+        string GetVersionString();
     }
 }
