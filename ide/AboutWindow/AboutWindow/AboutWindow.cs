@@ -34,7 +34,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
-
+using System.Reflection;
 using EcellLib;
 
 namespace EcellLib.AboutWindow
@@ -229,6 +229,11 @@ namespace EcellLib.AboutWindow
         public string GetPluginName()
         {
             return "AboutModelEditor";
+        }
+
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>

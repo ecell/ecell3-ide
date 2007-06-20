@@ -55,6 +55,8 @@ namespace EcellLib.AboutWindow
 
             this.manualLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
             this.manualLink.Links[0].LinkData = path + "\\docs\\usermanual.pdf";
+
+            
         }
 
         private void About_Load(object sender, EventArgs e)
