@@ -89,6 +89,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\AssemblyInfo.cs.tmpl" />
     <None Include="StaticDebugWindow.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -107,5 +108,6 @@
 IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
 XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
 "$(FrameworkSDKDir)Bin\gacutil" /i "$(TargetPath)"</PostBuildEvent>
+    <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -215,6 +215,11 @@ namespace EcellLib.StaticDebugWindow
             return "StaticDebugWindow";
         }
 
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
         /// <summary>
         /// Returns items of the menu strip used on the toolbar.
         /// </summary>
