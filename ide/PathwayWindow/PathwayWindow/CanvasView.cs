@@ -48,6 +48,7 @@ using EcellLib.PathwayWindow.Element;
 using EcellLib.PathwayWindow.Handler;
 using PathwayWindow;
 using PathwayWindow.UIComponent;
+using UMD.HCIL.PiccoloX.Components;
 
 namespace EcellLib.PathwayWindow
 {
@@ -262,6 +263,7 @@ namespace EcellLib.PathwayWindow
         protected PointF m_lowerLeftPoint;
 
         protected bool m_isRefreshOverview = false;
+                
         #endregion
 
         #region Accessors
@@ -475,6 +477,7 @@ namespace EcellLib.PathwayWindow
             // Preparing TabPage
             m_pathwayTabPage = new TabPage(name);
             m_pathwayTabPage.Name = name;
+            m_pathwayTabPage.AutoScroll = true;
 
             m_pathwayCanvas = new PathwayCanvas(this);
             
@@ -491,8 +494,11 @@ namespace EcellLib.PathwayWindow
                 m_showBtnDownward.Visible = true;
             else
                 m_showBtnUpward.Visible = true;
-            
-            m_pathwayTabPage.Controls.Add(m_pathwayCanvas);
+
+            PScrollableControl scrolCtrl = new PScrollableControl(m_pathwayCanvas);
+            scrolCtrl.Dock = DockStyle.Fill;
+            m_pathwayTabPage.Controls.Add(scrolCtrl);
+            //m_pathwayTabPage.Controls.Add(m_pathwayCanvas);
 
             // Preparing overview
             m_area = new PDisplayedArea();
@@ -2354,7 +2360,7 @@ namespace EcellLib.PathwayWindow
             if( null != m_selectedLine )
             {
                 m_selectedLine.unhighlight();
-            }
+            }            
             line.highlight();
             m_selectedLine = line;
         }

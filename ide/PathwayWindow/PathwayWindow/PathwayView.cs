@@ -372,7 +372,7 @@ namespace EcellLib.PathwayWindow
             m_dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             m_dgv.AllowUserToResizeRows = false;
             m_dgv.CurrentCellDirtyStateChanged += new EventHandler(m_dgv_CurrentCellDirtyStateChanged);
-            m_dgv.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(dgv_DataBindingComplete);
+            m_dgv.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(dgv_DataBindingComplete);            
 
             GroupBox layerGB = new GroupBox();
             layerGB.Dock = DockStyle.Fill;
