@@ -34,6 +34,7 @@ using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 using EcellLib;
@@ -687,6 +688,10 @@ namespace EcellLib.EntityListWindow
         {
             try
             {
+                String tmpID = m_dManager.GetTemporaryID(m_currentObj.modelID,
+                    "Process", m_currentObj.key);
+
+
                 m_editor = new PropertyEditor();
                 m_editor.layoutPanel.SuspendLayout();
                 m_editor.SetParentObject(m_currentObj);
@@ -1443,6 +1448,11 @@ namespace EcellLib.EntityListWindow
         public string GetPluginName()
         {
             return "EntityListWindow";
+        }
+
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>
