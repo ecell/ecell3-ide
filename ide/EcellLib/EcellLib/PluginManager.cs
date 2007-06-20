@@ -439,12 +439,26 @@ namespace EcellLib
         /// <returns>the plugin. if not find the plugin, return null.</returns>
         public PluginBase GetPlugin(string name)
         {
-            foreach (PluginBase p in m_pluginDic.Values)
+            foreach (PluginBase p in m_pluginList.Values)
             {
                 if (p.GetPluginName().Equals(name))
                     return p;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Get the name and version of plugin.
+        /// </summary>
+        /// <returns>dictionary of name and version. name is key. version is data.</returns>
+        public Dictionary<String, String> GetPluginVersionList()
+        {
+            Dictionary<String, String> result = new Dictionary<String, String>();
+            foreach (PluginBase p in m_pluginList.Values)
+            {
+                result.Add(p.GetPluginName(), p.GetVersionString());
+            }
+            return result;
         }
 
         /// <summary>
