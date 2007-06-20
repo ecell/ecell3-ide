@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Reflection;
 
 using EcellLib;
 
@@ -313,6 +314,11 @@ namespace EcellLib.MessageWindow
         public string GetPluginName()
         {
             return "MessageWindow";
+        }
+
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>
