@@ -151,6 +151,7 @@
     <None Include="Resources\media_pause.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\AssemblyInfo.cs.tmpl" />
     <None Include="Resources\media_step_forward.png" />
   </ItemGroup>
   <ItemGroup>
@@ -169,5 +170,6 @@
 IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
 XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
 </PostBuildEvent>
+    <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>

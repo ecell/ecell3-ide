@@ -34,6 +34,7 @@ using System.Text;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using System.Reflection;
 
 using EcellLib;
 
@@ -452,6 +453,11 @@ namespace EcellLib.Simulation
         public string GetPluginName()
         {
             return "Simulation";
+        }
+
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>
