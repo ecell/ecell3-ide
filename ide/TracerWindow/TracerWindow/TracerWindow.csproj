@@ -148,9 +148,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y ZedGraph.dll C:\home\ecell\E-Cell_IDE\src\MainWindow\MainWindow\bin\$(ConfigurationName)
-XCOPY /Y $(TargetPath) C:\home\ecell\E-Cell_IDE\plugin
-XCOPY /Y ZedGraph.dll C:\home\ecell\E-Cell_IDE\bin</PostBuildEvent>
+    <PostBuildEvent>XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\src\MainWindow\MainWindow\bin\$(ConfigurationName)"
+XCOPY /Y $(TargetPath) "$(ECELL_STAGING_HOME)\plugin"
+XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\bin"</PostBuildEvent>
     <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>
