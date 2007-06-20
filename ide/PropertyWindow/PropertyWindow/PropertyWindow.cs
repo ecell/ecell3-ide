@@ -35,6 +35,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace EcellLib.PropertyWindow
@@ -542,6 +543,11 @@ namespace EcellLib.PropertyWindow
         public string GetPluginName()
         {
             return "PropertyWindow";
+        }
+
+        public String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>
