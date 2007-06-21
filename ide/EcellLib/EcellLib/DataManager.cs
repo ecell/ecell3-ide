@@ -3811,6 +3811,7 @@ namespace EcellLib
                 foreach (EcellObject obj1 in list)
                 {
                     List<EcellObject> compList = obj1.M_instances;
+                    if (compList == null) continue;
                     foreach (EcellObject obj2 in compList)
                     {
                         string[] ele = obj2.key.Split(new char[] { ':' });
