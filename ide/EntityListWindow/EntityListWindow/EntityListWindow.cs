@@ -638,12 +638,37 @@ namespace EcellLib.EntityListWindow
         {
             try
             {
-                m_editor = new PropertyEditor();
+                String tmpID = m_dManager.GetTemporaryID(m_currentObj.modelID,
+                    "System", m_currentObj.key);
+
+                Dictionary<string, EcellData> list = DataManager.GetSystemProperty();
+                List<EcellData> data = new List<EcellData>();
+                foreach (EcellData d in list.Values)
+                {
+                    data.Add(d);
+                }
+                String keydata = "";
+                if (m_currentObj.key.Equals("/"))
+                {
+                    keydata = "/" + tmpID;
+                }
+                else
+                {
+                    keydata = m_currentObj.key + "/" + tmpID;
+                }
+                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, keydata,
+                    "System", "System", data);
+
+                List<EcellObject> rList = new List<EcellObject>();
+                rList.Add(obj);
+                m_dManager.DataAdd(rList);
+
+/*                m_editor = new PropertyEditor();
                 m_editor.SetParentObject(m_currentObj);
                 m_editor.SetDataType("System");
                 m_editor.button1.Click += new EventHandler(m_editor.AddSystem);
                 m_editor.LayoutPropertyEditor();
-                m_editor.ShowDialog();
+                m_editor.ShowDialog();*/
             }
             catch (Exception ex)
             {
@@ -663,12 +688,30 @@ namespace EcellLib.EntityListWindow
         {
             try
             {
+                String tmpID = m_dManager.GetTemporaryID(m_currentObj.modelID,
+                    "Variable", m_currentObj.key);
+
+                Dictionary<string, EcellData> list = DataManager.GetVariableProperty();
+                List<EcellData> data = new List<EcellData>();
+                foreach (EcellData d in list.Values)
+                {
+                    data.Add(d);
+                }
+                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, m_currentObj.key + ":" + tmpID,
+                    "Variable", "Variable", data);
+
+                List<EcellObject> rList = new List<EcellObject>();
+                rList.Add(obj);
+                m_dManager.DataAdd(rList);
+
+                /*
                 m_editor = new PropertyEditor();
                 m_editor.SetParentObject(m_currentObj);
                 m_editor.SetDataType("Variable");
                 m_editor.button1.Click += new EventHandler(m_editor.AddNodeElement);
                 m_editor.LayoutPropertyEditor();
                 m_editor.ShowDialog();
+                 * */
             }
             catch (Exception ex)
             {
@@ -691,7 +734,21 @@ namespace EcellLib.EntityListWindow
                 String tmpID = m_dManager.GetTemporaryID(m_currentObj.modelID,
                     "Process", m_currentObj.key);
 
+                Dictionary<string, EcellData> list = DataManager.GetProcessProperty("ExpressionFluxProcess");
+                List<EcellData> data = new List<EcellData>();
+                foreach (EcellData d in list.Values)
+                {
+                    data.Add(d);
+                }
+                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, m_currentObj.key + ":" + tmpID,
+                    "Process", "ExpressionFluxProcess", data);
 
+                List<EcellObject> rList = new List<EcellObject>();
+                rList.Add(obj);
+                m_dManager.DataAdd(rList);
+
+
+/*
                 m_editor = new PropertyEditor();
                 m_editor.layoutPanel.SuspendLayout();
                 m_editor.SetParentObject(m_currentObj);
@@ -701,6 +758,7 @@ namespace EcellLib.EntityListWindow
                 m_editor.LayoutPropertyEditor();
                 m_editor.layoutPanel.ResumeLayout(false);
                 m_editor.ShowDialog();
+ */
             }
             catch (Exception ex)
             {
