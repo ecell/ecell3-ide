@@ -187,7 +187,7 @@ namespace EcellLib
             Label l = new Label();
             l.Text = "modelID";
             l.Dock = DockStyle.Fill;
-            layoutPanel.Controls.Add(l, 0, 0);
+            layoutPanel.Controls.Add(l, 1, 0);
             TextBox t = new TextBox();
             if (m_currentObj == null)
             {
@@ -202,7 +202,7 @@ namespace EcellLib
             }
             t.Dock = DockStyle.Fill;
             t.Tag = "modelID";
-            layoutPanel.Controls.Add(t, 1, 0);
+            layoutPanel.Controls.Add(t, 2, 0);
             layoutPanel.ResumeLayout(false);
         }
 
@@ -275,7 +275,7 @@ namespace EcellLib
                 Label l1 = new Label();
                 l1.Text = "modelID";
                 l1.Dock = DockStyle.Fill;
-                layoutPanel.Controls.Add(l1, 0, i);
+                layoutPanel.Controls.Add(l1, 1, i);
                 TextBox t1 = new TextBox();
                 t1.Tag = "modelID";
                 t1.Dock = DockStyle.Fill;
@@ -283,14 +283,14 @@ namespace EcellLib
                 if (m_currentObj != null) t1.Text = m_currentObj.modelID;
                 else t1.Text = m_parentObj.modelID;
                 t1.ReadOnly = true;
-                layoutPanel.Controls.Add(t1, 1, i);
+                layoutPanel.Controls.Add(t1, 2, i);
                 i++;
 
                 layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 Label l2 = new Label();
                 l2.Text = "id";
                 l2.Dock = DockStyle.Fill;
-                layoutPanel.Controls.Add(l2, 0, i);
+                layoutPanel.Controls.Add(l2, 1, i);
                 TextBox t2 = new TextBox();
                 t2.Tag = "id";
                 if (m_currentObj == null)
@@ -305,14 +305,14 @@ namespace EcellLib
                     t2.Text = m_currentObj.key;
                 }
                 t2.Dock = DockStyle.Fill;
-                layoutPanel.Controls.Add(t2, 1, i);
+                layoutPanel.Controls.Add(t2, 2, i);
                 i++;
 
                 layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 Label l3 = new Label();
                 l3.Text = "classname";
                 l3.Dock = DockStyle.Fill;
-                layoutPanel.Controls.Add(l3, 0, i);
+                layoutPanel.Controls.Add(l3, 1, i);
                 ComboBox combo = new ComboBox();
                 combo.DropDownStyle = ComboBoxStyle.DropDownList;
                 int j = 0;
@@ -340,14 +340,14 @@ namespace EcellLib
                 combo.Tag = "classname";
                 combo.Dock = DockStyle.Fill;
                 combo.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                layoutPanel.Controls.Add(combo, 1, i);
+                layoutPanel.Controls.Add(combo, 2, i);
                 i++;
 
                 layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 Label l4 = new Label();
                 l4.Text = "type";
                 l4.Dock = DockStyle.Fill;
-                layoutPanel.Controls.Add(l4, 0, i);
+                layoutPanel.Controls.Add(l4, 1, i);
                 TextBox t4 = new TextBox();
                 t4.Text = "";
                 t4.Tag = "type";
@@ -355,16 +355,44 @@ namespace EcellLib
                 t4.Text = m_type;
                 t4.ReadOnly = true;
                 t4.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                layoutPanel.Controls.Add(t4, 1, i);
+                layoutPanel.Controls.Add(t4, 2, i);
                 i++;
 
                 foreach (string key in m_propDict.Keys)
                 {
                     layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                    if (m_propDict[key].M_isLogable)
+                    {
+                        CheckBox c = new CheckBox();
+                        if (m_propDict[key].M_isLogger)
+                        {
+                            c.Checked = true;
+                        }
+                        else
+                        {
+                            c.Checked = false;
+                        }
+                        c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                        c.Text = "";
+                        c.AutoSize = true;
+                        c.Enabled = true;
+                        layoutPanel.Controls.Add(c, 0, i);
+                    }
+                    else
+                    {
+                        CheckBox c = new CheckBox();
+                        c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                        c.Text = "";
+                        c.AutoSize = true;
+                        c.Checked = false;
+                        c.Enabled = false;
+                        layoutPanel.Controls.Add(c, 0, i);
+                    }
+
                     Label l = new Label();
                     l.Text = key;
                     l.Dock = DockStyle.Fill;
-                    layoutPanel.Controls.Add(l, 0, i);
+                    layoutPanel.Controls.Add(l, 1, i);
 
                     if (key == "VariableReferenceList")
                     {
@@ -374,7 +402,7 @@ namespace EcellLib
                         b.Dock = DockStyle.Fill;
                         b.Click += new EventHandler(ShowVarRefWindow);
                         b.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                        layoutPanel.Controls.Add(b, 1, i);
+                        layoutPanel.Controls.Add(b, 2, i);
                     }
                     else if (key == "StepperID")
                     {
@@ -396,7 +424,7 @@ namespace EcellLib
                         t.Tag = key;
                         t.Dock = DockStyle.Fill;
                         t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                        layoutPanel.Controls.Add(t, 1, i);
+                        layoutPanel.Controls.Add(t, 2, i);
                     }
                     else
                     {
@@ -410,7 +438,7 @@ namespace EcellLib
                             t.ReadOnly = true;
                         }
                         t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                        layoutPanel.Controls.Add(t, 1, i);
+                        layoutPanel.Controls.Add(t, 2, i);
 
                         if ((key == "Expression"))
                         {
@@ -420,7 +448,7 @@ namespace EcellLib
                             b.Dock = DockStyle.Fill;
                             b.Click += new EventHandler(ShowFormulatorWindow);
                             m_text = t;
-                            layoutPanel.Controls.Add(b, 2, i);
+                            layoutPanel.Controls.Add(b, 3, i);
                         }
                     }
                     i++;
@@ -432,7 +460,7 @@ namespace EcellLib
                     b.Tag = "Add Property";
                     b.Dock = DockStyle.Fill;
                     b.Click += new EventHandler(AddPropertyForProcess);
-                    layoutPanel.Controls.Add(b, 1, i);
+                    layoutPanel.Controls.Add(b, 2, i);
                     i++;
                 }
 
@@ -442,14 +470,14 @@ namespace EcellLib
                     Label l = new Label();
                     l.Text = "Defined Size";
                     l.Dock = DockStyle.Fill;
-                    layoutPanel.Controls.Add(l, 0, i);
+                    layoutPanel.Controls.Add(l, 1, i);
 
                     TextBox t = new TextBox();
                     t.Text = "";
                     t.Tag = "DefinedSize";
                     t.Dock = DockStyle.Fill;
                     t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                    layoutPanel.Controls.Add(t, 1, i);
+                    layoutPanel.Controls.Add(t, 2, i);
                 }
                 else if (m_currentObj != null && m_currentObj.type.Equals("System"))
                 {
@@ -457,14 +485,14 @@ namespace EcellLib
                     Label l = new Label();
                     l.Text = "Defined Size";
                     l.Dock = DockStyle.Fill;
-                    layoutPanel.Controls.Add(l, 0, i);
+                    layoutPanel.Controls.Add(l, 1, i);
 
                     TextBox t = new TextBox();
                     t.Text = "";
                     t.Tag = "DefinedSize";
                     t.Dock = DockStyle.Fill;
                     t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                    layoutPanel.Controls.Add(t, 1, i);
+                    layoutPanel.Controls.Add(t, 2, i);
 
                     if (m_currentObj.M_instances != null)
                     {
@@ -502,12 +530,22 @@ namespace EcellLib
             String name = dialog.ShowPropertyDialog();
             if (name == null) return;
 
+            EcellData data;
             if (m_currentObj != null)
-                m_propDict.Add(name, new EcellData(name, new EcellValue(0.0), 
-                    "Process:" + m_currentObj.key + ":" + name));
+                data = new EcellData(name, new EcellValue(0.0),
+                    "Process:" + m_currentObj.key + ":" + name);
             else
-                m_propDict.Add(name, new EcellData(name, new EcellValue(0.0),
-                    "Process:/dummy:" + name));
+                data = new EcellData(name, new EcellValue(0.0),
+                    "Process:/dummy:" + name);
+
+            data.M_isGettable = true;
+            data.M_isLoadable = true;
+            data.M_isLogable = true;
+            data.M_isLogger = false;
+            data.M_isSavable = true;
+            data.M_isSettable = true;
+            
+            m_propDict.Add(name, data);
 
             Control cnt = null;
             int width = layoutPanel.Width;
@@ -522,22 +560,31 @@ namespace EcellLib
                         if (c == null) continue;
                         TableLayoutPanelCellPosition pos =
                             layoutPanel.GetPositionFromControl(c);
-                        if (pos.Column != 1) continue;
+                        if (pos.Column != 2) continue;
                         if (c.Tag.Equals("Add Property"))
                         {
                             layoutPanel.Controls.Remove(c);
                             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+
+                            CheckBox chk = new CheckBox();
+                            chk.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                            chk.Text = "";
+                            chk.AutoSize = true;
+                            chk.Checked = false;
+                            chk.Enabled = true;
+                            layoutPanel.Controls.Add(chk, 0, pos.Row);
+
                             Label l = new Label();
                             l.Text = name;
                             l.Dock = DockStyle.Fill;
-                            layoutPanel.Controls.Add(l, 0, pos.Row);
+                            layoutPanel.Controls.Add(l, 1, pos.Row);
 
                             TextBox t = new TextBox();
                             t.Text = "";
                             t.Tag = name;
                             t.Dock = DockStyle.Fill;
                             t.Text = "0.0";
-                            layoutPanel.Controls.Add(t, 1, pos.Row);
+                            layoutPanel.Controls.Add(t, 2, pos.Row);
 
                             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                             Button b = new Button();
@@ -545,7 +592,7 @@ namespace EcellLib
                             b.Tag = "Add Property";
                             b.Dock = DockStyle.Fill;
                             b.Click += new EventHandler(AddPropertyForProcess);
-                            layoutPanel.Controls.Add(b, 1, pos.Row + 1);
+                            layoutPanel.Controls.Add(b, 2, pos.Row + 1);
 
                             break;
                         }
@@ -827,7 +874,7 @@ namespace EcellLib
                     if (c == null) continue;
                     TableLayoutPanelCellPosition pos =
                         layoutPanel.GetPositionFromControl(c);
-                    if (pos.Column == 0) continue;
+                    if (pos.Column == 0 || pos.Column == 1) continue;
 
                     if ((string)c.Tag == "modelID") modelID = c.Text;
                     else if ((string)c.Tag == "id")
@@ -947,7 +994,7 @@ namespace EcellLib
                     if (c == null) continue;
                     TableLayoutPanelCellPosition pos =
                         layoutPanel.GetPositionFromControl(c);
-                    if (pos.Column == 0) continue;
+                    if (pos.Column == 0 || pos.Column == 1) continue;
 
                     if ((string)c.Tag == "modelID") modelID = c.Text;
                 }
@@ -1119,6 +1166,7 @@ namespace EcellLib
             string key = "";
             string classname = "";
             string type = "";
+            bool isLogger = false;
             List<EcellData> list = new List<EcellData>();
             IEnumerator iter = layoutPanel.Controls.GetEnumerator();
             try
@@ -1129,7 +1177,17 @@ namespace EcellLib
                     if (c == null) continue;
                     TableLayoutPanelCellPosition pos =
                         layoutPanel.GetPositionFromControl(c);
-                    if (pos.Column != 1) continue;
+                    if (pos.Column == 0)
+                    {
+                        CheckBox chk = c as CheckBox;
+                        if (c == null)
+                        {
+                            isLogger = false;
+                            continue;
+                        }
+                        isLogger = chk.Checked;
+                    }
+                    if (pos.Column != 2) continue;
 
                     if ((string)c.Tag == "Add Property") continue;
                     if ((string)c.Tag == "modelID") modelID = c.Text;
@@ -1318,7 +1376,7 @@ namespace EcellLib
                         data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
                         data.M_isGettable = m_propDict[data.M_name].M_isGettable;
                         data.M_isLogable = m_propDict[data.M_name].M_isLogable;
-                        data.M_isLogger = m_propDict[data.M_name].M_isLogger;
+                        data.M_isLogger = isLogger;
 
                         list.Add(data);
                     }
