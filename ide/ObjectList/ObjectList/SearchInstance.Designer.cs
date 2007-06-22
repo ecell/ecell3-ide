@@ -80,7 +80,8 @@
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(137, 23);
             this.searchButton.TabIndex = 0;
-            this.searchButton.Text = "Search";
+//            this.searchButton.Text = "Search";
+            resources.ApplyResources(searchButton, "SearchButton");
             this.searchButton.UseVisualStyleBackColor = true;
             // 
             // closeButton
@@ -90,7 +91,8 @@
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(137, 23);
             this.closeButton.TabIndex = 1;
-            this.closeButton.Text = "Close";
+//            this.closeButton.Text = "Close";
+            resources.ApplyResources(closeButton, "CloseButton");
             this.closeButton.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel3
