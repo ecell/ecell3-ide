@@ -507,7 +507,6 @@ namespace EcellLib.PathwayWindow.Node
         public override void MoveEnd()
         {
             CreateEdges();
-            RefreshEdges();
         }
         #endregion
     }
