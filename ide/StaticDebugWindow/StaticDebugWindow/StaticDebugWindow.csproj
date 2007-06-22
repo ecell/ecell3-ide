@@ -81,11 +81,30 @@
     </Compile>
     <Compile Include="StaticDebugWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticDebugWindow.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StaticDebugWindow.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="StaticDebugSetupWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>StaticDebugSetupWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StaticDebugSetupWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>StaticDebugSetupWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StaticDebugWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>StaticDebugWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StaticDebugWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>StaticDebugWindow.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StaticDebugWindow.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -107,7 +126,8 @@
     <PostBuildEvent>
 IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
 XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
-"$(FrameworkSDKDir)Bin\gacutil" /i "$(TargetPath)"</PostBuildEvent>
+"$(FrameworkSDKDir)Bin\gacutil" /i "$(TargetPath)"
+XCOPY /Y "$(TargetDir)\ja\StaticDebugWindow.resources.dll"  "$(ECELL_STAGING_HOME)\bin\ja"</PostBuildEvent>
     <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>

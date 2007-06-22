@@ -163,7 +163,8 @@ namespace EcellLib.StaticDebugWindow
             this.debugButton.Name = "debugButton";
             this.debugButton.Size = new System.Drawing.Size(75, 28);
             this.debugButton.TabIndex = 0;
-            this.debugButton.Text = "Debug";
+//            this.debugButton.Text = "Debug";
+            resources.ApplyResources(debugButton, "DebugButton");
             this.debugButton.UseVisualStyleBackColor = true;
             this.debugButton.Click += new System.EventHandler(this.debugButton_Click);
             // 
@@ -175,7 +176,8 @@ namespace EcellLib.StaticDebugWindow
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 28);
             this.closeButton.TabIndex = 1;
-            this.closeButton.Text = "Close";
+//            this.closeButton.Text = "Close";
+            resources.ApplyResources(closeButton, "CloseButton");
             this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 

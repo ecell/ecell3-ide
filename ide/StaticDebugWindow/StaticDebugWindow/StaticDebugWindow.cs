@@ -184,12 +184,14 @@ namespace EcellLib.StaticDebugWindow
         /// <returns>items of the menu strip</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StaticDebugWindow));
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
 
             m_staticDebug = new ToolStripMenuItem();
             m_staticDebug.Name = "MenuItemStaticDebug";
             m_staticDebug.Size = new Size(96, 22);
-            m_staticDebug.Text = "Static Debug";
+//            m_staticDebug.Text = "Static Debug";
+            resources.ApplyResources(m_staticDebug, "MenuItemStaticDebug");
             m_staticDebug.Tag = 10;
             m_staticDebug.Enabled = false;
             m_staticDebug.Click += new EventHandler(this.ShowStaticDebugSetupWindow);
