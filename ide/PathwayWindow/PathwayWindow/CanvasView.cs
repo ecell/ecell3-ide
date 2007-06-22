@@ -598,7 +598,7 @@ namespace EcellLib.PathwayWindow
             // Preparing a context menu.
             m_nodeMenu = new ContextMenuStrip();
             m_nodeMenu.Closed += new ToolStripDropDownClosedEventHandler(m_nodeMenu_Closed);
-            
+
             int count = 0;
             foreach(ILayoutAlgorithm algorithm in m_pathwayView.Window.LayoutAlgorithm)
             {
