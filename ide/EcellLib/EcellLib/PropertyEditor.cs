@@ -703,6 +703,7 @@ namespace EcellLib
             string key = "";
             string classname = "";
             string type = "";
+            bool isLogger = false;
             EcellObject sizeObj = null;
             List<EcellData> list = new List<EcellData>();
 
@@ -715,7 +716,19 @@ namespace EcellLib
                     if (c == null) continue;
                     TableLayoutPanelCellPosition pos =
                         layoutPanel.GetPositionFromControl(c);
-                    if (pos.Column != 1) continue;
+                    if (pos.Column == 0)
+                    {
+                        CheckBox chk = c as CheckBox;
+                        if (chk == null)
+                        {
+                            isLogger = false;
+                            continue;
+                        }
+                        isLogger = chk.Checked;
+                        continue;
+                        
+                    }
+                    if (pos.Column != 2) continue;
                     if ((string)c.Tag == "Add Property") continue;
 
                     if ((string)c.Tag == "modelID") modelID = c.Text;
@@ -828,7 +841,8 @@ namespace EcellLib
                             data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
                             data.M_isGettable = m_propDict[data.M_name].M_isGettable;
                             data.M_isLogable = m_propDict[data.M_name].M_isLogable;
-                            data.M_isLogger = m_propDict[data.M_name].M_isLogger;
+//                            data.M_isLogger = m_propDict[data.M_name].M_isLogger;
+                            data.M_isLogger = isLogger;
                         }
                         catch (Exception)
                         {
