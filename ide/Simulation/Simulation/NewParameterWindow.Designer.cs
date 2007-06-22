@@ -112,7 +112,8 @@
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(137, 23);
             this.OKButton.TabIndex = 0;
-            this.OKButton.Text = "Apply";
+            resources.ApplyResources(this.OKButton, "ApplyButton");
+//            this.OKButton.Text = "Apply";
             this.OKButton.UseVisualStyleBackColor = true;
             // 
             // cancelButton
@@ -122,7 +123,8 @@
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(137, 23);
             this.cancelButton.TabIndex = 1;
-            this.cancelButton.Text = "Close";
+            resources.ApplyResources(this.cancelButton, "CloseButton");
+//            this.cancelButton.Text = "Close";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // NewParameterWindow

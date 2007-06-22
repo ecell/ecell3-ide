@@ -102,6 +102,42 @@ namespace Simulation {
             }
         }
         
+        /// <summary>
+        ///   Run に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemRun_Text {
+            get {
+                return ResourceManager.GetString("MenuItemRun.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Simulation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemSetupSim_Text {
+            get {
+                return ResourceManager.GetString("MenuItemSetupSim.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemStop_Text {
+            get {
+                return ResourceManager.GetString("MenuItemStop.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Suspend に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemSuspend_Text {
+            get {
+                return ResourceManager.GetString("MenuItemSuspend.Text", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap red1 {
             get {
                 object obj = ResourceManager.GetObject("red1", resourceCulture);

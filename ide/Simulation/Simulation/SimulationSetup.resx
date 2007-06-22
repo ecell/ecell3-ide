@@ -117,30 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="Property.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Property.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="Value.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="Value.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="Get.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="Get.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="Set.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="Set.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="dataGridViewTextBoxColumn1.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="dataGridViewTextBoxColumn1.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="dataGridViewTextBoxColumn2.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="dataGridViewTextBoxColumn2.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="id.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="id.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="initialvalue.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="initialvalue.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -307,5 +308,29 @@
         AAB//wAA//AAAP//AAD//AAD//8AAP//gF///wAA////////AAD///////8AAP///////wAA////////
         AAA=
 </value>
+  </data>
+  <data name="AddStepperButton.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="ApplyButton.Text" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="CloseButton.Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="DeleteButton.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteStepperButton.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="NewButton.Text" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="SaveButton.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SetButton.Text" xml:space="preserve">
+    <value>Set</value>
   </data>
 </root>

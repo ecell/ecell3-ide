@@ -117,44 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="blue1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\blue1.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="green3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\green3.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="media_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\media_pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="media_play_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\media_play_green.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="media_step_forward" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\media_step_forward.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="media_stop_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\media_stop_red.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MenuItemRun.Text" xml:space="preserve">
-    <value>Run</value>
+    <value>シミュレーション実行</value>
   </data>
   <data name="MenuItemSetupSim.Text" xml:space="preserve">
-    <value>Simulation</value>
+    <value>シミュレーション条件設定</value>
   </data>
   <data name="MenuItemStop.Text" xml:space="preserve">
-    <value>Reset</value>
+    <value>シミュレーションリセット</value>
   </data>
   <data name="MenuItemSuspend.Text" xml:space="preserve">
-    <value>Suspend</value>
-  </data>
-  <data name="red1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\red1.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ye3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\ye3.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ye4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\ye4.GIF;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>シミュレーション停止</value>
   </data>
 </root>

@@ -104,26 +104,30 @@ namespace EcellLib.Simulation
         /// <returns>MenuStripItems</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Simulation));
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
 
             m_runSim = new ToolStripMenuItem();
             m_runSim.Name = "MenuItemRunSimulation";
             m_runSim.Size = new Size(96, 22);
-            m_runSim.Text = "Run ... ";
+//            m_runSim.Text = "Run ... ";
+            resources.ApplyResources(m_runSim, "MenuItemRun");
             m_runSim.Enabled = false;
             m_runSim.Click += new EventHandler(this.RunSimulation);
 
             m_suspendSim = new ToolStripMenuItem();
             m_suspendSim.Name = "MenuItemSuspendSimulation";
             m_suspendSim.Size = new Size(96, 22);
-            m_suspendSim.Text = "Suspend ...";
+//            m_suspendSim.Text = "Suspend ...";
+            resources.ApplyResources(m_suspendSim, "MenuItemSuspend");
             m_suspendSim.Enabled = false;
             m_suspendSim.Click += new EventHandler(this.SuspendSimulation);
 
             m_stopSim = new ToolStripMenuItem();
             m_stopSim.Name = "MenuItemStopSimulation";
             m_stopSim.Size = new Size(96, 22);
-            m_stopSim.Text = "Stop ...";
+//            m_stopSim.Text = "Stop ...";
+            resources.ApplyResources(m_stopSim, "MenuItemStop");
             m_stopSim.Enabled = false;
             m_stopSim.Click += new EventHandler(this.StopSimulation);
 
@@ -141,7 +145,8 @@ namespace EcellLib.Simulation
             m_setupSim = new ToolStripMenuItem();
             m_setupSim.Name = "MenuItemSetupSimulation";
             m_setupSim.Size = new Size(96, 22);
-            m_setupSim.Text = "Simulation";
+//            m_setupSim.Text = "Simulation";
+            resources.ApplyResources(m_setupSim, "MenuItemSetupSim");
             m_setupSim.Tag = 10;
             m_setupSim.Enabled = false;
             m_setupSim.Click += new EventHandler(this.SetupSimulation);
@@ -200,7 +205,7 @@ namespace EcellLib.Simulation
             button2.Size = new System.Drawing.Size(23, 22);
             button2.Text = "";
             button2.Tag = 3;
-            button2.ToolTipText = "Stop";
+            button2.ToolTipText = "Reset";
             button2.Click += new System.EventHandler(this.StopSimulation);
             list.Add(button2);
 

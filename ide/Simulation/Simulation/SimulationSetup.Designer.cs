@@ -241,7 +241,8 @@
             this.addStep.Name = "addStep";
             this.addStep.Size = new System.Drawing.Size(108, 24);
             this.addStep.TabIndex = 2;
-            this.addStep.Text = "Add";
+            resources.ApplyResources(this.addStep, "AddStepperButton");
+//            this.addStep.Text = "Add";
             this.addStep.UseVisualStyleBackColor = true;
             // 
             // deleteStep
@@ -251,7 +252,8 @@
             this.deleteStep.Name = "deleteStep";
             this.deleteStep.Size = new System.Drawing.Size(108, 24);
             this.deleteStep.TabIndex = 3;
-            this.deleteStep.Text = "Delete";
+            resources.ApplyResources(this.deleteStep, "DeleteStepperButton");
+//            this.deleteStep.Text = "Delete";
             this.deleteStep.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel5
@@ -790,7 +792,8 @@
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(54, 23);
             this.saveButton.TabIndex = 0;
-            this.saveButton.Text = "Save";
+            resources.ApplyResources(this.saveButton, "SaveButton");
+//            this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
             // 
             // newButton
@@ -800,7 +803,8 @@
             this.newButton.Name = "newButton";
             this.newButton.Size = new System.Drawing.Size(54, 23);
             this.newButton.TabIndex = 1;
-            this.newButton.Text = "New";
+            resources.ApplyResources(this.newButton, "NewButton");
+//            this.newButton.Text = "New";
             this.newButton.UseVisualStyleBackColor = true;
             // 
             // deleteButton
@@ -810,7 +814,8 @@
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(54, 23);
             this.deleteButton.TabIndex = 2;
-            this.deleteButton.Text = "Delete";
+            resources.ApplyResources(this.deleteButton, "DeleteButton");
+//            this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
             // 
             // paramCombo
@@ -829,7 +834,8 @@
             this.setButton.Name = "setButton";
             this.setButton.Size = new System.Drawing.Size(54, 23);
             this.setButton.TabIndex = 4;
-            this.setButton.Text = "Set";
+//            this.setButton.Text = "Set";
+            resources.ApplyResources(this.setButton, "SetButton");
             this.setButton.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel12
@@ -854,7 +860,8 @@
             this.updateButton.Name = "updateButton";
             this.updateButton.Size = new System.Drawing.Size(261, 23);
             this.updateButton.TabIndex = 0;
-            this.updateButton.Text = "Apply";
+//            this.updateButton.Text = "Apply";
+            resources.ApplyResources(this.updateButton, "ApplyButton");
             this.updateButton.UseVisualStyleBackColor = true;
             // 
             // closeButton
@@ -864,7 +871,8 @@
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(262, 23);
             this.closeButton.TabIndex = 1;
-            this.closeButton.Text = "Close";
+//            this.closeButton.Text = "Close";
+            resources.ApplyResources(this.closeButton, "CloseButton");
             this.closeButton.UseVisualStyleBackColor = true;
             // 
             // SimulationSetup

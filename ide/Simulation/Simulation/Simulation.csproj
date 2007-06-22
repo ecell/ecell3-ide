@@ -108,6 +108,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="NewParameterWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NewParameterWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NewParameterWindow.resx">
       <DependentUpon>NewParameterWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -121,11 +125,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Simulation.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Simulation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Simulation.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Simulation.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Simulation.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SimulationSetup.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SimulationSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SimulationSetup.resx">
       <SubType>Designer</SubType>
@@ -169,7 +181,7 @@
     <PostBuildEvent>
 IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
 XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
-</PostBuildEvent>
+XCOPY /Y "$(TargetDir)\ja\Simulation.resources.dll"  "$(ECELL_STAGING_HOME)\bin\ja"</PostBuildEvent>
     <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>
