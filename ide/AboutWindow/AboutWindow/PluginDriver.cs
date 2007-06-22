@@ -25,19 +25,25 @@ namespace EcellLib.AboutWindow
                 menuToolStripMenuItem.DropDownItems.Add(menuItem);
             }
 
-            //ToolBoxÇâ¡Ç¶ÇÈÅB
+            //ToolBoxÇâ¡Ç¶
             List<ToolStripItem> toolList = pb.GetToolBarMenuStripItems();
 
-            foreach(ToolStripButton button in toolList )
+            if (toolList != null)
             {
-                toolStrip1.Items.Add(button);
+                foreach (ToolStripButton button in toolList)
+                {
+                    toolStrip1.Items.Add(button);
+                }
             }
 
             //UserControlÇâ¡Ç¶ÇÈÅB
             List<UserControl> windowList = pb.GetWindowsForms();
-            foreach(UserControl control in windowList)
+            if (windowList != null)
             {
-                panel2.Controls.Add(control);
+                foreach (UserControl control in windowList)
+                {
+                    panel2.Controls.Add(control);
+                }
             }
 
             MessageBox.Show("plugin name: " + pb.GetPluginName());

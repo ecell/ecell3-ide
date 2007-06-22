@@ -34,6 +34,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace EcellLib.AboutWindow
 {
@@ -41,6 +42,9 @@ namespace EcellLib.AboutWindow
     {
         public AboutForm()
         {
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja", true);
+
+
             InitializeComponent();
 
             String path = Util.GetDMDir();

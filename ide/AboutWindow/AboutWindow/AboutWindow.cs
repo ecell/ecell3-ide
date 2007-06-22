@@ -41,6 +41,8 @@ namespace EcellLib.AboutWindow
 {
     public class AboutWindow : PluginBase
     {
+        ToolStripMenuItem MenuItemAboutPlatform;
+
         #region Fields
         /// <summary>
         /// Get menustrips for AboutWindow plugin.
@@ -49,14 +51,17 @@ namespace EcellLib.AboutWindow
         /// <returns>MenuStipItems</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-            ToolStripMenuItem about_window = new ToolStripMenuItem();
-            about_window.Name = "MenuItemAboutPlatform";
-            about_window.Size = new System.Drawing.Size(96, 22);
-            about_window.Text = "About Platform";
-            about_window.Tag = 1;
-            about_window.Click += new System.EventHandler(this.AboutMenuClick);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutWindow));
+
+            MenuItemAboutPlatform = new ToolStripMenuItem();
+            MenuItemAboutPlatform.Name = "MenuItemAboutPlatform";
+            MenuItemAboutPlatform.Size = new System.Drawing.Size(96, 22);
+            MenuItemAboutPlatform.Tag = 1;
+            resources.ApplyResources(this.MenuItemAboutPlatform, "MenuItemAboutPlatform");
+            MenuItemAboutPlatform.Click += new System.EventHandler(this.AboutMenuClick);
+
             ToolStripMenuItem helpMenu = new ToolStripMenuItem();
-            helpMenu.DropDownItems.AddRange(new ToolStripItem[] { about_window });
+            helpMenu.DropDownItems.AddRange(new ToolStripItem[] { MenuItemAboutPlatform });
             helpMenu.Text = "Help";
             helpMenu.Name = "MenuItemHelp";
             helpMenu.Size = new System.Drawing.Size(36, 20);
@@ -263,6 +268,7 @@ namespace EcellLib.AboutWindow
         /// <param name="e">EventArgs</param>
         private void AboutMenuClick(object sender, EventArgs e)
         {
+
             PluginManager pManager = PluginManager.GetPluginManager();
             AboutForm aboutForm = new AboutForm();
             Version v = pManager.AppVersion;
