@@ -244,13 +244,64 @@ namespace EcellLib.PathwayWindow
                 List<EcellObject> tmpList = DataManager.GetDataManager().GetData(m_view.Window.ModelID, m_surSystem);
                 EcellObject m_currentObj = null;
                 if (tmpList.Count > 0) m_currentObj = tmpList[0];
+                
+                String tmpID = DataManager.GetDataManager().GetTemporaryID(m_currentObj.modelID,
+                    "System", m_currentObj.key);
 
+                Dictionary<string, EcellData> dict = DataManager.GetSystemProperty();
+                List<EcellData> dataList = new List<EcellData>();
+                foreach (EcellData d in dict.Values)
+                {
+                    dataList.Add(d);
+                }
+
+                List<PPathwayObject> newlySelectedList = new List<PPathwayObject>();
+
+                foreach (PLayer layer in m_set.Layers.Values)
+                {
+                    PNodeList list = new PNodeList();
+                    layer.FindIntersectingNodes(m_rect, list);
+                    foreach (PNode node in list)
+                        if (node is PPathwayObject)
+                            newlySelectedList.Add((PPathwayObject)node);
+                }
+                ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
+
+                String keydata = "";
+                if (m_surSystem.Equals("/"))
+                {
+                    keydata = "/" + tmpID;
+                }
+                else
+                {
+                    keydata = m_surSystem + "/" + tmpID;
+                }
+                EcellObject eo = EcellObject.CreateObject(m_currentObj.modelID, keydata,
+                    "System", "System", dataList);
+                
+                m_view.AddNewObj(m_set.CanvasID, m_surSystem, ComponentType.System, cs, eo.key, 
+                    true, m_rect.X, m_rect.Y, m_rect.Width, m_rect.Height, true, eo);
+                
+                foreach (PPathwayObject node in newlySelectedList)
+                {
+                    if (node.Parent is PLayer || (node.Parent is PEcellComposite && node.Parent.Parent is PLayer))
+                    {
+                        node.Parent.RemoveChild(node);
+                        m_set.AddNewObj(null, eo.key, node, true, false);
+                        //m_set.AddChildToSelectedSystem(eo.key, node, true);
+                    }
+                }
+                m_set.TransferSelectedTo(eo.key);
+
+
+                /*
                 m_editor = new PropertyEditor();
                 m_editor.SetParentObject(m_currentObj);
                 m_editor.button1.Click += new EventHandler(NewOkButton_Click);
                 m_editor.SetDataType("System");
                 m_editor.LayoutPropertyEditor();
                 m_editor.ShowDialog();
+                 */
             }
             else
             {
@@ -264,16 +315,18 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /*
         void CButton_Click(object sender, EventArgs e)
         {
             m_set.ResetSelectedObjects();
-        }
+        }*/
 
         /// <summary>
         /// For OK button of the system create dialog.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /*
         void NewOkButton_Click(object sender, EventArgs e)
         {
             EcellObject eo = m_editor.Collect();
@@ -323,6 +376,6 @@ namespace EcellLib.PathwayWindow
 
             m_editor.Close();
             m_editor.Dispose();
-        }
+        }*/
     }
 }

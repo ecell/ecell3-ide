@@ -112,8 +112,42 @@ namespace EcellLib.PathwayWindow
                     return;
                 }
 
-                List<EcellObject> tmpList = DataManager.GetDataManager().GetData(m_view.Window.ModelID, m_surSystem);
-                EcellObject m_currentObj = null;
+                //List<EcellObject> tmpList = DataManager.GetDataManager().GetData(m_view.Window.ModelID, m_surSystem);
+                
+                DataManager dm = DataManager.GetDataManager();
+
+                if (m_view.ComponentSettings[m_view.CheckedComponent].ComponentKind == ComponentType.Process)
+                {
+                    string tmpId = dm.GetTemporaryID(m_view.Window.ModelID, "Process", m_surSystem);
+                    Dictionary<string, EcellData> dict = DataManager.GetProcessProperty("ExpressionFluxProcess");
+                    List<EcellData> list = new List<EcellData>();
+                    foreach (EcellData d in dict.Values)
+                        list.Add(d);
+                    
+                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, m_surSystem + ":" + tmpId,
+                    "Process", "ExpressionFluxProcess", list);
+
+                    ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
+
+                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Process, cs, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, eo);
+                }
+                else
+                {
+                    string tmpId = dm.GetTemporaryID(m_view.Window.ModelID, "Variable", m_surSystem);
+                    Dictionary<string, EcellData> dict = DataManager.GetVariableProperty();
+                    List<EcellData> list = new List<EcellData>();
+                    foreach (EcellData d in dict.Values)
+                        list.Add(d);
+
+                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, m_surSystem + ":" + tmpId,
+                    "Variable", "Variable", list);
+
+                    ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
+
+                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Variable, cs, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, eo);
+                }
+
+                /*
                 if (tmpList.Count > 0) m_currentObj = tmpList[0];
 
                 m_editor = new PropertyEditor();
@@ -129,7 +163,7 @@ namespace EcellLib.PathwayWindow
                     m_editor.SetDataType("Variable");
                 }
                 m_editor.LayoutPropertyEditor();
-                m_editor.ShowDialog();
+                m_editor.ShowDialog();*/
 
             }
         }
@@ -139,6 +173,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /*
         void NewOkButton_Click(object sender, EventArgs e)
         {
             EcellObject eo = m_editor.Collect();
@@ -181,6 +216,6 @@ namespace EcellLib.PathwayWindow
             }
             else
                 return;
-        }
+        }*/
     }
 }

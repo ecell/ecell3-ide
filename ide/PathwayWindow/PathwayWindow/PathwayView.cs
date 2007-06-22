@@ -456,7 +456,9 @@ namespace EcellLib.PathwayWindow
             if (string.IsNullOrEmpty(key))
                 throw new PathwayException("key is not set!");
 
-            RegisterObj(cType, key, canvasName);
+            if (!RegisterObj(cType, key, canvasName))
+                return;
+
             if (needToNotify)
             {
                 if (eo == null)
@@ -466,7 +468,7 @@ namespace EcellLib.PathwayWindow
             }
             ComponentElement element = null;
             string type = null;
-                        switch(cType)
+            switch(cType)
             {
                 case ComponentType.Variable:
                     type = VARIABLE_STRING;
@@ -641,7 +643,7 @@ namespace EcellLib.PathwayWindow
             {
                 case ComponentType.Variable:
                     if (m_keyVarCanvasDict.ContainsKey(key))
-                        throw new DuplicateKeyException("Variable:" + key + " has already existed");
+                        return false;
                     else
                     {
                         m_keyVarCanvasDict.Add(key, canvasName);
@@ -650,7 +652,7 @@ namespace EcellLib.PathwayWindow
 
                 case ComponentType.Process:
                     if (m_keyProCanvasDict.ContainsKey(key))
-                        throw new DuplicateKeyException("Process:" + key + " has already existed");
+                        return false;
                     else
                     {
                         m_keyProCanvasDict.Add(key, canvasName);
@@ -659,7 +661,7 @@ namespace EcellLib.PathwayWindow
 
                 case ComponentType.System:
                     if (m_keySysCanvasDict.ContainsKey(key))
-                        throw new DuplicateKeyException("System:" + key + " has already existed");
+                        return false;
                     else
                     {
                         m_keySysCanvasDict.Add(key, canvasName);
