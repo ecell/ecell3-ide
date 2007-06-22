@@ -58,6 +58,8 @@ namespace EcellLib.Analysis
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnalysisTemplate));
+
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -488,10 +490,10 @@ namespace EcellLib.Analysis
             // tableLayoutPanel6
             // 
             this.tableLayoutPanel6.ColumnCount = 5;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel6.Controls.Add(this.AnalysisButton, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.StopButton, 1, 0);
@@ -507,45 +509,49 @@ namespace EcellLib.Analysis
             // 
             // AnalysisButton
             // 
-            this.AnalysisButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.AnalysisButton.Location = new System.Drawing.Point(12, 3);
+            this.AnalysisButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AnalysisButton.Location = new System.Drawing.Point(3, 3);
             this.AnalysisButton.Name = "AnalysisButton";
-            this.AnalysisButton.Size = new System.Drawing.Size(75, 25);
+            this.AnalysisButton.Size = new System.Drawing.Size(114, 25);
             this.AnalysisButton.TabIndex = 0;
-            this.AnalysisButton.Text = "Analysis";
+//            this.AnalysisButton.Text = "Analysis";
+            resources.ApplyResources(AnalysisButton, "AnalysisButton");
             this.AnalysisButton.UseVisualStyleBackColor = true;
             this.AnalysisButton.Click += new System.EventHandler(this.AnalysisButtonClicked);
             // 
             // StopButton
             // 
-            this.StopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.StopButton.Location = new System.Drawing.Point(112, 3);
+            this.StopButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.StopButton.Location = new System.Drawing.Point(123, 3);
             this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(75, 25);
+            this.StopButton.Size = new System.Drawing.Size(114, 25);
             this.StopButton.TabIndex = 2;
-            this.StopButton.Text = "Stop";
+//            this.StopButton.Text = "Stop";
+            resources.ApplyResources(StopButton, "StopButton");
             this.StopButton.UseVisualStyleBackColor = true;
             this.StopButton.Click += new System.EventHandler(this.StopButtonClicked);
             // 
             // SaveButton
             // 
-            this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.SaveButton.Location = new System.Drawing.Point(212, 3);
+            this.SaveButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SaveButton.Location = new System.Drawing.Point(243, 3);
             this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(75, 25);
+            this.SaveButton.Size = new System.Drawing.Size(114, 25);
             this.SaveButton.TabIndex = 1;
-            this.SaveButton.Text = "Save";
+//            this.SaveButton.Text = "Save";
+            resources.ApplyResources(SaveButton, "SaveButton");
             this.SaveButton.UseVisualStyleBackColor = true;
             this.SaveButton.Click += new System.EventHandler(this.SaveButtonClicked);
             // 
             // LoadButton
             // 
-            this.LoadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.LoadButton.Location = new System.Drawing.Point(312, 3);
+            this.LoadButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LoadButton.Location = new System.Drawing.Point(363, 3);
             this.LoadButton.Name = "LoadButton";
-            this.LoadButton.Size = new System.Drawing.Size(75, 25);
+            this.LoadButton.Size = new System.Drawing.Size(114, 25);
             this.LoadButton.TabIndex = 3;
-            this.LoadButton.Text = "Load";
+//            this.LoadButton.Text = "Load";
+            resources.ApplyResources(LoadButton, "LoadButton");
             this.LoadButton.UseVisualStyleBackColor = true;
             this.LoadButton.Click += new System.EventHandler(this.LoadButtonClicked);
             // 
@@ -663,7 +669,7 @@ namespace EcellLib.Analysis
         public System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         public System.Windows.Forms.SaveFileDialog SaveRobustFileDialog;
-        public System.Windows.Forms.Button LoadButton;
         public System.Windows.Forms.OpenFileDialog OpenRobustFileDialog;
+        public System.Windows.Forms.Button LoadButton;
     }
 }

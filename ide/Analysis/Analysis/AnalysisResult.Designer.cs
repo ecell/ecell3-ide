@@ -91,7 +91,8 @@ namespace EcellLib.Analysis
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(75, 29);
             this.CloseButton.TabIndex = 0;
-            this.CloseButton.Text = "Close";
+//            this.CloseButton.Text = "Close";
+            resources.ApplyResources(CloseButton, "CloseButton");
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButtonClicked);
             // 

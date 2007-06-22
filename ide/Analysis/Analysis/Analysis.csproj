@@ -75,6 +75,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis.cs" />
+    <Compile Include="Analysis.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Analysis.resx</DependentUpon>
+    </Compile>
     <Compile Include="AnalysisTemplate.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -96,13 +101,35 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Analysis.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Analysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Analysis.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Analysis.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Analysis.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AnalysisResult.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AnalysisResult.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AnalysisResult.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AnalysisResult.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AnalysisSetup.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AnalysisSetup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AnalysisSetup.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AnalysisSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AnalysisTemplate.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AnalysisTemplate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AnalysisTemplate.resx">
       <SubType>Designer</SubType>
@@ -127,7 +154,7 @@
     <PostBuildEvent>
 IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
 XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
-</PostBuildEvent>
+XCOPY /Y "$(TargetDir)\ja\Analysis.resources.dll"  "$(ECELL_STAGING_HOME)\bin\ja"</PostBuildEvent>
     <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>

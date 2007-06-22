@@ -68,10 +68,12 @@ namespace EcellLib.Analysis
         /// <returns>the list of menu.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Analysis));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
             m_showIdItem = new ToolStripMenuItem();
-            m_showIdItem.Text = "Analysis";
+//            m_showIdItem.Text = "Analysis";
+            resources.ApplyResources(m_showIdItem, "MenuItemAnalysis");
             m_showIdItem.ToolTipText = "Analysis";
             m_showIdItem.Click += new EventHandler(ShowAnalysisWindow);
 
