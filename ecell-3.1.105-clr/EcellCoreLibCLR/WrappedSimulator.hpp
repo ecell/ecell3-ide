@@ -62,6 +62,7 @@ namespace EcellCoreLib
         static int s_flagSavable = 3;
         WrappedSimulator();
         WrappedSimulator(String ^ l_dmPath);
+        ~WrappedSimulator();
         void CreateEntity(String ^ l_classname, String ^ l_fullIDString);
         void CreateLogger(String ^ l_fullPNString);
         void CreateLogger(String ^ l_fullPNString, WrappedPolymorph ^ l_paramList);

@@ -11,14 +11,35 @@ using namespace System::Runtime::InteropServices;
 namespace EcellCoreLib {
     WrappedSimulator::WrappedSimulator()
     {
+        try
+        {
+            libecs::initialize();
+        }
+        catch(libecs::Exception l_ex)
+        {
+            throw gcnew Exception("Failed to initilaize \"libecs\".");
+        }
         m_simulator = new libemc::Simulator();
     }
 
     WrappedSimulator::WrappedSimulator(String ^ l_dmPath)
     {
+        try
+        {
+            libecs::initialize();
+        }
+        catch(libecs::Exception l_ex)
+        {
+            throw gcnew Exception("Failed to initilaize \"libecs\".");
+        }
         m_simulator = new libemc::Simulator();
         std::string l_dmPathName = (char *)(void *)Marshal::StringToHGlobalAnsi(l_dmPath);
         libecs::setDMSearchPath(l_dmPathName);
+    }
+
+    WrappedSimulator::~WrappedSimulator()
+    {
+        libecs::finalize();
     }
 
     void WrappedSimulator::CreateEntity(String ^ l_className, String ^ l_fullIDString)
