@@ -261,6 +261,22 @@ namespace EcellLib.PathwayWindow.Node
             base.OffsetY = base.m_originalOffsetY;
             this.Refresh();
         }
+        public override void OnMouseEnter(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
+        {
+            base.OnMouseEnter(e);
+            if(null != base.m_set)
+            {
+                base.m_set.NotifyMouseEnter(this.Element);
+            }
+        }
+        public override void OnMouseLeave(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
+        {
+            base.OnMouseLeave(e);
+            if (null != base.m_set)
+            {
+                base.m_set.NotifyMouseLeave();
+            }
+        }
         #endregion
 
         #region Methods

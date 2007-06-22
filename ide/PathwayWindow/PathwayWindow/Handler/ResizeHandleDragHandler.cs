@@ -34,6 +34,7 @@ using System.Text;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
 using EcellLib.PathwayWindow.Node;
+using PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow
 {
@@ -72,23 +73,27 @@ namespace EcellLib.PathwayWindow
                 !(e.PickedNode.ChildrenReference[0] is PSystem))
                 e.PickedNode.MoveToFront();
         }
+
         protected override void OnDrag(object sender, PInputEventArgs e)
         {
-            if(!(e.PickedNode is PPath))
+            if (e.PickedNode is ResizeHandle)
             {
-                return;
+                SizeF s = e.GetDeltaRelativeTo(base.DraggedNode);
+                s = base.DraggedNode.LocalToParent(s);
+
+                ResizeHandleDragHandler.MovingRestriction restrict = (ResizeHandleDragHandler.MovingRestriction)((PPath)e.PickedNode).Tag;
+
+                if (restrict == ResizeHandleDragHandler.MovingRestriction.Horizontal)
+                    base.DraggedNode.OffsetBy(s.Width, 0);
+                else if (restrict == ResizeHandleDragHandler.MovingRestriction.Vertical)
+                    base.DraggedNode.OffsetBy(0, s.Height);
+                else
+                    base.DraggedNode.OffsetBy(s.Width, s.Height);
             }
-            SizeF s = e.GetDeltaRelativeTo(base.DraggedNode);
-            s = base.DraggedNode.LocalToParent(s);
-
-            ResizeHandleDragHandler.MovingRestriction restrict = (ResizeHandleDragHandler.MovingRestriction)((PPath)e.PickedNode).Tag;
-
-            if ( restrict == ResizeHandleDragHandler.MovingRestriction.Horizontal)
-                base.DraggedNode.OffsetBy(s.Width, 0);
-            else if ( restrict == ResizeHandleDragHandler.MovingRestriction.Vertical)
-                base.DraggedNode.OffsetBy(0, s.Height);
             else
-                base.DraggedNode.OffsetBy(s.Width, s.Height);
+            {
+                base.OnDrag(sender, e);
+            }
         }
     }
 }

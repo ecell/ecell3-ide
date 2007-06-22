@@ -166,6 +166,49 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Create new EcellReference's name.
+        /// </summary>
+        /// <param name="refList"></param>
+        /// <param name="coefficient"></param>
+        /// <returns></returns>
+        public static string GetNewReferenceName(List<EcellReference> refList, int coefficient)
+        {
+            string baseName = null;
+
+            if(coefficient == 0)
+            {
+                baseName = "C";
+            }
+            else if (0 < coefficient)
+            {
+                baseName = "P";
+            }
+            else
+            {
+                baseName = "S";
+            }
+
+            string newName = null;
+            int i = 0;
+
+            while(null == newName)
+            {
+                newName = baseName + i;
+
+                foreach(EcellReference reference in refList)
+                {
+                    if (null != reference.name && reference.name.Equals(newName))
+                        newName = null;
+                }
+
+                i++;
+            }
+
+            return newName;
+
+        }
+
+        /// <summary>
         /// Get parent system's key from child node's key
         ///  ex) When an argument is "/CELL/CYTOPLASM", a return value is "/CELL"
         /// </summary>

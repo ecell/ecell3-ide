@@ -18,10 +18,41 @@ namespace PathwayWindow.UIComponent
         /// </summary>
         private EdgeInfo m_edgeInfo;
 
+        /// <summary>
+        /// Coordinate of the variable side end point in global coordinate system.
+        /// </summary>
+        private PointF m_varPoint;
+
+        /// <summary>
+        /// Coordinate of the process side end point in global coordinate system.
+        /// </summary>
+        private PointF m_proPoint;
+
+        /// <summary>
+        /// Accessor for m_edgeInfo.
+        /// </summary>
         public EdgeInfo Info
         {
             get { return m_edgeInfo; }
             set { this.m_edgeInfo = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_varPoint.
+        /// </summary>
+        public PointF VarPoint
+        {
+            get { return m_varPoint; }
+            set { this.m_varPoint = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_proPoint.
+        /// </summary>
+        public PointF ProPoint
+        {
+            get { return m_proPoint; }
+            set { this.m_proPoint = value; }
         }
 
         /// <summary>

@@ -84,7 +84,7 @@ namespace EcellLib.PathwayWindow.Node
 
             return elementList;
         }
-
+        
         /// <summary>
         /// event on mouse up on this variable.
         /// </summary>
@@ -97,26 +97,6 @@ namespace EcellLib.PathwayWindow.Node
                 process.RefreshEdges();
             }
             m_movingDelta = new SizeF(0, 0);
-        }
-
-        /// <summary>
-        /// event on mouse drag with this variable.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseDrag(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            base.OnMouseDrag(e);
-            /*
-            m_movingDelta += e.CanvasDelta;
-
-            if ((Math.Abs(m_movingDelta.Width) + Math.Abs(m_movingDelta.Height)) > m_refreshDistance)
-            {
-                foreach (PEcellProcess process in m_relatedProcesses)
-                {
-                    process.RefreshEdges();
-                }
-                m_movingDelta = new SizeF(0, 0);
-            }*/
         }
 
         /// <summary>

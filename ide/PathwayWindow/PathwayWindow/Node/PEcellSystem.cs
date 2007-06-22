@@ -345,22 +345,7 @@ namespace EcellLib.PathwayWindow.Node
         public override List<PathwayElement> GetElements()
         {
             List<PathwayElement> elementList = new List<PathwayElement>();
-            
-            /*SystemElement sysEle = new SystemElement();
-            if(this.ECellObject != null)
-            {
-                sysEle.ModelID = this.m_ecellObj.modelID;
-                sysEle.Key = this.m_ecellObj.key;
-            }
-            
-            sysEle.Type = "system";
-            sysEle.X = this.X + this.OffsetX;
-            sysEle.Y = this.Y + this.OffsetY;
-            Console.WriteLine("sysEle.X:" + sysEle.X + ", sysEle.Y:" + sysEle.Y);
-            sysEle.Width = this.Width;
-            sysEle.Height = this.Height;
-            sysEle.CsId = this.m_csId;
-            */
+        
             foreach(PPathwayObject obj in this.ChildObjectList)
             {
                 elementList.AddRange(obj.GetElements());

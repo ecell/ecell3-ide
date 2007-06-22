@@ -181,7 +181,6 @@ namespace EcellLib.PathwayWindow.Handler
         protected override void OnStartDrag(object sender, PInputEventArgs e)
         {
             base.OnStartDrag(sender, e);
-            Console.WriteLine("   Start" + DateTime.Now);
         }
         
         protected override void OnDrag(object sender, PInputEventArgs e)
@@ -200,7 +199,6 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 m_view.UpdateOverview();
             }
-            Console.WriteLine("   End" + DateTime.Now);
         }
 		#endregion
     }

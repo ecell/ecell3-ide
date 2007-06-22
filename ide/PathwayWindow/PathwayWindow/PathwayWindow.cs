@@ -531,12 +531,12 @@ namespace EcellLib.PathwayWindow
                     foreach (EcellReference v in refList)
                     {
                         if (v.fullID.EndsWith(varKey))
-                            changedRef = v;                        
+                            changedRef = v;
                         else
                             newList.Add(v);
                     }
 
-                    if (null != changedRef || changeType == RefChangeType.Delete)
+                    if (null != changedRef && changeType != RefChangeType.Delete)
                     {
                         switch(changeType)
                         {
@@ -547,9 +547,40 @@ namespace EcellLib.PathwayWindow
                             case RefChangeType.BiDir:
                                 EcellReference copyRef = PathUtil.CopyEcellReference(changedRef);
                                 changedRef.coefficient = -1;
+                                changedRef.name = PathUtil.GetNewReferenceName(newList, -1);
                                 copyRef.coefficient = 1;
+                                copyRef.name = PathUtil.GetNewReferenceName(newList, 1);
                                 newList.Add(changedRef);
                                 newList.Add(copyRef);
+                                break;
+                        }
+                    }
+                    else if(null == changedRef)
+                    {
+                        switch(changeType)
+                        {
+                            case RefChangeType.SingleDir:
+                                EcellReference addRef = new EcellReference();
+                                addRef.coefficient = coefficient;
+                                addRef.fullID = varKey;
+                                addRef.name = PathUtil.GetNewReferenceName(newList, coefficient);
+                                addRef.isAccessor = 1;
+                                newList.Add(addRef);
+                                break;
+                            case RefChangeType.BiDir:
+                                EcellReference addSRef = new EcellReference();
+                                addSRef.coefficient = -1;
+                                addSRef.fullID = varKey;
+                                addSRef.name = PathUtil.GetNewReferenceName(newList, -1);
+                                addSRef.isAccessor = 1;
+                                newList.Add(addSRef);
+
+                                EcellReference addPRef = new EcellReference();
+                                addPRef.coefficient = 1;
+                                addPRef.fullID = varKey;
+                                addPRef.name = PathUtil.GetNewReferenceName(newList, 1);
+                                addPRef.isAccessor = 1;
+                                newList.Add(addPRef);
                                 break;
                         }
                     }

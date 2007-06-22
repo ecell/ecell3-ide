@@ -48,6 +48,7 @@ using EcellLib.PathwayWindow.Element;
 using EllLib.PathwayWindow;
 using PathwayWindow;
 using PathwayWindow.UIComponent;
+using System.IO;
 
 namespace EcellLib.PathwayWindow
 {
@@ -769,7 +770,7 @@ namespace EcellLib.PathwayWindow
             }
             else if (CheckedComponent == -2)
             {
-                m_splitCon.Cursor = Cursors.Hand;
+                m_splitCon.Cursor = new Cursor( new MemoryStream( Resource1.move ));
                 AddInputEventListener(m_canvasHandlerList[1]);
                 SetRefreshOverview(true);
             }
@@ -866,7 +867,7 @@ namespace EcellLib.PathwayWindow
             ToolStripButton handButton = new ToolStripButton();
             handButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             handButton.Name = "SelectMode";
-            handButton.Image = Resource1.hand;
+            handButton.Image = Resource1.move1;
             handButton.Text = "";
             handButton.CheckOnClick = true;
             handButton.ToolTipText = "MoveCanvas";

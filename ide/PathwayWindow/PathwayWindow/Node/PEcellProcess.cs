@@ -48,17 +48,17 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         ///  Arrow design settings
         /// </summary>
-        protected static readonly float ARROW_RADIAN_A = 0.471f;
+        public static readonly float ARROW_RADIAN_A = 0.471f;
 
         /// <summary>
         ///  Arrow design settings
         /// </summary>
-        protected static readonly float ARROW_RADIAN_B = 5.812f;
+        public static readonly float ARROW_RADIAN_B = 5.812f;
 
         /// <summary>
         ///  Arrow design settings
         /// </summary>        
-        protected static readonly float ARROW_LENGTH = 15;
+        public static readonly float ARROW_LENGTH = 15;
 
         /// <summary>
         /// Edges will be refreshed every time when this process has moved by this distance.
@@ -68,9 +68,9 @@ namespace EcellLib.PathwayWindow.Node
 
         #region Fields
         /// <summary>
-        /// dictionary of PPath for variable. key is PPEcellVariable.
+        /// dictionary of Line for variable. key is PPEcellVariable.
         /// </summary>
-        protected Dictionary<PEcellVariable,List<PPath>> m_relatedVariables = new Dictionary<PEcellVariable,List<PPath>>();
+        protected Dictionary<PEcellVariable,List<Line>> m_relatedVariables = new Dictionary<PEcellVariable,List<Line>>();
 
         /// <summary>
         /// delta of moving this node.
@@ -180,7 +180,7 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         /// <param name="var">the related variable.</param>
         /// <param name="path">PPath of the related variable.</param>
-        private void NotifyAddRelatedVariable(PEcellVariable var, PPath path)
+        private void NotifyAddRelatedVariable(PEcellVariable var, Line path)
         {
             if (m_relatedVariables.ContainsKey(var))
             {
@@ -188,7 +188,7 @@ namespace EcellLib.PathwayWindow.Node
             }
             else
             {
-                List<PPath> ppaths = new List<PPath>();
+                List<Line> ppaths = new List<Line>();
                 ppaths.Add(path);
                 m_relatedVariables.Add(var, ppaths);
             }
@@ -209,12 +209,15 @@ namespace EcellLib.PathwayWindow.Node
                         if (base.m_set.Variables.ContainsKey(edge.VariableKey))
                         {
                             PEcellVariable var = base.m_set.Variables[edge.VariableKey];
-                            PPath path = new Line(edge);
+                            Line path = new Line(edge);
                             
                             path.MouseDown += this.m_handler4Line;
                             path.Brush = Brushes.Black;
                             PointF endPos = var.GetContactPoint(base.CenterPointToCanvas);
                             PointF startPos = base.GetContactPoint(endPos);
+
+                            path.VarPoint = endPos;
+                            path.ProPoint = startPos;
 
                             if (base.ParentObject is PEcellSystem)
                             {
@@ -230,7 +233,7 @@ namespace EcellLib.PathwayWindow.Node
                                     break;
                                 case LineType.Dashed:
                                     path.Pen = new Pen(Brushes.Black, 3);
-                                    this.AddDashedLine(path, startPos.X, startPos.Y, endPos.X, endPos.Y);
+                                    PEcellProcess.AddDashedLine(path, startPos.X, startPos.Y, endPos.X, endPos.Y);
                                     break;
                                 case LineType.Unknown:
                                     path.AddLine(startPos.X, startPos.Y, endPos.X, endPos.Y);
@@ -282,8 +285,10 @@ namespace EcellLib.PathwayWindow.Node
                         PEcellVariable var = base.m_set.Variables[edge.VariableKey];
                         PointF baseCenter = base.CenterPointToCanvas;
                         PointF endPos = var.GetContactPoint(baseCenter);
-
                         PointF startPos = base.GetContactPoint(endPos);
+
+                        PointF globalEndPos = endPos;
+                        PointF globalStartPos = startPos;
 
                         if (base.ParentObject is PEcellSystem)
                         {
@@ -293,12 +298,15 @@ namespace EcellLib.PathwayWindow.Node
 
                         if (m_relatedVariables.ContainsKey(var))
                         {
-                            foreach (PPath path in m_relatedVariables[var])
+                            foreach (Line path in m_relatedVariables[var])
                             {
                                 path.Parent.RemoveChild(path);
                                 base.ParentObject.AddChild(path);
                                 path.Reset();
-                                
+
+                                path.VarPoint = globalEndPos;
+                                path.ProPoint = globalStartPos;
+
                                 switch (edge.TypeOfLine)
                                 {
                                     case LineType.Solid:
@@ -307,7 +315,7 @@ namespace EcellLib.PathwayWindow.Node
                                         break;
                                     case LineType.Dashed:
                                         path.Pen = new Pen(Brushes.Black, 3);
-                                        this.AddDashedLine(path, startPos.X, startPos.Y, endPos.X, endPos.Y);
+                                        PEcellProcess.AddDashedLine(path, startPos.X, startPos.Y, endPos.X, endPos.Y);
                                         break;
                                     case LineType.Unknown:
                                         path.AddLine(startPos.X, startPos.Y, endPos.X, endPos.Y);
@@ -341,9 +349,9 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public void DeleteEdges()
         {
-            foreach(List<PPath> pathList in m_relatedVariables.Values)
+            foreach(List<Line> pathList in m_relatedVariables.Values)
             {
-                foreach(PPath path in pathList)
+                foreach(Line path in pathList)
                 {
                     if(path.Parent != null)
                     {
@@ -351,7 +359,7 @@ namespace EcellLib.PathwayWindow.Node
                     }
                 }
             }
-            m_relatedVariables = new Dictionary<PEcellVariable, List<PPath>>();
+            m_relatedVariables = new Dictionary<PEcellVariable, List<Line>>();
         }
 
         /// <summary>
@@ -361,7 +369,7 @@ namespace EcellLib.PathwayWindow.Node
         public void DeleteEdge(PEcellVariable p)
         {
             if (!m_relatedVariables.ContainsKey(p)) return;
-            List<PPath> pathList = m_relatedVariables[p];
+            List<Line> pathList = m_relatedVariables[p];
             {
                 foreach (PPath path in pathList)
                 {
@@ -406,7 +414,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <param name="startY">the position of start.</param>
         /// <param name="endX">the position of end.</param>
         /// <param name="endY">the position of end.</param>
-        private void AddDashedLine(PPath path, float startX, float startY, float endX, float endY)
+        public static void AddDashedLine(PPath path, float startX, float startY, float endX, float endY)
         {
             if (path == null)
                 return;

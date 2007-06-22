@@ -87,6 +87,11 @@ namespace EcellLib.PathwayWindow
              = new SolidBrush(Color.FromArgb(200, Color.Black));
 
         /// <summary>
+        /// radius of a line handle
+        /// </summary>
+        private static readonly float LINE_HANDLE_RADIUS = 5;
+
+        /// <summary>
         /// Used for setting node's offset to point (0,0)
         /// </summary>
         private static readonly PointF ZERO_POINT = new PointF(0, 0);
@@ -255,15 +260,78 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         PNodeList m_surroundedBySystem = null;
 
+        /// <summary>
+        /// m_resideHandles contains a list of ResizeHandle for resizing a system.
+        /// </summary>
         protected PNodeList m_resizeHandles = new PNodeList();
+
+        /// <summary>
+        /// Half of width of a ResizeHandle
+        /// </summary>
         protected float m_resizeHandleHalfWidth = 10;
+
+        /// <summary>
+        /// Used to save upper left point of a system
+        /// </summary>
         protected PointF m_upperLeftPoint;
+
+        /// <summary>
+        /// Used to save upper right point of a system
+        /// </summary>
         protected PointF m_upperRightPoint;
+
+        /// <summary>
+        /// Used to save lower right point of a system
+        /// </summary>
         protected PointF m_lowerRightPoint;
+
+        /// <summary>
+        /// Used to save lower left point of a system
+        /// </summary>
         protected PointF m_lowerLeftPoint;
 
         protected bool m_isRefreshOverview = false;
-                
+
+        /////// To handle an edge to reconnect
+        bool m_isReconnectMode = false;
+
+        /// <summary>
+        /// The key of variable at the end of an edge
+        /// </summary>
+        string m_vOnLinesEnd = null;
+
+        /// <summary>
+        /// Line handle on the end for a variable
+        /// </summary>
+        PPath m_lineHandle4V = null;
+
+        /// <summary>
+        /// The key of process at the end of an edge
+        /// </summary>
+        string m_pOnLinesEnd = null;
+
+        /// <summary>
+        /// Line handle on the end for a process
+        /// </summary>
+        PPath m_lineHandle4P = null;
+
+        /// <summary>
+        /// Line for reconnecting.
+        /// When a line owned by PEcellProcess is selected, this line will be hidden.
+        /// Then m_line4reconnect will appear.
+        /// </summary>
+        PPath m_line4reconnect = null;
+
+        /// <summary>
+        /// Variable or Process.
+        /// </summary>
+        PathwayElement.ElementType m_reconnectNodeType;
+
+        /// <summary>
+        /// Stack for nodes under the mouse.
+        /// this will be used to reconnect edge.
+        /// </summary>
+        Stack<NodeElement> m_nodesUnderMouse = new Stack<NodeElement>();
         #endregion
 
         #region Accessors
@@ -674,9 +742,189 @@ namespace EcellLib.PathwayWindow
             m_resizeHandles[7].MouseDrag += new PInputEventHandler(PEcellSystem_ResizeW);
             m_resizeHandles[7].MouseUp += new PInputEventHandler(PEcellSystem_MouseUp);
 
+            // Prepare line handles
+            m_lineHandle4V = new PPath();
+            m_lineHandle4V.Brush = new SolidBrush(Color.FromArgb(125, Color.Orange));
+            m_lineHandle4V.Pen = new Pen(Brushes.DarkCyan, 1);
+            m_lineHandle4V.AddEllipse(
+                0,
+                0,
+                2 * LINE_HANDLE_RADIUS,
+                2 * LINE_HANDLE_RADIUS);
+            m_lineHandle4V.Tag = PathwayElement.ElementType.Variable;
+            m_lineHandle4V.MouseDown += new PInputEventHandler(m_lineHandle_MouseDown);
+            m_lineHandle4V.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
+            m_lineHandle4V.MouseUp += new PInputEventHandler(m_lineHandle_MouseUp);
+
+            m_lineHandle4P = new PPath();
+            m_lineHandle4P.Brush = new SolidBrush(Color.FromArgb(125, Color.Orange));
+            m_lineHandle4P.Pen = new Pen(Brushes.DarkCyan, 1);
+            m_lineHandle4P.AddEllipse(
+                0,
+                0,
+                2 * LINE_HANDLE_RADIUS,
+                2 * LINE_HANDLE_RADIUS);
+            m_lineHandle4P.Tag = PathwayElement.ElementType.Process;
+            m_lineHandle4P.MouseDown += new PInputEventHandler(m_lineHandle_MouseDown);
+            m_lineHandle4P.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
+            m_lineHandle4P.MouseUp += new PInputEventHandler(m_lineHandle_MouseUp);
+
+            m_line4reconnect = new PPath();
+            m_line4reconnect.Brush = new SolidBrush(Color.FromArgb(200, Color.Orange));
+            m_line4reconnect.Pen = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 2);
+            m_line4reconnect.Pickable = false;
+
             m_pathwayCanvas.AddInputEventListener(new MouseDownHandler(m_pathwayView));
         }
 
+        /// <summary>
+        /// Called when the mouse is down on m_lineHandle.
+        /// Start to reconnecting edge.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void m_lineHandle_MouseDown(object sender, PInputEventArgs e)
+        {
+            m_reconnectNodeType = (PathwayElement.ElementType)e.PickedNode.Tag;
+            if(m_reconnectNodeType == PathwayElement.ElementType.Process && null != m_ctrlLayer)
+            {
+                m_ctrlLayer.RemoveChild(m_lineHandle4P);
+            }
+            else if(m_reconnectNodeType == PathwayElement.ElementType.Variable && null != m_ctrlLayer)
+            {
+                m_ctrlLayer.RemoveChild(m_lineHandle4V);
+            }
+        }
+
+        /// <summary>
+        /// Called when m_lineHandle is being dragged.
+        /// reconnecting line is redrawn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void m_lineHandle_MouseDrag(object sender, PInputEventArgs e)
+        {
+            if(null == m_line4reconnect || null == m_selectedLine)
+            {
+                return;
+            }
+            m_line4reconnect.Reset();
+            PointF ppoint = new PointF(
+                LINE_HANDLE_RADIUS + m_lineHandle4P.X + m_lineHandle4P.OffsetX,
+                LINE_HANDLE_RADIUS + m_lineHandle4P.Y + m_lineHandle4P.OffsetY);
+            PointF vpoint = new PointF(
+                LINE_HANDLE_RADIUS + m_lineHandle4V.X + m_lineHandle4V.OffsetX,
+                LINE_HANDLE_RADIUS + m_lineHandle4V.Y + m_lineHandle4V.OffsetY);
+
+            switch (m_selectedLine.Info.TypeOfLine)
+            {
+                case LineType.Solid:
+                    m_line4reconnect.AddLine(vpoint.X, vpoint.Y, ppoint.X, ppoint.Y);
+                    break;
+                case LineType.Dashed:
+                    PEcellProcess.AddDashedLine(m_line4reconnect, vpoint.X, vpoint.Y, ppoint.X, ppoint.Y);
+                    break;
+                case LineType.Unknown:
+                    m_line4reconnect.AddLine(vpoint.X, vpoint.Y, ppoint.X, ppoint.Y);
+                    break;
+            }
+            
+            switch (m_selectedLine.Info.Direction)
+            {
+                case EdgeDirection.Bidirection:
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(ppoint, vpoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(vpoint, ppoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    break;
+                case EdgeDirection.Inward:
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(ppoint, vpoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    break;
+                case EdgeDirection.Outward:
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(vpoint, ppoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    break;
+                case EdgeDirection.None:
+                    break;
+            }
+        }
+        
+        /// <summary>
+        /// Called when the mouse is up on m_lineHandle.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void m_lineHandle_MouseUp(object sender, PInputEventArgs e)
+        {
+            if (m_nodesUnderMouse.Count != 0 && null != m_selectedLine)
+            {
+                NodeElement element = m_nodesUnderMouse.Pop();
+                if(element is ProcessElement && m_reconnectNodeType == PathwayElement.ElementType.Process)
+                {                    
+                    m_pathwayView.NotifyVariableReferenceChanged(m_pOnLinesEnd, m_vOnLinesEnd, RefChangeType.Delete, 0);
+                    if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
+                    {
+                        m_pathwayView.NotifyVariableReferenceChanged(element.Key, m_vOnLinesEnd, RefChangeType.BiDir, 0);
+                    }
+                    else
+                    {
+                        int coefficient = 0;
+                        switch (m_selectedLine.Info.Direction)
+                        {
+                            case EdgeDirection.Inward:
+                                coefficient = -1;
+                                break;
+                            case EdgeDirection.None:
+                                coefficient = 0;
+                                break;
+                            case EdgeDirection.Outward:
+                                coefficient = 1;
+                                break;
+                        }
+                        m_pathwayView.NotifyVariableReferenceChanged(
+                            element.Key,
+                            m_vOnLinesEnd,
+                            RefChangeType.SingleDir,
+                            coefficient);
+                    }
+                    ResetSelectedLine();
+                }
+                else if(element is VariableElement && m_reconnectNodeType  == PathwayElement.ElementType.Variable)
+                {                    
+                    m_pathwayView.NotifyVariableReferenceChanged(m_pOnLinesEnd, m_vOnLinesEnd, RefChangeType.Delete, 0);
+                    if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
+                    {
+                        m_pathwayView.NotifyVariableReferenceChanged(m_pOnLinesEnd, element.Key, RefChangeType.BiDir, 0);
+                    }
+                    else
+                    {
+                        int coefficient = 0;
+                        switch (m_selectedLine.Info.Direction)
+                        {
+                            case EdgeDirection.Inward:
+                                coefficient = -1;
+                                break;
+                            case EdgeDirection.None:
+                                coefficient = 0;
+                                break;
+                            case EdgeDirection.Outward:
+                                coefficient = 1;
+                                break;
+                        }
+                        m_pathwayView.NotifyVariableReferenceChanged(
+                            m_pOnLinesEnd,
+                            element.Key,
+                            RefChangeType.SingleDir,
+                            coefficient);
+                    }
+                    ResetSelectedLine();
+                }
+            }
+            ResetLinePosition();
+        }
+
+        /// <summary>
+        /// Called when m_nodeMenu is closed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void m_nodeMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
             if (sender is ContextMenuStrip)
@@ -1608,6 +1856,34 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Notify this canvas that the mouse is on it.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        public void NotifyMouseEnter(NodeElement element)
+        {
+            if(m_isReconnectMode)            
+                m_nodesUnderMouse.Push(element);
+        }
+
+        /// <summary>
+        /// Notify this canvas that the mouse is not out of it.
+        /// </summary>
+        public void NotifyMouseLeave()
+        {
+            if (m_isReconnectMode)
+            {
+                try
+                {
+                    m_nodesUnderMouse.Pop();
+                }
+                catch(InvalidOperationException)
+                {
+                }
+            }
+        }
+
+        /// <summary>
         /// Set background color of pathway view to default color;
         /// </summary>
         protected void SetBackToDefault()
@@ -1932,6 +2208,14 @@ namespace EcellLib.PathwayWindow
             return isOverlaping;
         }
 
+        /// <summary>
+        /// Add PPathwayObject to this canvas.
+        /// </summary>
+        /// <param name="layer"></param>
+        /// <param name="systemName"></param>
+        /// <param name="obj"></param>
+        /// <param name="hasCoords"></param>
+        /// <param name="isFirst"></param>
         public void AddNewObj(string layer, string systemName, PPathwayObject obj, bool hasCoords, bool isFirst)
         {
             if (layer == null && m_layers.Count == 1)
@@ -1941,6 +2225,7 @@ namespace EcellLib.PathwayWindow
             if (obj is PPathwayNode)
                 ((PPathwayNode)obj).ShowingID = this.m_showingId;
             RegisterObjToSet(obj);
+            
             if (systemName == null)
             {
                 obj.Layer = m_layers[layer];
@@ -2007,8 +2292,6 @@ namespace EcellLib.PathwayWindow
                             ((PPathwayNode)obj).Element.Y = obj.Y;
                             ((PPathwayNode)obj).RefreshText();
                         }
-                        //if(!isFirst)
-                        //    obj.OffsetBy(-1 * offsetToL.X, -1 * offsetToL.Y);
                         system.AddChild(obj);
                         if (obj is PPathwayObject)
                             ((PPathwayObject)obj).ParentObject = system;
@@ -2355,14 +2638,66 @@ namespace EcellLib.PathwayWindow
             m_pathwayView.NotifySelectChanged(systemName, type);
         }
 
+        /// <summary>
+        /// Select this line on this canvas.
+        /// </summary>
+        /// <param name="line"></param>
         public void AddSelectedLine(Line line)
         {
-            if( null != m_selectedLine )
-            {
-                m_selectedLine.unhighlight();
-            }            
-            line.highlight();
+            m_isReconnectMode = true;
+
+            m_nodesUnderMouse.Clear();
+
+            line.Visible = false;
+
             m_selectedLine = line;
+            m_vOnLinesEnd = line.Info.VariableKey;
+            m_pOnLinesEnd = line.Info.ProcessKey;
+
+            // Prepare line handles
+            m_lineHandle4V.Offset = PointF.Empty;
+            m_lineHandle4P.Offset = PointF.Empty;
+
+            m_lineHandle4V.X = line.VarPoint.X - LINE_HANDLE_RADIUS;
+            m_lineHandle4V.Y = line.VarPoint.Y - LINE_HANDLE_RADIUS;
+
+            m_lineHandle4P.X = line.ProPoint.X - LINE_HANDLE_RADIUS;
+            m_lineHandle4P.Y = line.ProPoint.Y - LINE_HANDLE_RADIUS;
+
+            m_ctrlLayer.AddChild(m_lineHandle4V);
+            m_ctrlLayer.AddChild(m_lineHandle4P);
+
+            // Create line
+            m_line4reconnect.Reset();
+            switch (line.Info.TypeOfLine)
+            {
+                case LineType.Solid:
+                    m_line4reconnect.AddLine(line.VarPoint.X, line.VarPoint.Y, line.ProPoint.X, line.ProPoint.Y);
+                    break;
+                case LineType.Dashed:
+                    PEcellProcess.AddDashedLine(m_line4reconnect, line.VarPoint.X, line.VarPoint.Y, line.ProPoint.X, line.ProPoint.Y);
+                    break;
+                case LineType.Unknown:
+                    m_line4reconnect.AddLine(line.VarPoint.X, line.VarPoint.Y, line.ProPoint.X, line.ProPoint.Y);
+                    break;
+            }
+
+            switch (line.Info.Direction)
+            {
+                case EdgeDirection.Bidirection:
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.ProPoint, line.VarPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.VarPoint, line.ProPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    break;
+                case EdgeDirection.Inward:
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.ProPoint, line.VarPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    break;
+                case EdgeDirection.Outward:
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.VarPoint, line.ProPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    break;
+                case EdgeDirection.None:
+                    break;
+            }
+            m_ctrlLayer.AddChild(m_line4reconnect);
         }
 
         /// <summary>
@@ -2810,14 +3145,86 @@ namespace EcellLib.PathwayWindow
             }
         }
 
+        public void ResetLinePosition()
+        {
+            if(null == m_selectedLine)
+                return;
+            PointF varPoint = new PointF(m_selectedLine.VarPoint.X, m_selectedLine.VarPoint.Y);
+            PointF proPoint = new PointF(m_selectedLine.ProPoint.X, m_selectedLine.ProPoint.Y);
+
+            m_ctrlLayer.AddChild(m_lineHandle4V);
+            m_ctrlLayer.AddChild(m_lineHandle4P);
+
+            m_lineHandle4V.Offset = PointF.Empty;
+            m_lineHandle4V.X = varPoint.X - LINE_HANDLE_RADIUS;
+            m_lineHandle4V.Y = varPoint.Y - LINE_HANDLE_RADIUS;
+
+            m_lineHandle4P.Offset = PointF.Empty;
+            m_lineHandle4P.X = proPoint.X - LINE_HANDLE_RADIUS;
+            m_lineHandle4P.Y = proPoint.Y - LINE_HANDLE_RADIUS;
+
+            // Create line
+            m_line4reconnect.Reset();
+            switch (m_selectedLine.Info.TypeOfLine)
+            {
+                case LineType.Solid:
+                    m_line4reconnect.AddLine(varPoint.X, varPoint.Y, proPoint.X, proPoint.Y);
+                    break;
+                case LineType.Dashed:
+                    PEcellProcess.AddDashedLine(m_line4reconnect, varPoint.X, varPoint.Y, proPoint.X, proPoint.Y);
+                    break;
+                case LineType.Unknown:
+                    m_line4reconnect.AddLine(varPoint.X, varPoint.Y, proPoint.X, proPoint.Y);
+                    break;
+            }
+
+            switch (m_selectedLine.Info.Direction)
+            {
+                case EdgeDirection.Bidirection:
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(proPoint, varPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(varPoint, proPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    break;
+                case EdgeDirection.Inward:
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(proPoint, varPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    break;
+                case EdgeDirection.Outward:
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(varPoint, proPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    break;
+                case EdgeDirection.None:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Reset selected line
+        /// </summary>
         public void ResetSelectedLine()
         {
-            if( null != m_selectedLine )
+            m_isReconnectMode = false;
+
+            m_nodesUnderMouse.Clear();
+
+            if(null != m_selectedLine)
             {
-                m_selectedLine.unhighlight();                
+                m_selectedLine.Visible = true;
             }
 
             m_selectedLine = null;
+            m_vOnLinesEnd = null;
+            m_pOnLinesEnd = null;
+
+            if(null != m_lineHandle4V && null != m_lineHandle4V.Parent)
+            {
+                m_ctrlLayer.RemoveChild(m_lineHandle4V);
+            }
+            if(null != m_lineHandle4P && null != m_lineHandle4P.Parent)
+            {
+                m_ctrlLayer.RemoveChild(m_lineHandle4P);
+            }
+            if(null != m_line4reconnect && null != m_line4reconnect.Parent)
+            {
+                m_ctrlLayer.RemoveChild(m_line4reconnect);
+            }
         }
 
         /// <summary>
@@ -2854,6 +3261,13 @@ namespace EcellLib.PathwayWindow
         }
 
         #region Private methods
+        /// <summary>
+        /// get a vacant point of a system for newly coming entity.
+        /// </summary>
+        /// <param name="wholeSpace"></param>
+        /// <param name="excludeRectList"></param>
+        /// <param name="nodeList"></param>
+        /// <returns></returns>
         private PointF GetVacantPoint(RectangleF wholeSpace, List<RectangleF> excludeRectList, List<PPathwayNode> nodeList)
         {
             int numOfSampling = 20;
@@ -3037,7 +3451,7 @@ namespace EcellLib.PathwayWindow
                 m_set.SetBackToDefault();
                 m_set.SetShadeWithoutSystem(m_set.GetSurroundingSystem(e.Position, null));
             }
-            
+
             /// <summary>
             /// event on start to drag PNode.
             /// </summary>
