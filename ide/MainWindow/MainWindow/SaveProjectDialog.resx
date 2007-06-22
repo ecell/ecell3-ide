@@ -284,4 +284,10 @@
         AAA=
 </value>
   </data>
+  <data name="ApplyButton.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="CloseButton.Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
 </root>

@@ -426,6 +426,9 @@
 </value>
   </data>
   <data name="ShowVersionMenuItem.Text" xml:space="preserve">
-    <value>プラグイン</value>
+    <value>アドオン</value>
+  </data>
+  <data name="modelEditorToolStripMenuItem.Text" xml:space="preserve">
+    <value>作業ディレクトリ</value>
   </data>
 </root>

@@ -137,13 +137,25 @@
       <SubType>Designer</SubType>
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NewProjectDialog.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NewProjectDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NewProjectDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>NewProjectDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OpenProjectDialog.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>OpenProjectDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OpenProjectDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>OpenProjectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PluginVersionListWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PluginVersionListWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PluginVersionListWindow.resx">
       <SubType>Designer</SubType>
@@ -153,6 +165,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaveProjectDialog.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SaveProjectDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SaveProjectDialog.resx">
       <SubType>Designer</SubType>
@@ -166,7 +182,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>Splash.cs</DependentUpon>
     </EmbeddedResource>
-    <BaseApplicationManifest Include="Properties\app.manifest" />
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
