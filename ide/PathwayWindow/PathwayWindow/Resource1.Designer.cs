@@ -95,6 +95,20 @@ namespace PathwayWindow {
             }
         }
         
+        internal static byte[] move {
+            get {
+                object obj = ResourceManager.GetObject("move", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap move1 {
+            get {
+                object obj = ResourceManager.GetObject("move1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap ten {
             get {
                 object obj = ResourceManager.GetObject("ten", resourceCulture);
