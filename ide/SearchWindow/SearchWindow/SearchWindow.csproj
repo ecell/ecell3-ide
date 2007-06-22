@@ -88,6 +88,11 @@
       <DependentUpon>SearchCnd.cs</DependentUpon>
     </Compile>
     <Compile Include="SearchWindow.cs" />
+    <Compile Include="SearchWindow.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SearchWindow.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -100,9 +105,23 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="SearchCnd.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SearchCnd.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SearchCnd.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SearchCnd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SearchWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SearchWindow.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SearchWindow.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -124,7 +143,7 @@
     <PostBuildEvent>
 IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
 XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
-</PostBuildEvent>
+XCOPY /Y "$(TargetDir)\ja\SearchWindow.resources.dll"  "$(ECELL_STAGING_HOME)\bin\ja"</PostBuildEvent>
     <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>

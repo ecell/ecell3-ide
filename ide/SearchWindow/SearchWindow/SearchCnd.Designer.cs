@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchCnd));
+
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -172,7 +173,8 @@
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(75, 28);
             this.searchButton.TabIndex = 0;
-            this.searchButton.Text = "Search";
+//            this.searchButton.Text = "Search";
+            resources.ApplyResources(this.searchButton, "SearchButton");
             this.searchButton.UseVisualStyleBackColor = true;
             this.searchButton.Click += new System.EventHandler(this.SearchButtonClick);
             // 
@@ -183,7 +185,8 @@
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 28);
             this.closeButton.TabIndex = 1;
-            this.closeButton.Text = "Close";
+//            this.closeButton.Text = "Close";
+            resources.ApplyResources(this.closeButton, "CloseButton");
             this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.CloseButtonClick);
             // 
