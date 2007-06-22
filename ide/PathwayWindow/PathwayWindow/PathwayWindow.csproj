@@ -115,6 +115,11 @@
     <Compile Include="NoSuchComponentClassException.cs" />
     <Compile Include="NoSuchComponentKindException.cs" />
     <Compile Include="PathwayException.cs" />
+    <Compile Include="PathwayWindow.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PathwayWindow.resx</DependentUpon>
+    </Compile>
     <Compile Include="UIComponent\Line.cs" />
     <Compile Include="UIComponent\OverviewCanvas.cs">
       <SubType>Component</SubType>
@@ -151,6 +156,19 @@
     <Compile Include="UIComponent\NamespaceDoc.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="PathwayWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PathwayWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PathwayWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PathwayWindow.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PathwayWindow.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource1.ja.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resource1.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -183,7 +201,8 @@
     <PostBuildEvent>
 IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
 XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
-"$(FrameworkSDKDir)Bin\gacutil" /i "$(TargetPath)"</PostBuildEvent>
+"$(FrameworkSDKDir)Bin\gacutil" /i "$(TargetPath)"
+XCOPY /Y "$(TargetDir)\ja\PathwayWindow.resources.dll"  "$(ECELL_STAGING_HOME)\bin\ja"</PostBuildEvent>
     <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>

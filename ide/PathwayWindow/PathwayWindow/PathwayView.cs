@@ -279,6 +279,7 @@ namespace EcellLib.PathwayWindow
             set
             {
                 m_showingId = value;
+                if (m_canvasDict == null) return;
                 foreach(CanvasView set in m_canvasDict.Values)
                 {
                     set.ShowingID = m_showingId;

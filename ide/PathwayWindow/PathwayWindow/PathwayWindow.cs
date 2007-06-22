@@ -629,16 +629,18 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of menu.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PathwayWindow));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
             // Setup menu
             m_showIdItem = new ToolStripMenuItem();
             m_showIdItem.CheckOnClick = true;
             m_showIdItem.CheckState = CheckState.Checked;
-            m_showIdItem.Text = "Show IDs(Pathway)";
+//            m_showIdItem.Text = "Show IDs(Pathway)";
             m_showIdItem.ToolTipText = "Visibility of Node's name of each pathway object";
+            resources.ApplyResources(m_showIdItem, "MenuItemShowID");
             m_showIdItem.Click += new EventHandler(ShowIdClick);
-            
+
             ToolStripMenuItem viewMenu = new ToolStripMenuItem();
             viewMenu.DropDownItems.AddRange(new ToolStripItem[] { m_showIdItem });
             viewMenu.Text = "Setup";
