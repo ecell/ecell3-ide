@@ -330,6 +330,11 @@ namespace EcellLib.PathwayWindow.Node
             this.SystemHeight = this.m_originalHeight;
             this.Element.X = base.m_originalX;
             this.Element.Y = base.m_originalY;
+            foreach(PPathwayObject obj in this.ChildObjectList)
+            {
+                if (obj is PEcellVariable)
+                    ((PEcellVariable)obj).Refresh();
+            }
         }
 
         /// <summary>
