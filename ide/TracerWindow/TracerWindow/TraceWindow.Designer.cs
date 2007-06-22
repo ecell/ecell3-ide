@@ -107,7 +107,8 @@
             this.updateButton.Name = "updateButton";
             this.updateButton.Size = new System.Drawing.Size(282, 23);
             this.updateButton.TabIndex = 0;
-            this.updateButton.Text = "Save";
+//            this.updateButton.Text = "Save";
+            resources.ApplyResources(this.updateButton, "SaveButton");
             this.updateButton.UseVisualStyleBackColor = true;
             this.updateButton.Click += new System.EventHandler(this.UpdateButtonClick);
             // 
@@ -118,7 +119,8 @@
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(283, 23);
             this.closeButton.TabIndex = 1;
-            this.closeButton.Text = "Close";
+//            this.closeButton.Text = "Close";
+            resources.ApplyResources(this.closeButton, "CloseButton");
             this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.CloseButtonClick);
             // 

@@ -464,15 +464,15 @@ namespace EcellLib.TracerWindow
         /// <returns>MenuStripItems</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-//            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TracerWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TracerWindow));
 
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
 
             m_showWin = new ToolStripMenuItem();
-//            resources.ApplyResources(this.m_showWin, "m_showWin");
+            resources.ApplyResources(m_showWin, "MenuItemShowTrace");
             m_showWin.Name = "MenuItemShowTrace";
             m_showWin.Size = new Size(96, 22);
-            m_showWin.Text = "Show TracerWindow";
+//            m_showWin.Text = "Show TracerWindow";
             m_showWin.Enabled = false;
             m_showWin.Click += new EventHandler(this.ShowTracerWindow);
 
@@ -486,9 +486,10 @@ namespace EcellLib.TracerWindow
             tmp.Add(view);
 
             m_setupWin = new ToolStripMenuItem();
-            m_setupWin.Name = "MenuItemShowTrace";
+            m_setupWin.Name = "MenuItemShowTraceSetup";
             m_setupWin.Size = new Size(96, 22);
-            m_setupWin.Text = "TracerWindow";
+            resources.ApplyResources(m_setupWin, "MenuItemShowTraceSetup");
+//            m_setupWin.Text = "TracerWindow";
             m_setupWin.Enabled = true;
             m_setupWin.Click += new EventHandler(this.ShowSetupTracerWindow);
 

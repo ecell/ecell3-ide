@@ -88,6 +88,11 @@
     </Compile>
     <Compile Include="TracerWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TracerWindow.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TracerWindow.resx</DependentUpon>
+    </Compile>
     <Compile Include="TracerWindowSetup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +107,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LineStyleDialog.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LineStyleDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LineStyleDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>LineStyleDialog.cs</DependentUpon>
@@ -111,9 +120,27 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="TracerWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TracerWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TracerWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TracerWindow.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TracerWindow.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TracerWindowSetup.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TracerWindowSetup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TracerWindowSetup.resx">
       <DependentUpon>TracerWindowSetup.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraceWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TraceWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TraceWindow.resx">
       <SubType>Designer</SubType>
@@ -150,7 +177,8 @@
   <PropertyGroup>
     <PostBuildEvent>XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\src\MainWindow\MainWindow\bin\$(ConfigurationName)"
 XCOPY /Y $(TargetPath) "$(ECELL_STAGING_HOME)\plugin"
-XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\bin"</PostBuildEvent>
+XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\bin"
+XCOPY /Y "$(TargetDir)\ja\TracerWindow.resources.dll"  "$(ECELL_STAGING_HOME)\bin\ja"</PostBuildEvent>
     <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>
