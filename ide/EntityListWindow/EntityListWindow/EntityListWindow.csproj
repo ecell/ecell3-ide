@@ -108,6 +108,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="SearchInstance.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SearchInstance.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SearchInstance.resx">
       <DependentUpon>SearchInstance.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -149,7 +153,7 @@
     <PostBuildEvent>
 IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
 XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
-</PostBuildEvent>
+XCOPY /Y "$(TargetDir)\ja\EntityListWindow.resources.dll"  "$(ECELL_STAGING_HOME)\bin\ja"</PostBuildEvent>
     <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>
