@@ -818,8 +818,8 @@ namespace EcellLib.EntityListWindow
 
             m_searchWin = new SearchInstance();
             m_searchWin.SetPlugin(this);
-            m_searchWin.searchButton.Click += new EventHandler(m_searchWin.SearchButtonClick);
-            m_searchWin.closeButton.Click += new EventHandler(m_searchWin.SearchCloseButtonClick);
+            m_searchWin.SISearchButton.Click += new EventHandler(m_searchWin.SearchButtonClick);
+            m_searchWin.SICloseButton.Click += new EventHandler(m_searchWin.SearchCloseButtonClick);
             m_searchWin.searchText.KeyPress += new KeyPressEventHandler(m_searchWin.SearchTextKeyPress);
 
             m_searchWin.ShowDialog();
