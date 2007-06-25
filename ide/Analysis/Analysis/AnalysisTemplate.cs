@@ -335,8 +335,8 @@ namespace EcellLib.Analysis
             simTimeText.Text = Convert.ToString(m_SimulationTime);
             winSizeText.Text = Convert.ToString(m_WindowSize);
             sampleNumText.Text = Convert.ToString(m_SampleNum);
-            viewButton.Enabled = false;
-            StopButton.Enabled = false;
+            ATViewButton.Enabled = false;
+            ATStopButton.Enabled = false;
 
             m_manager = DataManager.GetDataManager();
             GetTreeData();
@@ -472,9 +472,9 @@ namespace EcellLib.Analysis
                 line = reader.ReadLine();
                 MessageBox.Show(line, "ERROR", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-                AnalysisButton.Enabled = true;
-                viewButton.Enabled = false;
-                StopButton.Enabled = false;
+                ATExecuteButton.Enabled = true;
+                ATViewButton.Enabled = false;
+                ATStopButton.Enabled = false;
 
                 reader.Close();
                 return;
@@ -497,9 +497,9 @@ namespace EcellLib.Analysis
                     yComboBox.Text = ele[i];
                 }
             }
-            AnalysisButton.Enabled = true;
-            viewButton.Enabled = true;
-            StopButton.Enabled = false;
+            ATExecuteButton.Enabled = true;
+            ATViewButton.Enabled = true;
+            ATStopButton.Enabled = false;
             
             reader.Close();
 
@@ -876,9 +876,9 @@ namespace EcellLib.Analysis
 
             m_time.Enabled = true;
             m_time.Start();
-            AnalysisButton.Enabled = false;
-            StopButton.Enabled = true;
-            viewButton.Enabled = false;
+            ATExecuteButton.Enabled = false;
+            ATStopButton.Enabled = true;
+            ATViewButton.Enabled = false;
         }
 
         /// <summary>
@@ -1106,9 +1106,9 @@ namespace EcellLib.Analysis
             m_time.Enabled = false;
             m_time.Stop();
 
-            AnalysisButton.Enabled = true;
-            StopButton.Enabled = false;
-            viewButton.Enabled = false;
+            ATExecuteButton.Enabled = true;
+            ATStopButton.Enabled = false;
+            ATViewButton.Enabled = false;
         }
 
         /// <summary>
