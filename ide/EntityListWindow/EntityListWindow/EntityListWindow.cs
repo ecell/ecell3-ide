@@ -292,7 +292,7 @@ namespace EcellLib.EntityListWindow
                 m_editor.layoutPanel.SuspendLayout();
                 m_editor.SetCurrentObject(obj);
                 m_editor.SetDataType(obj.type);
-                m_editor.button1.Click += new EventHandler(m_editor.UpdateProperty);
+                m_editor.PEApplyButton.Click += new EventHandler(m_editor.UpdateProperty);
                 m_editor.LayoutPropertyEditor();
                 m_editor.layoutPanel.ResumeLayout(false);
                 m_editor.ShowDialog();
@@ -617,7 +617,7 @@ namespace EcellLib.EntityListWindow
                 m_editor = new PropertyEditor();
                 m_editor.SetParentObject(m_currentObj);
                 m_editor.SetDataType("Model");
-                m_editor.button1.Click += new EventHandler(m_editor.AddModel);
+                m_editor.PEApplyButton.Click += new EventHandler(m_editor.AddModel);
                 m_editor.LayoutPropertyEditor();
                 m_editor.ShowDialog();
             }
