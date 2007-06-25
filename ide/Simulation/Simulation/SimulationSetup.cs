@@ -329,6 +329,7 @@
             /// <param name="e">EventArgs</param>
             public void SetButtonClick(object sender, EventArgs e)
             {
+                if (paramCombo.SelectedItem == null) return;
                 string param = paramCombo.SelectedItem.ToString();
 
                 m_dManager.SetSimulationParameter(param);

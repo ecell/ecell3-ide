@@ -37,6 +37,9 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.stepperListBox = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
+            this.SSAddStepperButton = new System.Windows.Forms.Button();
+            this.SSDeleteStepperButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -90,15 +93,13 @@
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.SSApplyButton = new System.Windows.Forms.Button();
             this.SSCloseButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
-            this.SSAddStepperButton = new System.Windows.Forms.Button();
-            this.SSDeleteStepperButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.stepperPage.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel15.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -120,7 +121,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.InitProDGV)).BeginInit();
             this.tableLayoutPanel11.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
-            this.tableLayoutPanel15.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -181,6 +181,25 @@
             // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
+            // 
+            // tableLayoutPanel15
+            // 
+            resources.ApplyResources(this.tableLayoutPanel15, "tableLayoutPanel15");
+            this.tableLayoutPanel15.Controls.Add(this.SSAddStepperButton, 0, 0);
+            this.tableLayoutPanel15.Controls.Add(this.SSDeleteStepperButton, 1, 0);
+            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
+            // 
+            // SSAddStepperButton
+            // 
+            resources.ApplyResources(this.SSAddStepperButton, "SSAddStepperButton");
+            this.SSAddStepperButton.Name = "SSAddStepperButton";
+            this.SSAddStepperButton.UseVisualStyleBackColor = true;
+            // 
+            // SSDeleteStepperButton
+            // 
+            resources.ApplyResources(this.SSDeleteStepperButton, "SSDeleteStepperButton");
+            this.SSDeleteStepperButton.Name = "SSDeleteStepperButton";
+            this.SSDeleteStepperButton.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel5
             // 
@@ -554,25 +573,6 @@
             this.SSCloseButton.Name = "SSCloseButton";
             this.SSCloseButton.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel15
-            // 
-            resources.ApplyResources(this.tableLayoutPanel15, "tableLayoutPanel15");
-            this.tableLayoutPanel15.Controls.Add(this.SSAddStepperButton, 0, 0);
-            this.tableLayoutPanel15.Controls.Add(this.SSDeleteStepperButton, 1, 0);
-            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
-            // 
-            // SSAddStepperButton
-            // 
-            resources.ApplyResources(this.SSAddStepperButton, "SSAddStepperButton");
-            this.SSAddStepperButton.Name = "SSAddStepperButton";
-            this.SSAddStepperButton.UseVisualStyleBackColor = true;
-            // 
-            // SSDeleteStepperButton
-            // 
-            resources.ApplyResources(this.SSDeleteStepperButton, "SSDeleteStepperButton");
-            this.SSDeleteStepperButton.Name = "SSDeleteStepperButton";
-            this.SSDeleteStepperButton.UseVisualStyleBackColor = true;
-            // 
             // SimulationSetup
             // 
             resources.ApplyResources(this, "$this");
@@ -588,6 +588,7 @@
             this.tableLayoutPanel3.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
+            this.tableLayoutPanel15.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel6.PerformLayout();
@@ -614,7 +615,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.InitProDGV)).EndInit();
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel12.ResumeLayout(false);
-            this.tableLayoutPanel15.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
