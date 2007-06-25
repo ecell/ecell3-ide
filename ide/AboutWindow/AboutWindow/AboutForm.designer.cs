@@ -140,13 +140,12 @@ namespace EcellLib.AboutWindow
             // 
             // closeButton
             // 
-            this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.closeButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.closeButton.Location = new System.Drawing.Point(10, 140);
             this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(104, 23);
+            this.closeButton.Size = new System.Drawing.Size(80, 23);
             this.closeButton.TabIndex = 6;
-//            this.closeButton.Text = "close";
-            resources.ApplyResources(this.closeButton, "closeButton");
+            this.closeButton.Text = "OK";
             this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
@@ -185,7 +184,6 @@ namespace EcellLib.AboutWindow
             // 
             // AboutForm
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(388, 182);
