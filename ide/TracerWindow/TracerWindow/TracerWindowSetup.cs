@@ -24,7 +24,7 @@ namespace EcellLib.TracerWindow
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                okButton.PerformClick();
+                TSApplyButton.PerformClick();
             }
         }
 

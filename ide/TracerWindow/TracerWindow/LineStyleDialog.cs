@@ -69,7 +69,7 @@ namespace EcellLib.TracerWindow
         /// <returns>the set style of line.</returns>
         public System.Drawing.Drawing2D.DashStyle ShowLineStyleDialog()
         {
-            ApplyButton.Click += new EventHandler(ApplyButton_Click);
+            LSApplyButton.Click += new EventHandler(ApplyButton_Click);
             this.ShowDialog();
             return m_style;
         }
@@ -96,7 +96,7 @@ namespace EcellLib.TracerWindow
 
         private void LineStyleShown(object sender, EventArgs e)
         {
-            this.ApplyButton.Focus();
+            this.LSApplyButton.Focus();
         }
     }
 }

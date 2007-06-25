@@ -374,7 +374,7 @@ namespace EcellLib.TracerWindow
             m_setup.numberTextBox.Text = Convert.ToString(m_count);
             m_setup.intervalTextBox.Text = Convert.ToString(m_timespan / 1000.0);
             m_setup.stepCountTextBox.Text = Convert.ToString(DataManager.GetDataManager().StepCount);
-            m_setup.okButton.Click += new EventHandler(this.SetupTraceWindowClick);
+            m_setup.TSApplyButton.Click += new EventHandler(this.SetupTraceWindowClick);
             m_setup.ShowDialog();
         }
 

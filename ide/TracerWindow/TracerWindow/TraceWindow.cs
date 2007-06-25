@@ -273,7 +273,7 @@ namespace EcellLib.TracerWindow
             else
             {
                 searchDirButton.Enabled = false;
-                updateButton.Enabled = false;
+                TWSaveButton.Enabled = false;
             }
             isRun = true;
             isSuspend = false;
@@ -294,7 +294,7 @@ namespace EcellLib.TracerWindow
                 m_zCnt.Refresh();
             }
             searchDirButton.Enabled = status;
-            updateButton.Enabled = status;
+            TWSaveButton.Enabled = status;
         }
 
         /// <summary>
@@ -311,7 +311,7 @@ namespace EcellLib.TracerWindow
             else
             {
                 searchDirButton.Enabled = true;
-                updateButton.Enabled = true;
+                TWSaveButton.Enabled = true;
             }
             m_zCnt.IsShowContextMenu = true;
             isRun = false;
@@ -333,7 +333,7 @@ namespace EcellLib.TracerWindow
             else
             {
                 searchDirButton.Enabled = true;
-                updateButton.Enabled = true;
+                TWSaveButton.Enabled = true;
             }
             isRun = false;
             isSuspend = true;
