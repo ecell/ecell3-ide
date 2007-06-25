@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CloseButton.Text" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
-  <data name="OKButton.Text" xml:space="preserve">
+  <data name="VRApplyButton.Text" xml:space="preserve">
     <value>適用</value>
+  </data>
+  <data name="VRCloseButton.Text" xml:space="preserve">
+    <value>閉じる</value>
   </data>
 </root>

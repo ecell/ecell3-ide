@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddPropertyDialog));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.AddPropertyApplyButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.APAddButton = new System.Windows.Forms.Button();
+            this.APCancelButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.PropertyTextBox = new System.Windows.Forms.TextBox();
@@ -51,23 +51,23 @@
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.AddPropertyApplyButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.CancelButton, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.APAddButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.APCancelButton, 3, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
-            // AddPropertyApplyButton
+            // APAddButton
             // 
-            resources.ApplyResources(this.AddPropertyApplyButton, "AddPropertyApplyButton");
-            this.AddPropertyApplyButton.Name = "AddPropertyApplyButton";
-            this.AddPropertyApplyButton.UseVisualStyleBackColor = true;
-            this.AddPropertyApplyButton.Click += new System.EventHandler(this.AddPropertyApplyButton_Click);
+            resources.ApplyResources(this.APAddButton, "APAddButton");
+            this.APAddButton.Name = "APAddButton";
+            this.APAddButton.UseVisualStyleBackColor = true;
+            this.APAddButton.Click += new System.EventHandler(this.AddPropertyApplyButton_Click);
             // 
-            // CancelButton
+            // APCancelButton
             // 
-            resources.ApplyResources(this.CancelButton, "CancelButton");
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            resources.ApplyResources(this.APCancelButton, "APCancelButton");
+            this.APCancelButton.Name = "APCancelButton";
+            this.APCancelButton.UseVisualStyleBackColor = true;
+            this.APCancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -107,8 +107,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label1;
-        public System.Windows.Forms.Button AddPropertyApplyButton;
-        public System.Windows.Forms.Button CancelButton;
+        public System.Windows.Forms.Button APAddButton;
+        public System.Windows.Forms.Button APCancelButton;
         public System.Windows.Forms.TextBox PropertyTextBox;
     }
 }

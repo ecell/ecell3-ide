@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyEditor));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.PEApplyButton = new System.Windows.Forms.Button();
+            this.PECloseButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.layoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
@@ -50,21 +50,21 @@
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.button1, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button2, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.PEApplyButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.PECloseButton, 3, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
-            // button1
+            // PEApplyButton
             // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.PEApplyButton, "PEApplyButton");
+            this.PEApplyButton.Name = "PEApplyButton";
+            this.PEApplyButton.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // PECloseButton
             // 
-            resources.ApplyResources(this.button2, "button2");
-            this.button2.Name = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.PECloseButton, "PECloseButton");
+            this.PECloseButton.Name = "PECloseButton";
+            this.PECloseButton.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -95,8 +95,8 @@
 
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        public System.Windows.Forms.Button button1;
-        public System.Windows.Forms.Button button2;
+        public System.Windows.Forms.Button PEApplyButton;
+        public System.Windows.Forms.Button PECloseButton;
         public System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.TableLayoutPanel layoutPanel;
     }

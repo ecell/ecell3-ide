@@ -34,8 +34,8 @@
             this.selectTree = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.selectButton = new System.Windows.Forms.Button();
-            this.cancelButton = new System.Windows.Forms.Button();
+            this.VSSelectButton = new System.Windows.Forms.Button();
+            this.VSCloseButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -65,21 +65,21 @@
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.selectButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.cancelButton, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VSSelectButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VSCloseButton, 3, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
-            // selectButton
+            // VSSelectButton
             // 
-            resources.ApplyResources(this.selectButton, "selectButton");
-            this.selectButton.Name = "selectButton";
-            this.selectButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.VSSelectButton, "VSSelectButton");
+            this.VSSelectButton.Name = "VSSelectButton";
+            this.VSSelectButton.UseVisualStyleBackColor = true;
             // 
-            // cancelButton
+            // VSCloseButton
             // 
-            resources.ApplyResources(this.cancelButton, "cancelButton");
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.VSCloseButton, "VSCloseButton");
+            this.VSCloseButton.Name = "VSCloseButton";
+            this.VSCloseButton.UseVisualStyleBackColor = true;
             // 
             // VariableSelectWindow
             // 
@@ -98,8 +98,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         public System.Windows.Forms.TreeView selectTree;
-        public System.Windows.Forms.Button selectButton;
-        public System.Windows.Forms.Button cancelButton;
+        public System.Windows.Forms.Button VSSelectButton;
+        public System.Windows.Forms.Button VSCloseButton;
         private System.Windows.Forms.ImageList imageList1;
     }
 }

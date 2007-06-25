@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrintPluginDialog));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.PPSelectButton = new System.Windows.Forms.Button();
+            this.PPCancelButton = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -48,23 +48,23 @@
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.button1, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button2, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.PPSelectButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.PPCancelButton, 3, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
-            // button1
+            // PPSelectButton
             // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            resources.ApplyResources(this.PPSelectButton, "PPSelectButton");
+            this.PPSelectButton.Name = "PPSelectButton";
+            this.PPSelectButton.UseVisualStyleBackColor = true;
+            this.PPSelectButton.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // PPCancelButton
             // 
-            resources.ApplyResources(this.button2, "button2");
-            this.button2.Name = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            resources.ApplyResources(this.PPCancelButton, "PPCancelButton");
+            this.PPCancelButton.Name = "PPCancelButton";
+            this.PPCancelButton.UseVisualStyleBackColor = true;
+            this.PPCancelButton.Click += new System.EventHandler(this.button2_Click);
             // 
             // listBox1
             // 
@@ -88,8 +88,8 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button PPSelectButton;
+        private System.Windows.Forms.Button PPCancelButton;
         public System.Windows.Forms.ListBox listBox1;
     }
 }

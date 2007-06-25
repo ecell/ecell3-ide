@@ -125,59 +125,59 @@
     <value>5</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AddPropertyApplyButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="APAddButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="AddPropertyApplyButton.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="APAddButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>49, 3</value>
   </data>
-  <data name="AddPropertyApplyButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="APAddButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
-  <data name="AddPropertyApplyButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="APAddButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="AddPropertyApplyButton.Text" xml:space="preserve">
+  <data name="APAddButton.Text" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="&gt;&gt;AddPropertyApplyButton.Name" xml:space="preserve">
-    <value>AddPropertyApplyButton</value>
+  <data name="&gt;&gt;APAddButton.Name" xml:space="preserve">
+    <value>APAddButton</value>
   </data>
-  <data name="&gt;&gt;AddPropertyApplyButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;APAddButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;AddPropertyApplyButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;APAddButton.Parent" xml:space="preserve">
     <value>tableLayoutPanel2</value>
   </data>
-  <data name="&gt;&gt;AddPropertyApplyButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;APAddButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="CancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="APCancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom</value>
   </data>
-  <data name="CancelButton.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="APCancelButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>139, 3</value>
   </data>
-  <data name="CancelButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="APCancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
-  <data name="CancelButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="APCancelButton.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="CancelButton.Text" xml:space="preserve">
+  <data name="APCancelButton.Text" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="&gt;&gt;CancelButton.Name" xml:space="preserve">
-    <value>CancelButton</value>
+  <data name="&gt;&gt;APCancelButton.Name" xml:space="preserve">
+    <value>APCancelButton</value>
   </data>
-  <data name="&gt;&gt;CancelButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;APCancelButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CancelButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;APCancelButton.Parent" xml:space="preserve">
     <value>tableLayoutPanel2</value>
   </data>
-  <data name="&gt;&gt;CancelButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;APCancelButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -208,7 +208,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="AddPropertyApplyButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CancelButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="APAddButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="APCancelButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel3.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>

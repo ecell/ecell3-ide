@@ -208,58 +208,58 @@
   <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="selectButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="VSSelectButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
-  <data name="selectButton.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="VSSelectButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>97, 3</value>
   </data>
-  <data name="selectButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="VSSelectButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
-  <data name="selectButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="VSSelectButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="selectButton.Text" xml:space="preserve">
+  <data name="VSSelectButton.Text" xml:space="preserve">
     <value>Select</value>
   </data>
-  <data name="&gt;&gt;selectButton.Name" xml:space="preserve">
-    <value>selectButton</value>
+  <data name="&gt;&gt;VSSelectButton.Name" xml:space="preserve">
+    <value>VSSelectButton</value>
   </data>
-  <data name="&gt;&gt;selectButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;VSSelectButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;selectButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;VSSelectButton.Parent" xml:space="preserve">
     <value>tableLayoutPanel2</value>
   </data>
-  <data name="&gt;&gt;selectButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;VSSelectButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="cancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="VSCloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
-  <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="VSCloseButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>187, 3</value>
   </data>
-  <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="VSCloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
-  <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="VSCloseButton.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="cancelButton.Text" xml:space="preserve">
+  <data name="VSCloseButton.Text" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="&gt;&gt;cancelButton.Name" xml:space="preserve">
-    <value>cancelButton</value>
+  <data name="&gt;&gt;VSCloseButton.Name" xml:space="preserve">
+    <value>VSCloseButton</value>
   </data>
-  <data name="&gt;&gt;cancelButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;VSCloseButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;cancelButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;VSCloseButton.Parent" xml:space="preserve">
     <value>tableLayoutPanel2</value>
   </data>
-  <data name="&gt;&gt;cancelButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;VSCloseButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -290,7 +290,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="selectButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="cancelButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="VSSelectButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="VSCloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>

@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormulatorWindow));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.OKButton = new System.Windows.Forms.Button();
-            this.CButton = new System.Windows.Forms.Button();
+            this.FApplyButton = new System.Windows.Forms.Button();
+            this.FCloseButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -46,21 +46,21 @@
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.OKButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.CButton, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.FApplyButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.FCloseButton, 3, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
-            // OKButton
+            // FApplyButton
             // 
-            resources.ApplyResources(this.OKButton, "OKButton");
-            this.OKButton.Name = "OKButton";
-            this.OKButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.FApplyButton, "FApplyButton");
+            this.FApplyButton.Name = "FApplyButton";
+            this.FApplyButton.UseVisualStyleBackColor = true;
             // 
-            // CButton
+            // FCloseButton
             // 
-            resources.ApplyResources(this.CButton, "CButton");
-            this.CButton.Name = "CButton";
-            this.CButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.FCloseButton, "FCloseButton");
+            this.FCloseButton.Name = "FCloseButton";
+            this.FCloseButton.UseVisualStyleBackColor = true;
             // 
             // FormulatorWindow
             // 
@@ -77,8 +77,8 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        public System.Windows.Forms.Button OKButton;
-        public System.Windows.Forms.Button CButton;
+        public System.Windows.Forms.Button FApplyButton;
+        public System.Windows.Forms.Button FCloseButton;
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
     }
 }

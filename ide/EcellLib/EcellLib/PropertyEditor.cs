@@ -158,7 +158,7 @@ namespace EcellLib
                 else button1.Click += new EventHandler(this.UpdateProperty);
             }
              */
-            button2.Click += new EventHandler(this.AddCancel);
+            PECloseButton.Click += new EventHandler(this.AddCancel);
 
             m_type = type;
         }
@@ -611,7 +611,7 @@ namespace EcellLib
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                button1.PerformClick();
+                PEApplyButton.PerformClick();
             }
         }
 
@@ -650,8 +650,8 @@ namespace EcellLib
 
             m_cnt.ImportFormulate(m_text.Text);
 
-            m_fwin.OKButton.Click += new EventHandler(UpdateFormulator);
-            m_fwin.CButton.Click += new EventHandler(m_fwin.CancelButtonClick);
+            m_fwin.FApplyButton.Click += new EventHandler(UpdateFormulator);
+            m_fwin.FCloseButton.Click += new EventHandler(m_fwin.CancelButtonClick);
 
             m_fwin.ShowDialog();
         }
@@ -1439,8 +1439,8 @@ namespace EcellLib
             m_win = new VariableRefWindow();
             m_win.AddVarButton.Click += new EventHandler(m_win.AddVarReference);
             m_win.DeleteVarButton.Click += new EventHandler(m_win.DeleteVarReference);
-            m_win.CloseButton.Click += new EventHandler(m_win.CloseVarReference);
-            m_win.OKButton.Click += new EventHandler(m_win.OKVarReference);
+            m_win.VRCloseButton.Click += new EventHandler(m_win.CloseVarReference);
+            m_win.VRApplyButton.Click += new EventHandler(m_win.OKVarReference);
 
             List<EcellReference> list = EcellReference.ConvertString(m_refStr);
             foreach (EcellReference v in list)

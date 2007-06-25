@@ -334,8 +334,8 @@ namespace EcellLib
         public void AddVarReference(object sender, EventArgs e)
         {
             m_selectWindow = new VariableSelectWindow();
-            m_selectWindow.selectButton.Click += new EventHandler(m_selectWindow.SelectButtonClick);
-            m_selectWindow.cancelButton.Click += new EventHandler(m_selectWindow.SelectCancelButtonClick);
+            m_selectWindow.VSSelectButton.Click += new EventHandler(m_selectWindow.SelectButtonClick);
+            m_selectWindow.VSCloseButton.Click += new EventHandler(m_selectWindow.SelectCancelButtonClick);
 
             CopyTreeView();
             m_selectWindow.SetParentWindow(this);

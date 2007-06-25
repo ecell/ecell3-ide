@@ -37,8 +37,8 @@
             this.isAccessor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.DeleteVarButton = new System.Windows.Forms.Button();
-            this.CloseButton = new System.Windows.Forms.Button();
-            this.OKButton = new System.Windows.Forms.Button();
+            this.VRCloseButton = new System.Windows.Forms.Button();
+            this.VRApplyButton = new System.Windows.Forms.Button();
             this.AddVarButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -95,8 +95,8 @@
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
             this.tableLayoutPanel2.Controls.Add(this.DeleteVarButton, 3, 0);
-            this.tableLayoutPanel2.Controls.Add(this.CloseButton, 7, 0);
-            this.tableLayoutPanel2.Controls.Add(this.OKButton, 5, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VRCloseButton, 7, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VRApplyButton, 5, 0);
             this.tableLayoutPanel2.Controls.Add(this.AddVarButton, 1, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
@@ -106,17 +106,17 @@
             this.DeleteVarButton.Name = "DeleteVarButton";
             this.DeleteVarButton.UseVisualStyleBackColor = true;
             // 
-            // CloseButton
+            // VRCloseButton
             // 
-            resources.ApplyResources(this.CloseButton, "CloseButton");
-            this.CloseButton.Name = "CloseButton";
-            this.CloseButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.VRCloseButton, "VRCloseButton");
+            this.VRCloseButton.Name = "VRCloseButton";
+            this.VRCloseButton.UseVisualStyleBackColor = true;
             // 
-            // OKButton
+            // VRApplyButton
             // 
-            resources.ApplyResources(this.OKButton, "OKButton");
-            this.OKButton.Name = "OKButton";
-            this.OKButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.VRApplyButton, "VRApplyButton");
+            this.VRApplyButton.Name = "VRApplyButton";
+            this.VRApplyButton.UseVisualStyleBackColor = true;
             // 
             // AddVarButton
             // 
@@ -143,8 +143,8 @@
         public System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         public System.Windows.Forms.Button DeleteVarButton;
-        public System.Windows.Forms.Button CloseButton;
-        public System.Windows.Forms.Button OKButton;
+        public System.Windows.Forms.Button VRCloseButton;
+        public System.Windows.Forms.Button VRApplyButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn FullID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Coeff;
