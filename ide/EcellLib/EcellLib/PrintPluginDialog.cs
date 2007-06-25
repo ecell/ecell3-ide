@@ -19,6 +19,10 @@ namespace EcellLib
         public PrintPluginDialog()
         {
             InitializeComponent();
+
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrintPluginDialog));
+            resources.ApplyResources(button1, "OKButton");
+            resources.ApplyResources(button2, "CancelButton");
         }
 
         /// <summary>
