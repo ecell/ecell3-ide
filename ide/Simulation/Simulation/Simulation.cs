@@ -628,16 +628,15 @@ namespace EcellLib.Simulation
             m_win.stepperListBox.SelectedIndexChanged += new EventHandler(m_win.StepperListBoxSelectedIndexChanged);
             m_win.stepCombo.SelectedIndexChanged += new EventHandler(m_win.StepComboSelectedIndexChanged);
             m_win.modelCombo.SelectedIndexChanged += new EventHandler(m_win.ModelComboSelectedIndexChanged);
-            m_win.newButton.Click += new EventHandler(m_win.NewButtonClick);
-            m_win.saveButton.Click += new EventHandler(m_win.SaveButtonClick);
-            m_win.deleteButton.Click += new EventHandler(m_win.DeleteButtonClick);
-            m_win.closeButton.Click += new EventHandler(m_win.CloseButtonClick);
-            m_win.updateButton.Click += new EventHandler(m_win.UpdateButtonClick);
+            m_win.SSCreateButton.Click += new EventHandler(m_win.NewButtonClick);
+            m_win.SSDeleteButton.Click += new EventHandler(m_win.DeleteButtonClick);
+            m_win.SSCloseButton.Click += new EventHandler(m_win.CloseButtonClick);
+            m_win.SSApplyButton.Click += new EventHandler(m_win.UpdateButtonClick);
             m_win.iModelCombo.SelectedIndexChanged += new EventHandler(m_win.InitModelComboSelectedIndexChanged);
 
-            m_win.setButton.Click += new EventHandler(m_win.SetButtonClick);
-            m_win.addStep.Click += new EventHandler(m_win.AddStepperClick);
-            m_win.deleteStep.Click += new EventHandler(m_win.DeleteStepperClick);
+            m_win.SSSetButton.Click += new EventHandler(m_win.SetButtonClick);
+            m_win.SSAddStepperButton.Click += new EventHandler(m_win.AddStepperClick);
+            m_win.SSDeleteStepperButton.Click += new EventHandler(m_win.DeleteStepperClick);
 
             m_win.ShowDialog();
         }

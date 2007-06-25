@@ -117,28 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddStepperButton.Text" xml:space="preserve">
-    <value>追加</value>
-  </data>
-  <data name="ApplyButton.Text" xml:space="preserve">
+  <data name="SSApplyButton.Text" xml:space="preserve">
     <value>適用</value>
   </data>
-  <data name="CloseButton.Text" xml:space="preserve">
+  <data name="SSCloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>
-  <data name="DeleteButton.Text" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="DeleteStepperButton.Text" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="NewButton.Text" xml:space="preserve">
+  <data name="SSCreateButton.Text" xml:space="preserve">
     <value>作成</value>
   </data>
-  <data name="SaveButton.Text" xml:space="preserve">
-    <value>保存</value>
+  <data name="SSDeleteButton.Text" xml:space="preserve">
+    <value>削除</value>
   </data>
-  <data name="SetButton.Text" xml:space="preserve">
+  <data name="SSSetButton.Text" xml:space="preserve">
     <value>設定</value>
   </data>
 </root>

@@ -343,8 +343,8 @@
             {
                 NewParameterWindow m_newwin = new NewParameterWindow();
 
-                m_newwin.OKButton.Click += new EventHandler(m_newwin.NewParameterClick);
-                m_newwin.cancelButton.Click += new EventHandler(m_newwin.CancelParameterClick);
+                m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.NewParameterClick);
+                m_newwin.CPCancelButton.Click += new EventHandler(m_newwin.CancelParameterClick);
 
                 m_newwin.SetParentWindow(this);
 
@@ -639,8 +639,8 @@
             {
                 NewParameterWindow m_newwin = new NewParameterWindow();
                 m_newwin.Text = "New Stepper";
-                m_newwin.OKButton.Click += new EventHandler(m_newwin.AddStepperClick);
-                m_newwin.cancelButton.Click += new EventHandler(m_newwin.CancelStepperClick);
+                m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.AddStepperClick);
+                m_newwin.CPCancelButton.Click += new EventHandler(m_newwin.CancelStepperClick);
 
                 m_newwin.SetParentWindow(this);
 
