@@ -48,7 +48,7 @@ namespace EcellLib.MainWindow
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                button1.PerformClick();
+                CPCreateButton.PerformClick();
             }
         }
 

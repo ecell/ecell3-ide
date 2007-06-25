@@ -659,8 +659,8 @@ namespace EcellLib.MainWindow
                 }
             }
             m_newPrjDialog = new NewProjectDialog();
-            m_newPrjDialog.button1.Click += new System.EventHandler(this.NewProject);
-            m_newPrjDialog.button2.Click += new System.EventHandler(this.NewProject);
+            m_newPrjDialog.CPCreateButton.Click += new System.EventHandler(this.NewProject);
+            m_newPrjDialog.CPCancelButton.Click += new System.EventHandler(this.NewProject);
 
             m_newPrjDialog.ShowDialog();
         }
@@ -755,8 +755,8 @@ namespace EcellLib.MainWindow
             }
 
             m_openPrjDialog = new OpenProjectDialog();
-            m_openPrjDialog.button1.Click += new System.EventHandler(this.OpenProject);
-            m_openPrjDialog.button2.Click += new System.EventHandler(this.OpenProject);
+            m_openPrjDialog.OPOpenButton.Click += new System.EventHandler(this.OpenProject);
+            m_openPrjDialog.OPCancelButton.Click += new System.EventHandler(this.OpenProject);
 
             try
             {
@@ -824,8 +824,8 @@ namespace EcellLib.MainWindow
         private void SaveProjectMenuClick(object sender, EventArgs e)
         {
             m_savePrjDialog = new SaveProjectDialog();
-            m_savePrjDialog.button1.Click += new System.EventHandler(this.SaveProject);
-            m_savePrjDialog.button2.Click += new System.EventHandler(this.SaveProject);
+            m_savePrjDialog.SPSaveButton.Click += new System.EventHandler(this.SaveProject);
+            m_savePrjDialog.SPCancelButton.Click += new System.EventHandler(this.SaveProject);
 
             try
             {
@@ -1011,8 +1011,8 @@ namespace EcellLib.MainWindow
         {
             m_savePrjDialog = new SaveProjectDialog();
             m_savePrjDialog.Text = "Export Model";
-            m_savePrjDialog.button1.Click += new EventHandler(ExportModel);
-            m_savePrjDialog.button2.Click += new EventHandler(ExportModel);
+            m_savePrjDialog.SPSaveButton.Click += new EventHandler(ExportModel);
+            m_savePrjDialog.SPCancelButton.Click += new EventHandler(ExportModel);
 
             List<string> list = m_dManager.GetModelList();
             CheckedListBox box = m_savePrjDialog.checkedListBox1;
