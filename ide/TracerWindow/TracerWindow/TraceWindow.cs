@@ -906,7 +906,7 @@ namespace EcellLib.TracerWindow
             foreach (DataGridViewRow row in dgv.Rows)
             {
                 bool check = (bool)row.Cells[0].Value;
-                string full = (string)row.Cells[2].Value;
+                string full = (string)row.Cells[3].Value;
 
                 if (check && full != null)
                 {
