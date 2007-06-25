@@ -53,26 +53,28 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnCount = 5;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.OKButton, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.CButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.OKButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.CButton, 3, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 437);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(486, 29);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // OKButton
             // 
             this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.OKButton.Location = new System.Drawing.Point(84, 3);
+            this.OKButton.Location = new System.Drawing.Point(161, 3);
             this.OKButton.Name = "OKButton";
-            this.OKButton.Size = new System.Drawing.Size(75, 23);
+            this.OKButton.Size = new System.Drawing.Size(74, 23);
             this.OKButton.TabIndex = 0;
             this.OKButton.Text = "Apply";
             this.OKButton.UseVisualStyleBackColor = true;
@@ -80,9 +82,9 @@
             // CButton
             // 
             this.CButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.CButton.Location = new System.Drawing.Point(327, 3);
+            this.CButton.Location = new System.Drawing.Point(251, 3);
             this.CButton.Name = "CButton";
-            this.CButton.Size = new System.Drawing.Size(75, 23);
+            this.CButton.Size = new System.Drawing.Size(74, 23);
             this.CButton.TabIndex = 1;
             this.CButton.Text = "Close";
             this.CButton.UseVisualStyleBackColor = true;

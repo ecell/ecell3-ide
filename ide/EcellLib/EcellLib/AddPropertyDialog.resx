@@ -284,10 +284,4 @@
         AAA=
 </value>
   </data>
-  <data name="CloseButton.Text" xml:space="preserve">
-    <value>Cose</value>
-  </data>
-  <data name="OKButton.Text" xml:space="preserve">
-    <value>Apply</value>
-  </data>
 </root>

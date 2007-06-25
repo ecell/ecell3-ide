@@ -77,25 +77,28 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnCount = 5;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.selectButton, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.cancelButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.selectButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.cancelButton, 3, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 355);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(359, 29);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // selectButton
             // 
             this.selectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.selectButton.Location = new System.Drawing.Point(3, 3);
+            this.selectButton.Location = new System.Drawing.Point(97, 3);
             this.selectButton.Name = "selectButton";
-            this.selectButton.Size = new System.Drawing.Size(173, 23);
+            this.selectButton.Size = new System.Drawing.Size(74, 23);
             this.selectButton.TabIndex = 0;
             this.selectButton.Text = "Select";
             this.selectButton.UseVisualStyleBackColor = true;
@@ -103,9 +106,9 @@
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.Location = new System.Drawing.Point(182, 3);
+            this.cancelButton.Location = new System.Drawing.Point(187, 3);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(174, 23);
+            this.cancelButton.Size = new System.Drawing.Size(74, 23);
             this.cancelButton.TabIndex = 1;
             this.cancelButton.Text = "Close";
             this.cancelButton.UseVisualStyleBackColor = true;

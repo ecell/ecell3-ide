@@ -52,7 +52,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(313, 279);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(204, 279);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -60,35 +60,38 @@
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnCount = 5;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.button1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button2, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button1, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button2, 3, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 247);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(307, 29);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(198, 29);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.button1.Location = new System.Drawing.Point(39, 3);
+            this.button1.Location = new System.Drawing.Point(17, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(74, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "OK";
+            this.button1.Text = "Select";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.button2.Location = new System.Drawing.Point(192, 3);
+            this.button2.Location = new System.Drawing.Point(107, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(74, 23);
             this.button2.TabIndex = 1;
             this.button2.Text = "Cancel";
             this.button2.UseVisualStyleBackColor = true;
@@ -103,14 +106,14 @@
             this.listBox1.ItemHeight = 12;
             this.listBox1.Location = new System.Drawing.Point(3, 3);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(307, 232);
+            this.listBox1.Size = new System.Drawing.Size(198, 232);
             this.listBox1.TabIndex = 1;
             // 
             // PrintPluginDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(337, 303);
+            this.ClientSize = new System.Drawing.Size(228, 303);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PrintPluginDialog";

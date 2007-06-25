@@ -525,7 +525,7 @@ namespace EcellLib
 
         void AddPropertyForProcess(object sender, EventArgs e)
         {
-            AddProperyDialog dialog = new AddProperyDialog();
+            AddPropertyDialog dialog = new AddPropertyDialog();
 
             String name = dialog.ShowPropertyDialog();
             if (name == null) return;
@@ -1437,11 +1437,10 @@ namespace EcellLib
         public void ShowVarRefWindow(object sender, EventArgs e)
         {
             m_win = new VariableRefWindow();
-            m_win.button1.Click += new EventHandler(m_win.AddVarReference);
-            m_win.button2.Click += new EventHandler(m_win.DeleteVarReference);
-            m_win.button3.Click += new EventHandler(m_win.ApplyVarReference);
-            m_win.button4.Click += new EventHandler(m_win.CloseVarReference);
-            m_win.button5.Click += new EventHandler(m_win.OKVarReference);
+            m_win.AddVarButton.Click += new EventHandler(m_win.AddVarReference);
+            m_win.DeleteVarButton.Click += new EventHandler(m_win.DeleteVarReference);
+            m_win.CloseButton.Click += new EventHandler(m_win.CloseVarReference);
+            m_win.OKButton.Click += new EventHandler(m_win.OKVarReference);
 
             List<EcellReference> list = EcellReference.ConvertString(m_refStr);
             foreach (EcellReference v in list)
