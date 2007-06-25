@@ -211,6 +211,7 @@ namespace EcellLib
         /// </summary>
         private void LayoutNodePropertyEditor()
         {
+            Dictionary<string, EcellData> tmpProcDict = null;
             if (m_currentObj == null)
             {
                 if (m_type.Equals("Process"))
@@ -227,6 +228,10 @@ namespace EcellLib
                     m_propDict.Clear();
                     foreach (EcellData d in m_currentObj.M_value)
                         m_propDict.Add(d.M_name, d);
+                }
+                if (m_currentObj.classname.StartsWith("Expression"))
+                {
+                    tmpProcDict = DataManager.GetProcessProperty(m_currentObj.classname);
                 }
             }
 
@@ -450,6 +455,15 @@ namespace EcellLib
                             m_text = t;
                             layoutPanel.Controls.Add(b, 3, i);
                         }
+                        else if (!tmpProcDict.ContainsKey(key))
+                        {
+                            Button b = new Button();
+                            b.Text = "Delete";
+                            b.Tag = key;
+                            b.Dock = DockStyle.Fill;
+                            b.Click += new EventHandler(DeletePropertyForProcess);
+                            layoutPanel.Controls.Add(b, 3, i);
+                        }
                     }
                     i++;
                 }
@@ -523,6 +537,21 @@ namespace EcellLib
             }
         }
 
+        void DeletePropertyForProcess(object sender, EventArgs e)
+        {
+            Button b = sender as Button;
+            if (b == null) return;
+
+            string delKey = b.Tag as string;
+            if (delKey == null) return;
+
+            if (m_propDict.ContainsKey(delKey))
+            {
+                m_propDict.Remove(delKey);
+            }
+            LayoutNodePropertyEditor();
+        }
+
         void AddPropertyForProcess(object sender, EventArgs e)
         {
             AddPropertyDialog dialog = new AddPropertyDialog();
@@ -586,13 +615,20 @@ namespace EcellLib
                             t.Text = "0.0";
                             layoutPanel.Controls.Add(t, 2, pos.Row);
 
-                            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                             Button b = new Button();
-                            b.Text = "Add Property";
-                            b.Tag = "Add Property";
+                            b.Text = "Delete";
+                            b.Tag = name;
                             b.Dock = DockStyle.Fill;
-                            b.Click += new EventHandler(AddPropertyForProcess);
-                            layoutPanel.Controls.Add(b, 2, pos.Row + 1);
+                            b.Click += new EventHandler(DeletePropertyForProcess);
+                            layoutPanel.Controls.Add(b, 3, pos.Row);
+
+                            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                            Button b1 = new Button();
+                            b1.Text = "Add Property";
+                            b1.Tag = "Add Property";
+                            b1.Dock = DockStyle.Fill;
+                            b1.Click += new EventHandler(AddPropertyForProcess);
+                            layoutPanel.Controls.Add(b1, 2, pos.Row + 1);
 
                             break;
                         }
