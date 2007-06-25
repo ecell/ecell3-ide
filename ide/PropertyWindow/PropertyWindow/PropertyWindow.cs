@@ -270,7 +270,7 @@ namespace EcellLib.PropertyWindow
                 m_editor.layoutPanel.SuspendLayout();
                 m_editor.SetCurrentObject(m_currentObj);
                 m_editor.SetDataType(m_currentObj.type);
-                m_editor.button1.Click += new EventHandler(m_editor.UpdateProperty);
+                m_editor.PEApplyButton.Click += new EventHandler(m_editor.UpdateProperty);
                 m_editor.LayoutPropertyEditor();
                 m_editor.layoutPanel.ResumeLayout(false);
                 m_editor.ShowDialog();
