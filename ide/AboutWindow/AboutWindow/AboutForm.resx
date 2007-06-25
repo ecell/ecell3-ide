@@ -496,31 +496,31 @@
   <data name="&gt;&gt;gnuLink.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="closeButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="CloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left</value>
   </data>
-  <data name="closeButton.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CloseButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 140</value>
   </data>
-  <data name="closeButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 23</value>
   </data>
-  <data name="closeButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="CloseButton.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="closeButton.Text" xml:space="preserve">
+  <data name="CloseButton.Text" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="&gt;&gt;closeButton.Name" xml:space="preserve">
-    <value>closeButton</value>
+  <data name="&gt;&gt;CloseButton.Name" xml:space="preserve">
+    <value>CloseButton</value>
   </data>
-  <data name="&gt;&gt;closeButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;CloseButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;closeButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CloseButton.Parent" xml:space="preserve">
     <value>tableLayoutPanel2</value>
   </data>
-  <data name="&gt;&gt;closeButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CloseButton.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
   <data name="manualLink.AutoSize" type="System.Boolean, mscorlib">
@@ -665,7 +665,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pictureBox1" Row="1" RowSpan="6" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="ecellLink" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="gnuLink" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="copyLabel" Row="7" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="closeButton" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="manualLink" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel1" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,7,Absolute,110,Percent,100,Absolute,7" /&gt;&lt;Rows Styles="Absolute,7,Absolute,25,Absolute,7,Absolute,17,Absolute,27,Absolute,28,Absolute,21,Absolute,40,Absolute,7" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pictureBox1" Row="1" RowSpan="6" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="ecellLink" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="gnuLink" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="copyLabel" Row="7" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="CloseButton" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="manualLink" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel1" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,7,Absolute,110,Percent,100,Absolute,7" /&gt;&lt;Rows Styles="Absolute,7,Absolute,25,Absolute,7,Absolute,17,Absolute,27,Absolute,28,Absolute,21,Absolute,40,Absolute,7" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="copyLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>142, 146</value>

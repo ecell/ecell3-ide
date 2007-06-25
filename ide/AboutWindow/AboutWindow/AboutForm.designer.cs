@@ -36,7 +36,7 @@ namespace EcellLib.AboutWindow
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.gnuLink = new System.Windows.Forms.LinkLabel();
-            this.closeButton = new System.Windows.Forms.Button();
+            this.CloseButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
@@ -71,7 +71,7 @@ namespace EcellLib.AboutWindow
             this.tableLayoutPanel2.Controls.Add(this.label3, 2, 3);
             this.tableLayoutPanel2.Controls.Add(this.gnuLink, 2, 4);
             this.tableLayoutPanel2.Controls.Add(this.copyLabel, 2, 7);
-            this.tableLayoutPanel2.Controls.Add(this.closeButton, 1, 7);
+            this.tableLayoutPanel2.Controls.Add(this.CloseButton, 1, 7);
             this.tableLayoutPanel2.Controls.Add(this.manualLink, 2, 6);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 2, 1);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -95,12 +95,12 @@ namespace EcellLib.AboutWindow
             this.gnuLink.Name = "gnuLink";
             this.gnuLink.TabStop = true;
             // 
-            // closeButton
+            // CloseButton
             // 
-            resources.ApplyResources(this.closeButton, "closeButton");
-            this.closeButton.Name = "closeButton";
-            this.closeButton.UseVisualStyleBackColor = true;
-            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            resources.ApplyResources(this.CloseButton, "CloseButton");
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -147,7 +147,7 @@ namespace EcellLib.AboutWindow
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel gnuLink;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button closeButton;
+        private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.Label versionLabel;
