@@ -73,7 +73,7 @@ namespace EcellLib.SearchWindow
         public void Search(string str)
         {
             idText.Text = str;
-            SearchButtonClick(searchButton, new EventArgs());
+            SearchButtonClick(SCSearchButton, new EventArgs());
         }
 
 
