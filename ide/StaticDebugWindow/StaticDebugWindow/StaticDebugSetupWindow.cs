@@ -223,7 +223,7 @@ namespace EcellLib.StaticDebugWindow
                         editor.layoutPanel.SuspendLayout();
                         editor.SetCurrentObject(obj);
                         editor.SetDataType(obj.type);
-                        editor.button1.Click += new EventHandler(editor.UpdateProperty);
+                        editor.PEApplyButton.Click += new EventHandler(editor.UpdateProperty);
                         editor.LayoutPropertyEditor();
                         editor.layoutPanel.ResumeLayout(false);
                         editor.ShowDialog();
@@ -255,7 +255,7 @@ namespace EcellLib.StaticDebugWindow
 
         private void StaticDebugWinShown(object sender, EventArgs e)
         {
-            this.debugButton.Focus();
+            this.SSDebugButton.Focus();
         }
     }
 }

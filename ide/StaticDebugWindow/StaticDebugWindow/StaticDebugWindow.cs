@@ -1275,7 +1275,7 @@ namespace EcellLib.StaticDebugWindow
             }
 
             win.LayoutCheckList(list);
-            win.debugButton.Select();
+            win.SSDebugButton.Select();
 
             win.Show();
         }

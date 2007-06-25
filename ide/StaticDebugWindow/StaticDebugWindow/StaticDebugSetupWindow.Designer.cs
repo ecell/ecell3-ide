@@ -66,8 +66,8 @@ namespace EcellLib.StaticDebugWindow
             this.ModelColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.debugButton = new System.Windows.Forms.Button();
-            this.closeButton = new System.Windows.Forms.Button();
+            this.SSDebugButton = new System.Windows.Forms.Button();
+            this.SSCloseButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.layoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
@@ -78,20 +78,11 @@ namespace EcellLib.StaticDebugWindow
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.debugResultView, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(552, 529);
-            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // debugResultView
             // 
@@ -104,114 +95,78 @@ namespace EcellLib.StaticDebugWindow
             this.PathColumn,
             this.ModelColumn,
             this.TypeColumn});
-            this.debugResultView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.debugResultView.Location = new System.Drawing.Point(3, 292);
+            resources.ApplyResources(this.debugResultView, "debugResultView");
             this.debugResultView.Name = "debugResultView";
             this.debugResultView.RowHeadersVisible = false;
             this.debugResultView.RowTemplate.Height = 21;
-            this.debugResultView.Size = new System.Drawing.Size(546, 194);
-            this.debugResultView.TabIndex = 0;
             // 
             // MessageColumn
             // 
-            this.MessageColumn.HeaderText = "Message";
+            resources.ApplyResources(this.MessageColumn, "MessageColumn");
             this.MessageColumn.Name = "MessageColumn";
             this.MessageColumn.ReadOnly = true;
             // 
             // PathColumn
             // 
             this.PathColumn.FillWeight = 40F;
-            this.PathColumn.HeaderText = "Path";
+            resources.ApplyResources(this.PathColumn, "PathColumn");
             this.PathColumn.Name = "PathColumn";
             this.PathColumn.ReadOnly = true;
             // 
             // ModelColumn
             // 
             this.ModelColumn.FillWeight = 15F;
-            this.ModelColumn.HeaderText = "ModelID";
+            resources.ApplyResources(this.ModelColumn, "ModelColumn");
             this.ModelColumn.Name = "ModelColumn";
             this.ModelColumn.ReadOnly = true;
             // 
             // TypeColumn
             // 
             this.TypeColumn.FillWeight = 15F;
-            this.TypeColumn.HeaderText = "Type";
+            resources.ApplyResources(this.TypeColumn, "TypeColumn");
             this.TypeColumn.Name = "TypeColumn";
             this.TypeColumn.ReadOnly = true;
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.debugButton, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.closeButton, 1, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 492);
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel2.Controls.Add(this.SSDebugButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.SSCloseButton, 3, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(546, 34);
-            this.tableLayoutPanel2.TabIndex = 1;
             // 
-            // debugButton
+            // SSDebugButton
             // 
-            this.debugButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.debugButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.debugButton.Location = new System.Drawing.Point(99, 3);
-            this.debugButton.Name = "debugButton";
-            this.debugButton.Size = new System.Drawing.Size(75, 28);
-            this.debugButton.TabIndex = 0;
-//            this.debugButton.Text = "Debug";
-            resources.ApplyResources(debugButton, "DebugButton");
-            this.debugButton.UseVisualStyleBackColor = true;
-            this.debugButton.Click += new System.EventHandler(this.debugButton_Click);
+            resources.ApplyResources(this.SSDebugButton, "SSDebugButton");
+            this.SSDebugButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.SSDebugButton.Name = "SSDebugButton";
+            this.SSDebugButton.UseVisualStyleBackColor = true;
+            this.SSDebugButton.Click += new System.EventHandler(this.debugButton_Click);
             // 
-            // closeButton
+            // SSCloseButton
             // 
-            this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.closeButton.Location = new System.Drawing.Point(372, 3);
-            this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(75, 28);
-            this.closeButton.TabIndex = 1;
-//            this.closeButton.Text = "Close";
-            resources.ApplyResources(closeButton, "CloseButton");
-            this.closeButton.UseVisualStyleBackColor = true;
-            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            resources.ApplyResources(this.SSCloseButton, "SSCloseButton");
+            this.SSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.SSCloseButton.Name = "SSCloseButton";
+            this.SSCloseButton.UseVisualStyleBackColor = true;
+            this.SSCloseButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // panel1
             // 
-            this.panel1.AutoScroll = true;
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Controls.Add(this.layoutPanel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(546, 283);
-            this.panel1.TabIndex = 2;
             // 
             // layoutPanel
             // 
-            this.layoutPanel.ColumnCount = 2;
-            this.layoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.layoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.layoutPanel.Location = new System.Drawing.Point(9, 9);
+            resources.ApplyResources(this.layoutPanel, "layoutPanel");
             this.layoutPanel.Name = "layoutPanel";
-            this.layoutPanel.RowCount = 1;
-            this.layoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.layoutPanel.Size = new System.Drawing.Size(504, 320);
-            this.layoutPanel.TabIndex = 0;
             // 
             // StaticDebugSetupWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(552, 529);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StaticDebugSetupWindow";
-            this.Text = "Static DebugSetup";
             this.Shown += new System.EventHandler(this.StaticDebugWinShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.debugResultView)).EndInit();
@@ -226,8 +181,8 @@ namespace EcellLib.StaticDebugWindow
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         public System.Windows.Forms.DataGridView debugResultView;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        public System.Windows.Forms.Button debugButton;
-        public System.Windows.Forms.Button closeButton;
+        public System.Windows.Forms.Button SSDebugButton;
+        public System.Windows.Forms.Button SSCloseButton;
         public System.Windows.Forms.TableLayoutPanel layoutPanel;
         public System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn MessageColumn;
