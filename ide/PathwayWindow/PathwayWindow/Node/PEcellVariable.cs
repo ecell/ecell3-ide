@@ -112,7 +112,7 @@ namespace EcellLib.PathwayWindow.Node
             editor.layoutPanel.SuspendLayout();
             editor.SetCurrentObject(obj);
             editor.SetDataType(obj.type);
-            editor.button1.Click += new EventHandler(editor.UpdateProperty);
+            editor.PEApplyButton.Click += new EventHandler(editor.UpdateProperty);
             editor.LayoutPropertyEditor();
             editor.layoutPanel.ResumeLayout(false);
             editor.ShowDialog();
