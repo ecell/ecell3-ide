@@ -760,7 +760,7 @@ namespace EcellLib.MainWindow
 
             m_openPrjDialog = new OpenProjectDialog();
             m_openPrjDialog.OPOpenButton.Click += new System.EventHandler(this.OpenProject);
-            m_openPrjDialog.OPCancelButton.Click += new System.EventHandler(this.OpenProject);
+            m_openPrjDialog.OPCancelButton.Click += new System.EventHandler(this.OpenProjectCancel);
 
             try
             {
@@ -783,6 +783,13 @@ namespace EcellLib.MainWindow
             }
         }
 
+        public void OpenProjectCancel(object sender, EventArgs e)
+        {
+            m_openPrjDialog.Close();
+            m_openPrjDialog.Dispose();
+            m_openPrjDialog = null;
+        }
+
         /// <summary>
         /// The action when you click OK or Cancel in OpenProjectDialog.
         /// If you don't select the project, system show warning message.
@@ -793,8 +800,7 @@ namespace EcellLib.MainWindow
         {
             try
             {
-                if (((Button)sender).Text == "Apply")
-                {
+
                     if (m_openPrjDialog.dataGridView1.SelectedRows.Count <= 0)
                     {
                         MessageBox.Show("Please select project.",
@@ -806,7 +812,6 @@ namespace EcellLib.MainWindow
                     m_project = (string)m_openPrjDialog.dataGridView1.CurrentRow.Cells["PrjName"].Value;
                     m_pManager.ChangeStatus(1);
                     m_editCount = 0;
-                }
             }
             catch (Exception ex)
             {
@@ -829,7 +834,7 @@ namespace EcellLib.MainWindow
         {
             m_savePrjDialog = new SaveProjectDialog();
             m_savePrjDialog.SPSaveButton.Click += new System.EventHandler(this.SaveProject);
-            m_savePrjDialog.SPCancelButton.Click += new System.EventHandler(this.SaveProject);
+            m_savePrjDialog.SPCancelButton.Click += new System.EventHandler(this.SaveProjectCancel);
 
             try
             {
@@ -877,6 +882,21 @@ namespace EcellLib.MainWindow
             }
         }
 
+        private void SaveProjectCancel(object sender, EventArgs e)
+        {
+            m_savePrjDialog.Close();
+            m_savePrjDialog.Dispose();
+            m_savePrjDialog = null;
+            if (m_isClose)
+            {
+                m_isLoadProject = false;
+                m_pManager.ChangeStatus(0);
+                m_dManager.CloseProject(m_project);
+                m_project = null;
+                m_isClose = false;
+            }
+        }
+
         /// <summary>
         /// The action when you click OK or Cancel in SaveProjectDialog.
         /// If you don't select one instance, system do nothing.
@@ -887,8 +907,6 @@ namespace EcellLib.MainWindow
         {
             try
             {
-                if (((Button)sender).Text == "Apply")
-                {
                     CheckedListBox box = m_savePrjDialog.checkedListBox1;
                     if (box.CheckedItems.Count <= 0)
                     {
@@ -919,7 +937,6 @@ namespace EcellLib.MainWindow
                         }
                     }
                     m_editCount = 0;
-                }
             }
             catch (Exception ex)
             {
@@ -1007,6 +1024,13 @@ namespace EcellLib.MainWindow
                     return;
                 }
             }
+            if (m_project != null)
+            {
+                m_isLoadProject = false;
+                m_pManager.ChangeStatus(Util.NOTLOAD);
+                m_dManager.CloseProject(m_project);
+                m_project = null;
+            }
 
             openFileDialog.RestoreDirectory = true;
             openFileDialog.Filter = "model file(*.sbml,*.eml)|*.sbml;*.eml|model file(*.sbml)|*.sbml|model file(*.eml)|*.eml|all(*.*)|*.*";
@@ -1038,7 +1062,7 @@ namespace EcellLib.MainWindow
             m_savePrjDialog = new SaveProjectDialog();
             m_savePrjDialog.Text = "Export Model";
             m_savePrjDialog.SPSaveButton.Click += new EventHandler(ExportModel);
-            m_savePrjDialog.SPCancelButton.Click += new EventHandler(ExportModel);
+            m_savePrjDialog.SPCancelButton.Click += new EventHandler(ExportModelCancel);
 
             List<string> list = m_dManager.GetModelList();
             CheckedListBox box = m_savePrjDialog.checkedListBox1;
@@ -1050,6 +1074,12 @@ namespace EcellLib.MainWindow
             m_savePrjDialog.ShowDialog();
         }
 
+        public void ExportModelCancel(object sender, EventArgs e)
+        {
+            m_savePrjDialog.Close();
+            m_savePrjDialog.Dispose();
+        }
+
         /// <summary>
         /// Export the selected models.
         /// </summary>
@@ -1057,9 +1087,6 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         public void ExportModel(object sender, EventArgs e)
         {
-            Button b = (Button)sender;
-            if (b.Text == "Apply")
-            {
                 List<string> list = new List<string>();
                 CheckedListBox box = m_savePrjDialog.checkedListBox1;
                 foreach (string s in box.CheckedItems)
@@ -1088,7 +1115,6 @@ namespace EcellLib.MainWindow
                             "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-            }
             m_savePrjDialog.Close();
             m_savePrjDialog.Dispose();
         }
