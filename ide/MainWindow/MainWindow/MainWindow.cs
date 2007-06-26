@@ -645,12 +645,14 @@ namespace EcellLib.MainWindow
                 {
                     m_isClose = true;
                     SaveProjectMenuClick(sender, e);
+                    m_editCount = 0;
                 }
                 else if (res == DialogResult.No)
                 {
                     m_isLoadProject = false;
                     m_pManager.ChangeStatus(0);
                     m_dManager.CloseProject(m_project);
+                    m_editCount = 0;
                     m_project = null;
                 }
                 else
@@ -744,12 +746,14 @@ namespace EcellLib.MainWindow
                 {
                     m_isClose = true;
                     SaveProjectMenuClick(sender, e);
+                    m_editCount = 0;
                 }
                 else if (res == DialogResult.No)
                 {
                     m_isLoadProject = false;
                     m_pManager.ChangeStatus(0);
                     m_dManager.CloseProject(m_project);
+                    m_editCount = 0;
                     m_project = null;
                 }
                 else
@@ -973,12 +977,14 @@ namespace EcellLib.MainWindow
                 {
                     m_isClose = true;
                     SaveProjectMenuClick(sender, e);
+                    m_editCount = 0;
                 }
                 else if (res == DialogResult.No)
                 {
                     m_isLoadProject = false;
                     m_pManager.ChangeStatus(Util.NOTLOAD);
                     m_dManager.CloseProject(m_project);
+                    m_editCount = 0;
                     m_project = null;
                 }
                 else
@@ -1011,6 +1017,7 @@ namespace EcellLib.MainWindow
                 {
                     m_isClose = true;
                     SaveProjectMenuClick(sender, e);
+                    m_editCount = 0;
                 }
                 else if (res == DialogResult.No)
                 {
@@ -1018,6 +1025,7 @@ namespace EcellLib.MainWindow
                     m_pManager.ChangeStatus(Util.NOTLOAD);
                     m_dManager.CloseProject(m_project);
                     m_project = null;
+                    m_editCount = 0;
                 }
                 else
                 {
