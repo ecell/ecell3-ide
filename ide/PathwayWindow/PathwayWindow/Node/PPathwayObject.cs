@@ -113,6 +113,11 @@ namespace EcellLib.PathwayWindow.Node
         protected bool m_isInvalid = false;
 
         /// <summary>
+        /// This object.Pickable before freeze() method called.
+        /// </summary>
+        protected bool m_isPickableBeforeFreeze = false;
+
+        /// <summary>
         /// The key that identifies a change in this node's <see cref="Pen">Pen</see>.
         /// </summary>
         /// <remarks>
@@ -984,8 +989,7 @@ namespace EcellLib.PathwayWindow.Node
         public virtual void Refresh()
         {            
         }
-        #endregion
-
+        
         /// <summary>
         /// start to move this Node by drag.
         /// </summary>
@@ -999,7 +1003,26 @@ namespace EcellLib.PathwayWindow.Node
         public virtual void MoveEnd()
         {
         }
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// Make this object freezed.
+        /// </summary>
+        public virtual void Freeze()
+        {
+            m_isPickableBeforeFreeze = this.Pickable;
+            this.Pickable = false;
+        }
+
+        /// <summary>
+        /// Reset freeze status.
+        /// </summary>
+        public virtual void Unfreeze()
+        {
+            this.Pickable = m_isPickableBeforeFreeze;
+        }
+        #endregion
         #region Serialization
         //****************************************************************
         // Serialization - Nodes conditionally serialize their parent.

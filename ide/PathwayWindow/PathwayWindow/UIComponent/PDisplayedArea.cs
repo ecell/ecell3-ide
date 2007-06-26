@@ -36,6 +36,8 @@ using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
 using EcellLib.PathwayWindow.Node;
 using EcellLib.PathwayWindow.Element;
+using PathwayWindow;
+using System.IO;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -51,6 +53,11 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// this color has alpha value.
         /// </summary>
         SolidBrush m_brush = new SolidBrush(Color.FromArgb(125, Color.Red));
+
+        /// <summary>
+        /// Cursor to move this object.
+        /// </summary>
+        Cursor m_hand = new Cursor( new MemoryStream( Resource1.move ));
 
         /// <summary>
         /// pen for an outline of rectangle
@@ -123,7 +130,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         public override void OnMouseEnter(PInputEventArgs e)
         {
             base.OnMouseEnter(e);
-            e.Canvas.Cursor = Cursors.Hand;
+            e.Canvas.Cursor = m_hand;
         }
 
         public override void OnMouseLeave(PInputEventArgs e)

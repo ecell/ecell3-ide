@@ -226,6 +226,11 @@ namespace EcellLib.PathwayWindow
         /// This flag is used for neglecting one of two delagate calling.
         /// </summary>
         private bool m_dirtyEventProcessed = false;
+
+        /// <summary>
+        /// Whether PathwayView is freezed or not.
+        /// </summary>
+        private bool m_isFreezed = false;
         #endregion
 
         #region Accessors
@@ -774,27 +779,32 @@ namespace EcellLib.PathwayWindow
             {
                 AddInputEventListener(m_objectHandlerList[CheckedComponent]);
                 SetRefreshOverview(false);
+                Unfreeze();
             }
             else if (CheckedComponent == -1)
             {
                 AddInputEventListener(m_canvasHandlerList[0]);
                 SetRefreshOverview(false);
+                Unfreeze();
             }
             else if (CheckedComponent == -2)
             {
                 m_splitCon.Cursor = new Cursor( new MemoryStream( Resource1.move ));
                 AddInputEventListener(m_canvasHandlerList[1]);
                 SetRefreshOverview(true);
+                Freeze();
             }
             else if (CheckedComponent == -3)
             {
                 AddInputEventListener(m_canvasHandlerList[2]);
                 SetRefreshOverview(false);
+                Unfreeze();
             }
             else if (CheckedComponent == -4)
             {
                 AddInputEventListener(m_canvasHandlerList[2]);
                 SetRefreshOverview(false);
+                Unfreeze();
             }
         }
 
@@ -1328,6 +1338,30 @@ namespace EcellLib.PathwayWindow
                 m_pathwayWindow.NotifySelectChanged(key, type);
         }
         #endregion
+
+        /// <summary>
+        /// Freeze all objects to be unpickable.
+        /// </summary>
+        private void Freeze()
+        {
+            if (m_isFreezed)
+                return;
+            foreach (CanvasView canvas in m_canvasDict.Values)
+                canvas.Freeze();
+            m_isFreezed = true;
+        }
+
+        /// <summary>
+        /// Cancel freezed status.
+        /// </summary>
+        private void Unfreeze()
+        {
+            if (!m_isFreezed)
+                return;
+            foreach (CanvasView canvas in m_canvasDict.Values)
+                canvas.Unfreeze();
+            m_isFreezed = false;
+        }
 
         /// <summary>
         /// Move the display rectangle of PathwayEditor with mouse.

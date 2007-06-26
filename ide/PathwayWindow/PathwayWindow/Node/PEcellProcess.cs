@@ -116,6 +116,22 @@ namespace EcellLib.PathwayWindow.Node
         #endregion
 
         #region Methods
+        public override void Freeze()
+        {
+            base.Freeze();
+            foreach (List<Line> list in m_relatedVariables.Values)
+                foreach (Line line in list)
+                    line.Pickable = false;
+        }
+
+        public override void Unfreeze()
+        {
+            base.Unfreeze();
+            foreach (List<Line> list in m_relatedVariables.Values)
+                foreach (Line line in list)
+                    line.Pickable = true;
+        }
+
         /// <summary>
         /// get list of elements.
         /// if this node is process, this return is that process.

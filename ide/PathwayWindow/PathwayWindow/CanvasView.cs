@@ -2781,6 +2781,19 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Freeze objects on this canvas.
+        /// </summary>
+        public void Freeze()
+        {
+            foreach (SystemContainer sysCon in m_systems.Values)
+                sysCon.Freeze();
+            foreach (PEcellVariable var in m_variables.Values)
+                var.Freeze();
+            foreach (PEcellProcess pro in m_processes.Values)
+                pro.Freeze();            
+        }
+
+        /// <summary>
         /// Get a key list of systems under a given system.
         /// </summary>
         /// <param name="systemKey"></param>
@@ -3109,6 +3122,19 @@ namespace EcellLib.PathwayWindow
             }
         }
         #endregion
+
+        /// <summary>
+        /// Cancel freeze status of this canvas.
+        /// </summary>
+        public void Unfreeze()
+        {
+            foreach (SystemContainer sysCon in m_systems.Values)
+                sysCon.UnFreeze();
+            foreach (PEcellVariable var in m_variables.Values)
+                var.Unfreeze();
+            foreach (PEcellProcess pro in m_processes.Values)
+                pro.Unfreeze();
+        }
 
         /// <summary>
         /// Call the UpdateOverview() method after a certain time passed
@@ -3864,6 +3890,17 @@ namespace EcellLib.PathwayWindow
             #endregion
 
             #region Methods
+            public void Freeze()
+            {
+                foreach(PEcellSystem system in this.EcellSystems)
+                    system.Freeze();                
+            }
+            public void UnFreeze()
+            {
+                foreach (PEcellSystem system in this.EcellSystems)
+                    system.Unfreeze();
+
+            }
             /// <summary>
             /// create the text displayed on PathwayEditor.
             /// if this system has the variable of SIZE,
