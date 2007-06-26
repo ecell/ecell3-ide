@@ -308,6 +308,10 @@ namespace EcellLib
                 {
 //                    t2.ReadOnly = true;
                     t2.Text = m_currentObj.key;
+                    if (m_currentObj.key.Equals("/"))
+                    {
+                        t2.ReadOnly = true;
+                    }
                 }
                 t2.Dock = DockStyle.Fill;
                 layoutPanel.Controls.Add(t2, 2, i);
