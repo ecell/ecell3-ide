@@ -981,6 +981,17 @@ namespace EcellLib
         /// <param name="l_data">The list of "EcellObject"</param>
         public void DataAdd(List<EcellObject> l_ecellObjectList)
         {
+            if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
+                this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
+            {
+                DialogResult r = MessageBox.Show("Simulation is running. Would you reset the simulation?",
+                    "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (r != DialogResult.OK)
+                {
+                    return;
+                }
+            }
+
             List<EcellObject> l_usableList = new List<EcellObject>();
             string l_message = null;
             try
@@ -1313,6 +1324,16 @@ namespace EcellLib
         /// <param name="l_ecellObject">The changed "EcellObject"</param>
         public void DataChanged(string l_modelID, string l_key, string l_type, EcellObject l_ecellObject)
         {
+            if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
+                this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
+            {
+                DialogResult r = MessageBox.Show("Simulation is running. Would you reset the simulation?",
+                    "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (r != DialogResult.OK)
+                {
+                    return;
+                }
+            }
             string l_message = null;
             try
             {
@@ -1626,6 +1647,17 @@ namespace EcellLib
         /// <param name="l_type">The type of the "EcellObject"</param>
         public void DataDelete(string l_modelID, string l_key, string l_type)
         {
+            if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
+                this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
+            {
+                DialogResult r = MessageBox.Show("Simulation is running. Would you reset the simulation?",
+                    "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (r != DialogResult.OK)
+                {
+                    return;
+                }
+            }
+
             string l_message = null;
             try
             {
