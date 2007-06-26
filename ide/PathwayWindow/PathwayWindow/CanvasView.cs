@@ -1065,6 +1065,7 @@ namespace EcellLib.PathwayWindow
                     ((Line)obj).Info.VariableKey,
                     RefChangeType.Delete,
                     0);
+                ResetSelectedLine();
             }
             ((ToolStripMenuItem)sender).Tag = null;
         }
