@@ -455,7 +455,7 @@ namespace EcellLib
                             m_text = t;
                             layoutPanel.Controls.Add(b, 3, i);
                         }
-                        else if (!tmpProcDict.ContainsKey(key))
+                        else if (tmpProcDict != null && !tmpProcDict.ContainsKey(key))
                         {
                             Button b = new Button();
                             b.Text = "Delete";
