@@ -1378,8 +1378,8 @@ namespace EcellLib.PathwayWindow
                     system.Y = sysEle.Y - offsetToL.Y;
                     system.Width = sysEle.Width;
                     system.Height = sysEle.Height;
-                    system.SystemWidth = sysEle.Width;
-                    system.SystemHeight = sysEle.Height;
+                    //system.SystemWidth = sysEle.Width;
+                    //system.SystemHeight = sysEle.Height;
                     this.ValidateSystem(system);
                     system.Reset();
                 }
@@ -1425,7 +1425,7 @@ namespace EcellLib.PathwayWindow
                 foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.Y = sysEle.Y - offsetToL.Y;
-                    system.SystemHeight = sysEle.Height;
+                    system.Height = sysEle.Height;
                     this.ValidateSystem(system);
                     system.Reset();
                 }
@@ -1465,8 +1465,10 @@ namespace EcellLib.PathwayWindow
                 foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.Y = sysEle.Y - offsetToL.Y;
-                    system.SystemWidth = sysEle.Width;
-                    system.SystemHeight = sysEle.Height;
+                    system.Width = sysEle.Width;
+                    system.Height = sysEle.Height;
+                    //system.SystemWidth = sysEle.Width;
+                    //system.SystemHeight = sysEle.Height;
                     this.ValidateSystem(system);
                     system.Reset();
                 }
@@ -1509,7 +1511,8 @@ namespace EcellLib.PathwayWindow
                 m_systems[m_selectedSystemName].UpdateText();
                 foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
-                    system.SystemWidth = sysEle.Width;
+                    system.Width = sysEle.Width;
+                    //system.SystemWidth = sysEle.Width;
                     this.ValidateSystem(system);
                     system.Reset();
                 }
@@ -1547,8 +1550,10 @@ namespace EcellLib.PathwayWindow
                 PointF offsetToL = m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer;
                 foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
-                    system.SystemWidth = sysEle.Width;
-                    system.SystemHeight = sysEle.Height;
+                    system.Width = sysEle.Width;
+                    system.Height = sysEle.Height;
+                    //system.SystemWidth = sysEle.Width;
+                    //system.SystemHeight = sysEle.Height;
                     this.ValidateSystem(system);
                     system.Reset();
                 }
@@ -1593,7 +1598,7 @@ namespace EcellLib.PathwayWindow
 
                 foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
-                    system.SystemHeight = sysEle.Height;
+                    system.Height = sysEle.Height;
                     this.ValidateSystem(system);
                     system.Reset();
                 }
@@ -1633,8 +1638,10 @@ namespace EcellLib.PathwayWindow
                 foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.X = sysEle.X - offsetToL.X;
-                    system.SystemWidth = sysEle.Width;
-                    system.SystemHeight = sysEle.Height;
+                    system.Width = sysEle.Width;
+                    system.Height = sysEle.Height;
+                    //system.SystemWidth = sysEle.Width;
+                    //system.SystemHeight = sysEle.Height;
                     this.ValidateSystem(system);
                     system.Reset();
                 }
@@ -1681,7 +1688,8 @@ namespace EcellLib.PathwayWindow
                 foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.X = sysEle.X - offsetToL.X;
-                    system.SystemWidth = sysEle.Width;
+                    system.Width = sysEle.Width;
+                    //system.SystemWidth = sysEle.Width;
                     this.ValidateSystem(system);
                     system.Reset();
                 }
@@ -2218,6 +2226,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="isFirst"></param>
         public void AddNewObj(string layer, string systemName, PPathwayObject obj, bool hasCoords, bool isFirst)
         {
+            ResetSelectedObjects();
             if (layer == null && m_layers.Count == 1)
                 foreach (string key in m_layers.Keys)
                     layer = key;
@@ -2233,64 +2242,129 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
-                // Get a vacant point where an incoming node should be placed.
-                List<PPathwayNode> nodeList = new List<PPathwayNode>();
-                foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
-                    foreach (PPathwayObject ppo in system.ChildObjectList)
-                        if(ppo is PPathwayNode)
-                            nodeList.Add((PPathwayNode)ppo);
-                PEcellSystem topSystem = m_systems[systemName].EcellSystems[0];
-                RectangleF sysRect = new RectangleF(
-                    topSystem.X + topSystem.OffsetToLayer.X,
-                    topSystem.Y + topSystem.OffsetToLayer.Y,
-                    topSystem.Width,
-                    topSystem.Height);
-                List<RectangleF> excludeRectList = new List<RectangleF>();
-                List<PPathwayObject> childList = topSystem.ChildObjectList;
-                foreach(PPathwayObject child in childList)
+                // If obj hasn't coordinate, it will be settled. 
+                if(!hasCoords)
                 {
-                    if (child is PEcellSystem)
+                    if (obj is PPathwayNode)
                     {
-                        excludeRectList.Add( new RectangleF(
-                            child.X + ((PEcellSystem)child).OffsetToLayer.X,
-                            child.Y + ((PEcellSystem)child).OffsetToLayer.Y,
-                            ((PEcellSystem)child).Width,
-                            ((PEcellSystem)child).Height) );
+                        // Get a vacant point where an incoming node should be placed.
+                        List<PPathwayNode> nodeList = new List<PPathwayNode>();
+                        foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                            foreach (PPathwayObject ppo in system.ChildObjectList)
+                                if (ppo is PPathwayNode)
+                                    nodeList.Add((PPathwayNode)ppo);
+                        PEcellSystem topSystem = m_systems[systemName].EcellSystems[0];
+                        RectangleF sysRect = new RectangleF(
+                            topSystem.X + topSystem.OffsetToLayer.X,
+                            topSystem.Y + topSystem.OffsetToLayer.Y,
+                            topSystem.Width,
+                            topSystem.Height);
+                        List<RectangleF> excludeRectList = new List<RectangleF>();
+                        List<PPathwayObject> childList = topSystem.ChildObjectList;
+                        foreach (PPathwayObject child in childList)
+                        {
+                            if (child is PEcellSystem)
+                            {
+                                excludeRectList.Add(new RectangleF(
+                                    child.X + ((PEcellSystem)child).OffsetToLayer.X,
+                                    child.Y + ((PEcellSystem)child).OffsetToLayer.Y,
+                                    ((PEcellSystem)child).Width,
+                                    ((PEcellSystem)child).Height));
+                            }
+                        }
+                        PointF vacantPoint = GetVacantPoint(sysRect, excludeRectList, nodeList);
+                        obj.X = vacantPoint.X - obj.Width;
+                        obj.Y = vacantPoint.Y - obj.Height;
+                    }
+                    else
+                    {
+                        float maxX = 0f;
+                        float maxY = 0f;
+                        float systemX = 0f;
+                        float systemY = 0f;
+                        float systemW = 0f;
+                        float systemH = 0f;
+
+                        foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                        {
+                            systemX = system.X;
+                            systemY = system.Y;
+                            systemW = system.Width;
+                            systemH = system.Height;
+
+                            foreach (PPathwayObject ppo in system.ChildObjectList)
+                            {
+                                float x = 0;
+                                float y = 0;
+                                if (ppo is PPathwayNode)
+                                {
+                                    x = ppo.X + ppo.OffsetX;
+                                    y = ppo.Y + ppo.OffsetY;
+                                }
+                                else if (ppo is PEcellSystem)
+                                {
+                                    PEcellSystem pes = (PEcellSystem)ppo;
+                                    x = pes.X + pes.OffsetX + pes.Width;
+                                    y = pes.Y + pes.OffsetY + pes.Height;
+
+                                }
+                                if (maxX < x)
+                                    maxX = x;
+                                if (maxY < y)
+                                    maxY = y;
+                            }
+                        }
+
+                        // Calculate size needed for parent system to house this system.
+                        float needX = maxX + PEcellSystem.DEFAULT_WIDTH + 2 * PathwayView.SYSTEM_SYSTEM_MARGIN;
+                        float needY = maxY;
+                        if (needY < PEcellSystem.DEFAULT_HEIGHT + 2 * PathwayView.SYSTEM_SYSTEM_MARGIN)
+                            needY = PEcellSystem.DEFAULT_HEIGHT + 2 * PathwayView.SYSTEM_SYSTEM_MARGIN;
+
+                        RectangleF request4XDir = RectangleF.Empty;
+                        RectangleF request4YDir = RectangleF.Empty;
+
+                        if (systemW < needX)
+                            request4XDir = new RectangleF(systemX + systemW, systemY, needX - systemW, needY);
                         
+                        if (systemH < needY)
+                            request4YDir = new RectangleF(systemX, systemY + systemH, systemW, needY - systemH);
+
+                        foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                            system.MakeSpace(request4XDir, request4YDir);
+
+                        foreach (SystemContainer sysCon in m_systems.Values)
+                        {
+                            foreach (PEcellSystem system in sysCon.EcellSystems)
+                                system.Reset();
+                            sysCon.UpdateText();
+                        }
+
+                        // Set obj's coordinate
+                        obj.X = systemX + maxX + PathwayView.SYSTEM_SYSTEM_MARGIN;
+                        obj.Y = systemY + PathwayView.SYSTEM_SYSTEM_MARGIN;
                     }
                 }
-                PointF vacantPoint = GetVacantPoint(sysRect, excludeRectList, nodeList);
 
+                // Set obj to appropriate layer.
                 foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
                 {
                     if (system.Layer == m_layers[layer])
                     {
                         obj.Layer = m_layers[layer];
                         PointF offsetToL = system.OffsetToLayer;
-                        
-                        if (!hasCoords)
-                        {
-                            obj.X = vacantPoint.X - obj.Width;
-                            obj.Y = vacantPoint.Y - obj.Height;
-                            //obj.X = system.X + vacantPoint.X - obj.Width;
-                            //obj.Y = system.Y + vacantPoint.Y - obj.Height;
-                            /*
-                            obj.X = system.X + ((system.Width > 80) ? 80 : system.Width / 2) - obj.Width;
-                            obj.Y = system.Y + ((system.Height > 80) ? 80 : system.Height / 2) - obj.Height;
-                             */
-                            //obj.OffsetX += system.OffsetToLayer.X;
-                            //obj.OffsetY += system.OffsetToLayer.Y;
-                        }
-                        if (!isFirst)
-                        {
-                            obj.X -= offsetToL.X;
-                            obj.Y -= offsetToL.Y;
-                        }
+                                                
                         if (obj is PPathwayNode)
                         {
                             ((PPathwayNode)obj).Element.X = obj.X;
                             ((PPathwayNode)obj).Element.Y = obj.Y;
                             ((PPathwayNode)obj).RefreshText();
+
+                            if (!isFirst)
+                            {
+                                obj.X -= offsetToL.X;
+                                obj.Y -= offsetToL.Y;
+                            }
                         }
                         system.AddChild(obj);
                         if (obj is PPathwayObject)

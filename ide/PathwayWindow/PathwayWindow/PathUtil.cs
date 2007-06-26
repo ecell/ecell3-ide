@@ -43,7 +43,7 @@ namespace EcellLib.PathwayWindow
     public class PathUtil
     {
         #region Readonlys
-        private static readonly Regex m_headColonRegex = new Regex("^:");
+        private static readonly Regex m_headColonRegex = new Regex("^\\w*?:");
         private static readonly Regex m_preSlashRegex = new Regex("^.*/");
         private static readonly Regex m_postSlashRegex = new Regex("/\\w*$");
         private static readonly Regex m_postColonRegex = new Regex(":\\w*$");

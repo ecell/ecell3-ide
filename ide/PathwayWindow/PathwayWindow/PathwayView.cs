@@ -98,6 +98,12 @@ namespace EcellLib.PathwayWindow
         /// object is passed as string. Each E-cell objects are expressed as the following string.
         /// </summary>
         public static readonly string PROCESS_STRING = "Process";
+
+        /// <summary>
+        /// When new system will be added by other plugin, it will be positioned this length away from
+        /// parent system boundary.
+        /// </summary>
+        public static readonly float SYSTEM_SYSTEM_MARGIN = 60;
         #endregion
 
         #region Fields
@@ -508,8 +514,8 @@ namespace EcellLib.PathwayWindow
                     }
                     else
                     {
-                        ((SystemElement)element).Width = PEcellSystem.MIN_X_LENGTH;
-                        ((SystemElement)element).Height = PEcellSystem.MIN_Y_LENGTH;
+                        ((SystemElement)element).Width = PEcellSystem.DEFAULT_WIDTH;
+                        ((SystemElement)element).Height = PEcellSystem.DEFAULT_HEIGHT;
                     }
 
                     break;
@@ -533,6 +539,7 @@ namespace EcellLib.PathwayWindow
                     foreach(PLayer layer in canvas.Layers.Values)
                     {
                         PEcellSystem system = (PEcellSystem)cs.CreateNewComponent(se.X, se.Y, se.Width, se.Height, this);
+                        system.Reset();
                         system.Element = se;
                         system.MouseDown += new PInputEventHandler(SystemSelected);
                         systemList.Add(system);
@@ -546,6 +553,8 @@ namespace EcellLib.PathwayWindow
                             canvas.AddNewObj(null, parentSystemId, system, hasCoords, false);
                             //canvas.AddChildToSelectedSystem(parentSystemId, system, hasCoords);
                     }
+                    se.X = systemList[0].X;
+                    se.Y = systemList[0].Y;
                     canvas.AddSystem(key, se, null, systemList);
                 }
                 else
@@ -1777,6 +1786,7 @@ namespace EcellLib.PathwayWindow
             returnSystem.OffsetX = sysEle.OffsetX;
             returnSystem.OffsetY = sysEle.OffsetY;
             returnSystem.Element = sysEle;
+            returnSystem.Reset();
             return returnSystem;
         }
 

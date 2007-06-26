@@ -285,9 +285,11 @@ namespace EcellLib.PathwayWindow
             {
                 obj.NormalBrush = Brushes.LightBlue;
                 obj.Pen = null;
-                ((PSystem)obj).SetRect(x,y,width,height);
+                //((PSystem)obj).SetRect(x,y,width,height);
                 obj.X = x;
                 obj.Y = y;
+                obj.Width = width;
+                obj.Height = height;                
                 obj.IsHighLighted = false;
                 obj.PathwayView = view;
             }

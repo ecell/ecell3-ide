@@ -52,12 +52,12 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         /// Width of this system.
         /// </summary>
-        protected float m_systemWidth = 0;
+        //protected float m_systemWidth = 0;
 
         /// <summary>
         /// Height of this system.
         /// </summary>
-        protected float m_systemHeight = 0;
+        //protected float m_systemHeight = 0;
 
         /// <summary>
         /// Indicate whether this PSystem is valid or not.
@@ -96,7 +96,7 @@ namespace EcellLib.PathwayWindow.Node
             get { return m_systemElement; }
             set { m_systemElement = value; }
         }
-
+        /*
         /// <summary>
         /// Accessor for m_systemWidth.
         /// </summary>
@@ -113,7 +113,7 @@ namespace EcellLib.PathwayWindow.Node
         {
             get { return m_systemHeight; }
             set { m_systemHeight = value; }
-        }
+        }*/
 
         public virtual float OriginalX
         {
@@ -176,8 +176,8 @@ namespace EcellLib.PathwayWindow.Node
             {
                 return new RectangleF(base.X + this.OffsetToLayer.X, 
                                       base.Y + this.OffsetToLayer.Y,
-                                      SystemWidth,
-                                      SystemHeight);
+                                      base.Width,
+                                      base.Height);
             }
         }
         #endregion
@@ -193,8 +193,10 @@ namespace EcellLib.PathwayWindow.Node
         {
             base.X = x;
             base.Y = y;
-            m_systemWidth = width;
-            m_systemHeight = height;
+            base.Width = width;
+            //m_systemWidth = width;
+            base.Height = height;
+            //m_systemHeight = height;
         }
 
         #region nouse
@@ -311,8 +313,8 @@ namespace EcellLib.PathwayWindow.Node
             base.m_originalY = base.Y;
             base.m_originalOffsetX = base.OffsetX;
             base.m_originalOffsetY = base.OffsetY;
-            this.m_originalWidth = this.SystemWidth;
-            this.m_originalHeight = this.SystemHeight;
+            this.m_originalWidth = this.Width;//this.SystemWidth;
+            this.m_originalHeight = this.Height;// this.SystemHeight;
         }
 
         /// <summary>
@@ -326,8 +328,8 @@ namespace EcellLib.PathwayWindow.Node
             base.OffsetY = base.m_originalOffsetY;
             base.Width = this.m_originalWidth;
             base.Height = this.m_originalHeight;
-            this.SystemWidth = this.m_originalWidth;
-            this.SystemHeight = this.m_originalHeight;
+            //this.SystemWidth = this.m_originalWidth;
+            //this.SystemHeight = this.m_originalHeight;
             this.Element.X = base.m_originalX;
             this.Element.Y = base.m_originalY;
             foreach(PPathwayObject obj in this.ChildObjectList)
@@ -347,8 +349,8 @@ namespace EcellLib.PathwayWindow.Node
             base.Y = base.m_originalY;
             base.OffsetX = base.m_originalOffsetX;
             base.OffsetY = base.m_originalOffsetY;
-            this.SystemWidth = this.m_originalWidth;
-            this.SystemHeight = this.m_originalHeight;
+            //this.SystemWidth = this.m_originalWidth;
+            //this.SystemHeight = this.m_originalHeight;
             base.Width = this.m_originalWidth;
             base.Height = this.m_originalHeight;
         }

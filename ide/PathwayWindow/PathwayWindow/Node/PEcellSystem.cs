@@ -48,11 +48,19 @@ namespace EcellLib.PathwayWindow.Node
     {
         #region Static readonly fields
         /// <summary>
-        /// default length of x.
+        /// default width
+        /// </summary>
+        public static readonly float DEFAULT_WIDTH = 500;
+        /// <summary>
+        /// default height
+        /// </summary>
+        public static readonly float DEFAULT_HEIGHT = 500;
+        /// <summary>
+        /// minimum width
         /// </summary>
         public static readonly float MIN_X_LENGTH = 80;
         /// <summary>
-        /// default length of y.
+        /// minimum height
         /// </summary>
         public static readonly float MIN_Y_LENGTH = 80;
         #endregion
@@ -147,7 +155,33 @@ namespace EcellLib.PathwayWindow.Node
                 this.Repaint();
             }
         }
-        
+
+        public override float Width
+        {
+            get
+            {
+                return base.Width;
+            }
+            set
+            {
+                base.Width = value;
+                m_isChanged = true;
+            }
+        }
+
+        public override float Height
+        {
+            get
+            {
+                return base.Height;
+            }
+            set
+            {
+                base.Height = value;
+                m_isChanged = true;
+            }
+        }
+        /*
         /// <summary>
         /// get/set the width of this system.
         /// </summary>
@@ -172,7 +206,7 @@ namespace EcellLib.PathwayWindow.Node
                 m_systemHeight = value;
                 m_isChanged = true;
             }
-        }
+        }*/
 
         /// <summary>
         /// get the position of center for the text.
@@ -309,7 +343,42 @@ namespace EcellLib.PathwayWindow.Node
         {
             float prevX = X;
             float prevY = Y;
+            float prevWidth = base.Width;
+            float prevHeight = base.Height;
+
+            base.Reset();
+            base.Width = prevWidth;
+            base.Height = prevHeight;
+            float thickness = SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS;
+            float outerDiameter = SystemElement.OUTER_RADIUS * 2;
+            float innerDiameter = SystemElement.INNER_RADIUS * 2;
+            float horizontalRectWidth = base.Width - 2f * SystemElement.OUTER_RADIUS;
+            float verticalRectHeight = base.Height - 2f * SystemElement.OUTER_RADIUS;
+            GraphicsPath gp = new GraphicsPath();
+            gp.AddPie(0, 0, outerDiameter, outerDiameter, 180, 90);
+            gp.AddPie(thickness, thickness, innerDiameter, innerDiameter, 180, 90);
+            gp.AddRectangle(new RectangleF(SystemElement.OUTER_RADIUS, 0, base.Width - outerDiameter, thickness));
+            gp.AddPie(base.Width - outerDiameter, 0, outerDiameter, outerDiameter, 270, 90);
+            gp.AddPie(base.Width - outerDiameter + thickness, thickness, innerDiameter, innerDiameter, 270, 90);
+            gp.AddRectangle(new RectangleF(base.Width - thickness, SystemElement.OUTER_RADIUS, thickness, verticalRectHeight));
+            gp.AddPie(base.Width - outerDiameter, base.Height - outerDiameter, outerDiameter, outerDiameter, 0, 90);
+            gp.AddPie(base.Width - outerDiameter + thickness,
+                      base.Height - outerDiameter + thickness, innerDiameter, innerDiameter, 0, 90);
+            gp.AddRectangle(new RectangleF(SystemElement.OUTER_RADIUS, base.Height - thickness, horizontalRectWidth, thickness));
+            gp.AddPie(0, base.Height - outerDiameter, outerDiameter, outerDiameter, 90, 90);
+            gp.AddPie(thickness, base.Height - outerDiameter + thickness, innerDiameter, innerDiameter, 90, 90);
+            gp.AddRectangle(new RectangleF(0,SystemElement.OUTER_RADIUS,thickness,verticalRectHeight));
             
+            AddPath(gp,false);
+            X = prevX;
+            Y = prevY;
+
+            SetGraphicsPath();
+            
+            /*
+            float prevX = X;
+            float prevY = Y;
+
             base.Reset();
             float thickness = SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS;
             float outerDiameter = SystemElement.OUTER_RADIUS * 2;
@@ -321,7 +390,7 @@ namespace EcellLib.PathwayWindow.Node
             gp.AddPie(thickness, thickness, innerDiameter, innerDiameter, 180, 90);
             gp.AddRectangle(new RectangleF(SystemElement.OUTER_RADIUS, 0, m_systemWidth - outerDiameter, thickness));
             gp.AddPie(m_systemWidth - outerDiameter, 0, outerDiameter, outerDiameter, 270, 90);
-            gp.AddPie(m_systemWidth - outerDiameter + thickness, thickness,innerDiameter,innerDiameter,270,90);
+            gp.AddPie(m_systemWidth - outerDiameter + thickness, thickness, innerDiameter, innerDiameter, 270, 90);
             gp.AddRectangle(new RectangleF(m_systemWidth - thickness, SystemElement.OUTER_RADIUS, thickness, verticalRectHeight));
             gp.AddPie(m_systemWidth - outerDiameter, m_systemHeight - outerDiameter, outerDiameter, outerDiameter, 0, 90);
             gp.AddPie(m_systemWidth - outerDiameter + thickness,
@@ -329,13 +398,13 @@ namespace EcellLib.PathwayWindow.Node
             gp.AddRectangle(new RectangleF(SystemElement.OUTER_RADIUS, m_systemHeight - thickness, horizontalRectWidth, thickness));
             gp.AddPie(0, m_systemHeight - outerDiameter, outerDiameter, outerDiameter, 90, 90);
             gp.AddPie(thickness, m_systemHeight - outerDiameter + thickness, innerDiameter, innerDiameter, 90, 90);
-            gp.AddRectangle(new RectangleF(0,SystemElement.OUTER_RADIUS,thickness,verticalRectHeight));
-            
-            AddPath(gp,false);
+            gp.AddRectangle(new RectangleF(0, SystemElement.OUTER_RADIUS, thickness, verticalRectHeight));
+
+            AddPath(gp, false);
             X = prevX;
             Y = prevY;
 
-            SetGraphicsPath();
+            SetGraphicsPath();*/
         }
 
         /// <summary>
@@ -353,7 +422,73 @@ namespace EcellLib.PathwayWindow.Node
 
             return elementList;
         }
-        
+
+        /// <summary>
+        /// Make space for child.
+        /// Region which is indicated by xDirSpace and yDirSpace and is owned by this system will be
+        /// child's region, so make room for this region.
+        /// </summary>
+        /// <param name="xDirSpace"></param>
+        /// <param name="yDirSpace"></param>
+        public void MakeSpace(RectangleF xDirSpace, RectangleF yDirSpace)
+        {
+            xDirSpace.X += base.Offset.X;
+            xDirSpace.Y += base.Offset.Y;
+            yDirSpace.X += base.Offset.X;
+            yDirSpace.Y += base.Offset.Y;
+
+            if(null != this.Parent && this.Parent is PEcellSystem)
+            {
+                // Make parent system create space for this system.
+                RectangleF xDirParentSpace
+                    = new RectangleF(
+                    base.X + base.Width,
+                    base.Y,
+                    xDirSpace.Width,
+                    base.Height + yDirSpace.Height);
+
+                RectangleF yDirParentSpace
+                    = new RectangleF(
+                    base.X,
+                    base.Y + base.Height,
+                    base.Width,
+                    yDirSpace.Height);
+                ((PEcellSystem)this.Parent).MakeSpace(xDirParentSpace, yDirParentSpace);
+            }
+
+            // Enlarge this system
+            base.Width += xDirSpace.Width;
+            base.Height += yDirSpace.Height;
+
+            // Move child nodes position.
+            if(null != this.ChildObjectList)
+            {
+                foreach(PPathwayObject child in this.ChildObjectList)
+                {
+                    float xPos = child.X + child.Offset.X;
+                    float yPos = child.Y + child.Offset.Y;
+                    if (xDirSpace.X < xPos && xDirSpace.Y < yPos)
+                    {
+                        child.X += xDirSpace.Width;
+                        if (child is PPathwayNode)
+                        {
+                            ((PPathwayNode)child).RefreshText();
+                            ((PPathwayNode)child).Refresh();
+                        }
+                    }
+                    else if(yDirSpace.X < xPos && xPos < yDirSpace.Right && yDirSpace.Y < yPos)
+                    {
+                        child.Y += yDirSpace.Height;
+                        if (child is PPathwayNode)
+                        {
+                            ((PPathwayNode)child).RefreshText();
+                            ((PPathwayNode)child).Refresh();
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// event on paint this object.
         /// </summary>
@@ -418,44 +553,98 @@ namespace EcellLib.PathwayWindow.Node
             float thickness = SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS;
             float outerDiameter = SystemElement.OUTER_RADIUS * 2;
             float innerDiameter = SystemElement.INNER_RADIUS * 2;
+            float horizontalRectWidth = base.Width - 2f * SystemElement.OUTER_RADIUS;
+            float verticalRectHeight = base.Height - 2f * SystemElement.OUTER_RADIUS;
+
+            m_backGp = new GraphicsPath();
+            m_backGp.FillMode = FillMode.Alternate;
+            m_backGp.AddRectangle(new RectangleF(X + thickness,
+                                               Y + thickness,
+                                               base.Width - 2 * thickness,
+                                               base.Height - 2 * thickness));
+            m_backGp.AddRectangle(new RectangleF(X + thickness,
+                                               Y + thickness,
+                                               SystemElement.INNER_RADIUS,
+                                               SystemElement.INNER_RADIUS));
+            m_backGp.AddRectangle(new RectangleF(X + base.Width - SystemElement.OUTER_RADIUS,
+                                               Y + thickness,
+                                               SystemElement.INNER_RADIUS,
+                                               SystemElement.INNER_RADIUS));
+            m_backGp.AddRectangle(new RectangleF(X + base.Width - SystemElement.OUTER_RADIUS,
+                                               Y + base.Height - SystemElement.OUTER_RADIUS,
+                                               SystemElement.INNER_RADIUS,
+                                               SystemElement.INNER_RADIUS));
+            m_backGp.AddRectangle(new RectangleF(X + thickness,
+                                               Y + base.Height - SystemElement.OUTER_RADIUS,
+                                               SystemElement.INNER_RADIUS,
+                                               SystemElement.INNER_RADIUS));
+            m_backGp.AddPie(X + thickness, Y + thickness, innerDiameter, innerDiameter, 180, 90);
+            m_backGp.AddPie(X + base.Width - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, Y + thickness,
+                           innerDiameter, innerDiameter, 270, 90);
+            m_backGp.AddPie(X + base.Width - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+                            Y + base.Height - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+                            innerDiameter, innerDiameter, 0, 90);
+            m_backGp.AddPie(X + thickness, Y + base.Height - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+                           innerDiameter, innerDiameter, 90, 90);
+
+
+            m_outlineGp = new GraphicsPath();
+            m_outlineGp.FillMode = FillMode.Alternate;
+            m_outlineGp.AddArc(X, Y, outerDiameter, outerDiameter, 180, 90);
+            m_outlineGp.AddArc(X + base.Width - outerDiameter, Y, outerDiameter, outerDiameter, 270, 90);
+            m_outlineGp.AddArc(X + base.Width - outerDiameter, Y + base.Height - outerDiameter,
+                      outerDiameter, outerDiameter, 0, 90);
+            m_outlineGp.AddArc(X, Y + base.Height - outerDiameter, outerDiameter, outerDiameter, 90, 90);
+            m_outlineGp.AddLine(X, Y + SystemElement.OUTER_RADIUS, X, Y + base.Height - SystemElement.OUTER_RADIUS);
+            m_outlineGp.CloseFigure();
+            m_outlineGp.AddArc(X + thickness, Y + thickness, innerDiameter, innerDiameter, 180, 90);
+            m_outlineGp.AddArc(X + base.Width - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+                      Y + thickness, innerDiameter, innerDiameter, 270, 90);
+            m_outlineGp.AddArc(X + base.Width - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+                      Y + base.Height - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+                      innerDiameter, innerDiameter, 0, 90);
+            m_outlineGp.AddArc(X + thickness, Y + base.Height - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, innerDiameter, innerDiameter, 90, 90);
+            m_outlineGp.AddLine(X + thickness, Y + SystemElement.OUTER_RADIUS, X + thickness, Y + base.Height - SystemElement.OUTER_RADIUS);
+
+
+            /*
+            float thickness = SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS;
+            float outerDiameter = SystemElement.OUTER_RADIUS * 2;
+            float innerDiameter = SystemElement.INNER_RADIUS * 2;
             float horizontalRectWidth = m_systemWidth - 2f * SystemElement.OUTER_RADIUS;
             float verticalRectHeight = m_systemHeight - 2f * SystemElement.OUTER_RADIUS;
 
+            m_backGp = new GraphicsPath();
+            m_backGp.FillMode = FillMode.Alternate;
+            m_backGp.AddRectangle(new RectangleF(X + thickness,
+                                               Y + thickness,
+                                               m_systemWidth - 2 * thickness,
+                                               m_systemHeight - 2 * thickness));
+            m_backGp.AddRectangle(new RectangleF(X + thickness,
+                                               Y + thickness,
+                                               SystemElement.INNER_RADIUS,
+                                               SystemElement.INNER_RADIUS));
+            m_backGp.AddRectangle(new RectangleF(X + m_systemWidth - SystemElement.OUTER_RADIUS,
+                                               Y + thickness,
+                                               SystemElement.INNER_RADIUS,
+                                               SystemElement.INNER_RADIUS));
+            m_backGp.AddRectangle(new RectangleF(X + m_systemWidth - SystemElement.OUTER_RADIUS,
+                                               Y + m_systemHeight - SystemElement.OUTER_RADIUS,
+                                               SystemElement.INNER_RADIUS,
+                                               SystemElement.INNER_RADIUS));
+            m_backGp.AddRectangle(new RectangleF(X + thickness,
+                                               Y + m_systemHeight - SystemElement.OUTER_RADIUS,
+                                               SystemElement.INNER_RADIUS,
+                                               SystemElement.INNER_RADIUS));
+            m_backGp.AddPie(X + thickness, Y + thickness, innerDiameter, innerDiameter, 180, 90);
+            m_backGp.AddPie(X + m_systemWidth - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, Y + thickness,
+                           innerDiameter, innerDiameter, 270, 90);
+            m_backGp.AddPie(X + m_systemWidth - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, 
+                            Y + m_systemHeight - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+                            innerDiameter, innerDiameter, 0, 90);
+            m_backGp.AddPie(X + thickness, Y + m_systemHeight - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+                           innerDiameter, innerDiameter, 90, 90);
 
-//            if (base.m_backBrush != null)
-//            {
-                m_backGp = new GraphicsPath();
-                m_backGp.FillMode = FillMode.Alternate;
-                m_backGp.AddRectangle(new RectangleF(X + thickness,
-                                                   Y + thickness,
-                                                   m_systemWidth - 2 * thickness,
-                                                   m_systemHeight - 2 * thickness));
-                m_backGp.AddRectangle(new RectangleF(X + thickness,
-                                                   Y + thickness,
-                                                   SystemElement.INNER_RADIUS,
-                                                   SystemElement.INNER_RADIUS));
-                m_backGp.AddRectangle(new RectangleF(X + m_systemWidth - SystemElement.OUTER_RADIUS,
-                                                   Y + thickness,
-                                                   SystemElement.INNER_RADIUS,
-                                                   SystemElement.INNER_RADIUS));
-                m_backGp.AddRectangle(new RectangleF(X + m_systemWidth - SystemElement.OUTER_RADIUS,
-                                                   Y + m_systemHeight - SystemElement.OUTER_RADIUS,
-                                                   SystemElement.INNER_RADIUS,
-                                                   SystemElement.INNER_RADIUS));
-                m_backGp.AddRectangle(new RectangleF(X + thickness,
-                                                   Y + m_systemHeight - SystemElement.OUTER_RADIUS,
-                                                   SystemElement.INNER_RADIUS,
-                                                   SystemElement.INNER_RADIUS));
-                m_backGp.AddPie(X + thickness, Y + thickness, innerDiameter, innerDiameter, 180, 90);
-                m_backGp.AddPie(X + m_systemWidth - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, Y + thickness,
-                               innerDiameter, innerDiameter, 270, 90);
-                m_backGp.AddPie(X + m_systemWidth - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, 
-                                Y + m_systemHeight - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
-                                innerDiameter, innerDiameter, 0, 90);
-                m_backGp.AddPie(X + thickness, Y + m_systemHeight - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
-                               innerDiameter, innerDiameter, 90, 90);
-                
-//            }
 
             m_outlineGp = new GraphicsPath();
             m_outlineGp.FillMode = FillMode.Alternate;
@@ -474,6 +663,7 @@ namespace EcellLib.PathwayWindow.Node
                       innerDiameter, innerDiameter, 0, 90);
             m_outlineGp.AddArc(X + thickness, Y + m_systemHeight - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, innerDiameter, innerDiameter, 90, 90);
             m_outlineGp.AddLine(X + thickness, Y + SystemElement.OUTER_RADIUS, X + thickness, Y + m_systemHeight - SystemElement.OUTER_RADIUS);            
+            */
         }
     }    
 }

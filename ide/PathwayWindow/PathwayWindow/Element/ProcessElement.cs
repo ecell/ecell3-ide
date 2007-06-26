@@ -140,27 +140,7 @@ namespace EcellLib.PathwayWindow.Element
                         direction = EdgeDirection.Outward;
                         type = LineType.Solid;
                     }
-                    /*
-                    switch (Convert.ToInt32(m.Groups["coe"].Value))
-                    {
-                        case -1:
-                            direction = EdgeDirection.Inward;
-                            type = LineType.Solid;
-                            break;
-                        case 0:
-                            direction = EdgeDirection.None;
-                            type = LineType.Dashed;
-                            break;
-                        case 1:
-                            direction = EdgeDirection.Outward;
-                            type = LineType.Solid;
-                            break;
-                        default:
-                            direction = EdgeDirection.None;
-                            type = LineType.Unknown;
-                            break;
-                    }
-                     */
+
                     int isAccessor = Convert.ToInt32(m.Groups["fix"].Value);
 
                     if (key == null)
