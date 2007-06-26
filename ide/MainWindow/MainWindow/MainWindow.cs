@@ -544,7 +544,7 @@ namespace EcellLib.MainWindow
                 saveProjectToolStripMenuItem.Enabled = true;
                 closeProjectToolStripMenuItem.Enabled = true;
                 exportModelToolStripMenuItem.Enabled = true;
-                importModelToolStripMenuItem.Enabled = false;
+                importModelToolStripMenuItem.Enabled = true;
                 importScriptToolStripMenuItem.Enabled = false;
                 saveScriptToolStripMenuItem.Enabled = false;
                 printToolStripMenuItem.Enabled = true;
@@ -660,7 +660,7 @@ namespace EcellLib.MainWindow
             }
             m_newPrjDialog = new NewProjectDialog();
             m_newPrjDialog.CPCreateButton.Click += new System.EventHandler(this.NewProject);
-            m_newPrjDialog.CPCancelButton.Click += new System.EventHandler(this.NewProject);
+            m_newPrjDialog.CPCancelButton.Click += new System.EventHandler(this.NewProjectCancel);
 
             m_newPrjDialog.ShowDialog();
         }
@@ -673,8 +673,6 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         public void NewProject(object sender, EventArgs e)
         {
-            if (((Button)sender).Text == "Apply")
-            {
                 if (m_newPrjDialog.textName.Text == "") 
                 {
                     MessageBox.Show("Prject name is null. Please input project name.",
@@ -717,8 +715,14 @@ namespace EcellLib.MainWindow
                     MessageBox.Show("Get exception while creating project.\n\n" + ex,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
 
+            m_newPrjDialog.Close();
+            m_newPrjDialog.Dispose();
+            m_newPrjDialog = null;
+        }
+
+        public void NewProjectCancel(object sender, EventArgs e)
+        {
             m_newPrjDialog.Close();
             m_newPrjDialog.Dispose();
             m_newPrjDialog = null;
@@ -982,6 +986,28 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void ImportModelMenuClick(object sender, EventArgs e)
         {
+            if (m_editCount > 0)
+            {
+                DialogResult res = MessageBox.Show("Do you save this project before you close project?",
+                    "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    m_isClose = true;
+                    SaveProjectMenuClick(sender, e);
+                }
+                else if (res == DialogResult.No)
+                {
+                    m_isLoadProject = false;
+                    m_pManager.ChangeStatus(Util.NOTLOAD);
+                    m_dManager.CloseProject(m_project);
+                    m_project = null;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             openFileDialog.RestoreDirectory = true;
             openFileDialog.Filter = "model file(*.sbml,*.eml)|*.sbml;*.eml|model file(*.sbml)|*.sbml|model file(*.eml)|*.eml|all(*.*)|*.*";
 
