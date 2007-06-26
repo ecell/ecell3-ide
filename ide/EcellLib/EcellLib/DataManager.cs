@@ -6205,13 +6205,13 @@ namespace EcellLib
                 }
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
-                    "Stop Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
+                    "Reset Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                         + System.Environment.NewLine
                     );
             }
             catch (Exception l_ex)
             {
-                string l_message = "Can't stop the simulation.";
+                string l_message = "Can't reset the simulation.";
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
