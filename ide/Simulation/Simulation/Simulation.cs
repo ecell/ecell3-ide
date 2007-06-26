@@ -129,7 +129,7 @@ namespace EcellLib.Simulation
 //            m_stopSim.Text = "Stop ...";
             resources.ApplyResources(m_stopSim, "MenuItemStop");
             m_stopSim.Enabled = false;
-            m_stopSim.Click += new EventHandler(this.StopSimulation);
+            m_stopSim.Click += new EventHandler(this.ResetSimulation);
 
             ToolStripMenuItem run = new ToolStripMenuItem();
             run.DropDownItems.AddRange(new ToolStripItem[] {
@@ -206,7 +206,7 @@ namespace EcellLib.Simulation
             button2.Text = "";
             button2.Tag = 3;
             button2.ToolTipText = "Reset";
-            button2.Click += new System.EventHandler(this.StopSimulation);
+            button2.Click += new System.EventHandler(this.ResetSimulation);
             list.Add(button2);
 
             ToolStripLabel label1 = new ToolStripLabel();
@@ -382,6 +382,7 @@ namespace EcellLib.Simulation
         /// <param name="time">The current simulation time.</param>
         public void AdvancedTime(double time)
         {
+            if (m_type == Util.RUNNING || m_type == Util.SUSPEND)
             m_text.Text = time.ToString();
         }
 
@@ -654,6 +655,8 @@ namespace EcellLib.Simulation
             PluginManager.GetPluginManager().ChangeStatus(Util.RUNNING);
             try
             {
+                m_text.ForeColor = Color.Black;
+                m_text.BackColor = m_text.BackColor;
                 m_dManager.SimulationStart(0.0, 0);
             }
             catch (Exception ex)
@@ -678,6 +681,7 @@ namespace EcellLib.Simulation
             PluginManager.GetPluginManager().ChangeStatus(Util.SUSPEND);
             try
             {
+                m_text.ForeColor = Color.Gray;
                 m_dManager.SimulationSuspend();
             }
             catch (Exception ex)
@@ -732,14 +736,18 @@ namespace EcellLib.Simulation
         /// </summary>
         /// <param name="sender">object(ToolStripButton)</param>
         /// <param name="e">EventArgs</param>
-        public void StopSimulation(object sender, EventArgs e)
+        public void ResetSimulation(object sender, EventArgs e)
         {
             if (m_type != Util.RUNNING && m_type != Util.SUSPEND && m_type != Util.STEP) return;
             int preType = m_type;
             PluginManager.GetPluginManager().ChangeStatus(Util.LOADED);
             try
             {
+                m_text.Text = "0";
+                m_text.ForeColor = Color.Black;
+                m_type = Util.LOADED;
                 m_dManager.SimulationStop();
+
             }
             catch (Exception ex)
             {
