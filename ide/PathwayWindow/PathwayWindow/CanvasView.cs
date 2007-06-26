@@ -60,6 +60,11 @@ namespace EcellLib.PathwayWindow
     {
         #region Static readonly fields
         /// <summary>
+        /// Least canvas size when a node is focused.
+        /// </summary>
+        protected static readonly float LEAST_FOCUS_SIZE = 500f;
+
+        /// <summary>
         /// Duration for camera centering animation when a node is selected.
         /// this will be used for the argument of PCamera.AnimateViewToCenterBounds()
         /// </summary>
@@ -556,8 +561,9 @@ namespace EcellLib.PathwayWindow
             m_pathwayCanvas.MouseMove += new MouseEventHandler(m_pathwayCanvas_MouseMove);
             m_pathwayCanvas.Camera.AddChild(m_showBtnDownward);
             m_pathwayCanvas.Name = name;
+            //m_pathwayCanvas.Camera.Scale = DEFAULT_CAMERA_SCALE;
             m_pathwayCanvas.Camera.ScaleViewBy(0.7f);
-
+            
             if (lowerPanelShown)
                 m_showBtnDownward.Visible = true;
             else
@@ -2356,15 +2362,15 @@ namespace EcellLib.PathwayWindow
                                                 
                         if (obj is PPathwayNode)
                         {
-                            ((PPathwayNode)obj).Element.X = obj.X;
-                            ((PPathwayNode)obj).Element.Y = obj.Y;
-                            ((PPathwayNode)obj).RefreshText();
-
                             if (!isFirst)
                             {
                                 obj.X -= offsetToL.X;
                                 obj.Y -= offsetToL.Y;
                             }
+
+                            ((PPathwayNode)obj).Element.X = obj.X;
+                            ((PPathwayNode)obj).Element.Y = obj.Y;
+                            ((PPathwayNode)obj).RefreshText();                                                        
                         }
                         system.AddChild(obj);
                         if (obj is PPathwayObject)
@@ -3045,6 +3051,15 @@ namespace EcellLib.PathwayWindow
                         return;
                     this.ResetSelectedObjects();
                     this.AddSelectedSystem(key);
+                    PEcellSystem focusSystem = (PEcellSystem)m_systems[key].EcellSystems[0];
+                    if(null != focusSystem)
+                    {
+                        m_pathwayCanvas.Camera.AnimateViewToCenterBounds(focusSystem.FullBounds,
+                                                                             true,
+                                                                             CAMERA_ANIM_DURATION);
+
+                        UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
+                    }
                     break;
                 case ComponentType.Variable:
                     bool isAlreadySelected = false;
@@ -3063,10 +3078,9 @@ namespace EcellLib.PathwayWindow
                         {
                             PPathwayNode focusNode = (PPathwayNode)m_variables[key];
                             this.AddSelectedNode(focusNode, true);
-                            m_pathwayCanvas.Camera.AnimateViewToCenterBounds(focusNode.FullBounds,
-                                                                             false,
+                            m_pathwayCanvas.Camera.AnimateViewToCenterBounds(PathUtil.GetFocusBound(focusNode.FullBounds, LEAST_FOCUS_SIZE),
+                                                                             true,
                                                                              CAMERA_ANIM_DURATION);
-
                             UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
                         }
                     }
@@ -3086,9 +3100,9 @@ namespace EcellLib.PathwayWindow
                         this.ResetSelectedObjects();
                         PPathwayNode focusNode = (PPathwayNode)m_processes[key];
                         this.AddSelectedNode(focusNode, true);
-                        m_pathwayCanvas.Camera.AnimateViewToCenterBounds(focusNode.FullBounds,
-                                                                         false,
-                                                                         CAMERA_ANIM_DURATION);
+                        m_pathwayCanvas.Camera.AnimateViewToCenterBounds(PathUtil.GetFocusBound( focusNode.FullBounds, LEAST_FOCUS_SIZE ),
+                                                                         true,
+                                                                         CAMERA_ANIM_DURATION);                        
                         UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
                     }
                     break;

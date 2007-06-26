@@ -126,12 +126,24 @@ namespace EcellLib.PathwayWindow
             {
                 subkey.Close();
                 subkey = regkey.OpenSubKey(EcellLib.Util.s_registrySWKey);
-                dirName = (string)subkey.GetValue(key);                
+                dirName = (string)subkey.GetValue(key);
             }
             subkey.Close();
             regkey.Close();
 
             return dirName;
+        }
+
+        /// <summary>
+        /// Get bounds to focus on a object.
+        /// </summary>
+        /// <returns></returns>
+        public static RectangleF GetFocusBound(RectangleF focusObj, float size)
+        {
+            float centerX = focusObj.X + focusObj.Width / 2f;
+            float centerY = focusObj.Y + focusObj.Height / 2f;
+
+            return new RectangleF(centerX - size / 2f, centerY - size / 2f, size, size);
         }
 
         public static PointF[] GetArrowPoints(PointF arrowApex,

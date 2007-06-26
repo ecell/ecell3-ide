@@ -199,6 +199,7 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public void CreateEdges()
         {
+            DeleteEdges();
             if (base.m_nodeElement is ProcessElement && base.m_set != null)
             {
                 try
