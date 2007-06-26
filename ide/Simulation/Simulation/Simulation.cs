@@ -411,14 +411,14 @@ namespace EcellLib.Simulation
                 m_runSim.Enabled = false;
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = true;
-                m_setupSim.Enabled = false;
+                m_setupSim.Enabled = true;
             }
             else if (type == Util.SUSPEND)
             {
                 m_runSim.Enabled = true;
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = false;
-                m_setupSim.Enabled = false;
+                m_setupSim.Enabled = true;
             }
             else
             {
@@ -493,6 +493,14 @@ namespace EcellLib.Simulation
         /// <param name="e">EventArgs</param>
         public void SetupSimulation(object sender, EventArgs e)
         {
+            if (m_type == Util.SUSPEND || m_type == Util.RUNNING)
+            {
+                DialogResult r = MessageBox.Show("Simulation is running. Would you reset the simulation?",
+                    "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (r != DialogResult.OK) return;
+                ResetSimulation(sender, e);
+            }
+
             int i = 0;
             m_win = new SimulationSetup();
 
