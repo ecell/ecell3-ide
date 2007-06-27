@@ -38,18 +38,26 @@ using EcellLib;
 
 namespace EcellLib.MessageWindow
 {
+    /// <summary>
+    /// The plugin to show message.
+    /// </summary>
     public class MessageWindow : PluginBase
     {
         #region Fields
-        //
-        // m_form (EntityList form)
-        //
+        /// <summary>
+        ///  MessageWindow form.
+        /// </summary>
         private MessageWindowControl m_form = null;
-        //
-        // m_panel (the panel that show this plugin in MainWindow)
-        //
+        /// <summary>
+        /// The panel that show this plugin in MainWindow.
+        /// </summary>
         private Panel m_panel = null;
-        public delegate void SetTexeCallback(string t, string m);
+        /// <summary>
+        /// The delegate function while simulation is running.
+        /// </summary>
+        /// <param name="t">message type.</param>
+        /// <param name="m">message.</param>
+        public delegate void SetTextCallback(string t, string m);
 
 
         #endregion
@@ -147,7 +155,7 @@ namespace EcellLib.MessageWindow
         /// </summary>
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
-        /// <param name="key">Selected the data type.</param>
+        /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
             // nothing
@@ -225,7 +233,7 @@ namespace EcellLib.MessageWindow
         /// </summary>
         /// <param name="modelID">The model ID generating warning data.</param>
         /// <param name="key">The ID generating warning data.</param>
-        /// <param name="key">The data type generating warning data.</param>
+        /// <param name="type">The data type generating warning data.</param>
         /// <param name="warntype">The type of waring data.</param>
         public void WarnData(string modelID, string key, string type, string warntype)
         {
@@ -242,7 +250,7 @@ namespace EcellLib.MessageWindow
             Form parentForm = GetParent(m_form);
             if (parentForm != null && parentForm.InvokeRequired)
             {
-                SetTexeCallback f = new SetTexeCallback(SetText);
+                SetTextCallback f = new SetTextCallback(SetText);
                 parentForm.Invoke(f, new object[] { type, message });
             }
             else
@@ -285,6 +293,11 @@ namespace EcellLib.MessageWindow
         {
         }
 
+        /// <summary>
+        /// Save the selected model to directory.
+        /// </summary>
+        /// <param name="modelID">selected model.</param>
+        /// <param name="directory">output directory.</param>
         public void SaveModel(string modelID, string directory)
         {
         }
@@ -316,6 +329,10 @@ namespace EcellLib.MessageWindow
             return "MessageWindow";
         }
 
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
         public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();

@@ -139,12 +139,33 @@
 
         #endregion
 
+        /// <summary>
+        /// Tab Control for MessageWindow.
+        /// </summary>
         public System.Windows.Forms.TabControl tabContorl;
+        /// <summary>
+        /// Tab Page for Simulation Message and Edit Model.
+        /// </summary>
         public System.Windows.Forms.TabPage simTab;
+        /// <summary>
+        /// Tab Page for Debug Massage.
+        /// </summary>
         public System.Windows.Forms.TabPage debTab;
+        /// <summary>
+        /// Tab Page for Analysis Massage.
+        /// </summary>
         public System.Windows.Forms.TabPage anaTab;
+        /// <summary>
+        /// TextBox for  Simulation Message and Edit Model.
+        /// </summary>
         public System.Windows.Forms.TextBox simText;
+        /// <summary>
+        /// TextBox for Debug Massage.
+        /// </summary>
         public System.Windows.Forms.TextBox debText;
+        /// <summary>
+        /// TextBox for Analysis Massage.
+        /// </summary>
         public System.Windows.Forms.TextBox anaText;
     }
 }
