@@ -1363,7 +1363,29 @@ namespace EcellLib.EntityListWindow
                     TagData tag = (TagData)target.Tag;
                     tag.m_key = data.key;
                     target.Tag = tag;
+                    if (tag.m_type == "System")
+                    {
+                        IDChangeProvide(key, data.key, target);
+                    }
                 }
+            }
+        }
+
+        private void IDChangeProvide(string oldKey, string newKey, TreeNode node)
+        {
+            foreach (TreeNode t in node.Nodes)
+            {
+                TagData tag = t.Tag as TagData;
+                if (tag == null) continue;
+                if (tag.m_type == "System")
+                {
+                    IDChangeProvide(oldKey + "/" +  t.Text,
+                        newKey + "/" + t.Text , t);
+                    tag.m_key = newKey + "/" + t.Text;
+                    continue;
+                }
+
+                tag.m_key = newKey + ":" + t.Text;
             }
         }
 
