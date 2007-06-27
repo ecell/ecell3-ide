@@ -34,6 +34,9 @@ using System.Text;
 
 namespace EcellLib.StaticDebugWindow
 {
+    /// <summary>
+    /// The interface of static debug algorithm .
+    /// </summary>
     public interface StaticDebugPlugin
     {
         /// <summary>

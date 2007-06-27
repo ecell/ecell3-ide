@@ -94,15 +94,17 @@ namespace EcellLib.StaticDebugWindow
         /// <summary>
         /// Delegates the multi-validarion.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="ecellDataList"></param>
+        /// <param name="modelID">modelID.</param>
+        /// <param name="type">data type.</param>
+        /// <param name="ecellDataList">the list of data.</param>
         delegate void MultiValidateMethod(string modelID, string type, List<EcellData> ecellDataList);
 
         /// <summary>
         /// Delegates the uni-validation.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="ecellData"></param>
+        /// <param name="modelID">modelID.</param>
+        /// <param name="type">data type.</param>
+        /// <param name="ecellData">data.</param>
         delegate void UniValidateMethod(string modelID, string type, EcellData ecellData);
         #endregion
 
@@ -217,6 +219,10 @@ namespace EcellLib.StaticDebugWindow
             return "StaticDebugWindow";
         }
 
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
         public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -788,7 +794,7 @@ namespace EcellLib.StaticDebugWindow
         /// </summary>
         /// <param name="modelID">The model ID</param>
         /// <param name="type">The type</param>
-        /// <param name="ecellData">The validated "EcellData"</param>
+        /// <param name="ecellDataList">The validated "EcellData"</param>
         void ValidateExistVariableInExpression(string modelID, string type, List<EcellData> ecellDataList)
         {
             if (modelID == null || modelID.Length <= 0 || ecellDataList == null || ecellDataList.Count <= 0)
@@ -1464,6 +1470,7 @@ public class ErrorMessage
     /// Creates the new "ErrorMessage" with some parameters.
     /// </summary>
     /// <param name="modelID">the model ID</param>
+    /// <param name="type">data type.</param>
     /// <param name="entityPath">the entity path</param>
     /// <param name="message">the error message</param>
     public ErrorMessage(string modelID, string type, string entityPath, string message)

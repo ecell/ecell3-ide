@@ -39,6 +39,9 @@ using System.Windows.Forms;
 
 namespace EcellLib.StaticDebugWindow
 {
+    /// <summary>
+    /// The form class to setup static debug.
+    /// </summary>
     public partial class StaticDebugSetupWindow : Form
     {
         #region Fields

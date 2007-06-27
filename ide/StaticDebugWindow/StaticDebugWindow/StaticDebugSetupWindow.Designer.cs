@@ -179,15 +179,24 @@ namespace EcellLib.StaticDebugWindow
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        public System.Windows.Forms.DataGridView debugResultView;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        /// <summary>
+        /// The list to show the debug results.
+        /// </summary>
+        public System.Windows.Forms.DataGridView debugResultView;
+        /// <summary>
+        /// The button to start debug.
+        /// </summary>
         public System.Windows.Forms.Button SSDebugButton;
+        /// <summary>
+        /// The button to close this window.
+        /// </summary>
         public System.Windows.Forms.Button SSCloseButton;
-        public System.Windows.Forms.TableLayoutPanel layoutPanel;
-        public System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn MessageColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn PathColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ModelColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn TypeColumn;
+        private System.Windows.Forms.TableLayoutPanel layoutPanel;
+        private System.Windows.Forms.Panel panel1;
     }
 }
