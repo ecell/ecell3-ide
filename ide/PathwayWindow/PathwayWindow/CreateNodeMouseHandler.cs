@@ -129,7 +129,7 @@ namespace EcellLib.PathwayWindow
 
                     ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
 
-                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Process, cs, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, eo);
+                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Process, cs, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, eo, null, false);
                 }
                 else
                 {
@@ -144,78 +144,9 @@ namespace EcellLib.PathwayWindow
 
                     ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
 
-                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Variable, cs, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, eo);
+                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Variable, cs, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, eo, null, false);
                 }
-
-                /*
-                if (tmpList.Count > 0) m_currentObj = tmpList[0];
-
-                m_editor = new PropertyEditor();
-                m_editor.SetParentObject(m_currentObj);
-                m_editor.button1.Click += new EventHandler(NewOkButton_Click);
-                if (m_view.ComponentSettings[m_view.CheckedComponent].ComponentKind == ComponentType.Process)
-                {
-                    m_editor.SetDataType("Process");
-                    m_editor.m_propName = "ExpressionFluxProcess";
-                }
-                else
-                {
-                    m_editor.SetDataType("Variable");
-                }
-                m_editor.LayoutPropertyEditor();
-                m_editor.ShowDialog();*/
-
             }
         }
-
-        /// <summary>
-        /// Called when OK button is clicked of PathwayEditor.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /*
-        void NewOkButton_Click(object sender, EventArgs e)
-        {
-            EcellObject eo = m_editor.Collect();
-
-            if (eo != null)
-            {
-                if (m_view.ComponentSettings[m_view.CheckedComponent].ComponentKind == ComponentType.Variable)
-                {
-                    if (!string.IsNullOrEmpty(eo.key) && eo.key.EndsWith(":SIZE"))
-                    {
-                        MessageBox.Show("A \"SIZE\" variable can't be created on the pathway.\nPlease use other plugins");
-                        return;
-                    }
-                    if (m_view.CanvasDictionary[m_canvasName].Variables.ContainsKey(eo.key))
-                    {
-                        MessageBox.Show(eo.key + " has already existed.");
-                        return;
-                    }
-                }
-                else
-                {
-                    if (m_view.CanvasDictionary[m_canvasName].Processes.ContainsKey(eo.key))
-                    {
-                        MessageBox.Show(eo.key + " has already existed.");
-                        return;
-                    }
-                }
-
-                ComponentType cType;
-                if (m_view.ComponentSettings[m_view.CheckedComponent].ComponentKind == ComponentType.Variable)
-                    cType = ComponentType.Variable;
-                else
-                    cType = ComponentType.Process;
-
-                ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
-
-                m_view.AddNewObj(m_canvasName, m_surSystem, cType, cs, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, eo);
-
-                m_editor.Dispose();
-            }
-            else
-                return;
-        }*/
     }
 }

@@ -279,8 +279,8 @@ namespace EcellLib.PathwayWindow
                 EcellObject eo = EcellObject.CreateObject(m_currentObj.modelID, keydata,
                     "System", "System", dataList);
                 
-                m_view.AddNewObj(m_set.CanvasID, m_surSystem, ComponentType.System, cs, eo.key, 
-                    true, m_rect.X, m_rect.Y, m_rect.Width, m_rect.Height, true, eo);
+                m_view.AddNewObj(m_set.CanvasID, m_surSystem, ComponentType.System, cs, eo.key,
+                    true, m_rect.X, m_rect.Y, m_rect.Width, m_rect.Height, true, eo, null, false);
                 
                 foreach (PPathwayObject node in newlySelectedList)
                 {

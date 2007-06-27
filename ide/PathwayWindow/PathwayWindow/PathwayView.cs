@@ -452,17 +452,19 @@ namespace EcellLib.PathwayWindow
         }
 
         public void AddNewObj(string canvasName,
-                              string systemName,
-                              ComponentType cType,
-                              ComponentSetting cs,
-                              string key,
-                              bool hasCoords,
-                              float x,
-                              float y,
-                              float width,
-                              float height,
-                              bool needToNotify,
-                              EcellObject eo)
+            string systemName,
+            ComponentType cType,
+            ComponentSetting cs,
+            string key,
+            bool hasCoords,
+            float x,
+            float y,
+            float width,
+            float height,
+            bool needToNotify,
+            EcellObject eo,            
+            string valueStr,
+            bool change)
         {
             if (string.IsNullOrEmpty(key))
                 throw new PathwayException("key is not set!");
@@ -486,8 +488,13 @@ namespace EcellLib.PathwayWindow
                     if(key.EndsWith(":SIZE"))
                     {
                         element = new AttributeElement();
-                        if(!needToNotify)
-                            ((AttributeElement)element).Value = m_pathwayWindow.GetEcellData(key, type, "Value");
+                        if (!needToNotify)
+                        {
+                            if (null == valueStr)
+                                ((AttributeElement)element).Value = m_pathwayWindow.GetEcellData(key, type, "Value");
+                            else
+                                ((AttributeElement)element).Value = valueStr;
+                        }
                     }
                     else
                     {
@@ -503,7 +510,7 @@ namespace EcellLib.PathwayWindow
                     type = PROCESS_STRING;
                     if(cs == null)
                         cs = ComponentSettingsManager.DefaultProcessSetting;
-                    if(!needToNotify)
+                    if(!needToNotify && !change)
                         ((ProcessElement)element).SetEdgesByStr(m_pathwayWindow.GetEcellData(key, type, "VariableReferenceList"));
                     break;
 
@@ -1340,6 +1347,30 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         /// <summary>
+        /// Whether this PathwayView contains an object or not.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasObject(ComponentType ct, string key)
+        {
+            switch(ct)
+            {
+                case ComponentType.System:
+                    if (m_keySysCanvasDict.ContainsKey(key))
+                        return true;
+                    break;
+                case ComponentType.Variable:
+                    if (m_keyVarCanvasDict.ContainsKey(key))
+                        return true;
+                    break;
+                case ComponentType.Process:
+                    if (m_keyProCanvasDict.ContainsKey(key))
+                        return true;
+                    break;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Freeze all objects to be unpickable.
         /// </summary>
         private void Freeze()
@@ -1445,6 +1476,28 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Collect PathwayElement indicated by a key
+        /// </summary>
+        /// <returns></returns>
+        public PathwayElement GetElement(ComponentType ct, string key)
+        {
+            string canvasName = null;
+            switch (ct)
+            {
+                case ComponentType.System:
+                    canvasName = m_keySysCanvasDict[key];
+                    break;
+                case ComponentType.Variable:
+                    canvasName = m_keyVarCanvasDict[key];
+                    break;
+                case ComponentType.Process:
+                    canvasName = m_keyProCanvasDict[key];
+                    break;
+            }
+            return m_canvasDict[canvasName].GetElement(ct, key);
+        }
+
+        /// <summary>
         /// Collects all PathwayElements, currently displayed in this pathway window
         /// </summary>
         /// <returns>all PathwayElements on this pathway window</returns>
@@ -1459,6 +1512,32 @@ namespace EcellLib.PathwayWindow
                 }
             }
 
+            return returnList;
+        }
+
+        /// <summary>
+        /// Get keys of objects under a system.
+        /// </summary>
+        /// <param name="systemKey"></param>
+        /// <returns></returns>
+        public List<UniqueKey> GetKeysUnderSystem(string systemKey)
+        {
+            List<UniqueKey> returnList = new List<UniqueKey>();
+
+            if (null == systemKey)
+                return returnList;
+
+            foreach (string key in m_keySysCanvasDict.Keys)            
+                if (PathUtil.IsUnder(systemKey, key))
+                    returnList.Add(new UniqueKey(ComponentType.System, key));
+            
+            foreach (string key in m_keyVarCanvasDict.Keys)
+                if (PathUtil.IsUnder(systemKey, key))
+                    returnList.Add(new UniqueKey(ComponentType.Variable, key));
+
+            foreach (string key in m_keyProCanvasDict.Keys)
+                if (PathUtil.IsUnder(systemKey, key))
+                    returnList.Add(new UniqueKey(ComponentType.Process, key));
             return returnList;
         }
 

@@ -486,6 +486,7 @@ namespace EcellLib.PathwayWindow.Node
                 m_relatedVariables.Remove(p);
             }
             rList.Clear();
+            ((ProcessElement)this.Element).Edges.Remove(key);            
         }
 
         /// <summary>

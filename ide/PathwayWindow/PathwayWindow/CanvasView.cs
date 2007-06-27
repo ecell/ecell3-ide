@@ -2795,6 +2795,32 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Get PathwayElement indicated by a key.
+        /// </summary>
+        /// <param name="ct"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public PathwayElement GetElement(ComponentType ct, string key)
+        {
+            if(null != key && key.EndsWith(":SIZE"))
+            {
+                return m_systems[PathUtil.GetParentSystemId(key)].Attribute;
+            }
+
+            switch(ct)
+            {
+                case ComponentType.System:
+                    return m_systems[key].Element;                    
+                case ComponentType.Variable:
+                    return m_variables[key].Element;
+                case ComponentType.Process:
+                    return m_processes[key].Element;
+                default:
+                    throw new Exception();
+            }
+        }
+
+        /// <summary>
         /// Get a key list of systems under a given system.
         /// </summary>
         /// <param name="systemKey"></param>
@@ -2927,9 +2953,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">the changed object.</param>
         public void DataChanged(string key, EcellObject data, ComponentType type)
         {
-            
             if (key == null || data.key == null)
                 return;
+
             switch(type)
             {
                 case ComponentType.System:
@@ -2941,10 +2967,12 @@ namespace EcellLib.PathwayWindow
                     foreach(PEcellSystem sys in sysCon.EcellSystems)
                     {
                         sys.Element.Key = data.key;
+                        sys.Name = data.key;
                     }
+                    sysCon.UpdateText();
                     m_systems.Add(data.key, sysCon);
                     break;
-                case ComponentType.Variable:                    
+                case ComponentType.Variable:
                     if (!m_variables.ContainsKey(key))
                         return;
                     PEcellVariable var = m_variables[key];
@@ -2958,7 +2986,6 @@ namespace EcellLib.PathwayWindow
                     if (!m_processes.ContainsKey(key))
                         return;
                     PEcellProcess pro = m_processes[key];
-                    // refresh process about VariableReferenceList
                     string vrl = null;
                     foreach (EcellData ed in data.M_value)
                     {
@@ -2988,6 +3015,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">the type of deleted object.</param>
         public void DataDelete(string key, ComponentType type)
         {
+            ResetSelectedObjects();
             switch (type)
             {
                 case ComponentType.System:
@@ -3025,11 +3053,9 @@ namespace EcellLib.PathwayWindow
                 case ComponentType.Variable:
                     if (m_variables.ContainsKey(key))
                     {
-                        PEcellVariable p = m_variables[key];
-                        p.NotifyRemoveRelatedVariable();
-
-                        PPathwayNode deleteNode = m_variables[key];
-                        deleteNode.Parent.RemoveChild(deleteNode);
+                        PEcellVariable v = m_variables[key];
+                        v.NotifyRemoveRelatedVariable();
+                        v.Parent.RemoveChild(v);
                         m_variables.Remove(key);
                     }
                     else if (key.EndsWith("SIZE"))
@@ -3042,9 +3068,8 @@ namespace EcellLib.PathwayWindow
                     {
                         PEcellProcess p = m_processes[key];
                         p.NotifyRemoveRelatedProcess();
-
-                        PPathwayNode deleteNode = m_processes[key];
-                        deleteNode.Parent.RemoveChild(deleteNode);
+                        p.DeleteEdges();
+                        p.Parent.RemoveChild(p);
                         m_processes.Remove(key);
                     }
                     break;
@@ -3385,13 +3410,14 @@ namespace EcellLib.PathwayWindow
         /// <returns></returns>
         private PointF GetVacantPoint(RectangleF wholeSpace, List<RectangleF> excludeRectList, List<PPathwayNode> nodeList)
         {
-            int numOfSampling = 20;
+            
 
             // Set margin. nodes can't be placed there.
-            wholeSpace.X = (float)(wholeSpace.X + wholeSpace.Width * 0.1);
-            wholeSpace.Width = (float)(wholeSpace.Width * 0.8);
-            wholeSpace.Y = (float)(wholeSpace.Y + wholeSpace.Height * 0.1);
-            wholeSpace.Height = (float)(wholeSpace.Height * 0.8);
+            RectangleF spaceWithoutMargin = new RectangleF();
+            spaceWithoutMargin.X = (float)(wholeSpace.X + wholeSpace.Width * 0.1);
+            spaceWithoutMargin.Width = (float)(wholeSpace.Width * 0.8);
+            spaceWithoutMargin.Y = (float)(wholeSpace.Y + wholeSpace.Height * 0.1);
+            spaceWithoutMargin.Height = (float)(wholeSpace.Height * 0.8);
 
             // List of point of coordinate of each node of nodeList
             List<PointF> pointList = new List<PointF>();
@@ -3401,23 +3427,27 @@ namespace EcellLib.PathwayWindow
                 PointF point = new PointF(node.X + node.OffsetX, node.Y + node.OffsetY);
                 pointList.Add(point);
             }
+                        
+            int numOfSampling = 20;
+            bool isSufficient = false; // Whether at least one valid point was found or not.
 
             PointF vacantPoint = PointF.Empty;
             float maxSumOfDistance = 0; // sum of distances between a vacant point and each node points.
             Random rand = new Random();
 
             // Repeat sampling for numOfSampling times, and settle most suitable vacant point
-            for ( int i = 0; i < numOfSampling; i++ )
+            for ( int i = 0; i < numOfSampling || !isSufficient; i++ )
             {
-                PointF vacantPointCand
-                    = new PointF(wholeSpace.X + (float)rand.NextDouble() * wholeSpace.Width,
-                    wholeSpace.Y + (float)rand.NextDouble() * wholeSpace.Height);
+                RectangleF space = (i < numOfSampling) ? spaceWithoutMargin : wholeSpace;
 
-                if(this.DoRectsContainAPoint(vacantPointCand, excludeRectList))
-                {
-                    i--;
+                PointF vacantPointCand
+                    = new PointF(space.X + (float)rand.NextDouble() * space.Width,
+                    space.Y + (float)rand.NextDouble() * space.Height);
+
+                if (!this.DoRectsContainAPoint(vacantPointCand, excludeRectList))
+                    isSufficient = true;
+                else
                     continue;
-                }
 
                 float sumOfDistance = 0;
 
@@ -3894,13 +3924,12 @@ namespace EcellLib.PathwayWindow
             public void Freeze()
             {
                 foreach(PEcellSystem system in this.EcellSystems)
-                    system.Freeze();                
+                    system.Freeze();
             }
             public void UnFreeze()
             {
                 foreach (PEcellSystem system in this.EcellSystems)
                     system.Unfreeze();
-
             }
             /// <summary>
             /// create the text displayed on PathwayEditor.

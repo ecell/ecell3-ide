@@ -166,7 +166,9 @@ namespace EcellLib.PathwayWindow.Node
 
             foreach (PEcellProcess p in list)
             {
+                p.DeleteEdges();
                 p.NotifyRemoveRelatedVariable(this.Element.Key);
+                p.CreateEdges();
             }
         }
 

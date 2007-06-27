@@ -897,12 +897,55 @@ namespace EcellLib.PathwayWindow
                 return;
             try
             {
+                ComponentType ct = ComponentType.System;
                 if (type.Equals(PathwayView.SYSTEM_STRING))
-                    m_view.DataChanged(key, data, ComponentType.System);
+                    ct = ComponentType.System;
                 else if (type.Equals(PathwayView.VARIABLE_STRING))
-                    m_view.DataChanged(key, data, ComponentType.Variable);
+                    ct = ComponentType.Variable;
                 else if (type.Equals(PathwayView.PROCESS_STRING))
-                    m_view.DataChanged(key, data, ComponentType.Process);
+                    ct = ComponentType.Process;
+                
+                if (PathUtil.IsOnSameSystem(key, data.key))
+                {
+                    m_view.DataChanged(key, data, ct);
+                }
+                else
+                {
+                    if(ct == ComponentType.System)
+                    {
+                        List<EcellObject> list = new List<EcellObject>();
+                        list.Add(data);
+                        this.NewDataAddToModel(list);
+                        List<UniqueKey> underList = m_view.GetKeysUnderSystem(key);
+                        foreach(UniqueKey uk in underList)
+                        {
+                            string valueStr = null;
+                            if (uk.Type == ComponentType.Variable && uk.Key.EndsWith(":SIZE"))
+                            {
+                                valueStr = ((AttributeElement)m_view.GetElement(ComponentType.Variable, uk.Key)).Value;
+                            }
+                            m_view.DataDelete(uk.Key, uk.Type);
+                            string newKey = PathUtil.GetMovedKey(uk.Key, key, data.key);
+                            m_view.AddNewObj(m_defCanvasId, PathUtil.GetParentSystemId(newKey), uk.Type, null, newKey, false, 0, 0, 0, 0, false, null, valueStr, true);                            
+                        }
+                        m_view.DataDelete(key, ct);
+                    }
+                    else
+                    {
+                        if(m_view.HasObject(ct, key))
+                        {
+                            m_view.DataDelete(key, ct);
+                            List<EcellObject> list = new List<EcellObject>();
+                            list.Add(data);
+                            this.NewDataAddToModel(list);
+                        }
+                        else
+                        {
+                            m_view.DataChanged(data.key, data, ct);
+                        }
+                        
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -1162,17 +1205,17 @@ namespace EcellLib.PathwayWindow
                 {
                     if (systemName.Equals("/"))
                     {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.key, false, 0, 0, 1000, 1000, false, null);
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.key, false, 0, 0, 1000, 1000, false, null, null, false);
                     }
                     else
                     {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.key, false, 0, 0, 0, 0, false, null);
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.key, false, 0, 0, 0, 0, false, null, null, false);
                     }
                 }
                 else if (obj.type.Equals(PathwayView.VARIABLE_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.key, false, 0, 0, 0, 0, false, null);                    
+                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.key, false, 0, 0, 0, 0, false, null, null, false);
                 else if (obj.type.Equals(PathwayView.PROCESS_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.key, false, 0, 0, 0, 0, false, null);                
+                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.key, false, 0, 0, 0, 0, false, null, null, false);
                 else
                 {
                     throw new PathwayException("Unknown EcellObject is add");
@@ -1389,7 +1432,7 @@ namespace EcellLib.PathwayWindow
                         {
                             AttributeElement attrElement = new AttributeElement();
                             attrElement.Attribute = AttributeElement.AttributeType.Size;
-                            attrElement.CanvasID = m_defLayerId;
+                            attrElement.CanvasID = m_defCanvasId;
                             attrElement.LayerID = m_defLayerId;
                             attrElement.ModelID = node.modelID;
                             attrElement.Key = node.key;
