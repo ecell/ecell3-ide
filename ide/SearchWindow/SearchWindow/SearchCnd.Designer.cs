@@ -159,10 +159,16 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Label label1;
+        /// <summary>
+        /// The condition to search the object.
+        /// </summary>
         public System.Windows.Forms.TextBox idText;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Button SCSearchButton;
         private System.Windows.Forms.Button SCCloseButton;
+        /// <summary>
+        /// The list to show the search results.
+        /// </summary>
         public System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnModel;

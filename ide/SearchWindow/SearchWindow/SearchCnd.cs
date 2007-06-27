@@ -38,6 +38,9 @@ using System.Windows.Forms;
 
 namespace EcellLib.SearchWindow
 {
+    /// <summary>
+    /// Form to input the condition to search the object.
+    /// </summary>
     public partial class SearchCnd : Form
     {
         #region Fields
@@ -62,6 +65,10 @@ namespace EcellLib.SearchWindow
             m_pManager = PluginManager.GetPluginManager();
         }
 
+        /// <summary>
+        /// Get Bitmap to print this window.
+        /// </summary>
+        /// <returns>bitmap of this window.</returns>
         public Bitmap Print()
         {
             Bitmap bitmap = new Bitmap(dgv.Width, dgv.Height);
@@ -70,6 +77,10 @@ namespace EcellLib.SearchWindow
             return bitmap;
         }
 
+        /// <summary>
+        /// Search the object by using the search conditions.
+        /// </summary>
+        /// <param name="str"></param>
         public void Search(string str)
         {
             idText.Text = str;
@@ -162,6 +173,11 @@ namespace EcellLib.SearchWindow
         }
         #endregion
 
+        /// <summary>
+        /// The event to show this window.
+        /// </summary>
+        /// <param name="sender">This window.</param>
+        /// <param name="e">EventArgs.</param>
         private void SearchCndShown(object sender, EventArgs e)
         {
             this.idText.Focus();
