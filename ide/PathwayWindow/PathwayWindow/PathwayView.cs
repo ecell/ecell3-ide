@@ -477,8 +477,17 @@ namespace EcellLib.PathwayWindow
                 if (eo == null)
                     throw new PathwayException("If you want to notify the DataManager of a new object, you must set eo argument of AddNewObj");
 
-                NotifyDataAdd(eo);
+                try
+                {
+                    NotifyDataAdd(eo);
+                }
+                catch (Exception)
+                {
+                    UnregisterObj(cType, key);
+                    return;
+                }
             }
+                        
             ComponentElement element = null;
             string type = null;
             switch(cType)
