@@ -38,6 +38,9 @@ using System.Windows.Forms;
 
 namespace EcellLib.EntityListWindow
 {
+    /// <summary>
+    /// Window set the condition to search object.
+    /// </summary>
     public partial class SearchInstance : Form
     {
         #region Fields

@@ -10,6 +10,9 @@ namespace EcellLib
 {
     public partial class EntityList : UserControl
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public EntityList()
         {
             InitializeComponent();

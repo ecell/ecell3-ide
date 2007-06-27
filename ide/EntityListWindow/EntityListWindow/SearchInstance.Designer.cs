@@ -105,8 +105,17 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label1;
+        /// <summary>
+        /// Button to search the object.
+        /// </summary>
         public System.Windows.Forms.Button SISearchButton;
+        /// <summary>
+        /// Button to close this window.
+        /// </summary>
         public System.Windows.Forms.Button SICloseButton;
+        /// <summary>
+        /// TextBox to input the condition to search.
+        /// </summary>
         public System.Windows.Forms.TextBox searchText;
     }
 }

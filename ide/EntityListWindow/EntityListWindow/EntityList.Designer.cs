@@ -1,5 +1,8 @@
 ﻿namespace EcellLib
 {
+    /// <summary>
+    /// EntityList UserControl.
+    /// </summary>
     partial class EntityList
     {
         /// <summary> 
@@ -69,6 +72,9 @@
         #endregion
 
         private System.Windows.Forms.ImageList imageList1;
+        /// <summary>
+        /// TreeView object in EntityListWindow.
+        /// </summary>
         public System.Windows.Forms.TreeView treeView1;
     }
 }

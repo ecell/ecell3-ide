@@ -10,11 +10,17 @@ using System.Windows.Forms;
 
 namespace EcellLib.EntityListWindow
 {
+    /// <summary>
+    /// Test Driver Program.
+    /// </summary>
     public partial class PluginDriver : Form
     {
         PluginBase pb = null;
         private PrintDocument printDocument1 = null;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public PluginDriver()
         {
             InitializeComponent();
