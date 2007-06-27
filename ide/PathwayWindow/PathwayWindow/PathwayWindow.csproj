@@ -154,6 +154,7 @@
     <Compile Include="UIComponent\ShowBtnUpward.cs" />
     <Compile Include="Element\SystemElement.cs" />
     <Compile Include="UIComponent\NamespaceDoc.cs" />
+    <Compile Include="UniqueKey.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="PathwayWindow.ja.resx">

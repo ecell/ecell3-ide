@@ -481,9 +481,15 @@ namespace EcellLib.PathwayWindow
                 {
                     NotifyDataAdd(eo);
                 }
-                catch (Exception)
+                catch (IgnoreException)
                 {
                     UnregisterObj(cType, key);
+                    return;
+                }
+                catch (Exception e)
+                {
+                    UnregisterObj(cType, key);
+                    MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
