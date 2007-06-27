@@ -197,6 +197,6 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\bin"
-</PostBuildEvent>
+XCOPY /Y "$(TargetDir)\ja\EcellLib.resources.dll"  "$(ECELL_STAGING_HOME)\bin\ja"</PostBuildEvent>
   </PropertyGroup>
 </Project>
