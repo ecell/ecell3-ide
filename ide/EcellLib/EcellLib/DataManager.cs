@@ -155,6 +155,10 @@ namespace EcellLib
         /// The dictionary of loading the file of model.
         /// </summary>
         private Dictionary<string, string> m_loadDirList;
+
+        private int m_processNumbering = 0;
+        private int m_systemNumbering = 0;
+        private int m_variableNumbering = 0;
         #endregion
 
         /// <summary>
@@ -763,6 +767,9 @@ namespace EcellLib
                     "Close Project: " + l_message + System.Environment.NewLine + System.Environment.NewLine
                     );
                 m_aManager.Clear();
+                m_processNumbering = 0;
+                m_variableNumbering = 0;
+                m_systemNumbering = 0;
             }
             catch (Exception l_ex)
             {
@@ -3813,29 +3820,43 @@ namespace EcellLib
         {
             String pref = "";
             int i = 0;
-            if (type.Equals("Process")) pref = "P";
-            else if (type.Equals("Variable")) pref = "V";
+            if (type.Equals("Process"))
+            {
+                pref = "P";
+                i = m_processNumbering;
+            }
+            else if (type.Equals("Variable"))
+            {
+                pref = "V";
+                i = m_variableNumbering;
+            }
             else
             {
+                List<EcellObject> tmpList = GetData(modelID, null);
+                i = m_systemNumbering;
                 while (true)
                 {
                     string tmpID = "S" + i;
-                    string tmpSystemID = "";
-                    if (systemID.Equals("/"))
+                    bool isHit = false;
+                    foreach (EcellObject obj in tmpList)
                     {
-                        tmpSystemID = "/" + tmpID;
+                        string[] ele = obj.key.Split(new char[] { '/' });
+                        if (tmpID.Equals(ele[ele.Length - 1]))
+                        {
+                            isHit = true;
+                            break;
+                        }
                     }
-                    else
+                    if (!isHit)
                     {
-                        tmpSystemID = systemID + "/" + tmpID;
+                        m_systemNumbering = i;
+                        return tmpID;
                     }
-                    List<EcellObject> tmpList = GetData(modelID, tmpSystemID);
-                    if (tmpList.Count <= 0) return tmpID;
                     i++;
                 }
             }
 
-            List<EcellObject> list = GetData(modelID, systemID);
+            List<EcellObject> list = GetData(modelID, null);
             while (true)
             {
                 bool isHit = false;
@@ -3850,11 +3871,14 @@ namespace EcellLib
                         if (obj2.type.Equals(type) && tmpID.Equals(ele[ele.Length - 1]))
                         {
                             isHit = true;
+                            break;
                         }
                     }
                 }
                 if (!isHit)
                 {
+                    if (type.Equals("Process")) m_processNumbering = i;
+                    if (type.Equals("Variable")) m_variableNumbering = i;
                     return tmpID;
                 }
                 i++;
