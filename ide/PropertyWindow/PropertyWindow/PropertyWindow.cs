@@ -40,6 +40,9 @@ using System.Text.RegularExpressions;
 
 namespace EcellLib.PropertyWindow
 {
+    /// <summary>
+    /// The Plugin Class to show property of object.
+    /// </summary>
     public class PropertyWindow : PluginBase
     {
         #region Fields
@@ -324,7 +327,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
-        /// <param name="key">Selected the data type.</param>
+        /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
 
@@ -469,7 +472,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         /// <param name="modelID">The model ID generating warning data.</param>
         /// <param name="key">The ID generating warning data.</param>
-        /// <param name="key">The data type generating warning data.</param>
+        /// <param name="type">The data type generating warning data.</param>
         /// <param name="warntype">The type of waring data.</param>
         public void WarnData(string modelID, string key, string type, string warntype)
         {
@@ -504,6 +507,11 @@ namespace EcellLib.PropertyWindow
             m_type = type;
         }
 
+        /// <summary>
+        /// Save the selected model to directory.
+        /// </summary>
+        /// <param name="modelID">selected model.</param>
+        /// <param name="directory">output directory.</param>
         public void SaveModel(string modelID, string directory)
         {
         }
@@ -545,6 +553,10 @@ namespace EcellLib.PropertyWindow
             return "PropertyWindow";
         }
 
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
         public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();

@@ -10,12 +10,18 @@ using System.Windows.Forms;
 
 namespace EcellLib.PropertyWindow
 {
+    /// <summary>
+    /// Test Driver Class.
+    /// </summary>
     public partial class PluginDriver : Form
     {
         private PrintDocument printDocument1 = null;
 
         private PluginBase pb = null;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public PluginDriver()
         {
             
