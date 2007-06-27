@@ -40,6 +40,9 @@ namespace EcellLib.AboutWindow
 {
     public partial class AboutForm : Form
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public AboutForm()
         {
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja", true);

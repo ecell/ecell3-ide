@@ -1,5 +1,8 @@
 namespace EcellLib.AboutWindow
 {
+    /// <summary>
+    /// About Form
+    /// </summary>
     partial class AboutForm
     {
         /// <summary>
@@ -150,7 +153,13 @@ namespace EcellLib.AboutWindow
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label2;
+        /// <summary>
+        /// Label shown this program version.
+        /// </summary>
         public System.Windows.Forms.Label versionLabel;
+        /// <summary>
+        /// Label shown this copyrights.
+        /// </summary>
         public System.Windows.Forms.Label copyLabel;
     }
 }

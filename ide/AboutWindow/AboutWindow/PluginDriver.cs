@@ -9,8 +9,14 @@ using System.Windows.Forms;
 
 namespace EcellLib.AboutWindow
 {
+    /// <summary>
+    /// Test Driver Program.
+    /// </summary>
     public partial class PluginDriver : Form
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public PluginDriver()
         {
             InitializeComponent();
