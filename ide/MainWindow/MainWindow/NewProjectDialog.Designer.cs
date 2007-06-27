@@ -63,10 +63,10 @@ namespace EcellLib.MainWindow
             this.label2 = new System.Windows.Forms.Label();
             this.textName = new System.Windows.Forms.TextBox();
             this.textComment = new System.Windows.Forms.TextBox();
-            this.CPCreateButton = new System.Windows.Forms.Button();
-            this.CPCancelButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textModelName = new System.Windows.Forms.TextBox();
+            this.CPCreateButton = new System.Windows.Forms.Button();
+            this.CPCancelButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
@@ -107,6 +107,17 @@ namespace EcellLib.MainWindow
             this.textComment.Name = "textComment";
             this.textComment.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // textModelName
+            // 
+            resources.ApplyResources(this.textModelName, "textModelName");
+            this.textModelName.Name = "textModelName";
+            this.textModelName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
+            // 
             // CPCreateButton
             // 
             resources.ApplyResources(this.CPCreateButton, "CPCreateButton");
@@ -118,17 +129,6 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.CPCancelButton, "CPCancelButton");
             this.CPCancelButton.Name = "CPCancelButton";
             this.CPCancelButton.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // textModelName
-            // 
-            resources.ApplyResources(this.textModelName, "textModelName");
-            this.textModelName.Name = "textModelName";
-            this.textModelName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
             // tableLayoutPanel2
             // 
