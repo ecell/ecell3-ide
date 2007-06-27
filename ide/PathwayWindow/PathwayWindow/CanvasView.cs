@@ -1181,12 +1181,12 @@ namespace EcellLib.PathwayWindow
                     if (tmpList.Contains(child)) continue;
                     if (child is PPathwayNode)
                     {
-                        currentDict.Add(((PPathwayNode)child).Element.Key + ":" + ((PPathwayNode)child).Element.Type, child);
+                        currentDict.Add( ((PPathwayNode)child).Element.Type + ":" + ((PPathwayNode)child).Element.Key, child);
                     }
                     else if (child is PEcellSystem)
                     {
                         if (!m_selectedSystemName.Equals(((PEcellSystem)child).Element.Key))
-                            currentDict.Add(((PEcellSystem)child).Element.Key + ":" + ((PEcellSystem)child).Element.Type, child);
+                            currentDict.Add( ((PEcellSystem)child).Element.Type + ":" + ((PEcellSystem)child).Element.Key, child);
                     }
                 }
 
@@ -1198,12 +1198,91 @@ namespace EcellLib.PathwayWindow
                     {
                         PPathwayNode childNode = ((PPathwayNode)child);
                         key = childNode.Element.Key;
-                        beforeDict.Add(key + ":" + childNode.Element.Type, child);
+                        beforeDict.Add(childNode.Element.Type + ":" + key, child);
                     }
                     else if (child is PEcellSystem)
                     {
                         key = ((PEcellSystem)child).Element.Key;
-                        beforeDict.Add(key + ":" + ((PEcellSystem)child).Element.Type, child);
+                        beforeDict.Add(((PEcellSystem)child).Element.Type + ":" + key, child);
+                    }
+                }
+
+                // If ID duplication could occurred, system resizing will be aborted
+                Dictionary<string, PPathwayNode> nameDict = new Dictionary<string, PPathwayNode>();
+                foreach (string key in currentDict.Keys)
+                {
+                    string name = PathUtil.RemovePath(key);
+                    if (nameDict.ContainsKey(name))
+                    {
+                        // Resizing is aborted
+                        foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
+                        {
+                            eachSys.ReturnToMemorizedPosition();
+                            this.ValidateSystem(eachSys);
+                            eachSys.Reset();
+                        }
+                        m_systems[m_selectedSystemName].UpdateText();
+
+                        UpdateResizeHandlePositions();
+                        ResetSelectedObjects();
+                        ClearSurroundState();
+                        MessageBox.Show("Two objects can't have the same ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    else
+                    {
+                        nameDict.Add(name, null);
+                    }
+                }
+
+                foreach (string key in beforeDict.Keys)
+                {
+                    if(!currentDict.ContainsKey(key))
+                    {
+                        bool isDuplicate = false;
+                        String[] sp = key.Split(new char[] { ':' });
+                        if (key.StartsWith("System"))
+                        {
+                            String name = sp[1];
+                            sp = sp[1].Split(new char[] { '/' });
+                            PPathwayObject p = system.ParentObject;
+                            String newkey = ((PEcellSystem)p).Element.Key + "/" + sp[sp.Length - 1];
+                            if (m_pathwayView.HasObject(ComponentType.System, newkey))
+                                isDuplicate = true;
+                            
+                        }
+                        else
+                        {
+                            String data = sp[1] + ":" + sp[2];
+                            PPathwayObject p = system.ParentObject;
+                            String newkey = ((PEcellSystem)p).Element.Key + ":" + sp[2];
+                            ComponentType ct;
+                            if (key.StartsWith("Process"))
+                                ct = ComponentType.Process;
+                            else
+                                ct = ComponentType.Variable;
+                            if (m_pathwayView.HasObject(ct, newkey))
+                                isDuplicate = true;
+                            
+                        }
+
+                        if (isDuplicate)
+                        {
+                            // Resizing is aborted
+                            foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
+                            {
+                                eachSys.ReturnToMemorizedPosition();
+                                this.ValidateSystem(eachSys);
+                                eachSys.Reset();
+                            }
+                            m_systems[m_selectedSystemName].UpdateText();
+
+                            UpdateResizeHandlePositions();
+                            ResetSelectedObjects();
+                            ClearSurroundState();
+                            MessageBox.Show("Two objects can't have the same ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
                     }
                 }
 
@@ -1212,10 +1291,10 @@ namespace EcellLib.PathwayWindow
                     if (beforeDict.ContainsKey(key)) continue;
 
                     String[] sp = key.Split(new char[] {':'});
-                    if (key.EndsWith("System"))
+                    if (key.StartsWith("System"))
                     {
-                        String name = sp[0];
-                        sp = sp[0].Split(new char[] { '/' });
+                        String name = sp[1];
+                        sp = sp[1].Split(new char[] { '/' });
                         PPathwayObject p = system.ParentObject;
                         String newkey = m_selectedSystemName + "/" + sp[sp.Length - 1];
                         EcellObject obj = m_pathwayView.GetData(name, "System");
@@ -1228,14 +1307,14 @@ namespace EcellLib.PathwayWindow
                     }
                     else
                     {
-                        String data = sp[0] + ":" + sp[1];
-                        String newkey = m_selectedSystemName + ":" + sp[1];
-                        EcellObject obj = m_pathwayView.GetData(data, sp[2]);
+                        String data = sp[1] + ":" + sp[2];
+                        String newkey = m_selectedSystemName + ":" + sp[2];
+                        EcellObject obj = m_pathwayView.GetData(data, sp[0]);
                         if (obj == null) continue;
                         String prevkey = obj.key;
                         obj.key = newkey;
 
-                        if (key.EndsWith("Process"))
+                        if (key.StartsWith("Process"))
                         {
                             this.TransferNodeToByResize(m_selectedSystemName, m_processes[prevkey]);
                             m_processes[newkey].RefreshEdges();
@@ -1272,10 +1351,10 @@ namespace EcellLib.PathwayWindow
                     }
 
                     String[] sp = key.Split(new char[] {':'});
-                    if (key.EndsWith("System"))
+                    if (key.StartsWith("System"))
                     {
-                        String name = sp[0];
-                        sp = sp[0].Split(new char[] { '/' });
+                        String name = sp[1];
+                        sp = sp[1].Split(new char[] { '/' });
                         PPathwayObject p = system.ParentObject;
                         String newkey =  ((PEcellSystem)p).Element.Key + "/" + sp[sp.Length - 1];
                         EcellObject obj = m_pathwayView.GetData(name, "System");
@@ -1288,14 +1367,14 @@ namespace EcellLib.PathwayWindow
                     }
                     else
                     {
-                        String data = sp[0] + ":" + sp[1];
+                        String data = sp[1] + ":" + sp[2];
                         PPathwayObject p = system.ParentObject;
-                        String newkey = ((PEcellSystem)p).Element.Key + ":" + sp[1];
-                        EcellObject obj = m_pathwayView.GetData(data, sp[2]);
+                        String newkey = ((PEcellSystem)p).Element.Key + ":" + sp[2];
+                        EcellObject obj = m_pathwayView.GetData(data, sp[0]);
                         String prevkey = data;
                         obj.key = newkey;
 
-                        if (key.EndsWith("Process"))
+                        if (key.StartsWith("Process"))
                         {
                             this.TransferNodeToByResize(((PEcellSystem)p).Element.Key, m_processes[prevkey]);
                             m_processes[newkey].RefreshEdges();
