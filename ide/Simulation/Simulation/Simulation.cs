@@ -399,7 +399,16 @@ namespace EcellLib.Simulation
                 m_suspendSim.Enabled = false;
                 m_setupSim.Enabled = false;
             }
-            else if (type == Util.LOADED || type == Util.STEP)
+            else if (type == Util.LOADED)
+            {
+                m_runSim.Enabled = true;
+                m_stopSim.Enabled = false;
+                m_suspendSim.Enabled = false;
+                m_setupSim.Enabled = true;
+                m_text.Text = "0";
+                m_text.ForeColor = Color.Black;
+            }
+            else if (type == Util.STEP)
             {
                 m_runSim.Enabled = true;
                 m_stopSim.Enabled = false;
@@ -412,6 +421,8 @@ namespace EcellLib.Simulation
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = true;
                 m_setupSim.Enabled = true;
+                m_text.ForeColor = Color.Black;
+                m_text.BackColor = m_text.BackColor;
             }
             else if (type == Util.SUSPEND)
             {
@@ -419,6 +430,7 @@ namespace EcellLib.Simulation
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = false;
                 m_setupSim.Enabled = true;
+                m_text.ForeColor = Color.Gray;
             }
             else
             {
@@ -663,8 +675,6 @@ namespace EcellLib.Simulation
             PluginManager.GetPluginManager().ChangeStatus(Util.RUNNING);
             try
             {
-                m_text.ForeColor = Color.Black;
-                m_text.BackColor = m_text.BackColor;
                 m_dManager.SimulationStart(0.0, 0);
             }
             catch (Exception ex)
@@ -689,7 +699,6 @@ namespace EcellLib.Simulation
             PluginManager.GetPluginManager().ChangeStatus(Util.SUSPEND);
             try
             {
-                m_text.ForeColor = Color.Gray;
                 m_dManager.SimulationSuspend();
             }
             catch (Exception ex)
@@ -751,11 +760,7 @@ namespace EcellLib.Simulation
             PluginManager.GetPluginManager().ChangeStatus(Util.LOADED);
             try
             {
-                m_text.Text = "0";
-                m_text.ForeColor = Color.Black;
-                m_type = Util.LOADED;
                 m_dManager.SimulationStop();
-
             }
             catch (Exception ex)
             {
