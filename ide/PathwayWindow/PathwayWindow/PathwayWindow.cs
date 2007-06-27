@@ -105,6 +105,11 @@ namespace EcellLib.PathwayWindow
         private List<ILayoutAlgorithm> m_layoutList = new List<ILayoutAlgorithm>();
 
         /// <summary>
+        /// A list for menu of layout algorithm, which implement ILayoutAlgorithm.
+        /// </summary>
+        private List<ToolStripMenuItem> m_menuList = new List<ToolStripMenuItem>();
+
+        /// <summary>
         /// Index for a default layout algorithm in m_layoutList
         /// </summary>
         private int m_defLayoutIdx = -1;
@@ -678,6 +683,7 @@ namespace EcellLib.PathwayWindow
                 }
 
                 layoutMenu.DropDownItems.Add(eachLayoutItem);
+                m_menuList.Add(eachLayoutItem);
                 count += 1;
             }
 
@@ -784,6 +790,16 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">System status.</param>
         public void ChangeStatus(int type)
         {
+            bool isShow = false;
+            if (type == Util.LOADED)
+            {
+                isShow = true;
+            }
+
+            foreach (ToolStripMenuItem t in m_menuList)
+            {
+                t.Enabled = isShow;
+            }
         }
 
         /// <summary>
