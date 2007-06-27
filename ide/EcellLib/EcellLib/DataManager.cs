@@ -995,7 +995,7 @@ namespace EcellLib
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK)
                 {
-                    throw new Exception("Can't delete the object.");
+                    throw new IgnoreException("Can't delete the object.");
                 }
                 SimulationStop();
                 m_pManager.ChangeStatus(Util.LOADED);
@@ -1340,7 +1340,7 @@ namespace EcellLib
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK)
                 {
-                    throw new Exception("Can't delete the object.");                    
+                    throw new IgnoreException("Can't delete the object.");                    
                 }
                 SimulationStop();
                 m_pManager.ChangeStatus(Util.LOADED);
@@ -1665,7 +1665,7 @@ namespace EcellLib
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK)
                 {
-                    throw new Exception("Can't delete the object.");
+                    throw new IgnoreException("Can't delete the object.");
                 }
                 SimulationStop();
                 m_pManager.ChangeStatus(Util.LOADED);
