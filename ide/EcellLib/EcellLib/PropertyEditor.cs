@@ -230,7 +230,7 @@ namespace EcellLib
                     foreach (EcellData d in m_currentObj.M_value)
                         m_propDict.Add(d.M_name, d);
                 }
-                if (m_propName.StartsWith("Expression"))
+                if (m_propName != null && m_propName.StartsWith("Expression"))
                 {
                     tmpProcDict = DataManager.GetProcessProperty(m_currentObj.classname);
                 }
