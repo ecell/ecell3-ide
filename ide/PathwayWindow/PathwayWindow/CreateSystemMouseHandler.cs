@@ -284,16 +284,16 @@ namespace EcellLib.PathwayWindow
                 
                 foreach (PPathwayObject node in newlySelectedList)
                 {
-                    if (node.Parent is PLayer || (node.Parent is PEcellComposite && node.Parent.Parent is PLayer))
-                    {
-                        node.Parent.RemoveChild(node);
-                        m_set.AddNewObj(null, eo.key, node, true, false);
+                    //if (node.Parent is PLayer || (node.Parent is PEcellComposite && node.Parent.Parent is PLayer))
+                    //{
+                        //node.Parent.RemoveChild(node);
+                        //m_set.AddNewObj(null, eo.key, node, true, false);
+                        m_set.TransferNodeToByResize(eo.key, node);
                         //m_set.AddChildToSelectedSystem(eo.key, node, true);
-                    }
+                    //}
                 }
-                m_set.TransferSelectedTo(eo.key);
-
-
+                //m_set.TransferSelectedTo(eo.key);
+                
                 /*
                 m_editor = new PropertyEditor();
                 m_editor.SetParentObject(m_currentObj);
