@@ -2291,6 +2291,8 @@ namespace EcellLib.PathwayWindow
                         float systemY = 0f;
                         float systemW = 0f;
                         float systemH = 0f;
+                        float systemOffsetToLayerX = 0f;
+                        float systemOffsetToLayerY = 0f;
 
                         foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
                         {
@@ -2298,6 +2300,9 @@ namespace EcellLib.PathwayWindow
                             systemY = system.Y;
                             systemW = system.Width;
                             systemH = system.Height;
+                            PointF OffsetToLayer = system.OffsetToLayer;
+                            systemOffsetToLayerX = OffsetToLayer.X;
+                            systemOffsetToLayerY = OffsetToLayer.Y;
 
                             foreach (PPathwayObject ppo in system.ChildObjectList)
                             {
@@ -2348,8 +2353,8 @@ namespace EcellLib.PathwayWindow
                         }
 
                         // Set obj's coordinate
-                        obj.X = systemX + maxX + PathwayView.SYSTEM_SYSTEM_MARGIN;
-                        obj.Y = systemY + PathwayView.SYSTEM_SYSTEM_MARGIN;
+                        obj.X = systemX + systemOffsetToLayerX + maxX + PathwayView.SYSTEM_SYSTEM_MARGIN;
+                        obj.Y = systemY + systemOffsetToLayerY + PathwayView.SYSTEM_SYSTEM_MARGIN;
                     }
                 }
 
@@ -2360,14 +2365,16 @@ namespace EcellLib.PathwayWindow
                     {
                         obj.Layer = m_layers[layer];
                         PointF offsetToL = system.OffsetToLayer;
-                                                
+
+                        if (!isFirst)
+                        {
+                            obj.X -= offsetToL.X;
+                            obj.Y -= offsetToL.Y;
+                        }
+                        
                         if (obj is PPathwayNode)
                         {
-                            if (!isFirst)
-                            {
-                                obj.X -= offsetToL.X;
-                                obj.Y -= offsetToL.Y;
-                            }
+                            
 
                             ((PPathwayNode)obj).Element.X = obj.X;
                             ((PPathwayNode)obj).Element.Y = obj.Y;
