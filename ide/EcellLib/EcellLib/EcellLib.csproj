@@ -101,6 +101,7 @@
     <Compile Include="FormulatorWindow.designer.cs">
       <DependentUpon>FormulatorWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="IgnoreException.cs" />
     <Compile Include="PlubinBase.cs" />
     <Compile Include="PluginManager.cs">
     </Compile>
