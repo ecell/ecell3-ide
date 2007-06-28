@@ -149,15 +149,70 @@ namespace EcellLib.SearchWindow
         private void DgvCellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
-
+            List<EcellObject> list;
             string model = (string)dgv.Rows[index].Cells[1].Value;
             string id = (string)dgv.Rows[index].Cells[0].Value;
             string type = (string)dgv.Rows[index].Cells[2].Value;
 
-            m_pManager.SelectChanged(model, id, type);
-            this.Select();
+            if (id.Contains(":"))
+            { // not system
+                string[] keys = id.Split(new char[] { ':' });
+                list = m_dManager.GetData(model, keys[0]);
+                if (list == null || list.Count == 0)
+                {
+                    MessageBox.Show(
+                    "Can't find data in DataManager [" + model + "," + id + "]",
+                    "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                for (int i = 0; i < list.Count; i++)
+                {
+                    List<EcellObject> insList = list[i].M_instances;
+                    if (insList == null || insList.Count == 0) continue;
+                    for (int j = 0; j < insList.Count; j++)
+                    {
+                        if (insList[j].key == id && insList[j].type == type)
+                        {
+                            ShowPropEditWindow(insList[j]);
+                            return;
+                        }
+                    }
+                }
+            }
+            else
+            { // system
+                list = m_dManager.GetData(model, id);
+                if (list == null || list.Count == 0) return;
+                ShowPropEditWindow(list[0]);
+                return;
+            }
         }
 
+        /// <summary>
+        /// Show property window displayed the selected object.
+        /// </summary>
+        /// <param name="obj">the selected object</param>
+        public void ShowPropEditWindow(EcellObject obj)
+        {
+            PropertyEditor m_editor = new PropertyEditor();
+            try
+            {
+                m_editor.layoutPanel.SuspendLayout();
+                m_editor.SetCurrentObject(obj);
+                m_editor.SetDataType(obj.type);
+                m_editor.PEApplyButton.Click += new EventHandler(m_editor.UpdateProperty);
+                m_editor.LayoutPropertyEditor();
+                m_editor.layoutPanel.ResumeLayout(false);
+                m_editor.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fail to show property editor.\n\n" + ex,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                m_editor.Dispose();
+                return;
+            }
+        }
 
         /// <summary>
         /// the action of pressing key in idText.
@@ -181,6 +236,18 @@ namespace EcellLib.SearchWindow
         private void SearchCndShown(object sender, EventArgs e)
         {
             this.idText.Focus();
+        }
+
+        private void DgvCellClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            int index = e.RowIndex;
+
+            string model = (string)dgv.Rows[index].Cells[1].Value;
+            string id = (string)dgv.Rows[index].Cells[0].Value;
+            string type = (string)dgv.Rows[index].Cells[2].Value;
+
+            m_pManager.SelectChanged(model, id, type);
+            this.Select();
         }
     }
 }

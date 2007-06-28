@@ -94,6 +94,7 @@
             this.dgv.RowHeadersVisible = false;
             this.dgv.RowTemplate.Height = 21;
             this.dgv.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvCellDoubleClick);
+            this.dgv.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvCellClick);
             // 
             // ColumnId
             // 
