@@ -802,13 +802,24 @@ namespace EcellLib
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return null;
                         }
-                        else if (m_currentObj != null && Util.IsNGforFullID(c.Text))
+                        else if (m_currentObj != null)
                         {
-                            MessageBox.Show("Id contains invalid character.\n",
-                                            "WARNING", 
-                                            MessageBoxButtons.OK, 
-                                            MessageBoxIcon.Warning);
-                            return null;
+                            if (m_currentObj.type == "System" && Util.IsNGforSystemFullID(c.Text))
+                            {
+                                MessageBox.Show("Id contains invalid character.\n",
+                                                "WARNING",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Warning);
+                                return null;
+                            }
+                            if (m_currentObj.type != "System" && Util.IsNGforComponentFullID(c.Text))
+                            {
+                                MessageBox.Show("Id contains invalid character.\n",
+                                                "WARNING",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Warning);
+                                return null;
+                            }
                         }
 
                         if (!m_type.Equals("System"))
@@ -1264,7 +1275,13 @@ namespace EcellLib
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        else if (Util.IsNGforFullID(c.Text))
+                        else if (m_currentObj.type.Equals("System") && Util.IsNGforSystemFullID(c.Text))
+                        {
+                            MessageBox.Show("Id contains invalid character.\n",
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else if (!m_currentObj.type.Equals("System") && Util.IsNGforComponentFullID(c.Text))
                         {
                             MessageBox.Show("Id contains invalid character.\n",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);

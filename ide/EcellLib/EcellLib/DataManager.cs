@@ -986,7 +986,7 @@ namespace EcellLib
         /// Adds the list of "EcellObject".
         /// </summary>
         /// <param name="l_data">The list of "EcellObject"</param>
-        public void DataAdd(List<EcellObject> l_ecellObjectList)
+        public void DataAdd(List<EcellObject> l_ecellObjectList) 
         {
             if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
@@ -3847,6 +3847,7 @@ namespace EcellLib
                     bool isHit = false;
                     foreach (EcellObject obj in tmpList)
                     {
+                        if (obj.key == null) continue;
                         string[] ele = obj.key.Split(new char[] { '/' });
                         if (tmpID.Equals(ele[ele.Length - 1]))
                         {
@@ -3870,10 +3871,12 @@ namespace EcellLib
                 string tmpID = pref + i;
                 foreach (EcellObject obj1 in list)
                 {
+                    if (obj1.key == null) continue;
                     List<EcellObject> compList = obj1.M_instances;
                     if (compList == null) continue;
                     foreach (EcellObject obj2 in compList)
                     {
+                        if (obj2.key == null) continue;
                         string[] ele = obj2.key.Split(new char[] { ':' });
                         if (obj2.type.Equals(type) && tmpID.Equals(ele[ele.Length - 1]))
                         {
