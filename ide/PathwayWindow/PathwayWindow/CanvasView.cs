@@ -1018,13 +1018,20 @@ namespace EcellLib.PathwayWindow
             if(obj is PPathwayNode)
             {
                 PPathwayNode deleteNode = (PPathwayNode)obj;
-                if(deleteNode is PEcellVariable)
+                try
                 {
-                    m_pathwayView.NotifyDataDelete(deleteNode.Element.Key,ComponentType.Variable);
+                    if (deleteNode is PEcellVariable)
+                    {
+                        m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Variable);
+                    }
+                    else if (deleteNode is PEcellProcess)
+                    {
+                        m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Process);
+                    }
                 }
-                else if (deleteNode is PEcellProcess)
+                catch(IgnoreException)
                 {
-                    m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Process);
+                    return;
                 }
                 if (((PPathwayObject)obj).Parent != null)
                     ((PPathwayObject)obj).Parent.RemoveChild((PPathwayObject)obj);
@@ -1045,13 +1052,21 @@ namespace EcellLib.PathwayWindow
 
                 List<string> list = this.GetAllSystemUnder(deleteSystem.Element.Key);
 
+                try
+                {
+                    m_pathwayView.NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System);
+                }
+                catch (IgnoreException)
+                {
+                    return;
+                }
+
                 foreach(string under in list)
                 {
                     PText sysText = m_systems[under].Text;
                     sysText.Parent.RemoveChild(sysText);
                 }
-
-                m_pathwayView.NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System);
+                
                 if (((PPathwayObject)obj).IsHighLighted)
                 {
                     HideResizeHandles();
@@ -1389,20 +1404,8 @@ namespace EcellLib.PathwayWindow
                             obj.modelID, prevkey, obj.type, obj);
                     }
                 }
-                // not implment 
                 // Fire DataChanged for child in system.!
                 m_systemChildrenBeforeDrag = null;
-
-                // Refresh edges
-                /*
-                foreach(PNode node in beforeDict.Values) {
-                    if(node is PEcellVariable){
-                        ((PEcellVariable)node).ReconstructEdges();
-                    }else if(node is PEcellProcess){
-                        ((PEcellProcess)node).DeleteEdges();
-                        ((PEcellProcess)node).CreateEdges();
-                    }
-                }*/
             }
             m_systems[m_selectedSystemName].UpdateText();
             
@@ -2048,13 +2051,6 @@ namespace EcellLib.PathwayWindow
                 if (system.Layer == obj.Layer && system != obj)
                 {
                     PointF offset = system.OffsetToLayer;
-                    
-                    /*
-                    if(system != obj.ParentObject && !(obj.ParentObject is PEcellComposite))
-                    {
-                        obj.X += ((PEcellSystem)obj.ParentObject).OffsetToLayer.X;
-                        obj.Y += ((PEcellSystem)obj.ParentObject).OffsetToLayer.Y;                    
-                    }*/
                     
                     obj.X -= offset.X;
                     obj.Y -= offset.Y;
@@ -3807,10 +3803,6 @@ namespace EcellLib.PathwayWindow
                     foreach (PNode together in togetherList)
                     {
                         PPathwayNode ptogether = (PPathwayNode)together;
-                        //PointF canvasP =
-                        //    m_set.Systems[PathUtil.GetParentSystemId(ptogether.Element.Key)].EcellSystems[0].SystemPos2CanvasPos(new PointF(ptogether.X, ptogether.Y));                        
-                        //ptogether.X = canvasP.X;
-                       // ptogether.Y = canvasP.Y;
                         ReturnToSystem(ptogether,
                                        new PointF(ptogether.X, ptogether.Y),
                                        new PointF(ptogether.X + m_composite.OffsetX, ptogether.Y + m_composite.OffsetY));

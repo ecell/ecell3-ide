@@ -535,6 +535,9 @@ namespace EcellLib.PathwayWindow.Node
 
             EcellObject obj = m_set.View.GetData(Element.Key, "System");
 
+            if (null == obj)
+                return;
+
             PropertyEditor editor = new PropertyEditor();
             editor.layoutPanel.SuspendLayout();
             editor.SetCurrentObject(obj);

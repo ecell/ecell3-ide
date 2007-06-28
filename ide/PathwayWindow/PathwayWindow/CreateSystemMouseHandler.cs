@@ -291,17 +291,7 @@ namespace EcellLib.PathwayWindow
                         m_set.TransferNodeToByResize(eo.key, node);
                         //m_set.AddChildToSelectedSystem(eo.key, node, true);
                     //}
-                }
-                //m_set.TransferSelectedTo(eo.key);
-                
-                /*
-                m_editor = new PropertyEditor();
-                m_editor.SetParentObject(m_currentObj);
-                m_editor.button1.Click += new EventHandler(NewOkButton_Click);
-                m_editor.SetDataType("System");
-                m_editor.LayoutPropertyEditor();
-                m_editor.ShowDialog();
-                 */
+                }                
             }
             else
             {
