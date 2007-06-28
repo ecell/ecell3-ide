@@ -3142,6 +3142,7 @@ namespace EcellLib.PathwayWindow
                         PEcellVariable v = m_variables[key];
                         v.NotifyRemoveRelatedVariable();
                         v.Parent.RemoveChild(v);
+                        v.Reset();
                         m_variables.Remove(key);
                     }
                     else if (key.EndsWith("SIZE"))
@@ -3156,6 +3157,7 @@ namespace EcellLib.PathwayWindow
                         p.NotifyRemoveRelatedProcess();
                         p.DeleteEdges();
                         p.Parent.RemoveChild(p);
+                        p.Reset();
                         m_processes.Remove(key);
                     }
                     break;
