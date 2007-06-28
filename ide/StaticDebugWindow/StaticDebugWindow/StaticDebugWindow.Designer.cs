@@ -61,7 +61,7 @@ namespace StaticDebugWindow {
         }
         
         /// <summary>
-        ///   Static Debug に類似しているローカライズされた文字列を検索します。
+        ///   Static &amp;Debug... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemStaticDebug_Text {
             get {

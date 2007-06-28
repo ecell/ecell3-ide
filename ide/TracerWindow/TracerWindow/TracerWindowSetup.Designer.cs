@@ -1,5 +1,8 @@
 ﻿namespace EcellLib.TracerWindow
 {
+    /// <summary>
+    /// Form Class to setup the condition of tracer.
+    /// </summary>
     partial class TracerWindowSetup
     {
         /// <summary>
@@ -202,9 +205,25 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        /// <summary>
+        /// TextBox to set the number of plots.
+        /// </summary>
         public System.Windows.Forms.TextBox numberTextBox;
+        /// <summary>
+        /// TextBox to set the interval time between plot.
+        /// </summary>
         public System.Windows.Forms.TextBox intervalTextBox;
+        /// <summary>
+        /// TextBoxt to set the step count.
+        /// </summary>
+        public System.Windows.Forms.TextBox stepCountTextBox;
+        /// <summary>
+        /// Button to apply this condition.
+        /// </summary>
         public System.Windows.Forms.Button TSApplyButton;
+        /// <summary>
+        /// Button to close this window.
+        /// </summary>
         public System.Windows.Forms.Button TSCloseButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Label label7;
@@ -212,6 +231,5 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        public System.Windows.Forms.TextBox stepCountTextBox;
     }
 }

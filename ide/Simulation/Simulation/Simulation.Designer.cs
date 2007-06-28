@@ -103,7 +103,7 @@ namespace Simulation {
         }
         
         /// <summary>
-        ///   Run に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Run に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemRun_Text {
             get {
@@ -112,7 +112,7 @@ namespace Simulation {
         }
         
         /// <summary>
-        ///   Simulation に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Simulation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemSetupSim_Text {
             get {
@@ -121,7 +121,7 @@ namespace Simulation {
         }
         
         /// <summary>
-        ///   Reset に類似しているローカライズされた文字列を検索します。
+        ///   R&amp;eset に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemStop_Text {
             get {
@@ -130,7 +130,7 @@ namespace Simulation {
         }
         
         /// <summary>
-        ///   Suspend に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Suspend に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemSuspend_Text {
             get {

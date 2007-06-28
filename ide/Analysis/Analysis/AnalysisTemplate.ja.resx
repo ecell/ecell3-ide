@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ATExecuteButton.Text" xml:space="preserve">
-    <value>解析実行</value>
+    <value>解析実行(&amp;E)</value>
   </data>
   <data name="ATLoadButton.Text" xml:space="preserve">
-    <value>条件読み込み</value>
+    <value>条件読み込み(&amp;L)...</value>
   </data>
   <data name="ATSaveButton.Text" xml:space="preserve">
-    <value>条件保存</value>
+    <value>条件保存(&amp;S)...</value>
   </data>
   <data name="ATStopButton.Text" xml:space="preserve">
-    <value>解析リセット</value>
+    <value>解析リセット(&amp;T)</value>
   </data>
   <data name="ATViewButton.Text" xml:space="preserve">
-    <value>表示</value>
+    <value>表示(&amp;V)...</value>
   </data>
 </root>

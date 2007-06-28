@@ -214,7 +214,7 @@
     <value>3</value>
   </data>
   <data name="VRCloseButton.Text" xml:space="preserve">
-    <value>Close</value>
+    <value>Cancel</value>
   </data>
   <data name="&gt;&gt;VRCloseButton.Name" xml:space="preserve">
     <value>VRCloseButton</value>

@@ -61,7 +61,7 @@ namespace TracerWindow {
         }
         
         /// <summary>
-        ///   Show Tracer に類似しているローカライズされた文字列を検索します。
+        ///   Show &amp;Tracer... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowTrace_Text {
             get {
@@ -70,7 +70,7 @@ namespace TracerWindow {
         }
         
         /// <summary>
-        ///   Tracer Setup に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Tracer Setup... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowTraceSetup_Text {
             get {

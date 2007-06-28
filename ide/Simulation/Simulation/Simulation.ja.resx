@@ -118,15 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MenuItemRun.Text" xml:space="preserve">
-    <value>シミュレーション実行</value>
+    <value>シミュレーション実行(&amp;R)</value>
   </data>
   <data name="MenuItemSetupSim.Text" xml:space="preserve">
-    <value>シミュレーション条件設定</value>
+    <value>シミュレーション条件設定(&amp;S)...</value>
   </data>
   <data name="MenuItemStop.Text" xml:space="preserve">
-    <value>シミュレーションリセット</value>
+    <value>シミュレーションリセット(&amp;E)</value>
   </data>
   <data name="MenuItemSuspend.Text" xml:space="preserve">
-    <value>シミュレーション停止</value>
+    <value>シミュレーション停止(&amp;S)</value>
   </data>
 </root>

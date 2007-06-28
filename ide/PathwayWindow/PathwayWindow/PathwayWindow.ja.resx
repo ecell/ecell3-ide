@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MenuItemShowID.Text" xml:space="preserve">
-    <value>ID表示/非表示</value>
+    <value>ID表示/非表示(&amp;I)</value>
   </data>
 </root>

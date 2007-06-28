@@ -1030,7 +1030,7 @@
     <value>3, 3</value>
   </data>
   <data name="ATExecuteButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 25</value>
+    <value>104, 25</value>
   </data>
   <data name="ATExecuteButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1054,10 +1054,10 @@
     <value>Fill</value>
   </data>
   <data name="ATStopButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>93, 3</value>
+    <value>118, 3</value>
   </data>
   <data name="ATStopButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 25</value>
+    <value>104, 25</value>
   </data>
   <data name="ATStopButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1081,10 +1081,10 @@
     <value>Fill</value>
   </data>
   <data name="ATSaveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>183, 3</value>
+    <value>233, 3</value>
   </data>
   <data name="ATSaveButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 25</value>
+    <value>104, 25</value>
   </data>
   <data name="ATSaveButton.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1108,10 +1108,10 @@
     <value>Fill</value>
   </data>
   <data name="ATLoadButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>273, 3</value>
+    <value>348, 3</value>
   </data>
   <data name="ATLoadButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 25</value>
+    <value>104, 25</value>
   </data>
   <data name="ATLoadButton.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1159,7 +1159,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel6.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="ATExecuteButton" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ATStopButton" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="ATSaveButton" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="ATLoadButton" Row="0" RowSpan="1" Column="6" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,80,Absolute,10,Absolute,80,Absolute,10,Absolute,80,Absolute,10,Absolute,80,Percent,100" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="ATExecuteButton" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ATStopButton" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="ATSaveButton" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="ATLoadButton" Row="0" RowSpan="1" Column="6" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,110,Absolute,5,Absolute,110,Absolute,5,Absolute,110,Absolute,5,Absolute,110,Percent,100" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel8.ColumnCount" type="System.Int32, mscorlib">
     <value>3</value>

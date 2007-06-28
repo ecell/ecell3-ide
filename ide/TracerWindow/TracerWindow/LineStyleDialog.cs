@@ -38,6 +38,9 @@ using System.Windows.Forms;
 
 namespace EcellLib.TracerWindow
 {
+    /// <summary>
+    /// Form class to set the line style.
+    /// </summary>
     public partial class LineStyleDialog : Form
     {
         /// <summary>
@@ -94,6 +97,11 @@ namespace EcellLib.TracerWindow
             this.Close();
         }
 
+        /// <summary>
+        /// The event when this window is shown.
+        /// </summary>
+        /// <param name="sender">this window.</param>
+        /// <param name="e">EventArgs.</param>
         private void LineStyleShown(object sender, EventArgs e)
         {
             this.LSApplyButton.Focus();

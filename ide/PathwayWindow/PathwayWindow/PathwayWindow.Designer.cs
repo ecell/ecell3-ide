@@ -61,7 +61,7 @@ namespace PathwayWindow {
         }
         
         /// <summary>
-        ///   Show IDs(Pathway) に類似しているローカライズされた文字列を検索します。
+        ///   Show &amp;IDs(Pathway) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowID_Text {
             get {

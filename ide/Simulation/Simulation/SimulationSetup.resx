@@ -1687,7 +1687,7 @@
     <value>1</value>
   </data>
   <data name="SSCloseButton.Text" xml:space="preserve">
-    <value>Close</value>
+    <value>Cancel</value>
   </data>
   <data name="&gt;&gt;SSCloseButton.Name" xml:space="preserve">
     <value>SSCloseButton</value>

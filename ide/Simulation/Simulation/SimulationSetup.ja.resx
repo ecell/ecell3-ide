@@ -121,10 +121,10 @@
     <value>OK</value>
   </data>
   <data name="SSCloseButton.Text" xml:space="preserve">
-    <value>閉じる</value>
+    <value>キャンセル</value>
   </data>
   <data name="SSCreateButton.Text" xml:space="preserve">
-    <value>作成(&amp;N)</value>
+    <value>作成(&amp;N)...</value>
   </data>
   <data name="SSDeleteButton.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>

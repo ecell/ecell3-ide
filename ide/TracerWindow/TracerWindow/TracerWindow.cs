@@ -40,6 +40,9 @@ using System.Reflection;
 
 namespace EcellLib.TracerWindow
 {
+    /// <summary>
+    /// Plugin Class of TracerWindow.
+    /// </summary>
     public class TracerWindow : PluginBase
     {
         #region Fields
@@ -208,7 +211,7 @@ namespace EcellLib.TracerWindow
         /// <summary>
         /// Invoke method to add the data to DataGridView.
         /// </summary>
-        /// <param name="r">tag data</param>
+        /// <param name="tag">tag data</param>
         void AddToEntry(TagData tag)
         {
             TagData tmp = tag;

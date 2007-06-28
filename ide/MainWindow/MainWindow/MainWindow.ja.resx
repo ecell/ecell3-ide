@@ -426,9 +426,9 @@
 </value>
   </data>
   <data name="ShowVersionMenuItem.Text" xml:space="preserve">
-    <value>アドオン</value>
+    <value>アドオン(&amp;A)...</value>
   </data>
   <data name="modelEditorToolStripMenuItem.Text" xml:space="preserve">
-    <value>作業ディレクトリ</value>
+    <value>作業ディレクトリ(&amp;W)...</value>
   </data>
 </root>

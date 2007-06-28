@@ -177,8 +177,8 @@ namespace EcellLib.TracerWindow
         public System.Windows.Forms.RadioButton dashDotRadioButton;
         public System.Windows.Forms.RadioButton dotRadioButton;
         public System.Windows.Forms.RadioButton dashDotDotRadioButton;
-        public System.Windows.Forms.Button LSApplyButton;
-        public System.Windows.Forms.Button LSCloseButton;
+        private System.Windows.Forms.Button LSApplyButton;
+        private System.Windows.Forms.Button LSCloseButton;
 
 
     }

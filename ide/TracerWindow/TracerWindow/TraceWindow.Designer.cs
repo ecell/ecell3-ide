@@ -267,16 +267,37 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         public System.Windows.Forms.Button searchDirButton;
         private System.Windows.Forms.TextBox dirTextBox;
+        /// <summary>
+        /// FolderBrowseDialog to set the output directory.
+        /// </summary>
         public System.Windows.Forms.FolderBrowserDialog m_folderDialog;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        /// <summary>
+        /// ComboBox to set the file type of logger.
+        /// </summary>
         public System.Windows.Forms.ComboBox saveTypeCombo;
         private System.Windows.Forms.Label label4;
+        /// <summary>
+        /// TextBox to set start time to save the logger.
+        /// </summary>
         public System.Windows.Forms.TextBox startText;
+        /// <summary>
+        /// TextBox to set end time to save the logger.
+        /// </summary>
         public System.Windows.Forms.TextBox endText;
+        /// <summary>
+        /// Button to save the logger.
+        /// </summary>
         public System.Windows.Forms.Button TWSaveButton;
+        /// <summary>
+        /// Button to close this window.
+        /// </summary>
         public System.Windows.Forms.Button TWCloseButton;
+        /// <summary>
+        /// ColorDialog to set line color.
+        /// </summary>
         public System.Windows.Forms.ColorDialog m_colorDialog;
         private System.Windows.Forms.DataGridViewCheckBoxColumn view;
         private System.Windows.Forms.DataGridViewImageColumn color;

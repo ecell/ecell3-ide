@@ -61,7 +61,7 @@ namespace Analysis {
         }
         
         /// <summary>
-        ///   Analysis に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Analysis... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemAnalysis_Text {
             get {

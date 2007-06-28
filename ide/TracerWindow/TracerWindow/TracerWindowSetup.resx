@@ -406,7 +406,7 @@
     <value>1</value>
   </data>
   <data name="TSCloseButton.Text" xml:space="preserve">
-    <value>Close</value>
+    <value>Cancel</value>
   </data>
   <data name="&gt;&gt;TSCloseButton.Name" xml:space="preserve">
     <value>TSCloseButton</value>

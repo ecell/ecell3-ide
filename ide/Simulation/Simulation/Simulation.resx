@@ -137,16 +137,16 @@
     <value>Resources\media_stop_red.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MenuItemRun.Text" xml:space="preserve">
-    <value>Run</value>
+    <value>&amp;Run</value>
   </data>
   <data name="MenuItemSetupSim.Text" xml:space="preserve">
-    <value>Simulation</value>
+    <value>&amp;Simulation</value>
   </data>
   <data name="MenuItemStop.Text" xml:space="preserve">
-    <value>Reset</value>
+    <value>R&amp;eset</value>
   </data>
   <data name="MenuItemSuspend.Text" xml:space="preserve">
-    <value>Suspend</value>
+    <value>&amp;Suspend</value>
   </data>
   <data name="red1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\red1.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

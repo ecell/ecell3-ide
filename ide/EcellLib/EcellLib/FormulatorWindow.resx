@@ -166,7 +166,7 @@
     <value>1</value>
   </data>
   <data name="FCloseButton.Text" xml:space="preserve">
-    <value>Close</value>
+    <value>Cancel</value>
   </data>
   <data name="&gt;&gt;FCloseButton.Name" xml:space="preserve">
     <value>FCloseButton</value>

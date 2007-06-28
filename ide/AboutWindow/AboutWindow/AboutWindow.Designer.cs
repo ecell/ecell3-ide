@@ -61,7 +61,7 @@ namespace AboutWindow {
         }
         
         /// <summary>
-        ///   About IDE に類似しているローカライズされた文字列を検索します。
+        ///   About &amp;IDE に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemAboutPlatform_Text {
             get {

@@ -330,9 +330,9 @@
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="menustrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="menustrip.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
-  </metadata>
+  </data>
   <data name="newProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 22</value>
   </data>
@@ -436,7 +436,7 @@
     <value>161, 22</value>
   </data>
   <data name="modelEditorToolStripMenuItem.Text" xml:space="preserve">
-    <value>Working Directory</value>
+    <value>&amp;Working Directory...</value>
   </data>
   <data name="MenuItemSetup.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 20</value>
@@ -478,7 +478,7 @@
     <value>108, 22</value>
   </data>
   <data name="ShowVersionMenuItem.Text" xml:space="preserve">
-    <value>Add-on</value>
+    <value>&amp;Add-on...</value>
   </data>
   <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 20</value>
@@ -510,9 +510,9 @@
   <data name="&gt;&gt;menustrip.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <metadata name="toolstrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="toolstrip.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>0, 24</value>
-  </metadata>
+  </data>
   <data name="toolstrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 24</value>
   </data>
@@ -537,27 +537,27 @@
   <data name="&gt;&gt;toolstrip.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>221, 17</value>
-  </metadata>
+  </data>
   <data name="openFileDialog.Filter" xml:space="preserve">
     <value>model file(*.sbml)|*.sbml</value>
   </data>
-  <metadata name="saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>347, 17</value>
-  </metadata>
-  <metadata name="openScriptDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  </data>
+  <data name="openScriptDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>472, 17</value>
-  </metadata>
+  </data>
   <data name="openScriptDialog.Filter" xml:space="preserve">
     <value>script file(*.ess)|*.ess|all(*.*)|*.*</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
     <value>82</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
