@@ -1909,7 +1909,8 @@ namespace EcellLib
             {
                 foreach (EcellObject obj in m_systemDic[m_currentProjectID][l_model])
                 {
-                    if (obj.modelID == l_model && obj.key.StartsWith(l_key)) l_delList.Add(obj);
+                    if (obj.modelID == l_model && obj.key.StartsWith(l_key) &&
+                        (obj.key.Length == l_key.Length || obj.key[l_key.Length] == '/')) l_delList.Add(obj);
                 }
             }
             foreach (EcellObject l_obj in l_delList)
