@@ -1115,7 +1115,7 @@ namespace EcellLib.PathwayWindow
             // Delete variables.
             List<string> deleteList = new List<string>();
             foreach(string delete in m_keyVarCanvasDict.Keys)
-                if(delete.StartsWith(system))
+                if(delete.StartsWith(system + "/"))
                     deleteList.Add(delete);
             foreach(string delete in deleteList)
                 m_keyVarCanvasDict.Remove(delete);
@@ -1123,7 +1123,7 @@ namespace EcellLib.PathwayWindow
             // Delete processes.
             deleteList = new List<string>();
             foreach(string delete in m_keyProCanvasDict.Keys)
-                if (delete.StartsWith(system))
+                if (delete.StartsWith(system + "/"))
                     deleteList.Add(delete);
             foreach(string delete in deleteList)
                 m_keyProCanvasDict.Remove(delete);
@@ -1131,7 +1131,7 @@ namespace EcellLib.PathwayWindow
             // Delete systems.
             deleteList = new List<string>();
             foreach (string delete in m_keySysCanvasDict.Keys)
-                if (delete.StartsWith(system))
+                if (delete.StartsWith(system + "/"))
                     deleteList.Add(delete);
             foreach (string delete in deleteList)
                 m_keySysCanvasDict.Remove(delete);

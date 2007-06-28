@@ -600,8 +600,15 @@ namespace EcellLib.PathwayWindow
                     data.M_value = EcellValue.ToVariableReferenceList( refStr );
                 }
             }
-            
-            dm.DataChanged(m_modelId, proKey, PathwayView.PROCESS_STRING, toBeChanged);
+
+            try
+            {
+                dm.DataChanged(m_modelId, proKey, PathwayView.PROCESS_STRING, toBeChanged);
+            }
+            catch(IgnoreException)
+            {
+                return;
+            }
         }
 
         /// <summary>

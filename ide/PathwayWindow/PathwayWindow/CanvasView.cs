@@ -3120,7 +3120,7 @@ namespace EcellLib.PathwayWindow
                     List<string> deleteList = new List<string>();
                     foreach(KeyValuePair<string, SystemContainer> pair in m_systems)
                     {
-                        if (pair.Key.StartsWith(key))
+                        if (pair.Key.Equals(key) || pair.Key.Equals(key + "/"))
                         {
                             PText idTxt = pair.Value.Text;
                             idTxt.Parent.RemoveChild(idTxt);
