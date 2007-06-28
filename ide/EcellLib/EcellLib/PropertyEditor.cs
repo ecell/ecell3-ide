@@ -1421,6 +1421,7 @@ namespace EcellLib
                         data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
                         data.M_isGettable = m_propDict[data.M_name].M_isGettable;
                         data.M_isLogable = m_propDict[data.M_name].M_isLogable;
+                        data.M_isLogger = m_propDict[data.M_name].M_isLogger;
                         list.Add(data);
                     }
                     else
@@ -1467,6 +1468,19 @@ namespace EcellLib
                         data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
                         data.M_isGettable = m_propDict[data.M_name].M_isGettable;
                         data.M_isLogable = m_propDict[data.M_name].M_isLogable;
+                        if (m_propDict[data.M_name].M_isLogger != isLogger)
+                        {
+                            PluginManager pManager = PluginManager.GetPluginManager();
+                            if (m_propDict[data.M_name].M_isLogger)
+                            {
+                                // nothing
+                            }
+                            else
+                            {
+                                pManager.LoggerAdd(modelID, type, key,
+                                    m_propDict[data.M_name].M_entityPath);
+                            }
+                        }
                         data.M_isLogger = isLogger;
 
                         list.Add(data);
