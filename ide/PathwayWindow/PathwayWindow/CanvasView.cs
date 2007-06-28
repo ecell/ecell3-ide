@@ -2912,7 +2912,7 @@ namespace EcellLib.PathwayWindow
             List<string> returnList = new List<string>();
             foreach(string key in m_systems.Keys)
             {
-                if (key.StartsWith(systemKey) && !key.Equals(systemKey))
+                if (key.StartsWith(systemKey + "/") && !key.Equals(systemKey))
                     returnList.Add(key);
             }
             return returnList;
