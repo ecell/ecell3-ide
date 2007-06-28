@@ -1370,6 +1370,8 @@ namespace EcellLib
                                 List<EcellObject> rList = new List<EcellObject>();
                                 rList.Add(obj);
                                 m_dManager.DataAdd(rList);
+                                if (m_currentObj.M_instances == null)
+                                    m_currentObj.M_instances = new List<EcellObject>();
                                 m_currentObj.M_instances.Add(obj);
                                 sizeData = Convert.ToDouble(c.Text);
                             }
