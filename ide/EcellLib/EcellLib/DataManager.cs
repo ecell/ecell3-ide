@@ -1336,12 +1336,17 @@ namespace EcellLib
             if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
             {
+
+                /*
                 DialogResult r = MessageBox.Show("Simulation is running. Would you reset the simulation?",
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK)
                 {
-                    throw new IgnoreException("Can't delete the object.");                    
+                    throw new IgnoreException("Can't change the object.");                    
                 }
+                 */
+                MessageBox.Show("Can't change the properties of object while simulation.\nSimulation is stopped!",
+                    "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 SimulationStop();
                 m_pManager.ChangeStatus(Util.LOADED);
             }
