@@ -3065,6 +3065,7 @@ namespace EcellLib.PathwayWindow
                     m_variables.Remove(key);
                     var.Element.Key = data.key;
                     var.Name = PathUtil.RemovePath(data.key);
+                    var.RefreshText();
                     m_variables.Add(data.key, var);
                     var.ReconstructEdges();
                     break;
@@ -3089,6 +3090,7 @@ namespace EcellLib.PathwayWindow
                     m_processes.Remove(key);
                     pro.Element.Key = data.key;
                     pro.Name = PathUtil.RemovePath(data.key);
+                    pro.RefreshText();
                     m_processes.Add(data.key, pro);
                     break;
             }
