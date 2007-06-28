@@ -42,7 +42,7 @@ namespace GridLayout
         /// <summary>
         /// margin for a system. a node can't be put within this length from system's bound
         /// </summary>
-        private static float m_systemMargin = 70;
+        private static float m_defSystemMargin = 70;
 
         /// <summary>
         /// initial temperature (for simulated annealing)
@@ -56,7 +56,7 @@ namespace GridLayout
         /// </summary>
         private static int m_kmax = 250;
 
-        private static float m_gridDistance = 60;
+        private static float m_defGridDistance = 60;
         #endregion
 
         #region inherited from ILayoutAlgorithm
@@ -337,33 +337,69 @@ namespace GridLayout
         private void DoNodeLayout(SystemElement sysElement, List<SystemElement> childSystems, List<NodeElement> nodeElements, ProgressDialog dialog)
         {
             int[,] relationMatrix = CreateRelationMatrix(nodeElements);
-            
+
             // For convenience, simulated annealing procedure will be calculated using
-            // virtual grid coordinate system  (0 <= x <= maxX, 0 <= y <= maxY)
-            int maxX = (int)((sysElement.X + sysElement.Width - m_systemMargin)/ m_gridDistance)
-                       - (int)((sysElement.X + m_systemMargin)/ m_gridDistance) - 1;
-            int maxY = (int)((sysElement.Y + sysElement.Height - m_systemMargin) / m_gridDistance)
-                       - (int)((sysElement.Y + m_systemMargin)/ m_gridDistance) - 1;
-
-            bool[,] positionMatrix = new bool[maxX + 1, maxY + 1];
-
-            // Initialize position matrix
-            for (int i = 0; i < maxX + 1; i++)
-                for (int j = 0; j < maxY + 1; j++)
-                    positionMatrix[i, j] = false;
-
-            foreach (SystemElement childElement in childSystems)
+            // virtual grid coordinate system :positionMatrix[x,y] (0 <= x <= maxX, 0 <= y <= maxY)
+            // gridDistance means physical distance in Piccolo between neighboring two nodes in grid coordinate system
+            // An initial value of gridDistance is m_defGridDistance. gridDistance will be decreased until numbers of
+            // position on grid coorindate system become sufficient to contain all nodes.
+            bool[,] positionMatrix = new bool[1,1];
+            float gridDistance = m_defGridDistance;
+            float systemMargin = m_defSystemMargin;
+            bool posUnsettled = true;
+            int maxX = 0;
+            int maxY = 0;
+            while (posUnsettled)
             {
-                int leftX = (int)((childElement.X + childElement.OffsetX) / m_gridDistance) - (int)((sysElement.X) / m_gridDistance) - 1;
-                int rightX = (int)((childElement.X + childElement.OffsetX + childElement.Width) / m_gridDistance) - (int)((sysElement.X) / m_gridDistance) - 1;
-                int upperY = (int)((childElement.Y + childElement.OffsetY) / m_gridDistance) - (int)((sysElement.Y) / m_gridDistance) - 1;
-                int lowerY = (int)((childElement.Y + childElement.OffsetY + childElement.Height) / m_gridDistance) - (int)((sysElement.Y) / m_gridDistance) - 1;
-                for (int i = leftX; i < rightX; i++)
-                    for (int j = upperY; j < lowerY; j++)
-                    {
-                        if(0 <= i && i <= maxX && 0 <= j && j <= maxY)
-                            positionMatrix[i, j] = true;
-                    }
+                maxX = (int)((sysElement.X + sysElement.Width - systemMargin) / gridDistance)
+                           - (int)((sysElement.X + systemMargin) / gridDistance) - 1;
+                maxY = (int)((sysElement.Y + sysElement.Height - systemMargin) / gridDistance)
+                           - (int)((sysElement.Y + systemMargin) / gridDistance) - 1;
+
+                if (maxX < 0 || maxY < 0)
+                {
+                    gridDistance = gridDistance / 2f;
+                    systemMargin = systemMargin / 2f;
+                    continue;
+                }
+
+                positionMatrix = new bool[maxX + 1, maxY + 1];
+
+                // Initialize position matrix
+                for (int i = 0; i < maxX + 1; i++)
+                    for (int j = 0; j < maxY + 1; j++)
+                        positionMatrix[i, j] = false;
+
+                foreach (SystemElement childElement in childSystems)
+                {
+                    int leftX = (int)((childElement.X + childElement.OffsetX) / gridDistance) - (int)((sysElement.X) / gridDistance) - 1;
+                    int rightX = (int)((childElement.X + childElement.OffsetX + childElement.Width) / gridDistance) - (int)((sysElement.X) / gridDistance) - 1;
+                    int upperY = (int)((childElement.Y + childElement.OffsetY) / gridDistance) - (int)((sysElement.Y) / gridDistance) - 1;
+                    int lowerY = (int)((childElement.Y + childElement.OffsetY + childElement.Height) / gridDistance) - (int)((sysElement.Y) / gridDistance) - 1;
+                    for (int i = leftX; i < rightX; i++)
+                        for (int j = upperY; j < lowerY; j++)
+                        {
+                            if (0 <= i && i <= maxX && 0 <= j && j <= maxY)
+                                positionMatrix[i, j] = true;
+                        }
+                }
+
+                // Count the number of vacant points
+                int numOfVacantPoint = 0;
+
+                for (int i = 0; i < maxX + 1; i++)
+                    for (int j = 0; j < maxY + 1; j++)
+                        if (positionMatrix[i, j] == false)
+                            numOfVacantPoint++;
+
+                // Check if there is enough space for nodes
+                if (nodeElements.Count * 2 < numOfVacantPoint)
+                    posUnsettled = false;
+                else
+                {
+                    gridDistance = gridDistance / 2f;
+                    systemMargin = systemMargin / 2f;
+                }
             }
 
             // Layout nodes randomly in the system
@@ -395,13 +431,13 @@ namespace GridLayout
             }
 
             // Transform coordinate system from virtual grid coordinate to piccolo coordinate
-            float baseX = ((int)((sysElement.X + m_systemMargin) / m_gridDistance) + 1) * m_gridDistance;
-            float baseY = ((int)((sysElement.Y + m_systemMargin) / m_gridDistance) + 1) * m_gridDistance;
+            float baseX = ((int)((sysElement.X + systemMargin) / gridDistance) + 1) * gridDistance;
+            float baseY = ((int)((sysElement.Y + systemMargin) / gridDistance) + 1) * gridDistance;
             
             foreach(NodeElement nodeEle in nodeElements)
             {
-                nodeEle.X = nodeEle.X * m_gridDistance + baseX;
-                nodeEle.Y = nodeEle.Y * m_gridDistance + baseY;
+                nodeEle.X = nodeEle.X * gridDistance + baseX;
+                nodeEle.Y = nodeEle.Y * gridDistance + baseY;
             }
         }
 
