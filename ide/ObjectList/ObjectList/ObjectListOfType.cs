@@ -153,7 +153,9 @@ namespace EcellLib.ObjectList
 //                        if (list1[j]["key"].ToString().StartsWith(key))
                         if (list1[j]["key"].ToString().Equals(key) ||
                             (list1[j]["key"].ToString().StartsWith(key) &&
-                            list1[j]["key"].ToString()[key.Length] == '/'))
+                            list1[j]["key"].ToString()[key.Length] == '/') ||
+                            (list1[j]["key"].ToString().StartsWith(key) &&
+                            list1[j]["key"].ToString()[key.Length] == ':'))
                         {
                             ds.Tables[i].Rows.Remove(list1[j]);
                         }
