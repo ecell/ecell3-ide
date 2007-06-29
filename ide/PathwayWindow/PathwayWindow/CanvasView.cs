@@ -1013,75 +1013,92 @@ namespace EcellLib.PathwayWindow
             if (result == DialogResult.Cancel)
                 return;
 
-            //PPathwayObject obj = (PPathwayObject)m_nodeMenu.Tag;
+            /* 20070629 delete by sachiboo. 
+                        //PPathwayObject obj = (PPathwayObject)m_nodeMenu.Tag;
+                        Object obj = ((ToolStripItem)sender).Tag;
+            */
+
+
+            if (this.SelectedNodes != null)
+            {
+                List<PPathwayNode> slist = new List<PPathwayNode>();
+                foreach (PPathwayNode t in this.SelectedNodes)
+                {
+                    slist.Add(t);
+                }
+
+                foreach (PPathwayNode obj1 in slist)
+                {
+                    if (obj1 is PPathwayNode)
+                    {
+                        PPathwayNode deleteNode = (PPathwayNode)obj1;
+                        try
+                        {
+                            if (deleteNode is PEcellVariable)
+                            {
+                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Variable);
+                            }
+                            else if (deleteNode is PEcellProcess)
+                            {
+                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Process);
+                            }
+                        }
+                        catch (IgnoreException)
+                        {
+                            return;
+                        }
+                        if (((PPathwayObject)obj1).Parent != null)
+                            ((PPathwayObject)obj1).Parent.RemoveChild((PPathwayObject)obj1);
+                    }
+                }
+            }
             Object obj = ((ToolStripItem)sender).Tag;
-            if(obj is PPathwayNode)
-            {
-                PPathwayNode deleteNode = (PPathwayNode)obj;
-                try
+            if (obj is PEcellSystem)
                 {
-                    if (deleteNode is PEcellVariable)
+                    PEcellSystem deleteSystem = (PEcellSystem)obj;
+                    if (string.IsNullOrEmpty(deleteSystem.Name))
+                        return;
+                    if (deleteSystem.Name.Equals("/"))
                     {
-                        m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Variable);
+                        MessageBox.Show("You can't delete the root system",
+                                        "Error",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Error);
+                        return;
                     }
-                    else if (deleteNode is PEcellProcess)
+
+                    List<string> list = this.GetAllSystemUnder(deleteSystem.Element.Key);
+
+                    try
                     {
-                        m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Process);
+                        m_pathwayView.NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System);
+                    }
+                    catch (IgnoreException)
+                    {
+                        return;
+                    }
+
+                    foreach (string under in list)
+                    {
+                        PText sysText = m_systems[under].Text;
+                        sysText.Parent.RemoveChild(sysText);
+                    }
+
+                    if (((PPathwayObject)obj).IsHighLighted)
+                    {
+                        HideResizeHandles();
+                        m_selectedSystemName = null;
                     }
                 }
-                catch(IgnoreException)
+                else if (obj is Line)
                 {
-                    return;
+                    m_pathwayView.NotifyVariableReferenceChanged(
+                        ((Line)obj).Info.ProcessKey,
+                        ((Line)obj).Info.VariableKey,
+                        RefChangeType.Delete,
+                        0);
+                    ResetSelectedLine();
                 }
-                if (((PPathwayObject)obj).Parent != null)
-                    ((PPathwayObject)obj).Parent.RemoveChild((PPathwayObject)obj);
-            }
-            else if(obj is PEcellSystem)
-            {
-                PEcellSystem deleteSystem = (PEcellSystem)obj;
-                if (string.IsNullOrEmpty(deleteSystem.Name))
-                    return;
-                if(deleteSystem.Name.Equals("/"))
-                {
-                    MessageBox.Show("You can't delete the root system",
-                                    "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
-                    return;
-                }
-
-                List<string> list = this.GetAllSystemUnder(deleteSystem.Element.Key);
-
-                try
-                {
-                    m_pathwayView.NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System);
-                }
-                catch (IgnoreException)
-                {
-                    return;
-                }
-
-                foreach(string under in list)
-                {
-                    PText sysText = m_systems[under].Text;
-                    sysText.Parent.RemoveChild(sysText);
-                }
-                
-                if (((PPathwayObject)obj).IsHighLighted)
-                {
-                    HideResizeHandles();
-                    m_selectedSystemName = null;
-                }
-            }
-            else if(obj is Line)
-            {
-                m_pathwayView.NotifyVariableReferenceChanged(
-                    ((Line)obj).Info.ProcessKey,
-                    ((Line)obj).Info.VariableKey,
-                    RefChangeType.Delete,
-                    0);
-                ResetSelectedLine();
-            }
             ((ToolStripMenuItem)sender).Tag = null;
         }
 
