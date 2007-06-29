@@ -156,6 +156,8 @@ namespace EcellLib
         /// </summary>
         private Dictionary<string, string> m_loadDirList;
 
+        private string m_loadingProject = null;
+        private string m_dmDir = "";
         private int m_processNumbering = 0;
         private int m_systemNumbering = 0;
         private int m_variableNumbering = 0;
@@ -3986,7 +3988,8 @@ namespace EcellLib
         {
             try
             {
-                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(Util.GetDMDir());
+//                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(Util.GetDMDir());
+                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(m_dmDir);
                 //
                 // Loads steppers on the simulator.
                 //
@@ -4364,7 +4367,12 @@ namespace EcellLib
                 string l_modelID = null;
                 List<EcellObject> l_ecellObjectList = new List<EcellObject>();
                 // WrappedSimulator l_simulator = new WrappedSimulator();
-                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(Util.GetDMDir());
+                m_dmDir = Util.GetDMDir();
+                if (m_loadingProject != null && Util.GetProjectDMDir(m_loadingProject) != null)
+                {
+                    m_dmDir = m_dmDir + ";" + Util.GetProjectDMDir(m_currentProjectID);
+                }
+                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(m_dmDir);
                 l_eml.Parse(l_fileName, this.m_simulatorDic[this.m_currentProjectID], l_ecellObjectList, ref l_modelID);
                 //
                 // Checks the old model ID
@@ -4500,6 +4508,7 @@ namespace EcellLib
             string l_message = null;
             try
             {
+                m_loadingProject = l_prjID;
                 l_message = "[" + l_prjID + "]";
                 //
                 // Initializes
@@ -4527,6 +4536,10 @@ namespace EcellLib
                     if (!Path.GetFileName(l_dir).Equals(l_prjID))
                     {
                         continue;
+                    }
+                    if (Directory.Exists(l_dir + "\\dm"))
+                    {
+
                     }
                     string l_prjFile = l_dir + Util.s_delimiterPath + Util.s_fileProject;
                     StreamReader l_reader = null;
@@ -4664,6 +4677,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
+                m_loadingProject = null;
                 l_passList = null;
                 if (this.m_simulatorDic.ContainsKey(l_prjID))
                 {
@@ -4714,6 +4728,7 @@ namespace EcellLib
                     this.m_pManager.DataAdd(l_passList);
                 }
                 m_aManager.AddAction(new LoadProjectAction(l_prjID));
+                m_loadingProject = null;
             }
         }
 

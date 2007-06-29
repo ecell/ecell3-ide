@@ -29,6 +29,7 @@
 //
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using System.Security.AccessControl;
@@ -133,6 +134,16 @@ namespace EcellLib
         static public string GetBaseDir()
         {
             return GetRegistryValue(s_registryBaseDirKey);
+        }
+
+        static public string GetProjectDMDir(string prjID)
+        {
+            string baseDir = GetBaseDir();
+            if (Directory.Exists(baseDir + "\\" + prjID + "\\dm"))
+            {
+                return baseDir + "\\" + prjID + "\\dm";
+            }
+            return null;
         }
 
         static public string GetDMDir()
