@@ -55,22 +55,22 @@
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.freqByStepRadio = new System.Windows.Forms.RadioButton();
+            this.freqBySecRadio = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.freqByStepTextBox = new System.Windows.Forms.TextBox();
+            this.freqBySecTextBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.exceptionRadio = new System.Windows.Forms.RadioButton();
+            this.overrideRadio = new System.Windows.Forms.RadioButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
+            this.noLimitRadio = new System.Windows.Forms.RadioButton();
+            this.maxSizeRadio = new System.Windows.Forms.RadioButton();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.maxKbTextBox = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
@@ -307,27 +307,27 @@
             // tableLayoutPanel8
             // 
             resources.ApplyResources(this.tableLayoutPanel8, "tableLayoutPanel8");
-            this.tableLayoutPanel8.Controls.Add(this.radioButton1, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this.radioButton2, 0, 1);
+            this.tableLayoutPanel8.Controls.Add(this.freqByStepRadio, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this.freqBySecRadio, 0, 1);
             this.tableLayoutPanel8.Controls.Add(this.label3, 2, 0);
             this.tableLayoutPanel8.Controls.Add(this.label4, 2, 1);
-            this.tableLayoutPanel8.Controls.Add(this.textBox1, 1, 0);
-            this.tableLayoutPanel8.Controls.Add(this.textBox2, 1, 1);
+            this.tableLayoutPanel8.Controls.Add(this.freqByStepTextBox, 1, 0);
+            this.tableLayoutPanel8.Controls.Add(this.freqBySecTextBox, 1, 1);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             // 
-            // radioButton1
+            // freqByStepRadio
             // 
-            resources.ApplyResources(this.radioButton1, "radioButton1");
-            this.radioButton1.Checked = true;
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.TabStop = true;
-            this.radioButton1.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.freqByStepRadio, "freqByStepRadio");
+            this.freqByStepRadio.Checked = true;
+            this.freqByStepRadio.Name = "freqByStepRadio";
+            this.freqByStepRadio.TabStop = true;
+            this.freqByStepRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // freqBySecRadio
             // 
-            resources.ApplyResources(this.radioButton2, "radioButton2");
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.freqBySecRadio, "freqBySecRadio");
+            this.freqBySecRadio.Name = "freqBySecRadio";
+            this.freqBySecRadio.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -339,15 +339,15 @@
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
             // 
-            // textBox1
+            // freqByStepTextBox
             // 
-            resources.ApplyResources(this.textBox1, "textBox1");
-            this.textBox1.Name = "textBox1";
+            resources.ApplyResources(this.freqByStepTextBox, "freqByStepTextBox");
+            this.freqByStepTextBox.Name = "freqByStepTextBox";
             // 
-            // textBox2
+            // freqBySecTextBox
             // 
-            resources.ApplyResources(this.textBox2, "textBox2");
-            this.textBox2.Name = "textBox2";
+            resources.ApplyResources(this.freqBySecTextBox, "freqBySecTextBox");
+            this.freqBySecTextBox.Name = "freqBySecTextBox";
             // 
             // groupBox2
             // 
@@ -359,23 +359,23 @@
             // tableLayoutPanel9
             // 
             resources.ApplyResources(this.tableLayoutPanel9, "tableLayoutPanel9");
-            this.tableLayoutPanel9.Controls.Add(this.radioButton3, 0, 0);
-            this.tableLayoutPanel9.Controls.Add(this.radioButton4, 0, 1);
+            this.tableLayoutPanel9.Controls.Add(this.exceptionRadio, 0, 0);
+            this.tableLayoutPanel9.Controls.Add(this.overrideRadio, 0, 1);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             // 
-            // radioButton3
+            // exceptionRadio
             // 
-            resources.ApplyResources(this.radioButton3, "radioButton3");
-            this.radioButton3.Checked = true;
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.TabStop = true;
-            this.radioButton3.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.exceptionRadio, "exceptionRadio");
+            this.exceptionRadio.Checked = true;
+            this.exceptionRadio.Name = "exceptionRadio";
+            this.exceptionRadio.TabStop = true;
+            this.exceptionRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton4
+            // overrideRadio
             // 
-            resources.ApplyResources(this.radioButton4, "radioButton4");
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.overrideRadio, "overrideRadio");
+            this.overrideRadio.Name = "overrideRadio";
+            this.overrideRadio.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
@@ -387,35 +387,35 @@
             // tableLayoutPanel10
             // 
             resources.ApplyResources(this.tableLayoutPanel10, "tableLayoutPanel10");
-            this.tableLayoutPanel10.Controls.Add(this.radioButton5, 0, 0);
-            this.tableLayoutPanel10.Controls.Add(this.radioButton6, 0, 1);
+            this.tableLayoutPanel10.Controls.Add(this.noLimitRadio, 0, 0);
+            this.tableLayoutPanel10.Controls.Add(this.maxSizeRadio, 0, 1);
             this.tableLayoutPanel10.Controls.Add(this.label5, 2, 1);
-            this.tableLayoutPanel10.Controls.Add(this.textBox6, 1, 1);
+            this.tableLayoutPanel10.Controls.Add(this.maxKbTextBox, 1, 1);
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             // 
-            // radioButton5
+            // noLimitRadio
             // 
-            resources.ApplyResources(this.radioButton5, "radioButton5");
-            this.radioButton5.Checked = true;
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.TabStop = true;
-            this.radioButton5.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.noLimitRadio, "noLimitRadio");
+            this.noLimitRadio.Checked = true;
+            this.noLimitRadio.Name = "noLimitRadio";
+            this.noLimitRadio.TabStop = true;
+            this.noLimitRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton6
+            // maxSizeRadio
             // 
-            resources.ApplyResources(this.radioButton6, "radioButton6");
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.maxSizeRadio, "maxSizeRadio");
+            this.maxSizeRadio.Name = "maxSizeRadio";
+            this.maxSizeRadio.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
-            // textBox6
+            // maxKbTextBox
             // 
-            resources.ApplyResources(this.textBox6, "textBox6");
-            this.textBox6.Name = "textBox6";
+            resources.ApplyResources(this.maxKbTextBox, "maxKbTextBox");
+            this.maxKbTextBox.Name = "maxKbTextBox";
             // 
             // tabPage1
             // 
@@ -623,16 +623,31 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        /// <summary>
+        /// TabPage to set the properties of stepper.
+        /// </summary>
         private System.Windows.Forms.TabPage stepperPage;
+        /// <summary>
+        /// TabControl of simulation properties.
+        /// </summary>
         public System.Windows.Forms.TabControl tabControl1;
+        /// <summary>
+        /// TabPage to set logging properties.
+        /// </summary>
         public System.Windows.Forms.TabPage loggingPage;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        /// <summary>
+        /// ListBox to select steppr to edit properties.
+        /// </summary>
         public System.Windows.Forms.ListBox stepperListBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Label label1;
+        /// <summary>
+        /// ComboBox to set using stepper class.
+        /// </summary>
         public System.Windows.Forms.ComboBox stepCombo;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -641,32 +656,83 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
-        public System.Windows.Forms.RadioButton radioButton1;
-        public System.Windows.Forms.RadioButton radioButton2;
-        public System.Windows.Forms.RadioButton radioButton3;
-        public System.Windows.Forms.RadioButton radioButton4;
-        public System.Windows.Forms.RadioButton radioButton5;
-        public System.Windows.Forms.RadioButton radioButton6;
+        /// <summary>
+        /// RadioButton to set interval by steps.
+        /// </summary>
+        public System.Windows.Forms.RadioButton freqByStepRadio;
+        /// <summary>
+        /// RadioButton to set interval by seconds.
+        /// </summary>
+        public System.Windows.Forms.RadioButton freqBySecRadio;
+        /// <summary>
+        /// RadioButton to throw exception file size is over.
+        /// </summary>
+        public System.Windows.Forms.RadioButton exceptionRadio;
+        /// <summary>
+        /// RadioButton to overrive the log when file size is over.
+        /// </summary>
+        public System.Windows.Forms.RadioButton overrideRadio;
+        /// <summary>
+        /// RadioButton to set file size of logging file no limit.
+        /// </summary>
+        public System.Windows.Forms.RadioButton noLimitRadio;
+        /// <summary>
+        /// RadioButton to set max size of logging file.
+        /// </summary>
+        public System.Windows.Forms.RadioButton maxSizeRadio;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        public System.Windows.Forms.TextBox textBox1;
-        public System.Windows.Forms.TextBox textBox2;
-        public System.Windows.Forms.TextBox textBox6;
+        /// <summary>
+        /// TextBox to set frequency by step.
+        /// </summary>
+        public System.Windows.Forms.TextBox freqByStepTextBox;
+        /// <summary>
+        /// TextBox to set frequency by second.
+        /// </summary>
+        public System.Windows.Forms.TextBox freqBySecTextBox;
+        /// <summary>
+        /// TextBox to set max size of log file.
+        /// </summary>
+        public System.Windows.Forms.TextBox maxKbTextBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel11;
+        /// <summary>
+        /// ComboBox to select parameter set.
+        /// </summary>
         public System.Windows.Forms.ComboBox paramCombo;
+        /// <summary>
+        /// DataGridView to display the parameter of stepper.
+        /// </summary>
         public System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.DataGridViewTextBoxColumn Property;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Get;
         private System.Windows.Forms.DataGridViewTextBoxColumn Set;
+        /// <summary>
+        /// Button to create parameter set.
+        /// </summary>
         public System.Windows.Forms.Button SSCreateButton;
+        /// <summary>
+        /// Button to delete selected parameter set.
+        /// </summary>
         public System.Windows.Forms.Button SSDeleteButton;
         private System.Windows.Forms.Label label6;
+        /// <summary>
+        /// ComboBox to select model on initial parameter tab.
+        /// </summary>
         public System.Windows.Forms.ComboBox modelCombo;
+        /// <summary>
+        /// Button to set parameter set of simulation.
+        /// </summary>
         public System.Windows.Forms.Button SSSetButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
+        /// <summary>
+        /// Button to apply changed parameters on this window.
+        /// </summary>
         public System.Windows.Forms.Button SSApplyButton;
+        /// <summary>
+        /// Button to close this window.
+        /// </summary>
         public System.Windows.Forms.Button SSCloseButton;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
@@ -679,11 +745,26 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn initialvalue;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        /// <summary>
+        /// ComboBox to select model on stepper tab.
+        /// </summary>
         public System.Windows.Forms.ComboBox iModelCombo;
+        /// <summary>
+        /// DataGridView to set initial parameter of process.
+        /// </summary>
         public System.Windows.Forms.DataGridView InitProDGV;
+        /// <summary>
+        /// DataGridView to set initial parameter of variable.
+        /// </summary>
         public System.Windows.Forms.DataGridView InitVarDGV;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
+        /// <summary>
+        /// Button to add stepper on simulation setup window.
+        /// </summary>
         public System.Windows.Forms.Button SSAddStepperButton;
+        /// <summary>
+        /// Button to delete stepper on simulation setup window.
+        /// </summary>
         public System.Windows.Forms.Button SSDeleteStepperButton;
     }
 }

@@ -1,13 +1,10 @@
 ﻿namespace EcellLib.Simulation
 {
+    /// <summary>
+    /// Class of test driver.
+    /// </summary>
     partial class PluginDriver 
     {
-        /// <summary>
-        /// 必要なデザイナ変数です。
-        /// </summary>
-      //  private System.ComponentModel.IContainer components = null;
-
-
         #region Windows フォーム デザイナで生成されたコード
 
         /// <summary>

@@ -1,5 +1,8 @@
 ﻿namespace EcellLib.Simulation
 {
+    /// <summary>
+    /// Dialog class to create parameter set.
+    /// </summary>
     partial class NewParameterWindow
     {
         /// <summary>
@@ -105,8 +108,17 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        /// <summary>
+        /// TextBox of parameter name on dialog to create parameter set.
+        /// </summary>
         public System.Windows.Forms.TextBox paramTextBox;
+        /// <summary>
+        /// Create button on dialog to create parameter set.
+        /// </summary>
         public System.Windows.Forms.Button CPCreateButton;
+        /// <summary>
+        /// Cancel button on dialog to create prameter set.
+        /// </summary>
         public System.Windows.Forms.Button CPCancelButton;
     }
 }

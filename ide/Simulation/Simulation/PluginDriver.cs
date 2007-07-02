@@ -8,10 +8,16 @@ using System.Windows.Forms;
 
 namespace EcellLib.Simulation
 {
+    /// <summary>
+    /// Driver class to test plugin.
+    /// </summary>
     public partial class PluginDriver : Form
     {
         PluginBase pb = null;
 
+        /// <summary>
+        /// constructor.
+        /// </summary>
         public PluginDriver()
         {
             InitializeComponent();

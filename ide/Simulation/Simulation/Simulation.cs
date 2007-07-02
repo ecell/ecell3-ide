@@ -40,6 +40,9 @@ using EcellLib;
 
 namespace EcellLib.Simulation
 {
+    /// <summary>
+    /// Plugin class to manager simulation.
+    /// </summary>
     public class Simulation : PluginBase
     {
         #region Fields
@@ -110,6 +113,7 @@ namespace EcellLib.Simulation
             m_runSim = new ToolStripMenuItem();
             m_runSim.Name = "MenuItemRunSimulation";
             m_runSim.Size = new Size(96, 22);
+            m_runSim.Image = (Image)resources.GetObject("media_play_green");
 //            m_runSim.Text = "Run ... ";
             resources.ApplyResources(m_runSim, "MenuItemRun");
             m_runSim.Enabled = false;
@@ -119,6 +123,7 @@ namespace EcellLib.Simulation
             m_suspendSim.Name = "MenuItemSuspendSimulation";
             m_suspendSim.Size = new Size(96, 22);
 //            m_suspendSim.Text = "Suspend ...";
+            m_suspendSim.Image = (Image)resources.GetObject("media_pause"); 
             resources.ApplyResources(m_suspendSim, "MenuItemSuspend");
             m_suspendSim.Enabled = false;
             m_suspendSim.Click += new EventHandler(this.SuspendSimulation);
@@ -127,6 +132,7 @@ namespace EcellLib.Simulation
             m_stopSim.Name = "MenuItemStopSimulation";
             m_stopSim.Size = new Size(96, 22);
 //            m_stopSim.Text = "Stop ...";
+            m_stopSim.Image = (Image)resources.GetObject("media_stop_red");
             resources.ApplyResources(m_stopSim, "MenuItemStop");
             m_stopSim.Enabled = false;
             m_stopSim.Click += new EventHandler(this.ResetSimulation);
@@ -166,7 +172,7 @@ namespace EcellLib.Simulation
         /// <summary>
         /// Get toolbar buttons for Simulation.
         /// </summary>
-        /// <returns>List of ToolStripItem.<ToolStripItem></returns>
+        /// <returns>List of ToolStripItem.</returns>
         public List<ToolStripItem> GetToolBarMenuStripItems()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Simulation));
@@ -283,7 +289,7 @@ namespace EcellLib.Simulation
         /// </summary>
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
-        /// <param name="key">Selected the data type.</param>
+        /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
             // nothing
@@ -359,7 +365,7 @@ namespace EcellLib.Simulation
         /// </summary>
         /// <param name="modelID">The model ID generating warning data.</param>
         /// <param name="key">The ID generating warning data.</param>
-        /// <param name="key">The data type generating warning data.</param>
+        /// <param name="type">The data type generating warning data.</param>
         /// <param name="warntype">The type of waring data.</param>
         public void WarnData(string modelID, string key, string type, string warntype)
         {
@@ -442,6 +448,11 @@ namespace EcellLib.Simulation
             m_type = type;
         }
 
+        /// <summary>
+        /// Save the selected model to directory.
+        /// </summary>
+        /// <param name="modelID">selected model.</param>
+        /// <param name="directory">output directory.</param>
         public void SaveModel(string modelID, string directory)
         {
         }
@@ -473,6 +484,10 @@ namespace EcellLib.Simulation
             return "Simulation";
         }
 
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
         public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -539,30 +554,30 @@ namespace EcellLib.Simulation
             LoggerPolicy log = m_dManager.GetLoggerPolicy(m_win.paramCombo.Text);
             if (log.m_reloadStepCount > 0)
             {
-                m_win.radioButton1.Checked = true;
-                m_win.textBox1.Text = log.m_reloadStepCount.ToString();
+                m_win.freqByStepRadio.Checked = true;
+                m_win.freqByStepTextBox.Text = log.m_reloadStepCount.ToString();
             }
             else if (log.m_reloadInterval > 0.0)
             {
-                m_win.radioButton2.Checked = true;
-                m_win.textBox2.Text = log.m_reloadInterval.ToString();
+                m_win.freqBySecRadio.Checked = true;
+                m_win.freqBySecTextBox.Text = log.m_reloadInterval.ToString();
             }
             if (log.m_diskFullAction == 0)
             {
-                m_win.radioButton3.Checked = true;
+                m_win.exceptionRadio.Checked = true;
             }
             else
             {
-                m_win.radioButton4.Checked = true;
+                m_win.overrideRadio.Checked = true;
             }
             if (log.m_maxDiskSpace == 0)
             {
-                m_win.radioButton5.Checked = true;
+                m_win.noLimitRadio.Checked = true;
             }
             else
             {
-                m_win.radioButton6.Checked = true;
-                m_win.textBox6.Text = log.m_maxDiskSpace.ToString();
+                m_win.maxSizeRadio.Checked = true;
+                m_win.maxKbTextBox.Text = log.m_maxDiskSpace.ToString();
             }
 
             int j = 0;

@@ -38,6 +38,9 @@
 
     namespace EcellLib.Simulation
     {
+        /// <summary>
+        /// Dialog to setup the properties of simulation.
+        /// </summary>
         public partial class SimulationSetup : Form
         {
             #region Fields
@@ -477,25 +480,25 @@
                     try 
                     {
                         // frequency
-                        if (radioButton1.Checked)
+                        if (freqByStepRadio.Checked)
                         {
-                            if (textBox1.Text == "")
+                            if (freqByStepTextBox.Text == "")
                             {
                                 MessageBox.Show("Please input frequency for steps.", "ERROR",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
-                            stepNum = Convert.ToInt32(textBox1.Text);
+                            stepNum = Convert.ToInt32(freqByStepTextBox.Text);
                         }
-                        else if (radioButton2.Checked)
+                        else if (freqBySecRadio.Checked)
                         {
-                            if (textBox2.Text == "")
+                            if (freqBySecTextBox.Text == "")
                             {
                                 MessageBox.Show("Please input frequency for seconds.", "ERROR",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
-                            secNum = Convert.ToDouble(textBox2.Text);
+                            secNum = Convert.ToDouble(freqBySecTextBox.Text);
                         }
                         else
                         {
@@ -505,8 +508,8 @@
                         }
 
                         // action when disk is full
-                        if (radioButton3.Checked) { }
-                        else if (radioButton4.Checked)
+                        if (exceptionRadio.Checked) { }
+                        else if (overrideRadio.Checked)
                         {
                             fullAction = 1;
                         }
@@ -518,17 +521,17 @@
                         }
 
                         // disk space
-                        if (radioButton5.Checked) { }
-                        else if (radioButton6.Checked)
+                        if (noLimitRadio.Checked) { }
+                        else if (maxSizeRadio.Checked)
                         {
-                            if (textBox6.Text == "")
+                            if (maxKbTextBox.Text == "")
                             {
                                 MessageBox.Show("Please input disk size.", "ERROR",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
 
-                            diskSpace = Convert.ToInt32(textBox6.Text);
+                            diskSpace = Convert.ToInt32(maxKbTextBox.Text);
                         }
                         else
                         {
