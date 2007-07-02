@@ -37,13 +37,24 @@ using System.Windows.Forms;
 
 namespace EcellLib.MainWindow
 {
+    /// <summary>
+    /// Dialog to select the save data.
+    /// </summary>
     public partial class SaveProjectDialog : Form
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public SaveProjectDialog()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Event to display this dialog.
+        /// </summary>
+        /// <param name="sender">this dialog.</param>
+        /// <param name="e">EventArgs.</param>
         private void SaveProjectDialogShown(object sender, EventArgs e)
         {
             this.SPSaveButton.Focus();

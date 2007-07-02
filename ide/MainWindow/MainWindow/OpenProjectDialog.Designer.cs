@@ -150,8 +150,17 @@ namespace EcellLib.MainWindow
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        /// <summary>
+        /// Button to open the selected project.
+        /// </summary>
         public System.Windows.Forms.Button OPOpenButton;
+        /// <summary>
+        /// Button to close this window.
+        /// </summary>
         public System.Windows.Forms.Button OPCancelButton;
+        /// <summary>
+        /// DataGridView to display the project list.
+        /// </summary>
         public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn PrjName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;

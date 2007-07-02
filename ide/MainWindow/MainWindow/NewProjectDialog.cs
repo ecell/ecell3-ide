@@ -37,13 +37,24 @@ using System.Windows.Forms;
 
 namespace EcellLib.MainWindow
 {
+    /// <summary>
+    /// Dialog to create the project.
+    /// </summary>
     public partial class NewProjectDialog : Form
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public NewProjectDialog()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Event process when user enter return on TextBox.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">KeyPressEventArgs.</param>
         private void EnterKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -52,6 +63,11 @@ namespace EcellLib.MainWindow
             }
         }
 
+        /// <summary>
+        /// Event process when this dialog is shown.
+        /// </summary>
+        /// <param name="sender">this dialog.</param>
+        /// <param name="e">EventArgs.</param>
         private void NewProjectDialogShown(object sender, EventArgs e)
         {
             this.textName.Focus();

@@ -9,8 +9,14 @@ using System.Windows.Forms;
 
 namespace EcellLib.MainWindow
 {
+    /// <summary>
+    /// SplashSheet window class.
+    /// </summary>
     public partial class Splash : Form
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public Splash()
         {
             InitializeComponent();

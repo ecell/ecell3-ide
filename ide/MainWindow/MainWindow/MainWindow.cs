@@ -102,9 +102,14 @@ namespace EcellLib.MainWindow
         /// System status.
         /// </summary>
         private int m_type = 0;
-        public List<string> m_pluginList;
-
+        /// <summary>
+        /// The number of edit after project is opened.
+        /// </summary>
         private int m_editCount = 0;
+        /// <summary>
+        /// List of plugin to check loaded plugin.
+        /// </summary>
+        public List<string> m_pluginList;
         #endregion
 
         /// <summary>
@@ -197,7 +202,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Load plugin in plugin directory and add the plugin menus to MainWindow.
         /// </summary>
-        /// <param name="pName">plugin name</param>
+        /// <param name="path">path of plugin.</param>
         void LoadPlugin(string path)
         {
             PluginBase p = null;
@@ -414,7 +419,7 @@ namespace EcellLib.MainWindow
         /// </summary>
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
-        /// <param name="key">Selected the data type.</param>
+        /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
             // nothing
@@ -491,7 +496,7 @@ namespace EcellLib.MainWindow
         /// </summary>
         /// <param name="modelID">The model ID generating warning data.</param>
         /// <param name="key">The ID generating warning data.</param>
-        /// <param name="key">The data type generating warning data.</param>
+        /// <param name="type">The data type generating warning data.</param>
         /// <param name="warntype">The type of waring data.</param>
         public void WarnData(string modelID, string key, string type, string warntype)
         {
@@ -604,6 +609,10 @@ namespace EcellLib.MainWindow
             return "MainWindow";
         }
 
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
         public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -723,6 +732,11 @@ namespace EcellLib.MainWindow
             m_newPrjDialog = null;
         }
 
+        /// <summary>
+        /// Cancel to create project.
+        /// </summary>
+        /// <param name="sender">Cancel Button.</param>
+        /// <param name="e">EventArgs.</param>
         public void NewProjectCancel(object sender, EventArgs e)
         {
             m_newPrjDialog.Close();
@@ -787,6 +801,11 @@ namespace EcellLib.MainWindow
             }
         }
 
+        /// <summary>
+        /// Cancel to open project.
+        /// </summary>
+        /// <param name="sender">Cancel Button.</param>
+        /// <param name="e">EventArgs.</param>
         public void OpenProjectCancel(object sender, EventArgs e)
         {
             m_openPrjDialog.Close();
@@ -1082,6 +1101,11 @@ namespace EcellLib.MainWindow
             m_savePrjDialog.ShowDialog();
         }
 
+        /// <summary>
+        /// Cancel to export the selected model.
+        /// </summary>
+        /// <param name="sender">Cancel Button.</param>
+        /// <param name="e">EventArgs.</param>
         public void ExportModelCancel(object sender, EventArgs e)
         {
             m_savePrjDialog.Close();

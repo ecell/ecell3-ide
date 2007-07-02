@@ -2,6 +2,9 @@
 using System.Security.Permissions;
 namespace EcellLib.MainWindow
 {
+    /// <summary>
+    /// Application class for E-Cell IDE.
+    /// </summary>
     partial class MainWindow
     {
         /// <summary>
@@ -359,25 +362,67 @@ namespace EcellLib.MainWindow
         private System.Windows.Forms.MenuStrip menustrip;
         private System.Windows.Forms.ToolStrip toolstrip;
         private System.Windows.Forms.ToolStripMenuItem MenuItemFile;
+        /// <summary>
+        /// MenuItem to create project.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem newProjectToolStripMenuItem;
+        /// <summary>
+        /// MenuItem to open project.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem openProjectToolStripMenuItem;
+        /// <summary>
+        /// MenuItem to save project.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem saveProjectToolStripMenuItem;
+        /// <summary>
+        /// MenuItem to close project.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem closeProjectToolStripMenuItem;
+        /// <summary>
+        /// MenuItem to separate menu by function.
+        /// </summary>
         public System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        /// <summary>
+        /// MenuItem to import model.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem importModelToolStripMenuItem;
+        /// <summary>
+        /// MenuItem to export model.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem exportModelToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        /// <summary>
+        /// MenuItem to save script.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem saveScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        /// <summary>
+        /// MenuItem to print each window of plugin.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        /// <summary>
+        /// MenuItem to exit this program.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        /// <summary>
+        /// SplitContainer to divide window.
+        /// </summary>
         public System.Windows.Forms.SplitContainer splitContainer1;
+        /// <summary>
+        /// SplitContainer to divide window.
+        /// </summary>
         public System.Windows.Forms.SplitContainer splitContainer2;
+        /// <summary>
+        /// SplitContainer to divide window.
+        /// </summary>
         public System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.ToolStripMenuItem MenuItemSetup;
+        /// <summary>
+        /// MenuItem to set the working directory.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem modelEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuItemRun;
         private System.Windows.Forms.ToolStripMenuItem MenuItemDebug;
@@ -386,12 +431,24 @@ namespace EcellLib.MainWindow
         private System.Windows.Forms.OpenFileDialog openScriptDialog;
         private System.Windows.Forms.ToolStripMenuItem MenuItemEdit;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        /// <summary>
+        /// MenuItem to import action.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem importActionMenuItem;
+        /// <summary>
+        /// MenuItem to save action.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem saveActionMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer4;
+        /// <summary>
+        /// MenuItem to import selected script.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuItemAnalysis;
         private System.Windows.Forms.ToolStripMenuItem MenuItemLayout;
+        /// <summary>
+        /// MenuItem to display version dialog.
+        /// </summary>
         public System.Windows.Forms.ToolStripMenuItem ShowVersionMenuItem;
     }
 }

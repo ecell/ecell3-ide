@@ -37,8 +37,14 @@ using System.Windows.Forms;
 
 namespace EcellLib.MainWindow
 {
+    /// <summary>
+    /// Dialog to select the opened project.
+    /// </summary>
     public partial class OpenProjectDialog : Form
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public OpenProjectDialog()
         {
             InitializeComponent();

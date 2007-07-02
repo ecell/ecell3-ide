@@ -165,10 +165,25 @@ namespace EcellLib.MainWindow
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        /// <summary>
+        /// TextBox to set project id.
+        /// </summary>
         public System.Windows.Forms.TextBox textName;
+        /// <summary>
+        /// TextBox to set default model of project.
+        /// </summary>
         public System.Windows.Forms.TextBox textModelName;
+        /// <summary>
+        /// TextBox to set the comment of project.
+        /// </summary>
         public System.Windows.Forms.TextBox textComment;
+        /// <summary>
+        /// Button to create the project by using input properties.
+        /// </summary>
         public System.Windows.Forms.Button CPCreateButton;
+        /// <summary>
+        /// Button to close this window.
+        /// </summary>
         public System.Windows.Forms.Button CPCancelButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;

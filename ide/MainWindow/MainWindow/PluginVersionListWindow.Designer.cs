@@ -100,6 +100,9 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button PVOKButton;
+        /// <summary>
+        /// DataGridView to display the version list of plugin.
+        /// </summary>
         public System.Windows.Forms.DataGridView versionListView;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn VersionColumn;

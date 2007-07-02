@@ -116,8 +116,17 @@ namespace EcellLib.MainWindow
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        /// <summary>
+        /// Button to save the selected data.
+        /// </summary>
         public System.Windows.Forms.Button SPSaveButton;
+        /// <summary>
+        /// Button to close this dialog.
+        /// </summary>
         public System.Windows.Forms.Button SPCancelButton;
+        /// <summary>
+        /// CheckBox to select the saved data.
+        /// </summary>
         public System.Windows.Forms.CheckedListBox checkedListBox1;
     }
 }

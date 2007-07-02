@@ -8,13 +8,24 @@ using System.Windows.Forms;
 
 namespace EcellLib.MainWindow
 {
+    /// <summary>
+    /// Dialog to display the version list of plugin.
+    /// </summary>
     public partial class PluginVersionListWindow : Form
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public PluginVersionListWindow()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Event process when this dialog is shown.
+        /// </summary>
+        /// <param name="sender">this dialog.</param>
+        /// <param name="e">EventArgs.</param>
         private void WindowShown(object sender, EventArgs e)
         {
             PluginManager pManager = PluginManager.GetPluginManager();
@@ -33,6 +44,11 @@ namespace EcellLib.MainWindow
             }
         }
 
+        /// <summary>
+        /// Event process when user click close button.
+        /// </summary>
+        /// <param name="sender">close button.</param>
+        /// <param name="e">EventArgs.</param>
         private void CloseButton_Click(object sender, EventArgs e)
         {
             this.Close();
