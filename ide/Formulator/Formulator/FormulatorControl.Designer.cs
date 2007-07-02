@@ -1,5 +1,8 @@
 ﻿namespace Formulator
 {
+    /// <summary>
+    /// UserConstrol to manager the formula.
+    /// </summary>
     partial class FormulatorControl
     {
         /// <summary> 
@@ -303,19 +306,58 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        /// <summary>
+        /// Button to add the "+" to selected position.
+        /// </summary>
         public System.Windows.Forms.Button PlusButton;
+        /// <summary>
+        /// Button to add the "-" to selected position.
+        /// </summary>
         public System.Windows.Forms.Button MinusButton;
+        /// <summary>
+        /// Button to add the "*" to selected position.
+        /// </summary>
         public System.Windows.Forms.Button MultiplyButton;
+        /// <summary>
+        /// Button to add the "/" to selected position.
+        /// </summary>
         public System.Windows.Forms.Button SplitButton;
+        /// <summary>
+        /// Button to add the input string to selected position.
+        /// </summary>
         public System.Windows.Forms.Button StringButton;
+        /// <summary>
+        /// TextBox to input the string to add the formula.
+        /// </summary>
         public System.Windows.Forms.TextBox stringBox;
+        /// <summary>
+        /// Button to add the "( )" to selected position.
+        /// </summary>
         public System.Windows.Forms.Button ParentButton;
         private System.Windows.Forms.Panel panel1;
+        /// <summary>
+        /// PictureBox to display the formula.
+        /// </summary>
         public System.Windows.Forms.PictureBox pictureBox1;
+        /// <summary>
+        /// ComboBox to display the reserved strings.
+        /// </summary>
         public System.Windows.Forms.ComboBox reserveBox;
+        /// <summary>
+        /// Button to add the selected data.
+        /// </summary>
         public System.Windows.Forms.Button AddButton;
+        /// <summary>
+        /// Button to delete the selected data.
+        /// </summary>
         public System.Windows.Forms.Button DeleteButton;
+        /// <summary>
+        /// ComboBox to display the reserved functions.
+        /// </summary>
         public System.Windows.Forms.ComboBox FunctionBox;
+        /// <summary>
+        /// Button to add the function to selected position.
+        /// </summary>
         public System.Windows.Forms.Button AddFunctionButton;
     }
 }

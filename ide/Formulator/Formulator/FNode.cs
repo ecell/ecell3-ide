@@ -25,6 +25,9 @@ using System.Text;
 
 namespace Formulator
 {
+    /// <summary>
+    /// Node class corredpond with the component in formula.
+    /// </summary>
     public class FNode
     {
         #region Fields
@@ -457,7 +460,10 @@ namespace Formulator
             return false;
         }
 
-
+        /// <summary>
+        /// Check function that argument is one parameter.
+        /// </summary>
+        /// <returns>boolean</returns>
         public bool IsFunction1()
         {
             if (m_type == FUtil.LOG || m_type == FUtil.LOG10 ||
@@ -471,6 +477,10 @@ namespace Formulator
             return false;
         }
 
+        /// <summary>
+        /// Check function that argument is two parameter.
+        /// </summary>
+        /// <returns>boolean</returns>
         public bool IsFunction2()
         {
             if (m_type == FUtil.POW || m_type == FUtil.IFAND ||
@@ -538,6 +548,10 @@ namespace Formulator
             return "";
         }
 
+        /// <summary>
+        /// Remove the specific node from denominator.
+        /// </summary>
+        /// <param name="list">the removed node.</param>
         public void DRemoveList(List<FNode> list)
         {
             FNode prev = null;
@@ -561,6 +575,10 @@ namespace Formulator
                 m_Denominator.Remove(n);
         }
 
+        /// <summary>
+        /// Remove the specific node from numerator.
+        /// </summary>
+        /// <param name="list">the removed node.</param>
         public void NRemoveList(List<FNode> list)
         {
             FNode prev = null;
