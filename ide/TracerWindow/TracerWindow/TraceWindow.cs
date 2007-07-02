@@ -41,6 +41,9 @@ using ZedGraph;
 
 namespace EcellLib.TracerWindow
 {
+    /// <summary>
+    /// Form to show trace of target object property.
+    /// </summary>
     public partial class TraceWindow : Form
     {
         #region Fields
@@ -72,6 +75,9 @@ namespace EcellLib.TracerWindow
         /// The dictionary of entity path and LineItem.
         /// </summary>
         public Dictionary<string, LineItem> m_paneDic;
+        /// <summary>
+        /// The dictionary of entity path and temporary LineItem.
+        /// </summary>
         public Dictionary<string, LineItem> m_tmpPaneDic;
         /// <summary>
         /// The List of entity path on tracer.
@@ -661,6 +667,10 @@ namespace EcellLib.TracerWindow
             }
         }
 
+        /// <summary>
+        /// Process when user delete the logger.
+        /// </summary>
+        /// <param name="tag"></param>
         public void DeleteTraceEntry(TagData tag)
         {
             EcellObject m_currentObj = null;
@@ -810,7 +820,10 @@ namespace EcellLib.TracerWindow
             this.Dispose();
         }
 
-
+        /// <summary>
+        /// Process when user click close button on Window.
+        /// </summary>
+        /// <param name="m">Message</param>
         protected override void WndProc(ref Message m)
         {
             const int WM_SYSCOMMAND = 0x112;
@@ -841,6 +854,7 @@ namespace EcellLib.TracerWindow
         }
         */
 
+        /// <summary>
         /// The event of zoom on ZedGraphControl.
         /// </summary>
         /// <param name="control">ZedGraphControl.</param>

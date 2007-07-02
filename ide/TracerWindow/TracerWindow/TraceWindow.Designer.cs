@@ -260,11 +260,17 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        /// <summary>
+        /// DataGrid to show the list of trace.
+        /// </summary>
         public System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        /// <summary>
+        /// Button to set save directory.
+        /// </summary>
         public System.Windows.Forms.Button searchDirButton;
         private System.Windows.Forms.TextBox dirTextBox;
         /// <summary>

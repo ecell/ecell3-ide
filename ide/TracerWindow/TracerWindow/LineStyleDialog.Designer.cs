@@ -172,10 +172,26 @@ namespace EcellLib.TracerWindow
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        /// <summary>
+        /// Radio button to set line style with Solid.
+        /// </summary>
         public System.Windows.Forms.RadioButton solidRadioButton;
+        /// <summary>
+        /// Radio button to set line style with Dash.
+        /// </summary>
         public System.Windows.Forms.RadioButton dashRadioButton;
+        /// <summary>
+        /// Radio button to set line style with DashDot.
+        /// </summary>
+
         public System.Windows.Forms.RadioButton dashDotRadioButton;
+        /// <summary>
+        /// Radio button to set line style with Dot.
+        /// </summary>
         public System.Windows.Forms.RadioButton dotRadioButton;
+        /// <summary>
+        /// Radio button to set line style with DashDotDot.
+        /// </summary>
         public System.Windows.Forms.RadioButton dashDotDotRadioButton;
         private System.Windows.Forms.Button LSApplyButton;
         private System.Windows.Forms.Button LSCloseButton;

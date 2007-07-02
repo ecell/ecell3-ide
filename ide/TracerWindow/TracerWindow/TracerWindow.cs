@@ -243,7 +243,7 @@ namespace EcellLib.TracerWindow
         /// <summary>
         /// add the data to DataDridView.
         /// </summary>
-        /// <param name="r">tag data</param>
+        /// <param name="tag">tag data</param>
         void AddRowInvoke(TagData tag)
         {
             m_win.AddLoggerEntry(tag);
@@ -252,7 +252,7 @@ namespace EcellLib.TracerWindow
         /// <summary>
         /// Invoke method to remove the row from DataGridView.
         /// </summary>
-        /// <param name="r">delete row</param>
+        /// <param name="tag">delete row</param>
         void RemoveFromEntry(TagData tag)
         {
             if (m_tagList.ContainsKey(tag.ToString()))
@@ -282,7 +282,7 @@ namespace EcellLib.TracerWindow
         /// <summary>
         /// remove the row from DataGridView.
         /// </summary>
-        /// <param name="r">row</param>
+        /// <param name="tag">row</param>
         void RemoveRowInvoke(TagData tag)
         {
             m_win.RemoveLoggerEntry(tag);
@@ -531,7 +531,7 @@ namespace EcellLib.TracerWindow
         /// </summary>
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
-        /// <param name="key">Selected the data type.</param>
+        /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
             // nothing
@@ -672,7 +672,7 @@ namespace EcellLib.TracerWindow
         /// </summary>
         /// <param name="modelID">The model ID generating warning data.</param>
         /// <param name="key">The ID generating warning data.</param>
-        /// <param name="key">The data type generating warning data.</param>
+        /// <param name="type">The data type generating warning data.</param>
         /// <param name="warntype">The type of waring data.</param>
         public void WarnData(string modelID, string key, string type, string warntype)
         {
@@ -771,6 +771,11 @@ namespace EcellLib.TracerWindow
             m_type = type;
         }
 
+        /// <summary>
+        /// Save the selected model to directory.
+        /// </summary>
+        /// <param name="modelID">selected model.</param>
+        /// <param name="directory">output directory.</param>
         public void SaveModel(string modelID, string directory)
         {
         }
@@ -808,6 +813,10 @@ namespace EcellLib.TracerWindow
             return "TracerWindow";
         }
 
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
         public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -834,6 +843,9 @@ namespace EcellLib.TracerWindow
         #endregion
     }
 
+    /// <summary>
+    /// Class of tag data to trace entry.
+    /// </summary>
     public class TagData
     {
         private string m_modelID;
@@ -841,30 +853,46 @@ namespace EcellLib.TracerWindow
         private string m_type;
         private string m_path;
 
+        /// <summary>
+        /// get / set model ID of tag data.
+        /// </summary>
         public string M_modelID
         {
             get { return this.m_modelID; }
             set { this.m_modelID = value; }
 
         }
+
+        /// <summary>
+        /// get / set key of tag data.
+        /// </summary>
         public string M_key
         {
             get { return this.m_key; }
             set { this.m_key = value; }
         }
 
+        /// <summary>
+        /// get / set type of tag data.
+        /// </summary>
         public string M_type
         {
             get { return this.m_type; }
             set { this.m_type = value; }
         }
 
+        /// <summary>
+        /// get / set path of tag data.
+        /// </summary>
         public string M_path
         {
             get { return this.m_path; }
             set { this.m_path = value; }
         }
 
+        /// <summary>
+        /// Constructor of tag data.
+        /// </summary>
         public TagData()
         {
             this.m_modelID = "";
@@ -873,6 +901,13 @@ namespace EcellLib.TracerWindow
             this.m_path = "";
         }
 
+        /// <summary>
+        /// Constructor of tag data with initial parameter.
+        /// </summary>
+        /// <param name="l_modelID">initial model ID of object.</param>
+        /// <param name="l_key">initial id of object.</param>
+        /// <param name="l_type">initial type of object.</param>
+        /// <param name="l_path">initial path of object.</param>
         public TagData(string l_modelID, string l_key, string l_type, string l_path)
         {
             this.m_modelID = l_modelID;
@@ -881,16 +916,29 @@ namespace EcellLib.TracerWindow
             this.m_path = l_path;
         }
 
+        /// <summary>
+        /// Get string from tag data.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return this.m_modelID + ":" + this.m_type + ":" + this.m_key + ":" + this.m_path;
         }
 
+        /// <summary>
+        /// Set hash code to sort.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
 
+        /// <summary>
+        /// Check whethere each objects is equal.
+        /// </summary>
+        /// <param name="obj">check object.</param>
+        /// <returns>check result. if each objects is equal, return true.</returns>
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
@@ -904,6 +952,11 @@ namespace EcellLib.TracerWindow
             return base.Equals(obj);
         }
 
+        /// <summary>
+        /// Check whethere each objects is equal.
+        /// </summary>
+        /// <param name="t">check object.</param>
+        /// <returns>check result. if each objects is equal, return true.</returns>
         public bool Equals(TagData t)
         {
             if (t == null) return false;
@@ -915,8 +968,16 @@ namespace EcellLib.TracerWindow
         }
     }
 
+    /// <summary>
+    /// Class to create line style.
+    /// </summary>
     public class LineCreator
     {
+        /// <summary>
+        /// Get the line style from index.
+        /// </summary>
+        /// <param name="i">index.</param>
+        /// <returns>line style.</returns>
         public static DashStyle GetLine(int i)
         {
             int j = i / 3;
