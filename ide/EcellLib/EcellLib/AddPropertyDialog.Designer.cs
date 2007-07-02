@@ -107,8 +107,17 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label1;
+        /// <summary>
+        /// Button to add button this window,
+        /// </summary>
         public System.Windows.Forms.Button APAddButton;
+        /// <summary>
+        /// Button to close this window.
+        /// </summary>
         public System.Windows.Forms.Button APCancelButton;
+        /// <summary>
+        /// TextBox to input the name of property.
+        /// </summary>
         public System.Windows.Forms.TextBox PropertyTextBox;
     }
 }

@@ -90,6 +90,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button PPSelectButton;
         private System.Windows.Forms.Button PPCancelButton;
+        /// <summary>
+        /// ListBox to select the plugin to print.
+        /// </summary>
         public System.Windows.Forms.ListBox listBox1;
     }
 }

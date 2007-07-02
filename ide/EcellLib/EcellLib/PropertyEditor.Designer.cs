@@ -1,5 +1,8 @@
 ﻿namespace EcellLib
 {
+    /// <summary>
+    /// The dialog class to edit and update the property of object.
+    /// </summary>
     partial class PropertyEditor
     {
         /// <summary>
@@ -94,11 +97,29 @@
 
         #endregion
 
+        /// <summary>
+        /// Layouter.
+        /// </summary>
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        /// <summary>
+        /// Layouter.
+        /// </summary>
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        /// <summary>
+        /// Button to update the property of object.
+        /// </summary>
         public System.Windows.Forms.Button PEApplyButton;
+        /// <summary>
+        /// Button to close this window.
+        /// </summary>
         public System.Windows.Forms.Button PECloseButton;
+        /// <summary>
+        /// Panel of PropertyEditor.
+        /// </summary>
         public System.Windows.Forms.Panel panel1;
+        /// <summary>
+        /// Layouter of PropertyEditor.
+        /// </summary>
         public System.Windows.Forms.TableLayoutPanel layoutPanel;
     }
 }

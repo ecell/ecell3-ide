@@ -37,6 +37,9 @@ using System.Xml;
 
 namespace EcellLib
 {
+    /// <summary>
+    /// Class to manager actions.
+    /// </summary>
     public class ActionManager
     {
         #region Fields
@@ -182,6 +185,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Abstract class for action.
+    /// </summary>
     public abstract class UserAction
     {
         /// <summary>
@@ -321,6 +327,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to impoer the model.
+    /// </summary>
     public class ImportModelAction : UserAction
     {
         #region Fields
@@ -376,6 +385,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to create the project.
+    /// </summary>
     public class NewProjectAction : UserAction
     {
         #region Fields
@@ -440,6 +452,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to create the object.
+    /// </summary>
     public class DataAddAction : UserAction
     {
         #region Fields
@@ -496,6 +511,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to delete the object.
+    /// </summary>
     public class DataDeleteAction : UserAction
     {
         #region Fields
@@ -569,6 +587,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to change the properties of object.
+    /// </summary>
     public class DataChangeAction : UserAction
     {
         #region Fields
@@ -657,6 +678,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to load the project.
+    /// </summary>
     public class LoadProjectAction : UserAction
     {
         #region Fields
@@ -711,6 +735,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to create stepper.
+    /// </summary>
     public class AddStepperAction : UserAction
     {
         #region Fields
@@ -778,6 +805,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to delete stepper.
+    /// </summary>
     public class DeleteStepperAction : UserAction
     {
         #region Fields
@@ -845,6 +875,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to update the parameter of simulation.
+    /// </summary>
     public class UpdateStepperAction : UserAction
     {
         #region Fields
@@ -917,6 +950,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to create the parameter of simulation.
+    /// </summary>
     public class NewSimParamAction : UserAction
     {
         #region Fields
@@ -970,6 +1006,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to delete the parameter of simulation.
+    /// </summary>
     public class DeleteSimParamAction : UserAction
     {
         #region Fields
@@ -1023,6 +1062,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Action class to setup parameter of simulation.
+    /// </summary>
     public class SetSimParamAction : UserAction
     {
         #region Fields

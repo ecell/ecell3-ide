@@ -1,5 +1,8 @@
 ﻿namespace EcellLib
 {
+    /// <summary>
+    /// Window to select the variable to add to VariableReferenceList.
+    /// </summary>
     partial class VariableSelectWindow
     {
         /// <summary>
@@ -97,8 +100,17 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        /// <summary>
+        /// Display the object list by TreeView.
+        /// </summary>
         public System.Windows.Forms.TreeView selectTree;
+        /// <summary>
+        /// Button to select the variable to add to VaribleReferenceList.
+        /// </summary>
         public System.Windows.Forms.Button VSSelectButton;
+        /// <summary>
+        /// Button to close this dialog.
+        /// </summary>
         public System.Windows.Forms.Button VSCloseButton;
         private System.Windows.Forms.ImageList imageList1;
     }

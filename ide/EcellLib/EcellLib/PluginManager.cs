@@ -39,6 +39,9 @@ using System.Reflection;
 
 namespace EcellLib
 {
+    /// <summary>
+    /// Manage class for the loaded plugin.
+    /// </summary>
     public class PluginManager
     {
         #region Fields
@@ -153,7 +156,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="modelID">selected the model ID</param>
         /// <param name="key">selected the key ID</param>
-        /// <param name="key">selected the data type</param>
+        /// <param name="type">selected the data type</param>
         public void SelectChanged(string modelID, string key, string type)
         {
             foreach (PluginBase p in m_pluginList.Values)
@@ -196,8 +199,6 @@ namespace EcellLib
         /// <summary>
         /// event sequence to add the object at other plugin.
         /// </summary>
-        /// <param name="modelID">the adding model ID</param>
-        /// <param name="key">the adding key ID</param>
         /// <param name="data">value of the adding object</param>
         public void DataAdd(List<EcellObject> data)
         {
@@ -300,6 +301,13 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// The event sequence on changing value with the simulation.
+        /// </summary>
+        /// <param name="modelID">The model ID of object changed value.</param>
+        /// <param name="key">The ID of object changed value.</param>
+        /// <param name="type">The object type of object changed value.</param>
+        /// <param name="path">The property name of object changed value.</param>
         public void LoggerAdd(string modelID, string type, string key, string path)
         {
             foreach (PluginBase p in m_pluginList.Values)
@@ -337,6 +345,11 @@ namespace EcellLib
 
         }
 
+        /// <summary>
+        /// Save the selected model to directory.
+        /// </summary>
+        /// <param name="modelID">selected model.</param>
+        /// <param name="path">output directory.</param>
         public void SaveModel(string modelID, string path)
         {
             foreach (PluginBase p in m_pluginList.Values)
@@ -376,7 +389,8 @@ namespace EcellLib
         /// <summary>
         /// load the plugin and control the plugin.
         /// </summary>
-        /// <param name="p">path of plugin dll</param>
+        /// <param name="path">path of plugin dll.</param>
+        /// <param name="className">class name.</param>
         public PluginBase LoadPlugin(string path, string className)
         {
             Assembly m_theHandle = Assembly.LoadFile(path);

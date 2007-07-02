@@ -200,17 +200,28 @@ namespace EcellLib
             get { return this.m_currentProjectID; }
         }
 
+        /// <summary>
+        /// get / set whether simulation time have limit.
+        /// </summary>
         public double SimulationTimeLimit
         {
             get { return this.m_simulationTimeLimit; }
             set { this.m_simulationTimeLimit = value; }
         }
 
+        /// <summary>
+        /// Save the user action to the set file.
+        /// </summary>
+        /// <param name="fileName">saved file name.</param>
         public void SaveUserAction(string fileName)
         {
             m_aManager.SaveActionFile(fileName);
         }
 
+        /// <summary>
+        /// Load the user action from the set file.
+        /// </summary>
+        /// <param name="filenName">saved file name.</param>
         public void LoadUserActionFile(string filenName)
         {
             m_aManager.LoadActionFile(filenName);
@@ -987,7 +998,7 @@ namespace EcellLib
         /// <summary>
         /// Adds the list of "EcellObject".
         /// </summary>
-        /// <param name="l_data">The list of "EcellObject"</param>
+        /// <param name="l_ecellObjectList">The list of "EcellObject"</param>
         public void DataAdd(List<EcellObject> l_ecellObjectList) 
         {
             if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
@@ -1170,7 +1181,7 @@ namespace EcellLib
         /// Adds the "Model"
         /// </summary>
         /// <param name="l_ecellObject">The "Model"</param>
-        /// <param name="l_ecellObject">The list of the added "EcellObject"</param>
+        /// <param name="l_usableList">The list of the added "EcellObject"</param>
         private void DataAdd4Model(EcellObject l_ecellObject, List<EcellObject> l_usableList)
         {
             string l_message = "[" + l_ecellObject.modelID + "]";
@@ -1956,6 +1967,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_simulator">The "simulator"</param>
         /// <param name="l_ecellObject">The stored "EcellObject"</param>
+        /// <param name="l_initialCondition">The initial condition.</param>
         private void DataStored(
                 WrappedSimulator l_simulator,
                 EcellObject l_ecellObject,
@@ -2019,6 +2031,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_simulator">The simulator</param>
         /// <param name="l_ecellObject">The stored "Process"</param>
+        /// <param name="l_initialCondition">The initial condition.</param>
         private static void DataStored4Process(
                 WrappedSimulator l_simulator,
                 EcellObject l_ecellObject,
@@ -2252,6 +2265,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_simulator">The simulator</param>
         /// <param name="l_ecellObject">The stored "System"</param>
+        /// <param name="l_initialCondition">The initial condition.</param>
         private static void DataStored4System(
                 WrappedSimulator l_simulator,
                 EcellObject l_ecellObject,
@@ -2447,6 +2461,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_simulator">The simulator</param>
         /// <param name="l_ecellObject">The stored "Variable"</param>
+        /// <param name="l_initialCondition">The initial condition.</param>
         private static void DataStored4Variable(
                 WrappedSimulator l_simulator,
                 EcellObject l_ecellObject,
@@ -3372,9 +3387,8 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// 
+        /// Get the EcellValue from fullPath.
         /// </summary>
-        /// <param name="l_modelID"></param>
         /// <param name="l_fullPN"></param>
         /// <returns></returns>
         public EcellValue GetEntityProperty(string l_fullPN)
@@ -3602,6 +3616,7 @@ namespace EcellLib
         /// Returns the list of the "Stepper" with the parameter ID.
         /// </summary>
         /// <param name="l_parameterID">The parameter ID</param>
+        /// <param name="l_modelID"> model ID</param>
         /// <returns>The list of the "Stepper"</returns>
         public List<EcellObject> GetStepper(string l_parameterID, string l_modelID)
         {
@@ -3831,6 +3846,13 @@ namespace EcellLib
             return this.m_dmDic[Util.s_xpathVariable];
         }
 
+        /// <summary>
+        /// Get the temporary id in projects.
+        /// </summary>
+        /// <param name="modelID">model ID.</param>
+        /// <param name="type">object type.</param>
+        /// <param name="systemID">ID of parent system.</param>
+        /// <returns>the temporary id.</returns>
         public String GetTemporaryID(string modelID, string type, string systemID)
         {
             String pref = "";
@@ -4352,14 +4374,15 @@ namespace EcellLib
         /// <summary>
         /// Loads the eml formatted file and returns the model ID.
         /// </summary>
-        /// <param name="filename">The eml formatted file name</param>
+        /// <param name="l_filename">The eml formatted file name</param>
+        /// <param name="isLogging">The flag whether this function is in logging.</param>
         /// <returns>The model ID</returns>
-        public string LoadModel(string l_fileName, bool isLogging)
+        public string LoadModel(string l_filename, bool isLogging)
         {
             string l_message = null;
             try
             {
-                l_message = "[" + l_fileName + "]";
+                l_message = "[" + l_filename + "]";
                 //
                 // To load
                 //
@@ -4373,7 +4396,7 @@ namespace EcellLib
                     m_dmDir = m_dmDir + ";" + Util.GetProjectDMDir(m_currentProjectID);
                 }
                 this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(m_dmDir);
-                l_eml.Parse(l_fileName, this.m_simulatorDic[this.m_currentProjectID], l_ecellObjectList, ref l_modelID);
+                l_eml.Parse(l_filename, this.m_simulatorDic[this.m_currentProjectID], l_ecellObjectList, ref l_modelID);
                 //
                 // Checks the old model ID
                 //
@@ -4482,8 +4505,8 @@ namespace EcellLib
                     "Load Model: " + l_message + System.Environment.NewLine
                     );
                 if (isLogging)
-                    m_aManager.AddAction(new ImportModelAction(l_fileName));
-                string l_dirName = Path.GetDirectoryName(l_fileName);
+                    m_aManager.AddAction(new ImportModelAction(l_filename));
+                string l_dirName = Path.GetDirectoryName(l_filename);
                 m_loadDirList.Add(l_modelID, l_dirName);
 
                 return l_modelID;
@@ -5041,6 +5064,8 @@ namespace EcellLib
         /// <param name="l_simulator">The simulator</param>
         /// <param name="l_systemList">The list of "System"</param>
         /// <param name="l_loggerList">The list of the "Logger"</param>
+        /// <param name="l_initialCondition">The dictionary of initial condition.</param>
+        /// <param name="l_setPropertyDic">The dictionary of simulation library.</param>
         private void LoadSystem(
             WrappedSimulator l_simulator,
             List<EcellObject> l_systemList,
@@ -5832,6 +5857,11 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// Set the value to the full Path.
+        /// </summary>
+        /// <param name="l_fullPN">set full path.</param>
+        /// <param name="l_value">set value.</param>
         public void SetEntityProperty(string l_fullPN, string l_value)
         {
             string l_message = null;
@@ -6009,6 +6039,7 @@ namespace EcellLib
         /// Starts this simulation with the step limit.
         /// </summary>
         /// <param name="l_stepLimit">The step limit</param>
+        /// <param name="l_statusNum">simulation status.</param>
         public void SimulationStart(int l_stepLimit, int l_statusNum)
         {
             try
@@ -6103,6 +6134,7 @@ namespace EcellLib
         /// Starts this simulation with the time limit.
         /// </summary>
         /// <param name="l_timeLimit">The time limit</param>
+        /// <param name="l_statusNum">Simulation status./</param>
         public void SimulationStart(double l_timeLimit, int l_statusNum)
         {
             try
@@ -6553,7 +6585,7 @@ namespace EcellLib
         /// Creates the "ecd" formatted file.
         /// </summary>
         /// <param name="l_savedDirName">The saved directory name.</param>
-        /// <param name="l_logDataList">The list of the "LogData"</param>
+        /// <param name="l_logData">The list of the "LogData"</param>
         public void Create(string l_savedDirName, LogData l_logData)
         {
             try
@@ -6773,8 +6805,9 @@ namespace EcellLib
         /// Creates the parameter file.
         /// </summary>
         /// <param name="l_fileName">The parameter file name</param>
-        /// <param name="l_steppetList">The list of the "Stepper"</param>
+        /// <param name="l_stepperList">The list of the "Stepper"</param>
         /// <param name="l_loggerPolicy">The "LoggerPolicy"</param>
+        /// <param name="l_initialCondition">The initial condition.</param>
         public void Create(
                 string l_fileName,
                 List<EcellObject> l_stepperList,
@@ -7350,6 +7383,7 @@ namespace EcellLib
         /// <param name="l_fileName">The simulation parameter file name</param>
         /// <param name="l_simulator">The simulator</param>
         /// <param name="l_stepperList">The list of the "Stepper"</param>
+        /// <param name="l_initialCondition">The initial condition.</param>
         /// <param name="l_loggerPolicy">The "LoggerPolicy"</param>
         /// <param name="l_parameterID">The parameter ID</param>
         public void Parse(

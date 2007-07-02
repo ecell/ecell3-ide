@@ -1,5 +1,8 @@
 ﻿namespace EcellLib
 {
+    /// <summary>
+    /// Object class to manage the VariableReferenceList of process.
+    /// </summary>
     partial class VariableRefWindow
     {
         /// <summary>
@@ -140,15 +143,30 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        /// <summary>
+        /// DataGridView to display the VariableReferenceList.
+        /// </summary>
         public System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        /// <summary>
+        /// Button to delete the variable from VaribleReferenceList.
+        /// </summary>
         public System.Windows.Forms.Button DeleteVarButton;
+        /// <summary>
+        /// Button to close this window.
+        /// </summary>
         public System.Windows.Forms.Button VRCloseButton;
+        /// <summary>
+        /// Button to update the list of VariableReferenceList.
+        /// </summary>
         public System.Windows.Forms.Button VRApplyButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn FullID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Coeff;
         private System.Windows.Forms.DataGridViewCheckBoxColumn isAccessor;
+        /// <summary>
+        /// Button to add the variable to VariableReferenceList.
+        /// </summary>
         public System.Windows.Forms.Button AddVarButton;
     }
 }

@@ -80,6 +80,9 @@ namespace EcellLib
         /// text box of expression.
         /// </summary>
         public TextBox m_text;
+        /// <summary>
+        /// TextBox for ID.
+        /// </summary>
         public TextBox m_idText;
         /// <summary>
         /// window to edit formulator of expression at process.
@@ -645,7 +648,7 @@ namespace EcellLib
 
             } catch (Exception ex)
             {
-
+                ex.ToString();
             }
             panel1.ClientSize = panel1.Size;
             this.ActiveControl = cnt;
@@ -740,6 +743,10 @@ namespace EcellLib
             Dispose();
         }
 
+        /// <summary>
+        /// Get the object from the property in PropertyEditor.
+        /// </summary>
+        /// <returns></returns>
         public EcellObject Collect()
         {
             string id = "";

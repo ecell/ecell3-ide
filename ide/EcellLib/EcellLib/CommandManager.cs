@@ -1086,7 +1086,8 @@ namespace EcellLib
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="l_initialList"></param>
+        /// <param name="l_type">data type to set initial parameter.</param>
+        /// <param name="l_initialDic">the dictionary of initial parameter.</param>
         public void UpdateInitialCondition(string l_type, Dictionary<string, double> l_initialDic)
         {
             try
@@ -1503,7 +1504,6 @@ namespace EcellLib
             /// <summary>
             /// Refines the information of the full ID.
             /// </summary>
-            /// <param name="l_fullID">the full ID</param>
             /// <param name="l_key">the system path of the entity</param>
             /// <param name="l_type">the type of the entity</param>
             /// <param name="l_systemKey">the system path of the entity</param>
@@ -2181,7 +2181,7 @@ namespace EcellLib
             /// <summary>
             /// Creates the stepper stub.
             /// </summary>
-            /// <param name="l_calssName">the class name</param>
+            /// <param name="l_className">the class name</param>
             public void Create(string l_className)
             {
                 try

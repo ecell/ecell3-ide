@@ -1,5 +1,8 @@
 ﻿namespace EcellLib
 {
+    /// <summary>
+    /// Dialog to edit the formulator.
+    /// </summary>
     partial class FormulatorWindow
     {
         /// <summary>
@@ -77,8 +80,17 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        /// <summary>
+        /// OK button to apply the edht formulator.
+        /// </summary>
         public System.Windows.Forms.Button FApplyButton;
+        /// <summary>
+        /// Close this window.
+        /// </summary>
         public System.Windows.Forms.Button FCloseButton;
+        /// <summary>
+        /// Layouter for FormulatorWindow.
+        /// </summary>
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
     }
 }

@@ -250,10 +250,18 @@ namespace EcellLib
             this.DistributeValue(d);
         }
 
+        /// <summary>
+        /// Distribute the property to member.
+        /// </summary>
+        /// <param name="d">EcellData.</param>
         protected void DistributeValue(EcellData d)
         {
         }
 
+        /// <summary>
+        /// Set value from the list of EcellData.
+        /// </summary>
+        /// <param name="list">the list of EcellData.</param>
         public void SetValue(List<EcellData> list)
         {
             this.m_value = list;
@@ -609,6 +617,11 @@ namespace EcellLib
             // set { this.m_value = value; }
         }
 
+        /// <summary>
+        /// Convert to EcellValue from string.
+        /// </summary>
+        /// <param name="l_str">string.</param>
+        /// <returns>EcellValue.</returns>
         public static EcellValue ToList(string l_str)
         {
             List<EcellValue> list = new List<EcellValue>();
@@ -737,9 +750,9 @@ namespace EcellLib
 
 
         /// <summary>
-        /// Returns the "List<EcellValue>" casting value.
+        /// Returns the list of EcellValue casting value.
         /// </summary>
-        /// <returns>The "List<EcellValue>" value</returns>
+        /// <returns>The list of EcellValue</returns>
         public List<EcellValue> CastToList()
         {
             if (this.IsList())
@@ -820,7 +833,11 @@ namespace EcellLib
             }
         }
 
-
+        /// <summary>
+        /// Convert to EcellValue from string.
+        /// </summary>
+        /// <param name="l_str">string.</param>
+        /// <returns>EcellValue.</returns>
         public static EcellValue ToVariableReferenceList(string l_str)
         {
             List<EcellValue> list = new List<EcellValue>();
@@ -931,9 +948,9 @@ namespace EcellLib
 
 
         /// <summary>
-        /// Tests whether the type is a "List<EcellValue>" type.
+        /// Tests whether the type is the list of EcellValue type.
         /// </summary>
-        /// <returns>true if the type is "List<EcellValue>"; false otherwise</returns>
+        /// <returns>true if the type is the list of EcellValue; false otherwise</returns>
         public bool IsList()
         {
             if (this.m_type == typeof(List<EcellValue>))
@@ -964,6 +981,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Object class for Reference.
+    /// </summary>
     public class EcellReference
     {
         private string m_name;
@@ -971,10 +991,17 @@ namespace EcellLib
         private int m_coeff;
         private int m_accessor;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public EcellReference()
         {
         }
 
+        /// <summary>
+        /// Constructor with initial parameter.
+        /// </summary>
+        /// <param name="str">string.</param>
         public EcellReference(string str)
         {
             Regex reg =
@@ -989,30 +1016,46 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// get / set name.
+        /// </summary>
         public string name
         {
             get { return this.m_name; }
             set { this.m_name = value; }
         }
 
+        /// <summary>
+        /// get / set full ID.
+        /// </summary>
         public string fullID
         {
             get { return this.m_fullID; }
             set { this.m_fullID = value; }
         }
 
+        /// <summary>
+        /// get / set coefficient.
+        /// </summary>
         public int coefficient
         {
             get { return this.m_coeff; }
             set { this.m_coeff = value; }
         }
 
+        /// <summary>
+        /// get / set whether this properties is accessor.
+        /// </summary>
         public int isAccessor
         {
             get { return this.m_accessor; }
             set { this.m_accessor = value; }
         }
 
+        /// <summary>
+        /// Get string of object.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             string str = "";
@@ -1020,6 +1063,11 @@ namespace EcellLib
             return str;
         }
 
+        /// <summary>
+        /// Get the list of reference from string.
+        /// </summary>
+        /// <param name="str">string.</param>
+        /// <returns>the list of reference.</returns>
         public static List<EcellReference> ConvertString(string str)
         {
             List<EcellReference> list = new List<EcellReference>();
@@ -1040,30 +1088,50 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Object class for System.
+    /// </summary>
     public class EcellSystem : EcellObject
     {
         private string m_name;
         private double m_size;
         private string m_stepperID;
 
+        /// <summary>
+        /// get / set name.
+        /// </summary>
         public string name
         {
             get { return this.m_name; }
             set { this.m_name = value; }
         }
 
+        /// <summary>
+        /// get / set size;
+        /// </summary>
         public double size
         {
             get { return this.size; }
             set { this.m_size = value; }
         }
 
+        /// <summary>
+        /// get / set Stepper ID.
+        /// </summary>
         public string stepperID
         {
             get { return this.m_stepperID; }
             set { this.m_stepperID = value; }
         }
 
+        /// <summary>
+        /// Constructor with initial parameter.
+        /// </summary>
+        /// <param name="l_modelID">model ID.</param>
+        /// <param name="l_key">key.</param>
+        /// <param name="l_type">type(="System").</param>
+        /// <param name="l_class">class name.</param>
+        /// <param name="l_data">properties.</param>
         public EcellSystem(string l_modelID, string l_key,
             string l_type, string l_class, List<EcellData> l_data)
         {
@@ -1074,6 +1142,10 @@ namespace EcellLib
             this.SetValue(l_data);
         }
 
+        /// <summary>
+        /// Distribute the property to member.
+        /// </summary>
+        /// <param name="d">parameter.</param>
         public new void DistributeValue(EcellData d)
         {
             if (d.M_name == "Name") m_name = d.M_value.CastToString();
@@ -1082,6 +1154,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Object class for Variable.
+    /// </summary>
     public class EcellVariable : EcellObject
     {
         private int m_isFixed;
@@ -1092,48 +1167,76 @@ namespace EcellLib
         private double m_valueData;
         private double m_velocity;
 
+        /// <summary>
+        /// get / set whether this parameter is fix.
+        /// </summary>
         public int isFixed
         {
             get { return this.m_isFixed; }
             set { this.m_isFixed = value; }
         }
 
+        /// <summary>
+        /// get / set the molar concentrate.
+        /// </summary>
         public double molarConc
         {
             get { return this.m_molarConc; }
             set { this.m_molarConc = value; }
         }
-
+        /// <summary>
+        /// get / set name.
+        /// </summary>
         public string name
         {
             get { return this.m_name; }
             set { this.m_name = value; }
         }
 
+        /// <summary>
+        /// get / set the number of concentrate.
+        /// </summary>
         public double numberConc
         {
             get { return this.m_numberConc; }
             set { this.m_numberConc = value; }
         }
 
+        /// <summary>
+        /// get / set total velocity.
+        /// </summary>
         public double totalVelocity
         {
             get { return this.m_totalVelocity; }
             set { this.m_totalVelocity = value; }
         }
 
+        /// <summary>
+        /// get / set value.
+        /// </summary>
         public double value
         {
             get { return this.m_valueData; }
             set { this.m_valueData = value; }
         }
 
+        /// <summary>
+        /// get / set velocity.
+        /// </summary>
         public double velocity
         {
             get { return this.m_velocity; }
             set { this.m_velocity = value; }
         }
 
+        /// <summary>
+        /// Constructor with initial parameter.
+        /// </summary>
+        /// <param name="l_modelID">model ID.</param>
+        /// <param name="l_key">key.</param>
+        /// <param name="l_type">type(="Variable").</param>
+        /// <param name="l_class">class name.</param>
+        /// <param name="l_data">properties.</param>
         public EcellVariable(string l_modelID, string l_key,
             string l_type, string l_class, List<EcellData> l_data)
         {
@@ -1144,6 +1247,10 @@ namespace EcellLib
             this.SetValue(l_data);
         }
 
+        /// <summary>
+        /// Distribute the property to member.
+        /// </summary>
+        /// <param name="d">parameter.</param>
         public new void DistributeValue(EcellData d)
         {
             if (d.M_name == "Fixed") m_isFixed = d.M_value.CastToInt();
@@ -1156,8 +1263,19 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Object class for Model.
+    /// </summary>
     public class EcellModel : EcellObject
     {
+        /// <summary>
+        /// constructor with initial parameter.
+        /// </summary>
+        /// <param name="l_modelID">modelID.</param>
+        /// <param name="l_key">key.</param>
+        /// <param name="l_type">type(="Model")</param>
+        /// <param name="l_class">class name</param>
+        /// <param name="l_data">properties of object.</param>
         public EcellModel(string l_modelID, string l_key,
              string l_type, string l_class, List<EcellData> l_data)
         {
@@ -1169,6 +1287,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Object class for Process.
+    /// </summary>
     public class EcellProcess : EcellObject
     {
         private double m_activity;
@@ -1178,49 +1299,77 @@ namespace EcellLib
         private int m_priority;
         private string m_stepperID;
         private List<EcellReference> m_refList;
-
+        /// <summary>
+        /// get /set the activity.
+        /// </summary>
         public double activity
         {
             get { return this.m_activity; }
             set { this.m_activity = value; }
         }
 
+        /// <summary>
+        /// get /set the expression of process.
+        /// </summary>
         public string expression
         {
             get { return this.m_expression; }
             set { this.m_expression = value; }
         }
 
+        /// <summary>
+        /// get / set whether this property is continious.
+        /// </summary>
         public int isContinuous
         {
             get { return this.m_iscontinuous; }
             set { this.m_iscontinuous = value; }
         }
 
+        /// <summary>
+        /// get / set the name of object.
+        /// </summary>
         public string name
         {
             get { return this.m_name; }
             set { this.m_name = value; }
         }
 
+        /// <summary>
+        /// get / set priority.
+        /// </summary>
         public int priority
         {
             get { return this.m_priority; }
             set { this.m_priority = value; }
         }
 
+        /// <summary>
+        /// get / set stepperID.
+        /// </summary>
         public string stepperID
         {
             get { return this.m_stepperID; }
             set { this.m_stepperID = value; }
         }
 
+        /// <summary>
+        /// get / set the property of VariableReferenceList.
+        /// </summary>
         public List<EcellReference> VariableReferenceList
         {
             get { return this.m_refList; }
             set { this.m_refList = value; }
         }
 
+        /// <summary>
+        /// Constructor with initial parameter.
+        /// </summary>
+        /// <param name="l_modelID">modelID</param>
+        /// <param name="l_key">key</param>
+        /// <param name="l_type">type(="Process")</param>
+        /// <param name="l_class">class name</param>
+        /// <param name="l_data">parameter</param>
         public EcellProcess(string l_modelID, string l_key,
             string l_type, string l_class, List<EcellData> l_data)
         {
@@ -1231,6 +1380,10 @@ namespace EcellLib
             this.SetValue(l_data);
         }
 
+        /// <summary>
+        /// Distribute the property to member.
+        /// </summary>
+        /// <param name="d">property.</param>
         public new void DistributeValue(EcellData d)
         {
             if (d.M_name == "Activity") m_activity = d.M_value.CastToDouble();
