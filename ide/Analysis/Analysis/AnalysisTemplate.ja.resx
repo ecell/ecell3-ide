@@ -132,4 +132,31 @@
   <data name="ATViewButton.Text" xml:space="preserve">
     <value>表示(&amp;V)...</value>
   </data>
+  <data name="ErrInputReflect" xml:space="preserve">
+    <value>実行パラメータの中に異常なパラメータが存在します。確認してください。</value>
+  </data>
+  <data name="ErrLoadParam" xml:space="preserve">
+    <value>選択したファイルに異常なパラメータが存在します。確認してください。</value>
+  </data>
+  <data name="ErrNotCheckParam" xml:space="preserve">
+    <value>チェックパラメータとして設定されたパラメータが存在しません。</value>
+  </data>
+  <data name="ErrOutParam" xml:space="preserve">
+    <value>異常なパラメータが存在します。Number of sample、Simulation Time、Check window sizeをチェックしてください。</value>
+  </data>
+  <data name="ErrOutParamFile" xml:space="preserve">
+    <value>パラメータファイル出力中にエラーが発生しました。</value>
+  </data>
+  <data name="ErrPosValue" xml:space="preserve">
+    <value>Number of sample、Simulation Time、Check Window Sizeには整数を入力してください。</value>
+  </data>
+  <data name="ErrRandParam" xml:space="preserve">
+    <value>ランダムパラメータとして設定されたパラメータが存在しません。</value>
+  </data>
+  <data name="ErrSameAxis" xml:space="preserve">
+    <value>X軸とＹ軸に設定したパラメータが同じです。</value>
+  </data>
+  <data name="FinishRAnalysis" xml:space="preserve">
+    <value>ロバスト解析の実行が終了しました。</value>
+  </data>
 </root>

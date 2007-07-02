@@ -39,6 +39,7 @@ using System.IO;
 using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace EcellLib.Analysis
 {
@@ -323,6 +324,10 @@ namespace EcellLib.Analysis
         /// The flag whether the select object is changing.
         /// </summary>
         bool isChangeSelect = false;
+        /// <summary>
+        /// ResourceManager for AnalysisTemplate.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(AnalysisTemplate));
         #endregion
 
         /// <summary>
@@ -506,7 +511,8 @@ namespace EcellLib.Analysis
             
             reader.Close();
 
-            MessageBox.Show("Finish to analysis the robust.", "Info",
+            String mes = m_resources.GetString("FinishRAnalysis");
+            MessageBox.Show(mes, "Info",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -539,7 +545,8 @@ namespace EcellLib.Analysis
                     ex.ToString();
                     writer.Close();
                     fs.Close();
-                    MessageBox.Show("There is invalid data in Number of sample, Simulation Time or Check window size.",
+                    String errmes = m_resources.GetString("ErrOutParam");
+                    MessageBox.Show(errmes,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
@@ -548,7 +555,8 @@ namespace EcellLib.Analysis
                 {
                     writer.Close();
                     fs.Close();
-                    MessageBox.Show("Number of sample, Simulation Time or Check window size should be positive number.",
+                    String errmes = m_resources.GetString("ErrPosValue");
+                    MessageBox.Show(errmes,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
@@ -565,7 +573,8 @@ namespace EcellLib.Analysis
                 if (writer != null) writer.Close();
                 if (fs != null) fs.Close();
                 e.ToString();
-                MessageBox.Show("Get exception while the parameter file for tool is outputing.",
+                String errmes = m_resources.GetString("ErrOutParamFile");
+                MessageBox.Show(errmes,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -604,7 +613,8 @@ namespace EcellLib.Analysis
 
                 if (count <= 1)
                 {
-                    MessageBox.Show("Can not find the object set as random parameter.",
+                    String errmes = m_resources.GetString("ErrRandParam");
+                    MessageBox.Show(errmes,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
@@ -614,7 +624,8 @@ namespace EcellLib.Analysis
                 if (writer != null) writer.Close();
                 if (fs != null) fs.Close();
                 e.ToString();
-                MessageBox.Show("Get exception while the parameter file for random is outputing.",
+                String errmes = m_resources.GetString("ErrOutParamFile");
+                MessageBox.Show(errmes,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -658,7 +669,8 @@ namespace EcellLib.Analysis
 
                 if (count <= 0)
                 {
-                    MessageBox.Show("Can not find the object set as check parameter.",
+                    String errmes = m_resources.GetString("ErrNotCheckParam");
+                    MessageBox.Show(errmes,
                         "ERRROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
@@ -668,7 +680,8 @@ namespace EcellLib.Analysis
                 if (writer != null) writer.Close();
                 if (fs != null) fs.Close();
                 e.ToString();
-                MessageBox.Show("Get exception while the parameter file for check is outputing.",
+                String errmes = m_resources.GetString("ErrOutParamFile");
+                MessageBox.Show(errmes,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -864,7 +877,8 @@ namespace EcellLib.Analysis
             catch (Exception ex)
             {
                 ex.ToString();
-                MessageBox.Show("There is invalid property in shown data.\n" + m_Path,
+                String errmes = m_resources.GetString("ErrInputReflect");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -914,7 +928,8 @@ namespace EcellLib.Analysis
 
             if (xStr.Equals(yStr))
             {
-                MessageBox.Show("The selected data on X axis is same as the one on Y axis.\n",
+                String errmes = m_resources.GetString("ErrSameAxis");
+                MessageBox.Show(errmes,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -1018,7 +1033,8 @@ namespace EcellLib.Analysis
             catch (Exception ex)
             {
                 ex.ToString();
-                MessageBox.Show("There is invalid property in shown data.\n" + m_Path + "\n" + ex.Message,
+                String errmes = m_resources.GetString("ErrInputReflect");
+                MessageBox.Show(errmes + "\n" + "\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -1128,7 +1144,8 @@ namespace EcellLib.Analysis
             catch (Exception ex)
             {
                 ex.ToString();
-                MessageBox.Show("There is invalid property in shown data.\n" + m_Path,
+                String errmes = m_resources.GetString("ErrInputReflect");
+                MessageBox.Show(errmes + "\n" + "\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -1249,7 +1266,8 @@ namespace EcellLib.Analysis
             catch (Exception ex)
             {
                 ex.ToString();
-                MessageBox.Show("There is invalid data in selected file.",
+                string errmes = m_resources.GetString("ErrLoadParam");
+                MessageBox.Show(errmes,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (reader != null) reader.Close();
             }
