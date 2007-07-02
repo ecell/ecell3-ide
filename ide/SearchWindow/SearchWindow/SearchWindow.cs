@@ -83,6 +83,7 @@ namespace EcellLib.SearchWindow
             m_searchMenu.Name = "MenuItemSearch";
             m_searchMenu.Size = new Size(96, 22);
 //            m_searchMenu.Text = "Search";
+            m_searchMenu.Image = (Image)Resource1.find;
             resources.ApplyResources(m_searchMenu, "MenuItemSearch");
             m_searchMenu.Enabled = false;
             m_searchMenu.Click += new EventHandler(this.ShowSearchWindow);
