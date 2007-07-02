@@ -40,7 +40,6 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Threading;
 using System.Reflection;
-using System.ComponentModel;
 using IronPython.Hosting;
 using IronPython.Runtime;
 
@@ -949,7 +948,8 @@ namespace EcellLib.MainWindow
                     CheckedListBox box = m_savePrjDialog.checkedListBox1;
                     if (box.CheckedItems.Count <= 0)
                     {
-                        MessageBox.Show("Please select the item to save.",
+                        String errmes = m_resources.GetString("ErrSelectSave");
+                        MessageBox.Show(errmes,
                             "Warning", MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
                         return;

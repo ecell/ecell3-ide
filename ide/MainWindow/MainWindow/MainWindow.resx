@@ -970,6 +970,9 @@
   <data name="ErrSaveScript" xml:space="preserve">
     <value>Get exception while system save the script.</value>
   </data>
+  <data name="ErrSelectSave" xml:space="preserve">
+    <value>Please select at least save items.</value>
+  </data>
   <data name="ErrShowOpenPrj" xml:space="preserve">
     <value>Get exception while system show dialog to open the project.</value>
   </data>

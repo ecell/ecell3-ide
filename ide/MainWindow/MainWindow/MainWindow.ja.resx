@@ -476,6 +476,9 @@
   <data name="ErrSaveScript" xml:space="preserve">
     <value>スクリプトを出力しているときに例外が発生しました。</value>
   </data>
+  <data name="ErrSelectSave" xml:space="preserve">
+    <value>保存する項目を1つは選択してください。</value>
+  </data>
   <data name="ErrShowOpenPrj" xml:space="preserve">
     <value>プロジェクトを選択するダイアログを表示しているときに例外が発生しました。</value>
   </data>
