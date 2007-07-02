@@ -1477,7 +1477,7 @@ namespace EcellLib
                             }
                             else
                             {
-                                pManager.LoggerAdd(modelID, type, key,
+                                pManager.LoggerAdd(modelID, key, type,
                                     m_propDict[data.M_name].M_entityPath);
                             }
                         }
