@@ -1,5 +1,8 @@
 ﻿namespace EcellLib.ObjectList
 {
+    /// <summary>
+    /// Dialog to search object in ObjectList.
+    /// </summary>
     partial class SearchInstance
     {
         /// <summary>
@@ -103,10 +106,19 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        /// <summary>
+        /// Button to search object by input condition.
+        /// </summary>
         public System.Windows.Forms.Button SISearchButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label1;
+        /// <summary>
+        /// TextBox to set search condition.
+        /// </summary>
         public System.Windows.Forms.TextBox searchText;
+        /// <summary>
+        /// Button to close this window.
+        /// </summary>
         public System.Windows.Forms.Button SICloseButton;
     }
 }

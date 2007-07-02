@@ -43,6 +43,9 @@ using EcellLib;
 
 namespace EcellLib.ObjectList
 {
+    /// <summary>
+    /// Plugin class to display object by list.
+    /// </summary>
     public class ObjectList : PluginBase
     {
         #region Fields
@@ -476,7 +479,7 @@ namespace EcellLib.ObjectList
         /// </summary>
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
-        /// <param name="key">Selected the data type.</param>
+        /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
             if (modelID == null)
@@ -663,7 +666,7 @@ namespace EcellLib.ObjectList
         /// </summary>
         /// <param name="modelID">The model ID generating warning data.</param>
         /// <param name="key">The ID generating warning data.</param>
-        /// <param name="key">The data type generating warning data.</param>
+        /// <param name="type">The data type generating warning data.</param>
         /// <param name="warntype">The type of waring data.</param>
         public void WarnData(string modelID, string key, string type, string warntype)
         {
@@ -711,6 +714,11 @@ namespace EcellLib.ObjectList
             }
         }
 
+        /// <summary>
+        /// Save the selected model to directory.
+        /// </summary>
+        /// <param name="modelID">selected model.</param>
+        /// <param name="directory">output directory.</param>
         public void SaveModel(string modelID, string directory)
         {
         }
@@ -754,6 +762,10 @@ namespace EcellLib.ObjectList
             return "ObjectList";
         }
 
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
         public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();

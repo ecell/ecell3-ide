@@ -39,6 +39,9 @@ using EcellLib;
 
 namespace EcellLib.ObjectList
 {
+    /// <summary>
+    /// Class to manage data type of ObjectList.
+    /// </summary>
     public class ObjectListOfType
     {
         #region Fields
@@ -63,8 +66,10 @@ namespace EcellLib.ObjectList
         /// <summary>
         /// constructor of ObjectListOfType with initial value.
         /// </summary>
-        /// <param name="key">the initial key ID</param>
-        /// <param name="data">the initial data</param>
+        /// <param name="type">object type.</param>
+        /// <param name="column">list of column to display the properties of type.</param>
+        /// <param name="dgv">DataGridView of this data type.</param>
+        /// <param name="ds">DataSet of this data type.</param>
         public ObjectListOfType(string type, List<string> column, DataGridView dgv, DataSet ds)
         {
             this.type = type;
@@ -103,7 +108,7 @@ namespace EcellLib.ObjectList
         /// <summary>
         /// add ecell data.
         /// </summary>
-        /// <param name="ecellObject"></param>
+        /// <param name="eo">object to add the list.</param>
         public void AddObject(EcellObject eo)
         {
             DataRow dataRow;
@@ -134,6 +139,7 @@ namespace EcellLib.ObjectList
         /// Delete EcellObject from this ObjectListOfType.
         /// </summary>
         /// <param name="key">This key indicates an EcellObject to be deleted</param>
+        /// <param name="type">This type of an EcellObject to be deleted</param>
         public void DeleteObject(string key, string type)
         {
             if(key == null)

@@ -11,12 +11,18 @@ using EcellLib;
 
 namespace EcellLib.ObjectList
 {
+    /// <summary>
+    /// Driver class to test this plugin.
+    /// </summary>
     public partial class PluginDriver : Form
     {
         private PrintDocument printDocument1 = null;
 
         private PluginBase pb = null;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public PluginDriver()
         {
             InitializeComponent();
