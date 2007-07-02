@@ -38,6 +38,9 @@ using System.Reflection;
 
 namespace EcellLib.Analysis
 {
+    /// <summary>
+    /// Plugin class to manage the result and parameter of analysis.
+    /// </summary>
     public class Analysis : PluginBase
     {
         #region Fields
@@ -188,7 +191,7 @@ namespace EcellLib.Analysis
         /// <param name="key">The ID of object changed value.</param>
         /// <param name="type">The object type of object changed value.</param>
         /// <param name="propName">The property name of object changed value.</param>
-        /// <param name="data">Changed value of object.</param>
+        /// <param name="log">Changed value of object.</param>
         public void LogData(string modelID, string key, string type, string propName, List<LogData> log)
         {
         }
@@ -236,7 +239,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
-        /// <param name="key">Selected the data type.</param>
+        /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
         }
@@ -254,7 +257,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="modelID">The model ID generating warning data.</param>
         /// <param name="key">The ID generating warning data.</param>
-        /// <param name="key">The data type generating warning data.</param>
+        /// <param name="type">The data type generating warning data.</param>
         /// <param name="warntype">The type of waring data.</param>
         public void WarnData(string modelID, string key, string type, string warntype)
         {
@@ -269,6 +272,10 @@ namespace EcellLib.Analysis
             return "Analysis";
         }
 
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
         public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();

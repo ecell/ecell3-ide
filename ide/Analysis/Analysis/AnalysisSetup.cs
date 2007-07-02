@@ -38,6 +38,9 @@ using System.Windows.Forms;
 
 namespace EcellLib.Analysis
 {
+    /// <summary>
+    /// Dialog to display the parameter of analysis and execute analysis.
+    /// </summary>
     public partial class AnalysisSetup : Form
     {
         /// <summary>

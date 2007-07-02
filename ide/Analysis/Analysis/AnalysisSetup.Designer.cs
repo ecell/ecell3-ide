@@ -98,6 +98,9 @@ namespace EcellLib.Analysis
 
         #endregion
 
+        /// <summary>
+        /// TabControl to display each parameter of analysis.
+        /// </summary>
         public System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button ASOKButton;

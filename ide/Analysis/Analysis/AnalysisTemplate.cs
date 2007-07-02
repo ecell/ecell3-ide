@@ -42,6 +42,9 @@ using System.Windows.Forms;
 
 namespace EcellLib.Analysis
 {
+    /// <summary>
+    /// UserControl to manage the result and parameter of robust analysis.
+    /// </summary>
     public partial class AnalysisTemplate : UserControl
     {
         #region Internal Class

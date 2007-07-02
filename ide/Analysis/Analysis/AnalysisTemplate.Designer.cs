@@ -427,21 +427,63 @@ namespace EcellLib.Analysis
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox simTimeText;
+        /// <summary>
+        /// CheckBox to select the fixed parameter.
+        /// </summary>
         public System.Windows.Forms.CheckBox isFixCheckBox;
+        /// <summary>
+        /// CheckBox to select the parameter by using judge of the convergence.
+        /// </summary>
         public System.Windows.Forms.CheckBox targetCheckBox;
+        /// <summary>
+        /// TextBox to set the parameter of robust analysis[Max].
+        /// </summary>
         public System.Windows.Forms.TextBox maxText;
+        /// <summary>
+        /// TextBox to set the parameter of robust analysis[Min].
+        /// </summary>
         public System.Windows.Forms.TextBox minText;
+        /// <summary>
+        /// TextBox to set the parameter of robust analysis[Max Value].
+        /// </summary>
         public System.Windows.Forms.TextBox maxValueText;
+        /// <summary>
+        /// TextBox to set the parameter of robust analysis[Min Value].
+        /// </summary>
         public System.Windows.Forms.TextBox minValueText;
+        /// <summary>
+        /// TextBox to set the parameter of robust analysis[Difference].
+        /// </summary>
         public System.Windows.Forms.TextBox diffText;
+        /// <summary>
+        /// TextBox to set the parameter of robust analysis[Max Frequency].
+        /// </summary>
         public System.Windows.Forms.TextBox maxFreqText;
+        /// <summary>
+        /// TextBox to set the parameter of robust analysis[Min Frequency].
+        /// </summary>
         public System.Windows.Forms.TextBox minFreqText;
+        /// <summary>
+        /// TextBox to set the parameter of robust analysis[rate].
+        /// </summary>
         public System.Windows.Forms.TextBox rateText;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        /// <summary>
+        /// Button to stop the analysis.
+        /// </summary>
         public System.Windows.Forms.Button ATStopButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
+        /// <summary>
+        /// SaveFileDialog to save the parameter file of analysis.
+        /// </summary>
         public System.Windows.Forms.SaveFileDialog SaveRobustFileDialog;
+        /// <summary>
+        /// OpenFileDialog to open the parameter file of analysis.
+        /// </summary>
         public System.Windows.Forms.OpenFileDialog OpenRobustFileDialog;
+        /// <summary>
+        /// Button to load the parameter of analysis.
+        /// </summary>
         public System.Windows.Forms.Button ATLoadButton;
     }
 }

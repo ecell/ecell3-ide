@@ -30,6 +30,9 @@
 
 namespace EcellLib.Analysis
 {
+    /// <summary>
+    /// Dialog to display the result of analysis.
+    /// </summary>
     partial class AnalysisResult
     {
         /// <summary>
@@ -126,7 +129,13 @@ namespace EcellLib.Analysis
         private System.Windows.Forms.Button AROKButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn c1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        /// <summary>
+        /// TableLayoutPanel to set the layout the parameter list, result and so on.
+        /// </summary>
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        /// <summary>
+        /// DataGridView to display the result parameter.
+        /// </summary>
         public System.Windows.Forms.DataGridView dataGridView1;
     }
 }
