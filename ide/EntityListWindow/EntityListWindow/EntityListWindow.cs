@@ -1293,6 +1293,7 @@ namespace EcellLib.EntityListWindow
                     }
                 }
             }
+            m_form.treeView1.Sort();
         }
 
         /// <summary>
@@ -1370,6 +1371,7 @@ namespace EcellLib.EntityListWindow
                     {
                         IDChangeProvide(key, data.key, target);
                     }
+                    m_form.treeView1.Sort();
                 }
             }
         }
