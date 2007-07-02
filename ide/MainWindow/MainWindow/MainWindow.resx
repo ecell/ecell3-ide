@@ -925,4 +925,67 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="ErrCreatePrj" xml:space="preserve">
+    <value>Get exception while system create the project.</value>
+  </data>
+  <data name="ErrExpModel" xml:space="preserve">
+    <value>Get exception while system export the model.</value>
+  </data>
+  <data name="ErrImpScript" xml:space="preserve">
+    <value>Get exception while system import the script.</value>
+  </data>
+  <data name="ErrLoadModel" xml:space="preserve">
+    <value>Can't create new thread to load model.</value>
+  </data>
+  <data name="ErrLoadPlugin" xml:space="preserve">
+    <value>Can't load the plugin.</value>
+  </data>
+  <data name="ErrModelNG" xml:space="preserve">
+    <value>Model name includes invalid character.</value>
+  </data>
+  <data name="ErrModelNull" xml:space="preserve">
+    <value>Model name is null. Please input model name.</value>
+  </data>
+  <data name="ErrNoSelectExp" xml:space="preserve">
+    <value>Please select at least one model.</value>
+  </data>
+  <data name="ErrNoSelectPrj" xml:space="preserve">
+    <value>Project is not selected. Please select the project.</value>
+  </data>
+  <data name="ErrOpenPrj" xml:space="preserve">
+    <value>Get exception while system open the selected project.</value>
+  </data>
+  <data name="ErrPrjIdNG" xml:space="preserve">
+    <value>Project name includes invalid character.</value>
+  </data>
+  <data name="ErrPrjIdNull" xml:space="preserve">
+    <value>Prject name is null. Please input project name.</value>
+  </data>
+  <data name="ErrSaveAction" xml:space="preserve">
+    <value>Get exception while system save the action.</value>
+  </data>
+  <data name="ErrSavePrj" xml:space="preserve">
+    <value>Get exception while system save the project.</value>
+  </data>
+  <data name="ErrSaveScript" xml:space="preserve">
+    <value>Get exception while system save the script.</value>
+  </data>
+  <data name="ErrShowOpenPrj" xml:space="preserve">
+    <value>Get exception while system show dialog to open the project.</value>
+  </data>
+  <data name="ErrShowSavePrj" xml:space="preserve">
+    <value>Get exception while system show dialog to save the project.</value>
+  </data>
+  <data name="ErrStartup" xml:space="preserve">
+    <value>Can't find property of E-CELL IDE. Would you please re-install E-CELL IDE.</value>
+  </data>
+  <data name="ExpModelMes" xml:space="preserve">
+    <value>Please set the working directory for e-cell.</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>Can't find the file.</value>
+  </data>
+  <data name="SaveConfirm" xml:space="preserve">
+    <value>Do you want to save this project before you close the project?</value>
+  </data>
 </root>

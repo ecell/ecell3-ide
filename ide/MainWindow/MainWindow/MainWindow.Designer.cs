@@ -28,10 +28,6 @@ namespace EcellLib.MainWindow
         #region Windows フォーム デザイナで生成されたコード
 [SecurityPermissionAttribute(SecurityAction.Demand, Unrestricted = true)]
 
-        /// <summary>
-        /// デザイナ サポートに必要なメソッドです。このメソッドの内容を
-        /// コード エディタで変更しないでください。
-        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));

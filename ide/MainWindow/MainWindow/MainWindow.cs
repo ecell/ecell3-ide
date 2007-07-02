@@ -40,6 +40,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Threading;
 using System.Reflection;
+using System.ComponentModel;
 using IronPython.Hosting;
 using IronPython.Runtime;
 
@@ -110,6 +111,10 @@ namespace EcellLib.MainWindow
         /// List of plugin to check loaded plugin.
         /// </summary>
         public List<string> m_pluginList;
+        /// <summary>
+        /// ResourceManager for MainWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MainWindow));
         #endregion
 
         /// <summary>
@@ -129,7 +134,8 @@ namespace EcellLib.MainWindow
             }
             catch (Exception e)
             {
-                MessageBox.Show("Can't find property of E-CELL IDE. Would you please re-install E-CELL IDE.\n(" + e.Message + ")",
+                String errmes = m_resources.GetString("ErrStartup");
+                MessageBox.Show(errmes + "\n\n" + e.Message,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
@@ -172,12 +178,11 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Can't create new thread for load model.\n\n" + ex,
+                string errmes = m_resources.GetString("ErrLoadModel");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 CloseProjectDelegate dlg = new CloseProjectDelegate(CloseProject);
                 this.Invoke(dlg, new object[] { m_project });
-//                m_dManager.CloseProject(m_project);
-//                m_pManager.ChangeStatus(Util.NOTLOAD);
             }
         }
 
@@ -223,7 +228,8 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to load plugin[" + className + "].\n\n" + ex,
+                String errmes = m_resources.GetString("ErrLoadPlugin");
+                MessageBox.Show(errmes + "(" + className + ")\n\n" + ex.Message,
                     "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -648,7 +654,8 @@ namespace EcellLib.MainWindow
         {
             if (m_editCount > 0)
             {
-                DialogResult res = MessageBox.Show("Do you save this project before you close project?",
+                String mes = m_resources.GetString("SaveConfirm");
+                DialogResult res = MessageBox.Show(mes,
                     "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
@@ -686,25 +693,29 @@ namespace EcellLib.MainWindow
         {
                 if (m_newPrjDialog.textName.Text == "") 
                 {
-                    MessageBox.Show("Prject name is null. Please input project name.",
+                    String errmes = m_resources.GetString("ErrPrjIdNull");
+                    MessageBox.Show(errmes,
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (m_newPrjDialog.textModelName.Text == "")
                 {
-                    MessageBox.Show("Model name is null. Please input model name.",
+                    String errmes = m_resources.GetString("ErrModelNull");
+                    MessageBox.Show(errmes,
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (Util.IsNGforID(m_newPrjDialog.textName.Text))
                 {
-                    MessageBox.Show("Project name includes invalid character.",
+                    String errmes = m_resources.GetString("ErrPrjIdNG");
+                    MessageBox.Show(errmes,
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (Util.IsNGforID(m_newPrjDialog.textModelName.Text))
                 {
-                    MessageBox.Show("Model name includes invalid character.",
+                    String errmes = m_resources.GetString("ErrModelNG");
+                    MessageBox.Show(errmes,
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -723,7 +734,8 @@ namespace EcellLib.MainWindow
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Get exception while creating project.\n\n" + ex,
+                    String errmes = m_resources.GetString("ErrCreatePrj");
+                    MessageBox.Show(errmes + "\n\n" + ex.Message,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
@@ -754,7 +766,8 @@ namespace EcellLib.MainWindow
         {
             if (m_editCount > 0)
             {
-                DialogResult res = MessageBox.Show("Do you save this project before you close project?",
+                String mes = m_resources.GetString("SaveConfirm");
+                DialogResult res = MessageBox.Show(mes,
                     "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
@@ -795,7 +808,8 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while showing open project dialog.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrShowOpenPrj");
+                MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -823,22 +837,23 @@ namespace EcellLib.MainWindow
         {
             try
             {
-
-                    if (m_openPrjDialog.dataGridView1.SelectedRows.Count <= 0)
-                    {
-                        MessageBox.Show("Please select project.",
-                            "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                    m_dManager.LoadProject((string)m_openPrjDialog.dataGridView1.CurrentRow.Cells["PrjName"].Value);
-                    m_isLoadProject = true;
-                    m_project = (string)m_openPrjDialog.dataGridView1.CurrentRow.Cells["PrjName"].Value;
-                    m_pManager.ChangeStatus(1);
-                    m_editCount = 0;
+                if (m_openPrjDialog.dataGridView1.SelectedRows.Count <= 0)
+                {
+                    String mes = m_resources.GetString("ErrNoSelectPrj");
+                    MessageBox.Show(mes,
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                m_dManager.LoadProject((string)m_openPrjDialog.dataGridView1.CurrentRow.Cells["PrjName"].Value);
+                m_isLoadProject = true;
+                m_project = (string)m_openPrjDialog.dataGridView1.CurrentRow.Cells["PrjName"].Value;
+                m_pManager.ChangeStatus(1);
+                m_editCount = 0;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while loading project.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrOpenPrj");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -899,7 +914,8 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Can't display save dialog.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrShowSavePrj");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (m_savePrjDialog != null) m_savePrjDialog.Dispose();
             }
@@ -963,7 +979,8 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while saving project.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrSavePrj");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -990,7 +1007,8 @@ namespace EcellLib.MainWindow
         {
             if (m_editCount > 0)
             {
-                DialogResult res = MessageBox.Show("Do you save this project before you close project?",
+                String mes = m_resources.GetString("SaveConfirm");
+                DialogResult res = MessageBox.Show(mes,
                     "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
@@ -1030,7 +1048,8 @@ namespace EcellLib.MainWindow
         {
             if (m_editCount > 0)
             {
-                DialogResult res = MessageBox.Show("Do you save this project before you close project?",
+                String mes = m_resources.GetString("SaveConfirm");
+                DialogResult res = MessageBox.Show(mes,
                     "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
@@ -1126,7 +1145,8 @@ namespace EcellLib.MainWindow
 
                 if (list.Count <= 0)
                 {
-                    MessageBox.Show("Please select one model at least.", "WARNING", 
+                    String errmes = m_resources.GetString("ErrNoSelectExp");
+                    MessageBox.Show(errmes, "WARNING", 
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
@@ -1143,7 +1163,8 @@ namespace EcellLib.MainWindow
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Get exception while saving model.\n\n" + ex,
+                        String errmes = m_resources.GetString("ErrExpModel");
+                        MessageBox.Show(errmes + "\n\n" + ex.Message,
                             "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -1170,7 +1191,8 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while saving script.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrSaveScript");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -1201,7 +1223,8 @@ namespace EcellLib.MainWindow
             {
                 if (m_editCount > 0)
                 {
-                    DialogResult res = MessageBox.Show("Do you save this project before you close project?",
+                    String mes = m_resources.GetString("SaveConfirm");
+                    DialogResult res = MessageBox.Show(mes,
                         "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                     if (res == DialogResult.Yes)
                     {
@@ -1248,7 +1271,8 @@ namespace EcellLib.MainWindow
             m_currentDir = Util.GetBaseDir();
             
             SelectDirectory dialog = new SelectDirectory();
-            dialog.Description = "please set base directory for e-cell.";
+            String mes = m_resources.GetString("ExpModelMes");
+            dialog.Description = mes;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 m_currentDir = dialog.DirectoryPath;
@@ -1337,14 +1361,16 @@ namespace EcellLib.MainWindow
                     }
                     else
                     {
-                        MessageBox.Show("File not found.", "Warning",
+                        String errmes = m_resources.GetString("FileNotFound");
+                        MessageBox.Show(errmes, "Warning",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while importing the action file.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrImpScript");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -1368,7 +1394,8 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while saving the action file.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrSaveAction");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

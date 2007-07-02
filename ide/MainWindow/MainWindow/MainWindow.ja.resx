@@ -431,4 +431,67 @@
   <data name="modelEditorToolStripMenuItem.Text" xml:space="preserve">
     <value>作業ディレクトリ(&amp;W)...</value>
   </data>
+  <data name="ErrCreatePrj" xml:space="preserve">
+    <value>プロジェクト作成中に例外が発生しました。</value>
+  </data>
+  <data name="ErrExpModel" xml:space="preserve">
+    <value>モデルを出力しているときに例外が発生しました。</value>
+  </data>
+  <data name="ErrImpScript" xml:space="preserve">
+    <value>スクリプトを実行しているときに例外が発生しました。</value>
+  </data>
+  <data name="ErrLoadModel" xml:space="preserve">
+    <value>モデルをロードするのに失敗しました。再度実行してください。</value>
+  </data>
+  <data name="ErrLoadPlugin" xml:space="preserve">
+    <value>プラグインのロードに失敗しました。</value>
+  </data>
+  <data name="ErrModelNG" xml:space="preserve">
+    <value>モデル名に不適切な文字が含まれています。確認してください。</value>
+  </data>
+  <data name="ErrModelNull" xml:space="preserve">
+    <value>モデル名が入力されていません。入力してください。</value>
+  </data>
+  <data name="ErrNoSelectExp" xml:space="preserve">
+    <value>モデルが選択されていません。モデルを選択してください。</value>
+  </data>
+  <data name="ErrNoSelectPrj" xml:space="preserve">
+    <value>プロジェクトが選択されていません。選択してください。</value>
+  </data>
+  <data name="ErrOpenPrj" xml:space="preserve">
+    <value>選択したプロジェクトを開いている時に例外が発生しました。</value>
+  </data>
+  <data name="ErrPrjIdNG" xml:space="preserve">
+    <value>プロジェクト名に不適切な文字が含まれています。確認してください。</value>
+  </data>
+  <data name="ErrPrjIdNull" xml:space="preserve">
+    <value>プロジェクト名が入力されていません。入力してください。</value>
+  </data>
+  <data name="ErrSaveAction" xml:space="preserve">
+    <value>アクションファイルを保存しているときに例外が発生しました。</value>
+  </data>
+  <data name="ErrSavePrj" xml:space="preserve">
+    <value>プロジェクトを保存しているときに例外が発生しました。</value>
+  </data>
+  <data name="ErrSaveScript" xml:space="preserve">
+    <value>スクリプトを出力しているときに例外が発生しました。</value>
+  </data>
+  <data name="ErrShowOpenPrj" xml:space="preserve">
+    <value>プロジェクトを選択するダイアログを表示しているときに例外が発生しました。</value>
+  </data>
+  <data name="ErrShowSavePrj" xml:space="preserve">
+    <value>プロジェクトを保存するダイアログを表示しているときに例外が発生しました。</value>
+  </data>
+  <data name="ErrStartup" xml:space="preserve">
+    <value>システムに必要なパラメータが見つかりません。再インストールしてください。</value>
+  </data>
+  <data name="ExpModelMes" xml:space="preserve">
+    <value>作業用ディレクトリを設定してください。</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>指定したファイルが存在しません。確認してください。</value>
+  </data>
+  <data name="SaveConfirm" xml:space="preserve">
+    <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>
+  </data>
 </root>
