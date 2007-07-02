@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 using EcellLib;
 
@@ -151,7 +152,10 @@ namespace EcellLib.EntityListWindow
         /// Context menu for delete logger of root system on popup menu.
         /// </summary>
         MenuItem m_delTopSysLogger;
-
+        /// <summary>
+        /// ComponentResourceManager for EntityListWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(EntityListWindow));
         #endregion
 
         /// <summary>
@@ -187,21 +191,35 @@ namespace EcellLib.EntityListWindow
             m_procMenu = new ContextMenu();
             m_varMenu = new ContextMenu();
 
-            MenuItem addModel = new MenuItem("Add Model");
-            MenuItem addSystem = new MenuItem("Add System");
-            MenuItem addVar = new MenuItem("Add Variable");
-            MenuItem addProc = new MenuItem("Add Process");
-            MenuItem del = new MenuItem("Delete");
-            m_creProcLogger = new MenuItem("Create Logger");
-            m_delProcLogger = new MenuItem("Delete Logger");
-            m_creSysLogger = new MenuItem("Create Logger");
-            m_delSysLogger = new MenuItem("Delete Logger");
-            m_creTopSysLogger = new MenuItem("Create Logger");
-            m_delTopSysLogger = new MenuItem("Delete Logger");
-            m_creVarLogger = new MenuItem("Create Logger");
-            m_delVarLogger = new MenuItem("Delete Logger");
-            MenuItem searchMenu = new MenuItem("Search ...");
+            MenuItem addModel = new MenuItem();
+            MenuItem addSystem = new MenuItem();
+            MenuItem addVar = new MenuItem();
+            MenuItem addProc = new MenuItem();
+            MenuItem del = new MenuItem();
+            MenuItem searchMenu = new MenuItem();
             MenuItem separator = new MenuItem("-");
+            m_creSysLogger = new MenuItem();
+            m_delSysLogger = new MenuItem();
+            m_creTopSysLogger = new MenuItem();
+            m_delTopSysLogger = new MenuItem();
+            m_creProcLogger = new MenuItem();
+            m_delProcLogger = new MenuItem();
+            m_creVarLogger = new MenuItem();
+            m_delVarLogger = new MenuItem();
+            m_resources.ApplyResources(m_creSysLogger, "PopCreLogger");
+            m_resources.ApplyResources(m_delSysLogger, "PopDelLogger");
+            m_resources.ApplyResources(m_creTopSysLogger, "PopCreLogger");
+            m_resources.ApplyResources(m_delTopSysLogger, "PopDelLogger");
+            m_resources.ApplyResources(m_creProcLogger, "PopCreLogger");
+            m_resources.ApplyResources(m_delProcLogger, "PopDelLogger");
+            m_resources.ApplyResources(m_creVarLogger, "PopCreLogger");
+            m_resources.ApplyResources(m_delVarLogger, "PopDelLogger");
+            m_resources.ApplyResources(addModel, "PopAddModel");
+            m_resources.ApplyResources(addSystem, "PopAddSystem");
+            m_resources.ApplyResources(addVar, "PopAddVariable");
+            m_resources.ApplyResources(addProc, "PopAddProcess");
+            m_resources.ApplyResources(del, "PopDelete");
+            m_resources.ApplyResources(searchMenu, "PopSearch");
 
             addModel.Index = 1;
             addSystem.Index = 3;
@@ -302,7 +320,8 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to show property editor.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrShowPropEditor");   
+                MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 m_editor.Dispose();
                 return;
@@ -403,8 +422,9 @@ namespace EcellLib.EntityListWindow
             List<EcellObject> list = m_dManager.GetData(t.m_modelID, keys[0]);
             if (list == null || list.Count == 0)
             {
+                String errmes = m_resources.GetString("ErrGetData");
                 MessageBox.Show(
-                "Can't find data in DataManager [" + t.m_modelID + "," + t.m_key + "]",
+                errmes + "(" + t.m_modelID + "," + t.m_key + ")",
                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return null;
             }
@@ -626,7 +646,8 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to show property editor.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrShowPropEditor");
+                MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -665,17 +686,11 @@ namespace EcellLib.EntityListWindow
                 List<EcellObject> rList = new List<EcellObject>();
                 rList.Add(obj);
                 m_dManager.DataAdd(rList);
-
-/*                m_editor = new PropertyEditor();
-                m_editor.SetParentObject(m_currentObj);
-                m_editor.SetDataType("System");
-                m_editor.button1.Click += new EventHandler(m_editor.AddSystem);
-                m_editor.LayoutPropertyEditor();
-                m_editor.ShowDialog();*/
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to show property editor.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrShowPropEditor");
+                MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -706,19 +721,11 @@ namespace EcellLib.EntityListWindow
                 List<EcellObject> rList = new List<EcellObject>();
                 rList.Add(obj);
                 m_dManager.DataAdd(rList);
-
-                /*
-                m_editor = new PropertyEditor();
-                m_editor.SetParentObject(m_currentObj);
-                m_editor.SetDataType("Variable");
-                m_editor.button1.Click += new EventHandler(m_editor.AddNodeElement);
-                m_editor.LayoutPropertyEditor();
-                m_editor.ShowDialog();
-                 * */
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to show property editor.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrShowPropEditor");
+                MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -749,23 +756,11 @@ namespace EcellLib.EntityListWindow
                 List<EcellObject> rList = new List<EcellObject>();
                 rList.Add(obj);
                 m_dManager.DataAdd(rList);
-
-
-/*
-                m_editor = new PropertyEditor();
-                m_editor.layoutPanel.SuspendLayout();
-                m_editor.SetParentObject(m_currentObj);
-                m_editor.SetDataType("Process");
-                m_editor.button1.Click += new EventHandler(m_editor.AddNodeElement);
-                m_editor.m_propName = "ExpressionFluxProcess";
-                m_editor.LayoutPropertyEditor();
-                m_editor.layoutPanel.ResumeLayout(false);
-                m_editor.ShowDialog();
- */
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to show property editor.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrShowPropEditor");
+                MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -804,7 +799,8 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while deleting data.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrDelData");
+                MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -865,8 +861,9 @@ namespace EcellLib.EntityListWindow
                     list = m_dManager.GetData(tag.m_modelID, keys[0]);
                     if (list == null || list.Count == 0)
                     {
+                        String errmes = m_resources.GetString("ErrGetData");
                         MessageBox.Show(
-                        "Can't find data in DataManager [" + tag.m_modelID + "," + tag.m_key + "]",
+                        errmes + "(" + tag.m_modelID + "," + tag.m_key + ")",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
@@ -894,7 +891,8 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to show property window.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrGetData");
+                MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -1525,7 +1523,8 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to create bitmap data.\n\n" + ex,
+                String errmese = m_resources.GetString("ErrPrintData");
+                MessageBox.Show(errmese + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }

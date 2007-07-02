@@ -88,6 +88,11 @@
       <DependentUpon>EntityList.cs</DependentUpon>
     </Compile>
     <Compile Include="EntityListWindow.cs" />
+    <Compile Include="EntityListWindow.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityListWindow.resx</DependentUpon>
+    </Compile>
     <Compile Include="PluginDriver.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +103,16 @@
     <EmbeddedResource Include="EntityList.resx">
       <SubType>Designer</SubType>
       <DependentUpon>EntityList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntityListWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EntityListWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntityListWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EntityListWindow.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EntityListWindow.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="PluginDriver.resx">
       <SubType>Designer</SubType>

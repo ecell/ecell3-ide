@@ -35,6 +35,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace EcellLib.EntityListWindow
 {
@@ -48,6 +49,10 @@ namespace EcellLib.EntityListWindow
         /// the plugin control this windows form.
         /// </summary>
         private EntityListWindow m_plugin;
+        /// <summary>
+        /// ResourceManager for SearchInstance
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(SearchInstance));
         #endregion
 
         /// <summary>
@@ -81,8 +86,9 @@ namespace EcellLib.EntityListWindow
             string text = this.searchText.Text;
             if (!m_plugin.SearchNode(node, text))
             {
-                MessageBox.Show("Can't find the instance.",
-                    "MESSAGE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                String errmes = m_resources.GetString("ErrNotFind");
+                MessageBox.Show(errmes, "MESSAGE", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {

@@ -117,13 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrNotFind" xml:space="preserve">
-    <value>検索条件に一致するオブジェクトが見つかりませんでした。</value>
+  <data name="ErrDelData" xml:space="preserve">
+    <value>Can't delete this object.</value>
   </data>
-  <data name="SICloseButton.Text" xml:space="preserve">
-    <value>閉じる</value>
+  <data name="ErrGetData" xml:space="preserve">
+    <value>Can't find the object in this model.</value>
   </data>
-  <data name="SISearchButton.Text" xml:space="preserve">
-    <value>検索</value>
+  <data name="ErrPrintData" xml:space="preserve">
+    <value>Fail to create the bitmap of this window.</value>
+  </data>
+  <data name="ErrShowPropEditor" xml:space="preserve">
+    <value>Fail to show property editor.\nPlease confirm the property of object.\n</value>
+  </data>
+  <data name="PopAddModel.Text" xml:space="preserve">
+    <value>Add model</value>
+  </data>
+  <data name="PopAddProcess.Text" xml:space="preserve">
+    <value>Add process</value>
+  </data>
+  <data name="PopAddSystem.Text" xml:space="preserve">
+    <value>Add system</value>
+  </data>
+  <data name="PopAddVariable.Text" xml:space="preserve">
+    <value>Add variable</value>
+  </data>
+  <data name="PopCreLogger.Text" xml:space="preserve">
+    <value>Create logger</value>
+  </data>
+  <data name="PopDelete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="PopDelLogger.Text" xml:space="preserve">
+    <value>Delete logger</value>
+  </data>
+  <data name="PopSearch.Text" xml:space="preserve">
+    <value>Search...</value>
   </data>
 </root>
