@@ -459,12 +459,22 @@ namespace EcellLib
         static public bool IsNGforSystemFullID(string l_key)
         {
             int delCount = 0;
+            bool isDel = false;
             for (int i = 0; i < l_key.Length; i++)
             {
                 if (!Char.IsLetterOrDigit(l_key[i]) &&
                     l_key[i] != '_' &&
                     l_key[i] != '/' &&
                     l_key[i] != ':') return true;
+                if (l_key[i] == '/')
+                {
+                    if (isDel == true) return true;
+                    isDel = true;
+                }
+                else
+                {
+                    isDel = false;
+                }
                 if (l_key[i] == ':') delCount++;
             }
             if (delCount > 0) return true;
@@ -479,12 +489,22 @@ namespace EcellLib
         static public bool IsNGforComponentFullID(string l_key)
         {
             int delCount = 0;
+            bool isDel = false;
             for (int i = 0; i < l_key.Length; i++)
             {
                 if (!Char.IsLetterOrDigit(l_key[i]) &&
                     l_key[i] != '_' &&
                     l_key[i] != '/' &&
                     l_key[i] != ':') return true;
+                if (l_key[i] == '/')
+                {
+                    if (isDel == true) return true;
+                    isDel = true;
+                }
+                else
+                {
+                    isDel = false;
+                }
                 if (l_key[i] == ':') delCount++;
             }
             if (delCount > 1) return true;
