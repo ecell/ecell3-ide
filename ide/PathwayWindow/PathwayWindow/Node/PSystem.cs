@@ -50,16 +50,6 @@ namespace EcellLib.PathwayWindow.Node
         protected SystemElement m_systemElement;
 
         /// <summary>
-        /// Width of this system.
-        /// </summary>
-        //protected float m_systemWidth = 0;
-
-        /// <summary>
-        /// Height of this system.
-        /// </summary>
-        //protected float m_systemHeight = 0;
-
-        /// <summary>
         /// Indicate whether this PSystem is valid or not.
         /// </summary>
         protected bool m_valid = true;
@@ -96,30 +86,18 @@ namespace EcellLib.PathwayWindow.Node
             get { return m_systemElement; }
             set { m_systemElement = value; }
         }
-        /*
-        /// <summary>
-        /// Accessor for m_systemWidth.
-        /// </summary>
-        public virtual float SystemWidth
-        {
-            get { return m_systemWidth; }
-            set { m_systemWidth = value; }
-        }
 
         /// <summary>
-        /// Accessor for m_systemHeight.
+        /// Accessor for x coordinates of memorized position.
         /// </summary>
-        public virtual float SystemHeight
-        {
-            get { return m_systemHeight; }
-            set { m_systemHeight = value; }
-        }*/
-
         public virtual float OriginalX
         {
             get { return m_originalX; }
         }
 
+        /// <summary>
+        /// Accessor for y coordinates of memorized position.
+        /// </summary>
         public virtual float OriginalY
         {
             get { return m_originalY; }
@@ -200,44 +178,89 @@ namespace EcellLib.PathwayWindow.Node
         }
 
         #region nouse
+        /// <summary>
+        /// Update position of resize handles.
+        /// </summary>
         public virtual void UpdateResizeHandlePositions()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Delete()
         {
         }
+        /// <summary>
+        /// Inherited method
+        /// </summary>
+        /// <param name="highlight"></param>
+        /// <returns></returns>
         public override bool HighLighted(bool highlight)
         {
             return true;
         }
+        /// <summary>
+        /// Inherited method
+        /// </summary>
         public override void Initialize()
         {
         }
+        /// <summary>
+        /// Inherited method
+        /// </summary>
+        /// <param name="ecellObj"></param>
         public override void DataChanged(EcellObject ecellObj)
         {
         }
+        /// <summary>
+        /// Inherited method
+        /// </summary>
         public override void DataDeleted()
         {
         }
+        /// <summary>
+        /// Inherited method
+        /// </summary>
         public override void SelectChanged()
         {
         }
+        /// <summary>
+        /// Inherited method
+        /// </summary>
         public override void Start()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Change()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Stop()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void End()
         {
         }
+        /// <summary>
+        /// Get a list of PathwayElement.
+        /// Actually, this method returns a empty list of PathwayElement
+        /// </summary>
+        /// <returns></returns>
         public override List<PathwayElement> GetElements()
         {
             return new List<PathwayElement>();
         }
+        /// <summary>
+        /// Create new instance.
+        /// </summary>
+        /// <returns>new PSystem instance</returns>
         public override PPathwayObject CreateNewObject()
         {
             return new PSystem();

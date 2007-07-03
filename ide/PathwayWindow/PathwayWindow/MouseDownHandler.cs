@@ -5,6 +5,9 @@ using UMD.HCIL.Piccolo.Event;
 
 namespace EcellLib.PathwayWindow
 {
+    /// <summary>
+    /// Handleer for mouse down.
+    /// </summary>
     public class MouseDownHandler : PBasicInputEventHandler
     {
         /// <summary>

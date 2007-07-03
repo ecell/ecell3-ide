@@ -40,6 +40,9 @@ using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow.Node
 {
+    /// <summary>
+    /// Subclass of PPathwayNode for variable of E-Cell.
+    /// </summary>
     public class PEcellVariable : PPathwayNode
     {
         #region Static readonly

@@ -34,13 +34,26 @@ using System.Drawing.Drawing2D;
 using System.Drawing;
 using EcellLib.PathwayWindow.Figure;
 using EcellLib.PathwayWindow.Node;
+using UMD.HCIL.Piccolo.Util;
 
 namespace EcellLib.PathwayWindow
 {
     /// <summary>
     /// Type of component.
     /// </summary>
-    public enum ComponentType { System, Variable, Process };
+    public enum ComponentType {
+        /// <summary>
+        /// type of system
+        /// </summary>
+        System,
+        /// <summary>
+        /// typs of variable
+        /// </summary>
+        Variable,
+        /// <summary>
+        /// type of process
+        /// </summary>
+        Process };
 
     /// <summary>
     /// ComponentSetting contains all information for creating one kind of a component of pathway.
@@ -52,12 +65,31 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Type of errors which are returned by methods of this class.
         /// </summary>
-        public enum ErrorType { No_Error, 
-                                Error_FigureNull, 
-                                Error_ArgsNull,
-                                Error_NoSuchFigure,
-                                Error_LessArgs, 
-                                Error_IllegalFormat };
+        public enum ErrorType {
+            /// <summary>
+            /// not an error.
+            /// </summary>
+            No_Error, 
+            /// <summary>
+            /// figure is null
+            /// </summary>
+            Error_FigureNull,
+            /// <summary>
+            /// argument is null
+            /// </summary>
+            Error_ArgsNull,
+            /// <summary>
+            /// a figure doesn't exist
+            /// </summary>
+            Error_NoSuchFigure,
+            /// <summary>
+            /// some argument is lost
+            /// </summary>
+            Error_LessArgs, 
+            /// <summary>
+            /// format is illegal
+            /// </summary>
+            Error_IllegalFormat };
         
         /// <summary>
         /// Type of component which this instance offers.
@@ -217,6 +249,11 @@ namespace EcellLib.PathwayWindow
                 return lackInfos;
         }
 
+        /// <summary>
+        /// Parse a name of kind to ComponentType
+        /// </summary>
+        /// <param name="kind">a name of kind, to be parsed</param>
+        /// <returns></returns>
         public static ComponentType ParseComponentKind(String kind)
         {
             if(kind == null || kind.Equals(""))
@@ -244,6 +281,10 @@ namespace EcellLib.PathwayWindow
             }
         }
 
+        /// <summary>
+        /// Add a E-cell class of this ComponentSetting.
+        /// </summary>
+        /// <param name="className">a name of class</param>
         public void AddComponentClass(string className)
         {
             if(className == null || className.Equals(""))
@@ -302,6 +343,9 @@ namespace EcellLib.PathwayWindow
                 RectangleF rect = obj.Bounds;
                 obj.X = x;
                 obj.Y = y;
+                //PMatrix mat = new PMatrix();
+                //mat.TranslateBy(-1 * rect.Width / 2f, -1 * rect.Height / 2f);
+                //obj.TransformBy(mat);
                 //obj.X = x - rect.Width / 2f;
                 //obj.Y = y - rect.Height / 2f;
             }
@@ -309,6 +353,12 @@ namespace EcellLib.PathwayWindow
             return obj;
         }
 
+        /// <summary>
+        /// Set figure for this ComponentSetting.
+        /// </summary>
+        /// <param name="type">type of figure</param>
+        /// <param name="argString">arguments to create a figure</param>
+        /// <returns></returns>
         public ErrorType AddFigure(string type, string argString)
         {
             if (type == null || type.Equals(""))

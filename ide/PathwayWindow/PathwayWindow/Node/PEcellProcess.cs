@@ -42,6 +42,9 @@ using PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow.Node
 {
+    /// <summary>
+    /// PPathwayObject for E-Cell variable.
+    /// </summary>
     public class PEcellProcess : PPathwayNode
     {
         #region Static readonly fields
@@ -116,6 +119,9 @@ namespace EcellLib.PathwayWindow.Node
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Freeze this object and related lines.
+        /// </summary>
         public override void Freeze()
         {
             base.Freeze();
@@ -124,6 +130,9 @@ namespace EcellLib.PathwayWindow.Node
                     line.Pickable = false;
         }
 
+        /// <summary>
+        /// Unfreeze this object and related lines.
+        /// </summary>
         public override void Unfreeze()
         {
             base.Unfreeze();

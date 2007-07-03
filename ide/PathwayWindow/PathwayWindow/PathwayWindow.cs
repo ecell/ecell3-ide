@@ -66,9 +66,24 @@ namespace EcellLib.PathwayWindow
     /// <summary>
     /// Type of change to one reference of VariableReference
     /// </summary>
-    public enum RefChangeType { SingleDir, BiDir, Delete };
+    public enum RefChangeType {
+        /// <summary>
+        /// Change VariableReference to single direction
+        /// </summary>
+        SingleDir,
+        /// <summary>
+        /// Change VariableReference to dual direction
+        /// </summary>
+        BiDir,
+        /// <summary>
+        /// Delete VariableReference
+        /// </summary>
+        Delete };
     #endregion
 
+    /// <summary>
+    /// PathwayWindow plugin
+    /// </summary>
     public class PathwayWindow : PluginBase
     {
         #region Static fields
@@ -128,10 +143,16 @@ namespace EcellLib.PathwayWindow
         {
             get { return m_modelId; }
         }
+        /// <summary>
+        /// Accessor for layout algorithm.
+        /// </summary>
         public List<ILayoutAlgorithm> LayoutAlgorithm
         {
             get { return m_layoutList; }
         }
+        /// <summary>
+        /// Accessor for default layout algorithm.
+        /// </summary>
         public ILayoutAlgorithm DefaultLayoutAlgorithm
         {
             get
@@ -373,7 +394,8 @@ namespace EcellLib.PathwayWindow
         /// Get EcellObject from DataManager.
         /// </summary>
         /// <param name="key">the key of EcellObject.</param>
-        /// <returns>EcellObject.</returns>
+        /// <param name="type">the type of EcellObject.</param>
+        /// <returns>EcellObject</returns>
         public EcellObject GetData(string key, string type)
         {
             if (string.IsNullOrEmpty(key))
@@ -409,6 +431,13 @@ namespace EcellLib.PathwayWindow
             return null;
         }
 
+        /// <summary>
+        /// Call value of E-cell object.
+        /// </summary>
+        /// <param name="key">key of EcellObject</param>
+        /// <param name="type">type of EcellObject</param>
+        /// <param name="name">name of EcellData</param>
+        /// <returns></returns>
         public string GetEcellData(string key, string type, string name)
         {
             if (name == null)
@@ -497,9 +526,10 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Inform the changing of EcellObject in PathwayEditor to DataManager.
         /// </summary>
-        /// <param name="proKey"></param>
-        /// <param name="varKey"></param>
-        /// <param name="coefficient"></param>
+        /// <param name="proKey">key of process</param>
+        /// <param name="varKey">key of variable</param>
+        /// <param name="changeType">type of change</param>
+        /// <param name="coefficient">coefficient of VariableReference</param>
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient)
         {
             DataManager dm = DataManager.GetDataManager();
@@ -699,6 +729,11 @@ namespace EcellLib.PathwayWindow
             return list;
         }
 
+        /// <summary>
+        /// Called when one of layout menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void eachLayoutItem_Click(object sender, EventArgs e)
         {
             if (sender is ToolStripMenuItem)
@@ -1015,7 +1050,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="key">The ID of object changed value.</param>
         /// <param name="type">The object type of object changed value.</param>
         /// <param name="propName">The property name of object changed value.</param>
-        /// <param name="data">Changed value of object.</param>
+        /// <param name="log">a list of LogData</param>
         public void LogData(string modelID, string key, string type, string propName, List<LogData> log)
         {
         }
@@ -1082,7 +1117,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
-        /// <param name="key">Selected the data type.</param>
+        /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
             if (type == null)
@@ -1116,7 +1151,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="modelID">The model ID generating warning data.</param>
         /// <param name="key">The ID generating warning data.</param>
-        /// <param name="key">The data type generating warning data.</param>
+        /// <param name="type">The data type generating warning data.</param>
         /// <param name="warntype">The type of waring data.</param>
         public void WarnData(string modelID, string key, string type, string warntype)
         {
@@ -1131,6 +1166,10 @@ namespace EcellLib.PathwayWindow
             return "PathwayWindow";
         }
 
+        /// <summary>
+        /// Get version of this plugin.
+        /// </summary>
+        /// <returns>version</returns>
         public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -1191,11 +1230,6 @@ namespace EcellLib.PathwayWindow
                 }
             }
         }
-        /*
-        Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }*/
 
         /// <summary>
         /// This method was made for dividing long and redundant DataAdd method.
@@ -1390,7 +1424,7 @@ namespace EcellLib.PathwayWindow
         /// This method was made for dividing long and redundant DataAdd method.
         /// So, used by DataAdd only.
         /// </summary>
-        /// <param name="fileName">Leml file path</param>
+        /// <param name="data">list of EcellObject, to be added</param>
         private void DataAddWithoutLeml(List<EcellObject> data)
         {
             string previousModelId = m_modelId;

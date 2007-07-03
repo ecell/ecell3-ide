@@ -39,6 +39,9 @@ using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// Show button to close overview canvas and layer list.
+    /// </summary>
     public class ShowBtnDownward : PPathwayObject
     {
         /// <summary>
@@ -46,8 +49,14 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         private static readonly float m_width = 15;
 
+        /// <summary>
+        /// margin
+        /// </summary>
         private static readonly float m_margin = 2;
 
+        /// <summary>
+        /// width of shadow.
+        /// </summary>
         private static readonly float m_shadowWidth = 2;
         /// <summary>
         /// Brush to paint a background
@@ -64,6 +73,13 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         private Brush m_shadowBrush;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="pen"></param>
+        /// <param name="backGroundBrush"></param>
+        /// <param name="arrowBrush"></param>
+        /// <param name="shadowBrush"></param>
         public ShowBtnDownward(Pen pen, Brush backGroundBrush, Brush arrowBrush, Brush shadowBrush)
         {
             base.path = new GraphicsPath();
@@ -76,59 +92,113 @@ namespace EcellLib.PathwayWindow.UIComponent
         }
 
         #region Inherited methods
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Delete()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
+        /// <param name="highlight"></param>
+        /// <returns></returns>
         public override bool HighLighted(bool highlight)
         {
             return true;
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Initialize()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
+        /// <param name="ecellObj"></param>
         public override void DataChanged(EcellObject ecellObj)
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void DataDeleted()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void SelectChanged()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Start()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Change()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Stop()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void End()
         {
         }
+        /// <summary>
+        /// Inherited GetElements().
+        /// But, actually this method returns an empty list.
+        /// </summary>
+        /// <returns></returns>
         public override List<PathwayElement> GetElements()
         {
             return new List<PathwayElement>();
         }
+        /// <summary>
+        /// Inherited method.
+        /// But, actually this method return this instance.
+        /// </summary>
+        /// <returns></returns>
         public override PPathwayObject CreateNewObject()
         {
             return this;
         }
         #endregion
-
+        /// <summary>
+        /// Called when the mouse enters this node.
+        /// </summary>
+        /// <param name="e"></param>
         public override void OnMouseEnter(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseEnter(e);
             e.Canvas.Cursor = Cursors.PanSouth;
         }
 
+        /// <summary>
+        /// Called when the mouse leaves this node.
+        /// </summary>
+        /// <param name="e"></param>
         public override void OnMouseLeave(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseLeave(e);
             e.Canvas.Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// Inherited Paint() method
+        /// </summary>
+        /// <param name="paintContext"></param>
         protected override void Paint(UMD.HCIL.Piccolo.Util.PPaintContext paintContext)
         {
             Graphics g = paintContext.Graphics;

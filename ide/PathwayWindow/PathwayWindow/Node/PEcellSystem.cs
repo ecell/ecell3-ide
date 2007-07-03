@@ -44,6 +44,9 @@ using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow.Node
 {
+    /// <summary>
+    /// PPathwayNode for E-cell system.
+    /// </summary>
     public class PEcellSystem : PSystem
     {
         #region Static readonly fields
@@ -156,6 +159,9 @@ namespace EcellLib.PathwayWindow.Node
             }
         }
 
+        /// <summary>
+        /// Accessor for width.
+        /// </summary>
         public override float Width
         {
             get
@@ -169,6 +175,9 @@ namespace EcellLib.PathwayWindow.Node
             }
         }
 
+        /// <summary>
+        /// Accessor for height.
+        /// </summary>
         public override float Height
         {
             get
@@ -257,21 +266,25 @@ namespace EcellLib.PathwayWindow.Node
         #endregion
 
         /// <summary>
-        /// create object of PPathwayObject.
+        /// Create object of PPathwayObject.
         /// </summary>
-        /// <returns>PPathwayObject.</returns>
+        /// <returns>new instance</returns>
         public override PPathwayObject CreateNewObject()
         {
             return new PEcellSystem();
         }
 
+        /// <summary>
+        /// Add child to this system.
+        /// </summary>
+        /// <param name="child">child</param>
         public override void AddChild(PNode child)
         {
             base.AddChild(child);
         }
 
         /// <summary>
-        /// constructor for PEcellSystem.
+        /// Constructor for PEcellSystem.
         /// </summary>
         public PEcellSystem()
         {

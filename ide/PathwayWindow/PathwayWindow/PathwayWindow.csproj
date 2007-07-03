@@ -88,7 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreateReactionMouseHandler.cs" />
-    <Compile Include="DuplicateKeyException.cs" />
     <Compile Include="Element\AttributeElement.cs" />
     <Compile Include="Element\CanvasElement.cs" />
     <Compile Include="CanvasView.cs" />

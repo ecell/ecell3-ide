@@ -215,9 +215,11 @@ namespace EcellLib.PathwayWindow
         /// The dictionary for all processes on this canvas.
         /// </summary>
         protected Dictionary<string, PEcellProcess> m_processes = new Dictionary<string, PEcellProcess>();
-
-        // PLayer for control use.
-        // For example, resize handlers for PEcellSystem.
+                
+        /// <summary>
+        /// PLayer for control use.
+        /// For example, resize handlers for PEcellSystem.
+        /// </summary>
         protected PLayer m_ctrlLayer;
 
         /// <summary>
@@ -295,6 +297,9 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         protected PointF m_lowerLeftPoint;
 
+        /// <summary>
+        /// Whether an overview should be refreshed or not
+        /// </summary>
         protected bool m_isRefreshOverview = false;
 
         /////// To handle an edge to reconnect
@@ -1972,8 +1977,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Notify this canvas that the mouse is on it.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
+        /// <param name="element">mouse is on this node</param>
         public void NotifyMouseEnter(NodeElement element)
         {
             if(m_isReconnectMode)            
@@ -2298,9 +2302,9 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Check if any system of this canvas overlaps given rectangle.
+        /// Check if any system of this canvas overlaps given system.
         /// </summary>
-        /// <param name="rect">GlobalFullBounds of system is to be checked</param>
+        /// <param name="system">system, to be checked</param>
         /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
         public bool DoesSystemOverlaps(PEcellSystem system)
         {
@@ -3388,6 +3392,9 @@ namespace EcellLib.PathwayWindow
             }
         }
 
+        /// <summary>
+        /// Reset a reconnecting line.
+        /// </summary>
         public void ResetLinePosition()
         {
             if(null == m_selectedLine)
@@ -4020,11 +4027,17 @@ namespace EcellLib.PathwayWindow
             #endregion
 
             #region Methods
+            /// <summary>
+            /// Freeze this system.
+            /// </summary>
             public void Freeze()
             {
                 foreach(PEcellSystem system in this.EcellSystems)
                     system.Freeze();
             }
+            /// <summary>
+            /// Unfreeze this system.
+            /// </summary>
             public void UnFreeze()
             {
                 foreach (PEcellSystem system in this.EcellSystems)

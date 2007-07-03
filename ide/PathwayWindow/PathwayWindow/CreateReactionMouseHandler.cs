@@ -119,7 +119,7 @@ namespace EcellLib.PathwayWindow
         /// Create VariableReferenceList of process.
         /// </summary>
         /// <param name="process">For this process, VariableReferenceList will be created</param>
-        /// <param name="?">VariableReferenceList to this variable will be created</param>
+        /// <param name="variable">VariableReferenceList to this variable will be created</param>
         /// <param name="coefficient">coefficient of VariableReferenceList of process</param>
         private void CreateEdge(PEcellProcess process, PEcellVariable variable, int coefficient)
         {

@@ -45,9 +45,14 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Execute a layout.
         /// </summary>
-        /// <param name="systemNames"></param>
-        /// <param name="systemElements"></param>
-        /// <param name="nodeElements"></param>
+        /// <param name="subCommandNum">An index of sub command which was clicked on subMenu.
+        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
+        /// If layout name itself was clicked, subCommandNum = -1.
+        /// </param>
+        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
+        /// <param name="systemElements">Systems</param>
+        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
+        /// <returns>Whether layout is completed or aborted</returns>
         public bool DoLayout(int subCommandNum, 
                              bool layoutSystem,
                              List<SystemElement> systemElements,
@@ -108,21 +113,37 @@ namespace EcellLib.PathwayWindow
             return true;
         }
 
+        /// <summary>
+        /// Get LayoutType of this layout algorithm.
+        /// </summary>
+        /// <returns></returns>
         public LayoutType GetLayoutType()
         {
             return LayoutType.Whole;
         }
 
+        /// <summary>
+        /// Get a name of this layout algorithm.
+        /// </summary>
+        /// <returns></returns>
         public string GetName()
         {
             return "Default Layout";
         }
 
+        /// <summary>
+        /// Get a tooltip of this layout algorithm.
+        /// </summary>
+        /// <returns></returns>
         public string GetToolTipText()
         {
             return "Default Layout";
         }
 
+        /// <summary>
+        /// Get a list of name ofsub menus.
+        /// </summary>
+        /// <returns>a list of name of sub menus</returns>
         public List<string> GetSubCommands()
         {
             return new List<string>();

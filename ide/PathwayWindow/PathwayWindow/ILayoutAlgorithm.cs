@@ -39,10 +39,19 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public enum LayoutType
     {
-        Whole, // Whole nodes of a canvas or a system will be layouted.
+        /// <summary>
+        /// Whole objects on canvas will be layouted
+        /// </summary>
+        Whole,
+        /// <summary>
+        /// Only selected nodes will be layouted.
+        /// </summary>
         Selected  // Only selected nodes will be layouted.
     };
 
+    /// <summary>
+    /// Interface for layout algorithm.
+    /// </summary>
     public interface ILayoutAlgorithm
     {
         /// <summary>

@@ -35,8 +35,15 @@ using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow
 {
+    /// <summary>
+    /// An array of PathwayElement.
+    /// Used for serialize a list of PathwayElement to XML-File.
+    /// </summary>
     public class ElementArray
     {
+        /// <summary>
+        /// An array of PathwayElement.
+        /// </summary>
         [XmlArrayItem(Type = typeof(PathwayElement)),
         XmlArrayItem(Type = typeof(CanvasElement)),
         XmlArrayItem(Type = typeof(LayerElement)),
@@ -44,10 +51,17 @@ namespace EcellLib.PathwayWindow
         XmlArrayItem(Type = typeof(NodeElement))]
         public PathwayElement[] elements;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public ElementArray()
         {
         }
 
+        /// <summary>
+        /// Set a list of PathwayElement
+        /// </summary>
+        /// <param name="elementList">a list of PathwayElement</param>
         public void SetList(List<PathwayElement> elementList)
         {
             elements = elementList.ToArray();

@@ -44,7 +44,23 @@ namespace EcellLib.PathwayWindow.Element
         /// <summary>
         /// Relationship between two systems.
         /// </summary>
-        public enum Relation {Superior, Equal, Inferior, NoRelation};
+        public enum Relation {
+            /// <summary>
+            /// Superior to this system.
+            /// </summary>
+            Superior,
+            /// <summary>
+            /// Equal level with this system.
+            /// </summary>
+            Equal,
+            /// <summary>
+            /// Inferior to this system.
+            /// </summary>
+            Inferior,
+            /// <summary>
+            /// Having no relation with this system.
+            /// </summary>
+            NoRelation};
         #endregion
 
         #region Public static readonly
@@ -102,36 +118,57 @@ namespace EcellLib.PathwayWindow.Element
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// Accessor for x offset
+        /// </summary>
         public float OffsetX
         {
             get { return m_offsetX; }
             set { m_offsetX = value; }
         }
+        /// <summary>
+        /// Accessor for y offset
+        /// </summary>
         public float OffsetY
         {
             get { return m_offsetY; }
             set { m_offsetY = value; }
         }
+        /// <summary>
+        /// Accessor for width
+        /// </summary>
         public float Width
         {
             get { return m_width; }
             set { m_width = value; }
         }
+        /// <summary>
+        /// Accessor for Height
+        /// </summary>
         public float Height
         {
             get { return m_height; }
             set { m_height = value; }
         }
+        /// <summary>
+        /// Accessor for the number of child nodes.
+        /// </summary>
         public int ChildNodeNum
         {
             get { return m_childNodeNum; }
             set { m_childNodeNum = value; }
         }
+        /// <summary>
+        /// Accessor for the number of child systems.
+        /// </summary>
         public int ChildSystemNum
         {
             get { return m_childSystemNum; }
             set { m_childSystemNum = value; }
         }
+        /// <summary>
+        /// Accessor for thickness of system.
+        /// </summary>
         public float HalfThickness
         {
             get
@@ -141,6 +178,9 @@ namespace EcellLib.PathwayWindow.Element
                 return m_halfThickness;
             }
         }
+        /// <summary>
+        /// Accessor for x coordinate of center of text.
+        /// </summary>
         public float TextCenterX
         {
             get
@@ -148,6 +188,9 @@ namespace EcellLib.PathwayWindow.Element
                 return m_x + m_offsetX + m_width / 2;
             }
         }
+        /// <summary>
+        /// Accessor for y coordinate of middle of text.
+        /// </summary>
         public float TextCenterY
         {
             get
@@ -155,6 +198,9 @@ namespace EcellLib.PathwayWindow.Element
                 return m_y + m_offsetY + m_height - TEXT_LOWER_MARGIN;
             }
         }
+        /// <summary>
+        /// Accessor for margin of text to lower bound of system.
+        /// </summary>
         public float TextLowerMargin
         {
             get
@@ -165,6 +211,9 @@ namespace EcellLib.PathwayWindow.Element
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public SystemElement()
         {
             base.m_elementType = PathwayElement.ElementType.System;

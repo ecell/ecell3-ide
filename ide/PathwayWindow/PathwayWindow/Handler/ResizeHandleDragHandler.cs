@@ -38,30 +38,65 @@ using PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow
 {
+    /// <summary>
+    /// Drag handler for resize handles of system.
+    /// </summary>
     public class ResizeHandleDragHandler : PDragEventHandler
     {
         #region Fields
-        public enum MovingRestriction {Vertical, Horizontal, NoRestriction}
+        /// <summary>
+        /// Enumeration for restriction of movement
+        /// </summary>
+        public enum MovingRestriction {
+            /// <summary>
+            /// Can move vertically only
+            /// </summary>
+            Vertical,
+            /// <summary>
+            /// Can move horizontally only
+            /// </summary>
+            Horizontal,
+            /// <summary>
+            /// Can move in every direction
+            /// </summary>
+            NoRestriction}
 
-        private MovingRestriction m_restrict;
-
+        //private MovingRestriction m_restrict;
+        
+        /// <summary>
+        /// CanvasView, to which this handler belongs.
+        /// </summary>
         private CanvasView m_set;
+
+        /// <summary>
+        /// This handler controls these systems.
+        /// </summary>
         private List<PEcellSystem> m_systemList;
         #endregion
 
-        #region Accessors
+        /*
+        #region Accessors        
         public MovingRestriction Restrict
         {
             get { return this.m_restrict; }
             set { this.m_restrict = value; }
         }
-        #endregion
+        #endregion*/
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="set"></param>
         public ResizeHandleDragHandler(CanvasView set)
         {
             m_set = set;
         }
 
+        /// <summary>
+        /// Called when dragging of a resize handle started.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected override void OnStartDrag(object sender, PInputEventArgs e)
         {
             base.OnStartDrag(sender, e);
@@ -74,6 +109,11 @@ namespace EcellLib.PathwayWindow
                 e.PickedNode.MoveToFront();
         }
 
+        /// <summary>
+        /// Called when resize handles are dragged.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected override void OnDrag(object sender, PInputEventArgs e)
         {
             if (e.PickedNode is ResizeHandle)

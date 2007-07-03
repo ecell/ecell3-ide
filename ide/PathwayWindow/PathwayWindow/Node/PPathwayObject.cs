@@ -46,15 +46,48 @@ namespace EcellLib.PathwayWindow.Node
     public abstract class PPathwayObject : PNode
     {
         #region Abstract Methods
+        /// <summary>
+        /// Delete
+        /// </summary>
         public abstract void Delete();
+        /// <summary>
+        /// Highlighted
+        /// </summary>
+        /// <param name="highlight"></param>
+        /// <returns></returns>
         public abstract bool HighLighted(bool highlight);
+        /// <summary>
+        /// Initialize
+        /// </summary>
         public abstract void Initialize();
+        /// <summary>
+        /// DataChanged
+        /// </summary>
+        /// <param name="ecellObj"></param>
         public abstract void DataChanged(EcellObject ecellObj);
+        /// <summary>
+        /// DataDeleted
+        /// </summary>
         public abstract void DataDeleted();
+        /// <summary>
+        /// SelectChanged
+        /// </summary>
         public abstract void SelectChanged();
+        /// <summary>
+        /// Start
+        /// </summary>
         public abstract void Start();
+        /// <summary>
+        /// Change
+        /// </summary>
         public abstract void Change();
+        /// <summary>
+        /// Stop
+        /// </summary>
         public abstract void Stop();
+        /// <summary>
+        /// End
+        /// </summary>
         public abstract void End();
         /// <summary>
         /// Get a list of PathwayElement of this instance and children below this instance.
@@ -569,7 +602,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <para>
         /// <b>Performance Note</b>:  For some paths, this method can be very slow.  This is due
         /// to the implementation of IsVisible.  The problem usually occurs when many lines are
-        /// joined at very steep angles.  See <see cref="PProcess">PProcess Overview</see> for workarounds.
+        /// joined at very steep angles.  See <see cref="PEcellProcess">PProcess Overview</see> for workarounds.
         /// </para>
         /// </remarks>
         /// <param name="bounds">The rectangle to check for intersection.</param>
@@ -610,7 +643,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <para>
         /// <b>Performance Note</b>:  For some paths, this method can be very slow.  This is due
         /// to the implementation of IsVisible.  The problem usually occurs when many lines are
-        /// joined at very steep angles.  See <see cref="PProcess">PProcess Overview</see> for workarounds.
+        /// joined at very steep angles.  See <see cref="PEcellProcess">PProcess Overview</see> for workarounds.
         /// </para>
         /// </remarks>
         /// <param name="bounds">The rectangle to check for intersection.</param>
@@ -700,6 +733,9 @@ namespace EcellLib.PathwayWindow.Node
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public PPathwayObject()
         {
             pen = DEFAULT_PEN;
@@ -729,11 +765,6 @@ namespace EcellLib.PathwayWindow.Node
             {
                 g.DrawPath(pen, path);
             }
-        }
-
-        protected override void PaintAfterChildren(PPaintContext paintContext)
-        {
-            base.PaintAfterChildren(paintContext);
         }
         #endregion
 
@@ -937,6 +968,9 @@ namespace EcellLib.PathwayWindow.Node
             InvalidatePaint();
         }
 
+        /// <summary>
+        /// Cancel offsets of this object's all parent.
+        /// </summary>
         public virtual void CancelAllParentOffsets()
         {
             PNode dummyParent = null;
@@ -955,6 +989,10 @@ namespace EcellLib.PathwayWindow.Node
         #endregion
 
         #region Messaging between subclasses
+
+        /// <summary>
+        /// Notify children about movement.
+        /// </summary>
         public virtual void NotifyMovement()
         {
             PNodeList children = new PNodeList(this.ChildrenReference);
@@ -1030,24 +1068,6 @@ namespace EcellLib.PathwayWindow.Node
         // (using GetObjectData) serialized by someone else will be restored
         // when the node is deserialized.
         //****************************************************************
-
-        /// <summary>
-        /// Read this PProcess and all of its descendent nodes from the given SerializationInfo.
-        /// </summary>
-        /// <param name="info">The SerializationInfo to read from.</param>
-        /// <param name="context">The StreamingContext of this serialization operation.</param>
-        /// <remarks>
-        /// This constructor is required for Deserialization.
-        /// </remarks>
-        /*
-        protected PProcess(SerializationInfo info, StreamingContext context)
-            :
-            base(info, context)
-        {
-
-            pen = PUtil.ReadPen(info);
-        }
-        */
         /// <summary>
         /// Write this PProcess and all of its descendent nodes to the given SerializationInfo.
         /// </summary>

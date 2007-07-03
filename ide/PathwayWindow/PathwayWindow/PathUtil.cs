@@ -40,6 +40,9 @@ using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow
 {
+    /// <summary>
+    /// Utilities for PathwayWindow.
+    /// </summary>
     public class PathUtil
     {
         #region Readonlys
@@ -56,6 +59,9 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// Accessor for a dictionary of brushes
+        /// </summary>
         public Dictionary<string, Brush> BrushDic
         {
             get { return m_brushDic; }
@@ -146,6 +152,15 @@ namespace EcellLib.PathwayWindow
             return new RectangleF(centerX - size / 2f, centerY - size / 2f, size, size);
         }
 
+        /// <summary>
+        /// Get coordinates of an arrow head.
+        /// </summary>
+        /// <param name="arrowApex">an apex of an arrow</param>
+        /// <param name="guidePoint">an arrow line goes direction from arrowApex to guidePoint</param>
+        /// <param name="arrowRadianA">angle of skirt of an arrow head</param>
+        /// <param name="arrowRadianB">angle of skirt of an arrow head</param>
+        /// <param name="arrowLength">length of an arrow head</param>
+        /// <returns></returns>
         public static PointF[] GetArrowPoints(PointF arrowApex,
                                               PointF guidePoint,
                                               float arrowRadianA,
@@ -244,6 +259,11 @@ namespace EcellLib.PathwayWindow
             }
         }
 
+        /// <summary>
+        /// Remove path from absolute path.
+        /// </summary>
+        /// <param name="absolutePath"></param>
+        /// <returns></returns>
         public static string RemovePath(string absolutePath)
         {
             if (absolutePath == null || absolutePath.Equals("/"))
@@ -454,6 +474,9 @@ namespace EcellLib.PathwayWindow
             return list;
         }
 
+        /// <summary>
+        /// Create a dictionary (key: name of brush, value: Brush object)
+        /// </summary>
         public void createBrushDictionary()
         {
             m_brushDic = new Dictionary<string, Brush>();

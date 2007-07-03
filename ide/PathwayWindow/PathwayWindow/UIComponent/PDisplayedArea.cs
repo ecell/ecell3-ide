@@ -74,52 +74,93 @@ namespace EcellLib.PathwayWindow.UIComponent
         }
 
         #region inherited from PPathwayObject
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Delete()
         {            
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
+        /// <param name="highlight"></param>
+        /// <returns></returns>
         public override bool HighLighted(bool highlight)
         {
             return false;
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Initialize()
         {            
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
+        /// <param name="ecellObj"></param>
         public override void DataChanged(EcellObject ecellObj)
         {            
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void DataDeleted()
         {            
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void SelectChanged()
         {            
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Start()
         {            
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Change()
         {            
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Stop()
         {            
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void End()
         {            
         }
 
+        /// <summary>
+        /// Get elements related to this instance.
+        /// </summary>
+        /// <returns></returns>
         public override List<PathwayElement> GetElements()
         {
             return new List<PathwayElement>();
         }
 
+        /// <summary>
+        /// Create new instance.
+        /// </summary>
+        /// <returns></returns>
         public override PPathwayObject CreateNewObject()
         {
             return null;
@@ -127,12 +168,20 @@ namespace EcellLib.PathwayWindow.UIComponent
         #endregion
 
         #region Event
+        /// <summary>
+        /// Called when the mouse enter a displayed area.
+        /// </summary>
+        /// <param name="e"></param>
         public override void OnMouseEnter(PInputEventArgs e)
         {
             base.OnMouseEnter(e);
             e.Canvas.Cursor = m_hand;
         }
 
+        /// <summary>
+        /// Called when the mouse leave a displayed area.
+        /// </summary>
+        /// <param name="e"></param>
         public override void OnMouseLeave(PInputEventArgs e)
         {
             base.OnMouseLeave(e);

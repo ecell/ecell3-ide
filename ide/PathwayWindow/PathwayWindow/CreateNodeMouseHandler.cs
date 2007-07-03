@@ -77,11 +77,20 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         protected string m_surSystem;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="view"></param>
         public CreateNodeMouseHandler(PathwayView view)
         {
             this.m_view = view;
         }
 
+        /// <summary>
+        /// Return whether this handler accepts a certain event or not.
+        /// </summary>
+        /// <param name="e">checked event</param>
+        /// <returns>true if this handler accepts an event, false otherwise</returns>
         public override bool DoesAcceptEvent(PInputEventArgs e)
         {
             return e.Button != MouseButtons.Right;

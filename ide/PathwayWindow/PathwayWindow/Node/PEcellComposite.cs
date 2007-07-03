@@ -36,46 +36,82 @@ using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow.Node
 {
+    /// <summary>
+    /// Composite for nodes.
+    /// </summary>
     public class PEcellComposite : PPathwayObject
     {
         #region inherited from PPathwayObject
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Delete()
         {
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
+        /// <param name="highlight"></param>
+        /// <returns></returns>
         public override bool HighLighted(bool highlight)
         {
             return false;
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Initialize()
         {
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
+        /// <param name="ecellObj"></param>
         public override void DataChanged(EcellObject ecellObj)
         {
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void DataDeleted()
         {
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void SelectChanged()
         {
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Start()
         {
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Change()
         {
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Stop()
         {
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void End()
         {
         }
@@ -96,12 +132,21 @@ namespace EcellLib.PathwayWindow.Node
             return elementList;
         }
 
+        /// <summary>
+        /// Create new instance of this class.
+        /// Actually returns null.
+        /// </summary>
+        /// <returns>null</returns>
         public override PPathwayObject CreateNewObject()
         {
             return null;
         }
         #endregion
 
+        /// <summary>
+        /// Called when the mouse is clicked on this object.
+        /// </summary>
+        /// <param name="e"></param>
         public override void OnClick(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnClick(e);
@@ -111,6 +156,10 @@ namespace EcellLib.PathwayWindow.Node
             }
         }
 
+        /// <summary>
+        /// Called when the mouse is down on this object.
+        /// </summary>
+        /// <param name="e"></param>
         public override void OnMouseDown(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseDown(e);

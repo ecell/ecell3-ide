@@ -42,15 +42,29 @@ using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// PathwayCanvas which have piccolo objects.
+    /// </summary>
     public class PathwayCanvas : PCanvas
     {
+        /// <summary>
+        /// CanvasView to which this PathwayCanvas belongs
+        /// </summary>
         protected CanvasView m_cview = null;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="cview"></param>
         public PathwayCanvas(CanvasView cview)
         {
             m_cview = cview;
         }
 
+        /// <summary>
+        /// Called when the mouse is on this canvas.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);

@@ -43,7 +43,11 @@ namespace EcellLib.PathwayWindow.Element
         /// <summary>
         /// Enumeration for type of attribute.
         /// </summary>
-        public enum AttributeType { Size };
+        public enum AttributeType {
+            /// <summary>
+            /// Size of system.
+            /// </summary>
+            Size };
 
         /// <summary>
         /// Which type of attribute.

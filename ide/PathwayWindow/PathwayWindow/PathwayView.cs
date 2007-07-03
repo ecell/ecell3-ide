@@ -45,7 +45,6 @@ using UMD.HCIL.Piccolo.Util;
 using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Node;
 using EcellLib.PathwayWindow.Element;
-using EllLib.PathwayWindow;
 using PathwayWindow;
 using PathwayWindow.UIComponent;
 using System.IO;
@@ -61,7 +60,15 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Direction of scrolling the canvas.
         /// </summary>
-        public enum Direction { Vertical, Horizontal };
+        public enum Direction {
+            /// <summary>
+            /// vertical direction
+            /// </summary>
+            Vertical,
+            /// <summary>
+            /// horizontal direction
+            /// </summary>
+            Horizontal };
         #endregion
 
         #region Static readonly fields
@@ -242,6 +249,9 @@ namespace EcellLib.PathwayWindow
             get { return m_canvasDict; }
         }
 
+        /// <summary>
+        /// Accessor for currently active canvas.
+        /// </summary>
         public CanvasView ActiveCanvas
         {
             get { return m_canvasDict[m_activeCanvasID]; }
@@ -415,7 +425,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// not implement.
         /// when we introduce the multi model, 
-        //  you must edit this function.
+        ///  you must edit this function.
         /// </summary>
         /// <param name="sender">MenuStripItem.</param>
         /// <param name="e">EventArgs.</param>
@@ -451,6 +461,23 @@ namespace EcellLib.PathwayWindow
             ((DataGridView)sender).CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
 
+        /// <summary>
+        /// Add new object to this canvas.
+        /// </summary>
+        /// <param name="canvasName">name of canvas</param>
+        /// <param name="systemName">name of system</param>
+        /// <param name="cType">type of component</param>
+        /// <param name="cs">ComponentSetting</param>
+        /// <param name="key">key</param>
+        /// <param name="hasCoords">whether an object has coordinates or not</param>
+        /// <param name="x">x</param>
+        /// <param name="y">y</param>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
+        /// <param name="needToNotify">whether notification is needed or not</param>
+        /// <param name="eo">EcellObject</param>
+        /// <param name="valueStr"></param>
+        /// <param name="change"></param>
         public void AddNewObj(string canvasName,
             string systemName,
             ComponentType cType,
@@ -462,7 +489,7 @@ namespace EcellLib.PathwayWindow
             float width,
             float height,
             bool needToNotify,
-            EcellObject eo,            
+            EcellObject eo,
             string valueStr,
             bool change)
         {
@@ -623,6 +650,7 @@ namespace EcellLib.PathwayWindow
         /// Add PPathwayObject to selected layer of PCanvas
         /// </summary>
         /// <param name="canvas">obj is add to this canvas</param>
+        /// <param name="system">obj is add to this system</param>
         /// <param name="obj">obj is add to this canvas</param>
         public void AddChildToSelectedLayer(string canvas, string system, PPathwayObject obj)
         {
@@ -1011,7 +1039,6 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The event sequence on changing value of data at other plugin.
         /// </summary>
-        /// <param name="modelID">The model ID before value change.</param>
         /// <param name="key">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
         /// <param name="data">Changed value of object.</param>
@@ -1060,7 +1087,6 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The event sequence on deleting the object at other plugin.
         /// </summary>
-        /// <param name="modelID">The model ID of deleted object.</param>
         /// <param name="key">The ID of deleted object.</param>
         /// <param name="type">The object type of deleted object.</param>        
         public void DataDelete(string key, ComponentType type)
@@ -1158,9 +1184,8 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The event sequence on changing selected object at other plugin.
         /// </summary>
-        /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
-        /// <param name="key">Selected the data type.</param>
+        /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string key, ComponentType type)
         {
             switch(type)
@@ -1207,58 +1232,6 @@ namespace EcellLib.PathwayWindow
             if (m_pathwayWindow != null)
                 m_pathwayWindow.NotifyDataAdd(list);
         }
-
-        /// <summary>
-        /// Notify DataAdd event to outside.
-        /// </summary>
-        /// <param name="canvasName">Canvas name exsited object.</param>
-        /// <param name="dict">added objects.</param>
-        /*
-        public void NotifyDataAdd(string canvasName, Dictionary<string, EcellObject> dict)
-        {
-            List<EcellObject> list = new List<EcellObject>();
-            foreach(KeyValuePair<string, EcellObject> pair in dict)
-            {
-                if(pair.Value.type.Equals(SYSTEM_STRING))
-                {
-                    if (m_keySysCanvasDict.ContainsKey(pair.Key))
-                    {
-                        throw new DuplicateKeyException("System:" + pair.key);
-                    }
-                    else
-                    {
-                        m_keySysCanvasDict.Add(pair.Key,canvasName);
-                        list.Add(pair.Value);
-                    }
-                }
-                else if(pair.Value.type.Equals(VARIABLE_STRING))
-                    {
-                    if (m_keyVarCanvasDict.ContainsKey(pair.Key))
-                    {
-                        throw new DuplicateKeyException();
-                    }
-                    else
-                    {
-                        m_keyVarCanvasDict.Add(pair.Key,canvasName);
-                        list.Add(pair.Value);
-                    }
-                }
-                else if(pair.Value.type.Equals(PROCESS_STRING))
-                {
-                    if (m_keySysCanvasDict.ContainsKey(pair.Key))
-                    {
-                        throw new DuplicateKeyException();
-                    }
-                    else
-                    {
-                        m_keyProCanvasDict.Add(pair.Key, canvasName);
-                        list.Add(pair.Value);
-                    }
-                }
-            }
-            if (m_pathwayWindow != null)
-                m_pathwayWindow.NotifyDataAdd(list);
-        }*/
 
         /// <summary>
         /// Notify DataChanged event to outside (PathwayView -> PathwayWindow -> DataManager)
@@ -1311,9 +1284,10 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Inform the changing of EcellObject in PathwayEditor to DataManager.
         /// </summary>
-        /// <param name="proKey"></param>
-        /// <param name="varKey"></param>
-        /// <param name="coefficient"></param>
+        /// <param name="proKey">key of process</param>
+        /// <param name="varKey">key of variable</param>
+        /// <param name="changeType">type of change</param>
+        /// <param name="coefficient">coefficient of VariableReference</param>
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient)
         {
             m_pathwayWindow.NotifyVariableReferenceChanged( proKey, varKey, changeType, coefficient );
@@ -1634,6 +1608,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="elements">The contents of the pathway window will be
         /// replaced with these elements</param>
+        /// <param name="doLayout">whether nodes should be layouted or not</param>
         /// <returns>Old PathwayElements which was replaced</returns>
         public List<PathwayElement> Replace(List<PathwayElement> elements, bool doLayout)
         {
@@ -2071,6 +2046,11 @@ namespace EcellLib.PathwayWindow
             this.CanvasDictionary[e.Canvas.Name].AddSelectedLine(line);
         }
 
+        /// <summary>
+        /// Called when a node moves
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void NodeMoved(object sender, PInputEventArgs e)
         {
             if (!(e.PickedNode is PPathwayNode))
@@ -2079,6 +2059,11 @@ namespace EcellLib.PathwayWindow
             }
         }
 
+        /// <summary>
+        /// Called when node is unselected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void NodeUnselected(object sender, PInputEventArgs e)
         {
             if (!(e.PickedNode is PPathwayNode))

@@ -54,6 +54,9 @@ namespace EcellLib.PathwayWindow.Element
         {
         }
 
+        /// <summary>
+        /// Accessor foor fixation of this element.
+        /// </summary>
         [XmlIgnore]
         public bool Fixed
         {

@@ -39,9 +39,15 @@ using EcellLib.PathwayWindow.Figure;
 
 namespace EcellLib.PathwayWindow.Node
 {
+    /// <summary>
+    /// Super class for piccolo object of variable, process, etc.
+    /// </summary>
     public class PPathwayNode : PPathwayObject
     {
         #region Fields(readonly)
+        /// <summary>
+        /// Font size for text.
+        /// </summary>
         protected static readonly int m_nodeTextFontSize = 10;
         #endregion
 
@@ -103,6 +109,9 @@ namespace EcellLib.PathwayWindow.Node
             }
         }
 
+        /// <summary>
+        /// Accessor for handler for edge line.
+        /// </summary>
         public PInputEventHandler Handler4Line
         {
             get { return this.m_handler4Line; }
@@ -204,48 +213,96 @@ namespace EcellLib.PathwayWindow.Node
         #endregion
 
         #region Inherited Methods
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Delete()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
+        /// <param name="highlight"></param>
+        /// <returns></returns>
         public override bool HighLighted(bool highlight)
         {
             return true;
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Initialize()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
+        /// <param name="ecellObj"></param>
         public override void DataChanged(EcellObject ecellObj)
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void DataDeleted()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void SelectChanged()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Start()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Change()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void Stop()
         {
         }
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
         public override void End()
         {
         }
+        /// <summary>
+        /// Get a list of PathwayElement which are related to this node.
+        /// </summary>
+        /// <returns></returns>
         public override List<PathwayElement> GetElements()
         {
             return new List<PathwayElement>();
         }
+        /// <summary>
+        /// Create new instance of this class.
+        /// </summary>
+        /// <returns></returns>
         public override PPathwayObject CreateNewObject()
         {
             return new PPathwayNode();
         }
+        /// <summary>
+        /// Add related node.
+        /// </summary>
+        /// <param name="node"></param>
         public virtual void AddRelatedNode(PPathwayNode node)
         {
         }
+        /// <summary>
+        /// Memorize current position of this node.
+        /// </summary>
         public override void MemorizeCurrentPosition()
         {
             base.m_originalX = base.X;
@@ -253,6 +310,9 @@ namespace EcellLib.PathwayWindow.Node
             base.m_originalOffsetX = base.OffsetX;
             base.m_originalOffsetY = base.OffsetY;
         }
+        /// <summary>
+        /// Return this node to a memorized position.
+        /// </summary>
         public override void ReturnToMemorizedPosition()
         {
             base.X = base.m_originalX;
@@ -261,6 +321,10 @@ namespace EcellLib.PathwayWindow.Node
             base.OffsetY = base.m_originalOffsetY;
             this.Refresh();
         }
+        /// <summary>
+        /// Called when the mouse enters this object.
+        /// </summary>
+        /// <param name="e"></param>
         public override void OnMouseEnter(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseEnter(e);
@@ -269,6 +333,10 @@ namespace EcellLib.PathwayWindow.Node
                 base.m_set.NotifyMouseEnter(this.Element);
             }
         }
+        /// <summary>
+        /// Called when the mouse leaves this object.
+        /// </summary>
+        /// <param name="e"></param>
         public override void OnMouseLeave(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseLeave(e);
@@ -370,6 +438,10 @@ namespace EcellLib.PathwayWindow.Node
                                          m_nodeElement.Y);
         }
 
+        /// <summary>
+        /// String expression of this object.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return base.ToString() + ", m_idText.X:" + m_idText.X + ", m_idText.Y:" + m_idText.Y

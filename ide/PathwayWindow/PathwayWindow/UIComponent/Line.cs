@@ -64,6 +64,9 @@ namespace PathwayWindow.UIComponent
             m_edgeInfo = edgeInfo;
         }
 
+        /// <summary>
+        /// highlight this line.
+        /// </summary>
         public void highlight()
         {
             float width = this.Pen.Width;
@@ -71,6 +74,9 @@ namespace PathwayWindow.UIComponent
             this.Brush = Brushes.Orange;
         }
 
+        /// <summary>
+        /// Turn off highlight status.
+        /// </summary>
         public void unhighlight()
         {
             float width = this.Pen.Width;
@@ -78,6 +84,11 @@ namespace PathwayWindow.UIComponent
             this.Brush = Brushes.Black;
         }
 
+        /// <summary>
+        /// Inherited method.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public override void SetOffset(float x, float y)
         {
             //base.SetOffset(x, y);

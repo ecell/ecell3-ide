@@ -60,9 +60,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// PropertyEditor. By using this, parameters for new object will be input.
         /// </summary>
-        //protected UIComponent.PropertyEditor m_editor;
-
-        protected PropertyEditor m_editor;
+        //protected PropertyEditor m_editor;
 
         protected PointF m_startPoint;
         protected PPath m_selectedPath;
@@ -299,73 +297,5 @@ namespace EcellLib.PathwayWindow
             }
             m_startPoint = PointF.Empty;
         }
-
-        /// <summary>
-        /// For cancel button of the system create dialog.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /*
-        void CButton_Click(object sender, EventArgs e)
-        {
-            m_set.ResetSelectedObjects();
-        }*/
-
-        /// <summary>
-        /// For OK button of the system create dialog.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /*
-        void NewOkButton_Click(object sender, EventArgs e)
-        {
-            EcellObject eo = m_editor.Collect();
-
-            if (eo == null) return;
-
-            if (m_view.CanvasDictionary[m_set.CanvasID].Systems.ContainsKey(eo.key))
-                return;
-            
-            List<PPathwayObject> newlySelectedList = new List<PPathwayObject>();
-
-            foreach (PLayer layer in m_set.Layers.Values)
-            {
-                PNodeList list = new PNodeList();
-                layer.FindIntersectingNodes(m_rect, list);
-                foreach (PNode node in list)
-                    if (node is PPathwayObject)
-                        newlySelectedList.Add((PPathwayObject)node);
-            }
-            string parentSystemName = PathUtil.GetParentSystemId(eo.key);
-            ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
-            if (eo.M_instances.Count == 0)
-            {
-                m_view.AddNewObj(m_set.CanvasID, parentSystemName, ComponentType.System, cs, eo.key,
-                                  true, m_rect.X, m_rect.Y, m_rect.Width, m_rect.Height, true, eo);
-            }
-            else
-            {
-                List<EcellObject> tmpList = eo.M_instances;
-                eo.M_instances = new List<EcellObject>();
-                m_view.AddNewObj(m_set.CanvasID, parentSystemName, ComponentType.System, cs, eo.key,
-                                  true, m_rect.X, m_rect.Y, m_rect.Width, m_rect.Height, true, eo);
-                DataManager dManager = DataManager.GetDataManager();
-                dManager.DataAdd(tmpList);
-            }
-
-            foreach (PPathwayObject node in newlySelectedList)
-            {
-                if (node.Parent is PLayer || (node.Parent is PEcellComposite && node.Parent.Parent is PLayer))
-                {
-                    node.Parent.RemoveChild(node);
-                    m_set.AddNewObj(null, eo.key, node, true, false);
-                    //m_set.AddChildToSelectedSystem(eo.key, node, true);
-                }
-            }
-            m_set.TransferSelectedTo(eo.key);
-
-            m_editor.Close();
-            m_editor.Dispose();
-        }*/
     }
 }

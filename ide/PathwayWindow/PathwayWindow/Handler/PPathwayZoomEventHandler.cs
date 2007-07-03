@@ -77,6 +77,9 @@ namespace EcellLib.PathwayWindow.Handler
 		#endregion
 
 		#region Accessors
+        /// <summary>
+        /// Accessor for PathwayView, which this handler controls
+        /// </summary>
         public PathwayView View
         {
             get { return m_view; }
@@ -146,11 +149,6 @@ namespace EcellLib.PathwayWindow.Handler
 			base.OnDragActivityFirstStep(sender, e);
         }
 
-        public new void ActivityStepped(PActivity activity)
-        {
-            base.ActivityStepped(activity);
-        }
-
 		/// <summary>
 		/// Overridden.  See <see cref="PDragSequenceEventHandler.OnDragActivityStep">
 		/// PDragSequenceEventHandler.OnDragActivityStep</see>.
@@ -177,16 +175,7 @@ namespace EcellLib.PathwayWindow.Handler
 
 			camera.ScaleViewBy(scaleDelta, m_viewZoomPoint.X, m_viewZoomPoint.Y);
 		}
-        
-        protected override void OnStartDrag(object sender, PInputEventArgs e)
-        {
-            base.OnStartDrag(sender, e);
-        }
-        
-        protected override void OnDrag(object sender, PInputEventArgs e)
-        {
-            base.OnDrag(sender, e);
-        }
+
         /// <summary>
         /// Called when drag finished.
         /// </summary>

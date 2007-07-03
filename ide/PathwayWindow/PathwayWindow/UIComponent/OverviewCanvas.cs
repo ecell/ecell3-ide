@@ -92,22 +92,36 @@ namespace EcellLib.PathwayWindow.UIComponent
             UpdateTransparent();
         }
 
+        /// <summary>
+        /// Set layer which will be overviewed on this overview canvas.
+        /// </summary>
+        /// <param name="layer"></param>
         public void AddObservedLayer(PLayer layer)
         {
             this.Camera.AddLayer(0,layer);
         }
 
+        /// <summary>
+        /// Stop to observe a layer.
+        /// </summary>
+        /// <param name="layer">a layer</param>
         public void RemoveObservedLayer(PLayer layer)
         {
             this.Camera.RemoveLayer(layer);
         }
 
+        /// <summary>
+        /// Update position of transparent node
+        /// </summary>
         public void UpdateTransparent()
         {
             RectangleF rect = this.Camera.ViewBounds;
             m_transparentNode.SetBounds(rect.X,rect.Y,rect.Width,rect.Height);
         }
 
+        /// <summary>
+        /// Handler for an overview.
+        /// </summary>
         public class AreaDragHandler : PDragEventHandler
         {
             /// <summary>
@@ -121,11 +135,20 @@ namespace EcellLib.PathwayWindow.UIComponent
             private PointF startPoint;
             private PointF prevPoint;
 
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="mainCamera"></param>
             public AreaDragHandler(PCamera mainCamera)
             {
                 this.m_mainCamera = mainCamera;
             }
 
+            /// <summary>
+            /// Called when the mouse is dragged.
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
             protected override void OnDrag(object sender, PInputEventArgs e)
             {
                 if(e.PickedNode is PPath)
@@ -139,6 +162,11 @@ namespace EcellLib.PathwayWindow.UIComponent
                 prevPoint = e.PickedNode.Offset;
             }
 
+            /// <summary>
+            /// Called when the mouse is down.
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
             public override void OnMouseDown(object sender, PInputEventArgs e)
             {
                 base.OnMouseDown(sender, e);

@@ -41,18 +41,39 @@ namespace EcellLib.PathwayWindow.Element
     /// </summary>
     public enum EdgeDirection
     {
-        Outward, // outward direction
-        Inward, // inward direction
-        Bidirection, // outward & inward direction
-        None // An edge has no direction
+        /// <summary>
+        /// Outward direction
+        /// </summary>
+        Outward,
+        /// <summary>
+        /// Inward direction
+        /// </summary>
+        Inward,
+        /// <summary>
+        /// Outward and inward direction
+        /// </summary>
+        Bidirection,
+        /// <summary>
+        /// An edge has no direction
+        /// </summary>
+        None
     }
     /// <summary>
     /// Enumeration of a type of a line.
     /// </summary>
     public enum LineType
     {
+        /// <summary>
+        /// Unknown type
+        /// </summary>
         Unknown,
+        /// <summary>
+        /// Solid line
+        /// </summary>
         Solid,
+        /// <summary>
+        /// Dashed line
+        /// </summary>
         Dashed
     }
     #endregion
@@ -83,7 +104,10 @@ namespace EcellLib.PathwayWindow.Element
         #endregion
 
         #region Accessors
-        [XmlIgnore]
+        /// <summary>
+        /// Accessor for a dictionary of edges.
+        /// </summary>
+        [XmlIgnore]        
         public Dictionary<string, EdgeInfo> Edges
         {
             get { return m_edges; }
@@ -92,6 +116,9 @@ namespace EcellLib.PathwayWindow.Element
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ProcessElement()
         {
             base.Element = ElementType.Process;
@@ -204,9 +231,10 @@ namespace EcellLib.PathwayWindow.Element
 
         #region Constructor
         /// <summary>
-        /// The constructor
+        /// Constructor
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="proKey">key of process</param>
+        /// <param name="varKey">key of variable</param>
         public EdgeInfo(string proKey, string varKey)
         {
             m_proKey = proKey;

@@ -50,7 +50,31 @@ namespace EcellLib.PathwayWindow.Element
         /// Type of element.
         /// In constructor of subclasses, one of this type will be set to m_elementType.
         /// </summary>
-        public enum ElementType { Canvas, Layer, System, Variable, Process, Attribute };
+        public enum ElementType {
+            /// <summary>
+            /// type of pathway canvas
+            /// </summary>
+            Canvas,
+            /// <summary>
+            /// type of layer
+            /// </summary>
+            Layer,
+            /// <summary>
+            /// type of system
+            /// </summary>
+            System,
+            /// <summary>
+            /// type of variable
+            /// </summary>
+            Variable, 
+            /// <summary>
+            /// type of process
+            /// </summary>
+            Process,
+            /// <summary>
+            /// type of attribute
+            /// </summary>
+            Attribute };
 
         /// <summary>
         /// Type of element for this instance.
