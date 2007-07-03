@@ -106,6 +106,7 @@
     <Compile Include="Figure\Ellilpse.cs" />
     <Compile Include="Figure\FigureBase.cs" />
     <Compile Include="Figure\Rectangle.cs" />
+    <Compile Include="GridLayout.cs" />
     <Compile Include="Handler\NamespaceDoc.cs" />
     <Compile Include="Handler\PPathwayZoomEventHandler.cs" />
     <Compile Include="ILayoutAlgorithm.cs" />
@@ -114,10 +115,21 @@
     <Compile Include="NoSuchComponentClassException.cs" />
     <Compile Include="NoSuchComponentKindException.cs" />
     <Compile Include="PathwayException.cs" />
+    <Compile Include="PathwayView.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PathwayView.resx</DependentUpon>
+    </Compile>
     <Compile Include="PathwayWindow.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PathwayWindow.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProgressDialog.Designer.cs">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UIComponent\Line.cs" />
     <Compile Include="UIComponent\OverviewCanvas.cs">
@@ -156,6 +168,16 @@
     <Compile Include="UniqueKey.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="PathwayView.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PathwayView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PathwayView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PathwayView.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PathwayView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="PathwayWindow.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PathwayWindow.cs</DependentUpon>
@@ -165,6 +187,10 @@
       <DependentUpon>PathwayWindow.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PathwayWindow.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resource1.ja.resx">
       <SubType>Designer</SubType>

@@ -90,7 +90,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The name of default layout algorithm
         /// </summary>
-        static string m_defLayout = "GridLayout";
+        static string m_defLayout = "Grid";
         #endregion
 
         #region Fields
@@ -158,7 +158,7 @@ namespace EcellLib.PathwayWindow
             get
             {
                 if (m_defLayoutIdx == -1)
-                    return new DefaultLayoutAlgorithm();
+                    return new GridLayout();
                 else if (m_defLayoutIdx < m_layoutList.Count)
                     return m_layoutList[m_defLayoutIdx];
                 else

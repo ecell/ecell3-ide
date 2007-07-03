@@ -48,6 +48,7 @@ using EcellLib.PathwayWindow.Element;
 using PathwayWindow;
 using PathwayWindow.UIComponent;
 using System.IO;
+using System.ComponentModel;
 
 namespace EcellLib.PathwayWindow
 {
@@ -1543,10 +1544,12 @@ namespace EcellLib.PathwayWindow
             // No nodes are selected, so exit.
             if (this.ActiveCanvas.SelectedNodes.Count == 0)
             {
-                MessageBox.Show("Please select at least one node for using " + algorithm.GetName() + " layout",
+                ComponentResourceManager crm = new ComponentResourceManager(typeof(PathwayView));
+                MessageBox.Show(crm.GetString("MsgLayoutNoNode"),
                                 "Layout Error",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
+                return;
             }
 
             List<NodeElement> nodeElements = new List<NodeElement>();
