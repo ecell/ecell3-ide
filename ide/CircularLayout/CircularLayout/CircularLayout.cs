@@ -37,8 +37,23 @@ using System.Drawing;
 
 namespace EcellLib.CircularLayout
 {
+    /// <summary>
+    /// Layout algorithm to layout nodes on a circle
+    /// </summary>
     public class CircularLayout : ILayoutAlgorithm
     {
+        /// <summary>
+        /// Execute layout
+        /// </summary>
+        /// <param name="subNum">
+        /// An index of sub command which was clicked on subMenu.
+        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
+        /// If layout name itself was clicked, subCommandNum = -1.
+        /// </param>
+        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
+        /// <param name="systemElements">Systems</param>
+        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
+        /// <returns>Whether layout is completed or aborted</returns>
         public bool DoLayout(int subNum,
                              bool layoutSystem,
                              List<SystemElement> systemElements,
@@ -557,17 +572,6 @@ namespace EcellLib.CircularLayout
         }
 
         /// <summary>
-        /// A relation matrix contains node relations on the pathway.
-        /// relationMatrix[i,j] == true  means that node i and node j are connected on the pathway.
-        /// </summary>
-        /// <param name="nodeElements">relation of these nodes will be checked</param>
-        /// <returns>relationMatrix, described above</returns>
-        /*
-        private bool[] GetRelationMatrix(List<NodeElement> nodeElements)
-        {
-        }*/
-
-        /// <summary>
         /// Get a rectangle surrounded by given nodes.
         /// </summary>
         /// <param name="nodeElements">rectangle, which will be surrounded by these nodes will be returned.</param>
@@ -660,25 +664,37 @@ namespace EcellLib.CircularLayout
         }
         #endregion
 
-
-
-
-
+        /// <summary>
+        /// Get LayoutType of this layout
+        /// </summary>
+        /// <returns>LayoutType of this layout</returns>
         public LayoutType GetLayoutType()
         {
             return LayoutType.Selected;
         }
 
+        /// <summary>
+        /// Get a name of this layout
+        /// </summary>
+        /// <returns>a name of this layout</returns>
         public string GetName()
         {
             return "Circular";
         }
 
+        /// <summary>
+        /// Get a tooltip of this layout
+        /// </summary>
+        /// <returns>tooltip</returns>
         public string GetToolTipText()
         {
             return "Nodes will be layouted circularly";
         }
 
+        /// <summary>
+        /// Get a list of names for submenu.
+        /// </summary>
+        /// <returns>a list of name of sub commands</returns>
         public List<string> GetSubCommands()
         {
             return null;

@@ -35,10 +35,41 @@ using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.AlignLayout
 {
+    /// <summary>
+    /// Layout algorithm to align nodes
+    /// </summary>
     public class AlignLayout : ILayoutAlgorithm
     {
-        enum Alignment { Left, Right, Upper, Lower }
+        enum Alignment {
+            /// <summary>
+            /// Align vertically at left side.
+            /// </summary>
+            Left,
+            /// <summary>
+            /// Align vertically at right side.
+            /// </summary>
+            Right,
+            /// <summary>
+            /// Align horizontally at upper side.
+            /// </summary>
+            Upper,
+            /// <summary>
+            /// Align horizontally at lower side.
+            /// </summary>
+            Lower }
 
+        /// <summary>
+        /// Execute layout
+        /// </summary>
+        /// <param name="subNum">
+        /// An index of sub command which was clicked on subMenu.
+        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
+        /// If layout name itself was clicked, subCommandNum = -1.
+        /// </param>
+        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
+        /// <param name="systemElements">Systems</param>
+        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
+        /// <returns>Whether layout is completed or aborted</returns>
         public bool DoLayout(int subNum,
                              bool layoutSystem,
                              List<SystemElement> systemElements,
@@ -147,21 +178,37 @@ namespace EcellLib.AlignLayout
             return true;
         }
 
+        /// <summary>
+        /// Get LayoutType of this layout
+        /// </summary>
+        /// <returns>LayoutType of this layout</returns>
         public LayoutType GetLayoutType()
         {
             return LayoutType.Selected;
         }
 
+        /// <summary>
+        /// Get a name of this layout
+        /// </summary>
+        /// <returns>a name of this layout</returns>
         public string GetName()
         {
             return "Align";
         }
 
+        /// <summary>
+        /// Get a tooltip of this layout
+        /// </summary>
+        /// <returns>tooltip</returns>
         public string GetToolTipText()
         {
             return "Nodes will be aligned linearly";
         }
 
+        /// <summary>
+        /// Get a list of names for submenu.
+        /// </summary>
+        /// <returns>a list of name of sub commands</returns>
         public List<string> GetSubCommands()
         {
             List<string> subCommands = new List<string>();

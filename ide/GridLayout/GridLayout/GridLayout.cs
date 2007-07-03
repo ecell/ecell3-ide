@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace GridLayout
 {
+    /// <summary>
+    /// Layout algorithm to layout nodes on grid.
+    /// </summary>
     public class GridLayout : ILayoutAlgorithm
     {
         #region fields
@@ -60,6 +63,18 @@ namespace GridLayout
         #endregion
 
         #region inherited from ILayoutAlgorithm
+        /// <summary>
+        /// Execute layout
+        /// </summary>
+        /// <param name="subNum">
+        /// An index of sub command which was clicked on subMenu.
+        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
+        /// If layout name itself was clicked, subCommandNum = -1.
+        /// </param>
+        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
+        /// <param name="systemElements">Systems</param>
+        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
+        /// <returns>Whether layout is completed or aborted</returns>
         public bool DoLayout(int subNum,
                              bool layoutSystem,
                              List<SystemElement> systemElements,
@@ -106,21 +121,37 @@ namespace GridLayout
             return true;
         }
 
+        /// <summary>
+        /// Get LayoutType of this layout algorithm.
+        /// </summary>
+        /// <returns></returns>
         public LayoutType GetLayoutType()
         {
             return LayoutType.Whole;
         }
 
+        /// <summary>
+        /// Get a name of this layout algorithm.
+        /// </summary>
+        /// <returns></returns>
         public string GetName()
         {
             return "GridLayout";
         }
 
+        /// <summary>
+        /// Get a tooltip of this layout algorithm.
+        /// </summary>
+        /// <returns></returns>
         public string GetToolTipText()
         {
             return "Each nodes will be layouted on the grid";
         }
 
+        /// <summary>
+        /// Get a list of name of sub menus.
+        /// </summary>
+        /// <returns>a list of name of sub menus</returns>
         public List<string> GetSubCommands()
         {
             return null;
@@ -333,7 +364,9 @@ namespace GridLayout
         /// Layout nodes within the system
         /// </summary>
         /// <param name="sysElement">nodes must be within this sytem</param>
+        /// <param name="childSystems">child systems of this system</param>
         /// <param name="nodeElements">nodes, to be layouted</param>
+        /// <param name="dialog">a progress bar</param>
         private void DoNodeLayout(SystemElement sysElement, List<SystemElement> childSystems, List<NodeElement> nodeElements, ProgressDialog dialog)
         {
             int[,] relationMatrix = CreateRelationMatrix(nodeElements);
@@ -459,13 +492,11 @@ namespace GridLayout
         ///     This matrix contains node relation.
         ///     If relationMatrix[1,3] is true, nodeElements[1] and nodeElements[3] are connected in a pathway. 
         /// </param>
-        /// <param name="relationMatrix">
-        ///     This matrix contains node relation.
-        ///     If relationMatrix[1,3] is true, nodeElements[1] and nodeElements[3] are connected in a pathway. </param>
         /// <param name="nodeIndex">a node of nodeElements at nodeIndex position, will be moved</param>
         /// <param name="nodeElements">an array of all nodes</param>
         /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
         /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
+        /// <param name="posMatrix">a matrix of positions in grid coordinate system</param>
         /// <returns></returns>
         private DirectionEnergyDiff GetNeighbor(int[,] relationMatrix, int nodeIndex, List<NodeElement> nodeElements, int maxX, int maxY, bool[,] posMatrix)
         {
@@ -617,6 +648,7 @@ namespace GridLayout
         /// </summary>
         /// <param name="nodeElement">a node, to be moved.</param>
         /// <param name="direction">direction, to be moved to.</param>
+        /// <param name="posMatrix">a matrix of position in grid coordinate system</param>
         private void MoveNode(NodeElement nodeElement, GridLayout.Direction direction, bool[,] posMatrix)
         {
             if(posMatrix != null)
@@ -661,7 +693,8 @@ namespace GridLayout
         /// </summary>
         /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
         /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
-        /// <param name="nodeElements"></param>
+        /// <param name="nodeElements">nodes, which will be layouted</param>
+        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
         /// <returns>false, if no enough space for nodes. otherwise, return true.</returns>
         private bool RandomizeLayout(int maxX, int maxY, List<NodeElement> nodeElements, bool[,] posMatrix)
         {
