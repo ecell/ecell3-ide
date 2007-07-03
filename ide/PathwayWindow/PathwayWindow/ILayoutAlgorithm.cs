@@ -74,25 +74,31 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Which LayoutType does this algorithm serves.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>layout type of this algorithm</returns>
         LayoutType GetLayoutType();
+
+        /// <summary>
+        /// Get menu name of this algorithm
+        /// </summary>
+        /// <returns>menu name of this algorithm</returns>
+        string GetMenuText();
 
         /// <summary>
         /// This name is displayed for this layout menu in MainWindow.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>name of this algorithm</returns>
         string GetName();
 
         /// <summary>
         /// This tip is displayed when mouse is on this layout menu.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>tooltip text</returns>
         string GetToolTipText();
 
         /// <summary>
         /// The names of submenus shown when the mouse is on this layout menu.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a list of submenu names</returns>
         List<string> GetSubCommands();
     }
 }

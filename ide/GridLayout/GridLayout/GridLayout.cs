@@ -83,7 +83,7 @@ namespace EcellLib.GridLayout
                              List<NodeElement> nodeElements)
         {
             // Prepare the progress bar
-            EcellLib.PathwayWindow.ProgressDialog form = new EcellLib.PathwayWindow.ProgressDialog();
+            ProgressDialog form = new ProgressDialog();
             form.Bar.Minimum = 1;
             form.Bar.Maximum = m_kmax;
             form.Bar.Step = 1;
@@ -380,7 +380,7 @@ namespace EcellLib.GridLayout
         /// <param name="childSystems">child systems of this system</param>
         /// <param name="nodeElements">nodes, to be layouted</param>
         /// <param name="dialog">a progress bar</param>
-        private void DoNodeLayout(SystemElement sysElement, List<SystemElement> childSystems, List<NodeElement> nodeElements, EcellLib.PathwayWindow.ProgressDialog dialog)
+        private void DoNodeLayout(SystemElement sysElement, List<SystemElement> childSystems, List<NodeElement> nodeElements, ProgressDialog dialog)
         {
             int[,] relationMatrix = CreateRelationMatrix(nodeElements);
 
