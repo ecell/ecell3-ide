@@ -33,6 +33,7 @@
 
 using System;
 using System.IO;
+using System.ComponentModel;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -161,6 +162,10 @@ namespace EcellLib
         private int m_processNumbering = 0;
         private int m_systemNumbering = 0;
         private int m_variableNumbering = 0;
+        /// <summary>
+        /// ResourceManager for StaticDebugSetupWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(DataManager));
         #endregion
 
         /// <summary>
@@ -1004,7 +1009,8 @@ namespace EcellLib
             if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
             {
-                DialogResult r = MessageBox.Show("Simulation is running. Would you reset the simulation?",
+                String mes = m_resources.GetString("ConfirmReset");
+                DialogResult r = MessageBox.Show(mes,
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK)
                 {
@@ -1358,7 +1364,8 @@ namespace EcellLib
                     throw new IgnoreException("Can't change the object.");                    
                 }
                  */
-                MessageBox.Show("Can't change the properties of object while simulation.\nSimulation is stopped!",
+                String mes = m_resources.GetString("ConfirmReset");
+                MessageBox.Show(mes,
                     "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 SimulationStop();
                 m_pManager.ChangeStatus(Util.LOADED);
@@ -1679,7 +1686,8 @@ namespace EcellLib
             if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
             {
-                DialogResult r = MessageBox.Show("Simulation is running. Would you reset the simulation?",
+                String mes = m_resources.GetString("ConfirmReset");
+                DialogResult r = MessageBox.Show(mes,
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK)
                 {

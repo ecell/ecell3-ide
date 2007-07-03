@@ -45,6 +45,10 @@ namespace EcellLib
         /// the parent windows form.
         /// </summary>
         private VariableRefWindow m_win;
+        /// <summary>
+        /// ResourceManager for VariableSelectWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(VariableSelectWindow));
         #endregion
 
         /// <summary>
@@ -86,7 +90,8 @@ namespace EcellLib
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                MessageBox.Show("No selected. Please select variable.", 
+                String errmes = m_resources.GetString("ErrNoSelect");
+                MessageBox.Show(errmes, 
                     "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -94,7 +99,8 @@ namespace EcellLib
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                MessageBox.Show("This is not variable. Please select variable.", "WARNING",
+                String errmes = m_resources.GetString("ErrNotVar");
+                MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }

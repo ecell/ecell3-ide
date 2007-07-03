@@ -94,6 +94,11 @@
     </Compile>
     <Compile Include="CommandManager.cs" />
     <Compile Include="DataManager.cs" />
+    <Compile Include="DataManager.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataManager.resx</DependentUpon>
+    </Compile>
     <Compile Include="EcellObject.cs" />
     <Compile Include="FormulatorWindow.cs">
       <SubType>Form</SubType>
@@ -140,6 +145,16 @@
     <EmbeddedResource Include="AddPropertyDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AddPropertyDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DataManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataManager.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DataManager.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DataManager.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="FormulatorWindow.ja.resx">
       <SubType>Designer</SubType>

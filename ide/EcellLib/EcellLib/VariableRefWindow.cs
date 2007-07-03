@@ -58,6 +58,10 @@ namespace EcellLib
         /// PluginManager.
         /// </summary>
         PluginManager m_pManager;
+        /// <summary>
+        /// ResourceManager for VariableRefWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(VariableRefWindow));
         #endregion
 
         /// <summary>
@@ -232,7 +236,8 @@ namespace EcellLib
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    MessageBox.Show(name + " is already exists in this VariableReferenceList.", "ERROR",
+                    String errmes = m_resources.GetString("ErrExistID");
+                    MessageBox.Show(name + errmes, "ERROR",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -246,19 +251,22 @@ namespace EcellLib
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Please input integer at coefficient and isAccessor.",
+                    String errmes = m_resources.GetString("ErrNoNumber");
+                    MessageBox.Show(errmes,
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (v.name == "")
                 {
-                    MessageBox.Show("This input is invalid name.\nPlease input name again.",
+                    String errmes = m_resources.GetString("ErrInvalidName");
+                    MessageBox.Show(errmes + "(Name)",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (v.fullID == "" || !v.fullID.StartsWith(":"))
                 {
-                    MessageBox.Show("This input is invalid fullID.\nPlease input FullID again.",
+                    String errmes = m_resources.GetString("ErrInvalidName");
+                    MessageBox.Show(errmes + "(FullID)",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -288,7 +296,8 @@ namespace EcellLib
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    MessageBox.Show(name + " is already exists in this VariableReferenceList.", "ERROR",
+                    String errmes = m_resources.GetString("ErrExistID");
+                    MessageBox.Show(name + errmes, "ERROR",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -302,19 +311,22 @@ namespace EcellLib
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Please input integer at coefficient and isAccessor.",
+                    String errmes = m_resources.GetString("ErrNoNumber");
+                    MessageBox.Show(errmes,
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (v.name == "")
                 {
-                    MessageBox.Show("This input is invalid name.\nPlease input name again.",
+                    String errmes = m_resources.GetString("ErrInvalidName");
+                    MessageBox.Show(errmes + "(Name)",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (v.fullID == "" || !v.fullID.StartsWith(":"))
                 {
-                    MessageBox.Show("This input is invalid fullID.\nPlease input FullID again.",
+                    String errmes = m_resources.GetString("ErrInvalidName");
+                    MessageBox.Show(errmes + "(FullID)",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }

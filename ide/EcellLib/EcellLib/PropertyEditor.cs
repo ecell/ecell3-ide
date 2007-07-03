@@ -92,6 +92,10 @@ namespace EcellLib
         /// user control of formulator.
         /// </summary>
         private FormulatorControl m_cnt = null;
+        /// <summary>
+        /// ResourceManager for PropertyEditor.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(PropertyEditor));
         #endregion
 
         /// <summary>
@@ -542,8 +546,8 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to layout process list window.\n" +
-                    "Please close this window.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrShowPropEdit");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -788,7 +792,8 @@ namespace EcellLib
                         id = c.Text;
                         if (c.Text == "")
                         {
-                            MessageBox.Show("Id is null. please input id.\n",
+                            String errmes = m_resources.GetString("ErrNoInput");
+                            MessageBox.Show(errmes + "(ID)",
                                             "WARNING",
                                             MessageBoxButtons.OK,
                                             MessageBoxIcon.Warning);
@@ -797,7 +802,8 @@ namespace EcellLib
                         else if (Util.IsNGforID(c.Text))
 //                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
                         {
-                            MessageBox.Show("Id contains invalid character.\n",
+                            String errmes = m_resources.GetString("ErrInvalidID");
+                            MessageBox.Show(errmes,
                                             "WARNING", 
                                             MessageBoxButtons.OK, 
                                             MessageBoxIcon.Warning);
@@ -805,7 +811,8 @@ namespace EcellLib
                         }
                         else if (c.Text.ToUpper() == "SIZE")
                         {
-                            MessageBox.Show("SIZE is the reserved name.\n",
+                            String errmes = m_resources.GetString("ErrReserveSize");
+                            MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return null;
                         }
@@ -813,7 +820,8 @@ namespace EcellLib
                         {
                             if (m_currentObj.type == "System" && Util.IsNGforSystemFullID(c.Text))
                             {
-                                MessageBox.Show("Id contains invalid character.\n",
+                                String errmes = m_resources.GetString("ErrInvalidID");
+                                MessageBox.Show(errmes,
                                                 "WARNING",
                                                 MessageBoxButtons.OK,
                                                 MessageBoxIcon.Warning);
@@ -821,7 +829,8 @@ namespace EcellLib
                             }
                             if (m_currentObj.type != "System" && Util.IsNGforComponentFullID(c.Text))
                             {
-                                MessageBox.Show("Id contains invalid character.\n",
+                                String errmes = m_resources.GetString("ErrInvalidID");
+                                MessageBox.Show(errmes,
                                                 "WARNING",
                                                 MessageBoxButtons.OK,
                                                 MessageBoxIcon.Warning);
@@ -958,14 +967,16 @@ namespace EcellLib
                         id = c.Text;
                         if (c.Text == "")
                         {
-                            MessageBox.Show("Can't read id. Please input id of instance.",
+                            String errmes = m_resources.GetString("ErrNoInput");
+                            MessageBox.Show(errmes + "(ID)",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                         else if (Util.IsNGforID(c.Text))
 //                        else if (c.Text.Contains(":") || (c.Text.Contains("/") && (m_currentObj.type != "Model" || c.Text != "/")))
                         {
-                            MessageBox.Show("Id contains invalid character.\n",
+                            String errmes = m_resources.GetString("ErrInvalidID");
+                            MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
@@ -1023,7 +1034,8 @@ namespace EcellLib
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Format Error :\n\n" + ex,
+                            String errmes = m_resources.GetString("ErrInvalidProp");
+                            MessageBox.Show(errmes + "\n\n" + ex.Message,
                                 "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
@@ -1043,7 +1055,8 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while adding data.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrAdd");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -1077,14 +1090,16 @@ namespace EcellLib
 
                 if (modelID == "")
                 {
-                    MessageBox.Show("No set modelID.\n", "WARNING",
+                    String errmes = m_resources.GetString("ErrNoInput");
+                    MessageBox.Show(errmes + "(ModelID)", "WARNING",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 else if (Util.IsNGforID(modelID))
 //                else if (modelID.Contains(":") || modelID.Contains("/"))
                 {
-                    MessageBox.Show("Id contains invalid character.\n",
+                    String errmes = m_resources.GetString("ErrInvalidID");
+                    MessageBox.Show(errmes,
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -1099,7 +1114,8 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while adding model.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrAdd");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -1137,20 +1153,23 @@ namespace EcellLib
                         id = c.Text;
                         if (c.Text == "")
                         {
-                            MessageBox.Show("Can't read id text.Please input id of instance",
+                            String errmes = m_resources.GetString("ErrNoInput");
+                            MessageBox.Show(errmes + "(ID)",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
 //                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
                         else if (Util.IsNGforID(c.Text))
                         {
-                            MessageBox.Show("Id contains invalid character.\n",
+                            String errmes = m_resources.GetString("ErrInvalidID");
+                            MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                         else if (c.Text.ToUpper() == "SIZE")
                         {
-                            MessageBox.Show("SIZE is the reserved name.\n",
+                            String errmes = m_resources.GetString("ErrReservSize");
+                            MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
@@ -1206,7 +1225,8 @@ namespace EcellLib
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Format error:\n\n" + ex,
+                            String errmes = m_resources.GetString("ErrInvalidProp");
+                            MessageBox.Show(errmes + "\n\n" + ex.Message,
                                 "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
@@ -1225,7 +1245,8 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while adding data.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrAdd");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -1272,25 +1293,29 @@ namespace EcellLib
                         key = c.Text;
                         if (c.Text == "")
                         {
-                            MessageBox.Show("Can't read id text.Please input id of instance",
+                            String errmes = m_resources.GetString("ErrNoInput");
+                            MessageBox.Show(errmes + "(ID)",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                         else if (c.Text.ToUpper() == "SIZE")
                         {
-                            MessageBox.Show("SIZE is the reserved name.\n",
+                            String errmes = m_resources.GetString("ErrReserveSize");
+                            MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                         else if (m_currentObj.type.Equals("System") && Util.IsNGforSystemFullID(c.Text))
                         {
-                            MessageBox.Show("Id contains invalid character.\n",
+                            String errmes = m_resources.GetString("ErrInvalidID");
+                            MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                         else if (!m_currentObj.type.Equals("System") && Util.IsNGforComponentFullID(c.Text))
                         {
-                            MessageBox.Show("Id contains invalid character.\n",
+                            String errmes = m_resources.GetString("ErrInvalidID");
+                            MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
@@ -1300,7 +1325,8 @@ namespace EcellLib
                             int kpos = c.Text.IndexOf(':');
                             if (kpos < 0 || kpos == c.Text.Length - 1)
                             {
-                                MessageBox.Show("Input Id is invalid.\n",
+                                String errmes = m_resources.GetString("ErrInvalidID");
+                                MessageBox.Show(errmes,
                                     "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 return;
                             }
@@ -1496,7 +1522,8 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Format error of input data.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrInvalidProp");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -1509,7 +1536,8 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Can't change property of object.\n\n" + ex,
+                string errmes = m_resources.GetString("ErrChange");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }

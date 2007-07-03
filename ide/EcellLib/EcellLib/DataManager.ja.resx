@@ -117,19 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrExistID" xml:space="preserve">
-    <value>はVariableReferenceListに存在します。</value>
-  </data>
-  <data name="ErrInvalidName" xml:space="preserve">
-    <value>指定した文字列に異常な文字列が使用されています。</value>
-  </data>
-  <data name="ErrNoNumber" xml:space="preserve">
-    <value>coefficientとisAccessorは整数を入力してください。</value>
-  </data>
-  <data name="VRApplyButton.Text" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="VRCloseButton.Text" xml:space="preserve">
-    <value>キャンセル</value>
+  <data name="ConfirmReset" xml:space="preserve">
+    <value>シミュレーション実行中です。シミュレーションをリセットしてもよろしいですか？</value>
   </data>
 </root>
