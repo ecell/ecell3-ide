@@ -39,6 +39,7 @@ using System.Text.RegularExpressions;	// ñºëOãÛä‘ÇÃêÈåæ
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
+using System.ComponentModel;
 
 using EcellLib;
 
@@ -88,6 +89,10 @@ namespace EcellLib.StaticDebugWindow
         /// The list of the existed "Variable"
         /// </summary>
         List<string> m_existVariableList;
+        /// <summary>
+        /// ResourceManager for StaticDebugWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(StaticDebugWindow));
         #endregion
 
         #region Delegate
@@ -193,7 +198,8 @@ namespace EcellLib.StaticDebugWindow
             m_staticDebug.Name = "MenuItemStaticDebug";
             m_staticDebug.Size = new Size(96, 22);
 //            m_staticDebug.Text = "Static Debug";
-            resources.ApplyResources(m_staticDebug, "MenuItemStaticDebug");
+//            resources.ApplyResources(m_staticDebug, "MenuItemStaticDebug");
+            m_staticDebug.Text = m_resources.GetString("MenuItemStaticDebug");
             m_staticDebug.Tag = 10;
             m_staticDebug.Enabled = false;
             m_staticDebug.Click += new EventHandler(this.ShowStaticDebugSetupWindow);
@@ -776,7 +782,8 @@ namespace EcellLib.StaticDebugWindow
             catch (Exception ex)
             {
                 ex.ToString();
-                MessageBox.Show("The load object is out of order. Please reload the model.", "ERROR",
+                String errmes = m_resources.GetString("ErrCehckVar");
+                MessageBox.Show(errmes, "ERROR",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 // string message
                 //     = "The [" + ecellData.M_value.CastToString() + "] is out of order. [" + ex.ToString() + "]";

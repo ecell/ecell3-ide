@@ -35,6 +35,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using System.Reflection;
+using System.ComponentModel;
 
 using EcellLib;
 
@@ -86,6 +87,10 @@ namespace EcellLib.Simulation
         /// system status.
         /// </summary>
         private int m_type;
+        /// <summary>
+        /// ResourceManager for NewParameterWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(Simulation));
         #endregion
 
         /// <summary>
@@ -114,8 +119,8 @@ namespace EcellLib.Simulation
             m_runSim.Name = "MenuItemRunSimulation";
             m_runSim.Size = new Size(96, 22);
             m_runSim.Image = (Image)resources.GetObject("media_play_green");
-//            m_runSim.Text = "Run ... ";
-            resources.ApplyResources(m_runSim, "MenuItemRun");
+            m_runSim.Text = m_resources.GetString("MenuItemRun");
+//            resources.ApplyResources(m_runSim, "MenuItemRun");
             m_runSim.Enabled = false;
             m_runSim.Click += new EventHandler(this.RunSimulation);
 
@@ -123,8 +128,9 @@ namespace EcellLib.Simulation
             m_suspendSim.Name = "MenuItemSuspendSimulation";
             m_suspendSim.Size = new Size(96, 22);
 //            m_suspendSim.Text = "Suspend ...";
+            m_suspendSim.Text = m_resources.GetString("MenuItemSuspend");
             m_suspendSim.Image = (Image)resources.GetObject("media_pause"); 
-            resources.ApplyResources(m_suspendSim, "MenuItemSuspend");
+//            resources.ApplyResources(m_suspendSim, "MenuItemSuspend");
             m_suspendSim.Enabled = false;
             m_suspendSim.Click += new EventHandler(this.SuspendSimulation);
 
@@ -133,7 +139,8 @@ namespace EcellLib.Simulation
             m_stopSim.Size = new Size(96, 22);
 //            m_stopSim.Text = "Stop ...";
             m_stopSim.Image = (Image)resources.GetObject("media_stop_red");
-            resources.ApplyResources(m_stopSim, "MenuItemStop");
+            m_stopSim.Text = m_resources.GetString("MenuItemStop");
+            //            resources.ApplyResources(m_stopSim, "MenuItemStop");
             m_stopSim.Enabled = false;
             m_stopSim.Click += new EventHandler(this.ResetSimulation);
 
@@ -152,7 +159,8 @@ namespace EcellLib.Simulation
             m_setupSim.Name = "MenuItemSetupSimulation";
             m_setupSim.Size = new Size(96, 22);
 //            m_setupSim.Text = "Simulation";
-            resources.ApplyResources(m_setupSim, "MenuItemSetupSim");
+//            resources.ApplyResources(m_setupSim, "MenuItemSetupSim");
+            m_setupSim.Text = m_resources.GetString("MenuItemSetupSim");
             m_setupSim.Tag = 10;
             m_setupSim.Enabled = false;
             m_setupSim.Click += new EventHandler(this.SetupSimulation);
@@ -522,7 +530,8 @@ namespace EcellLib.Simulation
         {
             if (m_type == Util.SUSPEND || m_type == Util.RUNNING)
             {
-                DialogResult r = MessageBox.Show("Simulation is running. Would you reset the simulation?",
+                String mes = m_resources.GetString("ConfirmSetup");
+                DialogResult r = MessageBox.Show(mes,
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK) return;
                 ResetSimulation(sender, e);
@@ -694,7 +703,8 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while running the simulation.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrRunning");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 PluginManager.GetPluginManager().ChangeStatus(preType);
             }
@@ -718,7 +728,8 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while suspending the simulation.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrSuspend");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 PluginManager.GetPluginManager().ChangeStatus(preType);
             }
@@ -755,7 +766,8 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while step the simulation.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrStep");
+                MessageBox.Show(errmes + "\n\n" + ex,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 PluginManager.GetPluginManager().ChangeStatus(preType);                
             }
@@ -779,7 +791,8 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while stopping the simulation.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrReset");
+                MessageBox.Show(errmes + "\n\n" + ex,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 PluginManager.GetPluginManager().ChangeStatus(preType);
             }

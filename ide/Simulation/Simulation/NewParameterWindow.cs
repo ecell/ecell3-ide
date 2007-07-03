@@ -49,6 +49,10 @@ namespace EcellLib.Simulation
         /// the parent window with SimulationSetupWindow.
         /// </summary>
         SimulationSetup m_win;
+        /// <summary>
+        /// ResourceManager for NewParameterWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(NewParameterWindow));
         #endregion
 
         /// <summary>
@@ -80,13 +84,15 @@ namespace EcellLib.Simulation
             string data = paramTextBox.Text;
             if (data == "" || data == null)
             {
-                MessageBox.Show("Please input text box.", "WARNING",
+                String errmes = m_resources.GetString("ErrNoInput");
+                MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (m_win.stepperListBox.Items.Contains(data))
             {
-                MessageBox.Show("This stepper already exist.", "WARNING",
+                String errmes = m_resources.GetString("ErrAlready");
+                MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -150,7 +156,8 @@ namespace EcellLib.Simulation
         {
             if (paramTextBox.Text == "")
             {
-                MessageBox.Show("Please input text box.", "WARNING",
+                String errmes = m_resources.GetString("ErrNoInput");
+                MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }

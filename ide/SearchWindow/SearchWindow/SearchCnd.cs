@@ -52,6 +52,10 @@ namespace EcellLib.SearchWindow
         /// PluginManager.
         /// </summary>
         PluginManager m_pManager;
+        /// <summary>
+        /// ResourceManager for SearchCnd.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(SearchCnd));
         #endregion
 
 
@@ -160,8 +164,9 @@ namespace EcellLib.SearchWindow
                 list = m_dManager.GetData(model, keys[0]);
                 if (list == null || list.Count == 0)
                 {
+                    String errmes = m_resources.GetString("ErrNotFind");
                     MessageBox.Show(
-                    "Can't find data in DataManager [" + model + "," + id + "]",
+                    errmes +  "(" + model + "," + id + ")",
                     "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -207,7 +212,8 @@ namespace EcellLib.SearchWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to show property editor.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrShowPropEdit");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 m_editor.Dispose();
                 return;

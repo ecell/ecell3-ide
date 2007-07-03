@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConfirmClose" xml:space="preserve">
+    <value>このウインドウを閉じてもよろしいですか？</value>
+  </data>
+  <data name="ErrColorDlg" xml:space="preserve">
+    <value>カラー選択ダイアログを表示できませんでした。</value>
+  </data>
+  <data name="ErrNotFind" xml:space="preserve">
+    <value>選択したオブジェクトが見つかりません。</value>
+  </data>
+  <data name="FinishSave" xml:space="preserve">
+    <value>シミュレーションログを保存しました</value>
+  </data>
   <data name="TWCloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>

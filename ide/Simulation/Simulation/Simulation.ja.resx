@@ -117,16 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MenuItemRun.Text" xml:space="preserve">
+  <data name="ConfirmSetup" xml:space="preserve">
+    <value>シミュレーション実行中です。シミュレーションをリセットしてよろしいですか？</value>
+  </data>
+  <data name="ErrReset" xml:space="preserve">
+    <value>シミュレーションのリセットに失敗しました。</value>
+  </data>
+  <data name="ErrRunning" xml:space="preserve">
+    <value>シミュレーションの実行に失敗しました。</value>
+  </data>
+  <data name="ErrStep" xml:space="preserve">
+    <value>ステップ実行に失敗しました。</value>
+  </data>
+  <data name="ErrSuspend" xml:space="preserve">
+    <value>シミュレーションの停止に失敗しました。</value>
+  </data>
+  <data name="MenuItemRun" xml:space="preserve">
     <value>シミュレーション実行(&amp;R)</value>
   </data>
-  <data name="MenuItemSetupSim.Text" xml:space="preserve">
+  <data name="MenuItemSetupSim" xml:space="preserve">
     <value>シミュレーション条件設定(&amp;S)...</value>
   </data>
-  <data name="MenuItemStop.Text" xml:space="preserve">
+  <data name="MenuItemStop" xml:space="preserve">
     <value>シミュレーションリセット(&amp;E)</value>
   </data>
-  <data name="MenuItemSuspend.Text" xml:space="preserve">
+  <data name="MenuItemSuspend" xml:space="preserve">
     <value>シミュレーション停止(&amp;S)</value>
   </data>
 </root>

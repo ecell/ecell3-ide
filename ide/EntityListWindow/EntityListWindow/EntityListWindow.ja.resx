@@ -121,13 +121,13 @@
     <value>削除</value>
   </data>
   <data name="ErrDelData" xml:space="preserve">
-    <value>オブジェクトを削除するのに失敗しました。このオブジェクトを確認してください。</value>
+    <value>オブジェクトの削除に失敗しました。このオブジェクトを確認してください。</value>
   </data>
   <data name="ErrGetData" xml:space="preserve">
     <value>このモデルに指定のオブジェクトが存在しませんでした。</value>
   </data>
   <data name="ErrPrintData" xml:space="preserve">
-    <value>この画面のビットマップを作成するのに失敗しました。</value>
+    <value>この画面のビットマップの作成に失敗しました。</value>
   </data>
   <data name="ErrShowPropEditor" xml:space="preserve">
     <value>プロパティ編集ダイアログの表示に失敗しました。

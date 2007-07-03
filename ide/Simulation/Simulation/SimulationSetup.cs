@@ -60,6 +60,10 @@
             /// List of value for selected stepper.
             /// </summary>
             private List<EcellData> m_selectValue;
+            /// <summary>
+            /// ResourceManager for SimulationSetup.
+            /// </summary>
+            ComponentResourceManager m_resources = new ComponentResourceManager(typeof(SimulationSetup));
             #endregion
 
             /// <summary>
@@ -271,7 +275,8 @@
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    String errmes = m_resources.GetString("ErrComboIndChage");
+                    MessageBox.Show(errmes + "\n\n" + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -367,13 +372,15 @@
                 string param = paramCombo.SelectedItem.ToString();
                 if (param == "DefaultParameter")
                 {
-                    MessageBox.Show("Can't delete default parameter.", "WARNING",
+                    String errmes = m_resources.GetString("ErrDelDefParam");
+                    MessageBox.Show(errmes, "WARNING",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (paramCombo.Items.Count == 1)
                 {
-                    MessageBox.Show("Can't delete default parameter.\nAt least one parameter is necessary for the project.", "WARNING",
+                    String errmes = m_resources.GetString("ErrDelParam");
+                    MessageBox.Show(errmes, "WARNING",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -449,7 +456,8 @@
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Format Error:\n\n" + ex, "ERROR",
+                            String errmes = m_resources.GetString("ErrInvalidParam");
+                            MessageBox.Show(errmes + "\n\n" + ex, "ERROR",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
@@ -484,7 +492,8 @@
                         {
                             if (freqByStepTextBox.Text == "")
                             {
-                                MessageBox.Show("Please input frequency for steps.", "ERROR",
+                                string errmes = m_resources.GetString("ErrNoInputStep");
+                                MessageBox.Show(errmes, "ERROR",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
@@ -494,7 +503,8 @@
                         {
                             if (freqBySecTextBox.Text == "")
                             {
-                                MessageBox.Show("Please input frequency for seconds.", "ERROR",
+                                String errmes = m_resources.GetString("ErrNoInputSec");
+                                MessageBox.Show(errmes, "ERROR",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
@@ -502,7 +512,8 @@
                         }
                         else
                         {
-                            MessageBox.Show("No select the policy of logging frequency.", "ERROR",
+                            String errmes = m_resources.GetString("ErrNoSelectLog");
+                            MessageBox.Show(errmes, "ERROR",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
@@ -515,7 +526,8 @@
                         }
                         else
                         {
-                            MessageBox.Show("No select the policy of action when disk is full.", "ERROR",
+                            String errmes = m_resources.GetString("ErrNoSelectAct");
+                            MessageBox.Show(errmes, "ERROR",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
@@ -526,7 +538,8 @@
                         {
                             if (maxKbTextBox.Text == "")
                             {
-                                MessageBox.Show("Please input disk size.", "ERROR",
+                                String errmes = m_resources.GetString("ErrNoInputDisk");
+                                MessageBox.Show(errmes, "ERROR",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
@@ -535,7 +548,8 @@
                         }
                         else
                         {
-                            MessageBox.Show("No select the size of disk space.", "ERROR",
+                            String errmes = m_resources.GetString("ErrNoSelectDisk");
+                            MessageBox.Show(errmes, "ERROR",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
@@ -544,7 +558,8 @@
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Get exception while update logging policy.\n\n" + ex, "ERROR",
+                        String errmes = m_resources.GetString("ErrUpdateLog");
+                        MessageBox.Show(errmes + "\n\n" + ex.Message, "ERROR",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
@@ -621,7 +636,8 @@
 
                 if (stepperListBox.Items.Count <= 1)
                 {
-                    MessageBox.Show("Can't delete the selected stepper.\nAt lease one stepper is necessary for the model.", "WARNING",
+                    String errmes = m_resources.GetString("ErrDelStep");
+                    MessageBox.Show(errmes, "WARNING",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }

@@ -49,6 +49,10 @@ namespace EcellLib.StaticDebugWindow
         /// The plugin(StaticDebugWindow) diplayed this window.
         /// </summary>
         private StaticDebugWindow m_staticDebug;
+        /// <summary>
+        /// ResourceManager for StaticDebugSetupWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(StaticDebugSetupWindow));
         #endregion
 
         /// <summary>
@@ -108,8 +112,8 @@ namespace EcellLib.StaticDebugWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to layout static debug setup window.\n" +
-                    "Please close this window.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrLayout");
+                MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -168,7 +172,8 @@ namespace EcellLib.StaticDebugWindow
 
             if (m_staticDebug.ErrorMessageList.Count <= 0)
             {
-                MessageBox.Show("Can't find error obejct in this model.",
+                String mes = m_resources.GetString("NoError");
+                MessageBox.Show(mes,
                     "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -233,7 +238,8 @@ namespace EcellLib.StaticDebugWindow
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Get exception while layout property window.\n\n" + ex,
+                        String errmes = m_resources.GetString("ErrShowPropEdit");
+                        MessageBox.Show(errmes + "\n\n" + ex,
                             "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }

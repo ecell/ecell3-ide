@@ -432,16 +432,16 @@
     <value>作業ディレクトリ(&amp;W)...</value>
   </data>
   <data name="ErrCreatePrj" xml:space="preserve">
-    <value>プロジェクト作成中に例外が発生しました。</value>
+    <value>プロジェクトの作成に失敗しました。</value>
   </data>
   <data name="ErrExpModel" xml:space="preserve">
-    <value>モデルを出力しているときに例外が発生しました。</value>
+    <value>モデルの出力に失敗しました。</value>
   </data>
   <data name="ErrImpScript" xml:space="preserve">
-    <value>スクリプトを実行しているときに例外が発生しました。</value>
+    <value>スクリプトの実行に失敗しました。</value>
   </data>
   <data name="ErrLoadModel" xml:space="preserve">
-    <value>モデルをロードするのに失敗しました。再度実行してください。</value>
+    <value>モデルのロードに失敗しました。再度実行してください。</value>
   </data>
   <data name="ErrLoadPlugin" xml:space="preserve">
     <value>プラグインのロードに失敗しました。</value>
@@ -459,7 +459,7 @@
     <value>プロジェクトが選択されていません。選択してください。</value>
   </data>
   <data name="ErrOpenPrj" xml:space="preserve">
-    <value>選択したプロジェクトを開いている時に例外が発生しました。</value>
+    <value>選択したプロジェクトを開くのに失敗しました。</value>
   </data>
   <data name="ErrPrjIdNG" xml:space="preserve">
     <value>プロジェクト名に不適切な文字が含まれています。確認してください。</value>
@@ -468,22 +468,22 @@
     <value>プロジェクト名が入力されていません。入力してください。</value>
   </data>
   <data name="ErrSaveAction" xml:space="preserve">
-    <value>アクションファイルを保存しているときに例外が発生しました。</value>
+    <value>アクションファイルの保存に失敗しました。</value>
   </data>
   <data name="ErrSavePrj" xml:space="preserve">
-    <value>プロジェクトを保存しているときに例外が発生しました。</value>
+    <value>プロジェクトの保存に失敗しました。</value>
   </data>
   <data name="ErrSaveScript" xml:space="preserve">
-    <value>スクリプトを出力しているときに例外が発生しました。</value>
+    <value>スクリプトの出力に失敗しました。</value>
   </data>
   <data name="ErrSelectSave" xml:space="preserve">
     <value>保存する項目を1つは選択してください。</value>
   </data>
   <data name="ErrShowOpenPrj" xml:space="preserve">
-    <value>プロジェクトを選択するダイアログを表示しているときに例外が発生しました。</value>
+    <value>プロジェクトを選択するダイアログの表示に失敗しました。</value>
   </data>
   <data name="ErrShowSavePrj" xml:space="preserve">
-    <value>プロジェクトを保存するダイアログを表示しているときに例外が発生しました。</value>
+    <value>プロジェクトを保存するダイアログの表示に失敗しました。</value>
   </data>
   <data name="ErrStartup" xml:space="preserve">
     <value>システムに必要なパラメータが見つかりません。再インストールしてください。</value>

@@ -61,11 +61,20 @@ namespace StaticDebugWindow {
         }
         
         /// <summary>
+        ///   Get exception while system check the property of variable. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrCheckVar {
+            get {
+                return ResourceManager.GetString("ErrCheckVar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Static &amp;Debug... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemStaticDebug_Text {
+        internal static string MenuItemStaticDebugText {
             get {
-                return ResourceManager.GetString("MenuItemStaticDebug.Text", resourceCulture);
+                return ResourceManager.GetString("MenuItemStaticDebugText", resourceCulture);
             }
         }
     }

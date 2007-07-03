@@ -112,6 +112,10 @@ namespace EcellLib.TracerWindow
         delegate void SaveSimulationCallback(string dirName, double start, double end,
             string fileType, List<string> fullID);
         delegate void DeleteEntryCallback(TagData tag);
+        /// <summary>
+        /// ResourceManager for TraceWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(TraceWindow));
         #endregion
 
         /// <summary>
@@ -560,7 +564,8 @@ namespace EcellLib.TracerWindow
             DataGridViewImageCell cell1 = dgv.Rows[rowIndex].Cells[columnIndex + 1] as DataGridViewImageCell;
             if (cell == null || cell1 == null)
             {
-                MessageBox.Show("ERROR : can't find the cell for color or line style", 
+                String errmes = m_resources.GetString("ErrColorDlg");
+                MessageBox.Show(errmes, 
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -680,8 +685,8 @@ namespace EcellLib.TracerWindow
             List<EcellObject> list = m_dManager.GetData(tag.M_modelID, keys[0]);
             if (list == null || list.Count == 0)
             {
-                MessageBox.Show(
-                "Can't find data in DataManager [" + tag.M_modelID + "," + tag.M_key + "]",
+                String errmes = m_resources.GetString("ErrNoFind");
+                MessageBox.Show(errmes + "(" + tag.M_modelID + "," + tag.M_key + ")",
                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -831,7 +836,8 @@ namespace EcellLib.TracerWindow
 
             if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
             {
-                DialogResult res = MessageBox.Show("Do you really want to close this window?",
+                String mes = m_resources.GetString("ConfirmClose");
+                DialogResult res = MessageBox.Show(mes,
                     "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (res == DialogResult.OK) this.Dispose();
                 return;
@@ -942,7 +948,8 @@ namespace EcellLib.TracerWindow
             {
                 manager.SaveSimulationResult(dirTextBox.Text, start, end, saveTypeCombo.Text, fullList);
             }
-            MessageBox.Show("Simulation log saved successfully.", "Information",
+            String mes = m_resources.GetString("FinishSave");
+            MessageBox.Show(mes, "Information",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

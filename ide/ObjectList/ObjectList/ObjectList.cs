@@ -38,6 +38,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Reflection;
+using System.ComponentModel;
 
 using EcellLib;
 
@@ -83,6 +84,7 @@ namespace EcellLib.ObjectList
         private ContextMenuStrip m_contextStrip;
         private DataManager m_dManager;
         private bool isDouble = false;
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(ObjectList));
         #endregion
 
         /// <summary>
@@ -97,12 +99,12 @@ namespace EcellLib.ObjectList
 
             m_contextStrip = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = "Search ... ";
+            m_resources.ApplyResources(it, "SearchMenu");
             it.ShortcutKeys = Keys.Control | Keys.F;
             it.Click += new EventHandler(SearchMenuClick);
 
             ToolStripMenuItem cr = new ToolStripMenuItem();
-            cr.Text = "Create Logger ";
+            m_resources.ApplyResources(cr, "CreLoggerMenu");
             cr.ShortcutKeys = Keys.Control | Keys.A;
             cr.Click += new EventHandler(CreateLoggerMenuClick);
 
@@ -221,7 +223,8 @@ namespace EcellLib.ObjectList
                 }
                 if (i == ind)
                 {
-                    MessageBox.Show("Can't find object in this page.", "MESSAGE",
+                    String errmes = m_resources.GetString("ErrNotFindPage");
+                    MessageBox.Show(errmes, "MESSAGE",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
@@ -531,7 +534,8 @@ namespace EcellLib.ObjectList
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while selecting object.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrSelectObj");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -566,7 +570,8 @@ namespace EcellLib.ObjectList
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while adding object.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrAddObj");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -747,7 +752,8 @@ namespace EcellLib.ObjectList
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to create bitmap data.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrCreBitmap");
+                MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }

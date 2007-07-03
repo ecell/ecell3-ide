@@ -67,6 +67,51 @@ namespace Simulation {
             }
         }
         
+        /// <summary>
+        ///   Simulation is running. Would you reset the simulation? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmSetup {
+            get {
+                return ResourceManager.GetString("ConfirmSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Get exception while system reset simulation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrReset {
+            get {
+                return ResourceManager.GetString("ErrReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Get exception while system run simulation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrRunning {
+            get {
+                return ResourceManager.GetString("ErrRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Get exception while system step simulation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrStep {
+            get {
+                return ResourceManager.GetString("ErrStep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Get exception while system suspend simulation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSuspend {
+            get {
+                return ResourceManager.GetString("ErrSuspend", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap green3 {
             get {
                 object obj = ResourceManager.GetObject("green3", resourceCulture);
@@ -105,36 +150,36 @@ namespace Simulation {
         /// <summary>
         ///   &amp;Run に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemRun_Text {
+        internal static string MenuItemRun {
             get {
-                return ResourceManager.GetString("MenuItemRun.Text", resourceCulture);
+                return ResourceManager.GetString("MenuItemRun", resourceCulture);
             }
         }
         
         /// <summary>
         ///   &amp;Simulation に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemSetupSim_Text {
+        internal static string MenuItemSetupSim {
             get {
-                return ResourceManager.GetString("MenuItemSetupSim.Text", resourceCulture);
+                return ResourceManager.GetString("MenuItemSetupSim", resourceCulture);
             }
         }
         
         /// <summary>
         ///   R&amp;eset に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemStop_Text {
+        internal static string MenuItemStop {
             get {
-                return ResourceManager.GetString("MenuItemStop.Text", resourceCulture);
+                return ResourceManager.GetString("MenuItemStop", resourceCulture);
             }
         }
         
         /// <summary>
         ///   &amp;Suspend に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemSuspend_Text {
+        internal static string MenuItemSuspend {
             get {
-                return ResourceManager.GetString("MenuItemSuspend.Text", resourceCulture);
+                return ResourceManager.GetString("MenuItemSuspend", resourceCulture);
             }
         }
         

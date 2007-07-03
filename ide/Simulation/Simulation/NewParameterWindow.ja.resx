@@ -123,4 +123,10 @@
   <data name="CPCreateButton.Text" xml:space="preserve">
     <value>作成</value>
   </data>
+  <data name="ErrAlready" xml:space="preserve">
+    <value>この名前は既に使用されています。</value>
+  </data>
+  <data name="ErrNoInput" xml:space="preserve">
+    <value>名前が入力されていません。入力してください。</value>
+  </data>
 </root>
