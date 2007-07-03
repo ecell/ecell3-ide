@@ -37,6 +37,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace EcellLib.PropertyWindow
 {
@@ -82,6 +83,10 @@ namespace EcellLib.PropertyWindow
         /// System status.
         /// </summary>
         private int m_type;
+        /// <summary>
+        /// ResourceManager for PropertyWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(PropertyWindow));
         #endregion
 
         /// <summary>
@@ -280,7 +285,8 @@ namespace EcellLib.PropertyWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Get exception while layout property window.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrShowPropEdit");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -538,7 +544,8 @@ namespace EcellLib.PropertyWindow
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Fail to create bitmap data.\n\n" + ex,
+                String errmes = m_resources.GetString("ErrCreBitmap");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
