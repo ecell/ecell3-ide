@@ -679,6 +679,8 @@ namespace EcellLib
                         if (l_ecellData.M_name.Equals(Util.s_xpathVRL))
                         {
                             List<EcellValue> l_changedValue = new List<EcellValue>();
+                            if (l_ecellData.M_value == null) continue;
+                            if (l_ecellData.M_value.ToString() == "") continue;
                             foreach (EcellValue l_ecellValue in l_ecellData.M_value.CastToList())
                             {
                                 List<EcellValue> l_changedElements = new List<EcellValue>();
