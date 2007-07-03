@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Text;
 using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Element;
+using System.ComponentModel;
 
 namespace EcellLib.DistributeLayout
 {
@@ -180,6 +181,12 @@ namespace EcellLib.DistributeLayout
             return LayoutType.Selected;
         }
 
+        public string GetMenuText()
+        {
+            ComponentResourceManager crm = new ComponentResourceManager(typeof(DistributeLayout));
+            return crm.GetString("MenuItemDistribute");
+        }
+
         /// <summary>
         /// Get a name of this layout algorithm.
         /// </summary>
@@ -195,7 +202,8 @@ namespace EcellLib.DistributeLayout
         /// <returns>a tooltip of this layout</returns>
         public string GetToolTipText()
         {
-            return "Nodes will be distributed equally spaced";
+            ComponentResourceManager crm = new ComponentResourceManager(typeof(DistributeLayout));
+            return crm.GetString("ToolTip");
         }
 
         /// <summary>
@@ -204,9 +212,10 @@ namespace EcellLib.DistributeLayout
         /// <returns>a list of name</returns>
         public List<string> GetSubCommands()
         {
+            ComponentResourceManager crm = new ComponentResourceManager(typeof(DistributeLayout));
             List<string> subCommands = new List<string>();
-            subCommands.Add("Horizontally");
-            subCommands.Add("Vertially");
+            subCommands.Add(crm.GetString("MenuItemSubHorizontally"));
+            subCommands.Add(crm.GetString("MenuItemSubVertically"));
 
             return subCommands;
         }

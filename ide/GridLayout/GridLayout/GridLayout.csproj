@@ -73,6 +73,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GridLayout.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GridLayout.resx</DependentUpon>
+    </Compile>
     <Compile Include="ProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +88,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GridLayout.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GridLayout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GridLayout.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GridLayout.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GridLayout.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProgressDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ProgressDialog.cs</DependentUpon>
@@ -99,6 +114,8 @@
   <PropertyGroup>
     <PostBuildEvent>
 IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin\pathway" MKDIR "$(ECELL_STAGING_HOME)\plugin\pathway"
-XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin\pathway"</PostBuildEvent>
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin\pathway"
+FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\bin\%25%25D"
+FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\bin\%25%25D"</PostBuildEvent>
   </PropertyGroup>
 </Project>

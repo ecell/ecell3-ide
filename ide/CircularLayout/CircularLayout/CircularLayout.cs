@@ -34,6 +34,7 @@ using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Element;
 using System.Windows.Forms;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace EcellLib.CircularLayout
 {
@@ -644,7 +645,8 @@ namespace EcellLib.CircularLayout
         {
             if (num < 3)
             {
-                MessageBox.Show("Please select more than two nodes for circular layout !",
+                ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
+                MessageBox.Show(crm.GetString("MsgLessNode"),
                      "Layout Error",
                      MessageBoxButtons.OK,
                      MessageBoxIcon.Error);
@@ -653,7 +655,8 @@ namespace EcellLib.CircularLayout
 
             if (rect.Width == 0 || rect.Height == 0)
             {
-                MessageBox.Show("Please select nodes as they form a rectangle.",
+                ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
+                MessageBox.Show(crm.GetString("MsgSelectRect"),
                     "Layout Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -674,6 +677,16 @@ namespace EcellLib.CircularLayout
         }
 
         /// <summary>
+        /// Get menu name of this algorithm
+        /// </summary>
+        /// <returns>menu name of this algorithm</returns>
+        public string GetMenuText()
+        {
+            ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
+            return crm.GetString("MenuItemCircular");
+        }
+
+        /// <summary>
         /// Get a name of this layout
         /// </summary>
         /// <returns>a name of this layout</returns>
@@ -688,7 +701,8 @@ namespace EcellLib.CircularLayout
         /// <returns>tooltip</returns>
         public string GetToolTipText()
         {
-            return "Nodes will be layouted circularly";
+            ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
+            return crm.GetString("ToolTip");
         }
 
         /// <summary>

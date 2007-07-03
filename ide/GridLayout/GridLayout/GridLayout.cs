@@ -5,8 +5,10 @@ using System.Text;
 using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Element;
 using System.Windows.Forms;
+using System.ComponentModel;
+using GridLayout;
 
-namespace GridLayout
+namespace EcellLib.GridLayout
 {
     /// <summary>
     /// Layout algorithm to layout nodes on grid.
@@ -81,7 +83,7 @@ namespace GridLayout
                              List<NodeElement> nodeElements)
         {
             // Prepare the progress bar
-            ProgressDialog form = new ProgressDialog();
+            EcellLib.PathwayWindow.ProgressDialog form = new EcellLib.PathwayWindow.ProgressDialog();
             form.Bar.Minimum = 1;
             form.Bar.Maximum = m_kmax;
             form.Bar.Step = 1;
@@ -131,12 +133,22 @@ namespace GridLayout
         }
 
         /// <summary>
+        /// Get menu name of this algorithm
+        /// </summary>
+        /// <returns>menu name of this algorithm</returns>
+        public string GetMenuText()
+        {
+            ComponentResourceManager crm = new ComponentResourceManager(typeof(GridLayout));
+            return crm.GetString("MenuItemGrid");
+        }
+
+        /// <summary>
         /// Get a name of this layout algorithm.
         /// </summary>
         /// <returns></returns>
         public string GetName()
         {
-            return "GridLayout";
+            return "Grid";
         }
 
         /// <summary>
@@ -145,7 +157,8 @@ namespace GridLayout
         /// <returns></returns>
         public string GetToolTipText()
         {
-            return "Each nodes will be layouted on the grid";
+            ComponentResourceManager crm = new ComponentResourceManager(typeof(GridLayout));
+            return crm.GetString("ToolTip");
         }
 
         /// <summary>
@@ -367,7 +380,7 @@ namespace GridLayout
         /// <param name="childSystems">child systems of this system</param>
         /// <param name="nodeElements">nodes, to be layouted</param>
         /// <param name="dialog">a progress bar</param>
-        private void DoNodeLayout(SystemElement sysElement, List<SystemElement> childSystems, List<NodeElement> nodeElements, ProgressDialog dialog)
+        private void DoNodeLayout(SystemElement sysElement, List<SystemElement> childSystems, List<NodeElement> nodeElements, EcellLib.PathwayWindow.ProgressDialog dialog)
         {
             int[,] relationMatrix = CreateRelationMatrix(nodeElements);
 

@@ -69,7 +69,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DistributeLayout.cs" />
+    <Compile Include="DistributeLayout.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DistributeLayout.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DistributeLayout.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DistributeLayout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistributeLayout.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DistributeLayout.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DistributeLayout.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -82,6 +99,8 @@
   <PropertyGroup>
     <PostBuildEvent>
 IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin\pathway" MKDIR "$(ECELL_STAGING_HOME)\plugin\pathway"
-XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin\pathway"</PostBuildEvent>
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin\pathway"
+FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\bin\%25%25D"
+FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\bin\%25%25D"</PostBuildEvent>
   </PropertyGroup>
 </Project>

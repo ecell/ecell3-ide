@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Text;
 using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Element;
+using System.ComponentModel;
 
 namespace EcellLib.AlignLayout
 {
@@ -188,6 +189,16 @@ namespace EcellLib.AlignLayout
         }
 
         /// <summary>
+        /// Get menu name of this algorithm
+        /// </summary>
+        /// <returns>menu name of this algorithm</returns>
+        public string GetMenuText()
+        {
+            ComponentResourceManager crm = new ComponentResourceManager(typeof(AlignLayout));
+            return crm.GetString("MenuItemAlign");
+        }
+
+        /// <summary>
         /// Get a name of this layout
         /// </summary>
         /// <returns>a name of this layout</returns>
@@ -202,7 +213,8 @@ namespace EcellLib.AlignLayout
         /// <returns>tooltip</returns>
         public string GetToolTipText()
         {
-            return "Nodes will be aligned linearly";
+            ComponentResourceManager crm = new ComponentResourceManager(typeof(AlignLayout));
+            return crm.GetString("ToolTip");
         }
 
         /// <summary>
@@ -211,11 +223,12 @@ namespace EcellLib.AlignLayout
         /// <returns>a list of name of sub commands</returns>
         public List<string> GetSubCommands()
         {
+            ComponentResourceManager crm = new ComponentResourceManager(typeof(AlignLayout));
             List<string> subCommands = new List<string>();
-            subCommands.Add("Left");            
-            subCommands.Add("Right");
-            subCommands.Add("Upper");
-            subCommands.Add("Lower");
+            subCommands.Add(crm.GetString("MenuItemSubLeft"));
+            subCommands.Add(crm.GetString("MenuItemSubRight"));
+            subCommands.Add(crm.GetString("MenuItemSubUpper"));
+            subCommands.Add(crm.GetString("MenuItemSubLower"));
 
             return subCommands;
         }
