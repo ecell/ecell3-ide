@@ -167,5 +167,23 @@ namespace EntityListWindow {
                 return ResourceManager.GetString("PopSearch.Text", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sort by Name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SortName_Text {
+            get {
+                return ResourceManager.GetString("SortName.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sort by Type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SortType_Text {
+            get {
+                return ResourceManager.GetString("SortType.Text", resourceCulture);
+            }
+        }
     }
 }

@@ -154,4 +154,10 @@
   <data name="PopSearch.Text" xml:space="preserve">
     <value>検索...</value>
   </data>
+  <data name="SortName.Text" xml:space="preserve">
+    <value>名前でソート</value>
+  </data>
+  <data name="SortType.Text" xml:space="preserve">
+    <value>タイプでソート</value>
+  </data>
 </root>

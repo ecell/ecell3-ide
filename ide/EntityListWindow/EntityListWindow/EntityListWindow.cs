@@ -198,6 +198,8 @@ namespace EcellLib.EntityListWindow
             MenuItem del = new MenuItem();
             MenuItem searchMenu = new MenuItem();
             MenuItem separator = new MenuItem("-");
+            MenuItem sortNameMenu = new MenuItem();
+            MenuItem sortTypeMenu = new MenuItem();
             m_creSysLogger = new MenuItem();
             m_delSysLogger = new MenuItem();
             m_creTopSysLogger = new MenuItem();
@@ -220,6 +222,8 @@ namespace EcellLib.EntityListWindow
             m_resources.ApplyResources(addProc, "PopAddProcess");
             m_resources.ApplyResources(del, "PopDelete");
             m_resources.ApplyResources(searchMenu, "PopSearch");
+            m_resources.ApplyResources(sortNameMenu, "SortName");
+            m_resources.ApplyResources(sortTypeMenu, "SortType");
 
             addModel.Index = 1;
             addSystem.Index = 3;
@@ -238,6 +242,8 @@ namespace EcellLib.EntityListWindow
             addProc.Click += new EventHandler(TreeviewAddProcess);
             del.Click += new EventHandler(TreeviewDelete);
             searchMenu.Click += new EventHandler(TreeviewSearch);
+            sortNameMenu.Click += new EventHandler(TreeViewSortName);
+            sortTypeMenu.Click += new EventHandler(TreeViewSortType);
 
             searchMenu.Shortcut = Shortcut.CtrlF;
 
@@ -245,17 +251,23 @@ namespace EcellLib.EntityListWindow
                 { 
                     addModel.CloneMenu() ,
                     separator.CloneMenu(), 
-                    searchMenu.CloneMenu()
+                    searchMenu.CloneMenu(),
+                    sortNameMenu.CloneMenu(),
+                    sortTypeMenu.CloneMenu()
                 });
             m_prjLoadMenu.MenuItems.AddRange(new MenuItem[] 
                 { 
-                    searchMenu.CloneMenu()
+                    searchMenu.CloneMenu(),
+                    sortNameMenu.CloneMenu(),
+                    sortTypeMenu.CloneMenu()
                 });
             m_modelMenu.MenuItems.AddRange(new MenuItem[] 
                 { 
                     del.CloneMenu(),
                     separator.CloneMenu(), 
-                    searchMenu.CloneMenu()
+                    searchMenu.CloneMenu(),
+                    sortNameMenu.CloneMenu(),
+                    sortTypeMenu.CloneMenu()
                 });
             m_systemMenu.MenuItems.AddRange(new MenuItem[] 
                 { 
@@ -268,7 +280,9 @@ namespace EcellLib.EntityListWindow
                     m_creSysLogger, 
                     m_delSysLogger,
                     separator.CloneMenu(), 
-                    searchMenu.CloneMenu()
+                    searchMenu.CloneMenu(),
+                    sortNameMenu.CloneMenu(),
+                    sortTypeMenu.CloneMenu()
                 });
             m_topSystemMenu.MenuItems.AddRange(new MenuItem[] 
                 { 
@@ -279,7 +293,9 @@ namespace EcellLib.EntityListWindow
                     m_creTopSysLogger, 
                     m_delTopSysLogger,
                     separator.CloneMenu(), 
-                    searchMenu.CloneMenu()
+                    searchMenu.CloneMenu(),
+                    sortNameMenu.CloneMenu(),
+                    sortTypeMenu.CloneMenu()
                 });
             m_varMenu.MenuItems.AddRange(new MenuItem[] 
                 { 
@@ -288,7 +304,9 @@ namespace EcellLib.EntityListWindow
                     m_creVarLogger, 
                     m_delVarLogger,
                     separator.CloneMenu(), 
-                    searchMenu.CloneMenu()
+                    searchMenu.CloneMenu(),
+                    sortNameMenu.CloneMenu(),
+                    sortTypeMenu.CloneMenu()
                 });
             m_procMenu.MenuItems.AddRange(new MenuItem[] 
                 { 
@@ -297,7 +315,9 @@ namespace EcellLib.EntityListWindow
                     m_creProcLogger, 
                     m_delProcLogger,
                     separator.CloneMenu(), 
-                    searchMenu.CloneMenu()
+                    searchMenu.CloneMenu(),
+                    sortNameMenu.CloneMenu(),
+                    sortTypeMenu.CloneMenu()
                 });
         }
 
@@ -807,6 +827,28 @@ namespace EcellLib.EntityListWindow
         }
 
         /// <summary>
+        /// The action of clicking [Sort by Name] menu on popup menu.
+        /// </summary>
+        /// <param name="sender">object(MenuItem)</param>
+        /// <param name="e">EventArgs</param>
+        void TreeViewSortName(object sender, EventArgs e)
+        {
+            m_form.treeView1.TreeViewNodeSorter = new NameSorter();
+            m_form.treeView1.Sort();
+        }
+
+        /// <summary>
+        /// The action of clicking [Sort by Type] menu on popup menu.
+        /// </summary>
+        /// <param name="sender">object(MenuItem)</param>
+        /// <param name="e">EventArgs</param>
+        void TreeViewSortType(object sender, EventArgs e)
+        {
+            m_form.treeView1.TreeViewNodeSorter = new TypeSorter();
+            m_form.treeView1.Sort();
+        }
+
+        /// <summary>
         /// The action of clicking [search] menu on popup menu.
         /// </summary>
         /// <param name="sender">object(MenuItem)</param>
@@ -1073,6 +1115,7 @@ namespace EcellLib.EntityListWindow
                 new TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             m_form.treeView1.NodeMouseDoubleClick +=
                 new TreeNodeMouseClickEventHandler(this.NodeDoubleClick);
+            m_form.treeView1.TreeViewNodeSorter = new TypeSorter();
 
             CreatePopupMenu();
             array.Add(m_form);
@@ -1607,6 +1650,53 @@ namespace EcellLib.EntityListWindow
             this.m_modelID = modelID;
             this.m_key = key;
             this.m_type = type;
+        }
+    }
+
+    public class NameSorter : IComparer
+    {
+        public int Compare(object x, object y)
+        {
+            TreeNode tx = x as TreeNode;
+            TreeNode ty = y as TreeNode;
+
+            return string.Compare(tx.Text, ty.Text);
+        }
+    }
+
+    public class TypeSorter : IComparer
+    {
+        public int Compare(object x, object y)
+        {
+            TreeNode tx = x as TreeNode;
+            TreeNode ty = y as TreeNode;
+
+            TagData tagx = tx.Tag as TagData;
+            TagData tagy = ty.Tag as TagData;
+
+            if (tagx.m_type == tagy.m_type)
+            {
+                return string.Compare(tx.Text, ty.Text);
+            }
+            return GetTypeNum(tagx.m_type) - GetTypeNum(tagy.m_type);
+        }
+
+        public int GetTypeNum(string type)
+        {
+            switch (type)
+            {
+                case "Project":
+                    return 0;
+                case "Model":
+                    return 1;
+                case "System":
+                    return 2;
+                case "Process":
+                    return 3;
+                case "Variable":
+                    return 4;
+            }
+            return 5;
         }
     }
 }
