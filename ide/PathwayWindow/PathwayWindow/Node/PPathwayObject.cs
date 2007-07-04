@@ -131,6 +131,7 @@ namespace EcellLib.PathwayWindow.Node
         /// Object will be painted with this Brush when object is selected.
         /// </summary>
         protected Brush m_highLightBrush = Brushes.Gold;
+        
         /// <summary>
         /// Object will be painted with this Brush when object is in invalid state.
         /// </summary>
@@ -139,7 +140,7 @@ namespace EcellLib.PathwayWindow.Node
         /// Whether this object is highlighted or not.
         /// </summary>
         protected bool m_isSelected = false;
-
+        
         /// <summary>
         /// Whether this object is in invalid state or not.
         /// </summary>
@@ -347,7 +348,7 @@ namespace EcellLib.PathwayWindow.Node
             set { this.m_highLightBrush = value; }
         }
         /// <summary>
-        /// Accessor for m_isighLighted.
+        /// Accessor for m_isHighLighted.
         /// </summary>
         public virtual bool IsHighLighted
         {
@@ -361,6 +362,7 @@ namespace EcellLib.PathwayWindow.Node
                     this.Brush = m_normalBrush;
             }
         }
+        
         /// <summary>
         /// Accessor for m_isInvalid.
         /// </summary>

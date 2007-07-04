@@ -90,7 +90,12 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private static readonly SolidBrush SHOW_BTN_SHADOW_BRUSH
              = new SolidBrush(Color.FromArgb(200, Color.Black));
-
+        
+        /// <summary>
+        /// Used to draw line to reconnect.
+        /// </summary>
+        private static readonly Pen LINE_THIN_PEN = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 2);
+        
         /// <summary>
         /// radius of a line handle
         /// </summary>
@@ -258,6 +263,11 @@ namespace EcellLib.PathwayWindow
         string m_selectedSystemName;
 
         /// <summary>
+        /// PPathwayObject, which is to be connected.
+        /// </summary>
+        PPathwayNode m_nodeToBeConnected;
+
+        /// <summary>
         /// List of PNodes which belong to a system before the system resizing started.
         /// </summary>
         PNodeList m_systemChildrenBeforeDrag = null;
@@ -378,6 +388,14 @@ namespace EcellLib.PathwayWindow
         {
             get { return m_nodeMenu; }
             set { this.m_nodeMenu = value; }
+        }
+
+        /// <summary>
+        /// Accessor for node to be reconnected.
+        /// </summary>
+        public PPathwayNode NodeToBeReconnected
+        {
+            get { return m_nodeToBeConnected; }
         }
 
         /// <summary>
@@ -521,6 +539,14 @@ namespace EcellLib.PathwayWindow
         public Dictionary<string, ToolStripItem> ContextMenuDict
         {
             get { return m_cMenuDict; }
+        }
+
+        /// <summary>
+        /// Accessor for m_line4reconnect.
+        /// </summary>
+        public PPath Line4Reconnect
+        {
+            get { return m_line4reconnect; }
         }
         #endregion
 
@@ -782,7 +808,7 @@ namespace EcellLib.PathwayWindow
 
             m_line4reconnect = new PPath();
             m_line4reconnect.Brush = new SolidBrush(Color.FromArgb(200, Color.Orange));
-            m_line4reconnect.Pen = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 2);
+            m_line4reconnect.Pen = LINE_THIN_PEN;
             m_line4reconnect.Pickable = false;
 
             m_pathwayCanvas.AddInputEventListener(new MouseDownHandler(m_pathwayView));
@@ -2852,6 +2878,7 @@ namespace EcellLib.PathwayWindow
             m_ctrlLayer.AddChild(m_lineHandle4P);
 
             // Create line
+            m_line4reconnect.Pen = LINE_THIN_PEN;
             m_line4reconnect.Reset();
             switch (line.Info.TypeOfLine)
             {
@@ -2881,7 +2908,37 @@ namespace EcellLib.PathwayWindow
                 case EdgeDirection.None:
                     break;
             }
-            m_ctrlLayer.AddChild(m_line4reconnect);
+            SetLineVisibility(true);
+        }
+
+        /// <summary>
+        /// Show/Hide line4reconnect.
+        /// </summary>
+        /// <param name="visible">visibility</param>
+        public void SetLineVisibility(bool visible)
+        {
+            if (null == m_line4reconnect)
+                return;
+
+            if (visible)
+                m_ctrlLayer.AddChild(m_line4reconnect);
+            else
+            {
+                if(null != m_line4reconnect.Parent)
+                    m_ctrlLayer.RemoveChild(m_line4reconnect);
+            }
+        }
+
+        /// <summary>
+        /// Add node, which is to be connected
+        /// </summary>
+        /// <param name="obj">node which is to be connected</param>
+        public void AddNodeToBeConnected(PPathwayNode obj)
+        {
+            if (null != m_nodeToBeConnected)
+                m_nodeToBeConnected.IsToBeConnected = false;
+            obj.IsToBeConnected = true;
+            m_nodeToBeConnected = obj;
         }
 
         /// <summary>
@@ -3030,9 +3087,9 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="direction"></param>
         /// <param name="delta"></param>
-        public void PanCanvas(PathwayView.Direction direction, int delta)
+        public void PanCanvas(Direction direction, int delta)
         {
-            if (direction == PathwayView.Direction.Vertical)
+            if (direction == Direction.Vertical)
                 m_pathwayCanvas.Camera.TranslateViewBy(0,delta);
             else
                 m_pathwayCanvas.Camera.TranslateViewBy(delta, 0);
@@ -3393,6 +3450,16 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Reset node to be connected to normal state.
+        /// </summary>
+        public void ResetNodeToBeConnected()
+        {
+            if (null != m_nodeToBeConnected)
+                m_nodeToBeConnected.IsToBeConnected = false;
+            m_nodeToBeConnected = null;
+        }
+
+        /// <summary>
         /// Reset a reconnecting line.
         /// </summary>
         public void ResetLinePosition()
@@ -3471,10 +3538,7 @@ namespace EcellLib.PathwayWindow
             {
                 m_ctrlLayer.RemoveChild(m_lineHandle4P);
             }
-            if(null != m_line4reconnect && null != m_line4reconnect.Parent)
-            {
-                m_ctrlLayer.RemoveChild(m_line4reconnect);
-            }
+            SetLineVisibility(false);
         }
 
         /// <summary>

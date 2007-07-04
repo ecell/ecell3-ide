@@ -1561,9 +1561,9 @@ namespace EcellLib.PathwayWindow
         void uc_MouseWheel(object sender, MouseEventArgs e)
         {
             if (Control.ModifierKeys == Keys.Shift)
-                m_view.PanCanvas(PathwayView.Direction.Horizontal, e.Delta);
+                m_view.PanCanvas(Direction.Horizontal, e.Delta);
             else
-                m_view.PanCanvas(PathwayView.Direction.Vertical, e.Delta);
+                m_view.PanCanvas(Direction.Vertical, e.Delta);
         }
         #endregion
     }

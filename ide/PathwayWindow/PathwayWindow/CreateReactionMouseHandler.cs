@@ -34,11 +34,18 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using EcellLib.PathwayWindow.Node;
+using System.Drawing;
+using UMD.HCIL.Piccolo.Nodes;
 
 namespace EcellLib.PathwayWindow
 {
     class CreateReactionMouseHandler : PBasicInputEventHandler
     {
+        /// <summary>
+        /// Used to draw line to connect.
+        /// </summary>
+        private static readonly Pen LINE_THICK_PEN = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 5);
+
         public enum ReferenceKind {Changeable, Constant};
 
         /// <summary>
@@ -50,6 +57,11 @@ namespace EcellLib.PathwayWindow
         /// Currently selected node.
         /// </summary>
         protected PPathwayNode m_current = null;
+
+        /// <summary>
+        /// Start point of line
+        /// </summary>
+        protected PointF m_startPoint = PointF.Empty;
 
         /// <summary>
         /// Constructor with PathwayView.
@@ -74,46 +86,116 @@ namespace EcellLib.PathwayWindow
         {
             base.OnMouseDown(sender, e);
 
+            m_startPoint = e.Position;
+            CanvasView canvas = m_view.CanvasDictionary[e.Canvas.Name];
+
             PPathwayNode newNode = e.PickedNode as PPathwayNode;
 
             if (newNode == null)
+            {
+                SetCurrent(canvas, null);
                 return;
+            }
 
             if (m_current == null)
             {
-                m_current = newNode;
+                SetCurrent(canvas, newNode);
             }
             else if(m_current is PEcellVariable)
             {
                 if (newNode is PEcellProcess)
                 {
-                    if(m_view.CheckedComponent == -3)
-                        this.CreateEdge((PEcellProcess)newNode, (PEcellVariable)m_current, -1);
-                    else
+                    if (m_view.SelectedHandle.Mode == Mode.CreateConstant)
+                    {
                         this.CreateEdge((PEcellProcess)newNode, (PEcellVariable)m_current, 0);
-                    m_current = null;
+                    }
+                    else if (m_view.SelectedHandle.Mode == Mode.CreateOneWayReaction)
+                    {
+                        this.CreateEdge((PEcellProcess)newNode, (PEcellVariable)m_current, -1);
+                    }
+                    else if (m_view.SelectedHandle.Mode == Mode.CreateMutualReaction)
+                    {
+                        this.CreateEdge((PEcellProcess)newNode, (PEcellVariable)m_current, -1);
+                        this.CreateEdge((PEcellProcess)newNode, (PEcellVariable)m_current, 1);
+                    }
+
+                    SetCurrent(canvas, null);
                 }
                 else if(newNode is PEcellVariable)
                 {
-                    m_current = newNode;
+                    SetCurrent(canvas, newNode);
                 }
             }
             else if(m_current is PEcellProcess)
             {
                 if (newNode is PEcellVariable)
                 {
-                    if (m_view.CheckedComponent == -3)
-                        this.CreateEdge((PEcellProcess)m_current, (PEcellVariable)newNode, 1);
-                    else
+                    if (m_view.SelectedHandle.Mode == Mode.CreateConstant)
+                    {
                         this.CreateEdge((PEcellProcess)m_current, (PEcellVariable)newNode, 0);
-                    m_current = null;
+                    }
+                    else if (m_view.SelectedHandle.Mode == Mode.CreateOneWayReaction)
+                    {
+                        this.CreateEdge((PEcellProcess)m_current, (PEcellVariable)newNode, 1);
+                    }
+                    else if (m_view.SelectedHandle.Mode == Mode.CreateMutualReaction)
+                    {
+                        this.CreateEdge((PEcellProcess)m_current, (PEcellVariable)newNode, 1);
+                        this.CreateEdge((PEcellProcess)m_current, (PEcellVariable)newNode, -1);
+                    }
+                    SetCurrent(canvas, null);
                 }
                 else if(newNode is PEcellProcess)
                 {
-                    m_current = newNode;
+                    SetCurrent(canvas, newNode);
                 }
             }
         }
+
+        /// <summary>
+        /// Called when the mouse is moving on the canvas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void OnMouseMove(object sender, PInputEventArgs e)
+        {
+            base.OnMouseMove(sender, e);
+
+            if(null != m_current)
+            {
+                PointF contactP = m_current.GetContactPoint(e.Position);
+                
+                PPath line = m_view.CanvasDictionary[e.Canvas.Name].Line4Reconnect;
+                line.Reset();
+                if (m_view.SelectedHandle.Mode != Mode.CreateConstant)
+                {
+                    line.AddLine(contactP.X, contactP.Y, e.Position.X, e.Position.Y);
+                    line.AddPolygon(
+                        PathUtil.GetArrowPoints(
+                        e.Position,
+                        contactP,
+                        PEcellProcess.ARROW_RADIAN_A,
+                        PEcellProcess.ARROW_RADIAN_B,
+                        PEcellProcess.ARROW_LENGTH));
+
+                    if (m_view.SelectedHandle.Mode == Mode.CreateMutualReaction)
+                    {
+                        line.AddPolygon(
+                        PathUtil.GetArrowPoints(
+                        contactP,
+                        e.Position,
+                        PEcellProcess.ARROW_RADIAN_A,
+                        PEcellProcess.ARROW_RADIAN_B,
+                        PEcellProcess.ARROW_LENGTH));
+                    }
+                }
+                else
+                {
+                    PEcellProcess.AddDashedLine(line, contactP.X, contactP.Y, e.Position.X, e.Position.Y);
+                }
+            }
+        }
+
 
         /// <summary>
         /// Create VariableReferenceList of process.
@@ -196,6 +278,28 @@ namespace EcellLib.PathwayWindow
                 DataManager.GetDataManager().DataChanged(
                     obj.modelID, obj.key, obj.type, obj);
                 return;
+            }
+        }
+
+        /// <summary>
+        /// Set current node.
+        /// </summary>
+        /// <param name="canvas">CanvasView to which node belongs</param>
+        /// <param name="node">current node</param>
+        private void SetCurrent(CanvasView canvas, PPathwayNode node)
+        {
+            m_current = node;
+            if (null != node)
+            {
+                canvas.AddNodeToBeConnected(node);
+                canvas.Line4Reconnect.Pen = LINE_THICK_PEN;
+                canvas.SetLineVisibility(true);
+            }
+            else
+            {
+                canvas.Line4Reconnect.Reset();
+                canvas.ResetNodeToBeConnected();
+                canvas.SetLineVisibility(false);
             }
         }
 

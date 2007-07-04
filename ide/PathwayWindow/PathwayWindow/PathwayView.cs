@@ -52,26 +52,62 @@ using System.ComponentModel;
 
 namespace EcellLib.PathwayWindow
 {
+    #region Enumeration
+    /// <summary>
+    /// Direction of scrolling the canvas.
+    /// </summary>
+    public enum Direction
+    {
+        /// <summary>
+        /// Vertical direction
+        /// </summary>
+        Vertical,
+        /// <summary>
+        /// Horizontal direction
+        /// </summary>
+        Horizontal
+    };
+    /// <summary>
+    /// Mode
+    /// </summary>
+    public enum Mode
+    {
+        /// <summary>
+        /// Select objects
+        /// </summary>
+        Select,
+        /// <summary>
+        /// Pan canvas
+        /// </summary>
+        Pan,
+        /// <summary>
+        /// Create reaction
+        /// </summary>
+        CreateOneWayReaction,
+        /// <summary>
+        /// Create mutual(Interactive) reaction
+        /// </summary>
+        CreateMutualReaction,
+        /// <summary>
+        /// Create constant
+        /// </summary>
+        CreateConstant,
+        /// <summary>
+        /// Create system
+        /// </summary>
+        CreateSystem,
+        /// <summary>
+        /// Create node
+        /// </summary>
+        CreateNode
+    };
+    #endregion
+
     /// <summary>
     /// PathwayView plays a role of View part of MVC-model.
     /// </summary>
     public class PathwayView
     {
-        #region Enumeration
-        /// <summary>
-        /// Direction of scrolling the canvas.
-        /// </summary>
-        public enum Direction {
-            /// <summary>
-            /// vertical direction
-            /// </summary>
-            Vertical,
-            /// <summary>
-            /// horizontal direction
-            /// </summary>
-            Horizontal };
-        #endregion
-
         #region Static readonly fields
         /// <summary>
         /// Graphical content of m_canvas is scaled by m_reductionScale in overview canvas (m_overCanvas)
@@ -125,15 +161,11 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         List<ComponentSetting> m_componentSettings;
 
-        /// <summary>
-        /// A list of handlers for creating objects.
-        /// </summary>
-        List<PBasicInputEventHandler> m_objectHandlerList = new List<PBasicInputEventHandler>();
+        //List<PBasicInputEventHandler> m_objectHandlerList = new List<PBasicInputEventHandler>();
+        
+        //List<PBasicInputEventHandler> m_canvasHandlerList = new List<PBasicInputEventHandler>();
 
-        /// <summary>
-        /// A list of handlers for a canvas.
-        /// </summary>
-        List<PBasicInputEventHandler> m_canvasHandlerList = new List<PBasicInputEventHandler>();
+        Dictionary<int, PBasicInputEventHandler> m_handlerDict = new Dictionary<int, PBasicInputEventHandler>();
 
         /// <summary>
         /// A list of toolbox buttons.
@@ -226,7 +258,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Indicate which pathway-related toolbar button is selected.
         /// </summary>
-        private int m_checkedComponent;
+        private Handle m_selectedHandle;
 
         /// <summary>
         /// Every time when m_dgv.CurrentCellDirtyStateChanged event occurs, 
@@ -261,10 +293,10 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// get/set the number of checked component.
         /// </summary>
-        public int CheckedComponent
+        public Handle SelectedHandle
         {
-            get { return m_checkedComponent; }
-            set { m_checkedComponent = value; }
+            get { return m_selectedHandle; }
+            set { m_selectedHandle = value; }
         }
 
         /// <summary>
@@ -406,9 +438,9 @@ namespace EcellLib.PathwayWindow
             lowerSplitCon.Panel2.Controls.Add(layerGB);
 
             // Preparing handler list.
-            m_canvasHandlerList.Add( new DefaultMouseHandler(this));
-            m_canvasHandlerList.Add( new PPanEventHandler() );
-            m_canvasHandlerList.Add(new CreateReactionMouseHandler(this));
+            //m_canvasHandlerList.Add( new DefaultMouseHandler(this));
+            //m_canvasHandlerList.Add( new PPanEventHandler() );
+            //m_canvasHandlerList.Add(new CreateReactionMouseHandler(this));
         }
 
         #endregion
@@ -618,6 +650,8 @@ namespace EcellLib.PathwayWindow
                     ((PPathwayNode)obj).Element = (NodeElement)element;
                     ((PPathwayNode)obj).ShowingID = m_showingId;
                     obj.MouseDown += new PInputEventHandler(NodeSelected);
+                    obj.MouseEnter += new PInputEventHandler(NodeEntered);
+                    obj.MouseLeave += new PInputEventHandler(NodeLeft);
                     ((PPathwayNode)obj).Handler4Line = new PInputEventHandler(LineSelected);
 
                     string layer = null;
@@ -798,12 +832,13 @@ namespace EcellLib.PathwayWindow
         #region Event delegate
         /// <summary>
         /// When select the button in ToolBox,
-        /// system change the listener for event/
+        /// system change the listener for event
         /// </summary>
         /// <param name="sender">ToolBoxMenuButton.</param>
         /// <param name="e">EventArgs.</param>
         public void ButtonStateChanged(object sender, EventArgs e)
-        {            
+        {
+            /*
             if (CheckedComponent >= 0)
                 RemoveInputEventListener(m_objectHandlerList[CheckedComponent]);
             else if (CheckedComponent == -1)
@@ -813,19 +848,35 @@ namespace EcellLib.PathwayWindow
             else if (CheckedComponent == -3)
                 RemoveInputEventListener(m_canvasHandlerList[2]);
             else if (CheckedComponent == -4)
-                RemoveInputEventListener(m_canvasHandlerList[2]);
-            
-            CheckedComponent = (int)((ToolStripButton)sender).Tag;
+                RemoveInputEventListener(m_canvasHandlerList[2]);*/
+
+            RemoveInputEventListener(m_handlerDict[SelectedHandle.HandleID]);
+                        
+            SelectedHandle = (Handle)((ToolStripButton)sender).Tag;
             
             foreach (ToolStripButton button in m_buttonList)
             {
-                if ((int)button.Tag != CheckedComponent)
+                if (button.Tag != SelectedHandle)
                 {
                     button.Checked = false;
                 }
             }
 
-            m_splitCon.Cursor = Cursors.Arrow;
+            AddInputEventListener(m_handlerDict[SelectedHandle.HandleID]);
+
+            if (SelectedHandle.Mode == Mode.Pan)
+            {
+                m_splitCon.Cursor = new Cursor(new MemoryStream(Resource1.move));
+                SetRefreshOverview(true);
+                Freeze();
+            }
+            else
+            {
+                m_splitCon.Cursor = Cursors.Arrow;
+                SetRefreshOverview(false);
+                Unfreeze();
+            }
+            /*
             if (CheckedComponent >= 0)
             {
                 AddInputEventListener(m_objectHandlerList[CheckedComponent]);
@@ -856,7 +907,7 @@ namespace EcellLib.PathwayWindow
                 AddInputEventListener(m_canvasHandlerList[2]);
                 SetRefreshOverview(false);
                 Unfreeze();
-            }
+            }*/
         }
 
         /// <summary>
@@ -935,16 +986,18 @@ namespace EcellLib.PathwayWindow
         {
             List<ToolStripItem> list = new List<ToolStripItem>();
 
-            CheckedComponent = 0;
+            // Used for ID of handle
+            int handleCount = 0;
 
             ToolStripButton handButton = new ToolStripButton();
             handButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            handButton.Name = "SelectMode";
+            handButton.Name = "MoveCanvas";
             handButton.Image = Resource1.move1;
             handButton.Text = "";
             handButton.CheckOnClick = true;
             handButton.ToolTipText = "MoveCanvas";
-            handButton.Tag = -2;
+            handButton.Tag = new Handle(Mode.Pan, handleCount, -1);
+            m_handlerDict.Add(handleCount++, new PPanEventHandler());
             handButton.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(handButton);
             m_buttonList.Add(handButton);
@@ -953,23 +1006,11 @@ namespace EcellLib.PathwayWindow
             button0.ImageTransparentColor = System.Drawing.Color.Magenta;
             button0.Name = "SelectMode";
             button0.Image = Resource1.arrow;
-            /*
-            Graphics gra0 = Graphics.FromImage(button0.Image);
-            Point[] arrowPoints = new Point[] { new Point(10,10),
-                                               new Point(180,500),
-                                               new Point(250,300),
-                                               new Point(550,600),
-                                               new Point(620,570),
-                                               new Point(320,270),
-                                               new Point(480,200),
-                                               new Point(10,10)};
-            gra0.FillPolygon(Brushes.White, arrowPoints);
-            gra0.DrawLines(new Pen(Brushes.Black, 48), arrowPoints);*/
-            //button0.Size = new System.Drawing.Size(640, 640);
             button0.Text = "";
             button0.CheckOnClick = true;
             button0.ToolTipText = "SelectMode";
-            button0.Tag = -1;
+            button0.Tag = new Handle(Mode.Select, handleCount, -1);
+            m_handlerDict.Add(handleCount++, new DefaultMouseHandler(this));
             button0.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(button0);
             m_buttonList.Add(button0);
@@ -980,15 +1021,29 @@ namespace EcellLib.PathwayWindow
 
             ToolStripButton arrowButton = new ToolStripButton();
             arrowButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            arrowButton.Name = "reaction";
+            arrowButton.Name = "reactionOneway";
             arrowButton.Image = Resource1.arrow_long_right_w;
             arrowButton.Text = "";
             arrowButton.CheckOnClick = true;
-            arrowButton.ToolTipText = "Add Reaction";
-            arrowButton.Tag = -3;
+            arrowButton.ToolTipText = "Add Mutual Reaction";
+            arrowButton.Tag = new Handle(Mode.CreateOneWayReaction, handleCount, -1);
+            m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             arrowButton.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(arrowButton);
             m_buttonList.Add(arrowButton);
+
+            ToolStripButton bidirButton = new ToolStripButton();
+            bidirButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            bidirButton.Name = "reactionMutual";
+            bidirButton.Image = Resource1.arrow_long_bidir_w;
+            bidirButton.Text = "";
+            bidirButton.CheckOnClick = true;
+            bidirButton.ToolTipText = "Add Oneway Reaction";
+            bidirButton.Tag = new Handle(Mode.CreateMutualReaction, handleCount, -1);
+            m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
+            bidirButton.Click += new EventHandler(this.ButtonStateChanged);
+            list.Add(bidirButton);
+            m_buttonList.Add(bidirButton);
 
             ToolStripButton constButton = new ToolStripButton();
             constButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -997,13 +1052,17 @@ namespace EcellLib.PathwayWindow
             constButton.Text = "";
             constButton.CheckOnClick = true;
             constButton.ToolTipText = "Add Constant";
-            constButton.Tag = -4;
+            constButton.Tag = new Handle(Mode.CreateConstant, handleCount, -1);
+            m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             constButton.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(constButton);
             m_buttonList.Add(constButton);
 
+            CreateSystemMouseHandler csmh = new CreateSystemMouseHandler(this);
+            CreateNodeMouseHandler cnmh = new CreateNodeMouseHandler(this);
 
             int count = 0;
+
             foreach (ComponentSetting cs in m_componentSettings)
             {
                 ToolStripButton button = new ToolStripButton();
@@ -1015,24 +1074,32 @@ namespace EcellLib.PathwayWindow
                 {
                     Rectangle rect = new Rectangle(3, 3, 240, 240);
                     gra.DrawRectangle(new Pen(Brushes.Black, 16), rect);
-                    m_objectHandlerList.Add(new CreateSystemMouseHandler(this));
+                    //m_objectHandlerList.Add(new CreateSystemMouseHandler(this));
+                    m_handlerDict.Add(handleCount, csmh);
+                    button.Tag = new Handle(Mode.CreateSystem, handleCount++, count++);
                 }
                 else
                 {
                     GraphicsPath gp = cs.TransformedPath;
                     gra.FillPath(cs.NormalBrush, gp);
                     gra.DrawPath(new Pen(Brushes.Black, 16), gp);
-                    m_objectHandlerList.Add(new CreateNodeMouseHandler(this));
+                    //m_objectHandlerList.Add(new CreateNodeMouseHandler(this));
+                    m_handlerDict.Add(handleCount, cnmh);
+                    button.Tag = new Handle(Mode.CreateNode, handleCount++, count++);
                 }
                 button.Size = new System.Drawing.Size(256, 256);
                 button.Text = "";
                 button.CheckOnClick = true;
                 button.ToolTipText = cs.Name;
-                button.Tag = count++;
+                
                 button.Click += new EventHandler(this.ButtonStateChanged);
                 list.Add(button);
                 m_buttonList.Add(button);
             }
+
+            // SelectMode is default.
+            button0.Checked = true;
+            SelectedHandle = (Handle)button0.Tag;
 
             return list;
         }
@@ -1367,8 +1434,11 @@ namespace EcellLib.PathwayWindow
         {
             if (m_isFreezed)
                 return;
-            foreach (CanvasView canvas in m_canvasDict.Values)
-                canvas.Freeze();
+            if(null != m_canvasDict)
+            {
+                foreach (CanvasView canvas in m_canvasDict.Values)
+                    canvas.Freeze();
+            }
             m_isFreezed = true;
         }
 
@@ -1379,8 +1449,11 @@ namespace EcellLib.PathwayWindow
         {
             if (!m_isFreezed)
                 return;
-            foreach (CanvasView canvas in m_canvasDict.Values)
-                canvas.Unfreeze();
+            if(null != m_canvasDict)
+            {
+                foreach (CanvasView canvas in m_canvasDict.Values)
+                    canvas.Unfreeze();
+            }
             m_isFreezed = false;
         }
 
@@ -1389,7 +1462,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="direction">direction of moving.</param>
         /// <param name="delta">delta of moving.</param>
-        public void PanCanvas(PathwayView.Direction direction, int delta)
+        public void PanCanvas(Direction direction, int delta)
         {
             foreach (CanvasView set in m_canvasDict.Values)
             {
@@ -1754,7 +1827,9 @@ namespace EcellLib.PathwayWindow
                     foreach (VariableElement varEle in variableElements[set.CanvasID])
                     {
                         PPathwayNode pnode = this.CreateVariable(varEle);
-                        pnode.MouseDown += new PInputEventHandler(NodeSelected);                        
+                        pnode.MouseDown += new PInputEventHandler(NodeSelected);
+                        pnode.MouseEnter += new PInputEventHandler(NodeEntered);
+                        pnode.MouseLeave += new PInputEventHandler(NodeLeft);
                         pnode.CanvasView = set;
 
                         if (pnode == null)
@@ -1770,6 +1845,8 @@ namespace EcellLib.PathwayWindow
                         pnode = this.CreateProcess(nodeEle);
 
                         pnode.MouseDown += new PInputEventHandler(NodeSelected);
+                        pnode.MouseEnter += new PInputEventHandler(NodeEntered);
+                        pnode.MouseLeave += new PInputEventHandler(NodeLeft);
                         pnode.Handler4Line = new PInputEventHandler(LineSelected);
                         pnode.CanvasView = set;
 
@@ -1966,8 +2043,8 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// the event sequence of selecting the PNode of system in PathwayEditor.
         /// </summary>
-        /// <param name="sender">PPathwaySystem.</param>
-        /// <param name="e">PInputEventArgs.</param>
+        /// <param name="sender">PPathwaySystem</param>
+        /// <param name="e">PInputEventArgs</param>
         public void SystemSelected(object sender, PInputEventArgs e)
         {
             if (e.Button == MouseButtons.Left && e.PickedNode == sender)
@@ -1995,25 +2072,34 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">PInputEventArgs.</param>
         public void NodeSelected(object sender, PInputEventArgs e)
         {
-            if (e.PickedNode is PPathwayNode)
-                ((PPathwayNode)e.PickedNode).ValidateEdges();
-
+            //if (e.PickedNode is PPathwayNode)
+            //    ((PPathwayNode)e.PickedNode).ValidateEdges();
             if (e.Button == MouseButtons.Left)
             {
                 PPathwayNode pnode = (PPathwayNode)e.PickedNode;
 
-                if (!pnode.IsHighLighted)
+                if (SelectedHandle.Mode == Mode.CreateOneWayReaction
+                    || SelectedHandle.Mode == Mode.CreateMutualReaction
+                    || SelectedHandle.Mode == Mode.CreateConstant)
                 {
-                    if (e.Modifiers == Keys.Shift)
+                    this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
+                    this.CanvasDictionary[e.Canvas.Name].AddNodeToBeConnected((PPathwayNode)sender);
+                }
+                else
+                {
+                    if (!pnode.IsHighLighted)
                     {
-                        this.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)sender, true);
+                        if (e.Modifiers == Keys.Shift)
+                        {
+                            this.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)sender, true);
+                        }
+                        else
+                        {
+                            this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
+                            this.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)sender, true);
+                        }
                     }
-                    else
-                    {
-                        this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
-                        this.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)sender, true);
-                    }
-                }                
+                }
             }
             else
             {
@@ -2025,6 +2111,48 @@ namespace EcellLib.PathwayWindow
                         item.Tag = e.PickedNode;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Called when the mouse enters a node
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void NodeEntered(object sender, PInputEventArgs e)
+        {
+            if (SelectedHandle.Mode == Mode.CreateOneWayReaction ||
+                SelectedHandle.Mode == Mode.CreateMutualReaction ||
+                SelectedHandle.Mode == Mode.CreateConstant)
+            {
+                PPathwayNode startNode = m_canvasDict[e.Canvas.Name].NodeToBeReconnected;
+                if (null == startNode)
+                    return;
+
+                if ((startNode is PEcellProcess && e.PickedNode is PEcellVariable)
+                    || (startNode is PEcellVariable && e.PickedNode is PEcellProcess))
+                {
+                    PPathwayNode endNode = e.PickedNode as PPathwayNode;
+                    if (null != endNode)
+                        endNode.IsMouseOn = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when the mouse leaves a node
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void NodeLeft(object sender, PInputEventArgs e)
+        {
+            if (SelectedHandle.Mode == Mode.CreateOneWayReaction ||
+                SelectedHandle.Mode == Mode.CreateMutualReaction ||
+                SelectedHandle.Mode == Mode.CreateConstant)
+            {
+                PPathwayNode endNode = e.PickedNode as PPathwayNode;
+                if (null != endNode)
+                    endNode.IsMouseOn = false;
             }
         }
 

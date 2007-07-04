@@ -125,7 +125,7 @@ namespace EcellLib.PathwayWindow
                 
                 DataManager dm = DataManager.GetDataManager();
 
-                if (m_view.ComponentSettings[m_view.CheckedComponent].ComponentKind == ComponentType.Process)
+                if (m_view.ComponentSettings[m_view.SelectedHandle.CsID].ComponentKind == ComponentType.Process)
                 {
                     string tmpId = dm.GetTemporaryID(m_view.Window.ModelID, "Process", m_surSystem);
                     Dictionary<string, EcellData> dict = DataManager.GetProcessProperty("ExpressionFluxProcess");
@@ -136,7 +136,7 @@ namespace EcellLib.PathwayWindow
                     EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, m_surSystem + ":" + tmpId,
                     "Process", "ExpressionFluxProcess", list);
 
-                    ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
+                    ComponentSetting cs = m_view.ComponentSettings[m_view.SelectedHandle.CsID];
 
                     m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Process, cs, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, eo, null, false);
                 }
@@ -151,7 +151,7 @@ namespace EcellLib.PathwayWindow
                     EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, m_surSystem + ":" + tmpId,
                     "Variable", "Variable", list);
 
-                    ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
+                    ComponentSetting cs = m_view.ComponentSettings[m_view.SelectedHandle.CsID];
 
                     m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Variable, cs, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, eo, null, false);
                 }

@@ -66,7 +66,22 @@ namespace EcellLib.PathwayWindow.Node
         /// Whether this node is showing ID or not.
         /// </summary>
         protected bool m_showingId;
-        
+
+        /// <summary>
+        /// Object will be painted with this Brush when object is to be connected.
+        /// </summary>
+        protected Brush m_toBeConnectedBrush = Brushes.Orange;
+
+        /// <summary>
+        /// Whether this object is to be connected or not.
+        /// </summary>
+        protected bool m_isToBeConnected = false;
+
+        /// <summary>
+        /// Whether the mouse in on this node or not.
+        /// </summary>
+        protected bool m_isMouseOn = false;
+
         /// <summary>
         /// related element.
         /// </summary>
@@ -142,6 +157,38 @@ namespace EcellLib.PathwayWindow.Node
                     }
                 } while (dummyParent != null && dummyParent.Parent != this.Root);
                 return canPos;
+            }
+        }
+
+        /// <summary>
+        /// Accessor for status whether this object is ready to be connected.
+        /// </summary>
+        public virtual bool IsToBeConnected
+        {
+            get { return this.m_isToBeConnected; }
+            set
+            {
+                this.m_isToBeConnected = value;
+                if (value)
+                    this.Brush = m_toBeConnectedBrush;
+                else
+                    this.Brush = m_normalBrush;
+            }
+        }
+
+        /// <summary>
+        /// Accessor for status whether the mouse is on this node or not.
+        /// </summary>
+        public virtual bool IsMouseOn
+        {
+            get { return this.m_isMouseOn; }
+            set
+            {
+                this.m_isMouseOn = value;
+                if (value)
+                    this.Brush = m_toBeConnectedBrush;
+                else if (!m_isToBeConnected)
+                    this.Brush = m_normalBrush;
             }
         }
 

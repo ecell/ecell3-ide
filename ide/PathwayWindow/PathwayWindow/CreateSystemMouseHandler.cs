@@ -263,7 +263,7 @@ namespace EcellLib.PathwayWindow
                         if (node is PPathwayObject)
                             newlySelectedList.Add((PPathwayObject)node);
                 }
-                ComponentSetting cs = m_view.ComponentSettings[m_view.CheckedComponent];
+                ComponentSetting cs = m_view.ComponentSettings[m_view.SelectedHandle.CsID];
 
                 String keydata = "";
                 if (m_surSystem.Equals("/"))

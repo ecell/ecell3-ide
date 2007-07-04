@@ -109,6 +109,7 @@
     <Compile Include="GridLayout.cs" />
     <Compile Include="Handler\NamespaceDoc.cs" />
     <Compile Include="Handler\PPathwayZoomEventHandler.cs" />
+    <Compile Include="Handle.cs" />
     <Compile Include="ILayoutAlgorithm.cs" />
     <Compile Include="MouseDownHandler.cs" />
     <Compile Include="Node\NamespaceDoc.cs" />
