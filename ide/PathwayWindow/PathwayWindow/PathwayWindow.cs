@@ -1143,7 +1143,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="modelID">ModelID of object added to selected objects.</param>
         /// <param name="key">ID of object added to selected objects.</param>
         /// <param name="type">Type of object added to selected objects.</param>
-        void AddSelect(string modelID, string key, string type)
+        public void AddSelect(string modelID, string key, string type)
         {
             // not implement
         }
@@ -1154,7 +1154,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="modelID">ModelID of object removed from seleted objects.</param>
         /// <param name="key">ID of object removed from selected objects.</param>
         /// <param name="type">Type of object removed from selected objects.</param>
-        void RemoveSelect(string modelID, string key, string type)
+        public void RemoveSelect(string modelID, string key, string type)
         {
             // not implement
         }
@@ -1162,7 +1162,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Reset all selected objects.
         /// </summary>
-        void ResetSelect()
+        public void ResetSelect()
         {
             // not implement
         }
