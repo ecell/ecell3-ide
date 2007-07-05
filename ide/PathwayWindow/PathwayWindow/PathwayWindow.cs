@@ -1138,6 +1138,36 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// The event process when user add the object to the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object added to selected objects.</param>
+        /// <param name="key">ID of object added to selected objects.</param>
+        /// <param name="type">Type of object added to selected objects.</param>
+        void AddSelect(string modelID, string key, string type)
+        {
+            // not implement
+        }
+
+        /// <summary>
+        /// The event process when user remove object from the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
+        /// <param name="key">ID of object removed from selected objects.</param>
+        /// <param name="type">Type of object removed from selected objects.</param>
+        void RemoveSelect(string modelID, string key, string type)
+        {
+            // not implement
+        }
+
+        /// <summary>
+        /// Reset all selected objects.
+        /// </summary>
+        void ResetSelect()
+        {
+            // not implement
+        }
+
+        /// <summary>
         /// Set the panel that show this plugin in MainWindow.
         /// </summary>
         /// <param name="panel">The set panel.</param>
