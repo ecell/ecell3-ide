@@ -660,10 +660,12 @@ namespace EcellLib.PathwayWindow
                     if (m_dgv.SelectedRows.Count != 0)
                         layer = (string)m_dgv[m_dgv.Columns["Name"].Index, m_dgv.SelectedRows[0].Index].Value;
                     m_canvasDict[canvasName].AddNewObj(layer, systemName, obj, hasCoords, false);
-                }
+                }                
             }
             else
                 throw new PathwayException("CanvasID isn't set for " + key);
+
+            m_pathwayWindow.NotifySelectChanged(key, type);
         }
         
         /// <summary>

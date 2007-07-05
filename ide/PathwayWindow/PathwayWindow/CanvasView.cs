@@ -3297,7 +3297,7 @@ namespace EcellLib.PathwayWindow
                         if(m_variables.ContainsKey(key))
                         {
                             PPathwayNode focusNode = (PPathwayNode)m_variables[key];
-                            this.AddSelectedNode(focusNode, true);
+                            this.AddSelectedNode(focusNode, false);
                             m_pathwayCanvas.Camera.AnimateViewToCenterBounds(PathUtil.GetFocusBound(focusNode.FullBounds, LEAST_FOCUS_SIZE),
                                                                              true,
                                                                              CAMERA_ANIM_DURATION);
@@ -3319,7 +3319,7 @@ namespace EcellLib.PathwayWindow
                     {
                         this.ResetSelectedObjects();
                         PPathwayNode focusNode = (PPathwayNode)m_processes[key];
-                        this.AddSelectedNode(focusNode, true);
+                        this.AddSelectedNode(focusNode, false);
                         m_pathwayCanvas.Camera.AnimateViewToCenterBounds(PathUtil.GetFocusBound( focusNode.FullBounds, LEAST_FOCUS_SIZE ),
                                                                          true,
                                                                          CAMERA_ANIM_DURATION);                        
