@@ -39,7 +39,7 @@ namespace EcellLib.PathwayWindow
     /// Default layout algorithm.
     /// Nodes will be layouted from an upper-left corner to right.
     /// </summary>
-    
+    [Obsolete]
     public class DefaultLayoutAlgorithm : ILayoutAlgorithm
     {
         /// <summary>
@@ -123,13 +123,22 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string GetMenuText()
+        {
+            return "Default Layout";
+        }
+
+        /// <summary>
         /// Get a name of this layout algorithm.
         /// </summary>
         /// <returns></returns>
         public string GetName()
         {
             return "Default Layout";
-        }
+        }        
 
         /// <summary>
         /// Get a tooltip of this layout algorithm.
