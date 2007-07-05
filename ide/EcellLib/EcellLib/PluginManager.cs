@@ -166,6 +166,45 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// The event process when user add the object to the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object added to selected objects.</param>
+        /// <param name="key">ID of object added to selected objects.</param>
+        /// <param name="type">Type of object added to selected objects.</param>
+        public void AddSelect(string modelID, string key, string type)
+        {
+            foreach (PluginBase p in m_pluginList.Values)
+            {
+                p.AddSelect(modelID, key, type);
+            }
+        }
+
+        /// <summary>
+        /// The event process when user remove object from the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
+        /// <param name="key">ID of object removed from selected objects.</param>
+        /// <param name="type">Type of object removed from selected objects.</param>
+        public void RemoveSelect(string modelID, string key, string type)
+        {
+            foreach (PluginBase p in m_pluginList.Values)
+            {
+                p.RemoveSelect(modelID, key, type);
+            }
+        }
+
+        /// <summary>
+        /// Reset all selected objects.
+        /// </summary>
+        public void ResetSelect()
+        {
+            foreach (PluginBase p in m_pluginList.Values)
+            {
+                p.ResetSelect();
+            }
+        }
+
+        /// <summary>
         /// event sequence on changing value on executing the simulation.
         /// </summary>
         /// <param name="modelID">the model ID of changing value.</param>

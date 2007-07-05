@@ -706,6 +706,7 @@ namespace EcellLib.EntityListWindow
                 List<EcellObject> rList = new List<EcellObject>();
                 rList.Add(obj);
                 m_dManager.DataAdd(rList);
+                m_pManager.SelectChanged(m_currentObj.modelID, keydata, "System");
             }
             catch (Exception ex)
             {
@@ -741,6 +742,7 @@ namespace EcellLib.EntityListWindow
                 List<EcellObject> rList = new List<EcellObject>();
                 rList.Add(obj);
                 m_dManager.DataAdd(rList);
+                m_pManager.SelectChanged(m_currentObj.modelID, m_currentObj.key + ":" + tmpID, "Variable");
             }
             catch (Exception ex)
             {
@@ -776,6 +778,7 @@ namespace EcellLib.EntityListWindow
                 List<EcellObject> rList = new List<EcellObject>();
                 rList.Add(obj);
                 m_dManager.DataAdd(rList);
+                m_pManager.SelectChanged(m_currentObj.modelID, m_currentObj.key + ":" + tmpID, "Process");
             }
             catch (Exception ex)
             {

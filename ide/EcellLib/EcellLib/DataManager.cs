@@ -1080,8 +1080,8 @@ namespace EcellLib
                         m_aManager.AddAction(new DataAddAction(obj));
                         lastObj = obj;
                     }
-                    if (lastObj != null)
-                        m_pManager.SelectChanged(lastObj.modelID, lastObj.key, lastObj.type);
+//                    if (lastObj != null)
+//                        m_pManager.SelectChanged(lastObj.modelID, lastObj.key, lastObj.type);
                 }
             }
         }
@@ -1927,8 +1927,23 @@ namespace EcellLib
                 }
             }
         }
+/*
+        public void SystemDeleteAndMove(string modelID, string key)
+        {
+            List<EcellObject> targetList = new List<EcellObject>();
+            if (m_systemDic[m_currentProjectID].ContainsKey(l_model))
+            {
+                foreach (EcellObject obj in m_systemDic[m_currentProjectID][l_model])
+                {
+                    if (obj.modelID == l_model && obj.key.StartsWith(l_key) &&
+                        (obj.key.Length == l_key.Length || obj.key[l_key.Length] == '/')) 
+                        targetList.Add(obj);
+                }
+            }
 
 
+        }
+        */
         /// <summary>
         /// Deletes the "System" using the model ID and the key of the "EcellObject".
         /// </summary>
