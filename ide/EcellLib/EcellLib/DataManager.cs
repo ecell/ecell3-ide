@@ -1074,8 +1074,14 @@ namespace EcellLib
                 if (l_usableList != null && l_usableList.Count > 0)
                 {
                     m_pManager.DataAdd(l_usableList);
+                    EcellObject lastObj = null;
                     foreach (EcellObject obj in l_usableList)
+                    {
                         m_aManager.AddAction(new DataAddAction(obj));
+                        lastObj = obj;
+                    }
+                    if (lastObj != null)
+                        m_pManager.SelectChanged(lastObj.modelID, lastObj.key, lastObj.type);
                 }
             }
         }
