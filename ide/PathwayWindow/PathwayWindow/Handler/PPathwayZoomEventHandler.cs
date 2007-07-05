@@ -140,6 +140,7 @@ namespace EcellLib.PathwayWindow.Handler
         }
 
         #region Events
+
         /// <summary>
 		/// Overridden.  See <see cref="PDragSequenceEventHandler.OnDragActivityFirstStep">
 		/// PDragSequenceEventHandler.OnDragActivityFirstStep</see>.
@@ -176,6 +177,12 @@ namespace EcellLib.PathwayWindow.Handler
 			camera.ScaleViewBy(scaleDelta, m_viewZoomPoint.X, m_viewZoomPoint.Y);
 		}
 
+        protected override void OnDrag(object sender, PInputEventArgs e)
+        {
+            base.OnDrag(sender, e);
+            m_view.CanvasDictionary[e.Canvas.Name].PathwayCanvas.ContextMenuStrip = null;
+        }
+
         /// <summary>
         /// Called when drag finished.
         /// </summary>
@@ -185,7 +192,7 @@ namespace EcellLib.PathwayWindow.Handler
         {
             base.OnEndDrag(sender,e);
             if (m_view != null)
-            {
+            {                
                 m_view.UpdateOverview();
             }
         }

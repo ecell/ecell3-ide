@@ -589,7 +589,8 @@ namespace EcellLib.PathwayWindow
             m_pathwayCanvas.RemoveInputEventListener(m_pathwayCanvas.ZoomEventHandler);
             m_pathwayCanvas.AddInputEventListener(new PPathwayZoomEventHandler(m_pathwayView));
             m_pathwayCanvas.Dock = DockStyle.Fill;
-            m_pathwayCanvas.MouseMove += new MouseEventHandler(m_pathwayCanvas_MouseMove);
+            //m_pathwayCanvas.MouseDown += new MouseEventHandler(m_pathwayCanvas_MouseDown);
+            //m_pathwayCanvas.MouseMove += new MouseEventHandler(m_pathwayCanvas_MouseMove);
             m_pathwayCanvas.Camera.AddChild(m_showBtnDownward);
             m_pathwayCanvas.Name = name;
             //m_pathwayCanvas.Camera.Scale = DEFAULT_CAMERA_SCALE;
@@ -972,6 +973,20 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         /// <summary>
+        /// Called when the mouse is down on a canvas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /*
+        void m_pathwayCanvas_MouseDown(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                m_pathwayCanvas.ContextMenuStrip = m_nodeMenu;
+            }
+        }
+
+        /// <summary>
         /// event sequence of moving the display rectangles.
         /// </summary>
         /// <param name="sender">Canvas.</param>
@@ -980,7 +995,11 @@ namespace EcellLib.PathwayWindow
         {
             if (m_isRefreshOverview)
                 this.UpdateOverview();
-        }
+            if(e.Button == MouseButtons.Right)
+            {
+                m_pathwayCanvas.ContextMenuStrip = null;                
+            }
+        }*/
 
         /// <summary>
         /// Called when a change line menu of the context menu is clicked.
@@ -2199,8 +2218,6 @@ namespace EcellLib.PathwayWindow
                     m_pathwayView.NotifyDataChanged(oldKey, newKey, PathwayView.PROCESS_STRING, true);
             }
         }
-
-
 
         /// <summary>
         /// Transfer an system from one PEcellSystem/Layer to PEcellSystem/Layer.

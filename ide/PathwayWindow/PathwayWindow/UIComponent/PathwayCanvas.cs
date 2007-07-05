@@ -72,6 +72,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                 return;
             if (e.Button == MouseButtons.Right)
             {
+                this.ContextMenuStrip = m_cview.NodeMenu;
+
                 if (m_cview.NodeMenu.Tag == null)
                 {
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR1 ].Visible = false;

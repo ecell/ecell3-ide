@@ -371,6 +371,7 @@ namespace EcellLib.PathwayWindow
             m_tabControl.Dock = DockStyle.Fill;
             m_tabControl.SelectedIndexChanged += new EventHandler(m_tabControl_SelectedIndexChanged);
 
+            /*
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
             ToolStripItem delete = new ToolStripMenuItem("Delete");
             delete.Click += new EventHandler(delete_Click);
@@ -380,6 +381,7 @@ namespace EcellLib.PathwayWindow
                                     });
             m_tabControl.ContextMenuStrip = nodeMenu;
 
+             */ 
             m_splitCon = new SplitContainer();
             m_splitCon.Dock = DockStyle.Fill;
             m_splitCon.Orientation = Orientation.Horizontal;
@@ -2074,8 +2076,8 @@ namespace EcellLib.PathwayWindow
         {
             //if (e.PickedNode is PPathwayNode)
             //    ((PPathwayNode)e.PickedNode).ValidateEdges();
-            if (e.Button == MouseButtons.Left)
-            {
+            //if (e.Button == MouseButtons.Left)
+            //{
                 PPathwayNode pnode = (PPathwayNode)e.PickedNode;
 
                 if (SelectedHandle.Mode == Mode.CreateOneWayReaction
@@ -2100,9 +2102,9 @@ namespace EcellLib.PathwayWindow
                         }
                     }
                 }
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 this.CanvasDictionary[e.Canvas.Name].NodeMenu.Tag = e.PickedNode;
                 foreach (ToolStripItem item in this.CanvasDictionary[e.Canvas.Name].NodeMenu.Items)
                 {
@@ -2111,7 +2113,7 @@ namespace EcellLib.PathwayWindow
                         item.Tag = e.PickedNode;
                     }
                 }
-            }
+            //}
         }
 
         /// <summary>
