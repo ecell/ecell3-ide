@@ -68,6 +68,27 @@ namespace EcellLib
         void SelectChanged(string modelID, string key, string type);
 
         /// <summary>
+        /// The event process when user add the object to the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object added to selected objects.</param>
+        /// <param name="key">ID of object added to selected objects.</param>
+        /// <param name="type">Type of object added to selected objects.</param>
+        void AddSelect(string modelID, string key, string type);
+
+        /// <summary>
+        /// The event process when user remove object from the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
+        /// <param name="key">ID of object removed from selected objects.</param>
+        /// <param name="type">Type of object removed from selected objects.</param>
+        void RemoveSelect(string modelID, string key, string type);
+
+        /// <summary>
+        /// Reset all selected objects.
+        /// </summary>
+        void ResetSelect();
+
+        /// <summary>
         /// The event sequence on changing value of data at other plugin.
         /// </summary>
         /// <param name="modelID">The model ID before value change.</param>
