@@ -812,7 +812,7 @@ namespace EcellLib.PathwayWindow
             m_line4reconnect.Pen = LINE_THIN_PEN;
             m_line4reconnect.Pickable = false;
 
-            m_pathwayCanvas.AddInputEventListener(new MouseDownHandler(m_pathwayView));
+            //m_pathwayCanvas.AddInputEventListener(new MouseDownHandler(m_pathwayView));
         }
 
         /// <summary>
