@@ -426,7 +426,7 @@ namespace EcellLib.Simulation
         /// <param name="time">The current simulation time.</param>
         public void AdvancedTime(double time)
         {
-            if (m_type == Util.RUNNING || m_type == Util.SUSPEND)
+            if (m_type == Util.RUNNING || m_type == Util.SUSPEND || m_type == Util.STEP)
             m_text.Text = time.ToString();
         }
 
