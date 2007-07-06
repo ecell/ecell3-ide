@@ -129,7 +129,7 @@ namespace EcellLib.ObjectList
             {
                 string type = typeNode.Attributes["type"].Value;
                 List<string> columns = new List<string>();
-                columns.Add("key");
+                columns.Add("ID");
 
                 foreach (XmlNode columnNode in typeNode.ChildNodes)
                 {
@@ -156,6 +156,7 @@ namespace EcellLib.ObjectList
                 dgr.AllowUserToDeleteRows = false;
                 dgr.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 dgr.CellClick += new DataGridViewCellEventHandler(DataGridCellClick);
+                dgr.SelectionChanged += new EventHandler(DataGridSelectChanged);
                 dgr.ContextMenuStrip = null;
                 page.Controls.Add(dgr);
 
@@ -170,7 +171,7 @@ namespace EcellLib.ObjectList
                     dataColumn.DataType = typeof(string);
 
                     dataTable.Columns.Add(dataColumn);
-                    if (column == "key")
+                    if (column == "ID")
                     {
                         dataTable.PrimaryKey = new DataColumn[] { dataColumn };
                     }
@@ -182,6 +183,18 @@ namespace EcellLib.ObjectList
                 m_dict.Add(type, objectListOfType);
                 m_gridDict.Add(type, dgr);
 
+            }
+        }
+
+        void DataGridSelectChanged(object sender, EventArgs e)
+        {
+            int i = 0;
+            for (i = 0; i < 10; i++)
+            {
+                if (m_gridDict["Process"].SelectedRows.Count > 1)
+                {
+                    i++;
+                }
             }
         }
 
@@ -228,7 +241,7 @@ namespace EcellLib.ObjectList
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-                string value = (string)view.Rows[i].Cells["key"].Value;
+                string value = (string)view.Rows[i].Cells["ID"].Value;
                 if (value.Contains(text))
                 {
                     DataGridViewCell cell = view[0, i];
@@ -435,8 +448,24 @@ namespace EcellLib.ObjectList
             {
                 isDouble = true;
                 DataGridViewCell cell = view[0, row.Index];
-                PluginManager.GetPluginManager().SelectChanged(m_currentModelID,
-                    (string)cell.Value, type);
+                if (view.SelectedRows.Count > 1)
+                {
+                    PluginManager.GetPluginManager().AddSelect(m_currentModelID,
+                        (string)cell.Value, type);
+                }
+                else
+                {
+                    if (view.SelectedRows.Contains(row))
+                    {
+                        PluginManager.GetPluginManager().SelectChanged(m_currentModelID,
+                            (string)cell.Value, type);
+                    }
+                    else
+                    {
+                        PluginManager.GetPluginManager().RemoveSelect(m_currentModelID,
+                            (string)cell.Value, type);
+                    }
+                }
                 isDouble = false;
             }
         }
@@ -525,9 +554,9 @@ namespace EcellLib.ObjectList
 
                 for (int i = 0; i < view.RowCount; i++)
                 {
-                    if ((string)view.Rows[i].Cells["key"].Value == key)
+                    if ((string)view.Rows[i].Cells["ID"].Value == key)
                     {
-                        view.Rows[i].Cells["key"].Selected = true;
+                        view.Rows[i].Cells["ID"].Selected = true;
                         return;
                     }
                 }
@@ -549,7 +578,60 @@ namespace EcellLib.ObjectList
         /// <param name="type">Type of object added to selected objects.</param>
         public void AddSelect(string modelID, string key, string type)
         {
-            // not implement
+            if (modelID == null)
+                return;
+
+            try
+            {
+                if (m_currentModelID == null || !m_currentModelID.Equals(modelID))
+                {
+                    this.Clear();
+                    DataManager dm = DataManager.GetDataManager();
+                    List<EcellObject> list = dm.GetData(modelID, null);
+                    if (list == null) return;
+
+                    foreach (EcellObject eo in list)
+                    {
+                        if (eo.type != "System") continue;
+                        if (eo.M_instances != null)
+                        {
+                            foreach (EcellObject child in eo.M_instances)
+                            {
+                                if (child.key.EndsWith(":SIZE")) continue;
+                                // When eo has a new type
+                                if (m_dict.ContainsKey(child.type))
+                                {
+                                    m_dict[child.type].AddObject(child);
+                                }
+                            }
+                        }
+                        m_dict[eo.type].AddObject(eo);
+                    }
+                    this.m_currentModelID = modelID;
+                }
+
+                if (key == null) return;
+                if (type != "System" && type != "Process" && type != "Variable") return;
+                DataGridView view = m_gridDict[type];
+                m_tabControl.SelectedTab = m_pageDict[type];
+
+                for (int i = 0; i < view.RowCount; i++)
+                {
+                    if ((string)view.Rows[i].Cells["ID"].Value == key)
+                    {
+                        view.Rows[i].Cells["ID"].Selected = true;
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrSelectObj");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
+                    "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
         }
 
         /// <summary>
@@ -560,7 +642,59 @@ namespace EcellLib.ObjectList
         /// <param name="type">Type of object removed from selected objects.</param>
         public void RemoveSelect(string modelID, string key, string type)
         {
-            // not implement
+            if (modelID == null)
+                return;
+
+            try
+            {
+                if (m_currentModelID == null || !m_currentModelID.Equals(modelID))
+                {
+                    this.Clear();
+                    DataManager dm = DataManager.GetDataManager();
+                    List<EcellObject> list = dm.GetData(modelID, null);
+                    if (list == null) return;
+
+                    foreach (EcellObject eo in list)
+                    {
+                        if (eo.type != "System") continue;
+                        if (eo.M_instances != null)
+                        {
+                            foreach (EcellObject child in eo.M_instances)
+                            {
+                                if (child.key.EndsWith(":SIZE")) continue;
+                                // When eo has a new type
+                                if (m_dict.ContainsKey(child.type))
+                                {
+                                    m_dict[child.type].AddObject(child);
+                                }
+                            }
+                        }
+                        m_dict[eo.type].AddObject(eo);
+                    }
+                    this.m_currentModelID = modelID;
+                }
+
+                if (key == null) return;
+                if (type != "System" && type != "Process" && type != "Variable") return;
+                DataGridView view = m_gridDict[type];
+                m_tabControl.SelectedTab = m_pageDict[type];
+
+                for (int i = 0; i < view.RowCount; i++)
+                {
+                    if ((string)view.Rows[i].Cells["ID"].Value == key)
+                    {
+                        view.Rows[i].Cells["ID"].Selected = false;
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrSelectObj");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
+                    "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
 
         /// <summary>
@@ -568,7 +702,13 @@ namespace EcellLib.ObjectList
         /// </summary>
         public void ResetSelect()
         {
-            // not implement
+            if (m_tabControl == null)
+                return;
+
+            foreach (string key in m_dict.Keys)
+            {
+                m_gridDict[key].ClearSelection();
+            }
         }
 
         /// <summary>

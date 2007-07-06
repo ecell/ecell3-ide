@@ -116,7 +116,7 @@ namespace EcellLib.ObjectList
 
             dataRow = ds.Tables[eo.type].NewRow();
             if (column.Contains("modelID")) dataRow["modelID"] = eo.modelID;
-            if (column.Contains("key")) dataRow["key"] = eo.key;
+            if (column.Contains("ID")) dataRow["ID"] = eo.key;
             if (column.Contains("classname")) dataRow["classname"] = eo.classname;
 
             if (eo.M_value != null)
@@ -152,23 +152,23 @@ namespace EcellLib.ObjectList
                 DataRow[] list1 = ds.Tables[i].Select();
                 for (int j = 0; j < list1.Length; j++)
                 {
-                    if (list1[j]["key"].ToString().Equals(key) &&
+                    if (list1[j]["ID"].ToString().Equals(key) &&
                         type != this.type) continue;
                     if (type == "System")
                     {
 //                        if (list1[j]["key"].ToString().StartsWith(key))
-                        if (list1[j]["key"].ToString().Equals(key) ||
-                            (list1[j]["key"].ToString().StartsWith(key) &&
-                            list1[j]["key"].ToString()[key.Length] == '/') ||
-                            (list1[j]["key"].ToString().StartsWith(key) &&
-                            list1[j]["key"].ToString()[key.Length] == ':'))
+                        if (list1[j]["ID"].ToString().Equals(key) ||
+                            (list1[j]["ID"].ToString().StartsWith(key) &&
+                            list1[j]["ID"].ToString()[key.Length] == '/') ||
+                            (list1[j]["ID"].ToString().StartsWith(key) &&
+                            list1[j]["ID"].ToString()[key.Length] == ':'))
                         {
                             ds.Tables[i].Rows.Remove(list1[j]);
                         }
                     }
                     else
                     {
-                        if (list1[j]["key"].ToString().Equals(key))
+                        if (list1[j]["ID"].ToString().Equals(key))
                         {
                             ds.Tables[i].Rows.Remove(list1[j]);
                         }
@@ -193,7 +193,7 @@ namespace EcellLib.ObjectList
                 DataRow[] list1 = ds.Tables[i].Select();
                 for (int j = 0; j < list1.Length; j++)
                 {
-                    if (list1[j]["key"].ToString().Equals(key))
+                    if (list1[j]["ID"].ToString().Equals(key))
                     {
                         ds.Tables[i].Rows.Remove(list1[j]);
                     }
