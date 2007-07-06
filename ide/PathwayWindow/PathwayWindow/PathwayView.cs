@@ -665,7 +665,7 @@ namespace EcellLib.PathwayWindow
             else
                 throw new PathwayException("CanvasID isn't set for " + key);
 
-            m_pathwayWindow.NotifySelectChanged(key, type);
+            //m_pathwayWindow.NotifySelectChanged(key, type);
         }
         
         /// <summary>
