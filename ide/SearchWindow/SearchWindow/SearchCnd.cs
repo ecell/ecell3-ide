@@ -119,6 +119,20 @@ namespace EcellLib.SearchWindow
                     {
                         dgv.Rows.Add(new Object[] { obj.key, model, obj.type });
                     }
+                    else
+                    {
+                        if (obj.M_value != null)
+                        {
+                            foreach (EcellData d in obj.M_value)
+                            {
+                                if (d.M_name.Equals("Name") && d.M_value.ToString().Contains(searchId))
+                                {
+                                    dgv.Rows.Add(new Object[] { obj.key, model, obj.type });
+                                    break;
+                                }
+                            }
+                        }
+                    }
 
                     if (obj.M_instances == null) continue;
                     foreach (EcellObject ins in obj.M_instances)
@@ -126,6 +140,20 @@ namespace EcellLib.SearchWindow
                         if (ins.key.Contains(searchId))
                         {
                             dgv.Rows.Add(new Object[] { ins.key, model, ins.type });
+                        }
+                        else
+                        {
+                            if (ins.M_value != null)
+                            {
+                                foreach (EcellData d in ins.M_value)
+                                {
+                                    if (d.M_name.Equals("Name") && d.M_value.ToString().Contains(searchId))
+                                    {
+                                        dgv.Rows.Add(new Object[] { ins.key, model, ins.type });
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
