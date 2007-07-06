@@ -497,4 +497,7 @@
   <data name="SaveConfirm" xml:space="preserve">
     <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>
   </data>
+  <data name="ExportModelDialog" xml:space="preserve">
+    <value>モデルのエクスポート</value>
+  </data>
 </root>

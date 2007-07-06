@@ -92,6 +92,7 @@ namespace EcellLib
         /// user control of formulator.
         /// </summary>
         private FormulatorControl m_cnt = null;
+        private String m_title = null;
         /// <summary>
         /// ResourceManager for PropertyEditor.
         /// </summary>
@@ -104,6 +105,7 @@ namespace EcellLib
         public PropertyEditor()
         {
             InitializeComponent();
+            m_title = this.Text;
             m_dManager = DataManager.GetDataManager();
         }
 
@@ -241,6 +243,7 @@ namespace EcellLib
                 {
                     tmpProcDict = DataManager.GetProcessProperty(m_currentObj.classname);
                 }
+                this.Text = m_title + " - " + m_currentObj.key + " -";
             }
 
             String preId = "";

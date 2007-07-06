@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CreLoggerMenuText" xml:space="preserve">
+    <value>Create Logger</value>
+  </data>
   <data name="ErrAddObj" xml:space="preserve">
     <value>Get exception while system add the object.</value>
   </data>
@@ -125,5 +128,8 @@
   </data>
   <data name="ErrSelectObj" xml:space="preserve">
     <value>Get exception while system select the object.</value>
+  </data>
+  <data name="SearchMenuText" xml:space="preserve">
+    <value>Search ...</value>
   </data>
 </root>

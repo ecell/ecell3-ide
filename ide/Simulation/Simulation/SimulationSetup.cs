@@ -658,7 +658,7 @@
             public void AddStepperClick(object sender, EventArgs e)
             {
                 NewParameterWindow m_newwin = new NewParameterWindow();
-                m_newwin.Text = "New Stepper";
+                m_newwin.Text = m_resources.GetString("NewStepperText");
                 m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.AddStepperClick);
                 m_newwin.CPCancelButton.Click += new EventHandler(m_newwin.CancelStepperClick);
 

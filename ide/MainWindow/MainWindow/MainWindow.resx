@@ -731,7 +731,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>E-CELL Integrated Development Environment</value>
+    <value>E-Cell Integrated Development Environment</value>
   </data>
   <data name="&gt;&gt;MenuItemFile.Name" xml:space="preserve">
     <value>MenuItemFile</value>
@@ -990,5 +990,8 @@
   </data>
   <data name="SaveConfirm" xml:space="preserve">
     <value>Do you want to save this project before you close the project?</value>
+  </data>
+  <data name="ExportModelDialog" xml:space="preserve">
+    <value>Export Model</value>
   </data>
 </root>

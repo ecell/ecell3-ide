@@ -150,15 +150,15 @@
   <data name="&gt;&gt;AROKButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="c1.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="c1.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="c1.HeaderText" xml:space="preserve">
     <value>/CELL/CYTOPLASM/M/MolarConc</value>
   </data>
-  <metadata name="Column2.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="Column2.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="Column2.HeaderText" xml:space="preserve">
     <value>/CELL/CYTOPLASM/P1/MolarConc</value>
   </data>
@@ -216,9 +216,9 @@
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="AROKButton" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="dataGridView1" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,62.5,Percent,37.5,Absolute,35" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
@@ -392,7 +392,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>RobustAnalysisResult</value>
+    <value>Analysis Result</value>
   </data>
   <data name="&gt;&gt;c1.Name" xml:space="preserve">
     <value>c1</value>

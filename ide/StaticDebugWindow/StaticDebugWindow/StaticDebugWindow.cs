@@ -199,7 +199,7 @@ namespace EcellLib.StaticDebugWindow
             m_staticDebug.Size = new Size(96, 22);
 //            m_staticDebug.Text = "Static Debug";
 //            resources.ApplyResources(m_staticDebug, "MenuItemStaticDebug");
-            m_staticDebug.Text = m_resources.GetString("MenuItemStaticDebug");
+            m_staticDebug.Text = m_resources.GetString("MenuItemStaticDebugText");
             m_staticDebug.Tag = 10;
             m_staticDebug.Enabled = false;
             m_staticDebug.Click += new EventHandler(this.ShowStaticDebugSetupWindow);

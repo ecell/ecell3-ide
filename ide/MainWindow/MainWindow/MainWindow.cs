@@ -1136,7 +1136,7 @@ namespace EcellLib.MainWindow
         private void ExportModelMenuClick(object sender, EventArgs e)
         {
             m_savePrjDialog = new SaveProjectDialog();
-            m_savePrjDialog.Text = "Export Model";
+            m_savePrjDialog.Text = m_resources.GetString("ExportModelDialog");
             m_savePrjDialog.SPSaveButton.Click += new EventHandler(ExportModel);
             m_savePrjDialog.SPCancelButton.Click += new EventHandler(ExportModelCancel);
 

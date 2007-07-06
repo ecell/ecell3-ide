@@ -61,6 +61,15 @@ namespace ObjectList {
         }
         
         /// <summary>
+        ///   Create Logger に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CreLoggerMenuText {
+            get {
+                return ResourceManager.GetString("CreLoggerMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Get exception while system add the object. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAddObj {
@@ -84,6 +93,15 @@ namespace ObjectList {
         internal static string ErrSelectObj {
             get {
                 return ResourceManager.GetString("ErrSelectObj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SearchMenuText {
+            get {
+                return ResourceManager.GetString("SearchMenuText", resourceCulture);
             }
         }
     }

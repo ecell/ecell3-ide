@@ -99,12 +99,14 @@ namespace EcellLib.ObjectList
 
             m_contextStrip = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
-            m_resources.ApplyResources(it, "SearchMenu");
+//            m_resources.ApplyResources(it, "SearchMenu");
+            it.Text = m_resources.GetString("SearchMenuText");
             it.ShortcutKeys = Keys.Control | Keys.F;
             it.Click += new EventHandler(SearchMenuClick);
 
             ToolStripMenuItem cr = new ToolStripMenuItem();
-            m_resources.ApplyResources(cr, "CreLoggerMenu");
+//            m_resources.ApplyResources(cr, "CreLoggerMenu");
+            cr.Text = m_resources.GetString("CreLoggerMenuText");
             cr.ShortcutKeys = Keys.Control | Keys.A;
             cr.Click += new EventHandler(CreateLoggerMenuClick);
 
