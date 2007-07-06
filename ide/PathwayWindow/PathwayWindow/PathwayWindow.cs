@@ -699,7 +699,7 @@ namespace EcellLib.PathwayWindow
             foreach (ILayoutAlgorithm algo in m_layoutList)
             {
                 ToolStripMenuItem eachLayoutItem = new ToolStripMenuItem();
-                eachLayoutItem.Text = algo.GetName();
+                eachLayoutItem.Text = algo.GetMenuText();
                 eachLayoutItem.Tag = count;
                 eachLayoutItem.ToolTipText = algo.GetToolTipText();
                 eachLayoutItem.Click += new EventHandler(eachLayoutItem_Click);
