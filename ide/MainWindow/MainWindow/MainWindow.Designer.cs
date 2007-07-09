@@ -80,8 +80,8 @@ namespace EcellLib.MainWindow
             // 
             // sDockBay1
             // 
-            this.sDockBay1.BackColor = System.Drawing.SystemColors.Control;
             resources.ApplyResources(this.sDockBay1, "sDockBay1");
+            this.sDockBay1.BackColor = System.Drawing.SystemColors.Control;
             // 
             // sDockBay1.MainPane
             // 
@@ -386,9 +386,9 @@ namespace EcellLib.MainWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.toolstrip);
             this.Controls.Add(this.sDockBay1);
             this.Controls.Add(this.menustrip);
-            this.Controls.Add(this.toolstrip);
             this.MainMenuStrip = this.menustrip;
             this.Name = "MainWindow";
             this.Disposed += new System.EventHandler(this.MainWindowDisposed);

@@ -167,6 +167,20 @@ namespace EcellLib.MainWindow
         {
             InitializeComponent();
             LoadPlugins();
+            //画面設定読込み
+            loadDefaultWindow();
+            
+        }
+        
+        void loadDefaultWindow()
+        {
+            //画面のデフォルト設定を呼び出し。
+            string fname = Util.GetBaseDir() + "\\default.sdc";
+            if (File.Exists(fname))
+            {
+                Debug.WriteLine(fname);
+                DeserilizeWindow(fname, true);
+            }
         }
 
         void LoadPlugins()
@@ -498,7 +512,6 @@ namespace EcellLib.MainWindow
         {
             // nothing
         }
-
 
         /// <summary>
         /// The event process when user add the object to the selected objects.
@@ -1687,7 +1700,7 @@ namespace EcellLib.MainWindow
                                     if (useHidedelay) this.Opacity = Math.Max(0, this.Opacity - rate2);
                                 }
                             }
-
+                            
                             if (this.Visible) this.Visible = false;
                             //④復元します。
                             //なお、この時SDockBayはPaneをリサイクルします。
@@ -1714,19 +1727,7 @@ namespace EcellLib.MainWindow
 
                                 //④－１　このメソッドでドッキングの再現が行われます。
                                 this.sDockBay1.LoadFrom(bc, false);
-                                //ツールバーの再現
-                                if (mfs.ToolStripManager != null)
-                                {
-                                    try
-                                    {
-                                        mfs.ToolStripManager.LoadFrom(this);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        errMsg = "ツールバーの設定の保存に失敗しました" + ex.StackTrace;
-                                    }
-                                }
-
+                                
                             }
                             else
                             {
@@ -1739,7 +1740,7 @@ namespace EcellLib.MainWindow
                             for (int i = 0; i < bc.TrashAllTabPages.Count; i++)
                             {
                                 SDockTabPage tp = bc.TrashAllTabPages[i];
-                                resetTab(tp);
+                                tp.Controls.Clear();
                                 tp.Dispose(true, true);
                             }
                             for (int i = 0; i < bc.TrashPanes.Count; i++)
@@ -1828,6 +1829,7 @@ namespace EcellLib.MainWindow
             Cursor.Current = cur;
             return errMsg;
         }
+
         void resetWindowSelect()
         {
             this.entityListToolStripMenuItem.Checked = false;
