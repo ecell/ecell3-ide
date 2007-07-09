@@ -31,10 +31,7 @@ namespace EcellLib.MainWindow
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.sDockBay1 = new Yukichika.Controls.SDockBay();
             this.menustrip = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,6 +47,9 @@ namespace EcellLib.MainWindow
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.importActionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveActionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveWindowSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadWindowSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -59,6 +59,12 @@ namespace EcellLib.MainWindow
             this.modelEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
+            this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.entityListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pathwayWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.messageWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.objectListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.propertyWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemAnalysis = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,50 +74,24 @@ namespace EcellLib.MainWindow
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
+            this.sDockBay1.SuspendLayout();
             this.menustrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // splitContainer1
+            // sDockBay1
             // 
-            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            resources.ApplyResources(this.splitContainer1, "splitContainer1");
-            this.splitContainer1.Name = "splitContainer1";
+            this.sDockBay1.BackColor = System.Drawing.SystemColors.Control;
+            resources.ApplyResources(this.sDockBay1, "sDockBay1");
             // 
-            // splitContainer1.Panel1
+            // sDockBay1.MainPane
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
-            // 
-            // splitContainer2
-            // 
-            resources.ApplyResources(this.splitContainer2, "splitContainer2");
-            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer2.Name = "splitContainer2";
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.splitContainer4);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            // 
-            // splitContainer4
-            // 
-            resources.ApplyResources(this.splitContainer4, "splitContainer4");
-            this.splitContainer4.Name = "splitContainer4";
-            // 
-            // splitContainer3
-            // 
-            this.splitContainer3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            resources.ApplyResources(this.splitContainer3, "splitContainer3");
-            this.splitContainer3.Name = "splitContainer3";
+            this.sDockBay1.MainPane.BackColor = System.Drawing.SystemColors.Control;
+            resources.ApplyResources(this.sDockBay1.MainPane, "sDockBay1.MainPane");
+            this.sDockBay1.MainPane.Name = "MainPane";
+            this.sDockBay1.MainPane.TabFirstVisibleIndex = 0;
+            this.sDockBay1.MainPane.BeforeCloseTabPage += new Yukichika.Controls.BeforeCloseTabPageEventHandler(this.sDockBay1_BeforeCloseTabPage);
+            this.sDockBay1.Name = "sDockBay1";
+            this.sDockBay1.BeforeCloseTabPage += new Yukichika.Controls.BeforeCloseTabPageEventHandler(this.sDockBay1_BeforeCloseTabPage);
             // 
             // menustrip
             // 
@@ -144,6 +124,9 @@ namespace EcellLib.MainWindow
             this.toolStripSeparator5,
             this.importActionMenuItem,
             this.saveActionMenuItem,
+            this.toolStripSeparator6,
+            this.saveWindowSettingsToolStripMenuItem,
+            this.loadWindowSettingsToolStripMenuItem,
             this.toolStripSeparator3,
             this.printToolStripMenuItem,
             this.toolStripSeparator4,
@@ -233,6 +216,23 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.saveActionMenuItem, "saveActionMenuItem");
             this.saveActionMenuItem.Click += new System.EventHandler(this.SaveActionMenuClick);
             // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
+            // 
+            // saveWindowSettingsToolStripMenuItem
+            // 
+            this.saveWindowSettingsToolStripMenuItem.Name = "saveWindowSettingsToolStripMenuItem";
+            resources.ApplyResources(this.saveWindowSettingsToolStripMenuItem, "saveWindowSettingsToolStripMenuItem");
+            this.saveWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveWindowSettingsToolStripMenuItem_Click);
+            // 
+            // loadWindowSettingsToolStripMenuItem
+            // 
+            this.loadWindowSettingsToolStripMenuItem.Name = "loadWindowSettingsToolStripMenuItem";
+            resources.ApplyResources(this.loadWindowSettingsToolStripMenuItem, "loadWindowSettingsToolStripMenuItem");
+            this.loadWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadWindowSettingsToolStripMenuItem_Click);
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -283,8 +283,61 @@ namespace EcellLib.MainWindow
             // 
             // MenuItemView
             // 
+            this.MenuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showWindowToolStripMenuItem});
             this.MenuItemView.Name = "MenuItemView";
             resources.ApplyResources(this.MenuItemView, "MenuItemView");
+            // 
+            // showWindowToolStripMenuItem
+            // 
+            this.showWindowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.entityListToolStripMenuItem,
+            this.pathwayWindowToolStripMenuItem,
+            this.messageWindowToolStripMenuItem,
+            this.objectListToolStripMenuItem,
+            this.propertyWindowToolStripMenuItem});
+            this.showWindowToolStripMenuItem.Name = "showWindowToolStripMenuItem";
+            resources.ApplyResources(this.showWindowToolStripMenuItem, "showWindowToolStripMenuItem");
+            // 
+            // entityListToolStripMenuItem
+            // 
+            this.entityListToolStripMenuItem.Checked = true;
+            this.entityListToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.entityListToolStripMenuItem.Name = "entityListToolStripMenuItem";
+            resources.ApplyResources(this.entityListToolStripMenuItem, "entityListToolStripMenuItem");
+            this.entityListToolStripMenuItem.Click += new System.EventHandler(this.entityListToolStripMenuItem_Click);
+            // 
+            // pathwayWindowToolStripMenuItem
+            // 
+            this.pathwayWindowToolStripMenuItem.Checked = true;
+            this.pathwayWindowToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.pathwayWindowToolStripMenuItem.Name = "pathwayWindowToolStripMenuItem";
+            resources.ApplyResources(this.pathwayWindowToolStripMenuItem, "pathwayWindowToolStripMenuItem");
+            this.pathwayWindowToolStripMenuItem.Click += new System.EventHandler(this.pathwayWindowToolStripMenuItem_Click);
+            // 
+            // messageWindowToolStripMenuItem
+            // 
+            this.messageWindowToolStripMenuItem.Checked = true;
+            this.messageWindowToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.messageWindowToolStripMenuItem.Name = "messageWindowToolStripMenuItem";
+            resources.ApplyResources(this.messageWindowToolStripMenuItem, "messageWindowToolStripMenuItem");
+            this.messageWindowToolStripMenuItem.Click += new System.EventHandler(this.messageWindowToolStripMenuItem_Click);
+            // 
+            // objectListToolStripMenuItem
+            // 
+            this.objectListToolStripMenuItem.Checked = true;
+            this.objectListToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.objectListToolStripMenuItem.Name = "objectListToolStripMenuItem";
+            resources.ApplyResources(this.objectListToolStripMenuItem, "objectListToolStripMenuItem");
+            this.objectListToolStripMenuItem.Click += new System.EventHandler(this.objectListToolStripMenuItem_Click);
+            // 
+            // propertyWindowToolStripMenuItem
+            // 
+            this.propertyWindowToolStripMenuItem.Checked = true;
+            this.propertyWindowToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.propertyWindowToolStripMenuItem.Name = "propertyWindowToolStripMenuItem";
+            resources.ApplyResources(this.propertyWindowToolStripMenuItem, "propertyWindowToolStripMenuItem");
+            this.propertyWindowToolStripMenuItem.Click += new System.EventHandler(this.propertyWindowToolStripMenuItem_Click);
             // 
             // MenuItemRun
             // 
@@ -333,19 +386,13 @@ namespace EcellLib.MainWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.toolstrip);
+            this.Controls.Add(this.sDockBay1);
             this.Controls.Add(this.menustrip);
+            this.Controls.Add(this.toolstrip);
             this.MainMenuStrip = this.menustrip;
             this.Name = "MainWindow";
             this.Disposed += new System.EventHandler(this.MainWindowDisposed);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            this.splitContainer2.ResumeLayout(false);
-            this.splitContainer4.ResumeLayout(false);
-            this.splitContainer3.ResumeLayout(false);
+            this.sDockBay1.ResumeLayout(false);
             this.menustrip.ResumeLayout(false);
             this.menustrip.PerformLayout();
             this.ResumeLayout(false);
@@ -403,18 +450,6 @@ namespace EcellLib.MainWindow
         public System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        /// <summary>
-        /// SplitContainer to divide window.
-        /// </summary>
-        public System.Windows.Forms.SplitContainer splitContainer1;
-        /// <summary>
-        /// SplitContainer to divide window.
-        /// </summary>
-        public System.Windows.Forms.SplitContainer splitContainer2;
-        /// <summary>
-        /// SplitContainer to divide window.
-        /// </summary>
-        public System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.ToolStripMenuItem MenuItemSetup;
         /// <summary>
         /// MenuItem to set the working directory.
@@ -435,7 +470,6 @@ namespace EcellLib.MainWindow
         /// MenuItem to save action.
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem saveActionMenuItem;
-        private System.Windows.Forms.SplitContainer splitContainer4;
         /// <summary>
         /// MenuItem to import selected script.
         /// </summary>
@@ -446,6 +480,16 @@ namespace EcellLib.MainWindow
         /// MenuItem to display version dialog.
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem ShowVersionMenuItem;
+        private Yukichika.Controls.SDockBay sDockBay1;
+        private System.Windows.Forms.ToolStripMenuItem saveWindowSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem loadWindowSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showWindowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem entityListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pathwayWindowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem messageWindowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem objectListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem propertyWindowToolStripMenuItem;
     }
 }
 
