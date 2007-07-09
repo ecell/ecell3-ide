@@ -56,13 +56,9 @@ namespace EcellLib.MainWindow
                 Application.Idle -= onIdle;
                 MainWindow frmMainWnd = new MainWindow();
 
-                frmMainWnd.Shown += delegate(Object _sender, EventArgs _e)
-                {
-                    frmSplash.Close();
-                };
-
                 me.MainForm = frmMainWnd;
                 frmMainWnd.Show();
+                frmSplash.Close();
             };
 
             frmSplash.Show();

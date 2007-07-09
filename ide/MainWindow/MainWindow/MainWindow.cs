@@ -175,10 +175,11 @@ namespace EcellLib.MainWindow
         void loadDefaultWindow()
         {
             //画面のデフォルト設定を呼び出し。
-            string fname = Util.GetBaseDir() + "\\default.sdc";
+            //設定ファイルの置き場所はプラグインフォルダ。
+            string fname = Util.GetPluginDir() + "\\default.sdc";
+            Debug.WriteLine(fname);
             if (File.Exists(fname))
             {
-                Debug.WriteLine(fname);
                 DeserilizeWindow(fname, true);
             }
         }
