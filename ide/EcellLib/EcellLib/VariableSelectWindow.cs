@@ -130,5 +130,51 @@ namespace EcellLib
             m_win.dgv.Rows.Add(new object[] { id, key, 1, true });
         }
         #endregion
+
+        private void SelectTreeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode t = this.selectTree.SelectedNode;
+            if (t == null)
+            {
+                String errmes = m_resources.GetString("ErrNoSelect");
+                MessageBox.Show(errmes,
+                    "WARNING",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            string tag = (string)t.Tag;
+            if (tag == null || tag.Equals(""))
+            {
+                String errmes = m_resources.GetString("ErrNotVar");
+                MessageBox.Show(errmes, "WARNING",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int j = 0;
+            string id;
+            string key = ":" + tag;
+            while (true)
+            {
+                id = "P" + j;
+                bool isHit = false;
+                for (int i = 0; i < m_win.dgv.RowCount; i++)
+                {
+                    if (id == (string)m_win.dgv[0, i].Value)
+                    {
+                        isHit = true;
+                        break;
+                    }
+                }
+                if (isHit == false)
+                {
+                    break;
+                }
+                j++;
+            }
+
+            m_win.dgv.Rows.Add(new object[] { id, key, 1, true });
+
+        }
     }
 }

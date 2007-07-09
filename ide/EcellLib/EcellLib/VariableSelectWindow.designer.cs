@@ -55,6 +55,7 @@
             resources.ApplyResources(this.selectTree, "selectTree");
             this.selectTree.ImageList = this.imageList1;
             this.selectTree.Name = "selectTree";
+            this.selectTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.SelectTreeDoubleClick);
             // 
             // imageList1
             // 
