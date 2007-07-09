@@ -117,19 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ATExecuteButton.Text" xml:space="preserve">
-    <value>解析実行(&amp;E)</value>
+  <data name="ErrCreatePrj" xml:space="preserve">
+    <value>プロジェクトの作成に失敗しました。</value>
   </data>
-  <data name="ATLoadButton.Text" xml:space="preserve">
-    <value>条件読み込み(&amp;L)...</value>
+  <data name="ErrExpModel" xml:space="preserve">
+    <value>モデルの出力に失敗しました。</value>
   </data>
-  <data name="ATSaveButton.Text" xml:space="preserve">
-    <value>条件保存(&amp;S)...</value>
+  <data name="ErrImpScript" xml:space="preserve">
+    <value>スクリプトの実行に失敗しました。</value>
   </data>
-  <data name="ATStopButton.Text" xml:space="preserve">
-    <value>解析リセット(&amp;T)</value>
+  <data name="ErrLoadModel" xml:space="preserve">
+    <value>モデルのロードに失敗しました。再度実行してください。</value>
   </data>
-  <data name="ATViewButton.Text" xml:space="preserve">
-    <value>表示(&amp;V)...</value>
+  <data name="ErrLoadPlugin" xml:space="preserve">
+    <value>プラグインのロードに失敗しました。</value>
+  </data>
+  <data name="ErrModelNG" xml:space="preserve">
+    <value>モデル名に不適切な文字が含まれています。確認してください。</value>
+  </data>
+  <data name="ErrModelNull" xml:space="preserve">
+    <value>モデル名が入力されていません。入力してください。</value>
+  </data>
+  <data name="ErrNoSelectExp" xml:space="preserve">
+    <value>モデルが選択されていません。モデルを選択してください。</value>
+  </data>
+  <data name="ErrNoSelectPrj" xml:space="preserve">
+    <value>プロジェクトが選択されていません。選択してください。</value>
+  </data>
+  <data name="ErrOpenPrj" xml:space="preserve">
+    <value>選択したプロジェクトを開くのに失敗しました。</value>
+  </data>
+  <data name="ErrPrjIdNG" xml:space="preserve">
+    <value>プロジェクト名に不適切な文字が含まれています。確認してください。</value>
+  </data>
+  <data name="ErrPrjIdNull" xml:space="preserve">
+    <value>プロジェクト名が入力されていません。入力してください。</value>
+  </data>
+  <data name="ErrSaveAction" xml:space="preserve">
+    <value>アクションファイルの保存に失敗しました。</value>
+  </data>
+  <data name="ErrSavePrj" xml:space="preserve">
+    <value>プロジェクトの保存に失敗しました。</value>
+  </data>
+  <data name="ErrSaveScript" xml:space="preserve">
+    <value>スクリプトの出力に失敗しました。</value>
+  </data>
+  <data name="ErrSelectSave" xml:space="preserve">
+    <value>保存する項目を1つは選択してください。</value>
+  </data>
+  <data name="ErrShowOpenPrj" xml:space="preserve">
+    <value>プロジェクトを選択するダイアログの表示に失敗しました。</value>
+  </data>
+  <data name="ErrShowSavePrj" xml:space="preserve">
+    <value>プロジェクトを保存するダイアログの表示に失敗しました。</value>
+  </data>
+  <data name="ErrStartup" xml:space="preserve">
+    <value>システムに必要なパラメータが見つかりません。再インストールしてください。</value>
+  </data>
+  <data name="ExpModelMes" xml:space="preserve">
+    <value>作業用ディレクトリを設定してください。</value>
+  </data>
+  <data name="ExportModelDialog" xml:space="preserve">
+    <value>モデルのエクスポート</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>指定したファイルが存在しません。確認してください。</value>
+  </data>
+  <data name="SaveConfirm" xml:space="preserve">
+    <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>
   </data>
 </root>

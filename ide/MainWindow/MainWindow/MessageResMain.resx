@@ -117,19 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ATExecuteButton.Text" xml:space="preserve">
-    <value>解析実行(&amp;E)</value>
+  <data name="ErrCreatePrj" xml:space="preserve">
+    <value>Fail to create the project.</value>
   </data>
-  <data name="ATLoadButton.Text" xml:space="preserve">
-    <value>条件読み込み(&amp;L)...</value>
+  <data name="ErrExpModel" xml:space="preserve">
+    <value>Fail to export the selected model.</value>
   </data>
-  <data name="ATSaveButton.Text" xml:space="preserve">
-    <value>条件保存(&amp;S)...</value>
+  <data name="ErrImpScript" xml:space="preserve">
+    <value>Fail to import the script.</value>
   </data>
-  <data name="ATStopButton.Text" xml:space="preserve">
-    <value>解析リセット(&amp;T)</value>
+  <data name="ErrLoadModel" xml:space="preserve">
+    <value>Fail to export the model.</value>
   </data>
-  <data name="ATViewButton.Text" xml:space="preserve">
-    <value>表示(&amp;V)...</value>
+  <data name="ErrLoadPlugin" xml:space="preserve">
+    <value>Fail to load the plugin.</value>
+  </data>
+  <data name="ErrModelNG" xml:space="preserve">
+    <value>There are invalid characters in model id.</value>
+  </data>
+  <data name="ErrModelNull" xml:space="preserve">
+    <value>No input the model id.</value>
+  </data>
+  <data name="ErrNoSelectExp" xml:space="preserve">
+    <value>No select the model.</value>
+  </data>
+  <data name="ErrNoSelectPrj" xml:space="preserve">
+    <value>No select the project.</value>
+  </data>
+  <data name="ErrOpenPrj" xml:space="preserve">
+    <value>Fail to open the project.</value>
+  </data>
+  <data name="ErrPrjIdNG" xml:space="preserve">
+    <value>There are invalid characters in project id.</value>
+  </data>
+  <data name="ErrPrjIdNull" xml:space="preserve">
+    <value>No input the project id.</value>
+  </data>
+  <data name="ErrSaveAction" xml:space="preserve">
+    <value>Fail to save the action.</value>
+  </data>
+  <data name="ErrSavePrj" xml:space="preserve">
+    <value>Fail to save the project.</value>
+  </data>
+  <data name="ErrSaveScript" xml:space="preserve">
+    <value>Fail to save the script.</value>
+  </data>
+  <data name="ErrSelectSave" xml:space="preserve">
+    <value>Please select at least one item.</value>
+  </data>
+  <data name="ErrShowOpenPrj" xml:space="preserve">
+    <value>Fail to show the dialog to open project.</value>
+  </data>
+  <data name="ErrShowSavePrj" xml:space="preserve">
+    <value>Fail to show the dialog to save project.</value>
+  </data>
+  <data name="ErrStartup" xml:space="preserve">
+    <value>Can not find the parameter of E-Cell IDE. Please re-install E-Cell IDE.</value>
+  </data>
+  <data name="ExpModelMes" xml:space="preserve">
+    <value>Please set the working directory.</value>
+  </data>
+  <data name="ExportModelDialog" xml:space="preserve">
+    <value>Export Model</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>Can not find the file.</value>
+  </data>
+  <data name="SaveConfirm" xml:space="preserve">
+    <value>Do you want to save the project before the project is closed?</value>
   </data>
 </root>

@@ -165,7 +165,7 @@ namespace EcellLib
         /// <summary>
         /// ResourceManager for StaticDebugSetupWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(DataManager));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
         #endregion
 
         /// <summary>

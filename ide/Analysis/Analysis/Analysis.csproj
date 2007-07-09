@@ -7,7 +7,7 @@
     <ProjectGuid>{DA6AB870-F791-478E-AE09-7A670F4AFBDE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Analysis</RootNamespace>
+    <RootNamespace>EcellLib.Analysis</RootNamespace>
     <AssemblyName>Analysis</AssemblyName>
     <SccProjectName>
     </SccProjectName>
@@ -75,16 +75,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis.cs" />
-    <Compile Include="Analysis.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Analysis.resx</DependentUpon>
-    </Compile>
     <Compile Include="AnalysisTemplate.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="AnalysisTemplate.Designer.cs">
       <DependentUpon>AnalysisTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MessageResAnalysis.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResAnalysis.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AnalysisResult.cs">
@@ -101,16 +101,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Analysis.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Analysis.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Analysis.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Analysis.cs</DependentUpon>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Analysis.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="AnalysisResult.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AnalysisResult.cs</DependentUpon>
@@ -134,6 +124,14 @@
     <EmbeddedResource Include="AnalysisTemplate.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AnalysisTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResAnalysis.ja.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResAnalysis.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageResAnalysis.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

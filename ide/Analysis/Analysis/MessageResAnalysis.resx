@@ -117,19 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ATExecuteButton.Text" xml:space="preserve">
-    <value>解析実行(&amp;E)</value>
+  <data name="ErrInputReflect" xml:space="preserve">
+    <value>There are invalid properties in execution parameters.</value>
   </data>
-  <data name="ATLoadButton.Text" xml:space="preserve">
-    <value>条件読み込み(&amp;L)...</value>
+  <data name="ErrLoadParam" xml:space="preserve">
+    <value>There are invalid properties in the selected parameter file.</value>
   </data>
-  <data name="ATSaveButton.Text" xml:space="preserve">
-    <value>条件保存(&amp;S)...</value>
+  <data name="ErrNotCheckParam" xml:space="preserve">
+    <value>Can't find the checked parameter for judgment.</value>
   </data>
-  <data name="ATStopButton.Text" xml:space="preserve">
-    <value>解析リセット(&amp;T)</value>
+  <data name="ErrOutParam" xml:space="preserve">
+    <value>There are invalid parameters. Please check Number of sample, Simulation Time or Check window size.</value>
   </data>
-  <data name="ATViewButton.Text" xml:space="preserve">
-    <value>表示(&amp;V)...</value>
+  <data name="ErrOutParamFile" xml:space="preserve">
+    <value>Get the exception while the prameter file is output.</value>
+  </data>
+  <data name="ErrPosValue" xml:space="preserve">
+    <value>Number of sample, Simulation Time or Check window size should be positive number.</value>
+  </data>
+  <data name="ErrRandParam" xml:space="preserve">
+    <value>Can't find the parameter as random parameter.</value>
+  </data>
+  <data name="ErrSameAxis" xml:space="preserve">
+    <value>The selected data on X axis is same as the one on Y axis.</value>
+  </data>
+  <data name="FinishRAnalysis" xml:space="preserve">
+    <value>Finished to execute the robust analysis.</value>
+  </data>
+  <data name="MenuItemAnalysis" xml:space="preserve">
+    <value>&amp;Analysis...</value>
   </data>
 </root>

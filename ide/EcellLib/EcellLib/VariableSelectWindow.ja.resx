@@ -120,12 +120,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Variable選択</value>
   </data>
-  <data name="ErrNoSelect" xml:space="preserve">
-    <value>Variableが選択されていません。</value>
-  </data>
-  <data name="ErrNotVar" xml:space="preserve">
-    <value>選択したオブジェクトはvaraibleではありません。</value>
-  </data>
   <data name="VSCloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>

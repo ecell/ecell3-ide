@@ -157,7 +157,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// ResourceManager for MainWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MainWindow));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMain));
         #endregion
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace EcellLib.MainWindow
             m_pManager = PluginManager.GetPluginManager();
             m_pManager.AddPlugin(this);
             m_pManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            m_pManager.CopyRight = global::MainWindow.Properties.Resources.CopyrightNotice; ;
+            m_pManager.CopyRight = global::EcellLib.MainWindow.Properties.Resources.CopyrightNotice; ;
 
 
             m_pluginList = new List<string>();

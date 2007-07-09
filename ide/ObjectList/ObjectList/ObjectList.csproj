@@ -73,12 +73,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjectList.cs">
-    </Compile>
-    <Compile Include="ObjectList.Designer.cs">
+    <Compile Include="MessageResObjList.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ObjectList.resx</DependentUpon>
+      <DependentUpon>MessageResObjList.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectList.cs">
     </Compile>
     <Compile Include="PluginDriver.cs">
       <SubType>Form</SubType>
@@ -124,15 +124,13 @@
   <ItemGroup>
     <EmbeddedResource Include="column.xml">
     </EmbeddedResource>
-    <EmbeddedResource Include="ObjectList.ja.resx">
+    <EmbeddedResource Include="MessageResObjList.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ObjectList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ObjectList.resx">
+    <EmbeddedResource Include="MessageResObjList.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ObjectList.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ObjectList.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResObjList.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SearchInstance.ja.resx">
       <SubType>Designer</SubType>

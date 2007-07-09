@@ -48,7 +48,7 @@ namespace EcellLib
         /// <summary>
         /// ResourceManager for VariableSelectWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(VariableSelectWindow));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
         #endregion
 
         /// <summary>

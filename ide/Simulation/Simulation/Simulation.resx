@@ -121,21 +121,6 @@
   <data name="blue1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\blue1.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ConfirmSetup" xml:space="preserve">
-    <value>Simulation is running. Would you reset the simulation?</value>
-  </data>
-  <data name="ErrReset" xml:space="preserve">
-    <value>Get exception while system reset simulation.</value>
-  </data>
-  <data name="ErrRunning" xml:space="preserve">
-    <value>Get exception while system run simulation.</value>
-  </data>
-  <data name="ErrStep" xml:space="preserve">
-    <value>Get exception while system step simulation.</value>
-  </data>
-  <data name="ErrSuspend" xml:space="preserve">
-    <value>Get exception while system suspend simulation.</value>
-  </data>
   <data name="green3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\green3.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -150,18 +135,6 @@
   </data>
   <data name="media_stop_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\media_stop_red.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MenuItemRun" xml:space="preserve">
-    <value>&amp;Run</value>
-  </data>
-  <data name="MenuItemSetupSim" xml:space="preserve">
-    <value>&amp;Simulation</value>
-  </data>
-  <data name="MenuItemStop" xml:space="preserve">
-    <value>R&amp;eset</value>
-  </data>
-  <data name="MenuItemSuspend" xml:space="preserve">
-    <value>&amp;Suspend</value>
   </data>
   <data name="red1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\red1.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

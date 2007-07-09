@@ -544,13 +544,4 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ErrExistID" xml:space="preserve">
-    <value>is already exists in this VariableReferenceList.</value>
-  </data>
-  <data name="ErrInvalidName" xml:space="preserve">
-    <value>There are any invalid character.</value>
-  </data>
-  <data name="ErrNoNumber" xml:space="preserve">
-    <value>Please input integer at coefficient and isAccessor.</value>
-  </data>
 </root>

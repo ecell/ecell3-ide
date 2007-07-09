@@ -96,7 +96,7 @@ namespace EcellLib
         /// <summary>
         /// ResourceManager for PropertyEditor.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(PropertyEditor));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
         #endregion
 
         /// <summary>

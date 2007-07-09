@@ -117,19 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ATExecuteButton.Text" xml:space="preserve">
-    <value>解析実行(&amp;E)</value>
+  <data name="ConfirmReset" xml:space="preserve">
+    <value>Simulation is running. Would you reset the simulation?</value>
   </data>
-  <data name="ATLoadButton.Text" xml:space="preserve">
-    <value>条件読み込み(&amp;L)...</value>
+  <data name="ErrAdd" xml:space="preserve">
+    <value>Get exception while system add the object.</value>
   </data>
-  <data name="ATSaveButton.Text" xml:space="preserve">
-    <value>条件保存(&amp;S)...</value>
+  <data name="ErrChange" xml:space="preserve">
+    <value>Get exception while system update the property of object.</value>
   </data>
-  <data name="ATStopButton.Text" xml:space="preserve">
-    <value>解析リセット(&amp;T)</value>
+  <data name="ErrExistID" xml:space="preserve">
+    <value>is already exists in this VariableReferenceList.</value>
   </data>
-  <data name="ATViewButton.Text" xml:space="preserve">
-    <value>表示(&amp;V)...</value>
+  <data name="ErrInvalidID" xml:space="preserve">
+    <value>There are invalid characters in ID.</value>
+  </data>
+  <data name="ErrInvalidName" xml:space="preserve">
+    <value>There are any invalid characters.</value>
+  </data>
+  <data name="ErrInvalidProp" xml:space="preserve">
+    <value>There are invalid property in this window,</value>
+  </data>
+  <data name="ErrNoInput" xml:space="preserve">
+    <value>Please input the necessary item.</value>
+  </data>
+  <data name="ErrNoNumber" xml:space="preserve">
+    <value>Please input integer at coefficient and isAccessor.</value>
+  </data>
+  <data name="ErrNoSelect" xml:space="preserve">
+    <value>No select the variable.</value>
+  </data>
+  <data name="ErrNotVar" xml:space="preserve">
+    <value>This is not variable.</value>
+  </data>
+  <data name="ErrReserveSize" xml:space="preserve">
+    <value>SIZE is the reserved name.</value>
+  </data>
+  <data name="ErrShowPropEdit" xml:space="preserve">
+    <value>Get exception while system show the property editor.</value>
   </data>
 </root>

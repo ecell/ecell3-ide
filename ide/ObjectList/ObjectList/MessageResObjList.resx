@@ -117,19 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ATExecuteButton.Text" xml:space="preserve">
-    <value>解析実行(&amp;E)</value>
+  <data name="CreLoggerMenuText" xml:space="preserve">
+    <value>Create Logger</value>
   </data>
-  <data name="ATLoadButton.Text" xml:space="preserve">
-    <value>条件読み込み(&amp;L)...</value>
+  <data name="ErrAddObj" xml:space="preserve">
+    <value>Get exception while system add the object.</value>
   </data>
-  <data name="ATSaveButton.Text" xml:space="preserve">
-    <value>条件保存(&amp;S)...</value>
+  <data name="ErrCreBitmap" xml:space="preserve">
+    <value>Get exception while system create the bitmap of window.</value>
   </data>
-  <data name="ATStopButton.Text" xml:space="preserve">
-    <value>解析リセット(&amp;T)</value>
+  <data name="ErrSelectObj" xml:space="preserve">
+    <value>Get exception while system select the object.</value>
   </data>
-  <data name="ATViewButton.Text" xml:space="preserve">
-    <value>表示(&amp;V)...</value>
+  <data name="SearchMenuText" xml:space="preserve">
+    <value>Search ...</value>
   </data>
 </root>

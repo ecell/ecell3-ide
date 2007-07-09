@@ -326,7 +326,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// ResourceManager for AnalysisTemplate.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(AnalysisTemplate));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
         #endregion
 
         /// <summary>

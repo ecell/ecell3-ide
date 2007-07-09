@@ -90,7 +90,7 @@ namespace EcellLib.Simulation
         /// <summary>
         /// ResourceManager for NewParameterWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(Simulation));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResSimulation));
         #endregion
 
         /// <summary>

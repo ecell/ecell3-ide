@@ -84,7 +84,7 @@ namespace EcellLib.ObjectList
         private ContextMenuStrip m_contextStrip;
         private DataManager m_dManager;
         private bool isDouble = false;
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(ObjectList));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResObjList));
         #endregion
 
         /// <summary>

@@ -56,7 +56,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = global::MainWindow.Properties.Resources.splash;
+            pictureBox1.Image = global::EcellLib.MainWindow.Properties.Resources.splash;
             resources.ApplyResources(pictureBox1, "pictureBox1");
             pictureBox1.Name = "pictureBox1";
             pictureBox1.TabStop = false;

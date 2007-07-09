@@ -117,19 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ATExecuteButton.Text" xml:space="preserve">
-    <value>解析実行(&amp;E)</value>
+  <data name="ErrInputReflect" xml:space="preserve">
+    <value>実行パラメータの中に異常なパラメータが存在します。確認してください。</value>
   </data>
-  <data name="ATLoadButton.Text" xml:space="preserve">
-    <value>条件読み込み(&amp;L)...</value>
+  <data name="ErrLoadParam" xml:space="preserve">
+    <value>選択したファイルに異常なパラメータが存在します。確認してください。</value>
   </data>
-  <data name="ATSaveButton.Text" xml:space="preserve">
-    <value>条件保存(&amp;S)...</value>
+  <data name="ErrNotCheckParam" xml:space="preserve">
+    <value>チェックパラメータとして設定されたパラメータが存在しません。</value>
   </data>
-  <data name="ATStopButton.Text" xml:space="preserve">
-    <value>解析リセット(&amp;T)</value>
+  <data name="ErrOutParam" xml:space="preserve">
+    <value>異常なパラメータが存在します。Number of sample、Simulation Time、Check window sizeをチェックしてください。</value>
   </data>
-  <data name="ATViewButton.Text" xml:space="preserve">
-    <value>表示(&amp;V)...</value>
+  <data name="ErrOutParamFile" xml:space="preserve">
+    <value>パラメータファイル出力中にエラーが発生しました。</value>
+  </data>
+  <data name="ErrPosValue" xml:space="preserve">
+    <value>Number of sample、Simulation Time、Check Window Sizeには整数を入力してください。</value>
+  </data>
+  <data name="ErrRandParam" xml:space="preserve">
+    <value>ランダムパラメータとして設定されたパラメータが存在しません。</value>
+  </data>
+  <data name="ErrSameAxis" xml:space="preserve">
+    <value>X軸とＹ軸に設定したパラメータが同じです。</value>
+  </data>
+  <data name="FinishRAnalysis" xml:space="preserve">
+    <value>ロバスト解析の実行が終了しました。</value>
+  </data>
+  <data name="MenuItemAnalysis" xml:space="preserve">
+    <value>解析(&amp;A)...</value>
   </data>
 </root>

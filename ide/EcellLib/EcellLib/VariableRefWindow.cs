@@ -61,7 +61,7 @@ namespace EcellLib
         /// <summary>
         /// ResourceManager for VariableRefWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(VariableRefWindow));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
         #endregion
 
         /// <summary>

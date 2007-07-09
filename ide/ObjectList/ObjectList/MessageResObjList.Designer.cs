@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EcellLib.Simulation.Properties {
+namespace EcellLib.ObjectList {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace EcellLib.Simulation.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class MessageResObjList {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal MessageResObjList() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace EcellLib.Simulation.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.Simulation.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.ObjectList.MessageResObjList", typeof(MessageResObjList).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,51 @@ namespace EcellLib.Simulation.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Create Logger に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CreLoggerMenuText {
+            get {
+                return ResourceManager.GetString("CreLoggerMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Get exception while system add the object. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrAddObj {
+            get {
+                return ResourceManager.GetString("ErrAddObj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Get exception while system create the bitmap of window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrCreBitmap {
+            get {
+                return ResourceManager.GetString("ErrCreBitmap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Get exception while system select the object. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSelectObj {
+            get {
+                return ResourceManager.GetString("ErrSelectObj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SearchMenuText {
+            get {
+                return ResourceManager.GetString("SearchMenuText", resourceCulture);
             }
         }
     }

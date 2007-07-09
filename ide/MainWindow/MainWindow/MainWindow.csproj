@@ -7,7 +7,7 @@
     <ProjectGuid>{3F802287-78C1-4EE6-9B06-8C1A9CB62226}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MainWindow</RootNamespace>
+    <RootNamespace>EcellLib.MainWindow</RootNamespace>
     <AssemblyName>MainWindow</AssemblyName>
     <SccProjectName>
     </SccProjectName>
@@ -96,6 +96,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageResMain.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResMain.resx</DependentUpon>
+    </Compile>
     <Compile Include="PluginVersionListWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +146,14 @@
     <EmbeddedResource Include="MainWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResMain.ja.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResMain.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageResMain.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="NewProjectDialog.ja.resx">
       <SubType>Designer</SubType>

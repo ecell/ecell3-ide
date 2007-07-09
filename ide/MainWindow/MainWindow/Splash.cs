@@ -21,7 +21,7 @@ namespace EcellLib.MainWindow
         {
             InitializeComponent();
             VersionNumber.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            CopyrightNotice.Text = global::MainWindow.Properties.Resources.CopyrightNotice;
+            CopyrightNotice.Text = global::EcellLib.MainWindow.Properties.Resources.CopyrightNotice;
         }
     }
 }

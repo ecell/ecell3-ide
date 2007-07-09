@@ -117,19 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ATExecuteButton.Text" xml:space="preserve">
-    <value>解析実行(&amp;E)</value>
+  <data name="ConfirmReset" xml:space="preserve">
+    <value>シミュレーション実行中です。シミュレーションをリセットしてもよろしいですか？</value>
   </data>
-  <data name="ATLoadButton.Text" xml:space="preserve">
-    <value>条件読み込み(&amp;L)...</value>
+  <data name="ErrAdd" xml:space="preserve">
+    <value>オブジェクトの追加に失敗しました。</value>
   </data>
-  <data name="ATSaveButton.Text" xml:space="preserve">
-    <value>条件保存(&amp;S)...</value>
+  <data name="ErrChange" xml:space="preserve">
+    <value>オブジェクトのプロパティの更新に失敗しました。</value>
   </data>
-  <data name="ATStopButton.Text" xml:space="preserve">
-    <value>解析リセット(&amp;T)</value>
+  <data name="ErrExistID" xml:space="preserve">
+    <value>はVariableReferenceListに存在します。</value>
   </data>
-  <data name="ATViewButton.Text" xml:space="preserve">
-    <value>表示(&amp;V)...</value>
+  <data name="ErrInvalidID" xml:space="preserve">
+    <value>IDに異常な文字が含まれています。</value>
+  </data>
+  <data name="ErrInvalidName" xml:space="preserve">
+    <value>指定した文字列に異常な文字列が使用されています。</value>
+  </data>
+  <data name="ErrInvalidProp" xml:space="preserve">
+    <value>異常なプロパティが存在します。確認して下さい。</value>
+  </data>
+  <data name="ErrNoInput" xml:space="preserve">
+    <value>必要な項目にデータが入っていません。</value>
+  </data>
+  <data name="ErrNoNumber" xml:space="preserve">
+    <value>coefficientとisAccessorは整数を入力してください。</value>
+  </data>
+  <data name="ErrNoSelect" xml:space="preserve">
+    <value>Variableが選択されていません。</value>
+  </data>
+  <data name="ErrNotVar" xml:space="preserve">
+    <value>選択したオブジェクトはvaraibleではありません。</value>
+  </data>
+  <data name="ErrReserveSize" xml:space="preserve">
+    <value>SIZEは予約語です。</value>
+  </data>
+  <data name="ErrShowPropEdit" xml:space="preserve">
+    <value>プロパティ編集ダイアログの表示に失敗しました。</value>
   </data>
 </root>

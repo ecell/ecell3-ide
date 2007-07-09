@@ -117,19 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ATExecuteButton.Text" xml:space="preserve">
-    <value>解析実行(&amp;E)</value>
+  <data name="ConfirmSetup" xml:space="preserve">
+    <value>Simulation is running. Would you reset the simulation?</value>
   </data>
-  <data name="ATLoadButton.Text" xml:space="preserve">
-    <value>条件読み込み(&amp;L)...</value>
+  <data name="ErrAlready" xml:space="preserve">
+    <value>This name already exists.</value>
   </data>
-  <data name="ATSaveButton.Text" xml:space="preserve">
-    <value>条件保存(&amp;S)...</value>
+  <data name="ErrComboIndChange" xml:space="preserve">
+    <value>Can not select this item. Please select another item.</value>
   </data>
-  <data name="ATStopButton.Text" xml:space="preserve">
-    <value>解析リセット(&amp;T)</value>
+  <data name="ErrDelDefParam" xml:space="preserve">
+    <value>Can not delete the default parameter.</value>
   </data>
-  <data name="ATViewButton.Text" xml:space="preserve">
-    <value>表示(&amp;V)...</value>
+  <data name="ErrDelParam" xml:space="preserve">
+    <value>Can not delete the selected parameter.</value>
+  </data>
+  <data name="ErrDelStep" xml:space="preserve">
+    <value>Can not delete the stepper. </value>
+  </data>
+  <data name="ErrInvalidParam" xml:space="preserve">
+    <value>There are any invalid parameters.</value>
+  </data>
+  <data name="ErrNoInput" xml:space="preserve">
+    <value>No input the name. Please input the name.</value>
+  </data>
+  <data name="ErrNoInputDisk" xml:space="preserve">
+    <value>Please input the max size of disk.</value>
+  </data>
+  <data name="ErrNoInputSec" xml:space="preserve">
+    <value>Please input the interval of log.</value>
+  </data>
+  <data name="ErrNoInputStep" xml:space="preserve">
+    <value>Please input the interval of log.</value>
+  </data>
+  <data name="ErrNoSelectAct" xml:space="preserve">
+    <value>Please input how to act when disk is full.</value>
+  </data>
+  <data name="ErrNoSelectDisk" xml:space="preserve">
+    <value>Please input how to set the max size of disk.</value>
+  </data>
+  <data name="ErrNoSelectLog" xml:space="preserve">
+    <value>Please set the policy of logging.</value>
+  </data>
+  <data name="ErrReset" xml:space="preserve">
+    <value>Get exception while system reset simulation.</value>
+  </data>
+  <data name="ErrRunning" xml:space="preserve">
+    <value>Get exception while system run simulation.</value>
+  </data>
+  <data name="ErrStep" xml:space="preserve">
+    <value>Get exception while system step simulation.</value>
+  </data>
+  <data name="ErrSuspend" xml:space="preserve">
+    <value>Get exception while system suspend simulation.</value>
+  </data>
+  <data name="ErrUpdatELog" xml:space="preserve">
+    <value>Fail to update the simulation parameters.</value>
+  </data>
+  <data name="MenuItemRun" xml:space="preserve">
+    <value>&amp;Run</value>
+  </data>
+  <data name="MenuItemSetupSim" xml:space="preserve">
+    <value>&amp;Simulation</value>
+  </data>
+  <data name="MenuItemStop" xml:space="preserve">
+    <value>R&amp;eset</value>
+  </data>
+  <data name="MenuItemSuspend" xml:space="preserve">
+    <value>&amp;Suspend</value>
+  </data>
+  <data name="NewStepperText" xml:space="preserve">
+    <value>New Stepper</value>
   </data>
 </root>
