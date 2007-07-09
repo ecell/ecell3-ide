@@ -322,12 +322,14 @@
             this.freqByStepRadio.Name = "freqByStepRadio";
             this.freqByStepRadio.TabStop = true;
             this.freqByStepRadio.UseVisualStyleBackColor = true;
+            this.freqByStepRadio.CheckedChanged += new System.EventHandler(this.FreqCheckChanged);
             // 
             // freqBySecRadio
             // 
             resources.ApplyResources(this.freqBySecRadio, "freqBySecRadio");
             this.freqBySecRadio.Name = "freqBySecRadio";
             this.freqBySecRadio.UseVisualStyleBackColor = true;
+            this.freqBySecRadio.CheckedChanged += new System.EventHandler(this.FreqCheckChanged);
             // 
             // label3
             // 
@@ -370,6 +372,7 @@
             this.exceptionRadio.Name = "exceptionRadio";
             this.exceptionRadio.TabStop = true;
             this.exceptionRadio.UseVisualStyleBackColor = true;
+            this.exceptionRadio.CheckedChanged += new System.EventHandler(this.ActionCheckChanged);
             // 
             // overrideRadio
             // 
@@ -400,12 +403,14 @@
             this.noLimitRadio.Name = "noLimitRadio";
             this.noLimitRadio.TabStop = true;
             this.noLimitRadio.UseVisualStyleBackColor = true;
+            this.noLimitRadio.CheckedChanged += new System.EventHandler(this.SpaceCheckChanged);
             // 
             // maxSizeRadio
             // 
             resources.ApplyResources(this.maxSizeRadio, "maxSizeRadio");
             this.maxSizeRadio.Name = "maxSizeRadio";
             this.maxSizeRadio.UseVisualStyleBackColor = true;
+            this.maxSizeRadio.CheckedChanged += new System.EventHandler(this.SpaceCheckChanged);
             // 
             // label5
             // 

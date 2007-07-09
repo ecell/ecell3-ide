@@ -670,7 +670,59 @@
 
             private void SimulationSetupShown(object sender, EventArgs e)
             {
+                if (freqBySecTextBox.Text == "")
+                {
+                    this.freqByStepRadio.Checked = true;
+                    this.freqByStepTextBox.ReadOnly = false;
+                    this.freqBySecTextBox.ReadOnly = true;
+                }
+                else
+                {
+                    this.freqBySecRadio.Checked = true;
+                    this.freqBySecTextBox.ReadOnly = false;
+                    this.freqByStepTextBox.ReadOnly = true;
+                }
+                if (this.noLimitRadio.Checked)
+                {
+                    this.maxKbTextBox.ReadOnly = true;
+                }
+                else
+                {
+                    this.maxKbTextBox.ReadOnly = false;
+                }
+
                 this.paramCombo.Focus();
+            }
+
+            private void FreqCheckChanged(object sender, EventArgs e)
+            {
+                if (freqBySecRadio.Checked)
+                {
+                    freqBySecTextBox.ReadOnly = false;
+                    freqByStepTextBox.ReadOnly = true;
+                }
+                else
+                {
+                    freqBySecTextBox.ReadOnly = true;
+                    freqByStepTextBox.ReadOnly = false;
+                }
+            }
+
+            private void ActionCheckChanged(object sender, EventArgs e)
+            {
+
+            }
+
+            private void SpaceCheckChanged(object sender, EventArgs e)
+            {
+                if (noLimitRadio.Checked)
+                {
+                    maxKbTextBox.ReadOnly = true;
+                }
+                else
+                {
+                    maxKbTextBox.ReadOnly = false;
+                }
             }
         }
     }
