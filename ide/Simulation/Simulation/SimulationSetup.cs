@@ -63,7 +63,7 @@
             /// <summary>
             /// ResourceManager for SimulationSetup.
             /// </summary>
-            ComponentResourceManager m_resources = new ComponentResourceManager(typeof(SimulationSetup));
+            ComponentResourceManager m_mesRes = new ComponentResourceManager(typeof(MessageResSimulation));
             #endregion
 
             /// <summary>
@@ -275,7 +275,7 @@
                 }
                 catch (Exception ex)
                 {
-                    String errmes = m_resources.GetString("ErrComboIndChage");
+                    String errmes = m_mesRes.GetString("ErrComboIndChage");
                     MessageBox.Show(errmes + "\n\n" + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -372,14 +372,14 @@
                 string param = paramCombo.SelectedItem.ToString();
                 if (param == "DefaultParameter")
                 {
-                    String errmes = m_resources.GetString("ErrDelDefParam");
+                    String errmes = m_mesRes.GetString("ErrDelDefParam");
                     MessageBox.Show(errmes, "WARNING",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (paramCombo.Items.Count == 1)
                 {
-                    String errmes = m_resources.GetString("ErrDelParam");
+                    String errmes = m_mesRes.GetString("ErrDelParam");
                     MessageBox.Show(errmes, "WARNING",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -456,7 +456,7 @@
                         }
                         catch (Exception ex)
                         {
-                            String errmes = m_resources.GetString("ErrInvalidParam");
+                            String errmes = m_mesRes.GetString("ErrInvalidParam");
                             MessageBox.Show(errmes + "\n\n" + ex, "ERROR",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
@@ -492,7 +492,7 @@
                         {
                             if (freqByStepTextBox.Text == "")
                             {
-                                string errmes = m_resources.GetString("ErrNoInputStep");
+                                string errmes = m_mesRes.GetString("ErrNoInputStep");
                                 MessageBox.Show(errmes, "ERROR",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
@@ -503,7 +503,7 @@
                         {
                             if (freqBySecTextBox.Text == "")
                             {
-                                String errmes = m_resources.GetString("ErrNoInputSec");
+                                String errmes = m_mesRes.GetString("ErrNoInputSec");
                                 MessageBox.Show(errmes, "ERROR",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
@@ -512,7 +512,7 @@
                         }
                         else
                         {
-                            String errmes = m_resources.GetString("ErrNoSelectLog");
+                            String errmes = m_mesRes.GetString("ErrNoSelectLog");
                             MessageBox.Show(errmes, "ERROR",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
@@ -526,7 +526,7 @@
                         }
                         else
                         {
-                            String errmes = m_resources.GetString("ErrNoSelectAct");
+                            String errmes = m_mesRes.GetString("ErrNoSelectAct");
                             MessageBox.Show(errmes, "ERROR",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
@@ -538,7 +538,7 @@
                         {
                             if (maxKbTextBox.Text == "")
                             {
-                                String errmes = m_resources.GetString("ErrNoInputDisk");
+                                String errmes = m_mesRes.GetString("ErrNoInputDisk");
                                 MessageBox.Show(errmes, "ERROR",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
@@ -548,7 +548,7 @@
                         }
                         else
                         {
-                            String errmes = m_resources.GetString("ErrNoSelectDisk");
+                            String errmes = m_mesRes.GetString("ErrNoSelectDisk");
                             MessageBox.Show(errmes, "ERROR",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
@@ -558,7 +558,7 @@
                     }
                     catch (Exception ex)
                     {
-                        String errmes = m_resources.GetString("ErrUpdateLog");
+                        String errmes = m_mesRes.GetString("ErrUpdateLog");
                         MessageBox.Show(errmes + "\n\n" + ex.Message, "ERROR",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -636,7 +636,7 @@
 
                 if (stepperListBox.Items.Count <= 1)
                 {
-                    String errmes = m_resources.GetString("ErrDelStep");
+                    String errmes = m_mesRes.GetString("ErrDelStep");
                     MessageBox.Show(errmes, "WARNING",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -658,7 +658,7 @@
             public void AddStepperClick(object sender, EventArgs e)
             {
                 NewParameterWindow m_newwin = new NewParameterWindow();
-                m_newwin.Text = m_resources.GetString("NewStepperText");
+                m_newwin.Text = m_mesRes.GetString("NewStepperText");
                 m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.AddStepperClick);
                 m_newwin.CPCancelButton.Click += new EventHandler(m_newwin.CancelStepperClick);
 
