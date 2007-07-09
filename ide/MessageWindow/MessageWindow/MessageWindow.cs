@@ -71,9 +71,15 @@ namespace EcellLib.MessageWindow
         {
             if (type == "simulation")
             {
-                m_form.simText.Text += System.Environment.NewLine + message;
-                m_form.simText.SelectionStart = m_form.simText.Text.Length;
-                m_form.simText.ScrollToCaret();
+                if (m_form.simText != null)
+                {
+                    m_form.simText.Text += System.Environment.NewLine + message;
+                    if (m_form.simText.Visible)
+                    {
+                        m_form.simText.SelectionStart = m_form.simText.Text.Length;
+                        m_form.simText.ScrollToCaret();
+                    }
+                }
             }
             else if (type == "analysis")
             {
@@ -279,7 +285,12 @@ namespace EcellLib.MessageWindow
         public void Message(string type, string message)
         {
             Form parentForm = GetParent(m_form);
-            if (parentForm != null && parentForm.InvokeRequired)
+            if (parentForm == null && m_form.InvokeRequired)
+            {
+                    SetTextCallback f = new SetTextCallback(SetText);
+                    m_form.Invoke(f, new object[] { type, message });
+            }
+            else if (parentForm != null && parentForm.InvokeRequired)
             {
                 SetTextCallback f = new SetTextCallback(SetText);
                 parentForm.Invoke(f, new object[] { type, message });
@@ -288,9 +299,16 @@ namespace EcellLib.MessageWindow
             {
                 if (type == "simulation")
                 {
-                    m_form.simText.Text += message;
-                    m_form.simText.SelectionStart = m_form.simText.Text.Length;
-                    m_form.simText.ScrollToCaret();
+                    if (m_form.simText != null)
+                    {
+                        m_form.simText.Text += message;
+                        if (m_form.simText.Visible)
+                        {
+                            m_form.simText.SelectionStart = m_form.simText.Text.Length;
+                            m_form.simText.ScrollToCaret();
+                        }
+
+                    }
                 }
                 else if (type == "analysis")
                 {
