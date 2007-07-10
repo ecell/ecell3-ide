@@ -162,6 +162,10 @@ namespace EcellLib
         /// </summary>
         public const string s_registryPluginDirKey = "E-CELL IDE PLUGIN";
         /// <summary>
+        /// Reserved XML path name for name of "E-CELL IDE LANG".
+        /// </summary>
+        public const string s_registryLang = "E-CELL IDE LANG";
+        /// <summary>
         /// Reserved XML path name for name of "E-CELL IDE STATICDEBUG PLUGIN".
         /// </summary>
         public const string s_registryStaticDebugDirKey = "E-CELL IDE STATICDEBUG PLUGIN";
@@ -395,6 +399,15 @@ namespace EcellLib
         static public string GetAnalysisDir()
         {
             return GetRegistryValue(s_registryAnalysisDirKey);
+        }
+
+        /// <summary>
+        /// Get the language from register.
+        /// </summary>
+        /// <returns></returns>
+        static public string GetLang()
+        {
+            return GetRegistryValue(s_registryLang);
         }
 
         /// <summary>

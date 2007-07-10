@@ -33,6 +33,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Resources;
+using System.Threading;
 using System.Reflection;
 
 namespace EcellLib.MainWindow
@@ -45,6 +46,11 @@ namespace EcellLib.MainWindow
         [STAThread]
         static void Main()
         {
+            String lang = Util.GetLang();
+            if (lang != null && (lang.ToUpper() == "DEFAULT" || lang.ToUpper() == "EN_US"))
+            {
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-us", true);
+            }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Splash frmSplash = new Splash();
