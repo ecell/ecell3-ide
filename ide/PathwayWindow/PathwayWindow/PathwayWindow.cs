@@ -133,6 +133,12 @@ namespace EcellLib.PathwayWindow
         /// ToolStripMenuItem for switching visibility of IDs on each PPathwayNode
         /// </summary>
         private ToolStripMenuItem m_showIdItem;
+
+        /// <summary>
+        /// ResourceManager for PathwayWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+
         #endregion
 
         #region Accessors
@@ -187,8 +193,7 @@ namespace EcellLib.PathwayWindow
             }
             catch (FileNotFoundException)
             {
-                MessageBox.Show("Can't find ComponentSettings.xml file in the <ECell-HOME>" +
-                "\\plugins\\pathway directory", "WARNING", MessageBoxButtons.OK,
+                MessageBox.Show(m_resources.GetString("ErrNotComXml"), "WARNING", MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
                 xmlD = null;
             }
@@ -221,7 +226,7 @@ namespace EcellLib.PathwayWindow
                     }
                     catch (NoSuchComponentKindException e)
                     {
-                        MessageBox.Show(e.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(m_resources.GetString("ErrCreateKind") + "\n\n" +  e.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         continue;
                     }
 
@@ -288,15 +293,15 @@ namespace EcellLib.PathwayWindow
                 string warnMessage = "";
 
                 if (manager.DefaultSystemSetting == null)
-                    warnMessage += "Default system was not found in the ComponentSettings.xml file, so hard coded one will be used instead.\n\n";                    
+                    warnMessage += m_resources.GetString("ErrCompSystem") + "\n\n";                    
                 if (manager.DefaultVariableSetting == null)
-                    warnMessage += "Default variable was not found in the ComponentSettings.xml file, so hard coded one will be used instead.\n\n";
+                    warnMessage += m_resources.GetString("ErrCompVariable") + "\n\n";
                 if (manager.DefaultProcessSetting == null)
-                    warnMessage += "Default process was not found in the ComponentSettings.xml file, so hard coded one will be used instead.\n\n";
+                    warnMessage += m_resources.GetString("ErrCompProcess") + "\n\n";
                 
                 if (!isAllValid)
                 {
-                    warnMessage += "ComponentSettings.xml is imcomplete for the following reason";
+                    warnMessage += m_resources.GetString("ErrCompInvalid");
                     if (lackMessages.Count != 1)
                         warnMessage += "s";
                     warnMessage += "\n";
@@ -671,7 +676,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of menu.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PathwayWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResPathway));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
             // Setup menu
@@ -680,7 +685,7 @@ namespace EcellLib.PathwayWindow
             m_showIdItem.CheckState = CheckState.Checked;
 //            m_showIdItem.Text = "Show IDs(Pathway)";
             m_showIdItem.ToolTipText = "Visibility of Node's name of each pathway object";
-            resources.ApplyResources(m_showIdItem, "MenuItemShowID");
+            m_showIdItem.Text = m_resources.GetString( "MenuItemShowIDText");
             m_showIdItem.Click += new EventHandler(ShowIdClick);
 
             ToolStripMenuItem viewMenu = new ToolStripMenuItem();
@@ -756,7 +761,7 @@ namespace EcellLib.PathwayWindow
                 }
                 catch(Exception)
                 {
-                    MessageBox.Show("Can't execute this layout due to an unexpected error, sorry.");
+                    MessageBox.Show(m_resources.GetString("ErrLayout"));
                 }
                 ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
 

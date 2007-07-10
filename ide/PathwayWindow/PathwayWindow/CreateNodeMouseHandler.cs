@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
@@ -76,6 +77,11 @@ namespace EcellLib.PathwayWindow
         /// A system, which surrounds the position where the mouse was pressed down.
         /// </summary>
         protected string m_surSystem;
+        /// <summary>
+        /// ResourceManager for PathwayWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+
 
         /// <summary>
         /// Constructor
@@ -114,7 +120,7 @@ namespace EcellLib.PathwayWindow
 
                 if (string.IsNullOrEmpty(m_surSystem))
                 {
-                    MessageBox.Show("You can't create an object outside the root system",
+                    MessageBox.Show(m_resources.GetString("ErrOutRoot"),
                                     "Error",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Error);

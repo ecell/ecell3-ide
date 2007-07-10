@@ -117,7 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MenuItemShowID.Text" xml:space="preserve">
-    <value>Show &amp;IDs(Pathway)</value>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>本当に削除してよろしいですか？</value>
+  </data>
+  <data name="ErrAddObj" xml:space="preserve">
+    <value>オブジェクトの追加に失敗しました。</value>
+  </data>
+  <data name="ErrAlrConnect" xml:space="preserve">
+    <value>既に接続しています。</value>
+  </data>
+  <data name="ErrAlrExist" xml:space="preserve">
+    <value>は既に存在します。</value>
+  </data>
+  <data name="ErrCompInvalid" xml:space="preserve">
+    <value>ComponentSetting.xmlは不完全ではありません。</value>
+  </data>
+  <data name="ErrComProcess" xml:space="preserve">
+    <value>ComponentSettings.xmlにデフォルトProcessの設定情報がありません。</value>
+  </data>
+  <data name="ErrComSystem" xml:space="preserve">
+    <value>ComponentSettings.xmlにデフォルトSystemの設定情報がありません。</value>
+  </data>
+  <data name="ErrComVariable" xml:space="preserve">
+    <value>ComponentSettings.xmlにデフォルトVariableの設定情報がありません。</value>
+  </data>
+  <data name="ErrCreateKind" xml:space="preserve">
+    <value>コンポーネントを作成することができませんでした。</value>
+  </data>
+  <data name="ErrDelRoot" xml:space="preserve">
+    <value>ルートシステムを削除することができません。</value>
+  </data>
+  <data name="ErrLayout" xml:space="preserve">
+    <value>レイアウトの変更時にエラーが発生しました。</value>
+  </data>
+  <data name="ErrNotComXml" xml:space="preserve">
+    <value>ComponentSettings.xmlファイルが見つかりません。</value>
+  </data>
+  <data name="ErrOutRoot" xml:space="preserve">
+    <value>ルートシステム外にオブジェクトを作成することはできません。</value>
+  </data>
+  <data name="ErrOverSystem" xml:space="preserve">
+    <value>他のSystemと重なっています。</value>
+  </data>
+  <data name="ErrSameObj" xml:space="preserve">
+    <value>同じＩＤを持つオブジェクトが存在します。</value>
+  </data>
+  <data name="MenuItemShowIDText" xml:space="preserve">
+    <value>ID表示/非表示(&amp;I)</value>
+  </data>
+  <data name="MsgLayoutNoNode" xml:space="preserve">
+    <value>レイアウトをする１つ以上のノードを選択して下さい</value>
   </data>
 </root>

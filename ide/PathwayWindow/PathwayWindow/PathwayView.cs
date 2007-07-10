@@ -271,6 +271,12 @@ namespace EcellLib.PathwayWindow
         /// Whether PathwayView is freezed or not.
         /// </summary>
         private bool m_isFreezed = false;
+
+        /// <summary>
+        /// ResourceManager for PathwayWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+
         #endregion
 
         #region Accessors
@@ -551,7 +557,7 @@ namespace EcellLib.PathwayWindow
                 catch (Exception e)
                 {
                     UnregisterObj(cType, key);
-                    MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(m_resources.GetString("ErrAddObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }

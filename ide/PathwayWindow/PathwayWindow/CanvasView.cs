@@ -33,6 +33,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Data;
 using System.Drawing;
@@ -352,6 +353,10 @@ namespace EcellLib.PathwayWindow
         /// this will be used to reconnect edge.
         /// </summary>
         Stack<NodeElement> m_nodesUnderMouse = new Stack<NodeElement>();
+        /// <summary>
+        /// ResourceManager for PathwayWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
         #endregion
 
         #region Accessors
@@ -1054,7 +1059,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void DeleteClick(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to delete?",
+            DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmDelete"),
                 "Delete",
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Question,
@@ -1110,7 +1115,7 @@ namespace EcellLib.PathwayWindow
                         return;
                     if (deleteSystem.Name.Equals("/"))
                     {
-                        MessageBox.Show("You can't delete the root system",
+                        MessageBox.Show(m_resources.GetString("ErrDelRoot"),
                                         "Error",
                                         MessageBoxButtons.OK,
                                         MessageBoxIcon.Error);
@@ -1308,7 +1313,7 @@ namespace EcellLib.PathwayWindow
                         UpdateResizeHandlePositions();
                         ResetSelectedObjects();
                         ClearSurroundState();
-                        MessageBox.Show("Two objects can't have the same ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                     else
@@ -1362,7 +1367,7 @@ namespace EcellLib.PathwayWindow
                             UpdateResizeHandlePositions();
                             ResetSelectedObjects();
                             ClearSurroundState();
-                            MessageBox.Show("Two objects can't have the same ID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
                     }
@@ -3722,6 +3727,12 @@ namespace EcellLib.PathwayWindow
             /// the list of PEcellSystem.
             /// </summary>
             private List<PEcellSystem> m_systemList;
+            /// <summary>
+            /// ResourceManager for PathwayWindow.
+            /// </summary>
+            ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+
+
             #endregion
 
             /// <summary>
@@ -3946,7 +3957,7 @@ namespace EcellLib.PathwayWindow
                             newSys = surSys + "/" + PathUtil.RemovePath(oldSystemName);
                         if (!oldSystemName.Equals(newSys) && m_set.Systems.ContainsKey(newSys))
                         {
-                            MessageBox.Show(newSys + " has already existed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(newSys + m_resources.GetString("ErrAlrExist") , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             picked.ReturnToMemorizedPosition();
                             m_set.m_systems[picked.Name].UpdateText();
                             m_set.UpdateResizeHandlePositions();
@@ -3992,7 +4003,7 @@ namespace EcellLib.PathwayWindow
                         {
                             ((PPathwayNode)node).ParentObject.AddChild(node);
                             ((PPathwayNode)node).ReturnToMemorizedPosition();
-                            MessageBox.Show(nodeName + " has already existed in " + newSystem,
+                            MessageBox.Show(nodeName + m_resources.GetString("ErrAlrExist"),
                                             "Error", MessageBoxButtons.OK,
                                             MessageBoxIcon.Error);
                         }
@@ -4008,7 +4019,7 @@ namespace EcellLib.PathwayWindow
                         {
                             ((PPathwayNode)node).ParentObject.AddChild(node);
                             ((PPathwayNode)node).ReturnToMemorizedPosition();
-                            MessageBox.Show(nodeName + " has already existed in " + newSystem,
+                            MessageBox.Show(nodeName + m_resources.GetString("ErrAlrExist"),
                                             "Error", MessageBoxButtons.OK,
                                             MessageBoxIcon.Error);
                         }

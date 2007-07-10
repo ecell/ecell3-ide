@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Drawing;
 using PathwayWindow;
@@ -102,6 +103,12 @@ namespace EcellLib.PathwayWindow
         protected float m_minSystemWidth = 40;
         protected float m_minSystemHeight = 40;
 
+        /// <summary>
+        /// ResourceManager for PathwayWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+
+
         #endregion
 
         /// <summary>
@@ -134,7 +141,7 @@ namespace EcellLib.PathwayWindow
 
                 if (string.IsNullOrEmpty(m_surSystem))
                 {
-                    MessageBox.Show("You can't create an object outside the root system",
+                    MessageBox.Show(m_resources.GetString("ErrOutRoot"),
                                     "Error",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Error);
@@ -232,7 +239,7 @@ namespace EcellLib.PathwayWindow
             {
                 if (m_view.CanvasDictionary[e.Canvas.Name].DoesSystemOverlaps(m_rect))
                 {
-                    MessageBox.Show("A system can't be overlapping other systems",
+                    MessageBox.Show(m_resources.GetString("ErrOverSystem"),
                                     "Error",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Stop);

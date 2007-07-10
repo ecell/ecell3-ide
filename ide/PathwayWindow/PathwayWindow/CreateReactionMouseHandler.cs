@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo;
@@ -62,6 +63,12 @@ namespace EcellLib.PathwayWindow
         /// Start point of line
         /// </summary>
         protected PointF m_startPoint = PointF.Empty;
+
+        /// <summary>
+        /// ResourceManager for PathwayWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+
 
         /// <summary>
         /// Constructor with PathwayView.
@@ -219,7 +226,7 @@ namespace EcellLib.PathwayWindow
                 // If this process and variable are connected in the same direction, nothing will be done.
                 if (PathUtil.CheckReferenceListContainsEntity(list, variable.Element.Key, coefficient))
                 {
-                    MessageBox.Show("Already connected !",
+                    MessageBox.Show(m_resources.GetString("ErrAlrConnect"),
                      "Notice",
                      MessageBoxButtons.OK,
                      MessageBoxIcon.Exclamation);
