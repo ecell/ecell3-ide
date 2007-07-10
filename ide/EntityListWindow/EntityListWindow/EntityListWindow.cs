@@ -155,7 +155,7 @@ namespace EcellLib.EntityListWindow
         /// <summary>
         /// ComponentResourceManager for EntityListWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(EntityListWindow));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResEntList));
         #endregion
 
         /// <summary>
@@ -208,22 +208,22 @@ namespace EcellLib.EntityListWindow
             m_delProcLogger = new MenuItem();
             m_creVarLogger = new MenuItem();
             m_delVarLogger = new MenuItem();
-            m_resources.ApplyResources(m_creSysLogger, "PopCreLogger");
-            m_resources.ApplyResources(m_delSysLogger, "PopDelLogger");
-            m_resources.ApplyResources(m_creTopSysLogger, "PopCreLogger");
-            m_resources.ApplyResources(m_delTopSysLogger, "PopDelLogger");
-            m_resources.ApplyResources(m_creProcLogger, "PopCreLogger");
-            m_resources.ApplyResources(m_delProcLogger, "PopDelLogger");
-            m_resources.ApplyResources(m_creVarLogger, "PopCreLogger");
-            m_resources.ApplyResources(m_delVarLogger, "PopDelLogger");
-            m_resources.ApplyResources(addModel, "PopAddModel");
-            m_resources.ApplyResources(addSystem, "PopAddSystem");
-            m_resources.ApplyResources(addVar, "PopAddVariable");
-            m_resources.ApplyResources(addProc, "PopAddProcess");
-            m_resources.ApplyResources(del, "PopDelete");
-            m_resources.ApplyResources(searchMenu, "PopSearch");
-            m_resources.ApplyResources(sortNameMenu, "SortName");
-            m_resources.ApplyResources(sortTypeMenu, "SortType");
+            m_creSysLogger.Text = m_resources.GetString("PopCreLoggerText");
+            m_delSysLogger.Text = m_resources.GetString("PopDelLoggerText");
+            m_creTopSysLogger.Text = m_resources.GetString("PopCreLoggerText");
+            m_delTopSysLogger.Text = m_resources.GetString("PopDelLoggerText");
+            m_creProcLogger.Text = m_resources.GetString("PopCreLoggerText");
+            m_delProcLogger.Text = m_resources.GetString("PopDelLoggerText");
+            m_creVarLogger.Text = m_resources.GetString("PopCreLoggerText");
+            m_delVarLogger.Text = m_resources.GetString("PopDelLoggerText");
+            addModel.Text = m_resources.GetString("PopAddModelText");
+            addSystem.Text = m_resources.GetString("PopAddSystemText");
+            addVar.Text = m_resources.GetString("PopAddVariableText");
+            addProc.Text = m_resources.GetString("PopAddProcessText");
+            del.Text = m_resources.GetString("PopDeleteText");
+            searchMenu.Text = m_resources.GetString("PopSearchText");
+            sortNameMenu.Text = m_resources.GetString("SortNameText");
+            sortTypeMenu.Text = m_resources.GetString("SortTypeText");
 
             addModel.Index = 1;
             addSystem.Index = 3;

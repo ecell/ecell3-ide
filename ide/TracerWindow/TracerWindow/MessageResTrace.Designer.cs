@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TracerWindow {
+namespace EcellLib.TracerWindow {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace TracerWindow {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TracerWindow {
+    internal class MessageResTrace {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TracerWindow() {
+        internal MessageResTrace() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace TracerWindow {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TracerWindow.TracerWindow", typeof(TracerWindow).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.TracerWindow.MessageResTrace", typeof(MessageResTrace).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,56 @@ namespace TracerWindow {
         }
         
         /// <summary>
-        ///   Show &amp;Tracer... に類似しているローカライズされた文字列を検索します。
+        ///   Do you really want to close this window? に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemShowTrace_Text {
+        internal static string ConfirmClose {
             get {
-                return ResourceManager.GetString("MenuItemShowTrace.Text", resourceCulture);
+                return ResourceManager.GetString("ConfirmClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can&apos;t find color or style of line. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrColorDlg {
+            get {
+                return ResourceManager.GetString("ErrColorDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can&apos;t fine the object with input search condition. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNotFind {
+            get {
+                return ResourceManager.GetString("ErrNotFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Finish to save the simulation log successfully. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string FinishSave {
+            get {
+                return ResourceManager.GetString("FinishSave", resourceCulture);
             }
         }
         
         /// <summary>
         ///   &amp;Tracer Setup... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemShowTraceSetup_Text {
+        internal static string MenuItemShowTraceSetupText {
             get {
-                return ResourceManager.GetString("MenuItemShowTraceSetup.Text", resourceCulture);
+                return ResourceManager.GetString("MenuItemShowTraceSetupText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show &amp;Tracer... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemShowTraceText {
+            get {
+                return ResourceManager.GetString("MenuItemShowTraceText", resourceCulture);
             }
         }
     }

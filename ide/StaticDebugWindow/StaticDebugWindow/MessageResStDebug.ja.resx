@@ -117,7 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MenuItemSearch.Text" xml:space="preserve">
-    <value>検索(&amp;S)...</value>
+  <data name="ErrCheckVar" xml:space="preserve">
+    <value>Variableのチェックしてください。</value>
+  </data>
+  <data name="ErrLayout" xml:space="preserve">
+    <value>静的デバッグのレイアウトに失敗しました。</value>
+  </data>
+  <data name="ErrShowPropEdit" xml:space="preserve">
+    <value>プロパティ編集ダイアログの表示に失敗しました。</value>
+  </data>
+  <data name="MenuItemStaticDebugText" xml:space="preserve">
+    <value>静的デバッグ(&amp;D)...</value>
+  </data>
+  <data name="NoError" xml:space="preserve">
+    <value>異常なオブジェクトを見つかりませんでした。</value>
   </data>
 </root>

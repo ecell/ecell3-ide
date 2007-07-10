@@ -7,7 +7,7 @@
     <ProjectGuid>{25FDB8FE-243A-4666-8B81-C52E0949D566}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PropertyWindow</RootNamespace>
+    <RootNamespace>EcellLib.PropertyWindow</RootNamespace>
     <AssemblyName>PropertyWindow</AssemblyName>
     <StartupObject>
     </StartupObject>
@@ -83,6 +83,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageResProperty.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResProperty.resx</DependentUpon>
+    </Compile>
     <Compile Include="PropertyWindow.cs" />
     <Compile Include="PluginDriver.cs">
       <SubType>Form</SubType>
@@ -91,6 +96,14 @@
       <DependentUpon>PluginDriver.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MessageResProperty.ja.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResProperty.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageResProperty.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="PluginDriver.resx">
       <DependentUpon>PluginDriver.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -99,16 +112,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PropertyWindow.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>PropertyWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PropertyWindow.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>PropertyWindow.cs</DependentUpon>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>PropertyWindow.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <BaseApplicationManifest Include="Properties\app.manifest" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -125,11 +128,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="PropertyWindow.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PropertyWindow.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

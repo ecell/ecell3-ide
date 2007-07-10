@@ -117,10 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrCheckVar" xml:space="preserve">
-    <value>Get exception while system check the property of variable.</value>
+  <data name="ErrNotFind" xml:space="preserve">
+    <value>Can't find the object by input search condition.</value>
   </data>
-  <data name="MenuItemStaticDebugText" xml:space="preserve">
-    <value>Static &amp;Debug...</value>
+  <data name="ErrShowPropEdit" xml:space="preserve">
+    <value>Get exception while system show the property editor.</value>
+  </data>
+  <data name="MenuItemSearchText" xml:space="preserve">
+    <value>&amp;Search</value>
   </data>
 </root>

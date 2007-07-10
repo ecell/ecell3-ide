@@ -86,7 +86,7 @@ namespace EcellLib.PropertyWindow
         /// <summary>
         /// ResourceManager for PropertyWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(PropertyWindow));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResProperty));
         #endregion
 
         /// <summary>

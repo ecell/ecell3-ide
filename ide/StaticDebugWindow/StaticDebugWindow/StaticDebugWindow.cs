@@ -92,7 +92,7 @@ namespace EcellLib.StaticDebugWindow
         /// <summary>
         /// ResourceManager for StaticDebugWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(StaticDebugWindow));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResStDebug));
         #endregion
 
         #region Delegate

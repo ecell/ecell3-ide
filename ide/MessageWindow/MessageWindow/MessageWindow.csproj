@@ -7,7 +7,7 @@
     <ProjectGuid>{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MessageWindow</RootNamespace>
+    <RootNamespace>EcellLib.MessageWindow</RootNamespace>
     <AssemblyName>MessageWindow</AssemblyName>
     <SccProjectName>
     </SccProjectName>

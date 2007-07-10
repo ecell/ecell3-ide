@@ -75,7 +75,7 @@ namespace EcellLib.SearchWindow
         /// <returns>null.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResSearch));
 
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
 
@@ -84,7 +84,7 @@ namespace EcellLib.SearchWindow
             m_searchMenu.Size = new Size(96, 22);
 //            m_searchMenu.Text = "Search";
             m_searchMenu.Image = (Image)Resource1.find;
-            resources.ApplyResources(m_searchMenu, "MenuItemSearch");
+            m_searchMenu.Text = resources.GetString("MenuItemSearchText");
             m_searchMenu.Enabled = false;
             m_searchMenu.Click += new EventHandler(this.ShowSearchWindow);
 

@@ -7,7 +7,7 @@
     <ProjectGuid>{878AA0FC-E743-4592-84C5-C1B8B82310C2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TracerWindow</RootNamespace>
+    <RootNamespace>EcellLib.TracerWindow</RootNamespace>
     <AssemblyName>TracerWindow</AssemblyName>
     <SccProjectName>
     </SccProjectName>
@@ -81,6 +81,11 @@
     <Compile Include="LineStyleDialog.Designer.cs">
       <DependentUpon>LineStyleDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="MessageResTrace.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResTrace.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -88,11 +93,6 @@
     </Compile>
     <Compile Include="TracerWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TracerWindow.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TracerWindow.resx</DependentUpon>
-    </Compile>
     <Compile Include="TracerWindowSetup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,20 +115,18 @@
       <SubType>Designer</SubType>
       <DependentUpon>LineStyleDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MessageResTrace.ja.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResTrace.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageResTrace.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TracerWindow.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>TracerWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TracerWindow.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>TracerWindow.cs</DependentUpon>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>TracerWindow.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="TracerWindowSetup.ja.resx">
       <SubType>Designer</SubType>

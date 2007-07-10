@@ -115,7 +115,7 @@ namespace EcellLib.TracerWindow
             // dashDotDotRadioButton
             // 
             resources.ApplyResources(this.dashDotDotRadioButton, "dashDotDotRadioButton");
-            this.dashDotDotRadioButton.Image = global::TracerWindow.Properties.Resources.dashdotdot;
+            this.dashDotDotRadioButton.Image = global::EcellLib.TracerWindow.Properties.Resources.dashdotdot;
             this.dashDotDotRadioButton.Name = "dashDotDotRadioButton";
             this.dashDotDotRadioButton.TabStop = true;
             this.dashDotDotRadioButton.UseVisualStyleBackColor = true;
@@ -123,7 +123,7 @@ namespace EcellLib.TracerWindow
             // dotRadioButton
             // 
             resources.ApplyResources(this.dotRadioButton, "dotRadioButton");
-            this.dotRadioButton.Image = global::TracerWindow.Properties.Resources.dot;
+            this.dotRadioButton.Image = global::EcellLib.TracerWindow.Properties.Resources.dot;
             this.dotRadioButton.Name = "dotRadioButton";
             this.dotRadioButton.TabStop = true;
             this.dotRadioButton.UseVisualStyleBackColor = true;
@@ -131,7 +131,7 @@ namespace EcellLib.TracerWindow
             // dashDotRadioButton
             // 
             resources.ApplyResources(this.dashDotRadioButton, "dashDotRadioButton");
-            this.dashDotRadioButton.Image = global::TracerWindow.Properties.Resources.dashdot;
+            this.dashDotRadioButton.Image = global::EcellLib.TracerWindow.Properties.Resources.dashdot;
             this.dashDotRadioButton.Name = "dashDotRadioButton";
             this.dashDotRadioButton.TabStop = true;
             this.dashDotRadioButton.UseVisualStyleBackColor = true;
@@ -139,7 +139,7 @@ namespace EcellLib.TracerWindow
             // dashRadioButton
             // 
             resources.ApplyResources(this.dashRadioButton, "dashRadioButton");
-            this.dashRadioButton.Image = global::TracerWindow.Properties.Resources.dash;
+            this.dashRadioButton.Image = global::EcellLib.TracerWindow.Properties.Resources.dash;
             this.dashRadioButton.Name = "dashRadioButton";
             this.dashRadioButton.TabStop = true;
             this.dashRadioButton.UseVisualStyleBackColor = true;
@@ -147,7 +147,7 @@ namespace EcellLib.TracerWindow
             // solidRadioButton
             // 
             resources.ApplyResources(this.solidRadioButton, "solidRadioButton");
-            this.solidRadioButton.Image = global::TracerWindow.Properties.Resources.solid;
+            this.solidRadioButton.Image = global::EcellLib.TracerWindow.Properties.Resources.solid;
             this.solidRadioButton.Name = "solidRadioButton";
             this.solidRadioButton.TabStop = true;
             this.solidRadioButton.UseVisualStyleBackColor = true;

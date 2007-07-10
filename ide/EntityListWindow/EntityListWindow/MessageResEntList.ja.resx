@@ -118,45 +118,49 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrDelData" xml:space="preserve">
-    <value>Can't delete this object.</value>
+    <value>オブジェクトの削除に失敗しました。このオブジェクトを確認してください。</value>
   </data>
   <data name="ErrGetData" xml:space="preserve">
-    <value>Can't find the object in this model.</value>
+    <value>このモデルに指定のオブジェクトが存在しませんでした。</value>
+  </data>
+  <data name="ErrNotFind" xml:space="preserve">
+    <value>検索条件に一致するオブジェクトが見つかりませんでした。</value>
   </data>
   <data name="ErrPrintData" xml:space="preserve">
-    <value>Fail to create the bitmap of this window.</value>
+    <value>この画面のビットマップの作成に失敗しました。</value>
   </data>
   <data name="ErrShowPropEditor" xml:space="preserve">
-    <value>Fail to show property editor.\nPlease confirm the property of object.\n</value>
+    <value>プロパティ編集ダイアログの表示に失敗しました。
+表示するオブジェクトを確認してください。</value>
   </data>
-  <data name="PopAddModel.Text" xml:space="preserve">
-    <value>Add model</value>
+  <data name="PopAddModelText" xml:space="preserve">
+    <value>モデル追加</value>
   </data>
-  <data name="PopAddProcess.Text" xml:space="preserve">
-    <value>Add process</value>
+  <data name="PopAddProcessText" xml:space="preserve">
+    <value>Process追加</value>
   </data>
-  <data name="PopAddSystem.Text" xml:space="preserve">
-    <value>Add system</value>
+  <data name="PopAddSystemText" xml:space="preserve">
+    <value>System追加</value>
   </data>
-  <data name="PopAddVariable.Text" xml:space="preserve">
-    <value>Add variable</value>
+  <data name="PopAddVariableText" xml:space="preserve">
+    <value>Variable追加</value>
   </data>
-  <data name="PopCreLogger.Text" xml:space="preserve">
-    <value>Create logger</value>
+  <data name="PopCreLoggerText" xml:space="preserve">
+    <value>ロガー設定</value>
   </data>
-  <data name="PopDelete.Text" xml:space="preserve">
-    <value>Delete</value>
+  <data name="PopDeleteText" xml:space="preserve">
+    <value>削除</value>
   </data>
-  <data name="PopDelLogger.Text" xml:space="preserve">
-    <value>Delete logger</value>
+  <data name="PopDelLoggerText" xml:space="preserve">
+    <value>ロガー解除</value>
   </data>
-  <data name="PopSearch.Text" xml:space="preserve">
-    <value>Search...</value>
+  <data name="PopSearchText" xml:space="preserve">
+    <value>検索...</value>
   </data>
-  <data name="SortName.Text" xml:space="preserve">
-    <value>Sort by Name</value>
+  <data name="SortNameText" xml:space="preserve">
+    <value>名前でソート</value>
   </data>
-  <data name="SortType.Text" xml:space="preserve">
-    <value>Sort by Type</value>
+  <data name="SortTypeText" xml:space="preserve">
+    <value>タイプでソート</value>
   </data>
 </root>

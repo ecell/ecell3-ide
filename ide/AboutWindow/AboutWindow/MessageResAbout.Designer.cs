@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PropertyWindow {
+namespace EcellLib.AboutWindow {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace PropertyWindow {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PropertyWindow {
+    internal class MessageResAbout {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PropertyWindow() {
+        internal MessageResAbout() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace PropertyWindow {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PropertyWindow.PropertyWindow", typeof(PropertyWindow).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.AboutWindow.MessageResAbout", typeof(MessageResAbout).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,11 @@ namespace PropertyWindow {
         }
         
         /// <summary>
-        ///   Get exception while system create the bitmap of this window. に類似しているローカライズされた文字列を検索します。
+        ///   About &amp;IDE に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrCreBitmap {
+        internal static string MenuItemAboutPlatformText {
             get {
-                return ResourceManager.GetString("ErrCreBitmap", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Get exception while system show the property editor. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrShowPropEdit {
-            get {
-                return ResourceManager.GetString("ErrShowPropEdit", resourceCulture);
+                return ResourceManager.GetString("MenuItemAboutPlatformText", resourceCulture);
             }
         }
     }

@@ -434,4 +434,10 @@
   <data name="showWindowToolStripMenuItem.Text" xml:space="preserve">
     <value>ウインドウ</value>
   </data>
+  <data name="loadWindowSettingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>ウインドウ状態のロード(&amp;T)...</value>
+  </data>
+  <data name="saveWindowSettingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>ウインドウ状態の保存(&amp;W)...</value>
+  </data>
 </root>

@@ -54,13 +54,13 @@ namespace EcellLib.AboutWindow
         /// <returns>MenuStipItems</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResAbout));
 
             MenuItemAboutPlatform = new ToolStripMenuItem();
             MenuItemAboutPlatform.Name = "MenuItemAboutPlatform";
             MenuItemAboutPlatform.Size = new System.Drawing.Size(96, 22);
             MenuItemAboutPlatform.Tag = 1;
-            resources.ApplyResources(this.MenuItemAboutPlatform, "MenuItemAboutPlatform");
+            MenuItemAboutPlatform.Text = resources.GetString("MenuItemAboutPlatformText");
             MenuItemAboutPlatform.Click += new System.EventHandler(this.AboutMenuClick);
 
             ToolStripMenuItem helpMenu = new ToolStripMenuItem();

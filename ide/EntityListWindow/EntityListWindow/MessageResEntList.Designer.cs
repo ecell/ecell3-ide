@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EntityListWindow {
+namespace EcellLib.EntityListWindow {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace EntityListWindow {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class EntityListWindow {
+    internal class MessageResEntList {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal EntityListWindow() {
+        internal MessageResEntList() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace EntityListWindow {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EntityListWindow.EntityListWindow", typeof(EntityListWindow).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.EntityListWindow.MessageResEntList", typeof(MessageResEntList).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -79,6 +79,15 @@ namespace EntityListWindow {
         }
         
         /// <summary>
+        ///   Can&apos;t find the object by input search condition. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNotFind {
+            get {
+                return ResourceManager.GetString("ErrNotFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Fail to create the bitmap of this window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrPrintData {
@@ -99,90 +108,90 @@ namespace EntityListWindow {
         /// <summary>
         ///   Add model に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string PopAddModel_Text {
+        internal static string PopAddModelText {
             get {
-                return ResourceManager.GetString("PopAddModel.Text", resourceCulture);
+                return ResourceManager.GetString("PopAddModelText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Add process に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string PopAddProcess_Text {
+        internal static string PopAddProcessText {
             get {
-                return ResourceManager.GetString("PopAddProcess.Text", resourceCulture);
+                return ResourceManager.GetString("PopAddProcessText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Add system に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string PopAddSystem_Text {
+        internal static string PopAddSystemText {
             get {
-                return ResourceManager.GetString("PopAddSystem.Text", resourceCulture);
+                return ResourceManager.GetString("PopAddSystemText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Add variable に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string PopAddVariable_Text {
+        internal static string PopAddVariableText {
             get {
-                return ResourceManager.GetString("PopAddVariable.Text", resourceCulture);
+                return ResourceManager.GetString("PopAddVariableText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Create logger に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string PopCreLogger_Text {
+        internal static string PopCreLoggerText {
             get {
-                return ResourceManager.GetString("PopCreLogger.Text", resourceCulture);
+                return ResourceManager.GetString("PopCreLoggerText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Delete に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string PopDelete_Text {
+        internal static string PopDeleteText {
             get {
-                return ResourceManager.GetString("PopDelete.Text", resourceCulture);
+                return ResourceManager.GetString("PopDeleteText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Delete logger に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string PopDelLogger_Text {
+        internal static string PopDelLoggerText {
             get {
-                return ResourceManager.GetString("PopDelLogger.Text", resourceCulture);
+                return ResourceManager.GetString("PopDelLoggerText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Search... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string PopSearch_Text {
+        internal static string PopSearchText {
             get {
-                return ResourceManager.GetString("PopSearch.Text", resourceCulture);
+                return ResourceManager.GetString("PopSearchText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sort by Name に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SortName_Text {
+        internal static string SortNameText {
             get {
-                return ResourceManager.GetString("SortName.Text", resourceCulture);
+                return ResourceManager.GetString("SortNameText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sort by Type に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string SortType_Text {
+        internal static string SortTypeText {
             get {
-                return ResourceManager.GetString("SortType.Text", resourceCulture);
+                return ResourceManager.GetString("SortTypeText", resourceCulture);
             }
         }
     }

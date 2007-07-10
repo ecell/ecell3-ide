@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AboutWindow {
+namespace EcellLib.SearchWindow {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace AboutWindow {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AboutWindow {
+    internal class MessageResSearch {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal AboutWindow() {
+        internal MessageResSearch() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace AboutWindow {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AboutWindow.AboutWindow", typeof(AboutWindow).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.SearchWindow.MessageResSearch", typeof(MessageResSearch).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,29 @@ namespace AboutWindow {
         }
         
         /// <summary>
-        ///   About &amp;IDE に類似しているローカライズされた文字列を検索します。
+        ///   Can&apos;t find the object by input search condition. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemAboutPlatform_Text {
+        internal static string ErrNotFind {
             get {
-                return ResourceManager.GetString("MenuItemAboutPlatform.Text", resourceCulture);
+                return ResourceManager.GetString("ErrNotFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Get exception while system show the property editor. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrShowPropEdit {
+            get {
+                return ResourceManager.GetString("ErrShowPropEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &amp;Search に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemSearchText {
+            get {
+                return ResourceManager.GetString("MenuItemSearchText", resourceCulture);
             }
         }
     }

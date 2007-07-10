@@ -52,7 +52,7 @@ namespace EcellLib.StaticDebugWindow
         /// <summary>
         /// ResourceManager for StaticDebugSetupWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(StaticDebugSetupWindow));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResStDebug));
         #endregion
 
         /// <summary>

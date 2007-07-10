@@ -115,7 +115,7 @@ namespace EcellLib.TracerWindow
         /// <summary>
         /// ResourceManager for TraceWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(TraceWindow));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResTrace));
         #endregion
 
         /// <summary>

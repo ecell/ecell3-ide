@@ -120,18 +120,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>トレーサ</value>
   </data>
-  <data name="ConfirmClose" xml:space="preserve">
-    <value>このウインドウを閉じてもよろしいですか？</value>
-  </data>
-  <data name="ErrColorDlg" xml:space="preserve">
-    <value>カラー選択ダイアログを表示できませんでした。</value>
-  </data>
-  <data name="ErrNotFind" xml:space="preserve">
-    <value>選択したオブジェクトが見つかりません。</value>
-  </data>
-  <data name="FinishSave" xml:space="preserve">
-    <value>シミュレーションログを保存しました</value>
-  </data>
   <data name="TWCloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>

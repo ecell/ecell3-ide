@@ -604,10 +604,4 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ErrNotFind" xml:space="preserve">
-    <value>Can't find the object by input search condition.</value>
-  </data>
-  <data name="ErrShowPropEdit" xml:space="preserve">
-    <value>Get exception while system show the property editor.</value>
-  </data>
 </root>

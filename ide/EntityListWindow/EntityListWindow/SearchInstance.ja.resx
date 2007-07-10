@@ -120,9 +120,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="ErrNotFind" xml:space="preserve">
-    <value>検索条件に一致するオブジェクトが見つかりませんでした。</value>
-  </data>
   <data name="SICloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>

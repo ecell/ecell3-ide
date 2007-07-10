@@ -7,7 +7,7 @@
     <ProjectGuid>{FA048ADB-AA9C-40D1-BD82-EB696C65658F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AboutWindow</RootNamespace>
+    <RootNamespace>EcellLib.AboutWindow</RootNamespace>
     <AssemblyName>AboutWindow</AssemblyName>
     <StartupObject>
     </StartupObject>
@@ -80,10 +80,10 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AboutWindow.cs" />
-    <Compile Include="AboutWindow.Designer.cs">
+    <Compile Include="MessageResAbout.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AboutWindow.resx</DependentUpon>
+      <DependentUpon>MessageResAbout.resx</DependentUpon>
     </Compile>
     <Compile Include="PluginDriver.cs">
       <SubType>Form</SubType>
@@ -100,15 +100,13 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="AboutWindow.ja.resx">
+    <EmbeddedResource Include="MessageResAbout.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>AboutWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AboutWindow.resx">
+    <EmbeddedResource Include="MessageResAbout.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>AboutWindow.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AboutWindow.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResAbout.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="PluginDriver.resx">
       <SubType>Designer</SubType>

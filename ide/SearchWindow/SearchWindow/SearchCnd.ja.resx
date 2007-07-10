@@ -120,12 +120,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>検索</value>
   </data>
-  <data name="ErrNotFind" xml:space="preserve">
-    <value>検索条件に一致するオブジェクトが見つかりませんでした。</value>
-  </data>
-  <data name="ErrShowPropEdit" xml:space="preserve">
-    <value>プロパティ編集ダイアログの表示に失敗しました。</value>
-  </data>
   <data name="SCCloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>

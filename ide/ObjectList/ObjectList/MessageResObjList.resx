@@ -126,6 +126,9 @@
   <data name="ErrCreBitmap" xml:space="preserve">
     <value>Get exception while system create the bitmap of window.</value>
   </data>
+  <data name="ErrNotFindPage" xml:space="preserve">
+    <value>Can't find the object by input search condition.</value>
+  </data>
   <data name="ErrSelectObj" xml:space="preserve">
     <value>Get exception while system select the object.</value>
   </data>

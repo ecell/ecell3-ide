@@ -7,7 +7,7 @@
     <ProjectGuid>{9F1830B0-28F0-40C6-9B26-0307FA52268C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EntityListWindow</RootNamespace>
+    <RootNamespace>EcellLib.EntityListWindow</RootNamespace>
     <AssemblyName>EntityListWindow</AssemblyName>
     <StartupObject>
     </StartupObject>
@@ -88,10 +88,10 @@
       <DependentUpon>EntityList.cs</DependentUpon>
     </Compile>
     <Compile Include="EntityListWindow.cs" />
-    <Compile Include="EntityListWindow.Designer.cs">
+    <Compile Include="MessageResEntList.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EntityListWindow.resx</DependentUpon>
+      <DependentUpon>MessageResEntList.resx</DependentUpon>
     </Compile>
     <Compile Include="PluginDriver.cs">
       <SubType>Form</SubType>
@@ -104,15 +104,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>EntityList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EntityListWindow.ja.resx">
+    <EmbeddedResource Include="MessageResEntList.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>EntityListWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EntityListWindow.resx">
+    <EmbeddedResource Include="MessageResEntList.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>EntityListWindow.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>EntityListWindow.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResEntList.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="PluginDriver.resx">
       <SubType>Designer</SubType>

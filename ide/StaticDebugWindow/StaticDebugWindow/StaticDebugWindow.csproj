@@ -7,7 +7,7 @@
     <ProjectGuid>{E484AC73-2464-472C-B779-D6878E8B3FA3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StaticDebugWindow</RootNamespace>
+    <RootNamespace>EcellLib.StaticDebugWindow</RootNamespace>
     <AssemblyName>StaticDebugWindow</AssemblyName>
     <SccProjectName>
     </SccProjectName>
@@ -72,6 +72,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageResStDebug.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResStDebug.resx</DependentUpon>
+    </Compile>
     <Compile Include="StaticDebugPlugin.cs" />
     <Compile Include="StaticDebugSetupWindow.cs">
       <SubType>Form</SubType>
@@ -81,13 +86,16 @@
     </Compile>
     <Compile Include="StaticDebugWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StaticDebugWindow.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StaticDebugWindow.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MessageResStDebug.ja.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResStDebug.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageResStDebug.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="StaticDebugSetupWindow.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>StaticDebugSetupWindow.cs</DependentUpon>
@@ -95,16 +103,6 @@
     <EmbeddedResource Include="StaticDebugSetupWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>StaticDebugSetupWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StaticDebugWindow.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>StaticDebugWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StaticDebugWindow.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>StaticDebugWindow.cs</DependentUpon>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>StaticDebugWindow.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

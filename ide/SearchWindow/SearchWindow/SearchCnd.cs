@@ -55,7 +55,7 @@ namespace EcellLib.SearchWindow
         /// <summary>
         /// ResourceManager for SearchCnd.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(SearchCnd));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResSearch));
         #endregion
 
 

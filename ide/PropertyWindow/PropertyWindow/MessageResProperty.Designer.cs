@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SearchWindow {
+namespace EcellLib.PropertyWindow {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace SearchWindow {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SearchWindow {
+    internal class MessageResProperty {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SearchWindow() {
+        internal MessageResProperty() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace SearchWindow {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SearchWindow.SearchWindow", typeof(SearchWindow).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.PropertyWindow.MessageResProperty", typeof(MessageResProperty).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,20 @@ namespace SearchWindow {
         }
         
         /// <summary>
-        ///   &amp;Search に類似しているローカライズされた文字列を検索します。
+        ///   Get exception while system create the bitmap of this window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemSearch_Text {
+        internal static string ErrCreBitmap {
             get {
-                return ResourceManager.GetString("MenuItemSearch.Text", resourceCulture);
+                return ResourceManager.GetString("ErrCreBitmap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Get exception while system show the property editor. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrShowPropEdit {
+            get {
+                return ResourceManager.GetString("ErrShowPropEdit", resourceCulture);
             }
         }
     }

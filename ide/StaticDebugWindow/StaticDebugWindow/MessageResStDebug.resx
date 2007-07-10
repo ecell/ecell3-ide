@@ -117,10 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MenuItemShowTrace.Text" xml:space="preserve">
-    <value>トレーサー表示(&amp;T)...</value>
+  <data name="ErrCheckVar" xml:space="preserve">
+    <value>Get exception while system check the property of variable.</value>
   </data>
-  <data name="MenuItemShowTraceSetup.Text" xml:space="preserve">
-    <value>トレーサー設定(&amp;T)...</value>
+  <data name="ErrLayout" xml:space="preserve">
+    <value>Fail to layout static debug setup window.</value>
+  </data>
+  <data name="ErrShowPropEdit" xml:space="preserve">
+    <value>Get exception while system show the property window.</value>
+  </data>
+  <data name="MenuItemStaticDebugText" xml:space="preserve">
+    <value>Static &amp;Debug...</value>
+  </data>
+  <data name="NoError" xml:space="preserve">
+    <value>Can't find error obejcts in this model.</value>
   </data>
 </root>

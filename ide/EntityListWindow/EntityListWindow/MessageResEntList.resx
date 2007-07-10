@@ -117,7 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MenuItemSearch.Text" xml:space="preserve">
-    <value>&amp;Search</value>
+  <data name="ErrDelData" xml:space="preserve">
+    <value>Can't delete this object.</value>
+  </data>
+  <data name="ErrGetData" xml:space="preserve">
+    <value>Can't find the object in this model.</value>
+  </data>
+  <data name="ErrNotFind" xml:space="preserve">
+    <value>Can't find the object by input search condition.</value>
+  </data>
+  <data name="ErrPrintData" xml:space="preserve">
+    <value>Fail to create the bitmap of this window.</value>
+  </data>
+  <data name="ErrShowPropEditor" xml:space="preserve">
+    <value>Fail to show property editor.\nPlease confirm the property of object.\n</value>
+  </data>
+  <data name="PopAddModelText" xml:space="preserve">
+    <value>Add model</value>
+  </data>
+  <data name="PopAddProcessText" xml:space="preserve">
+    <value>Add process</value>
+  </data>
+  <data name="PopAddSystemText" xml:space="preserve">
+    <value>Add system</value>
+  </data>
+  <data name="PopAddVariableText" xml:space="preserve">
+    <value>Add variable</value>
+  </data>
+  <data name="PopCreLoggerText" xml:space="preserve">
+    <value>Create logger</value>
+  </data>
+  <data name="PopDeleteText" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="PopDelLoggerText" xml:space="preserve">
+    <value>Delete logger</value>
+  </data>
+  <data name="PopSearchText" xml:space="preserve">
+    <value>Search...</value>
+  </data>
+  <data name="SortNameText" xml:space="preserve">
+    <value>Sort by Name</value>
+  </data>
+  <data name="SortTypeText" xml:space="preserve">
+    <value>Sort by Type</value>
   </data>
 </root>

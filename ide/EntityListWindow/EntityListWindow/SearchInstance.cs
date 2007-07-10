@@ -51,7 +51,7 @@ namespace EcellLib.EntityListWindow
         /// <summary>
         /// ResourceManager for SearchInstance
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(SearchInstance));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResEntList));
         #endregion
 
         /// <summary>

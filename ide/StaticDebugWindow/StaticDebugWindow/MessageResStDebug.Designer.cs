@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StaticDebugWindow {
+namespace EcellLib.StaticDebugWindow {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace StaticDebugWindow {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class StaticDebugWindow {
+    internal class MessageResStDebug {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal StaticDebugWindow() {
+        internal MessageResStDebug() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace StaticDebugWindow {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StaticDebugWindow.StaticDebugWindow", typeof(StaticDebugWindow).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.StaticDebugWindow.MessageResStDebug", typeof(MessageResStDebug).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -70,11 +70,38 @@ namespace StaticDebugWindow {
         }
         
         /// <summary>
+        ///   Fail to layout static debug setup window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLayout {
+            get {
+                return ResourceManager.GetString("ErrLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Get exception while system show the property window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrShowPropEdit {
+            get {
+                return ResourceManager.GetString("ErrShowPropEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Static &amp;Debug... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemStaticDebugText {
             get {
                 return ResourceManager.GetString("MenuItemStaticDebugText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can&apos;t find error obejcts in this model. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NoError {
+            get {
+                return ResourceManager.GetString("NoError", resourceCulture);
             }
         }
     }

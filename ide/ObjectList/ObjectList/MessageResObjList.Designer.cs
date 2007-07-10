@@ -88,6 +88,15 @@ namespace EcellLib.ObjectList {
         }
         
         /// <summary>
+        ///   Can&apos;t find the object by input search condition. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNotFindPage {
+            get {
+                return ResourceManager.GetString("ErrNotFindPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Get exception while system select the object. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSelectObj {
