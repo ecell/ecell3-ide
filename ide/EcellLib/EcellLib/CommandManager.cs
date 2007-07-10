@@ -974,7 +974,7 @@ namespace EcellLib
                 List<string> l_fullIDList = new List<string>();
                 l_fullIDList.Add(l_fullID);
                 DataManager.GetDataManager()
-                        .SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, Util.s_xpathEcd, l_fullIDList);
+                        .SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, Util.s_xpathCsv, l_fullIDList);
             }
             catch (Exception l_ex)
             {

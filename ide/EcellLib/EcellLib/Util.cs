@@ -230,6 +230,10 @@ namespace EcellLib
         /// </summary>
         public const string s_xpathEcd = "ecd";
         /// <summary>
+        /// Reserved XML path name for CSV.
+        /// </summary>
+        public const string s_xpathCsv = "csv";
+        /// <summary>
         /// Reserved XML path name for EML.
         /// </summary>
         public const string s_xpathEml = "eml";

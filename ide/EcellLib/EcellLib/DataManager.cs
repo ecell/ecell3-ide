@@ -5753,10 +5753,11 @@ namespace EcellLib
                         l_logData.propName;
                     if (l_fullIDList.Contains(l_fullID))
                     {
-                        if (l_savedType == null || l_savedType.Equals(Util.s_xpathEcd))
+                        if (l_savedType == null || l_savedType.Equals(Util.s_xpathCsv) ||
+                            l_savedType.Equals(Util.s_xpathEcd))
                         {
                             Ecd l_ecd = new Ecd();
-                            l_ecd.Create(l_simulationDirName, l_logData);
+                            l_ecd.Create(l_simulationDirName, l_logData, l_savedType);
                             l_message = "[" + l_fullID + "]";
                             this.m_pManager.Message(
                                 Util.s_xpathSimulation.ToLower(),
@@ -6617,7 +6618,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_savedDirName">The saved directory name.</param>
         /// <param name="l_logData">The list of the "LogData"</param>
-        public void Create(string l_savedDirName, LogData l_logData)
+        public void Create(string l_savedDirName, LogData l_logData, String l_saveType)
         {
             try
             {
@@ -6632,6 +6633,7 @@ namespace EcellLib
                 {
                     return;
                 }
+
                 //
                 // Sets the file name.
                 //
@@ -6642,7 +6644,7 @@ namespace EcellLib
                 l_fileName = l_fileName.Replace(Util.s_delimiterPath, Util.s_delimiterUnderbar);
                 l_fileName = l_fileName.Replace(Util.s_delimiterColon, Util.s_delimiterUnderbar);
                 l_fileName = l_savedDirName + Util.s_delimiterPath +
-                    l_fileName + Util.s_delimiterPeriod + Util.s_xpathEcd;
+                    l_fileName + Util.s_delimiterPeriod + l_saveType;
                 //
                 // Checks the old model file.
                 //

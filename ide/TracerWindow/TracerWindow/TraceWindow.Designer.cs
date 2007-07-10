@@ -162,7 +162,8 @@
             resources.ApplyResources(this.saveTypeCombo, "saveTypeCombo");
             this.saveTypeCombo.FormattingEnabled = true;
             this.saveTypeCombo.Items.AddRange(new object[] {
-            resources.GetString("saveTypeCombo.Items")});
+            resources.GetString("saveTypeCombo.Items"),
+            resources.GetString("saveTypeCombo.Items1")});
             this.saveTypeCombo.Name = "saveTypeCombo";
             // 
             // tableLayoutPanel7
