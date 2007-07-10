@@ -146,10 +146,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>AddPropertyDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataManager.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>DataManager.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormulatorWindow.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FormulatorWindow.cs</DependentUpon>

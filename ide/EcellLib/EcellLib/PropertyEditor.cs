@@ -699,6 +699,10 @@ namespace EcellLib
             {
                 list.Add(r.name + ".MolarConc");
             }
+            foreach (EcellReference r in tmpList)
+            {
+                list.Add(r.name + ".Value");
+            }
             m_cnt.AddReserveString(list);
 
 
