@@ -621,6 +621,7 @@
                     m_dManager.UpdateInitialCondition(paramName, modelName, "Variable", updateList);
                     updateList.Clear();
                 }
+                this.Close();
             }
 
             /// <summary>
