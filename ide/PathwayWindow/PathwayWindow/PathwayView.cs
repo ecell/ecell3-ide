@@ -1627,7 +1627,7 @@ namespace EcellLib.PathwayWindow
             // No nodes are selected, so exit.
             if (this.ActiveCanvas.SelectedNodes.Count == 0)
             {
-                ComponentResourceManager crm = new ComponentResourceManager(typeof(PathwayView));
+                ComponentResourceManager crm = new ComponentResourceManager(typeof(MessageResPathway));
                 MessageBox.Show(crm.GetString("MsgLayoutNoNode"),
                                 "Layout Error",
                                 MessageBoxButtons.OK,
