@@ -47,9 +47,17 @@ namespace EcellLib.MainWindow
         static void Main()
         {
             String lang = Util.GetLang();
-            if (lang != null && (lang.ToUpper() == "DEFAULT" || lang.ToUpper() == "EN_US"))
+            if (lang == null)
+            {
+                // nothing
+            }
+            else if (lang.ToUpper() == "EN_US")
             {
                 Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-us", true);
+            }
+            else if (lang.ToUpper() == "JA")
+            {
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja", true);
             }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -61,6 +61,15 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
+        ///   You should restart this application to reflect this change. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmRestart {
+            get {
+                return ResourceManager.GetString("ConfirmRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Fail to create the project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrCreatePrj {

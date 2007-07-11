@@ -74,6 +74,7 @@ namespace EcellLib.MainWindow
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
+            this.setIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sDockBay1.SuspendLayout();
             this.menustrip.SuspendLayout();
             this.SuspendLayout();
@@ -265,7 +266,8 @@ namespace EcellLib.MainWindow
             // MenuItemSetup
             // 
             this.MenuItemSetup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.modelEditorToolStripMenuItem});
+            this.modelEditorToolStripMenuItem,
+            this.setIDEToolStripMenuItem});
             this.MenuItemSetup.Name = "MenuItemSetup";
             resources.ApplyResources(this.MenuItemSetup, "MenuItemSetup");
             // 
@@ -382,6 +384,12 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
             // 
+            // setIDEToolStripMenuItem
+            // 
+            this.setIDEToolStripMenuItem.Name = "setIDEToolStripMenuItem";
+            resources.ApplyResources(this.setIDEToolStripMenuItem, "setIDEToolStripMenuItem");
+            this.setIDEToolStripMenuItem.Click += new System.EventHandler(this.SetupIDEMenuClick);
+            // 
             // MainWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -490,6 +498,7 @@ namespace EcellLib.MainWindow
         private System.Windows.Forms.ToolStripMenuItem messageWindowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem objectListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem propertyWindowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setIDEToolStripMenuItem;
     }
 }
 

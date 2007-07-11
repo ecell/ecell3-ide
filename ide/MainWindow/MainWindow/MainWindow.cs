@@ -2027,6 +2027,12 @@ namespace EcellLib.MainWindow
             pane.ResumeLayout();
         }
 
+        private void SetupIDEMenuClick(object sender, EventArgs e)
+        {
+            SetupIDEWindow win = new SetupIDEWindow();
+            win.ShowDialog();
+        }
+
     }
 
     

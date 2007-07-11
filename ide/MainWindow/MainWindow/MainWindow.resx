@@ -174,111 +174,9 @@
   <data name="&gt;&gt;sDockBay1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="menustrip.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="menustrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>0, 0</value>
-  </data>
-  <data name="newProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="newProjectToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;New Project...</value>
-  </data>
-  <data name="openProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="openProjectToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Open Project...</value>
-  </data>
-  <data name="saveProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="saveProjectToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Save Project...</value>
-  </data>
-  <data name="closeProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="closeProjectToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Close Project</value>
-  </data>
-  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 6</value>
-  </data>
-  <data name="importModelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="importModelToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Import Model...</value>
-  </data>
-  <data name="exportModelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="exportModelToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Export Model...</value>
-  </data>
-  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 6</value>
-  </data>
-  <data name="importScriptToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="importScriptToolStripMenuItem.Text" xml:space="preserve">
-    <value>I&amp;mport Script...</value>
-  </data>
-  <data name="saveScriptToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="saveScriptToolStripMenuItem.Text" xml:space="preserve">
-    <value>Sa&amp;ve Script...</value>
-  </data>
-  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 6</value>
-  </data>
-  <data name="importActionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="importActionMenuItem.Text" xml:space="preserve">
-    <value>Im&amp;port Action...</value>
-  </data>
-  <data name="saveActionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="saveActionMenuItem.Text" xml:space="preserve">
-    <value>Sav&amp;e Action...</value>
-  </data>
-  <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 6</value>
-  </data>
-  <data name="saveWindowSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="saveWindowSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Save &amp;Window Settings...</value>
-  </data>
-  <data name="loadWindowSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="loadWindowSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Load Window Set&amp;tings...</value>
-  </data>
-  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 6</value>
-  </data>
-  <data name="printToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="printToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Print...</value>
-  </data>
-  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 6</value>
-  </data>
-  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 22</value>
-  </data>
-  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
-    <value>E&amp;xit</value>
-  </data>
+  </metadata>
   <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
     <value>36, 20</value>
   </data>
@@ -297,6 +195,12 @@
   <data name="modelEditorToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Working Directory...</value>
   </data>
+  <data name="setIDEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 22</value>
+  </data>
+  <data name="setIDEToolStripMenuItem.Text" xml:space="preserve">
+    <value>IDE</value>
+  </data>
   <data name="MenuItemSetup.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 20</value>
   </data>
@@ -308,42 +212,6 @@
   </data>
   <data name="MenuItemLayout.Text" xml:space="preserve">
     <value>&amp;Layout</value>
-  </data>
-  <data name="entityListToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="entityListToolStripMenuItem.Text" xml:space="preserve">
-    <value>EntityList</value>
-  </data>
-  <data name="pathwayWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="pathwayWindowToolStripMenuItem.Text" xml:space="preserve">
-    <value>PathwayWindow</value>
-  </data>
-  <data name="messageWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="messageWindowToolStripMenuItem.Text" xml:space="preserve">
-    <value>MessageWindow</value>
-  </data>
-  <data name="objectListToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="objectListToolStripMenuItem.Text" xml:space="preserve">
-    <value>ObjectList</value>
-  </data>
-  <data name="propertyWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="propertyWindowToolStripMenuItem.Text" xml:space="preserve">
-    <value>PropertyWindow</value>
-  </data>
-  <data name="showWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 22</value>
-  </data>
-  <data name="showWindowToolStripMenuItem.Text" xml:space="preserve">
-    <value>Window</value>
   </data>
   <data name="MenuItemView.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 20</value>
@@ -368,12 +236,6 @@
   </data>
   <data name="MenuItemDebug.Text" xml:space="preserve">
     <value>&amp;Debug</value>
-  </data>
-  <data name="ShowVersionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 22</value>
-  </data>
-  <data name="ShowVersionMenuItem.Text" xml:space="preserve">
-    <value>&amp;Add-on...</value>
   </data>
   <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 20</value>
@@ -405,9 +267,153 @@
   <data name="&gt;&gt;menustrip.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="toolstrip.TrayLocation" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
+  <data name="newProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
   </data>
+  <data name="newProjectToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;New Project...</value>
+  </data>
+  <data name="openProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="openProjectToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Open Project...</value>
+  </data>
+  <data name="saveProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="saveProjectToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Save Project...</value>
+  </data>
+  <data name="closeProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="closeProjectToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Close Project</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 6</value>
+  </data>
+  <data name="importModelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="importModelToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Import Model...</value>
+  </data>
+  <data name="exportModelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="exportModelToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Export Model...</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 6</value>
+  </data>
+  <data name="importScriptToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="importScriptToolStripMenuItem.Text" xml:space="preserve">
+    <value>I&amp;mport Script...</value>
+  </data>
+  <data name="saveScriptToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="saveScriptToolStripMenuItem.Text" xml:space="preserve">
+    <value>Sa&amp;ve Script...</value>
+  </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 6</value>
+  </data>
+  <data name="importActionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="importActionMenuItem.Text" xml:space="preserve">
+    <value>Im&amp;port Action...</value>
+  </data>
+  <data name="saveActionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="saveActionMenuItem.Text" xml:space="preserve">
+    <value>Sav&amp;e Action...</value>
+  </data>
+  <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 6</value>
+  </data>
+  <data name="saveWindowSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="saveWindowSettingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Save &amp;Window Settings...</value>
+  </data>
+  <data name="loadWindowSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="loadWindowSettingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Load Window Set&amp;tings...</value>
+  </data>
+  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 6</value>
+  </data>
+  <data name="printToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="printToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Print...</value>
+  </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 6</value>
+  </data>
+  <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="showWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 22</value>
+  </data>
+  <data name="showWindowToolStripMenuItem.Text" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="entityListToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="entityListToolStripMenuItem.Text" xml:space="preserve">
+    <value>EntityList</value>
+  </data>
+  <data name="pathwayWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="pathwayWindowToolStripMenuItem.Text" xml:space="preserve">
+    <value>PathwayWindow</value>
+  </data>
+  <data name="messageWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="messageWindowToolStripMenuItem.Text" xml:space="preserve">
+    <value>MessageWindow</value>
+  </data>
+  <data name="objectListToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="objectListToolStripMenuItem.Text" xml:space="preserve">
+    <value>ObjectList</value>
+  </data>
+  <data name="propertyWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="propertyWindowToolStripMenuItem.Text" xml:space="preserve">
+    <value>PropertyWindow</value>
+  </data>
+  <data name="ShowVersionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 22</value>
+  </data>
+  <data name="ShowVersionMenuItem.Text" xml:space="preserve">
+    <value>&amp;Add-on...</value>
+  </data>
+  <metadata name="toolstrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>0, 24</value>
+  </metadata>
   <data name="toolstrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 24</value>
   </data>
@@ -432,27 +438,27 @@
   <data name="&gt;&gt;toolstrip.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>221, 17</value>
-  </data>
+  </metadata>
   <data name="openFileDialog.Filter" xml:space="preserve">
     <value>model file(*.sbml)|*.sbml</value>
   </data>
-  <data name="saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>347, 17</value>
-  </data>
-  <data name="openScriptDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="openScriptDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>472, 17</value>
-  </data>
+  </metadata>
   <data name="openScriptDialog.Filter" xml:space="preserve">
     <value>script file(*.ess)|*.ess|all(*.*)|*.*</value>
   </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
-  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>85</value>
-  </data>
+  </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
@@ -867,6 +873,12 @@
   </data>
   <data name="&gt;&gt;openScriptDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;setIDEToolStripMenuItem.Name" xml:space="preserve">
+    <value>setIDEToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;setIDEToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainWindow</value>

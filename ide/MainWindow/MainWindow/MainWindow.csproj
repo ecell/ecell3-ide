@@ -113,6 +113,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="SetupIDEWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupIDEWindow.Designer.cs">
+      <DependentUpon>SetupIDEWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Splash.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,6 +197,14 @@
     <EmbeddedResource Include="SaveProjectDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SaveProjectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupIDEWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SetupIDEWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupIDEWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SetupIDEWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Splash.ja.resx">
       <SubType>Designer</SubType>

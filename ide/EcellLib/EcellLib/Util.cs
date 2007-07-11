@@ -606,6 +606,41 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Set language for E-Cell IDE.
+        /// </summary>
+        /// <param name="l_lang">language.</param>
+        static public void SetLanguage(string l_lang)
+        {
+            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
+            Microsoft.Win32.RegistryKey l_subkey = null;
+            try
+            {
+                l_subkey = l_key.OpenSubKey(s_registrySWKey, true);
+                /*
+                l_currentDir = (string)l_subkey.GetValue(s_registryBaseDirKey);
+                if (l_currentDir == null)
+                {
+                    RegistrySecurity s = l_subkey.GetAccessControl();
+                    
+                    l_subkey.CreateSubKey(s_registryBaseDirKey);
+                }*/
+                l_subkey.SetValue(s_registryLang, l_lang);
+            }
+            finally
+            {
+                if (l_key != null)
+                {
+                    l_key.Close();
+                }
+                if (l_subkey != null)
+                {
+                    l_subkey.Close();
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Set the working directory to set directiroy.
         /// </summary>
         /// <param name="l_basedir">set directory.</param>

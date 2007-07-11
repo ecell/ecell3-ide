@@ -440,4 +440,7 @@
   <data name="saveWindowSettingsToolStripMenuItem.Text" xml:space="preserve">
     <value>ウインドウ状態の保存(&amp;W)...</value>
   </data>
+  <data name="setIDEToolStripMenuItem.Text" xml:space="preserve">
+    <value>IDEの設定(&amp;I)</value>
+  </data>
 </root>
