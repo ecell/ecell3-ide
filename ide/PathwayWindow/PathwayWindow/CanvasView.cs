@@ -133,6 +133,11 @@ namespace EcellLib.PathwayWindow
         public static readonly string CANVAS_MENU_SEPARATOR2 = "separator2";
 
         /// <summary>
+        /// Key definition of m_cMenuDict for separator3
+        /// </summary>
+        public static readonly string CANVAS_MENU_SEPARATOR3 = "separator3";
+
+        /// <summary>
         /// Key definition of m_cMenuDict for rightArrow
         /// </summary>
         public static readonly string CANVAS_MENU_RIGHT_ARROW = "rightArrow";
@@ -146,6 +151,11 @@ namespace EcellLib.PathwayWindow
         /// Key definition of m_cMenuDict for bidirArrow
         /// </summary>
         public static readonly string CANVAS_MENU_BIDIR_ARROW = "bidirArrow";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for ID
+        /// </summary>
+        public static readonly string CANVAS_MENU_ID = "id";
 
         /// <summary>
         /// Key definition of m_cMenuDict for constantLine
@@ -641,6 +651,15 @@ namespace EcellLib.PathwayWindow
             // Preparing a context menu.
             m_nodeMenu = new ContextMenuStrip();
             m_nodeMenu.Closed += new ToolStripDropDownClosedEventHandler(m_nodeMenu_Closed);
+
+            ToolStripItem idShow = new ToolStripMenuItem("tmp");
+            idShow.Name = CANVAS_MENU_ID;
+            m_nodeMenu.Items.Add(idShow);
+            m_cMenuDict.Add(CANVAS_MENU_ID, idShow);
+
+            ToolStripSeparator separator3 = new ToolStripSeparator();
+            m_nodeMenu.Items.Add(separator3);
+            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR3, separator3);
 
             int count = 0;
             foreach(ILayoutAlgorithm algorithm in m_pathwayView.Window.LayoutAlgorithm)

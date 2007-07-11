@@ -76,6 +76,8 @@ namespace EcellLib.PathwayWindow.UIComponent
 
                 if (m_cview.NodeMenu.Tag == null)
                 {
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Visible = false;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR3].Visible = false;
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR1 ].Visible = false;
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_RIGHT_ARROW ].Visible = false;
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_LEFT_ARROW ].Visible = false;
@@ -86,7 +88,11 @@ namespace EcellLib.PathwayWindow.UIComponent
                 }
                 else if(m_cview.NodeMenu.Tag is PPathwayNode)
                 {
-                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR1 ].Visible = false;
+                    PPathwayNode n = m_cview.NodeMenu.Tag as PPathwayNode;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Text = n.Element.Key;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Visible = true;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR3].Visible = true;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR1].Visible = false;
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_RIGHT_ARROW ].Visible = false;
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_LEFT_ARROW ].Visible = false;
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_BIDIR_ARROW ].Visible = false;
@@ -97,6 +103,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                 else if (m_cview.NodeMenu.Tag is Line)
                 {
                     EdgeInfo info = ((Line)m_cview.NodeMenu.Tag).Info;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Visible = false;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR3].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR1].Visible = true;
                     switch (info.Direction)
                     {
@@ -135,6 +143,10 @@ namespace EcellLib.PathwayWindow.UIComponent
                 }
                 else if (m_cview.NodeMenu.Tag is PEcellSystem)
                 {
+                    PEcellSystem n = m_cview.NodeMenu.Tag as PEcellSystem;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Text = n.Element.Key;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Visible = true;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR3].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR1].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = false;
@@ -145,6 +157,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                 }
                 else
                 {
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Visible = false;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR3].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR1].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = false;
