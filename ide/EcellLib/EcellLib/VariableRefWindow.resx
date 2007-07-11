@@ -512,7 +512,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Variable Reference</value>
+    <value>Variable References</value>
   </data>
   <data name="&gt;&gt;name.Name" xml:space="preserve">
     <value>name</value>

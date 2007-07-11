@@ -178,7 +178,7 @@
     <value>シミュレーション実行(&amp;R)</value>
   </data>
   <data name="MenuItemSetupSim" xml:space="preserve">
-    <value>シミュレーション条件設定(&amp;S)...</value>
+    <value>シミュレーション設定(&amp;S)...</value>
   </data>
   <data name="MenuItemStop" xml:space="preserve">
     <value>シミュレーションリセット(&amp;E)</value>

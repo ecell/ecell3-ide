@@ -127,7 +127,7 @@
     <value>Get exception while system show the property window.</value>
   </data>
   <data name="MenuItemStaticDebugText" xml:space="preserve">
-    <value>Static &amp;Debug...</value>
+    <value>Static &amp;Debugger...</value>
   </data>
   <data name="NoError" xml:space="preserve">
     <value>Can't find error obejcts in this model.</value>

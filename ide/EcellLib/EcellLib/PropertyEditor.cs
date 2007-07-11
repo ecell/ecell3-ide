@@ -243,7 +243,7 @@ namespace EcellLib
                 {
                     tmpProcDict = DataManager.GetProcessProperty(m_currentObj.classname);
                 }
-                this.Text = m_title + " - " + m_currentObj.key + " -";
+                this.Text = m_title + "  - " + m_currentObj.key;
             }
 
             String preId = "";
@@ -421,7 +421,7 @@ namespace EcellLib
                     if (key == "VariableReferenceList")
                     {
                         Button b = new Button();
-                        b.Text = "ReferenceList";
+                        b.Text = "Edit Variable References ...";
                         b.Tag = "VariableReferenceList";
                         b.Dock = DockStyle.Fill;
                         b.Click += new EventHandler(ShowVarRefWindow);
@@ -467,7 +467,7 @@ namespace EcellLib
                         if ((key == "Expression"))
                         {
                             Button b = new Button();
-                            b.Text = "Formulator";
+                            b.Text = "...";
                             b.Tag = "Formulator";
                             b.Dock = DockStyle.Fill;
                             b.Click += new EventHandler(ShowFormulatorWindow);
