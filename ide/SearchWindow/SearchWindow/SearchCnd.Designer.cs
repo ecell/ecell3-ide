@@ -35,12 +35,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.idText = new System.Windows.Forms.TextBox();
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.SCSearchButton = new System.Windows.Forms.Button();
             this.SCCloseButton = new System.Windows.Forms.Button();
+            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -87,6 +88,7 @@
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnId,
+            this.ColumnName,
             this.ColumnModel,
             this.ColumnType});
             resources.ApplyResources(this.dgv, "dgv");
@@ -95,26 +97,6 @@
             this.dgv.RowTemplate.Height = 21;
             this.dgv.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvCellDoubleClick);
             this.dgv.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvCellClick);
-            // 
-            // ColumnId
-            // 
-            this.ColumnId.FillWeight = 122.7241F;
-            resources.ApplyResources(this.ColumnId, "ColumnId");
-            this.ColumnId.Name = "ColumnId";
-            this.ColumnId.ReadOnly = true;
-            // 
-            // ColumnModel
-            // 
-            this.ColumnModel.FillWeight = 50F;
-            resources.ApplyResources(this.ColumnModel, "ColumnModel");
-            this.ColumnModel.Name = "ColumnModel";
-            // 
-            // ColumnType
-            // 
-            this.ColumnType.FillWeight = 41.74289F;
-            resources.ApplyResources(this.ColumnType, "ColumnType");
-            this.ColumnType.Name = "ColumnType";
-            this.ColumnType.ReadOnly = true;
             // 
             // tableLayoutPanel3
             // 
@@ -136,6 +118,32 @@
             this.SCCloseButton.Name = "SCCloseButton";
             this.SCCloseButton.UseVisualStyleBackColor = true;
             this.SCCloseButton.Click += new System.EventHandler(this.CloseButtonClick);
+            // 
+            // ColumnId
+            // 
+            this.ColumnId.FillWeight = 122.7241F;
+            resources.ApplyResources(this.ColumnId, "ColumnId");
+            this.ColumnId.Name = "ColumnId";
+            this.ColumnId.ReadOnly = true;
+            // 
+            // ColumnName
+            // 
+            this.ColumnName.FillWeight = 70F;
+            resources.ApplyResources(this.ColumnName, "ColumnName");
+            this.ColumnName.Name = "ColumnName";
+            // 
+            // ColumnModel
+            // 
+            this.ColumnModel.FillWeight = 50F;
+            resources.ApplyResources(this.ColumnModel, "ColumnModel");
+            this.ColumnModel.Name = "ColumnModel";
+            // 
+            // ColumnType
+            // 
+            this.ColumnType.FillWeight = 41.74289F;
+            resources.ApplyResources(this.ColumnType, "ColumnType");
+            this.ColumnType.Name = "ColumnType";
+            this.ColumnType.ReadOnly = true;
             // 
             // SearchCnd
             // 
@@ -172,6 +180,7 @@
         /// </summary>
         public System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnModel;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnType;
     }

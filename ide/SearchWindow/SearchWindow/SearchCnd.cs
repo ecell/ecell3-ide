@@ -117,7 +117,20 @@ namespace EcellLib.SearchWindow
                     if (obj.key == null) continue;
                     if (obj.key.Contains(searchId))
                     {
-                        dgv.Rows.Add(new Object[] { obj.key, model, obj.type });
+                        String name = "";
+                        if (obj.M_value != null)
+                        {
+                            foreach (EcellData d in obj.M_value)
+                            {
+                                if (d.M_name.Equals("Name"))
+                                {
+                                    name = d.M_value.ToString();
+                                    break;
+                                }
+                            }
+                        }
+
+                        dgv.Rows.Add(new Object[] { obj.key, name, model, obj.type });
                     }
                     else
                     {
@@ -127,7 +140,7 @@ namespace EcellLib.SearchWindow
                             {
                                 if (d.M_name.Equals("Name") && d.M_value.ToString().Contains(searchId))
                                 {
-                                    dgv.Rows.Add(new Object[] { obj.key, model, obj.type });
+                                    dgv.Rows.Add(new Object[] { obj.key, d.M_value.ToString(), model, obj.type });
                                     break;
                                 }
                             }
@@ -137,9 +150,20 @@ namespace EcellLib.SearchWindow
                     if (obj.M_instances == null) continue;
                     foreach (EcellObject ins in obj.M_instances)
                     {
-                        if (ins.key.Contains(searchId))
-                        {
-                            dgv.Rows.Add(new Object[] { ins.key, model, ins.type });
+                        if (ins.key.Contains(searchId)) {
+                            String name = "";
+                            if (ins.M_value != null)
+                            {
+                                foreach (EcellData d in ins.M_value)
+                                {
+                                    if (d.M_name.Equals("Name"))
+                                    {
+                                        name = d.M_value.ToString();
+                                        break;
+                                    }
+                                }
+                            }
+                            dgv.Rows.Add(new Object[] { ins.key, name, model, ins.type });
                         }
                         else
                         {
@@ -149,7 +173,7 @@ namespace EcellLib.SearchWindow
                                 {
                                     if (d.M_name.Equals("Name") && d.M_value.ToString().Contains(searchId))
                                     {
-                                        dgv.Rows.Add(new Object[] { ins.key, model, ins.type });
+                                        dgv.Rows.Add(new Object[] { ins.key, d.M_value.ToString(), model, ins.type });
                                         break;
                                     }
                                 }
@@ -182,9 +206,9 @@ namespace EcellLib.SearchWindow
         {
             int index = e.RowIndex;
             List<EcellObject> list;
-            string model = (string)dgv.Rows[index].Cells[1].Value;
+            string model = (string)dgv.Rows[index].Cells[2].Value;
             string id = (string)dgv.Rows[index].Cells[0].Value;
-            string type = (string)dgv.Rows[index].Cells[2].Value;
+            string type = (string)dgv.Rows[index].Cells[3].Value;
 
             if (id.Contains(":"))
             { // not system
@@ -276,9 +300,9 @@ namespace EcellLib.SearchWindow
         {
             int index = e.RowIndex;
 
-            string model = (string)dgv.Rows[index].Cells[1].Value;
+            string model = (string)dgv.Rows[index].Cells[2].Value;
             string id = (string)dgv.Rows[index].Cells[0].Value;
-            string type = (string)dgv.Rows[index].Cells[2].Value;
+            string type = (string)dgv.Rows[index].Cells[3].Value;
 
             m_pManager.SelectChanged(model, id, type);
             this.Select();
