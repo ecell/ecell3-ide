@@ -321,6 +321,10 @@ namespace EcellLib
                     {
                         t2.ReadOnly = true;
                     }
+                    else
+                    {
+                        t2.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                    }
                 }
                 m_idText = t2;
                 t2.Dock = DockStyle.Fill;
