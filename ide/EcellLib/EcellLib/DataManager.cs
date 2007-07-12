@@ -1927,23 +1927,38 @@ namespace EcellLib
                 }
             }
         }
-/*
+
         public void SystemDeleteAndMove(string modelID, string key)
         {
-            List<EcellObject> targetList = new List<EcellObject>();
-            if (m_systemDic[m_currentProjectID].ContainsKey(l_model))
+            List<EcellObject> targetSysList = new List<EcellObject>();
+            List<EcellObject> targetObjList = new List<EcellObject>();
+            if (m_systemDic[m_currentProjectID].ContainsKey(modelID))
             {
-                foreach (EcellObject obj in m_systemDic[m_currentProjectID][l_model])
+                foreach (EcellObject obj in m_systemDic[m_currentProjectID][modelID])
                 {
-                    if (obj.modelID == l_model && obj.key.StartsWith(l_key) &&
-                        (obj.key.Length == l_key.Length || obj.key[l_key.Length] == '/')) 
-                        targetList.Add(obj);
+                    if (obj.modelID == modelID && obj.key.StartsWith(key) &&
+                        (obj.key.Length == key.Length || obj.key[key.Length] == '/'))
+                    {
+                        if (obj.key.Length == key.Length)
+                        {
+                            if (obj.M_instances == null) continue;
+                            foreach (EcellObject ins in obj.M_instances)
+                            {
+                                targetObjList.Add(ins);
+                            }
+                        }
+                        else if (obj.key.LastIndexOf('/') == key.Length)
+                        {
+                            targetSysList.Add(obj);
+                        }
+                    }
                 }
             }
 
 
+
         }
-        */
+
         /// <summary>
         /// Deletes the "System" using the model ID and the key of the "EcellObject".
         /// </summary>
@@ -6667,7 +6682,7 @@ namespace EcellLib
                 try
                 {
                     l_writer = new StreamWriter(
-                            new FileStream(l_fileName, FileMode.CreateNew), System.Text.Encoding.ASCII);
+                            new FileStream(l_fileName, FileMode.CreateNew), System.Text.Encoding.UTF8);
                     //
                     // Writes the header.
                     //
@@ -6881,7 +6896,7 @@ namespace EcellLib
                 XmlTextWriter l_writer = null;
                 try
                 {
-                    l_writer = new XmlTextWriter(l_fileName, System.Text.Encoding.ASCII);
+                    l_writer = new XmlTextWriter(l_fileName, System.Text.Encoding.UTF8);
                     l_writer.Formatting = Formatting.Indented;
                     l_writer.Indentation = 0;
                     l_writer.WriteStartDocument(true);
@@ -6971,7 +6986,7 @@ namespace EcellLib
                 XmlTextWriter l_writer = null;
                 try
                 {
-                    l_writer = new XmlTextWriter(l_fileName, System.Text.Encoding.ASCII);
+                    l_writer = new XmlTextWriter(l_fileName, System.Text.Encoding.UTF8);
                     l_writer.Formatting = Formatting.Indented;
                     l_writer.Indentation = 0;
                     l_writer.WriteStartDocument(true);

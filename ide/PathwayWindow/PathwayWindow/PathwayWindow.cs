@@ -1110,8 +1110,11 @@ namespace EcellLib.PathwayWindow
                 PathwayElements elements = new PathwayElements();
                 elements.Elements = m_view.GetElements().ToArray();
                 string fileName = directory + "\\" + modelID + ".leml";
-                using (Stream writer = new FileStream(fileName, FileMode.Create))
+//                using (Stream writer = new FileStream(fileName, FileMode.Create))
+                using (XmlTextWriter writer = new XmlTextWriter(new FileStream(fileName, FileMode.Create), Encoding.UTF8))
                 {
+                    writer.Formatting = Formatting.Indented;
+                    writer.Indentation = 0;
                     serializer.Serialize(writer, elements);
                 }
             }
