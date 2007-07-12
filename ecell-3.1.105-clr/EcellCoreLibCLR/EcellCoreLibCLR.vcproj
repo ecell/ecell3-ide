@@ -11,6 +11,9 @@
 		<Platform
 			Name="Win32"
 		/>
+		<Platform
+			Name="x64"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
@@ -148,6 +151,169 @@
 				AdditionalLibraryDirectories="$(ECELL_STAGING_HOME)\lib;$(LIB)"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
+				KeyFile="ecell.snk"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\bin&quot;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="2"
+			ManagedExtensions="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine="IF &quot;$(ECELL_STAGING_HOME)&quot; == &quot;&quot; ECHO &quot;ECELL_STAGING_HOME environment variable is not set.&quot;"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=""
+				Optimization="0"
+				AdditionalIncludeDirectories="$(ECELL_STAGING_HOME)\include;$(ECELL_STAGING_HOME)\include\ecell-3.1;$(INCLUDE)"
+				PreprocessorDefinitions="WIN32;_DEBUG;__STDC__"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				RegisterOutput="true"
+				AdditionalOptions=""
+				AdditionalDependencies="ecs.lib emc.lib"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(ECELL_STAGING_HOME)\lib;$(LIB)"
+				GenerateDebugInformation="true"
+				AssemblyDebug="1"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\debug\bin&quot;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="2"
+			ManagedExtensions="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine="IF &quot;$(ECELL_STAGING_HOME)&quot; == &quot;&quot; ECHO &quot;ECELL_STAGING_HOME environment variable is not set.&quot;"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=""
+				AdditionalIncludeDirectories="$(ECELL_STAGING_HOME)\include;$(ECELL_STAGING_HOME)\include\ecell-3.1;$(INCLUDE)"
+				PreprocessorDefinitions="WIN32;NDEBUG;__STDC__"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions=""
+				AdditionalDependencies="ecs.lib emc.lib"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(ECELL_STAGING_HOME)\lib;$(LIB)"
+				GenerateDebugInformation="true"
+				TargetMachine="17"
 				KeyFile="ecell.snk"
 			/>
 			<Tool
