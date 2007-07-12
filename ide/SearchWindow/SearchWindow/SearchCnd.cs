@@ -205,6 +205,7 @@ namespace EcellLib.SearchWindow
         private void DgvCellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
+            if (index < 0) return;
             List<EcellObject> list;
             string model = (string)dgv.Rows[index].Cells[2].Value;
             string id = (string)dgv.Rows[index].Cells[0].Value;
@@ -299,6 +300,7 @@ namespace EcellLib.SearchWindow
         private void DgvCellClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             int index = e.RowIndex;
+            if (index < 0) return;
 
             string model = (string)dgv.Rows[index].Cells[2].Value;
             string id = (string)dgv.Rows[index].Cells[0].Value;
