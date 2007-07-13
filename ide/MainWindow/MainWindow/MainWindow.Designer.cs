@@ -31,7 +31,6 @@ namespace EcellLib.MainWindow
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.sDockBay1 = new Yukichika.Controls.SDockBay();
             this.menustrip = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,6 +56,7 @@ namespace EcellLib.MainWindow
             this.MenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.modelEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,25 +74,9 @@ namespace EcellLib.MainWindow
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.setIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sDockBay1.SuspendLayout();
+            this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.menustrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // sDockBay1
-            // 
-            resources.ApplyResources(this.sDockBay1, "sDockBay1");
-            this.sDockBay1.BackColor = System.Drawing.SystemColors.Control;
-            // 
-            // sDockBay1.MainPane
-            // 
-            this.sDockBay1.MainPane.BackColor = System.Drawing.SystemColors.Control;
-            resources.ApplyResources(this.sDockBay1.MainPane, "sDockBay1.MainPane");
-            this.sDockBay1.MainPane.Name = "MainPane";
-            this.sDockBay1.MainPane.TabFirstVisibleIndex = 0;
-            this.sDockBay1.MainPane.BeforeCloseTabPage += new Yukichika.Controls.BeforeCloseTabPageEventHandler(this.sDockBay1_BeforeCloseTabPage);
-            this.sDockBay1.Name = "sDockBay1";
-            this.sDockBay1.BeforeCloseTabPage += new Yukichika.Controls.BeforeCloseTabPageEventHandler(this.sDockBay1_BeforeCloseTabPage);
             // 
             // menustrip
             // 
@@ -224,14 +208,14 @@ namespace EcellLib.MainWindow
             // 
             // saveWindowSettingsToolStripMenuItem
             // 
-            this.saveWindowSettingsToolStripMenuItem.Name = "saveWindowSettingsToolStripMenuItem";
             resources.ApplyResources(this.saveWindowSettingsToolStripMenuItem, "saveWindowSettingsToolStripMenuItem");
+            this.saveWindowSettingsToolStripMenuItem.Name = "saveWindowSettingsToolStripMenuItem";
             this.saveWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveWindowSettingsToolStripMenuItem_Click);
             // 
             // loadWindowSettingsToolStripMenuItem
             // 
-            this.loadWindowSettingsToolStripMenuItem.Name = "loadWindowSettingsToolStripMenuItem";
             resources.ApplyResources(this.loadWindowSettingsToolStripMenuItem, "loadWindowSettingsToolStripMenuItem");
+            this.loadWindowSettingsToolStripMenuItem.Name = "loadWindowSettingsToolStripMenuItem";
             this.loadWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadWindowSettingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
@@ -277,6 +261,12 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.modelEditorToolStripMenuItem, "modelEditorToolStripMenuItem");
             this.modelEditorToolStripMenuItem.Tag = "100";
             this.modelEditorToolStripMenuItem.Click += new System.EventHandler(this.ModelEditorMenuClick);
+            // 
+            // setIDEToolStripMenuItem
+            // 
+            this.setIDEToolStripMenuItem.Name = "setIDEToolStripMenuItem";
+            resources.ApplyResources(this.setIDEToolStripMenuItem, "setIDEToolStripMenuItem");
+            this.setIDEToolStripMenuItem.Click += new System.EventHandler(this.SetupIDEMenuClick);
             // 
             // MenuItemLayout
             // 
@@ -384,23 +374,23 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
             // 
-            // setIDEToolStripMenuItem
+            // dockPanel
             // 
-            this.setIDEToolStripMenuItem.Name = "setIDEToolStripMenuItem";
-            resources.ApplyResources(this.setIDEToolStripMenuItem, "setIDEToolStripMenuItem");
-            this.setIDEToolStripMenuItem.Click += new System.EventHandler(this.SetupIDEMenuClick);
+            this.dockPanel.ActiveAutoHideContent = null;
+            resources.ApplyResources(this.dockPanel, "dockPanel");
+            this.dockPanel.DocumentStyle = WeifenLuo.WinFormsUI.Docking.DocumentStyle.DockingWindow;
+            this.dockPanel.Name = "dockPanel";
             // 
             // MainWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.dockPanel);
             this.Controls.Add(this.toolstrip);
-            this.Controls.Add(this.sDockBay1);
             this.Controls.Add(this.menustrip);
             this.MainMenuStrip = this.menustrip;
             this.Name = "MainWindow";
             this.Disposed += new System.EventHandler(this.MainWindowDisposed);
-            this.sDockBay1.ResumeLayout(false);
             this.menustrip.ResumeLayout(false);
             this.menustrip.PerformLayout();
             this.ResumeLayout(false);
@@ -488,7 +478,6 @@ namespace EcellLib.MainWindow
         /// MenuItem to display version dialog.
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem ShowVersionMenuItem;
-        private Yukichika.Controls.SDockBay sDockBay1;
         private System.Windows.Forms.ToolStripMenuItem saveWindowSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem loadWindowSettingsToolStripMenuItem;
@@ -499,6 +488,7 @@ namespace EcellLib.MainWindow
         private System.Windows.Forms.ToolStripMenuItem objectListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem propertyWindowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setIDEToolStripMenuItem;
+        private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
     }
 }
 

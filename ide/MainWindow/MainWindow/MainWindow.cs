@@ -46,8 +46,7 @@ using IronPython.Hosting;
 using IronPython.Runtime;
 
 using EcellLib;
-using Yukichika.Controls;
-using Yukichika.Serialization;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.MainWindow
 {
@@ -75,25 +74,25 @@ namespace EcellLib.MainWindow
         /// </summary>
         private UserControl m_propertyWindow;
         /// <summary>
-        /// m_entityListTab (SDockTabPage)
+        /// m_entityListDock (DockContent)
         /// </summary>
-        private SDockTabPage m_entityListTab;
+        private DockContent m_entityListDock;
         /// <summary>
-        /// m_pathwayWindowTab (SDockTabPage)
+        /// m_pathwayWindowDock (DockContent)
         /// </summary>
-        private SDockTabPage m_pathwayWindowTab;
+        private DockContent m_pathwayWindowDock;
         /// <summary>
-        /// m_messageWindowTab (SDockTabPage)
+        /// m_messageWindowDock (DockContent)
         /// </summary>
-        private SDockTabPage m_messageWindowTab;
+        private DockContent m_messageWindowDock;
         /// <summary>
-        /// m_objectListTab (SDockTabPage)
+        /// m_objectListDock (DockContent)
         /// </summary>
-        private SDockTabPage m_objectListTab;
+        private DockContent m_objectListDock;
         /// <summary>
-        /// m_propertyWindowTab (SDockTabPage)
+        /// m_propertyWindowDock (DockContent)
         /// </summary>
-        private SDockTabPage m_propertyWindowTab;
+        private DockContent m_propertyWindowDock;
         /// <summary>
         /// m_pManager (PluginManager)
         /// </summary>
@@ -168,7 +167,7 @@ namespace EcellLib.MainWindow
             InitializeComponent();
             LoadPlugins();
             //画面設定読込み
-            loadDefaultWindow();
+            //loadDefaultWindow();
             
         }
         
@@ -176,13 +175,41 @@ namespace EcellLib.MainWindow
         {
             //画面のデフォルト設定を呼び出し。
             //設定ファイルの置き場所はプラグインフォルダ。
-            string fname = Util.GetPluginDir() + "\\default.sdc";
+            string fname = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "DockPanel.config");
             Debug.WriteLine(fname);
             if (File.Exists(fname))
             {
-                DeserilizeWindow(fname, true);
+                dockPanel.SuspendLayout(true);
+
+                // In order to load layout from XML, we need to close all the DockContents
+                //CloseAllContents();
+
+                Assembly assembly = Assembly.GetAssembly(typeof(MainWindow));
+                Stream xmlStream = assembly.GetManifestResourceStream(fname);
+                DeserializeDockContent contents = new DeserializeDockContent(GetContentFromPersistString);
+                dockPanel.LoadFromXml(xmlStream, contents);
+                xmlStream.Close();
+                dockPanel.ResumeLayout(true, true);
             }
         }
+        private IDockContent GetContentFromPersistString(string persistString)
+        {
+            if (persistString == this.m_entityListDock.ToString())
+                return this.m_entityListDock;
+            else if (persistString == this.m_pathwayWindowDock.ToString())
+                return this.m_pathwayWindowDock;
+            else if (persistString == this.m_messageWindowDock.ToString())
+                return this.m_messageWindowDock;
+            else if (persistString == this.m_objectListDock.ToString())
+                return this.m_objectListDock;
+            else if (persistString == this.m_propertyWindowDock.ToString())
+                return this.m_propertyWindowDock;
+            else
+            {
+                return null;
+            }
+        }
+
 
         void LoadPlugins()
         {
@@ -296,42 +323,43 @@ namespace EcellLib.MainWindow
             {
                 foreach (UserControl win in winList)
                 {
-                    // SDockTabを作成する
+                    // DockContentを作成する
                     if (pName == "EntityListWindow")
                     {
                         //EntityListを作成
                         this.m_entityList = win;
-                        this.m_entityListTab = setSDockTab("EntityList", this.m_entityList);
-                        AddTabPage(this.sDockBay1.MainPane, this.m_entityListTab, SDockDirection.Left);
+                        this.m_entityListDock = setDockContent("EntityList", this.m_entityList);
+                        this.m_entityListDock.Show(this.dockPanel, DockState.DockLeft);
                     }
                     else if (pName == "PathwayWindow")
                     {
                         //PathwayWindowを作成
                         this.m_pathwayWindow = win;
-                        this.m_pathwayWindowTab = setSDockTab("PathwayWindow", this.m_pathwayWindow);
-                        AddTabPage(this.sDockBay1.MainPane, this.m_pathwayWindowTab);
+                        this.m_pathwayWindowDock = setDockContent("PathwayWindow", this.m_pathwayWindow);
+                        this.m_pathwayWindowDock.Show(this.dockPanel, DockState.Document);
                     }
                     else if (pName == "MessageWindow")
                     {
                         //MessageWindowを作成
                         this.m_messageWindow = win;
-                        this.m_messageWindowTab = setSDockTab("MessageWindow", this.m_messageWindow);
-                        AddTabPage(this.sDockBay1.MainPane, this.m_messageWindowTab, SDockDirection.Bottom);
+                        this.m_messageWindowDock = setDockContent("MessageWindow", this.m_messageWindow);
+                        this.m_messageWindowDock.Show(this.dockPanel, DockState.DockBottom);
                     }
                     else if (pName == "ObjectList")
                     {
                         //ObjectListを作成
                         this.m_objectList = win;
-                        this.m_objectListTab = setSDockTab("ObjectList", this.m_objectList);
-                        AddTabPage(this.sDockBay1.MainPane, this.m_objectListTab, SDockDirection.Right);
+                        this.m_objectListDock = setDockContent("ObjectList", this.m_objectList);
+                        this.m_objectListDock.Show(this.dockPanel, DockState.DockRight);
                     }
                     else if (pName == "PropertyWindow")
                     {
                         //PropertyWindowを作成
                         this.m_propertyWindow = win;
-                        this.m_propertyWindowTab = setSDockTab("PropertyWindow", this.m_propertyWindow);
-                        AddTabPage(this.sDockBay1.MainPane, this.m_propertyWindowTab, SDockDirection.Right);
+                        this.m_propertyWindowDock = setDockContent("PropertyWindow", this.m_propertyWindow);
+                        this.m_propertyWindowDock.Show(this.m_objectListDock.Pane, DockAlignment.Bottom, 0.5);
                     }
+
                 }
             }
             menuList = p.GetMenuStripItems();
@@ -384,19 +412,61 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// set SDockTag.
+        /// set DockContent
         /// </summary>
-        SDockTabPage setSDockTab(string name, UserControl win)
+        DockContent setDockContent(string name, UserControl win)
         {
-            Debug.WriteLine("create tab " + name);
+            Debug.WriteLine("create dock " + name);
             //新規タブの作成
-            SDockTabPage page = new SDockTabPage(name);
-            page.Keyword = name;
+            DockContent dock = new DockContent();
+            dock.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
+            dock.Name = name;
+            dock.Text = name;
             win.Dock = DockStyle.Fill;
-            page.Controls.Add(win);
+            dock.Controls.Add(win);
 
-            return page;
+            return dock;
         }
+
+        private void DockContent_Closing(object sender, FormClosingEventArgs e)
+        {
+            Debug.WriteLine(((DockContent)sender).Name + ":" + e.CloseReason);
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                ((DockContent)sender).Hide();
+                checkWindowMenu(((DockContent)sender).Name, false);
+                e.Cancel = true;
+            }
+            else
+            {
+                ((Form)sender).Controls.Clear();
+            }
+
+        }
+        private void checkWindowMenu(String name, bool checker)
+        {
+            if (name.Equals("EntityList"))
+            {
+                this.entityListToolStripMenuItem.Checked = checker;
+            }
+            else if (name.Equals("PathwayWindow"))
+            {
+                this.pathwayWindowToolStripMenuItem.Checked = checker;
+            }
+            else if (name.Equals("MessageWindow"))
+            {
+                this.messageWindowToolStripMenuItem.Checked = checker;
+            }
+            else if (name.Equals("ObjectList"))
+            {
+                this.objectListToolStripMenuItem.Checked = checker;
+            }
+            else if (name.Equals("PropertyWindow"))
+            {
+                this.propertyWindowToolStripMenuItem.Checked = checker;
+            }
+        }
+
 
         /// <summary>
         /// set base plugin data and load plugin.
@@ -1512,72 +1582,18 @@ namespace EcellLib.MainWindow
             PluginVersionListWindow w = new PluginVersionListWindow();
             w.ShowDialog();
         }
-
-        private void sDockBay1_BeforeCloseTabPage(object sender, BeforeCloseTabPageEventArgs e)
-        {
-            e.Cancel = false;
-            e.DoDispose = true;
-            foreach(SDockTabPage page in e.Tab) 
-            {
-                resetTab(page);
-            }
-
-        }
-        void resetTab(SDockTabPage page)
-        {
-            // タブの中身を削除
-            page.Controls.Clear();
-            Debug.WriteLine("remove tag " + page.Text);
-            //メニューからタブのチェックをオフ
-            tsmCheckOff(page.Text);
-        }
         
-        void tsmCheckOff(string name)
-        {
-            if (name == "EntityList")
-            {
-                //EntityListメニューをチェックオフ
-                entityListToolStripMenuItem.Checked = false;
-            }
-            else if (name == "PathwayWindow")
-            {
-                //PathwayWindowメニューをチェックオフ
-                pathwayWindowToolStripMenuItem.Checked = false;
-            }
-            else if (name == "MessageWindow")
-            {
-                //MessageWindowメニューをチェックオフ
-                messageWindowToolStripMenuItem.Checked = false;
-            }
-            else if (name == "ObjectList")
-            {
-                //ObjectListメニューをチェックオフ
-                objectListToolStripMenuItem.Checked = false;
-            }
-            else if (name == "PropertyWindow")
-            {
-                //PropertyWindowメニューをチェックオフ
-                propertyWindowToolStripMenuItem.Checked = false;
-            }
-        }
-
-
-        private void dockManager1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void saveWindowSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "SDock設定ファイル(*.sdc) |*.sdc";
+            sfd.Filter = "Window Setting File(*.xml) |*.xml";
             sfd.CheckPathExists = true;
             sfd.CreatePrompt = true;
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string fname = sfd.FileName;
-                string err = this.SerializeWindow(fname);
-                if (err.Length > 0) MessageBox.Show(err);
+                // 設定ファイル保存
+                this.dockPanel.SaveAsXml(fname);
             }
         }
 
@@ -1586,249 +1602,14 @@ namespace EcellLib.MainWindow
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
-            ofd.Filter = "SDock設定ファイル(*.sdc) |*.sdc";
+            ofd.Filter = "Window Setting File(*.xml) |*.xml";
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 string fname = ofd.FileName;
-                string err = this.DeserilizeWindow(fname, true);
-                if (err.Length > 0) MessageBox.Show(err);
-            }
-        }
-
-        /// <summary>
-        /// シリアル化します。
-        /// </summary>
-        /// <param name="fname"></param>
-        /// <returns></returns>
-        private string SerializeWindow(string fname)
-        {
-            string errMsg = "";
-            try
-            {
-                //Docking Windowの指定。
-                using (SDockBayConfig bayConf = new SDockBayConfig(this.sDockBay1))
-                {
-                    //オプション情報があればそれをタグに設定。
-                    MainFormState mfs = this.GetOption();
-
-                    //タグの使い方についてはMainFormStateクラスのコメントを参照下さい。
-                    bayConf.Tag = mfs;
-
-                    // 出力します。
-                    //bayConf.WriteToBinary(fname);
-                    bayConf.WriteToSoap(fname);
-                }
-            }
-            catch (Exception ex)
-            {
-                errMsg = "設定の保存に失敗しました" + ex.StackTrace;
-            }
-            return errMsg;
-        }
-
-        private MainFormState GetOption()
-        {
-            MainFormState mfs = new MainFormState();
-            mfs.FormRect = this.Bounds;
-            mfs.WindowState = this.WindowState;
-            Yukichika.Controls.ToolStripManagerEx tsm = new ToolStripManagerEx(this);
-            mfs.ToolStripManager = tsm;
-            return mfs;
-        }
-
-        /// <summary>
-        /// 逆シリアル化します。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private string DeserilizeWindow(string fname, bool useHidedelay)
-        {
-            string errMsg = "";
-            if (!File.Exists(fname)) return "存在しないファイルです";
-
-            bool isMaxim = false;
-            Rectangle cRect = this.Bounds;
-            Cursor cur = Cursor.Current;
-
-            {
-
-                Cursor.Current = Cursors.WaitCursor;
-                //ここから逆シリアル化
-
-                if (useHidedelay)
-                {
-                    this.WindowState = FormWindowState.Normal;
-                    foreach (SDockForm sfm in this.sDockBay1.Forms)
-                    {
-                        sfm.Visible = false;
-                    }
-                    this.Opacity = 0.9;
-                }
-                //Application.DoEvents();
-                try
-                {
-
-                    ///ファイル読み取り
-                    //using (SDockBayConfig bc = SDockBayConfig.ReadFromBinary(fname))
-                    using (SDockBayConfig bc = SDockBayConfig.ReadFromSoap(fname))
-
-                    {
-                        //②ファイルが読み取れなかったり、内容が明らかにおかしい
-                        //　（ドッキング領域が正しくないなど）の場合、HasErrorがtrueになります。
-                        bool ok = bc != null && !bc.HasError;
-                        if (ok)
-                        {
-
-                            ///③どのペインにどのコンテンツが含まれていたのか、確認します。
-                            int cnt = bc.AllPanes.Count;
-                            double rate = 0.9 / (double)Math.Max(1, cnt);
-                            resetWindowSelect();
-                            for (int i = 0; i < bc.AllPanes.Count; i++)
-                            {
-                                SDockPaneConfig pc = bc.AllPanes[i];
-                                double rate2 = rate / Math.Max(1.0, pc.PageList.Count);
-                                for (int j = 0; j < pc.PageList.Count; j++)
-                                {
-                                    //このインスタンスがページのKeywordを持っています。
-                                    SDockTabPageInfo tpi = pc.PageList[j];
-
-                                    //該当コンテンツを探す、もしくはキーを元に新しいインスタンスを作成します。
-                                    SDockTabPage tp = this.GetPageForDeserialize(tpi.Keyword);
-
-                                    //③－１ 復元対象のコンテンツをセットしてあげます。
-                                    if (tp != null) tpi.SetInstance(tp);
-                                    if (useHidedelay) this.Opacity = Math.Max(0, this.Opacity - rate2);
-                                }
-                            }
-                            
-                            if (this.Visible) this.Visible = false;
-                            //④復元します。
-                            //なお、この時SDockBayはPaneをリサイクルします。
-                            //つまり、足りなくなった数だけ、あらたにSDockPaneをインスタンス化します。
-                            //余ったSDockPane,STabPageに関しては、⑤で後処理をしてあげます。
-
-
-                            ///SDockBay以外のアプリケーション設定です。
-                            MainFormState mfs = bc.Tag as MainFormState;
-
-                            if (mfs != null)
-                            {
-                                if (mfs.WindowState == FormWindowState.Maximized)
-                                {
-                                    //最大化は可視化後に。こうすると、分離していたFormの位置が正しくなります。
-                                    //this.WindowState = FormWindowState.Maximized;
-                                    isMaxim = true;
-                                }
-                                if (!mfs.FormRect.IsEmpty)
-                                {
-                                    Rectangle r = System.Windows.Forms.Screen.GetBounds(this);
-                                    this.ResetRect(r, mfs.FormRect);
-                                }
-
-                                //④－１　このメソッドでドッキングの再現が行われます。
-                                this.sDockBay1.LoadFrom(bc, false);
-                                
-                            }
-                            else
-                            {
-                                //④－１　このメソッドでドッキングの再現が行われます。
-                                this.sDockBay1.LoadFrom(bc, false);
-
-                            }
-
-                            //⑤後処理です。不要になったインスタンスがあればそれをDisposeしてあげます。
-                            for (int i = 0; i < bc.TrashAllTabPages.Count; i++)
-                            {
-                                SDockTabPage tp = bc.TrashAllTabPages[i];
-                                tp.Controls.Clear();
-                                tp.Dispose(true, true);
-                            }
-                            for (int i = 0; i < bc.TrashPanes.Count; i++)
-                            {
-                                bc.TrashPanes[i].Dispose();
-                            }
-
-                        }
-                        else
-                        {
-                            errMsg = "設定の取得に失敗しました。ファイルの内容が正しくありません。";
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    errMsg = "設定の取得に失敗しました" + ex.StackTrace;
-                }
-
-
-                if (isMaxim)
-                {
-                    this.SuspendLayout();
-                    this.Bounds = cRect;
-                    this.Opacity = 0.01;
-                    this.Visible = true;
-                    ////一旦最小化をすると、なぜかメモリ使用率減ります。いい機会に。
-                    //あんまりかわらなかったので無茶はしないことに。
-                    this.WindowState = FormWindowState.Minimized;
-                    SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
-                    //GC.Collect();
-                    this.WindowState = FormWindowState.Maximized;
-                    this.ResumeLayout();
-                    Application.DoEvents();
-                }
-                else
-                {
-                    this.Opacity = 0.01;
-                    this.Visible = true;
-                    //一旦最小化をすると、なぜかメモリ使用率減ります。いい機会に。
-                    //あんまりかわらなかったので無茶はしないことに。
-                    this.WindowState = FormWindowState.Minimized;
-                    SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
-                    //GC.Collect();
-                    this.WindowState = FormWindowState.Normal;
-                    Application.DoEvents();
-                }
-                ///SDockFormではforeachでVisible=true,Show等を使用しないで下さい。
-                ///これらの操作では、zオーダー維持のために内部で配列の順序入れ替えが行われています。
-                int fcnt = this.sDockBay1.Forms.Count;
-                List<SDockForm> fmlist = new List<SDockForm>(this.sDockBay1.Forms);
-                for (int i = 0; i < fcnt; i++)
-                {
-                    SDockForm sfm = fmlist[i];
-                    sfm.Opacity = 0;
-                    this.sDockBay1.ShowForm(sfm);
-                    sfm.Opacity = 0.01;
-                }
-
-                Application.DoEvents();
-
-
-                //最後に飾り付けで透明度でフェードイン
-
-                for (int i = 0; i < 10; i++)
-                {
-                    this.Opacity += 0.09;
-                    for (int j = 0; j < fcnt; j++)
-                    {
-                        SDockForm sfm = fmlist[j];
-                        sfm.Opacity += 0.09;
-                    }
-                    Application.DoEvents();
-                }
-
-                for (int i = 0; i < fcnt; i++)
-                {
-                    SDockForm sfm = fmlist[i];
-                    sfm.Opacity = 1.0;
-                    Application.DoEvents();
-                }
-                this.Opacity = 1;
-                Application.DoEvents();
+                // 設定ファイルロード
 
             }
-            Cursor.Current = cur;
-            return errMsg;
         }
 
         void resetWindowSelect()
@@ -1840,50 +1621,6 @@ namespace EcellLib.MainWindow
             this.propertyWindowToolStripMenuItem.Checked = false;
         }
 
-        /// <summary>
-        /// 必要なコンテンツを返します。
-        /// このアプリケーションでは、いくつかの種類のコンテンツに分かれているため、
-        /// このような形式を取ってます。
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        private SDockTabPage GetPageForDeserialize(string key)
-        {
-            if (key.StartsWith("EntityList"))
-            {
-                this.m_entityListTab = setSDockTab("EntityList", this.m_entityList);
-                this.entityListToolStripMenuItem.Checked = true;
-                return this.m_entityListTab;
-            }
-            else if (key.Equals("PathwayWindow"))
-            {
-                this.m_pathwayWindowTab = setSDockTab("PathwayWindow", this.m_pathwayWindow);
-                this.pathwayWindowToolStripMenuItem.Checked = true;
-                return this.m_pathwayWindowTab;
-            }
-            else if (key.Equals("MessageWindow"))
-            {
-                this.m_messageWindowTab = setSDockTab("MessageWindow", this.m_messageWindow);
-                this.messageWindowToolStripMenuItem.Checked = true;
-                return this.m_messageWindowTab;
-            }
-            else if (key.Equals("ObjectList"))
-            {
-                this.m_objectListTab = setSDockTab("ObjectList", this.m_objectList);
-                this.objectListToolStripMenuItem.Checked = true;
-                return this.m_objectListTab;
-            }
-            else if (key.Equals("PropertyWindow"))
-            {
-                this.m_propertyWindowTab = setSDockTab("PropertyWindow", this.m_propertyWindow);
-                this.propertyWindowToolStripMenuItem.Checked = true;
-                return this.m_propertyWindowTab;
-            }
-            else
-            {
-                return null;
-            }
-        }
 
         [System.Runtime.InteropServices.DllImport("kernel32.dll")]
         public static extern bool SetProcessWorkingSetSize(IntPtr hwnd, int min, int max);
@@ -1916,53 +1653,47 @@ namespace EcellLib.MainWindow
             if (entityListToolStripMenuItem.Checked)
             {
                 //EntityListを閉じる
-                resetTab(this.m_entityListTab);
-                this.m_entityListTab.Dispose();
+                this.m_entityListDock.Hide();
                 entityListToolStripMenuItem.Checked = false;
             }
             else
             {
-                this.m_entityListTab = setSDockTab("EntityList", this.m_entityList);
-                AddTabPage(this.sDockBay1.MainPane, this.m_entityListTab, SDockDirection.Left);
+                //EntityListを開く
+                this.m_entityListDock.Show();
                 entityListToolStripMenuItem.Checked = true;
             }
-            this.sDockBay1.MainPane.Refresh();
         }
 
         private void pathwayWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (pathwayWindowToolStripMenuItem.Checked)
             {
-                //PathwayWindowを閉じる
-                resetTab(this.m_pathwayWindowTab);
-                this.m_pathwayWindowTab.Dispose();
+                //pathwayWindowを閉じる
+                this.m_pathwayWindowDock.Hide();
                 pathwayWindowToolStripMenuItem.Checked = false;
             }
             else
             {
-                SDockTabPage page = setSDockTab("PathwayWindow", this.m_pathwayWindow);
-                AddTabPage(this.sDockBay1.MainPane, page);
+                //pathwayWindowを開く
+                this.m_pathwayWindowDock.Show();
                 pathwayWindowToolStripMenuItem.Checked = true;
             }
-            this.sDockBay1.MainPane.Refresh();
         }
 
         private void messageWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (messageWindowToolStripMenuItem.Checked)
             {
-                //MessageWindowを閉じる
-                resetTab(this.m_messageWindowTab);
-                this.m_messageWindowTab.Dispose();
+                //messageWindowを閉じる
+                this.m_messageWindowDock.Hide();
                 messageWindowToolStripMenuItem.Checked = false;
             }
             else
             {
-                SDockTabPage page = setSDockTab("MessageWindow", this.m_messageWindow);
-                AddTabPage(this.sDockBay1.MainPane, page, SDockDirection.Bottom);
+                //messageWindowを開く
+                this.m_messageWindowDock.Show();
                 messageWindowToolStripMenuItem.Checked = true;
             }
-            this.sDockBay1.MainPane.Refresh();
         }
 
         private void objectListToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1970,17 +1701,15 @@ namespace EcellLib.MainWindow
             if (objectListToolStripMenuItem.Checked)
             {
                 //ObjectListを閉じる
-                resetTab(this.m_objectListTab);
-                this.m_objectListTab.Dispose();
+                this.m_objectListDock.Hide();
                 objectListToolStripMenuItem.Checked = false;
             }
             else
             {
-                SDockTabPage page = setSDockTab("ObjectList", this.m_objectList);
-                AddTabPage(this.sDockBay1.MainPane, page, SDockDirection.Right);
+                //ObjectListを開く
+                this.m_objectListDock.Show();
                 objectListToolStripMenuItem.Checked = true;
             }
-            this.sDockBay1.MainPane.Refresh();
         }
 
         private void propertyWindowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1988,43 +1717,15 @@ namespace EcellLib.MainWindow
             if (propertyWindowToolStripMenuItem.Checked)
             {
                 //PropertyWindowを閉じる
-                resetTab(this.m_propertyWindowTab);
-                this.m_propertyWindowTab.Dispose();
+                this.m_propertyWindowDock.Hide();
                 propertyWindowToolStripMenuItem.Checked = false;
             }
             else
             {
-                SDockTabPage page = setSDockTab("PropertyWindow", this.m_propertyWindow);
-                AddTabPage(this.sDockBay1.MainPane, page, SDockDirection.Right);
+                //PropertyWindowを開く
+                this.m_propertyWindowDock.Show();
                 propertyWindowToolStripMenuItem.Checked = true;
             }
-            this.sDockBay1.MainPane.Refresh();
-        }
-
-        private void AddTabPage(SDockPane pane, SDockTabPage page, SDockDirection direction)
-        {
-            Debug.WriteLine("add tab " + page.Text);
-            //新規Paneの作成
-            SDockPane newPane = new SDockPane(this.sDockBay1);
-            newPane.SuspendLayout();
-            page.SuspendLayout();
-
-            newPane.Add(page);
-            this.sDockBay1.Add(newPane, pane, direction);
-
-            page.ResumeLayout();
-            newPane.ResumeLayout();
-        }
-        private void AddTabPage(SDockPane pane, SDockTabPage page)
-        {
-            Debug.WriteLine("add tab " + page.Text);
-            pane.SuspendLayout();
-            page.SuspendLayout();
-
-            pane.Add(page);
-
-            page.ResumeLayout();
-            pane.ResumeLayout();
         }
 
         private void SetupIDEMenuClick(object sender, EventArgs e)
@@ -2034,8 +1735,6 @@ namespace EcellLib.MainWindow
         }
 
     }
-
-    
 
     /// <summary>
     /// select directory dialog for set e-cell base directory.
@@ -2080,136 +1779,6 @@ namespace EcellLib.MainWindow
             }
             return result;
         }
-    }
-
-    /// <summary>
-    /// サンプルフォームの状態を保持しておくクラスです。
-    /// </summary>
-    [Serializable]
-    [YukSerialize("sdmmbconf")] //この属性を付けない場合は、Type.FullNameプロパティが使用されます。難読化アセンブリ対応の属性です。
-    public class MainFormState : IYukiSerializable
-    {
-        #region SDockBayConfig.Tagプロパティに関して
-        /*
-         * IYukiSerializableでbayをシリアル化する場合は、逆シリアル化に
-         * IYukiSerializableインターフェースを実装していなければなりません。
-         * Binary及びSoapシリアル化しか使用しない場合は
-         * クラスの先頭にSerializable属性を付与しておけば良いだけなのですが、
-         * IYukiSerializableでは今のところそうはいかないため、
-         * このような仕様になっています。
-         * 
-         * Binary,Soapのみ利用する場合は空実装で問題ありません。
-         * */
-        #endregion
-
-        public MainFormState()
-        {
-            mHoverSelRange = 2;
-            mHoverSelTime = 2;
-        }
-
-        private Rectangle mFormRect;
-        public Rectangle FormRect
-        {
-            get { return mFormRect; }
-            set { mFormRect = value; }
-        }
-
-        private FormWindowState mWindowState;
-        public FormWindowState WindowState
-        {
-            get { return mWindowState; }
-            set { mWindowState = value; }
-        }
-
-        private bool mEnabledEventLog;
-        public bool BlockLogging
-        {
-            get { return mEnabledEventLog; }
-            set { mEnabledEventLog = value; }
-        }
-
-
-        private bool mEnabledHoverSelect;
-        public bool EnabledHoverSelect
-        {
-            get { return mEnabledHoverSelect; }
-            set { mEnabledHoverSelect = value; }
-        }
-        private int mHoverSelTime;
-        public int HoverSelTime
-        {
-            get
-            {
-                if (mHoverSelTime < 0 || mHoverSelTime > 4) mHoverSelTime = 2;
-                return mHoverSelTime;
-            }
-            set { mHoverSelTime = value; }
-        }
-        private int mHoverSelRange;
-        public int HoverSelRange
-        {
-            get
-            {
-                if (mHoverSelRange < 0 || mHoverSelRange > 4) mHoverSelRange = 2;
-                return mHoverSelRange;
-            }
-            set
-            {
-                mHoverSelRange = value;
-            }
-        }
-
-        private int mMaxPageCount;
-        public int MaxPageCount
-        {
-            get { return mMaxPageCount; }
-            set { mMaxPageCount = Math.Max(0, value); }
-        }
-
-        #region ツールストリップ
-        private Yukichika.Controls.ToolStripManagerEx mToolStripManager;
-        public Yukichika.Controls.ToolStripManagerEx ToolStripManager
-        {
-            get { return mToolStripManager; }
-            set { mToolStripManager = value; }
-        }
-
-        #endregion
-
-        #region IYukiSerializable メンバ
-
-        public void DeSerialize(ref YukSerializeNode node)
-        {
-            mFormRect = node.GetRectangle("formrect", Rectangle.Empty);
-
-            mWindowState = (FormWindowState)Enum.ToObject(typeof(FormWindowState)
-                        , node.GetInt("windowstate", (int)FormWindowState.Normal));
-
-            mEnabledEventLog = node.GetBool("enabledeventlog", true);
-
-            mHoverSelRange = node.GetInt("hoverselrange", 2);
-            mHoverSelTime = node.GetInt("hoverseltime", 2);
-            mEnabledHoverSelect = node.GetBool("enabledhoversel", false);
-
-            mToolStripManager = node.GetObject("toolstrips", null) as ToolStripManagerEx;
-        }
-
-        public void Serialize(ref YukSerializeNode node)
-        {
-            node.Set(mFormRect, "formrect");
-            node.Set(mWindowState, "windowstate");
-
-            node.Set(mEnabledEventLog, "useeventlog");
-
-            node.Set(mEnabledHoverSelect, "enabledhoversel");
-            node.Set(mHoverSelTime, "hoverseltime");
-            node.Set(mHoverSelRange, "hoverselrange");
-
-            node.Set(mToolStripManager, "toolstrips");
-        }
-
-        #endregion
     }
 
 }
