@@ -160,20 +160,20 @@ namespace EcellLib.EntityListWindow {
         }
         
         /// <summary>
-        ///   Delete with Component に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string PopDeleteWithText {
-            get {
-                return ResourceManager.GetString("PopDeleteWithText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Delete logger に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PopDelLoggerText {
             get {
                 return ResourceManager.GetString("PopDelLoggerText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Merge to super system に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PopMergeText {
+            get {
+                return ResourceManager.GetString("PopMergeText", resourceCulture);
             }
         }
         

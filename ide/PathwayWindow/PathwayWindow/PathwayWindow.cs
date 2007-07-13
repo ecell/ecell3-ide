@@ -662,7 +662,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="key"></param>
         /// <param name="type"></param>
-        public void NotifyDataDeleteWith(string key, string type)
+        public void NotifyDataMerge(string key, string type)
         {
             DataManager dm = DataManager.GetDataManager();
             dm.SystemDeleteAndMove(m_modelId, key);

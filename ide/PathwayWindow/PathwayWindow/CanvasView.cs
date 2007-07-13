@@ -726,15 +726,16 @@ namespace EcellLib.PathwayWindow
             m_nodeMenu.Items.Add(separator2);
             m_cMenuDict.Add( CANVAS_MENU_SEPARATOR2, separator2);
 
-            ToolStripItem deleteWith = new ToolStripMenuItem(m_resources.GetString("DeleteWithMenuText"));
-            deleteWith.Click += new EventHandler(DeleteClickWith);
-            m_nodeMenu.Items.Add(deleteWith);
-            m_cMenuDict.Add(CANVAS_MENU_DELETE_WITH, deleteWith);
-
             ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString("DeleteMenuText"));
             delete.Click += new EventHandler(DeleteClick);
             m_nodeMenu.Items.Add(delete);
             m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
+
+            ToolStripItem deleteWith = new ToolStripMenuItem(m_resources.GetString("MergeMenuText"));
+            deleteWith.Click += new EventHandler(MergeClick);
+            m_nodeMenu.Items.Add(deleteWith);
+            m_cMenuDict.Add(CANVAS_MENU_DELETE_WITH, deleteWith);
+
 
 
 #if DEBUG
@@ -1087,7 +1088,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void DeleteClick(object sender, EventArgs e)
+        void MergeClick(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmDelete"),
                 "Delete",
@@ -1122,7 +1123,7 @@ namespace EcellLib.PathwayWindow
 
                     try
                     {
-                        m_pathwayView.NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System);
+                        m_pathwayView.NotifyDataMerge(deleteSystem.Element.Key, ComponentType.System);
                     }
                     catch (IgnoreException)
                     {
@@ -1158,7 +1159,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void DeleteClickWith(object sender, EventArgs e)
+        void DeleteClick(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmDelete"),
                 "Delete",
@@ -1227,7 +1228,7 @@ namespace EcellLib.PathwayWindow
 
                 try
                 {
-                    m_pathwayView.NotifyDataDeleteWith(deleteSystem.Element.Key, ComponentType.System);
+                    m_pathwayView.NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System);
                 }
                 catch (IgnoreException)
                 {

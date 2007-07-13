@@ -99,8 +99,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_BIDIR_ARROW ].Visible = false;
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_CONSTANT_LINE ].Visible = false;
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_SEPARATOR2 ].Visible = true;
-                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_DELETE_WITH ].Visible = true;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = false;
+                    m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_DELETE_WITH ].Visible = false;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = true;
                 }
                 else if (m_cview.NodeMenu.Tag is Line)
                 {
@@ -141,8 +141,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Tag = m_cview.NodeMenu.Tag;
 
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR2].Visible = true;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_WITH].Visible = true;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = false;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_WITH].Visible = false;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = true;
                 }
                 else if (m_cview.NodeMenu.Tag is PEcellSystem)
                 {

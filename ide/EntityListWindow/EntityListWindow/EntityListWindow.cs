@@ -222,7 +222,7 @@ namespace EcellLib.EntityListWindow
             addVar.Text = m_resources.GetString("PopAddVariableText");
             addProc.Text = m_resources.GetString("PopAddProcessText");
             del.Text = m_resources.GetString("PopDeleteText");
-            delwith.Text = m_resources.GetString("PopDeleteWithText");
+            delwith.Text = m_resources.GetString("PopMergeText");
             searchMenu.Text = m_resources.GetString("PopSearchText");
             sortNameMenu.Text = m_resources.GetString("SortNameText");
             sortTypeMenu.Text = m_resources.GetString("SortTypeText");
@@ -244,7 +244,7 @@ namespace EcellLib.EntityListWindow
             addVar.Click += new EventHandler(TreeviewAddVariable);
             addProc.Click += new EventHandler(TreeviewAddProcess);
             del.Click += new EventHandler(TreeviewDelete);
-            delwith.Click += new EventHandler(TreeviewDeleteWith);
+            delwith.Click += new EventHandler(TreeviewMerge);
             searchMenu.Click += new EventHandler(TreeviewSearch);
             sortNameMenu.Click += new EventHandler(TreeViewSortName);
             sortTypeMenu.Click += new EventHandler(TreeViewSortType);
@@ -822,7 +822,6 @@ namespace EcellLib.EntityListWindow
             {
 //                m_targetNode.Remove();
                 if (tag.m_type == "Model") m_dManager.DataDelete(tag.m_modelID, null, "Model");
-                else if (tag.m_type == "System") m_dManager.SystemDeleteAndMove(tag.m_modelID, tag.m_key);
                 else m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
                 if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
             }
@@ -840,7 +839,7 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         /// <param name="sender">object (MenuItem)</param>
         /// <param name="e">EventArgs</param>
-        public void TreeviewDeleteWith(object sender, EventArgs e)
+        public void TreeviewMerge(object sender, EventArgs e)
         {
             string modelID = null;
             string key = null;
@@ -862,6 +861,7 @@ namespace EcellLib.EntityListWindow
             {
                 //                m_targetNode.Remove();
                 if (tag.m_type == "Model") m_dManager.DataDelete(tag.m_modelID, null, "Model");
+                else if (tag.m_type == "System") m_dManager.SystemDeleteAndMove(tag.m_modelID, tag.m_key);
                 else m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
                 if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
             }

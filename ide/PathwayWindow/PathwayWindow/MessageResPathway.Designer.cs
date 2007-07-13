@@ -70,20 +70,11 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
-        ///   Delete with Component に類似しているローカライズされた文字列を検索します。
+        ///   Delete に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DeleteMenuText {
             get {
                 return ResourceManager.GetString("DeleteMenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DeleteWithMenuText {
-            get {
-                return ResourceManager.GetString("DeleteWithMenuText", resourceCulture);
             }
         }
         
@@ -219,6 +210,15 @@ namespace EcellLib.PathwayWindow {
         internal static string MenuItemShowIDText {
             get {
                 return ResourceManager.GetString("MenuItemShowIDText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Merge to super system に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MergeMenuText {
+            get {
+                return ResourceManager.GetString("MergeMenuText", resourceCulture);
             }
         }
         

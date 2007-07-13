@@ -1406,13 +1406,13 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="key">the key of deleted object.</param>
         /// <param name="type">the type of deleted object.</param>
-        public void NotifyDataDeleteWith(string key, ComponentType type)
+        public void NotifyDataMerge(string key, ComponentType type)
         {
             switch (type)
             {
                 case ComponentType.System:
                     if (m_pathwayWindow != null)
-                        m_pathwayWindow.NotifyDataDeleteWith(key, SYSTEM_STRING);
+                        m_pathwayWindow.NotifyDataMerge(key, SYSTEM_STRING);
                     if (m_keySysCanvasDict.ContainsKey(key))
                         m_keySysCanvasDict.Remove(key);
                     break;

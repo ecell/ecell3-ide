@@ -121,9 +121,6 @@
     <value>Are you sure you want to delete?</value>
   </data>
   <data name="DeleteMenuText" xml:space="preserve">
-    <value>Delete with Component</value>
-  </data>
-  <data name="DeleteWithMenuText" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="ErrAddObj" xml:space="preserve">
@@ -170,6 +167,9 @@
   </data>
   <data name="MenuItemShowIDText" xml:space="preserve">
     <value>Show &amp;IDs(Pathway)</value>
+  </data>
+  <data name="MergeMenuText" xml:space="preserve">
+    <value>Merge to super system</value>
   </data>
   <data name="MsgLayoutNoNode" xml:space="preserve">
     <value>Please select at least one node to layout</value>

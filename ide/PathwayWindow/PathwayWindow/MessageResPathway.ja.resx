@@ -121,9 +121,6 @@
     <value>本当に削除してよろしいですか？</value>
   </data>
   <data name="DeleteMenuText" xml:space="preserve">
-    <value>全て削除</value>
-  </data>
-  <data name="DeleteWithMenuText" xml:space="preserve">
     <value>削除</value>
   </data>
   <data name="ErrAddObj" xml:space="preserve">
@@ -170,6 +167,9 @@
   </data>
   <data name="MenuItemShowIDText" xml:space="preserve">
     <value>ID表示/非表示(&amp;I)</value>
+  </data>
+  <data name="MergeMenuText" xml:space="preserve">
+    <value>マージ</value>
   </data>
   <data name="MsgLayoutNoNode" xml:space="preserve">
     <value>レイアウトをする１つ以上のノードを選択して下さい</value>

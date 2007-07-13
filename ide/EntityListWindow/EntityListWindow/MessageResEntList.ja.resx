@@ -151,11 +151,11 @@
   <data name="PopDeleteText" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="PopDeleteWithText" xml:space="preserve">
-    <value>全て削除</value>
-  </data>
   <data name="PopDelLoggerText" xml:space="preserve">
     <value>ロガー解除</value>
+  </data>
+  <data name="PopMergeText" xml:space="preserve">
+    <value>マージ</value>
   </data>
   <data name="PopSearchText" xml:space="preserve">
     <value>検索...</value>
