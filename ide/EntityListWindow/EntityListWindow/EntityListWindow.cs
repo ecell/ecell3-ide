@@ -153,6 +153,10 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         MenuItem m_delTopSysLogger;
         /// <summary>
+        /// Cotext menu for merge of system on popup menu.
+        /// </summary>
+        MenuItem m_merge;
+        /// <summary>
         /// ComponentResourceManager for EntityListWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResEntList));
@@ -196,7 +200,6 @@ namespace EcellLib.EntityListWindow
             MenuItem addVar = new MenuItem();
             MenuItem addProc = new MenuItem();
             MenuItem del = new MenuItem();
-            MenuItem delwith = new MenuItem();
             MenuItem searchMenu = new MenuItem();
             MenuItem separator = new MenuItem("-");
             MenuItem sortNameMenu = new MenuItem();
@@ -209,6 +212,7 @@ namespace EcellLib.EntityListWindow
             m_delProcLogger = new MenuItem();
             m_creVarLogger = new MenuItem();
             m_delVarLogger = new MenuItem();
+            m_merge = new MenuItem();
             m_creSysLogger.Text = m_resources.GetString("PopCreLoggerText");
             m_delSysLogger.Text = m_resources.GetString("PopDelLoggerText");
             m_creTopSysLogger.Text = m_resources.GetString("PopCreLoggerText");
@@ -217,12 +221,12 @@ namespace EcellLib.EntityListWindow
             m_delProcLogger.Text = m_resources.GetString("PopDelLoggerText");
             m_creVarLogger.Text = m_resources.GetString("PopCreLoggerText");
             m_delVarLogger.Text = m_resources.GetString("PopDelLoggerText");
+            m_merge.Text = m_resources.GetString("PopMergeText");
             addModel.Text = m_resources.GetString("PopAddModelText");
             addSystem.Text = m_resources.GetString("PopAddSystemText");
             addVar.Text = m_resources.GetString("PopAddVariableText");
             addProc.Text = m_resources.GetString("PopAddProcessText");
             del.Text = m_resources.GetString("PopDeleteText");
-            delwith.Text = m_resources.GetString("PopMergeText");
             searchMenu.Text = m_resources.GetString("PopSearchText");
             sortNameMenu.Text = m_resources.GetString("SortNameText");
             sortTypeMenu.Text = m_resources.GetString("SortTypeText");
@@ -232,7 +236,7 @@ namespace EcellLib.EntityListWindow
             addVar.Index = 3;
             addProc.Index = 4;
             del.Index = 6;
-            delwith.Index = 6;
+            m_merge.Index = 6;
             m_creProcLogger.Index = 9;
             m_delProcLogger.Index = 10;
             m_creVarLogger.Index = 9;
@@ -244,7 +248,7 @@ namespace EcellLib.EntityListWindow
             addVar.Click += new EventHandler(TreeviewAddVariable);
             addProc.Click += new EventHandler(TreeviewAddProcess);
             del.Click += new EventHandler(TreeviewDelete);
-            delwith.Click += new EventHandler(TreeviewMerge);
+            m_merge.Click += new EventHandler(TreeviewMerge);
             searchMenu.Click += new EventHandler(TreeviewSearch);
             sortNameMenu.Click += new EventHandler(TreeViewSortName);
             sortTypeMenu.Click += new EventHandler(TreeViewSortType);
@@ -280,7 +284,7 @@ namespace EcellLib.EntityListWindow
                     addProc.CloneMenu(), 
                     separator.CloneMenu(),
                     del.CloneMenu(),
-                    delwith.CloneMenu(),
+                    m_merge,
                     separator.CloneMenu(), 
                     m_creSysLogger, 
                     m_delSysLogger,
@@ -1060,6 +1064,9 @@ namespace EcellLib.EntityListWindow
                     }
                     else
                     {
+                        String superSys = tag.m_key.Substring(0, tag.m_key.LastIndexOf("/"));
+                        if (superSys == "") superSys = "/";
+                        m_merge.Text = m_resources.GetString("PopMergeText") + "(" + superSys +  ")";
                         m_form.treeView1.ContextMenu = m_systemMenu;
                     }
                     m_currentObj = obj;

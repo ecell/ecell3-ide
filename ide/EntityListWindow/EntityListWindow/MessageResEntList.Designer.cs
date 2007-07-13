@@ -169,7 +169,7 @@ namespace EcellLib.EntityListWindow {
         }
         
         /// <summary>
-        ///   Merge to super system に類似しているローカライズされた文字列を検索します。
+        ///   Merge to supersystem に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PopMergeText {
             get {

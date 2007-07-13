@@ -169,7 +169,7 @@
     <value>Show &amp;IDs(Pathway)</value>
   </data>
   <data name="MergeMenuText" xml:space="preserve">
-    <value>Merge to super system</value>
+    <value>Merge to supersystem</value>
   </data>
   <data name="MsgLayoutNoNode" xml:space="preserve">
     <value>Please select at least one node to layout</value>

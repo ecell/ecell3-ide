@@ -33,6 +33,7 @@ using System.Text;
 using System.Drawing.Drawing2D;
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Event;
@@ -51,6 +52,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// CanvasView to which this PathwayCanvas belongs
         /// </summary>
         protected CanvasView m_cview = null;
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
 
         /// <summary>
         /// Constructor
@@ -155,9 +157,22 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_BIDIR_ARROW].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Visible = false;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR2].Visible = true;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_WITH].Visible = true;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = true;
+                    if (n.Element.Key != "/")
+                    {
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR2].Visible = true;
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_WITH].Visible = true;
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = true;
+                        String superSys = n.Element.Key.Substring(0, n.Element.Key.LastIndexOf("/"));
+                        if (superSys == "") superSys = "/";
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_WITH].Text =
+                            m_resources.GetString("MergeMenuText") + "(" + superSys + ")";
+                    }
+                    else
+                    {
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR2].Visible = false;
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_WITH].Visible = false;
+                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = false;
+                    }
                 }
                 else
                 {
