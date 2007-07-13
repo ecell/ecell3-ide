@@ -142,6 +142,13 @@ namespace InstallSupport
             try
             {
                 base.Install(stateSaver);
+                String message = "Intel       : " + this.Context.Parameters["Intel"] + "\n" +
+                                "Intel64     : " + this.Context.Parameters["Intel64"] + "\n" +
+                                "Msix64      : " + this.Context.Parameters["Msix64"] + "\n" +
+                                "VersionNT   : " + this.Context.Parameters["VNT"] + "\n" +
+                                "VersionNT64 : " + this.Context.Parameters["VNT64"];
+              
+                MessageBox.Show(message);
                 /*
                 string addedPath = this.Context.Parameters[s_addedPathKey];
                 if (addedPath.IndexOf(s_delimKey) < 0)
