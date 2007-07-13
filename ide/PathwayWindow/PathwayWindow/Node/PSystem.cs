@@ -138,8 +138,11 @@ namespace EcellLib.PathwayWindow.Node
                         dummyParent = base.Parent;
                     else
                         dummyParent = dummyParent.Parent;
-                    OffsetToLayer.X = OffsetToLayer.X + dummyParent.OffsetX;
-                    OffsetToLayer.Y = OffsetToLayer.Y + dummyParent.OffsetY;
+                    if (dummyParent != null)
+                    {
+                        OffsetToLayer.X = OffsetToLayer.X + dummyParent.OffsetX;
+                        OffsetToLayer.Y = OffsetToLayer.Y + dummyParent.OffsetY;
+                    }
                 } while (!(dummyParent.Parent is PLayer));
                 return OffsetToLayer;
             }

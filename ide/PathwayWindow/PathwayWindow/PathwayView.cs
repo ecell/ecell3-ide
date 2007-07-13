@@ -1402,6 +1402,25 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Notify DataDelete event to outsite.
+        /// </summary>
+        /// <param name="key">the key of deleted object.</param>
+        /// <param name="type">the type of deleted object.</param>
+        public void NotifyDataDeleteWith(string key, ComponentType type)
+        {
+            switch (type)
+            {
+                case ComponentType.System:
+                    if (m_pathwayWindow != null)
+                        m_pathwayWindow.NotifyDataDeleteWith(key, SYSTEM_STRING);
+                    if (m_keySysCanvasDict.ContainsKey(key))
+                        m_keySysCanvasDict.Remove(key);
+                    break;
+            }
+        }
+
+
+        /// <summary>
         /// Notify SelectChanged event to outside.
         /// </summary>
         /// <param name="key">the key of selected object.</param>
@@ -2065,6 +2084,14 @@ namespace EcellLib.PathwayWindow
             else
             {
                 this.CanvasDictionary[e.Canvas.Name].NodeMenu.Tag = e.PickedNode;
+                foreach (String iName in CanvasDictionary[e.Canvas.Name].ContextMenuDict.Keys)
+                {
+                    if (iName.StartsWith("delete"))
+                    {
+                        CanvasDictionary[e.Canvas.Name].ContextMenuDict[iName].Tag = e.PickedNode;
+                    }
+                }
+/*
                 foreach (ToolStripItem item in this.CanvasDictionary[e.Canvas.Name].NodeMenu.Items)
                 {
                     if ("Delete".Equals(item.Text))
@@ -2072,6 +2099,7 @@ namespace EcellLib.PathwayWindow
                         item.Tag = e.PickedNode;
                     }
                 }
+ */
             }
         }
 
@@ -2114,13 +2142,21 @@ namespace EcellLib.PathwayWindow
             //else
             //{
                 this.CanvasDictionary[e.Canvas.Name].NodeMenu.Tag = e.PickedNode;
-                foreach (ToolStripItem item in this.CanvasDictionary[e.Canvas.Name].NodeMenu.Items)
+                foreach (String iName in CanvasDictionary[e.Canvas.Name].ContextMenuDict.Keys)
+                {
+                    if (iName.StartsWith("delete"))
+                    {
+                        CanvasDictionary[e.Canvas.Name].ContextMenuDict[iName].Tag = e.PickedNode;
+                    }
+                }
+/*                foreach (ToolStripItem item in this.CanvasDictionary[e.Canvas.Name].NodeMenu.Items)
                 {
                     if ("Delete".Equals(item.Text))
                     {
                         item.Tag = e.PickedNode;
                     }
                 }
+ */
             //}
         }
 

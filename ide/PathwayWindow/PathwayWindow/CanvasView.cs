@@ -123,6 +123,11 @@ namespace EcellLib.PathwayWindow
         public static readonly string CANVAS_MENU_DELETE = "delete";
 
         /// <summary>
+        /// Key definition of m_cMenuDict for delete
+        /// </summary>
+        public static readonly string CANVAS_MENU_DELETE_WITH = "deletewith";
+
+        /// <summary>
         /// Key definition of m_cMenuDict for separator1
         /// </summary>
         public static readonly string CANVAS_MENU_SEPARATOR1 = "separator1";
@@ -664,7 +669,7 @@ namespace EcellLib.PathwayWindow
             int count = 0;
             foreach(ILayoutAlgorithm algorithm in m_pathwayView.Window.LayoutAlgorithm)
             {
-                ToolStripMenuItem algoItem = new ToolStripMenuItem(algorithm.GetName());
+                ToolStripMenuItem algoItem = new ToolStripMenuItem(algorithm.GetMenuText());
                 algoItem.Tag = count;
                 algoItem.ToolTipText = algorithm.GetToolTipText();
                 algoItem.Click += new EventHandler(m_pathwayView.Window.eachLayoutItem_Click);
@@ -721,10 +726,16 @@ namespace EcellLib.PathwayWindow
             m_nodeMenu.Items.Add(separator2);
             m_cMenuDict.Add( CANVAS_MENU_SEPARATOR2, separator2);
 
-            ToolStripItem delete = new ToolStripMenuItem("Delete");
+            ToolStripItem deleteWith = new ToolStripMenuItem(m_resources.GetString("DeleteWithMenuText"));
+            deleteWith.Click += new EventHandler(DeleteClickWith);
+            m_nodeMenu.Items.Add(deleteWith);
+            m_cMenuDict.Add(CANVAS_MENU_DELETE_WITH, deleteWith);
+
+            ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString("DeleteMenuText"));
             delete.Click += new EventHandler(DeleteClick);
             m_nodeMenu.Items.Add(delete);
             m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
+
 
 #if DEBUG
             ToolStripItem debug = new ToolStripMenuItem("Debug");
@@ -1092,40 +1103,6 @@ namespace EcellLib.PathwayWindow
                         Object obj = ((ToolStripItem)sender).Tag;
             */
 
-
-            if (this.SelectedNodes != null)
-            {
-                List<PPathwayNode> slist = new List<PPathwayNode>();
-                foreach (PPathwayNode t in this.SelectedNodes)
-                {
-                    slist.Add(t);
-                }
-
-                foreach (PPathwayNode obj1 in slist)
-                {
-                    if (obj1 is PPathwayNode)
-                    {
-                        PPathwayNode deleteNode = (PPathwayNode)obj1;
-                        try
-                        {
-                            if (deleteNode is PEcellVariable)
-                            {
-                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Variable);
-                            }
-                            else if (deleteNode is PEcellProcess)
-                            {
-                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Process);
-                            }
-                        }
-                        catch (IgnoreException)
-                        {
-                            return;
-                        }
-                        if (((PPathwayObject)obj1).Parent != null)
-                            ((PPathwayObject)obj1).Parent.RemoveChild((PPathwayObject)obj1);
-                    }
-                }
-            }
             Object obj = ((ToolStripItem)sender).Tag;
             if (obj is PEcellSystem)
                 {
@@ -1175,6 +1152,112 @@ namespace EcellLib.PathwayWindow
                 }
             ((ToolStripMenuItem)sender).Tag = null;
         }
+
+        /// <summary>
+        /// Called when a delete menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void DeleteClickWith(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmDelete"),
+                "Delete",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2);
+
+            if (result == DialogResult.Cancel)
+                return;
+
+            /* 20070629 delete by sachiboo. 
+                        //PPathwayObject obj = (PPathwayObject)m_nodeMenu.Tag;
+                        Object obj = ((ToolStripItem)sender).Tag;
+            */
+
+
+            if (this.SelectedNodes != null)
+            {
+                List<PPathwayNode> slist = new List<PPathwayNode>();
+                foreach (PPathwayNode t in this.SelectedNodes)
+                {
+                    slist.Add(t);
+                }
+
+                foreach (PPathwayNode obj1 in slist)
+                {
+                    if (obj1 is PPathwayNode)
+                    {
+                        PPathwayNode deleteNode = (PPathwayNode)obj1;
+                        try
+                        {
+                            if (deleteNode is PEcellVariable)
+                            {
+                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Variable);
+                            }
+                            else if (deleteNode is PEcellProcess)
+                            {
+                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Process);
+                            }
+                        }
+                        catch (IgnoreException)
+                        {
+                            return;
+                        }
+                        if (((PPathwayObject)obj1).Parent != null)
+                            ((PPathwayObject)obj1).Parent.RemoveChild((PPathwayObject)obj1);
+                    }
+                }
+            }
+            Object obj = ((ToolStripItem)sender).Tag;
+            if (obj is PEcellSystem)
+            {
+                PEcellSystem deleteSystem = (PEcellSystem)obj;
+                if (string.IsNullOrEmpty(deleteSystem.Name))
+                    return;
+                if (deleteSystem.Name.Equals("/"))
+                {
+                    MessageBox.Show(m_resources.GetString("ErrDelRoot"),
+                                    "Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return;
+                }
+
+                List<string> list = this.GetAllSystemUnder(deleteSystem.Element.Key);
+
+                try
+                {
+                    m_pathwayView.NotifyDataDeleteWith(deleteSystem.Element.Key, ComponentType.System);
+                }
+                catch (IgnoreException)
+                {
+                    return;
+                }
+
+                foreach (string under in list)
+                {
+                    PText sysText = m_systems[under].Text;
+                    sysText.Parent.RemoveChild(sysText);
+                }
+
+                if (((PPathwayObject)obj).IsHighLighted)
+                {
+                    HideResizeHandles();
+                    m_selectedSystemName = null;
+                }
+            }
+            else if (obj is Line)
+            {
+                m_pathwayView.NotifyVariableReferenceChanged(
+                    ((Line)obj).Info.ProcessKey,
+                    ((Line)obj).Info.VariableKey,
+                    RefChangeType.Delete,
+                    0);
+                ResetSelectedLine();
+            }
+            ((ToolStripMenuItem)sender).Tag = null;
+        }
+
 
 #if DEBUG
         /// <summary>
@@ -3239,11 +3322,11 @@ namespace EcellLib.PathwayWindow
                     List<string> deleteList = new List<string>();
                     foreach(KeyValuePair<string, SystemContainer> pair in m_systems)
                     {
-                        if (pair.Key.Equals(key) || pair.Key.Equals(key + "/"))
+                        if (pair.Key.Equals(key) || pair.Key.StartsWith(key + "/"))
                         {
                             PText idTxt = pair.Value.Text;
                             idTxt.Parent.RemoveChild(idTxt);
-                            deleteList.Add(key);
+                            deleteList.Add(pair.Key);
                         }
                     }
 

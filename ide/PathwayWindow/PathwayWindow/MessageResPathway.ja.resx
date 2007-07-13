@@ -120,6 +120,12 @@
   <data name="ConfirmDelete" xml:space="preserve">
     <value>本当に削除してよろしいですか？</value>
   </data>
+  <data name="DeleteMenuText" xml:space="preserve">
+    <value>全て削除</value>
+  </data>
+  <data name="DeleteWithMenuText" xml:space="preserve">
+    <value>削除</value>
+  </data>
   <data name="ErrAddObj" xml:space="preserve">
     <value>オブジェクトの追加に失敗しました。</value>
   </data>

@@ -150,6 +150,9 @@
   <data name="PopDeleteText" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="PopDeleteWithText" xml:space="preserve">
+    <value>Delete with Component</value>
+  </data>
   <data name="PopDelLoggerText" xml:space="preserve">
     <value>Delete logger</value>
   </data>

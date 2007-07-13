@@ -1930,6 +1930,7 @@ namespace EcellLib
 
         public void SystemDeleteAndMove(string modelID, string key)
         {
+            Dictionary<String, String> variableList = new Dictionary<String, String>();
             List<EcellObject> targetSysList = new List<EcellObject>();
             List<EcellObject> targetObjList = new List<EcellObject>();
             if (m_systemDic[m_currentProjectID].ContainsKey(modelID))
@@ -1944,18 +1945,89 @@ namespace EcellLib
                             if (obj.M_instances == null) continue;
                             foreach (EcellObject ins in obj.M_instances)
                             {
-                                targetObjList.Add(ins);
+                                targetObjList.Add(ins.Copy());
                             }
                         }
-                        else if (obj.key.LastIndexOf('/') == key.Length)
+                        else if (obj.type == "System")
                         {
-                            targetSysList.Add(obj);
+                            targetSysList.Add(obj.Copy());
                         }
                     }
                 }
             }
 
+            DataDelete(modelID, key, "System");
+            string[] el = key.Split(new char[] { '/' });
+            int delPoint = el.Length - 1;
+            List<EcellObject> list = new List<EcellObject>();
+            foreach (EcellObject obj in targetSysList)
+            {
+                String orgKey = obj.key;
+                String newKey = "";
+                string[] nel = orgKey.Split(new char[] { '/' });
+                for (int i = 0; i < nel.Length; i++)
+                {
+                    if (i == delPoint) continue;
+                    if (nel[i] == "") newKey = "";
+                    else newKey = newKey + "/" + nel[i];
+                }
+                List<EcellObject> tmpList = new List<EcellObject>();
+                foreach (EcellObject ins in obj.M_instances)
+                {
+                    String iNewKey = "";
+                    string[] iel = ins.key.Split(new char[] { '/' });
+                    for (int j = 0; j < iel.Length; j++)
+                    {
+                        if (j == delPoint) continue;
+                        if (iel[j] == "") iNewKey = "";
+                        else iNewKey = iNewKey + "/" + iel[j];
+                    }
+                    if (ins.type == "Variable")
+                        variableList.Add(ins.key, iNewKey);
+                    ins.key = iNewKey;
+                    tmpList.Add(ins);
+                }
+                obj.key = newKey;
+                obj.M_instances = new List<EcellObject>();
+//                obj.M_instances = new List<EcellObject>();
+//                DataChanged(modelID, orgKey, obj.type, obj);
+                CheckEntityPath(obj);
+                list.Add(obj);
+                foreach (EcellObject p in tmpList)
+                {
+                    list.Add(p);
+                }
+            }
+            foreach (EcellObject obj in targetObjList)
+            {
+                String iNewKey = "";
+                string[] iel = obj.key.Split(new char[] { '/' });
+                for (int j = 0; j < iel.Length; j++)
+                {
+                    if (j == delPoint)
+                    {
+                        iNewKey = iNewKey +iel[j].Substring(iel[j].LastIndexOf(":"));
+                    }
+                    else if (iel[j] == "") iNewKey = "";
+                    else iNewKey = iNewKey + "/" + iel[j];
+                }
+                if (obj.type == "Variable")
+                    variableList.Add(obj.key, iNewKey);
+                obj.key = iNewKey;
+                list.Add(obj);
+            }
+            DataAdd(list);
 
+            foreach (String oldKey in variableList.Keys)
+            {
+                List<EcellObject> changeProcList = new List<EcellObject>();
+                String newKey = variableList[oldKey];
+                CheckVariableReferenceList(modelID, newKey, oldKey, changeProcList);
+                foreach (EcellObject cProcess in changeProcList)
+                {
+                    DataChanged4Entity(modelID, cProcess.key, cProcess.type, cProcess);
+                }
+            }
 
         }
 
@@ -1980,6 +2052,30 @@ namespace EcellLib
             foreach (EcellObject l_obj in l_delList)
             {
                 m_systemDic[m_currentProjectID][l_model].Remove(l_obj);
+                if (l_obj.type == "System")
+                {
+                    foreach (string l_keyParamID in m_initialCondition[CurrentProjectID].Keys)
+                    {
+                        foreach (string l_delModel in m_initialCondition[CurrentProjectID][l_keyParamID].Keys)
+                        {
+                            foreach (string l_cType in m_initialCondition[CurrentProjectID][l_keyParamID][l_delModel].Keys)
+                            {
+                                String delKey = l_cType + ":" + l_key;
+                                List<String> delKeyList = new List<string>();
+                                foreach (String entKey in m_initialCondition[CurrentProjectID][l_keyParamID][l_delModel][l_cType].Keys)
+                                {
+                                    if (entKey.StartsWith(delKey))
+                                        delKeyList.Add(entKey);
+                                }
+                                foreach (String entKey in delKeyList)
+                                {
+                                    m_initialCondition[CurrentProjectID][l_keyParamID][l_delModel][l_cType].Remove(entKey);
+                                }
+                            }
+                        }
+                    }
+                }
+                /*
                 if (l_obj.M_value != null && l_obj.M_value.Count > 0)
                 {
                     foreach (EcellData l_data in l_obj.M_value)
@@ -1998,7 +2094,7 @@ namespace EcellLib
                             }
                         }
                     }
-                }
+                }*/
                 if (l_messageFlag)
                 {
                     this.m_pManager.Message(

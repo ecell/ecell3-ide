@@ -196,6 +196,7 @@ namespace EcellLib.EntityListWindow
             MenuItem addVar = new MenuItem();
             MenuItem addProc = new MenuItem();
             MenuItem del = new MenuItem();
+            MenuItem delwith = new MenuItem();
             MenuItem searchMenu = new MenuItem();
             MenuItem separator = new MenuItem("-");
             MenuItem sortNameMenu = new MenuItem();
@@ -221,15 +222,17 @@ namespace EcellLib.EntityListWindow
             addVar.Text = m_resources.GetString("PopAddVariableText");
             addProc.Text = m_resources.GetString("PopAddProcessText");
             del.Text = m_resources.GetString("PopDeleteText");
+            delwith.Text = m_resources.GetString("PopDeleteWithText");
             searchMenu.Text = m_resources.GetString("PopSearchText");
             sortNameMenu.Text = m_resources.GetString("SortNameText");
             sortTypeMenu.Text = m_resources.GetString("SortTypeText");
 
             addModel.Index = 1;
-            addSystem.Index = 3;
-            addVar.Index = 5;
-            addProc.Index = 7;
-            del.Index = 8;
+            addSystem.Index = 2;
+            addVar.Index = 3;
+            addProc.Index = 4;
+            del.Index = 6;
+            delwith.Index = 6;
             m_creProcLogger.Index = 9;
             m_delProcLogger.Index = 10;
             m_creVarLogger.Index = 9;
@@ -241,6 +244,7 @@ namespace EcellLib.EntityListWindow
             addVar.Click += new EventHandler(TreeviewAddVariable);
             addProc.Click += new EventHandler(TreeviewAddProcess);
             del.Click += new EventHandler(TreeviewDelete);
+            delwith.Click += new EventHandler(TreeviewDeleteWith);
             searchMenu.Click += new EventHandler(TreeviewSearch);
             sortNameMenu.Click += new EventHandler(TreeViewSortName);
             sortTypeMenu.Click += new EventHandler(TreeViewSortType);
@@ -276,6 +280,7 @@ namespace EcellLib.EntityListWindow
                     addProc.CloneMenu(), 
                     separator.CloneMenu(),
                     del.CloneMenu(),
+                    delwith.CloneMenu(),
                     separator.CloneMenu(), 
                     m_creSysLogger, 
                     m_delSysLogger,
@@ -815,7 +820,47 @@ namespace EcellLib.EntityListWindow
 
             try
             {
-                m_targetNode.Remove();
+//                m_targetNode.Remove();
+                if (tag.m_type == "Model") m_dManager.DataDelete(tag.m_modelID, null, "Model");
+                else if (tag.m_type == "System") m_dManager.SystemDeleteAndMove(tag.m_modelID, tag.m_key);
+                else m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
+                if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
+            }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrDelData");
+                MessageBox.Show(errmes + "\n\n" + ex,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// The action of [Delete with component] menu on popup menu.
+        /// </summary>
+        /// <param name="sender">object (MenuItem)</param>
+        /// <param name="e">EventArgs</param>
+        public void TreeviewDeleteWith(object sender, EventArgs e)
+        {
+            string modelID = null;
+            string key = null;
+            string type = null;
+            TagData tag = (TagData)m_targetNode.Tag;
+            if (tag == null) return;
+            if (m_targetNode.Parent != null)
+            {
+                TagData parentTag = (TagData)m_targetNode.Parent.Tag;
+                if (parentTag != null)
+                {
+                    modelID = parentTag.m_modelID;
+                    key = parentTag.m_key;
+                    type = parentTag.m_type;
+                }
+            }
+
+            try
+            {
+                //                m_targetNode.Remove();
                 if (tag.m_type == "Model") m_dManager.DataDelete(tag.m_modelID, null, "Model");
                 else m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
                 if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
@@ -828,6 +873,7 @@ namespace EcellLib.EntityListWindow
                 return;
             }
         }
+
 
         /// <summary>
         /// The action of clicking [Sort by Name] menu on popup menu.

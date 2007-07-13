@@ -658,6 +658,17 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Inform the deleting of EcellObject in PathwayEditor to DataManager.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        public void NotifyDataDeleteWith(string key, string type)
+        {
+            DataManager dm = DataManager.GetDataManager();
+            dm.SystemDeleteAndMove(m_modelId, key);
+        }
+
+        /// <summary>
         /// Inform the selected EcellObject in PathwayEditor to PluginManager.
         /// </summary>
         /// <param name="key">the key of selected object.</param>
