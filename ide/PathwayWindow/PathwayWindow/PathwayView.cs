@@ -276,7 +276,6 @@ namespace EcellLib.PathwayWindow
         /// ResourceManager for PathwayWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
-
         #endregion
 
         #region Accessors
@@ -419,7 +418,7 @@ namespace EcellLib.PathwayWindow
             DataColumn showDc = new DataColumn("Show");
             showDc.DataType = typeof(bool);
             m_layerDataTable.Columns.Add(showDc);
-            DataColumn nameDc = new DataColumn("Name");            
+            DataColumn nameDc = new DataColumn("Name");
             nameDc.DataType = typeof(string);
             m_layerDataTable.Columns.Add(nameDc);
             m_layerDs = new DataSet();
@@ -1887,7 +1886,6 @@ namespace EcellLib.PathwayWindow
                     }
                 }
             }
-            
             return returnList;
         }
         
@@ -2038,7 +2036,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">PInputEventArgs.</param>
         void ShowButtonClick(object sender, PInputEventArgs e)
         {
-            e.Canvas.Cursor = Cursors.Default;
             m_lowerPanelShown = !m_lowerPanelShown;
 
             if(m_lowerPanelShown)

@@ -36,6 +36,7 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
 using EcellLib.PathwayWindow.Node;
 using EcellLib.PathwayWindow.Element;
+using System.IO;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -182,7 +183,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         public override void OnMouseEnter(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseEnter(e);
-            e.Canvas.Cursor = Cursors.PanSouth;
         }
 
         /// <summary>
@@ -192,7 +192,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         public override void OnMouseLeave(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseLeave(e);
-            e.Canvas.Cursor = Cursors.Default;
         }
 
         /// <summary>
@@ -211,6 +210,15 @@ namespace EcellLib.PathwayWindow.UIComponent
                                         new PointF(m_margin,m_margin),
                                         new PointF(m_width - m_shadowWidth - m_margin,m_margin),
                                         new PointF((m_width - m_shadowWidth) / 2f,m_width - m_shadowWidth - m_margin)});
+            /*
+            g.DrawRectangle(Pen, 0f, 0f, m_width - m_shadowWidth, m_width - m_shadowWidth);
+            g.FillRectangle(m_backGroundBrush, new RectangleF(0f, 0f, m_width - m_shadowWidth, m_width - m_shadowWidth));
+            g.FillRectangle(m_shadowBrush, new RectangleF(m_width - m_shadowWidth, 0f, m_shadowWidth, m_width - m_shadowWidth));
+            g.FillRectangle(m_shadowBrush, new RectangleF(0f, m_width - m_shadowWidth, m_width, m_shadowWidth));
+            g.FillPolygon(m_arrowBrush, new PointF[]{
+                                        new PointF(m_margin,m_margin),
+                                        new PointF(m_width - m_shadowWidth - m_margin,m_margin),
+                                        new PointF((m_width - m_shadowWidth) / 2f,m_width - m_shadowWidth - m_margin)});*/
         }
     }
 }

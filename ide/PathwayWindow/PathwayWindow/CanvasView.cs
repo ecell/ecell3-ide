@@ -615,13 +615,13 @@ namespace EcellLib.PathwayWindow
             m_pathwayCanvas.Name = name;
             //m_pathwayCanvas.Camera.Scale = DEFAULT_CAMERA_SCALE;
             m_pathwayCanvas.Camera.ScaleViewBy(0.7f);
-            
             if (lowerPanelShown)
                 m_showBtnDownward.Visible = true;
             else
                 m_showBtnUpward.Visible = true;
 
             PScrollableControl scrolCtrl = new PScrollableControl(m_pathwayCanvas);
+            scrolCtrl.Layout += new LayoutEventHandler(scrolCtrl_Layout);
             scrolCtrl.Dock = DockStyle.Fill;
             m_pathwayTabPage.Controls.Add(scrolCtrl);
             //m_pathwayTabPage.Controls.Add(m_pathwayCanvas);
@@ -736,8 +736,6 @@ namespace EcellLib.PathwayWindow
             m_nodeMenu.Items.Add(deleteWith);
             m_cMenuDict.Add(CANVAS_MENU_DELETE_WITH, deleteWith);
 
-
-
 #if DEBUG
             ToolStripItem debug = new ToolStripMenuItem("Debug");
             debug.Click += new EventHandler(DebugClick);
@@ -849,6 +847,11 @@ namespace EcellLib.PathwayWindow
             m_line4reconnect.Pickable = false;
 
             //m_pathwayCanvas.AddInputEventListener(new MouseDownHandler(m_pathwayView));
+        }
+
+        void scrolCtrl_Layout(object sender, LayoutEventArgs e)
+        {
+            m_pathwayView.UpdateShowButton();
         }
 
         /// <summary>
