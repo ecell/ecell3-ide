@@ -90,9 +90,9 @@
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.2706.19617, Culture=neutral, PublicKeyToken=d481317c817cec47, processorArchitecture=MSIL">
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Documents and Settings\c1901\デスクトップ\software\programming\dotnet\DockPanel_2_1_Bin\Release\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
     <Reference Include="yukilib, Version=1.0.0.1, Culture=neutral, PublicKeyToken=7c62313f5585d1f2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
