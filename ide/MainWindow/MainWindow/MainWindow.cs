@@ -159,20 +159,32 @@ namespace EcellLib.MainWindow
             //画面設定読込み
             loadDefaultWindowSetting();
         }
-        
+
+        /// <summary>
+        /// Save default window settings.
+        /// </summary>
+        void saveDefaultWindowSetting()
+        {
+            //画面設定をデフォルトとして記憶する。
+            //設定ファイルの置き場所は実行ファイルと同じ場所。
+            string fname = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "window.config");
+            //画面設定保存
+            ECellSerializer.saveAsXML(this, fname);
+            Debug.WriteLine("save default window setting: " + fname);
+        }
         /// <summary>
         /// Load default window settings.
         /// </summary>
         void loadDefaultWindowSetting()
         {
             //画面のデフォルト設定を呼び出し。
-            //設定ファイルの置き場所はプラグインフォルダ。
-            string fname = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "DockPanel.config");
-            Debug.WriteLine("load default window setting: " + fname);
+            //設定ファイルの置き場所は実行ファイルと同じ場所。
+            string fname = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "window.config");
             if (File.Exists(fname))
             {
                 //画面設定読込み
                 ECellSerializer.loadFromXML(this, fname);
+                Debug.WriteLine("load default window setting: " + fname);
             }
         }
 
@@ -1721,6 +1733,11 @@ namespace EcellLib.MainWindow
         {
             SetupIDEWindow win = new SetupIDEWindow();
             win.ShowDialog();
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            saveDefaultWindowSetting();
         }
 
     }

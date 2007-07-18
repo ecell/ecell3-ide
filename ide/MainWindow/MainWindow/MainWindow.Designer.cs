@@ -391,6 +391,7 @@ namespace EcellLib.MainWindow
             this.MainMenuStrip = this.menustrip;
             this.Name = "MainWindow";
             this.Disposed += new System.EventHandler(this.MainWindowDisposed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.menustrip.ResumeLayout(false);
             this.menustrip.PerformLayout();
             this.ResumeLayout(false);
