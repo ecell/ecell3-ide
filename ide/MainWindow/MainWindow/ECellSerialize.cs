@@ -41,9 +41,11 @@ namespace EcellLib.MainWindow {
 
                 // Use indenting for readability
                 xmlOut.Formatting = Formatting.Indented;
+                xmlOut.WriteStartDocument();
 
                 // Always begin file with identification and warning
-                xmlOut.WriteComment("Automatically generated file. DO NOT modify this file.");
+                xmlOut.WriteComment("E-Cell configuration file.");
+                xmlOut.WriteComment("Automatically generated file. DO NOT modify!");
 
                 // Application settings
                 xmlOut.WriteStartElement("Application");
@@ -168,7 +170,7 @@ namespace EcellLib.MainWindow {
                 xmlOut.WriteEndElement();   //	</Application>
 
                 //xmlOut.WriteEndDocument();
-                xmlOut.Flush();
+                xmlOut.WriteEndDocument();
                 xmlOut.Close();
             }
             finally
