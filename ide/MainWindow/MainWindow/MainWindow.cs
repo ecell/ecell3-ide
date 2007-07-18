@@ -52,6 +52,16 @@ namespace EcellLib.MainWindow
 {
     public partial class MainWindow : Form, PluginBase
     {
+        #region Constants
+
+        private const string strEntityList = "EntityList";
+        private const string strPathwayWindow = "PathwayWindow";
+        private const string strMessageWindow = "MessageWindow";
+        private const string strObjectList = "ObjectList";
+        private const string strPropertyWindow = "PropertyWindow";
+
+        #endregion
+
         #region Fields
         /// <summary>
         /// m_entityList (UserControl)
@@ -167,29 +177,23 @@ namespace EcellLib.MainWindow
             InitializeComponent();
             LoadPlugins();
             //画面設定読込み
-            //loadDefaultWindow();
+            loadDefaultWindowSetting();
             
         }
         
-        void loadDefaultWindow()
+        /// <summary>
+        /// Load default window settings.
+        /// </summary>
+        void loadDefaultWindowSetting()
         {
             //画面のデフォルト設定を呼び出し。
             //設定ファイルの置き場所はプラグインフォルダ。
             string fname = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "DockPanel.config");
-            Debug.WriteLine(fname);
+            Debug.WriteLine("load default window setting: " + fname);
             if (File.Exists(fname))
             {
-                dockPanel.SuspendLayout(true);
-
-                // In order to load layout from XML, we need to close all the DockContents
-                //CloseAllContents();
-
-                Assembly assembly = Assembly.GetAssembly(typeof(MainWindow));
-                Stream xmlStream = assembly.GetManifestResourceStream(fname);
-                DeserializeDockContent contents = new DeserializeDockContent(GetContentFromPersistString);
-                dockPanel.LoadFromXml(xmlStream, contents);
-                xmlStream.Close();
-                dockPanel.ResumeLayout(true, true);
+                //画面設定読込み
+                ECellSerializer.loadFromXML(this, fname);
             }
         }
         private IDockContent GetContentFromPersistString(string persistString)
@@ -328,35 +332,35 @@ namespace EcellLib.MainWindow
                     {
                         //EntityListを作成
                         this.m_entityList = win;
-                        this.m_entityListDock = setDockContent("EntityList", this.m_entityList);
+                        this.m_entityListDock = setDockContent(strEntityList, this.m_entityList);
                         this.m_entityListDock.Show(this.dockPanel, DockState.DockLeft);
                     }
-                    else if (pName == "PathwayWindow")
+                    else if (pName == strPathwayWindow)
                     {
                         //PathwayWindowを作成
                         this.m_pathwayWindow = win;
-                        this.m_pathwayWindowDock = setDockContent("PathwayWindow", this.m_pathwayWindow);
+                        this.m_pathwayWindowDock = setDockContent(strPathwayWindow, this.m_pathwayWindow);
                         this.m_pathwayWindowDock.Show(this.dockPanel, DockState.Document);
                     }
-                    else if (pName == "MessageWindow")
+                    else if (pName == strMessageWindow)
                     {
                         //MessageWindowを作成
                         this.m_messageWindow = win;
-                        this.m_messageWindowDock = setDockContent("MessageWindow", this.m_messageWindow);
+                        this.m_messageWindowDock = setDockContent(strMessageWindow, this.m_messageWindow);
                         this.m_messageWindowDock.Show(this.dockPanel, DockState.DockBottom);
                     }
-                    else if (pName == "ObjectList")
+                    else if (pName == strObjectList)
                     {
                         //ObjectListを作成
                         this.m_objectList = win;
-                        this.m_objectListDock = setDockContent("ObjectList", this.m_objectList);
+                        this.m_objectListDock = setDockContent(strObjectList, this.m_objectList);
                         this.m_objectListDock.Show(this.dockPanel, DockState.DockRight);
                     }
-                    else if (pName == "PropertyWindow")
+                    else if (pName == strPropertyWindow)
                     {
                         //PropertyWindowを作成
                         this.m_propertyWindow = win;
-                        this.m_propertyWindowDock = setDockContent("PropertyWindow", this.m_propertyWindow);
+                        this.m_propertyWindowDock = setDockContent(strPropertyWindow, this.m_propertyWindow);
                         this.m_propertyWindowDock.Show(this.m_objectListDock.Pane, DockAlignment.Bottom, 0.5);
                     }
 
@@ -422,11 +426,49 @@ namespace EcellLib.MainWindow
             dock.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
             dock.Name = name;
             dock.Text = name;
+            dock.Tag = name;
             win.Dock = DockStyle.Fill;
             dock.Controls.Add(win);
 
             return dock;
         }
+        /// <summary>
+        /// get DockContent
+        /// </summary>
+        public DockContent getDockContent(string name)
+        {
+            // 指定されたDockContentを返す
+            if (name == strEntityList)
+            {
+                //EntityListを作成
+                return this.m_entityListDock;
+            }
+            else if (name == strPathwayWindow)
+            {
+                //PathwayWindowを作成
+                return this.m_pathwayWindowDock;
+            }
+            else if (name == strMessageWindow)
+            {
+                //MessageWindowを作成
+                return this.m_messageWindowDock;
+            }
+            else if (name == strObjectList)
+            {
+                //ObjectListを作成
+                return this.m_objectListDock;
+            }
+            else if (name == strPropertyWindow)
+            {
+                //PropertyWindowを作成
+                return this.m_propertyWindowDock;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
         private void DockContent_Closing(object sender, FormClosingEventArgs e)
         {
@@ -443,27 +485,27 @@ namespace EcellLib.MainWindow
             }
 
         }
-        private void checkWindowMenu(String name, bool checker)
+        public void checkWindowMenu(String name, bool bChecked)
         {
-            if (name.Equals("EntityList"))
+            if (name.Equals(strEntityList))
             {
-                this.entityListToolStripMenuItem.Checked = checker;
+                this.entityListToolStripMenuItem.Checked = bChecked;
             }
-            else if (name.Equals("PathwayWindow"))
+            else if (name.Equals(strPathwayWindow))
             {
-                this.pathwayWindowToolStripMenuItem.Checked = checker;
+                this.pathwayWindowToolStripMenuItem.Checked = bChecked;
             }
-            else if (name.Equals("MessageWindow"))
+            else if (name.Equals(strMessageWindow))
             {
-                this.messageWindowToolStripMenuItem.Checked = checker;
+                this.messageWindowToolStripMenuItem.Checked = bChecked;
             }
-            else if (name.Equals("ObjectList"))
+            else if (name.Equals(strObjectList))
             {
-                this.objectListToolStripMenuItem.Checked = checker;
+                this.objectListToolStripMenuItem.Checked = bChecked;
             }
-            else if (name.Equals("PropertyWindow"))
+            else if (name.Equals(strPropertyWindow))
             {
-                this.propertyWindowToolStripMenuItem.Checked = checker;
+                this.propertyWindowToolStripMenuItem.Checked = bChecked;
             }
         }
 
@@ -1591,9 +1633,8 @@ namespace EcellLib.MainWindow
             sfd.CreatePrompt = true;
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                string fname = sfd.FileName;
                 // 設定ファイル保存
-                this.dockPanel.SaveAsXml(fname);
+                ECellSerializer.saveAsXML(this, sfd.FileName);
             }
         }
 
@@ -1606,9 +1647,8 @@ namespace EcellLib.MainWindow
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                string fname = ofd.FileName;
                 // 設定ファイルロード
-
+                ECellSerializer.loadFromXML(this, ofd.FileName);
             }
         }
 

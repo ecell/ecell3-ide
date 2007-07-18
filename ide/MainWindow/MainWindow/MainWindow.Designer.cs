@@ -208,14 +208,14 @@ namespace EcellLib.MainWindow
             // 
             // saveWindowSettingsToolStripMenuItem
             // 
-            resources.ApplyResources(this.saveWindowSettingsToolStripMenuItem, "saveWindowSettingsToolStripMenuItem");
             this.saveWindowSettingsToolStripMenuItem.Name = "saveWindowSettingsToolStripMenuItem";
+            resources.ApplyResources(this.saveWindowSettingsToolStripMenuItem, "saveWindowSettingsToolStripMenuItem");
             this.saveWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveWindowSettingsToolStripMenuItem_Click);
             // 
             // loadWindowSettingsToolStripMenuItem
             // 
-            resources.ApplyResources(this.loadWindowSettingsToolStripMenuItem, "loadWindowSettingsToolStripMenuItem");
             this.loadWindowSettingsToolStripMenuItem.Name = "loadWindowSettingsToolStripMenuItem";
+            resources.ApplyResources(this.loadWindowSettingsToolStripMenuItem, "loadWindowSettingsToolStripMenuItem");
             this.loadWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadWindowSettingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
@@ -488,7 +488,7 @@ namespace EcellLib.MainWindow
         private System.Windows.Forms.ToolStripMenuItem objectListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem propertyWindowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setIDEToolStripMenuItem;
-        private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
+        public WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
     }
 }
 
