@@ -144,6 +144,10 @@ namespace EcellLib.SearchWindow
                 m_cnd.Show();
                 m_cnd.Search(m_text.Text);
             }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                m_cnd.Close();
+            }
         }
 
         private void Search(object sender, EventArgs e)

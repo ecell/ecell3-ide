@@ -116,6 +116,10 @@ namespace EcellLib.EntityListWindow
             {
                 SearchButtonClick(sender, new EventArgs());
             }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                SICloseButton.PerformClick();
+            }
         }
         #endregion
 

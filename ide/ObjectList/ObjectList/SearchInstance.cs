@@ -95,7 +95,11 @@ namespace EcellLib.ObjectList
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                SearchButtonClick(sender, new EventArgs());
+                SISearchButton.PerformClick();
+            }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                SICloseButton.PerformClick();
             }
         }
         #endregion

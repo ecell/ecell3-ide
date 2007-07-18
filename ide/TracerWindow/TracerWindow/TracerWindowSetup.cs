@@ -39,6 +39,10 @@ namespace EcellLib.TracerWindow
             {
                 TSApplyButton.PerformClick();
             }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                TSCloseButton.PerformClick();
+            }
         }
 
         /// <summary>

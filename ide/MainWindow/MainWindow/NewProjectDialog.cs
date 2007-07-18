@@ -61,6 +61,10 @@ namespace EcellLib.MainWindow
             {
                 CPCreateButton.PerformClick();
             }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                CPCancelButton.PerformClick();
+            }
         }
 
         /// <summary>

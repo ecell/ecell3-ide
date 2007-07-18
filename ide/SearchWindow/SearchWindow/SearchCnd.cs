@@ -282,7 +282,11 @@ namespace EcellLib.SearchWindow
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                SearchButtonClick(sender, new EventArgs());
+                SCSearchButton.PerformClick();
+            }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                SCCloseButton.PerformClick();
             }
         }
         #endregion

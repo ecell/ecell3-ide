@@ -671,6 +671,10 @@ namespace EcellLib
             {
                 PEApplyButton.PerformClick();
             }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                PECloseButton.PerformClick();
+            }
         }
 
         #region Event
