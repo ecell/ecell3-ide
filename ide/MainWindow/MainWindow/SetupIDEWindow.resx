@@ -135,7 +135,7 @@
     <value>2</value>
   </data>
   <data name="jpRadioButton.Text" xml:space="preserve">
-    <value>Japanese</value>
+    <value>日本語</value>
   </data>
   <data name="&gt;&gt;jpRadioButton.Name" xml:space="preserve">
     <value>jpRadioButton</value>
