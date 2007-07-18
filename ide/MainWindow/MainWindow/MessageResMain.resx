@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmRestart" xml:space="preserve">
-    <value>You should restart this application to reflect this change.</value>
+    <value>The change will take effect after you restart this application.</value>
   </data>
   <data name="ErrCreatePrj" xml:space="preserve">
     <value>Fail to create the project.</value>
