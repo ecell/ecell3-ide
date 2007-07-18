@@ -170,6 +170,7 @@ namespace EcellLib.MainWindow {
         public static void loadFromXML(MainWindow window, string filename)
         {
             DockPanel dockPanel = window.dockPanel;
+
             FileStream fs = new FileStream(filename, FileMode.Open);
             // Load XML file
             XmlTextReader xmlIn = new XmlTextReader(fs);
@@ -626,6 +627,9 @@ namespace EcellLib.MainWindow {
             dock.IsFloat = content.IsFloat;
             dock.AutoHidePortion = content.AutoHidePortion;
             window.checkWindowMenu(content.Name, !content.IsHidden);
+            dock.Pane = null;
+            dock.PanelPane = null;
+            dock.FloatPane = null;
             return dock;
         }
         
