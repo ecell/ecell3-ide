@@ -135,6 +135,9 @@
   <data name="ErrDelStep" xml:space="preserve">
     <value>少なくともモデルには１つのステッパーが必要です。</value>
   </data>
+  <data name="ErrIDNG" xml:space="preserve">
+    <value>ＩＤに不適切な文字列が含まれています。確認してください。</value>
+  </data>
   <data name="ErrInvalidParam" xml:space="preserve">
     <value>入力されたパラメータに異常なパラメータがあります。</value>
   </data>

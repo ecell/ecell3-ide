@@ -135,6 +135,9 @@
   <data name="ErrDelStep" xml:space="preserve">
     <value>Can not delete the stepper. </value>
   </data>
+  <data name="ErrIDNG" xml:space="preserve">
+    <value>Format error. There are invalid characters,</value>
+  </data>
   <data name="ErrInvalidParam" xml:space="preserve">
     <value>There are any invalid parameters.</value>
   </data>

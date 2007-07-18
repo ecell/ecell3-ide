@@ -96,6 +96,13 @@ namespace EcellLib.Simulation
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if (Util.IsNGforID(data))
+            {
+                String errmes = m_resources.GetString("ErrIDNG");
+                MessageBox.Show(errmes, "WARNING",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             string paramID = m_win.paramCombo.Text;
             string modelID = m_win.modelCombo.Text;
             string stepperID = m_win.stepCombo.Text;
@@ -157,6 +164,13 @@ namespace EcellLib.Simulation
             if (paramTextBox.Text == "")
             {
                 String errmes = m_resources.GetString("ErrNoInput");
+                MessageBox.Show(errmes, "WARNING",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (Util.IsNGforID(paramTextBox.Text))
+            {
+                String errmes = m_resources.GetString("ErrIDNG");
                 MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
