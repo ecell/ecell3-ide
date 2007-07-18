@@ -20,7 +20,17 @@ namespace EcellLib.MainWindow {
 
     public partial class ECellSerializer
     {
+
+        /// <summary>
+        /// Version of config file.
+        /// </summary>
         private const string ConfigFileVersion = "1.0";
+
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMain));
+
+        /// <summary>
+        /// Save ECell window settings.
+        /// </summary>
         public static void saveAsXML(MainWindow window, string fileName)
         {
             DockPanel dockPanel = window.dockPanel;
@@ -167,6 +177,9 @@ namespace EcellLib.MainWindow {
             }
         }
 
+        /// <summary>
+        /// Load ECell window settings.
+        /// </summary>
         public static void loadFromXML(MainWindow window, string filename)
         {
             DockPanel dockPanel = window.dockPanel;

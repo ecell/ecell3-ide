@@ -64,26 +64,6 @@ namespace EcellLib.MainWindow
 
         #region Fields
         /// <summary>
-        /// m_entityList (UserControl)
-        /// </summary>
-        private UserControl m_entityList;
-        /// <summary>
-        /// m_pathwayWindow (UserControl)
-        /// </summary>
-        private UserControl m_pathwayWindow;
-        /// <summary>
-        /// m_messageWindow (UserControl)
-        /// </summary>
-        private UserControl m_messageWindow;
-        /// <summary>
-        /// m_objectList (UserControl)
-        /// </summary>
-        private UserControl m_objectList;
-        /// <summary>
-        /// m_propertyWindow (UserControl)
-        /// </summary>
-        private UserControl m_propertyWindow;
-        /// <summary>
         /// m_entityListDock (DockContent)
         /// </summary>
         private DockContent m_entityListDock;
@@ -178,7 +158,6 @@ namespace EcellLib.MainWindow
             LoadPlugins();
             //画面設定読込み
             loadDefaultWindowSetting();
-            
         }
         
         /// <summary>
@@ -196,25 +175,10 @@ namespace EcellLib.MainWindow
                 ECellSerializer.loadFromXML(this, fname);
             }
         }
-        private IDockContent GetContentFromPersistString(string persistString)
-        {
-            if (persistString == this.m_entityListDock.ToString())
-                return this.m_entityListDock;
-            else if (persistString == this.m_pathwayWindowDock.ToString())
-                return this.m_pathwayWindowDock;
-            else if (persistString == this.m_messageWindowDock.ToString())
-                return this.m_messageWindowDock;
-            else if (persistString == this.m_objectListDock.ToString())
-                return this.m_objectListDock;
-            else if (persistString == this.m_propertyWindowDock.ToString())
-                return this.m_propertyWindowDock;
-            else
-            {
-                return null;
-            }
-        }
 
-
+        /// <summary>
+        /// Load plugins.
+        /// </summary>
         void LoadPlugins()
         {
             try
@@ -331,36 +295,31 @@ namespace EcellLib.MainWindow
                     if (pName == "EntityListWindow")
                     {
                         //EntityListを作成
-                        this.m_entityList = win;
-                        this.m_entityListDock = setDockContent(strEntityList, this.m_entityList);
+                        this.m_entityListDock = setDockContent(strEntityList, win);
                         this.m_entityListDock.Show(this.dockPanel, DockState.DockLeft);
                     }
                     else if (pName == strPathwayWindow)
                     {
                         //PathwayWindowを作成
-                        this.m_pathwayWindow = win;
-                        this.m_pathwayWindowDock = setDockContent(strPathwayWindow, this.m_pathwayWindow);
+                        this.m_pathwayWindowDock = setDockContent(strPathwayWindow, win);
                         this.m_pathwayWindowDock.Show(this.dockPanel, DockState.Document);
                     }
                     else if (pName == strMessageWindow)
                     {
                         //MessageWindowを作成
-                        this.m_messageWindow = win;
-                        this.m_messageWindowDock = setDockContent(strMessageWindow, this.m_messageWindow);
+                        this.m_messageWindowDock = setDockContent(strMessageWindow, win);
                         this.m_messageWindowDock.Show(this.dockPanel, DockState.DockBottom);
                     }
                     else if (pName == strObjectList)
                     {
                         //ObjectListを作成
-                        this.m_objectList = win;
-                        this.m_objectListDock = setDockContent(strObjectList, this.m_objectList);
+                        this.m_objectListDock = setDockContent(strObjectList, win);
                         this.m_objectListDock.Show(this.dockPanel, DockState.DockRight);
                     }
                     else if (pName == strPropertyWindow)
                     {
                         //PropertyWindowを作成
-                        this.m_propertyWindow = win;
-                        this.m_propertyWindowDock = setDockContent(strPropertyWindow, this.m_propertyWindow);
+                        this.m_propertyWindowDock = setDockContent(strPropertyWindow, win);
                         this.m_propertyWindowDock.Show(this.m_objectListDock.Pane, DockAlignment.Bottom, 0.5);
                     }
 
@@ -1627,62 +1586,52 @@ namespace EcellLib.MainWindow
         
         private void saveWindowSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Window Setting File(*.xml) |*.xml";
-            sfd.CheckPathExists = true;
-            sfd.CreatePrompt = true;
-            if (sfd.ShowDialog() == DialogResult.OK)
+            try
             {
-                // 設定ファイル保存
-                ECellSerializer.saveAsXML(this, sfd.FileName);
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Window Setting File(*.xml) |*.xml";
+                sfd.CheckPathExists = true;
+                sfd.CreatePrompt = true;
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    // Save window settings.
+                    ECellSerializer.saveAsXML(this, sfd.FileName);
+                }
             }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrSaveWindowSettings");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void loadWindowSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.CheckFileExists = true;
-            ofd.CheckPathExists = true;
-            ofd.Filter = "Window Setting File(*.xml) |*.xml";
-
-            if (ofd.ShowDialog() == DialogResult.OK)
+            try
             {
-                // 設定ファイルロード
-                ECellSerializer.loadFromXML(this, ofd.FileName);
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.CheckFileExists = true;
+                ofd.CheckPathExists = true;
+                ofd.Filter = "Window Setting File(*.xml) |*.xml";
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    // Load window settings.
+                    ECellSerializer.loadFromXML(this, ofd.FileName);
+                }
             }
-        }
-
-        void resetWindowSelect()
-        {
-            this.entityListToolStripMenuItem.Checked = false;
-            this.pathwayWindowToolStripMenuItem.Checked = false;
-            this.messageWindowToolStripMenuItem.Checked = false;
-            this.objectListToolStripMenuItem.Checked = false;
-            this.propertyWindowToolStripMenuItem.Checked = false;
-        }
-
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrLoadWindowSettings");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+       }
 
         [System.Runtime.InteropServices.DllImport("kernel32.dll")]
         public static extern bool SetProcessWorkingSetSize(IntPtr hwnd, int min, int max);
-
-        private void ResetRect(Rectangle scrRect, Rectangle dstRect)
-        {
-            Rectangle r = dstRect;
-            int t = r.Top;
-            int l = r.Left;
-            if (scrRect.Left > l) l = scrRect.Left;
-            else if (scrRect.Right < r.Right)
-            {
-                l = Math.Max(scrRect.Left, l - r.Right + scrRect.Right);
-            }
-
-            if (scrRect.Top > t) t = scrRect.Top;
-            else if (scrRect.Bottom < r.Bottom)
-            {
-                t = Math.Max(scrRect.Top, t - r.Bottom + scrRect.Bottom);
-            }
-            this.Bounds = r;
-        }
 
         public void SetPanel(Panel panel)
         {

@@ -115,6 +115,15 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
+        ///   Fail to load window settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLoadWindowSettings {
+            get {
+                return ResourceManager.GetString("ErrLoadWindowSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   There are invalid characters in model id. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrModelNG {
@@ -201,6 +210,15 @@ namespace EcellLib.MainWindow {
         internal static string ErrSaveScript {
             get {
                 return ResourceManager.GetString("ErrSaveScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fail to save window settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSaveWindowSettings {
+            get {
+                return ResourceManager.GetString("ErrSaveWindowSettings", resourceCulture);
             }
         }
         

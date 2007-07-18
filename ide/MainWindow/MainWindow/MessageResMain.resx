@@ -135,6 +135,9 @@
   <data name="ErrLoadPlugin" xml:space="preserve">
     <value>Fail to load the plugin.</value>
   </data>
+  <data name="ErrLoadWindowSettings" xml:space="preserve">
+    <value>Fail to load window settings.</value>
+  </data>
   <data name="ErrModelNG" xml:space="preserve">
     <value>There are invalid characters in model id.</value>
   </data>
@@ -164,6 +167,9 @@
   </data>
   <data name="ErrSaveScript" xml:space="preserve">
     <value>Fail to save the script.</value>
+  </data>
+  <data name="ErrSaveWindowSettings" xml:space="preserve">
+    <value>Fail to save window settings.</value>
   </data>
   <data name="ErrSelectSave" xml:space="preserve">
     <value>Please select at least one item.</value>
