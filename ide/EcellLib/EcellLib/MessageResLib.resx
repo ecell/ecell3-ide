@@ -123,11 +123,113 @@
   <data name="ErrAdd" xml:space="preserve">
     <value>Get exception while system add the object.</value>
   </data>
+  <data name="ErrAddObj" xml:space="preserve">
+    <value> can not be created.</value>
+  </data>
+  <data name="ErrBaseDir" xml:space="preserve">
+    <value>Can not find the working directory.</value>
+  </data>
   <data name="ErrChange" xml:space="preserve">
     <value>Get exception while system update the property of object.</value>
   </data>
+  <data name="ErrCheckID" xml:space="preserve">
+    <value>Can not check the ID.</value>
+  </data>
+  <data name="ErrClosePrj" xml:space="preserve">
+    <value> can not be closed.</value>
+  </data>
+  <data name="ErrCombiStepProc" xml:space="preserve">
+    <value>This combination of stepper and process is invalid.</value>
+  </data>
+  <data name="ErrCreEcd" xml:space="preserve">
+    <value>Can not create the ecd file.</value>
+  </data>
+  <data name="ErrCreEml" xml:space="preserve">
+    <value>Can not create the eml file.</value>
+  </data>
+  <data name="ErrCrePrj" xml:space="preserve">
+    <value>Can not create the project.</value>
+  </data>
+  <data name="ErrCreSimParam" xml:space="preserve">
+    <value>Can not create the simulation parameter.</value>
+  </data>
+  <data name="ErrCreXml" xml:space="preserve">
+    <value>Can not create the xml file.</value>
+  </data>
+  <data name="ErrCurParamID" xml:space="preserve">
+    <value>Can not find the current simulation parameter.</value>
+  </data>
+  <data name="ErrDelete" xml:space="preserve">
+    <value>Can't delete.</value>
+  </data>
+  <data name="ErrDeleteSimParam" xml:space="preserve">
+    <value>Can not delete the simulation parameter.</value>
+  </data>
   <data name="ErrExistID" xml:space="preserve">
     <value>is already exists in this VariableReferenceList.</value>
+  </data>
+  <data name="ErrExistObj" xml:space="preserve">
+    <value> is already exists in project.</value>
+  </data>
+  <data name="ErrExistSimParam" xml:space="preserve">
+    <value> is already exists in project.</value>
+  </data>
+  <data name="ErrExistStepper" xml:space="preserve">
+    <value> is already exists in project.</value>
+  </data>
+  <data name="ErrExportFile" xml:space="preserve">
+    <value>Can not export to the file.</value>
+  </data>
+  <data name="ErrFindDmDir" xml:space="preserve">
+    <value>Can not find the directory of dm. </value>
+  </data>
+  <data name="ErrFindModel" xml:space="preserve">
+    <value>Can not find the model.</value>
+  </data>
+  <data name="ErrFindPrj" xml:space="preserve">
+    <value>Can not find the project.</value>
+  </data>
+  <data name="ErrFindPrjFile" xml:space="preserve">
+    <value>Can not find the project file.</value>
+  </data>
+  <data name="ErrFindRunSim" xml:space="preserve">
+    <value>Can not find the running simulation.</value>
+  </data>
+  <data name="ErrFindSimParam" xml:space="preserve">
+    <value>Can not find the simulation parameter.</value>
+  </data>
+  <data name="ErrFindStepper" xml:space="preserve">
+    <value>Can not find stepper.</value>
+  </data>
+  <data name="ErrFindSuper" xml:space="preserve">
+    <value>Can't find the super system.</value>
+  </data>
+  <data name="ErrFindSystem" xml:space="preserve">
+    <value>Can't find the system.</value>
+  </data>
+  <data name="ErrGetData" xml:space="preserve">
+    <value>Can not get the log data.</value>
+  </data>
+  <data name="ErrGetEnt" xml:space="preserve">
+    <value>Can not find entities in model.</value>
+  </data>
+  <data name="ErrGetProp" xml:space="preserve">
+    <value>Can not get the properties.</value>
+  </data>
+  <data name="ErrGetStep" xml:space="preserve">
+    <value>Can not find the simulation parameter in model.</value>
+  </data>
+  <data name="ErrGetSysList" xml:space="preserve">
+    <value>Can not get the list of system.</value>
+  </data>
+  <data name="ErrIDUnform" xml:space="preserve">
+    <value>This ID is unformed.</value>
+  </data>
+  <data name="ErrInitParam" xml:space="preserve">
+    <value>Can not get the initial parameters.</value>
+  </data>
+  <data name="ErrInitSim" xml:space="preserve">
+    <value>Can not initialize the simulator.</value>
   </data>
   <data name="ErrInvalidID" xml:space="preserve">
     <value>There are invalid characters in ID.</value>
@@ -138,6 +240,15 @@
   <data name="ErrInvalidProp" xml:space="preserve">
     <value>There are invalid property in this window,</value>
   </data>
+  <data name="ErrLoadModel" xml:space="preserve">
+    <value>Can not load the model.</value>
+  </data>
+  <data name="ErrLoadPrj" xml:space="preserve">
+    <value>Can not load the project.</value>
+  </data>
+  <data name="ErrLoadSimParam" xml:space="preserve">
+    <value>Can not load the simulation parameter.</value>
+  </data>
   <data name="ErrNoInput" xml:space="preserve">
     <value>Please input the necessary item.</value>
   </data>
@@ -147,13 +258,67 @@
   <data name="ErrNoSelect" xml:space="preserve">
     <value>No select the variable.</value>
   </data>
+  <data name="ErrNotCreStepper" xml:space="preserve">
+    <value> can not be created.</value>
+  </data>
   <data name="ErrNotVar" xml:space="preserve">
     <value>This is not variable.</value>
+  </data>
+  <data name="ErrNullData" xml:space="preserve">
+    <value>There are the object with null data.</value>
+  </data>
+  <data name="ErrParseEml" xml:space="preserve">
+    <value>Can not parse the eml file.</value>
+  </data>
+  <data name="ErrPrjDir" xml:space="preserve">
+    <value>Can not find the project directory,</value>
   </data>
   <data name="ErrReserveSize" xml:space="preserve">
     <value>SIZE is the reserved name.</value>
   </data>
+  <data name="ErrResetSim" xml:space="preserve">
+    <value>Can not reset the simulation.</value>
+  </data>
+  <data name="ErrRunning" xml:space="preserve">
+    <value>Simulation is already running.</value>
+  </data>
+  <data name="ErrRunSim" xml:space="preserve">
+    <value>Can not execute the simulation.</value>
+  </data>
+  <data name="ErrSaveModel" xml:space="preserve">
+    <value>Can not save the model.</value>
+  </data>
+  <data name="ErrSaveNull" xml:space="preserve">
+    <value>Can not save the null or empty property.</value>
+  </data>
+  <data name="ErrSavePrj" xml:space="preserve">
+    <value>Can not save the project</value>
+  </data>
+  <data name="ErrSaveSim" xml:space="preserve">
+    <value>Can not save the simulation parameter.</value>
+  </data>
+  <data name="ErrSetInitParam" xml:space="preserve">
+    <value>Can not set the initial parameters.</value>
+  </data>
+  <data name="ErrSetProp" xml:space="preserve">
+    <value>Can not set the property of object.</value>
+  </data>
+  <data name="ErrSetSimParam" xml:space="preserve">
+    <value>Can not set the simulation parameter.</value>
+  </data>
+  <data name="ErrSetStepper" xml:space="preserve">
+    <value>Can not update the stepper,</value>
+  </data>
   <data name="ErrShowPropEdit" xml:space="preserve">
     <value>Get exception while system show the property editor.</value>
+  </data>
+  <data name="ErrSuspendSim" xml:space="preserve">
+    <value>Can not suspend the simulation.</value>
+  </data>
+  <data name="ErrUpdate" xml:space="preserve">
+    <value>Can't update.</value>
+  </data>
+  <data name="ErrUpdateLogPol" xml:space="preserve">
+    <value>Can not set the policy of logger.</value>
   </data>
 </root>

@@ -123,11 +123,113 @@
   <data name="ErrAdd" xml:space="preserve">
     <value>オブジェクトの追加に失敗しました。</value>
   </data>
+  <data name="ErrAddObj" xml:space="preserve">
+    <value> は追加するのに失敗しました。</value>
+  </data>
+  <data name="ErrBaseDir" xml:space="preserve">
+    <value>作業用ディレクトリを見つけることができませんでした。</value>
+  </data>
   <data name="ErrChange" xml:space="preserve">
     <value>オブジェクトのプロパティの更新に失敗しました。</value>
   </data>
+  <data name="ErrCheckID" xml:space="preserve">
+    <value>このＩＤをチェックできません。</value>
+  </data>
+  <data name="ErrClosePrj" xml:space="preserve">
+    <value> のプロジェクトを閉じることができませんでした。</value>
+  </data>
+  <data name="ErrCombiStepProc" xml:space="preserve">
+    <value>このステッパーとプロセスの組み合わせは選択できません。</value>
+  </data>
+  <data name="ErrCreEcd" xml:space="preserve">
+    <value>ECDファイルの作成に失敗しました。</value>
+  </data>
+  <data name="ErrCreEml" xml:space="preserve">
+    <value>EMLファイルを作成するのに失敗しました。</value>
+  </data>
+  <data name="ErrCrePrj" xml:space="preserve">
+    <value>プロジェクトを新規作成するのに失敗しました。</value>
+  </data>
+  <data name="ErrCreSimParam" xml:space="preserve">
+    <value>シミュレーションパラメータの作成に失敗しました。</value>
+  </data>
+  <data name="ErrCreXml" xml:space="preserve">
+    <value>XMLファイルを作成するのに失敗しました。</value>
+  </data>
+  <data name="ErrCurParamID" xml:space="preserve">
+    <value>現在のシミュレーションパラメータが見つかりません。</value>
+  </data>
+  <data name="ErrDelete" xml:space="preserve">
+    <value>削除に失敗しました。</value>
+  </data>
+  <data name="ErrDeleteSimParam" xml:space="preserve">
+    <value>シミュレーションパラメータを削除できませんでした。</value>
+  </data>
   <data name="ErrExistID" xml:space="preserve">
     <value>はVariableReferenceListに存在します。</value>
+  </data>
+  <data name="ErrExistObj" xml:space="preserve">
+    <value> は既に存在します。</value>
+  </data>
+  <data name="ErrExistSimParam" xml:space="preserve">
+    <value>は存在するシミュレーションパラメータです。</value>
+  </data>
+  <data name="ErrExistStepper" xml:space="preserve">
+    <value> は既に存在するStepperです。</value>
+  </data>
+  <data name="ErrExportFile" xml:space="preserve">
+    <value>ファイルに出力できませんでした。</value>
+  </data>
+  <data name="ErrFindDmDir" xml:space="preserve">
+    <value>DMディレクトリが見つかりません。</value>
+  </data>
+  <data name="ErrFindModel" xml:space="preserve">
+    <value>指定したモデルが見つかりませんでした。</value>
+  </data>
+  <data name="ErrFindPrj" xml:space="preserve">
+    <value>プロジェクトが見つかりませんでした。</value>
+  </data>
+  <data name="ErrFindPrjFile" xml:space="preserve">
+    <value>プロジェクトファイルが見つかりません。</value>
+  </data>
+  <data name="ErrFindRunSim" xml:space="preserve">
+    <value>実行中のシミュレーションがありません。</value>
+  </data>
+  <data name="ErrFindSimParam" xml:space="preserve">
+    <value>シミュレーションパラメータが見つかりません。</value>
+  </data>
+  <data name="ErrFindStepper" xml:space="preserve">
+    <value>ステッパーを見つけることができません。</value>
+  </data>
+  <data name="ErrFindSuper" xml:space="preserve">
+    <value>super systemを見つけることができません。</value>
+  </data>
+  <data name="ErrFindSystem" xml:space="preserve">
+    <value>systemを見つけることができません。</value>
+  </data>
+  <data name="ErrGetData" xml:space="preserve">
+    <value>ログデータを取得できませんでした。</value>
+  </data>
+  <data name="ErrGetEnt" xml:space="preserve">
+    <value>モデルの中から指定のエンティティを見つけることができませんでした。</value>
+  </data>
+  <data name="ErrGetProp" xml:space="preserve">
+    <value>指定のオブジェクトのプロパティを取得できませんでした。</value>
+  </data>
+  <data name="ErrGetStep" xml:space="preserve">
+    <value>モデルの中に指定のシミュレーションパラメータが見つかりませんでした。</value>
+  </data>
+  <data name="ErrGetSysList" xml:space="preserve">
+    <value>システムリストを取得するのに失敗しました。</value>
+  </data>
+  <data name="ErrIDUnform" xml:space="preserve">
+    <value>このIDの形式は異常です。</value>
+  </data>
+  <data name="ErrInitParam" xml:space="preserve">
+    <value>初期パラメータを取得できませんでした。</value>
+  </data>
+  <data name="ErrInitSim" xml:space="preserve">
+    <value>シミュレーターの初期化に失敗しました。</value>
   </data>
   <data name="ErrInvalidID" xml:space="preserve">
     <value>IDに異常な文字が含まれています。</value>
@@ -138,6 +240,15 @@
   <data name="ErrInvalidProp" xml:space="preserve">
     <value>異常なプロパティが存在します。確認して下さい。</value>
   </data>
+  <data name="ErrLoadModel" xml:space="preserve">
+    <value>モデルのロードに失敗しました。</value>
+  </data>
+  <data name="ErrLoadPrj" xml:space="preserve">
+    <value>プロジェクトをロードするのに失敗しました。</value>
+  </data>
+  <data name="ErrLoadSimParam" xml:space="preserve">
+    <value>シミュレーションパラメータのロードに失敗しました。</value>
+  </data>
   <data name="ErrNoInput" xml:space="preserve">
     <value>必要な項目にデータが入っていません。</value>
   </data>
@@ -147,13 +258,67 @@
   <data name="ErrNoSelect" xml:space="preserve">
     <value>Variableが選択されていません。</value>
   </data>
+  <data name="ErrNotCreStepper" xml:space="preserve">
+    <value> のステッパーを作成できませんでした。</value>
+  </data>
   <data name="ErrNotVar" xml:space="preserve">
     <value>選択したオブジェクトはvaraibleではありません。</value>
+  </data>
+  <data name="ErrNullData" xml:space="preserve">
+    <value>NULLのデータが存在します。</value>
+  </data>
+  <data name="ErrParseEml" xml:space="preserve">
+    <value>EMLファイルをパースするのに失敗しました。</value>
+  </data>
+  <data name="ErrPrjDir" xml:space="preserve">
+    <value>プロジェクトディレクトリが見つかりません。</value>
   </data>
   <data name="ErrReserveSize" xml:space="preserve">
     <value>SIZEは予約語です。</value>
   </data>
+  <data name="ErrResetSim" xml:space="preserve">
+    <value>シミュレーションをリセットできませんでした。</value>
+  </data>
+  <data name="ErrRunning" xml:space="preserve">
+    <value>シミュレーション実行中です。</value>
+  </data>
+  <data name="ErrRunSim" xml:space="preserve">
+    <value>シミュレーションの実行に失敗しました。</value>
+  </data>
+  <data name="ErrSaveModel" xml:space="preserve">
+    <value>モデルの保存に失敗しました。</value>
+  </data>
+  <data name="ErrSaveNull" xml:space="preserve">
+    <value>nullもしくは空のパラメータを保存できませんでした。</value>
+  </data>
+  <data name="ErrSavePrj" xml:space="preserve">
+    <value>プロジェクトの保存に失敗しました。</value>
+  </data>
+  <data name="ErrSaveSim" xml:space="preserve">
+    <value>シミュレーションパラメータの保存に失敗しました。</value>
+  </data>
+  <data name="ErrSetInitParam" xml:space="preserve">
+    <value>初期パラメータの設定に失敗しました。</value>
+  </data>
+  <data name="ErrSetProp" xml:space="preserve">
+    <value>オブジェクトのプロパティの設定に失敗しました。</value>
+  </data>
+  <data name="ErrSetSimParam" xml:space="preserve">
+    <value>シミュレーションパラメータの設定に失敗しました。</value>
+  </data>
+  <data name="ErrSetStepper" xml:space="preserve">
+    <value>ステッパーの更新に失敗しました。</value>
+  </data>
   <data name="ErrShowPropEdit" xml:space="preserve">
     <value>プロパティ編集ダイアログの表示に失敗しました。</value>
+  </data>
+  <data name="ErrSuspendSim" xml:space="preserve">
+    <value>シミュレーションを一時停止できませんでした。</value>
+  </data>
+  <data name="ErrUpdate" xml:space="preserve">
+    <value>更新に失敗しました。</value>
+  </data>
+  <data name="ErrUpdateLogPol" xml:space="preserve">
+    <value>ロガーポリシーの設定に失敗しました。</value>
   </data>
 </root>

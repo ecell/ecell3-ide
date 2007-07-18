@@ -166,6 +166,10 @@ namespace EcellLib
         /// ResourceManager for StaticDebugSetupWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
+        /// <summary>
+        /// ResourceManager for StaticDebugSetupWindow.
+        /// </summary>
+        static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResLib));
         #endregion
 
         /// <summary>
@@ -259,7 +263,7 @@ namespace EcellLib
                         {
                             if (l_stepper.key.Equals(l_storedStepper.key))
                             {
-                                throw new Exception("The " + l_message + " stepper already exists.");
+                                throw new Exception(l_message + m_resources.GetString("ErrExistStepper");
                             }
                         }
                         this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.modelID]
@@ -274,7 +278,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't create the " + l_message + " stepper.";
+                l_message = l_message + m_resources.GetString("ErrNotCreStepper");
                 this.m_pManager.Message(
                         Util.s_xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -793,7 +797,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't close the " + l_message + " project.";
+                l_message = l_message + m_resources.GetString("ErrClosePrj");
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -826,7 +830,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't find the model named " + l_message + ".";
+                l_message = m_resources.GetString("ErrFindModel") + l_message;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine);
@@ -997,8 +1001,8 @@ namespace EcellLib
             {
                 l_ex.ToString();
                 throw new Exception(
-                    "Can't use the combination of the [" + l_defaultStepper + "] stepper and the ["
-                    + l_defaultProcess + "] process.");
+                    s_resources.GetString("ErrCombiStepProc") + 
+                    "[" + l_defaultStepper + ", " + l_defaultProcess + "]");
             }
         }
 
@@ -1062,7 +1066,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 l_usableList = null;
-                l_message = "Can't create the " + l_message + " object.";
+                l_message = l_message + m_resources.GetString("ErrAddObj");
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -1099,7 +1103,7 @@ namespace EcellLib
                 !this.m_systemDic[this.m_currentProjectID].ContainsKey(l_ecellObject.modelID)
                 )
             {
-                throw new Exception("Can't find the parent system.");
+                throw new Exception(m_resources.GetString("ErrFindSuper"));
             }
             bool l_findFlag = false;
             string l_systemKey = Util.s_delimiterPath;
@@ -1132,7 +1136,7 @@ namespace EcellLib
                             if (l_child.key.Equals(l_ecellObject.key) && l_child.type.Equals(l_ecellObject.type))
                             {
                                 throw new Exception(
-                                    "The " + l_message + " " + l_ecellObject.type.ToLower() + " already exists.");
+                                    l_message + " " + l_ecellObject.type.ToLower() + m_resources.GetString("ErrExistObj"));
                             }
                         }
                         this.CheckEntityPath(l_ecellObject);
@@ -1149,7 +1153,7 @@ namespace EcellLib
             }
             if (!l_findFlag)
             {
-                l_message = "Can't create the " + l_message + " " + l_ecellObject.type.ToLower() + ".";
+                l_message = l_message + " " + l_ecellObject.type.ToLower() + m_resources.GetString("ErrAddObj");
                 if (l_messageFlag)
                 {
                     this.m_pManager.Message(
@@ -1203,7 +1207,7 @@ namespace EcellLib
             {
                 if (l_model.modelID.Equals(l_ecellObject.modelID))
                 {
-                    throw new Exception("The " + l_message + " model already exists.");
+                    throw new Exception(l_message + m_resources.GetString("ErrExistObj"));
                 }
             }
             //
@@ -1304,7 +1308,7 @@ namespace EcellLib
                 {
                     if (l_system.key.Equals(l_ecellObject.key))
                     {
-                        throw new Exception("The " + l_message + " system already exists.");
+                        throw new Exception(l_message + m_resources.GetString("ErrAddObj"));
                     }
                 }
             }
@@ -1384,15 +1388,15 @@ namespace EcellLib
                 l_message = "[" + l_ecellObject.modelID + "][" + l_ecellObject.key + "]";
                 if (l_modelID == null || l_modelID.Length <= 0)
                 {
-                    throw new Exception("Can't find the [null] model.");
+                    throw new Exception(m_resources.GetString("ErrNullData") + l_message);
                 }
                 else if (l_key == null || l_key.Length <= 0)
                 {
-                    throw new Exception("Can't find the [null] key.");
+                    throw new Exception(m_resources.GetString("ErrNullData") + l_message);
                 }
                 else if (l_type == null || l_type.Length <= 0)
                 {
-                    throw new Exception("Can't find the [null] type.");
+                    throw new Exception(m_resources.GetString("ErrNullData") + l_message);
                 }
                 //
                 // Searches the "System".
@@ -1400,7 +1404,7 @@ namespace EcellLib
                 List<EcellObject> l_systemList = this.m_systemDic[this.m_currentProjectID][l_modelID];
                 if (l_systemList == null || l_systemList.Count <= 0)
                 {
-                    throw new Exception("Can't find the " + l_message + " system.");
+                    throw new Exception(m_resources.GetString("ErrFindSystem") +  l_message);
                 }
                 //
                 // Checks the EcellObject
@@ -1435,7 +1439,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't update the " + l_message + " " + l_ecellObject.type + ".";
+                l_message = m_resources.GetString("ErrUpdate") + l_message + " " + l_ecellObject.type;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -1727,7 +1731,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't delete the " + l_message + " " + l_type + ".";
+                l_message = m_resources.GetString("ErrDelete") + l_message + " " + l_type;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -1763,7 +1767,7 @@ namespace EcellLib
             }
             if (!l_isDelete)
             {
-                throw new Exception("Can't find the " + l_message + " model");
+                throw new Exception(m_resources.GetString("ErrFindModel") +  l_message);
             }
             //
             // Deletes "System"s.
@@ -2736,12 +2740,12 @@ namespace EcellLib
                 //
                 if (l_parameterID == null || l_parameterID.Length <= 0)
                 {
-                    throw new Exception("Can't find the [null] parameter.");
+                    throw new Exception(m_resources.GetString("ErrNullData") + "[ParameterID]");
                 }
                 this.SetDefaultDir();
                 if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
                 {
-                    throw new Exception("Can't find the base directory.");
+                    throw new Exception(m_resources.GetString("ErrBaseDir"));
                 }
                 if (this.m_stepperDic[this.m_currentProjectID].ContainsKey(l_parameterID))
                 {
@@ -2766,13 +2770,13 @@ namespace EcellLib
                 }
                 else
                 {
-                    throw new Exception("Can't find the " + l_message + " simulation parameter.");
+                    throw new Exception(m_resources.GetString("ErrFindSimParam") + l_message);
                 }
                 m_aManager.AddAction(new DeleteSimParamAction(l_parameterID));
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't delete the " + l_message + " simulation parameter.";
+                l_message = m_resources.GetString("ErrDeleteSimParam") + l_message;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -2815,7 +2819,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't delete the " + l_message + " stepper.";
+                l_message = m_resources.GetString("ErrDelete") + l_message;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -2839,13 +2843,13 @@ namespace EcellLib
                 string[] l_infos = l_fullID.Split(Util.s_delimiterColon.ToCharArray());
                 if (l_infos.Length != 3)
                 {
-                    throw new Exception("The [" + l_fullID + "] full ID is unformed.");
+                    throw new Exception(m_resources.GetString("ErrIDUnform") + l_message);
                 }
                 else if (!l_infos[0].Equals(Util.s_xpathSystem)
                         && !l_infos[0].Equals(Util.s_xpathProcess)
                         && !l_infos[0].Equals(Util.s_xpathVariable))
                 {
-                    throw new Exception("The [" + l_fullID + "] full ID is unformed.");
+                    throw new Exception(m_resources.GetString("ErrIDUnform") + l_message);
                 }
                 string l_key = null;
                 if (l_infos[1].Equals("") && l_infos[2].Equals(Util.s_delimiterPath))
@@ -2893,7 +2897,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't check the [" + l_message + "] full ID. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrCheckID") + l_message + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -2943,11 +2947,11 @@ namespace EcellLib
                 }
                 if (l_storedStepperList == null || l_storedStepperList.Count <= 0)
                 {
-                    throw new Exception("Can't find the stepper.");
+                    throw new Exception(m_resources.GetString("ErrFindStepper"));
                 }
                 else if (l_storedSystemList == null || l_storedSystemList.Count <= 0)
                 {
-                    throw new Exception("Can't find the system.");
+                    throw new Exception(m_resources.GetString("ErrFindSystem"));
                 }
                 //
                 // Exports.
@@ -2962,7 +2966,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't export the file named \"" + l_fileName + "\". {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrExportFile") + l_fileName + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -3185,7 +3189,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't obtain the log data, {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrGetData") + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -3207,7 +3211,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                        "Can't obtain the " + l_message + " initial condition. {"
+                        m_resources.GetString("ErrInitParam") + l_message + " {"
                         + l_ex.ToString() + "}");
             }
         }
@@ -3232,7 +3236,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                        "Can't obtain the " + l_message + " initial condition. {"
+                        m_resources.GetString("ErrInitParam") + l_message + " {"
                         + l_ex.ToString() + "}");
             }
         }
@@ -3283,7 +3287,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 l_logDataList = null;
-                throw new Exception("Can't obtain the log data. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrGetData") + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -3522,8 +3526,8 @@ namespace EcellLib
             {
                 l_entityList.Clear();
                 l_entityList = null;
-                throw new Exception(
-                    "Can't obtain the [" + l_entityName + "] list of the [" + l_modelID + "]. {"
+                throw new Exception(m_resources.GetString("ErrFindEnt") + 
+                    " [" + l_entityName + "][" + l_modelID + "]. {"
                     + l_ex.ToString() + "}");
             }
         }
@@ -3549,7 +3553,8 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't obtain the " + l_message + " property. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrGetProp") + 
+                    l_message + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -3612,8 +3617,8 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                    "Can't obtain the property of the \"" + l_dmName + "\" \"Process\". {"
-                    + l_ex.ToString() + "}");
+                    s_resources.GetString("ErrGetProp") +
+                    "[" + l_dmName + "] {" + l_ex.ToString() + "}");
             }
             finally
             {
@@ -3703,7 +3708,8 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't find any model. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrFindModel") +
+                    " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -3741,7 +3747,8 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't find any simulation parameter. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrSimParam") + 
+                    " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -3767,14 +3774,14 @@ namespace EcellLib
             {
                 if (l_modelID == null || l_modelID.Length <= 0)
                 {
-                    throw new Exception("Can't find the model ID.");
+                    throw new Exception(m_resources.GetString("ErrNullData");
                 }
                 List<string> l_parameterList = new List<string>();
                 if (l_parameterID == null || l_parameterID.Length <= 0)
                 {
                     if (this.m_currentParameterID == null || this.m_currentParameterID.Length <= 0)
                     {
-                        throw new Exception("Can't find the current simulation parameter ID.");
+                        throw new Exception(m_resources.GetString("ErrCurParamID"));
                     }
                     l_parameterList.Add(this.m_currentParameterID);
                 }
@@ -3815,7 +3822,8 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                    "Can't obtain the \"" + l_parameterID + "\" stepper of the \"" + l_modelID + "\" model. {" +
+                    m_resources.GetString("ErrGetStep") +
+                    " [" + l_parameterID + ", " + l_modelID + "] {" +
                     l_ex.ToString() + "}");
             }
         }
@@ -3838,7 +3846,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 l_list = null;
-                throw new Exception("Can't obtain the simulation parameter ID. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrGetSimParam") + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -3923,7 +3931,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't obtain the [" + l_modelID + "] \"System\" list of the . {"
+                throw new Exception(m_resources.GetString("ErrGetSysList") + " [" + l_modelID + "] {"
                         + l_ex.ToString() + "}");
             }
         }
@@ -4349,7 +4357,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't initialize the simulator. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrInitSim") + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -4537,6 +4545,11 @@ namespace EcellLib
                 {
                     m_dmDir = m_dmDir + ";" + Util.GetProjectDMDir(m_currentProjectID);
                 }
+                else if (m_loadingProject == null)
+                {
+                    String dirName = Path.GetDirectoryName(l_filename);
+                    m_dmDir = m_dmDir + ";" + dirName + "\\\\dm";
+                }
                 this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(m_dmDir);
                 l_eml.Parse(l_filename, this.m_simulatorDic[this.m_currentProjectID], l_ecellObjectList, ref l_modelID);
                 //
@@ -4546,7 +4559,7 @@ namespace EcellLib
                 {
                     if (l_model.modelID.Equals(l_modelID))
                     {
-                        throw new Exception("Finds the same " + l_message + " model.");
+                        throw new Exception(l_message + m_resources.GetString("ErrExistObj") + "[Model]");
                     }
                 }
                 //
@@ -4558,8 +4571,7 @@ namespace EcellLib
                 }
                 catch (Exception)
                 {
-                    l_message = "Can't initialize the model named " + l_message + "." + System.Environment.NewLine
-                        + "  So, the incomplete model is displayed.";
+                    l_message = m_resources.GetString("ErrInitSim") + "[" + m_currentProjectID + "]";
                 }
                 //
                 // Checks the current parameter ID.
@@ -4655,7 +4667,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't load the model named " + l_message + ".";
+                l_message = m_resources.GetString("ErrLoadModel") + "[" + l_message + "]";
                 this.m_pManager.Message(
                         Util.s_xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -4680,12 +4692,12 @@ namespace EcellLib
                 //
                 if (l_prjID == null || l_prjID.Length <= 0)
                 {
-                    throw new Exception("Can't find the [null] project.");
+                    throw new Exception(m_resources.GetString("ErrNullData"));
                 }
                 this.SetDefaultDir();
                 if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
                 {
-                    throw new Exception("Can't find the base directory.");
+                    throw new Exception(m_resources.GetString("ErrBaseDir"));
                 }
                 //
                 // Loads the project.
@@ -4693,7 +4705,7 @@ namespace EcellLib
                 string[] l_dirs = Directory.GetDirectories(this.m_defaultDir);
                 if (l_dirs == null || l_dirs.Length <= 0)
                 {
-                    throw new Exception("Can't find the project directory.");
+                    throw new Exception(m_resources.GetString("ErrPrjDir"));
                 }
                 foreach (string l_dir in l_dirs)
                 {
@@ -4774,7 +4786,7 @@ namespace EcellLib
                 }
                 if (l_prj == null)
                 {
-                    throw new Exception("Can't find the [" + Util.s_fileProject + "] file.");
+                    throw new Exception(m_resources.GetString("ErrFindPrjFile") + " [" + Util.s_fileProject + "]");
                 }
                 //
                 // Loads the model.
@@ -4800,7 +4812,7 @@ namespace EcellLib
                     }
                     else
                     {
-                        throw new Exception("Can't find any models.");
+                        throw new Exception(m_resources.GetString("ErrFindModel"));
                     }
                     l_passList.AddRange(this.m_modelDic[this.m_currentProjectID]);
                     foreach (string l_storedModelID in this.m_systemDic[this.m_currentProjectID].Keys)
@@ -4810,7 +4822,7 @@ namespace EcellLib
                 }
                 else
                 {
-                    throw new Exception("Can't find any models.");
+                    throw new Exception(m_resources.GetString("ErrFindModel"));
                 }
                 //
                 // Loads the simulation parameter.
@@ -4880,7 +4892,7 @@ namespace EcellLib
                 {
                     this.m_initialCondition.Remove(l_prjID);
                 }
-                l_message = "Can't load the " + l_message + " project.";
+                l_message = m_resources.GetString("ErrLoadPrj") + "[" + l_message + "]";
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine);
@@ -4912,7 +4924,7 @@ namespace EcellLib
                 //
                 if (l_fileName == null || l_fileName.Length <= 0)
                 {
-                    throw new Exception("Can't load the [null] parameter.");
+                    throw new Exception(m_resources.GetString("ErrNullData"));
                 }
                 //
                 // Parses the simulation parameter.
@@ -5094,7 +5106,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't load the " + l_message + " simulation parameter.";
+                l_message = m_resources.GetString("ErrLoadSimParam") + "[" + l_message + "]";
                 this.m_pManager.Message(Util.s_xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5113,7 +5125,7 @@ namespace EcellLib
         {
             if (l_stepperList == null || l_stepperList.Count <= 0)
             {
-                throw new Exception("Can't find any stepper.");
+                throw new Exception(m_resources.GetString("ErrFindSimParam"));
             }
             bool l_existStepper = false;
             foreach (EcellObject l_stepper in l_stepperList)
@@ -5196,7 +5208,7 @@ namespace EcellLib
             }
             if (!l_existStepper)
             {
-                throw new Exception("Can't find any stepper.");
+                throw new Exception(m_resources.GetString("ErrFindSimParam"));
             }
         }
 
@@ -5217,7 +5229,7 @@ namespace EcellLib
         {
             if (l_systemList == null || l_systemList.Count <= 0)
             {
-                throw new Exception("Can't find any system.");
+                throw new Exception(m_resources.GetString("ErrFindSystem"));
             }
             bool l_existSystem = false;
             Dictionary<string, WrappedPolymorph> l_processPropertyDic = new Dictionary<string, WrappedPolymorph>();
@@ -5343,7 +5355,7 @@ namespace EcellLib
             }
             if (!l_existSystem)
             {
-                throw new Exception("Can't find any system.");
+                throw new Exception(m_resources.GetString("ErrFindSystem"));
             }
         }
 
@@ -5427,7 +5439,7 @@ namespace EcellLib
                 {
                     this.m_modelDic.Remove(l_prjID);
                 }
-                l_message = "Can't create the " + l_message + " project.";
+                l_message = m_resources.GetString("ErrCrePrj") + "[" + l_message + "]";
                 m_pManager.Message(Util.s_xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5471,7 +5483,7 @@ namespace EcellLib
                         }
                         else
                         {
-                            throw new Exception("Can't find the stored simulation parameter.");
+                            throw new Exception(m_resources.GetString("ErrFindSimParam"));
                         }
                     }
                     //
@@ -5495,7 +5507,7 @@ namespace EcellLib
                 }
                 else
                 {
-                    throw new Exception("The " + l_message + " simulation parameter already exists.");
+                    throw new Exception( l_message + m_resources.GetString("ErrExistSimParam"));
                 }
                 //
                 // 4 LoggerPolicy
@@ -5524,7 +5536,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't create the " + l_message + " simulation parameter.";
+                l_message = m_resources.GetString("ErrCreSimParam") + l_message;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine);
@@ -5548,12 +5560,12 @@ namespace EcellLib
                 //
                 if (l_modelID == null || l_modelID.Length <= 0)
                 {
-                    throw new Exception("Can't find the [null] model.");
+                    throw new Exception(m_resources.GetString("ErrNullData"));
                 }
                 this.SetDefaultDir();
                 if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
                 {
-                    throw new Exception("Can't find the base directory.");
+                    throw new Exception(m_resources.GetString("ErrBaseDir"));
                 }
                 if (!Directory.Exists(this.m_defaultDir + Util.s_delimiterPath + this.m_currentProjectID))
                 {
@@ -5575,7 +5587,7 @@ namespace EcellLib
                     = this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID][l_modelID];
                 if (l_stepperList == null || l_stepperList.Count <= 0)
                 {
-                    throw new Exception("Can't find any stepper.");
+                    throw new Exception(m_resources.GetString("ErrFindStepper"));
                 }
                 l_storedList.AddRange(l_stepperList);
                 //
@@ -5584,7 +5596,7 @@ namespace EcellLib
                 List<EcellObject> l_systemList = this.m_systemDic[this.m_currentProjectID][l_modelID];
                 if (l_systemList == null || l_systemList.Count <= 0)
                 {
-                    throw new Exception("Can't find any system.");
+                    throw new Exception(m_resources.GetString("ErrFindSystem"));
                 }
                 l_storedList.AddRange(l_systemList);
                 //
@@ -5604,7 +5616,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 l_storedList = null;
-                l_message = "Can't save the " + l_message + " model.";
+                l_message = m_resources.GetString("ErrSaveModel") + l_message;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine);
@@ -5628,11 +5640,11 @@ namespace EcellLib
                 //
                 if (l_prjID == null || l_prjID.Length <= 0)
                 {
-                    throw new Exception("Can't find the [null] project.");
+                    throw new Exception(m_resources.GetString("ErrNullData"));
                 }
                 if (this.m_projectList == null || this.m_projectList.Count <= 0)
                 {
-                    throw new Exception("Can't find the [Project] object.");
+                    throw new Exception(m_resources.GetString("ErrFindPrj"));
                 }
                 else
                 {
@@ -5646,13 +5658,13 @@ namespace EcellLib
                     }
                     if (l_thisPrj == null)
                     {
-                        throw new Exception("Can't find the [Project] object.");
+                        throw new Exception(m_resources.GetString("ErrFindPrj"));
                     }
                 }
                 this.SetDefaultDir();
                 if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
                 {
-                    throw new Exception("Can't find the base directory.");
+                    throw new Exception(m_resources.GetString("ErrBaseDir"));
                 }
                 //
                 // Saves the project.
@@ -5688,7 +5700,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't save the " + l_message + " project.";
+                l_message = m_resources.GetString("ErrSavePrj") + l_message;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine);
@@ -5727,12 +5739,12 @@ namespace EcellLib
                 //
                 if (l_paramID == null || l_paramID.Length <= 0)
                 {
-                    throw new Exception("Can't find the [null] parameter.");
+                    throw new Exception(m_resources.GetString("ErrNullData"));
                 }
                 this.SetDefaultDir();
                 if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
                 {
-                    throw new Exception("Can't find the base directory.");
+                    throw new Exception(m_resources.GetString("ErrBaseDir"));
                 }
                 if (!Directory.Exists(this.m_defaultDir + Util.s_delimiterPath + this.m_currentProjectID))
                 {
@@ -5757,7 +5769,7 @@ namespace EcellLib
                 }
                 if (l_stepperList == null || l_stepperList.Count <= 0)
                 {
-                    throw new Exception("Can't find any stepper.");
+                    throw new Exception(m_resources.GetString("ErrFindStepper"));
                 }
                 //
                 // Picks the "LoggerPolicy" up.
@@ -5783,7 +5795,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't save the " + l_message + " simulation parameter.";
+                l_message = m_resources.GetString("ErrSaveSim") + l_message;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -5830,7 +5842,7 @@ namespace EcellLib
                     this.SetDefaultDir();
                     if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
                     {
-                        throw new Exception("Can't find the base directory.");
+                        throw new Exception(m_resources.GetString("ErrBaseDir"));
                     }
                     if (!Directory.Exists(this.m_defaultDir + Util.s_delimiterPath + this.m_currentProjectID))
                     {
@@ -5884,7 +5896,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't save the " + l_message + " simulation result.";
+                l_message = m_resources.GetString("ErrSaveSim") + l_message;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -5943,7 +5955,7 @@ namespace EcellLib
             String dmDirName = Util.GetDMDir();
             if (dmDirName == null)
             {
-                throw new Exception("Can't find property of E-CELL IDE. Would you please re-install E-CELL IDE.\n");
+                throw new Exception(m_resources.GetString("ErrFindDmDir"));
             }
             string[] l_dmPathArray = dmDirName.Split(Util.s_delimiterSemiColon.ToCharArray());
             bool l_searchFlag = false;
@@ -6042,7 +6054,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't set the " + l_message + " property. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrSetProp") + l_message + " {" + l_ex.ToString() + "}");
             }
         }
         
@@ -6064,7 +6076,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't update the " + l_message + " logger policy.";
+                l_message = m_resources.GetString("ErrUpdateLogPol") + l_message;
                 this.m_pManager.Message(Util.s_xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -6169,7 +6181,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = "Can't set the " + l_message + " simulation parameter.";
+                l_message = m_resources.GetString("ErrSetSimParam") + l_message;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -6214,7 +6226,7 @@ namespace EcellLib
                 }
                 else
                 {
-                    throw new Exception("The simulation is already running.");
+                    throw new Exception(m_resources.GetString("ErrRunning"));
                 }
                 //
                 // Debug
@@ -6269,7 +6281,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] = s_simulationWait;
-                throw new Exception("Can't execute the simulation. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrRunSim") + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -6312,7 +6324,7 @@ namespace EcellLib
                 }
                 else
                 {
-                    throw new Exception("The simulation is already running.");
+                    throw new Exception(m_resources.GetString("ErrRunning"));
                 }
                 //
                 // Selects the type of the simulation and Starts.
@@ -6374,7 +6386,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] = s_simulationWait;
-                string l_message = "Can't execute the simulation.";
+                string l_message = m_resources.GetString("ErrRunSim");
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -6409,14 +6421,14 @@ namespace EcellLib
             {
                 if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun)
                 {
-                    throw new Exception("The simulation is already running.");
+                    throw new Exception(m_resources.GetString("ErrRunnning"));
                 }
                 this.SimulationStart(l_stepLimit, s_simulationSuspend);
             }
             catch (Exception l_ex)
             {
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] = s_simulationWait;
-                throw new Exception("Can't execute the simulation. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrRunSim") + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -6430,7 +6442,7 @@ namespace EcellLib
             {
                 if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun)
                 {
-                    throw new Exception("The simulation is already running.");
+                    throw new Exception(m_resources.GetString("ErrRunning"));
                 }
                 // double l_currentSimulationTime = this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime();
                 // this.SimulationStart(l_currentSimulationTime + l_timeLimit);
@@ -6446,7 +6458,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] = s_simulationWait;
-                throw new Exception("Can't execute the simulation. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrRunSim") + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -6459,7 +6471,7 @@ namespace EcellLib
             {
                 if (this.m_simulatorDic[this.m_currentProjectID] == null)
                 {
-                    throw new Exception("Can't find the stoppable simulator.");
+                    throw new Exception(m_resources.GetString("ErrFindRunSim"));
                 }
                 lock (this.m_simulatorDic[this.m_currentProjectID])
                 {
@@ -6473,7 +6485,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                string l_message = "Can't reset the simulation.";
+                string l_message = m_resources.GetString("ErrResetSim");
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -6503,7 +6515,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                string l_message = "Can't suspend the simulation.";
+                string l_message = m_resources.GetString("ErrSuspendSim");
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -6591,8 +6603,8 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't update the initial parameter of this " + l_message + " keys. {"
-                        + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrSetInitParam") + l_message
+                    + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -6611,7 +6623,7 @@ namespace EcellLib
                     l_message = "[" + l_parameterID + "][" + l_stepper.modelID + "][" + l_stepper.key + "]";
                     if (!this.m_stepperDic[this.m_currentProjectID][l_parameterID].ContainsKey(l_stepper.modelID))
                     {
-                        throw new Exception("Can't find the " + l_message + " stepper.");
+                        throw new Exception(m_resources.GetString("ErrFindStepper") + l_message);
                     }
                     bool l_updateFlag = false;
                     List<EcellObject> l_storedStepperList
@@ -6628,14 +6640,14 @@ namespace EcellLib
                     }
                     if (!l_updateFlag)
                     {
-                        throw new Exception("Can't find the " + l_message + " stepper.");
+                        throw new Exception(m_resources.GetString("ErrFindStepper") + l_message);
                     }
                 }
                 m_aManager.AddAction(new UpdateStepperAction(l_parameterID, l_stepperList));
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't update the " + l_message + " stepper. {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrSetStepper") + l_message + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -6717,6 +6729,11 @@ namespace EcellLib
     /// </summary>
     internal class Ecd
     {
+        /// <summary>
+        /// ResourceManager for PropertyEditor.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
+
         /// <summary>
         /// Creates a new "Ecd" instance with no argument.
         /// </summary>
@@ -6872,7 +6889,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                        "Can't create the ecd file named \"" + l_logData.model + "\". {" + l_ex.ToString() + "}");
+                    m_resources.GetString("ErrCreEcd") + "[" + l_logData.model + "] {" + l_ex.ToString() + "}");
             }
         }
     }
@@ -6883,6 +6900,11 @@ namespace EcellLib
     /// </summary>
     internal class Eml
     {
+        /// <summary>
+        /// ResourceManager for PropertyEditor.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
+
         /// <summary>
         /// Creates a new "Eml" instance with no argument.
         /// </summary>
@@ -6965,11 +6987,11 @@ namespace EcellLib
                 //
                 if (l_fileName == null || l_fileName.Length <= 0)
                 {
-                    throw new Exception("Can't save the \"null\" parameter.");
+                    throw new Exception(m_resources.GetString("ErrSaveNull"));
                 }
                 if (l_stepperList == null || l_stepperList.Count <= 0)
                 {
-                    throw new Exception("Can't save the \"empty\" parameter.");
+                    throw new Exception(m_resources.GetString("ErrSaveNull"));
                 }
                 //
                 // Checks the old model file.
@@ -7037,7 +7059,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't create the xml named \"" + l_fileName + "\". {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrCreXml") + "[" + l_fileName + "] {" + l_ex.ToString() + "}");
             }
         }
 
@@ -7055,11 +7077,11 @@ namespace EcellLib
                 //
                 if (l_fileName == null || l_fileName.Length <= 0)
                 {
-                    throw new Exception("Can't save the \"null\" model.");
+                    throw new Exception(m_resources.GetString("ErrSaveNull"));
                 }
                 if (l_storedList == null || l_storedList.Count <= 0)
                 {
-                    throw new Exception("Can't save the \"empty\" model.");
+                    throw new Exception(m_resources.GetString("ErrSaveNull"));
                 }
                 //
                 // Checks the old model file.
@@ -7111,7 +7133,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't create the eml named \"" + l_fileName + "\". {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrCreEml") + "[" + l_fileName + "] {" + l_ex.ToString() + "}");
             }
         }
 
@@ -7581,7 +7603,7 @@ namespace EcellLib
                 l_simulator = null;
                 l_parameterID = null;
                 l_stepperList = null;
-                throw new Exception("Can't parse the file named \"" + l_fileName + "\". {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrParseEml") + "[" + l_fileName + "] {" + l_ex.ToString() + "}");
             }
             finally
             {
@@ -7643,7 +7665,7 @@ namespace EcellLib
                 l_simulator = null;
                 l_modelID = null;
                 l_ecellObjectList = null;
-                throw new Exception("Can't parse the file named \"" + l_fileName + "\". {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrParseEml") + "[" + l_fileName + "] {" + l_ex.ToString() + "}");
             }
             finally
             {
@@ -7668,7 +7690,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 l_simulator = null;
-                throw new Exception("Can't parse the file named \"" + l_fileName + "\". {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrParseEml") + "[" + l_fileName + "] {" + l_ex.ToString() + "}");
             }
             finally
             {
