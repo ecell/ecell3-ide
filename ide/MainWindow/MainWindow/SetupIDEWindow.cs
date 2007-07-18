@@ -61,7 +61,12 @@ namespace EcellLib.MainWindow
             if (tmpLang != m_lang)
             {
                 Util.SetLanguage(tmpLang);
-                MessageBox.Show(m_resources.GetString("ConfirmRestart"), "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (tmpLang == "AUTO")
+                    MessageBox.Show(m_resources.GetString("ConfirmRestart"), "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else if (tmpLang == "EN_US")
+                    MessageBox.Show("The change will take effect after you restart this application.", "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("‚±‚Ìİ’è‚ÍŸ‰ñ‹N“®‚©‚ç—LŒø‚É‚È‚è‚Ü‚·B", "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             this.Close();
         }
