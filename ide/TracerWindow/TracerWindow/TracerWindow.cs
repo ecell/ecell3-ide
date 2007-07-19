@@ -196,6 +196,7 @@ namespace EcellLib.TracerWindow
         /// </summary>
         public void TraceWindowAppStart()
         {
+            Util.InitialLanguage();
             Application.Run(m_win);
         }
 

@@ -45,9 +45,6 @@ namespace EcellLib.AboutWindow
         /// </summary>
         public AboutForm()
         {
-            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja", true);
-
-
             InitializeComponent();
 
             String path = Util.GetDMDir();

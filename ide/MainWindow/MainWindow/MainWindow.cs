@@ -232,6 +232,7 @@ namespace EcellLib.MainWindow
         /// </summary>
         private void LoadModelData()
         {
+            Util.InitialLanguage();
             try
             {
                 string modelID = m_dManager.LoadModel(openFileDialog.FileName, true);

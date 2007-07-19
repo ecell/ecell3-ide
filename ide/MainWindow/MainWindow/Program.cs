@@ -46,19 +46,7 @@ namespace EcellLib.MainWindow
         [STAThread]
         static void Main()
         {
-            String lang = Util.GetLang();
-            if (lang == null)
-            {
-                // nothing
-            }
-            else if (lang.ToUpper() == "EN_US")
-            {
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-us", true);
-            }
-            else if (lang.ToUpper() == "JA")
-            {
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja", true);
-            }
+            Util.InitialLanguage();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Splash frmSplash = new Splash();

@@ -33,6 +33,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using System.Security.AccessControl;
+using System.Threading;
 
 namespace EcellLib
 {
@@ -602,6 +603,26 @@ namespace EcellLib
                 {
                     l_subkey.Close();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Set the language of application when application is start.
+        /// </summary>
+        static public void InitialLanguage()
+        {
+            String lang = Util.GetLang();
+            if (lang == null)
+            {
+                // nothing
+            }
+            else if (lang.ToUpper() == "EN_US")
+            {
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-us", true);
+            }
+            else if (lang.ToUpper() == "JA")
+            {
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja", true);
             }
         }
 

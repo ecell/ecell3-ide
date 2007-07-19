@@ -6400,6 +6400,7 @@ namespace EcellLib
         /// </summary>
         void SimulationStartByThread()
         {
+            Util.InitialLanguage();
             this.m_simulatorDic[this.m_currentProjectID].Run();
         }
 
@@ -6408,6 +6409,7 @@ namespace EcellLib
         /// </summary>
         void SimulationStartByThreadWithLimit()
         {
+            Util.InitialLanguage();
             this.m_simulatorDic[this.m_currentProjectID].Run(this.m_simulationTimeLimit);
         }
 
