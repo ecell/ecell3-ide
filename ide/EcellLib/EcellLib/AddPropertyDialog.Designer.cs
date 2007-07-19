@@ -85,6 +85,7 @@
             // 
             resources.ApplyResources(this.PropertyTextBox, "PropertyTextBox");
             this.PropertyTextBox.Name = "PropertyTextBox";
+            this.PropertyTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PropertyKeyPress);
             // 
             // AddPropertyDialog
             // 

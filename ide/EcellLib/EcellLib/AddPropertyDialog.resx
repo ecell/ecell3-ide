@@ -139,7 +139,7 @@
     <value>0</value>
   </data>
   <data name="APAddButton.Text" xml:space="preserve">
-    <value>Add</value>
+    <value>OK</value>
   </data>
   <data name="&gt;&gt;APAddButton.Name" xml:space="preserve">
     <value>APAddButton</value>

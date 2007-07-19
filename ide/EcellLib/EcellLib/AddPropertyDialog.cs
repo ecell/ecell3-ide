@@ -91,5 +91,17 @@ namespace EcellLib
         {
             this.PropertyTextBox.Focus();
         }
+
+        private void PropertyKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                APAddButton.PerformClick();
+            }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                APCancelButton.PerformClick();
+            }
+        }
     }
 }
