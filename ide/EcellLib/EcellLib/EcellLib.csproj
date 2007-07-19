@@ -107,7 +107,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResLib.resx</DependentUpon>
     </Compile>
-    <Compile Include="PlubinBase.cs" />
+    <Compile Include="PluginBase.cs" />
     <Compile Include="PluginManager.cs">
     </Compile>
     <Compile Include="PrintPluginDialog.cs">

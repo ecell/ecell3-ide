@@ -126,6 +126,9 @@
   <data name="ErrAddObj" xml:space="preserve">
     <value>Can not add the object.</value>
   </data>
+  <data name="ErrAddObjNot" xml:space="preserve">
+    <value>Can not find the added object.</value>
+  </data>
   <data name="ErrAlrConnect" xml:space="preserve">
     <value>Already connected !</value>
   </data>
@@ -150,11 +153,17 @@
   <data name="ErrDelRoot" xml:space="preserve">
     <value>Can not delete the root system.</value>
   </data>
+  <data name="ErrKeyNot" xml:space="preserve">
+    <value>No set the object id.</value>
+  </data>
   <data name="ErrLayout" xml:space="preserve">
     <value>Can't execute this layout due to an unexpected error, sorry.</value>
   </data>
   <data name="ErrNotComXml" xml:space="preserve">
     <value>Can't find ComponentSettings.xml file in the &lt;ECell-HOME&gt;"\\plugins\\pathway directory</value>
+  </data>
+  <data name="ErrNotSetCanvas" xml:space="preserve">
+    <value>Canvas ID is not set for </value>
   </data>
   <data name="ErrOutRoot" xml:space="preserve">
     <value>Can not create an object outside the root system</value>
@@ -164,6 +173,9 @@
   </data>
   <data name="ErrSameObj" xml:space="preserve">
     <value>There are the objects that have the same ID.</value>
+  </data>
+  <data name="ErrUnknowType" xml:space="preserve">
+    <value>The added object have the unknown type.</value>
   </data>
   <data name="MenuItemShowIDText" xml:space="preserve">
     <value>Show &amp;IDs(Pathway)</value>

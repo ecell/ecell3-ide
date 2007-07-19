@@ -263,7 +263,7 @@ namespace EcellLib
                         {
                             if (l_stepper.key.Equals(l_storedStepper.key))
                             {
-                                throw new Exception(l_message + m_resources.GetString("ErrExistStepper");
+                                throw new Exception(l_message + m_resources.GetString("ErrExistStepper"));
                             }
                         }
                         this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.modelID]
@@ -3774,7 +3774,7 @@ namespace EcellLib
             {
                 if (l_modelID == null || l_modelID.Length <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrNullData");
+                    throw new Exception(m_resources.GetString("ErrNullData"));
                 }
                 List<string> l_parameterList = new List<string>();
                 if (l_parameterID == null || l_parameterID.Length <= 0)

@@ -534,7 +534,7 @@ namespace EcellLib.PathwayWindow
             bool change)
         {
             if (string.IsNullOrEmpty(key))
-                throw new PathwayException("key is not set!");
+                throw new PathwayException(m_resources.GetString("ErrKeyNot"));
 
             if (!RegisterObj(cType, key, canvasName))
                 return;
@@ -542,7 +542,7 @@ namespace EcellLib.PathwayWindow
             if (needToNotify)
             {
                 if (eo == null)
-                    throw new PathwayException("If you want to notify the DataManager of a new object, you must set eo argument of AddNewObj");
+                    throw new PathwayException(m_resources.GetString("ErrAddObjNot"));
 
                 try
                 {
@@ -668,7 +668,7 @@ namespace EcellLib.PathwayWindow
                 }                
             }
             else
-                throw new PathwayException("CanvasID isn't set for " + key);
+                throw new PathwayException(m_resources.GetString("ErrNotSetCanvas") + key);
 
             //m_pathwayWindow.NotifySelectChanged(key, type);
         }

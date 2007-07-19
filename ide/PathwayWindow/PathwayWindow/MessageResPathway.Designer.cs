@@ -88,6 +88,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Can not find the added object. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrAddObjNot {
+            get {
+                return ResourceManager.GetString("ErrAddObjNot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Already connected ! に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAlrConnect {
@@ -160,6 +169,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   No set the object id. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrKeyNot {
+            get {
+                return ResourceManager.GetString("ErrKeyNot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can&apos;t execute this layout due to an unexpected error, sorry. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLayout {
@@ -174,6 +192,15 @@ namespace EcellLib.PathwayWindow {
         internal static string ErrNotComXml {
             get {
                 return ResourceManager.GetString("ErrNotComXml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Canvas ID is not set for  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNotSetCanvas {
+            get {
+                return ResourceManager.GetString("ErrNotSetCanvas", resourceCulture);
             }
         }
         
@@ -201,6 +228,15 @@ namespace EcellLib.PathwayWindow {
         internal static string ErrSameObj {
             get {
                 return ResourceManager.GetString("ErrSameObj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The added object have the unknown type. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrUnknowType {
+            get {
+                return ResourceManager.GetString("ErrUnknowType", resourceCulture);
             }
         }
         

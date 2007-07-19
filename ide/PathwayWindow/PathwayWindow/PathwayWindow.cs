@@ -1308,7 +1308,7 @@ namespace EcellLib.PathwayWindow
                     m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.key, false, 0, 0, 0, 0, false, null, null, false);
                 else
                 {
-                    throw new PathwayException("Unknown EcellObject is add");
+                    throw new PathwayException(m_resources.GetString("ErrUnknowType"));
                 }
             }
         }
