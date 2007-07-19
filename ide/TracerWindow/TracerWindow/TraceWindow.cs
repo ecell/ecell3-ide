@@ -299,7 +299,8 @@ namespace EcellLib.TracerWindow
             if (status == false)
             {
                 if (isSuspend == false)
-                    m_zCnt.GraphPane.XAxis.Max = 10.0;
+//                    m_zCnt.GraphPane.XAxis.Max = 10.0;
+                    m_zCnt.GraphPane.XAxis.Scale.Max = 10.0;
                 m_zCnt.AxisChange();
                 m_zCnt.Refresh();
             }
@@ -364,7 +365,8 @@ namespace EcellLib.TracerWindow
             {
                 Graphics g = m_zCnt.CreateGraphics();
                 g.ResetClip();
-                g.SetClip(m_zCnt.MasterPane.PaneRect);
+//                g.SetClip(m_zCnt.MasterPane.PaneRect);
+                g.SetClip(m_zCnt.MasterPane.Rect);
                 foreach (string key in m_tmpPaneDic.Keys)
                 {
                     m_tmpPaneDic[key].Draw(g, m_zCnt.GraphPane, 0, 1.5F);
@@ -386,8 +388,10 @@ namespace EcellLib.TracerWindow
             
             if (m_zCnt.GraphPane.IsZoomed)
             {
-                if (m_current > m_zCnt.GraphPane.XAxis.Max ||
-                    nextTime < m_zCnt.GraphPane.XAxis.Min)
+//                if (m_current > m_zCnt.GraphPane.XAxis.Max ||
+//                    nextTime < m_zCnt.GraphPane.XAxis.Min)
+                if (m_current > m_zCnt.GraphPane.XAxis.Scale.Max ||
+                    nextTime < m_zCnt.GraphPane.XAxis.Scale.Max)
                 {
                     m_current = nextTime;
                     return;
@@ -395,12 +399,15 @@ namespace EcellLib.TracerWindow
             }
             else
             {
-                if (nextTime > m_zCnt.GraphPane.XAxis.Max)
-                {
-                    if (nextTime > m_zCnt.GraphPane.XAxis.Max * 1.3)
+//                if (nextTime > m_zCnt.GraphPane.XAxis.Max)
+                if (nextTime > m_zCnt.GraphPane.XAxis.Scale.Max)
                     {
-                        m_zCnt.GraphPane.XAxis.Max = maxAxis;
-                        foreach (string key in m_paneDic.Keys)
+//                    if (nextTime > m_zCnt.GraphPane.XAxis.Max * 1.3)
+                        if (nextTime > m_zCnt.GraphPane.XAxis.Scale.Max * 1.3)
+                        {
+//                        m_zCnt.GraphPane.XAxis.Max = maxAxis;
+                            m_zCnt.GraphPane.XAxis.Scale.Max = maxAxis;
+                            foreach (string key in m_paneDic.Keys)
                         {
                             m_paneDic[key].Clear();
                             m_tmpPaneDic[key].Clear();
@@ -408,7 +415,8 @@ namespace EcellLib.TracerWindow
                     }
                     else
                     {
-                        m_zCnt.GraphPane.XAxis.Max = maxAxis;
+//                        m_zCnt.GraphPane.XAxis.Max = maxAxis;
+                        m_zCnt.GraphPane.XAxis.Scale.Max = maxAxis;
                         foreach (string key in m_paneDic.Keys)
                         {
                             for (int j = 0; j < m_tmpPaneDic[key].Points.Count; j++)
@@ -443,8 +451,10 @@ namespace EcellLib.TracerWindow
                 {
                     if (isAxis == false)
                     {
-                        if (m_zCnt.GraphPane.YAxis.Max < v.value) isAxis = true;
-                        if (m_zCnt.GraphPane.YAxis.Min > v.value) isAxis = true;
+//                        if (m_zCnt.GraphPane.YAxis.Max < v.value) isAxis = true;
+//                        if (m_zCnt.GraphPane.YAxis.Min > v.value) isAxis = true;
+                        if (m_zCnt.GraphPane.YAxis.Scale.Max < v.value) isAxis = true;
+                        if (m_zCnt.GraphPane.YAxis.Scale.Min > v.value) isAxis = true;
                     }
                     m_tmpPaneDic[p].AddPoint(v.time, v.value);
                 }
@@ -481,13 +491,18 @@ namespace EcellLib.TracerWindow
         {
             m_zCnt = new ZedGraphControl();
             m_zCnt.Dock = DockStyle.Fill;
-            m_zCnt.GraphPane.Title = "";
-            m_zCnt.GraphPane.XAxis.Title = "Time";
-            m_zCnt.GraphPane.YAxis.Title = "Value";
+//            m_zCnt.GraphPane.Title = "";
+//            m_zCnt.GraphPane.XAxis.Title = "Time";
+//            m_zCnt.GraphPane.YAxis.Title = "Value";
+            m_zCnt.GraphPane.Title.Text = "";
+            m_zCnt.GraphPane.XAxis.Title.Text = "Time";
+            m_zCnt.GraphPane.YAxis.Title.Text = "Value";
             m_zCnt.GraphPane.Legend.IsVisible = false;
-            m_zCnt.GraphPane.XAxis.Max = 100;
-            m_zCnt.GraphPane.XAxis.Min = 0;
-            m_zCnt.ContextMenu.Popup += new EventHandler(ContextMenuPopup);
+//            m_zCnt.GraphPane.XAxis.Max = 100;
+//            m_zCnt.GraphPane.XAxis.Min = 0;
+            m_zCnt.GraphPane.XAxis.Scale.Max = 100;
+            m_zCnt.GraphPane.XAxis.Scale.Min = 0;
+//            m_zCnt.ContextMenu.Popup += new EventHandler(ContextMenuPopup);
             m_zCnt.ZoomEvent += new ZedGraphControl.ZoomEventHandler(ZcntZoomEvent);
             dgv.CellDoubleClick += new DataGridViewCellEventHandler(CellDoubleClicked);
             dgv.CurrentCellDirtyStateChanged += new EventHandler(CurrentCellDirtyStateChanged);
@@ -874,8 +889,10 @@ namespace EcellLib.TracerWindow
             {
                 m_paneDic[key].Clear();
             }
-            double sx = m_zCnt.GraphPane.XAxis.Min;
-            double ex = m_zCnt.GraphPane.XAxis.Max;
+//            double sx = m_zCnt.GraphPane.XAxis.Min;
+//            double ex = m_zCnt.GraphPane.XAxis.Max;
+            double sx = m_zCnt.GraphPane.XAxis.Scale.Min;
+            double ex = m_zCnt.GraphPane.XAxis.Scale.Max;
             double m_step = (ex - sx) / 10000;
             List<LogData> list;
             if (!m_zCnt.GraphPane.IsZoomed)
@@ -883,8 +900,11 @@ namespace EcellLib.TracerWindow
                 double nextTime = DataManager.GetDataManager().GetCurrentSimulationTime();
                 if (nextTime > ex)
                 {
-                    m_zCnt.GraphPane.XAxis.Max = nextTime * 1.5;
-                    ex = m_zCnt.GraphPane.XAxis.Max ;
+//                    m_zCnt.GraphPane.XAxis.Max = nextTime * 1.5;
+//                    ex = m_zCnt.GraphPane.XAxis.Max ;
+                    m_zCnt.GraphPane.XAxis.Scale.Max = nextTime * 1.5;
+                    ex = m_zCnt.GraphPane.XAxis.Scale.Max;
+  
                     m_step = (ex - sx) / 10000;
                     isAxis = true;
                 }
