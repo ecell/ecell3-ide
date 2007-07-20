@@ -27,6 +27,9 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// edited by Chihiro Okada <okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.Collections;
@@ -46,6 +49,7 @@ using IronPython.Hosting;
 using IronPython.Runtime;
 
 using EcellLib;
+using PathwayWindow;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.MainWindow
@@ -55,10 +59,16 @@ namespace EcellLib.MainWindow
         #region Constants
 
         private const string strEntityList = "EntityList";
+
         private const string strPathwayWindow = "PathwayWindow";
+
         private const string strMessageWindow = "MessageWindow";
+
         private const string strObjectList = "ObjectList";
+
         private const string strPropertyWindow = "PropertyWindow";
+
+        private const string defaultWindowSettingsFile = "window.config";
 
         #endregion
 
@@ -156,7 +166,7 @@ namespace EcellLib.MainWindow
         {
             InitializeComponent();
             LoadPlugins();
-            //画面設定読込み
+            //Load default window settings.
             loadDefaultWindowSetting();
         }
 
@@ -165,26 +175,22 @@ namespace EcellLib.MainWindow
         /// </summary>
         void saveDefaultWindowSetting()
         {
-            //画面設定をデフォルトとして記憶する。
-            //設定ファイルの置き場所は実行ファイルと同じ場所。
-            string fname = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "window.config");
-            //画面設定保存
-            ECellSerializer.saveAsXML(this, fname);
-            Debug.WriteLine("save default window setting: " + fname);
+            //Save current window settings.
+            string filepath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), defaultWindowSettingsFile);
+            ECellSerializer.saveAsXML(this, filepath);
+            Debug.WriteLine("save default window settings: " + filepath);
         }
         /// <summary>
         /// Load default window settings.
         /// </summary>
         void loadDefaultWindowSetting()
         {
-            //画面のデフォルト設定を呼び出し。
-            //設定ファイルの置き場所は実行ファイルと同じ場所。
-            string fname = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "window.config");
-            if (File.Exists(fname))
+            //Load default window settings.
+            string filepath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), defaultWindowSettingsFile);
+            if (File.Exists(filepath))
             {
-                //画面設定読込み
-                ECellSerializer.loadFromXML(this, fname);
-                Debug.WriteLine("load default window setting: " + fname);
+                ECellSerializer.loadFromXML(this, filepath);
+                Debug.WriteLine("load default window settings: " + filepath);
             }
         }
 
@@ -304,34 +310,35 @@ namespace EcellLib.MainWindow
             {
                 foreach (UserControl win in winList)
                 {
-                    // DockContentを作成する
+                    // Create DockContent
                     if (pName == "EntityListWindow")
                     {
-                        //EntityListを作成
+                        //Create EntityList
                         this.m_entityListDock = setDockContent(strEntityList, win);
                         this.m_entityListDock.Show(this.dockPanel, DockState.DockLeft);
                     }
                     else if (pName == strPathwayWindow)
                     {
-                        //PathwayWindowを作成
+                        //Create PathwayWindow
+                        //PathwayWindow.CanvasView view = (PathwayWindow.CanvasView)win;
                         this.m_pathwayWindowDock = setDockContent(strPathwayWindow, win);
                         this.m_pathwayWindowDock.Show(this.dockPanel, DockState.Document);
                     }
                     else if (pName == strMessageWindow)
                     {
-                        //MessageWindowを作成
+                        //Create MessageWindow
                         this.m_messageWindowDock = setDockContent(strMessageWindow, win);
                         this.m_messageWindowDock.Show(this.dockPanel, DockState.DockBottom);
                     }
                     else if (pName == strObjectList)
                     {
-                        //ObjectListを作成
+                        //Create ObjectList
                         this.m_objectListDock = setDockContent(strObjectList, win);
                         this.m_objectListDock.Show(this.dockPanel, DockState.DockRight);
                     }
                     else if (pName == strPropertyWindow)
                     {
-                        //PropertyWindowを作成
+                        //Create PropertyWindow
                         this.m_propertyWindowDock = setDockContent(strPropertyWindow, win);
                         this.m_propertyWindowDock.Show(this.m_objectListDock.Pane, DockAlignment.Bottom, 0.5);
                     }
@@ -393,7 +400,7 @@ namespace EcellLib.MainWindow
         DockContent setDockContent(string name, UserControl win)
         {
             Debug.WriteLine("create dock " + name);
-            //新規タブの作成
+            //Create New DockContent
             DockContent dock = new DockContent();
             dock.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
             dock.Name = name;
@@ -405,34 +412,34 @@ namespace EcellLib.MainWindow
             return dock;
         }
         /// <summary>
-        /// get DockContent
+        /// Get specified DockContent
         /// </summary>
         public DockContent getDockContent(string name)
         {
-            // 指定されたDockContentを返す
+            // Get specified DockContent
             if (name == strEntityList)
             {
-                //EntityListを作成
+                //Get EntityList
                 return this.m_entityListDock;
             }
             else if (name == strPathwayWindow)
             {
-                //PathwayWindowを作成
+                //Get PathwayWindow
                 return this.m_pathwayWindowDock;
             }
             else if (name == strMessageWindow)
             {
-                //MessageWindowを作成
+                //Get MessageWindow
                 return this.m_messageWindowDock;
             }
             else if (name == strObjectList)
             {
-                //ObjectListを作成
+                //Get ObjectList
                 return this.m_objectListDock;
             }
             else if (name == strPropertyWindow)
             {
-                //PropertyWindowを作成
+                //Get PropertyWindow
                 return this.m_propertyWindowDock;
             }
             else
@@ -1654,13 +1661,13 @@ namespace EcellLib.MainWindow
         {
             if (entityListToolStripMenuItem.Checked)
             {
-                //EntityListを閉じる
+                //Hide EntityList
                 this.m_entityListDock.Hide();
                 entityListToolStripMenuItem.Checked = false;
             }
             else
             {
-                //EntityListを開く
+                //Show EntityList
                 this.m_entityListDock.Show();
                 entityListToolStripMenuItem.Checked = true;
             }
@@ -1670,13 +1677,13 @@ namespace EcellLib.MainWindow
         {
             if (pathwayWindowToolStripMenuItem.Checked)
             {
-                //pathwayWindowを閉じる
+                //Hide pathwayWindow
                 this.m_pathwayWindowDock.Hide();
                 pathwayWindowToolStripMenuItem.Checked = false;
             }
             else
             {
-                //pathwayWindowを開く
+                //Show pathwayWindow
                 this.m_pathwayWindowDock.Show();
                 pathwayWindowToolStripMenuItem.Checked = true;
             }
@@ -1686,13 +1693,13 @@ namespace EcellLib.MainWindow
         {
             if (messageWindowToolStripMenuItem.Checked)
             {
-                //messageWindowを閉じる
+                //Hide messageWindow
                 this.m_messageWindowDock.Hide();
                 messageWindowToolStripMenuItem.Checked = false;
             }
             else
             {
-                //messageWindowを開く
+                //Show messageWindow
                 this.m_messageWindowDock.Show();
                 messageWindowToolStripMenuItem.Checked = true;
             }
@@ -1702,13 +1709,13 @@ namespace EcellLib.MainWindow
         {
             if (objectListToolStripMenuItem.Checked)
             {
-                //ObjectListを閉じる
+                //Hide ObjectList
                 this.m_objectListDock.Hide();
                 objectListToolStripMenuItem.Checked = false;
             }
             else
             {
-                //ObjectListを開く
+                //Show ObjectList
                 this.m_objectListDock.Show();
                 objectListToolStripMenuItem.Checked = true;
             }
@@ -1718,13 +1725,13 @@ namespace EcellLib.MainWindow
         {
             if (propertyWindowToolStripMenuItem.Checked)
             {
-                //PropertyWindowを閉じる
+                //Hide PropertyWindow
                 this.m_propertyWindowDock.Hide();
                 propertyWindowToolStripMenuItem.Checked = false;
             }
             else
             {
-                //PropertyWindowを開く
+                //Show PropertyWindow
                 this.m_propertyWindowDock.Show();
                 propertyWindowToolStripMenuItem.Checked = true;
             }
