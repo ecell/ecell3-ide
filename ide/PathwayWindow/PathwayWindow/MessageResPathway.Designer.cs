@@ -70,6 +70,24 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Create Logger に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CreateLogMenuText {
+            get {
+                return ResourceManager.GetString("CreateLogMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete Logger に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DeleteLogMenuText {
+            get {
+                return ResourceManager.GetString("DeleteLogMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DeleteMenuText {

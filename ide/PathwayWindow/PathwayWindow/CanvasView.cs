@@ -30,8 +30,12 @@
 // edited by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// edited by Chihiro Okada <okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -128,6 +132,16 @@ namespace EcellLib.PathwayWindow
         public static readonly string CANVAS_MENU_DELETE_WITH = "deletewith";
 
         /// <summary>
+        /// Key definition of m_cMenuDict for delete
+        /// </summary>
+        public static readonly string CANVAS_MENU_CREATE_LOGGER = "create logger";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for delete
+        /// </summary>
+        public static readonly string CANVAS_MENU_DELETE_LOGGER = "delete logger";
+
+        /// <summary>
         /// Key definition of m_cMenuDict for separator1
         /// </summary>
         public static readonly string CANVAS_MENU_SEPARATOR1 = "separator1";
@@ -141,6 +155,11 @@ namespace EcellLib.PathwayWindow
         /// Key definition of m_cMenuDict for separator3
         /// </summary>
         public static readonly string CANVAS_MENU_SEPARATOR3 = "separator3";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator4
+        /// </summary>
+        public static readonly string CANVAS_MENU_SEPARATOR4 = "separator4";
 
         /// <summary>
         /// Key definition of m_cMenuDict for rightArrow
@@ -736,6 +755,22 @@ namespace EcellLib.PathwayWindow
             m_nodeMenu.Items.Add(deleteWith);
             m_cMenuDict.Add(CANVAS_MENU_DELETE_WITH, deleteWith);
 
+            ToolStripSeparator separator4 = new ToolStripSeparator();
+            m_nodeMenu.Items.Add(separator4);
+            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR4, separator4);
+            
+            // Create EntityListLogger
+            ToolStripItem createLogger = new ToolStripMenuItem(m_resources.GetString("CreateLogMenuText"));
+            createLogger.Click += new EventHandler(CreateLoggerClick);
+            m_nodeMenu.Items.Add(createLogger);
+            m_cMenuDict.Add(CANVAS_MENU_CREATE_LOGGER, createLogger);
+
+            // Delete EntityListLogger
+            ToolStripItem deleteLogger = new ToolStripMenuItem(m_resources.GetString("DeleteLogMenuText"));
+            deleteLogger.Click += new EventHandler(DeleteLoggerClick);
+            m_nodeMenu.Items.Add(deleteLogger);
+            m_cMenuDict.Add(CANVAS_MENU_DELETE_LOGGER, deleteLogger);
+            
 #if DEBUG
             ToolStripItem debug = new ToolStripMenuItem("Debug");
             debug.Click += new EventHandler(DebugClick);
@@ -1262,6 +1297,146 @@ namespace EcellLib.PathwayWindow
             ((ToolStripMenuItem)sender).Tag = null;
         }
 
+        /// <summary>
+        /// Called when a create logger menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void CreateLoggerClick(object sender, EventArgs e)
+        {
+            string logger = "";
+            EcellObject ecellobj = null;
+            if (m_cMenuDict[CANVAS_MENU_DELETE].Tag is PPathwayObject)
+            {
+                PPathwayObject obj = (PPathwayObject)m_cMenuDict[CANVAS_MENU_DELETE].Tag;
+                // Variable
+                if (obj is PEcellVariable)
+                {
+                    PEcellVariable val = (PEcellVariable)obj;
+                    Debug.WriteLine("Create Variable Logger:" + val.Element.Key);
+                    logger = "Value";
+                    // get EcellObject
+                    ecellobj = m_pathwayView.GetData(val.Element.Key, val.Element.Type);
+                }
+                // Process
+                else if (obj is PEcellProcess)
+                {
+                    PEcellProcess proc = (PEcellProcess)obj;
+                    Debug.WriteLine("Create Process Logger:" + proc.Element.Key);
+                    logger = "Activity";
+                    // get EcellObject
+                    ecellobj = m_pathwayView.GetData(proc.Element.Key, proc.Element.Type);
+                }
+                // Process
+                else if (obj is PEcellSystem)
+                {
+                    PEcellSystem sys = (PEcellSystem)obj;
+                    Debug.WriteLine("Create System Logger:" + sys.Element.Key);
+                    logger = "Size";
+                    // get EcellObject
+                    ecellobj = m_pathwayView.GetData(sys.Element.Key, sys.Element.Type);
+                }
+                // exit if ecellobj is null.
+                if (ecellobj == null)
+                {
+                    return;
+                }
+
+                // set logger
+                foreach (EcellData d in ecellobj.M_value)
+                {
+                    if (logger.Equals(d.M_name))
+                    {
+                        PluginManager.GetPluginManager().LoggerAdd(
+                                        ecellobj.modelID,
+                                        ecellobj.key,
+                                        ecellobj.type,
+                                        d.M_entityPath);
+                        d.M_isLogger = true;
+                    }
+                }
+                // modify changes
+                DataManager.GetDataManager().DataChanged(
+                                ecellobj.modelID,
+                                ecellobj.key,
+                                ecellobj.type,
+                                ecellobj);
+
+            }
+            else
+            {
+                Debug.WriteLine("Not PPathwayObject:" + m_cMenuDict[CANVAS_MENU_DELETE].Tag.ToString());
+            }
+
+        }
+
+        /// <summary>
+        /// Called when a delete logger menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void DeleteLoggerClick(object sender, EventArgs e)
+        {
+            string logger = "";
+            EcellObject ecellobj = null;
+
+            if (m_cMenuDict[CANVAS_MENU_DELETE].Tag is PPathwayObject)
+            {
+                PPathwayObject obj = (PPathwayObject)m_cMenuDict[CANVAS_MENU_DELETE].Tag;
+                // Variable
+                if (obj is PEcellVariable)
+                {
+                    PEcellVariable val = (PEcellVariable)obj;
+                    Debug.WriteLine("Create Variable Logger:" + val.Element.Key);
+                    logger = "Value";
+                    // get EcellObject
+                    ecellobj = m_pathwayView.GetData(val.Element.Key, val.Element.Type);
+                }
+                // Process
+                else if (obj is PEcellProcess)
+                {
+                    PEcellProcess proc = (PEcellProcess)obj;
+                    Debug.WriteLine("Create Process Logger:" + proc.Element.Key);
+                    logger = "Activity";
+                    // get EcellObject
+                    ecellobj = m_pathwayView.GetData(proc.Element.Key, proc.Element.Type);
+                }
+                // Process
+                else if (obj is PEcellSystem)
+                {
+                    PEcellSystem sys = (PEcellSystem)obj;
+                    Debug.WriteLine("Create System Logger:" + sys.Element.Key);
+                    logger = "Size";
+                    // get EcellObject
+                    ecellobj = m_pathwayView.GetData(sys.Element.Key, sys.Element.Type);
+                }
+                // exit if ecellobj is null.
+                if (ecellobj == null)
+                {
+                    return;
+                }
+
+                // delete logger
+                foreach (EcellData d in ecellobj.M_value)
+                {
+                    if (logger.Equals(d.M_name))
+                    {
+                        d.M_isLogger = false;
+                    }
+                }
+                // modify changes
+                DataManager.GetDataManager().DataChanged(
+                                ecellobj.modelID,
+                                ecellobj.key,
+                                ecellobj.type,
+                                ecellobj);
+
+            }
+            else
+            {
+                Debug.WriteLine("Not PPathwayObject:" + m_cMenuDict[CANVAS_MENU_DELETE].Tag.ToString());
+            }
+        }
 
 #if DEBUG
         /// <summary>

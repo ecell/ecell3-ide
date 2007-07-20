@@ -120,6 +120,12 @@
   <data name="ConfirmDelete" xml:space="preserve">
     <value>Are you sure you want to delete?</value>
   </data>
+  <data name="CreateLogMenuText" xml:space="preserve">
+    <value>Create Logger</value>
+  </data>
+  <data name="DeleteLogMenuText" xml:space="preserve">
+    <value>Delete Logger</value>
+  </data>
   <data name="DeleteMenuText" xml:space="preserve">
     <value>Delete</value>
   </data>
