@@ -109,6 +109,10 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR4].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CREATE_LOGGER].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_LOGGER].Visible = true;
+
+                    EcellObject ecellobj = m_cview.GetData(n.Element.Key, n.Element.Type);
+                    setMenuLogger(ecellobj);
+
                 }
                 else if (m_cview.NodeMenu.Tag is Line)
                 {
@@ -187,6 +191,9 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR4].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CREATE_LOGGER].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_LOGGER].Visible = true;
+
+                    EcellObject ecellobj = m_cview.GetData(n.Element.Key, n.Element.Type);
+                    setMenuLogger(ecellobj);
                 }
                 else
                 {
@@ -206,6 +213,35 @@ namespace EcellLib.PathwayWindow.UIComponent
 
                 }
             }
+        }
+
+        private void setMenuLogger(EcellObject ecellobj)
+        {
+            ToolStripMenuItem createLogger = (ToolStripMenuItem)m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CREATE_LOGGER];
+            ToolStripMenuItem deleteLogger = (ToolStripMenuItem)m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_LOGGER];
+            createLogger.DropDown.Items.Clear();
+            deleteLogger.DropDown.Items.Clear();
+
+            // set logger menu
+            foreach (EcellData d in ecellobj.M_value)
+            {
+                if (d.M_isLogable)
+                {
+                    ToolStripItem sysLogger = new ToolStripMenuItem(d.M_name);
+                    sysLogger.Text = d.M_name;
+                    if (d.M_isLogger)
+                    {
+                        sysLogger.Click += new EventHandler(m_cview.DeleteLoggerClick);
+                        deleteLogger.DropDown.Items.Add(sysLogger);
+                    }
+                    else
+                    {
+                        sysLogger.Click += new EventHandler(m_cview.CreateLoggerClick);
+                        createLogger.DropDown.Items.Add(sysLogger);
+                    }
+                }
+            }
+
         }
     }
 }

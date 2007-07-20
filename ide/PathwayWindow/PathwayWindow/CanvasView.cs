@@ -132,14 +132,54 @@ namespace EcellLib.PathwayWindow
         public static readonly string CANVAS_MENU_DELETE_WITH = "deletewith";
 
         /// <summary>
-        /// Key definition of m_cMenuDict for delete
+        /// Key definition of m_cMenuDict for Create Logger
         /// </summary>
-        public static readonly string CANVAS_MENU_CREATE_LOGGER = "create logger";
+        public static readonly string CANVAS_MENU_CREATE_LOGGER = "Create Logger";
 
         /// <summary>
-        /// Key definition of m_cMenuDict for delete
+        /// Key definition of m_cMenuDict for delete Logger
         /// </summary>
-        public static readonly string CANVAS_MENU_DELETE_LOGGER = "delete logger";
+        public static readonly string CANVAS_MENU_DELETE_LOGGER = "Delete Logger";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for Create Logger
+        /// </summary>
+        public static readonly string CANVAS_MENU_LOGGER_SIZE = "Size";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for Create Logger
+        /// </summary>
+        public static readonly string CANVAS_MENU_LOGGER_ACTIVITY = "Activity";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for Create Logger
+        /// </summary>
+        public static readonly string CANVAS_MENU_LOGGER_MOLAR_ACTIVITY = "Molar Activity";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for Create Logger
+        /// </summary>
+        public static readonly string CANVAS_MENU_LOGGER_DIF_COEFF = "Diffusion Coeff";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for Create Logger
+        /// </summary>
+        public static readonly string CANVAS_MENU_LOGGER_MOL_CONC = "Molar Conc";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for Create Logger
+        /// </summary>
+        public static readonly string CANVAS_MENU_LOGGER_NUM_CONC = "Number Conc";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for Create Logger
+        /// </summary>
+        public static readonly string CANVAS_MENU_LOGGER_VALUE = "Value";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for Create Logger
+        /// </summary>
+        public static readonly string CANVAS_MENU_LOGGER_VELOCITY = "Velocity";
 
         /// <summary>
         /// Key definition of m_cMenuDict for separator1
@@ -759,17 +799,16 @@ namespace EcellLib.PathwayWindow
             m_nodeMenu.Items.Add(separator4);
             m_cMenuDict.Add(CANVAS_MENU_SEPARATOR4, separator4);
             
-            // Create EntityListLogger
-            ToolStripItem createLogger = new ToolStripMenuItem(m_resources.GetString("CreateLogMenuText"));
-            createLogger.Click += new EventHandler(CreateLoggerClick);
+            // Create Logger
+            ToolStripMenuItem createLogger = new ToolStripMenuItem(m_resources.GetString("CreateLogMenuText"));
             m_nodeMenu.Items.Add(createLogger);
             m_cMenuDict.Add(CANVAS_MENU_CREATE_LOGGER, createLogger);
 
-            // Delete EntityListLogger
-            ToolStripItem deleteLogger = new ToolStripMenuItem(m_resources.GetString("DeleteLogMenuText"));
-            deleteLogger.Click += new EventHandler(DeleteLoggerClick);
+            // Delete Logger
+            ToolStripMenuItem deleteLogger = new ToolStripMenuItem(m_resources.GetString("DeleteLogMenuText"));
             m_nodeMenu.Items.Add(deleteLogger);
             m_cMenuDict.Add(CANVAS_MENU_DELETE_LOGGER, deleteLogger);
+
             
 #if DEBUG
             ToolStripItem debug = new ToolStripMenuItem("Debug");
@@ -1302,9 +1341,9 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void CreateLoggerClick(object sender, EventArgs e)
+        public void CreateLoggerClick(object sender, EventArgs e)
         {
-            string logger = "";
+            string logger = ((ToolStripItem)sender).Text;
             EcellObject ecellobj = null;
             if (m_cMenuDict[CANVAS_MENU_DELETE].Tag is PPathwayObject)
             {
@@ -1314,8 +1353,6 @@ namespace EcellLib.PathwayWindow
                 {
                     PEcellVariable val = (PEcellVariable)obj;
                     Debug.WriteLine("Create Variable Logger:" + val.Element.Key);
-                    logger = "Value";
-                    // get EcellObject
                     ecellobj = m_pathwayView.GetData(val.Element.Key, val.Element.Type);
                 }
                 // Process
@@ -1323,8 +1360,6 @@ namespace EcellLib.PathwayWindow
                 {
                     PEcellProcess proc = (PEcellProcess)obj;
                     Debug.WriteLine("Create Process Logger:" + proc.Element.Key);
-                    logger = "Activity";
-                    // get EcellObject
                     ecellobj = m_pathwayView.GetData(proc.Element.Key, proc.Element.Type);
                 }
                 // Process
@@ -1332,8 +1367,6 @@ namespace EcellLib.PathwayWindow
                 {
                     PEcellSystem sys = (PEcellSystem)obj;
                     Debug.WriteLine("Create System Logger:" + sys.Element.Key);
-                    logger = "Size";
-                    // get EcellObject
                     ecellobj = m_pathwayView.GetData(sys.Element.Key, sys.Element.Type);
                 }
                 // exit if ecellobj is null.
@@ -1375,9 +1408,9 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void DeleteLoggerClick(object sender, EventArgs e)
+        public void DeleteLoggerClick(object sender, EventArgs e)
         {
-            string logger = "";
+            string logger = ((ToolStripItem)sender).Text;
             EcellObject ecellobj = null;
 
             if (m_cMenuDict[CANVAS_MENU_DELETE].Tag is PPathwayObject)
@@ -1388,8 +1421,6 @@ namespace EcellLib.PathwayWindow
                 {
                     PEcellVariable val = (PEcellVariable)obj;
                     Debug.WriteLine("Create Variable Logger:" + val.Element.Key);
-                    logger = "Value";
-                    // get EcellObject
                     ecellobj = m_pathwayView.GetData(val.Element.Key, val.Element.Type);
                 }
                 // Process
@@ -1397,8 +1428,6 @@ namespace EcellLib.PathwayWindow
                 {
                     PEcellProcess proc = (PEcellProcess)obj;
                     Debug.WriteLine("Create Process Logger:" + proc.Element.Key);
-                    logger = "Activity";
-                    // get EcellObject
                     ecellobj = m_pathwayView.GetData(proc.Element.Key, proc.Element.Type);
                 }
                 // Process
@@ -1406,8 +1435,6 @@ namespace EcellLib.PathwayWindow
                 {
                     PEcellSystem sys = (PEcellSystem)obj;
                     Debug.WriteLine("Create System Logger:" + sys.Element.Key);
-                    logger = "Size";
-                    // get EcellObject
                     ecellobj = m_pathwayView.GetData(sys.Element.Key, sys.Element.Type);
                 }
                 // exit if ecellobj is null.
@@ -1436,6 +1463,16 @@ namespace EcellLib.PathwayWindow
             {
                 Debug.WriteLine("Not PPathwayObject:" + m_cMenuDict[CANVAS_MENU_DELETE].Tag.ToString());
             }
+        }
+        /// <summary>
+        /// get data from DataManager by using the key and the type.
+        /// </summary>
+        /// <param name="key">the key of object.</param>
+        /// <param name="type">the type of object.</param>
+        /// <returns>EcellObject.</returns>
+        public EcellObject GetData(string key, string type)
+        {
+            return m_pathwayView.GetData(key, type);
         }
 
 #if DEBUG
