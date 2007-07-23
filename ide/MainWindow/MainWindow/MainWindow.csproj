@@ -249,12 +249,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\PathwayWindow\PathwayWindow\PathwayWindow.csproj">
-      <Project>{5DAE389C-7C1E-4F6E-8F63-FB0980CFACB7}</Project>
-      <Name>PathwayWindow</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

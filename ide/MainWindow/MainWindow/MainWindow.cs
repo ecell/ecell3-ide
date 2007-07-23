@@ -49,7 +49,6 @@ using IronPython.Hosting;
 using IronPython.Runtime;
 
 using EcellLib;
-using PathwayWindow;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.MainWindow
