@@ -193,6 +193,8 @@
     <Content Include="Resources\move.cur" />
     <Content Include="Resources\move.gif" />
     <Content Include="Resources\ten.GIF" />
+    <Content Include="Resources\zoom-in.png" />
+    <Content Include="Resources\zoom-out.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="pathwaywindow.snk" />

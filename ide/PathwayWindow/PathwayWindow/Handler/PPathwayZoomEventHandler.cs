@@ -44,22 +44,24 @@ namespace EcellLib.PathwayWindow.Handler
     /// </summary>
     public class PPathwayZoomEventHandler : PDragSequenceEventHandler
     {
+        #region Static readonly
+        /// <summary>
+        /// Minimum scale.
+        /// </summary>
+        public static readonly float MIN_SCALE = .1f;
+
+        /// <summary>
+        /// Maximum scale
+        /// </summary>
+        public static readonly float MAX_SCALE = 5;
+        #endregion
+
         #region Fields
         /// <summary>
         /// The PathwayView instance
         /// </summary>
         protected PathwayView m_view;
-
-        /// <summary>
-        /// Minimum scale.
-        /// </summary>
-		protected float m_minScale = .1f;
-
-        /// <summary>
-        /// Maximum scale
-        /// </summary>
-		protected float m_maxScale = 5;
-
+        
         /// <summary>
         /// The point where the mouse is down.
         /// </summary>
@@ -97,10 +99,10 @@ namespace EcellLib.PathwayWindow.Handler
 		/// The value must be greater than 0.
 		/// </para>
 		/// </remarks>
-		public virtual float MinScale {
+		/*public virtual float MinScale {
 			get { return m_minScale; }
 			set {m_minScale = value; }
-		}
+		}*/
 
 		/// <summary>
 		/// Gets or sets the maximum view magnification factor that this event handler is
@@ -114,10 +116,10 @@ namespace EcellLib.PathwayWindow.Handler
 		/// The value must be greater than 0.
 		/// </para>
 		/// </remarks>
-		public virtual float MaxScale {
+		/*public virtual float MaxScale {
 			get { return m_maxScale; }
 			set {m_maxScale = value; }
-		}
+		}*/
         #endregion
 	    
         /// <summary>
@@ -166,12 +168,13 @@ namespace EcellLib.PathwayWindow.Handler
 			float currentScale = camera.ViewScale;
 			float newScale = currentScale * scaleDelta;
 
-			if (newScale < m_minScale) {
-				scaleDelta = m_minScale / currentScale;
+			if (newScale < PPathwayZoomEventHandler.MIN_SCALE) {
+                scaleDelta = PPathwayZoomEventHandler.MIN_SCALE / currentScale;
 			}
 
-			if ((m_maxScale > 0) && (newScale > m_maxScale)) {
-				scaleDelta = m_maxScale / currentScale;
+            if ((PPathwayZoomEventHandler.MAX_SCALE > 0) && (newScale > PPathwayZoomEventHandler.MAX_SCALE))
+            {
+                scaleDelta = PPathwayZoomEventHandler.MAX_SCALE / currentScale;
 			}
 
 			camera.ScaleViewBy(scaleDelta, m_viewZoomPoint.X, m_viewZoomPoint.Y);

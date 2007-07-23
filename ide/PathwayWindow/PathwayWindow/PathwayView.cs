@@ -67,6 +67,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         Horizontal
     };
+
     /// <summary>
     /// Mode
     /// </summary>
@@ -1067,6 +1068,32 @@ namespace EcellLib.PathwayWindow
             list.Add(constButton);
             m_buttonList.Add(constButton);
 
+            ToolStripButton zoominButton = new ToolStripButton();            
+            zoominButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            zoominButton.Name = "zoomin";
+            zoominButton.Image = Resource1.zoom_in;
+            zoominButton.Text = "";
+            zoominButton.CheckOnClick = false;
+            zoominButton.ToolTipText = "Zoom In";
+            zoominButton.Tag = 2f;
+            //m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
+            zoominButton.Click += new EventHandler(ZoomButton_Click);
+            list.Add(zoominButton);
+            m_buttonList.Add(zoominButton);
+
+            ToolStripButton zoomoutButton = new ToolStripButton();
+            zoomoutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            zoomoutButton.Name = "zoomin";
+            zoomoutButton.Image = Resource1.zoom_out;
+            zoomoutButton.Text = "";
+            zoomoutButton.CheckOnClick = false;
+            zoomoutButton.ToolTipText = "Zoom Out";
+            zoomoutButton.Tag = 0.5f;
+            //m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
+            zoomoutButton.Click += new EventHandler(ZoomButton_Click);
+            list.Add(zoomoutButton);
+            m_buttonList.Add(zoomoutButton);
+
             CreateSystemMouseHandler csmh = new CreateSystemMouseHandler(this);
             CreateNodeMouseHandler cnmh = new CreateNodeMouseHandler(this);
 
@@ -1111,6 +1138,16 @@ namespace EcellLib.PathwayWindow
             SelectedHandle = (Handle)button0.Tag;
 
             return list;
+        }
+
+        void ZoomButton_Click(object sender, EventArgs e)
+        {
+            float rate = (float)((ToolStripButton)sender).Tag;
+            
+            foreach(CanvasView canvas in this.CanvasDictionary.Values)
+            {
+                canvas.Zoom(rate);
+            }
         }
 
         /// <summary>

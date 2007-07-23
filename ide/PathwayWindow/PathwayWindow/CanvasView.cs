@@ -3738,6 +3738,29 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Zoom in/out this canvas.
+        /// </summary>
+        /// <param name="rate"></param>
+        public void Zoom(float rate)
+        {
+            float currentScale = this.PathwayCanvas.Camera.ViewScale;
+            float newScale = currentScale * rate;
+
+            if(newScale < PPathwayZoomEventHandler.MIN_SCALE) {
+                rate = PPathwayZoomEventHandler.MIN_SCALE / currentScale;
+            }
+
+            if(PPathwayZoomEventHandler.MAX_SCALE < newScale) {
+                rate = PPathwayZoomEventHandler.MAX_SCALE / currentScale;
+            }
+
+            float zoomX = this.PathwayCanvas.Camera.X + this.PathwayCanvas.Camera.OffsetX + (this.PathwayCanvas.Camera.Width / 2);
+            float zoomY = this.PathwayCanvas.Camera.Y + this.PathwayCanvas.Camera.OffsetY + (this.PathwayCanvas.Camera.Height / 2);
+            this.PathwayCanvas.Camera.ScaleViewBy(rate, zoomX, zoomY);
+            UpdateOverview();
+        }
+
+        /// <summary>
         /// Release all the unmanaged resources in this object
         /// </summary>
         public void Dispose()
