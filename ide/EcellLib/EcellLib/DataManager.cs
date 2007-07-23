@@ -2755,14 +2755,17 @@ namespace EcellLib
                             + this.m_currentProjectID + Util.s_delimiterPath + Util.s_xpathSimulation;
                     string l_pattern
                             = "_????_??_??_??_??_??_" + l_parameterID + Util.s_delimiterPeriod + Util.s_xpathXml;
-                    foreach (string l_fileName in Directory.GetFiles(l_simulationDirName, l_pattern))
+                    if (Directory.Exists(l_simulationDirName))
                     {
-                        File.Delete(l_fileName);
+                        foreach (string l_fileName in Directory.GetFiles(l_simulationDirName, l_pattern))
+                        {
+                            File.Delete(l_fileName);
+                        }
+                        string l_simulationFileName
+                                = l_simulationDirName + Util.s_delimiterPath + l_parameterID + Util.s_delimiterPeriod
+                                + Util.s_xpathXml;
+                        File.Delete(l_simulationFileName);
                     }
-                    string l_simulationFileName
-                            = l_simulationDirName + Util.s_delimiterPath + l_parameterID + Util.s_delimiterPeriod
-                            + Util.s_xpathXml;
-                    File.Delete(l_simulationFileName);
                     this.m_pManager.Message(
                         Util.s_xpathSimulation.ToLower(),
                         "Delete Simulation Parameter: " + l_message + System.Environment.NewLine
