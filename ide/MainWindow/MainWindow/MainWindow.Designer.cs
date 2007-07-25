@@ -60,11 +60,6 @@ namespace EcellLib.MainWindow
             this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.entityListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pathwayWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.messageWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.objectListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.propertyWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemAnalysis = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
@@ -282,54 +277,8 @@ namespace EcellLib.MainWindow
             // 
             // showWindowToolStripMenuItem
             // 
-            this.showWindowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.entityListToolStripMenuItem,
-            this.pathwayWindowToolStripMenuItem,
-            this.messageWindowToolStripMenuItem,
-            this.objectListToolStripMenuItem,
-            this.propertyWindowToolStripMenuItem});
             this.showWindowToolStripMenuItem.Name = "showWindowToolStripMenuItem";
             resources.ApplyResources(this.showWindowToolStripMenuItem, "showWindowToolStripMenuItem");
-            // 
-            // entityListToolStripMenuItem
-            // 
-            this.entityListToolStripMenuItem.Checked = true;
-            this.entityListToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.entityListToolStripMenuItem.Name = "entityListToolStripMenuItem";
-            resources.ApplyResources(this.entityListToolStripMenuItem, "entityListToolStripMenuItem");
-            this.entityListToolStripMenuItem.Click += new System.EventHandler(this.entityListToolStripMenuItem_Click);
-            // 
-            // pathwayWindowToolStripMenuItem
-            // 
-            this.pathwayWindowToolStripMenuItem.Checked = true;
-            this.pathwayWindowToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.pathwayWindowToolStripMenuItem.Name = "pathwayWindowToolStripMenuItem";
-            resources.ApplyResources(this.pathwayWindowToolStripMenuItem, "pathwayWindowToolStripMenuItem");
-            this.pathwayWindowToolStripMenuItem.Click += new System.EventHandler(this.pathwayWindowToolStripMenuItem_Click);
-            // 
-            // messageWindowToolStripMenuItem
-            // 
-            this.messageWindowToolStripMenuItem.Checked = true;
-            this.messageWindowToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.messageWindowToolStripMenuItem.Name = "messageWindowToolStripMenuItem";
-            resources.ApplyResources(this.messageWindowToolStripMenuItem, "messageWindowToolStripMenuItem");
-            this.messageWindowToolStripMenuItem.Click += new System.EventHandler(this.messageWindowToolStripMenuItem_Click);
-            // 
-            // objectListToolStripMenuItem
-            // 
-            this.objectListToolStripMenuItem.Checked = true;
-            this.objectListToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.objectListToolStripMenuItem.Name = "objectListToolStripMenuItem";
-            resources.ApplyResources(this.objectListToolStripMenuItem, "objectListToolStripMenuItem");
-            this.objectListToolStripMenuItem.Click += new System.EventHandler(this.objectListToolStripMenuItem_Click);
-            // 
-            // propertyWindowToolStripMenuItem
-            // 
-            this.propertyWindowToolStripMenuItem.Checked = true;
-            this.propertyWindowToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.propertyWindowToolStripMenuItem.Name = "propertyWindowToolStripMenuItem";
-            resources.ApplyResources(this.propertyWindowToolStripMenuItem, "propertyWindowToolStripMenuItem");
-            this.propertyWindowToolStripMenuItem.Click += new System.EventHandler(this.propertyWindowToolStripMenuItem_Click);
             // 
             // MenuItemRun
             // 
@@ -483,11 +432,6 @@ namespace EcellLib.MainWindow
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem loadWindowSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showWindowToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem entityListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pathwayWindowToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem messageWindowToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem objectListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem propertyWindowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setIDEToolStripMenuItem;
         public WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
     }

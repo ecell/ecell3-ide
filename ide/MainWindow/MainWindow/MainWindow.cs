@@ -61,6 +61,12 @@ namespace EcellLib.MainWindow
 
         private const string strPathwayWindow = "PathwayWindow";
 
+        private const string strPathwayView = "PathwayView";
+
+        private const string strOverView = "OverView";
+        
+        private const string strLayerView = "LayerView";
+        
         private const string strMessageWindow = "MessageWindow";
 
         private const string strObjectList = "ObjectList";
@@ -75,23 +81,12 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// m_entityListDock (DockContent)
         /// </summary>
-        private DockContent m_entityListDock;
+        private Dictionary<string, DockContent> m_dockWindowDic;
         /// <summary>
-        /// m_pathwayWindowDock (DockContent)
+        /// m_entityListDock (DockContent)
         /// </summary>
-        private DockContent m_pathwayWindowDock;
-        /// <summary>
-        /// m_messageWindowDock (DockContent)
-        /// </summary>
-        private DockContent m_messageWindowDock;
-        /// <summary>
-        /// m_objectListDock (DockContent)
-        /// </summary>
-        private DockContent m_objectListDock;
-        /// <summary>
-        /// m_propertyWindowDock (DockContent)
-        /// </summary>
-        private DockContent m_propertyWindowDock;
+        private Dictionary<string, ToolStripMenuItem> m_dockMenuDic;
+
         /// <summary>
         /// m_pManager (PluginManager)
         /// </summary>
@@ -164,6 +159,8 @@ namespace EcellLib.MainWindow
         public MainWindow()
         {
             InitializeComponent();
+            m_dockWindowDic = new Dictionary<string,DockContent>();
+            m_dockMenuDic = new Dictionary<string,ToolStripMenuItem>();
             LoadPlugins();
             //Load default window settings.
             loadDefaultWindowSetting();
@@ -182,14 +179,22 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Load default window settings.
         /// </summary>
-        void loadDefaultWindowSetting()
+        private void loadDefaultWindowSetting()
         {
             //Load default window settings.
             string filepath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), defaultWindowSettingsFile);
             if (File.Exists(filepath))
             {
-                ECellSerializer.loadFromXML(this, filepath);
-                Debug.WriteLine("load default window settings: " + filepath);
+                try
+                {
+                    ECellSerializer.loadFromXML(this, filepath);
+                    Debug.WriteLine("load default window settings: " + filepath);
+                }
+                catch (Exception ex)
+                {
+                    string errmsg = m_resources.GetString("ErrLoadWindowSettings") + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
+                    MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -313,33 +318,33 @@ namespace EcellLib.MainWindow
                     if (pName == "EntityListWindow")
                     {
                         //Create EntityList
-                        this.m_entityListDock = setDockContent(strEntityList, win);
-                        this.m_entityListDock.Show(this.dockPanel, DockState.DockLeft);
-                    }
-                    else if (pName == strPathwayWindow)
-                    {
-                        //Create PathwayWindow
-                        //PathwayWindow.CanvasView view = (PathwayWindow.CanvasView)win;
-                        this.m_pathwayWindowDock = setDockContent(strPathwayWindow, win);
-                        this.m_pathwayWindowDock.Show(this.dockPanel, DockState.Document);
+                        DockContent dock = setDockContent(strEntityList, win);
+                        dock.Show(this.dockPanel, DockState.DockLeft);
                     }
                     else if (pName == strMessageWindow)
                     {
                         //Create MessageWindow
-                        this.m_messageWindowDock = setDockContent(strMessageWindow, win);
-                        this.m_messageWindowDock.Show(this.dockPanel, DockState.DockBottom);
+                        DockContent dock = setDockContent(strMessageWindow, win);
+                        dock.Show(this.dockPanel, DockState.DockBottom);
                     }
                     else if (pName == strObjectList)
                     {
                         //Create ObjectList
-                        this.m_objectListDock = setDockContent(strObjectList, win);
-                        this.m_objectListDock.Show(this.dockPanel, DockState.DockRight);
+                        DockContent dock = setDockContent(strObjectList, win);
+                        dock.Show(m_dockWindowDic[strEntityList].Pane, DockAlignment.Bottom, 0.5);
+                    }
+                    else if (pName == strPathwayWindow)
+                    {
+                        //Create PathwayWindow
+                        setPathwayDock(win);
+                        //DockContent dock = setDockContent(strPathwayWindow, win);
+                        //dock.Show(this.dockPanel, DockState.Document);
                     }
                     else if (pName == strPropertyWindow)
                     {
                         //Create PropertyWindow
-                        this.m_propertyWindowDock = setDockContent(strPropertyWindow, win);
-                        this.m_propertyWindowDock.Show(this.m_objectListDock.Pane, DockAlignment.Bottom, 0.5);
+                        DockContent dock = setDockContent(strPropertyWindow, win);
+                        dock.Show(m_dockWindowDic[strOverView].Pane, DockAlignment.Top, 0.7);
                     }
 
                 }
@@ -392,13 +397,37 @@ namespace EcellLib.MainWindow
                     this.toolstrip.Items.AddRange(new ToolStripItem[] { tool });
             }
         }
+        private void setPathwayDock(Control win)
+        {
+            // recursive
+            foreach (Control con in win.Controls)
+            {
+                setPathwayDock(con);
+            }
+            if (win.GetType() == typeof(TabControl))
+            {
+                DockContent dock = setDockContent(strPathwayView, win);
+                dock.Show(this.dockPanel, DockState.Document);
+            }
+            else if (win.GetType() == typeof(GroupBox) && win.Text == "Overview")
+            {
+                DockContent dock = setDockContent(strOverView, win);
+                dock.Show(this.dockPanel, DockState.DockRight);
+            }
+            else if (win.GetType() == typeof(GroupBox) && win.Text == "Layer")
+            {
+                DockContent dock = setDockContent(strLayerView, win);
+                dock.Show(m_dockWindowDic[strOverView].Pane, DockAlignment.Bottom, 0.2);
+            }
 
+        }
+        
         /// <summary>
         /// set DockContent
         /// </summary>
-        DockContent setDockContent(string name, UserControl win)
+        DockContent setDockContent(string name, Control win)
         {
-            Debug.WriteLine("create dock " + name);
+            Debug.WriteLine("create dock: " + name);
             //Create New DockContent
             DockContent dock = new DockContent();
             dock.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
@@ -408,43 +437,30 @@ namespace EcellLib.MainWindow
             win.Dock = DockStyle.Fill;
             dock.Controls.Add(win);
 
+            //Create DockWindow Menu
+            setDockMenu(name);
+
+            m_dockWindowDic.Add(name, dock);
             return dock;
+        }
+        /// <summary>
+        /// set DockContent
+        /// </summary>
+        private void setDockMenu(string name)
+        {
+            ToolStripMenuItem item = new ToolStripMenuItem(name);
+            item.Text = name;
+            item.Checked = true;
+            item.Click += new System.EventHandler(this.dockWindowToolStripMenuItem_Click);
+            this.showWindowToolStripMenuItem.DropDown.Items.Add(item);
+            m_dockMenuDic.Add(name, item);
         }
         /// <summary>
         /// Get specified DockContent
         /// </summary>
         public DockContent getDockContent(string name)
         {
-            // Get specified DockContent
-            if (name == strEntityList)
-            {
-                //Get EntityList
-                return this.m_entityListDock;
-            }
-            else if (name == strPathwayWindow)
-            {
-                //Get PathwayWindow
-                return this.m_pathwayWindowDock;
-            }
-            else if (name == strMessageWindow)
-            {
-                //Get MessageWindow
-                return this.m_messageWindowDock;
-            }
-            else if (name == strObjectList)
-            {
-                //Get ObjectList
-                return this.m_objectListDock;
-            }
-            else if (name == strPropertyWindow)
-            {
-                //Get PropertyWindow
-                return this.m_propertyWindowDock;
-            }
-            else
-            {
-                return null;
-            }
+            return m_dockWindowDic[name];
         }
 
 
@@ -453,7 +469,9 @@ namespace EcellLib.MainWindow
             Debug.WriteLine(((DockContent)sender).Name + ":" + e.CloseReason);
             if (e.CloseReason == CloseReason.UserClosing)
             {
+                // hide dock window
                 ((DockContent)sender).Hide();
+                // uncheck dock window menu
                 checkWindowMenu(((DockContent)sender).Name, false);
                 e.Cancel = true;
             }
@@ -465,28 +483,8 @@ namespace EcellLib.MainWindow
         }
         public void checkWindowMenu(String name, bool bChecked)
         {
-            if (name.Equals(strEntityList))
-            {
-                this.entityListToolStripMenuItem.Checked = bChecked;
-            }
-            else if (name.Equals(strPathwayWindow))
-            {
-                this.pathwayWindowToolStripMenuItem.Checked = bChecked;
-            }
-            else if (name.Equals(strMessageWindow))
-            {
-                this.messageWindowToolStripMenuItem.Checked = bChecked;
-            }
-            else if (name.Equals(strObjectList))
-            {
-                this.objectListToolStripMenuItem.Checked = bChecked;
-            }
-            else if (name.Equals(strPropertyWindow))
-            {
-                this.propertyWindowToolStripMenuItem.Checked = bChecked;
-            }
+            m_dockMenuDic[name].Checked = bChecked;
         }
-
 
         /// <summary>
         /// set base plugin data and load plugin.
@@ -1656,83 +1654,20 @@ namespace EcellLib.MainWindow
         {
         }
 
-        private void entityListToolStripMenuItem_Click(object sender, EventArgs e)
+        private void dockWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (entityListToolStripMenuItem.Checked)
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            if (item.Checked)
             {
                 //Hide EntityList
-                this.m_entityListDock.Hide();
-                entityListToolStripMenuItem.Checked = false;
+                m_dockWindowDic[item.Text].Hide();
+                item.Checked = false;
             }
             else
             {
                 //Show EntityList
-                this.m_entityListDock.Show();
-                entityListToolStripMenuItem.Checked = true;
-            }
-        }
-
-        private void pathwayWindowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (pathwayWindowToolStripMenuItem.Checked)
-            {
-                //Hide pathwayWindow
-                this.m_pathwayWindowDock.Hide();
-                pathwayWindowToolStripMenuItem.Checked = false;
-            }
-            else
-            {
-                //Show pathwayWindow
-                this.m_pathwayWindowDock.Show();
-                pathwayWindowToolStripMenuItem.Checked = true;
-            }
-        }
-
-        private void messageWindowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (messageWindowToolStripMenuItem.Checked)
-            {
-                //Hide messageWindow
-                this.m_messageWindowDock.Hide();
-                messageWindowToolStripMenuItem.Checked = false;
-            }
-            else
-            {
-                //Show messageWindow
-                this.m_messageWindowDock.Show();
-                messageWindowToolStripMenuItem.Checked = true;
-            }
-        }
-
-        private void objectListToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (objectListToolStripMenuItem.Checked)
-            {
-                //Hide ObjectList
-                this.m_objectListDock.Hide();
-                objectListToolStripMenuItem.Checked = false;
-            }
-            else
-            {
-                //Show ObjectList
-                this.m_objectListDock.Show();
-                objectListToolStripMenuItem.Checked = true;
-            }
-        }
-
-        private void propertyWindowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (propertyWindowToolStripMenuItem.Checked)
-            {
-                //Hide PropertyWindow
-                this.m_propertyWindowDock.Hide();
-                propertyWindowToolStripMenuItem.Checked = false;
-            }
-            else
-            {
-                //Show PropertyWindow
-                this.m_propertyWindowDock.Show();
-                propertyWindowToolStripMenuItem.Checked = true;
+                m_dockWindowDic[item.Text].Show();
+                item.Checked = true;
             }
         }
 

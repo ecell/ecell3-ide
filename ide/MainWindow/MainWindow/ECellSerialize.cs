@@ -54,7 +54,7 @@ namespace EcellLib.MainWindow {
         /// <summary>
         /// Version of config file.
         /// </summary>
-        private const string ConfigFileVersion = "1.0";
+        private const string ConfigFileVersion = "1.2";
 
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMain));
 
@@ -81,6 +81,7 @@ namespace EcellLib.MainWindow {
                 xmlOut.WriteStartElement("Application");
                 xmlOut.WriteAttributeString("Name", Application.ProductName);
                 xmlOut.WriteAttributeString("Version", Application.ProductVersion);
+                xmlOut.WriteAttributeString("ConfigFileVersion", ConfigFileVersion);
 
                 // Form settings
                 xmlOut.WriteStartElement("Form");
@@ -93,7 +94,6 @@ namespace EcellLib.MainWindow {
 
                 // DockPanel settings
                 xmlOut.WriteStartElement("DockPanel");
-                xmlOut.WriteAttributeString("FormatVersion", ConfigFileVersion);
                 xmlOut.WriteAttributeString("DockLeftPortion", dockPanel.DockLeftPortion.ToString(CultureInfo.InvariantCulture));
                 xmlOut.WriteAttributeString("DockRightPortion", dockPanel.DockRightPortion.ToString(CultureInfo.InvariantCulture));
                 xmlOut.WriteAttributeString("DockTopPortion", dockPanel.DockTopPortion.ToString(CultureInfo.InvariantCulture));
@@ -221,6 +221,16 @@ namespace EcellLib.MainWindow {
             XmlTextReader xmlIn = new XmlTextReader(fs);
             xmlIn.WhitespaceHandling = WhitespaceHandling.None;
             xmlIn.MoveToContent();
+            // Check XML file
+            while (!xmlIn.Name.Equals("Application"))
+            {
+                if (!MoveToNextElement(xmlIn))
+                    throw new ArgumentException();
+            }
+            // version check
+            string formatVersion = xmlIn.GetAttribute("ConfigFileVersion");
+            if (formatVersion == null || !IsFormatVersionValid(formatVersion))
+                throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + ConfigFileVersion);
 
             // load Form settings
             while (!xmlIn.Name.Equals("Form"))
@@ -239,12 +249,8 @@ namespace EcellLib.MainWindow {
             while (!xmlIn.Name.Equals("DockPanel"))
             {
                 if (!MoveToNextElement(xmlIn))
-                    throw new ArgumentException();
+                    throw new ArgumentException("No DockPanel.");
             }
-
-            string formatVersion = xmlIn.GetAttribute("FormatVersion");
-            if (!IsFormatVersionValid(formatVersion))
-                throw new ArgumentException();
 
             DockPanelStruct dockPanelStruct = new DockPanelStruct();
             dockPanelStruct.DockLeftPortion = Convert.ToDouble(xmlIn.GetAttribute("DockLeftPortion"), CultureInfo.InvariantCulture);
@@ -257,22 +263,22 @@ namespace EcellLib.MainWindow {
             // Load Contents
             MoveToNextElement(xmlIn);
             if (xmlIn.Name != "Contents")
-                throw new ArgumentException();
+                throw new ArgumentException("No DockContents.");
             ContentStruct[] contents = LoadContents(xmlIn);
 
             // Load Panes
             if (xmlIn.Name != "Panes")
-                throw new ArgumentException();
+                throw new ArgumentException("No DockPanes.");
             PaneStruct[] panes = LoadPanes(xmlIn);
 
             // Load DockWindows
             if (xmlIn.Name != "DockWindows")
-                throw new ArgumentException();
+                throw new ArgumentException("No DockWindows.");
             DockWindowStruct[] dockWindows = LoadDockWindows(xmlIn, dockPanel);
 
             // Load FloatWindows
             if (xmlIn.Name != "FloatWindows")
-                throw new ArgumentException();
+                throw new ArgumentException("No FloatWindows");
             FloatWindowStruct[] floatWindows = LoadFloatWindows(xmlIn);
 
             // close file

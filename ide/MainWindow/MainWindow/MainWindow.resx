@@ -259,38 +259,8 @@
   <data name="MenuItemLayout.Text" xml:space="preserve">
     <value>&amp;Layout</value>
   </data>
-  <data name="entityListToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="entityListToolStripMenuItem.Text" xml:space="preserve">
-    <value>EntityList</value>
-  </data>
-  <data name="pathwayWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="pathwayWindowToolStripMenuItem.Text" xml:space="preserve">
-    <value>PathwayWindow</value>
-  </data>
-  <data name="messageWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="messageWindowToolStripMenuItem.Text" xml:space="preserve">
-    <value>MessageWindow</value>
-  </data>
-  <data name="objectListToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="objectListToolStripMenuItem.Text" xml:space="preserve">
-    <value>ObjectList</value>
-  </data>
-  <data name="propertyWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="propertyWindowToolStripMenuItem.Text" xml:space="preserve">
-    <value>PropertyWindow</value>
-  </data>
   <data name="showWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="showWindowToolStripMenuItem.Text" xml:space="preserve">
     <value>Window</value>
@@ -779,36 +749,6 @@
     <value>showWindowToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;showWindowToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;entityListToolStripMenuItem.Name" xml:space="preserve">
-    <value>entityListToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;entityListToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pathwayWindowToolStripMenuItem.Name" xml:space="preserve">
-    <value>pathwayWindowToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;pathwayWindowToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;messageWindowToolStripMenuItem.Name" xml:space="preserve">
-    <value>messageWindowToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;messageWindowToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;objectListToolStripMenuItem.Name" xml:space="preserve">
-    <value>objectListToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;objectListToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;propertyWindowToolStripMenuItem.Name" xml:space="preserve">
-    <value>propertyWindowToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;propertyWindowToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;MenuItemRun.Name" xml:space="preserve">

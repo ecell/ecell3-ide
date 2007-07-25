@@ -94,10 +94,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
-    <Reference Include="yukilib, Version=1.0.0.1, Culture=neutral, PublicKeyToken=7c62313f5585d1f2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\bin\yukilib.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ECellSerialize.cs">
