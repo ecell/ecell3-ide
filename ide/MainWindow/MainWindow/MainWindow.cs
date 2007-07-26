@@ -55,25 +55,25 @@ namespace EcellLib.MainWindow
 {
     public partial class MainWindow : Form, PluginBase
     {
-        #region Constants
+        #region Readonly Fields 
 
-        private const string strEntityList = "EntityList";
+        private readonly string strEntityList = "EntityList";
 
-        private const string strPathwayWindow = "PathwayWindow";
+        private readonly string strPathwayWindow = "PathwayWindow";
 
-        private const string strPathwayView = "PathwayView";
+        private readonly string strPathwayView = "PathwayView";
 
-        private const string strOverView = "OverView";
-        
-        private const string strLayerView = "LayerView";
-        
-        private const string strMessageWindow = "MessageWindow";
+        private readonly string strOverView = "OverView";
 
-        private const string strObjectList = "ObjectList";
+        private readonly string strLayerView = "LayerView";
 
-        private const string strPropertyWindow = "PropertyWindow";
+        private readonly string strMessageWindow = "MessageWindow";
 
-        private const string defaultWindowSettingsFile = "window.config";
+        private readonly string strObjectList = "ObjectList";
+
+        private readonly string strPropertyWindow = "PropertyWindow";
+
+        private readonly string defaultWindowSettingsFile = "window.config";
 
         #endregion
 
@@ -86,7 +86,14 @@ namespace EcellLib.MainWindow
         /// m_entityListDock (DockContent)
         /// </summary>
         private Dictionary<string, ToolStripMenuItem> m_dockMenuDic;
-
+        /// <summary>
+        /// defaultWindowSettingPath (string)
+        /// </summary>
+        private string defaultWindowSettingPath;
+        /// <summary>
+        /// userWindowSettingPath (string)
+        /// </summary>
+        private string userWindowSettingPath;
         /// <summary>
         /// m_pManager (PluginManager)
         /// </summary>
@@ -163,18 +170,52 @@ namespace EcellLib.MainWindow
             m_dockMenuDic = new Dictionary<string,ToolStripMenuItem>();
             LoadPlugins();
             //Load default window settings.
+            setFilePath();
             loadDefaultWindowSetting();
         }
-
+        /// <summary>
+        /// Set window setting file path.
+        /// </summary>
+        private void setFilePath()
+        {
+            defaultWindowSettingPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), defaultWindowSettingsFile);
+            userWindowSettingPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Application.ProductName);
+            userWindowSettingPath = Path.Combine(userWindowSettingPath, defaultWindowSettingsFile);
+        }
         /// <summary>
         /// Save default window settings.
         /// </summary>
-        void saveDefaultWindowSetting()
+        void saveWindowSetting(string filename)
         {
             //Save current window settings.
-            string filepath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), defaultWindowSettingsFile);
-            ECellSerializer.saveAsXML(this, filepath);
-            Debug.WriteLine("save default window settings: " + filepath);
+            try
+            {
+                ECellSerializer.saveAsXML(this, filename);
+                Debug.WriteLine("save window settings: " + filename);
+            }
+            catch (Exception ex)
+            {
+                string errmsg = m_resources.GetString("ErrSaveWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        /// <summary>
+        /// Load window settings.
+        /// </summary>
+        private void loadWindowSetting(string filename)
+        {
+            try
+            {
+                if (!File.Exists(filename))
+                    throw new Exception(m_resources.GetString("FileNotFound"));
+                ECellSerializer.loadFromXML(this, filename);
+                Debug.WriteLine("load window settings: " + filename);
+            }
+            catch (Exception ex)
+            {
+                string errmsg = m_resources.GetString("ErrLoadWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         /// <summary>
         /// Load default window settings.
@@ -182,20 +223,14 @@ namespace EcellLib.MainWindow
         private void loadDefaultWindowSetting()
         {
             //Load default window settings.
-            string filepath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), defaultWindowSettingsFile);
-            if (File.Exists(filepath))
-            {
-                try
-                {
-                    ECellSerializer.loadFromXML(this, filepath);
-                    Debug.WriteLine("load default window settings: " + filepath);
-                }
-                catch (Exception ex)
-                {
-                    string errmsg = m_resources.GetString("ErrLoadWindowSettings") + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
-                    MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+            string filepath = null;
+            if (File.Exists(defaultWindowSettingPath))
+                filepath = defaultWindowSettingPath;
+            if (File.Exists(userWindowSettingPath))
+                filepath = userWindowSettingPath;
+
+            if (filepath != null)
+                loadWindowSetting(filepath);
         }
 
         /// <summary>
@@ -1603,47 +1638,29 @@ namespace EcellLib.MainWindow
         
         private void saveWindowSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Window Setting File(*.xml) |*.xml";
+            sfd.CheckPathExists = true;
+            sfd.CreatePrompt = true;
+            if (sfd.ShowDialog() == DialogResult.OK)
             {
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "Window Setting File(*.xml) |*.xml";
-                sfd.CheckPathExists = true;
-                sfd.CreatePrompt = true;
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    // Save window settings.
-                    ECellSerializer.saveAsXML(this, sfd.FileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                String errmes = m_resources.GetString("ErrSaveWindowSettings");
-                MessageBox.Show(errmes + "\n\n" + ex.Message,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Save window settings.
+                saveWindowSetting(sfd.FileName);
             }
 
         }
 
         private void loadWindowSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                OpenFileDialog ofd = new OpenFileDialog();
-                ofd.CheckFileExists = true;
-                ofd.CheckPathExists = true;
-                ofd.Filter = "Window Setting File(*.xml) |*.xml";
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.CheckFileExists = true;
+            ofd.CheckPathExists = true;
+            ofd.Filter = "Window Setting File(*.xml) |*.xml";
 
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    // Load window settings.
-                    ECellSerializer.loadFromXML(this, ofd.FileName);
-                }
-            }
-            catch (Exception ex)
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
-                String errmes = m_resources.GetString("ErrLoadWindowSettings");
-                MessageBox.Show(errmes + "\n\n" + ex.Message,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Load window settings.
+                loadWindowSetting(ofd.FileName);
             }
        }
 
@@ -1679,7 +1696,7 @@ namespace EcellLib.MainWindow
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            saveDefaultWindowSetting();
+            saveWindowSetting(userWindowSettingPath);
         }
 
     }

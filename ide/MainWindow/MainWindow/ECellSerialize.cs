@@ -61,10 +61,11 @@ namespace EcellLib.MainWindow {
         /// <summary>
         /// Save ECell window settings.
         /// </summary>
-        public static void saveAsXML(MainWindow window, string fileName)
+        public static void saveAsXML(MainWindow window, string filename)
         {
             DockPanel dockPanel = window.dockPanel;
-            FileStream fs = new FileStream(fileName, FileMode.Create);
+            checkDirectory(filename);
+            FileStream fs = new FileStream(filename, FileMode.Create);
             try
             {
                 XmlTextWriter xmlOut = new XmlTextWriter(fs, Encoding.Unicode);
@@ -207,6 +208,13 @@ namespace EcellLib.MainWindow {
             {
                 fs.Close();
             }
+        }
+
+        private static void checkDirectory(string filename)
+        {
+            string path = Path.GetDirectoryName(filename);
+            if (!Directory.Exists(path))
+               Directory.CreateDirectory(path); 
         }
 
         /// <summary>
