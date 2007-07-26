@@ -244,7 +244,8 @@ namespace EcellLib.MainWindow {
             window.Top = Convert.ToInt32(xmlIn.GetAttribute("Top"), CultureInfo.InvariantCulture);
             window.Height = Convert.ToInt32(xmlIn.GetAttribute("Height"), CultureInfo.InvariantCulture);
             window.Width = Convert.ToInt32(xmlIn.GetAttribute("Width"), CultureInfo.InvariantCulture);
-
+            // checkWindowSize
+            checkWindowSize(window);
 
             while (!xmlIn.Name.Equals("DockPanel"))
             {
@@ -365,7 +366,10 @@ namespace EcellLib.MainWindow {
                     int indexPane = floatWindows[i].NestedPanes[j].IndexPane;
                     DockPane pane = dockPanel.Panes[indexPane];
                     if (j == 0)
+                    {
                         fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, floatWindows[i].Bounds);
+                        checkWindowSize(fw);
+                    }
                     else
                     {
                         int indexPrevPane = floatWindows[i].NestedPanes[j].IndexPrevPane;
@@ -793,5 +797,22 @@ namespace EcellLib.MainWindow {
 
             return floatWindows;
         }
+
+        public static void checkWindowSize(Form win)
+        {
+            if (win.Left < 0)
+                win.Left = 0;
+            if (win.Top < 0)
+                win.Top = 0;
+            if (win.Width > Screen.PrimaryScreen.WorkingArea.Width)
+                win.Width = Screen.PrimaryScreen.WorkingArea.Width;
+            if (win.Height > Screen.PrimaryScreen.WorkingArea.Height)
+                win.Height = Screen.PrimaryScreen.WorkingArea.Height;
+            if (win.Width + win.Left > Screen.PrimaryScreen.WorkingArea.Width)
+                win.Left = Screen.PrimaryScreen.WorkingArea.Width - win.Width;
+            if (win.Height + win.Top > Screen.PrimaryScreen.WorkingArea.Height)
+                win.Top = Screen.PrimaryScreen.WorkingArea.Height - win.Height;
+        }
     }
+
 }
