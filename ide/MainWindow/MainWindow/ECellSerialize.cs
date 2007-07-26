@@ -65,10 +65,13 @@ namespace EcellLib.MainWindow {
         {
             DockPanel dockPanel = window.dockPanel;
             checkDirectory(filename);
-            FileStream fs = new FileStream(filename, FileMode.Create);
+            FileStream fs = null;
+            XmlTextWriter xmlOut = null;
             try
             {
-                XmlTextWriter xmlOut = new XmlTextWriter(fs, Encoding.Unicode);
+                // Create xml file
+                fs = new FileStream(filename, FileMode.Create);
+                xmlOut = new XmlTextWriter(fs, Encoding.Unicode);
 
                 // Use indenting for readability
                 xmlOut.Formatting = Formatting.Indented;
@@ -202,11 +205,11 @@ namespace EcellLib.MainWindow {
 
                 //xmlOut.WriteEndDocument();
                 xmlOut.WriteEndDocument();
-                xmlOut.Close();
             }
             finally
             {
-                fs.Close();
+                if (xmlOut != null) xmlOut.Close();
+                if (fs != null) fs.Close();
             }
         }
 
@@ -223,231 +226,240 @@ namespace EcellLib.MainWindow {
         public static void loadFromXML(MainWindow window, string filename)
         {
             DockPanel dockPanel = window.dockPanel;
-
-            FileStream fs = new FileStream(filename, FileMode.Open);
-            // Load XML file
-            XmlTextReader xmlIn = new XmlTextReader(fs);
-            xmlIn.WhitespaceHandling = WhitespaceHandling.None;
-            xmlIn.MoveToContent();
-            // Check XML file
-            while (!xmlIn.Name.Equals("Application"))
+            FileStream fs = null;
+            XmlTextReader xmlIn = null;
+            try
             {
-                if (!MoveToNextElement(xmlIn))
-                    throw new ArgumentException();
-            }
-            // version check
-            string formatVersion = xmlIn.GetAttribute("ConfigFileVersion");
-            if (formatVersion == null || !IsFormatVersionValid(formatVersion))
-                throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + ConfigFileVersion);
-
-            // load Form settings
-            while (!xmlIn.Name.Equals("Form"))
-            {
-                if (!MoveToNextElement(xmlIn))
-                    throw new ArgumentException();
-            }
-            EnumConverter windowStateConverter = new EnumConverter(typeof(FormWindowState));
-            window.WindowState = (FormWindowState)windowStateConverter.ConvertFrom(xmlIn.GetAttribute("WindowState"));
-            window.Left = Convert.ToInt32(xmlIn.GetAttribute("Left"), CultureInfo.InvariantCulture);
-            window.Top = Convert.ToInt32(xmlIn.GetAttribute("Top"), CultureInfo.InvariantCulture);
-            window.Height = Convert.ToInt32(xmlIn.GetAttribute("Height"), CultureInfo.InvariantCulture);
-            window.Width = Convert.ToInt32(xmlIn.GetAttribute("Width"), CultureInfo.InvariantCulture);
-            // checkWindowSize
-            checkWindowSize(window);
-
-            while (!xmlIn.Name.Equals("DockPanel"))
-            {
-                if (!MoveToNextElement(xmlIn))
-                    throw new ArgumentException("No DockPanel.");
-            }
-
-            DockPanelStruct dockPanelStruct = new DockPanelStruct();
-            dockPanelStruct.DockLeftPortion = Convert.ToDouble(xmlIn.GetAttribute("DockLeftPortion"), CultureInfo.InvariantCulture);
-            dockPanelStruct.DockRightPortion = Convert.ToDouble(xmlIn.GetAttribute("DockRightPortion"), CultureInfo.InvariantCulture);
-            dockPanelStruct.DockTopPortion = Convert.ToDouble(xmlIn.GetAttribute("DockTopPortion"), CultureInfo.InvariantCulture);
-            dockPanelStruct.DockBottomPortion = Convert.ToDouble(xmlIn.GetAttribute("DockBottomPortion"), CultureInfo.InvariantCulture);
-            dockPanelStruct.IndexActiveDocumentPane = Convert.ToInt32(xmlIn.GetAttribute("ActiveDocumentPane"), CultureInfo.InvariantCulture);
-            dockPanelStruct.IndexActivePane = Convert.ToInt32(xmlIn.GetAttribute("ActivePane"), CultureInfo.InvariantCulture);
-
-            // Load Contents
-            MoveToNextElement(xmlIn);
-            if (xmlIn.Name != "Contents")
-                throw new ArgumentException("No DockContents.");
-            ContentStruct[] contents = LoadContents(xmlIn);
-
-            // Load Panes
-            if (xmlIn.Name != "Panes")
-                throw new ArgumentException("No DockPanes.");
-            PaneStruct[] panes = LoadPanes(xmlIn);
-
-            // Load DockWindows
-            if (xmlIn.Name != "DockWindows")
-                throw new ArgumentException("No DockWindows.");
-            DockWindowStruct[] dockWindows = LoadDockWindows(xmlIn, dockPanel);
-
-            // Load FloatWindows
-            if (xmlIn.Name != "FloatWindows")
-                throw new ArgumentException("No FloatWindows");
-            FloatWindowStruct[] floatWindows = LoadFloatWindows(xmlIn);
-
-            // close file
-            xmlIn.Close();
-
-            dockPanel.SuspendLayout(true);
-
-            dockPanel.DockLeftPortion = dockPanelStruct.DockLeftPortion;
-            dockPanel.DockRightPortion = dockPanelStruct.DockRightPortion;
-            dockPanel.DockTopPortion = dockPanelStruct.DockTopPortion;
-            dockPanel.DockBottomPortion = dockPanelStruct.DockBottomPortion;
-
-            // Set DockWindow ZOrders
-            int prevMaxDockWindowZOrder = int.MaxValue;
-            for (int i = 0; i < dockWindows.Length; i++)
-            {
-                int maxDockWindowZOrder = -1;
-                int index = -1;
-                for (int j = 0; j < dockWindows.Length; j++)
+                // Load XML file
+                fs = new FileStream(filename, FileMode.Open);
+                xmlIn = new XmlTextReader(fs);
+                xmlIn.WhitespaceHandling = WhitespaceHandling.None;
+                xmlIn.MoveToContent();
+                // Check XML file
+                while (!xmlIn.Name.Equals("Application"))
                 {
-                    if (dockWindows[j].ZOrderIndex > maxDockWindowZOrder && dockWindows[j].ZOrderIndex < prevMaxDockWindowZOrder)
-                    {
-                        maxDockWindowZOrder = dockWindows[j].ZOrderIndex;
-                        index = j;
-                    }
+                    if (!MoveToNextElement(xmlIn))
+                        throw new ArgumentException();
+                }
+                // version check
+                string formatVersion = xmlIn.GetAttribute("ConfigFileVersion");
+                if (formatVersion == null || !IsFormatVersionValid(formatVersion))
+                    throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + ConfigFileVersion);
+
+                // load Form settings
+                while (!xmlIn.Name.Equals("Form"))
+                {
+                    if (!MoveToNextElement(xmlIn))
+                        throw new ArgumentException();
+                }
+                EnumConverter windowStateConverter = new EnumConverter(typeof(FormWindowState));
+                window.WindowState = (FormWindowState)windowStateConverter.ConvertFrom(xmlIn.GetAttribute("WindowState"));
+                window.Left = Convert.ToInt32(xmlIn.GetAttribute("Left"), CultureInfo.InvariantCulture);
+                window.Top = Convert.ToInt32(xmlIn.GetAttribute("Top"), CultureInfo.InvariantCulture);
+                window.Height = Convert.ToInt32(xmlIn.GetAttribute("Height"), CultureInfo.InvariantCulture);
+                window.Width = Convert.ToInt32(xmlIn.GetAttribute("Width"), CultureInfo.InvariantCulture);
+                // checkWindowSize
+                checkWindowSize(window);
+
+                while (!xmlIn.Name.Equals("DockPanel"))
+                {
+                    if (!MoveToNextElement(xmlIn))
+                        throw new ArgumentException("No DockPanel.");
                 }
 
-                dockPanel.DockWindows[dockWindows[index].DockState].BringToFront();
-                prevMaxDockWindowZOrder = maxDockWindowZOrder;
-            }
+                DockPanelStruct dockPanelStruct = new DockPanelStruct();
+                dockPanelStruct.DockLeftPortion = Convert.ToDouble(xmlIn.GetAttribute("DockLeftPortion"), CultureInfo.InvariantCulture);
+                dockPanelStruct.DockRightPortion = Convert.ToDouble(xmlIn.GetAttribute("DockRightPortion"), CultureInfo.InvariantCulture);
+                dockPanelStruct.DockTopPortion = Convert.ToDouble(xmlIn.GetAttribute("DockTopPortion"), CultureInfo.InvariantCulture);
+                dockPanelStruct.DockBottomPortion = Convert.ToDouble(xmlIn.GetAttribute("DockBottomPortion"), CultureInfo.InvariantCulture);
+                dockPanelStruct.IndexActiveDocumentPane = Convert.ToInt32(xmlIn.GetAttribute("ActiveDocumentPane"), CultureInfo.InvariantCulture);
+                dockPanelStruct.IndexActivePane = Convert.ToInt32(xmlIn.GetAttribute("ActivePane"), CultureInfo.InvariantCulture);
 
-            // Create Contents
-            for (int i = 0; i < contents.Length; i++)
-            {
-                IDockContent content = setDockContent(window, contents[i]);
-                if (content == null)
-                    content = new DockContent();
-                content.DockHandler.DockPanel = dockPanel;
-                content.DockHandler.AutoHidePortion = contents[i].AutoHidePortion;
-                content.DockHandler.IsHidden = true;
-                content.DockHandler.IsFloat = contents[i].IsFloat;
-            }
+                // Load Contents
+                MoveToNextElement(xmlIn);
+                if (xmlIn.Name != "Contents")
+                    throw new ArgumentException("No DockContents.");
+                ContentStruct[] contents = LoadContents(xmlIn);
 
-            // Create panes
-            for (int i = 0; i < panes.Length; i++)
-            {
-                DockPane pane = null;
-                for (int j = 0; j < panes[i].IndexContents.Length; j++)
+                // Load Panes
+                if (xmlIn.Name != "Panes")
+                    throw new ArgumentException("No DockPanes.");
+                PaneStruct[] panes = LoadPanes(xmlIn);
+
+                // Load DockWindows
+                if (xmlIn.Name != "DockWindows")
+                    throw new ArgumentException("No DockWindows.");
+                DockWindowStruct[] dockWindows = LoadDockWindows(xmlIn, dockPanel);
+
+                // Load FloatWindows
+                if (xmlIn.Name != "FloatWindows")
+                    throw new ArgumentException("No FloatWindows");
+                FloatWindowStruct[] floatWindows = LoadFloatWindows(xmlIn);
+
+                // close file
+                xmlIn.Close();
+
+                dockPanel.SuspendLayout(true);
+
+                dockPanel.DockLeftPortion = dockPanelStruct.DockLeftPortion;
+                dockPanel.DockRightPortion = dockPanelStruct.DockRightPortion;
+                dockPanel.DockTopPortion = dockPanelStruct.DockTopPortion;
+                dockPanel.DockBottomPortion = dockPanelStruct.DockBottomPortion;
+
+                // Set DockWindow ZOrders
+                int prevMaxDockWindowZOrder = int.MaxValue;
+                for (int i = 0; i < dockWindows.Length; i++)
                 {
-                    IDockContent content = dockPanel.Contents[panes[i].IndexContents[j]];
-                    if (j == 0)
-                        pane = dockPanel.DockPaneFactory.CreateDockPane(content, panes[i].DockState, false);
-                    else if (panes[i].DockState == DockState.Float)
-                        content.DockHandler.FloatPane = pane;
-                    else
-                        content.DockHandler.PanelPane = pane;
-                }
-            }
-
-            // Assign Panes to DockWindows
-            for (int i = 0; i < dockWindows.Length; i++)
-            {
-                for (int j = 0; j < dockWindows[i].NestedPanes.Length; j++)
-                {
-                    DockWindow dw = dockPanel.DockWindows[dockWindows[i].DockState];
-                    int indexPane = dockWindows[i].NestedPanes[j].IndexPane;
-                    DockPane pane = dockPanel.Panes[indexPane];
-                    int indexPrevPane = dockWindows[i].NestedPanes[j].IndexPrevPane;
-                    DockPane prevPane = (indexPrevPane == -1) ? dw.NestedPanes.GetDefaultPreviousPane(pane) : dockPanel.Panes[indexPrevPane];
-                    DockAlignment alignment = dockWindows[i].NestedPanes[j].Alignment;
-                    double proportion = dockWindows[i].NestedPanes[j].Proportion;
-                    pane.DockTo(dw, prevPane, alignment, proportion);
-                    if (panes[indexPane].DockState == dw.DockState)
-                        panes[indexPane].ZOrderIndex = dockWindows[i].ZOrderIndex;
-                }
-            }
-
-            // Create float windows
-            for (int i = 0; i < floatWindows.Length; i++)
-            {
-                FloatWindow fw = null;
-                for (int j = 0; j < floatWindows[i].NestedPanes.Length; j++)
-                {
-                    int indexPane = floatWindows[i].NestedPanes[j].IndexPane;
-                    DockPane pane = dockPanel.Panes[indexPane];
-                    if (j == 0)
+                    int maxDockWindowZOrder = -1;
+                    int index = -1;
+                    for (int j = 0; j < dockWindows.Length; j++)
                     {
-                        fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, floatWindows[i].Bounds);
-                        checkWindowSize(fw);
-                    }
-                    else
-                    {
-                        int indexPrevPane = floatWindows[i].NestedPanes[j].IndexPrevPane;
-                        DockPane prevPane = indexPrevPane == -1 ? null : dockPanel.Panes[indexPrevPane];
-                        DockAlignment alignment = floatWindows[i].NestedPanes[j].Alignment;
-                        double proportion = floatWindows[i].NestedPanes[j].Proportion;
-                        pane.DockTo(fw, prevPane, alignment, proportion);
-                        if (panes[indexPane].DockState == fw.DockState)
-                            panes[indexPane].ZOrderIndex = floatWindows[i].ZOrderIndex;
-                    }
-                }
-            }
-
-            // sort IDockContent by its Pane's ZOrder
-            int[] sortedContents = null;
-            if (contents.Length > 0)
-            {
-                sortedContents = new int[contents.Length];
-                for (int i = 0; i < contents.Length; i++)
-                    sortedContents[i] = i;
-
-                int lastDocument = contents.Length;
-                for (int i = 0; i < contents.Length - 1; i++)
-                {
-                    for (int j = i + 1; j < contents.Length; j++)
-                    {
-                        DockPane pane1 = dockPanel.Contents[sortedContents[i]].DockHandler.Pane;
-                        int ZOrderIndex1 = pane1 == null ? 0 : panes[dockPanel.Panes.IndexOf(pane1)].ZOrderIndex;
-                        DockPane pane2 = dockPanel.Contents[sortedContents[j]].DockHandler.Pane;
-                        int ZOrderIndex2 = pane2 == null ? 0 : panes[dockPanel.Panes.IndexOf(pane2)].ZOrderIndex;
-                        if (ZOrderIndex1 > ZOrderIndex2)
+                        if (dockWindows[j].ZOrderIndex > maxDockWindowZOrder && dockWindows[j].ZOrderIndex < prevMaxDockWindowZOrder)
                         {
-                            int temp = sortedContents[i];
-                            sortedContents[i] = sortedContents[j];
-                            sortedContents[j] = temp;
+                            maxDockWindowZOrder = dockWindows[j].ZOrderIndex;
+                            index = j;
+                        }
+                    }
+
+                    dockPanel.DockWindows[dockWindows[index].DockState].BringToFront();
+                    prevMaxDockWindowZOrder = maxDockWindowZOrder;
+                }
+
+                // Create Contents
+                for (int i = 0; i < contents.Length; i++)
+                {
+                    IDockContent content = setDockContent(window, contents[i]);
+                    if (content == null)
+                        content = new DockContent();
+                    content.DockHandler.DockPanel = dockPanel;
+                    content.DockHandler.AutoHidePortion = contents[i].AutoHidePortion;
+                    content.DockHandler.IsHidden = true;
+                    content.DockHandler.IsFloat = contents[i].IsFloat;
+                }
+
+                // Create panes
+                for (int i = 0; i < panes.Length; i++)
+                {
+                    DockPane pane = null;
+                    for (int j = 0; j < panes[i].IndexContents.Length; j++)
+                    {
+                        IDockContent content = dockPanel.Contents[panes[i].IndexContents[j]];
+                        if (j == 0)
+                            pane = dockPanel.DockPaneFactory.CreateDockPane(content, panes[i].DockState, false);
+                        else if (panes[i].DockState == DockState.Float)
+                            content.DockHandler.FloatPane = pane;
+                        else
+                            content.DockHandler.PanelPane = pane;
+                    }
+                }
+
+                // Assign Panes to DockWindows
+                for (int i = 0; i < dockWindows.Length; i++)
+                {
+                    for (int j = 0; j < dockWindows[i].NestedPanes.Length; j++)
+                    {
+                        DockWindow dw = dockPanel.DockWindows[dockWindows[i].DockState];
+                        int indexPane = dockWindows[i].NestedPanes[j].IndexPane;
+                        DockPane pane = dockPanel.Panes[indexPane];
+                        int indexPrevPane = dockWindows[i].NestedPanes[j].IndexPrevPane;
+                        DockPane prevPane = (indexPrevPane == -1) ? dw.NestedPanes.GetDefaultPreviousPane(pane) : dockPanel.Panes[indexPrevPane];
+                        DockAlignment alignment = dockWindows[i].NestedPanes[j].Alignment;
+                        double proportion = dockWindows[i].NestedPanes[j].Proportion;
+                        pane.DockTo(dw, prevPane, alignment, proportion);
+                        if (panes[indexPane].DockState == dw.DockState)
+                            panes[indexPane].ZOrderIndex = dockWindows[i].ZOrderIndex;
+                    }
+                }
+
+                // Create float windows
+                for (int i = 0; i < floatWindows.Length; i++)
+                {
+                    FloatWindow fw = null;
+                    for (int j = 0; j < floatWindows[i].NestedPanes.Length; j++)
+                    {
+                        int indexPane = floatWindows[i].NestedPanes[j].IndexPane;
+                        DockPane pane = dockPanel.Panes[indexPane];
+                        if (j == 0)
+                        {
+                            fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, floatWindows[i].Bounds);
+                            checkWindowSize(fw);
+                        }
+                        else
+                        {
+                            int indexPrevPane = floatWindows[i].NestedPanes[j].IndexPrevPane;
+                            DockPane prevPane = indexPrevPane == -1 ? null : dockPanel.Panes[indexPrevPane];
+                            DockAlignment alignment = floatWindows[i].NestedPanes[j].Alignment;
+                            double proportion = floatWindows[i].NestedPanes[j].Proportion;
+                            pane.DockTo(fw, prevPane, alignment, proportion);
+                            if (panes[indexPane].DockState == fw.DockState)
+                                panes[indexPane].ZOrderIndex = floatWindows[i].ZOrderIndex;
                         }
                     }
                 }
-            }
 
-            // show non-document IDockContent first to avoid screen flickers
-            for (int i = 0; i < contents.Length; i++)
+                // sort IDockContent by its Pane's ZOrder
+                int[] sortedContents = null;
+                if (contents.Length > 0)
+                {
+                    sortedContents = new int[contents.Length];
+                    for (int i = 0; i < contents.Length; i++)
+                        sortedContents[i] = i;
+
+                    int lastDocument = contents.Length;
+                    for (int i = 0; i < contents.Length - 1; i++)
+                    {
+                        for (int j = i + 1; j < contents.Length; j++)
+                        {
+                            DockPane pane1 = dockPanel.Contents[sortedContents[i]].DockHandler.Pane;
+                            int ZOrderIndex1 = pane1 == null ? 0 : panes[dockPanel.Panes.IndexOf(pane1)].ZOrderIndex;
+                            DockPane pane2 = dockPanel.Contents[sortedContents[j]].DockHandler.Pane;
+                            int ZOrderIndex2 = pane2 == null ? 0 : panes[dockPanel.Panes.IndexOf(pane2)].ZOrderIndex;
+                            if (ZOrderIndex1 > ZOrderIndex2)
+                            {
+                                int temp = sortedContents[i];
+                                sortedContents[i] = sortedContents[j];
+                                sortedContents[j] = temp;
+                            }
+                        }
+                    }
+                }
+
+                // show non-document IDockContent first to avoid screen flickers
+                for (int i = 0; i < contents.Length; i++)
+                {
+                    IDockContent content = dockPanel.Contents[sortedContents[i]];
+                    if (content.DockHandler.Pane != null && content.DockHandler.Pane.DockState != DockState.Document)
+                        content.DockHandler.IsHidden = contents[sortedContents[i]].IsHidden;
+                }
+
+                // after all non-document IDockContent, show document IDockContent
+                for (int i = 0; i < contents.Length; i++)
+                {
+                    IDockContent content = dockPanel.Contents[sortedContents[i]];
+                    if (content.DockHandler.Pane != null && content.DockHandler.Pane.DockState == DockState.Document)
+                        content.DockHandler.IsHidden = contents[sortedContents[i]].IsHidden;
+                }
+
+                for (int i = 0; i < panes.Length; i++)
+                    dockPanel.Panes[i].ActiveContent = panes[i].IndexActiveContent == -1 ? null : dockPanel.Contents[panes[i].IndexActiveContent];
+
+                if (dockPanelStruct.IndexActiveDocumentPane != -1)
+                    dockPanel.Panes[dockPanelStruct.IndexActiveDocumentPane].Activate();
+
+                if (dockPanelStruct.IndexActivePane != -1)
+                    dockPanel.Panes[dockPanelStruct.IndexActivePane].Activate();
+
+                //for (int i = dockPanel.Contents.Count - 1; i >= 0; i--)
+                //    if (dockPanel.Contents[i] is DockContent)
+                //        dockPanel.Contents[i].DockHandler.Form.Close();
+
+                dockPanel.ResumeLayout(true, true);
+            }
+            finally
             {
-                IDockContent content = dockPanel.Contents[sortedContents[i]];
-                if (content.DockHandler.Pane != null && content.DockHandler.Pane.DockState != DockState.Document)
-                    content.DockHandler.IsHidden = contents[sortedContents[i]].IsHidden;
+                if (xmlIn != null) xmlIn.Close();
+                if (fs != null) fs.Close();
             }
-
-            // after all non-document IDockContent, show document IDockContent
-            for (int i = 0; i < contents.Length; i++)
-            {
-                IDockContent content = dockPanel.Contents[sortedContents[i]];
-                if (content.DockHandler.Pane != null && content.DockHandler.Pane.DockState == DockState.Document)
-                    content.DockHandler.IsHidden = contents[sortedContents[i]].IsHidden;
-            }
-
-            for (int i = 0; i < panes.Length; i++)
-                dockPanel.Panes[i].ActiveContent = panes[i].IndexActiveContent == -1 ? null : dockPanel.Contents[panes[i].IndexActiveContent];
-
-            if (dockPanelStruct.IndexActiveDocumentPane != -1)
-                dockPanel.Panes[dockPanelStruct.IndexActiveDocumentPane].Activate();
-
-            if (dockPanelStruct.IndexActivePane != -1)
-                dockPanel.Panes[dockPanelStruct.IndexActivePane].Activate();
-
-            //for (int i = dockPanel.Contents.Count - 1; i >= 0; i--)
-            //    if (dockPanel.Contents[i] is DockContent)
-            //        dockPanel.Contents[i].DockHandler.Form.Close();
-
-            dockPanel.ResumeLayout(true, true);
         }
 
         private static bool MoveToNextElement(XmlTextReader xmlIn)

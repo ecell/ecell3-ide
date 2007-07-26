@@ -185,7 +185,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Save default window settings.
         /// </summary>
-        void saveWindowSetting(string filename)
+        private void saveWindowSetting(string filename)
         {
             //Save current window settings.
             try
@@ -196,13 +196,14 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 string errmsg = m_resources.GetString("ErrSaveWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
-                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Debug.WriteLine(errmsg);
+                //MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         /// <summary>
         /// Load window settings.
         /// </summary>
-        private void loadWindowSetting(string filename)
+        private bool loadWindowSetting(string filename)
         {
             try
             {
@@ -210,11 +211,14 @@ namespace EcellLib.MainWindow
                     throw new Exception(m_resources.GetString("FileNotFound"));
                 ECellSerializer.loadFromXML(this, filename);
                 Debug.WriteLine("load window settings: " + filename);
+                return true;
             }
             catch (Exception ex)
             {
                 string errmsg = m_resources.GetString("ErrLoadWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
-                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Debug.WriteLine(errmsg);
+                //MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
         /// <summary>
@@ -222,15 +226,10 @@ namespace EcellLib.MainWindow
         /// </summary>
         private void loadDefaultWindowSetting()
         {
-            //Load default window settings.
-            string filepath = null;
-            if (File.Exists(defaultWindowSettingPath))
-                filepath = defaultWindowSettingPath;
-            if (File.Exists(userWindowSettingPath))
-                filepath = userWindowSettingPath;
-
-            if (filepath != null)
-                loadWindowSetting(filepath);
+            //Load user window settings.
+            if (!loadWindowSetting(userWindowSettingPath))
+                // Load default window settings when failed.
+                loadWindowSetting(defaultWindowSettingPath);
         }
 
         /// <summary>
