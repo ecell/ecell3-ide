@@ -152,6 +152,11 @@ namespace EcellLib.PathwayWindow.Node
         protected bool m_isPickableBeforeFreeze = false;
 
         /// <summary>
+        /// This object.Pickable before freeze() method called.
+        /// </summary>
+        protected bool m_isLogger = false;
+
+        /// <summary>
         /// The key that identifies a change in this node's <see cref="Pen">Pen</see>.
         /// </summary>
         /// <remarks>
@@ -332,6 +337,19 @@ namespace EcellLib.PathwayWindow.Node
             set { this.m_name = value; }
         }
         /// <summary>
+        /// Accessor for Text.
+        /// </summary>
+        public string Text
+        {
+            get 
+            {
+                if (m_isLogger)
+                    return this.m_name + "*";
+                else
+                    return this.Name;
+            }
+        }
+        /// <summary>
         /// Accessor for m_normalBrush.
         /// </summary>
         public Brush NormalBrush
@@ -426,6 +444,14 @@ namespace EcellLib.PathwayWindow.Node
         {
             get { return m_parentObject; }
             set { m_parentObject = value; }
+        }
+        /// <summary>
+        /// Accessor for m_isLogger.
+        /// </summary>
+        public virtual bool IsLogger
+        {
+            get { return m_isLogger; }
+            set { m_isLogger = value; }
         }
         #endregion
 

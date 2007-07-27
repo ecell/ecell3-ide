@@ -250,18 +250,6 @@ namespace EcellLib.PathwayWindow
         protected PathwayCanvas m_pathwayCanvas;
 
         /// <summary>
-        /// A button shown on left-lower corner of a main pathway display
-        /// for showing overview and layer control
-        /// </summary>
-        protected ShowBtnDownward m_showBtnDownward;
-
-        /// <summary>
-        /// A button shown on left-lower corner of a main pathway display 
-        /// for hiding overview and layer control
-        /// </summary>
-        protected ShowBtnUpward m_showBtnUpward;
-
-        /// <summary>
         /// the canvas of overview.
         /// </summary>
         protected OverviewCanvas m_overviewCanvas;
@@ -494,22 +482,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_showBtnDownward.
-        /// </summary>
-        public ShowBtnDownward ShowBtnDownward
-        {
-            get { return m_showBtnDownward; }
-        }
-
-        /// <summary>
-        /// Accessor for m_showBtnUpward.
-        /// </summary>
-        public ShowBtnUpward ShowBtnUpward
-        {
-            get { return m_showBtnUpward; }
-        }
-
-        /// <summary>
         /// Accessor for m_selectedNodes.
         /// </summary>
         public List<PPathwayNode> SelectedNodes
@@ -645,18 +617,6 @@ namespace EcellLib.PathwayWindow
             m_pathwayView = view;
             m_canvasId = name;
 
-            // Preparing show button for showing/hiding overview panel and layer control panel
-            m_showBtnDownward = new ShowBtnDownward(new Pen(Brushes.Black),
-                                                    SHOW_BTN_BG_BRUSH,
-                                                    SHOW_BTN_ARROW_BRUSH,
-                                                    SHOW_BTN_SHADOW_BRUSH);
-            m_showBtnDownward.Click += handler;
-            m_showBtnUpward = new ShowBtnUpward(new Pen(Brushes.Black),
-                                                    SHOW_BTN_BG_BRUSH,
-                                                    SHOW_BTN_ARROW_BRUSH,
-                                                    SHOW_BTN_SHADOW_BRUSH);
-            m_showBtnUpward.Click += handler;
-            
             // Preparing TabPage
             m_pathwayTabPage = new TabPage(name);
             m_pathwayTabPage.Name = name;
@@ -670,14 +630,9 @@ namespace EcellLib.PathwayWindow
             m_pathwayCanvas.Dock = DockStyle.Fill;
             //m_pathwayCanvas.MouseDown += new MouseEventHandler(m_pathwayCanvas_MouseDown);
             //m_pathwayCanvas.MouseMove += new MouseEventHandler(m_pathwayCanvas_MouseMove);
-            m_pathwayCanvas.Camera.AddChild(m_showBtnDownward);
             m_pathwayCanvas.Name = name;
             //m_pathwayCanvas.Camera.Scale = DEFAULT_CAMERA_SCALE;
             m_pathwayCanvas.Camera.ScaleViewBy(0.7f);
-            if (lowerPanelShown)
-                m_showBtnDownward.Visible = true;
-            else
-                m_showBtnUpward.Visible = true;
 
             PScrollableControl scrolCtrl = new PScrollableControl(m_pathwayCanvas);
             scrolCtrl.Layout += new LayoutEventHandler(scrolCtrl_Layout);
@@ -925,7 +880,6 @@ namespace EcellLib.PathwayWindow
 
         void scrolCtrl_Layout(object sender, LayoutEventArgs e)
         {
-            m_pathwayView.UpdateShowButton();
         }
 
         /// <summary>
@@ -1352,21 +1306,21 @@ namespace EcellLib.PathwayWindow
                 if (obj is PEcellVariable)
                 {
                     PEcellVariable val = (PEcellVariable)obj;
-                    Debug.WriteLine("Create Variable Logger:" + val.Element.Key);
+                    Debug.WriteLine("Create Variable Logger:" + val.Element.Name);
                     ecellobj = m_pathwayView.GetData(val.Element.Key, val.Element.Type);
                 }
                 // Process
                 else if (obj is PEcellProcess)
                 {
                     PEcellProcess proc = (PEcellProcess)obj;
-                    Debug.WriteLine("Create Process Logger:" + proc.Element.Key);
+                    Debug.WriteLine("Create Process Logger:" + proc.Element.Name);
                     ecellobj = m_pathwayView.GetData(proc.Element.Key, proc.Element.Type);
                 }
                 // Process
                 else if (obj is PEcellSystem)
                 {
                     PEcellSystem sys = (PEcellSystem)obj;
-                    Debug.WriteLine("Create System Logger:" + sys.Element.Key);
+                    Debug.WriteLine("Create System Logger:" + sys.Element.Name);
                     ecellobj = m_pathwayView.GetData(sys.Element.Key, sys.Element.Type);
                 }
                 // exit if ecellobj is null.
@@ -1386,6 +1340,8 @@ namespace EcellLib.PathwayWindow
                                         ecellobj.type,
                                         d.M_entityPath);
                         d.M_isLogger = true;
+                        // add logger flag to node.
+                        obj.IsLogger = true;
                     }
                 }
                 // modify changes
@@ -1394,7 +1350,8 @@ namespace EcellLib.PathwayWindow
                                 ecellobj.key,
                                 ecellobj.type,
                                 ecellobj);
-
+                //
+                Debug.WriteLine(obj.Text);
             }
             else
             {
@@ -1412,7 +1369,7 @@ namespace EcellLib.PathwayWindow
         {
             string logger = ((ToolStripItem)sender).Text;
             EcellObject ecellobj = null;
-
+            int counter = 0;
             if (m_cMenuDict[CANVAS_MENU_DELETE].Tag is PPathwayObject)
             {
                 PPathwayObject obj = (PPathwayObject)m_cMenuDict[CANVAS_MENU_DELETE].Tag;
@@ -1420,21 +1377,21 @@ namespace EcellLib.PathwayWindow
                 if (obj is PEcellVariable)
                 {
                     PEcellVariable val = (PEcellVariable)obj;
-                    Debug.WriteLine("Create Variable Logger:" + val.Element.Key);
+                    Debug.WriteLine("Delete Variable Logger:" + val.Element.Key);
                     ecellobj = m_pathwayView.GetData(val.Element.Key, val.Element.Type);
                 }
                 // Process
                 else if (obj is PEcellProcess)
                 {
                     PEcellProcess proc = (PEcellProcess)obj;
-                    Debug.WriteLine("Create Process Logger:" + proc.Element.Key);
+                    Debug.WriteLine("Delete Process Logger:" + proc.Element.Key);
                     ecellobj = m_pathwayView.GetData(proc.Element.Key, proc.Element.Type);
                 }
                 // Process
                 else if (obj is PEcellSystem)
                 {
                     PEcellSystem sys = (PEcellSystem)obj;
-                    Debug.WriteLine("Create System Logger:" + sys.Element.Key);
+                    Debug.WriteLine("Delete System Logger:" + sys.Element.Key);
                     ecellobj = m_pathwayView.GetData(sys.Element.Key, sys.Element.Type);
                 }
                 // exit if ecellobj is null.
@@ -1446,10 +1403,14 @@ namespace EcellLib.PathwayWindow
                 // delete logger
                 foreach (EcellData d in ecellobj.M_value)
                 {
+                    // delete logger
                     if (logger.Equals(d.M_name))
                     {
                         d.M_isLogger = false;
                     }
+                    // count logger
+                    if (d.M_isLogger)
+                        counter++;
                 }
                 // modify changes
                 DataManager.GetDataManager().DataChanged(
@@ -1457,7 +1418,10 @@ namespace EcellLib.PathwayWindow
                                 ecellobj.key,
                                 ecellobj.type,
                                 ecellobj);
-
+                // Remove logger flag from node. 
+                if (counter == 0)
+                    obj.IsLogger = false;
+                Debug.WriteLine(obj.Text);
             }
             else
             {
@@ -3703,38 +3667,6 @@ namespace EcellLib.PathwayWindow
             m_area.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
             m_overviewCanvas.UpdateTransparent();
             m_overviewCanvas.Refresh();
-        }
-
-        /// <summary>
-        /// change position of button that is whether overview show of no show.
-        /// </summary>
-        /// <param name="lowerPanelShown">the  flag whether overview show.</param>
-        public void UpdateShowButton(bool lowerPanelShown)
-        {
-            RectangleF rect = m_pathwayCanvas.Camera.Bounds;
-            if (lowerPanelShown)
-                m_showBtnDownward.Offset = new PointF(rect.X, rect.Y + rect.Height - m_showBtnWidth - 1);
-            else
-                m_showBtnUpward.Offset = new PointF(rect.X, rect.Y + rect.Height - m_showBtnWidth - 1);
-        }
-
-        /// <summary>
-        /// change whether show lower overview.
-        /// </summary>
-        /// <param name="lowerPanelShown">the flag whether show the lower overview.</param>
-        public void ChangeShowButton(bool lowerPanelShown)
-        {
-            if(lowerPanelShown)
-            {
-                m_pathwayCanvas.Camera.RemoveChild(m_showBtnUpward);
-                m_pathwayCanvas.Camera.AddChild(m_showBtnDownward);
-            }
-            else
-            {
-                m_pathwayCanvas.Camera.RemoveChild(m_showBtnDownward);
-                m_pathwayCanvas.Camera.AddChild(m_showBtnUpward);
-            }
-            UpdateShowButton(lowerPanelShown);
         }
 
         /// <summary>

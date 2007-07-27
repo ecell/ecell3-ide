@@ -241,6 +241,9 @@ namespace EcellLib.PathwayWindow.UIComponent
                     }
                 }
             }
+            // 
+            createLogger.Visible = !(createLogger.DropDown.Items.Count == 0);
+            deleteLogger.Visible = !(deleteLogger.DropDown.Items.Count == 0);
 
         }
     }

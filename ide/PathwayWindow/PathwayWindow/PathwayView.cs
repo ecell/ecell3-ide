@@ -953,7 +953,6 @@ namespace EcellLib.PathwayWindow
                 m_overCanvas = m_canvasDict[name].OverviewCanvas;
                 m_overviewGB.Controls.Add(m_overCanvas);
 
-                m_canvasDict[name].UpdateShowButton(m_lowerPanelShown);
             }
         }
 
@@ -983,7 +982,6 @@ namespace EcellLib.PathwayWindow
         void m_splitCon_SplitterMoved(object sender, SplitterEventArgs e)
         {
             UpdateOverview();
-            UpdateShowButton();
         }
         #endregion
         
@@ -1559,20 +1557,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Update the checkbox in DataGridView.
-        /// </summary>
-        public void UpdateShowButton()
-        {
-            if (m_canvasDict != null)
-            {
-                foreach (CanvasView set in m_canvasDict.Values)
-                {
-                    set.UpdateShowButton(m_lowerPanelShown);
-                }
-            }
-        }
-
-        /// <summary>
         /// Clears the contents of the pathway window, and Returns it to an
         /// initial state.
         /// </summary>
@@ -1812,7 +1796,7 @@ namespace EcellLib.PathwayWindow
             foreach (CanvasElement ce in canvasElements.Values)
             {
                 CanvasView set =
-                    new CanvasView(this, ce.CanvasID, m_lowerPanelShown, REDUCTION_SCALE, ShowButtonClick);
+                    new CanvasView(this, ce.CanvasID, m_lowerPanelShown, REDUCTION_SCALE, null);
 
                 m_tabControl.Controls.Add(set.TabPage);
                 m_activeCanvasID = ce.CanvasID;
@@ -1820,7 +1804,6 @@ namespace EcellLib.PathwayWindow
                 m_layerDs.Tables.Add(set.LayerTable);
 
                 set.UpdateOverview();
-                set.UpdateShowButton(m_lowerPanelShown);
 
                 if(doLayout)
                 {
@@ -2067,29 +2050,6 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         /// <summary>
-        /// the event sequence of click the check box of show or no show.
-        /// </summary>
-        /// <param name="sender">DataGridViewCheckBox.</param>
-        /// <param name="e">PInputEventArgs.</param>
-        void ShowButtonClick(object sender, PInputEventArgs e)
-        {
-            m_lowerPanelShown = !m_lowerPanelShown;
-
-            if(m_lowerPanelShown)
-            {
-                m_splitCon.Panel2Collapsed = false;
-            }
-            else
-            {
-                m_splitCon.Panel2Collapsed = true;
-            }
-            foreach (CanvasView set in m_canvasDict.Values)
-            {
-                set.ChangeShowButton(m_lowerPanelShown);
-            }
-        }
-
-        /// <summary>
         /// Called when UserControl is resized.
         /// </summary>
         /// <param name="sender"></param>
@@ -2099,7 +2059,6 @@ namespace EcellLib.PathwayWindow
             if(m_dgv != null && m_dgv.Columns.Contains("Show"))
                 m_dgv.Columns["Show"].Width = LAYER_SHOWCOLUMN_WIDTH;
             UpdateOverview();
-            UpdateShowButton();
         }
 
         #region Event delegate from PPathwayObject
