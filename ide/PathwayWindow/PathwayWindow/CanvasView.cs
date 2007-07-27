@@ -1297,32 +1297,8 @@ namespace EcellLib.PathwayWindow
             if (m_cMenuDict[CANVAS_MENU_DELETE].Tag is PPathwayObject)
             {
                 PPathwayObject obj = (PPathwayObject)m_cMenuDict[CANVAS_MENU_DELETE].Tag;
-                // Variable
-                if (obj is PEcellVariable)
-                {
-                    PEcellVariable val = (PEcellVariable)obj;
-                    Debug.WriteLine("Create Variable Logger:" + val.Element.Name);
-                    ecellobj = m_pathwayView.GetData(val.Element.Key, val.Element.Type);
-                }
-                // Process
-                else if (obj is PEcellProcess)
-                {
-                    PEcellProcess proc = (PEcellProcess)obj;
-                    Debug.WriteLine("Create Process Logger:" + proc.Element.Name);
-                    ecellobj = m_pathwayView.GetData(proc.Element.Key, proc.Element.Type);
-                }
-                // Process
-                else if (obj is PEcellSystem)
-                {
-                    PEcellSystem sys = (PEcellSystem)obj;
-                    Debug.WriteLine("Create System Logger:" + sys.Element.Name);
-                    ecellobj = m_pathwayView.GetData(sys.Element.Key, sys.Element.Type);
-                }
-                // exit if ecellobj is null.
-                if (ecellobj == null)
-                {
-                    return;
-                }
+                ecellobj = DataManager.GetDataManager().GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
+                Debug.WriteLine("Create " + obj.Element.Type + " Logger:" + obj.Element.Key);
 
                 // set logger
                 foreach (EcellData d in ecellobj.M_value)
@@ -1335,8 +1311,6 @@ namespace EcellLib.PathwayWindow
                                         ecellobj.type,
                                         d.M_entityPath);
                         d.M_isLogger = true;
-                        // add logger flag to node.
-                        obj.IsLogger = true;
                     }
                 }
                 // modify changes
@@ -1363,52 +1337,16 @@ namespace EcellLib.PathwayWindow
         {
             string logger = ((ToolStripItem)sender).Text;
             EcellObject ecellobj = null;
-            int counter = 0;
             if (m_cMenuDict[CANVAS_MENU_DELETE].Tag is PPathwayObject)
             {
                 PPathwayObject obj = (PPathwayObject)m_cMenuDict[CANVAS_MENU_DELETE].Tag;
-                // Variable
-                if (obj is PEcellVariable)
-                {
-                    PEcellVariable val = (PEcellVariable)obj;
-                    Debug.WriteLine("Delete Variable Logger:" + val.Element.Key);
-                    ecellobj = m_pathwayView.GetData(val.Element.Key, val.Element.Type);
-                }
-                // Process
-                else if (obj is PEcellProcess)
-                {
-                    PEcellProcess proc = (PEcellProcess)obj;
-                    Debug.WriteLine("Delete Process Logger:" + proc.Element.Key);
-                    ecellobj = m_pathwayView.GetData(proc.Element.Key, proc.Element.Type);
-                }
-                // Process
-                else if (obj is PEcellSystem)
-                {
-                    PEcellSystem sys = (PEcellSystem)obj;
-                    Debug.WriteLine("Delete System Logger:" + sys.Element.Key);
-                    ecellobj = m_pathwayView.GetData(sys.Element.Key, sys.Element.Type);
-                }
-                // exit if ecellobj is null.
-                if (ecellobj == null)
-                {
-                    return;
-                }
+                ecellobj = DataManager.GetDataManager().GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
+                Debug.WriteLine("Delete " + obj.Element.Type + " Logger:" + obj.Element.Key);
 
                 // delete logger
                 foreach (EcellData d in ecellobj.M_value)
-                {
-                    // delete logger
                     if (logger.Equals(d.M_name))
-                    {
                         d.M_isLogger = false;
-                    }
-                    // count logger
-                    if (d.M_isLogger)
-                        counter++;
-                }
-                // Remove logger flag from node. 
-                if (counter == 0)
-                    obj.IsLogger = false;
                 // modify changes
                 DataManager.GetDataManager().DataChanged(
                                 ecellobj.modelID,

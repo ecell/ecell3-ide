@@ -97,6 +97,11 @@ namespace EcellLib.PathwayWindow.Element
         /// </summary>
         protected bool m_isLogger = false;
 
+        /// <summary>
+        /// Model ID
+        /// </summary>
+        protected Node.PPathwayObject m_pObject;
+
         #endregion
 
         #region Accessors
@@ -179,10 +184,10 @@ namespace EcellLib.PathwayWindow.Element
         {
             get
             {
-                if (m_isLogger)
-                    return this.Name + " *";
-                else
+                if (EcellObject == null || !EcellObject.IsLogger)
                     return this.Name;
+                else
+                    return this.Name + " *";
             }
         }
         /// <summary>
@@ -212,11 +217,22 @@ namespace EcellLib.PathwayWindow.Element
         /// <summary>
         /// Accessor for m_isLogger.
         /// </summary>
-        public virtual bool IsLogger
+        public EcellObject EcellObject
         {
-            get { return m_isLogger; }
-            set { m_isLogger = value; }
+            get
+            {
+                try
+                {
+                    EcellObject obj = DataManager.GetDataManager().GetEcellObject(this.ModelID, this.Key, this.Type);
+                    return obj;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
         }
         #endregion
+
     }
 }

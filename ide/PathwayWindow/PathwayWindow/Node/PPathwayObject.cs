@@ -319,14 +319,7 @@ namespace EcellLib.PathwayWindow.Node
             get { return this.m_setting; }
             set { this.m_setting = value; }
         }
-        /// <summary>
-        /// Accessor for m_ecellObj.
-        /// </summary>
-        public EcellObject ECellObject
-        {
-            get { return this.m_ecellObj; }
-            set { this.m_ecellObj = value; }
-        }
+
         /// <summary>
         /// Accessor for m_ecellObj.
         /// </summary>
@@ -445,14 +438,6 @@ namespace EcellLib.PathwayWindow.Node
         {
             get { return m_parentObject; }
             set { m_parentObject = value; }
-        }
-        /// <summary>
-        /// Accessor for m_isLogger.
-        /// </summary>
-        public virtual bool IsLogger
-        {
-            get { return this.m_element.IsLogger; }
-            set { this.m_element.IsLogger = value; }
         }
         #endregion
 

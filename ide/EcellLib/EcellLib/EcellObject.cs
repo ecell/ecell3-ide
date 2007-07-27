@@ -131,6 +131,24 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// get isLogger.
+        /// </summary>
+        public bool IsLogger
+        {
+            get
+            {
+                //return true if any Logger exists.
+                if (M_value != null)
+                {
+                    foreach (EcellData d in M_value)
+                        if ( d.M_isLogable && d.M_isLogger)
+                            return true;
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
         /// get/set m_type.
         /// </summary>
         public string type

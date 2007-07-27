@@ -3091,7 +3091,46 @@ namespace EcellLib
                 return null;
             }
         }
+        /// <summary>
+        /// Get EcellObject from DataManager.
+        /// </summary>
+        /// <param name="modelId">the modelId of EcellObject.</param>
+        /// <param name="key">the key of EcellObject.</param>
+        /// <param name="type">the type of EcellObject.</param>
+        /// <returns>EcellObject</returns>
+        public EcellObject GetEcellObject(string modelId, string key, string type)
+        {
+            if (string.IsNullOrEmpty(key))
+                return null;
+            List<EcellObject> list = null;
+            if (key.Contains(":"))
+            {
+                String[] data = key.Split(new char[] { ':' });
+                list = GetData(modelId, data[0]);
+            }
+            else
+                list = GetData(modelId, key);
 
+            if (list == null)
+            {
+                return null;
+            }
+            foreach (EcellObject eo in list)
+            {
+                if (key.Equals(eo.key) && type.Equals(eo.type))
+                {
+                    return eo;
+                }
+                foreach (EcellObject subEo in eo.M_instances)
+                {
+                    if (key.Equals(subEo.key) && type.Equals(subEo.type))
+                    {
+                        return subEo;
+                    }
+                }
+            }
+            return null;
+        }
         /// <summary>
         /// Returns the singleton of this.
         /// </summary>
