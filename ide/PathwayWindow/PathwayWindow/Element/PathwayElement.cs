@@ -43,7 +43,7 @@ namespace EcellLib.PathwayWindow.Element
     /// each pathway-related classes.
     /// </summary>
     [Serializable]
-    public class PathwayElement
+    public abstract class PathwayElement
     {
         #region Fields
         /// <summary>

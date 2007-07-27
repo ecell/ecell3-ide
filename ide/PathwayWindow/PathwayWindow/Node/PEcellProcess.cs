@@ -90,14 +90,14 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         /// get/set the related element.
         /// </summary>
-        public override NodeElement Element
+        public new NodeElement Element
         {
-            get { return base.m_nodeElement; }
+            get { return (NodeElement)base.m_element; }
             set
             {
-                base.m_nodeElement = value;
-                this.X = m_nodeElement.X;
-                this.Y = m_nodeElement.Y;
+                base.m_element = value;
+                this.X = this.Element.X;
+                this.Y = this.Element.Y;
                 this.OffsetX = 0;
                 this.OffsetY = 0;
                 RefreshText();
@@ -150,10 +150,10 @@ namespace EcellLib.PathwayWindow.Node
         {
             List<PathwayElement> returnList = new List<PathwayElement>();
 
-            m_nodeElement.X = this.X + this.OffsetX;
-            m_nodeElement.Y = this.Y + this.OffsetY;
-            m_nodeElement.CsId = this.m_csId;
-            returnList.Add(m_nodeElement);
+            this.Element.X = this.X + this.OffsetX;
+            this.Element.Y = this.Y + this.OffsetY;
+            this.Element.CsId = this.m_csId;
+            returnList.Add(this.Element);
             return returnList;
         }
 
@@ -225,11 +225,11 @@ namespace EcellLib.PathwayWindow.Node
         public void CreateEdges()
         {
             DeleteEdges();
-            if (base.m_nodeElement is ProcessElement && base.m_set != null)
+            if (this.Element is ProcessElement && base.m_set != null)
             {
                 try
                 {
-                    ProcessElement proEle = (ProcessElement)base.m_nodeElement;
+                    ProcessElement proEle = (ProcessElement)this.Element;
                     foreach (EdgeInfo edge in proEle.Edges.Values)
                     {
                         if (base.m_set.Variables.ContainsKey(edge.VariableKey))
@@ -303,7 +303,7 @@ namespace EcellLib.PathwayWindow.Node
         {
             if (base.m_set != null && m_relatedVariables != null)
             {
-                ProcessElement proEle = (ProcessElement)base.m_nodeElement;
+                ProcessElement proEle = (ProcessElement)this.Element;
                 foreach (EdgeInfo edge in proEle.Edges.Values)
                 {
                     if (base.m_set.Variables.ContainsKey(edge.VariableKey))
@@ -418,7 +418,7 @@ namespace EcellLib.PathwayWindow.Node
             // Whether all variables of VariableReferenceList exists or not
             Boolean isAllExist = true;
 
-            ProcessElement proEle = (ProcessElement)base.m_nodeElement;
+            ProcessElement proEle = (ProcessElement)this.Element;
             foreach (EdgeInfo edge in proEle.Edges.Values)
             {
                 if (!base.m_set.Variables.ContainsKey(edge.VariableKey))
@@ -518,6 +518,7 @@ namespace EcellLib.PathwayWindow.Node
         {
             ValidateEdges();
             RefreshEdges();
+            RefreshText();
         }
 
         /// <summary>

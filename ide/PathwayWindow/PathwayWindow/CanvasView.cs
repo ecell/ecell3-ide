@@ -30,7 +30,7 @@
 // edited by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
-// edited by Chihiro Okada <okada@cbo.mss.co.jp>,
+// modified by Chihiro Okada <okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
@@ -289,11 +289,6 @@ namespace EcellLib.PathwayWindow
         /// For example, resize handlers for PEcellSystem.
         /// </summary>
         protected PLayer m_ctrlLayer;
-
-        /// <summary>
-        /// Width of a show button.
-        /// </summary>
-        float m_showBtnWidth = 15;
 
         /// <summary>
         /// ContextMenuStrip for PPathwayNode
@@ -1351,7 +1346,6 @@ namespace EcellLib.PathwayWindow
                                 ecellobj.type,
                                 ecellobj);
                 //
-                Debug.WriteLine(obj.Text);
             }
             else
             {
@@ -1412,16 +1406,15 @@ namespace EcellLib.PathwayWindow
                     if (d.M_isLogger)
                         counter++;
                 }
+                // Remove logger flag from node. 
+                if (counter == 0)
+                    obj.IsLogger = false;
                 // modify changes
                 DataManager.GetDataManager().DataChanged(
                                 ecellobj.modelID,
                                 ecellobj.key,
                                 ecellobj.type,
                                 ecellobj);
-                // Remove logger flag from node. 
-                if (counter == 0)
-                    obj.IsLogger = false;
-                Debug.WriteLine(obj.Text);
             }
             else
             {
@@ -4420,9 +4413,9 @@ namespace EcellLib.PathwayWindow
                     attribute = " (SIZE:" + m_attrElement.Value + ")";
 
                 if (String.IsNullOrEmpty(m_systemElement.Name))
-                    m_pText.Text = "/" + attribute;
+                    m_pText.Text = "/" + m_systemElement.Text + attribute;
                 else
-                    m_pText.Text = m_systemElement.Name + attribute;
+                    m_pText.Text = m_systemElement.Text + attribute;
                 m_pText.CenterBoundsOnPoint(m_pEcellSystems[0].TextCenterX, m_pEcellSystems[0].TextCenterY);
             }
             #endregion

@@ -45,11 +45,6 @@ namespace EcellLib.PathwayWindow.Node
     {
         #region Fields
         /// <summary>
-        /// An element of this class.
-        /// </summary>
-        protected SystemElement m_systemElement;
-
-        /// <summary>
         /// Indicate whether this PSystem is valid or not.
         /// </summary>
         protected bool m_valid = true;
@@ -81,10 +76,10 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         /// Accessor for m_systemElement.
         /// </summary>
-        public SystemElement Element
+        public new SystemElement Element
         {
-            get { return m_systemElement; }
-            set { m_systemElement = value; }
+            get { return (SystemElement)base.m_element; }
+            set { base.m_element = value; }
         }
 
         /// <summary>

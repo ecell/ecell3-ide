@@ -116,6 +116,10 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         protected EcellObject m_ecellObj;
         /// <summary>
+        /// ComponentElement for this object.
+        /// </summary>
+        protected ComponentElement m_element;
+        /// <summary>
         /// The name of this instance;
         /// </summary>
         protected string m_name;
@@ -150,11 +154,6 @@ namespace EcellLib.PathwayWindow.Node
         /// This object.Pickable before freeze() method called.
         /// </summary>
         protected bool m_isPickableBeforeFreeze = false;
-
-        /// <summary>
-        /// This object.Pickable before freeze() method called.
-        /// </summary>
-        protected bool m_isLogger = false;
 
         /// <summary>
         /// The key that identifies a change in this node's <see cref="Pen">Pen</see>.
@@ -329,6 +328,14 @@ namespace EcellLib.PathwayWindow.Node
             set { this.m_ecellObj = value; }
         }
         /// <summary>
+        /// Accessor for m_ecellObj.
+        /// </summary>
+        public virtual ComponentElement Element
+        {
+            get { return this.m_element; }
+            set { this.m_element = value; }
+        }
+        /// <summary>
         /// Accessor for m_name.
         /// </summary>
         public string Name
@@ -341,13 +348,7 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public string Text
         {
-            get 
-            {
-                if (m_isLogger)
-                    return this.m_name + "*";
-                else
-                    return this.Name;
-            }
+            get { return this.m_element.Text; }
         }
         /// <summary>
         /// Accessor for m_normalBrush.
@@ -355,7 +356,7 @@ namespace EcellLib.PathwayWindow.Node
         public Brush NormalBrush
         {
             get { return this.m_normalBrush; }
-            set{ this.m_normalBrush = value; }
+            set { this.m_normalBrush = value; }
         }
         /// <summary>
         /// Accessor for m_highLightBrush.
@@ -450,8 +451,8 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public virtual bool IsLogger
         {
-            get { return m_isLogger; }
-            set { m_isLogger = value; }
+            get { return this.m_element.IsLogger; }
+            set { this.m_element.IsLogger = value; }
         }
         #endregion
 

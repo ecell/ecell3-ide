@@ -83,11 +83,6 @@ namespace EcellLib.PathwayWindow.Node
         protected bool m_isMouseOn = false;
 
         /// <summary>
-        /// related element.
-        /// </summary>
-        protected NodeElement m_nodeElement;
-
-        /// <summary>
         /// system have this node.
         /// </summary>
         protected PEcellSystem m_system;
@@ -211,19 +206,19 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         /// get/set related element.
         /// </summary>
-        public virtual NodeElement Element
+        public new virtual NodeElement Element
         {
-            get { return m_nodeElement; }
+            get { return (NodeElement)base.m_element; }
             set
             {
-                m_nodeElement = value;
-                this.X = m_nodeElement.X; //-this.Bounds.Width / 2;
-                this.Y = m_nodeElement.Y;// -this.Bounds.Height / 2;
-                this.OffsetX = 0;
-                this.OffsetY = 0;
+                base.m_element = value;
+                base.X = this.Element.X; //-this.Bounds.Width / 2;
+                base.Y = this.Element.Y;// -this.Bounds.Height / 2;
+                base.OffsetX = 0;
+                base.OffsetY = 0;
                 Refresh();
                 RefreshText();
-                m_idText.MoveToFront();           
+                this.m_idText.MoveToFront();           
             }
         }
 
@@ -477,12 +472,12 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public virtual void RefreshText()
         {
-            m_idText.Text = PathUtil.RemovePath(m_nodeElement.Key);
+            m_idText.Text = this.Element.Text;
             RectangleF rect = base.bounds;
-            m_nodeElement.X = rect.X + rect.Width / 2f;
-            m_nodeElement.Y = rect.Y + rect.Height / 2f;
-            m_idText.CenterBoundsOnPoint(m_nodeElement.X,
-                                         m_nodeElement.Y);
+            this.Element.X = rect.X + rect.Width / 2f;
+            this.Element.Y = rect.Y + rect.Height / 2f;
+            m_idText.CenterBoundsOnPoint(this.Element.X,
+                                         this.Element.Y);
         }
 
         /// <summary>

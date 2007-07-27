@@ -255,17 +255,17 @@ namespace EcellLib.PathwayWindow.Element
         {
             string returnStr = base.ToString();
 
-            returnStr += " [CanvasID = " + m_canvasId;
-            returnStr += ", LayerID = " + m_layerId;
-            returnStr += ", ModelID = " + m_modelId;
-            returnStr += ", Key = " + m_key;
-            returnStr += ", Type = " + m_type;
-            returnStr += ", X = " + m_x;
-            returnStr += ", Y = " + m_y;
+            returnStr += " [CanvasID = " + base.m_canvasId;
+            returnStr += ", LayerID = " + base.m_layerId;
+            returnStr += ", ModelID = " + base.m_modelId;
+            returnStr += ", Key = " + base.m_key;
+            returnStr += ", Type = " + base.m_type;
+            returnStr += ", X = " + base.m_x;
+            returnStr += ", Y = " + base.m_y;
             returnStr += ", Width = " + m_width;
             returnStr += ", Height = " + m_height;
-            returnStr += ", CsId = " + m_csId;
-            returnStr += ", Optional = " + m_optional + "]";
+            returnStr += ", CsId = " + base.m_csId;
+            returnStr += ", Optional = " + base.m_optional + "]";
 
             return returnStr;
         }

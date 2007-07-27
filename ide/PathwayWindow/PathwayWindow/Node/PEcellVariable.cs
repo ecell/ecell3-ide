@@ -79,11 +79,11 @@ namespace EcellLib.PathwayWindow.Node
         {
             List<PathwayElement> elementList = new List<PathwayElement>();
             
-            base.m_nodeElement.X = this.X + this.OffsetX; //+ this.bounds.Width / 2;
-            base.m_nodeElement.Y = this.Y + this.OffsetY; //+ this.bounds.Height / 2;
-            base.m_nodeElement.CsId = this.m_csId;
+            base.Element.X = this.X + this.OffsetX; //+ this.bounds.Width / 2;
+            base.Element.Y = this.Y + this.OffsetY; //+ this.bounds.Height / 2;
+            base.Element.CsId = this.m_csId;
 
-            elementList.Add(base.m_nodeElement);
+            elementList.Add(base.Element);
 
             return elementList;
         }
@@ -220,6 +220,7 @@ namespace EcellLib.PathwayWindow.Node
             {
                 p.RefreshEdges();
             }
+            RefreshText();
         }
 
         /// <summary>

@@ -39,7 +39,7 @@ namespace EcellLib.PathwayWindow.Element
     /// A component is a compornent part of an E-cell pathway
     /// </summary>
     [Serializable]
-    public class ComponentElement : PathwayElement
+    public abstract class ComponentElement : PathwayElement
     {
         #region Fields
         /// <summary>
@@ -91,6 +91,12 @@ namespace EcellLib.PathwayWindow.Element
         /// For optional information
         /// </summary>
         protected object[] m_optional;
+
+        /// <summary>
+        /// Whether this object has Logger or not.
+        /// </summary>
+        protected bool m_isLogger = false;
+
         #endregion
 
         #region Accessors
@@ -167,6 +173,19 @@ namespace EcellLib.PathwayWindow.Element
             get { return PathUtil.RemovePath(m_key); }
         }
         /// <summary>
+        /// Accessor for Text.
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                if (m_isLogger)
+                    return this.Name + " *";
+                else
+                    return this.Name;
+            }
+        }
+        /// <summary>
         /// Accessor for m_x.
         /// </summary>
         public float X
@@ -189,6 +208,14 @@ namespace EcellLib.PathwayWindow.Element
         {
             get { return m_optional; }
             set { m_optional = value; }
+        }
+        /// <summary>
+        /// Accessor for m_isLogger.
+        /// </summary>
+        public virtual bool IsLogger
+        {
+            get { return m_isLogger; }
+            set { m_isLogger = value; }
         }
         #endregion
     }
