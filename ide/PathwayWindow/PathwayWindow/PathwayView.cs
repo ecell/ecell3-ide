@@ -437,6 +437,7 @@ namespace EcellLib.PathwayWindow
             m_dgv.AllowUserToResizeRows = false;
             m_dgv.CurrentCellDirtyStateChanged += new EventHandler(m_dgv_CurrentCellDirtyStateChanged);
             m_dgv.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(dgv_DataBindingComplete);            
+            m_dgv.VisibleChanged += new EventHandler(m_dgv_VisibleChanged);
 
             GroupBox layerGB = new GroupBox();
             layerGB.Dock = DockStyle.Fill;
@@ -449,6 +450,18 @@ namespace EcellLib.PathwayWindow
             //m_canvasHandlerList.Add( new DefaultMouseHandler(this));
             //m_canvasHandlerList.Add( new PPanEventHandler() );
             //m_canvasHandlerList.Add(new CreateReactionMouseHandler(this));
+        }
+
+        void m_dgv_VisibleChanged(object sender, EventArgs e)
+        {
+            if (((DataGridView)sender).Columns.Contains("Show") && ((DataGridView)sender).Visible)
+            {
+                ((DataGridView)sender).Columns["Show"].Width = LAYER_SHOWCOLUMN_WIDTH;
+                ((DataGridView)sender).Columns["Show"].Resizable = DataGridViewTriState.False;
+                ((DataGridView)sender).Columns["Show"].Frozen = true;
+                ((DataGridView)sender).Columns["Name"].SortMode = DataGridViewColumnSortMode.NotSortable;
+                ((DataGridView)sender).Columns["Name"].ReadOnly = true;
+            }
         }
 
         #endregion
@@ -964,7 +977,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">DataGridViewBindingComplete.</param>
         void dgv_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            if (((DataGridView)sender).Columns.Contains("Show"))
+            if (((DataGridView)sender).Columns.Contains("Show") && ((DataGridView)sender).Visible)
             {
                 ((DataGridView)sender).Columns["Show"].Width = LAYER_SHOWCOLUMN_WIDTH;
                 ((DataGridView)sender).Columns["Show"].Resizable = DataGridViewTriState.False;
