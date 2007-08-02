@@ -76,6 +76,63 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Update variable reference list property.
+        /// </summary>
+        public String GetVarReference()
+        {
+            List<String> nameList = new List<string>();
+            string refStr = "(";
+
+            for (int i = 0; i < this.dgv.RowCount; i++)
+            {
+                EcellReference v = new EcellReference();
+                string name = (string)this.dgv[0, i].Value;
+                if (nameList.Contains(name))
+                {
+                    String errmes = m_resources.GetString("ErrExistID");
+                    MessageBox.Show(name + errmes, "ERROR",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+                nameList.Add(name);
+                v.name = (string)this.dgv[0, i].Value;
+                v.fullID = (string)this.dgv[1, i].Value;
+                try
+                {
+                    v.coefficient = Convert.ToInt32(this.dgv[2, i].Value);
+                    v.isAccessor = Convert.ToInt32(this.dgv[3, i].Value);
+                }
+                catch (Exception)
+                {
+                    String errmes = m_resources.GetString("ErrNoNumber");
+                    MessageBox.Show(errmes,
+                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+                if (v.name == "")
+                {
+                    String errmes = m_resources.GetString("ErrInvalidName");
+                    MessageBox.Show(errmes + "(Name)",
+                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+                if (v.fullID == "" || !v.fullID.StartsWith(":"))
+                {
+                    String errmes = m_resources.GetString("ErrInvalidName");
+                    MessageBox.Show(errmes + "(FullID)",
+                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+
+                if (i == 0) refStr = refStr + v.ToString();
+                else refStr = refStr + ", " + v.ToString();
+            }
+            refStr = refStr + ")";
+            return refStr;
+        }
+
+
+        /// <summary>
         /// Create the TreeView from data.
         /// </summary>
         void CopyTreeView()
