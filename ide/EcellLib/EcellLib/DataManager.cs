@@ -2766,6 +2766,7 @@ namespace EcellLib
                                 + Util.s_xpathXml;
                         File.Delete(l_simulationFileName);
                     }
+                    this.m_loggerPolicyDic[m_currentProjectID].Remove(l_parameterID);
                     this.m_pManager.Message(
                         Util.s_xpathSimulation.ToLower(),
                         "Delete Simulation Parameter: " + l_message + System.Environment.NewLine
@@ -2775,6 +2776,7 @@ namespace EcellLib
                 {
                     throw new Exception(m_resources.GetString("ErrFindSimParam") + l_message);
                 }
+                
                 m_aManager.AddAction(new DeleteSimParamAction(l_parameterID));
             }
             catch (Exception l_ex)
