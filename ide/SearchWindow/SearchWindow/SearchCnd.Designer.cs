@@ -35,13 +35,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.idText = new System.Windows.Forms.TextBox();
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.SCSearchButton = new System.Windows.Forms.Button();
-            this.SCCloseButton = new System.Windows.Forms.Button();
             this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.SCSearchButton = new System.Windows.Forms.Button();
+            this.SCCloseButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -98,27 +98,6 @@
             this.dgv.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvCellDoubleClick);
             this.dgv.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvCellClick);
             // 
-            // tableLayoutPanel3
-            // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.SCSearchButton, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.SCCloseButton, 3, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            // 
-            // SCSearchButton
-            // 
-            resources.ApplyResources(this.SCSearchButton, "SCSearchButton");
-            this.SCSearchButton.Name = "SCSearchButton";
-            this.SCSearchButton.UseVisualStyleBackColor = true;
-            this.SCSearchButton.Click += new System.EventHandler(this.SearchButtonClick);
-            // 
-            // SCCloseButton
-            // 
-            resources.ApplyResources(this.SCCloseButton, "SCCloseButton");
-            this.SCCloseButton.Name = "SCCloseButton";
-            this.SCCloseButton.UseVisualStyleBackColor = true;
-            this.SCCloseButton.Click += new System.EventHandler(this.CloseButtonClick);
-            // 
             // ColumnId
             // 
             this.ColumnId.FillWeight = 122.7241F;
@@ -145,10 +124,34 @@
             this.ColumnType.Name = "ColumnType";
             this.ColumnType.ReadOnly = true;
             // 
+            // tableLayoutPanel3
+            // 
+            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.Controls.Add(this.SCSearchButton, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.SCCloseButton, 3, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            // 
+            // SCSearchButton
+            // 
+            resources.ApplyResources(this.SCSearchButton, "SCSearchButton");
+            this.SCSearchButton.Name = "SCSearchButton";
+            this.SCSearchButton.UseVisualStyleBackColor = true;
+            this.SCSearchButton.Click += new System.EventHandler(this.SearchButtonClick);
+            // 
+            // SCCloseButton
+            // 
+            resources.ApplyResources(this.SCCloseButton, "SCCloseButton");
+            this.SCCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.SCCloseButton.Name = "SCCloseButton";
+            this.SCCloseButton.UseVisualStyleBackColor = true;
+            this.SCCloseButton.Click += new System.EventHandler(this.CloseButtonClick);
+            // 
             // SearchCnd
             // 
+            this.AcceptButton = this.SCSearchButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.SCCloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "SearchCnd";
             this.Shown += new System.EventHandler(this.SearchCndShown);

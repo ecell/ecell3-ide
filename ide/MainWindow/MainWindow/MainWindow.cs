@@ -200,6 +200,8 @@ namespace EcellLib.MainWindow
                 //MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
         /// <summary>
         /// Load window settings.
         /// </summary>

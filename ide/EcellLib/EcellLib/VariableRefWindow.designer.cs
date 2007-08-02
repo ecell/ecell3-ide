@@ -111,6 +111,7 @@
             // 
             // VRCloseButton
             // 
+            this.VRCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.VRCloseButton, "VRCloseButton");
             this.VRCloseButton.Name = "VRCloseButton";
             this.VRCloseButton.UseVisualStyleBackColor = true;
@@ -129,8 +130,10 @@
             // 
             // VariableRefWindow
             // 
+            this.AcceptButton = this.VRApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.VRCloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "VariableRefWindow";
             this.tableLayoutPanel1.ResumeLayout(false);

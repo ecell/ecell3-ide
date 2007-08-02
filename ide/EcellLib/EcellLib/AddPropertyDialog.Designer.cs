@@ -89,8 +89,10 @@
             // 
             // AddPropertyDialog
             // 
+            this.AcceptButton = this.APAddButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.APCancelButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "AddPropertyDialog";
             this.Shown += new System.EventHandler(this.AddPropertyDialogShown);

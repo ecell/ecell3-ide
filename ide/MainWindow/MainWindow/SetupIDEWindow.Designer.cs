@@ -96,14 +96,17 @@
             // SICancelButton
             // 
             resources.ApplyResources(this.SICancelButton, "SICancelButton");
+            this.SICancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.SICancelButton.Name = "SICancelButton";
             this.SICancelButton.UseVisualStyleBackColor = true;
             this.SICancelButton.Click += new System.EventHandler(this.CancelButtonClick);
             // 
             // SetupIDEWindow
             // 
+            this.AcceptButton = this.SIOKButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.SICancelButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "SetupIDEWindow";
             this.Shown += new System.EventHandler(this.SetupWindowIDEWindowShown);

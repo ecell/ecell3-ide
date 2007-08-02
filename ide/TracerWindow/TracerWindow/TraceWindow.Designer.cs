@@ -91,6 +91,7 @@
             // TWCloseButton
             // 
             resources.ApplyResources(this.TWCloseButton, "TWCloseButton");
+            this.TWCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.TWCloseButton.Name = "TWCloseButton";
             this.TWCloseButton.UseVisualStyleBackColor = true;
             this.TWCloseButton.Click += new System.EventHandler(this.CloseButtonClick);
@@ -234,8 +235,10 @@
             // 
             // TraceWindow
             // 
+            this.AcceptButton = this.TWSaveButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.TWCloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "TraceWindow";
             this.tableLayoutPanel1.ResumeLayout(false);

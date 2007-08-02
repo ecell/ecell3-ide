@@ -131,6 +131,7 @@
             // TSCloseButton
             // 
             resources.ApplyResources(this.TSCloseButton, "TSCloseButton");
+            this.TSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.TSCloseButton.Name = "TSCloseButton";
             this.TSCloseButton.UseVisualStyleBackColor = true;
             this.TSCloseButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -176,8 +177,10 @@
             // 
             // TracerWindowSetup
             // 
+            this.AcceptButton = this.TSApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.TSCloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "TracerWindowSetup";
             this.Shown += new System.EventHandler(this.TracerWinSetupShown);

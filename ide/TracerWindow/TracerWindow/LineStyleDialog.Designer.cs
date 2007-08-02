@@ -60,15 +60,15 @@ namespace EcellLib.TracerWindow
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LineStyleDialog));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.LSApplyButton = new System.Windows.Forms.Button();
-            this.LSCloseButton = new System.Windows.Forms.Button();
             this.dashDotDotRadioButton = new System.Windows.Forms.RadioButton();
             this.dotRadioButton = new System.Windows.Forms.RadioButton();
             this.dashDotRadioButton = new System.Windows.Forms.RadioButton();
             this.dashRadioButton = new System.Windows.Forms.RadioButton();
             this.solidRadioButton = new System.Windows.Forms.RadioButton();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.LSApplyButton = new System.Windows.Forms.Button();
+            this.LSCloseButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -84,33 +84,6 @@ namespace EcellLib.TracerWindow
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.LSApplyButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.LSCloseButton, 3, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
-            // LSApplyButton
-            // 
-            resources.ApplyResources(this.LSApplyButton, "LSApplyButton");
-            this.LSApplyButton.Name = "LSApplyButton";
-            this.LSApplyButton.UseVisualStyleBackColor = true;
-            // 
-            // LSCloseButton
-            // 
-            resources.ApplyResources(this.LSCloseButton, "LSCloseButton");
-            this.LSCloseButton.Name = "LSCloseButton";
-            this.LSCloseButton.UseVisualStyleBackColor = true;
-            this.LSCloseButton.Click += new System.EventHandler(this.LineCancelButton_Click);
             // 
             // dashDotDotRadioButton
             // 
@@ -152,10 +125,40 @@ namespace EcellLib.TracerWindow
             this.solidRadioButton.TabStop = true;
             this.solidRadioButton.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // tableLayoutPanel2
+            // 
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel2.Controls.Add(this.LSApplyButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.LSCloseButton, 3, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            // 
+            // LSApplyButton
+            // 
+            resources.ApplyResources(this.LSApplyButton, "LSApplyButton");
+            this.LSApplyButton.Name = "LSApplyButton";
+            this.LSApplyButton.UseVisualStyleBackColor = true;
+            // 
+            // LSCloseButton
+            // 
+            resources.ApplyResources(this.LSCloseButton, "LSCloseButton");
+            this.LSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.LSCloseButton.Name = "LSCloseButton";
+            this.LSCloseButton.UseVisualStyleBackColor = true;
+            this.LSCloseButton.Click += new System.EventHandler(this.LineCancelButton_Click);
+            // 
             // LineStyleDialog
             // 
+            this.AcceptButton = this.LSApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.LSCloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "LineStyleDialog";
             this.Shown += new System.EventHandler(this.LineStyleShown);

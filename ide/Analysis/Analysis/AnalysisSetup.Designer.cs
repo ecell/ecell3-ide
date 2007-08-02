@@ -81,12 +81,14 @@ namespace EcellLib.Analysis
             // ASOKButton
             // 
             resources.ApplyResources(this.ASOKButton, "ASOKButton");
+            this.ASOKButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.ASOKButton.Name = "ASOKButton";
             this.ASOKButton.UseVisualStyleBackColor = true;
             this.ASOKButton.Click += new System.EventHandler(this.Close_Click);
             // 
             // AnalysisSetup
             // 
+            this.AcceptButton = this.ASOKButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);

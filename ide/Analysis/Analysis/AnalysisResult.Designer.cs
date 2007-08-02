@@ -81,6 +81,7 @@ namespace EcellLib.Analysis
             // AROKButton
             // 
             resources.ApplyResources(this.AROKButton, "AROKButton");
+            this.AROKButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.AROKButton.Name = "AROKButton";
             this.AROKButton.UseVisualStyleBackColor = true;
             this.AROKButton.Click += new System.EventHandler(this.CloseButtonClicked);
@@ -114,6 +115,7 @@ namespace EcellLib.Analysis
             // 
             // AnalysisResult
             // 
+            this.AcceptButton = this.AROKButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);

@@ -64,6 +64,7 @@
             // SICloseButton
             // 
             resources.ApplyResources(this.SICloseButton, "SICloseButton");
+            this.SICloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.SICloseButton.Name = "SICloseButton";
             this.SICloseButton.UseVisualStyleBackColor = true;
             // 
@@ -86,8 +87,10 @@
             // 
             // SearchInstance
             // 
+            this.AcceptButton = this.SISearchButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.SICloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "SearchInstance";
             this.Shown += new System.EventHandler(this.SearchInstanceShown);

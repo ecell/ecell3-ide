@@ -163,8 +163,10 @@ namespace EcellLib.StaticDebugWindow
             // 
             // StaticDebugSetupWindow
             // 
+            this.AcceptButton = this.SSDebugButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.SSCloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "StaticDebugSetupWindow";
             this.Shown += new System.EventHandler(this.StaticDebugWinShown);

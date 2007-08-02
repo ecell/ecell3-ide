@@ -77,20 +77,24 @@
             // 
             // CPCreateButton
             // 
+            this.CPCreateButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.CPCreateButton, "CPCreateButton");
             this.CPCreateButton.Name = "CPCreateButton";
             this.CPCreateButton.UseVisualStyleBackColor = true;
             // 
             // CPCancelButton
             // 
+            this.CPCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.CPCancelButton, "CPCancelButton");
             this.CPCancelButton.Name = "CPCancelButton";
             this.CPCancelButton.UseVisualStyleBackColor = true;
             // 
             // NewParameterWindow
             // 
+            this.AcceptButton = this.CPCreateButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.CPCancelButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "NewParameterWindow";
             this.Shown += new System.EventHandler(this.CreateParameterShown);

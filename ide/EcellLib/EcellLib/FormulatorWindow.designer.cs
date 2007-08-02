@@ -62,13 +62,16 @@
             // FCloseButton
             // 
             resources.ApplyResources(this.FCloseButton, "FCloseButton");
+            this.FCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.FCloseButton.Name = "FCloseButton";
             this.FCloseButton.UseVisualStyleBackColor = true;
             // 
             // FormulatorWindow
             // 
+            this.AcceptButton = this.FApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.FCloseButton;
             this.Controls.Add(this.tableLayoutPanel);
             this.Name = "FormulatorWindow";
             this.tableLayoutPanel.ResumeLayout(false);

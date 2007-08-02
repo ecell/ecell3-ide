@@ -93,6 +93,7 @@ namespace EcellLib.MainWindow
             // 
             // OPCancelButton
             // 
+            this.OPCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.OPCancelButton, "OPCancelButton");
             this.OPCancelButton.Name = "OPCancelButton";
             this.OPCancelButton.UseVisualStyleBackColor = true;
@@ -135,8 +136,10 @@ namespace EcellLib.MainWindow
             // 
             // OpenProjectDialog
             // 
+            this.AcceptButton = this.OPOpenButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.OPCancelButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "OpenProjectDialog";
             this.tableLayoutPanel1.ResumeLayout(false);

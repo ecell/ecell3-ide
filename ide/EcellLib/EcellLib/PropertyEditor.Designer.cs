@@ -65,6 +65,7 @@
             // 
             // PECloseButton
             // 
+            this.PECloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.PECloseButton, "PECloseButton");
             this.PECloseButton.Name = "PECloseButton";
             this.PECloseButton.UseVisualStyleBackColor = true;
@@ -83,8 +84,10 @@
             // 
             // PropertyEditor
             // 
+            this.AcceptButton = this.PEApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.PECloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "PropertyEditor";
             this.Shown += new System.EventHandler(this.PropertyEditorShown);

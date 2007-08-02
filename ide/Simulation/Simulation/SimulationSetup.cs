@@ -725,5 +725,17 @@
                     maxKbTextBox.ReadOnly = false;
                 }
             }
+
+            private void SetupKeyPress(object sender, KeyPressEventArgs e)
+            {
+                if (e.KeyChar == (char)Keys.Enter)
+                {
+                    SSApplyButton.PerformClick();
+                }
+                else if (e.KeyChar == (char)Keys.Escape)
+                {
+                    SSCloseButton.PerformClick();
+                }
+            }
         }
     }

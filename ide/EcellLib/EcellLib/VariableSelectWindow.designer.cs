@@ -82,13 +82,16 @@
             // VSCloseButton
             // 
             resources.ApplyResources(this.VSCloseButton, "VSCloseButton");
+            this.VSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.VSCloseButton.Name = "VSCloseButton";
             this.VSCloseButton.UseVisualStyleBackColor = true;
             // 
             // VariableSelectWindow
             // 
+            this.AcceptButton = this.VSSelectButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.VSCloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "VariableSelectWindow";
             this.tableLayoutPanel1.ResumeLayout(false);

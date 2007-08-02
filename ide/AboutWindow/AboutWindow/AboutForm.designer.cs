@@ -124,6 +124,7 @@ namespace EcellLib.AboutWindow
             // 
             // AboutForm
             // 
+            this.AcceptButton = this.CloseButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel2);

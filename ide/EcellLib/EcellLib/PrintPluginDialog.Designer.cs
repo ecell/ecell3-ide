@@ -62,6 +62,7 @@
             // PPCancelButton
             // 
             resources.ApplyResources(this.PPCancelButton, "PPCancelButton");
+            this.PPCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.PPCancelButton.Name = "PPCancelButton";
             this.PPCancelButton.UseVisualStyleBackColor = true;
             this.PPCancelButton.Click += new System.EventHandler(this.button2_Click);
@@ -74,8 +75,10 @@
             // 
             // PrintPluginDialog
             // 
+            this.AcceptButton = this.PPSelectButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.PPCancelButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "PrintPluginDialog";
             this.tableLayoutPanel1.ResumeLayout(false);

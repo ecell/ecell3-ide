@@ -580,11 +580,14 @@
             // 
             // SimulationSetup
             // 
+            this.AcceptButton = this.SSApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.SSCloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "SimulationSetup";
             this.Shown += new System.EventHandler(this.SimulationSetupShown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetupKeyPress);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
