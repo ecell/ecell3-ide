@@ -190,6 +190,7 @@ namespace EcellLib
             this.SetDMList();
             this.m_loadDirList = new Dictionary<string, string>();
             m_aManager = ActionManager.GetActionManager();
+            m_dmDir = Util.GetDMDir();
         }
 
         /// <summary>
@@ -3123,6 +3124,7 @@ namespace EcellLib
                 {
                     return eo;
                 }
+                if (eo.M_instances == null) continue;
                 foreach (EcellObject subEo in eo.M_instances)
                 {
                     if (key.Equals(subEo.key) && type.Equals(subEo.type))
