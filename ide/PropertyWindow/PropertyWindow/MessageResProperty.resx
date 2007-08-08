@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrChanged" xml:space="preserve">
+    <value>Get exception while system change the property of object.</value>
+  </data>
   <data name="ErrCreBitmap" xml:space="preserve">
     <value>Get exception while system create the bitmap of this window.</value>
   </data>
-  <data name="ErrShowPropEdit" xml:space="preserve">
-    <value>Get exception while system show the property editor.</value>
+  <data name="ErrFormat" xml:space="preserve">
+    <value>Format Error.</value>
+  </data>
+  <data name="ErrID" xml:space="preserve">
+    <value>There are invalid characters in ID.</value>
   </data>
 </root>

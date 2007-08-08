@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrChanged" xml:space="preserve">
+    <value>プロパティを更新するのに失敗しました。確認してください。</value>
+  </data>
   <data name="ErrCreBitmap" xml:space="preserve">
     <value>この画面のビットマップを作成するのに失敗しました。</value>
   </data>
-  <data name="ErrShowPropEdit" xml:space="preserve">
-    <value>プロパティ編集ダイアログを表示するのに失敗しました。確認してください。</value>
+  <data name="ErrFormat" xml:space="preserve">
+    <value>フォーマットが異常です。</value>
+  </data>
+  <data name="ErrID" xml:space="preserve">
+    <value>IDに異常な文字列が含まれています。</value>
   </data>
 </root>

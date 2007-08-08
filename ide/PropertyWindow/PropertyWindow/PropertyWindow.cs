@@ -24,7 +24,7 @@
 //
 //END_HEADER
 //
-// written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
@@ -39,6 +39,8 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 
+using Formulator;
+
 namespace EcellLib.PropertyWindow
 {
     /// <summary>
@@ -47,42 +49,39 @@ namespace EcellLib.PropertyWindow
     public class PropertyWindow : PluginBase
     {
         #region Fields
+        private EcellObject m_current = null;
         /// <summary>
         /// dgv (DataGridView) is property window grid.
         /// </summary>
         private DataGridView m_dgv = null;
         /// <summary>
-        /// modelID of displaying property window.
+        /// Window to set the list of variable.
         /// </summary>
-        private string m_currentModelID = null;
+        private VariableRefWindow m_win;
         /// <summary>
-        /// key ID of displaying property window.
+        /// Window to set the expression of process.
         /// </summary>
-        private string m_currentKey = null;
+        private FormulatorWindow m_fwin;
         /// <summary>
-        /// type of dispaying property window.
+        /// Control to display the expression.
         /// </summary>
-        private string m_currentType = null;
+        private FormulatorControl m_cnt;
         /// <summary>
-        /// object data of displaying property window.
+        /// Controller to edit ComboBox in DataGridView.
         /// </summary>
-        private EcellObject m_currentObj = null;
+        private DataGridViewComboBoxEditingControl m_ComboControl = null;
         /// <summary>
-        /// editable property list window.
+        /// Variable Reference List.
         /// </summary>
-        private EcellLib.PropertyEditor m_editor;
+        public String m_refStr = null;
         /// <summary>
-        /// key is property name, value is property data type.
+        /// Expression.
         /// </summary>
-        private Dictionary<string, EcellData> m_propDict;
+        private String m_expression = null;
         /// <summary>
         /// data manager.
         /// </summary>
         private DataManager m_dManager;
-        /// <summary>
-        /// System status.
-        /// </summary>
-        private int m_type;
         /// <summary>
         /// ResourceManager for PropertyWindow.
         /// </summary>
@@ -90,35 +89,17 @@ namespace EcellLib.PropertyWindow
         #endregion
 
         /// <summary>
-        /// Constructor for PropertyWindow
+        /// Constructor.
         /// </summary>
         public PropertyWindow()
         {
             m_dManager = DataManager.GetDataManager();
-            m_propDict = new Dictionary<string, EcellData>();
             m_dgv = new DataGridView();
             m_dgv.Dock = DockStyle.Fill;
             m_dgv.AllowUserToDeleteRows = false;
             m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             m_dgv.AllowUserToAddRows = false;
             m_dgv.RowHeadersVisible = false;
-            m_dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            /*
-            DataGridViewCheckBoxColumn checkRead = new DataGridViewCheckBoxColumn();
-            checkRead.HeaderText = "Read";
-            checkRead.Name = "Read";
-            checkRead.ReadOnly = true;
-            checkRead.Width = 40;
-            checkRead.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-
-            DataGridViewCheckBoxColumn checkWrite = new DataGridViewCheckBoxColumn();
-            checkWrite.HeaderText = "Write";
-            checkWrite.Name = "Write";
-            checkWrite.ReadOnly = true;
-            checkWrite.Width = 40;
-            checkWrite.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            */
 
             DataGridViewTextBoxColumn textName = new DataGridViewTextBoxColumn();
             textName.HeaderText = "Name";
@@ -131,171 +112,123 @@ namespace EcellLib.PropertyWindow
             textValue.ReadOnly = true;
 
             m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-                textName, textValue});
+                    textName, textValue});
 
-            m_dgv.ReadOnly = true;
-            m_dgv.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(m_dgv_DataBindingComplete);
-            m_dgv.CellDoubleClick += new DataGridViewCellEventHandler(CellDoubleClick);
-        }
-
-        void m_dgv_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
+            m_dgv.CellClick += new DataGridViewCellEventHandler(CellClick);
+            m_dgv.CellEndEdit += new DataGridViewCellEventHandler(PropertyChanged);
+            m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(DgvEditingControlShowing);
         }
 
         /// <summary>
-        /// Fill the contents of the dgv with EcellObject
+        /// Get the object from DataManager.
         /// </summary>
-        /// <param name="eo">DataGridView will be filled with data from this EcellObject.</param>
-        internal void SetDataIntoGrid(EcellObject eo)
+        /// <param name="modelID">model ID of object.</param>
+        /// <param name="key">key of object.</param>
+        /// <param name="type">type of object.</param>
+        /// <returns>the result object.</returns>
+        EcellObject GetData(string modelID, string key, string type)
         {
-            m_propDict.Clear();
-            m_dgv.Rows.Clear();
-
-            m_dgv.Rows.Add(new Object[] { "modelID", eo.modelID } );
-            int ind = m_dgv.Rows.GetLastRow(DataGridViewElementStates.Visible);
-            for (int i = 0; i < 2; i++)
+            List<EcellObject> list;
+            if (type.Equals("System"))
             {
-                m_dgv.Rows[ind].Cells[i].Style.BackColor = Color.Silver;
+                list = m_dManager.GetData(modelID, key);
+                if (list == null || list.Count != 1) return null;
+                return list[0];
             }
 
-            if (eo.type != "Model")
+            string[] keys = key.Split(new char[] { ':' });
+            list = m_dManager.GetData(modelID, keys[0]);
+            if (list == null || list.Count == 0) return null;
+            for (int i = 0; i < list.Count; i++)
             {
-                m_dgv.Rows.Add(new Object[] { "key", eo.key });
-            }
-
-            m_dgv.Rows.Add(new Object[] { "type", eo.type });
-            ind = m_dgv.Rows.GetLastRow(DataGridViewElementStates.Visible);
-            for (int i = 0; i < 2; i++)
-            {
-                m_dgv.Rows[ind].Cells[i].Style.BackColor = Color.Silver;
-            }
-
-            if (eo.type != "Model")
-            {
-                m_dgv.Rows.Add(new Object[] {  "classname", eo.classname });
-            }
-            if (eo.M_value == null) return;
-
-            foreach (EcellData data in eo.M_value)
-            {
-                bool isWrite = data.M_isSettable;
-                string name = data.M_name;
-                string value = "";
-
-                if (data.M_value == null) value = "";
-                else value = data.M_value.ToString();
-
-                /*
-                if (data.M_name == "StepperID")
+                List<EcellObject> insList = list[i].M_instances;
+                if (insList == null || insList.Count == 0) continue;
+                for (int j = 0; j < insList.Count; j++)
                 {
-                    List<EcellObject> list = m_dManager.GetStepper(null, eo.modelID);
-                    int isHit = 0;
-                    if (list != null)
+                    if (insList[j].key == key && insList[j].type == type)
                     {
-                        foreach (EcellObject obj in list)
-                        {
-                            if (obj.key == data.M_value.ToString())
-                            {
-                                isHit = 1;
-                                break;
-                            }
-                        }
-                    }
-                    if (isHit == 0)
-                    {
-                        MessageBox.Show("Selected object have no exist StepperID.", "WARNING",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }*/
-
-                /*
-                if (data.M_name == "VariableReferenceList")
-                {
-                    List<EcellReference> list = EcellReference.ConvertString(data.M_value.ToString());
-                    foreach (EcellReference r in list)
-                    {
-                        string[] ele = r.fullID.Split(new char[] { ':' });
-
-                        List<EcellObject> listObj = m_dManager.GetData(eo.modelID, ele[1]);
-                        if (listObj == null || listObj.Count <= 0)
-                        {
-
-                            MessageBox.Show("Selected object have no exist variable in VariableReferenceList.", "WARNING",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            break;
-                        }
-                        int isHit = 0;
-                        foreach (EcellObject sysObj in listObj)
-                        {
-                            foreach (EcellObject obj in sysObj.M_instances)
-                            {
-                                string key = ele[1] + ":" + ele[2];
-                                if (obj.key == key)
-                                {
-                                    isHit = 1;
-                                    break;
-                                }
-                            }
-                            if (isHit == 1) break;
-                        }
-                        if (isHit == 0)
-                        {
-                            MessageBox.Show("Selected object have no exist variable in VariableReferenceList.", "WARNING",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            break;
-                        }
-                    }
-                }
-                */
-
-                m_propDict.Add(data.M_name, data);
-                m_dgv.Rows.Add(new Object[] { name, value });
-
-                if (!isWrite)
-                {
-                    ind = m_dgv.Rows.GetLastRow(DataGridViewElementStates.Visible);
-                    for (int i = 0; i < 2; i++)
-                    {
-                        m_dgv.Rows[ind].Cells[i].Style.BackColor = Color.Silver;
+                        return insList[j];
                     }
                 }
             }
+            return null;
         }
 
-        #region Event
         /// <summary>
-        /// The action of double clicking in cell.
+        /// Add the property to PropertyWindow.
         /// </summary>
-        /// <param name="sender">DataGridView</param>
-        /// <param name="e">DataGridViewCellEventArgs</param>
-        void CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        /// <param name="d">EcellData of property.</param>
+        /// <param name="type">Type of property.</param>
+        /// <returns>Row in DataGridView.</returns>
+        DataGridViewRow PropertyAdd(EcellData d, string type)
         {
-            if (e.RowIndex < 0) return;
-            if (m_type != Util.LOADED && m_type != Util.NOTLOAD) return;
-            try
-            {
-                m_editor = new PropertyEditor();
-                m_editor.layoutPanel.SuspendLayout();
-                m_editor.SetCurrentObject(m_currentObj);
-                m_editor.SetDataType(m_currentObj.type);
-                m_editor.PEApplyButton.Click += new EventHandler(m_editor.UpdateProperty);
-                m_editor.LayoutPropertyEditor();
-                m_editor.layoutPanel.ResumeLayout(false);
-                m_editor.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                String errmes = m_resources.GetString("ErrShowPropEdit");
-                MessageBox.Show(errmes + "\n\n" + ex.Message,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-        }
-        #endregion
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+            DataGridViewCell c2;
+            c1.Value = d.M_name;
+            r.Cells.Add(c1);
 
-        # region PluginBase
+            if (d.M_value == null) return null;
+            if (d.M_name.Equals("ClassName"))
+            {
+                c2 = new DataGridViewComboBoxCell();
+                if (type.Equals("System"))
+                {
+                    ((DataGridViewComboBoxCell)c2).Items.Add("System");
+                    c2.Value = "System";
+                }
+                else if (type.Equals("Variable"))
+                {
+                    ((DataGridViewComboBoxCell)c2).Items.Add("Variable");
+                    c2.Value = "Variable";
+                }
+                else
+                {
+                    List<string> procList = m_dManager.GetProcessList();
+                    foreach (string pName in procList)
+                    {
+                        ((DataGridViewComboBoxCell)c2).Items.Add(pName);
+                    }
+                    c2.Value = d.M_value.ToString();
+                }
+            }
+            else if (d.M_name.Equals("Expression"))
+            {
+                c2 = new DataGridViewButtonCell();
+                c2.Value = "...";
+            }
+            else if (d.M_name.Equals("VariableReferenceList"))
+            {
+                c2 = new DataGridViewButtonCell();
+                c2.Value = "Edit Variable Reference ...";
+            }
+            else
+            {
+                c2 = new DataGridViewTextBoxCell();
+                c2.Value = d.M_value.ToString();
+            }
+            r.Cells.Add(c2);
+            m_dgv.Rows.Add(r);
+
+            c1.ReadOnly = true;
+            if (d.M_isSettable)
+            {
+                c2.ReadOnly = false;
+            }
+            else
+            {
+                c2.ReadOnly = true;
+                c1.Style.BackColor = Color.Silver;
+                c2.Style.BackColor = Color.Silver;
+            }
+            c2.Tag = d;
+
+            return r;
+        }
+
+        #region PluginBase
         /// <summary>
-        /// Get menustrips for PropertyWindow.
+        /// Get the list of menu item for PropertyWindow.
         /// </summary>
         /// <returns>null.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
@@ -304,7 +237,7 @@ namespace EcellLib.PropertyWindow
         }
 
         /// <summary>
-        /// Get toolbar buttons for PropertyWindow.
+        /// Get the list of tool bar item for PropertyWindow.
         /// </summary>
         /// <returns>null.</returns>
         public List<ToolStripItem> GetToolBarMenuStripItems()
@@ -336,59 +269,42 @@ namespace EcellLib.PropertyWindow
         /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
-
             // When called with illegal arguments, this method will do nothing;
-            if (modelID == null || key == null) // || modelID.Length <= 0 || key.Length <= 0)
+            if (modelID == null || key == null) 
             {
                 return;
             }
+            Clear();
+            EcellObject obj = GetData(modelID, key, type);
+            if (obj == null) return;
 
-            // dgv is filled with Ecell Object
-            // When   1. No Ecell Object hasn't be shown on this dgv yet. (first two conditions)
-            //    or  2. An Ecell Object which is different from the one presently displayed on this dgv 
-            //           is selected. (last condition)
-            if (m_currentModelID == null || m_currentKey == null || m_currentType == null ||
-               !(m_currentModelID.Equals(modelID) && m_currentKey.Equals(key) &&
-                   m_currentType.Equals(type)))
+            EcellData dModelID = new EcellData();
+            dModelID.M_name = "ModelID";
+            dModelID.M_value = new EcellValue(modelID);
+            dModelID.M_isSettable = false;
+            PropertyAdd(dModelID, type);
+
+            EcellData dKey = new EcellData();
+            dKey.M_name = "ID";
+            dKey.M_value = new EcellValue(key);
+            dKey.M_isSettable = true;
+            PropertyAdd(dKey, type);
+
+            EcellData dClass = new EcellData();
+            dClass.M_name = "ClassName";
+            dClass.M_value = new EcellValue(obj.classname);
+            dClass.M_isSettable = true;
+            PropertyAdd(dClass, type);
+            
+            foreach (EcellData d in obj.M_value)
             {
-                this.m_currentModelID = modelID;
-                this.m_currentKey = key;
-                this.m_currentType = type;
-
-                DataManager dm = DataManager.GetDataManager();
-                List<EcellObject> list;
-                if (key.Contains(":"))
-                { // not system
-                    string[] keys = key.Split(new char[] { ':' });
-                    list = dm.GetData(modelID, keys[0]);
-                    if (list == null || list.Count == 0) return;
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        List<EcellObject> insList = list[i].M_instances;
-                        if (insList == null || insList.Count == 0) continue;
-                        for (int j = 0; j < insList.Count; j++)
-                        {
-                            if (insList[j].key == key && insList[j].type == type)
-                            {
-                                this.m_currentObj = insList[j];
-                                this.SetDataIntoGrid(insList[j]);
-                                return;
-                            }
-                        }
-                    }
-                }
-                else
-                { // system
-                    list = dm.GetData(modelID, key);
-                    if (list == null || list.Count == 0) return;
-                    this.m_currentObj = list[0];
-                    this.SetDataIntoGrid(list[0]);
-                    return;
-                }
+                PropertyAdd(d, type);
+                if (d.M_name.Equals("VariableReferenceList"))
+                    m_refStr = d.M_value.ToString();
+                if (d.M_name.Equals("Expression"))
+                    m_expression = d.M_value.ToString();
             }
-
-            // When arguments matches to Ecell Objects presently shown on this view, there is nothing to do.
-            return;
+            m_current = obj;
         }
 
         /// <summary>
@@ -439,14 +355,12 @@ namespace EcellLib.PropertyWindow
         /// <param name="data">Changed value of object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
-            if (modelID == null) return;
-            if (this.m_currentModelID == null) return;
-            if (this.m_currentModelID == modelID && this.m_currentKey == key &&
-                this.m_currentType == type)
-            {
-                this.SetDataIntoGrid(data);
-                m_currentObj = data;
-            }
+            if (m_current == null) return;
+            if (!modelID.Equals(m_current.modelID) ||
+                !key.Equals(m_current.key) ||
+                !type.Equals(m_current.type)) return;
+
+            SelectChanged(data.modelID, data.key, data.type);
         }
 
         /// <summary>
@@ -469,14 +383,12 @@ namespace EcellLib.PropertyWindow
         /// <param name="type">The object type of deleted object.</param>
         public void DataDelete(string modelID, string key, string type)
         {
-            if (m_currentModelID == modelID && (key == null || key.Length <= 0))
+            if (m_current == null) return;
+            if (modelID.Equals(m_current.modelID) &&
+                key.Equals(m_current.key) &&
+                type.Equals(m_current.type))
             {
-                m_dgv.Rows.Clear();
-            }
-            else if (m_currentModelID == modelID && m_currentKey.StartsWith(key))
-            {
-                if (type == "System" || m_currentType == type)
-                    m_dgv.Rows.Clear();
+                Clear();
             }
         }
 
@@ -498,8 +410,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         public void Clear()
         {
-            m_currentModelID = null;
-            m_currentKey = null;
+            m_current = null;
             m_dgv.Rows.Clear();
         }
 
@@ -540,7 +451,7 @@ namespace EcellLib.PropertyWindow
         /// <param name="type">System status.</param>
         public void ChangeStatus(int type)
         {
-            m_type = type;
+            // not implement.
         }
 
         /// <summary>
@@ -579,6 +490,7 @@ namespace EcellLib.PropertyWindow
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
+            return null;
         }
 
         /// <summary>
@@ -618,5 +530,347 @@ namespace EcellLib.PropertyWindow
         }
         #endregion
 
+
+        #region Events
+        /// <summary>
+        /// Set the controller when the edited cell is DataGridViewComboBoxCell.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void DgvEditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (e.Control is DataGridViewComboBoxEditingControl)
+            {
+                DataGridView dgv = (DataGridView)sender;
+                if (dgv.CurrentCell is DataGridViewComboBoxCell)
+                {
+                    this.m_ComboControl =
+                        (DataGridViewComboBoxEditingControl)e.Control;
+                    this.m_ComboControl.SelectedIndexChanged +=
+                        new EventHandler(DgvSelectedIndexChanged);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event when the button in VariableReferenceList is clicked.
+        /// Set the list of Variable Reference.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ApplyVarRefButton(object sender, EventArgs e)
+        {
+            String p = m_win.GetVarReference();
+            if (p == null) return;
+            if (m_refStr.Equals(p)) return;
+
+            EcellObject t = m_current.Copy();
+            foreach (EcellData d in t.M_value)
+            {
+                if (d.M_name.Equals("VariableReferenceList"))
+                {
+                    d.M_value = new EcellValue(p);
+                    break;
+                }
+            }
+            m_win.Close();
+            try
+            {
+                m_dManager.DataChanged(m_current.modelID,
+                    m_current.key,
+                    m_current.type,
+                    t
+                    );
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                String errmes = m_resources.GetString("ErrChanged");
+                MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Event of clicking the formulator button.
+        /// Show the window to edit the formulator.
+        /// </summary>
+        /// <param name="sender">object(Button)</param>
+        /// <param name="e">EventArgs</param>
+        public void ShowFormulatorWindow()
+        {
+            m_fwin = new FormulatorWindow();
+            m_cnt = new FormulatorControl();
+            m_fwin.tableLayoutPanel.Controls.Add(m_cnt, 0, 0);
+            m_cnt.Dock = DockStyle.Fill;
+
+            List<string> list = new List<string>();
+            list.Add("self.getSuperSystem().SizeN_A");
+            foreach (EcellData d in m_current.M_value)
+            {
+                String str = d.M_name;
+                if (str != "modelID" && str != "key" && str != "type" &&
+                    str != "classname" && str != "Activity" &&
+                    str != "Expression" && str != "Name" &&
+                    str != "Priority" && str != "StepperID" &&
+                    str != "VariableReferenceList" && str != "IsContinuous")
+                    list.Add(str);
+            }
+            List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
+            foreach (EcellReference r in tmpList)
+            {
+                list.Add(r.name + ".MolarConc");
+            }
+            foreach (EcellReference r in tmpList)
+            {
+                list.Add(r.name + ".Value");
+            }
+            m_cnt.AddReserveString(list);
+
+
+            m_cnt.ImportFormulate(m_expression);
+            m_fwin.FApplyButton.Click += new EventHandler(UpdateFormulator);
+            m_fwin.FCloseButton.Click += new EventHandler(m_fwin.CancelButtonClick);
+
+            m_fwin.ShowDialog();
+        }
+
+        /// <summary>
+        /// Event of clicking the OK button in formulator window.
+        /// </summary>
+        /// <param name="sender">object(Button)</param>
+        /// <param name="e">EventArgs</param>
+        public void UpdateFormulator(object sender, EventArgs e)
+        {
+            string tmp = m_cnt.ExportFormulate();
+            EcellObject p = m_current.Copy();
+            foreach (EcellData d in p.M_value)
+            {
+                if (d.M_name.Equals("Expression"))
+                {
+                    d.M_value = new EcellValue(tmp);
+                }
+            }
+            try
+            {
+                m_dManager.DataChanged(
+                        m_current.modelID,
+                        m_current.key,
+                        m_current.type,
+                        p);
+                m_expression = tmp;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                String errmes = m_resources.GetString("ErrChanged");
+                MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            m_fwin.Close();
+            m_fwin.Dispose();
+        }
+
+        /// <summary>
+        /// Event when user click the cell in DataGridView.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int rIndex = e.RowIndex;
+            int cIndex = e.ColumnIndex;
+
+            DataGridViewCell c = m_dgv.Rows[rIndex].Cells[cIndex] as DataGridViewCell;
+            if (c == null) return;
+            if (c is DataGridViewTextBoxCell) return;
+
+            if (c.Value.Equals("..."))
+            {
+                ShowFormulatorWindow();
+            }
+            else if (c.Value.Equals("Edit Variable Reference ..."))
+            {
+                m_win = new VariableRefWindow();
+                m_win.AddVarButton.Click += new EventHandler(m_win.AddVarReference);
+                m_win.DeleteVarButton.Click += new EventHandler(m_win.DeleteVarReference);
+                m_win.VRCloseButton.Click += new EventHandler(m_win.CloseVarReference);
+                m_win.VRApplyButton.Click += new EventHandler(ApplyVarRefButton);
+
+                List<EcellReference> list = EcellReference.ConvertString(m_refStr);
+                foreach (EcellReference v in list)
+                {
+                    DataGridViewRow row = new DataGridViewRow();
+
+                    bool isAccessor = false;
+                    if (v.isAccessor == 1) isAccessor = true;
+                    m_win.dgv.Rows.Add(new object[] { v.name, v.fullID, v.coefficient, isAccessor });
+                }
+                m_win.ShowDialog();
+            }
+            else
+            {
+                // nothing
+            }
+        }
+
+        /// <summary>
+        /// Event when the value of cell is changed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void PropertyChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewCell editCell = m_dgv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            if (editCell == null) return;
+            EcellData tag = editCell.Tag as EcellData;
+            if (tag == null) return;
+            if (tag.M_name.Equals("ID"))
+            {
+                String tmpID = editCell.Value.ToString();
+                if (m_current.type.Equals("System"))
+                {
+                    if (Util.IsNGforSystemFullID(tmpID))
+                    {
+                        editCell.Value = m_current.key;
+                        String errmes = m_resources.GetString("ErrID");
+                        MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        return;
+                    }
+                }
+                else
+                {
+                    if (Util.IsNGforComponentFullID(tmpID))
+                    {
+                        editCell.Value = m_current.key;
+                        String errmes = m_resources.GetString("ErrID");
+                        MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                if (editCell.Equals(m_current.key)) return;
+
+                EcellObject p = m_current.Copy();
+                p.key = tmpID;
+                try
+                {
+                    m_dManager.DataChanged(
+                        m_current.modelID,
+                        m_current.key,
+                        m_current.type,
+                        p);
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                    String errmes = m_resources.GetString("ErrChanged");
+                    MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            else if (tag.M_name.Equals("ClassName"))
+            {
+                //SelectedIndexChangedイベントハンドラを削除
+                if (this.m_ComboControl != null)
+                {
+                    this.m_ComboControl.SelectedIndexChanged -=
+                        new EventHandler(DgvSelectedIndexChanged);
+                    this.m_ComboControl = null;
+                }
+            }
+            else
+            {
+                String data = editCell.Value.ToString();
+                EcellObject p = m_current.Copy();
+                foreach (EcellData d in p.M_value)
+                {
+                    if (d.M_name.Equals(tag.M_name))
+                    {
+                        try
+                        {
+                            if (d.M_value.IsInt())
+                                d.M_value = new EcellValue(Convert.ToInt32(data));
+                            else if (d.M_value.IsDouble())
+                                d.M_value = new EcellValue(Convert.ToDouble(data));
+                            else
+                                d.M_value = new EcellValue(data);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.ToString();
+                            String errmes = m_resources.GetString("ErrFormat");
+                            MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                }
+                try
+                {
+                    m_dManager.DataChanged(
+                        m_current.modelID,
+                        m_current.key,
+                        m_current.type,
+                        p);
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                    String errmes = m_resources.GetString("ErrChanged");
+                    MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event when user change the selected item of DataGridViewComboBoxCell.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DgvSelectedIndexChanged(object sender, EventArgs e)
+        {
+            //選択されたアイテムを表示
+            DataGridViewComboBoxEditingControl cb =
+                (DataGridViewComboBoxEditingControl)sender;
+            String cname = cb.SelectedItem.ToString();
+            if (cname.Equals(m_current.classname)) return;
+
+            List<EcellData> propList = new List<EcellData>();
+            Dictionary<String, EcellData> propDict = DataManager.GetProcessProperty(cname);
+            foreach (EcellData d in m_current.M_value)
+            {
+                if (!propDict.ContainsKey(d.M_name))
+                {
+                    continue;
+                }
+                propDict[d.M_name].M_value = d.M_value;
+            }
+            foreach (EcellData d in propDict.Values)
+            {
+                propList.Add(d);
+            }
+            EcellObject obj = EcellObject.CreateObject(m_current.modelID,
+                m_current.key,
+                m_current.type,
+                cname,
+                propList);
+            try
+            {
+                m_dManager.DataChanged(
+                    m_current.modelID,
+                    m_current.key,
+                    m_current.type,
+                    obj);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                String errmes = m_resources.GetString("ErrChanged");
+                MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
+        #endregion
     }
 }
