@@ -442,7 +442,23 @@ namespace EcellLib.PropertyWindow
         /// <param name="time">The current simulation time.</param>
         public void AdvancedTime(double time)
         {
-            // nothing
+            if (time == 0.0) return;
+            if (m_current == null || m_current.M_value == null) return;
+            foreach (EcellData d in m_current.M_value)
+            {
+                if (d.M_isGettable && (d.M_value.IsDouble()))
+                {
+                    EcellValue e = m_dManager.GetEntityProperty(d.M_entityPath);
+                    foreach (DataGridViewRow r in m_dgv.Rows)
+                    {
+                        if (r.Cells[0].Value.Equals(d.M_name))
+                        {
+                            r.Cells[1].Value = e.ToString();
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

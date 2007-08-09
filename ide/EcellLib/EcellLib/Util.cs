@@ -660,6 +660,33 @@ namespace EcellLib
             }
         }
 
+        static public string ConvertSystemEntityPath(string key, string prop)
+        {
+            string result = "";
+            string dir = "";
+            string id = "";
+
+            if (key.Equals("/"))
+            {
+                dir = "";
+                id = "/";
+            }
+            else
+            {
+                int i =  key.LastIndexOf("/");
+                if (i == 0)
+                {
+                    dir = "/";
+                    id = key.Substring(1);
+                }
+                else
+                {
+                    dir = key.Substring(0, i);
+                    id = key.Substring(i + 1);
+                }
+            }
+            return "System:" + dir + ":" + id + ":" + prop;
+        }
 
         /// <summary>
         /// Set the working directory to set directiroy.

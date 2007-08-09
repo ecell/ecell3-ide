@@ -866,7 +866,29 @@ namespace EcellLib.ObjectList
         /// <param name="time">The current simulation time.</param>
         public void AdvancedTime(double time)
         {
-            // nothing
+            if (time == 0.0) return;
+
+            foreach (DataGridViewRow r in m_gridDict["System"].Rows)
+            {
+                string path = Util.ConvertSystemEntityPath(r.Cells[0].Value.ToString(), "Size");
+                EcellValue e = m_dManager.GetEntityProperty(path);
+                if (e == null) continue;
+                r.Cells[1].Value = e.ToString();
+            }
+            foreach (DataGridViewRow r in m_gridDict["Variable"].Rows)
+            {
+                string path = "Variable:" + r.Cells[0].Value + ":Value";
+                EcellValue e = m_dManager.GetEntityProperty(path);
+                if (e == null) continue;
+                r.Cells[1].Value = e.ToString();
+            }
+            foreach (DataGridViewRow r in m_gridDict["Process"].Rows)
+            {
+                string path = "Process:" + r.Cells[0].Value + ":Activity";
+                EcellValue e = m_dManager.GetEntityProperty(path);
+                if (e == null) continue;
+                r.Cells[1].Value = e.ToString();
+            }
         }
 
         /// <summary>
