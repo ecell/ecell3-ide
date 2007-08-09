@@ -216,7 +216,7 @@ namespace EcellLib.PathwayWindow.Node
                 base.Y = this.Element.Y;// -this.Bounds.Height / 2;
                 base.OffsetX = 0;
                 base.OffsetY = 0;
-                Refresh();
+//                Refresh();
                 RefreshText();
                 this.m_idText.MoveToFront();           
             }
