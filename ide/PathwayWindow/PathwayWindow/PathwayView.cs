@@ -629,6 +629,7 @@ namespace EcellLib.PathwayWindow
                     break;
             }
 
+            element.ModelID = eo.modelID;
             element.Key = key;
             element.CanvasID = canvasName;
             element.X = x;

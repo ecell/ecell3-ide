@@ -110,8 +110,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CREATE_LOGGER].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_LOGGER].Visible = true;
 
-                    EcellObject ecellobj = m_cview.GetData(n.Element.Key, n.Element.Type);
-                    setMenuLogger(ecellobj);
+                    setMenuLogger(n);
 
                 }
                 else if (m_cview.NodeMenu.Tag is Line)
@@ -192,8 +191,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CREATE_LOGGER].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_LOGGER].Visible = true;
 
-                    EcellObject ecellobj = m_cview.GetData(n.Element.Key, n.Element.Type);
-                    setMenuLogger(ecellobj);
+                    setMenuLogger(n);
                 }
                 else
                 {
@@ -215,13 +213,18 @@ namespace EcellLib.PathwayWindow.UIComponent
             }
         }
 
-        private void setMenuLogger(EcellObject ecellobj)
+        private void setMenuLogger(PPathwayObject obj)
         {
+
             ToolStripMenuItem createLogger = (ToolStripMenuItem)m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CREATE_LOGGER];
             ToolStripMenuItem deleteLogger = (ToolStripMenuItem)m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_LOGGER];
             createLogger.DropDown.Items.Clear();
             deleteLogger.DropDown.Items.Clear();
 
+            if (obj.Element == null || obj.Element.ModelID == null)
+                return;
+
+            EcellObject ecellobj = DataManager.GetDataManager().GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
             // set logger menu
             foreach (EcellData d in ecellobj.M_value)
             {
