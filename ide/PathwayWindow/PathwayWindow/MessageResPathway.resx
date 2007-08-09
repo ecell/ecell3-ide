@@ -120,6 +120,9 @@
   <data name="ConfirmDelete" xml:space="preserve">
     <value>Are you sure you want to delete?</value>
   </data>
+  <data name="ConfirmMerge" xml:space="preserve">
+    <value>Are you sure merge the component in system to upper system.</value>
+  </data>
   <data name="CreateLogMenuText" xml:space="preserve">
     <value>Create Logger</value>
   </data>

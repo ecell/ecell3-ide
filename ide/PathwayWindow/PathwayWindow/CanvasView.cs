@@ -1116,8 +1116,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void MergeClick(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmDelete"),
-                "Delete",
+            DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
+                "Merge",
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Question,
                 MessageBoxDefaultButton.Button2);

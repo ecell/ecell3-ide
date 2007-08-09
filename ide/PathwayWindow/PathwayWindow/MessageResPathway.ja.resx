@@ -120,6 +120,9 @@
   <data name="ConfirmDelete" xml:space="preserve">
     <value>本当に削除してよろしいですか？</value>
   </data>
+  <data name="ConfirmMerge" xml:space="preserve">
+    <value>システムの内容を上位システムにマージしてもよろしいですか？</value>
+  </data>
   <data name="CreateLogMenuText" xml:space="preserve">
     <value>ロガー設定</value>
   </data>
