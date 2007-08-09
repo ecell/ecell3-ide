@@ -88,6 +88,7 @@
             this.AcceptButton = this.PVOKButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.PVOKButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "PluginVersionListWindow";
             this.Shown += new System.EventHandler(this.WindowShown);

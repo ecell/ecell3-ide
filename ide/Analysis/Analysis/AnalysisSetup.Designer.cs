@@ -91,6 +91,7 @@ namespace EcellLib.Analysis
             this.AcceptButton = this.ASOKButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.ASOKButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "AnalysisSetup";
             this.tableLayoutPanel1.ResumeLayout(false);
