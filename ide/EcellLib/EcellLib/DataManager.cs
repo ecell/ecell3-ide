@@ -1933,6 +1933,11 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// Move the component to the upper system, when system is deleted.
+        /// </summary>
+        /// <param name="modelID">modelID of deleted system.</param>
+        /// <param name="key">key of deleted system.</param>
         public void SystemDeleteAndMove(string modelID, string key)
         {
             Dictionary<String, String> variableList = new Dictionary<String, String>();
@@ -6794,6 +6799,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_savedDirName">The saved directory name.</param>
         /// <param name="l_logData">The list of the "LogData"</param>
+        /// <param name="l_saveType">The type of saved file.</param>
         public void Create(string l_savedDirName, LogData l_logData, String l_saveType)
         {
             try

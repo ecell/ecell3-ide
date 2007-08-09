@@ -16,6 +16,9 @@ namespace EcellLib.MainWindow
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMain));
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public SetupIDEWindow()
         {
             InitializeComponent();

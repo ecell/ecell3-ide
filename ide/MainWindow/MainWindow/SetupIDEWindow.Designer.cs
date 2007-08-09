@@ -1,5 +1,8 @@
 ﻿namespace EcellLib.MainWindow
 {
+    /// <summary>
+    /// Window class to set the language of this application.
+    /// </summary>
     partial class SetupIDEWindow
     {
         /// <summary>
@@ -122,11 +125,26 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox langGroupBox;
+        /// <summary>
+        /// Radio button to set the language japanese.
+        /// </summary>
         public System.Windows.Forms.RadioButton jpRadioButton;
+        /// <summary>
+        /// Radio button to set the language english.
+        /// </summary>
         public System.Windows.Forms.RadioButton enRadioButton;
+        /// <summary>
+        /// Radio button to set the language auto.
+        /// </summary>
         public System.Windows.Forms.RadioButton autoRadioButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        /// <summary>
+        /// OK button in this window.
+        /// </summary>
         public System.Windows.Forms.Button SIOKButton;
+        /// <summary>
+        /// Cancel button in this window.
+        /// </summary>
         public System.Windows.Forms.Button SICancelButton;
     }
 }

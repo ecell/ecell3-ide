@@ -1739,8 +1739,17 @@ namespace EcellLib.EntityListWindow
         }
     }
 
+    /// <summary>
+    /// Sort class by name of object.
+    /// </summary>
     public class NameSorter : IComparer
     {
+        /// <summary>
+        /// Compare with two object by name.
+        /// </summary>
+        /// <param name="x">compared object.</param>
+        /// <param name="y">compare object.</param>
+        /// <returns></returns>
         public int Compare(object x, object y)
         {
             TreeNode tx = x as TreeNode;
@@ -1750,8 +1759,19 @@ namespace EcellLib.EntityListWindow
         }
     }
 
+    /// <summary>
+    /// Sort class by type of object.
+    /// </summary>
     public class TypeSorter : IComparer
     {
+        /// <summary>
+        /// Compare with two object.
+        /// The first, system sort by the type of object.
+        /// The second, system sort by the name of object.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public int Compare(object x, object y)
         {
             TreeNode tx = x as TreeNode;
@@ -1767,6 +1787,11 @@ namespace EcellLib.EntityListWindow
             return GetTypeNum(tagx.m_type) - GetTypeNum(tagy.m_type);
         }
 
+        /// <summary>
+        /// Get the number of type.
+        /// </summary>
+        /// <param name="type">type of object.</param>
+        /// <returns>type number.</returns>
         public int GetTypeNum(string type)
         {
             switch (type)

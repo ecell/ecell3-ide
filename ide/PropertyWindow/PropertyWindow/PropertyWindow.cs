@@ -490,7 +490,6 @@ namespace EcellLib.PropertyWindow
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
-            return null;
         }
 
         /// <summary>
@@ -595,8 +594,6 @@ namespace EcellLib.PropertyWindow
         /// Event of clicking the formulator button.
         /// Show the window to edit the formulator.
         /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
         public void ShowFormulatorWindow()
         {
             m_fwin = new FormulatorWindow();
