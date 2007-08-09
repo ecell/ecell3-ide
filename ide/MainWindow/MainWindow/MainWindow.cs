@@ -382,7 +382,12 @@ namespace EcellLib.MainWindow
                         DockContent dock = setDockContent(strPropertyWindow, win);
                         dock.Show(m_dockWindowDic[strOverView].Pane, DockAlignment.Top, 0.7);
                     }
-
+                    else
+                    {
+                        DockContent dock = setDockContent(pName, win);
+                        dock.Show(this.dockPanel, DockState.Float);
+                    }
+                    
                 }
             }
             menuList = p.GetMenuStripItems();
