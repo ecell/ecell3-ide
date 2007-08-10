@@ -490,7 +490,8 @@ namespace EcellLib
                     }
                     i++;
                 }
-                if (m_type.Equals("Process") && m_propName.StartsWith("Expression"))
+                if (m_type.Equals("Process") && 
+                    DataManager.IsEnableAddProperty(m_propName))
                 {
                     Button b = new Button();
                     b.Text = "Add Property";

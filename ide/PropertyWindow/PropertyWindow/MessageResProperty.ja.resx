@@ -129,4 +129,10 @@
   <data name="ErrID" xml:space="preserve">
     <value>IDに異常な文字列が含まれています。</value>
   </data>
+  <data name="NoProp" xml:space="preserve">
+    <value>プロパティ名を入力する前に値が入力されました。</value>
+  </data>
+  <data name="SameProp" xml:space="preserve">
+    <value>同じ名前のプロパティが存在します。</value>
+  </data>
 </root>

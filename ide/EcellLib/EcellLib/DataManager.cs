@@ -3638,6 +3638,45 @@ namespace EcellLib
             return this.m_dmDic[Util.s_xpathProcess];
         }
 
+        public static bool IsEnableAddProperty(string l_dmName)
+        {
+            WrappedSimulator l_simulator = null;
+            bool isEnable = true;
+            try
+            {
+                l_simulator = new WrappedSimulator(Util.GetDMDir());
+                // CreateDefaultSimulator(l_simulator, l_dmName, null);
+                l_simulator.CreateEntity(
+                    l_dmName,
+                    Util.s_xpathProcess + Util.s_delimiterColon +
+                    Util.s_delimiterPath + Util.s_delimiterColon +
+                    Util.s_xpathSize.ToUpper());
+                try
+                {
+                    string fullPath = Util.s_xpathProcess + Util.s_delimiterColon +
+                    Util.s_delimiterPath + Util.s_delimiterColon +
+                    Util.s_xpathSize.ToUpper() + Util.s_delimiterColon + "oyaji";
+                    WrappedPolymorph l_newValue = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(0.01));
+                    l_simulator.SetEntityProperty(fullPath, l_newValue);
+                }
+                catch (Exception ex)
+                {
+                    isEnable = false;
+                }
+            }
+            catch (Exception l_ex)
+            {
+                throw new Exception(
+                    s_resources.GetString("ErrGetProp") +
+                    "[" + l_dmName + "] {" + l_ex.ToString() + "}");
+            }
+            finally
+            {
+                l_simulator = null;
+            }
+            return isEnable;
+        }
+
         /// <summary>
         /// Returns the list of the "Process" property. 
         /// </summary>
@@ -6659,6 +6698,10 @@ namespace EcellLib
                 throw new Exception(m_resources.GetString("ErrSetInitParam") + l_message
                     + " {" + l_ex.ToString() + "}");
             }
+        }
+
+        public void TestGetObj()
+        {
         }
 
         /// <summary>

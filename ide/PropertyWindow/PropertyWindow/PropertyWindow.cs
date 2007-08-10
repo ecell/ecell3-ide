@@ -82,6 +82,7 @@ namespace EcellLib.PropertyWindow
         /// data manager.
         /// </summary>
         private DataManager m_dManager;
+        private Dictionary<String, EcellData> m_propDic;
         /// <summary>
         /// ResourceManager for PropertyWindow.
         /// </summary>
@@ -96,15 +97,15 @@ namespace EcellLib.PropertyWindow
             m_dManager = DataManager.GetDataManager();
             m_dgv = new DataGridView();
             m_dgv.Dock = DockStyle.Fill;
-            m_dgv.AllowUserToDeleteRows = false;
             m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             m_dgv.AllowUserToAddRows = false;
-            m_dgv.RowHeadersVisible = false;
+            m_dgv.AllowUserToDeleteRows = false;
+            m_dgv.RowHeadersVisible = true;
 
             DataGridViewTextBoxColumn textName = new DataGridViewTextBoxColumn();
             textName.HeaderText = "Name";
             textName.Name = "Name";
-            textName.ReadOnly = true;
+            textName.ReadOnly = false;
 
             DataGridViewTextBoxColumn textValue = new DataGridViewTextBoxColumn();
             textValue.HeaderText = "Value";
@@ -114,9 +115,41 @@ namespace EcellLib.PropertyWindow
             m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
                     textName, textValue});
 
+            m_dgv.UserDeletingRow += new DataGridViewRowCancelEventHandler(m_dgv_UserDeletingRow);
             m_dgv.CellClick += new DataGridViewCellEventHandler(CellClick);
             m_dgv.CellEndEdit += new DataGridViewCellEventHandler(PropertyChanged);
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(DgvEditingControlShowing);
+        }
+
+        void m_dgv_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            if (m_propDic == null) return;
+
+            string name = m_dgv.Rows[e.Row.Index].Cells[0].Value.ToString();
+
+            if (m_propDic.ContainsKey(name))
+            {
+                e.Cancel = true;
+            }
+            else {
+                EcellObject p = m_current.Copy();
+                foreach (EcellData d in p.M_value)
+                {
+                    if (d.M_name.Equals(name))
+                    {
+                        p.M_value.Remove(d);
+                        break;
+                    }
+                }
+                m_dManager.DataChanged(
+                    m_current.modelID,
+                    m_current.key,
+                    m_current.type,
+                    p);
+                e.Cancel = true;
+                return;
+            }
+
         }
 
         /// <summary>
@@ -176,11 +209,15 @@ namespace EcellLib.PropertyWindow
                 {
                     ((DataGridViewComboBoxCell)c2).Items.Add("System");
                     c2.Value = "System";
+                    m_dgv.AllowUserToAddRows = false;
+                    m_dgv.AllowUserToDeleteRows = false;
                 }
                 else if (type.Equals("Variable"))
                 {
                     ((DataGridViewComboBoxCell)c2).Items.Add("Variable");
                     c2.Value = "Variable";
+                    m_dgv.AllowUserToAddRows = false;
+                    m_dgv.AllowUserToDeleteRows = false;
                 }
                 else
                 {
@@ -190,6 +227,18 @@ namespace EcellLib.PropertyWindow
                         ((DataGridViewComboBoxCell)c2).Items.Add(pName);
                     }
                     c2.Value = d.M_value.ToString();
+                    if (DataManager.IsEnableAddProperty(d.M_value.ToString()))
+                    {
+                        m_dgv.AllowUserToAddRows = true;
+                        m_dgv.AllowUserToDeleteRows = true;
+                        m_propDic = DataManager.GetProcessProperty(d.M_value.ToString());
+                    }
+                    else
+                    {
+                        m_dgv.AllowUserToAddRows = false;
+                        m_dgv.AllowUserToDeleteRows = false;
+                    }
+
                 }
             }
             else if (d.M_name.Equals("Expression"))
@@ -277,7 +326,6 @@ namespace EcellLib.PropertyWindow
             Clear();
             EcellObject obj = GetData(modelID, key, type);
             if (obj == null) return;
-
             EcellData dModelID = new EcellData();
             dModelID.M_name = "ModelID";
             dModelID.M_value = new EcellValue(modelID);
@@ -693,6 +741,7 @@ namespace EcellLib.PropertyWindow
         {
             int rIndex = e.RowIndex;
             int cIndex = e.ColumnIndex;
+            if (cIndex < 0) return;
 
             DataGridViewCell c = m_dgv.Rows[rIndex].Cells[cIndex] as DataGridViewCell;
             if (c == null) return;
@@ -737,7 +786,55 @@ namespace EcellLib.PropertyWindow
             DataGridViewCell editCell = m_dgv.Rows[e.RowIndex].Cells[e.ColumnIndex];
             if (editCell == null) return;
             EcellData tag = editCell.Tag as EcellData;
-            if (tag == null) return;
+            if (tag == null)
+            {
+                if (e.ColumnIndex == 0)
+                {
+                    string name = editCell.Value.ToString();
+                    for (int i = 0; i < m_dgv.Rows.Count; i++)
+                    {
+                        if (e.RowIndex == i) continue;
+                        if (name.Equals(m_dgv[0, i].Value.ToString()))
+                        {
+                            String errmes = m_resources.GetString("SameProp");
+                            MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            m_dgv.Rows.RemoveAt(e.RowIndex);
+                            return;
+                        }
+                    }
+                    EcellObject p = m_current.Copy();
+                    EcellData data = new EcellData(name, new EcellValue(0.0),
+                            "Process:" + m_current.key + ":" + name);
+                    data.M_isGettable = true;
+                    data.M_isLoadable = true;
+                    data.M_isLogable = true;
+                    data.M_isLogger = false;
+                    data.M_isSavable = true;
+                    data.M_isSettable = true;
+                    p.M_value.Add(data);
+                    m_dgv.Rows[e.RowIndex].Cells[1].Tag = data;
+                    try
+                    {
+                        m_dManager.DataChanged(m_current.modelID,
+                            m_current.key,
+                            m_current.type,
+                            p);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.ToString();
+                        String errmes = m_resources.GetString("ErrChanged");
+                        MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    String errmes = m_resources.GetString("NoProp");
+                    MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    m_dgv.Rows.RemoveAt(e.RowIndex);
+                }
+                return;
+            }
             if (tag.M_name.Equals("ID"))
             {
                 String tmpID = editCell.Value.ToString();
@@ -875,13 +972,21 @@ namespace EcellLib.PropertyWindow
                     m_current.key,
                     m_current.type,
                     obj);
+                if (DataManager.IsEnableAddProperty(cname))
+                {
+                    m_dgv.AllowUserToAddRows = true;
+                }
+                else
+                {
+                    m_dgv.AllowUserToAddRows = false;
+                }
             }
             catch (Exception ex)
             {
                 ex.ToString();
                 String errmes = m_resources.GetString("ErrChanged");
                 MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                return;
             }
         }
         #endregion

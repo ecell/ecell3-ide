@@ -129,4 +129,10 @@
   <data name="ErrID" xml:space="preserve">
     <value>There are invalid characters in ID.</value>
   </data>
+  <data name="NoProp" xml:space="preserve">
+    <value>Input the name of property before input the value.</value>
+  </data>
+  <data name="SameProp" xml:space="preserve">
+    <value>There are the property have the same name.</value>
+  </data>
 </root>

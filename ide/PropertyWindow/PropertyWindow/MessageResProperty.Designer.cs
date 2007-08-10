@@ -95,5 +95,23 @@ namespace EcellLib.PropertyWindow {
                 return ResourceManager.GetString("ErrID", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Input the name of property before input the value. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NoProp {
+            get {
+                return ResourceManager.GetString("NoProp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   There are the property have the same name. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SameProp {
+            get {
+                return ResourceManager.GetString("SameProp", resourceCulture);
+            }
+        }
     }
 }
