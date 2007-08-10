@@ -346,11 +346,33 @@ namespace EcellLib.PropertyWindow
             
             foreach (EcellData d in obj.M_value)
             {
+                if (d.M_name.Equals("Size")) continue;
                 PropertyAdd(d, type);
                 if (d.M_name.Equals("VariableReferenceList"))
                     m_refStr = d.M_value.ToString();
                 if (d.M_name.Equals("Expression"))
                     m_expression = d.M_value.ToString();
+            }
+            if (type.Equals("System"))
+            {
+                EcellData dSize = new EcellData();
+                dSize.M_name = "Size";
+                dSize.M_isSettable = true;
+                dSize.M_value = new EcellValue("");                
+                foreach (EcellObject o in obj.M_instances)
+                {
+                    if (o.key.EndsWith(":SIZE"))
+                    {
+                        foreach (EcellData d in o.M_value)
+                        {
+                            if (d.M_entityPath.EndsWith(":Value"))
+                            {
+                                dSize.M_value = new EcellValue(d.M_value.CastToDouble());
+                            }
+                        }
+                    }
+                }
+                PropertyAdd(dSize, type);
             }
             m_current = obj;
         }
@@ -887,6 +909,75 @@ namespace EcellLib.PropertyWindow
                     this.m_ComboControl.SelectedIndexChanged -=
                         new EventHandler(DgvSelectedIndexChanged);
                     this.m_ComboControl = null;
+                }
+            }
+            else if (tag.M_name.Equals("Size"))
+            {
+                String data = "";
+                if (editCell.Value != null) data = editCell.Value.ToString();
+                if (data.Equals(""))
+                {
+                    foreach (EcellObject o in m_current.M_instances)
+                    {
+                        if (o.key.EndsWith(":SIZE"))
+                        {
+                            m_current.M_instances.Remove(o);
+                            m_dManager.DataDelete(o.modelID, o.key, o.type);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    bool isHit = false;
+                    foreach (EcellObject o in m_current.M_instances)
+                    {
+                        if (o.key.EndsWith(":SIZE"))
+                        {
+                            foreach (EcellData d in o.M_value)
+                            {
+                                if (d.M_name.EndsWith(":Value"))
+                                {
+                                    if (data.Equals(d.M_value.ToString())) break;
+                                    EcellData p = d.Copy();
+                                    p.M_value = new EcellValue(Convert.ToDouble(data));
+                                    o.M_value.Remove(d);
+                                    o.M_value.Add(p);
+                                    m_dManager.DataChanged(
+                                        o.modelID,
+                                        o.key,
+                                        o.type,
+                                        o);
+                                }
+                            }
+                            isHit = true;
+                            break;
+                        }
+                    }
+                    if (isHit == false)
+                    {
+                        Dictionary<string, EcellData> plist = DataManager.GetVariableProperty();
+                        List<EcellData> dlist = new List<EcellData>();
+                        foreach (string pname in plist.Keys)
+                        {
+                            if (pname.Equals("Value"))
+                            {
+                                EcellData d = plist[pname];
+                                d.M_value = new EcellValue(Convert.ToDouble(data));
+                                dlist.Add(d);
+                            }
+                            else
+                            {
+                                dlist.Add(plist[pname]);
+                            }
+                        }
+                        EcellObject obj = EcellObject.CreateObject(m_current.modelID,
+                            m_current.key + ":SIZE", "Variable", "Variable", dlist);
+                        List<EcellObject> rList = new List<EcellObject>();
+                        rList.Add(obj);
+                        m_dManager.DataAdd(rList);
+                        m_current.M_instances.Add(obj);
+                    }
                 }
             }
             else

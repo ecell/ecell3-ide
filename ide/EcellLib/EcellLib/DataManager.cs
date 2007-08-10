@@ -3655,7 +3655,7 @@ namespace EcellLib
                 {
                     string fullPath = Util.s_xpathProcess + Util.s_delimiterColon +
                     Util.s_delimiterPath + Util.s_delimiterColon +
-                    Util.s_xpathSize.ToUpper() + Util.s_delimiterColon + "oyaji";
+                    Util.s_xpathSize.ToUpper() + Util.s_delimiterColon + "CheckProperty";
                     WrappedPolymorph l_newValue = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(0.01));
                     l_simulator.SetEntityProperty(fullPath, l_newValue);
                 }
