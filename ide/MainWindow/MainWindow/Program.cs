@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using System.Resources;
 using System.Threading;
 using System.Reflection;
+using System.IO;
 
 namespace EcellLib.MainWindow
 {
@@ -44,8 +45,15 @@ namespace EcellLib.MainWindow
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+            List<string> fileList = new List<string>();
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (File.Exists(args[i]))
+                    fileList.Add(args[i]);
+            }
+
             Util.InitialLanguage();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -61,6 +69,9 @@ namespace EcellLib.MainWindow
                 me.MainForm = frmMainWnd;
                 frmMainWnd.Show();
                 frmSplash.Close();
+                DataManager manager = DataManager.GetDataManager();
+                foreach (string fPath in fileList)
+                    manager.LoadUserActionFile(fPath);
             };
 
             frmSplash.Show();

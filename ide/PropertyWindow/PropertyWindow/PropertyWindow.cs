@@ -115,13 +115,13 @@ namespace EcellLib.PropertyWindow
             m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
                     textName, textValue});
 
-            m_dgv.UserDeletingRow += new DataGridViewRowCancelEventHandler(m_dgv_UserDeletingRow);
+            m_dgv.UserDeletingRow += new DataGridViewRowCancelEventHandler(DgvUserDeletingRow);
             m_dgv.CellClick += new DataGridViewCellEventHandler(CellClick);
             m_dgv.CellEndEdit += new DataGridViewCellEventHandler(PropertyChanged);
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(DgvEditingControlShowing);
         }
 
-        void m_dgv_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        void DgvUserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
             if (m_propDic == null) return;
 
