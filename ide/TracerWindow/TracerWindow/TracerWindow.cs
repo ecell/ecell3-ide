@@ -599,27 +599,59 @@ namespace EcellLib.TracerWindow
         {
             if (data.M_value == null) return;
 
-            foreach (EcellData d in data.M_value)
+            List<TagData> tagList = new List<TagData>();
+            foreach (TagData t in m_entry.Keys)
             {
-                if (!d.M_isLogable) continue;
-                //                bool isHit = false;
+                if (t.M_modelID != modelID ||
+                    t.M_key != key ||
+                    t.M_type != type) continue;
 
-                // If the data changed from logging to no logging.
-                TagData tag = null;
-                foreach (TagData t in m_entry.Keys)
+                bool isHit = false;
+                foreach (EcellData d in data.M_value)
                 {
-                    if (t.M_modelID == modelID && t.M_key == key &&
-                        t.M_type == type && t.M_path == d.M_entityPath)
+                    if (!d.M_isLogable) continue;
+                    if (t.M_path == d.M_entityPath)
                     {
+                        isHit = true;
                         if (!d.M_isLogger)
                         {
-                            tag = t; ;
-                            RemoveFromEntry(tag);
+                            tagList.Add(t);
                         }
                         break;
                     }
                 }
+                if (isHit == false)
+                {
+                    tagList.Add(t);
+                }
             }
+
+            foreach (TagData t in tagList)
+            {
+                RemoveFromEntry(t);
+            }
+
+            //foreach (EcellData d in data.M_value)
+            //{
+            //    if (!d.M_isLogable) continue;
+            //    //                bool isHit = false;
+
+            //    // If the data changed from logging to no logging.
+            //    TagData tag = null;
+            //    foreach (TagData t in m_entry.Keys)
+            //    {
+            //        if (t.M_modelID == modelID && t.M_key == key &&
+            //            t.M_type == type && t.M_path == d.M_entityPath)
+            //        {
+            //            if (!d.M_isLogger)
+            //            {
+            //                tag = t; ;
+            //                RemoveFromEntry(tag);
+            //            }
+            //            break;
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
