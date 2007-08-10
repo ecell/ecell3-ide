@@ -536,6 +536,7 @@ namespace EcellLib.PathwayWindow
             string systemName,
             ComponentType cType,
             ComponentSetting cs,
+            string modelID,
             string key,
             bool hasCoords,
             float x,
@@ -629,7 +630,7 @@ namespace EcellLib.PathwayWindow
                     break;
             }
 
-            element.ModelID = eo.modelID;
+            element.ModelID = modelID;
             element.Key = key;
             element.CanvasID = canvasName;
             element.X = x;

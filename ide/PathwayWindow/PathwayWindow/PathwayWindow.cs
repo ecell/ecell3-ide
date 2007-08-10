@@ -984,7 +984,7 @@ namespace EcellLib.PathwayWindow
                             }
                             m_view.DataDelete(uk.Key, uk.Type);
                             string newKey = PathUtil.GetMovedKey(uk.Key, key, data.key);
-                            m_view.AddNewObj(m_defCanvasId, PathUtil.GetParentSystemId(newKey), uk.Type, null, newKey, false, 0, 0, 0, 0, false, null, valueStr, true);                            
+                            m_view.AddNewObj(m_defCanvasId, PathUtil.GetParentSystemId(newKey), uk.Type, null, modelID, newKey, false, 0, 0, 0, 0, false, null, valueStr, true);                            
                         }
                         m_view.DataDelete(key, ct);
                     }
@@ -1295,17 +1295,17 @@ namespace EcellLib.PathwayWindow
                 {
                     if (systemName.Equals("/"))
                     {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.key, false, 0, 0, 1000, 1000, false, null, null, false);
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, false, 0, 0, 1000, 1000, false, null, null, false);
                     }
                     else
                     {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.key, false, 0, 0, 0, 0, false, null, null, false);
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, false, 0, 0, 0, 0, false, null, null, false);
                     }
                 }
                 else if (obj.type.Equals(PathwayView.VARIABLE_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.key, false, 0, 0, 0, 0, false, null, null, false);
+                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.modelID, obj.key, false, 0, 0, 0, 0, false, null, null, false);
                 else if (obj.type.Equals(PathwayView.PROCESS_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.key, false, 0, 0, 0, 0, false, null, null, false);
+                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.modelID, obj.key, false, 0, 0, 0, 0, false, null, null, false);
                 else
                 {
                     throw new PathwayException(m_resources.GetString("ErrUnknowType"));
