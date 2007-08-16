@@ -596,6 +596,7 @@ namespace EcellLib.PropertyWindow
             {
                 m_time.Enabled = false;
                 m_time.Stop();
+                UpdatePropForSimulation();
             }
             else if (type == Util.STEP)
             {
