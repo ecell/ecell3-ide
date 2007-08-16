@@ -85,6 +85,11 @@ namespace EcellLib.ObjectList
         private DataManager m_dManager;
         private bool isDouble = false;
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResObjList));
+        /// <summary>
+        /// Timer for executing redraw event at each 0.5 minutes.
+        /// </summary>
+        System.Windows.Forms.Timer m_time;
+        private int m_type = Util.NOTLOAD;
         #endregion
 
         /// <summary>
@@ -185,6 +190,50 @@ namespace EcellLib.ObjectList
                 m_dict.Add(type, objectListOfType);
                 m_gridDict.Add(type, dgr);
 
+            }
+            m_time = new System.Windows.Forms.Timer();
+            m_time.Enabled = false;
+            m_time.Interval = 100;
+            m_time.Tick += new EventHandler(TimerFire);
+        }
+
+        /// <summary>
+        /// Execute redraw process on simulation running at every 1sec.
+        /// </summary>
+        /// <param name="sender">object(Timer)</param>
+        /// <param name="e">EventArgs</param>
+        void TimerFire(object sender, EventArgs e)
+        {
+            m_time.Enabled = false;
+            UpdatePropForSimulation();
+            m_time.Enabled = true;
+        }
+
+        void UpdatePropForSimulation()
+        {
+            double l_time = m_dManager.GetCurrentSimulationTime();
+            if (l_time == 0.0) return;
+
+            foreach (DataGridViewRow r in m_gridDict["System"].Rows)
+            {
+                string path = Util.ConvertSystemEntityPath(r.Cells[0].Value.ToString(), "Size");
+                EcellValue e = m_dManager.GetEntityProperty(path);
+                if (e == null) continue;
+                r.Cells[1].Value = e.ToString();
+            }
+            foreach (DataGridViewRow r in m_gridDict["Variable"].Rows)
+            {
+                string path = "Variable:" + r.Cells[0].Value + ":Value";
+                EcellValue e = m_dManager.GetEntityProperty(path);
+                if (e == null) continue;
+                r.Cells[1].Value = e.ToString();
+            }
+            foreach (DataGridViewRow r in m_gridDict["Process"].Rows)
+            {
+                string path = "Process:" + r.Cells[0].Value + ":Activity";
+                EcellValue e = m_dManager.GetEntityProperty(path);
+                if (e == null) continue;
+                r.Cells[1].Value = e.ToString();
             }
         }
 
@@ -866,29 +915,29 @@ namespace EcellLib.ObjectList
         /// <param name="time">The current simulation time.</param>
         public void AdvancedTime(double time)
         {
-            if (time == 0.0) return;
+            //if (time == 0.0) return;
 
-            foreach (DataGridViewRow r in m_gridDict["System"].Rows)
-            {
-                string path = Util.ConvertSystemEntityPath(r.Cells[0].Value.ToString(), "Size");
-                EcellValue e = m_dManager.GetEntityProperty(path);
-                if (e == null) continue;
-                r.Cells[1].Value = e.ToString();
-            }
-            foreach (DataGridViewRow r in m_gridDict["Variable"].Rows)
-            {
-                string path = "Variable:" + r.Cells[0].Value + ":Value";
-                EcellValue e = m_dManager.GetEntityProperty(path);
-                if (e == null) continue;
-                r.Cells[1].Value = e.ToString();
-            }
-            foreach (DataGridViewRow r in m_gridDict["Process"].Rows)
-            {
-                string path = "Process:" + r.Cells[0].Value + ":Activity";
-                EcellValue e = m_dManager.GetEntityProperty(path);
-                if (e == null) continue;
-                r.Cells[1].Value = e.ToString();
-            }
+            //foreach (DataGridViewRow r in m_gridDict["System"].Rows)
+            //{
+            //    string path = Util.ConvertSystemEntityPath(r.Cells[0].Value.ToString(), "Size");
+            //    EcellValue e = m_dManager.GetEntityProperty(path);
+            //    if (e == null) continue;
+            //    r.Cells[1].Value = e.ToString();
+            //}
+            //foreach (DataGridViewRow r in m_gridDict["Variable"].Rows)
+            //{
+            //    string path = "Variable:" + r.Cells[0].Value + ":Value";
+            //    EcellValue e = m_dManager.GetEntityProperty(path);
+            //    if (e == null) continue;
+            //    r.Cells[1].Value = e.ToString();
+            //}
+            //foreach (DataGridViewRow r in m_gridDict["Process"].Rows)
+            //{
+            //    string path = "Process:" + r.Cells[0].Value + ":Activity";
+            //    EcellValue e = m_dManager.GetEntityProperty(path);
+            //    if (e == null) continue;
+            //    r.Cells[1].Value = e.ToString();
+            //}
         }
 
         /// <summary>
@@ -911,6 +960,23 @@ namespace EcellLib.ObjectList
                     m_gridDict[name].ContextMenuStrip = m_contextStrip;
                 }
             }
+            if (type == Util.RUNNING)
+            {
+                m_time.Enabled = true;
+                m_time.Start();
+            }
+            else if (type == Util.SUSPEND ||
+                    ((m_type == Util.RUNNING || m_type == Util.SUSPEND || m_type == Util.STEP) &&
+                    type == Util.LOADED))
+            {
+                m_time.Enabled = false;
+                m_time.Stop();
+            }
+            else if (type == Util.STEP)
+            {
+                UpdatePropForSimulation();
+            }
+            m_type = type;
         }
 
         /// <summary>

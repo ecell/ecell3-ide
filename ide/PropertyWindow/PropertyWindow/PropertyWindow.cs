@@ -75,6 +75,11 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         public String m_refStr = null;
         /// <summary>
+        /// Timer for executing redraw event at each 0.5 minutes.
+        /// </summary>
+        System.Windows.Forms.Timer m_time;
+        private int m_type = Util.NOTLOAD;
+        /// <summary>
         /// Expression.
         /// </summary>
         private String m_expression = null;
@@ -120,6 +125,45 @@ namespace EcellLib.PropertyWindow
             m_dgv.CellClick += new DataGridViewCellEventHandler(CellClick);
             m_dgv.CellEndEdit += new DataGridViewCellEventHandler(PropertyChanged);
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(DgvEditingControlShowing);
+
+            m_time = new System.Windows.Forms.Timer();
+            m_time.Enabled = false;
+            m_time.Interval = 100;
+            m_time.Tick += new EventHandler(TimerFire);
+        }
+
+        /// <summary>
+        /// Execute redraw process on simulation running at every 1sec.
+        /// </summary>
+        /// <param name="sender">object(Timer)</param>
+        /// <param name="e">EventArgs</param>
+        void TimerFire(object sender, EventArgs e)
+        {
+            m_time.Enabled = false;
+            UpdatePropForSimulation();
+            m_time.Enabled = true;
+        }
+
+        void UpdatePropForSimulation()
+        {
+            double l_time = m_dManager.GetCurrentSimulationTime();
+            if (l_time == 0.0) return;
+            if (m_current == null || m_current.M_value == null) return;
+            foreach (EcellData d in m_current.M_value)
+            {
+                if (d.M_isGettable && (d.M_value.IsDouble()))
+                {
+                    EcellValue e = m_dManager.GetEntityProperty(d.M_entityPath);
+                    foreach (DataGridViewRow r in m_dgv.Rows)
+                    {
+                        if (r.Cells[0].Value.Equals(d.M_name))
+                        {
+                            r.Cells[1].Value = e.ToString();
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         void DgvUserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
@@ -516,23 +560,23 @@ namespace EcellLib.PropertyWindow
         /// <param name="time">The current simulation time.</param>
         public void AdvancedTime(double time)
         {
-            if (time == 0.0) return;
-            if (m_current == null || m_current.M_value == null) return;
-            foreach (EcellData d in m_current.M_value)
-            {
-                if (d.M_isGettable && (d.M_value.IsDouble()))
-                {
-                    EcellValue e = m_dManager.GetEntityProperty(d.M_entityPath);
-                    foreach (DataGridViewRow r in m_dgv.Rows)
-                    {
-                        if (r.Cells[0].Value.Equals(d.M_name))
-                        {
-                            r.Cells[1].Value = e.ToString();
-                            break;
-                        }
-                    }
-                }
-            }
+            //if (time == 0.0) return;
+            //if (m_current == null || m_current.M_value == null) return;
+            //foreach (EcellData d in m_current.M_value)
+            //{
+            //    if (d.M_isGettable && (d.M_value.IsDouble()))
+            //    {
+            //        EcellValue e = m_dManager.GetEntityProperty(d.M_entityPath);
+            //        foreach (DataGridViewRow r in m_dgv.Rows)
+            //        {
+            //            if (r.Cells[0].Value.Equals(d.M_name))
+            //            {
+            //                r.Cells[1].Value = e.ToString();
+            //                break;
+            //            }
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
@@ -541,7 +585,23 @@ namespace EcellLib.PropertyWindow
         /// <param name="type">System status.</param>
         public void ChangeStatus(int type)
         {
-            // not implement.
+            if (type == Util.RUNNING)
+            {
+                m_time.Enabled = true;
+                m_time.Start();
+            }
+            else if (type == Util.SUSPEND || 
+                ((m_type == Util.RUNNING || m_type == Util.SUSPEND || m_type == Util.STEP) &&
+                type == Util.LOADED))
+            {
+                m_time.Enabled = false;
+                m_time.Stop();
+            }
+            else if (type == Util.STEP)
+            {
+                UpdatePropForSimulation();
+            }
+            m_type = type;
         }
 
         /// <summary>
