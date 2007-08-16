@@ -87,6 +87,7 @@ namespace EcellLib.PropertyWindow
         /// ResourceManager for PropertyWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResProperty));
+        private bool m_isChanging = false;
         #endregion
 
         /// <summary>
@@ -141,11 +142,13 @@ namespace EcellLib.PropertyWindow
                         break;
                     }
                 }
+                m_isChanging = true;
                 m_dManager.DataChanged(
                     m_current.modelID,
                     m_current.key,
                     m_current.type,
                     p);
+                m_isChanging = false;
                 e.Cancel = true;
                 return;
             }
@@ -426,6 +429,7 @@ namespace EcellLib.PropertyWindow
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             if (m_current == null) return;
+            if (m_isChanging == true) return;
             if (!modelID.Equals(m_current.modelID) ||
                 !key.Equals(m_current.key) ||
                 !type.Equals(m_current.type)) return;
@@ -661,17 +665,20 @@ namespace EcellLib.PropertyWindow
             m_win.Close();
             try
             {
+                m_isChanging = true;
                 m_dManager.DataChanged(m_current.modelID,
                     m_current.key,
                     m_current.type,
                     t
                     );
+                m_isChanging = false;
             }
             catch (Exception ex)
             {
                 ex.ToString();
                 String errmes = m_resources.GetString("ErrChanged");
                 MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                m_isChanging = false;
                 return;
             }
         }
@@ -736,18 +743,21 @@ namespace EcellLib.PropertyWindow
             }
             try
             {
+                m_isChanging = true;
                 m_dManager.DataChanged(
                         m_current.modelID,
                         m_current.key,
                         m_current.type,
                         p);
                 m_expression = tmp;
+                m_isChanging = false;
             }
             catch (Exception ex)
             {
                 ex.ToString();
                 String errmes = m_resources.GetString("ErrChanged");
                 MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                m_isChanging = false;
             }
 
             m_fwin.Close();
@@ -837,13 +847,16 @@ namespace EcellLib.PropertyWindow
                     m_dgv.Rows[e.RowIndex].Cells[1].Tag = data;
                     try
                     {
+                        m_isChanging = true;
                         m_dManager.DataChanged(m_current.modelID,
                             m_current.key,
                             m_current.type,
                             p);
+                        m_isChanging = false;
                     }
                     catch (Exception ex)
                     {
+                        m_isChanging = false;
                         ex.ToString();
                         String errmes = m_resources.GetString("ErrChanged");
                         MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -887,14 +900,17 @@ namespace EcellLib.PropertyWindow
                 p.key = tmpID;
                 try
                 {
+                    m_isChanging = true;
                     m_dManager.DataChanged(
                         m_current.modelID,
                         m_current.key,
                         m_current.type,
                         p);
+                    m_isChanging = false;
                 }
                 catch (Exception ex)
                 {
+                    m_isChanging = false;
                     ex.ToString();
                     String errmes = m_resources.GetString("ErrChanged");
                     MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -943,11 +959,13 @@ namespace EcellLib.PropertyWindow
                                     p.M_value = new EcellValue(Convert.ToDouble(data));
                                     o.M_value.Remove(d);
                                     o.M_value.Add(p);
+                                    m_isChanging = true;
                                     m_dManager.DataChanged(
                                         o.modelID,
                                         o.key,
                                         o.type,
                                         o);
+                                    m_isChanging = false;
                                 }
                             }
                             isHit = true;
@@ -1008,15 +1026,18 @@ namespace EcellLib.PropertyWindow
                 }
                 try
                 {
+                    m_isChanging = true;
                     m_dManager.DataChanged(
                         m_current.modelID,
                         m_current.key,
                         m_current.type,
                         p);
+                    m_isChanging = false;
                 }
                 catch (Exception ex)
                 {
                     ex.ToString();
+                    m_isChanging = false;
                     String errmes = m_resources.GetString("ErrChanged");
                     MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -1058,11 +1079,13 @@ namespace EcellLib.PropertyWindow
                 propList);
             try
             {
+                m_isChanging = true;
                 m_dManager.DataChanged(
                     m_current.modelID,
                     m_current.key,
                     m_current.type,
                     obj);
+                m_isChanging = false;
                 if (DataManager.IsEnableAddProperty(cname))
                 {
                     m_dgv.AllowUserToAddRows = true;
@@ -1074,6 +1097,7 @@ namespace EcellLib.PropertyWindow
             }
             catch (Exception ex)
             {
+                m_isChanging = false;
                 ex.ToString();
                 String errmes = m_resources.GetString("ErrChanged");
                 MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
