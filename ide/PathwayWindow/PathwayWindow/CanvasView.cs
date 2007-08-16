@@ -127,6 +127,16 @@ namespace EcellLib.PathwayWindow
         public static readonly string CANVAS_MENU_DELETE = "delete";
 
         /// <summary>
+        /// Key definition of m_cMenuDict for copy
+        /// </summary>
+        public static readonly string CANVAS_MENU_COPY = "copy";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for paste
+        /// </summary>
+        public static readonly string CANVAS_MENU_PASTE = "paste";
+
+        /// <summary>
         /// Key definition of m_cMenuDict for delete
         /// </summary>
         public static readonly string CANVAS_MENU_DELETE_WITH = "deletewith";
@@ -306,6 +316,11 @@ namespace EcellLib.PathwayWindow
         List<PPathwayNode> m_selectedNodes = new List<PPathwayNode>();
 
         /// <summary>
+        /// List of PPathwayNode for selected object.
+        /// </summary>
+        List<PPathwayNode> m_copiedNodes = new List<PPathwayNode>();
+
+        /// <summary>
         /// selected line
         /// </summary>
         Line m_selectedLine = null;
@@ -482,6 +497,14 @@ namespace EcellLib.PathwayWindow
         public List<PPathwayNode> SelectedNodes
         {
             get { return m_selectedNodes; }
+        }
+
+        /// <summary>
+        /// Accessor for m_copiedNodes.
+        /// </summary>
+        public List<PPathwayNode> CopiedNodes
+        {
+            get { return m_copiedNodes; }
         }
 
         /// <summary>
@@ -739,6 +762,16 @@ namespace EcellLib.PathwayWindow
             delete.Click += new EventHandler(DeleteClick);
             m_nodeMenu.Items.Add(delete);
             m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
+
+            ToolStripItem copy = new ToolStripMenuItem(m_resources.GetString("CopyMenuText"));
+            copy.Click += new EventHandler(CopyClick);
+            m_nodeMenu.Items.Add(copy);
+            m_cMenuDict.Add(CANVAS_MENU_COPY, copy);
+
+            ToolStripItem paste = new ToolStripMenuItem(m_resources.GetString("PasteMenuText"));
+            paste.Click += new EventHandler(PasteClick);
+            m_nodeMenu.Items.Add(paste);
+            m_cMenuDict.Add(CANVAS_MENU_PASTE, paste);
 
             ToolStripItem deleteWith = new ToolStripMenuItem(m_resources.GetString("MergeMenuText"));
             deleteWith.Click += new EventHandler(MergeClick);
@@ -1286,6 +1319,42 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Called when a copy menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void CopyClick(object sender, EventArgs e)
+        {
+            if (this.m_selectedNodes != null)
+            {
+                this.m_copiedNodes.Clear();
+                foreach (PPathwayNode node in this.m_selectedNodes)
+                {
+                    this.m_copiedNodes.Add(node);
+                    Debug.WriteLine("copy node:" + node.Name);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when a paste menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void PasteClick(object sender, EventArgs e)
+        {
+            if (this.m_copiedNodes != null)
+            {
+                foreach (PPathwayNode node in this.m_copiedNodes)
+                {
+                    Debug.WriteLine(this.CanvasID + " paste node:" + node.Name);
+                    SetNewPathwayObject(node);
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Called when a create logger menu of the context menu is clicked.
         /// </summary>
         /// <param name="sender"></param>
@@ -1384,6 +1453,16 @@ namespace EcellLib.PathwayWindow
                 MessageBox.Show("Name:" + obj.Name + "\nX:" + obj.X + "\nY:" + obj.Y
                     + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY + "\nToString()"
                     + obj.ToString());
+            }
+            else
+            {
+                ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                PointF point = new PointF();
+                Debug.WriteLine(this.TabPage.Parent.ToString());
+                point.X = item.Owner.Left;
+                point.Y = item.Owner.Top;
+                MessageBox.Show("Left:" + point.X + "Top:" + point.Y);
+                
             }
         }
 #endif
@@ -2748,6 +2827,55 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// get new PathwayObject.
+        /// </summary>
+        /// <param name="type">ComponentType</param>
+        /// <param name="modelId">modelId</param>
+        public void SetNewPathwayObject(PPathwayObject node)
+        {
+            // managers
+            ComponentSettingsManager csManager = this.m_pathwayView.ComponentSettingsManager;
+            DataManager dm = DataManager.GetDataManager();
+            // parameters
+            string canvas = node.Element.CanvasID;
+            string system = node.Element.ParentSystemID;
+            string modelID = node.Element.ModelID;
+            ComponentType type = ComponentSetting.ParseComponentKind(node.Element.Type);
+            ComponentSetting cs = null;
+            // copy node
+            EcellObject eo = node.Element.EcellObject.Copy();
+
+            if (type == ComponentType.Process)
+            {
+                eo.key = system + ":" + dm.GetTemporaryID(modelID, "Process", system);
+                cs = csManager.DefaultProcessSetting;
+            }
+            else if (type == ComponentType.Variable)
+            {
+                eo.key = system + ":" + dm.GetTemporaryID(modelID, "Variable", system);
+                cs = csManager.DefaultVariableSetting;
+            }
+
+            // create new node
+            this.m_pathwayView.AddNewObj(   canvas,
+                                            system,
+                                            type,
+                                            cs,
+                                            modelID,
+                                            eo.key,
+                                            true,
+                                            node.X,
+                                            node.Y,
+                                            node.Width,
+                                            node.Height,
+                                            true,
+                                            eo,
+                                            null,
+                                            false);
+
+        }
+
+        /// <summary>
         /// add child object to the selected layer.
         /// </summary>
         /// <param name="layer">selected layer.</param>
@@ -2765,6 +2893,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="layer">the selected layer.</param>
         /// <param name="systemName">system name of the added object.</param>
         /// <param name="obj">the added object.</param>
+        /// <value
         public void AddChildToSelectedLayer(string layer, string systemName, PPathwayObject obj)
         {
             RegisterObjToSet(obj);

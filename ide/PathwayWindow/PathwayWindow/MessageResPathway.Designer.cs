@@ -70,6 +70,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Copy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CopyMenuText {
+            get {
+                return ResourceManager.GetString("CopyMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Are you sure merge the component in system to upper system. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmMerge {
@@ -291,6 +300,15 @@ namespace EcellLib.PathwayWindow {
         internal static string MsgLayoutNoNode {
             get {
                 return ResourceManager.GetString("MsgLayoutNoNode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Paste に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PasteMenuText {
+            get {
+                return ResourceManager.GetString("PasteMenuText", resourceCulture);
             }
         }
     }

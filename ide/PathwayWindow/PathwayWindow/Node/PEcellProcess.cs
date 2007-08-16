@@ -120,6 +120,19 @@ namespace EcellLib.PathwayWindow.Node
 
         #region Methods
         /// <summary>
+        /// clone PEcellProcess.
+        /// </summary>
+        /// <returns></returns>
+        public override object Clone()
+        {
+            PEcellProcess process = new PEcellProcess();
+            process.Bounds = this.Bounds;
+            process.Brush = this.Brush;
+            process.m_idText = this.m_idText;
+
+            return process;
+        }
+        /// <summary>
         /// Freeze this object and related lines.
         /// </summary>
         public override void Freeze()

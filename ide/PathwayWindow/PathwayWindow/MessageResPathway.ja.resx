@@ -120,6 +120,9 @@
   <data name="ConfirmDelete" xml:space="preserve">
     <value>本当に削除してよろしいですか？</value>
   </data>
+  <data name="CopyMenuText" xml:space="preserve">
+    <value>コピー</value>
+  </data>
   <data name="ConfirmMerge" xml:space="preserve">
     <value>システムの内容を上位システムにマージしてもよろしいですか？</value>
   </data>
@@ -194,5 +197,8 @@
   </data>
   <data name="MsgLayoutNoNode" xml:space="preserve">
     <value>レイアウトをする１つ以上のノードを選択して下さい</value>
+  </data>
+  <data name="PasteMenuText" xml:space="preserve">
+    <value>ペースト</value>
   </data>
 </root>

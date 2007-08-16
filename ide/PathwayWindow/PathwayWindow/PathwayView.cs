@@ -571,7 +571,7 @@ namespace EcellLib.PathwayWindow
                 catch (Exception e)
                 {
                     UnregisterObj(cType, key);
-                    MessageBox.Show(m_resources.GetString("ErrAddObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(m_resources.GetString("ErrAddObj"), "Error\n" + e.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
