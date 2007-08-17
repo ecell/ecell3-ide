@@ -1179,6 +1179,12 @@ namespace EcellLib.PathwayWindow
                     }
 
                     List<string> list = this.GetAllSystemUnder(deleteSystem.Element.Key);
+                /*
+                    foreach (string under in list)
+                    {
+                        PText sysText = m_systems[under].Text;
+                        sysText.Parent.RemoveChild(sysText);
+                    }*/
 
                     try
                     {
@@ -1188,13 +1194,7 @@ namespace EcellLib.PathwayWindow
                     {
                         return;
                     }
-
-                    foreach (string under in list)
-                    {
-                        PText sysText = m_systems[under].Text;
-                        sysText.Parent.RemoveChild(sysText);
-                    }
-
+                
                     if (((PPathwayObject)obj).IsHighLighted)
                     {
                         HideResizeHandles();
