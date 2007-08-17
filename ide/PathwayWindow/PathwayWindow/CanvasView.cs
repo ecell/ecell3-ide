@@ -316,9 +316,9 @@ namespace EcellLib.PathwayWindow
         List<PPathwayNode> m_selectedNodes = new List<PPathwayNode>();
 
         /// <summary>
-        /// List of PPathwayNode for selected object.
+        /// List of PPathwayNode for copied object.
         /// </summary>
-        List<PPathwayNode> m_copiedNodes = new List<PPathwayNode>();
+        List<PNode> m_copiedNodes = new List<PNode>();
 
         /// <summary>
         /// selected line
@@ -502,7 +502,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_copiedNodes.
         /// </summary>
-        public List<PPathwayNode> CopiedNodes
+        public List<PNode> CopiedNodes
         {
             get { return m_copiedNodes; }
         }
@@ -1325,14 +1325,19 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void CopyClick(object sender, EventArgs e)
         {
+            this.m_copiedNodes.Clear();
             if (this.m_selectedNodes != null)
             {
                 this.m_copiedNodes.Clear();
-                foreach (PPathwayNode node in this.m_selectedNodes)
+                foreach (PPathwayObject node in this.m_selectedNodes)
                 {
                     this.m_copiedNodes.Add(node);
-                    Debug.WriteLine("copy node:" + node.Name);
+                    Debug.WriteLine("Copy Node:" + node.Name);
                 }
+            }
+            if (this.m_selectedLine != null)
+            {
+                this.m_copiedNodes.Add(this.m_selectedLine);
             }
         }
 
@@ -1343,14 +1348,23 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void PasteClick(object sender, EventArgs e)
         {
-            if (this.m_copiedNodes != null)
+            if (this.m_copiedNodes == null)
+                return;
+
+            foreach (PNode node in this.m_copiedNodes)
             {
-                foreach (PPathwayNode node in this.m_copiedNodes)
+                if (node is PPathwayObject)
                 {
-                    Debug.WriteLine(this.CanvasID + " paste node:" + node.Name);
-                    PastePathwayObject(node);
+                    Debug.WriteLine(this.CanvasID + "Paste Node");
+                    PastePathwayObject((PPathwayObject)node);
+                }
+                else if (node is Line)
+                {
+                    Debug.WriteLine(this.CanvasID + "Paste Line");
+                    //
                 }
             }
+            
         }
 
 

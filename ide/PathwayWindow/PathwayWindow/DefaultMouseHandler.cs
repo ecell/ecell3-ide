@@ -83,6 +83,7 @@ namespace EcellLib.PathwayWindow
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {
             base.OnMouseDown(sender, e);
+            m_view.MousePosition = e.Position;
             if (e.Button == MouseButtons.Left)
             {
                 m_startPoint = e.Position;

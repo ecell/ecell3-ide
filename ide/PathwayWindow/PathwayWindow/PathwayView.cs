@@ -218,6 +218,11 @@ namespace EcellLib.PathwayWindow
         TabControl m_tabControl;
 
         /// <summary>
+        /// Point of mouse cursor.
+        /// </summary>
+        PointF m_pointF;
+
+        /// <summary>
         /// GroupBox for overview panel.
         /// </summary>
         GroupBox m_overviewGB;
@@ -304,6 +309,15 @@ namespace EcellLib.PathwayWindow
         {
             get { return m_selectedHandle; }
             set { m_selectedHandle = value; }
+        }
+
+        /// <summary>
+        /// get/set the number of checked component.
+        /// </summary>
+        public PointF MousePosition
+        {
+            get { return m_pointF; }
+            set { m_pointF = value; }
         }
 
         /// <summary>

@@ -79,6 +79,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
+
             if (m_cview == null)
                 return;
             if (e.Button == MouseButtons.Right)
