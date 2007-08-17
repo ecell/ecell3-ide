@@ -827,7 +827,7 @@ namespace EcellLib.PathwayWindow
             uc.Dock = DockStyle.Fill;
             uc.Load += new EventHandler(m_view.SizeChanged);
             uc.Resize += new EventHandler(m_view.SizeChanged);
-            uc.MouseWheel += new MouseEventHandler(uc_MouseWheel);            
+            uc.MouseEnter += new EventHandler(uc_MouseEnter);
             
             array.Add(uc);
 
@@ -1601,18 +1601,14 @@ namespace EcellLib.PathwayWindow
             else
                 m_view.ShowingID = false;
         }
-
         /// <summary>
-        /// the event sequence of wheeling the mouse.
+        /// the event sequence of enter the mouse.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e">MouseEventArgs.</param>
-        void uc_MouseWheel(object sender, MouseEventArgs e)
+        void uc_MouseEnter(object sender, EventArgs e)
         {
-            if (Control.ModifierKeys == Keys.Shift)
-                m_view.PanCanvas(Direction.Horizontal, e.Delta);
-            else
-                m_view.PanCanvas(Direction.Vertical, e.Delta);
+            m_view.TabControl.Focus();
         }
         #endregion
     }

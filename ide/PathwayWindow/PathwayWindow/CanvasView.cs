@@ -1348,7 +1348,7 @@ namespace EcellLib.PathwayWindow
                 foreach (PPathwayNode node in this.m_copiedNodes)
                 {
                     Debug.WriteLine(this.CanvasID + " paste node:" + node.Name);
-                    SetNewPathwayObject(node);
+                    PastePathwayObject(node);
                 }
             }
         }
@@ -2831,7 +2831,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="type">ComponentType</param>
         /// <param name="modelId">modelId</param>
-        public void SetNewPathwayObject(PPathwayObject node)
+        public void PastePathwayObject(PPathwayObject node)
         {
             // managers
             ComponentSettingsManager csManager = this.m_pathwayView.ComponentSettingsManager;
@@ -2855,6 +2855,11 @@ namespace EcellLib.PathwayWindow
                 eo.key = system + ":" + dm.GetTemporaryID(modelID, "Variable", system);
                 cs = csManager.DefaultVariableSetting;
             }
+            else if (type == ComponentType.System)
+            {
+                eo.key = system + ":" + dm.GetTemporaryID(modelID, "System", system);
+                cs = csManager.DefaultSystemSetting;
+            }
 
             // create new node
             this.m_pathwayView.AddNewObj(   canvas,
@@ -2864,8 +2869,8 @@ namespace EcellLib.PathwayWindow
                                             modelID,
                                             eo.key,
                                             true,
-                                            node.X,
-                                            node.Y,
+                                            node.X + 10,
+                                            node.Y + 10,
                                             node.Width,
                                             node.Height,
                                             true,

@@ -32,6 +32,7 @@
 //
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
@@ -357,6 +358,14 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        ///  get TabControl related this object.
+        /// </summary>
+        public TabControl TabControl
+        {
+            get { return this.m_tabControl; }
+        }
+
+        /// <summary>
         /// get the list of string for canvas of Process.
         /// </summary>
         public Dictionary<string, string> KeyProcessCanvas
@@ -376,7 +385,8 @@ namespace EcellLib.PathwayWindow
             m_tabControl = new TabControl();
             m_tabControl.Dock = DockStyle.Fill;
             m_tabControl.SelectedIndexChanged += new EventHandler(m_tabControl_SelectedIndexChanged);
-
+            m_tabControl.MouseEnter += new EventHandler(m_tabControl_MouseEnter);
+            m_tabControl.MouseWheel += new MouseEventHandler(m_tabControl_MouseWheel);
             /*
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
             ToolStripItem delete = new ToolStripMenuItem("Delete");
@@ -971,6 +981,37 @@ namespace EcellLib.PathwayWindow
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">TabControl.</param>
+        /// <param name="e">MouseEventArgs.</param>
+        void m_tabControl_MouseWheel(object sender, MouseEventArgs e)
+        {
+
+            if (Control.ModifierKeys == Keys.Shift)
+            {
+                this.PanCanvas(Direction.Horizontal, e.Delta);
+            }
+            else if (Control.ModifierKeys == Keys.Control)
+            {
+                float zoom = (float)1.00 + (float)e.Delta / 1200;
+                this.ActiveCanvas.Zoom(zoom);
+            }
+            else
+            {
+                this.PanCanvas(Direction.Vertical, e.Delta);
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">TabControl.</param>
+        /// <param name="e">EventArgs.</param>
+        void m_tabControl_MouseEnter(object sender, EventArgs e)
+        {
+            this.TabControl.Focus();
+        }
+        
         /// <summary>
         /// When binding data in DataGridView,
         /// ...

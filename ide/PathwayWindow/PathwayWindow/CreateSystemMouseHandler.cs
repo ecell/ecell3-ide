@@ -304,5 +304,7 @@ namespace EcellLib.PathwayWindow
             }
             m_startPoint = PointF.Empty;
         }
+
     }
+
 }
