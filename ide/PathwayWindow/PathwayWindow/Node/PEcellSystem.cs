@@ -546,7 +546,7 @@ namespace EcellLib.PathwayWindow.Node
             PEcellSystem p = (PEcellSystem)e.PickedNode;
             if (!p.Element.Key.Equals(Element.Key)) return;
 
-            EcellObject obj = m_set.View.GetData(Element.Key, "System");
+            EcellObject obj = m_set.PathwayView.GetData(Element.Key, "System");
 
             if (null == obj)
                 return;

@@ -201,7 +201,7 @@ namespace EcellLib.PathwayWindow.Node
         public override void OnDoubleClick(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
 
-            EcellObject obj = m_set.View.GetData(Element.Key, "Process");
+            EcellObject obj = m_set.PathwayView.GetData(Element.Key, "Process");
 
             PropertyEditor editor = new PropertyEditor();
             editor.layoutPanel.SuspendLayout();

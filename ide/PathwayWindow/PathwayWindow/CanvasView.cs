@@ -435,7 +435,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_pathwayView.
         /// </summary>
-        public PathwayView View
+        public PathwayView PathwayView
         {
             get { return m_pathwayView; }
             set { m_pathwayView = value; }
@@ -4094,7 +4094,7 @@ namespace EcellLib.PathwayWindow
                 return e.IsMouseEvent
                    && (e.Button == MouseButtons.Left || e.IsMouseEnterOrMouseLeave);
             }
-            
+
             /// <summary>
             /// event on down the mouse button in canvas.
             /// </summary>

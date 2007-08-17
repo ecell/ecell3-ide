@@ -67,6 +67,15 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Called when the mouse is on this canvas.
         /// </summary>
         /// <param name="e"></param>
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            m_cview.PathwayView.TabControl.Focus();
+        }
+        /// <summary>
+        /// Called when the mouse is on this canvas.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
