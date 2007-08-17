@@ -1293,12 +1293,12 @@ namespace EcellLib.PathwayWindow
                 {
                     return;
                 }
-
+                /*
                 foreach (string under in list)
                 {
                     PText sysText = m_systems[under].Text;
                     sysText.Parent.RemoveChild(sysText);
-                }
+                }*/
 
                 if (((PPathwayObject)obj).IsHighLighted)
                 {
