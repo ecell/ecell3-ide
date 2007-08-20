@@ -1940,6 +1940,7 @@ namespace EcellLib
         /// <param name="key">key of deleted system.</param>
         public void SystemDeleteAndMove(string modelID, string key)
         {
+            string sizeKey = key + ":SIZE";
             Dictionary<String, String> variableList = new Dictionary<String, String>();
             List<EcellObject> targetSysList = new List<EcellObject>();
             List<EcellObject> targetObjList = new List<EcellObject>();
@@ -1955,6 +1956,7 @@ namespace EcellLib
                             if (obj.M_instances == null) continue;
                             foreach (EcellObject ins in obj.M_instances)
                             {
+                                if (sizeKey.Equals(ins.key)) continue;
                                 targetObjList.Add(ins.Copy());
                             }
                         }
@@ -1965,6 +1967,7 @@ namespace EcellLib
                     }
                 }
             }
+
 
             DataDelete(modelID, key, "System");
             string[] el = key.Split(new char[] { '/' });
@@ -1988,6 +1991,7 @@ namespace EcellLib
                     foreach (EcellObject ins in obj.M_instances)
                     {
                         String iNewKey = "";
+                        if (sizeKey.Equals(ins.key)) continue;
                         string[] iel = ins.key.Split(new char[] { '/' });
                         for (int j = 0; j < iel.Length; j++)
                         {

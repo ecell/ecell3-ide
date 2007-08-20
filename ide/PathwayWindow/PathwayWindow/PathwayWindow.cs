@@ -664,8 +664,19 @@ namespace EcellLib.PathwayWindow
         /// <param name="type"></param>
         public void NotifyDataMerge(string key, string type)
         {
-            DataManager dm = DataManager.GetDataManager();
-            dm.SystemDeleteAndMove(m_modelId, key);
+            try
+            {
+                DataManager dm = DataManager.GetDataManager();
+                dm.SystemDeleteAndMove(m_modelId, key);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                String errmes = m_resources.GetString("ErrMerge");
+                MessageBox.Show(errmes + "\n" + ex.ToString(),
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
         }
 
         /// <summary>

@@ -201,4 +201,7 @@
   <data name="PasteMenuText" xml:space="preserve">
     <value>ペースト</value>
   </data>
+  <data name="ErrMerge" xml:space="preserve">
+    <value>上位システムにマージに失敗しました。</value>
+  </data>
 </root>

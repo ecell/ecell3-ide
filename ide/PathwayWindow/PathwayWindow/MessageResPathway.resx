@@ -201,4 +201,7 @@
   <data name="PasteMenuText" xml:space="preserve">
     <value>Paste</value>
   </data>
+  <data name="ErrMerge" xml:space="preserve">
+    <value>Can not merge the component to the upper system.</value>
+  </data>
 </root>

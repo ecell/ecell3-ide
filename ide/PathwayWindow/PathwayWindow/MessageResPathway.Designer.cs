@@ -70,20 +70,20 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
-        ///   Copy に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string CopyMenuText {
-            get {
-                return ResourceManager.GetString("CopyMenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Are you sure merge the component in system to upper system. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmMerge {
             get {
                 return ResourceManager.GetString("ConfirmMerge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CopyMenuText {
+            get {
+                return ResourceManager.GetString("CopyMenuText", resourceCulture);
             }
         }
         
@@ -219,6 +219,15 @@ namespace EcellLib.PathwayWindow {
         internal static string ErrLayout {
             get {
                 return ResourceManager.GetString("ErrLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not merge the component to the upper system. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrMerge {
+            get {
+                return ResourceManager.GetString("ErrMerge", resourceCulture);
             }
         }
         
