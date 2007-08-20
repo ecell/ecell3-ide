@@ -1982,20 +1982,24 @@ namespace EcellLib
                     else newKey = newKey + "/" + nel[i];
                 }
                 List<EcellObject> tmpList = new List<EcellObject>();
-                foreach (EcellObject ins in obj.M_instances)
+                if (obj.M_instances != null)
                 {
-                    String iNewKey = "";
-                    string[] iel = ins.key.Split(new char[] { '/' });
-                    for (int j = 0; j < iel.Length; j++)
+
+                    foreach (EcellObject ins in obj.M_instances)
                     {
-                        if (j == delPoint) continue;
-                        if (iel[j] == "") iNewKey = "";
-                        else iNewKey = iNewKey + "/" + iel[j];
+                        String iNewKey = "";
+                        string[] iel = ins.key.Split(new char[] { '/' });
+                        for (int j = 0; j < iel.Length; j++)
+                        {
+                            if (j == delPoint) continue;
+                            if (iel[j] == "") iNewKey = "";
+                            else iNewKey = iNewKey + "/" + iel[j];
+                        }
+                        if (ins.type == "Variable")
+                            variableList.Add(ins.key, iNewKey);
+                        ins.key = iNewKey;
+                        tmpList.Add(ins);
                     }
-                    if (ins.type == "Variable")
-                        variableList.Add(ins.key, iNewKey);
-                    ins.key = iNewKey;
-                    tmpList.Add(ins);
                 }
                 obj.key = newKey;
                 obj.M_instances = new List<EcellObject>();
@@ -2016,6 +2020,7 @@ namespace EcellLib
                 {
                     if (j == delPoint)
                     {
+                        if (j == 1) iNewKey = "/";
                         iNewKey = iNewKey +iel[j].Substring(iel[j].LastIndexOf(":"));
                     }
                     else if (iel[j] == "") iNewKey = "";

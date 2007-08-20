@@ -124,6 +124,7 @@ namespace EcellLib.PropertyWindow
             m_dgv.UserDeletingRow += new DataGridViewRowCancelEventHandler(DgvUserDeletingRow);
             m_dgv.CellClick += new DataGridViewCellEventHandler(CellClick);
             m_dgv.CellEndEdit += new DataGridViewCellEventHandler(PropertyChanged);
+            m_dgv.CellEnter += new DataGridViewCellEventHandler(DgvCellEnter);
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(DgvEditingControlShowing);
 
             m_time = new System.Windows.Forms.Timer();
@@ -131,6 +132,16 @@ namespace EcellLib.PropertyWindow
             m_time.Interval = 100;
             m_time.Tick += new EventHandler(TimerFire);
         }
+
+        void DgvCellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (m_editRow >= 0)
+            {
+                m_dgv.Rows.RemoveAt(m_editRow);
+                m_editRow = -1;
+            }
+        }
+
 
         /// <summary>
         /// Execute redraw process on simulation running at every 1sec.
@@ -193,7 +204,6 @@ namespace EcellLib.PropertyWindow
                     m_current.type,
                     p);
                 m_isChanging = false;
-                e.Cancel = true;
                 return;
             }
 
@@ -405,16 +415,19 @@ namespace EcellLib.PropertyWindow
                 EcellData dSize = new EcellData();
                 dSize.M_name = "Size";
                 dSize.M_isSettable = true;
-                dSize.M_value = new EcellValue("");                
-                foreach (EcellObject o in obj.M_instances)
+                dSize.M_value = new EcellValue("");
+                if (obj.M_instances != null)
                 {
-                    if (o.key.EndsWith(":SIZE"))
+                    foreach (EcellObject o in obj.M_instances)
                     {
-                        foreach (EcellData d in o.M_value)
+                        if (o.key.EndsWith(":SIZE"))
                         {
-                            if (d.M_entityPath.EndsWith(":Value"))
+                            foreach (EcellData d in o.M_value)
                             {
-                                dSize.M_value = new EcellValue(d.M_value.CastToDouble());
+                                if (d.M_entityPath.EndsWith(":Value"))
+                                {
+                                    dSize.M_value = new EcellValue(d.M_value.CastToDouble());
+                                }
                             }
                         }
                     }
@@ -530,6 +543,8 @@ namespace EcellLib.PropertyWindow
         {
             m_current = null;
             m_dgv.Rows.Clear();
+            m_dgv.AllowUserToAddRows = false;
+            m_dgv.AllowUserToDeleteRows = false;
         }
 
         /// <summary>
@@ -835,6 +850,7 @@ namespace EcellLib.PropertyWindow
             int rIndex = e.RowIndex;
             int cIndex = e.ColumnIndex;
             if (cIndex < 0) return;
+            if (rIndex < 0) return;
 
             DataGridViewCell c = m_dgv.Rows[rIndex].Cells[cIndex] as DataGridViewCell;
             if (c == null) return;
@@ -869,6 +885,7 @@ namespace EcellLib.PropertyWindow
             }
         }
 
+        private int m_editRow = -1;
         /// <summary>
         /// Event when the value of cell is changed.
         /// </summary>
@@ -887,11 +904,20 @@ namespace EcellLib.PropertyWindow
                     for (int i = 0; i < m_dgv.Rows.Count; i++)
                     {
                         if (e.RowIndex == i) continue;
+                        if (m_dgv[0, i].Value == null) continue;
                         if (name.Equals(m_dgv[0, i].Value.ToString()))
                         {
                             String errmes = m_resources.GetString("SameProp");
                             MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            m_dgv.Rows.RemoveAt(e.RowIndex);
+                            try
+                            {
+                                m_dgv.Rows.RemoveAt(e.RowIndex);
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.ToString();
+                                m_editRow = e.RowIndex;
+                            }
                             return;
                         }
                     }
@@ -914,6 +940,7 @@ namespace EcellLib.PropertyWindow
                             m_current.type,
                             p);
                         m_isChanging = false;
+                        m_dgv.Rows[e.RowIndex].Cells[1].Value = 0.0;
                     }
                     catch (Exception ex)
                     {
@@ -927,7 +954,15 @@ namespace EcellLib.PropertyWindow
                 {
                     String errmes = m_resources.GetString("NoProp");
                     MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    m_dgv.Rows.RemoveAt(e.RowIndex);
+                    try
+                    {
+                        m_dgv.Rows.RemoveAt(e.RowIndex);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.ToString();
+                        m_editRow = e.RowIndex;
+                    }
                 }
                 return;
             }
@@ -1061,6 +1096,7 @@ namespace EcellLib.PropertyWindow
             }
             else
             {
+                if (editCell.Value == null) return;
                 String data = editCell.Value.ToString();
                 EcellObject p = m_current.Copy();
                 foreach (EcellData d in p.M_value)
