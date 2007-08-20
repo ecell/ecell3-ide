@@ -1335,10 +1335,6 @@ namespace EcellLib.PathwayWindow
                     Debug.WriteLine("Copy Node:" + node.Name);
                 }
             }
-            if (this.m_selectedLine != null)
-            {
-                this.m_copiedNodes.Add(this.m_selectedLine);
-            }
         }
 
         /// <summary>
@@ -1357,11 +1353,6 @@ namespace EcellLib.PathwayWindow
                 {
                     Debug.WriteLine(this.CanvasID + "Paste Node");
                     PastePathwayObject((PPathwayObject)node);
-                }
-                else if (node is Line)
-                {
-                    Debug.WriteLine(this.CanvasID + "Paste Line");
-                    //
                 }
             }
             
@@ -2891,8 +2882,10 @@ namespace EcellLib.PathwayWindow
                                             eo,
                                             null,
                                             false);
+            
 
         }
+
 
         /// <summary>
         /// add child object to the selected layer.

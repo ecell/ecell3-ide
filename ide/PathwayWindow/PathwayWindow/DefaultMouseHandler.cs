@@ -28,6 +28,7 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -83,10 +84,12 @@ namespace EcellLib.PathwayWindow
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {
             base.OnMouseDown(sender, e);
-            m_view.MousePosition = e.Position;
             if (e.Button == MouseButtons.Left)
             {
                 m_startPoint = e.Position;
+                m_selectedPath = new PPath();
+                e.Canvas.Layer.AddChild(m_selectedPath);
+                Debug.WriteLine("x,y=" + e.Position.X + "," + e.Position.Y);
                 m_view.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
             }
         }
@@ -114,16 +117,16 @@ namespace EcellLib.PathwayWindow
         public override void OnMouseDrag(object sender, PInputEventArgs e)
         {
             base.OnMouseDrag(sender, e);
-            if(m_selectedPath != null)
+            if (m_selectedPath != null)
             {
                 m_selectedPath.Reset();
                 RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
-                m_selectedPath.AddRectangle(rect.X,rect.Y,rect.Width,rect.Height);
+                m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
 
                 m_view.CanvasDictionary[((PCamera)sender).Canvas.Name].ResetSelectedObjects();
                 PNodeList newlySelectedList = new PNodeList();
 
-                foreach(PLayer layer in m_view.CanvasDictionary[e.Canvas.Name].Layers.Values)
+                foreach (PLayer layer in m_view.CanvasDictionary[e.Canvas.Name].Layers.Values)
                 {
                     PNodeList list = new PNodeList();
                     layer.FindIntersectingNodes(rect, list);
@@ -133,9 +136,9 @@ namespace EcellLib.PathwayWindow
                 bool isAlreadySelected = false;
                 PPathwayNode lastNode = null;
 
-                foreach(PNode node in newlySelectedList)
+                foreach (PNode node in newlySelectedList)
                 {
-                    if(node is PPathwayNode)
+                    if (node is PPathwayNode)
                     {
                         m_view.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)node, false);
                         lastNode = (PPathwayNode)node;

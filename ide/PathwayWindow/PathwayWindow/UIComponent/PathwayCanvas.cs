@@ -205,10 +205,10 @@ namespace EcellLib.PathwayWindow.UIComponent
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR2].Visible = false;
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_WITH].Visible = false;
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = false;
-                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_COPY].Visible = false;
-                        m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = false;
 
                     }
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_COPY].Visible = false;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR4].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CREATE_LOGGER].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_LOGGER].Visible = true;

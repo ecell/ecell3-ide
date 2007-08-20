@@ -28,6 +28,7 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -93,7 +94,6 @@ namespace EcellLib.PathwayWindow
         {
             base.OnMouseDown(sender, e);
 
-            m_startPoint = e.Position;
             CanvasView canvas = m_view.CanvasDictionary[e.Canvas.Name];
 
             PPathwayNode newNode = e.PickedNode as PPathwayNode;
