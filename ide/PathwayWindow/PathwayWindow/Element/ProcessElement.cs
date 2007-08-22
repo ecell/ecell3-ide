@@ -224,6 +224,11 @@ namespace EcellLib.PathwayWindow.Element
         protected LineType m_type = LineType.Unknown;
 
         /// <summary>
+        /// Type of a line of this edge.
+        /// </summary>
+        protected int m_isFixed = 0;
+
+        /// <summary>
         /// List of EachRelation.
         /// </summary>
         protected List<EachRelation> m_each = new List<EachRelation>();
@@ -275,6 +280,14 @@ namespace EcellLib.PathwayWindow.Element
             get { return m_type; }
             set { m_type = value; }
         }
+        /// <summary>
+        /// Accessor for m_type.
+        /// </summary>
+        public int IsFixed
+        {
+            get { return m_isFixed; }
+            set { m_isFixed = value; }
+        }
         #endregion
 
         #region Methods
@@ -315,10 +328,13 @@ namespace EcellLib.PathwayWindow.Element
                 case LineType.Dashed:
                     m_type = type;
                     break;
-            }            
+            }
+
+            m_isFixed = isFixed;
 
             m_each.Add( new EachRelation(name, direction, type, isFixed) );
         }
+
         #endregion
 
         /// <summary>

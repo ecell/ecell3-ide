@@ -290,6 +290,11 @@ namespace EcellLib.PathwayWindow
         protected Dictionary<string, PEcellVariable> m_variables = new Dictionary<string, PEcellVariable>();
 
         /// <summary>
+        /// The dictionary for copying variables.
+        /// </summary>
+        protected Dictionary<string, string> m_copyVariables = new Dictionary<string, string>();
+
+        /// <summary>
         /// The dictionary for all processes on this canvas.
         /// </summary>
         protected Dictionary<string, PEcellProcess> m_processes = new Dictionary<string, PEcellProcess>();
@@ -318,7 +323,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// List of PPathwayNode for copied object.
         /// </summary>
-        List<PNode> m_copiedNodes = new List<PNode>();
+        List<PPathwayObject> m_copiedNodes = new List<PPathwayObject>();
 
         /// <summary>
         /// selected line
@@ -380,6 +385,11 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         protected PointF m_lowerLeftPoint;
 
+        /// <summary>
+        /// Used to copy & paste nodes.
+        /// </summary>
+        protected PointF m_copyPoint;
+        
         /// <summary>
         /// Whether an overview should be refreshed or not
         /// </summary>
@@ -502,7 +512,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_copiedNodes.
         /// </summary>
-        public List<PNode> CopiedNodes
+        public List<PPathwayObject> CopiedNodes
         {
             get { return m_copiedNodes; }
         }
@@ -1326,6 +1336,7 @@ namespace EcellLib.PathwayWindow
         void CopyClick(object sender, EventArgs e)
         {
             this.m_copiedNodes.Clear();
+            this.m_copyPoint = this.m_pathwayView.MousePosition;
             if (this.m_selectedNodes != null)
             {
                 this.m_copiedNodes.Clear();
@@ -1346,20 +1357,126 @@ namespace EcellLib.PathwayWindow
         {
             if (this.m_copiedNodes == null)
                 return;
+            PointF point;
+            float diffX = this.m_pathwayView.MousePosition.X - this.m_copyPoint.X;
+            float diffY = this.m_pathwayView.MousePosition.Y - this.m_copyPoint.Y;
+            this.m_copyVariables.Clear();
 
-            foreach (PNode node in this.m_copiedNodes)
+            foreach (PPathwayObject node in this.m_copiedNodes)
             {
-                if (node is PPathwayObject)
+                if (node is PEcellVariable)
                 {
-                    Debug.WriteLine(this.CanvasID + "Paste Node");
-                    PastePathwayObject((PPathwayObject)node);
+                    point = new PointF(node.X + diffX, node.Y + diffY);
+                    PastePathwayObject(node, point);
+                }
+            }
+            foreach (PPathwayObject node in this.m_copiedNodes)
+            {
+                if (node is PEcellProcess)
+                {
+                    point = new PointF(node.X + diffX, node.Y + diffY);
+                    PastePathwayObject(node, point);
                 }
             }
             
         }
 
-
         /// <summary>
+        /// get new PathwayObject.
+        /// </summary>
+        /// <param name="type">ComponentType</param>
+        /// <param name="modelId">modelId</param>
+        public void PastePathwayObject(PPathwayObject node, PointF point)
+        {
+            // managers
+            ComponentSettingsManager csManager = this.m_pathwayView.ComponentSettingsManager;
+            DataManager dm = DataManager.GetDataManager();
+            // parameters
+            string canvas = node.Element.CanvasID;
+            string system = node.Element.ParentSystemID;
+            string modelID = node.Element.ModelID;
+            string type = node.Element.Type;
+            ComponentType cType = ComponentSetting.ParseComponentKind(type);
+
+            ComponentSetting cs = null;
+            // copy node
+            EcellObject eo = node.Element.EcellObject.Copy();
+            eo.key = system + ":" + dm.GetTemporaryID(modelID, type, system);
+
+            switch (cType)
+            {
+                case ComponentType.Process:
+                    cs = csManager.DefaultProcessSetting;
+                    //ResetEdge(eo);
+                    break;
+                case ComponentType.Variable:
+                    cs = csManager.DefaultVariableSetting;
+                    this.m_copyVariables.Add(node.Element.Key, eo.key);
+                    break;
+                case ComponentType.System:
+                    cs = csManager.DefaultSystemSetting;
+                    break;
+            }
+
+            // create new node
+            this.m_pathwayView.AddNewObj(canvas,
+                                            system,
+                                            cType,
+                                            cs,
+                                            modelID,
+                                            eo.key,
+                                            true,
+                                            point.X,
+                                            point.Y,
+                                            node.Width,
+                                            node.Height,
+                                            true,
+                                            eo,
+                                            null,
+                                            false);
+            // Reset Edges
+            if (cType == ComponentType.Process)
+            {
+                PEcellProcess process = m_processes[eo.key];
+                process.DeleteEdges();
+                ProcessElement pElement = (ProcessElement)process.Element;
+                ProcessElement oldElement = (ProcessElement)((PEcellProcess)node).Element;
+                EcellProcess ep = (EcellProcess)eo;
+                ep.VariableReferenceList.Clear();
+
+                foreach (EdgeInfo ei in oldElement.Edges.Values)
+                {
+                    EdgeInfo info = new EdgeInfo(ei.ProcessKey, ei.VariableKey);
+                    // Check copied node
+                    if (this.m_copyVariables.ContainsKey(ei.VariableKey))
+                        info.VariableKey = this.m_copyVariables[ei.VariableKey];
+                    // Add relation
+                    info.AddRelation(dm.GetTemporaryID( modelID, "Line", system), ei.Direction, ei.TypeOfLine, ei.IsFixed);
+                    pElement.Edges.Add(info.VariableKey, info);
+                    // 
+                }
+                foreach (EdgeInfo ei in pElement)
+                {
+                    EcellReference er = new EcellReference();
+                    ep.VariableReferenceList.Add
+                }
+
+                process.CreateEdges();
+                process.Refresh();
+            }
+        }
+
+        private void ResetEdge(EcellObject eo)
+        {
+            EcellProcess ep = (EcellProcess)eo;
+            foreach(EcellReference er in ep.VariableReferenceList)
+            {
+                if (this.m_copyVariables.ContainsKey(er.Key))
+                    er.Key = this.m_copyVariables[er.Key];
+            }
+        }
+        
+         /// <summary>
         /// Called when a create logger menu of the context menu is clicked.
         /// </summary>
         /// <param name="sender"></param>
@@ -2830,62 +2947,6 @@ namespace EcellLib.PathwayWindow
                 }
             }
         }
-
-        /// <summary>
-        /// get new PathwayObject.
-        /// </summary>
-        /// <param name="type">ComponentType</param>
-        /// <param name="modelId">modelId</param>
-        public void PastePathwayObject(PPathwayObject node)
-        {
-            // managers
-            ComponentSettingsManager csManager = this.m_pathwayView.ComponentSettingsManager;
-            DataManager dm = DataManager.GetDataManager();
-            // parameters
-            string canvas = node.Element.CanvasID;
-            string system = node.Element.ParentSystemID;
-            string modelID = node.Element.ModelID;
-            ComponentType type = ComponentSetting.ParseComponentKind(node.Element.Type);
-            ComponentSetting cs = null;
-            // copy node
-            EcellObject eo = node.Element.EcellObject.Copy();
-
-            if (type == ComponentType.Process)
-            {
-                eo.key = system + ":" + dm.GetTemporaryID(modelID, "Process", system);
-                cs = csManager.DefaultProcessSetting;
-            }
-            else if (type == ComponentType.Variable)
-            {
-                eo.key = system + ":" + dm.GetTemporaryID(modelID, "Variable", system);
-                cs = csManager.DefaultVariableSetting;
-            }
-            else if (type == ComponentType.System)
-            {
-                eo.key = system + ":" + dm.GetTemporaryID(modelID, "System", system);
-                cs = csManager.DefaultSystemSetting;
-            }
-
-            // create new node
-            this.m_pathwayView.AddNewObj(   canvas,
-                                            system,
-                                            type,
-                                            cs,
-                                            modelID,
-                                            eo.key,
-                                            true,
-                                            this.m_pathwayView.MousePosition.X,
-                                            this.m_pathwayView.MousePosition.Y,
-                                            node.Width,
-                                            node.Height,
-                                            true,
-                                            eo,
-                                            null,
-                                            false);
-            
-
-        }
-
 
         /// <summary>
         /// add child object to the selected layer.
