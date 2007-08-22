@@ -228,6 +228,11 @@ namespace EcellLib.PathwayWindow
         PCanvas m_overCanvas;
 
         /// <summary>
+        /// Point of mouse cursor.
+        /// </summary>
+        PointF m_pointF;
+
+        /// <summary>
         /// PPath on m_overCanvas, which stands for a viewed area in m_canvas (Main canvas)
         /// </summary>
         PDisplayedArea m_displayedArea;
@@ -371,6 +376,15 @@ namespace EcellLib.PathwayWindow
         public Dictionary<string, string> KeyProcessCanvas
         {
             get { return this.m_keyProCanvasDict; }
+        }
+
+        /// <summary>
+        /// get/set the number of checked component.
+        /// </summary>
+        public PointF MousePosition
+        {
+            get { return m_pointF; }
+            set { m_pointF = value; }
         }
         #endregion
 

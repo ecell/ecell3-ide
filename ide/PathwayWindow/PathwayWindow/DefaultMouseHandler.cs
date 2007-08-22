@@ -84,13 +84,15 @@ namespace EcellLib.PathwayWindow
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {
             base.OnMouseDown(sender, e);
+            // set mouse position
+            m_startPoint = e.Position;
+            m_view.MousePosition = e.Position;
+
             if (e.Button == MouseButtons.Left)
             {
-                m_startPoint = e.Position;
+                m_view.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
                 m_selectedPath = new PPath();
                 e.Canvas.Layer.AddChild(m_selectedPath);
-                Debug.WriteLine("x,y=" + e.Position.X + "," + e.Position.Y);
-                m_view.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
             }
         }
 
@@ -116,6 +118,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public override void OnMouseDrag(object sender, PInputEventArgs e)
         {
+            PluginManager pManager = PluginManager.GetPluginManager();
             base.OnMouseDrag(sender, e);
             if (m_selectedPath != null)
             {
@@ -141,7 +144,9 @@ namespace EcellLib.PathwayWindow
                     if (node is PPathwayNode)
                     {
                         m_view.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)node, false);
-                        lastNode = (PPathwayNode)node;
+                        PPathwayObject obj = (PPathwayObject)node;
+                        pManager.AddSelect( obj.Element.ModelID, obj.Element.Key, obj.Element.Type );
+                        lastNode = (PPathwayNode)obj;
                     }
                     if (node == m_lastSelectedObj)
                         isAlreadySelected = true;
