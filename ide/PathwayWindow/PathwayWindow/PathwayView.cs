@@ -2270,9 +2270,13 @@ namespace EcellLib.PathwayWindow
                 String pre = "";
                 if (coefficient == 0)
                 {
+                    pre = "C";
+                }
+                else if (coefficient == -1)
+                {
                     pre = "S";
                 }
-                else
+                else 
                 {
                     pre = "P";
                 }

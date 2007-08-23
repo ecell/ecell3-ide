@@ -1334,7 +1334,7 @@ namespace EcellLib.PathwayWindow
                 foreach (PPathwayObject node in this.m_selectedNodes)
                 {
                     this.m_copiedNodes.Add(node);
-                    Debug.WriteLine("Copy Node:" + node.Name);
+                    Debug.WriteLine("Copy Node:" + node.Element.Key);
                 }
             }
         }
@@ -1355,7 +1355,7 @@ namespace EcellLib.PathwayWindow
 
             foreach (PPathwayObject node in this.m_copiedNodes)
             {
-                if (node is PEcellVariable)
+                if (node != null && node is PEcellVariable)
                 {
                     point = new PointF(node.X + diffX, node.Y + diffY);
                     PastePathwayObject(node, point);
@@ -1363,7 +1363,7 @@ namespace EcellLib.PathwayWindow
             }
             foreach (PPathwayObject node in this.m_copiedNodes)
             {
-                if (node is PEcellProcess)
+                if (node != null && node is PEcellProcess)
                 {
                     point = new PointF(node.X + diffX, node.Y + diffY);
                     PastePathwayObject(node, point);
@@ -1391,6 +1391,8 @@ namespace EcellLib.PathwayWindow
 
             ComponentSetting cs = null;
             // copy node
+            if (node.Element.EcellObject == null)
+                return;
             EcellObject eo = node.Element.EcellObject.Copy();
             eo.key = system + ":" + dm.GetTemporaryID(modelID, type, system);
 
@@ -1410,6 +1412,8 @@ namespace EcellLib.PathwayWindow
             }
 
             // create new node
+            eo.X = point.X;
+            eo.Y = point.Y;
             this.m_pathwayView.AddNewObj(canvas,
                                             system,
                                             cType,
@@ -1425,7 +1429,9 @@ namespace EcellLib.PathwayWindow
                                             eo,
                                             null,
                                             false);
-            // Reset Edges
+            Debug.WriteLine("Paste node:" + eo.key);
+
+            // Reset Edges of Process.
             if (cType == ComponentType.Process)
             {
                 PEcellProcess process = m_processes[eo.key];
@@ -3515,6 +3521,29 @@ namespace EcellLib.PathwayWindow
             }
             return returnList;
         }
+
+        //public PPathwayObject getPathwayObject(string key, string type)
+        //{
+        //    ComponentType cType = ComponentSetting.ParseComponentKind(type);
+        //    if (cType == ComponentType.Process)
+        //    {
+        //        if (!m_processes.ContainsKey(key))
+        //            return null;
+        //        return m_processes[key];
+        //    }
+        //    if (cType == ComponentType.Variable)
+        //    {
+        //        if (!m_variables.ContainsKey(key))
+        //            return null;
+        //        return m_variables[key];
+        //    }
+        //    if (cType == ComponentType.System)
+        //    {
+        //        if (!m_systems.ContainsKey(key))
+        //            return null;
+        //        return m_systems[key].EcellSystems.;
+        //    }
+        //}
 
         /// <summary>
         /// Get all PathwayElements of this object.
