@@ -78,6 +78,7 @@ namespace EcellLib.PropertyWindow
         /// Timer for executing redraw event at each 0.5 minutes.
         /// </summary>
         System.Windows.Forms.Timer m_time;
+        System.Windows.Forms.Timer m_deletetime;
         private int m_type = Util.NOTLOAD;
         /// <summary>
         /// Expression.
@@ -124,24 +125,18 @@ namespace EcellLib.PropertyWindow
             m_dgv.UserDeletingRow += new DataGridViewRowCancelEventHandler(DgvUserDeletingRow);
             m_dgv.CellClick += new DataGridViewCellEventHandler(CellClick);
             m_dgv.CellEndEdit += new DataGridViewCellEventHandler(PropertyChanged);
-            m_dgv.CellEnter += new DataGridViewCellEventHandler(DgvCellEnter);
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(DgvEditingControlShowing);
-
+            
             m_time = new System.Windows.Forms.Timer();
             m_time.Enabled = false;
             m_time.Interval = 100;
             m_time.Tick += new EventHandler(TimerFire);
-        }
 
-        void DgvCellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (m_editRow >= 0)
-            {
-                m_dgv.Rows.RemoveAt(m_editRow);
-                m_editRow = -1;
-            }
+            m_deletetime = new System.Windows.Forms.Timer();
+            m_deletetime.Enabled = false;
+            m_deletetime.Interval = 100;
+            m_deletetime.Tick += new EventHandler(DeleteTimerFire);
         }
-
 
         /// <summary>
         /// Execute redraw process on simulation running at every 1sec.
@@ -153,6 +148,26 @@ namespace EcellLib.PropertyWindow
             m_time.Enabled = false;
             UpdatePropForSimulation();
             m_time.Enabled = true;
+        }
+
+        /// <summary>
+        /// Execute redraw process on simulation running at every 1sec.
+        /// </summary>
+        /// <param name="sender">object(Timer)</param>
+        /// <param name="e">EventArgs</param>
+        void DeleteTimerFire(object sender, EventArgs e)
+        {
+            m_deletetime.Enabled = false;
+            if (m_editRow >= 0)
+            {
+                m_dgv.Rows.RemoveAt(m_editRow);
+                m_editRow = -1;
+                m_deletetime.Stop();
+            }
+            else
+            {
+                m_deletetime.Stop();
+            }
         }
 
         void UpdatePropForSimulation()
@@ -918,6 +933,7 @@ namespace EcellLib.PropertyWindow
             {
                 if (e.ColumnIndex == 0)
                 {
+                    if (editCell.Value == null) return;
                     string name = editCell.Value.ToString();
                     for (int i = 0; i < m_dgv.Rows.Count; i++)
                     {
@@ -933,8 +949,10 @@ namespace EcellLib.PropertyWindow
                             }
                             catch (Exception ex)
                             {
-                                ex.ToString();
                                 m_editRow = e.RowIndex;
+                                ex.ToString();
+                                m_deletetime.Enabled = true;
+                                m_deletetime.Start();
                             }
                             return;
                         }
@@ -978,8 +996,10 @@ namespace EcellLib.PropertyWindow
                     }
                     catch (Exception ex)
                     {
-                        ex.ToString();
-                        m_editRow = e.RowIndex;
+                                m_editRow = e.RowIndex;
+                                ex.ToString();
+                                m_deletetime.Enabled = true;
+                                m_deletetime.Start();
                     }
                 }
                 return;
@@ -1047,43 +1067,50 @@ namespace EcellLib.PropertyWindow
                 if (editCell.Value != null) data = editCell.Value.ToString();
                 if (data.Equals(""))
                 {
-                    foreach (EcellObject o in m_current.M_instances)
+                    if (m_current.M_instances != null)
                     {
-                        if (o.key.EndsWith(":SIZE"))
+                        foreach (EcellObject o in m_current.M_instances)
                         {
-                            m_current.M_instances.Remove(o);
-                            m_dManager.DataDelete(o.modelID, o.key, o.type);
-                            break;
+                            if (o.key.EndsWith(":SIZE"))
+                            {
+                                m_current.M_instances.Remove(o);
+                                m_dManager.DataDelete(o.modelID, o.key, o.type);
+                                break;
+                            }
                         }
                     }
                 }
                 else
                 {
                     bool isHit = false;
-                    foreach (EcellObject o in m_current.M_instances)
+                    if (m_current.M_instances != null)
                     {
-                        if (o.key.EndsWith(":SIZE"))
+                        foreach (EcellObject o in m_current.M_instances)
                         {
-                            foreach (EcellData d in o.M_value)
+                            if (o.key.EndsWith(":SIZE"))
                             {
-                                if (d.M_name.EndsWith(":Value"))
+                                foreach (EcellData d in o.M_value)
                                 {
-                                    if (data.Equals(d.M_value.ToString())) break;
-                                    EcellData p = d.Copy();
-                                    p.M_value = new EcellValue(Convert.ToDouble(data));
-                                    o.M_value.Remove(d);
-                                    o.M_value.Add(p);
-                                    m_isChanging = true;
-                                    m_dManager.DataChanged(
-                                        o.modelID,
-                                        o.key,
-                                        o.type,
-                                        o);
-                                    m_isChanging = false;
+                                    if (d.M_name.EndsWith("Value"))
+                                    {
+                                        if (data.Equals(d.M_value.ToString())) break;
+                                        EcellData p = d.Copy();
+                                        p.M_value = new EcellValue(Convert.ToDouble(data));
+                                        o.M_value.Remove(d);
+                                        o.M_value.Add(p);
+                                        m_isChanging = true;
+                                        m_dManager.DataChanged(
+                                            o.modelID,
+                                            o.key,
+                                            o.type,
+                                            o);
+                                        m_isChanging = false;
+                                        break;
+                                    }
                                 }
+                                isHit = true;
+                                break;
                             }
-                            isHit = true;
-                            break;
                         }
                     }
                     if (isHit == false)
@@ -1108,6 +1135,8 @@ namespace EcellLib.PropertyWindow
                         List<EcellObject> rList = new List<EcellObject>();
                         rList.Add(obj);
                         m_dManager.DataAdd(rList);
+                        if (m_current.M_instances == null)
+                            m_current.M_instances = new List<EcellObject>();
                         m_current.M_instances.Add(obj);
                     }
                 }
