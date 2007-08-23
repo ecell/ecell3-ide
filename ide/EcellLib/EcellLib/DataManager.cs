@@ -245,6 +245,17 @@ namespace EcellLib
         /// <param name="l_stepper">The "Stepper"</param>
         public void AddStepperID(string l_parameterID, EcellObject l_stepper)
         {
+            AddStepperID(l_parameterID, l_stepper, true);
+        }
+
+        /// <summary>
+        /// Adds the new "Stepper"
+        /// </summary>
+        /// <param name="l_parameterID">The parameter ID</param>
+        /// <param name="l_stepper">The "Stepper"</param>
+        /// <param name="l_isRecorded">Whether this action is recorded</param>
+        public void AddStepperID(string l_parameterID, EcellObject l_stepper, bool l_isRecorded)
+        {
             string l_message = null;
             try
             {
@@ -275,7 +286,8 @@ namespace EcellLib
                             );
                     }
                 }
-                m_aManager.AddAction(new AddStepperAction(l_parameterID, l_stepper));
+                if(l_isRecorded)
+                    m_aManager.AddAction(new AddStepperAction(l_parameterID, l_stepper));
             }
             catch (Exception l_ex)
             {
@@ -1011,7 +1023,18 @@ namespace EcellLib
         /// Adds the list of "EcellObject".
         /// </summary>
         /// <param name="l_ecellObjectList">The list of "EcellObject"</param>
-        public void DataAdd(List<EcellObject> l_ecellObjectList) 
+        public void DataAdd(List<EcellObject> l_ecellObjectList)
+        {
+            DataAdd(l_ecellObjectList, true, true);
+        }
+
+        /// <summary>
+        /// Adds the list of "EcellObject".
+        /// </summary>
+        /// <param name="l_ecellObjectList">The list of "EcellObject"</param>
+        /// <param name="l_isRecorded">Whether this action is recorded or not</param>
+        /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
+        public void DataAdd(List<EcellObject> l_ecellObjectList, bool l_isRecorded, bool l_isAnchor)
         {
             if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
@@ -1025,7 +1048,7 @@ namespace EcellLib
                 }
                 SimulationStop();
                 m_pManager.ChangeStatus(Util.LOADED);
-            }
+            }            
 
             List<EcellObject> l_usableList = new List<EcellObject>();
             string l_message = null;
@@ -1079,11 +1102,11 @@ namespace EcellLib
                 if (l_usableList != null && l_usableList.Count > 0)
                 {
                     m_pManager.DataAdd(l_usableList);
-                    EcellObject lastObj = null;
-                    foreach (EcellObject obj in l_usableList)
+                    foreach(EcellObject obj in l_usableList)
                     {
-                        m_aManager.AddAction(new DataAddAction(obj));
-                        lastObj = obj;
+                        m_pManager.SetPosition(obj);
+                        if(l_isRecorded)
+                            m_aManager.AddAction(new DataAddAction(obj, l_isAnchor));
                     }
 //                    if (lastObj != null)
 //                        m_pManager.SelectChanged(lastObj.modelID, lastObj.key, lastObj.type);
@@ -1106,6 +1129,7 @@ namespace EcellLib
             {
                 throw new Exception(m_resources.GetString("ErrFindSuper"));
             }
+
             bool l_findFlag = false;
             string l_systemKey = Util.s_delimiterPath;
             if (l_ecellObject.key.IndexOf(Util.s_delimiterColon) > 0)
@@ -1365,6 +1389,26 @@ namespace EcellLib
         /// <param name="l_ecellObject">The changed "EcellObject"</param>
         public void DataChanged(string l_modelID, string l_key, string l_type, EcellObject l_ecellObject)
         {
+            DataChanged(l_modelID, l_key, l_type, l_ecellObject, true, true);
+        }
+
+        /// <summary>
+        /// Changes the "EcellObject".
+        /// </summary>
+        /// <param name="l_modelID">The model ID</param>
+        /// <param name="l_key">The key</param>
+        /// <param name="l_type">The type of the "EcellObject"</param>
+        /// <param name="l_ecellObject">The changed "EcellObject"</param>
+        /// <param name="l_isRecorded">Whether this action is recorded or not</param>
+        /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
+        public void DataChanged(
+            string l_modelID,
+            string l_key,
+            string l_type,
+            EcellObject l_ecellObject,
+            bool l_isRecorded,
+            bool l_isAnchor)
+        {
             if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
             {
@@ -1399,6 +1443,14 @@ namespace EcellLib
                 {
                     throw new Exception(m_resources.GetString("ErrNullData") + l_message);
                 }
+
+                // Record action
+                EcellObject l_oldObj = GetEcellObject(l_modelID, l_key, l_type);
+                //if (!l_oldObj.IsPosSet)
+                //    m_pManager.SetPosition(l_oldObj);
+                if(l_isRecorded)
+                    this.m_aManager.AddAction(new DataChangeAction(l_modelID, l_type, l_oldObj, l_ecellObject.Copy(), l_isAnchor));
+
                 //
                 // Searches the "System".
                 //
@@ -1481,8 +1533,9 @@ namespace EcellLib
                         {
                             l_systemList[i].M_instances[j] = l_ecellObject.Copy();
                             this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
+                            /* Deleted by m.ishikawa
                             this.m_aManager.AddAction(
-                                new DataChangeAction(l_modelID, l_key, l_type, l_ecellObject));
+                               new DataChangeAction(l_modelID, l_key, l_type, l_ecellObject));*/
                         }
                         else
                         {
@@ -1490,9 +1543,10 @@ namespace EcellLib
                             // Adds the new object.
                             //
                             this.DataAdd4Entity(l_ecellObject.Copy(), false);
-                            this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
-                            this.m_aManager.AddAction(
-                                new DataChangeAction(l_modelID, l_key, l_type, l_ecellObject));
+                            this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);                            
+                            /* Deleted by m.ishikawa
+                             * this.m_aManager.AddAction(
+                                new DataChangeAction(l_modelID, l_key, l_type, l_ecellObject));*/
                             //
                             // Checks all "VariableReferenceList"s.
                             //
@@ -1549,7 +1603,8 @@ namespace EcellLib
                         this.CheckDifferences(l_systemList[i], l_ecellObject, null);
                         l_systemList[i] = l_ecellObject.Copy();
                         this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
-                        this.m_aManager.AddAction(new DataChangeAction(l_modelID, l_key, l_type, l_ecellObject));
+                        /* Deleted by m.ishikawa
+                        this.m_aManager.AddAction(new DataChangeAction(l_modelID, l_key, l_type, l_ecellObject));*/
                         return;
                     }
                 }
@@ -1578,12 +1633,19 @@ namespace EcellLib
                             = EcellObject.CreateObject(
                                 l_systemList[i].modelID, l_newKey, l_systemList[i].type, l_systemList[i].classname,
                                 l_systemList[i].M_value);
+                        l_createdSystem.X = l_systemList[i].X;
+                        l_createdSystem.Y = l_systemList[i].Y;
+                        l_createdSystem.OffsetX = l_systemList[i].OffsetX;
+                        l_createdSystem.OffsetY = l_systemList[i].OffsetY;
+                        l_createdSystem.Width = l_systemList[i].Width;
+                        l_createdSystem.Height = l_systemList[i].Height;
                         this.CheckEntityPath(l_createdSystem);
                         this.DataAdd4System(l_createdSystem, false);
                         this.CheckDifferences(l_systemList[i], l_createdSystem, null);
                         this.m_pManager.DataChanged(l_modelID, l_systemList[i].key, l_type, l_createdSystem);
+                        /* deleted by m.ishikawa
                         this.m_aManager.AddAction(new DataChangeAction(
-                            l_modelID, l_systemList[i].key, l_type, l_createdSystem));
+                            l_modelID, l_systemList[i].key, l_type, l_createdSystem)); */
                         l_createdSystemKeyList.Add(l_newKey);
                         //
                         // Deletes the old "System" object.
@@ -1696,6 +1758,19 @@ namespace EcellLib
         /// <param name="l_type">The type of the "EcellObject"</param>
         public void DataDelete(string l_modelID, string l_key, string l_type)
         {
+            DataDelete(l_modelID, l_key, l_type, true, true);
+        }
+
+        /// <summary>
+        /// Deletes the "EcellObject" using the model ID and the key of the "EcellObject".
+        /// </summary>
+        /// <param name="l_modelID">The model ID</param>
+        /// <param name="l_key">The key of the "EcellObject"</param>
+        /// <param name="l_type">The type of the "EcellObject"</param>
+        /// <param name="l_isRecorded">Whether this action is recorded or not</param>
+        /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
+        public void DataDelete(string l_modelID, string l_key, string l_type, bool l_isRecorded, bool l_isAnchor)
+        {
             if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
             {
@@ -1712,10 +1787,13 @@ namespace EcellLib
             }
 
             string l_message = null;
+            EcellObject deleteObj = null;
             try
             {
                 l_message = "[" + l_modelID + "][" + l_key + "]";
                 if (l_modelID == null || l_modelID.Length <= 0) return;
+
+                deleteObj = GetEcellObject(l_modelID, l_key, l_type);
 
                 if (l_key == null || l_key.Length <= 0)
                 {
@@ -1742,7 +1820,8 @@ namespace EcellLib
             finally
             {
                 m_pManager.DataDelete(l_modelID, l_key, l_type);
-                m_aManager.AddAction(new DataDeleteAction(l_modelID, l_key, l_type));
+                if(l_isRecorded)
+                    m_aManager.AddAction(new DataDeleteAction(l_modelID, l_key, l_type, deleteObj, true));
             }
         }
 
@@ -1940,10 +2019,29 @@ namespace EcellLib
         /// <param name="key">key of deleted system.</param>
         public void SystemDeleteAndMove(string modelID, string key)
         {
+            SystemDeleteAndMove(modelID, key, true, true);
+        }
+
+        /// <summary>
+        /// Move the component to the upper system, when system is deleted.
+        /// </summary>
+        /// <param name="modelID">modelID of deleted system.</param>
+        /// <param name="key">key of deleted system.</param>
+        /// <param name="isRecorded">whether this action will be recorded or not</param>
+        /// <param name="isAnchor">whether this action is an anchor or not</param>
+        public void SystemDeleteAndMove(string modelID, string key, bool isRecorded, bool isAnchor)
+        {
             string sizeKey = key + ":SIZE";
             Dictionary<String, String> variableList = new Dictionary<String, String>();
             List<EcellObject> targetSysList = new List<EcellObject>();
             List<EcellObject> targetObjList = new List<EcellObject>();
+
+            List<EcellObject> saveSysList = new List<EcellObject>();
+            List<EcellObject> saveObjList = new List<EcellObject>();
+
+            EcellObject toBeDeleted = GetEcellObject(modelID, key, "System");
+            toBeDeleted.M_instances = new List<EcellObject>();
+
             if (m_systemDic[m_currentProjectID].ContainsKey(modelID))
             {
                 foreach (EcellObject obj in m_systemDic[m_currentProjectID][modelID])
@@ -1958,18 +2056,19 @@ namespace EcellLib
                             {
                                 if (sizeKey.Equals(ins.key)) continue;
                                 targetObjList.Add(ins.Copy());
+                                saveObjList.Add(ins.Copy());
                             }
                         }
                         else if (obj.type == "System")
                         {
                             targetSysList.Add(obj.Copy());
+                            saveSysList.Add(obj.Copy());
                         }
                     }
                 }
             }
-
-
-            DataDelete(modelID, key, "System");
+                        
+            DataDelete(modelID, key, "System", false, false);
             string[] el = key.Split(new char[] { '/' });
             int delPoint = el.Length - 1;
             List<EcellObject> list = new List<EcellObject>();
@@ -1987,9 +2086,9 @@ namespace EcellLib
                 List<EcellObject> tmpList = new List<EcellObject>();
                 if (obj.M_instances != null)
                 {
-
                     foreach (EcellObject ins in obj.M_instances)
                     {
+                        saveObjList.Add(ins);
                         String iNewKey = "";
                         if (sizeKey.Equals(ins.key)) continue;
                         string[] iel = ins.key.Split(new char[] { '/' });
@@ -2035,7 +2134,7 @@ namespace EcellLib
                 obj.key = iNewKey;
                 list.Add(obj);
             }
-            DataAdd(list);
+            DataAdd(list, false, isAnchor);
 
             foreach (String oldKey in variableList.Keys)
             {
@@ -2048,6 +2147,74 @@ namespace EcellLib
                 }
             }
 
+            // Add action
+            if (isRecorded)
+                m_aManager.AddAction(new SystemMergeAction(modelID, toBeDeleted, saveSysList, saveObjList, isAnchor));  
+
+                      
+        }
+        
+        /// <summary>
+        /// Used only to undo SystemDeleteAndMove. So, this method should be used only by ActionManager
+        /// </summary>
+        /// <param name="l_modelID">Model id of an added system</param>
+        /// <param name="l_obj">An added system</param>
+        /// <param name="l_sysList">Child systems of added system</param>
+        /// <param name="l_objList">Child objects of added system</param>
+        public void SystemAddAndMove(string l_modelID,
+            EcellObject l_obj,
+            List<EcellObject> l_sysList,
+            List<EcellObject> l_objList)
+        {
+            // Temporary delete objects to be moved into a new system.
+            foreach(EcellObject sys in l_sysList)
+                DataDelete(l_modelID, sys.key, "System", false, false);
+
+            string[] el = l_obj.key.Split(new char[] { '/' });
+            int delPoint = el.Length - 1;
+            List<EcellObject> list = new List<EcellObject>();
+            foreach (EcellObject obj in l_sysList)
+            {
+                String orgKey = obj.key;
+                String newKey = "";
+                string[] nel = orgKey.Split(new char[] { '/' });
+                for (int i = 0; i < nel.Length; i++)
+                {
+                    if (i == delPoint) continue;
+                    if (nel[i] == "") newKey = "";
+                    else newKey = newKey + "/" + nel[i];
+                }
+                DataDelete(l_modelID, newKey, "System", false, false);
+            }
+            foreach (EcellObject obj in l_objList)
+            {
+                String iNewKey = "";
+                string[] iel = obj.key.Split(new char[] { '/' });
+                for (int j = 0; j < iel.Length; j++)
+                {
+                    if (j == delPoint)
+                    {
+                        if (j == 1) iNewKey = "/";
+                        iNewKey = iNewKey + iel[j].Substring(iel[j].LastIndexOf(":"));
+                    }
+                    else if (iel[j] == "") iNewKey = "";
+                    else iNewKey = iNewKey + "/" + iel[j];
+                }
+                DataDelete(l_modelID, iNewKey, obj.type, false, false);
+            }
+            
+            // Add a system.
+            List<EcellObject> l_list = new List<EcellObject>();
+            l_list.Add(l_obj);
+            
+            foreach(EcellObject l_sys in l_sysList)
+                l_list.Add(l_sys);
+            
+            foreach (EcellObject l_object in l_objList)
+                l_list.Add(l_object);
+
+            DataAdd(l_list);
+            
         }
 
         /// <summary>
@@ -2746,6 +2913,17 @@ namespace EcellLib
         /// <param name="l_parameterID"></param>
         public void DeleteSimulationParameter(string l_parameterID)
         {
+            DeleteSimulationParameter(l_parameterID, true, true);
+        }
+
+        /// <summary>
+        /// Deletes the parameter.
+        /// </summary>
+        /// <param name="l_parameterID"></param>
+        /// <param name="l_isRecorded">Whether this action is recorded or not</param>
+        /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
+        public void DeleteSimulationParameter(string l_parameterID, bool l_isRecorded, bool l_isAnchor)
+        {
             string l_message = null;
             try
             {
@@ -2792,7 +2970,8 @@ namespace EcellLib
                     throw new Exception(m_resources.GetString("ErrFindSimParam") + l_message);
                 }
                 
-                m_aManager.AddAction(new DeleteSimParamAction(l_parameterID));
+                if(l_isRecorded)
+                    m_aManager.AddAction(new DeleteSimParamAction(l_parameterID, l_isAnchor));
             }
             catch (Exception l_ex)
             {
@@ -2811,6 +2990,17 @@ namespace EcellLib
         /// <param name="l_parameterID">The parameter ID</param>
         /// <param name="l_stepper">The "Stepper"</param>
         public void DeleteStepperID(string l_parameterID, EcellObject l_stepper)
+        {
+            DeleteStepperID(l_parameterID, l_stepper, true);
+        }
+
+        /// <summary>
+        /// Deletes the "Stepper".
+        /// </summary>
+        /// <param name="l_parameterID">The parameter ID</param>
+        /// <param name="l_stepper">The "Stepper"</param>
+        /// <param name="l_isRecorded">Whether this action is recorded or not</param>
+        public void DeleteStepperID(string l_parameterID, EcellObject l_stepper, bool l_isRecorded)
         {
             string l_message = null;
             try
@@ -2835,7 +3025,8 @@ namespace EcellLib
                         "Delete Stepper: " + l_message + System.Environment.NewLine
                         );
                 }
-                m_aManager.AddAction(new DeleteStepperAction(l_parameterID, l_stepper));
+                if(l_isRecorded)
+                    m_aManager.AddAction(new DeleteStepperAction(l_parameterID, l_stepper));
             }
             catch (Exception l_ex)
             {
@@ -5580,6 +5771,17 @@ namespace EcellLib
         /// <returns>The new parameter</returns>
         public void NewSimulationParameter(string l_parameterID)
         {
+            NewSimulationParameter(l_parameterID, true, true);
+        }
+
+        /// <summary>
+        /// Creates the new simulation parameter.
+        /// </summary>
+        /// <param name="l_parameterID">The new parameter ID</param>
+        /// <param name="l_isRecorded">Whether this action is recorded or not</param>
+        /// <param name="l_isAnchor">Whether this action is an anchor or not</param>        
+        public void NewSimulationParameter(string l_parameterID, bool l_isRecorded, bool l_isAnchor)
+        {
             string l_message = null;
             try
             {
@@ -5660,7 +5862,8 @@ namespace EcellLib
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     "Create Simulation Parameter: " + l_message + System.Environment.NewLine);
-                m_aManager.AddAction(new NewSimParamAction(l_parameterID));
+                if(l_isRecorded)
+                    m_aManager.AddAction(new NewSimParamAction(l_parameterID, l_isAnchor));
             }
             catch (Exception l_ex)
             {
@@ -6228,17 +6431,41 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Set positions of all EcellObjects.
+        /// </summary>
+        /// <param name="l_modelID">Model ID</param>
+        public void SetPositions(string l_modelID)
+        {
+            if(null != l_modelID && m_systemDic[this.m_currentProjectID].ContainsKey(l_modelID))
+            {
+                foreach (EcellObject eo in m_systemDic[m_currentProjectID][l_modelID])
+                    m_pManager.SetPosition(eo);
+            }
+        }
+
+        /// <summary>
         /// Sets the parameter of the simulator.
         /// </summary>
         public void SetSimulationParameter(string l_parameterID)
+        {
+            SetSimulationParameter(l_parameterID, true, true);
+        }
+
+        /// <summary>
+        /// Sets the parameter of the simulator.
+        /// </summary>
+        /// <param name="l_parameterID"></param>
+        /// <param name="l_isRecorded">Whether this action is recorded or not</param>
+        /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
+        public void SetSimulationParameter(string l_parameterID, bool l_isRecorded, bool l_isAnchor)
         {
             string l_message = null;
             try
             {
                 l_message = "[" + l_parameterID + "]";
+                string l_oldParameterID = this.m_currentParameterID;
                 if (this.m_currentParameterID != l_parameterID)
-                {
-                    string l_oldParameterID = this.m_currentParameterID;
+                {                    
                     foreach (string l_modelID 
                         in this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID].Keys)
                     {
@@ -6305,7 +6532,8 @@ namespace EcellLib
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     "Set Simulation Parameter: " + l_message + System.Environment.NewLine);
-                m_aManager.AddAction(new SetSimParamAction(l_parameterID));
+                if(l_isRecorded)
+                    m_aManager.AddAction(new SetSimParamAction(l_parameterID, l_oldParameterID, l_isAnchor));
             }
             catch (Exception l_ex)
             {
@@ -6749,9 +6977,21 @@ namespace EcellLib
         /// <param name="l_stepperList">The list of the "Stepper"</param>
         public void UpdateStepperID(string l_parameterID, List<EcellObject> l_stepperList)
         {
+            UpdateStepperID(l_parameterID, l_stepperList, true);
+        }
+
+        /// <summary>
+        /// Updates the "Stepper".
+        /// </summary>
+        /// <param name="l_parameterID">The parameter ID</param>
+        /// <param name="l_stepperList">The list of the "Stepper"</param>
+        /// <param name="l_isRecorded">Whether this action is recorded or not</param>
+        public void UpdateStepperID(string l_parameterID, List<EcellObject> l_stepperList, bool l_isRecorded)
+        {
             string l_message = null;
             try
             {
+                List<EcellObject> l_oldStepperList = new List<EcellObject>();
                 foreach (EcellObject l_stepper in l_stepperList)
                 {
                     l_message = "[" + l_parameterID + "][" + l_stepper.modelID + "][" + l_stepper.key + "]";
@@ -6766,6 +7006,7 @@ namespace EcellLib
                     {
                         if (l_storedStepperList[i].key.Equals(l_stepper.key))
                         {
+                            l_oldStepperList.Add(l_storedStepperList[i]);
                             this.CheckDifferences(l_storedStepperList[i], l_stepper, l_parameterID);
                             l_storedStepperList[i] = l_stepper.Copy();
                             l_updateFlag = true;
@@ -6777,7 +7018,8 @@ namespace EcellLib
                         throw new Exception(m_resources.GetString("ErrFindStepper") + l_message);
                     }
                 }
-                m_aManager.AddAction(new UpdateStepperAction(l_parameterID, l_stepperList));
+                if (l_isRecorded)
+                    m_aManager.AddAction(new UpdateStepperAction(l_parameterID, l_stepperList, l_oldStepperList));
             }
             catch (Exception l_ex)
             {
@@ -6854,6 +7096,21 @@ namespace EcellLib
                     }
                 }
             }
+        }
+        /// <summary>
+        /// Undo action.
+        /// </summary>
+        public void UndoAction()
+        {
+            m_aManager.UndoAction();
+        }
+
+        /// <summary>
+        /// Redo action.
+        /// </summary>
+        public void RedoAction()
+        {
+            m_aManager.RedoAction();
         }
     }
 

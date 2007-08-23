@@ -159,6 +159,12 @@ namespace EcellLib
         void ChangeStatus(int type); // 0:initial 1:load 2:run 3:suspend
 
         /// <summary>
+        /// Change availability of undo/redo function.
+        /// </summary>
+        /// <param name="status"></param>
+        void ChangeUndoStatus(UndoStatus status);
+
+        /// <summary>
         /// Notify a plugin that it should save model-related information if necessary.
         /// </summary>
         /// <param name="modelID">ModelID of a model which is going to be saved</param>
@@ -205,5 +211,11 @@ namespace EcellLib
         /// </summary>
         /// <returns>version string.</returns>
         string GetVersionString();
+
+        /// <summary>
+        /// Set the position of EcellObject.
+        /// </summary>
+        /// <param name="data">EcellObject, whose position will be set</param>
+        void SetPosition(EcellObject data);
     }
 }

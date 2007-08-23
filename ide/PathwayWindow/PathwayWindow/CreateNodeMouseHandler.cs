@@ -141,6 +141,8 @@ namespace EcellLib.PathwayWindow
                     
                     EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, m_surSystem + ":" + tmpId,
                     "Process", "ExpressionFluxProcess", list);
+                    eo.X = m_downPos.X;
+                    eo.Y = m_downPos.Y;
 
                     ComponentSetting cs = m_view.ComponentSettings[m_view.SelectedHandle.CsID];
 

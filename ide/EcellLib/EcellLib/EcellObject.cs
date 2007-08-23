@@ -65,6 +65,34 @@ namespace EcellLib
         /// </summary>
         private string m_type;
         /// <summary>
+        /// X coordinate
+        /// </summary>
+        private float m_x;
+        /// <summary>
+        /// Y coordinate
+        /// </summary>
+        private float m_y;
+        /// <summary>
+        /// X offset
+        /// </summary>
+        private float m_offsetX;
+        /// <summary>
+        /// Y offset
+        /// </summary>
+        private float m_offsetY;
+        /// <summary>
+        /// Width
+        /// </summary>
+        private float m_width;
+        /// <summary>
+        /// Height
+        /// </summary>
+        private float m_height;
+        /// <summary>
+        /// Whether position of this object has been already set or not.
+        /// </summary>
+        private bool m_isPosSet = false;
+        /// <summary>
         /// The value
         /// </summary>
         protected List<EcellData> m_value;
@@ -131,6 +159,78 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// X coordinate
+        /// </summary>
+        public float X
+        {
+            get { return m_x; }
+            set { 
+                m_x = value;
+                m_isPosSet = true;
+            }
+        }
+
+        /// <summary>
+        /// Y coordinate
+        /// </summary>
+        public float Y
+        {
+            get { return m_y; }
+            set {
+                m_y = value;
+                m_isPosSet = true;
+            }
+        }
+
+        /// <summary>
+        /// X offset
+        /// </summary>
+        public float OffsetX
+        {
+            get { return m_offsetX; }
+            set {
+                m_offsetX = value;
+                m_isPosSet = true;
+            }
+        }
+
+        /// <summary>
+        /// Y offset
+        /// </summary>
+        public float OffsetY
+        {
+            get { return m_offsetY; }
+            set {
+                m_offsetY = value;
+                m_isPosSet = true;
+            }
+        }
+
+        /// <summary>
+        /// Width
+        /// </summary>
+        public float Width
+        {
+            get { return m_width; }
+            set {
+                m_width = value;
+                m_isPosSet = true;
+            }
+        }
+
+        /// <summary>
+        /// Height
+        /// </summary>
+        public float Height
+        {
+            get { return m_height; }
+            set {
+                m_height = value;
+                m_isPosSet = true;
+            }
+        }
+
+        /// <summary>
         /// get isLogger.
         /// </summary>
         public bool IsLogger
@@ -178,6 +278,14 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Whether position for this object has been set or not.
+        /// </summary>
+        public bool IsPosSet
+        {
+            get { return m_isPosSet; }
+        }
+
+        /// <summary>
         /// Create the copy "EcellObject".
         /// </summary>
         /// <returns>The copy "EcellObject"</returns>
@@ -211,6 +319,12 @@ namespace EcellLib
                 }
                 EcellObject l_newEcellObject =
                     CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, l_copyValueList);
+                l_newEcellObject.X = this.m_x;
+                l_newEcellObject.Y = this.m_y;
+                l_newEcellObject.OffsetX = this.m_offsetX;
+                l_newEcellObject.OffsetY = this.m_offsetY;
+                l_newEcellObject.Width = this.m_width;
+                l_newEcellObject.Height = this.m_height;
                 l_newEcellObject.M_instances = l_copyInstancesList;
                 return l_newEcellObject;
             }

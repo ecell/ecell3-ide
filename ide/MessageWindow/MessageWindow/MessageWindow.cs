@@ -343,6 +343,15 @@ namespace EcellLib.MessageWindow
         }
 
         /// <summary>
+        /// Change availability of undo/redo status
+        /// </summary>
+        /// <param name="status"></param>
+        public void ChangeUndoStatus(UndoStatus status)
+        {
+            // Nothing should be done.
+        }
+
+        /// <summary>
         /// Save the selected model to directory.
         /// </summary>
         /// <param name="modelID">selected model.</param>
@@ -403,6 +412,15 @@ namespace EcellLib.MessageWindow
         public bool IsEnablePrint()
         {
             return false;
+        }
+
+        /// <summary>
+        /// Set the position of EcellObject.
+        /// Actually, nothing will be done by this plugin.
+        /// </summary>
+        /// <param name="data">EcellObject, whose position will be set</param>
+        public void SetPosition(EcellObject data)
+        {
         }
         #endregion
 

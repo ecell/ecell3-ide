@@ -893,7 +893,7 @@ namespace EcellLib
                     DataManager.GetDataManager().NewProject("project", DateTime.Now.ToString());
                 }
                 s_modelID = DataManager.GetDataManager().LoadModel(l_fileName, false);
-                PluginManager.GetPluginManager().LoadData(s_modelID);
+                PluginManager.GetPluginManager().LoadData(s_modelID);                
                 PluginManager.GetPluginManager().ChangeStatus(1);
             }
             catch (Exception l_ex)

@@ -131,6 +131,15 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
+        /// Change availability of undo/redo function
+        /// </summary>
+        /// <param name="status"></param>
+        public void ChangeUndoStatus(UndoStatus status)
+        {
+            /// Nothing should be done.
+        }
+
+        /// <summary>
         /// The event sequence on closing project.
         /// </summary>
         public void Clear()
@@ -310,6 +319,15 @@ namespace EcellLib.Analysis
         public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
+        /// <summary>
+        /// Set the position of EcellObject.
+        /// Actually, nothing will be done by this plugin.
+        /// </summary>
+        /// <param name="data">EcellObject, whose position will be set</param>
+        public void SetPosition(EcellObject data)
+        {
         }
         #endregion
     }

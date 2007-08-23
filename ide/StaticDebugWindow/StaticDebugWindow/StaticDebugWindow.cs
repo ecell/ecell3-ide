@@ -143,6 +143,15 @@ namespace EcellLib.StaticDebugWindow
             else m_staticDebug.Enabled = false;
         }
 
+        /// <summary>
+        /// Change availability of undo/redo function.
+        /// </summary>
+        /// <param name="status"></param>
+        public void ChangeUndoStatus(UndoStatus status)
+        {
+            // Nothing should be done.
+        }
+
         /*
         /// <summary>
         /// The event sequence on closing this project.
@@ -384,6 +393,15 @@ namespace EcellLib.StaticDebugWindow
         public void WarnData(string modelID, string key, string type, string warntype)
         {
             // nothing
+        }
+
+        /// <summary>
+        /// Set the position of EcellObject.
+        /// Actually, nothing will be done by this plugin.
+        /// </summary>
+        /// <param name="data">EcellObject, whose position will be set</param>
+        public void SetPosition(EcellObject data)
+        {
         }
         #endregion
 

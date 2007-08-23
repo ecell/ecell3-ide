@@ -54,6 +54,8 @@ namespace EcellLib.MainWindow
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.modelEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -239,8 +241,23 @@ namespace EcellLib.MainWindow
             // 
             // MenuItemEdit
             // 
+            this.MenuItemEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.undoToolStripMenuItem,
+            this.redoToolStripMenuItem});
             this.MenuItemEdit.Name = "MenuItemEdit";
             resources.ApplyResources(this.MenuItemEdit, "MenuItemEdit");
+            // 
+            // undoToolStripMenuItem
+            // 
+            resources.ApplyResources(this.undoToolStripMenuItem, "undoToolStripMenuItem");
+            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.UndoMenuClick);
+            // 
+            // redoToolStripMenuItem
+            // 
+            resources.ApplyResources(this.redoToolStripMenuItem, "redoToolStripMenuItem");
+            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            this.redoToolStripMenuItem.Click += new System.EventHandler(this.RedoMenuClick);
             // 
             // MenuItemSetup
             // 
@@ -434,6 +451,8 @@ namespace EcellLib.MainWindow
         private System.Windows.Forms.ToolStripMenuItem showWindowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setIDEToolStripMenuItem;
         public WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
+        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
     }
 }
 

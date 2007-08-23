@@ -40,6 +40,29 @@ using System.Reflection;
 namespace EcellLib
 {
     /// <summary>
+    /// Availability of Redo/Undo
+    /// </summary>
+    public enum UndoStatus
+    {
+        /// <summary>
+        /// Both undo and redo are available.
+        /// </summary>
+        UNDO_REDO,
+        /// <summary>
+        /// Only undo is available.
+        /// </summary>
+        UNDO_ONLY,
+        /// <summary>
+        /// Only redo is available.
+        /// </summary>
+        REDO_ONLY,
+        /// <summary>
+        /// Both undo and redo are NOT available.
+        /// </summary>
+        NOTHING
+    }
+
+    /// <summary>
     /// Manage class for the loaded plugin.
     /// </summary>
     public class PluginManager
@@ -486,6 +509,18 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Change availability of undo/redo function.
+        /// </summary>
+        /// <param name="status"></param>
+        public void ChangeUndoStatus(UndoStatus status)
+        {
+            foreach (PluginBase p in m_pluginList.Values)
+            {
+                p.ChangeUndoStatus(status);
+            }
+        }
+
+        /// <summary>
         /// Get plugin by using name of plugin.
         /// </summary>
         /// <param name="name">name of plugin</param>
@@ -545,9 +580,16 @@ namespace EcellLib
             }
         }
 
-
-
-
+        /// <summary>
+        /// Set the position of EcellObject.
+        /// Actually, nothing will be done by this plugin.
+        /// </summary>
+        /// <param name="data">EcellObject, whose position will be set</param>
+        public void SetPosition(EcellObject data)
+        {
+            foreach (PluginBase p in m_pluginList.Values)
+                p.SetPosition(data);
+        }
     }
 
     /// <summary>

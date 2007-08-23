@@ -1469,7 +1469,6 @@ namespace EcellLib.PathwayWindow
                     this.m_pathwayView.CreateEdge(process, key, 0);
                     break;
             }
-
         }
         
          /// <summary>
@@ -1789,7 +1788,7 @@ namespace EcellLib.PathwayWindow
                         obj.key = newkey;
 
                         String tmp = m_selectedSystemName;
-                        this.TransferSystemTo(m_selectedSystemName, prevkey);
+                        this.TransferSystemTo(m_selectedSystemName, prevkey, true);
                         m_selectedSystemName = tmp;
                     }
                     else
@@ -1803,17 +1802,17 @@ namespace EcellLib.PathwayWindow
 
                         if (key.StartsWith("Process"))
                         {
-                            this.TransferNodeToByResize(m_selectedSystemName, m_processes[prevkey]);
+                            this.TransferNodeToByResize(m_selectedSystemName, m_processes[prevkey], false);
                             m_processes[newkey].RefreshEdges();
                         }
                         else
                         {
-                            this.TransferNodeToByResize(m_selectedSystemName, m_variables[prevkey]);
+                            this.TransferNodeToByResize(m_selectedSystemName, m_variables[prevkey], false);
                             m_variables[newkey].Refresh();
                         }
 
-                        DataManager.GetDataManager().DataChanged(
-                            obj.modelID, prevkey, obj.type, obj);
+                        //DataManager.GetDataManager().DataChanged(
+                        //    obj.modelID, prevkey, obj.type, obj);
                     }
                 }
 
@@ -1849,7 +1848,7 @@ namespace EcellLib.PathwayWindow
                         obj.key = newkey;
 
                         String tmp = m_selectedSystemName;
-                        this.TransferSystemTo(((PEcellSystem)p).Element.Key, prevkey);
+                        this.TransferSystemTo(((PEcellSystem)p).Element.Key, prevkey, true);
                         m_selectedSystemName = tmp;
                     }
                     else
@@ -1863,22 +1862,36 @@ namespace EcellLib.PathwayWindow
 
                         if (key.StartsWith("Process"))
                         {
-                            this.TransferNodeToByResize(((PEcellSystem)p).Element.Key, m_processes[prevkey]);
+                            this.TransferNodeToByResize(((PEcellSystem)p).Element.Key, m_processes[prevkey], false);
                             m_processes[newkey].RefreshEdges();
                         }
                         else
                         {
-                            this.TransferNodeToByResize(((PEcellSystem)p).Element.Key, m_variables[prevkey]);
+                            this.TransferNodeToByResize(((PEcellSystem)p).Element.Key, m_variables[prevkey], false);
                             m_variables[newkey].Refresh();
                         }
                         
-                        DataManager.GetDataManager().DataChanged(
-                            obj.modelID, prevkey, obj.type, obj);
+                        //DataManager.GetDataManager().DataChanged(
+                        //    obj.modelID, prevkey, obj.type, obj);
                     }
                 }
                 // Fire DataChanged for child in system.!
                 m_systemChildrenBeforeDrag = null;
             }
+            SystemContainer sysCon = m_systems[m_selectedSystemName];
+            m_pathwayView.NotifyDataChanged(
+                sysCon.Element.Key,
+                sysCon.Element.Key,
+                PathwayView.SYSTEM_STRING,
+                system.X,
+                system.Y,
+                system.OffsetX,
+                system.OffsetY,
+                system.Width,
+                system.Height,
+                true,
+                true);
+
             m_systems[m_selectedSystemName].UpdateText();
             
             UpdateResizeHandlePositions();
@@ -2503,7 +2516,7 @@ namespace EcellLib.PathwayWindow
         {
             foreach(PPathwayNode node in m_selectedNodes)
             {
-                TransferNodeTo(systemName, node);
+                TransferNodeTo(systemName, node, true);
             }
             ResetSelectedObjects();
         }
@@ -2514,7 +2527,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="systemName">The name of the system to which object is transfered. If null, obj is
         /// transfered to layer itself</param>
         /// <param name="obj">transfered object</param>
-        public void TransferNodeTo(string systemName, PPathwayObject obj)
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>
+        public void TransferNodeTo(string systemName, PPathwayObject obj, bool isAnchor)
         {
             // The case that obj is transfered to PEcellSystem.
             foreach(PEcellSystem system in m_systems[systemName].EcellSystems)
@@ -2542,8 +2556,19 @@ namespace EcellLib.PathwayWindow
                 var.Element.Key = newKey;
                 m_variables.Add(var.Element.Key, var);
                 var.RefreshText();
-                if (!oldKey.Equals(newKey))
-                    m_pathwayView.NotifyDataChanged(oldKey, newKey, PathwayView.VARIABLE_STRING, true);
+                //if (!oldKey.Equals(newKey))
+                m_pathwayView.NotifyDataChanged(
+                    oldKey,
+                    newKey, 
+                    PathwayView.VARIABLE_STRING,
+                    obj.X, 
+                    obj.Y, 
+                    obj.OffsetX, 
+                    obj.OffsetY,
+                    obj.Width,
+                    obj.Height,
+                    true,
+                    isAnchor);
                 var.Refresh();
             }
             else if(obj is PEcellProcess)
@@ -2555,8 +2580,19 @@ namespace EcellLib.PathwayWindow
                 pro.Element.Key = newKey;
                 m_processes.Add(pro.Element.Key, pro);
                 pro.RefreshText();
-                if (!oldKey.Equals(newKey))
-                    m_pathwayView.NotifyDataChanged(oldKey, newKey, PathwayView.PROCESS_STRING, true);
+                //if (!oldKey.Equals(newKey))
+                m_pathwayView.NotifyDataChanged(
+                    oldKey, 
+                    newKey, 
+                    PathwayView.PROCESS_STRING,
+                    obj.X,
+                    obj.Y,
+                    obj.OffsetX,
+                    obj.OffsetY,
+                    obj.Width,
+                    obj.Height,
+                    true,
+                    isAnchor);
                 pro.Refresh();
             }
         }
@@ -2568,7 +2604,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="systemName">The name of the system to which object is transfered. If null, obj is
         /// transfered to layer itself</param>
         /// <param name="obj">transfered object</param>
-        public void TransferNodeToByResize(string systemName, PPathwayObject obj)
+        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
+        public void TransferNodeToByResize(string systemName, PPathwayObject obj, bool isAnchor)
         {
             // The case that obj is transfered to PEcellSystem.
             foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
@@ -2608,7 +2645,18 @@ namespace EcellLib.PathwayWindow
                 m_variables.Add(var.Element.Key, var);
                 var.RefreshText();
                 if (!oldKey.Equals(newKey))
-                    m_pathwayView.NotifyDataChanged(oldKey, newKey, PathwayView.VARIABLE_STRING, true);
+                    m_pathwayView.NotifyDataChanged(
+                        oldKey,
+                        newKey,
+                        PathwayView.VARIABLE_STRING,
+                        obj.X,
+                        obj.Y,
+                        obj.OffsetX,
+                        obj.OffsetY,
+                        obj.Width,
+                        obj.Height,
+                        true,
+                        isAnchor);
             }
             else if (obj is PEcellProcess)
             {
@@ -2620,7 +2668,18 @@ namespace EcellLib.PathwayWindow
                 m_processes.Add(pro.Element.Key, pro);
                 pro.RefreshText();
                 if (!oldKey.Equals(newKey))
-                    m_pathwayView.NotifyDataChanged(oldKey, newKey, PathwayView.PROCESS_STRING, true);
+                    m_pathwayView.NotifyDataChanged(
+                        oldKey,
+                        newKey,
+                        PathwayView.PROCESS_STRING,
+                        obj.X,
+                        obj.Y,
+                        obj.OffsetX,
+                        obj.OffsetY,
+                        obj.Width,
+                        obj.Height,
+                        true,
+                        isAnchor);
             }
         }
 
@@ -2630,7 +2689,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="systemName">The name of the system to which a system will be transfered. If null, obj is
         /// transfered to layer itself</param>
         /// <param name="oldKey">old key of a system to be transfered</param>
-        public void TransferSystemTo(string systemName, string oldKey)
+        /// <param name="isExternal">Whether the change will go outside</param>
+        public void TransferSystemTo(string systemName, string oldKey, bool isExternal)
         {
             if(String.IsNullOrEmpty(systemName))
                 return;
@@ -2656,7 +2716,21 @@ namespace EcellLib.PathwayWindow
                         ppes.AddChild(pes);
             }
 
-            m_pathwayView.NotifyDataChanged(oldKey, newKey, PathwayView.SYSTEM_STRING, true);
+            if(isExternal)
+            {
+                m_pathwayView.NotifyDataChanged(
+                    oldKey,
+                    newKey,
+                    PathwayView.SYSTEM_STRING,
+                    oldSysCon.EcellSystems[0].X,
+                    oldSysCon.EcellSystems[0].Y,
+                    oldSysCon.EcellSystems[0].OffsetX,
+                    oldSysCon.EcellSystems[0].OffsetY,
+                    oldSysCon.EcellSystems[0].Width,
+                    oldSysCon.EcellSystems[0].Height,
+                    true,
+                    true);
+            }
 
             oldSysCon.Element.Key = newKey;
             for (int k = 0; k < oldSysCon.EcellSystems.Count; k++)
@@ -3545,15 +3619,32 @@ namespace EcellLib.PathwayWindow
                     if (!m_systems.ContainsKey(key))
                         return;
                     SystemContainer sysCon = m_systems[key];
-                    m_systems.Remove(key);
+                    //m_systems.Remove(key);
+
+                    if(!key.Equals(data.key))
+                    {
+                        TransferSystemTo(PathUtil.GetParentSystemId(data.key), key, false);
+                    }
+
                     sysCon.Element.Key = data.key;
                     foreach(PEcellSystem sys in sysCon.EcellSystems)
                     {
                         sys.Element.Key = data.key;
                         sys.Name = data.key;
+                        sys.X = data.X;
+                        sys.Y = data.Y;
+                        sys.OffsetX = data.OffsetX;
+                        sys.OffsetY = data.OffsetY;
+                        sys.Width = data.Width;
+                        sys.Height = data.Height;
+                        sys.Reset();
+                    }                    
+                    //m_systems.Add(data.key, sysCon);
+                    foreach (SystemContainer sys in m_systems.Values)
+                    {
+                        sys.UpdateText();
                     }
-                    sysCon.UpdateText();
-                    m_systems.Add(data.key, sysCon);
+                    UpdateResizeHandlePositions();
                     break;
                 case ComponentType.Variable:
                     if (!m_variables.ContainsKey(key))
@@ -3563,13 +3654,26 @@ namespace EcellLib.PathwayWindow
                     var.Element.Key = data.key;
                     var.Name = PathUtil.RemovePath(data.key);
                     var.RefreshText();
+
+                    var.X = data.X;
+                    var.Y = data.Y;
+                    var.OffsetX = data.OffsetX;
+                    var.OffsetY = data.OffsetY;
+
                     m_variables.Add(data.key, var);
                     var.ReconstructEdges();
+                    var.RefreshText();
                     break;
                 case ComponentType.Process:                    
                     if (!m_processes.ContainsKey(key))
                         return;
                     PEcellProcess pro = m_processes[key];
+
+                    pro.X = data.X;
+                    pro.Y = data.Y;
+                    pro.OffsetX = data.OffsetX;
+                    pro.OffsetY = data.OffsetY;
+                    
                     string vrl = null;
                     foreach (EcellData ed in data.M_value)
                     {
@@ -3733,6 +3837,41 @@ namespace EcellLib.PathwayWindow
                     }
                     break;
             }
+        }
+
+        /// <summary>
+        /// Get position.
+        /// </summary>
+        /// <param name="systemName"></param>
+        /// <returns></returns>
+        public PointF GetPosition(string systemName)
+        {
+            // Get a vacant point where an incoming node should be placed.
+            List<PPathwayNode> nodeList = new List<PPathwayNode>();
+            foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                foreach (PPathwayObject ppo in system.ChildObjectList)
+                    if (ppo is PPathwayNode)
+                        nodeList.Add((PPathwayNode)ppo);
+            PEcellSystem topSystem = m_systems[systemName].EcellSystems[0];
+            RectangleF sysRect = new RectangleF(
+                topSystem.X + topSystem.OffsetToLayer.X,
+                topSystem.Y + topSystem.OffsetToLayer.Y,
+                topSystem.Width,
+                topSystem.Height);
+            List<RectangleF> excludeRectList = new List<RectangleF>();
+            List<PPathwayObject> childList = topSystem.ChildObjectList;
+            foreach (PPathwayObject child in childList)
+            {
+                if (child is PEcellSystem)
+                {
+                    excludeRectList.Add(new RectangleF(
+                        child.X + ((PEcellSystem)child).OffsetToLayer.X,
+                        child.Y + ((PEcellSystem)child).OffsetToLayer.Y,
+                        ((PEcellSystem)child).Width,
+                        ((PEcellSystem)child).Height));
+                }
+            }
+            return GetVacantPoint(sysRect, excludeRectList, nodeList);
         }
         #endregion
 
@@ -4321,35 +4460,35 @@ namespace EcellLib.PathwayWindow
                         m_composite = null;
                     }
                 }
-                else if(e.PickedNode is PEcellSystem && !(((PEcellSystem)e.PickedNode).Parent is PLayer))
+                else if(e.PickedNode is PEcellSystem)
                 {
                     PEcellSystem picked = (PEcellSystem)e.PickedNode;
-                    PointF offset = picked.OffsetToLayer;
-                    RectangleF rectF = new RectangleF(picked.X + offset.X,
-                                                      picked.Y + offset.Y,
-                                                      picked.Width,
-                                                      picked.Height);
-
-                    if(m_set.DoesSystemOverlaps(picked.GlobalBounds, picked.Element.Key)
-                        || !m_set.IsInsideRoot(rectF))
+                    if (picked.Parent is PLayer)
                     {
-                        picked.ReturnToMemorizedPosition();
-                        m_set.m_systems[picked.Name].UpdateText();
-                        m_set.UpdateResizeHandlePositions();
-                        picked.IsInvalid = false;
+                        m_set.PathwayView.NotifyDataChanged(
+                                        picked.Element.Key,
+                                        picked.Element.Key,
+                                        PathwayView.SYSTEM_STRING,
+                                        picked.X,
+                                        picked.Y,
+                                        picked.OffsetX,
+                                        picked.OffsetY,
+                                        picked.Width,
+                                        picked.Height,
+                                        true,
+                                        true);
                     }
                     else
                     {
-                        string oldSystemName = ((PEcellSystem)e.PickedNode).Name;
-                        string surSys = m_set.GetSurroundingSystem(e.Position, oldSystemName);
-                        string newSys = null;
-                        if (surSys.Equals("/"))
-                            newSys = "/" + PathUtil.RemovePath(oldSystemName);
-                        else
-                            newSys = surSys + "/" + PathUtil.RemovePath(oldSystemName);
-                        if (!oldSystemName.Equals(newSys) && m_set.Systems.ContainsKey(newSys))
+                        PointF offset = picked.OffsetToLayer;
+                        RectangleF rectF = new RectangleF(picked.X + offset.X,
+                                                          picked.Y + offset.Y,
+                                                          picked.Width,
+                                                          picked.Height);
+
+                        if (m_set.DoesSystemOverlaps(picked.GlobalBounds, picked.Element.Key)
+                            || !m_set.IsInsideRoot(rectF))
                         {
-                            MessageBox.Show(newSys + m_resources.GetString("ErrAlrExist") , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             picked.ReturnToMemorizedPosition();
                             m_set.m_systems[picked.Name].UpdateText();
                             m_set.UpdateResizeHandlePositions();
@@ -4357,8 +4496,42 @@ namespace EcellLib.PathwayWindow
                         }
                         else
                         {
-                            if (surSys == null || !surSys.Equals(PathUtil.GetParentSystemId(oldSystemName)))
-                                m_set.TransferSystemTo(surSys, oldSystemName);
+                            string oldSystemName = ((PEcellSystem)e.PickedNode).Name;
+                            string surSys = m_set.GetSurroundingSystem(e.Position, oldSystemName);
+                            string newSys = null;
+                            if (surSys.Equals("/"))
+                                newSys = "/" + PathUtil.RemovePath(oldSystemName);
+                            else
+                                newSys = surSys + "/" + PathUtil.RemovePath(oldSystemName);
+                            if (!oldSystemName.Equals(newSys) && m_set.Systems.ContainsKey(newSys))
+                            {
+                                MessageBox.Show(newSys + m_resources.GetString("ErrAlrExist"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                picked.ReturnToMemorizedPosition();
+                                m_set.m_systems[picked.Name].UpdateText();
+                                m_set.UpdateResizeHandlePositions();
+                                picked.IsInvalid = false;
+                            }
+                            else
+                            {
+                                if (surSys == null || !surSys.Equals(PathUtil.GetParentSystemId(oldSystemName)))
+                                    m_set.TransferSystemTo(surSys, oldSystemName, true);
+                                else
+                                {
+                                    m_set.PathwayView.NotifyDataChanged(
+                                        oldSystemName,
+                                        oldSystemName,
+                                        PathwayView.SYSTEM_STRING,
+                                        picked.X,
+                                        picked.Y,
+                                        picked.OffsetX,
+                                        picked.OffsetY,
+                                        picked.Width,
+                                        picked.Height,
+                                        true,
+                                        true);
+                                }
+
+                            }
                         }
                     }
                 }
@@ -4386,7 +4559,7 @@ namespace EcellLib.PathwayWindow
 
                     if (newSystem.Equals(oldSystem))
                     {
-                        m_set.TransferNodeTo(m_set.GetSurroundingSystem(newPosition, null), (PPathwayObject)node);
+                        m_set.TransferNodeTo(m_set.GetSurroundingSystem(newPosition, null), (PPathwayObject)node, true);
                     }
                     else if (node is PEcellVariable)
                     {
@@ -4401,7 +4574,7 @@ namespace EcellLib.PathwayWindow
                         }
                         else
                         {
-                            m_set.TransferNodeTo(m_set.GetSurroundingSystem(newPosition, null), (PPathwayObject)node);
+                            m_set.TransferNodeTo(m_set.GetSurroundingSystem(newPosition, null), (PPathwayObject)node, true);
                         }
                     }
                     else if (node is PEcellProcess)
@@ -4417,13 +4590,13 @@ namespace EcellLib.PathwayWindow
                         }
                         else
                         {
-                            m_set.TransferNodeTo(m_set.GetSurroundingSystem(newPosition, null), (PPathwayObject)node);
+                            m_set.TransferNodeTo(m_set.GetSurroundingSystem(newPosition, null), (PPathwayObject)node, true);
                         }
                     }
                 }
                 else
                 {
-                    m_set.TransferNodeTo(oldSystem, (PPathwayObject)node);
+                    m_set.TransferNodeTo(oldSystem, (PPathwayObject)node, true);
                     ((PPathwayNode)node).ReturnToMemorizedPosition();
                 }
             }

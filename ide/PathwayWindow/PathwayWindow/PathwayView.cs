@@ -1151,7 +1151,7 @@ namespace EcellLib.PathwayWindow
 
             ToolStripButton zoomoutButton = new ToolStripButton();
             zoomoutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            zoomoutButton.Name = "zoomin";
+            zoomoutButton.Name = "zoomout";
             zoomoutButton.Image = Resource1.zoom_out;
             zoomoutButton.Text = "";
             zoomoutButton.CheckOnClick = false;
@@ -1323,25 +1323,31 @@ namespace EcellLib.PathwayWindow
             // Delete variables.
             List<string> deleteList = new List<string>();
             foreach(string delete in m_keyVarCanvasDict.Keys)
-                if(delete.StartsWith(system + "/"))
+                if (delete.StartsWith(system + ":"))
+                {
                     deleteList.Add(delete);
+                    m_canvasDict[m_keyVarCanvasDict[delete]].DataDelete(delete, ComponentType.Variable);
+                }
             foreach(string delete in deleteList)
                 m_keyVarCanvasDict.Remove(delete);
-
+            
             // Delete processes.
             deleteList = new List<string>();
             foreach(string delete in m_keyProCanvasDict.Keys)
-                if (delete.StartsWith(system + "/"))
+                if (delete.StartsWith(system + ":"))
+                {
                     deleteList.Add(delete);
+                    m_canvasDict[m_keyProCanvasDict[delete]].DataDelete(delete, ComponentType.Process);
+                }
             foreach(string delete in deleteList)
                 m_keyProCanvasDict.Remove(delete);
 
             // Delete systems.
             deleteList = new List<string>();
-            foreach (string delete in m_keySysCanvasDict.Keys)
+            foreach(string delete in m_keySysCanvasDict.Keys)
                 if (delete.StartsWith(system + "/"))
                     deleteList.Add(delete);
-            foreach (string delete in deleteList)
+            foreach(string delete in deleteList)
                 m_keySysCanvasDict.Remove(delete);
         }
 
@@ -1387,7 +1393,66 @@ namespace EcellLib.PathwayWindow
                         if (m_canvasDict.ContainsKey(m_keyProCanvasDict[key]))
                             m_canvasDict[m_keyProCanvasDict[key]].SelectChanged(key, ComponentType.Process);
                     break;
+            }
         }
+
+        /// <summary>
+        /// Set position of EcellObject.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="eo"></param>
+        public void SetPosition(string canvas, EcellObject eo)
+        {
+            string systemName = PathUtil.GetParentSystemId(eo.key);
+
+            bool isExist = false;
+
+            if(SYSTEM_STRING.Equals(eo.type))
+            {
+                if (m_canvasDict[canvas].Systems.ContainsKey(eo.key))
+                {
+                    EcellLib.PathwayWindow.CanvasView.SystemContainer sysCon = m_canvasDict[canvas].Systems[eo.key];
+                    eo.X = sysCon.EcellSystems[0].X;
+                    eo.Y = sysCon.EcellSystems[0].Y;
+                    eo.OffsetX = sysCon.EcellSystems[0].OffsetX;
+                    eo.OffsetY = sysCon.EcellSystems[0].OffsetY;
+                    eo.Width = sysCon.EcellSystems[0].Width;
+                    eo.Height = sysCon.EcellSystems[0].Height;
+                    isExist = true;
+                }
+            }
+            else if(VARIABLE_STRING.Equals(eo.type))
+            {
+                if (m_canvasDict[canvas].Variables.ContainsKey(eo.key))
+                {
+                    PEcellVariable var = m_canvasDict[canvas].Variables[eo.key];
+                    eo.X = var.X;
+                    eo.Y = var.Y;
+                    eo.OffsetX = var.OffsetX;
+                    eo.OffsetY = var.OffsetY;
+                    isExist = true;
+                }
+            }
+            else if(PROCESS_STRING.Equals(eo.type))
+            {
+                if(m_canvasDict[canvas].Processes.ContainsKey(eo.key))
+                {
+                    PEcellProcess pro = m_canvasDict[canvas].Processes[eo.key];
+                    eo.X = pro.X;
+                    eo.Y = pro.Y;
+                    eo.OffsetX = pro.OffsetX;
+                    eo.OffsetY = pro.OffsetY;
+                    isExist = true;
+                }
+            }
+            
+            /*
+            if(!isExist)
+            {
+                PointF point = m_canvasDict[canvas].GetPosition(systemName);
+                eo.X = point.X;
+                eo.Y = point.Y;
+            }*/
         }
         #endregion
 
@@ -1440,10 +1505,28 @@ namespace EcellLib.PathwayWindow
         /// <param name="oldKey">the key before adding.</param>
         /// <param name="newKey">the key after adding.</param>
         /// <param name="type">type of EcellObject</param>
+        /// <param name="x">x coordinate of object.</param>
+        /// <param name="y">y coordinate of object.</param>
+        /// <param name="offsetx">x offset of object.</param>
+        /// <param name="offsety">y offset of object.</param>
+        /// <param name="width">width of object.</param>
+        /// <param name="height">height of object.</param>
         /// <param name="isExternal">If true, notification will go to PathwayWindow.
         /// If false, notification will not go to PathwayWindow
         /// </param>
-        public void NotifyDataChanged(string oldKey, string newKey, string type, Boolean isExternal)
+        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
+        public void NotifyDataChanged(
+            string oldKey,
+            string newKey,
+            string type,
+            float x,
+            float y,
+            float offsetx,
+            float offsety,
+            float width,
+            float height,
+            Boolean isExternal,
+            bool isAnchor)
         {
             if(PathwayView.SYSTEM_STRING.Equals(type))
             {
@@ -1453,7 +1536,7 @@ namespace EcellLib.PathwayWindow
                     m_keySysCanvasDict.Remove(oldKey);
                     m_keySysCanvasDict.Add(newKey, canvasId);
                     if(isExternal)
-                        m_pathwayWindow.NotifyDataChanged(oldKey, newKey, type);
+                        m_pathwayWindow.NotifyDataChanged(oldKey, newKey, type, x, y, offsetx, offsety, width, height, isAnchor);
                 }
             }
             else if(PathwayView.VARIABLE_STRING.Equals(type))
@@ -1465,7 +1548,7 @@ namespace EcellLib.PathwayWindow
                     m_keyVarCanvasDict.Remove(oldKey);
                     m_keyVarCanvasDict.Add(newKey, canvasId);
                     if(isExternal)
-                        m_pathwayWindow.NotifyDataChanged(oldKey, newKey, type);
+                        m_pathwayWindow.NotifyDataChanged(oldKey, newKey, type, x, y, offsetx, offsety, width, height, isAnchor);
                 }
             }
             else if (PathwayView.PROCESS_STRING.Equals(type))
@@ -1477,7 +1560,7 @@ namespace EcellLib.PathwayWindow
                     m_keyProCanvasDict.Remove(oldKey);
                     m_keyProCanvasDict.Add(newKey, canvasId);
                     if(isExternal)
-                        m_pathwayWindow.NotifyDataChanged(oldKey, newKey, type);
+                        m_pathwayWindow.NotifyDataChanged(oldKey, newKey, type, x, y, offsetx, offsety, width, height, isAnchor);
                 }
             }
         }
@@ -1803,15 +1886,19 @@ namespace EcellLib.PathwayWindow
 
             if (algorithm.DoLayout(commandNum, false, null, nodeElements))
             {
+                int total = nodeElements.Count;
+                int i = 0;
+
                 foreach (NodeElement ne in nodeElements)
                 {
+                    i++;
                     string unique = ne.Key + ":" + ne.Type;
                     if (selectedKeys.ContainsKey(unique))
                     {
                         selectedKeys[unique].Element = ne;
                         PointF newPos = new PointF(ne.X, ne.Y);
                         string surSystem = this.ActiveCanvas.GetSurroundingSystem(newPos, null);
-                        this.ActiveCanvas.TransferNodeTo(surSystem, selectedKeys[unique]);
+                        this.ActiveCanvas.TransferNodeTo(surSystem, selectedKeys[unique], (i == total));
                     }
                 }
             }

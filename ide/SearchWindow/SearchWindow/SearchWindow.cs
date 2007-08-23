@@ -317,6 +317,15 @@ namespace EcellLib.SearchWindow
             else m_searchMenu.Enabled = true;
         }
 
+        /// <summary>
+        /// Change availability of undo/redo function
+        /// </summary>
+        /// <param name="status"></param>
+        public void ChangeUndoStatus(UndoStatus status)
+        {
+            // Nothing should be done.
+        }
+
         public void SaveModel(string modelID, string directory)
         {
         }
@@ -374,6 +383,15 @@ namespace EcellLib.SearchWindow
             if (m_cnd != null && m_cnd.Visible)
                 return true;
             return false;
+        }
+
+        /// <summary>
+        /// Set the position of EcellObject.
+        /// Actually, nothing will be done by this plugin.
+        /// </summary>
+        /// <param name="data">EcellObject, whose position will be set</param>
+        public void SetPosition(EcellObject data)
+        {
         }
         #endregion
     }

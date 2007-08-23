@@ -413,7 +413,24 @@ namespace EcellLib.PathwayWindow
         /// <param name="oldKey">the key of object before edit.</param>
         /// <param name="newKey">the key of object after edit.</param>
         /// <param name="type">the type of object.</param>
-        public void NotifyDataChanged(string oldKey, string newKey, string type)
+        /// <param name="x">x coordinate of object.</param>
+        /// <param name="y">y coordinate of object.</param>
+        /// <param name="offsetx">x offset of object.</param>
+        /// <param name="offsety">y offset of object.</param>
+        /// <param name="width">width of object.</param>
+        /// <param name="height">height of object.</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
+        public void NotifyDataChanged(
+            string oldKey,
+            string newKey,
+            string type,
+            float x,
+            float y,
+            float offsetx,
+            float offsety,
+            float width,
+            float height,
+            bool isAnchor)
         {
             if(oldKey == null || newKey == null || type == null)
                 return;
@@ -422,14 +439,15 @@ namespace EcellLib.PathwayWindow
             DataManager dm = DataManager.GetDataManager();
             if(type.Equals(PathwayView.SYSTEM_STRING))
             {
-                List<EcellObject> list = dm.GetData(m_modelId, PathUtil.GetParentSystemId(oldKey));
-                
-                if (list == null || list.Count == 0)
-                    return;
-
-                list[0].key = newKey;
-                list[0].M_instances = null;
-                dm.DataChanged(m_modelId, oldKey, type, list[0]);
+                EcellObject eo = dm.GetEcellObject(m_modelId, oldKey, type);
+                eo.key = newKey;
+                eo.X = x;
+                eo.Y = y;
+                eo.OffsetX = offsetx;
+                eo.OffsetY = offsety;
+                eo.Width = width;
+                eo.Height = height;
+                dm.DataChanged(m_modelId, oldKey, type, eo, true, isAnchor);
             }
             else
             {
@@ -454,9 +472,13 @@ namespace EcellLib.PathwayWindow
                 
                 // Change key of EcellObject to new one
                 toBeChanged.key = newKey;
+                toBeChanged.X = x;
+                toBeChanged.Y = y;
+                toBeChanged.OffsetX = offsetx;
+                toBeChanged.OffsetY = offsety;
 
                 // Register change to DataManager
-                dm.DataChanged(m_modelId, oldKey, type, toBeChanged);
+                dm.DataChanged(m_modelId, oldKey, type, toBeChanged, true, isAnchor);
             }
         }
 
@@ -804,6 +826,15 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Change availability of undo/redo status
+        /// </summary>
+        /// <param name="status"></param>
+        public void ChangeUndoStatus(UndoStatus status)
+        {
+            // Nothing should be done.
+        }
+
+        /// <summary>
         /// The event sequence on closing project.
         /// </summary>
         public void Clear()
@@ -914,22 +945,29 @@ namespace EcellLib.PathwayWindow
                 {
                     if(ct == ComponentType.System)
                     {
-                        List<EcellObject> list = new List<EcellObject>();
-                        list.Add(data);
-                        this.NewDataAddToModel(list);
-                        List<UniqueKey> underList = m_view.GetKeysUnderSystem(key);
-                        foreach(UniqueKey uk in underList)
+                        if(data.IsPosSet)
                         {
-                            string valueStr = null;
-                            if (uk.Type == ComponentType.Variable && uk.Key.EndsWith(":SIZE"))
-                            {
-                                valueStr = ((AttributeElement)m_view.GetElement(ComponentType.Variable, uk.Key)).Value;
-                            }
-                            m_view.DataDelete(uk.Key, uk.Type);
-                            string newKey = PathUtil.GetMovedKey(uk.Key, key, data.key);
-                            m_view.AddNewObj(m_defCanvasId, PathUtil.GetParentSystemId(newKey), uk.Type, null, modelID, newKey, false, 0, 0, 0, 0, false, null, valueStr, true);                            
+                            m_view.DataChanged(key, data, ComponentType.System);
                         }
-                        m_view.DataDelete(key, ct);
+                        else
+                        {
+                            List<EcellObject> list = new List<EcellObject>();
+                            list.Add(data);
+                            this.NewDataAddToModel(list);
+                            List<UniqueKey> underList = m_view.GetKeysUnderSystem(key);
+                            foreach(UniqueKey uk in underList)
+                            {
+                                string valueStr = null;
+                                if (uk.Type == ComponentType.Variable && uk.Key.EndsWith(":SIZE"))
+                                {
+                                    valueStr = ((AttributeElement)m_view.GetElement(ComponentType.Variable, uk.Key)).Value;
+                                }
+                                m_view.DataDelete(uk.Key, uk.Type);
+                                string newKey = PathUtil.GetMovedKey(uk.Key, key, data.key);
+                                m_view.AddNewObj(m_defCanvasId, PathUtil.GetParentSystemId(newKey), uk.Type, null, modelID, newKey, false, 0, 0, 0, 0, false, null, valueStr, true);                            
+                            }
+                            m_view.DataDelete(key, ct);
+                        }
                     }
                     else
                     {
@@ -1166,6 +1204,26 @@ namespace EcellLib.PathwayWindow
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
+
+        /// <summary>
+        /// Set the position of EcellObject.
+        /// Actually, nothing will be done by this plugin.
+        /// </summary>
+        /// <param name="data">EcellObject, whose position will be set</param>
+        public void SetPosition(EcellObject data)
+        {
+            if (null != data)
+            {
+                m_view.SetPosition(m_defCanvasId, data);
+                List<EcellObject> list = data.M_instances;
+                if (null == list || list.Count == 0)
+                    return;
+                foreach(EcellObject eo in list)
+                {
+                    m_view.SetPosition(m_defCanvasId, eo);
+                }
+            }
+        }
         #endregion
 
         #region Internal use
@@ -1233,22 +1291,22 @@ namespace EcellLib.PathwayWindow
             // These new EcellObjects will be loaded onto the Model currently displayed
             foreach (EcellObject obj in data)
             {
-                string systemName = PathUtil.GetParentSystemId(obj.key);
+                string systemName = PathUtil.GetParentSystemId(obj.key);                
                 if (obj.type.Equals(PathwayView.SYSTEM_STRING))
                 {
                     if (systemName.Equals("/"))
                     {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, false, 0, 0, 1000, 1000, false, null, null, false);
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, null, null, false);
                     }
                     else
                     {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, false, 0, 0, 0, 0, false, null, null, false);
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, null, null, false);
                     }
                 }
                 else if (obj.type.Equals(PathwayView.VARIABLE_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.modelID, obj.key, false, 0, 0, 0, 0, false, null, null, false);
+                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, null, null, false);
                 else if (obj.type.Equals(PathwayView.PROCESS_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.modelID, obj.key, false, 0, 0, 0, 0, false, null, null, false);
+                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, null, null, false);
                 else
                 {
                     throw new PathwayException(m_resources.GetString("ErrUnknowType"));

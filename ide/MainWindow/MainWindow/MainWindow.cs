@@ -313,6 +313,7 @@ namespace EcellLib.MainWindow
         public void LoadModelThread(string modelID)
         {
             m_pManager.LoadData(modelID);
+            DataManager.GetDataManager().SetPositions(modelID);
             m_editCount = 0;
         }
 
@@ -785,8 +786,7 @@ namespace EcellLib.MainWindow
                 exportModelToolStripMenuItem.Enabled = false;
                 importModelToolStripMenuItem.Enabled = true;
                 importScriptToolStripMenuItem.Enabled = true;
-                saveScriptToolStripMenuItem.Enabled = false;
-                saveScriptToolStripMenuItem.Enabled = false;
+                saveScriptToolStripMenuItem.Enabled = false;                
                 printToolStripMenuItem.Enabled = false;
                 exitToolStripMenuItem.Enabled = true;
             }
@@ -818,6 +818,33 @@ namespace EcellLib.MainWindow
                 exitToolStripMenuItem.Enabled = true;
             }
             m_type = type;
+        }
+
+        /// <summary>
+        /// Change availability of undo/redo function
+        /// </summary>
+        /// <param name="status"></param>
+        public void ChangeUndoStatus(UndoStatus status)
+        {
+            switch(status)
+            {
+                case UndoStatus.UNDO_REDO:
+                    undoToolStripMenuItem.Enabled = true;
+                    redoToolStripMenuItem.Enabled = true;
+                    break;
+                case UndoStatus.UNDO_ONLY:
+                    undoToolStripMenuItem.Enabled = true;
+                    redoToolStripMenuItem.Enabled = false;
+                    break;
+                case UndoStatus.REDO_ONLY:
+                    undoToolStripMenuItem.Enabled = false;
+                    redoToolStripMenuItem.Enabled = true;
+                    break;
+                case UndoStatus.NOTHING:
+                    undoToolStripMenuItem.Enabled = false;
+                    redoToolStripMenuItem.Enabled = false;
+                    break;
+            }
         }
 
         /// <summary>
@@ -874,6 +901,15 @@ namespace EcellLib.MainWindow
         public bool IsEnablePrint()
         {
             return false;
+        }
+
+        /// <summary>
+        /// Set the position of EcellObject.
+        /// Actually, nothing will be done by this plugin.
+        /// </summary>
+        /// <param name="data">EcellObject, whose position will be set</param>
+        public void SetPosition(EcellObject data)
+        {
         }
         #endregion
 
@@ -1633,6 +1669,28 @@ namespace EcellLib.MainWindow
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// The action of clicking the undo action menu.
+        /// Undo action.
+        /// </summary>
+        /// <param name="sender">MenuItem.</param>
+        /// <param name="e">EventArgs.</param>
+        private void UndoMenuClick(object sender, EventArgs e)
+        {
+            m_dManager.UndoAction();
+        }
+
+        /// <summary>
+        /// The action of clicking the redo action menu.
+        /// Redo action.
+        /// </summary>
+        /// <param name="sender">MenuItem.</param>
+        /// <param name="e">EventArgs.</param>
+        private void RedoMenuClick(object sender, EventArgs e)
+        {
+            m_dManager.RedoAction();
         }
         #endregion
 

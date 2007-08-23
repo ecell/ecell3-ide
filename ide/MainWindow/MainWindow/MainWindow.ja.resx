@@ -443,4 +443,10 @@
   <data name="setIDEToolStripMenuItem.Text" xml:space="preserve">
     <value>IDEの設定(&amp;I)...</value>
   </data>
+  <data name="redoToolStripMenuItem.Text" xml:space="preserve">
+    <value>やり直す(&amp;Y)...</value>
+  </data>
+  <data name="undoToolStripMenuItem.Text" xml:space="preserve">
+    <value>元に戻す(&amp;Z)...</value>
+  </data>
 </root>
