@@ -1230,15 +1230,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void DeleteClick(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmDelete"),
-                "Delete",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button2);
-
-            if (result == DialogResult.Cancel)
-                return;
-
             /* 20070629 delete by sachiboo. 
                         //PPathwayObject obj = (PPathwayObject)m_nodeMenu.Tag;
                         Object obj = ((ToolStripItem)sender).Tag;
