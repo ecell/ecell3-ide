@@ -172,6 +172,7 @@ namespace EcellLib.PropertyWindow
 
         private void ResetProperty()
         {
+            if (m_current == null) return;
             foreach (EcellData d in m_current.M_value)
             {
                 if (!d.M_value.IsDouble() &&
