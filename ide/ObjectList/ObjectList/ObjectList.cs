@@ -209,6 +209,32 @@ namespace EcellLib.ObjectList
             m_time.Enabled = true;
         }
 
+        private void ResetProperty()
+        {
+            this.Clear();
+            DataManager dm = DataManager.GetDataManager();
+            List<EcellObject> list = dm.GetData(m_currentModelID, null);
+            if (list == null) return;
+
+            foreach (EcellObject eo in list)
+            {
+                if (eo.type != "System") continue;
+                if (eo.M_instances != null)
+                {
+                    foreach (EcellObject child in eo.M_instances)
+                    {
+                        if (child.key.EndsWith(":SIZE")) continue;
+                        // When eo has a new type
+                        if (m_dict.ContainsKey(child.type))
+                        {
+                            m_dict[child.type].AddObject(child);
+                        }
+                    }
+                }
+                m_dict[eo.type].AddObject(eo);
+            }
+        }
+
         void UpdatePropForSimulation()
         {
             double l_time = m_dManager.GetCurrentSimulationTime();
@@ -965,13 +991,18 @@ namespace EcellLib.ObjectList
                 m_time.Enabled = true;
                 m_time.Start();
             }
-            else if (type == Util.SUSPEND ||
-                    ((m_type == Util.RUNNING || m_type == Util.SUSPEND || m_type == Util.STEP) &&
-                    type == Util.LOADED))
+            else if (type == Util.SUSPEND)
             {
                 m_time.Enabled = false;
                 m_time.Stop();
                 UpdatePropForSimulation();
+            }
+            else if ((m_type == Util.RUNNING || m_type == Util.SUSPEND || m_type == Util.STEP) &&
+                    type == Util.LOADED)
+            {
+                m_time.Enabled = false;
+                m_time.Stop();
+                ResetProperty();
             }
             else if (type == Util.STEP)
             {
