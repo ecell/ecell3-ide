@@ -1276,13 +1276,13 @@ namespace EcellLib.PathwayWindow
             switch(type)
             {
                 case ComponentType.System:
+                    this.DeleteFromRegistoryUnder(key);
                     if (m_keySysCanvasDict.ContainsKey(key))
                     {
                         if (m_canvasDict.ContainsKey(m_keySysCanvasDict[key]))
                             m_canvasDict[m_keySysCanvasDict[key]].DataDelete(key, ComponentType.System);
                         m_keySysCanvasDict.Remove(key);
-                    }
-                    this.DeleteFromRegistoryUnder(key);
+                    }                    
                     break;
                 case ComponentType.Variable:
                     if (m_keyVarCanvasDict.ContainsKey(key))
