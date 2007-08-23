@@ -1466,6 +1466,7 @@ namespace EcellLib.PathwayWindow
                     this.m_pathwayView.CreateEdge(process, key, -1);
                     break;
                 case EdgeDirection.None:
+                    this.m_pathwayView.CreateEdge(process, key, 0);
                     break;
             }
 
