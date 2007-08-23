@@ -170,6 +170,25 @@ namespace EcellLib.PropertyWindow
             }
         }
 
+        private void ResetProperty()
+        {
+            foreach (EcellData d in m_current.M_value)
+            {
+                if (!d.M_value.IsDouble() &&
+                    !d.M_value.IsInt())
+                    continue;
+                for (int i = 0; i < m_dgv.Rows.Count; i++)
+                {
+                    if (m_dgv.Rows[i].IsNewRow) continue;
+                    if (m_dgv[0, i].Value == null) continue;
+                    if (d.M_name.Equals(m_dgv[0, i].Value.ToString()))
+                    {
+                        m_dgv[1, i].Value = d.M_value.ToString();
+                    }
+                }
+            }
+        }
+
         void UpdatePropForSimulation()
         {
             double l_time = m_dManager.GetCurrentSimulationTime();
@@ -620,13 +639,18 @@ namespace EcellLib.PropertyWindow
                 m_time.Enabled = true;
                 m_time.Start();
             }
-            else if (type == Util.SUSPEND || 
-                ((m_type == Util.RUNNING || m_type == Util.SUSPEND || m_type == Util.STEP) &&
-                type == Util.LOADED))
+            else if (type == Util.SUSPEND)
             {
                 m_time.Enabled = false;
                 m_time.Stop();
                 UpdatePropForSimulation();
+            }
+            else if ((m_type == Util.RUNNING || m_type == Util.SUSPEND || m_type == Util.STEP) &&
+                type == Util.LOADED)
+            {
+                m_time.Enabled = false;
+                m_time.Stop();
+                ResetProperty();
             }
             else if (type == Util.STEP)
             {
