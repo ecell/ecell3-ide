@@ -1548,6 +1548,10 @@ namespace EcellLib
             {
                 EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
                 obj.M_instances = m_currentObj.M_instances;
+                obj.X = m_currentObj.X;
+                obj.Y = m_currentObj.Y;
+                obj.OffsetX = m_currentObj.OffsetX;
+                obj.OffsetY = m_currentObj.OffsetY;
                 m_dManager.DataChanged(m_currentObj.modelID, m_currentObj.key, m_currentObj.type, obj);
             }
             catch (Exception ex)
