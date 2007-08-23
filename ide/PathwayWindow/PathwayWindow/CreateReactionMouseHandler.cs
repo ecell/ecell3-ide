@@ -203,7 +203,6 @@ namespace EcellLib.PathwayWindow
             }
         }
 
-
         /// <summary>
         /// Create VariableReferenceList of process.
         /// </summary>
@@ -212,80 +211,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="coefficient">coefficient of VariableReferenceList of process</param>
         private void CreateEdge(PEcellProcess process, PEcellVariable variable, int coefficient)
         {
-            EcellObject obj = m_view.GetData(process.Element.Key,
-                process.Element.Type);
-
-            foreach (EcellData d in obj.M_value)
-            {
-                if (!d.M_name.Equals("VariableReferenceList"))
-                    continue;
-
-                List<EcellReference> list =
-                    EcellReference.ConvertString(d.M_value.ToString());
-
-                // If this process and variable are connected in the same direction, nothing will be done.
-                if (PathUtil.CheckReferenceListContainsEntity(list, variable.Element.Key, coefficient))
-                {
-                    MessageBox.Show(m_resources.GetString("ErrAlrConnect"),
-                     "Notice",
-                     MessageBoxButtons.OK,
-                     MessageBoxIcon.Exclamation);
-                    return;
-                }
-
-                String refStr = "(";
-                int i = 0;
-                foreach (EcellReference r in list)
-                {
-                    if (i == 0) refStr = refStr + r.ToString();
-                    else refStr = refStr + ", " + r.ToString();
-                    i++;
-                }
-
-                String n = "";
-                String pre = "";
-                if (coefficient == 0)
-                {
-                    pre = "S";
-                }
-                else
-                {
-                    pre = "P";
-                }
-
-                int k = 0;
-                while (true)
-                {
-                    bool ishit = false;
-                    n = pre + k;
-                    foreach (EcellReference r in list)
-                    {
-                        if (r.name == n)
-                        {
-                            k++;
-                            ishit = true;
-                            continue;
-                        }
-                    }
-                    if (ishit == false) break;
-                }
-
-                EcellReference eref = new EcellReference();
-                eref.name = n;
-                eref.fullID = ":" + variable.Element.Key;
-                eref.coefficient = coefficient;
-                eref.isAccessor = 1;
-
-                if (i == 0) refStr = refStr + eref.ToString();
-                else refStr = refStr + ", " + eref.ToString();
-                refStr = refStr + ")";
-
-                d.M_value = EcellValue.ToVariableReferenceList(refStr);
-
-                DataManager.GetDataManager().DataChanged(
-                    obj.modelID, obj.key, obj.type, obj);
-                return;
-            }
+            m_view.CreateEdge(process, variable, coefficient);
         }
 
         /// <summary>

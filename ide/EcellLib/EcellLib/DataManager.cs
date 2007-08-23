@@ -3149,6 +3149,35 @@ namespace EcellLib
             }
             return null;
         }
+
+        /// <summary>
+        /// Call value of E-cell object.
+        /// </summary>
+        /// <param name="modelId">the modelId of EcellObject.</param>
+        /// <param name="key">key of EcellObject</param>
+        /// <param name="type">type of EcellObject</param>
+        /// <param name="name">name of EcellData</param>
+        /// <returns></returns>
+        public string GetEcellData(string modelId, string key, string type, string name)
+        {
+            if (name == null)
+                return null;
+
+            EcellObject obj = GetEcellObject(modelId, key, type);
+
+            if (obj == null)
+                return null;
+
+            foreach (EcellData ed in obj.M_value)
+            {
+                if (ed.M_name.Equals(name))
+                {
+                    return ed.M_value.ToString();
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Returns the singleton of this.
         /// </summary>

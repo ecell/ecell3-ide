@@ -612,7 +612,7 @@ namespace EcellLib.PathwayWindow
                         if (!needToNotify)
                         {
                             if (null == valueStr)
-                                ((AttributeElement)element).Value = m_pathwayWindow.GetEcellData(key, type, "Value");
+                                ((AttributeElement)element).Value = GetEcellData(key, type, "Value");
                             else
                                 ((AttributeElement)element).Value = valueStr;
                         }
@@ -632,7 +632,7 @@ namespace EcellLib.PathwayWindow
                     if(cs == null)
                         cs = ComponentSettingsManager.DefaultProcessSetting;
                     if(!needToNotify && !change)
-                        ((ProcessElement)element).SetEdgesByStr(m_pathwayWindow.GetEcellData(key, type, "VariableReferenceList"));
+                        ((ProcessElement)element).SetEdgesByStr(GetEcellData(key, type, "VariableReferenceList"));
                     break;
 
                 case ComponentType.System:
@@ -1398,9 +1398,28 @@ namespace EcellLib.PathwayWindow
         /// <param name="key">the key of object.</param>
         /// <param name="type">the type of object.</param>
         /// <returns>EcellObject.</returns>
-        public EcellObject GetData(string key, string type)
+        public EcellObject GetEcellObject(string key, string type)
         {
-            return m_pathwayWindow.GetData(key, type);
+            if (string.IsNullOrEmpty(key))
+                return null;
+            DataManager dm = DataManager.GetDataManager();
+            return dm.GetEcellObject(m_pathwayWindow.ModelID, key, type);
+        }
+
+        /// <summary>
+        /// Call value of E-cell object.
+        /// </summary>
+        /// <param name="key">key of EcellObject</param>
+        /// <param name="type">type of EcellObject</param>
+        /// <param name="name">name of EcellData</param>
+        /// <returns></returns>
+        public string GetEcellData(string key, string type, string name)
+        {
+            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(name))
+                return null;
+
+            DataManager dm = DataManager.GetDataManager();
+            return dm.GetEcellData(this.m_pathwayWindow.ModelID, key, type, name);
         }
 
         /// <summary>
@@ -2117,6 +2136,113 @@ namespace EcellLib.PathwayWindow
             returnVariable.Element = nodeEle;
             return returnVariable;
         }
+
+        /// <summary>
+        /// Create edge from PEcellVariable.
+        /// </summary>
+        public void CreateEdge(PEcellProcess process, PEcellVariable variable, int coefficient)
+        {
+            CreateEdge(process, variable.Element.Key, coefficient);
+        }
+
+        /// <summary>
+        /// Create edge from variable key.
+        /// </summary>
+        public void CreateEdge(PEcellProcess process, string variableKey, int coefficient)
+        {
+            DataManager dm = DataManager.GetDataManager();
+            EcellObject obj = dm.GetEcellObject(process.Element.ModelID, process.Element.Key, process.Element.Type);
+            foreach (EcellData d in obj.M_value)
+            {
+                if (!d.M_name.Equals("VariableReferenceList"))
+                    continue;
+
+                List<EcellReference> list =
+                    EcellReference.ConvertString(d.M_value.ToString());
+
+                // If this process and variable are connected in the same direction, nothing will be done.
+                if (PathUtil.CheckReferenceListContainsEntity(list, variableKey, coefficient))
+                {
+                    MessageBox.Show(m_resources.GetString("ErrAlrConnect"),
+                     "Notice",
+                     MessageBoxButtons.OK,
+                     MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                String refStr = "(";
+                int i = 0;
+                foreach (EcellReference r in list)
+                {
+                    if (i == 0) refStr = refStr + r.ToString();
+                    else refStr = refStr + ", " + r.ToString();
+                    i++;
+                }
+
+                String n = "";
+                String pre = "";
+                if (coefficient == 0)
+                {
+                    pre = "S";
+                }
+                else
+                {
+                    pre = "P";
+                }
+
+                int k = 0;
+                while (true)
+                {
+                    bool ishit = false;
+                    n = pre + k;
+                    foreach (EcellReference r in list)
+                    {
+                        if (r.name == n)
+                        {
+                            k++;
+                            ishit = true;
+                            continue;
+                        }
+                    }
+                    if (ishit == false) break;
+                }
+
+                EcellReference eref = new EcellReference();
+                eref.name = n;
+                eref.fullID = ":" + variableKey;
+                eref.coefficient = coefficient;
+                eref.isAccessor = 1;
+
+                if (i == 0) refStr = refStr + eref.ToString();
+                else refStr = refStr + ", " + eref.ToString();
+                refStr = refStr + ")";
+
+                d.M_value = EcellValue.ToVariableReferenceList(refStr);
+
+                dm.DataChanged(obj.modelID, obj.key, obj.type, obj);
+                return;
+            }
+
+        }
+        /// <summary>
+        /// Create edge from variable key.
+        /// </summary>
+        public void ClearEdges(PEcellProcess process)
+        {
+            DataManager dm = DataManager.GetDataManager();
+            EcellObject obj = dm.GetEcellObject(process.Element.ModelID, process.Element.Key, process.Element.Type);
+            foreach (EcellData d in obj.M_value)
+            {
+                if (!d.M_name.Equals("VariableReferenceList"))
+                    continue;
+
+                d.M_value = EcellValue.ToVariableReferenceList("()");
+
+                dm.DataChanged(obj.modelID, obj.key, obj.type, obj);
+                return;
+            }
+        }
+
         #endregion
 
         /// <summary>

@@ -1438,42 +1438,37 @@ namespace EcellLib.PathwayWindow
             if (cType == ComponentType.Process)
             {
                 PEcellProcess process = m_processes[eo.key];
-                process.DeleteEdges();
-                ProcessElement pElement = (ProcessElement)process.Element;
-                ProcessElement oldElement = (ProcessElement)((PEcellProcess)node).Element;
-                EcellProcess ep = (EcellProcess)eo;
-                ep.VariableReferenceList.Clear();
+                this.m_pathwayView.ClearEdges(process);
+                ProcessElement pe = (ProcessElement)node.Element;
 
-                foreach (EdgeInfo ei in oldElement.Edges.Values)
+                foreach (EdgeInfo ei in pe.Edges.Values)
                 {
-                    EdgeInfo info = new EdgeInfo(ei.ProcessKey, ei.VariableKey);
-                    // Check copied node
+                    string key = ei.VariableKey;
                     if (this.m_copyVariables.ContainsKey(ei.VariableKey))
-                        info.VariableKey = this.m_copyVariables[ei.VariableKey];
-                    // Add relation
-                    info.AddRelation(dm.GetTemporaryID( modelID, "Line", system), ei.Direction, ei.TypeOfLine, ei.IsFixed);
-                    pElement.Edges.Add(info.VariableKey, info);
-                    // 
+                        key = this.m_copyVariables[ei.VariableKey];
+                    CreateEdge(process, key, ei.Direction);
                 }
-                foreach (EdgeInfo ei in pElement)
-                {
-                    EcellReference er = new EcellReference();
-                    ep.VariableReferenceList.Add
-                }
-
-                process.CreateEdges();
-                process.Refresh();
             }
         }
 
-        private void ResetEdge(EcellObject eo)
+        private void CreateEdge(PEcellProcess process, string key, EdgeDirection direction)
         {
-            EcellProcess ep = (EcellProcess)eo;
-            foreach(EcellReference er in ep.VariableReferenceList)
+            switch (direction)
             {
-                if (this.m_copyVariables.ContainsKey(er.Key))
-                    er.Key = this.m_copyVariables[er.Key];
+                case EdgeDirection.Inward:
+                    this.m_pathwayView.CreateEdge(process, key, -1);
+                    break;
+                case EdgeDirection.Outward:
+                    this.m_pathwayView.CreateEdge(process, key, 1);
+                    break;
+                case EdgeDirection.Bidirection:
+                    this.m_pathwayView.CreateEdge(process, key, 1);
+                    this.m_pathwayView.CreateEdge(process, key, -1);
+                    break;
+                case EdgeDirection.None:
+                    break;
             }
+
         }
         
          /// <summary>
@@ -1549,16 +1544,6 @@ namespace EcellLib.PathwayWindow
             {
                 Debug.WriteLine("Not PPathwayObject:" + m_cMenuDict[CANVAS_MENU_DELETE].Tag.ToString());
             }
-        }
-        /// <summary>
-        /// get data from DataManager by using the key and the type.
-        /// </summary>
-        /// <param name="key">the key of object.</param>
-        /// <param name="type">the type of object.</param>
-        /// <returns>EcellObject.</returns>
-        public EcellObject GetData(string key, string type)
-        {
-            return m_pathwayView.GetData(key, type);
         }
 
 #if DEBUG
@@ -1798,7 +1783,7 @@ namespace EcellLib.PathwayWindow
                         sp = sp[1].Split(new char[] { '/' });
                         PPathwayObject p = system.ParentObject;
                         String newkey = m_selectedSystemName + "/" + sp[sp.Length - 1];
-                        EcellObject obj = m_pathwayView.GetData(name, "System");
+                        EcellObject obj = m_pathwayView.GetEcellObject(name, "System");
                         String prevkey = obj.key;
                         obj.key = newkey;
 
@@ -1810,7 +1795,7 @@ namespace EcellLib.PathwayWindow
                     {
                         String data = sp[1] + ":" + sp[2];
                         String newkey = m_selectedSystemName + ":" + sp[2];
-                        EcellObject obj = m_pathwayView.GetData(data, sp[0]);
+                        EcellObject obj = m_pathwayView.GetEcellObject(data, sp[0]);
                         if (obj == null) continue;
                         String prevkey = obj.key;
                         obj.key = newkey;
@@ -1858,7 +1843,7 @@ namespace EcellLib.PathwayWindow
                         sp = sp[1].Split(new char[] { '/' });
                         PPathwayObject p = system.ParentObject;
                         String newkey =  ((PEcellSystem)p).Element.Key + "/" + sp[sp.Length - 1];
-                        EcellObject obj = m_pathwayView.GetData(name, "System");
+                        EcellObject obj = m_pathwayView.GetEcellObject(name, "System");
                         String prevkey = name;
                         obj.key = newkey;
 
@@ -1871,7 +1856,7 @@ namespace EcellLib.PathwayWindow
                         String data = sp[1] + ":" + sp[2];
                         PPathwayObject p = system.ParentObject;
                         String newkey = ((PEcellSystem)p).Element.Key + ":" + sp[2];
-                        EcellObject obj = m_pathwayView.GetData(data, sp[0]);
+                        EcellObject obj = m_pathwayView.GetEcellObject(data, sp[0]);
                         String prevkey = data;
                         obj.key = newkey;
 

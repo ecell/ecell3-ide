@@ -1053,6 +1053,15 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// get / set full ID.
+        /// </summary>
+        public string Key
+        {
+            get { return this.m_fullID.Substring(1, m_fullID.Length - 1); }
+            set { this.m_fullID = ":" + value; }
+        }
+
+        /// <summary>
         /// get / set coefficient.
         /// </summary>
         public int coefficient
@@ -1079,6 +1088,21 @@ namespace EcellLib
             string str = "";
             str = "(\"" + m_name + "\", \"" + m_fullID + "\", " + m_coeff + ", " + m_accessor + ")";
             return str;
+        }
+
+        /// <summary>
+        /// Copy EcellReference.
+        /// </summary>
+        /// <returns></returns>
+        public EcellReference Copy()
+        {
+            EcellReference er = new EcellReference();
+            er.m_name = this.m_name;
+            er.m_fullID = this.m_fullID;
+            er.m_coeff = this.m_coeff;
+            er.m_accessor = this.m_accessor;
+
+            return er;
         }
 
         /// <summary>
