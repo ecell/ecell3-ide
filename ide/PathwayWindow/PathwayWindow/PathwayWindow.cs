@@ -1573,7 +1573,7 @@ namespace EcellLib.PathwayWindow
                                     proElement.SetEdgesByStr(ed.M_value.ToString());
                                 }
                             }
-
+                            
                             pathElements.Add(proElement);
                         }
                     }

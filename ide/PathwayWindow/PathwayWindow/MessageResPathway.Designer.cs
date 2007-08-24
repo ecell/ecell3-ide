@@ -97,6 +97,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Cut に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CutMenuText {
+            get {
+                return ResourceManager.GetString("CutMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete Logger に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DeleteLogMenuText {

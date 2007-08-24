@@ -204,4 +204,7 @@
   <data name="ErrMerge" xml:space="preserve">
     <value>Can not merge the component to the upper system.</value>
   </data>
+  <data name="CutMenuText" xml:space="preserve">
+    <value>Cut</value>
+  </data>
 </root>

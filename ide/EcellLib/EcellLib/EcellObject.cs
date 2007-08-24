@@ -404,6 +404,20 @@ namespace EcellLib
                 DistributeValue(d);
             }
         }
+
+        /// <summary>
+        /// Set value from the list of EcellData.
+        /// </summary>
+        /// <param name="list">the list of EcellData.</param>
+        public EcellData GetValue(string name)
+        {
+            foreach (EcellData data in m_value)
+            {
+                if (data.M_name == name)
+                    return data;
+            }
+            return null;
+        }
     }
 
 

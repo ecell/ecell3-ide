@@ -124,17 +124,22 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Key definition of m_cMenuDict for delete
         /// </summary>
-        public static readonly string CANVAS_MENU_DELETE = "delete";
+        public static readonly string CANVAS_MENU_DELETE = "Delete";
 
         /// <summary>
         /// Key definition of m_cMenuDict for copy
         /// </summary>
-        public static readonly string CANVAS_MENU_COPY = "copy";
+        public static readonly string CANVAS_MENU_COPY = "Copy";
+
+        /// <summary>
+        /// Key definition of m_cMenuDict for cut
+        /// </summary>
+        public static readonly string CANVAS_MENU_CUT = "Cut";
 
         /// <summary>
         /// Key definition of m_cMenuDict for paste
         /// </summary>
-        public static readonly string CANVAS_MENU_PASTE = "paste";
+        public static readonly string CANVAS_MENU_PASTE = "Paste";
 
         /// <summary>
         /// Key definition of m_cMenuDict for delete
@@ -778,6 +783,11 @@ namespace EcellLib.PathwayWindow
             m_nodeMenu.Items.Add(copy);
             m_cMenuDict.Add(CANVAS_MENU_COPY, copy);
 
+            ToolStripItem cut = new ToolStripMenuItem(m_resources.GetString("CutMenuText"));
+            cut.Click += new EventHandler(CutClick);
+            m_nodeMenu.Items.Add(cut);
+            m_cMenuDict.Add(CANVAS_MENU_CUT, cut);
+
             ToolStripItem paste = new ToolStripMenuItem(m_resources.GetString("PasteMenuText"));
             paste.Click += new EventHandler(PasteClick);
             m_nodeMenu.Items.Add(paste);
@@ -1338,7 +1348,15 @@ namespace EcellLib.PathwayWindow
                 }
             }
         }
+        /// <summary>
+        /// Called when a cut menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void CutClick(object sender, EventArgs e)
+        {
 
+        }
         /// <summary>
         /// Called when a paste menu of the context menu is clicked.
         /// </summary>
@@ -1349,6 +1367,7 @@ namespace EcellLib.PathwayWindow
             if (this.m_copiedNodes == null)
                 return;
             PointF point;
+            // Set position diff
             float diffX = this.m_pathwayView.MousePosition.X - this.m_copyPoint.X;
             float diffY = this.m_pathwayView.MousePosition.Y - this.m_copyPoint.Y;
             this.m_copyVariables.Clear();
@@ -3668,7 +3687,10 @@ namespace EcellLib.PathwayWindow
                     break;
                 case ComponentType.Variable:
                     if (!m_variables.ContainsKey(key))
+                    {
+                        UpdateSystemSize(key, data);
                         return;
+                    }
                     PEcellVariable var = m_variables[key];
                     m_variables.Remove(key);
                     var.Element.Key = data.key;
@@ -3715,6 +3737,13 @@ namespace EcellLib.PathwayWindow
                     m_processes.Add(data.key, pro);
                     break;
             }
+        }
+
+        private void UpdateSystemSize(string key, EcellObject data)
+        {
+            SystemContainer sysCon = m_systems[ PathUtil.GetParentSystemId(key)];
+            sysCon.Attribute.Value = data.GetValue("Value").M_value.ToString();
+            sysCon.UpdateText();
         }
 
         /// <summary>
