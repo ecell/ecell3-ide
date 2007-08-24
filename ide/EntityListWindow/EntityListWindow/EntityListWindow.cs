@@ -598,31 +598,29 @@ namespace EcellLib.EntityListWindow
         {
             MenuItem m = (MenuItem)sender;
             string prop = m.Text;
-
-            EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID,
+            // Get EcellObject
+            EcellObject obj = m_dManager.GetEcellObject(
+                m_currentObj.modelID,
                 m_currentObj.key,
-                m_currentObj.type,
-                m_currentObj.classname,
-                new List<EcellData>());
+                m_currentObj.type);
 
-            foreach (EcellData d in m_currentObj.M_value)
+            // set logger
+            foreach (EcellData d in obj.M_value)
             {
-                if (d.M_name == prop)
+                if (prop.Equals(d.M_name))
                 {
                     PluginManager.GetPluginManager().LoggerAdd(
                         m_currentObj.modelID,
                         m_currentObj.key,
                         m_currentObj.type,
                         d.M_entityPath);
-                    if (d.M_isLogger == true) return;
                     d.M_isLogger = true;
                 }
-                obj.M_value.Add(d);
             }
-
-            m_dManager.DataChanged(m_currentObj.modelID,
-                m_currentObj.key,
-                m_currentObj.type,
+            // modify changes
+            m_dManager.DataChanged(obj.modelID,
+                obj.key,
+                obj.type,
                 obj);
         }
 
@@ -635,25 +633,24 @@ namespace EcellLib.EntityListWindow
         {
             MenuItem m = (MenuItem)sender;
             string prop = m.Text;
-
-            EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID,
+            // Get EcellObject
+            EcellObject obj = m_dManager.GetEcellObject(
+                m_currentObj.modelID,
                 m_currentObj.key,
-                m_currentObj.type,
-                m_currentObj.classname,
-                new List<EcellData>());
+                m_currentObj.type);
 
-            foreach (EcellData d in m_currentObj.M_value)
+            // delete logger
+            foreach (EcellData d in obj.M_value)
             {
-                if (d.M_name == prop)
+                if (prop.Equals(d.M_name))
                 {
                     d.M_isLogger = false;
                 }
-                obj.M_value.Add(d);
             }
-
-            m_dManager.DataChanged(m_currentObj.modelID,
-                m_currentObj.key,
-                m_currentObj.type,
+            // modify changes
+            m_dManager.DataChanged(obj.modelID,
+                obj.key,
+                obj.type,
                 obj);
         }
 
