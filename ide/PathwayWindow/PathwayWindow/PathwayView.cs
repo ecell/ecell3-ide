@@ -2002,7 +2002,7 @@ namespace EcellLib.PathwayWindow
                         foreach (ProcessElement pe in processElements[ce.CanvasID])
                             layoutNodeElement.Add(pe);
                     
-                    m_pathwayWindow.DefaultLayoutAlgorithm.DoLayout(-1, true, layoutSystemElement, layoutNodeElement);
+                    m_pathwayWindow.DefaultLayoutAlgorithm.DoLayout(0, true, layoutSystemElement, layoutNodeElement);
                 }
             }
             

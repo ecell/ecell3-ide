@@ -59,7 +59,7 @@ namespace EcellLib.GridLayout
         /// At most, a step of simulated annealing repeats this time.
         /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
         /// </summary>
-        private static int m_kmax = 250;
+        private static float m_kmax = 250;
 
         private static float m_defGridDistance = 60;
         #endregion
@@ -69,9 +69,8 @@ namespace EcellLib.GridLayout
         /// Execute layout
         /// </summary>
         /// <param name="subNum">
-        /// An index of sub command which was clicked on subMenu.
-        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
-        /// If layout name itself was clicked, subCommandNum = -1.
+        /// 0: Layouting from scratch
+        /// -1: Layouting based on current positions
         /// </param>
         /// <param name="layoutSystem">Whether systems should be layouted or not</param>
         /// <param name="systemElements">Systems</param>
@@ -85,7 +84,7 @@ namespace EcellLib.GridLayout
             // Prepare the progress bar
             ProgressDialog form = new ProgressDialog();
             form.Bar.Minimum = 1;
-            form.Bar.Maximum = m_kmax;
+            form.Bar.Maximum = (int)m_kmax;
             form.Bar.Step = 1;
             form.Bar.Value = 1;
             form.Show();
@@ -95,6 +94,8 @@ namespace EcellLib.GridLayout
                 DoSystemLayout(systemElements, nodeElements);
 
             // Next, nodes within one system will be layouted, for each systems.
+            bool isFromScratch = (subNum == 0) ? true : false;
+
             foreach(SystemElement sysEle in systemElements)
             {
                 List<NodeElement> nodesOfTheSystem = new List<NodeElement>();
@@ -116,7 +117,7 @@ namespace EcellLib.GridLayout
                 }
 
                 if(nodesOfTheSystem.Count > 1)
-                    DoNodeLayout(sysEle, childSystems, nodesOfTheSystem, form);
+                    DoNodeLayout(sysEle, childSystems, nodesOfTheSystem, form, isFromScratch);
             }
             form.Dispose();
 
@@ -325,6 +326,11 @@ namespace EcellLib.GridLayout
             return relationMatrix;
         }
 
+        /// <summary>
+        /// Layout systems
+        /// </summary>
+        /// <param name="systemElements">systems, which will be layouted</param>
+        /// <param name="nodeElements">nodes</param>
         private void DoSystemLayout(List<SystemElement> systemElements, List<NodeElement> nodeElements)
         {
             Dictionary<string, SystemElement> sysDict = new Dictionary<string, SystemElement>();
@@ -380,7 +386,13 @@ namespace EcellLib.GridLayout
         /// <param name="childSystems">child systems of this system</param>
         /// <param name="nodeElements">nodes, to be layouted</param>
         /// <param name="dialog">a progress bar</param>
-        private void DoNodeLayout(SystemElement sysElement, List<SystemElement> childSystems, List<NodeElement> nodeElements, ProgressDialog dialog)
+        /// <param name="isFromScratch">Whether layouting will be done from scratch or from current positions</param>
+        private void DoNodeLayout(
+            SystemElement sysElement,
+            List<SystemElement> childSystems,
+            List<NodeElement> nodeElements,
+            ProgressDialog dialog,
+            bool isFromScratch)
         {
             int[,] relationMatrix = CreateRelationMatrix(nodeElements);
 
@@ -448,15 +460,18 @@ namespace EcellLib.GridLayout
                 }
             }
 
-            // Layout nodes randomly in the system
-            RandomizeLayout(maxX, maxY, nodeElements, positionMatrix);
+            // Initialize position in virtual coordinates system
+            if (isFromScratch)
+                RandomizeLayout(maxX, maxY, nodeElements, positionMatrix);
+            else
+                ToVirtualCoordinates(maxX, maxY, sysElement, nodeElements, positionMatrix, gridDistance, systemMargin);
 
             // Create random number generator
             Random ran = new Random();
 
             // Repeat simulated annealing steps
             float t = m_initialT;
-            int k = 0;
+            int k = isFromScratch ? 0 : (int)(m_kmax * 0.95f);
 
             while(k < m_kmax)
             {
@@ -465,7 +480,7 @@ namespace EcellLib.GridLayout
                 {
                     DirectionEnergyDiff neighbor = GetNeighbor(relationMatrix, nodeIndex, nodeElements, maxX, maxY, positionMatrix);
 
-                    float currentT = m_initialT * (m_kmax - k) / m_kmax;
+                    float currentT = m_initialT * (m_kmax - (float)k) / m_kmax;
 
                     if (ran.NextDouble() < GetProbability(neighbor.EnergyDifference, currentT))
                         MoveNode(nodeEle, neighbor.Direction, positionMatrix);
@@ -651,7 +666,7 @@ namespace EcellLib.GridLayout
                 return 1;
             else
             {
-                double p = Math.Exp((double)((-1 * difference) / temperature));
+                double p = Math.Exp((double)((-100f * difference) / temperature));
                 return p;
             }
         }
@@ -748,6 +763,120 @@ namespace EcellLib.GridLayout
             return true;
         }
 
+        /// <summary>
+        /// In virtual grid coordinate system, vacant point which is closest to startPoint will be searched.
+        /// Searching starts from startPoint, and finishs when a vacant point is found.        /// 
+        /// </summary>
+        /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
+        /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
+        /// <param name="startPoint">search start point</param>
+        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
+        /// <returns>a found point</returns>
+        private Point SearchAround4VacantPoint(int maxX, int maxY, Point startPoint, bool[,] posMatrix)
+        {
+            if (0 <= startPoint.X && startPoint.X <= maxX
+              && 0 <= startPoint.Y && startPoint.Y <= maxY
+              && posMatrix[startPoint.X, startPoint.Y] == false)
+                return startPoint;
+
+            int searchSize = 0;
+
+            while(searchSize <= maxX || searchSize <= maxY)
+            {
+                searchSize += 1;
+
+                Point currentPoint = new Point(startPoint.X - searchSize, startPoint.Y - searchSize);
+
+                // search left to right
+                for (int i = 0; i < searchSize * 2; i++)
+                {
+                    currentPoint.X += 1;
+                    if (IsVacant(maxX, maxY, posMatrix, currentPoint))
+                        return currentPoint;
+                }
+
+                // search upper to lower
+                for (int i = 0; i < searchSize * 2; i++)
+                {
+                    currentPoint.Y += 1;
+                    if (IsVacant(maxX, maxY, posMatrix, currentPoint))
+                        return currentPoint;
+                }
+                
+                // search right to left
+                for (int i = 0; i < searchSize * 2; i++ )
+                {
+                    currentPoint.X -= 1;
+                    if (IsVacant(maxX, maxY, posMatrix, currentPoint))
+                        return currentPoint;
+                }
+
+                // search lower to upper
+                for (int i = 0; i < searchSize * 2; i++ )
+                {
+                    currentPoint.Y -= 1;
+                    if (IsVacant(maxX, maxY, posMatrix, currentPoint))
+                        return currentPoint;
+                }
+
+            }
+
+            throw new Exception("Can't assign a point in grid coordinate system");
+        }
+
+        /// <summary>
+        /// Put nodes which have real coordinates into virtual grid coordinate.
+        /// </summary>
+        /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
+        /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
+        /// <param name="sysElement">nodes, which will be layouted</param>
+        /// <param name="nodeElements">nodes, which will be layouted</param>
+        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
+        /// <param name="gridDistance">distance between neighboring grid point in piccolo coordinate system</param>
+        /// <param name="systemMargin">nodes must not be placed within margin from system bounds</param>
+        private void ToVirtualCoordinates(
+            int maxX,
+            int maxY,
+            SystemElement sysElement,
+            List<NodeElement> nodeElements,
+            bool[,] posMatrix,
+            float gridDistance,
+            float systemMargin)
+        {
+            foreach (NodeElement node in nodeElements)
+            {
+                int x = (int)((sysElement.X + node.X - systemMargin) / gridDistance)
+                           - (int)((sysElement.X + systemMargin) / gridDistance) - 1;
+                int y = (int)((sysElement.Y + node.Y - systemMargin) / gridDistance)
+                           - (int)((sysElement.Y + systemMargin) / gridDistance) - 1;
+
+                Point startPoint = new Point(x, y);
+
+                Point vacantPoint = SearchAround4VacantPoint(maxX, maxY, startPoint, posMatrix);
+
+                posMatrix[vacantPoint.X, vacantPoint.Y] = true;
+                node.X = vacantPoint.X;
+                node.Y = vacantPoint.Y;
+            }            
+        }
+        
+        /// <summary>
+        /// Check if a point is vacant or not
+        /// </summary>
+        /// <param name="maxX">x coordinate must be between 0 and maxX</param>
+        /// <param name="maxY">y coordinate must be between 0 and maxY</param>
+        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
+        /// <param name="currentPoint">this point is checked</param>
+        /// <returns>true if vacant, false if not vacant</returns>
+        private bool IsVacant(int maxX, int maxY, bool[,] posMatrix, Point currentPoint)
+        {
+            if (0 <= currentPoint.X && currentPoint.X <= maxX
+             && 0 <= currentPoint.Y && currentPoint.Y <= maxY
+             && posMatrix[currentPoint.X, currentPoint.Y] == false)
+                return true;
+            else
+                return false;
+        }
         #endregion
 
         #region Inner class
