@@ -159,6 +159,11 @@ namespace EcellLib.PathwayWindow
         PathwayWindow m_pathwayWindow;
 
         /// <summary>
+        /// m_dManager (DataManager)
+        /// </summary>
+        private DataManager m_dManager;
+
+        /// <summary>
         /// A list of ComponentSettings.
         /// </summary>
         List<ComponentSetting> m_componentSettings;
@@ -395,6 +400,9 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public PathwayView()
         {
+            // Preparing a DataManager
+            m_dManager = DataManager.GetDataManager();
+
             // Preparing a pathway panel
             m_tabControl = new TabControl();
             m_tabControl.Dock = DockStyle.Fill;
@@ -1467,8 +1475,7 @@ namespace EcellLib.PathwayWindow
         {
             if (string.IsNullOrEmpty(key))
                 return null;
-            DataManager dm = DataManager.GetDataManager();
-            return dm.GetEcellObject(m_pathwayWindow.ModelID, key, type);
+            return m_dManager.GetEcellObject(m_pathwayWindow.ModelID, key, type);
         }
 
         /// <summary>
@@ -1483,8 +1490,7 @@ namespace EcellLib.PathwayWindow
             if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(name))
                 return null;
 
-            DataManager dm = DataManager.GetDataManager();
-            return dm.GetEcellData(this.m_pathwayWindow.ModelID, key, type, name);
+            return m_dManager.GetEcellData(this.m_pathwayWindow.ModelID, key, type, name);
         }
 
         /// <summary>
@@ -2237,8 +2243,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void CreateEdge(PEcellProcess process, string variableKey, int coefficient)
         {
-            DataManager dm = DataManager.GetDataManager();
-            EcellObject obj = dm.GetEcellObject(process.Element.ModelID, process.Element.Key, process.Element.Type);
+            EcellObject obj = m_dManager.GetEcellObject(process.Element.ModelID, process.Element.Key, process.Element.Type);
             foreach (EcellData d in obj.M_value)
             {
                 if (!d.M_name.Equals("VariableReferenceList"))
@@ -2310,7 +2315,7 @@ namespace EcellLib.PathwayWindow
 
                 d.M_value = EcellValue.ToVariableReferenceList(refStr);
 
-                dm.DataChanged(obj.modelID, obj.key, obj.type, obj);
+                m_dManager.DataChanged(obj.modelID, obj.key, obj.type, obj);
                 return;
             }
 
@@ -2320,8 +2325,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void ClearEdges(PEcellProcess process)
         {
-            DataManager dm = DataManager.GetDataManager();
-            EcellObject obj = dm.GetEcellObject(process.Element.ModelID, process.Element.Key, process.Element.Type);
+            EcellObject obj = m_dManager.GetEcellObject(process.Element.ModelID, process.Element.Key, process.Element.Type);
             foreach (EcellData d in obj.M_value)
             {
                 if (!d.M_name.Equals("VariableReferenceList"))
@@ -2329,7 +2333,7 @@ namespace EcellLib.PathwayWindow
 
                 d.M_value = EcellValue.ToVariableReferenceList("()");
 
-                dm.DataChanged(obj.modelID, obj.key, obj.type, obj);
+                m_dManager.DataChanged(obj.modelID, obj.key, obj.type, obj);
                 return;
             }
         }

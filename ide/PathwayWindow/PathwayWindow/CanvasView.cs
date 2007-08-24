@@ -250,6 +250,11 @@ namespace EcellLib.PathwayWindow
         protected PathwayView m_pathwayView;
 
         /// <summary>
+        /// m_dManager (DataManager)
+        /// </summary>
+        private DataManager m_dManager;
+
+        /// <summary>
         /// The unique ID of this canvas.
         /// </summary>
         protected string m_canvasId;
@@ -662,6 +667,7 @@ namespace EcellLib.PathwayWindow
             PInputEventHandler handler)
         {
             m_pathwayView = view;
+            m_dManager = DataManager.GetDataManager();
             m_canvasId = name;
 
             // Preparing TabPage
@@ -1412,7 +1418,6 @@ namespace EcellLib.PathwayWindow
         {
             // managers
             ComponentSettingsManager csManager = this.m_pathwayView.ComponentSettingsManager;
-            DataManager dm = DataManager.GetDataManager();
             // parameters
             string canvas = node.Element.CanvasID;
             string system = node.Element.ParentSystemID;
@@ -1425,7 +1430,7 @@ namespace EcellLib.PathwayWindow
             if (node.Element.EcellObject == null)
                 return;
             EcellObject eo = node.Element.EcellObject.Copy();
-            eo.key = system + ":" + dm.GetTemporaryID(modelID, type, system);
+            eo.key = system + ":" + m_dManager.GetTemporaryID(modelID, type, system);
 
             switch (cType)
             {
@@ -1511,7 +1516,7 @@ namespace EcellLib.PathwayWindow
             if (ClickedNode is PPathwayObject)
             {
                 PPathwayObject obj = (PPathwayObject)ClickedNode;
-                ecellobj = DataManager.GetDataManager().GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
+                ecellobj = m_dManager.GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
                 Debug.WriteLine("Create " + obj.Element.Type + " Logger:" + obj.Element.Key);
 
                 // set logger
@@ -1528,7 +1533,7 @@ namespace EcellLib.PathwayWindow
                     }
                 }
                 // modify changes
-                DataManager.GetDataManager().DataChanged(
+                m_dManager.DataChanged(
                                 ecellobj.modelID,
                                 ecellobj.key,
                                 ecellobj.type,
@@ -1550,7 +1555,7 @@ namespace EcellLib.PathwayWindow
             if (ClickedNode is PPathwayObject)
             {
                 PPathwayObject obj = (PPathwayObject)ClickedNode;
-                ecellobj = DataManager.GetDataManager().GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
+                ecellobj = m_dManager.GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
                 Debug.WriteLine("Delete " + obj.Element.Type + " Logger:" + obj.Element.Key);
 
                 // delete logger
@@ -1558,15 +1563,11 @@ namespace EcellLib.PathwayWindow
                     if (logger.Equals(d.M_name))
                         d.M_isLogger = false;
                 // modify changes
-                DataManager.GetDataManager().DataChanged(
+                m_dManager.DataChanged(
                                 ecellobj.modelID,
                                 ecellobj.key,
                                 ecellobj.type,
                                 ecellobj);
-            }
-            else
-            {
-                Debug.WriteLine("Not PPathwayObject:" + ClickedNode.ToString());
             }
         }
 
