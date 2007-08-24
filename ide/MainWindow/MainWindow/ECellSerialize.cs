@@ -90,10 +90,20 @@ namespace EcellLib.MainWindow {
                 // Form settings
                 xmlOut.WriteStartElement("Form");
                 xmlOut.WriteAttributeString("WindowState", window.WindowState.ToString());
-                xmlOut.WriteAttributeString("Top", window.RestoreBounds.Top.ToString(CultureInfo.InvariantCulture));
-                xmlOut.WriteAttributeString("Left", window.RestoreBounds.Left.ToString(CultureInfo.InvariantCulture));
-                xmlOut.WriteAttributeString("Height", window.RestoreBounds.Height.ToString(CultureInfo.InvariantCulture));
-                xmlOut.WriteAttributeString("Width", window.RestoreBounds.Width.ToString(CultureInfo.InvariantCulture));
+                if (window.WindowState == FormWindowState.Maximized)
+                {
+                    xmlOut.WriteAttributeString("Top", window.RestoreBounds.Top.ToString(CultureInfo.InvariantCulture));
+                    xmlOut.WriteAttributeString("Left", window.RestoreBounds.Left.ToString(CultureInfo.InvariantCulture));
+                    xmlOut.WriteAttributeString("Height", window.RestoreBounds.Height.ToString(CultureInfo.InvariantCulture));
+                    xmlOut.WriteAttributeString("Width", window.RestoreBounds.Width.ToString(CultureInfo.InvariantCulture));
+                }
+                else
+                {
+                    xmlOut.WriteAttributeString("Top", window.DesktopBounds.Top.ToString(CultureInfo.InvariantCulture));
+                    xmlOut.WriteAttributeString("Left", window.DesktopBounds.Left.ToString(CultureInfo.InvariantCulture));
+                    xmlOut.WriteAttributeString("Height", window.DesktopBounds.Height.ToString(CultureInfo.InvariantCulture));
+                    xmlOut.WriteAttributeString("Width", window.DesktopBounds.Width.ToString(CultureInfo.InvariantCulture));
+                }
                 xmlOut.WriteEndElement();   //</Form>
 
                 // DockPanel settings
