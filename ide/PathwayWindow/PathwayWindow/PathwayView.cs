@@ -2363,7 +2363,7 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
-                this.CanvasDictionary[e.Canvas.Name].NodeMenu.Tag = e.PickedNode;
+                this.CanvasDictionary[e.Canvas.Name].ClickedNode = e.PickedNode;
                 foreach (String iName in CanvasDictionary[e.Canvas.Name].ContextMenuDict.Keys)
                 {
                     if (iName.StartsWith("delete"))
@@ -2421,7 +2421,7 @@ namespace EcellLib.PathwayWindow
             //}
             //else
             //{
-                this.CanvasDictionary[e.Canvas.Name].NodeMenu.Tag = e.PickedNode;
+                this.CanvasDictionary[e.Canvas.Name].ClickedNode = e.PickedNode;
                 foreach (String iName in CanvasDictionary[e.Canvas.Name].ContextMenuDict.Keys)
                 {
                     if (iName.StartsWith("delete"))
@@ -2496,7 +2496,7 @@ namespace EcellLib.PathwayWindow
 
             if (e.Button == MouseButtons.Right)
             {
-                this.CanvasDictionary[e.Canvas.Name].NodeMenu.Tag = e.PickedNode;
+                this.CanvasDictionary[e.Canvas.Name].ClickedNode = e.PickedNode;
             }
 
             this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();

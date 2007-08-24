@@ -436,6 +436,11 @@ namespace EcellLib.PathwayWindow
         PathwayElement.ElementType m_reconnectNodeType;
 
         /// <summary>
+        /// Clicked PathwayObject.
+        /// </summary>
+        PNode m_clickedNode = null;
+
+        /// <summary>
         /// Stack for nodes under the mouse.
         /// this will be used to reconnect edge.
         /// </summary>
@@ -472,7 +477,7 @@ namespace EcellLib.PathwayWindow
         {
             get { return m_ctrlLayer; }
         }
-        
+
         /// <summary>
         /// Accessor for m_nodeMenu.
         /// </summary>
@@ -480,6 +485,15 @@ namespace EcellLib.PathwayWindow
         {
             get { return m_nodeMenu; }
             set { this.m_nodeMenu = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_clickedNode.
+        /// </summary>
+        public PNode ClickedNode
+        {
+            get { return m_clickedNode; }
+            set { this.m_clickedNode = value; }
         }
 
         /// <summary>
@@ -1179,8 +1193,7 @@ namespace EcellLib.PathwayWindow
                 return;
 
             /* 20070629 delete by sachiboo. 
-                        //PPathwayObject obj = (PPathwayObject)m_nodeMenu.Tag;
-                        Object obj = ((ToolStripItem)sender).Tag;
+                        //PPathwayObject obj = (PPathwayObject)ClickedNode;
             */
 
             Object obj = ((ToolStripItem)sender).Tag;
@@ -1241,8 +1254,7 @@ namespace EcellLib.PathwayWindow
         void DeleteClick(object sender, EventArgs e)
         {
             /* 20070629 delete by sachiboo. 
-                        //PPathwayObject obj = (PPathwayObject)m_nodeMenu.Tag;
-                        Object obj = ((ToolStripItem)sender).Tag;
+                        //PPathwayObject obj = (PPathwayObject)ClickedNode;
             */
 
 
@@ -1496,9 +1508,9 @@ namespace EcellLib.PathwayWindow
         {
             string logger = ((ToolStripItem)sender).Text;
             EcellObject ecellobj = null;
-            if (m_cMenuDict[CANVAS_MENU_DELETE].Tag is PPathwayObject)
+            if (ClickedNode is PPathwayObject)
             {
-                PPathwayObject obj = (PPathwayObject)m_cMenuDict[CANVAS_MENU_DELETE].Tag;
+                PPathwayObject obj = (PPathwayObject)ClickedNode;
                 ecellobj = DataManager.GetDataManager().GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
                 Debug.WriteLine("Create " + obj.Element.Type + " Logger:" + obj.Element.Key);
 
@@ -1523,10 +1535,6 @@ namespace EcellLib.PathwayWindow
                                 ecellobj);
                 //
             }
-            else
-            {
-                Debug.WriteLine("Not PPathwayObject:" + m_cMenuDict[CANVAS_MENU_DELETE].Tag.ToString());
-            }
 
         }
 
@@ -1539,9 +1547,9 @@ namespace EcellLib.PathwayWindow
         {
             string logger = ((ToolStripItem)sender).Text;
             EcellObject ecellobj = null;
-            if (m_cMenuDict[CANVAS_MENU_DELETE].Tag is PPathwayObject)
+            if (ClickedNode is PPathwayObject)
             {
-                PPathwayObject obj = (PPathwayObject)m_cMenuDict[CANVAS_MENU_DELETE].Tag;
+                PPathwayObject obj = (PPathwayObject)ClickedNode;
                 ecellobj = DataManager.GetDataManager().GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
                 Debug.WriteLine("Delete " + obj.Element.Type + " Logger:" + obj.Element.Key);
 
@@ -1558,7 +1566,7 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
-                Debug.WriteLine("Not PPathwayObject:" + m_cMenuDict[CANVAS_MENU_DELETE].Tag.ToString());
+                Debug.WriteLine("Not PPathwayObject:" + ClickedNode.ToString());
             }
         }
 
@@ -1570,9 +1578,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void DebugClick(object sender, EventArgs e)
         {
-            if (m_cMenuDict[CANVAS_MENU_DELETE].Tag is PPathwayObject)
+            if (ClickedNode is PPathwayObject)
             {
-                PPathwayObject obj = (PPathwayObject)m_cMenuDict[CANVAS_MENU_DELETE].Tag;
+                PPathwayObject obj = (PPathwayObject)ClickedNode;
                 MessageBox.Show("Name:" + obj.Name + "\nX:" + obj.X + "\nY:" + obj.Y
                     + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY + "\nToString()"
                     + obj.ToString());
