@@ -760,7 +760,7 @@ namespace EcellLib
         public Object M_value
         {
             get { return this.m_value; }
-            // set { this.m_value = value; }
+            set { this.m_value = value; }
         }
 
         /// <summary>
@@ -1124,6 +1124,34 @@ namespace EcellLib
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Copy EcellValue.
+        /// </summary>
+        /// <returns>EcellValue</returns>
+        public EcellValue Copy()
+        {
+            if (IsList())
+            {
+                List<EcellValue> list = new List<EcellValue>();
+                foreach (EcellValue value in this.CastToList())
+                    list.Add(value.Copy());
+                return new EcellValue(list);
+            }
+            else if (IsInt())
+            {
+                return new EcellValue(this.CastToInt());
+            }
+            else if (IsDouble())
+            {
+                return new EcellValue(this.CastToDouble());
+            }
+            else if (IsString())
+            {
+                return new EcellValue(this.CastToString());
+            }
+            else return null;
         }
     }
 

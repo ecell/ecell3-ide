@@ -79,7 +79,7 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
-        ///   Copy に類似しているローカライズされた文字列を検索します。
+        ///   Copy (C) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CopyMenuText {
             get {
@@ -97,7 +97,7 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
-        ///   Cut に類似しているローカライズされた文字列を検索します。
+        ///   Cut (T) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CutMenuText {
             get {

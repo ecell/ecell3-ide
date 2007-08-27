@@ -300,11 +300,6 @@ namespace EcellLib.PathwayWindow
         protected Dictionary<string, PEcellVariable> m_variables = new Dictionary<string, PEcellVariable>();
 
         /// <summary>
-        /// The dictionary for copying variables.
-        /// </summary>
-        protected Dictionary<string, string> m_copyVariables = new Dictionary<string, string>();
-
-        /// <summary>
         /// The dictionary for all processes on this canvas.
         /// </summary>
         protected Dictionary<string, PEcellProcess> m_processes = new Dictionary<string, PEcellProcess>();
@@ -333,7 +328,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// List of PPathwayNode for copied object.
         /// </summary>
-        List<PPathwayObject> m_copiedNodes = new List<PPathwayObject>();
+        List<EcellObject> m_copiedNodes = new List<EcellObject>();
 
         /// <summary>
         /// selected line
@@ -454,6 +449,7 @@ namespace EcellLib.PathwayWindow
         /// ResourceManager for PathwayWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+
         #endregion
 
         #region Accessors
@@ -536,7 +532,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_copiedNodes.
         /// </summary>
-        public List<PPathwayObject> CopiedNodes
+        public List<EcellObject> CopiedNodes
         {
             get { return m_copiedNodes; }
         }
@@ -794,6 +790,7 @@ namespace EcellLib.PathwayWindow
             m_cMenuDict.Add( CANVAS_MENU_SEPARATOR2, separator2);
 
             ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString("DeleteMenuText"));
+            delete.Text = m_resources.GetString("DeleteMenuText");
             delete.Click += new EventHandler(DeleteClick);
             m_nodeMenu.Items.Add(delete);
             m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
@@ -1356,16 +1353,10 @@ namespace EcellLib.PathwayWindow
         {
             this.m_copiedNodes.Clear();
             this.m_copyPoint = this.m_pathwayView.MousePosition;
-            if (this.m_selectedNodes != null)
-            {
-                this.m_copiedNodes.Clear();
-                foreach (PPathwayObject node in this.m_selectedNodes)
-                {
-                    this.m_copiedNodes.Add(node);
-                    Debug.WriteLine("Copy Node:" + node.Element.Key);
-                }
-            }
+
+            this.m_copiedNodes = SelectCopyNodes(this.m_selectedNodes);
         }
+
         /// <summary>
         /// Called when a cut menu of the context menu is clicked.
         /// </summary>
@@ -1373,8 +1364,55 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void CutClick(object sender, EventArgs e)
         {
+            this.m_copiedNodes.Clear();
+            this.m_copyPoint = this.m_pathwayView.MousePosition;
 
+            this.m_copiedNodes = SelectCopyNodes(this.m_selectedNodes);
         }
+
+        private List<EcellObject> SelectCopyNodes(List<PPathwayNode> nodeList)
+        {
+            List<EcellObject> copyNodes = new List<EcellObject>();
+            foreach (PPathwayNode node in nodeList)
+                copyNodes.Add(node.Element.EcellObject);
+            return copyNodes;
+        }
+
+        private List<EcellObject> CopyNodes(List<EcellObject> nodeList)
+        {
+            List<EcellObject> copiedNodes = new List<EcellObject>();
+            Dictionary<string, string> varKeys = new Dictionary<string, string>();
+            // Set m_copiedNodes.
+            if (nodeList != null)
+            {
+                foreach (EcellObject node in nodeList)
+                {
+                    //Create new EcellObject
+                    EcellObject eo = node.Copy();
+                    string system = PathUtil.GetParentSystemId(eo.key);
+                    eo.key = system + ":" + m_dManager.GetTemporaryID(eo.modelID, eo.type, system);
+                    copiedNodes.Add(eo);
+                    varKeys.Add(":" + node.key, ":" + eo.key);
+                    Debug.WriteLine("Copy Node:" + node.key);
+                }
+            }
+            // Reset edges.
+            foreach (EcellObject eo in copiedNodes)
+            {
+                if (eo.type == "Process")
+                {
+                    eo.GetValue("VariableReferenceList").M_value = eo.GetValue("VariableReferenceList").M_value.Copy();
+                    foreach (EcellValue edgeList in eo.GetValue("VariableReferenceList").M_value.CastToList())
+                    {
+                        foreach (EcellValue val in edgeList.CastToList())
+                            if (varKeys.ContainsKey(val.ToString()))
+                                val.M_value = varKeys[val.ToString()];
+                    }
+                }
+            }
+            return copiedNodes;
+        }
+
         /// <summary>
         /// Called when a paste menu of the context menu is clicked.
         /// </summary>
@@ -1384,63 +1422,41 @@ namespace EcellLib.PathwayWindow
         {
             if (this.m_copiedNodes == null)
                 return;
-            PointF point;
-            // Set position diff
+            // Get position diff
             float diffX = this.m_pathwayView.MousePosition.X - this.m_copyPoint.X;
             float diffY = this.m_pathwayView.MousePosition.Y - this.m_copyPoint.Y;
-            this.m_copyVariables.Clear();
 
-            foreach (PPathwayObject node in this.m_copiedNodes)
+            foreach (EcellObject eo in CopyNodes(this.m_copiedNodes))
             {
-                if (node != null && node is PEcellVariable)
-                {
-                    point = new PointF(node.X + diffX, node.Y + diffY);
-                    PastePathwayObject(node, point);
-                }
+                eo.X = eo.X + diffX;
+                eo.Y = eo.Y + diffY;
+                PasteNodes(eo);
             }
-            foreach (PPathwayObject node in this.m_copiedNodes)
-            {
-                if (node != null && node is PEcellProcess)
-                {
-                    point = new PointF(node.X + diffX, node.Y + diffY);
-                    PastePathwayObject(node, point);
-                }
-            }
-            
         }
 
         /// <summary>
-        /// get new PathwayObject.
+        /// Paste PathwayObject.
         /// </summary>
-        /// <param name="type">ComponentType</param>
-        /// <param name="modelId">modelId</param>
-        public void PastePathwayObject(PPathwayObject node, PointF point)
+        /// <param name="eo">EcellObject</param>
+        public void PasteNodes(EcellObject eo)
         {
-            // managers
-            ComponentSettingsManager csManager = this.m_pathwayView.ComponentSettingsManager;
-            // parameters
-            string canvas = node.Element.CanvasID;
-            string system = node.Element.ParentSystemID;
-            string modelID = node.Element.ModelID;
-            string type = node.Element.Type;
-            ComponentType cType = ComponentSetting.ParseComponentKind(type);
-
-            ComponentSetting cs = null;
-            // copy node
-            if (node.Element.EcellObject == null)
+            // Check EcellObject
+            if (eo == null)
                 return;
-            EcellObject eo = node.Element.EcellObject.Copy();
-            eo.key = system + ":" + m_dManager.GetTemporaryID(modelID, type, system);
 
+            // Settings
+            ComponentSettingsManager csManager = this.m_pathwayView.ComponentSettingsManager;
+            ComponentSetting cs = null;
+            ComponentType cType = ComponentSetting.ParseComponentKind(eo.type);
+            string system = PathUtil.GetParentSystemId(eo.key);
+            eo.key = system + ":" + m_dManager.GetTemporaryID(eo.modelID, eo.type, system); 
             switch (cType)
             {
                 case ComponentType.Process:
                     cs = csManager.DefaultProcessSetting;
-                    //ResetEdge(eo);
                     break;
                 case ComponentType.Variable:
                     cs = csManager.DefaultVariableSetting;
-                    this.m_copyVariables.Add(node.Element.Key, eo.key);
                     break;
                 case ComponentType.System:
                     cs = csManager.DefaultSystemSetting;
@@ -1448,40 +1464,23 @@ namespace EcellLib.PathwayWindow
             }
 
             // create new node
-            eo.X = point.X;
-            eo.Y = point.Y;
-            this.m_pathwayView.AddNewObj(canvas,
+            this.m_pathwayView.AddNewObj(this.CanvasID,
                                             system,
                                             cType,
                                             cs,
-                                            modelID,
+                                            eo.modelID,
                                             eo.key,
                                             true,
-                                            point.X,
-                                            point.Y,
-                                            node.Width,
-                                            node.Height,
+                                            eo.X,
+                                            eo.Y,
+                                            eo.Width,
+                                            eo.Height,
                                             true,
                                             eo,
                                             null,
                                             false);
             Debug.WriteLine("Paste node:" + eo.key);
-
-            // Reset Edges of Process.
-            if (cType == ComponentType.Process)
-            {
-                PEcellProcess process = m_processes[eo.key];
-                this.m_pathwayView.ClearEdges(process);
-                ProcessElement pe = (ProcessElement)node.Element;
-
-                foreach (EdgeInfo ei in pe.Edges.Values)
-                {
-                    string key = ei.VariableKey;
-                    if (this.m_copyVariables.ContainsKey(ei.VariableKey))
-                        key = this.m_copyVariables[ei.VariableKey];
-                    CreateEdge(process, key, ei.Direction);
-                }
-            }
+            RefreshVisibility();
         }
 
         private void CreateEdge(PEcellProcess process, string key, EdgeDirection direction)
