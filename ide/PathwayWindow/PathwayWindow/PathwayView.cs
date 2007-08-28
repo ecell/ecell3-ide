@@ -1593,25 +1593,26 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="key">the key of deleted object.</param>
         /// <param name="type">the type of deleted object.</param>
-        public void NotifyDataDelete(string key, ComponentType type)
+        /// <param name="isAnchor">the type of deleted object.</param>
+        public void NotifyDataDelete(string key, ComponentType type, bool isAnchor)
         {
             switch(type)
             {
                 case ComponentType.System:
                     if (m_pathwayWindow != null)
-                        m_pathwayWindow.NotifyDataDelete(key, SYSTEM_STRING);
+                        m_pathwayWindow.NotifyDataDelete(key, SYSTEM_STRING, isAnchor);
                     if (m_keySysCanvasDict.ContainsKey(key))
                         m_keySysCanvasDict.Remove(key);
                     break;
                 case ComponentType.Variable:
                     if (m_pathwayWindow != null)
-                        m_pathwayWindow.NotifyDataDelete(key, VARIABLE_STRING);
+                        m_pathwayWindow.NotifyDataDelete(key, VARIABLE_STRING, isAnchor);
                     if (m_keyVarCanvasDict.ContainsKey(key))
                         m_keyVarCanvasDict.Remove(key);
                     break;
                 case ComponentType.Process:
                     if (m_pathwayWindow != null)
-                        m_pathwayWindow.NotifyDataDelete(key, PROCESS_STRING);
+                        m_pathwayWindow.NotifyDataDelete(key, PROCESS_STRING, isAnchor);
                     if (m_keyProCanvasDict.ContainsKey(key))
                         m_keyProCanvasDict.Remove(key);
                     break;

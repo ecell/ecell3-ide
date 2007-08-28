@@ -1468,15 +1468,15 @@ namespace EcellLib
                 //
                 if (l_ecellObject.type.Equals(Util.s_xpathSystem))
                 {
-                    this.DataChanged4System(l_modelID, l_key, l_type, l_ecellObject);
+                    this.DataChanged4System(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                 }
                 else if (l_ecellObject.type.Equals(Util.s_xpathProcess))
                 {
-                    this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject);
+                    this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                 }
                 else if (l_ecellObject.type.Equals(Util.s_xpathVariable))
                 {
-                    this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject);
+                    this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                     if (!l_modelID.Equals(l_ecellObject.modelID) || !l_key.Equals(l_ecellObject.key))
                     {
                         List<EcellObject> l_changedProcessList = new List<EcellObject>();
@@ -1485,7 +1485,7 @@ namespace EcellLib
                         {
                             this.DataChanged4Entity(
                                 l_changedProcess.modelID, l_changedProcess.key,
-                                l_changedProcess.type, l_changedProcess);
+                                l_changedProcess.type, l_changedProcess, l_isRecorded, l_isAnchor);
                         }
                     }
                 }
@@ -1508,8 +1508,10 @@ namespace EcellLib
         /// <param name="l_key">The key</param>
         /// <param name="l_type">The type</param>
         /// <param name="l_ecellObject">The changed "Variable" or the "Process"</param>
+        /// <param name="l_isRecorded">Whether this action is recorded or not</param>
+        /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
         private void DataChanged4Entity(
-            string l_modelID, string l_key, string l_type, EcellObject l_ecellObject)
+            string l_modelID, string l_key, string l_type, EcellObject l_ecellObject, bool l_isRecorded, bool l_isAnchor)
         {
             string l_message = "[" + l_ecellObject.modelID + "][" + l_ecellObject.key + "]";
             List<EcellObject> l_changedProcessList = new List<EcellObject>();
@@ -1568,7 +1570,7 @@ namespace EcellLib
                             //
                             // Deletes the old object.
                             //
-                            this.DataDelete4Node(l_modelID, l_key, l_type, false);
+                            this.DataDelete4Node(l_modelID, l_key, l_type, false, l_isRecorded, l_isAnchor);
                         }
                         goto LOOP;
                     }
@@ -1585,7 +1587,9 @@ namespace EcellLib
         /// <param name="l_key">The key</param>
         /// <param name="l_type">The type</param>
         /// <param name="l_ecellObject">The changed "System"</param>
-        private void DataChanged4System(string l_modelID, string l_key, string l_type, EcellObject l_ecellObject)
+        /// <param name="l_isRecorded">Whether this action is recorded or not</param>
+        /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
+        private void DataChanged4System(string l_modelID, string l_key, string l_type, EcellObject l_ecellObject, bool l_isRecorded, bool l_isAnchor)
         {
             string l_message = "[" + l_ecellObject.modelID + "][" + l_ecellObject.key + "]";
             List<EcellObject> l_systemList = this.m_systemDic[this.m_currentProjectID][l_modelID];
@@ -1675,7 +1679,7 @@ namespace EcellLib
                                 if (l_copy.type.Equals(Util.s_xpathVariable))
                                 {
                                     l_variableKeyDic[l_childKey] = l_copy.key;
-                                    this.DataChanged4Entity(l_copy.modelID, l_childKey, l_copy.type, l_copy);
+                                    this.DataChanged4Entity(l_copy.modelID, l_childKey, l_copy.type, l_copy, l_isRecorded, l_isAnchor);
                                 }
                                 else
                                 {
@@ -1736,7 +1740,7 @@ namespace EcellLib
                         }
                         if (l_changedFlag)
                         {
-                            this.DataChanged4Entity(l_dest.modelID, l_oldKey, l_dest.type, l_dest);
+                            this.DataChanged4Entity(l_dest.modelID, l_oldKey, l_dest.type, l_dest, l_isRecorded, l_isAnchor);
                         }
                     }
                 }
@@ -1801,7 +1805,7 @@ namespace EcellLib
                 }
                 else if (l_key.Contains(":"))
                 { // not system
-                    DataDelete4Node(l_modelID, l_key, l_type, true);
+                    DataDelete4Node(l_modelID, l_key, l_type, true, l_isRecorded, l_isAnchor);
                 }
                 else
                 { // system
@@ -1821,7 +1825,7 @@ namespace EcellLib
             {
                 m_pManager.DataDelete(l_modelID, l_key, l_type);
                 if(l_isRecorded)
-                    m_aManager.AddAction(new DataDeleteAction(l_modelID, l_key, l_type, deleteObj, true));
+                    m_aManager.AddAction(new DataDeleteAction(l_modelID, l_key, l_type, deleteObj, l_isAnchor));
             }
         }
 
@@ -1879,7 +1883,13 @@ namespace EcellLib
         /// <param name="l_key">The key of the "EcellObject"</param>
         /// <param name="l_type">The type of the "EcellObject"</param>
         /// <param name="l_messageFlag">The flag of the message</param>
-        private void DataDelete4Node(string l_model, string l_key, string l_type, bool l_messageFlag)
+        private void DataDelete4Node(
+            string l_model,
+            string l_key,
+            string l_type,
+            bool l_messageFlag,
+            bool l_isRecorded,
+            bool l_isAnchor)
         {
             string l_message = "[" + l_model + "][" + l_key + "]";
             int i = -1;
@@ -1927,7 +1937,7 @@ namespace EcellLib
                     }
                     if (l_messageFlag)
                     {
-                        this.DataDelete4VariableReferenceList(l_delList);
+                        this.DataDelete4VariableReferenceList(l_delList, l_isRecorded, l_isAnchor);
                     }
                     l_delList.Clear();
                 }
@@ -1938,7 +1948,7 @@ namespace EcellLib
         /// Deletes entries of the "VariableRefereceList".
         /// </summary>
         /// <param name="l_delList">The list of the deleted "Variable"</param>
-        private void DataDelete4VariableReferenceList(List<EcellObject> l_delList)
+        private void DataDelete4VariableReferenceList(List<EcellObject> l_delList, bool l_isRecorded, bool l_isAnchor)
         {
             if (l_delList == null || l_delList.Count <= 0)
             {
@@ -2005,7 +2015,7 @@ namespace EcellLib
                         }
                         if (l_changedFlag)
                         {
-                            this.DataChanged(l_child.modelID, l_child.key, l_child.type, l_process);
+                            this.DataChanged(l_child.modelID, l_child.key, l_child.type, l_process, l_isRecorded, l_isAnchor);
                         }
                     }
                 }
@@ -2143,7 +2153,7 @@ namespace EcellLib
                 CheckVariableReferenceList(modelID, newKey, oldKey, changeProcList);
                 foreach (EcellObject cProcess in changeProcList)
                 {
-                    DataChanged4Entity(modelID, cProcess.key, cProcess.type, cProcess);
+                    DataChanged4Entity(modelID, cProcess.key, cProcess.type, cProcess, isRecorded, isAnchor);
                 }
             }
 

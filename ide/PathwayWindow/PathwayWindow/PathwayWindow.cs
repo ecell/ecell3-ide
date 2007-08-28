@@ -606,10 +606,11 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="key"></param>
         /// <param name="type"></param>
-        public void NotifyDataDelete(string key, string type)
+        /// <param name="isAnchor"></param>
+        public void NotifyDataDelete(string key, string type, bool isAnchor)
         {
             DataManager dm = DataManager.GetDataManager();
-            dm.DataDelete(m_modelId, key, type);
+            dm.DataDelete(m_modelId, key, type, true, isAnchor);
         }
 
         /// <summary>

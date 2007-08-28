@@ -1269,20 +1269,24 @@ namespace EcellLib.PathwayWindow
                     slist.Add(t);
                 }
 
+                int i = 0;
                 foreach (PPathwayNode obj1 in slist)
                 {
+                    
                     if (obj1 is PPathwayNode)
                     {
+                        i++;
+                        bool isAnchor = (i == slist.Count) ? true : false;
                         PPathwayNode deleteNode = (PPathwayNode)obj1;
                         try
                         {
                             if (deleteNode is PEcellVariable)
                             {
-                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Variable);
+                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Variable, isAnchor);
                             }
                             else if (deleteNode is PEcellProcess)
                             {
-                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Process);
+                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Process, isAnchor);
                             }
                         }
                         catch (IgnoreException)
@@ -1313,7 +1317,7 @@ namespace EcellLib.PathwayWindow
 
                 try
                 {
-                    m_pathwayView.NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System);
+                    m_pathwayView.NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System, true);
                 }
                 catch (IgnoreException)
                 {
