@@ -401,10 +401,11 @@ namespace EcellLib.PathwayWindow
         /// Inform the adding of EcellOBject in PathwayEditor to DataManager.
         /// </summary>
         /// <param name="list">the list of added object.</param>
-        public void NotifyDataAdd(List<EcellObject> list)
+        /// <param name="isAnchor">Whether this action is anchor or not.</param>
+        public void NotifyDataAdd(List<EcellObject> list, bool isAnchor)
         {
             DataManager dm = DataManager.GetDataManager();
-            dm.DataAdd(list);
+            dm.DataAdd(list, true, isAnchor);
         }
 
         /// <summary>
@@ -964,7 +965,7 @@ namespace EcellLib.PathwayWindow
                                 }
                                 m_view.DataDelete(uk.Key, uk.Type);
                                 string newKey = PathUtil.GetMovedKey(uk.Key, key, data.key);
-                                m_view.AddNewObj(m_defCanvasId, PathUtil.GetParentSystemId(newKey), uk.Type, null, modelID, newKey, false, 0, 0, 0, 0, false, null, valueStr, true);                            
+                                m_view.AddNewObj(m_defCanvasId, PathUtil.GetParentSystemId(newKey), uk.Type, null, modelID, newKey, false, 0, 0, 0, 0, false, true, null, valueStr, true);                            
                             }
                             m_view.DataDelete(key, ct);
                         }
@@ -1298,17 +1299,17 @@ namespace EcellLib.PathwayWindow
                 {
                     if (systemName.Equals("/"))
                     {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, null, null, false);
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, true, null, null, false);
                     }
                     else
                     {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, null, null, false);
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, true, null, null, false);
                     }
                 }
                 else if (obj.type.Equals(PathwayView.VARIABLE_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, null, null, false);
+                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, true, null, null, false);
                 else if (obj.type.Equals(PathwayView.PROCESS_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, null, null, false);
+                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, true, null, null, false);
                 else
                 {
                     throw new PathwayException(m_resources.GetString("ErrUnknowType"));

@@ -1425,12 +1425,19 @@ namespace EcellLib.PathwayWindow
             // Get position diff
             float diffX = this.m_pathwayView.MousePosition.X - this.m_copyPoint.X;
             float diffY = this.m_pathwayView.MousePosition.Y - this.m_copyPoint.Y;
-
-            foreach (EcellObject eo in CopyNodes(this.m_copiedNodes))
+                        
+            List<EcellObject> nodeList = CopyNodes(this.m_copiedNodes);
+            int i = 0;
+            foreach (EcellObject eo in nodeList)
             {
+                i++;
                 eo.X = eo.X + diffX;
                 eo.Y = eo.Y + diffY;
-                PasteNodes(eo);
+                if(i <  nodeList.Count)
+                    PasteNodes(eo, false);
+                else 
+                    PasteNodes(eo, true);
+                
             }
         }
 
@@ -1438,7 +1445,9 @@ namespace EcellLib.PathwayWindow
         /// Paste PathwayObject.
         /// </summary>
         /// <param name="eo">EcellObject</param>
-        public void PasteNodes(EcellObject eo)
+        /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
+        /// only the last action's isAnchor is true, the others' isAnchor is false</param>
+        public void PasteNodes(EcellObject eo, bool isAnchor)
         {
             // Check EcellObject
             if (eo == null)
@@ -1476,6 +1485,7 @@ namespace EcellLib.PathwayWindow
                                             eo.Width,
                                             eo.Height,
                                             true,
+                                            isAnchor,
                                             eo,
                                             null,
                                             false);

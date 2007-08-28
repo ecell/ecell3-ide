@@ -554,6 +554,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="systemName">name of system</param>
         /// <param name="cType">type of component</param>
         /// <param name="cs">ComponentSetting</param>
+        /// <param name="modelID">model id</param>
         /// <param name="key">key</param>
         /// <param name="hasCoords">whether an object has coordinates or not</param>
         /// <param name="x">x</param>
@@ -561,6 +562,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="width">width</param>
         /// <param name="height">height</param>
         /// <param name="needToNotify">whether notification is needed or not</param>
+        /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
+        /// only the last action's isAnchor is true, the others' isAnchor is false</param>
         /// <param name="eo">EcellObject</param>
         /// <param name="valueStr"></param>
         /// <param name="change"></param>
@@ -576,6 +579,7 @@ namespace EcellLib.PathwayWindow
             float width,
             float height,
             bool needToNotify,
+            bool isAnchor,
             EcellObject eo,
             string valueStr,
             bool change)
@@ -593,7 +597,7 @@ namespace EcellLib.PathwayWindow
 
                 try
                 {
-                    NotifyDataAdd(eo);
+                    NotifyDataAdd(eo, isAnchor);
                 }
                 catch (IgnoreException)
                 {
@@ -607,7 +611,7 @@ namespace EcellLib.PathwayWindow
                     return;
                 }
             }
-                        
+            
             ComponentElement element = null;
             string type = null;
             switch(cType)
@@ -1497,12 +1501,13 @@ namespace EcellLib.PathwayWindow
         /// Notify DataAdd event to outside.
         /// </summary>
         /// <param name="eo">Added EcellObject</param>
-        public void NotifyDataAdd(EcellObject eo)
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>
+        public void NotifyDataAdd(EcellObject eo, bool isAnchor)
         {
             List<EcellObject> list = new List<EcellObject>();
             list.Add(eo);
             if (m_pathwayWindow != null)
-                m_pathwayWindow.NotifyDataAdd(list);
+                m_pathwayWindow.NotifyDataAdd(list, isAnchor);
         }
 
         /// <summary>
