@@ -137,7 +137,9 @@ namespace EcellLib.PathwayWindow
                     Dictionary<string, EcellData> dict = DataManager.GetProcessProperty("ExpressionFluxProcess");
                     List<EcellData> list = new List<EcellData>();
                     foreach (EcellData d in dict.Values)
+                    {
                         list.Add(d);
+                    }
                     
                     EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, m_surSystem + ":" + tmpId,
                     "Process", "ExpressionFluxProcess", list);

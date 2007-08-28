@@ -526,6 +526,7 @@ namespace EcellLib
                 if (l_key[i] == ':') delCount++;
             }
             if (delCount > 1) return true;
+            if (delCount <= 0) return true;
             return false;
         }
 

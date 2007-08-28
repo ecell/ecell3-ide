@@ -6426,6 +6426,10 @@ namespace EcellLib
             }
             foreach (EcellData l_ecellData in l_ecellObject.M_value)
             {
+                if (l_ecellData.M_name.Equals("VariableReferenceList"))
+                {
+                    l_ecellData.M_value = new EcellValue(new List<EcellValue>());
+                }
                 l_dic[l_ecellData.M_name] = l_ecellData;
             }
         }
