@@ -1048,10 +1048,11 @@ namespace EcellLib
                 }
                 SimulationStop();
                 m_pManager.ChangeStatus(Util.LOADED);
-            }            
+            }
 
             List<EcellObject> l_usableList = new List<EcellObject>();
             string l_message = null;
+            bool l_isUndoable = true; // Whether DataAdd action is undoable or not
             try
             {
                 foreach (EcellObject l_ecellObject in l_ecellObjectList)
@@ -1074,6 +1075,8 @@ namespace EcellLib
                     else if (l_ecellObject.type.Equals(Util.s_xpathSystem))
                     {
                         this.DataAdd4System(l_ecellObject, true);
+                        if ("/".Equals(l_ecellObject.key))
+                            l_isUndoable = false;
                         l_usableList.Add(l_ecellObject);
                     }
                     else if (l_ecellObject.type.Equals(Util.s_xpathVariable))
@@ -1083,6 +1086,7 @@ namespace EcellLib
                     }
                     else if (l_ecellObject.type.Equals(Util.s_xpathModel))
                     {
+                        l_isUndoable = false;
                         this.DataAdd4Model(l_ecellObject, l_usableList);
                     }
                 }
@@ -1106,7 +1110,7 @@ namespace EcellLib
                     {
                         m_pManager.SetPosition(obj);
                         if(l_isRecorded)
-                            m_aManager.AddAction(new DataAddAction(obj, l_isAnchor));
+                            m_aManager.AddAction(new DataAddAction(obj, l_isUndoable, l_isAnchor));
                     }
 //                    if (lastObj != null)
 //                        m_pManager.SelectChanged(lastObj.modelID, lastObj.key, lastObj.type);

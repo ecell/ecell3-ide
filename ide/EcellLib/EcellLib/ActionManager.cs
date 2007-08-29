@@ -204,7 +204,7 @@ namespace EcellLib
         /// </summary>
         public void UndoAction()
         {
-            if (m_listIndex == 0)
+            if (m_listIndex == 0 || !m_list[m_listIndex - 1].IsUndoable)
                 return;
             do
             {
@@ -620,9 +620,10 @@ namespace EcellLib
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        public DataAddAction(EcellObject obj, bool isAnchor)
+        public DataAddAction(EcellObject obj, bool isUndoable, bool isAnchor)
         {
             m_obj = obj;
+            m_isUndoable = isUndoable;
             m_isAnchor = isAnchor;
         }
         /// <summary>
