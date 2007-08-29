@@ -1556,6 +1556,10 @@ namespace EcellLib
                 obj.Height = m_currentObj.Height;
                 m_dManager.DataChanged(m_currentObj.modelID, m_currentObj.key, m_currentObj.type, obj);
             }
+            catch(IgnoreException)
+            {                
+                return;
+            }
             catch (Exception ex)
             {
                 string errmes = m_resources.GetString("ErrChange");

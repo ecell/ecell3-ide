@@ -440,7 +440,10 @@ namespace EcellLib.PathwayWindow
             DataManager dm = DataManager.GetDataManager();
             if(type.Equals(PathwayView.SYSTEM_STRING))
             {
-                EcellObject eo = dm.GetEcellObject(m_modelId, oldKey, type);
+                EcellObject original = dm.GetEcellObject(m_modelId, oldKey, type);
+
+                EcellObject eo = original.Copy();
+
                 eo.key = newKey;
                 eo.X = x;
                 eo.Y = y;
@@ -448,12 +451,19 @@ namespace EcellLib.PathwayWindow
                 eo.OffsetY = offsety;
                 eo.Width = width;
                 eo.Height = height;
-                dm.DataChanged(m_modelId, oldKey, type, eo, true, isAnchor);
+                try
+                {
+                    dm.DataChanged(m_modelId, oldKey, type, eo, true, isAnchor);
+                }
+                catch (IgnoreException)
+                {
+                    this.DataChanged(m_modelId, newKey, type, original);
+                }
             }
             else
             {
                 List<EcellObject> list = dm.GetData(m_modelId, PathUtil.GetParentSystemId(oldKey));
-                EcellObject toBeChanged = null;
+                EcellObject original = null;
                 foreach(EcellObject system in list)
                 {
                     if (system.M_instances == null)
@@ -463,14 +473,16 @@ namespace EcellLib.PathwayWindow
                     {
                         if (obj.key.Equals(oldKey) && obj.type.Equals(type))
                         {
-                            toBeChanged = obj;
+                            original = obj;
                             break;
                         }
                     }
                 }
-                if (toBeChanged == null)
+                if (original == null)
                     return;
-                
+
+                EcellObject toBeChanged = original.Copy();
+
                 // Change key of EcellObject to new one
                 toBeChanged.key = newKey;
                 toBeChanged.X = x;
@@ -479,7 +491,14 @@ namespace EcellLib.PathwayWindow
                 toBeChanged.OffsetY = offsety;
 
                 // Register change to DataManager
-                dm.DataChanged(m_modelId, oldKey, type, toBeChanged, true, isAnchor);
+                try
+                {
+                    dm.DataChanged(m_modelId, oldKey, type, toBeChanged, true, isAnchor);
+                }
+                catch (IgnoreException)
+                {
+                    this.DataChanged(m_modelId, newKey, type, original);
+                }
             }
         }
 

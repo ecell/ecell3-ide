@@ -1416,18 +1416,13 @@ namespace EcellLib
             if (this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationRun ||
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
             {
-
-                /*
+                String mes = m_resources.GetString("ConfirmReset");
                 DialogResult r = MessageBox.Show("Simulation is running. Would you reset the simulation?",
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK)
                 {
                     throw new IgnoreException("Can't change the object.");                    
                 }
-                 */
-                String mes = m_resources.GetString("ConfirmReset");
-                MessageBox.Show(mes,
-                    "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 SimulationStop();
                 m_pManager.ChangeStatus(Util.LOADED);
             }

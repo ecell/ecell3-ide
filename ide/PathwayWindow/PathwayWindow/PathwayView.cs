@@ -1910,7 +1910,7 @@ namespace EcellLib.PathwayWindow
                         selectedKeys[unique].Element = ne;
                         PointF newPos = new PointF(ne.X, ne.Y);
                         string surSystem = this.ActiveCanvas.GetSurroundingSystem(newPos, null);
-                        this.ActiveCanvas.TransferNodeTo(surSystem, selectedKeys[unique], (i == total));
+                        this.ActiveCanvas.TransferNodeTo(surSystem, selectedKeys[unique], true, (i == total));
                     }
                 }
             }
