@@ -1732,31 +1732,60 @@ namespace EcellLib.PathwayWindow
                 }
 
                 // If ID duplication could occurred, system resizing will be aborted
-                Dictionary<string, PPathwayNode> nameDict = new Dictionary<string, PPathwayNode>();
-                foreach (string key in currentDict.Keys)
+                Dictionary<string, PPathwayNode> proNameDict = new Dictionary<string, PPathwayNode>();
+                Dictionary<string, PPathwayNode> varNameDict = new Dictionary<string, PPathwayNode>();
+                foreach (KeyValuePair<string, PNode> node in currentDict)
                 {
-                    string name = PathUtil.RemovePath(key);
-                    if (nameDict.ContainsKey(name))
-                    {
-                        // Resizing is aborted
-                        foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
-                        {
-                            eachSys.ReturnToMemorizedPosition();
-                            this.ValidateSystem(eachSys);
-                            eachSys.Reset();
-                        }
-                        m_systems[m_selectedSystemName].UpdateText();
+                    string name = PathUtil.RemovePath(node.Key);
 
-                        UpdateResizeHandlePositions();
-                        ResetSelectedObjects();
-                        ClearSurroundState();
-                        MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                    else
+                    if (node.Value is PEcellVariable )
                     {
-                        nameDict.Add(name, null);
+                        if (varNameDict.ContainsKey(name))
+                        {
+                            // Resizing is aborted
+                            foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
+                            {
+                                eachSys.ReturnToMemorizedPosition();
+                                this.ValidateSystem(eachSys);
+                                eachSys.Reset();
+                            }
+                            m_systems[m_selectedSystemName].UpdateText();
+
+                            UpdateResizeHandlePositions();
+                            ResetSelectedObjects();
+                            ClearSurroundState();
+                            MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        else
+                        {
+                            varNameDict.Add(name, null);
+                        }
                     }
+                    else if(node.Value is PEcellProcess)
+                    {
+                        if (proNameDict.ContainsKey(name))
+                        {
+                            // Resizing is aborted
+                            foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
+                            {
+                                eachSys.ReturnToMemorizedPosition();
+                                this.ValidateSystem(eachSys);
+                                eachSys.Reset();
+                            }
+                            m_systems[m_selectedSystemName].UpdateText();
+
+                            UpdateResizeHandlePositions();
+                            ResetSelectedObjects();
+                            ClearSurroundState();
+                            MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        else
+                        {
+                            proNameDict.Add(name, null);
+                        }
+                    }                    
                 }
 
                 foreach (string key in beforeDict.Keys)
