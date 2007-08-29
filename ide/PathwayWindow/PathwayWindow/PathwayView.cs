@@ -1764,11 +1764,14 @@ namespace EcellLib.PathwayWindow
                 }
             }
             m_canvasDict = null;
-            m_layerDs.Tables.Remove(m_layerDataTable);
-            m_layerDs.Dispose();
-            m_layerDs = new DataSet();
-            m_layerDs.Tables.Add(m_layerDataTable);
-            m_dgv.DataSource = m_layerDs;
+            if(m_dgv.Visible)
+            {
+                m_layerDs.Tables.Clear();
+                m_layerDs.Dispose();
+                m_layerDs = new DataSet();
+                m_layerDs.Tables.Add(m_layerDataTable);
+                m_dgv.DataSource = m_layerDs;
+            }
         }
 
         /// <summary>
@@ -1980,7 +1983,8 @@ namespace EcellLib.PathwayWindow
                         break;
                 }
             }
-            
+
+            m_layerDs.Tables.Clear();
             foreach (CanvasElement ce in canvasElements.Values)
             {
                 CanvasView set =
