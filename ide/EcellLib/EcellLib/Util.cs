@@ -536,7 +536,13 @@ namespace EcellLib
         /// <returns></returns>
         static public string GetTmpDir()
         {
-            return GetRegistryValue(s_registryTmpDirKey);
+            String topDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\E-Cell IDE";
+            if (!Directory.Exists(topDir))
+            {
+                Directory.CreateDirectory(topDir);
+            }
+            return topDir;
+//            return GetRegistryValue(s_registryTmpDirKey);
         }
 
         /// <summary>
