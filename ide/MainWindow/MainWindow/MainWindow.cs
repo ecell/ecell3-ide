@@ -160,6 +160,18 @@ namespace EcellLib.MainWindow
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMain));
         #endregion
 
+        public String projetID
+        {
+            get { return this.m_project; }
+            set { 
+                this.m_project = value;
+                if (value == null)
+                    this.m_isLoadProject = false;
+                else
+                    this.m_isLoadProject = true;
+            }
+        }
+
         /// <summary>
         /// Constructor for MainWindow plugin.
         /// </summary>
@@ -276,7 +288,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Load model in the thread, if this thread is sub thread.
         /// </summary>
-        private void LoadModelData()
+        void LoadModelData()
         {
             Util.InitialLanguage();
             try
@@ -1367,6 +1379,22 @@ namespace EcellLib.MainWindow
                 t.Start();
             }
         }
+
+        public void LoadModel(string path)
+        {
+            if (m_isLoadProject == false)
+            {
+                m_dManager.NewProject("project", "comment");
+                m_project = "project";
+                m_isLoadProject = true;
+                m_pManager.ChangeStatus(1);
+                m_editCount = 0;
+            }
+            openFileDialog.FileName = path;
+            Thread t = new Thread(new ThreadStart(LoadModelData));
+            t.Start();
+        }
+
 
         /// <summary>
         /// The action of [export model] menu click.

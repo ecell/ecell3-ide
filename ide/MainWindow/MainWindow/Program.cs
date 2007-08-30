@@ -71,7 +71,14 @@ namespace EcellLib.MainWindow
                 frmSplash.Close();
                 DataManager manager = DataManager.GetDataManager();
                 foreach (string fPath in fileList)
-                    manager.LoadUserActionFile(fPath);
+                {
+                    if (fPath.EndsWith(".eml"))
+                    {
+                        frmMainWnd.LoadModel(fPath);
+                    }
+                    else
+                        manager.LoadUserActionFile(fPath);
+                }
             };
 
             frmSplash.Show();

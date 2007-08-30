@@ -413,7 +413,7 @@ namespace EcellLib.MainWindow
         /// MenuItem to exit this program.
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem MenuItemSetup;
         /// <summary>
