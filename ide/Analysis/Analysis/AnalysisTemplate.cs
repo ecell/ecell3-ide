@@ -451,16 +451,42 @@ namespace EcellLib.Analysis
         private void StartRobustAnalysis()
         {
             Util.InitialLanguage();
-            Process p = new Process();
-            p.StartInfo.FileName = "ipy.exe";
-            p.StartInfo.Arguments = "\"" + Util.GetAnalysisDir() + "/robust.py\" \"" +
-                m_ModelName + "\" \"" + m_ToolParamName + "\" \"" +
-                m_RandParamName + "\" \"" + m_CheckParamName + "\" \"" +
-                m_ResultName + "\"";
-            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            p.StartInfo.CreateNoWindow = true;
 
-            p.Start();
+            try
+            {
+                Process p = new Process();
+                p.StartInfo.FileName = "ipy.exe";
+                p.StartInfo.Arguments = "\"" + Util.GetAnalysisDir() + "/robust.py\" \"" +
+                    m_ModelName + "\" \"" + m_ToolParamName + "\" \"" +
+                    m_RandParamName + "\" \"" + m_CheckParamName + "\" \"" +
+                    m_ResultName + "\"";
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                p.StartInfo.CreateNoWindow = true;
+
+                p.Start();
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    Process p1 = new Process();
+                    ex.ToString();
+                    p1.StartInfo.FileName = Util.GetAnalysisDir() + "\\ipy.exe";
+                    p1.StartInfo.Arguments = "\"" + Util.GetAnalysisDir() + "/robust.py\" \"" +
+                        m_ModelName + "\" \"" + m_ToolParamName + "\" \"" +
+                        m_RandParamName + "\" \"" + m_CheckParamName + "\" \"" +
+                        m_ResultName + "\"";
+                    p1.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    p1.StartInfo.CreateNoWindow = true;
+
+                    p1.Start();
+                }
+                catch (Exception ex1)
+                {
+                    String mes = m_resources.GetString("ErrAnalysis");
+                    MessageBox.Show(mes + "\n" + ex1.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         /// <summary>
