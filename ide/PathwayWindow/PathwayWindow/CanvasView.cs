@@ -1372,13 +1372,30 @@ namespace EcellLib.PathwayWindow
             this.m_copyPoint = this.m_pathwayView.MousePosition;
 
             this.m_copiedNodes = SelectCopyNodes(this.m_selectedNodes);
+
+            int i = 0;
+            foreach (EcellObject eo in this.m_copiedNodes)
+            {
+                i++;
+                if( i < this.m_copiedNodes.Count)
+                    this.m_pathwayView.NotifyDataDelete(eo.key, ComponentSetting.ParseComponentKind(eo.type), false);
+                else
+                    this.m_pathwayView.NotifyDataDelete(eo.key, ComponentSetting.ParseComponentKind(eo.type), true);
+            }
+
         }
 
         private List<EcellObject> SelectCopyNodes(List<PPathwayNode> nodeList)
         {
             List<EcellObject> copyNodes = new List<EcellObject>();
+            //Copy Variavles
             foreach (PPathwayNode node in nodeList)
-                copyNodes.Add(node.Element.EcellObject);
+                if(node is PEcellVariable)
+                    copyNodes.Add(node.Element.EcellObject.Copy());
+            //Copy Processes
+            foreach (PPathwayNode node in nodeList)
+                if (node is PEcellProcess)
+                    copyNodes.Add(node.Element.EcellObject.Copy());
             return copyNodes;
         }
 
@@ -1394,7 +1411,8 @@ namespace EcellLib.PathwayWindow
                     //Create new EcellObject
                     EcellObject eo = node.Copy();
                     string system = PathUtil.GetParentSystemId(eo.key);
-                    eo.key = system + ":" + m_dManager.GetTemporaryID(eo.modelID, eo.type, system);
+                    if(m_dManager.DataExists(eo.modelID, eo.key, eo.type))
+                        eo.key = system + ":" + m_dManager.GetTemporaryID(eo.modelID, eo.type, system);
                     copiedNodes.Add(eo);
                     varKeys.Add(":" + node.key, ":" + eo.key);
                     Debug.WriteLine("Copy Node:" + node.key);
@@ -1462,7 +1480,6 @@ namespace EcellLib.PathwayWindow
             ComponentSetting cs = null;
             ComponentType cType = ComponentSetting.ParseComponentKind(eo.type);
             string system = PathUtil.GetParentSystemId(eo.key);
-            eo.key = system + ":" + m_dManager.GetTemporaryID(eo.modelID, eo.type, system); 
             switch (cType)
             {
                 case ComponentType.Process:
@@ -1494,27 +1511,6 @@ namespace EcellLib.PathwayWindow
                                             null,
                                             false);
             Debug.WriteLine("Paste node:" + eo.key);
-            RefreshVisibility();
-        }
-
-        private void CreateEdge(PEcellProcess process, string key, EdgeDirection direction)
-        {
-            switch (direction)
-            {
-                case EdgeDirection.Inward:
-                    this.m_pathwayView.CreateEdge(process, key, -1);
-                    break;
-                case EdgeDirection.Outward:
-                    this.m_pathwayView.CreateEdge(process, key, 1);
-                    break;
-                case EdgeDirection.Bidirection:
-                    this.m_pathwayView.CreateEdge(process, key, 1);
-                    this.m_pathwayView.CreateEdge(process, key, -1);
-                    break;
-                case EdgeDirection.None:
-                    this.m_pathwayView.CreateEdge(process, key, 0);
-                    break;
-            }
         }
         
          /// <summary>

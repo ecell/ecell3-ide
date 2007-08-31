@@ -499,16 +499,6 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         /// <summary>
-        /// copy selected object(EcellObject) to new object.
-        /// </summary>
-        /// <param name="originalKey">the key of selected object.</param>
-        /// <param name="newKey">the key of new object.</param>
-        public void CopyEcellObject(string originalKey, string newKey)
-        {
-            m_pathwayWindow.CopyEcellObject(originalKey, newKey);
-        }
-
-        /// <summary>
         /// not implement.
         /// when we introduce the multi model, 
         ///  you must edit this function.
@@ -717,6 +707,8 @@ namespace EcellLib.PathwayWindow
                     if (m_dgv.SelectedRows.Count != 0)
                         layer = (string)m_dgv[m_dgv.Columns["Name"].Index, m_dgv.SelectedRows[0].Index].Value;
                     m_canvasDict[canvasName].AddNewObj(layer, systemName, obj, hasCoords, false);
+                    if (cType == ComponentType.Process)
+                        ((PEcellProcess)obj).Refresh();
                 }                
             }
             else

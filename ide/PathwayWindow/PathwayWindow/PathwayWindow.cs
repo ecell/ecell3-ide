@@ -367,34 +367,6 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
-        /// <summary>
-        /// copy selected object(EcellObject) to new object.
-        /// </summary>
-        /// <param name="originalKey">the key of selected object.</param>
-        /// <param name="newKey">the key of new object.</param>
-        public void CopyEcellObject(string originalKey, string newKey)
-        {
-            if (originalKey == null || newKey == null)
-                return;
-            DataManager dm = DataManager.GetDataManager();
-            List<EcellObject> list = dm.GetData(m_modelId,originalKey);
-            EcellObject eo = null;
-            foreach(EcellObject eachObj in list)
-            {
-                if(eachObj.key.Equals(originalKey))
-                {
-                    eo = eachObj;
-                    break;
-                }
-            }
-            if (eo == null)
-                return;
-            eo.key = newKey;
-            List<EcellObject> newList = new List<EcellObject>();
-            newList.Add(eo);
-            dm.DataAdd(newList);
-        }
-
         #region Methods to notify from inside (pathway) to outside(ECell Core)
 
         /// <summary>

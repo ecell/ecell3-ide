@@ -123,7 +123,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_DELETE_WITH ].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_COPY].Visible = true;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CUT].Visible = false;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CUT].Visible = true;
                     if (this.m_cview.CopiedNodes.Count > 0)
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = true;
                     else
@@ -257,6 +257,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                 return;
 
             EcellObject ecellobj = DataManager.GetDataManager().GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
+            if (ecellobj == null)
+                return;
             // set logger menu
             foreach (EcellData d in ecellobj.M_value)
             {
