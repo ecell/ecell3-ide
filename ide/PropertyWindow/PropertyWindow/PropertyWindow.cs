@@ -313,24 +313,24 @@ namespace EcellLib.PropertyWindow
                 }
                 else
                 {
-                    List<string> procList = m_dManager.GetProcessList();
+                    List<string> procList = m_dManager.GetProcessList(m_dManager.CurrentProjectID);
                     foreach (string pName in procList)
                     {
                         ((DataGridViewComboBoxCell)c2).Items.Add(pName);
                     }
+                    
                     c2.Value = d.M_value.ToString();
-                    if (DataManager.IsEnableAddProperty(d.M_value.ToString()))
+                    if (DataManager.IsEnableAddProperty(m_dManager.CurrentProjectID, d.M_value.ToString()))
                     {
                         m_dgv.AllowUserToAddRows = true;
                         m_dgv.AllowUserToDeleteRows = true;
-                        m_propDic = DataManager.GetProcessProperty(d.M_value.ToString());
+                        m_propDic = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, d.M_value.ToString());
                     }
                     else
                     {
                         m_dgv.AllowUserToAddRows = false;
                         m_dgv.AllowUserToDeleteRows = false;
                     }
-
                 }
             }
             else if (d.M_name.Equals("Expression"))
@@ -1228,7 +1228,7 @@ namespace EcellLib.PropertyWindow
             if (cname.Equals(m_current.classname)) return;
 
             List<EcellData> propList = new List<EcellData>();
-            Dictionary<String, EcellData> propDict = DataManager.GetProcessProperty(cname);
+            Dictionary<String, EcellData> propDict = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, cname);
             foreach (EcellData d in m_current.M_value)
             {
                 if (!propDict.ContainsKey(d.M_name))
@@ -1246,6 +1246,12 @@ namespace EcellLib.PropertyWindow
                 m_current.type,
                 cname,
                 propList);
+            obj.X = m_current.X;
+            obj.Y = m_current.Y;
+            obj.OffsetX = m_current.OffsetX;
+            obj.OffsetY = m_current.OffsetY;
+            obj.Height = m_current.Height;
+            obj.Width = m_current.Width;
             try
             {
                 m_isChanging = true;
@@ -1255,7 +1261,7 @@ namespace EcellLib.PropertyWindow
                     m_current.type,
                     obj);
                 m_isChanging = false;
-                if (DataManager.IsEnableAddProperty(cname))
+                if (DataManager.IsEnableAddProperty(m_dManager.CurrentProjectID, cname))
                 {
                     m_dgv.AllowUserToAddRows = true;
                 }
