@@ -134,7 +134,7 @@ namespace EcellLib.PathwayWindow
                 if (m_view.ComponentSettings[m_view.SelectedHandle.CsID].ComponentKind == ComponentType.Process)
                 {
                     string tmpId = dm.GetTemporaryID(m_view.Window.ModelID, "Process", m_surSystem);
-                    Dictionary<string, EcellData> dict = DataManager.GetProcessProperty("ExpressionFluxProcess");
+                    Dictionary<string, EcellData> dict = DataManager.GetProcessProperty(dm.CurrentProjectID, "ExpressionFluxProcess");
                     List<EcellData> list = new List<EcellData>();
                     foreach (EcellData d in dict.Values)
                     {

@@ -107,7 +107,7 @@ namespace EcellLib.Simulation
             string modelID = m_win.modelCombo.Text;
             string stepperID = m_win.stepCombo.Text;
             Dictionary<string, EcellData> propDict =
-                DataManager.GetStepperProperty(stepperID);
+                DataManager.GetStepperProperty(m_dManager.CurrentProjectID, stepperID);
             List<EcellData> list = new List<EcellData>();
             foreach (string key in propDict.Keys)
             {

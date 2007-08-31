@@ -438,10 +438,49 @@ namespace EcellLib
         /// <summary>
         /// Get the DM direcory from register.
         /// </summary>
+        /// <param name="m_currentProjectID">loading project.</param>
+        /// <returns>DM directory.</returns>
+        static public string GetDMDir(string m_currentProjectID)
+        {
+            return GetDMDir() + ";" + Util.GetProjectDMDir(m_currentProjectID);
+        }
+
+        /// <summary>
+        /// Get the DM direcory from register.
+        /// </summary>
         /// <returns>DM directory.</returns>
         static public string GetDMDir()
         {
-            return GetRegistryValue(s_registryDMDirKey);
+//            return GetRegistryValue(s_registryDMDirKey) + ";" + Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\My E-Cell Projects\\sample\\dm";
+            return GetRegistryValue(s_registryDMDirKey) + ";" + GetCommonDocumentDir() + "\\My E-Cell Projects\\sample\\dm";
+        }
+
+        static public string GetCommonDocumentDir()
+        {
+            string l_currentDir = null;
+            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
+            Microsoft.Win32.RegistryKey l_subkey = null;
+            try
+            {
+                l_key = Microsoft.Win32.Registry.LocalMachine;
+                l_subkey = l_key.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders");
+                if (l_subkey != null)
+                {
+                    l_currentDir = (string)l_subkey.GetValue("Common Documents");
+                }
+                return l_currentDir;
+            }
+            finally
+            {
+                if (l_key != null)
+                {
+                    l_key.Close();
+                }
+                if (l_subkey != null)
+                {
+                    l_subkey.Close();
+                }
+            }
         }
 
         /// <summary>

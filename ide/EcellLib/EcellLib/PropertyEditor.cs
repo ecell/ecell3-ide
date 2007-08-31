@@ -225,7 +225,7 @@ namespace EcellLib
             if (m_currentObj == null)
             {
                 if (m_type.Equals("Process"))
-                    m_propDict = DataManager.GetProcessProperty(m_propName);
+                    m_propDict = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, m_propName);
                 else if (m_type.Equals("System"))
                     m_propDict = DataManager.GetSystemProperty();
                 else if (m_type.Equals("Variable"))
@@ -241,7 +241,7 @@ namespace EcellLib
                 }
                 if (m_propName != null && m_propName.StartsWith("Expression"))
                 {
-                    tmpProcDict = DataManager.GetProcessProperty(m_currentObj.classname);
+                    tmpProcDict = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, m_currentObj.classname);
                 }
                 this.Text = m_title + "  - " + m_currentObj.key;
             }
@@ -341,7 +341,7 @@ namespace EcellLib
                 int j = 0;
                 if (m_type.Equals("Process"))
                 {
-                    List<string> list = m_dManager.GetProcessList();
+                    List<string> list = m_dManager.GetProcessList(m_dManager.CurrentProjectID);
                     foreach (string str in list)
                     {
                         combo.Items.AddRange(new object[] { str });
@@ -491,7 +491,7 @@ namespace EcellLib
                     i++;
                 }
                 if (m_type.Equals("Process") && 
-                    DataManager.IsEnableAddProperty(m_propName))
+                    DataManager.IsEnableAddProperty(m_dManager.CurrentProjectID, m_propName))
                 {
                     Button b = new Button();
                     b.Text = "Add Property";
@@ -747,7 +747,7 @@ namespace EcellLib
             m_propName = propName;
             if (m_type.Equals("Process"))
             {
-                m_propDict = DataManager.GetProcessProperty(m_propName);
+                m_propDict = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, m_propName);
             }
 
             LayoutPropertyEditor();

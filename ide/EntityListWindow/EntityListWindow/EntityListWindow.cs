@@ -772,7 +772,7 @@ namespace EcellLib.EntityListWindow
                 String tmpID = m_dManager.GetTemporaryID(m_currentObj.modelID,
                     "Process", m_currentObj.key);
 
-                Dictionary<string, EcellData> list = DataManager.GetProcessProperty("ExpressionFluxProcess");
+                Dictionary<string, EcellData> list = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, "ExpressionFluxProcess");
                 List<EcellData> data = new List<EcellData>();
                 foreach (EcellData d in list.Values)
                 {

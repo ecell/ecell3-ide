@@ -271,7 +271,8 @@
                 Dictionary<string, EcellData> propDict;
                 try
                 {
-                     propDict = DataManager.GetStepperProperty(stepperID);
+                     propDict = DataManager.GetStepperProperty(m_dManager.CurrentProjectID,
+                         stepperID);
                 }
                 catch (Exception ex)
                 {

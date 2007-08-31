@@ -1228,7 +1228,7 @@ namespace EcellLib
                 }
                 else if (l_type.Equals(Util.s_xpathProcess))
                 {
-                    l_entityList = DataManager.GetDataManager().GetProcessList();
+                    l_entityList = DataManager.GetDataManager().GetProcessList(null);
                 }
                 else if (l_type.Equals(Util.s_xpathVariable))
                 {
@@ -1261,7 +1261,7 @@ namespace EcellLib
                             else if (l_type.Equals(Util.s_xpathProcess))
                             {
                                 Dictionary<string, EcellData> l_propertyDic
-                                        = DataManager.GetProcessProperty(l_className);
+                                        = DataManager.GetProcessProperty(null, l_className);
                                 foreach (string l_property in l_propertyDic.Keys)
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
@@ -2262,7 +2262,7 @@ namespace EcellLib
             /// <param name="l_className">the class name</param>
             private void Create(string l_key, string l_className)
             {
-                List<string> l_entityList = DataManager.GetDataManager().GetStepperList();
+                List<string> l_entityList = DataManager.GetDataManager().GetStepperList(null);
                 if (l_entityList != null && l_entityList.Count > 0)
                 {
                     foreach (string l_entity in l_entityList)
@@ -2270,9 +2270,9 @@ namespace EcellLib
                         if (l_className.Equals(l_entity))
                         {
                             List<EcellData> l_propertyList = new List<EcellData>();
-                            foreach (string l_property in DataManager.GetStepperProperty(l_className).Keys)
+                            foreach (string l_property in DataManager.GetStepperProperty(null, l_className).Keys)
                             {
-                                l_propertyList.Add(DataManager.GetStepperProperty(l_className)[l_property]);
+                                l_propertyList.Add(DataManager.GetStepperProperty(null, l_className)[l_property]);
                             }
                             this.m_stepper = EcellObject.CreateObject(
                                     CommandManager.s_modelID,
