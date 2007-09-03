@@ -675,7 +675,8 @@ namespace EcellLib.PathwayWindow
             
             m_pathwayCanvas.RemoveInputEventListener(m_pathwayCanvas.PanEventHandler);
             m_pathwayCanvas.RemoveInputEventListener(m_pathwayCanvas.ZoomEventHandler);
-            m_pathwayCanvas.AddInputEventListener(new PPathwayZoomEventHandler(m_pathwayView));
+            //m_pathwayCanvas.AddInputEventListener(new PPathwayZoomEventHandler(m_pathwayView));
+            m_pathwayCanvas.AddInputEventListener(new DefaultMouseHandler(m_pathwayView));
             m_pathwayCanvas.Dock = DockStyle.Fill;
             //m_pathwayCanvas.MouseDown += new MouseEventHandler(m_pathwayCanvas_MouseDown);
             //m_pathwayCanvas.MouseMove += new MouseEventHandler(m_pathwayCanvas_MouseMove);
