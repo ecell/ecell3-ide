@@ -575,7 +575,7 @@ namespace EcellLib
         /// <returns></returns>
         static public string GetTmpDir()
         {
-            String topDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\E-Cell IDE";
+            String topDir = Path.GetTempPath() + "\\E-Cell IDE";
             if (!Directory.Exists(topDir))
             {
                 Directory.CreateDirectory(topDir);
