@@ -2022,6 +2022,28 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Is key & type exists in the system or not.
+        /// Move the component to the upper system, when system is deleted.
+        /// </summary>
+        /// <param name="modelID">modelID of deleted system.</param>
+        /// <param name="key">key of deleted system.</param>
+        /// <returns>true if the key exists; false otherwise</returns>
+        public bool DataExists(string modelID, string key, string type)
+        {
+            List<EcellObject> l_list = this.m_systemDic[this.m_currentProjectID][modelID];
+            foreach (EcellObject l_sys in l_list)
+            {
+                foreach (EcellObject subEo in l_sys.M_instances)
+                {
+                    if (key.Equals(subEo.key) && type.Equals(subEo.type))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        /// <summary>
         /// Move the component to the upper system, when system is deleted.
         /// </summary>
         /// <param name="modelID">modelID of deleted system.</param>
