@@ -1386,6 +1386,33 @@ namespace EcellLib.PathwayWindow
 
         }
 
+        /// <summary>
+        /// Called when a paste menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void PasteClick(object sender, EventArgs e)
+        {
+            if (this.m_copyNodes == null)
+                return;
+            // Get position diff
+            float diffX = this.m_pathwayView.MousePosition.X - this.m_copyPoint.X;
+            float diffY = this.m_pathwayView.MousePosition.Y - this.m_copyPoint.Y;
+
+            List<EcellObject> nodeList = CopyNodes(this.m_copyNodes);
+            int i = 0;
+            foreach (EcellObject eo in nodeList)
+            {
+                i++;
+                eo.X = eo.X + diffX;
+                eo.Y = eo.Y + diffY;
+                if( i < this.m_copyNodes.Count)
+                    this.m_pathwayView.NotifyDataAdd(eo, false);
+                else
+                    this.m_pathwayView.NotifyDataAdd(eo, true);
+            }
+        }
+
         private List<EcellObject> SetCopyNodes(List<PPathwayNode> nodeList)
         {
             List<EcellObject> copyNodes = new List<EcellObject>();
@@ -1435,82 +1462,8 @@ namespace EcellLib.PathwayWindow
             }
             return copiedNodes;
         }
-
-        /// <summary>
-        /// Called when a paste menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PasteClick(object sender, EventArgs e)
-        {
-            if (this.m_copyNodes == null)
-                return;
-            // Get position diff
-            float diffX = this.m_pathwayView.MousePosition.X - this.m_copyPoint.X;
-            float diffY = this.m_pathwayView.MousePosition.Y - this.m_copyPoint.Y;
-                        
-            List<EcellObject> nodeList = CopyNodes(this.m_copyNodes);
-            int i = 0;
-            foreach (EcellObject eo in nodeList)
-            {
-                i++;
-                eo.X = eo.X + diffX;
-                eo.Y = eo.Y + diffY;
-            }
-            this.m_pathwayView.Window.NotifyDataAdd(nodeList, false);
-        }
-
-        /// <summary>
-        /// Paste PathwayObject.
-        /// </summary>
-        /// <param name="eo">EcellObject</param>
-        /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
-        /// only the last action's isAnchor is true, the others' isAnchor is false</param>
-        public void PasteNodes(EcellObject eo, bool isAnchor)
-        {
-            // Check EcellObject
-            if (eo == null)
-                return;
-
-            // Settings
-            ComponentSettingsManager csManager = this.m_pathwayView.ComponentSettingsManager;
-            ComponentSetting cs = null;
-            ComponentType cType = ComponentSetting.ParseComponentKind(eo.type);
-            string system = PathUtil.GetParentSystemId(eo.key);
-            switch (cType)
-            {
-                case ComponentType.Process:
-                    cs = csManager.DefaultProcessSetting;
-                    break;
-                case ComponentType.Variable:
-                    cs = csManager.DefaultVariableSetting;
-                    break;
-                case ComponentType.System:
-                    cs = csManager.DefaultSystemSetting;
-                    break;
-            }
-
-            // create new node
-            this.m_pathwayView.AddNewObj(this.CanvasID,
-                                            system,
-                                            cType,
-                                            cs,
-                                            eo.modelID,
-                                            eo.key,
-                                            true,
-                                            eo.X,
-                                            eo.Y,
-                                            eo.Width,
-                                            eo.Height,
-                                            true,
-                                            isAnchor,
-                                            eo,
-                                            null,
-                                            true);
-            Debug.WriteLine("Paste node:" + eo.key);
-        }
         
-         /// <summary>
+        /// <summary>
         /// Called when a create logger menu of the context menu is clicked.
         /// </summary>
         /// <param name="sender"></param>

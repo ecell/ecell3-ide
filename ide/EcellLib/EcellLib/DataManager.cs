@@ -2031,12 +2031,17 @@ namespace EcellLib
             List<EcellObject> l_list = this.m_systemDic[this.m_currentProjectID][modelID];
             foreach (EcellObject l_sys in l_list)
             {
+                // Check systems.
+                if (key.Equals(l_sys.key) && type.Equals(l_sys.type))
+                    return true;
+                // Continue if system has no node.
+                if (l_sys.M_instances == null)
+                    continue;
+                // Check processes and variables
                 foreach (EcellObject subEo in l_sys.M_instances)
                 {
                     if (key.Equals(subEo.key) && type.Equals(subEo.type))
-                    {
                         return true;
-                    }
                 }
             }
             return false;
