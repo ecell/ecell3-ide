@@ -733,7 +733,7 @@ namespace EcellLib.EntityListWindow
                 {
                     data.Add(d);
                 }
-                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, m_currentObj.key + ":" + tmpID,
+                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, tmpID,
                     "Variable", "Variable", data);
 
                 List<EcellObject> rList = new List<EcellObject>();
@@ -769,7 +769,7 @@ namespace EcellLib.EntityListWindow
                 {
                     data.Add(d);
                 }
-                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, m_currentObj.key + ":" + tmpID,
+                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, tmpID,
                     "Process", "ExpressionFluxProcess", data);
 
                 List<EcellObject> rList = new List<EcellObject>();
