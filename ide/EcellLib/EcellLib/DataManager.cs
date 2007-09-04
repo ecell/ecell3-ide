@@ -4399,9 +4399,12 @@ namespace EcellLib
             }
             else
             {
+                if (systemID == null || systemID == "/")
+                    systemID = "";
                 pref = systemID + "/S";
                 i = m_systemNumbering;
             }
+
             // Set tmpID
             string tmpID = pref + i;
             List<EcellObject> list = GetData(modelID, null);
@@ -4411,7 +4414,7 @@ namespace EcellLib
                 tmpID = pref + i;
             }
 
-            // Set Number
+            // Set TmpNumber
             if (type.Equals("Process"))
             {
                 m_processNumbering = i + 1;

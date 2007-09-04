@@ -141,7 +141,7 @@ namespace EcellLib.PathwayWindow
                         list.Add(d);
                     }
                     
-                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, m_surSystem + ":" + tmpId,
+                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, tmpId,
                     "Process", "ExpressionFluxProcess", list);
                     eo.X = m_downPos.X;
                     eo.Y = m_downPos.Y;
@@ -158,7 +158,7 @@ namespace EcellLib.PathwayWindow
                     foreach (EcellData d in dict.Values)
                         list.Add(d);
 
-                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, m_surSystem + ":" + tmpId,
+                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, tmpId,
                     "Variable", "Variable", list);
                     eo.X = m_downPos.X;
                     eo.Y = m_downPos.Y;

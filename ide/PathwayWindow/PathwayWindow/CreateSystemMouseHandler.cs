@@ -272,16 +272,7 @@ namespace EcellLib.PathwayWindow
                 }
                 ComponentSetting cs = m_view.ComponentSettings[m_view.SelectedHandle.CsID];
 
-                String keydata = "";
-                if (m_surSystem.Equals("/"))
-                {
-                    keydata = "/" + tmpID;
-                }
-                else
-                {
-                    keydata = m_surSystem + "/" + tmpID;
-                }
-                EcellObject eo = EcellObject.CreateObject(m_currentObj.modelID, keydata,
+                EcellObject eo = EcellObject.CreateObject(m_currentObj.modelID, tmpID,
                     "System", "System", dataList);
 
                 eo.X = m_rect.X;

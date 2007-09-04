@@ -697,22 +697,13 @@ namespace EcellLib.EntityListWindow
                 {
                     data.Add(d);
                 }
-                String keydata = "";
-                if (m_currentObj.key.Equals("/"))
-                {
-                    keydata = "/" + tmpID;
-                }
-                else
-                {
-                    keydata = m_currentObj.key + "/" + tmpID;
-                }
-                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, keydata,
+                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, tmpID,
                     "System", "System", data);
 
                 List<EcellObject> rList = new List<EcellObject>();
                 rList.Add(obj);
                 m_dManager.DataAdd(rList);
-                m_pManager.SelectChanged(m_currentObj.modelID, keydata, "System");
+                m_pManager.SelectChanged(m_currentObj.modelID, tmpID, "System");
             }
             catch (Exception ex)
             {
@@ -748,7 +739,7 @@ namespace EcellLib.EntityListWindow
                 List<EcellObject> rList = new List<EcellObject>();
                 rList.Add(obj);
                 m_dManager.DataAdd(rList);
-                m_pManager.SelectChanged(m_currentObj.modelID, m_currentObj.key + ":" + tmpID, "Variable");
+                m_pManager.SelectChanged(m_currentObj.modelID, tmpID, "Variable");
             }
             catch (Exception ex)
             {
@@ -784,7 +775,7 @@ namespace EcellLib.EntityListWindow
                 List<EcellObject> rList = new List<EcellObject>();
                 rList.Add(obj);
                 m_dManager.DataAdd(rList);
-                m_pManager.SelectChanged(m_currentObj.modelID, m_currentObj.key + ":" + tmpID, "Process");
+                m_pManager.SelectChanged(m_currentObj.modelID, tmpID, "Process");
             }
             catch (Exception ex)
             {
