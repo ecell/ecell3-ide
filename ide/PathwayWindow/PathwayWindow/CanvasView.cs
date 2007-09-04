@@ -1407,13 +1407,13 @@ namespace EcellLib.PathwayWindow
             // Set m_copiedNodes.
             if (nodeList != null)
             {
-                foreach (EcellObject node in nodeList)
+                for (int i = 0; i < nodeList.Count; i++)
                 {
+                    EcellObject node = nodeList[i];
                     //Create new EcellObject
                     EcellObject eo = node.Copy();
-                    string system = PathUtil.GetParentSystemId(eo.key);
-                    if(m_dManager.IsDataExists(eo.modelID, eo.key, eo.type))
-                        eo.key = system + ":" + m_dManager.GetTemporaryID(eo.modelID, eo.type, system);
+                    if (m_dManager.IsDataExists(eo.modelID, eo.key, eo.type))
+                        eo.key = m_dManager.GetTemporaryID(eo.modelID, eo.type, eo.parentSystemID);
                     copiedNodes.Add(eo);
                     varKeys.Add(":" + node.key, ":" + eo.key);
                     Debug.WriteLine("Copy Node:" + node.key);

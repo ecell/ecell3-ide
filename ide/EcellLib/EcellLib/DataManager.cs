@@ -4384,74 +4384,48 @@ namespace EcellLib
         /// <returns>the temporary id.</returns>
         public String GetTemporaryID(string modelID, string type, string systemID)
         {
+            // Set Preface
             String pref = "";
             int i = 0;
             if (type.Equals("Process"))
             {
-                pref = "P";
+                pref = systemID + ":P";
                 i = m_processNumbering;
             }
             else if (type.Equals("Variable"))
             {
-                pref = "V";
+                pref = systemID + ":V";
                 i = m_variableNumbering;
             }
             else
             {
-                List<EcellObject> tmpList = GetData(modelID, null);
+                pref = systemID + "/S";
                 i = m_systemNumbering;
-                while (true)
-                {
-                    string tmpID = "S" + i;
-                    bool isHit = false;
-                    foreach (EcellObject obj in tmpList)
-                    {
-                        if (obj.key == null) continue;
-                        string[] ele = obj.key.Split(new char[] { '/' });
-                        if (tmpID.Equals(ele[ele.Length - 1]))
-                        {
-                            isHit = true;
-                            break;
-                        }
-                    }
-                    if (!isHit)
-                    {
-                        m_systemNumbering = i;
-                        return tmpID;
-                    }
-                    i++;
-                }
+            }
+            // Set tmpID
+            string tmpID = pref + i;
+            List<EcellObject> list = GetData(modelID, null);
+            while (IsDataExists(modelID, tmpID, type))
+            {
+                i++;
+                tmpID = pref + i;
             }
 
-            List<EcellObject> list = GetData(modelID, null);
-            while (true)
+            // Set Number
+            if (type.Equals("Process"))
             {
-                bool isHit = false;
-                string tmpID = pref + i;
-                foreach (EcellObject obj1 in list)
-                {
-                    if (obj1.key == null) continue;
-                    List<EcellObject> compList = obj1.M_instances;
-                    if (compList == null) continue;
-                    foreach (EcellObject obj2 in compList)
-                    {
-                        if (obj2.key == null) continue;
-                        string[] ele = obj2.key.Split(new char[] { ':' });
-                        if (obj2.type.Equals(type) && tmpID.Equals(ele[ele.Length - 1]))
-                        {
-                            isHit = true;
-                            break;
-                        }
-                    }
-                }
-                if (!isHit)
-                {
-                    if (type.Equals("Process")) m_processNumbering = i;
-                    if (type.Equals("Variable")) m_variableNumbering = i;
-                    return tmpID;
-                }
-                i++;
+                m_processNumbering = i + 1;
             }
+            else if (type.Equals("Variable"))
+            {
+                m_variableNumbering = i + 1;
+            }
+            else
+            {
+                m_systemNumbering = i + 1;
+            }
+
+            return tmpID;
         }
 
         /// <summary>

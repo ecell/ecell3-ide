@@ -102,6 +102,7 @@ namespace EcellLib
         private List<EcellObject> m_instances;
         #endregion
 
+        #region Constractor
         /// <summary>
         /// Creates the new "EcellObject" instance with no argument.
         /// </summary>
@@ -130,7 +131,9 @@ namespace EcellLib
             this.m_class = l_class;
             this.m_value = l_data;
         }
+        #endregion
 
+        #region Accessors
         /// <summary>
         /// get/set m_modelID.
         /// </summary>
@@ -147,6 +150,14 @@ namespace EcellLib
         {
             get { return m_key; }
             set { m_key = value; }
+        }
+
+        /// <summary>
+        /// get parent system ID.
+        /// </summary>
+        public string parentSystemID
+        {
+            get { return GetParentSystemId(key); }
         }
 
         /// <summary>
@@ -284,7 +295,9 @@ namespace EcellLib
         {
             get { return m_isPosSet; }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Create the copy "EcellObject".
         /// </summary>
@@ -331,6 +344,30 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception("Can't copy the \"EcellObject\". {" + l_ex.ToString() + "}");
+            }
+        }
+
+        /// <summary>
+        /// get parent system ID.
+        /// </summary>
+        /// <param name="key">The key</param>
+        private string GetParentSystemId(string key)
+        {
+            Regex postColonRegex = new Regex(":\\w*$");
+            Regex postSlashRegex = new Regex("/\\w*$");
+            if (key == null || key.Equals("/"))
+                return "";
+            else if (key.Contains(":"))
+            {
+                return postColonRegex.Replace(key, "");
+            }
+            else
+            {
+                string returnStr = postSlashRegex.Replace(key, "");
+                if (returnStr.Equals(""))
+                    return "/";
+                else
+                    return returnStr;
             }
         }
 
@@ -418,6 +455,7 @@ namespace EcellLib
             }
             return null;
         }
+        #endregion
     }
 
 
