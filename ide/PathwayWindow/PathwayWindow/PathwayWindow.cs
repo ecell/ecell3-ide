@@ -1291,17 +1291,17 @@ namespace EcellLib.PathwayWindow
                 {
                     if (systemName.Equals("/"))
                     {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, true, null, null, false);
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, true, obj, null, false);
                     }
                     else
                     {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, true, null, null, false);
+                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, true, obj, null, false);
                     }
                 }
                 else if (obj.type.Equals(PathwayView.VARIABLE_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, true, null, null, false);
+                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, true, obj, null, false);
                 else if (obj.type.Equals(PathwayView.PROCESS_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, true, null, null, false);
+                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, true, obj, null, false);
                 else
                 {
                     throw new PathwayException(m_resources.GetString("ErrUnknowType"));

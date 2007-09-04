@@ -328,7 +328,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// List of PPathwayNode for copied object.
         /// </summary>
-        List<EcellObject> m_copiedNodes = new List<EcellObject>();
+        List<EcellObject> m_copyNodes = new List<EcellObject>();
 
         /// <summary>
         /// selected line
@@ -534,7 +534,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public List<EcellObject> CopiedNodes
         {
-            get { return m_copiedNodes; }
+            get { return m_copyNodes; }
         }
 
         /// <summary>
@@ -1356,10 +1356,10 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void CopyClick(object sender, EventArgs e)
         {
-            this.m_copiedNodes.Clear();
+            this.m_copyNodes.Clear();
             this.m_copyPoint = this.m_pathwayView.MousePosition;
 
-            this.m_copiedNodes = SelectCopyNodes(this.m_selectedNodes);
+            this.m_copyNodes = SetCopyNodes(this.m_selectedNodes);
         }
 
         /// <summary>
@@ -1369,16 +1369,16 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void CutClick(object sender, EventArgs e)
         {
-            this.m_copiedNodes.Clear();
+            this.m_copyNodes.Clear();
             this.m_copyPoint = this.m_pathwayView.MousePosition;
 
-            this.m_copiedNodes = SelectCopyNodes(this.m_selectedNodes);
+            this.m_copyNodes = SetCopyNodes(this.m_selectedNodes);
 
             int i = 0;
-            foreach (EcellObject eo in this.m_copiedNodes)
+            foreach (EcellObject eo in this.m_copyNodes)
             {
                 i++;
-                if( i < this.m_copiedNodes.Count)
+                if( i < this.m_copyNodes.Count)
                     this.m_pathwayView.NotifyDataDelete(eo.key, ComponentSetting.ParseComponentKind(eo.type), false);
                 else
                     this.m_pathwayView.NotifyDataDelete(eo.key, ComponentSetting.ParseComponentKind(eo.type), true);
@@ -1386,7 +1386,7 @@ namespace EcellLib.PathwayWindow
 
         }
 
-        private List<EcellObject> SelectCopyNodes(List<PPathwayNode> nodeList)
+        private List<EcellObject> SetCopyNodes(List<PPathwayNode> nodeList)
         {
             List<EcellObject> copyNodes = new List<EcellObject>();
             //Copy Variavles
@@ -1412,7 +1412,7 @@ namespace EcellLib.PathwayWindow
                     //Create new EcellObject
                     EcellObject eo = node.Copy();
                     string system = PathUtil.GetParentSystemId(eo.key);
-                    if(m_dManager.DataExists(eo.modelID, eo.key, eo.type))
+                    if(m_dManager.IsDataExists(eo.modelID, eo.key, eo.type))
                         eo.key = system + ":" + m_dManager.GetTemporaryID(eo.modelID, eo.type, system);
                     copiedNodes.Add(eo);
                     varKeys.Add(":" + node.key, ":" + eo.key);
@@ -1425,9 +1425,9 @@ namespace EcellLib.PathwayWindow
                 if (eo.type == "Process")
                 {
                     eo.GetValue("VariableReferenceList").M_value = eo.GetValue("VariableReferenceList").M_value.Copy();
-                    foreach (EcellValue edgeList in eo.GetValue("VariableReferenceList").M_value.CastToList())
+                    foreach (EcellValue edge in eo.GetValue("VariableReferenceList").M_value.CastToList())
                     {
-                        foreach (EcellValue val in edgeList.CastToList())
+                        foreach (EcellValue val in edge.CastToList())
                             if (varKeys.ContainsKey(val.ToString()))
                                 val.M_value = varKeys[val.ToString()];
                     }
@@ -1443,25 +1443,21 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void PasteClick(object sender, EventArgs e)
         {
-            if (this.m_copiedNodes == null)
+            if (this.m_copyNodes == null)
                 return;
             // Get position diff
             float diffX = this.m_pathwayView.MousePosition.X - this.m_copyPoint.X;
             float diffY = this.m_pathwayView.MousePosition.Y - this.m_copyPoint.Y;
                         
-            List<EcellObject> nodeList = CopyNodes(this.m_copiedNodes);
+            List<EcellObject> nodeList = CopyNodes(this.m_copyNodes);
             int i = 0;
             foreach (EcellObject eo in nodeList)
             {
                 i++;
                 eo.X = eo.X + diffX;
                 eo.Y = eo.Y + diffY;
-                if(i <  nodeList.Count)
-                    PasteNodes(eo, false);
-                else 
-                    PasteNodes(eo, true);
-                
             }
+            this.m_pathwayView.Window.NotifyDataAdd(nodeList, false);
         }
 
         /// <summary>
@@ -1510,7 +1506,7 @@ namespace EcellLib.PathwayWindow
                                             isAnchor,
                                             eo,
                                             null,
-                                            false);
+                                            true);
             Debug.WriteLine("Paste node:" + eo.key);
         }
         

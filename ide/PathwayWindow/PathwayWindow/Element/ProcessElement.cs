@@ -153,7 +153,7 @@ namespace EcellLib.PathwayWindow.Element
                     EdgeDirection direction;
                     LineType type;
                     int coe = Convert.ToInt32(m.Groups["coe"].Value);
-                    if (coe < 0 )
+                    if (coe < 0)
                     {
                         direction = EdgeDirection.Inward;
                         type = LineType.Solid;
@@ -163,7 +163,8 @@ namespace EcellLib.PathwayWindow.Element
                         direction = EdgeDirection.None;
                         type = LineType.Dashed;
                     }
-                    else {
+                    else
+                    {
                         direction = EdgeDirection.Outward;
                         type = LineType.Solid;
                     }
@@ -173,14 +174,14 @@ namespace EcellLib.PathwayWindow.Element
                     if (key == null)
                         continue;
 
-                    if(edgeInfos.ContainsKey(key))
+                    if (edgeInfos.ContainsKey(key))
                     {
                         edgeInfos[key].AddRelation(name, direction, type, isAccessor);
                     }
                     else
                     {
                         EdgeInfo edgeInfo = new EdgeInfo(this.m_key, key);
-                        edgeInfo.AddRelation(name,direction,type,isAccessor);
+                        edgeInfo.AddRelation(name, direction, type, isAccessor);
                         edgeInfos.Add(key, edgeInfo);
                     }
                 }
@@ -192,6 +193,28 @@ namespace EcellLib.PathwayWindow.Element
                 m_edges = edgeInfos;
 
             return isAllValid;
+        }
+        /// <summary>
+        /// Set EdgeInfos of this process.
+        /// </summary>
+        /// <param name="value">EcellValue</param>
+        public void SetEdgesByEcellValue(EcellValue value)
+        {
+            // Get Variable Reference List
+            if (value == null) return;
+            List<EcellValue> varRefList = value.CastToList();
+            if (varRefList == null || varRefList.Count == 0) return;
+
+            // Flag for whether all VariableReferences are in valid format or not.
+            Dictionary<string, EdgeInfo> edgeInfos = new Dictionary<string, EdgeInfo>();
+
+            // Parse VariableReferenceList to VariableReference, and process each of them.
+            foreach (EcellValue varRef in varRefList)
+            {
+                EdgeInfo edgeInfo = new EdgeInfo(this.Key, varRef);
+                edgeInfos.Add(edgeInfo.VariableKey, edgeInfo);
+            }
+            m_edges = edgeInfos;
         }
         #endregion
     }
@@ -238,12 +261,52 @@ namespace EcellLib.PathwayWindow.Element
         /// <summary>
         /// Constructor
         /// </summary>
+        public EdgeInfo()
+        {
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
         /// <param name="proKey">key of process</param>
         /// <param name="varKey">key of variable</param>
         public EdgeInfo(string proKey, string varKey)
         {
             m_proKey = proKey;
             m_varKey = varKey;
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="value">EcellValue</param>
+        public EdgeInfo(string processKey, EcellValue ecellValue)
+        {
+            List<EcellValue> values = ecellValue.CastToList();
+            m_proKey = processKey;
+            m_varKey = values[1].CastToString().Substring(1);
+            // Set Relation
+            string l_name = values[0].CastToString();
+            int l_coef = values[2].CastToInt();
+            int l_isFixed = values[3].CastToInt();
+
+            EdgeDirection l_direction;
+            LineType l_type;
+            if (l_coef < 0)
+            {
+                l_direction = EdgeDirection.Inward;
+                l_type = LineType.Solid;
+            }
+            else if (l_coef == 0)
+            {
+                l_direction = EdgeDirection.None;
+                l_type = LineType.Dashed;
+            }
+            else
+            {
+                l_direction = EdgeDirection.Outward;
+                l_type = LineType.Solid;
+            }
+
+            AddRelation(l_name, l_direction, l_type, l_isFixed);
         }
         #endregion
 

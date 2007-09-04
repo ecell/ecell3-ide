@@ -804,9 +804,7 @@ namespace EcellLib
                     "Close Project: " + l_message + System.Environment.NewLine + System.Environment.NewLine
                     );
                 m_aManager.Clear();
-                m_processNumbering = 0;
-                m_variableNumbering = 0;
-                m_systemNumbering = 0;
+                ResetTemporaryID();
             }
             catch (Exception l_ex)
             {
@@ -2022,13 +2020,13 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// Is key & type exists in the system or not.
-        /// Move the component to the upper system, when system is deleted.
+        /// Is data exists in the system or not.
+        /// data is identified by modelID, key and type.
         /// </summary>
         /// <param name="modelID">modelID of deleted system.</param>
         /// <param name="key">key of deleted system.</param>
         /// <returns>true if the key exists; false otherwise</returns>
-        public bool DataExists(string modelID, string key, string type)
+        public bool IsDataExists(string modelID, string key, string type)
         {
             List<EcellObject> l_list = this.m_systemDic[this.m_currentProjectID][modelID];
             foreach (EcellObject l_sys in l_list)
@@ -4454,6 +4452,16 @@ namespace EcellLib
                 }
                 i++;
             }
+        }
+
+        /// <summary>
+        /// Reset the temporary id in projects.
+        /// </summary>
+        public void ResetTemporaryID()
+        {
+            m_processNumbering = 0;
+            m_variableNumbering = 0;
+            m_systemNumbering = 0;
         }
 
         /// <summary>

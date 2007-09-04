@@ -215,7 +215,7 @@ namespace EcellLib.PathwayWindow.Element
             set { m_optional = value; }
         }
         /// <summary>
-        /// Accessor for m_isLogger.
+        /// Accessor for EcellObject.
         /// </summary>
         public EcellObject EcellObject
         {

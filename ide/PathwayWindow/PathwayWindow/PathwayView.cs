@@ -634,7 +634,8 @@ namespace EcellLib.PathwayWindow
                     if(cs == null)
                         cs = ComponentSettingsManager.DefaultProcessSetting;
                     if(!needToNotify && !change)
-                        ((ProcessElement)element).SetEdgesByStr(GetEcellData(key, type, "VariableReferenceList"));
+                        ((ProcessElement)element).SetEdgesByEcellValue(eo.GetValue("VariableReferenceList").M_value);
+                        //((ProcessElement)element).SetEdgesByStr(GetEcellData(key, type, "VariableReferenceList"));
                     break;
 
                 case ComponentType.System:
@@ -707,14 +708,187 @@ namespace EcellLib.PathwayWindow
                     if (m_dgv.SelectedRows.Count != 0)
                         layer = (string)m_dgv[m_dgv.Columns["Name"].Index, m_dgv.SelectedRows[0].Index].Value;
                     m_canvasDict[canvasName].AddNewObj(layer, systemName, obj, hasCoords, false);
-                    if (cType == ComponentType.Process)
-                        ((PEcellProcess)obj).Refresh();
                 }                
             }
             else
                 throw new PathwayException(m_resources.GetString("ErrNotSetCanvas") + key);
 
             //m_pathwayWindow.NotifySelectChanged(key, type);
+        }
+        /// <summary>
+        /// Add new object to this canvas.
+        /// </summary>
+        /// <param name="canvasName">name of canvas</param>
+        /// <param name="systemName">name of system</param>
+        /// <param name="cType">type of component</param>
+        /// <param name="cs">ComponentSetting</param>
+        /// <param name="eo">EcellObject</param>
+        /// <param name="needToNotify">whether notification is needed or not</param>
+        /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
+        /// only the last action's isAnchor is true, the others' isAnchor is false</param>
+        /// <param name="valueStr">String for System label.</param>
+        public void AddNewObj(string canvasName,
+            string systemName,
+            ComponentType cType,
+            ComponentSetting cs,
+            EcellObject eo,
+            bool needToNotify,
+            bool isAnchor,
+            string valueStr)
+        {
+            if (string.IsNullOrEmpty(eo.key))
+                throw new PathwayException(m_resources.GetString("ErrKeyNot"));
+
+            if (!RegisterObj(cType, eo.key, canvasName))
+                return;
+
+            if (needToNotify)
+            {
+                if (eo == null)
+                    throw new PathwayException(m_resources.GetString("ErrAddObjNot"));
+
+                try
+                {
+                    NotifyDataAdd(eo, isAnchor);
+                }
+                catch (IgnoreException)
+                {
+                    UnregisterObj(cType, eo.key);
+                    return;
+                }
+                catch (Exception e)
+                {
+                    UnregisterObj(cType, eo.key);
+                    MessageBox.Show(m_resources.GetString("ErrAddObj"), "Error\n" + e.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            if (cs == null )
+                cs = GetComponentSetting(cType);
+            ComponentElement element = null;
+            string type = null;
+            switch (cType)
+            {
+                case ComponentType.Variable:
+                    type = VARIABLE_STRING;
+                    if (eo.key.EndsWith(":SIZE"))
+                    {
+                        element = new AttributeElement();
+                        if (!needToNotify)
+                        {
+                            if (null == valueStr)
+                                ((AttributeElement)element).Value = GetEcellData(eo.key, type, "Value");
+                            else
+                                ((AttributeElement)element).Value = valueStr;
+                        }
+                    }
+                    else
+                    {
+                        element = new VariableElement();
+                        type = VARIABLE_STRING;
+                    }
+                    break;
+
+                case ComponentType.Process:
+                    element = new ProcessElement();
+                    type = PROCESS_STRING;
+                    ((ProcessElement)element).SetEdgesByEcellValue(eo.GetValue("VariableReferenceList").M_value);
+                    //((ProcessElement)element).SetEdgesByStr(GetEcellData(key, type, "VariableReferenceList"));
+                    break;
+
+                case ComponentType.System:
+                    element = new SystemElement();
+                    type = SYSTEM_STRING;
+                    if (eo.IsPosSet)
+                    {
+                        ((SystemElement)element).Width = eo.Width;
+                        ((SystemElement)element).Height = eo.Height;
+                    }
+                    else
+                    {
+                        ((SystemElement)element).Width = PEcellSystem.DEFAULT_WIDTH;
+                        ((SystemElement)element).Height = PEcellSystem.DEFAULT_HEIGHT;
+                    }
+
+                    break;
+            }
+
+            element.ModelID = eo.modelID;
+            element.Key = eo.key;
+            element.CanvasID = canvasName;
+            element.X = eo.X;
+            element.Y = eo.Y;
+            element.Type = type;
+
+            if (!string.IsNullOrEmpty(canvasName) && m_canvasDict.ContainsKey(canvasName))
+            {
+                if (element is AttributeElement)
+                    m_canvasDict[canvasName].AddAttributeToSystem(((AttributeElement)element).TargetKey, (AttributeElement)element);
+                else if (element is SystemElement)
+                {
+                    List<PEcellSystem> systemList = new List<PEcellSystem>();
+                    SystemElement se = (SystemElement)element;
+                    CanvasView canvas = m_canvasDict[canvasName];
+                    foreach (PLayer layer in canvas.Layers.Values)
+                    {
+                        PEcellSystem system = (PEcellSystem)cs.CreateNewComponent(se.X, se.Y, se.Width, se.Height, this);
+                        system.Reset();
+                        system.Element = se;
+                        system.MouseDown += new PInputEventHandler(SystemSelected);
+                        systemList.Add(system);
+                        system.Layer = layer;
+                        system.Name = eo.key;
+                        systemName = system.Name;
+                        string parentSystemId = PathUtil.GetParentSystemId(eo.key);
+                        if (string.IsNullOrEmpty(parentSystemId))
+                            layer.AddChild(system);
+                        else
+                            canvas.AddNewObj(null, parentSystemId, system, eo.IsPosSet, false);
+                        //canvas.AddChildToSelectedSystem(parentSystemId, system, hasCoords);
+                    }
+                    se.X = systemList[0].X;
+                    se.Y = systemList[0].Y;
+                    canvas.AddSystem(eo.key, se, null, systemList);
+                }
+                else
+                {
+                    PPathwayObject obj = cs.CreateNewComponent(eo.X, eo.Y, 0, 0, this);
+                    ((PPathwayNode)obj).Element = (NodeElement)element;
+                    ((PPathwayNode)obj).ShowingID = m_showingId;
+                    obj.MouseDown += new PInputEventHandler(NodeSelected);
+                    obj.MouseEnter += new PInputEventHandler(NodeEntered);
+                    obj.MouseLeave += new PInputEventHandler(NodeLeft);
+                    ((PPathwayNode)obj).Handler4Line = new PInputEventHandler(LineSelected);
+
+                    string layer = null;
+                    if (m_dgv.SelectedRows.Count != 0)
+                        layer = (string)m_dgv[m_dgv.Columns["Name"].Index, m_dgv.SelectedRows[0].Index].Value;
+                    m_canvasDict[canvasName].AddNewObj(layer, systemName, obj, eo.IsPosSet, false);
+                }
+            }
+            else
+                throw new PathwayException(m_resources.GetString("ErrNotSetCanvas") + eo.key);
+
+            //m_pathwayWindow.NotifySelectChanged(key, type);
+        }
+
+        /// <summary>
+        /// Get ComponentSetting.
+        /// </summary>
+        /// <param name="cType">ComponentType</param>
+        private ComponentSetting GetComponentSetting(ComponentType cType)
+        {
+            switch (cType)
+            {
+                case ComponentType.Process:
+                    return ComponentSettingsManager.DefaultProcessSetting;
+                case ComponentType.System:
+                    return ComponentSettingsManager.DefaultSystemSetting;
+                case ComponentType.Variable:
+                    return ComponentSettingsManager.DefaultVariableSetting;
+            }
+            return null;
         }
         
         /// <summary>
@@ -2235,6 +2409,9 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Create edge from PEcellVariable.
         /// </summary>
+        /// <param name="process">PEcellProcess</param>
+        /// <param name="variable">PEcellVariable</param>
+        /// <param name="coefficient">coefficient</param>
         public void CreateEdge(PEcellProcess process, PEcellVariable variable, int coefficient)
         {
             CreateEdge(process, variable.Element.Key, coefficient);
@@ -2243,6 +2420,9 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Create edge from variable key.
         /// </summary>
+        /// <param name="process">PEcellProcess</param>
+        /// <param name="variable">Variable key.</param>
+        /// <param name="coefficient">coefficient</param>
         public void CreateEdge(PEcellProcess process, string variableKey, int coefficient)
         {
             EcellObject obj = m_dManager.GetEcellObject(process.Element.ModelID, process.Element.Key, process.Element.Type);
