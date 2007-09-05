@@ -121,7 +121,7 @@
     <value>Are you sure you want to delete?</value>
   </data>
   <data name="CopyMenuText" xml:space="preserve">
-    <value>Copy (C)</value>
+    <value>&amp;Copy</value>
   </data>
   <data name="ConfirmMerge" xml:space="preserve">
     <value>Are you sure merge the component in system to upper system.</value>
@@ -133,7 +133,7 @@
     <value>Delete Logger</value>
   </data>
   <data name="DeleteMenuText" xml:space="preserve">
-    <value>Delete</value>
+    <value>&amp;Delete</value>
   </data>
   <data name="ErrAddObj" xml:space="preserve">
     <value>Can not add the object.</value>
@@ -199,12 +199,12 @@
     <value>Please select at least one node to layout</value>
   </data>
   <data name="PasteMenuText" xml:space="preserve">
-    <value>Paste</value>
+    <value>&amp;Paste</value>
   </data>
   <data name="ErrMerge" xml:space="preserve">
     <value>Can not merge the component to the upper system.</value>
   </data>
   <data name="CutMenuText" xml:space="preserve">
-    <value>Cut (T)</value>
+    <value>Cu&amp;t</value>
   </data>
 </root>

@@ -326,11 +326,6 @@ namespace EcellLib.PathwayWindow
         List<PPathwayNode> m_selectedNodes = new List<PPathwayNode>();
 
         /// <summary>
-        /// List of PPathwayNode for copied object.
-        /// </summary>
-        List<EcellObject> m_copyNodes = new List<EcellObject>();
-
-        /// <summary>
         /// selected line
         /// </summary>
         Line m_selectedLine = null;
@@ -389,11 +384,6 @@ namespace EcellLib.PathwayWindow
         /// Used to save lower left point of a system
         /// </summary>
         protected PointF m_lowerLeftPoint;
-
-        /// <summary>
-        /// Used to copy & paste nodes.
-        /// </summary>
-        protected PointF m_copyPoint;
         
         /// <summary>
         /// Whether an overview should be refreshed or not
@@ -527,14 +517,6 @@ namespace EcellLib.PathwayWindow
         public List<PPathwayNode> SelectedNodes
         {
             get { return m_selectedNodes; }
-        }
-
-        /// <summary>
-        /// Accessor for m_copiedNodes.
-        /// </summary>
-        public List<EcellObject> CopiedNodes
-        {
-            get { return m_copyNodes; }
         }
 
         /// <summary>
@@ -797,17 +779,17 @@ namespace EcellLib.PathwayWindow
             m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
 
             ToolStripItem copy = new ToolStripMenuItem(m_resources.GetString("CopyMenuText"));
-            copy.Click += new EventHandler(CopyClick);
+            copy.Click += new EventHandler(this.m_pathwayView.CopyClick);
             m_nodeMenu.Items.Add(copy);
             m_cMenuDict.Add(CANVAS_MENU_COPY, copy);
 
             ToolStripItem cut = new ToolStripMenuItem(m_resources.GetString("CutMenuText"));
-            cut.Click += new EventHandler(CutClick);
+            cut.Click += new EventHandler(this.m_pathwayView.CutClick);
             m_nodeMenu.Items.Add(cut);
             m_cMenuDict.Add(CANVAS_MENU_CUT, cut);
 
             ToolStripItem paste = new ToolStripMenuItem(m_resources.GetString("PasteMenuText"));
-            paste.Click += new EventHandler(PasteClick);
+            paste.Click += new EventHandler(this.m_pathwayView.PasteClick);
             m_nodeMenu.Items.Add(paste);
             m_cMenuDict.Add(CANVAS_MENU_PASTE, paste);
 
@@ -1281,14 +1263,9 @@ namespace EcellLib.PathwayWindow
                         PPathwayNode deleteNode = (PPathwayNode)obj1;
                         try
                         {
-                            if (deleteNode is PEcellVariable)
-                            {
-                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Variable, isAnchor);
-                            }
-                            else if (deleteNode is PEcellProcess)
-                            {
-                                m_pathwayView.NotifyDataDelete(deleteNode.Element.Key, ComponentType.Process, isAnchor);
-                            }
+                            m_pathwayView.NotifyDataDelete( deleteNode.Element.Key,
+                                                            ComponentSetting.ParseComponentKind(deleteNode.Element.Type),
+                                                            isAnchor);
                         }
                         catch (IgnoreException)
                         {
@@ -1347,120 +1324,6 @@ namespace EcellLib.PathwayWindow
                 ResetSelectedLine();
             }
             ((ToolStripMenuItem)sender).Tag = null;
-        }
-
-        /// <summary>
-        /// Called when a copy menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void CopyClick(object sender, EventArgs e)
-        {
-            this.m_copyNodes.Clear();
-            this.m_copyPoint = this.m_pathwayView.MousePosition;
-
-            this.m_copyNodes = SetCopyNodes(this.m_selectedNodes);
-        }
-
-        /// <summary>
-        /// Called when a cut menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void CutClick(object sender, EventArgs e)
-        {
-            this.m_copyNodes.Clear();
-            this.m_copyPoint = this.m_pathwayView.MousePosition;
-
-            this.m_copyNodes = SetCopyNodes(this.m_selectedNodes);
-
-            int i = 0;
-            foreach (EcellObject eo in this.m_copyNodes)
-            {
-                i++;
-                if( i < this.m_copyNodes.Count)
-                    this.m_pathwayView.NotifyDataDelete(eo.key, ComponentSetting.ParseComponentKind(eo.type), false);
-                else
-                    this.m_pathwayView.NotifyDataDelete(eo.key, ComponentSetting.ParseComponentKind(eo.type), true);
-            }
-
-        }
-
-        /// <summary>
-        /// Called when a paste menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PasteClick(object sender, EventArgs e)
-        {
-            if (this.m_copyNodes == null)
-                return;
-            // Get position diff
-            float diffX = this.m_pathwayView.MousePosition.X - this.m_copyPoint.X;
-            float diffY = this.m_pathwayView.MousePosition.Y - this.m_copyPoint.Y;
-
-            List<EcellObject> nodeList = CopyNodes(this.m_copyNodes);
-            int i = 0;
-            foreach (EcellObject eo in nodeList)
-            {
-                i++;
-                eo.X = eo.X + diffX;
-                eo.Y = eo.Y + diffY;
-                if( i < this.m_copyNodes.Count)
-                    this.m_pathwayView.NotifyDataAdd(eo, false);
-                else
-                    this.m_pathwayView.NotifyDataAdd(eo, true);
-            }
-        }
-
-        private List<EcellObject> SetCopyNodes(List<PPathwayNode> nodeList)
-        {
-            List<EcellObject> copyNodes = new List<EcellObject>();
-            //Copy Variavles
-            foreach (PPathwayNode node in nodeList)
-                if(node is PEcellVariable)
-                    copyNodes.Add(node.Element.EcellObject.Copy());
-            //Copy Processes
-            foreach (PPathwayNode node in nodeList)
-                if (node is PEcellProcess)
-                    copyNodes.Add(node.Element.EcellObject.Copy());
-            return copyNodes;
-        }
-
-        private List<EcellObject> CopyNodes(List<EcellObject> nodeList)
-        {
-            List<EcellObject> copiedNodes = new List<EcellObject>();
-            Dictionary<string, string> varKeys = new Dictionary<string, string>();
-            // Set m_copiedNodes.
-            if (nodeList != null)
-            {
-                for (int i = 0; i < nodeList.Count; i++)
-                {
-                    EcellObject node = nodeList[i];
-                    //Create new EcellObject
-                    EcellObject eo = node.Copy();
-                    if (m_dManager.IsDataExists(eo.modelID, eo.key, eo.type))
-                        eo.key = m_dManager.GetTemporaryID(eo.modelID, eo.type, eo.parentSystemID);
-                    copiedNodes.Add(eo);
-                    varKeys.Add(":" + node.key, ":" + eo.key);
-                    Debug.WriteLine("Copy Node:" + node.key);
-                }
-            }
-            // Reset edges.
-            foreach (EcellObject eo in copiedNodes)
-            {
-                if (eo.type == "Process")
-                {
-                    eo.GetValue("VariableReferenceList").M_value = eo.GetValue("VariableReferenceList").M_value.Copy();
-                    foreach (EcellValue edge in eo.GetValue("VariableReferenceList").M_value.CastToList())
-                    {
-                        foreach (EcellValue val in edge.CastToList())
-                            if (varKeys.ContainsKey(val.ToString()))
-                                val.M_value = varKeys[val.ToString()];
-                    }
-                }
-            }
-            return copiedNodes;
         }
         
         /// <summary>

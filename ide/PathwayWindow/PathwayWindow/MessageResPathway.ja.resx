@@ -121,7 +121,7 @@
     <value>本当に削除してよろしいですか？</value>
   </data>
   <data name="CopyMenuText" xml:space="preserve">
-    <value>コピー</value>
+    <value>コピー(&amp;C)</value>
   </data>
   <data name="ConfirmMerge" xml:space="preserve">
     <value>システムの内容を上位システムにマージしてもよろしいですか？</value>
@@ -133,7 +133,7 @@
     <value>ロガー解除</value>
   </data>
   <data name="DeleteMenuText" xml:space="preserve">
-    <value>削除</value>
+    <value>削除(&amp;D)</value>
   </data>
   <data name="ErrAddObj" xml:space="preserve">
     <value>オブジェクトの追加に失敗しました。</value>
@@ -199,12 +199,12 @@
     <value>レイアウトをする１つ以上のノードを選択して下さい</value>
   </data>
   <data name="PasteMenuText" xml:space="preserve">
-    <value>貼り付け</value>
+    <value>貼り付け(&amp;P)</value>
   </data>
   <data name="ErrMerge" xml:space="preserve">
     <value>上位システムにマージに失敗しました。</value>
   </data>
   <data name="CutMenuText" xml:space="preserve">
-    <value>切り取り</value>
+    <value>切り取り(&amp;T)</value>
   </data>
 </root>

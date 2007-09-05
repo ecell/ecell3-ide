@@ -100,7 +100,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_COPY].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CUT].Visible = false;
-                    if (this.m_cview.CopiedNodes.Count > 0)
+                    if (this.m_cview.PathwayView.CopiedNodes.Count > 0)
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = true;
                     else
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = false;
@@ -124,7 +124,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_COPY].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CUT].Visible = true;
-                    if (this.m_cview.CopiedNodes.Count > 0)
+                    if (this.m_cview.PathwayView.CopiedNodes.Count > 0)
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = true;
                     else
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = false;
@@ -172,6 +172,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Tag = m_cview.ClickedNode;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_BIDIR_ARROW].Tag = m_cview.ClickedNode;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CONSTANT_LINE].Tag = m_cview.ClickedNode;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Tag = m_cview.ClickedNode;
 
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR2].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_WITH].Visible = false;
@@ -220,6 +221,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CREATE_LOGGER].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_LOGGER].Visible = true;
 
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Tag = m_cview.ClickedNode;
                     setMenuLogger(n);
                 }
                 else

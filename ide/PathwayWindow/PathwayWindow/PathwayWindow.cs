@@ -645,7 +645,6 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of menu.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResPathway));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
             // Setup menu
@@ -663,6 +662,41 @@ namespace EcellLib.PathwayWindow
             viewMenu.Name = "MenuItemView";
             
             list.Add(viewMenu);
+
+            // Edit menu
+            ToolStripMenuItem editMenu = new ToolStripMenuItem();
+            editMenu.Text = "Edit";
+            editMenu.Name = "MenuItemEdit";
+
+            ToolStripSeparator separator = new ToolStripSeparator();
+            
+            ToolStripMenuItem deleteMenu = new ToolStripMenuItem();
+            deleteMenu.Text = m_resources.GetString("DeleteMenuText");
+            deleteMenu.Name = "MenuItemPaste";
+            deleteMenu.Click += new EventHandler(m_view.CutClick);
+            deleteMenu.ShortcutKeys = Keys.Delete;
+            deleteMenu.ShowShortcutKeys = true;
+            ToolStripMenuItem cutMenu = new ToolStripMenuItem();
+            cutMenu.Text = m_resources.GetString("CutMenuText");
+            cutMenu.Name = "MenuItemCut";
+            cutMenu.Click += new EventHandler(m_view.CutClick);
+            cutMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            cutMenu.ShowShortcutKeys = true;
+            ToolStripMenuItem copyMenu = new ToolStripMenuItem();
+            copyMenu.Text = m_resources.GetString("CopyMenuText");
+            copyMenu.Name = "MenuItemCopy";
+            copyMenu.Click += new EventHandler(m_view.CopyClick);
+            copyMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            copyMenu.ShowShortcutKeys = true;
+            ToolStripMenuItem pasteMenu = new ToolStripMenuItem();
+            pasteMenu.Text = m_resources.GetString("PasteMenuText");
+            pasteMenu.Name = "MenuItemPaste";
+            pasteMenu.Click += new EventHandler(m_view.PasteClick);
+            pasteMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            pasteMenu.ShowShortcutKeys = true;
+
+            editMenu.DropDownItems.AddRange(new ToolStripItem[] { cutMenu, copyMenu, pasteMenu, deleteMenu });
+            list.Add(editMenu);
 
             // Layout menu
             ToolStripMenuItem layoutMenu = new ToolStripMenuItem();

@@ -233,9 +233,19 @@ namespace EcellLib.PathwayWindow
         PCanvas m_overCanvas;
 
         /// <summary>
+        /// List of PPathwayNode for copied object.
+        /// </summary>
+        List<EcellObject> m_copiedNodes = new List<EcellObject>();
+
+        /// <summary>
         /// Point of mouse cursor.
         /// </summary>
-        PointF m_pointF;
+        PointF m_mousePos;
+
+        /// <summary>
+        /// Point of mouse cursor.
+        /// </summary>
+        PointF m_copyPos;
 
         /// <summary>
         /// PPath on m_overCanvas, which stands for a viewed area in m_canvas (Main canvas)
@@ -388,9 +398,18 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public PointF MousePosition
         {
-            get { return m_pointF; }
-            set { m_pointF = value; }
+            get { return m_mousePos; }
+            set { m_mousePos = value; }
         }
+        /// <summary>
+        /// Accessor for m_copiedNodes.
+        /// </summary>
+        public List<EcellObject> CopiedNodes
+        {
+            get { return m_copiedNodes; }
+            set { m_copiedNodes = value; }
+        }
+
         #endregion
 
         #region Constructor
@@ -2715,6 +2734,127 @@ namespace EcellLib.PathwayWindow
             }
         }
 
+        /// <summary>
+        /// Called when a copy menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void CopyClick(object sender, EventArgs e)
+        {
+            this.CopiedNodes.Clear();
+            this.m_copyPos = this.MousePosition;
+
+            this.CopiedNodes = SetCopyNodes(this.ActiveCanvas.SelectedNodes);
+        }
+
+        /// <summary>
+        /// Called when a cut menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void CutClick(object sender, EventArgs e)
+        {
+            this.CopiedNodes.Clear();
+            this.m_copyPos = this.MousePosition;
+
+            this.CopiedNodes = SetCopyNodes(this.ActiveCanvas.SelectedNodes);
+
+            int i = 0;
+            bool isAnchor;
+            foreach (EcellObject eo in this.CopiedNodes)
+            {
+                i++;
+                isAnchor = (i == this.CopiedNodes.Count); 
+                this.NotifyDataDelete(eo.key, ComponentSetting.ParseComponentKind(eo.type), isAnchor);
+            }
+
+        }
+
+        /// <summary>
+        /// Called when a paste menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void PasteClick(object sender, EventArgs e)
+        {
+            if (this.CopiedNodes == null)
+                return;
+            // Get position diff
+            PointF diff = GetDiff(this.MousePosition, this.m_copyPos);
+
+            List<EcellObject> nodeList = CopyNodes(this.CopiedNodes);
+            int i = 0;
+            bool isAnchor;
+            foreach (EcellObject eo in nodeList)
+            {
+                i++;
+                isAnchor = (i == this.CopiedNodes.Count); 
+                eo.X = eo.X + diff.X;
+                eo.Y = eo.Y + diff.Y;
+                this.NotifyDataAdd(eo, isAnchor);
+            }
+        }
+
+        private List<EcellObject> SetCopyNodes(List<PPathwayNode> nodeList)
+        {
+            List<EcellObject> copyNodes = new List<EcellObject>();
+            //Copy Variavles
+            foreach (PPathwayNode node in nodeList)
+                if (node is PEcellVariable)
+                    copyNodes.Add(node.Element.EcellObject.Copy());
+            //Copy Processes
+            foreach (PPathwayNode node in nodeList)
+                if (node is PEcellProcess)
+                    copyNodes.Add(node.Element.EcellObject.Copy());
+            return copyNodes;
+        }
+
+        private PointF GetDiff(PointF posA, PointF posB)
+        {
+            PointF diff = new PointF(posA.X - posB.X, posA.Y - posB.Y);
+            if (diff.X == 0 && diff.Y == 0)
+            {
+                diff.X = diff.X + 10;
+                diff.Y = diff.Y + 10;
+            }
+            return diff;
+        }
+
+        private List<EcellObject> CopyNodes(List<EcellObject> nodeList)
+        {
+            List<EcellObject> copiedNodes = new List<EcellObject>();
+            Dictionary<string, string> varKeys = new Dictionary<string, string>();
+            // Set m_copiedNodes.
+            if (nodeList != null)
+            {
+                for (int i = 0; i < nodeList.Count; i++)
+                {
+                    EcellObject node = nodeList[i];
+                    //Create new EcellObject
+                    EcellObject eo = node.Copy();
+                    if (m_dManager.IsDataExists(eo.modelID, eo.key, eo.type))
+                        eo.key = m_dManager.GetTemporaryID(eo.modelID, eo.type, eo.parentSystemID);
+                    copiedNodes.Add(eo);
+                    // Set Variable name.
+                    varKeys.Add(":" + node.key, ":" + eo.key);
+                }
+            }
+            // Reset edges.
+            foreach (EcellObject eo in copiedNodes)
+            {
+                if (eo.type == "Process")
+                {
+                    eo.GetValue("VariableReferenceList").M_value = eo.GetValue("VariableReferenceList").M_value.Copy();
+                    foreach (EcellValue edge in eo.GetValue("VariableReferenceList").M_value.CastToList())
+                    {
+                        foreach (EcellValue val in edge.CastToList())
+                            if (varKeys.ContainsKey(val.ToString()))
+                                val.M_value = varKeys[val.ToString()];
+                    }
+                }
+            }
+            return copiedNodes;
+        }
         #endregion
     }
 }
