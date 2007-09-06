@@ -1253,27 +1253,22 @@ namespace EcellLib.PathwayWindow
                 }
 
                 int i = 0;
-                foreach (PPathwayNode obj1 in slist)
+                foreach (PPathwayNode deleteNode in slist)
                 {
-                    
-                    if (obj1 is PPathwayNode)
+                    i++;
+                    bool isAnchor = (i == slist.Count);
+                    try
                     {
-                        i++;
-                        bool isAnchor = (i == slist.Count) ? true : false;
-                        PPathwayNode deleteNode = (PPathwayNode)obj1;
-                        try
-                        {
-                            m_pathwayView.NotifyDataDelete( deleteNode.Element.Key,
-                                                            ComponentSetting.ParseComponentKind(deleteNode.Element.Type),
-                                                            isAnchor);
-                        }
-                        catch (IgnoreException)
-                        {
-                            return;
-                        }
-                        if (((PPathwayObject)obj1).Parent != null)
-                            ((PPathwayObject)obj1).Parent.RemoveChild((PPathwayObject)obj1);
+                        m_pathwayView.NotifyDataDelete( deleteNode.Element.Key,
+                                                        ComponentSetting.ParseComponentKind(deleteNode.Element.Type),
+                                                        isAnchor);
                     }
+                    catch (IgnoreException)
+                    {
+                        return;
+                    }
+                    if (deleteNode.Parent != null)
+                        deleteNode.Parent.RemoveChild(deleteNode);
                 }
             }
             Object obj = ((ToolStripItem)sender).Tag;
@@ -1290,9 +1285,6 @@ namespace EcellLib.PathwayWindow
                                     MessageBoxIcon.Error);
                     return;
                 }
-
-                List<string> list = this.GetAllSystemUnder(deleteSystem.Element.Key);
-
                 try
                 {
                     m_pathwayView.NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System, true);
@@ -1301,14 +1293,8 @@ namespace EcellLib.PathwayWindow
                 {
                     return;
                 }
-                /*
-                foreach (string under in list)
-                {
-                    PText sysText = m_systems[under].Text;
-                    sysText.Parent.RemoveChild(sysText);
-                }*/
 
-                if (((PPathwayObject)obj).IsHighLighted)
+                if (deleteSystem.IsHighLighted)
                 {
                     HideResizeHandles();
                     m_selectedSystemName = null;
@@ -1334,11 +1320,11 @@ namespace EcellLib.PathwayWindow
         public void CreateLoggerClick(object sender, EventArgs e)
         {
             string logger = ((ToolStripItem)sender).Text;
-            EcellObject ecellobj = null;
+
             if (ClickedNode is PPathwayObject)
             {
                 PPathwayObject obj = (PPathwayObject)ClickedNode;
-                ecellobj = m_dManager.GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
+                EcellObject ecellobj = m_dManager.GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
                 Debug.WriteLine("Create " + obj.Element.Type + " Logger:" + obj.Element.Key);
 
                 // set logger
@@ -1346,11 +1332,6 @@ namespace EcellLib.PathwayWindow
                 {
                     if (logger.Equals(d.M_name))
                     {
-                        PluginManager.GetPluginManager().LoggerAdd(
-                                        ecellobj.modelID,
-                                        ecellobj.key,
-                                        ecellobj.type,
-                                        d.M_entityPath);
                         d.M_isLogger = true;
                     }
                 }
@@ -1373,11 +1354,11 @@ namespace EcellLib.PathwayWindow
         public void DeleteLoggerClick(object sender, EventArgs e)
         {
             string logger = ((ToolStripItem)sender).Text;
-            EcellObject ecellobj = null;
+
             if (ClickedNode is PPathwayObject)
             {
                 PPathwayObject obj = (PPathwayObject)ClickedNode;
-                ecellobj = m_dManager.GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
+                EcellObject ecellobj = m_dManager.GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
                 Debug.WriteLine("Delete " + obj.Element.Type + " Logger:" + obj.Element.Key);
 
                 // delete logger
@@ -2390,7 +2371,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="systemName"></param>
         public void TransferSelectedTo(string systemName)
         {
-            foreach(PPathwayNode node in m_selectedNodes)
+            foreach(PPathwayNode node in SelectedNodes)
             {
                 TransferNodeTo(systemName, node, true, true);
             }
@@ -3201,8 +3182,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="toBeNotified">Whether selection must be notified to Ecell-Core or not.</param>
         public void AddSelectedNode(PPathwayNode obj, bool toBeNotified)
         {
-            m_selectedNodes.Add(obj);
-            foreach (PPathwayObject eachObj in m_selectedNodes)
+            SelectedNodes.Add(obj);
+            foreach (PPathwayObject eachObj in SelectedNodes)
             {
                 eachObj.IsHighLighted = true;
             }
@@ -3709,7 +3690,7 @@ namespace EcellLib.PathwayWindow
                     break;
                 case ComponentType.Variable:
                     bool isAlreadySelected = false;
-                    foreach (PPathwayNode selectNode in m_selectedNodes)
+                    foreach (PPathwayNode selectNode in SelectedNodes)
                     {
                         if (key.Equals(selectNode.Element.Key) && selectNode is PEcellVariable)
                         {
@@ -3733,7 +3714,7 @@ namespace EcellLib.PathwayWindow
                     break;
                 case ComponentType.Process:
                     bool isProAlreadySelected = false;
-                    foreach (PPathwayNode selectNode in m_selectedNodes)
+                    foreach (PPathwayNode selectNode in SelectedNodes)
                     {
                         if (key.Equals(selectNode.Element.Key) && selectNode is PEcellProcess)
                         {
@@ -3902,19 +3883,19 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void ResetSelectedNodes()
         {
-            if (m_selectedNodes.Count == 0)
+            if (SelectedNodes.Count == 0)
             {
                 return;
             }
             PNodeList spareList = new PNodeList();
-            foreach (PPathwayObject obj in m_selectedNodes)
+            foreach (PPathwayObject obj in SelectedNodes)
             {
                 obj.IsHighLighted = false;
             }
             lock (this)
             {
-                if (m_selectedNodes.Count != 0)
-                    m_selectedNodes.RemoveRange(0, m_selectedNodes.Count);
+                if (SelectedNodes.Count != 0)
+                    SelectedNodes.RemoveRange(0, SelectedNodes.Count);
             }
         }
 

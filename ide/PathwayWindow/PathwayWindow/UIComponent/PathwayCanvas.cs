@@ -113,7 +113,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                     PPathwayNode n = m_cview.ClickedNode as PPathwayNode;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Text = n.Element.Key;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Visible = true;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR3].Visible = false;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR3].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR1].Visible = true;
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_RIGHT_ARROW ].Visible = false;
                     m_cview.ContextMenuDict[ CanvasView.CANVAS_MENU_LEFT_ARROW ].Visible = false;
@@ -139,7 +139,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 {
                     EdgeInfo info = ((Line)m_cview.ClickedNode).Info;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Visible = false;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR3].Visible = false;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR3].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR1].Visible = true;
                     switch (info.Direction)
                     {
@@ -191,7 +191,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                     PEcellSystem n = m_cview.ClickedNode as PEcellSystem;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Text = n.Element.Key;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Visible = true;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR3].Visible = false;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR3].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR1].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_RIGHT_ARROW].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_LEFT_ARROW].Visible = false;

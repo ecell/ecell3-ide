@@ -314,7 +314,12 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public CanvasView ActiveCanvas
         {
-            get { return m_canvasDict[m_activeCanvasID]; }
+            get {
+                if (m_activeCanvasID == null)
+                    return null;
+                else
+                    return m_canvasDict[m_activeCanvasID];
+            }
         }
 
         /// <summary>
@@ -1518,34 +1523,36 @@ namespace EcellLib.PathwayWindow
                 return;
 
             // Delete variables.
-            List<string> deleteList = new List<string>();
-            foreach(string delete in m_keyVarCanvasDict.Keys)
-                if (delete.StartsWith(system + ":"))
+            ICollection<string> keyList = CopyList(m_keyVarCanvasDict.Keys);
+            foreach (string key in keyList)
+                if (PathUtil.IsUnder(system, key))
                 {
-                    deleteList.Add(delete);
-                    m_canvasDict[m_keyVarCanvasDict[delete]].DataDelete(delete, ComponentType.Variable);
+                    ActiveCanvas.DataDelete(key, ComponentType.Variable);
+                    m_keyVarCanvasDict.Remove(key);
                 }
-            foreach(string delete in deleteList)
-                m_keyVarCanvasDict.Remove(delete);
             
             // Delete processes.
-            deleteList = new List<string>();
-            foreach(string delete in m_keyProCanvasDict.Keys)
-                if (delete.StartsWith(system + ":"))
+            keyList = CopyList(m_keyProCanvasDict.Keys);
+            foreach (string key in keyList)
+                if (PathUtil.IsUnder(system, key))
                 {
-                    deleteList.Add(delete);
-                    m_canvasDict[m_keyProCanvasDict[delete]].DataDelete(delete, ComponentType.Process);
+                    ActiveCanvas.DataDelete(key, ComponentType.Process);
+                    m_keyProCanvasDict.Remove(key);
                 }
-            foreach(string delete in deleteList)
-                m_keyProCanvasDict.Remove(delete);
 
             // Delete systems.
-            deleteList = new List<string>();
-            foreach(string delete in m_keySysCanvasDict.Keys)
-                if (delete.StartsWith(system + "/"))
-                    deleteList.Add(delete);
-            foreach(string delete in deleteList)
-                m_keySysCanvasDict.Remove(delete);
+            keyList = CopyList(m_keySysCanvasDict.Keys);
+            foreach (string key in keyList)
+                if (PathUtil.IsUnder(system, key))
+                    m_keySysCanvasDict.Remove(key);
+        }
+
+        private List<string> CopyList(ICollection<string> list)
+        {
+            string[] tmpArray = new string[list.Count];
+            list.CopyTo(tmpArray, 0);
+            List<string> newList = new List<string>(tmpArray);
+            return newList;
         }
 
         /// <summary>
@@ -2741,6 +2748,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void CopyClick(object sender, EventArgs e)
         {
+            if (this.ActiveCanvas == null)
+                return;
             this.CopiedNodes.Clear();
             this.m_copyPos = this.MousePosition;
 
@@ -2754,6 +2763,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void CutClick(object sender, EventArgs e)
         {
+            if (this.ActiveCanvas == null)
+                return;
             this.CopiedNodes.Clear();
             this.m_copyPos = this.MousePosition;
 
