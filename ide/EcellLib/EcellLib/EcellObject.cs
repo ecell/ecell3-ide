@@ -455,7 +455,7 @@ namespace EcellLib
             if (M_value == null)
                 return null;
             //return EcellData if EcellValue exists.
-            foreach (EcellData data in m_value)
+            foreach (EcellData data in M_value)
             {
                 if (data.M_name == name)
                     return data;
@@ -472,7 +472,7 @@ namespace EcellLib
             if (M_value == null)
                 return null;
             //return EcellValue if EcellValue exists.
-            foreach (EcellData data in m_value)
+            foreach (EcellData data in M_value)
             {
                 if (data.M_name == name)
                     return data.M_value;

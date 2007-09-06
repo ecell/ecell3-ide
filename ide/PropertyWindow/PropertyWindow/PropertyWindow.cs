@@ -338,7 +338,7 @@ namespace EcellLib.PropertyWindow
                 c2 = new DataGridViewButtonCell();
                 c2.Value = "...";
             }
-            else if (d.M_name.Equals("VariableReferenceList"))
+            else if (d.M_name.Equals(EcellProcess.VARIABLEREFERENCELIST))
             {
                 c2 = new DataGridViewButtonCell();
                 c2.Value = "Edit Variable Reference ...";
@@ -438,11 +438,13 @@ namespace EcellLib.PropertyWindow
             
             foreach (EcellData d in obj.M_value)
             {
-                if (d.M_name.Equals("Size")) continue;
+                if (d.M_name.Equals("Size"))
+                    continue;
+
                 PropertyAdd(d, type);
-                if (d.M_name.Equals("VariableReferenceList"))
+                if (d.M_name.Equals(EcellProcess.VARIABLEREFERENCELIST))
                     m_refStr = d.M_value.ToString();
-                if (d.M_name.Equals("Expression"))
+                if (d.M_name.Equals(EcellProcess.EXPRESSION))
                     m_expression = d.M_value.ToString();
             }
             if (type.Equals("System"))
@@ -783,19 +785,13 @@ namespace EcellLib.PropertyWindow
         /// <param name="e"></param>
         void ApplyVarRefButton(object sender, EventArgs e)
         {
-            String p = m_win.GetVarReference();
-            if (p == null) return;
-            if (m_refStr.Equals(p)) return;
+            String refStr = m_win.GetVarReference();
+            if (refStr == null || m_refStr.Equals(refStr))
+                return;
 
-            EcellObject t = m_current.Copy();
-            foreach (EcellData d in t.M_value)
-            {
-                if (d.M_name.Equals("VariableReferenceList"))
-                {
-                    d.M_value = new EcellValue(p);
-                    break;
-                }
-            }
+            EcellObject obj = m_current.Copy();
+            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = new EcellValue(refStr);
+
             m_win.Close();
             try
             {
@@ -803,7 +799,7 @@ namespace EcellLib.PropertyWindow
                 m_dManager.DataChanged(m_current.modelID,
                     m_current.key,
                     m_current.type,
-                    t
+                    obj
                     );
                 m_isChanging = false;
             }
@@ -834,10 +830,10 @@ namespace EcellLib.PropertyWindow
             {
                 String str = d.M_name;
                 if (str != "modelID" && str != "key" && str != "type" &&
-                    str != "classname" && str != "Activity" &&
-                    str != "Expression" && str != "Name" &&
-                    str != "Priority" && str != "StepperID" &&
-                    str != "VariableReferenceList" && str != "IsContinuous")
+                    str != "classname" && str != EcellProcess.ACTIVITY &&
+                    str != EcellProcess.EXPRESSION && str != EcellProcess.NAME &&
+                    str != EcellProcess.PRIORITY && str != EcellProcess.STEPPERID &&
+                    str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
                     list.Add(str);
             }
             List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);

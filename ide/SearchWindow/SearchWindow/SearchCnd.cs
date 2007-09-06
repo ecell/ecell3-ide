@@ -118,33 +118,15 @@ namespace EcellLib.SearchWindow
                     if (obj.key.Contains(searchId))
                     {
                         String name = "";
-                        if (obj.M_value != null)
-                        {
-                            foreach (EcellData d in obj.M_value)
-                            {
-                                if (d.M_name.Equals("Name"))
-                                {
-                                    name = d.M_value.ToString();
-                                    break;
-                                }
-                            }
-                        }
-
+                        if (obj.IsEcellValueExists("Name"))
+                            name = obj.GetEcellValue("Name").ToString();
                         dgv.Rows.Add(new Object[] { obj.key, name, model, obj.type });
                     }
                     else
                     {
-                        if (obj.M_value != null)
-                        {
-                            foreach (EcellData d in obj.M_value)
-                            {
-                                if (d.M_name.Equals("Name") && d.M_value.ToString().Contains(searchId))
-                                {
-                                    dgv.Rows.Add(new Object[] { obj.key, d.M_value.ToString(), model, obj.type });
-                                    break;
-                                }
-                            }
-                        }
+                        EcellValue value = ins.GetEcellValue("Name").ToString();
+                        if (value != null && value.ToString().Contains(searchId))
+                            dgv.Rows.Add(new Object[] { obj.key, value.ToString(), model, obj.type });
                     }
 
                     if (obj.M_instances == null) continue;
@@ -152,32 +134,15 @@ namespace EcellLib.SearchWindow
                     {
                         if (ins.key.Contains(searchId)) {
                             String name = "";
-                            if (ins.M_value != null)
-                            {
-                                foreach (EcellData d in ins.M_value)
-                                {
-                                    if (d.M_name.Equals("Name"))
-                                    {
-                                        name = d.M_value.ToString();
-                                        break;
-                                    }
-                                }
-                            }
+                            if (ins.IsEcellValueExists("Name"))
+                                name = ins.GetEcellValue("Name").ToString();
                             dgv.Rows.Add(new Object[] { ins.key, name, model, ins.type });
                         }
                         else
                         {
-                            if (ins.M_value != null)
-                            {
-                                foreach (EcellData d in ins.M_value)
-                                {
-                                    if (d.M_name.Equals("Name") && d.M_value.ToString().Contains(searchId))
-                                    {
-                                        dgv.Rows.Add(new Object[] { ins.key, d.M_value.ToString(), model, ins.type });
-                                        break;
-                                    }
-                                }
-                            }
+                            EcellValue value = ins.GetEcellValue("Name").ToString();
+                            if ( value != null && value.ToString().Contains(searchId))
+                                dgv.Rows.Add(new Object[] { ins.key, value.ToString(), model, ins.type });
                         }
                     }
                 }

@@ -1409,14 +1409,8 @@ namespace EcellLib.PathwayWindow
                                 attrElement.Key = node.key;
                                 attrElement.Type = node.type;
                                 attrElement.TargetModelID = node.modelID;
-                                foreach (EcellData ed in node.M_value)
-                                {
-                                    if (ed.M_name.Equals("Value"))
-                                    {
-                                        attrElement.Value = ed.M_value.ToString();
-                                        break;
-                                    }
-                                }
+                                if (node.IsEcellValueExists("Value"))
+                                    attrElement.Value = node.GetEcellValue("Value").ToString();
                                 pathList.Add(attrElement);
                             }
                             else if (node.type.Equals(PathwayView.VARIABLE_STRING))
@@ -1436,30 +1430,17 @@ namespace EcellLib.PathwayWindow
                         {
                             if (proEleDict.ContainsKey(node.key))
                             {
-                                proEleDict[node.key].Type = PathwayView.PROCESS_STRING;                                
+                                proEleDict[node.key].Type = PathwayView.PROCESS_STRING;
                                 if (proEleDict[node.key] is ProcessElement)
-                                {
-                                    foreach (EcellData ed in node.M_value)
-                                    {
-                                        if (ed.M_name.Equals("VariableReferenceList"))
-                                        {
-                                            ((ProcessElement)proEleDict[node.key]).SetEdgesByStr(ed.M_value.ToString());
-                                        }
-                                    }
-                                }
+                                    ((ProcessElement)proEleDict[node.key]).SetEdgesByEcellValue(
+                                        node.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST));
                                 pathList.Add(proEleDict[node.key]);
                             }
                             else
                             {
                                 ProcessElement proElement = new ProcessElement();
-                                foreach (EcellData ed in node.M_value)
-                                {
-                                    if (ed.M_name.Equals("VariableReferenceList"))
-                                    {
-                                        proElement.SetEdgesByStr(ed.M_value.ToString());
-                                    }
-                                }
-
+                                proElement.SetEdgesByEcellValue(
+                                    node.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST));
                                 proElement.CanvasID = m_defCanvasId;
                                 proElement.LayerID = m_defLayerId;
                                 proElement.ModelID = node.modelID;
@@ -1542,15 +1523,8 @@ namespace EcellLib.PathwayWindow
                             attrElement.Key = node.key;
                             attrElement.Type = node.type;
                             attrElement.TargetModelID = node.modelID;
-
-                            foreach (EcellData ed in node.M_value)
-                            {
-                                if (ed.M_name.Equals("Value"))
-                                {
-                                    attrElement.Value = ed.M_value.ToString();
-                                    break;
-                                }
-                            }
+                            if (node.IsEcellValueExists("Value"))
+                                attrElement.Value = node.GetEcellValue("Value").ToString();
 
                             pathElements.Add(attrElement);
                         }
@@ -1576,14 +1550,8 @@ namespace EcellLib.PathwayWindow
                             proElement.Key = node.key;
                             proElement.Type = node.type;
                             proElement.CsId = m_view.ComponentSettingsManager.DefaultProcessSetting.Name;
-
-                            foreach (EcellData ed in node.M_value)
-                            {
-                                if (ed.M_name.Equals("VariableReferenceList"))
-                                {
-                                    proElement.SetEdgesByStr(ed.M_value.ToString());
-                                }
-                            }
+                            proElement.SetEdgesByEcellValue(
+                                node.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST) );
                             
                             pathElements.Add(proElement);
                         }
