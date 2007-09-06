@@ -30,6 +30,9 @@
 // edited by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 
 using System;
@@ -483,108 +486,89 @@ namespace EcellLib.PathwayWindow
         /// <param name="coefficient">coefficient of VariableReference</param>
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient)
         {
+            // Get EcellObject of identified process.
             DataManager dm = DataManager.GetDataManager();
-
-            List<EcellObject> list = dm.GetData(m_modelId, PathUtil.GetParentSystemId(proKey));
-
-            EcellObject toBeChanged = null;
-            foreach(EcellObject system in list)
-            {
-                if (system.M_instances == null)
-                    continue;
-
-                foreach(EcellObject obj in system.M_instances)
-                {
-                    if (obj.key.Equals(proKey) && obj.type.Equals(PathwayView.PROCESS_STRING))
-                    {
-                        toBeChanged = obj;
-                        break;
-                    }
-                }
-            }
-
-            if (null == toBeChanged)
+            EcellObject obj = dm.GetEcellObject(m_modelId, proKey, PathwayView.PROCESS_STRING);
+            // End if obj is null.
+            if (null == obj)
                 return;
-            
-            foreach(EcellData data in toBeChanged.M_value)
+
+            // Get EcellReference List.
+            List<EcellReference> refList = EcellReference.ConvertString(
+                obj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString());
+            List<EcellReference> newList = new List<EcellReference>();
+            EcellReference changedRef = null;
+
+            int i = 0;
+            foreach (EcellReference v in refList)
             {
-                if(data.M_name == "VariableReferenceList")
+                if (v.fullID.EndsWith(varKey))
+                    changedRef = v;
+                else
+                    newList.Add(v);
+            }
+
+            if (null != changedRef && changeType != RefChangeType.Delete)
+            {
+                switch(changeType)
                 {
-                    List<EcellReference> refList = EcellReference.ConvertString(data.M_value.ToString());
-                    List<EcellReference> newList = new List<EcellReference>();
-                    EcellReference changedRef = null;
-                    int i = 0;
-                    foreach (EcellReference v in refList)
-                    {
-                        if (v.fullID.EndsWith(varKey))
-                            changedRef = v;
-                        else
-                            newList.Add(v);
-                    }
-
-                    if (null != changedRef && changeType != RefChangeType.Delete)
-                    {
-                        switch(changeType)
-                        {
-                            case RefChangeType.SingleDir:
-                                changedRef.coefficient = coefficient;
-                                newList.Add(changedRef);
-                                break;
-                            case RefChangeType.BiDir:
-                                EcellReference copyRef = PathUtil.CopyEcellReference(changedRef);
-                                changedRef.coefficient = -1;
-                                changedRef.name = PathUtil.GetNewReferenceName(newList, -1);
-                                copyRef.coefficient = 1;
-                                copyRef.name = PathUtil.GetNewReferenceName(newList, 1);
-                                newList.Add(changedRef);
-                                newList.Add(copyRef);
-                                break;
-                        }
-                    }
-                    else if(null == changedRef)
-                    {
-                        switch(changeType)
-                        {
-                            case RefChangeType.SingleDir:
-                                EcellReference addRef = new EcellReference();
-                                addRef.coefficient = coefficient;
-                                addRef.fullID = varKey;
-                                addRef.name = PathUtil.GetNewReferenceName(newList, coefficient);
-                                addRef.isAccessor = 1;
-                                newList.Add(addRef);
-                                break;
-                            case RefChangeType.BiDir:
-                                EcellReference addSRef = new EcellReference();
-                                addSRef.coefficient = -1;
-                                addSRef.fullID = varKey;
-                                addSRef.name = PathUtil.GetNewReferenceName(newList, -1);
-                                addSRef.isAccessor = 1;
-                                newList.Add(addSRef);
-
-                                EcellReference addPRef = new EcellReference();
-                                addPRef.coefficient = 1;
-                                addPRef.fullID = varKey;
-                                addPRef.name = PathUtil.GetNewReferenceName(newList, 1);
-                                addPRef.isAccessor = 1;
-                                newList.Add(addPRef);
-                                break;
-                        }
-                    }
-
-                    string refStr = "(";
-                    foreach (EcellReference v in newList)
-                    {
-                        if (i == 0) refStr = refStr + v.ToString();
-                        else refStr = refStr + ", " + v.ToString();
-                    }
-                    refStr = refStr + ")";
-                    data.M_value = EcellValue.ToVariableReferenceList( refStr );
+                    case RefChangeType.SingleDir:
+                        changedRef.coefficient = coefficient;
+                        newList.Add(changedRef);
+                        break;
+                    case RefChangeType.BiDir:
+                        EcellReference copyRef = PathUtil.CopyEcellReference(changedRef);
+                        changedRef.coefficient = -1;
+                        changedRef.name = PathUtil.GetNewReferenceName(newList, -1);
+                        copyRef.coefficient = 1;
+                        copyRef.name = PathUtil.GetNewReferenceName(newList, 1);
+                        newList.Add(changedRef);
+                        newList.Add(copyRef);
+                        break;
                 }
             }
+            else if(null == changedRef)
+            {
+                switch(changeType)
+                {
+                    case RefChangeType.SingleDir:
+                        EcellReference addRef = new EcellReference();
+                        addRef.coefficient = coefficient;
+                        addRef.fullID = varKey;
+                        addRef.name = PathUtil.GetNewReferenceName(newList, coefficient);
+                        addRef.isAccessor = 1;
+                        newList.Add(addRef);
+                        break;
+                    case RefChangeType.BiDir:
+                        EcellReference addSRef = new EcellReference();
+                        addSRef.coefficient = -1;
+                        addSRef.fullID = varKey;
+                        addSRef.name = PathUtil.GetNewReferenceName(newList, -1);
+                        addSRef.isAccessor = 1;
+                        newList.Add(addSRef);
+
+                        EcellReference addPRef = new EcellReference();
+                        addPRef.coefficient = 1;
+                        addPRef.fullID = varKey;
+                        addPRef.name = PathUtil.GetNewReferenceName(newList, 1);
+                        addPRef.isAccessor = 1;
+                        newList.Add(addPRef);
+                        break;
+                }
+            }
+
+            string refStr = "(";
+            foreach (EcellReference v in newList)
+            {
+                if (i == 0) refStr = refStr + v.ToString();
+                else refStr = refStr + ", " + v.ToString();
+            }
+            refStr = refStr + ")";
+            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = EcellValue.ToVariableReferenceList(refStr);
 
             try
             {
-                dm.DataChanged(m_modelId, proKey, PathwayView.PROCESS_STRING, toBeChanged);
+                dm.DataChanged(m_modelId, proKey, PathwayView.PROCESS_STRING, obj);
             }
             catch(IgnoreException)
             {

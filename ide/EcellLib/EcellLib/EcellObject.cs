@@ -30,6 +30,9 @@
 // modified by Takeshi Yuasa <yuasa@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.ComponentModel;
@@ -443,11 +446,15 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// Set value from the list of EcellData.
+        /// get EcellData from the list of EcellData.
         /// </summary>
-        /// <param name="list">the list of EcellData.</param>
-        public EcellData GetValue(string name)
+        /// <param name="name">the key of EcellData.</param>
+        public EcellData GetEcellData(string name)
         {
+            // Check List.
+            if (M_value == null)
+                return null;
+            //return EcellData if EcellValue exists.
             foreach (EcellData data in m_value)
             {
                 if (data.M_name == name)
@@ -455,6 +462,39 @@ namespace EcellLib
             }
             return null;
         }
+        /// <summary>
+        /// get EcellValue from the list of EcellData.
+        /// </summary>
+        /// <param name="name">the key of EcellValue.</param>
+        public EcellValue GetEcellValue(string name)
+        {
+            // Check List.
+            if (M_value == null)
+                return null;
+            //return EcellValue if EcellValue exists.
+            foreach (EcellData data in m_value)
+            {
+                if (data.M_name == name)
+                    return data.M_value;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// get isEcellValueExists.
+        /// </summary>
+        public bool IsEcellValueExists(string name)
+        {
+            // Check List.
+            if (M_value == null)
+                return false;
+            //return true if EcellValue exists.
+            foreach (EcellData d in M_value)
+                if (d.M_name == name)
+                    return true;
+            return false;
+        }
+
         #endregion
     }
 
@@ -503,6 +543,7 @@ namespace EcellLib
         private bool m_isSettable;
         #endregion
 
+        #region Constractors
         /// <summary>
         /// Creates the new "EcellData" instance with no argument.
         /// </summary>
@@ -537,7 +578,9 @@ namespace EcellLib
             this.m_isLogable = false;
             this.m_isLogger = false;
         }
+        #endregion
 
+        #region Accessors
         /// <summary>
         /// get/set m_name.
         /// </summary>
@@ -618,7 +661,9 @@ namespace EcellLib
             get { return m_isSettable; }
             set { this.m_isSettable = value; }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Create the copy "EcellData".
         /// </summary>
@@ -672,6 +717,7 @@ namespace EcellLib
             }
             return true;
         }
+        #endregion
     }
 
 
@@ -680,6 +726,7 @@ namespace EcellLib
     /// </summary>
     public class EcellValue
     {
+        #region Fields
         /// <summary>
         /// The stored value.
         /// </summary>
@@ -688,8 +735,9 @@ namespace EcellLib
         /// The type of the stored value.
         /// </summary>
         private Type m_type = null;
+        #endregion
 
-
+        #region Constractors
         /// <summary>
         /// Creates a new "EcellValue" instance with no argument.
         /// </summary>
@@ -697,7 +745,6 @@ namespace EcellLib
         {
             ; // do nothing
         }
-
 
         /// <summary>
         /// Creates a new "EcellValue" instance with a "int" argument.
@@ -720,7 +767,6 @@ namespace EcellLib
             m_type = typeof(double);
         }
 
-
         /// <summary>
         /// Creates a new "EcellValue" instance with a "string" argument.
         /// </summary>
@@ -730,7 +776,6 @@ namespace EcellLib
             m_value = l_value;
             m_type = typeof(string);
         }
-
 
         /// <summary>
         /// Creates a new "EcellValue" instance with a "List&lt;EcellValue&gt;" argument.
@@ -743,7 +788,6 @@ namespace EcellLib
             m_value = l_list;
             m_type = typeof(List<EcellValue>);
         }
-
 
         /// <summary>
         /// Creates a new "EcellValue" instance with a "WrappedPolymorph" argument.
@@ -780,8 +824,9 @@ namespace EcellLib
                 }
             }
         }
+        #endregion
 
-
+        #region Accessors
         /// <summary>
         /// The property of the type of the stored value.
         /// </summary>
@@ -791,7 +836,6 @@ namespace EcellLib
             // set { this.m_type = value; }
         }
 
-
         /// <summary>
         /// The property of the stored value.
         /// </summary>
@@ -800,7 +844,9 @@ namespace EcellLib
             get { return this.m_value; }
             set { this.m_value = value; }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Convert to EcellValue from string.
         /// </summary>
@@ -867,7 +913,6 @@ namespace EcellLib
             }
         }
 
-
         /// <summary>
         /// Returns the "double" casting value.
         /// </summary>
@@ -883,7 +928,6 @@ namespace EcellLib
                 return default(double);
             }
         }
-
 
         /// <summary>
         /// Returns the "EcellValue" casting value 4 "WrappedPolymorph".
@@ -915,7 +959,6 @@ namespace EcellLib
             return l_ecellValueList;
         }
 
-
         /// <summary>
         /// Returns the "int" casting value.
         /// </summary>
@@ -931,7 +974,6 @@ namespace EcellLib
                 return default(int);
             }
         }
-
 
         /// <summary>
         /// Returns the list of EcellValue casting value.
@@ -949,7 +991,6 @@ namespace EcellLib
             }
         }
 
-
         /// <summary>
         /// Returns the "string" casting value.
         /// </summary>
@@ -965,7 +1006,6 @@ namespace EcellLib
                 return default(string);
             }
         }
-
 
         /// <summary>
         /// Returns the "WrappedPolymorph" casting value.
@@ -1057,7 +1097,6 @@ namespace EcellLib
             return new EcellValue(list);
         }
 
-
         /// <summary>
         /// Casts the list of "EcellObject" to "string"
         /// </summary>
@@ -1096,7 +1135,6 @@ namespace EcellLib
             return l_value;
         }
 
-
         /// <summary>
         /// Tests whether the type is a "double" type.
         /// </summary>
@@ -1112,7 +1150,6 @@ namespace EcellLib
                 return false;
             }
         }
-
 
         /// <summary>
         /// Tests whether the type is a "int" type.
@@ -1130,7 +1167,6 @@ namespace EcellLib
             }
         }
 
-
         /// <summary>
         /// Tests whether the type is the list of EcellValue type.
         /// </summary>
@@ -1146,7 +1182,6 @@ namespace EcellLib
                 return false;
             }
         }
-
 
         /// <summary>
         /// Tests whether the type is a "string" type.
@@ -1191,18 +1226,23 @@ namespace EcellLib
             }
             else return null;
         }
+        #endregion
     }
+
 
     /// <summary>
     /// Object class for Reference.
     /// </summary>
     public class EcellReference
     {
+        #region Fields
         private string m_name;
         private string m_fullID;
         private int m_coeff;
         private int m_accessor;
+        #endregion
 
+        #region Constractors
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -1227,7 +1267,9 @@ namespace EcellLib
                 this.m_accessor = Convert.ToInt32(m.Groups["fix"].Value);
             }
         }
+        #endregion
 
+        #region Accessors
         /// <summary>
         /// get / set name.
         /// </summary>
@@ -1272,7 +1314,9 @@ namespace EcellLib
             get { return this.m_accessor; }
             set { this.m_accessor = value; }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Get string of object.
         /// </summary>
@@ -1322,17 +1366,42 @@ namespace EcellLib
             }
             return list;
         }
+        #endregion
     }
+
 
     /// <summary>
     /// Object class for System.
     /// </summary>
     public class EcellSystem : EcellObject
     {
+        #region Fields
         private string m_name;
         private double m_size;
         private string m_stepperID;
+        #endregion
 
+        #region Constractors
+        /// <summary>
+        /// Constructor with initial parameter.
+        /// </summary>
+        /// <param name="l_modelID">model ID.</param>
+        /// <param name="l_key">key.</param>
+        /// <param name="l_type">type(="System").</param>
+        /// <param name="l_class">class name.</param>
+        /// <param name="l_data">properties.</param>
+        public EcellSystem(string l_modelID, string l_key,
+            string l_type, string l_class, List<EcellData> l_data)
+        {
+            this.modelID = l_modelID;
+            this.key = l_key;
+            this.type = l_type;
+            this.classname = l_class;
+            this.SetValue(l_data);
+        }
+        #endregion
+
+        #region Accessors
         /// <summary>
         /// get / set name.
         /// </summary>
@@ -1359,25 +1428,9 @@ namespace EcellLib
             get { return this.m_stepperID; }
             set { this.m_stepperID = value; }
         }
+        #endregion
 
-        /// <summary>
-        /// Constructor with initial parameter.
-        /// </summary>
-        /// <param name="l_modelID">model ID.</param>
-        /// <param name="l_key">key.</param>
-        /// <param name="l_type">type(="System").</param>
-        /// <param name="l_class">class name.</param>
-        /// <param name="l_data">properties.</param>
-        public EcellSystem(string l_modelID, string l_key,
-            string l_type, string l_class, List<EcellData> l_data)
-        {
-            this.modelID = l_modelID;
-            this.key = l_key;
-            this.type = l_type;
-            this.classname = l_class;
-            this.SetValue(l_data);
-        }
-
+        #region Methods
         /// <summary>
         /// Distribute the property to member.
         /// </summary>
@@ -1388,13 +1441,16 @@ namespace EcellLib
             else if (d.M_name == "Size") m_size = d.M_value.CastToDouble();
             else if (d.M_name == "StepperID") m_stepperID = d.M_value.CastToString();
         }
+        #endregion
     }
+
 
     /// <summary>
     /// Object class for Variable.
     /// </summary>
     public class EcellVariable : EcellObject
     {
+        #region Fields
         private int m_isFixed;
         private double m_molarConc;
         private string m_name;
@@ -1402,7 +1458,29 @@ namespace EcellLib
         private double m_totalVelocity;
         private double m_valueData;
         private double m_velocity;
+        #endregion
 
+        #region Constractors
+        /// <summary>
+        /// Constructor with initial parameter.
+        /// </summary>
+        /// <param name="l_modelID">model ID.</param>
+        /// <param name="l_key">key.</param>
+        /// <param name="l_type">type(="Variable").</param>
+        /// <param name="l_class">class name.</param>
+        /// <param name="l_data">properties.</param>
+        public EcellVariable(string l_modelID, string l_key,
+            string l_type, string l_class, List<EcellData> l_data)
+        {
+            this.modelID = l_modelID;
+            this.key = l_key;
+            this.type = l_type;
+            this.classname = l_class;
+            this.SetValue(l_data);
+        }
+        #endregion
+
+        #region Accessors
         /// <summary>
         /// get / set whether this parameter is fix.
         /// </summary>
@@ -1464,25 +1542,9 @@ namespace EcellLib
             get { return this.m_velocity; }
             set { this.m_velocity = value; }
         }
+        #endregion
 
-        /// <summary>
-        /// Constructor with initial parameter.
-        /// </summary>
-        /// <param name="l_modelID">model ID.</param>
-        /// <param name="l_key">key.</param>
-        /// <param name="l_type">type(="Variable").</param>
-        /// <param name="l_class">class name.</param>
-        /// <param name="l_data">properties.</param>
-        public EcellVariable(string l_modelID, string l_key,
-            string l_type, string l_class, List<EcellData> l_data)
-        {
-            this.modelID = l_modelID;
-            this.key = l_key;
-            this.type = l_type;
-            this.classname = l_class;
-            this.SetValue(l_data);
-        }
-
+        #region Methods
         /// <summary>
         /// Distribute the property to member.
         /// </summary>
@@ -1497,13 +1559,16 @@ namespace EcellLib
             else if (d.M_name == "Value") m_valueData = d.M_value.CastToDouble();
             else if (d.M_name == "Velocity") m_velocity = d.M_value.CastToDouble();
         }
+        #endregion
     }
+
 
     /// <summary>
     /// Object class for Model.
     /// </summary>
     public class EcellModel : EcellObject
     {
+        #region Constractors
         /// <summary>
         /// constructor with initial parameter.
         /// </summary>
@@ -1521,13 +1586,26 @@ namespace EcellLib
             this.classname = l_class;
             this.m_value = l_data;
         }
+        #endregion
     }
+
 
     /// <summary>
     /// Object class for Process.
     /// </summary>
     public class EcellProcess : EcellObject
     {
+        #region Constants
+        public const string VARIABLEREFERENCELIST = "VariableReferenceList";
+        public const string ACTIVITY = "Activity";
+        public const string EXPRESSION = "Expression";
+        public const string ISCONTINUOUS = "IsContinuous";
+        public const string NAME = "Name";
+        public const string PRIORITY = "Priority";
+        public const string STEPPERID = "StepperID";
+        #endregion
+
+        #region Fields
         private double m_activity;
         private string m_expression;
         private int m_iscontinuous;
@@ -1535,6 +1613,9 @@ namespace EcellLib
         private int m_priority;
         private string m_stepperID;
         private List<EcellReference> m_refList;
+        #endregion
+
+        #region Accessors
         /// <summary>
         /// get /set the activity.
         /// </summary>
@@ -1597,7 +1678,9 @@ namespace EcellLib
             get { return this.m_refList; }
             set { this.m_refList = value; }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
@@ -1622,14 +1705,15 @@ namespace EcellLib
         /// <param name="d">property.</param>
         public new void DistributeValue(EcellData d)
         {
-            if (d.M_name == "Activity") m_activity = d.M_value.CastToDouble();
-            else if (d.M_name == "Expression") m_expression = d.M_value.CastToString();
-            else if (d.M_name == "IsContinuous") m_iscontinuous = d.M_value.CastToInt();
-            else if (d.M_name == "Name") m_name = d.M_value.CastToString();
-            else if (d.M_name == "Priority") m_priority = d.M_value.CastToInt();
-            else if (d.M_name == "StepperID") m_stepperID = d.M_value.CastToString();
-            else if (d.M_name == "VariableReferenceList")
+            if (d.M_name == ACTIVITY) m_activity = d.M_value.CastToDouble();
+            else if (d.M_name == EXPRESSION) m_expression = d.M_value.CastToString();
+            else if (d.M_name == ISCONTINUOUS) m_iscontinuous = d.M_value.CastToInt();
+            else if (d.M_name == NAME) m_name = d.M_value.CastToString();
+            else if (d.M_name == PRIORITY) m_priority = d.M_value.CastToInt();
+            else if (d.M_name == STEPPERID) m_stepperID = d.M_value.CastToString();
+            else if (d.M_name == VARIABLEREFERENCELIST)
                 m_refList = EcellReference.ConvertString(d.M_value.CastToString());
         }
+        #endregion
     }
 }

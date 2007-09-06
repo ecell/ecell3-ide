@@ -30,7 +30,7 @@
 // edited by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
-// modified by Chihiro Okada <okada@cbo.mss.co.jp>,
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
@@ -3463,15 +3463,9 @@ namespace EcellLib.PathwayWindow
                     pro.Y = data.Y;
                     pro.OffsetX = data.OffsetX;
                     pro.OffsetY = data.OffsetY;
-                    
-                    string vrl = null;
-                    foreach (EcellData ed in data.M_value)
-                    {
-                        if (ed.M_name.Equals("VariableReferenceList"))
-                        {
-                            vrl = ed.M_value.ToString();
-                        }
-                    }
+
+                    string vrl = data.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString();
+
                     ProcessElement pe = (ProcessElement)pro.Element;
                     pe.SetEdgesByStr(vrl);
                     pro.DeleteEdges();
@@ -3490,7 +3484,7 @@ namespace EcellLib.PathwayWindow
         private void UpdateSystemSize(string key, EcellObject data)
         {
             SystemContainer sysCon = m_systems[ PathUtil.GetParentSystemId(key)];
-            sysCon.Attribute.Value = data.GetValue("Value").M_value.ToString();
+            sysCon.Attribute.Value = data.GetEcellValue("Value").ToString();
             sysCon.UpdateText();
         }
 

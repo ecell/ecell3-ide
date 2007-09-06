@@ -30,6 +30,9 @@
 // edited by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.Diagnostics;
@@ -431,8 +434,8 @@ namespace EcellLib.PathwayWindow
             m_tabControl = new TabControl();
             m_tabControl.Dock = DockStyle.Fill;
             m_tabControl.SelectedIndexChanged += new EventHandler(m_tabControl_SelectedIndexChanged);
-            m_tabControl.MouseEnter += new EventHandler(m_tabControl_MouseEnter);
-            m_tabControl.MouseWheel += new MouseEventHandler(m_tabControl_MouseWheel);
+            m_tabControl.MouseEnter += new EventHandler(m_tabControl_OnMouseEnter);
+            m_tabControl.MouseWheel += new MouseEventHandler(m_tabControl_OnMouseWheel);
             /*
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
             ToolStripItem delete = new ToolStripMenuItem("Delete");
@@ -521,20 +524,6 @@ namespace EcellLib.PathwayWindow
         }
 
         #endregion
-
-        /// <summary>
-        /// not implement.
-        /// when we introduce the multi model, 
-        ///  you must edit this function.
-        /// </summary>
-        /// <param name="sender">MenuStripItem.</param>
-        /// <param name="e">EventArgs.</param>
-        void delete_Click(object sender, EventArgs e)
-        {
-            // not implement.
-            // when we introduce the multi model, 
-            // you must edit this function.
-        }
 
         /// <summary>
         /// event sequence of changing the check of layer showing.
@@ -658,8 +647,7 @@ namespace EcellLib.PathwayWindow
                     if(cs == null)
                         cs = ComponentSettingsManager.DefaultProcessSetting;
                     if(!needToNotify && !change)
-                        ((ProcessElement)element).SetEdgesByEcellValue(eo.GetValue("VariableReferenceList").M_value);
-                        //((ProcessElement)element).SetEdgesByStr(GetEcellData(key, type, "VariableReferenceList"));
+                        ((ProcessElement)element).SetEdgesByEcellValue(eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST));
                     break;
 
                 case ComponentType.System:
@@ -817,8 +805,7 @@ namespace EcellLib.PathwayWindow
                 case ComponentType.Process:
                     element = new ProcessElement();
                     type = PROCESS_STRING;
-                    ((ProcessElement)element).SetEdgesByEcellValue(eo.GetValue("VariableReferenceList").M_value);
-                    //((ProcessElement)element).SetEdgesByStr(GetEcellData(key, type, "VariableReferenceList"));
+                    ((ProcessElement)element).SetEdgesByEcellValue(eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST));
                     break;
 
                 case ComponentType.System:
@@ -1201,7 +1188,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender">TabControl.</param>
         /// <param name="e">MouseEventArgs.</param>
-        void m_tabControl_MouseWheel(object sender, MouseEventArgs e)
+        void m_tabControl_OnMouseWheel(object sender, MouseEventArgs e)
         {
 
             if (Control.ModifierKeys == Keys.Shift)
@@ -1223,7 +1210,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender">TabControl.</param>
         /// <param name="e">EventArgs.</param>
-        void m_tabControl_MouseEnter(object sender, EventArgs e)
+        void m_tabControl_OnMouseEnter(object sender, EventArgs e)
         {
             this.TabControl.Focus();
         }
@@ -2454,81 +2441,70 @@ namespace EcellLib.PathwayWindow
         public void CreateEdge(PEcellProcess process, string variableKey, int coefficient)
         {
             EcellObject obj = m_dManager.GetEcellObject(process.Element.ModelID, process.Element.Key, process.Element.Type);
-            foreach (EcellData d in obj.M_value)
+
+            List<EcellReference> list = EcellReference.ConvertString(
+                obj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString() );
+
+            // If this process and variable are connected in the same direction, nothing will be done.
+            if (PathUtil.CheckReferenceListContainsEntity(list, variableKey, coefficient))
             {
-                if (!d.M_name.Equals("VariableReferenceList"))
-                    continue;
-
-                List<EcellReference> list =
-                    EcellReference.ConvertString(d.M_value.ToString());
-
-                // If this process and variable are connected in the same direction, nothing will be done.
-                if (PathUtil.CheckReferenceListContainsEntity(list, variableKey, coefficient))
-                {
-                    MessageBox.Show(m_resources.GetString("ErrAlrConnect"),
-                     "Notice",
-                     MessageBoxButtons.OK,
-                     MessageBoxIcon.Exclamation);
-                    return;
-                }
-
-                String refStr = "(";
-                int i = 0;
-                foreach (EcellReference r in list)
-                {
-                    if (i == 0) refStr = refStr + r.ToString();
-                    else refStr = refStr + ", " + r.ToString();
-                    i++;
-                }
-
-                String n = "";
-                String pre = "";
-                if (coefficient == 0)
-                {
-                    pre = "C";
-                }
-                else if (coefficient == -1)
-                {
-                    pre = "S";
-                }
-                else 
-                {
-                    pre = "P";
-                }
-
-                int k = 0;
-                while (true)
-                {
-                    bool ishit = false;
-                    n = pre + k;
-                    foreach (EcellReference r in list)
-                    {
-                        if (r.name == n)
-                        {
-                            k++;
-                            ishit = true;
-                            continue;
-                        }
-                    }
-                    if (ishit == false) break;
-                }
-
-                EcellReference eref = new EcellReference();
-                eref.name = n;
-                eref.fullID = ":" + variableKey;
-                eref.coefficient = coefficient;
-                eref.isAccessor = 1;
-
-                if (i == 0) refStr = refStr + eref.ToString();
-                else refStr = refStr + ", " + eref.ToString();
-                refStr = refStr + ")";
-
-                d.M_value = EcellValue.ToVariableReferenceList(refStr);
-
-                m_dManager.DataChanged(obj.modelID, obj.key, obj.type, obj);
+                MessageBox.Show(m_resources.GetString("ErrAlrConnect"),
+                 "Notice",
+                 MessageBoxButtons.OK,
+                 MessageBoxIcon.Exclamation);
                 return;
             }
 
+            String refStr = "(";
+            int i = 0;
+            foreach (EcellReference r in list)
+            {
+                if (i == 0) refStr = refStr + r.ToString();
+                else refStr = refStr + ", " + r.ToString();
+                i++;
+            }
+
+            String n = "";
+            String pre = "";
+
+            if (coefficient == 0)
+                pre = "C";
+            else if (coefficient == -1)
+                pre = "S";
+            else 
+                pre = "P";
+
+            int k = 0;
+            while (true)
+            {
+                bool ishit = false;
+                n = pre + k;
+                foreach (EcellReference r in list)
+                {
+                    if (r.name == n)
+                    {
+                        k++;
+                        ishit = true;
+                        continue;
+                    }
+                }
+                if (ishit == false) break;
+            }
+
+            EcellReference eref = new EcellReference();
+            eref.name = n;
+            eref.fullID = ":" + variableKey;
+            eref.coefficient = coefficient;
+            eref.isAccessor = 1;
+
+            if (i == 0) refStr = refStr + eref.ToString();
+            else refStr = refStr + ", " + eref.ToString();
+            refStr = refStr + ")";
+
+            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = EcellValue.ToVariableReferenceList(refStr);
+
+            m_dManager.DataChanged(obj.modelID, obj.key, obj.type, obj);
+            return;
         }
         /// <summary>
         /// Create edge from variable key.
@@ -2536,16 +2512,10 @@ namespace EcellLib.PathwayWindow
         public void ClearEdges(PEcellProcess process)
         {
             EcellObject obj = m_dManager.GetEcellObject(process.Element.ModelID, process.Element.Key, process.Element.Type);
-            foreach (EcellData d in obj.M_value)
-            {
-                if (!d.M_name.Equals("VariableReferenceList"))
-                    continue;
+            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = EcellValue.ToVariableReferenceList("()");
 
-                d.M_value = EcellValue.ToVariableReferenceList("()");
-
-                m_dManager.DataChanged(obj.modelID, obj.key, obj.type, obj);
-                return;
-            }
+            m_dManager.DataChanged(obj.modelID, obj.key, obj.type, obj);
+            return;
         }
 
         #endregion
@@ -2857,8 +2827,8 @@ namespace EcellLib.PathwayWindow
             {
                 if (eo.type == "Process")
                 {
-                    eo.GetValue("VariableReferenceList").M_value = eo.GetValue("VariableReferenceList").M_value.Copy();
-                    foreach (EcellValue edge in eo.GetValue("VariableReferenceList").M_value.CastToList())
+                    eo.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).Copy();
+                    foreach (EcellValue edge in eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).CastToList())
                     {
                         foreach (EcellValue val in edge.CastToList())
                             if (varKeys.ContainsKey(val.ToString()))

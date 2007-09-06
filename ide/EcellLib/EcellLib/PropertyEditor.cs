@@ -130,13 +130,7 @@ namespace EcellLib
             if (m_currentObj.type.Equals("Process"))
             {
                 m_propName = m_currentObj.classname;
-                foreach (EcellData d in m_currentObj.M_value)
-                {
-                    if (d.M_name.Equals("VariableReferenceList"))
-                    {
-                        m_refStr = d.M_value.ToString();
-                    }
-                }
+                m_refStr = m_currentObj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString();
             }
         }
 
@@ -422,17 +416,17 @@ namespace EcellLib
                     l.Dock = DockStyle.Fill;
                     layoutPanel.Controls.Add(l, 1, i);
 
-                    if (key == "VariableReferenceList")
+                    if (key == EcellProcess.VARIABLEREFERENCELIST)
                     {
                         Button b = new Button();
                         b.Text = "Edit Variable References ...";
-                        b.Tag = "VariableReferenceList";
+                        b.Tag = key;
                         b.Dock = DockStyle.Fill;
                         b.Click += new EventHandler(ShowVarRefWindow);
                         b.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                         layoutPanel.Controls.Add(b, 2, i);
                     }
-                    else if (key == "StepperID")
+                    else if (key == EcellProcess.STEPPERID)
                     {
                         TextBox t = new TextBox();
                         if (m_currentObj == null)
@@ -697,10 +691,10 @@ namespace EcellLib
             foreach (string str in m_propDict.Keys)
             {
                 if (str != "modelID" && str != "key" && str != "type" &&
-                    str != "classname" && str != "Activity" &&
-                    str != "Expression" && str != "Name" &&
-                    str != "Priority" && str != "StepperID" &&
-                    str != "VariableReferenceList" && str!="IsContinuous")
+                    str != "classname" && str != EcellProcess.ACTIVITY &&
+                    str != EcellProcess.EXPRESSION && str != EcellProcess.NAME &&
+                    str != EcellProcess.PRIORITY && str != EcellProcess.STEPPERID &&
+                    str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
                     list.Add(str);
             }
             List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
@@ -870,7 +864,7 @@ namespace EcellLib
                     }
                     else if ((string)c.Tag == "classname") classname = c.Text;
                     else if ((string)c.Tag == "type") type = c.Text;
-                    else if ((string)c.Tag == "VariableReferenceList")
+                    else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
                     {
                         EcellData data = new EcellData();
                         data.M_name = (string)c.Tag;
@@ -1195,7 +1189,7 @@ namespace EcellLib
                     }
                     else if ((string)c.Tag == "classname") classname = c.Text;
                     else if ((string)c.Tag == "type") type = c.Text;
-                    else if ((string)c.Tag == "VariableReferenceList")
+                    else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
                     {
                         EcellData data = new EcellData();
                         data.M_name = (string)c.Tag;
@@ -1350,7 +1344,7 @@ namespace EcellLib
                     }
                     else if ((string)c.Tag == "classname") classname = c.Text;
                     else if ((string)c.Tag == "type") type = c.Text;
-                    else if ((string)c.Tag == "VariableReferenceList")
+                    else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
                     {
                         EcellData data = new EcellData();
                         data.M_name = (string)c.Tag;

@@ -30,6 +30,9 @@
 // modified by Takeshi Yuasa <yuasa@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.IO;
@@ -1957,7 +1960,7 @@ namespace EcellLib
                 {
                     continue;
                 }
-                string l_systemPath = l_del.key.Split(Util.s_delimiterColon.ToCharArray())[0];
+                string l_systemPath = l_del.parentSystemID;
                 string l_variableName = l_del.key.Split(Util.s_delimiterColon.ToCharArray())[1];
                 foreach (EcellObject l_system in this.GetData(l_del.modelID, l_systemPath))
                 {
@@ -6475,7 +6478,7 @@ namespace EcellLib
             }
             foreach (EcellData l_ecellData in l_ecellObject.M_value)
             {
-                if (l_ecellData.M_name.Equals("VariableReferenceList"))
+                if (l_ecellData.M_name.Equals(EcellProcess.VARIABLEREFERENCELIST))
                 {
                     l_ecellData.M_value = new EcellValue(new List<EcellValue>());
                 }

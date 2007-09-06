@@ -353,7 +353,7 @@ namespace EcellLib
         /// <summary>
         /// Reserved XML path name for VariableReferenceList.
         /// </summary>
-        public const string s_xpathVRL = "VariableReferenceList";
+        public const string s_xpathVRL = EcellProcess.VARIABLEREFERENCELIST;
         /// <summary>
         /// Reserved XML path name for xml.
         /// </summary>
