@@ -380,3 +380,15 @@ Name: "{group}\samples\Toy_Hybrid"; Filename: "{app}\bin\MainWindow.exe"; Parame
 
 [Run]
 Filename: "{app}\bin\test.bat"; Flags: runhidden; WorkingDir: "{app}\bin";
+
+[Code]
+function InitializeSetup(): Boolean;
+begin
+  Result := true;
+
+  // Check for required netfx installation
+  if (not RegKeyExists(HKLM, 'Software\Microsoft\.NETFramework\policy\v2.0')) then begin
+    MsgBox('This application needs the Microsoft .NET Framework with version 2.0', mbInformation, MB_OK);
+    Result := false
+  end;
+end;
