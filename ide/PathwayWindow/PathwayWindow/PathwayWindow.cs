@@ -673,7 +673,7 @@ namespace EcellLib.PathwayWindow
             ToolStripMenuItem deleteMenu = new ToolStripMenuItem();
             deleteMenu.Text = m_resources.GetString("DeleteMenuText");
             deleteMenu.Name = "MenuItemPaste";
-            deleteMenu.Click += new EventHandler(m_view.CutClick);
+            deleteMenu.Click += new EventHandler(m_view.DeleteClick);
             deleteMenu.ShortcutKeys = Keys.Delete;
             deleteMenu.ShowShortcutKeys = true;
             ToolStripMenuItem cutMenu = new ToolStripMenuItem();

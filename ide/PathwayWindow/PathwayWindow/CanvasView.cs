@@ -774,7 +774,7 @@ namespace EcellLib.PathwayWindow
 
             ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString("DeleteMenuText"));
             delete.Text = m_resources.GetString("DeleteMenuText");
-            delete.Click += new EventHandler(DeleteClick);
+            delete.Click += new EventHandler(this.m_pathwayView.DeleteClick);
             m_nodeMenu.Items.Add(delete);
             m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
 
@@ -1184,95 +1184,6 @@ namespace EcellLib.PathwayWindow
 
             Object obj = ((ToolStripItem)sender).Tag;
             if (obj is PEcellSystem)
-                {
-                    PEcellSystem deleteSystem = (PEcellSystem)obj;
-                    if (string.IsNullOrEmpty(deleteSystem.Name))
-                        return;
-                    if (deleteSystem.Name.Equals("/"))
-                    {
-                        MessageBox.Show(m_resources.GetString("ErrDelRoot"),
-                                        "Error",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    List<string> list = this.GetAllSystemUnder(deleteSystem.Element.Key);
-                /*
-                    foreach (string under in list)
-                    {
-                        PText sysText = m_systems[under].Text;
-                        sysText.Parent.RemoveChild(sysText);
-                    }*/
-
-                    try
-                    {
-                        m_pathwayView.NotifyDataMerge(deleteSystem.Element.Key, ComponentType.System);
-                    }
-                    catch (IgnoreException)
-                    {
-                        return;
-                    }
-                
-                    if (((PPathwayObject)obj).IsHighLighted)
-                    {
-                        HideResizeHandles();
-                        m_selectedSystemName = null;
-                    }
-                }
-                else if (obj is Line)
-                {
-                    m_pathwayView.NotifyVariableReferenceChanged(
-                        ((Line)obj).Info.ProcessKey,
-                        ((Line)obj).Info.VariableKey,
-                        RefChangeType.Delete,
-                        0);
-                    ResetSelectedLine();
-                }
-            ((ToolStripMenuItem)sender).Tag = null;
-        }
-
-        /// <summary>
-        /// Called when a delete menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void DeleteClick(object sender, EventArgs e)
-        {
-            /* 20070629 delete by sachiboo. 
-                        //PPathwayObject obj = (PPathwayObject)ClickedNode;
-            */
-
-
-            if (this.SelectedNodes != null)
-            {
-                List<PPathwayNode> slist = new List<PPathwayNode>();
-                foreach (PPathwayNode t in this.SelectedNodes)
-                {
-                    slist.Add(t);
-                }
-
-                int i = 0;
-                foreach (PPathwayNode deleteNode in slist)
-                {
-                    i++;
-                    bool isAnchor = (i == slist.Count);
-                    try
-                    {
-                        m_pathwayView.NotifyDataDelete( deleteNode.Element.Key,
-                                                        ComponentSetting.ParseComponentKind(deleteNode.Element.Type),
-                                                        isAnchor);
-                    }
-                    catch (IgnoreException)
-                    {
-                        return;
-                    }
-                    if (deleteNode.Parent != null)
-                        deleteNode.Parent.RemoveChild(deleteNode);
-                }
-            }
-            Object obj = ((ToolStripItem)sender).Tag;
-            if (obj is PEcellSystem)
             {
                 PEcellSystem deleteSystem = (PEcellSystem)obj;
                 if (string.IsNullOrEmpty(deleteSystem.Name))
@@ -1285,29 +1196,18 @@ namespace EcellLib.PathwayWindow
                                     MessageBoxIcon.Error);
                     return;
                 }
+
                 try
                 {
-                    m_pathwayView.NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System, true);
+                    m_pathwayView.NotifyDataMerge(deleteSystem.Element.Key, ComponentType.System);
                 }
                 catch (IgnoreException)
                 {
                     return;
                 }
-
                 if (deleteSystem.IsHighLighted)
-                {
-                    HideResizeHandles();
-                    m_selectedSystemName = null;
-                }
-            }
-            else if (obj is Line)
-            {
-                m_pathwayView.NotifyVariableReferenceChanged(
-                    ((Line)obj).Info.ProcessKey,
-                    ((Line)obj).Info.VariableKey,
-                    RefChangeType.Delete,
-                    0);
-                ResetSelectedLine();
+                    ResetSelectedSystem();
+
             }
             ((ToolStripMenuItem)sender).Tag = null;
         }
@@ -3873,8 +3773,8 @@ namespace EcellLib.PathwayWindow
                 {
                     system.IsHighLighted = false;
                 }
-                m_selectedSystemName = null;
             }
+            m_selectedSystemName = null;
             HideResizeHandles();
         }
 

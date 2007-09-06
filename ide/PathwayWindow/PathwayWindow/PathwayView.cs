@@ -1413,7 +1413,9 @@ namespace EcellLib.PathwayWindow
         void ZoomButton_Click(object sender, EventArgs e)
         {
             float rate = (float)((ToolStripButton)sender).Tag;
-            
+            if (this.CanvasDictionary == null)
+                return;
+
             foreach(CanvasView canvas in this.CanvasDictionary.Values)
             {
                 canvas.Zoom(rate);
@@ -2548,6 +2550,7 @@ namespace EcellLib.PathwayWindow
 
         #endregion
 
+        #region EventHandler
         /// <summary>
         /// Called when UserControl is resized.
         /// </summary>
@@ -2560,8 +2563,7 @@ namespace EcellLib.PathwayWindow
             UpdateOverview();
         }
 
-        #region Event delegate from PPathwayObject
-        /// <summary>
+       /// <summary>
         /// the event sequence of selecting the PNode of system in PathwayEditor.
         /// </summary>
         /// <param name="sender">PPathwaySystem</param>
@@ -2865,6 +2867,83 @@ namespace EcellLib.PathwayWindow
                 }
             }
             return copiedNodes;
+        }
+
+        /// <summary>
+        /// Called when a delete menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void DeleteClick(object sender, EventArgs e)
+        {
+            /* 20070629 delete by sachiboo. 
+                        //PPathwayObject obj = (PPathwayObject)ClickedNode;
+            */
+
+
+            if (this.ActiveCanvas.SelectedNodes != null)
+            {
+                List<PPathwayNode> slist = new List<PPathwayNode>();
+                foreach (PPathwayNode t in this.ActiveCanvas.SelectedNodes)
+                {
+                    slist.Add(t);
+                }
+
+                int i = 0;
+                foreach (PPathwayNode deleteNode in slist)
+                {
+                    i++;
+                    bool isAnchor = (i == slist.Count);
+                    try
+                    {
+                        NotifyDataDelete(deleteNode.Element.Key,
+                                                        ComponentSetting.ParseComponentKind(deleteNode.Element.Type),
+                                                        isAnchor);
+                    }
+                    catch (IgnoreException)
+                    {
+                        return;
+                    }
+                    if (deleteNode.Parent != null)
+                        deleteNode.Parent.RemoveChild(deleteNode);
+                }
+            }
+            Object obj = ((ToolStripItem)sender).Tag;
+            if (obj is PEcellSystem)
+            {
+                PEcellSystem deleteSystem = (PEcellSystem)obj;
+                if (string.IsNullOrEmpty(deleteSystem.Name))
+                    return;
+                if (deleteSystem.Name.Equals("/"))
+                {
+                    MessageBox.Show(m_resources.GetString("ErrDelRoot"),
+                                    "Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return;
+                }
+                try
+                {
+                    NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System, true);
+                }
+                catch (IgnoreException)
+                {
+                    return;
+                }
+                if (deleteSystem.IsHighLighted)
+                    ActiveCanvas.ResetSelectedSystem();
+
+            }
+            else if (obj is Line)
+            {
+                NotifyVariableReferenceChanged(
+                    ((Line)obj).Info.ProcessKey,
+                    ((Line)obj).Info.VariableKey,
+                    RefChangeType.Delete,
+                    0);
+                ActiveCanvas.ResetSelectedLine();
+            }
+            ((ToolStripMenuItem)sender).Tag = null;
         }
         #endregion
     }
