@@ -3918,6 +3918,38 @@ namespace EcellLib.PathwayWindow
             m_pathwayCanvas.Refresh();
         }
 
+        /// <summary>
+        /// Get EcellObject of identified system by point.
+        /// </summary>
+        /// <param name="point">PointF</param>
+        /// <returns>EcellObject</returns>
+        public EcellObject GetSystemContainAPoint(PointF point)
+        {
+            List<string> syslist = m_dManager.GetSystemList(this.m_pathwayView.Window.ModelID);
+            EcellObject obj = this.Systems["/"].Element.EcellObject;
+            foreach (SystemContainer sys in this.Systems.Values)
+                if ( sys.DoesSystemContainAPoint(point) )
+                    obj = sys.Element.EcellObject;
+            return obj;
+        }
+
+        /// <summary>
+        /// Return true if EcellSystems contains point.
+        /// </summary>
+        /// <param name="sysKey">string</param>
+        /// <param name="point">PointF</param>
+        /// <returns>bool</returns>
+        public bool DoesSystemContainAPoint(string sysKey, PointF point)
+        {
+            bool ans = false;
+            foreach (SystemContainer sys in this.Systems.Values)
+                if (sys.Element.Key == sysKey && sys.DoesSystemContainAPoint(point))
+                    ans = true;
+                else if (sys.DoesSystemContainAPoint(point))
+                    ans = false;
+            return ans;
+        }
+
         #region Private methods
         /// <summary>
         /// get a vacant point of a system for newly coming entity.
@@ -3928,8 +3960,6 @@ namespace EcellLib.PathwayWindow
         /// <returns></returns>
         private PointF GetVacantPoint(RectangleF wholeSpace, List<RectangleF> excludeRectList, List<PPathwayNode> nodeList)
         {
-            
-
             // Set margin. nodes can't be placed there.
             RectangleF spaceWithoutMargin = new RectangleF();
             spaceWithoutMargin.X = (float)(wholeSpace.X + wholeSpace.Width * 0.1);
@@ -4515,6 +4545,20 @@ namespace EcellLib.PathwayWindow
                     m_pText.Text = m_systemElement.Text + attribute;
                 m_pText.CenterBoundsOnPoint(m_pEcellSystems[0].TextCenterX, m_pEcellSystems[0].TextCenterY);
             }
+
+            /// <summary>
+            /// Return true if EcellSystems contains point.
+            /// </summary>
+            /// <param name="point">PointF</param>
+            /// <returns>bool</returns>
+            public bool DoesSystemContainAPoint(PointF point)
+            {
+                foreach (PEcellSystem system in EcellSystems)
+                    if (system.Rect.Contains(point))
+                        return true;
+                return false;
+            }
+
             #endregion
         }
     }

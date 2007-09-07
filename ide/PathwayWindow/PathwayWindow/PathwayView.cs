@@ -2772,8 +2772,6 @@ namespace EcellLib.PathwayWindow
             {
                 i++;
                 isAnchor = (i == this.CopiedNodes.Count); 
-                eo.X = eo.X + diff.X;
-                eo.Y = eo.Y + diff.Y;
                 this.NotifyDataAdd(eo, isAnchor);
             }
         }
@@ -2792,21 +2790,15 @@ namespace EcellLib.PathwayWindow
             return copyNodes;
         }
 
-        private PointF GetDiff(PointF posA, PointF posB)
-        {
-            PointF diff = new PointF(posA.X - posB.X, posA.Y - posB.Y);
-            if (diff.X == 0 && diff.Y == 0)
-            {
-                diff.X = diff.X + 10;
-                diff.Y = diff.Y + 10;
-            }
-            return diff;
-        }
-
         private List<EcellObject> CopyNodes(List<EcellObject> nodeList)
         {
             List<EcellObject> copiedNodes = new List<EcellObject>();
             Dictionary<string, string> varKeys = new Dictionary<string, string>();
+            // Get position diff
+            PointF diff = GetDiff(this.MousePosition, this.m_copyPos);
+            // Get parent System
+            EcellObject sys = this.ActiveCanvas.GetSystemContainAPoint(this.MousePosition);
+
             // Set m_copiedNodes.
             if (nodeList != null)
             {
@@ -2816,7 +2808,15 @@ namespace EcellLib.PathwayWindow
                     //Create new EcellObject
                     EcellObject eo = node.Copy();
                     if (m_dManager.IsDataExists(eo.modelID, eo.key, eo.type))
-                        eo.key = m_dManager.GetTemporaryID(eo.modelID, eo.type, eo.parentSystemID);
+                        eo.key = m_dManager.GetTemporaryID(eo.modelID, eo.type, sys.key);
+                    eo.X = eo.X + diff.X;
+                    eo.Y = eo.Y + diff.Y;
+                    if (!ActiveCanvas.DoesSystemContainAPoint(sys.key, new PointF(eo.X, eo.Y)))
+                    {
+                        PointF newPos = ActiveCanvas.GetPosition(sys.key);
+                        eo.X = newPos.X;
+                        eo.Y = newPos.Y;
+                    }
                     copiedNodes.Add(eo);
                     // Set Variable name.
                     varKeys.Add(":" + node.key, ":" + eo.key);
@@ -2837,6 +2837,17 @@ namespace EcellLib.PathwayWindow
                 }
             }
             return copiedNodes;
+        }
+
+        private PointF GetDiff(PointF posA, PointF posB)
+        {
+            PointF diff = new PointF(posA.X - posB.X, posA.Y - posB.Y);
+            if (diff.X == 0 && diff.Y == 0)
+            {
+                diff.X = diff.X + 10;
+                diff.Y = diff.Y + 10;
+            }
+            return diff;
         }
 
         /// <summary>
