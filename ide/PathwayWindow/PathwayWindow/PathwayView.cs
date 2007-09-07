@@ -2812,7 +2812,8 @@ namespace EcellLib.PathwayWindow
                     eo.SetPosition( eo.X + diff.X, eo.Y + diff.Y);
 
                     // Check Position
-                    if (!ActiveCanvas.DoesSystemContainAPoint(sys.key, new PointF(eo.X, eo.Y)))
+                    if (!ActiveCanvas.DoesSystemContainAPoint(sys.key, new PointF(eo.X, eo.Y))
+                        && !ActiveCanvas.DoesSystemContainAPoint(sys.key, new PointF(eo.X + PPathwayNode.Width / 2, eo.Y + PPathwayNode.Height / 2)))
                         ActiveCanvas.SetVacantPoint(sys, eo);
 
                     copiedNodes.Add(eo);
