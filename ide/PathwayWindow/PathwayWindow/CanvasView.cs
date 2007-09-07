@@ -3630,40 +3630,6 @@ namespace EcellLib.PathwayWindow
             }
         }
 
-        /// <summary>
-        /// Get position.
-        /// </summary>
-        /// <param name="systemName"></param>
-        /// <returns></returns>
-        public PointF GetPosition(string systemName)
-        {
-            // Get a vacant point where an incoming node should be placed.
-            List<PPathwayNode> nodeList = new List<PPathwayNode>();
-            foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
-                foreach (PPathwayObject ppo in system.ChildObjectList)
-                    if (ppo is PPathwayNode)
-                        nodeList.Add((PPathwayNode)ppo);
-            PEcellSystem topSystem = m_systems[systemName].EcellSystems[0];
-            RectangleF sysRect = new RectangleF(
-                topSystem.X + topSystem.OffsetToLayer.X,
-                topSystem.Y + topSystem.OffsetToLayer.Y,
-                topSystem.Width,
-                topSystem.Height);
-            List<RectangleF> excludeRectList = new List<RectangleF>();
-            List<PPathwayObject> childList = topSystem.ChildObjectList;
-            foreach (PPathwayObject child in childList)
-            {
-                if (child is PEcellSystem)
-                {
-                    excludeRectList.Add(new RectangleF(
-                        child.X + ((PEcellSystem)child).OffsetToLayer.X,
-                        child.Y + ((PEcellSystem)child).OffsetToLayer.Y,
-                        ((PEcellSystem)child).Width,
-                        ((PEcellSystem)child).Height));
-                }
-            }
-            return GetVacantPoint(sysRect, excludeRectList, nodeList);
-        }
         #endregion
 
         /// <summary>
@@ -3948,6 +3914,79 @@ namespace EcellLib.PathwayWindow
                 else if (sys.DoesSystemContainAPoint(point))
                     ans = false;
             return ans;
+        }
+
+        /// <summary>
+        /// Return true if PathwayNodes contains a point.
+        /// </summary>
+        /// <param name="sysKey">string</param>
+        /// <param name="point">PointF</param>
+        /// <returns>bool</returns>
+        private bool DoesNodesContainAPoint(string sysKey, PointF point)
+        {
+            bool ans = false;
+            foreach (SystemContainer sys in this.Systems.Values)
+                if (sys.Element.Key == sysKey && sys.DoesSystemContainAPoint(point))
+                    ans = true;
+                else if (sys.DoesSystemContainAPoint(point))
+                    ans = false;
+            return ans;
+        }
+        
+        /// <summary>
+        /// Return nearest vacant point of EcellSystem.
+        /// </summary>
+        /// <param name="obj">EcellObject of parent system.</param>
+        /// <param name="point">PointF of current coordinate</param>
+        /// <returns>PointF</returns>
+        public PointF GetVacantPoint(EcellObject sys, PointF point)
+        {
+            PointF newPos;
+            double rad = Math.PI * 0.125f;
+            float r = 0f;
+            do
+            {
+                r += 1f;
+                newPos = new PointF(point.X + r * (float)Math.Cos(rad * r), point.Y + r * (float)Math.Sin(rad * r));
+                if (DoesSystemContainAPoint(sys.key, newPos))
+                    break;
+            } while (r < sys.Width && r < sys.Height);
+            return newPos;
+        }
+
+        /// <summary>
+        /// Get position.
+        /// </summary>
+        /// <param name="systemName">string</param>
+        /// <returns>PointF</returns>
+        public PointF GetPosition(string systemName)
+        {
+            // Get a vacant point where an incoming node should be placed.
+            List<PPathwayNode> nodeList = new List<PPathwayNode>();
+            foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                foreach (PPathwayObject ppo in system.ChildObjectList)
+                    if (ppo is PPathwayNode)
+                        nodeList.Add((PPathwayNode)ppo);
+            PEcellSystem topSystem = m_systems[systemName].EcellSystems[0];
+            RectangleF sysRect = new RectangleF(
+                topSystem.X + topSystem.OffsetToLayer.X,
+                topSystem.Y + topSystem.OffsetToLayer.Y,
+                topSystem.Width,
+                topSystem.Height);
+            List<RectangleF> excludeRectList = new List<RectangleF>();
+            List<PPathwayObject> childList = topSystem.ChildObjectList;
+            foreach (PPathwayObject child in childList)
+            {
+                if (child is PEcellSystem)
+                {
+                    excludeRectList.Add(new RectangleF(
+                        child.X + ((PEcellSystem)child).OffsetToLayer.X,
+                        child.Y + ((PEcellSystem)child).OffsetToLayer.Y,
+                        ((PEcellSystem)child).Width,
+                        ((PEcellSystem)child).Height));
+                }
+            }
+            return GetVacantPoint(sysRect, excludeRectList, nodeList);
         }
 
         #region Private methods
