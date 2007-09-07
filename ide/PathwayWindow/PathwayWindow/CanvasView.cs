@@ -708,9 +708,9 @@ namespace EcellLib.PathwayWindow
             m_nodeMenu.Items.Add(idShow);
             m_cMenuDict.Add(CANVAS_MENU_ID, idShow);
 
-            ToolStripSeparator separator3 = new ToolStripSeparator();
-            m_nodeMenu.Items.Add(separator3);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR3, separator3);
+            ToolStripSeparator separator1 = new ToolStripSeparator();
+            m_nodeMenu.Items.Add(separator1);
+            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR1, separator1);
 
             int count = 0;
             foreach(ILayoutAlgorithm algorithm in m_pathwayView.Window.LayoutAlgorithm)
@@ -740,9 +740,10 @@ namespace EcellLib.PathwayWindow
                 count++;
             }
 
-            ToolStripSeparator separator1 = new ToolStripSeparator();
-            m_nodeMenu.Items.Add(separator1);
-            m_cMenuDict.Add( CANVAS_MENU_SEPARATOR1, separator1 );
+            ToolStripSeparator separator2 = new ToolStripSeparator();
+            separator2.Tag = count;
+            m_nodeMenu.Items.Add(separator2);
+            m_cMenuDict.Add( CANVAS_MENU_SEPARATOR2, separator2 );
 
             ToolStripItem rightArrow = new ToolStripMenuItem("Process -> Variable", Resource1.arrow_long_right_w);
             rightArrow.Name = CANVAS_MENU_RIGHT_ARROW;
@@ -768,9 +769,9 @@ namespace EcellLib.PathwayWindow
             m_nodeMenu.Items.Add(constant);
             m_cMenuDict.Add( CANVAS_MENU_CONSTANT_LINE, constant );
 
-            ToolStripSeparator separator2 = new ToolStripSeparator();
-            m_nodeMenu.Items.Add(separator2);
-            m_cMenuDict.Add( CANVAS_MENU_SEPARATOR2, separator2);
+            ToolStripSeparator separator3 = new ToolStripSeparator();
+            m_nodeMenu.Items.Add(separator3);
+            m_cMenuDict.Add( CANVAS_MENU_SEPARATOR3, separator3);
 
             ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString("DeleteMenuText"));
             delete.Text = m_resources.GetString("DeleteMenuText");
