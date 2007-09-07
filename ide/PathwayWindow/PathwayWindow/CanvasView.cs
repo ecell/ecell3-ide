@@ -3919,11 +3919,11 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Get EcellObject of identified system by point.
+        /// Get EcellSystem of selected point.
         /// </summary>
         /// <param name="point">PointF</param>
         /// <returns>EcellObject</returns>
-        public EcellObject GetSystemContainAPoint(PointF point)
+        public EcellObject GetSystemOfSelectedPoint(PointF point)
         {
             List<string> syslist = m_dManager.GetSystemList(this.m_pathwayView.Window.ModelID);
             EcellObject obj = this.Systems["/"].Element.EcellObject;
@@ -3934,7 +3934,7 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Return true if EcellSystems contains point.
+        /// Return true if EcellSystem contains a point.
         /// </summary>
         /// <param name="sysKey">string</param>
         /// <param name="point">PointF</param>

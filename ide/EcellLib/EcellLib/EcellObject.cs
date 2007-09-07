@@ -349,6 +349,16 @@ namespace EcellLib
                 throw new Exception("Can't copy the \"EcellObject\". {" + l_ex.ToString() + "}");
             }
         }
+        /// <summary>
+        /// get parent system ID.
+        /// </summary>
+        /// <param name="x">X Position</param>
+        /// <param name="y">Y Position</param>
+        public void SetPosition(float x, float y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
 
         /// <summary>
         /// get parent system ID.
