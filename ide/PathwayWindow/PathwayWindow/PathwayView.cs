@@ -2810,12 +2810,11 @@ namespace EcellLib.PathwayWindow
                     if (m_dManager.IsDataExists(eo.modelID, eo.key, eo.type))
                         eo.key = m_dManager.GetTemporaryID(eo.modelID, eo.type, sys.key);
                     eo.SetPosition( eo.X + diff.X, eo.Y + diff.Y);
+
                     // Check Position
                     if (!ActiveCanvas.DoesSystemContainAPoint(sys.key, new PointF(eo.X, eo.Y)))
-                    {
-                        PointF newPos = ActiveCanvas.GetVacantPoint(sys, new PointF(eo.X, eo.Y) );
-                        eo.SetPosition(newPos.X, newPos.Y);
-                    }
+                        ActiveCanvas.SetVacantPoint(sys, eo);
+
                     copiedNodes.Add(eo);
                     // Set Variable name.
                     varKeys.Add(":" + node.key, ":" + eo.key);

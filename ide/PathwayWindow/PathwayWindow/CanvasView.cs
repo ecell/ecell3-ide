@@ -3936,10 +3936,9 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Return nearest vacant point of EcellSystem.
         /// </summary>
-        /// <param name="obj">EcellObject of parent system.</param>
-        /// <param name="point">PointF of current coordinate</param>
-        /// <returns>PointF</returns>
-        public PointF GetVacantPoint(EcellObject sys, PointF point)
+        /// <param name="sys">EcellObject of parent system.</param>
+        /// <param name="obj">EcellObject of moved node</param>
+        public void SetVacantPoint(EcellObject sys, EcellObject obj)
         {
             PointF newPos;
             double rad = Math.PI * 0.125f;
@@ -3947,11 +3946,14 @@ namespace EcellLib.PathwayWindow
             do
             {
                 r += 1f;
-                newPos = new PointF(point.X + r * (float)Math.Cos(rad * r), point.Y + r * (float)Math.Sin(rad * r));
-                if (DoesSystemContainAPoint(sys.key, newPos))
+                newPos = new PointF(obj.X + r * (float)Math.Cos(rad * r), obj.Y + r * (float)Math.Sin(rad * r));
+                // Check 
+                if (DoesSystemContainAPoint(sys.key, newPos) && DoesSystemContainAPoint(sys.key, new PointF(newPos.X + PPathwayNode.Width / 2, newPos.Y + PPathwayNode.Height / 2)))
+                {
+                    obj.SetPosition(newPos.X, newPos.Y);
                     break;
+                }
             } while (r < sys.Width && r < sys.Height);
-            return newPos;
         }
 
         /// <summary>

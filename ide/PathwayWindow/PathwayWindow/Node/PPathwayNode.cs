@@ -53,6 +53,8 @@ namespace EcellLib.PathwayWindow.Node
         /// Font size for text.
         /// </summary>
         protected static readonly int m_nodeTextFontSize = 10;
+        public static readonly float Width = 60;
+        public static readonly float Height = 40;
         #endregion
 
         #region Fields
