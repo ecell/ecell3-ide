@@ -695,7 +695,7 @@ namespace EcellLib.PathwayWindow
                         system.Layer = layer;
                         system.Name = key;
                         systemName = system.Name;
-                        string parentSystemId = PathUtil.GetParentSystemId(key);
+                        string parentSystemId = eo.parentSystemID;
                         if (string.IsNullOrEmpty(parentSystemId))
                             layer.AddChild(system);
                         else
@@ -1195,7 +1195,7 @@ namespace EcellLib.PathwayWindow
             {
                 this.PanCanvas(Direction.Horizontal, e.Delta);
             }
-            else if (Control.ModifierKeys == Keys.Control)
+            else if (Control.ModifierKeys == Keys.Control || e.Button == MouseButtons.Right)
             {
                 float zoom = (float)1.00 + (float)e.Delta / 1200;
                 this.ActiveCanvas.Zoom(zoom);

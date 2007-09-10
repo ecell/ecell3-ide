@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace EcellLib.PathwayWindow
 {
@@ -38,6 +39,11 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class ComponentSettingsManager
     {
+        #region Constractor
+        public const string DEFAULT_SYSTEM_NAME = "DefaultSystem";
+        public const string DEFAULT_PROCESS_NAME = "DefaultProcess";
+        public const string DEFAULT_VARIABLE_NAME = "DefaultVariable";
+        #endregion
         #region Fields
         /// <summary>
         /// Dictionary of ComponentSettings for creating PEcellSystems.
@@ -104,6 +110,7 @@ namespace EcellLib.PathwayWindow
             m_systemSettings = new Dictionary<string, ComponentSetting>();
             m_processSettings = new Dictionary<string, ComponentSetting>();
             m_variableSettings = new Dictionary<string, ComponentSetting>();
+            SetDefaultSettings();
         }
 
         /// <summary>
@@ -292,6 +299,37 @@ namespace EcellLib.PathwayWindow
             {
                 return false;
             }
+        }
+        #endregion
+
+        #region Private Methods
+        private void SetDefaultSettings()
+        {
+            // Set hard coded default system ComponentSettings
+            ComponentSetting defSysCs = new ComponentSetting();
+            defSysCs.ComponentKind = ComponentType.System;
+            defSysCs.Name = DEFAULT_SYSTEM_NAME;
+            defSysCs.NormalBrush = Brushes.Black;
+            defSysCs.AddComponentClass("PEcellSystem");
+            RegisterSystemSetting(defSysCs.Name, defSysCs, true);
+
+            // Set hard coded default variable ComponentSettings
+            ComponentSetting defVarCs = new ComponentSetting();
+            defVarCs.ComponentKind = ComponentType.Variable;
+            defVarCs.Name = DEFAULT_VARIABLE_NAME;
+            defVarCs.NormalBrush = Brushes.LightBlue;
+            defVarCs.AddFigure("Ellipse", "-30,-20,60,40");
+            defVarCs.AddComponentClass("PEcellVariable");
+            RegisterProcessSetting(defVarCs.Name, defVarCs, true);
+
+            // Set hard coded default process ComponentSettings
+            ComponentSetting defProCs = new ComponentSetting();
+            defProCs.ComponentKind = ComponentType.Process;
+            defProCs.Name = DEFAULT_PROCESS_NAME;
+            defProCs.NormalBrush = Brushes.LightGreen;
+            defProCs.AddFigure("Rectangle","-30,-20,60,40");
+            defProCs.AddComponentClass("PEcellProcess");
+            RegisterProcessSetting(defProCs.Name, defProCs, true);
         }
         #endregion
     }

@@ -323,44 +323,6 @@ namespace EcellLib.PathwayWindow
                 }
             }
 
-            if(manager.DefaultSystemSetting == null)
-            {
-                // Set hard coded default system ComponentSettings
-                ComponentSetting defSysCs = new ComponentSetting();
-                defSysCs.ComponentKind = ComponentType.System;
-                defSysCs.Name = "DefaultSystem";
-                defSysCs.NormalBrush = Brushes.Black;
-                defSysCs.AddComponentClass("PEcellSystem");
-                componentSettings.Add(defSysCs);
-                manager.RegisterSystemSetting(defSysCs.Name, defSysCs, true);
-            }
-
-            if(manager.DefaultVariableSetting == null)
-            {
-                // Set hard coded default variable ComponentSettings
-                ComponentSetting defVarCs = new ComponentSetting();
-                defVarCs.ComponentKind = ComponentType.Variable;
-                defVarCs.Name = "DefaultVariable";
-                defVarCs.NormalBrush = Brushes.LightBlue;
-                defVarCs.AddFigure("Ellipse", "-30,-20,60,40");
-                defVarCs.AddComponentClass("PEcellVariable");
-                componentSettings.Add(defVarCs);
-                manager.RegisterVariableSetting(defVarCs.Name, defVarCs, true);
-            }
-
-            if (manager.DefaultProcessSetting == null)
-            {
-                // Set hard coded default process ComponentSettings
-                ComponentSetting defProCs = new ComponentSetting();
-                defProCs.ComponentKind = ComponentType.Process;
-                defProCs.Name = "DefaultProcess";
-                defProCs.NormalBrush = Brushes.LightGreen;
-                defProCs.AddFigure("Rectangle","-30,-20,60,40");
-                defProCs.AddComponentClass("PEcellProcess");
-                componentSettings.Add(defProCs);
-                manager.RegisterProcessSetting(defProCs.Name, defProCs, true);
-            }
-
             m_view = new PathwayView();
             m_view.Window = this;
             m_view.SetSettings(componentSettings);
@@ -870,8 +832,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="data">List of EcellObjects to be added</param>
         public void DataAdd(List<EcellObject> data)
         {            
-            bool toBeLoaded = false;// Whether there is any EcellObject should be loaded onto PathwayView.
-            bool isOtherModel = false;// Whether this model is the same as currently displayed model or not.
+            bool toBeLoaded = false;    // Whether there is any EcellObject should be loaded onto PathwayView.
+            bool isOtherModel = false;  // Whether this model is the same as currently displayed model or not.
             string modelId = null;
             foreach(EcellObject obj in data)
             {
@@ -933,69 +895,65 @@ namespace EcellLib.PathwayWindow
         /// <param name="data">Changed value of object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
+            // Null Check.
             if(String.IsNullOrEmpty(ModelID) || !m_modelId.Equals(modelID))
                 return;
-
             if (type == null || String.IsNullOrEmpty(key) || data == null)
                 return;
+            // Change data.
             try
             {
-                ComponentType ct = ComponentType.System;
-                if (type.Equals(PathwayView.SYSTEM_STRING))
-                    ct = ComponentType.System;
-                else if (type.Equals(PathwayView.VARIABLE_STRING))
-                    ct = ComponentType.Variable;
-                else if (type.Equals(PathwayView.PROCESS_STRING))
-                    ct = ComponentType.Process;
+                ComponentType ct = ComponentSetting.ParseComponentKind(type);
                 
                 if (PathUtil.IsOnSameSystem(key, data.key))
                 {
                     m_view.DataChanged(key, data, ct);
+                    return;
                 }
-                else
+                // Change system data.
+                if(ct == ComponentType.System)
                 {
-                    if(ct == ComponentType.System)
+                    if(data.IsPosSet)
                     {
-                        if(data.IsPosSet)
-                        {
-                            m_view.DataChanged(key, data, ComponentType.System);
-                        }
-                        else
-                        {
-                            List<EcellObject> list = new List<EcellObject>();
-                            list.Add(data);
-                            this.NewDataAddToModel(list);
-                            List<UniqueKey> underList = m_view.GetKeysUnderSystem(key);
-                            foreach(UniqueKey uk in underList)
-                            {
-                                string valueStr = null;
-                                if (uk.Type == ComponentType.Variable && uk.Key.EndsWith(":SIZE"))
-                                {
-                                    valueStr = ((AttributeElement)m_view.GetElement(ComponentType.Variable, uk.Key)).Value;
-                                }
-                                m_view.DataDelete(uk.Key, uk.Type);
-                                string newKey = PathUtil.GetMovedKey(uk.Key, key, data.key);
-                                m_view.AddNewObj(m_defCanvasId, PathUtil.GetParentSystemId(newKey), uk.Type, null, modelID, newKey, false, 0, 0, 0, 0, false, true, null, valueStr, true);                            
-                            }
-                            m_view.DataDelete(key, ct);
-                        }
+                        m_view.DataChanged(key, data, ComponentType.System);
                     }
                     else
                     {
-                        if(m_view.HasObject(ct, key))
+                        List<EcellObject> list = new List<EcellObject>();
+                        list.Add(data);
+                        this.NewDataAddToModel(list);
+                        List<UniqueKey> underList = m_view.GetKeysUnderSystem(key);
+                        foreach(UniqueKey uk in underList)
                         {
-                            m_view.DataDelete(key, ct);
-                            List<EcellObject> list = new List<EcellObject>();
-                            list.Add(data);
-                            this.NewDataAddToModel(list);
+                            string valueStr = null;
+                            if (uk.Type == ComponentType.Variable && uk.Key.EndsWith(":SIZE"))
+                            {
+                                valueStr = ((AttributeElement)m_view.GetElement(ComponentType.Variable, uk.Key)).Value;
+                            }
+                            m_view.DataDelete(uk.Key, uk.Type);
+                            string newKey = PathUtil.GetMovedKey(uk.Key, key, data.key);
+                            m_view.AddNewObj(m_defCanvasId, PathUtil.GetParentSystemId(newKey), uk.Type, null, modelID, newKey, false, 0, 0, 0, 0, false, true, null, valueStr, true);                            
                         }
-                        else
-                        {
-                            m_view.DataChanged(data.key, data, ct);
-                        }
-                        
+                        m_view.DataDelete(key, ct);
                     }
                 }
+                // Change node data.
+                else
+                {
+                    if(m_view.HasObject(ct, key))
+                    {
+                        m_view.DataDelete(key, ct);
+                        List<EcellObject> list = new List<EcellObject>();
+                        list.Add(data);
+                        this.NewDataAddToModel(list);
+                    }
+                    else
+                    {
+                        m_view.DataChanged(data.key, data, ct);
+                    }
+                    
+                }
+                
             }
             catch (Exception e)
             {
@@ -1016,16 +974,9 @@ namespace EcellLib.PathwayWindow
             if (m_modelId.Equals(modelID))
             {
                 if (type.Equals(PathwayView.MODEL_STRING))
-                {
-                    m_modelId = "";
-                    m_view.Clear();
-                }
-                if(type.Equals(PathwayView.SYSTEM_STRING))
-                    m_view.DataDelete(key, ComponentType.System);
-                else if(type.Equals(PathwayView.VARIABLE_STRING))
-                    m_view.DataDelete(key, ComponentType.Variable);
-                else if(type.Equals(PathwayView.PROCESS_STRING))
-                    m_view.DataDelete(key, ComponentType.Process);
+                    this.Clear();
+
+                m_view.DataDelete(key, ComponentSetting.ParseComponentKind(type) );
             }
             else
             {
@@ -1304,25 +1255,22 @@ namespace EcellLib.PathwayWindow
             // These new EcellObjects will be loaded onto the Model currently displayed
             foreach (EcellObject obj in data)
             {
-                string systemName = PathUtil.GetParentSystemId(obj.key);                
-                if (obj.type.Equals(PathwayView.SYSTEM_STRING))
+                try
                 {
-                    if (systemName.Equals("/"))
-                    {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, true, obj, null, false);
-                    }
-                    else
-                    {
-                        m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.System, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, obj.Width, obj.Height, false, true, obj, null, false);
-                    }
-                }
-                else if (obj.type.Equals(PathwayView.VARIABLE_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Variable, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, true, obj, null, false);
-                else if (obj.type.Equals(PathwayView.PROCESS_STRING))
-                    m_view.AddNewObj(m_defCanvasId, systemName, ComponentType.Process, null, obj.modelID, obj.key, obj.IsPosSet, obj.X, obj.Y, 0, 0, false, true, obj, null, false);
-                else
+
+                    ComponentType cType = ComponentSetting.ParseComponentKind(obj.type);
+
+                    m_view.AddNewObj(m_defCanvasId,
+                                    obj.parentSystemID,
+                                    cType,
+                                    null,
+                                    obj,
+                                    false,
+                                    true,
+                                    null);
+                } catch (Exception ex)
                 {
-                    throw new PathwayException(m_resources.GetString("ErrUnknowType"));
+                    throw new PathwayException(m_resources.GetString("ErrUnknowType") + "\n" + ex.StackTrace);
                 }
             }
         }
