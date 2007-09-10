@@ -773,26 +773,26 @@ namespace EcellLib.PathwayWindow
             m_nodeMenu.Items.Add(separator3);
             m_cMenuDict.Add( CANVAS_MENU_SEPARATOR3, separator3);
 
-            ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString("DeleteMenuText"));
-            delete.Text = m_resources.GetString("DeleteMenuText");
-            delete.Click += new EventHandler(this.m_pathwayView.DeleteClick);
-            m_nodeMenu.Items.Add(delete);
-            m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
+            ToolStripItem cut = new ToolStripMenuItem(m_resources.GetString("CutMenuText"));
+            cut.Click += new EventHandler(this.m_pathwayView.CutClick);
+            m_nodeMenu.Items.Add(cut);
+            m_cMenuDict.Add(CANVAS_MENU_CUT, cut);
 
             ToolStripItem copy = new ToolStripMenuItem(m_resources.GetString("CopyMenuText"));
             copy.Click += new EventHandler(this.m_pathwayView.CopyClick);
             m_nodeMenu.Items.Add(copy);
             m_cMenuDict.Add(CANVAS_MENU_COPY, copy);
 
-            ToolStripItem cut = new ToolStripMenuItem(m_resources.GetString("CutMenuText"));
-            cut.Click += new EventHandler(this.m_pathwayView.CutClick);
-            m_nodeMenu.Items.Add(cut);
-            m_cMenuDict.Add(CANVAS_MENU_CUT, cut);
-
             ToolStripItem paste = new ToolStripMenuItem(m_resources.GetString("PasteMenuText"));
             paste.Click += new EventHandler(this.m_pathwayView.PasteClick);
             m_nodeMenu.Items.Add(paste);
             m_cMenuDict.Add(CANVAS_MENU_PASTE, paste);
+
+            ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString("DeleteMenuText"));
+            delete.Text = m_resources.GetString("DeleteMenuText");
+            delete.Click += new EventHandler(this.m_pathwayView.DeleteClick);
+            m_nodeMenu.Items.Add(delete);
+            m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
 
             ToolStripItem deleteWith = new ToolStripMenuItem(m_resources.GetString("MergeMenuText"));
             deleteWith.Click += new EventHandler(MergeClick);
