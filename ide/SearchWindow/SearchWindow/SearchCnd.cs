@@ -124,7 +124,7 @@ namespace EcellLib.SearchWindow
                     }
                     else
                     {
-                        EcellValue value = ins.GetEcellValue("Name").ToString();
+                        EcellValue value = obj.GetEcellValue("Name").ToString();
                         if (value != null && value.ToString().Contains(searchId))
                             dgv.Rows.Add(new Object[] { obj.key, value.ToString(), model, obj.type });
                     }
@@ -140,7 +140,7 @@ namespace EcellLib.SearchWindow
                         }
                         else
                         {
-                            EcellValue value = ins.GetEcellValue("Name").ToString();
+                            EcellValue value = ins.GetEcellValue("Name");
                             if ( value != null && value.ToString().Contains(searchId))
                                 dgv.Rows.Add(new Object[] { ins.key, value.ToString(), model, ins.type });
                         }
