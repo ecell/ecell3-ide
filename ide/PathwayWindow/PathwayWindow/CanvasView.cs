@@ -3412,6 +3412,9 @@ namespace EcellLib.PathwayWindow
                     if(!key.Equals(data.key))
                     {
                         TransferSystemTo(PathUtil.GetParentSystemId(data.key), key, false);
+                        m_systems.Remove(key);
+                        m_systems.Add(data.key, sysCon);
+
                     }
 
                     sysCon.Element.Key = data.key;
@@ -3426,7 +3429,7 @@ namespace EcellLib.PathwayWindow
                         sys.Width = data.Width;
                         sys.Height = data.Height;
                         sys.Reset();
-                    }                    
+                    }
                     //m_systems.Add(data.key, sysCon);
                     foreach (SystemContainer sys in m_systems.Values)
                     {

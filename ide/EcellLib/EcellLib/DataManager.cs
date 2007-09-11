@@ -623,46 +623,40 @@ namespace EcellLib
         {
             bool l_changedFlag = false;
             l_dest = l_src.Copy();
-            foreach (EcellData l_ecellData in l_dest.M_value)
+            EcellValue l_varList = l_dest.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST);
+            if( l_varList == null || l_varList.CastToString().Length <= 0)
+                return l_changedFlag;
+
+            List<EcellValue> l_changedValue = new List<EcellValue>();
+            foreach (EcellValue l_ecellValue in l_varList.CastToList())
             {
-                if (l_ecellData.M_name.Equals(Util.s_xpathVRL))
+                List<EcellValue> l_changedElements = new List<EcellValue>();
+                foreach (EcellValue l_element in l_ecellValue.CastToList())
                 {
-                    if (l_ecellData.M_value == null || l_ecellData.M_value.ToString().Length <= 0)
+                    if (l_element.IsString()
+                        && l_element.CastToString().StartsWith(Util.s_delimiterColon))
                     {
-                        break;
-                    }
-                    List<EcellValue> l_changedValue = new List<EcellValue>();
-                    foreach (EcellValue l_ecellValue in l_ecellData.M_value.CastToList())
-                    {
-                        List<EcellValue> l_changedElements = new List<EcellValue>();
-                        foreach (EcellValue l_element in l_ecellValue.CastToList())
+                        string l_oldKey = l_element.CastToString().Substring(1);
+                        if (l_variableDic.ContainsKey(l_oldKey))
                         {
-                            if (l_element.IsString()
-                                && l_element.CastToString().StartsWith(Util.s_delimiterColon))
-                            {
-                                string l_oldKey = l_element.CastToString().Substring(1);
-                                if (l_variableDic.ContainsKey(l_oldKey))
-                                {
-                                    l_changedElements.Add(
-                                        new EcellValue(Util.s_delimiterColon + l_variableDic[l_oldKey]));
-                                    l_changedFlag = true;
-                                }
-                                else
-                                {
-                                    l_changedElements.Add(l_element);
-                                }
-                            }
-                            else
-                            {
-                                l_changedElements.Add(l_element);
-                            }
+                            l_changedElements.Add(
+                                new EcellValue(Util.s_delimiterColon + l_variableDic[l_oldKey]));
+                            l_changedFlag = true;
                         }
-                        l_changedValue.Add(new EcellValue(l_changedElements));
+                        else
+                        {
+                            l_changedElements.Add(l_element);
+                        }
                     }
-                    l_ecellData.M_value = new EcellValue(l_changedValue);
-                    break;
+                    else
+                    {
+                        l_changedElements.Add(l_element);
+                    }
                 }
+                l_changedValue.Add(new EcellValue(l_changedElements));
             }
+            l_dest.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = new EcellValue(l_changedValue);
+
             return l_changedFlag;
         }
 
@@ -2524,7 +2518,7 @@ namespace EcellLib
                 }
                 l_processEcellDataList.Add(l_ecellData);
             }
-            l_ecellObject.SetValue(l_processEcellDataList);
+            l_ecellObject.SetEcellDatas(l_processEcellDataList);
         }
 
         /// <summary>
@@ -2622,7 +2616,7 @@ namespace EcellLib
                 }
                 l_stepperEcellDataList.Add(l_ecellData);
             }
-            l_ecellObject.SetValue(l_stepperEcellDataList);
+            l_ecellObject.SetEcellDatas(l_stepperEcellDataList);
         }
 
         /// <summary>
@@ -2818,7 +2812,7 @@ namespace EcellLib
                 }
             }
              */
-            l_ecellObject.SetValue(l_systemEcellDataList);
+            l_ecellObject.SetEcellDatas(l_systemEcellDataList);
         }
 
         /// <summary>
@@ -2941,7 +2935,7 @@ namespace EcellLib
                 }
                 l_variableEcellDataList.Add(l_ecellData);
             }
-            l_ecellObject.SetValue(l_variableEcellDataList);
+            l_ecellObject.SetEcellDatas(l_variableEcellDataList);
         }
 
         /// <summary>
@@ -4395,12 +4389,12 @@ namespace EcellLib
             // Set Preface
             String pref = "";
             int i = 0;
-            if (type.Equals("Process"))
+            if (type.Equals(EcellObject.PROCESS))
             {
                 pref = systemID + ":P";
                 i = m_processNumbering;
             }
-            else if (type.Equals("Variable"))
+            else if (type.Equals(EcellObject.VARIABLE))
             {
                 pref = systemID + ":V";
                 i = m_variableNumbering;
@@ -4423,11 +4417,11 @@ namespace EcellLib
             }
 
             // Set TmpNumber
-            if (type.Equals("Process"))
+            if (type.Equals(EcellObject.PROCESS))
             {
                 m_processNumbering = i + 1;
             }
-            else if (type.Equals("Variable"))
+            else if (type.Equals(EcellObject.VARIABLE))
             {
                 m_variableNumbering = i + 1;
             }

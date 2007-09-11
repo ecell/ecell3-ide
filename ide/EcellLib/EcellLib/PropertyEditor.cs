@@ -127,7 +127,7 @@ namespace EcellLib
         {
             m_currentObj = obj;
             m_parentObj = null;
-            if (m_currentObj.type.Equals("Process"))
+            if (m_currentObj.type.Equals(EcellObject.PROCESS))
             {
                 m_propName = m_currentObj.classname;
                 m_refStr = m_currentObj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString();
@@ -173,9 +173,9 @@ namespace EcellLib
         public void LayoutPropertyEditor()
         {
             if (m_type.Equals("Model")) LayoutModelPropertyEditor();
-            else if (m_type.Equals("System")) LayoutNodePropertyEditor();
-            else if (m_type.Equals("Variable")) LayoutNodePropertyEditor();
-            else if (m_type.Equals("Process")) LayoutNodePropertyEditor();
+            else if (m_type.Equals(EcellObject.SYSTEM)) LayoutNodePropertyEditor();
+            else if (m_type.Equals(EcellObject.VARIABLE)) LayoutNodePropertyEditor();
+            else if (m_type.Equals(EcellObject.PROCESS)) LayoutNodePropertyEditor();
         }
 
         /// <summary>
@@ -218,11 +218,11 @@ namespace EcellLib
             Dictionary<string, EcellData> tmpProcDict = null;
             if (m_currentObj == null)
             {
-                if (m_type.Equals("Process"))
+                if (m_type.Equals(EcellObject.PROCESS))
                     m_propDict = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, m_propName);
-                else if (m_type.Equals("System"))
+                else if (m_type.Equals(EcellObject.SYSTEM))
                     m_propDict = DataManager.GetSystemProperty();
-                else if (m_type.Equals("Variable"))
+                else if (m_type.Equals(EcellObject.VARIABLE))
                     m_propDict = DataManager.GetVariableProperty();
             }
             else
@@ -262,12 +262,12 @@ namespace EcellLib
             layoutPanel.Controls.Clear();
             layoutPanel.RowStyles.Clear();
 
-            if (m_currentObj == null && m_type.Equals("System"))
+            if (m_currentObj == null && m_type.Equals(EcellObject.SYSTEM))
             {
                 layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
                 layoutPanel.RowCount = m_propDict.Keys.Count + 5;
             }
-            else if (m_currentObj != null && m_currentObj.type.Equals("System"))
+            else if (m_currentObj != null && m_currentObj.type.Equals(EcellObject.SYSTEM))
             {
                 layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
                 layoutPanel.RowCount = m_propDict.Keys.Count + 5;
@@ -333,7 +333,7 @@ namespace EcellLib
                 ComboBox combo = new ComboBox();
                 combo.DropDownStyle = ComboBoxStyle.DropDownList;
                 int j = 0;
-                if (m_type.Equals("Process"))
+                if (m_type.Equals(EcellObject.PROCESS))
                 {
                     List<string> list = m_dManager.GetProcessList(m_dManager.CurrentProjectID);
                     foreach (string str in list)
@@ -344,14 +344,14 @@ namespace EcellLib
                     }
                     combo.SelectedIndexChanged += new EventHandler(ComboSelectedIndexChanged);
                 }
-                else if (m_type.Equals("System"))
+                else if (m_type.Equals(EcellObject.SYSTEM))
                 {
-                    combo.Items.AddRange(new object[] { "System" });
+                    combo.Items.AddRange(new object[] { EcellObject.SYSTEM });
                     combo.SelectedIndex = j;
                 }
-                else if (m_type.Equals("Variable"))
+                else if (m_type.Equals(EcellObject.VARIABLE))
                 {
-                    combo.Items.AddRange(new object[] { "Variable" });
+                    combo.Items.AddRange(new object[] { EcellObject.VARIABLE });
                     combo.SelectedIndex = j;
                 }
                 combo.Tag = "classname";
@@ -484,7 +484,7 @@ namespace EcellLib
                     }
                     i++;
                 }
-                if (m_type.Equals("Process") && 
+                if (m_type.Equals(EcellObject.PROCESS) && 
                     DataManager.IsEnableAddProperty(m_dManager.CurrentProjectID, m_propName))
                 {
                     Button b = new Button();
@@ -496,7 +496,7 @@ namespace EcellLib
                     i++;
                 }
 
-                if (m_currentObj == null && m_type.Equals("System"))
+                if (m_currentObj == null && m_type.Equals(EcellObject.SYSTEM))
                 {
                     layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                     Label l = new Label();
@@ -511,7 +511,7 @@ namespace EcellLib
                     t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                     layoutPanel.Controls.Add(t, 2, i);
                 }
-                else if (m_currentObj != null && m_currentObj.type.Equals("System"))
+                else if (m_currentObj != null && m_currentObj.type.Equals(EcellObject.SYSTEM))
                 {
                     layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                     Label l = new Label();
@@ -739,7 +739,7 @@ namespace EcellLib
         {
             string propName = ((ComboBox)sender).Text;
             m_propName = propName;
-            if (m_type.Equals("Process"))
+            if (m_type.Equals(EcellObject.PROCESS))
             {
                 m_propDict = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, m_propName);
             }
@@ -828,7 +828,7 @@ namespace EcellLib
                         }
                         else if (m_currentObj != null)
                         {
-                            if (m_currentObj.type == "System" && Util.IsNGforSystemFullID(c.Text))
+                            if (m_currentObj.type == EcellObject.SYSTEM && Util.IsNGforSystemFullID(c.Text))
                             {
                                 String errmes = m_resources.GetString("ErrInvalidID");
                                 MessageBox.Show(errmes,
@@ -848,7 +848,7 @@ namespace EcellLib
                             }
                         }
 
-                        if (!m_type.Equals("System"))
+                        if (!m_type.Equals(EcellObject.SYSTEM))
                         {
                             if (m_parentObj.key == "") key = c.Text;
                             else if (m_parentObj.key == "/") key = "/:" + c.Text;
@@ -894,7 +894,7 @@ namespace EcellLib
                             }
                             dList.Add(d);
                         }
-                        sizeObj = EcellObject.CreateObject(modelID, key + ":SIZE", "Variable", "Variable", dList);
+                        sizeObj = EcellObject.CreateObject(modelID, key + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, dList);
                     }
                     else
                     {
@@ -1010,7 +1010,7 @@ namespace EcellLib
                             }
                             dList.Add(d);
                         }
-                        sizeObj = EcellObject.CreateObject(modelID, key + ":SIZE", "Variable", "Variable", dList);
+                        sizeObj = EcellObject.CreateObject(modelID, key + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, dList);
                     }
                     else
                     {
@@ -1315,22 +1315,22 @@ namespace EcellLib
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        else if (m_currentObj.type.Equals("System") && Util.IsNGforSystemFullID(c.Text))
+                        else if (m_currentObj.type.Equals(EcellObject.SYSTEM) && Util.IsNGforSystemFullID(c.Text))
                         {
                             String errmes = m_resources.GetString("ErrInvalidID");
                             MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        else if (!m_currentObj.type.Equals("System") && Util.IsNGforComponentFullID(c.Text))
+                        else if (!m_currentObj.type.Equals(EcellObject.SYSTEM) && Util.IsNGforComponentFullID(c.Text))
                         {
                             String errmes = m_resources.GetString("ErrInvalidID");
                             MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        else if (m_currentObj.type.Equals("Process") ||
-                                    m_currentObj.type.Equals("Variable"))
+                        else if (m_currentObj.type.Equals(EcellObject.PROCESS) ||
+                                    m_currentObj.type.Equals(EcellObject.VARIABLE))
                         {
                             int kpos = c.Text.IndexOf(':');
                             if (kpos < 0 || kpos == c.Text.Length - 1)
@@ -1409,7 +1409,7 @@ namespace EcellLib
                                     }
                                 }
                                 EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID,
-                                    m_currentObj.key + ":SIZE", "Variable", "Variable", dlist);
+                                    m_currentObj.key + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, dlist);
                                 List<EcellObject> rList = new List<EcellObject>();
                                 rList.Add(obj);
                                 m_dManager.DataAdd(rList);

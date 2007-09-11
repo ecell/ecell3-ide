@@ -50,6 +50,21 @@ namespace EcellLib
     /// </summary>
     public class EcellObject
     {
+        #region Constant
+        /// <summary>
+        /// Type string of "Process".
+        /// </summary>
+        public const string PROCESS = "Process";
+        /// <summary>
+        /// Type string of "System".
+        /// </summary>
+        public const string SYSTEM = "System";
+        /// <summary>
+        /// Type string of "Variable".
+        /// </summary>
+        public const string VARIABLE = "Variable";
+        #endregion
+
         #region Fields
         /// <summary>
         /// The class
@@ -98,7 +113,7 @@ namespace EcellLib
         /// <summary>
         /// The value
         /// </summary>
-        protected List<EcellData> m_value;
+        protected List<EcellData> m_ecellDatas;
         /// <summary>
         /// The children of this
         /// </summary>
@@ -132,7 +147,7 @@ namespace EcellLib
             this.m_key = l_key;
             this.m_type = l_type;
             this.m_class = l_class;
-            this.m_value = l_data;
+            this.m_ecellDatas = l_data;
         }
         #endregion
 
@@ -161,6 +176,31 @@ namespace EcellLib
         public string parentSystemID
         {
             get { return GetParentSystemId(key); }
+        }
+
+        /// <summary>
+        /// get text.
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                if (key == null || key.Equals("/"))
+                    return "/";
+                else if (key.Contains(":"))
+                    return key.Substring(key.LastIndexOf(":") + 1 );
+                else
+                    return key.Substring(key.LastIndexOf("/") + 1);
+            }
+            set
+            {
+                if (key == null || key.Equals("/"))
+                    this.m_key = "/";
+                else if (key.Contains(":"))
+                    this.m_key = parentSystemID + ":" + value;
+                else
+                    this.m_key = parentSystemID + "/" + value;
+            }
         }
 
         /// <summary>
@@ -277,7 +317,7 @@ namespace EcellLib
         [Browsable(false)]
         public List<EcellData> M_value
         {
-            get { return m_value; }
+            get { return m_ecellDatas; }
             // set { this.m_value = value; }
         }
 
@@ -310,12 +350,12 @@ namespace EcellLib
             try
             {
                 List<EcellData> l_copyValueList = null;
-                if (this.m_value != null)
+                if (this.m_ecellDatas != null)
                 {
                     l_copyValueList = new List<EcellData>();
-                    if (this.m_value.Count > 0)
+                    if (this.m_ecellDatas.Count > 0)
                     {
-                        foreach (EcellData l_value in this.m_value)
+                        foreach (EcellData l_value in this.m_ecellDatas)
                         {
                             l_copyValueList.Add(l_value.Copy());
                         }
@@ -428,7 +468,7 @@ namespace EcellLib
         /// <param name="d">EcellData.</param>
         public void AddValue(EcellData d)
         {
-            this.m_value.Add(d);
+            this.m_ecellDatas.Add(d);
             this.DistributeValue(d);
         }
 
@@ -444,9 +484,9 @@ namespace EcellLib
         /// Set value from the list of EcellData.
         /// </summary>
         /// <param name="list">the list of EcellData.</param>
-        public void SetValue(List<EcellData> list)
+        public void SetEcellDatas(List<EcellData> list)
         {
-            this.m_value = list;
+            this.m_ecellDatas = list;
 
             if (list == null) return;
             foreach (EcellData d in list)
@@ -1407,7 +1447,7 @@ namespace EcellLib
             this.key = l_key;
             this.type = l_type;
             this.classname = l_class;
-            this.SetValue(l_data);
+            this.SetEcellDatas(l_data);
         }
         #endregion
 
@@ -1486,7 +1526,7 @@ namespace EcellLib
             this.key = l_key;
             this.type = l_type;
             this.classname = l_class;
-            this.SetValue(l_data);
+            this.SetEcellDatas(l_data);
         }
         #endregion
 
@@ -1594,7 +1634,7 @@ namespace EcellLib
             this.key = l_key;
             this.type = l_type;
             this.classname = l_class;
-            this.m_value = l_data;
+            this.m_ecellDatas = l_data;
         }
         #endregion
     }
@@ -1706,7 +1746,7 @@ namespace EcellLib
             this.key = l_key;
             this.type = l_type;
             this.classname = l_class;
-            this.SetValue(l_data);
+            this.SetEcellDatas(l_data);
         }
 
         /// <summary>

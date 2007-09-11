@@ -708,7 +708,6 @@ namespace EcellLib
 
         static public string ConvertSystemEntityPath(string key, string prop)
         {
-            string result = "";
             string dir = "";
             string id = "";
 
