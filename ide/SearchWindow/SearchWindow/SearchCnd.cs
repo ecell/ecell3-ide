@@ -124,7 +124,7 @@ namespace EcellLib.SearchWindow
                     }
                     else
                     {
-                        EcellValue value = obj.GetEcellValue("Name").ToString();
+                        EcellValue value = obj.GetEcellValue("Name");
                         if (value != null && value.ToString().Contains(searchId))
                             dgv.Rows.Add(new Object[] { obj.key, value.ToString(), model, obj.type });
                     }

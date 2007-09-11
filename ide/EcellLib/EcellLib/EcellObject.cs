@@ -349,45 +349,54 @@ namespace EcellLib
         {
             try
             {
-                List<EcellData> l_copyValueList = null;
-                if (this.m_ecellDatas != null)
-                {
-                    l_copyValueList = new List<EcellData>();
-                    if (this.m_ecellDatas.Count > 0)
-                    {
-                        foreach (EcellData l_value in this.m_ecellDatas)
-                        {
-                            l_copyValueList.Add(l_value.Copy());
-                        }
-                    }
-                }
-                List<EcellObject> l_copyInstancesList = null;
-                if (this.m_instances != null)
-                {
-                    l_copyInstancesList = new List<EcellObject>();
-                    if (this.m_instances.Count > 0)
-                    {
-                        foreach (EcellObject l_ecellObject in this.m_instances)
-                        {
-                            l_copyInstancesList.Add(l_ecellObject.Copy());
-                        }
-                    }
-                }
                 EcellObject l_newEcellObject =
-                    CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, l_copyValueList);
+                    CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, this.CopyValueList());
                 l_newEcellObject.X = this.m_x;
                 l_newEcellObject.Y = this.m_y;
                 l_newEcellObject.OffsetX = this.m_offsetX;
                 l_newEcellObject.OffsetY = this.m_offsetY;
                 l_newEcellObject.Width = this.m_width;
                 l_newEcellObject.Height = this.m_height;
-                l_newEcellObject.M_instances = l_copyInstancesList;
+                l_newEcellObject.M_instances = this.CopyInstancesList();
                 return l_newEcellObject;
             }
             catch (Exception l_ex)
             {
                 throw new Exception("Can't copy the \"EcellObject\". {" + l_ex.ToString() + "}");
             }
+        }
+
+        private List<EcellData> CopyValueList()
+        {
+            List<EcellData> l_copyValueList = null;
+            if (this.m_ecellDatas != null)
+            {
+                l_copyValueList = new List<EcellData>();
+                if (this.m_ecellDatas.Count > 0)
+                {
+                    foreach (EcellData l_value in this.m_ecellDatas)
+                    {
+                        l_copyValueList.Add(l_value.Copy());
+                    }
+                }
+            }
+            return l_copyValueList;
+        }
+        private List<EcellObject> CopyInstancesList()
+        {
+            List<EcellObject> l_copyInstancesList = null;
+            if (this.m_instances != null)
+            {
+                l_copyInstancesList = new List<EcellObject>();
+                if (this.m_instances.Count > 0)
+                {
+                    foreach (EcellObject l_ecellObject in this.m_instances)
+                    {
+                        l_copyInstancesList.Add(l_ecellObject.Copy());
+                    }
+                }
+            }
+            return l_copyInstancesList;
         }
         /// <summary>
         /// get parent system ID.
@@ -436,16 +445,14 @@ namespace EcellLib
         public static EcellObject CreateObject(string l_modelID, string l_key,
             string l_type, string l_class, List<EcellData> l_data)
         {
-            /*
-            EcellObject obj = null;
-            string ecellstr = "EcellLib." + l_class;
-            Type ecellType = Type.GetType(ecellstr);
-            obj = (EcellObject)ecellType.InvokeMember(
-                null, System.Reflection.BindingFlags.CreateInstance, 
-                null, null, new object[] { l_modelID, l_key, l_type, l_class, l_data });
-            return obj;
-             */
-            return new EcellObject(l_modelID, l_key, l_type, l_class, l_data);
+            if (PROCESS.Equals(l_type) )
+                return new EcellProcess(l_modelID, l_key, l_type, l_class, l_data);
+            else if (VARIABLE.Equals(l_type))
+                return new EcellVariable(l_modelID, l_key, l_type, l_class, l_data);
+            else if (SYSTEM.Equals(l_type))
+                return new EcellSystem(l_modelID, l_key, l_type, l_class, l_data);
+            else
+                return new EcellObject(l_modelID, l_key, l_type, l_class, l_data);
         }
 
         /// <summary>
@@ -1664,6 +1671,26 @@ namespace EcellLib
         private string m_stepperID;
         private List<EcellReference> m_refList;
         #endregion
+        
+        #region Constractors
+        /// <summary>
+        /// Constructor with initial parameter.
+        /// </summary>
+        /// <param name="l_modelID">model ID.</param>
+        /// <param name="l_key">key.</param>
+        /// <param name="l_type">type(="Variable").</param>
+        /// <param name="l_class">class name.</param>
+        /// <param name="l_data">properties.</param>
+        public EcellProcess(string l_modelID, string l_key,
+            string l_type, string l_class, List<EcellData> l_data)
+        {
+            this.modelID = l_modelID;
+            this.key = l_key;
+            this.type = l_type;
+            this.classname = l_class;
+            this.SetEcellDatas(l_data);
+        }
+        #endregion
 
         #region Accessors
         /// <summary>
@@ -1731,24 +1758,6 @@ namespace EcellLib
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Constructor with initial parameter.
-        /// </summary>
-        /// <param name="l_modelID">modelID</param>
-        /// <param name="l_key">key</param>
-        /// <param name="l_type">type(="Process")</param>
-        /// <param name="l_class">class name</param>
-        /// <param name="l_data">parameter</param>
-        public EcellProcess(string l_modelID, string l_key,
-            string l_type, string l_class, List<EcellData> l_data)
-        {
-            this.modelID = l_modelID;
-            this.key = l_key;
-            this.type = l_type;
-            this.classname = l_class;
-            this.SetEcellDatas(l_data);
-        }
-
         /// <summary>
         /// Distribute the property to member.
         /// </summary>

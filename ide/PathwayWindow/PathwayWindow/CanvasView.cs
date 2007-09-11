@@ -3952,7 +3952,8 @@ namespace EcellLib.PathwayWindow
                 r += 1f;
                 newPos = new PointF(obj.X + r * (float)Math.Cos(rad * r), obj.Y + r * (float)Math.Sin(rad * r));
                 // Check 
-                if (DoesSystemContainAPoint(sys.key, newPos) && DoesSystemContainAPoint(sys.key, new PointF(newPos.X + PPathwayNode.Width / 2, newPos.Y + PPathwayNode.Height / 2)))
+                if (DoesSystemContainAPoint(sys.key, newPos)
+                    && DoesSystemContainAPoint(sys.key, new PointF(newPos.X + PPathwayNode.DefaultWidth / 2, newPos.Y + PPathwayNode.DefaultHeight / 2)))
                 {
                     obj.SetPosition(newPos.X, newPos.Y);
                     break;

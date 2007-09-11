@@ -123,6 +123,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
     <None Include="Resources\find.png" />
   </ItemGroup>
