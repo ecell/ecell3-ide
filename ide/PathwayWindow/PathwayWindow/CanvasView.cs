@@ -1348,11 +1348,43 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        void PEcellSystem_MouseUpNew(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
+        {
+            if (m_selectedSystemName == null)
+                return;
+            // Get selected system
+            PEcellSystem system = m_systems[m_selectedSystemName].EcellSystems[0];
+            
+            // If selected system overlaps another one, cancel change.
+            if (this.DoesSystemOverlaps(system.GlobalBounds, system.Element.Key))
+            {
+                system.ReturnToMemorizedPosition();
+                this.ValidateSystem(system);
+                system.Reset();
+                return;
+            }
+
+            // Change contained system
+
+            // Change uncontained system
+
+            // Check each node and change parent system
+
+        }
+
+        /// <summary>
+        /// Called when the mouse is up on one of resize handles for a system.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void PEcellSystem_MouseUp(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             if (m_selectedSystemName == null)
                 return;
+            // Get selected system
             PEcellSystem system = m_systems[m_selectedSystemName].EcellSystems[0];
+
+            // If selected system overlaps another, reset system region.
             if (this.DoesSystemOverlaps(system.GlobalBounds, system.Element.Key))
             {
                 foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
@@ -1499,15 +1531,13 @@ namespace EcellLib.PathwayWindow
                         {
                             String data = sp[1] + ":" + sp[2];
                             PPathwayObject p = system.ParentObject;
-                            String newkey = ((PEcellSystem)p).Element.Key + ":" + sp[2];
-                            ComponentType ct;
-                            if (key.StartsWith("Process"))
-                                ct = ComponentType.Process;
-                            else
-                                ct = ComponentType.Variable;
-                            if (m_pathwayView.HasObject(ct, newkey))
+                            if (p != null)
+                            {
+                                String newkey = ((PEcellSystem)p).Element.Key + ":" + sp[2];
+                                ComponentType ct = ComponentSetting.ParseComponentKind(sp[0]);
+                                if (m_pathwayView.HasObject(ct, newkey))
                                 isDuplicate = true;
-                            
+                            }
                         }
 
                         if (isDuplicate)
