@@ -123,7 +123,13 @@
   <data name="VSCloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>
-  <data name="VSSelectButton.Text" xml:space="preserve">
-    <value>選択</value>
+  <data name="VSConstantButton.Text" xml:space="preserve">
+    <value>参照データ</value>
+  </data>
+  <data name="VSProductButton.Text" xml:space="preserve">
+    <value>生成データ</value>
+  </data>
+  <data name="VSSourceButton.Text" xml:space="preserve">
+    <value>基質データ</value>
   </data>
 </root>

@@ -37,8 +37,10 @@
             this.selectTree = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.VSSelectButton = new System.Windows.Forms.Button();
+            this.VSProductButton = new System.Windows.Forms.Button();
             this.VSCloseButton = new System.Windows.Forms.Button();
+            this.VSSourceButton = new System.Windows.Forms.Button();
+            this.VSConstantButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -69,15 +71,17 @@
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.VSSelectButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.VSCloseButton, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VSProductButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VSCloseButton, 4, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VSSourceButton, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VSConstantButton, 3, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
-            // VSSelectButton
+            // VSProductButton
             // 
-            resources.ApplyResources(this.VSSelectButton, "VSSelectButton");
-            this.VSSelectButton.Name = "VSSelectButton";
-            this.VSSelectButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.VSProductButton, "VSProductButton");
+            this.VSProductButton.Name = "VSProductButton";
+            this.VSProductButton.UseVisualStyleBackColor = true;
             // 
             // VSCloseButton
             // 
@@ -86,12 +90,22 @@
             this.VSCloseButton.Name = "VSCloseButton";
             this.VSCloseButton.UseVisualStyleBackColor = true;
             // 
+            // VSSourceButton
+            // 
+            resources.ApplyResources(this.VSSourceButton, "VSSourceButton");
+            this.VSSourceButton.Name = "VSSourceButton";
+            this.VSSourceButton.UseVisualStyleBackColor = true;
+            // 
+            // VSConstantButton
+            // 
+            resources.ApplyResources(this.VSConstantButton, "VSConstantButton");
+            this.VSConstantButton.Name = "VSConstantButton";
+            this.VSConstantButton.UseVisualStyleBackColor = true;
+            // 
             // VariableSelectWindow
             // 
-            this.AcceptButton = this.VSSelectButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.VSCloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "VariableSelectWindow";
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -111,11 +125,13 @@
         /// <summary>
         /// Button to select the variable to add to VaribleReferenceList.
         /// </summary>
-        public System.Windows.Forms.Button VSSelectButton;
+        public System.Windows.Forms.Button VSProductButton;
         /// <summary>
         /// Button to close this dialog.
         /// </summary>
         public System.Windows.Forms.Button VSCloseButton;
         private System.Windows.Forms.ImageList imageList1;
+        public System.Windows.Forms.Button VSSourceButton;
+        public System.Windows.Forms.Button VSConstantButton;
     }
 }

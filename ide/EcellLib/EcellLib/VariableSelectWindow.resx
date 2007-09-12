@@ -206,40 +206,40 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>6</value>
   </data>
-  <data name="VSSelectButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="VSProductButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
-  <data name="VSSelectButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 3</value>
+  <data name="VSProductButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 3</value>
   </data>
-  <data name="VSSelectButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="VSProductButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
-  <data name="VSSelectButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="VSProductButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="VSSelectButton.Text" xml:space="preserve">
-    <value>Select</value>
+  <data name="VSProductButton.Text" xml:space="preserve">
+    <value>Product</value>
   </data>
-  <data name="&gt;&gt;VSSelectButton.Name" xml:space="preserve">
-    <value>VSSelectButton</value>
+  <data name="&gt;&gt;VSProductButton.Name" xml:space="preserve">
+    <value>VSProductButton</value>
   </data>
-  <data name="&gt;&gt;VSSelectButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;VSProductButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;VSSelectButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;VSProductButton.Parent" xml:space="preserve">
     <value>tableLayoutPanel2</value>
   </data>
-  <data name="&gt;&gt;VSSelectButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;VSProductButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="VSCloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="VSCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>187, 3</value>
+    <value>262, 3</value>
   </data>
   <data name="VSCloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -261,6 +261,54 @@
   </data>
   <data name="&gt;&gt;VSCloseButton.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="VSSourceButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 3</value>
+  </data>
+  <data name="VSSourceButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 23</value>
+  </data>
+  <data name="VSSourceButton.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="VSSourceButton.Text" xml:space="preserve">
+    <value>Substrate</value>
+  </data>
+  <data name="&gt;&gt;VSSourceButton.Name" xml:space="preserve">
+    <value>VSSourceButton</value>
+  </data>
+  <data name="&gt;&gt;VSSourceButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;VSSourceButton.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;VSSourceButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="VSConstantButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 3</value>
+  </data>
+  <data name="VSConstantButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 23</value>
+  </data>
+  <data name="VSConstantButton.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="VSConstantButton.Text" xml:space="preserve">
+    <value>Constant</value>
+  </data>
+  <data name="&gt;&gt;VSConstantButton.Name" xml:space="preserve">
+    <value>VSConstantButton</value>
+  </data>
+  <data name="&gt;&gt;VSConstantButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;VSConstantButton.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;VSConstantButton.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -290,7 +338,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="VSSelectButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="VSCloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="VSProductButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="VSCloseButton" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="VSSourceButton" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="VSConstantButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,80,Absolute,80,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
