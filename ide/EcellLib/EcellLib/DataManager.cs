@@ -624,7 +624,7 @@ namespace EcellLib
             bool l_changedFlag = false;
             l_dest = l_src.Copy();
             EcellValue l_varList = l_dest.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST);
-            if( l_varList == null || l_varList.CastToString().Length <= 0)
+            if( l_varList == null || l_varList.ToString().Length <= 0)
                 return l_changedFlag;
 
             List<EcellValue> l_changedValue = new List<EcellValue>();
@@ -1450,9 +1450,7 @@ namespace EcellLib
                 //
                 List<EcellObject> l_systemList = this.m_systemDic[this.m_currentProjectID][l_modelID];
                 if (l_systemList == null || l_systemList.Count <= 0)
-                {
                     throw new Exception(m_resources.GetString("ErrFindSystem") +  l_message);
-                }
                 //
                 // Checks the EcellObject
                 //
