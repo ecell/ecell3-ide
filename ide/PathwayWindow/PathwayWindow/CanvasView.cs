@@ -1522,6 +1522,8 @@ namespace EcellLib.PathwayWindow
                             String name = sp[1];
                             sp = sp[1].Split(new char[] { '/' });
                             PPathwayObject p = system.ParentObject;
+                            if (p == null)
+                                continue;
                             String newkey = ((PEcellSystem)p).Element.Key + "/" + sp[sp.Length - 1];
                             if (m_pathwayView.HasObject(ComponentType.System, newkey))
                                 isDuplicate = true;
@@ -1531,13 +1533,12 @@ namespace EcellLib.PathwayWindow
                         {
                             String data = sp[1] + ":" + sp[2];
                             PPathwayObject p = system.ParentObject;
-                            if (p != null)
-                            {
-                                String newkey = ((PEcellSystem)p).Element.Key + ":" + sp[2];
-                                ComponentType ct = ComponentSetting.ParseComponentKind(sp[0]);
-                                if (m_pathwayView.HasObject(ct, newkey))
-                                isDuplicate = true;
-                            }
+                            if (p == null)
+                                continue;
+                            String newkey = ((PEcellSystem)p).Element.Key + ":" + sp[2];
+                            ComponentType ct = ComponentSetting.ParseComponentKind(sp[0]);
+                            if (m_pathwayView.HasObject(ct, newkey))
+                            isDuplicate = true;
                         }
 
                         if (isDuplicate)
