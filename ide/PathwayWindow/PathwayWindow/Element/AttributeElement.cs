@@ -131,6 +131,14 @@ namespace EcellLib.PathwayWindow.Element
             base.m_elementType = PathwayElement.ElementType.Attribute;
             this.m_type = "variable";
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public AttributeElement(EcellObject eo)
+        {
+            base.m_elementType = PathwayElement.ElementType.Attribute;
+            SetObject(eo);
+        }
         #endregion
     }
 }

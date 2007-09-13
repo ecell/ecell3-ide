@@ -2856,7 +2856,7 @@ namespace EcellLib.PathwayWindow
                         obj.Layer = m_layers[layer];
                         system.AddChild(obj);
                         if (obj is PPathwayNode)
-                            ((PPathwayNode)obj).ParentObject = system;
+                            obj.ParentObject = system;
                     }
                 }
             }
@@ -2881,12 +2881,9 @@ namespace EcellLib.PathwayWindow
                     obj.Y = system.Y + ((system.Height > 80) ? 80 : system.Height / 2) - obj.Height;
                     if (obj is PPathwayNode)
                     {
-                        ((PPathwayNode)obj).Element.X = obj.X;
-                        ((PPathwayNode)obj).Element.Y = obj.Y;
+                        obj.Element.X = obj.X;
+                        obj.Element.Y = obj.Y;
                         ((PPathwayNode)obj).RefreshText();
-                    }
-                    else if(obj is PSystem)
-                    {
                     }
                 }
                 

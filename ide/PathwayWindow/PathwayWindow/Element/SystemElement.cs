@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using EcellLib.PathwayWindow;
+using EcellLib.PathwayWindow.Node;
 
 namespace EcellLib.PathwayWindow.Element
 {
@@ -220,6 +221,27 @@ namespace EcellLib.PathwayWindow.Element
             this.m_type = "System";
             m_childNodeNum = 0;
             m_childSystemNum = 0;
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public SystemElement(EcellObject eo)
+        {
+            base.m_elementType = PathwayElement.ElementType.System;
+            SetObject(eo);
+            m_childNodeNum = 0;
+            m_childSystemNum = 0;
+            if (eo.IsPosSet)
+            {
+                Width = eo.Width;
+                Height = eo.Height;
+            }
+            else
+            {
+                Width = PEcellSystem.DEFAULT_WIDTH;
+                Height = PEcellSystem.DEFAULT_HEIGHT;
+            }
+
         }
         #endregion
         

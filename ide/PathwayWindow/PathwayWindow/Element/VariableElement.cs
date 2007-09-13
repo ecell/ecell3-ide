@@ -46,5 +46,13 @@ namespace EcellLib.PathwayWindow.Element
         {
             base.Element = ElementType.Variable;
         }
+        /// <summary>
+        /// A constructor.
+        /// </summary>
+        public VariableElement(EcellObject eo)
+        {
+            base.Element = ElementType.Variable;
+            this.SetObject(eo);
+        }
     }
 }

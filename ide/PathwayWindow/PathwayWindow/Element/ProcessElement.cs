@@ -123,6 +123,15 @@ namespace EcellLib.PathwayWindow.Element
         {
             base.Element = ElementType.Process;
         }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ProcessElement(EcellObject eo)
+        {
+            base.Element = ElementType.Process;
+            SetObject(eo);
+            SetEdgesByEcellValue(eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST));
+        }
         #endregion
 
         #region Methods

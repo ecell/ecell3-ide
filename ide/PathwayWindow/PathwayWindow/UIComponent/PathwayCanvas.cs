@@ -275,7 +275,6 @@ namespace EcellLib.PathwayWindow.UIComponent
 
                 }
             }
-            m_cview.ClickedNode = null;
         }
 
         private void setMenuLogger(PPathwayObject obj)

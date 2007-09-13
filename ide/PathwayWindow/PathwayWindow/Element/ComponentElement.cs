@@ -234,5 +234,34 @@ namespace EcellLib.PathwayWindow.Element
         }
         #endregion
 
+        #region Constractors
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ComponentElement()
+        {
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ComponentElement(EcellObject eo)
+        {
+            SetObject(eo);
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Set EcellObject Data.
+        /// </summary>
+        protected void SetObject(EcellObject eo)
+        {
+            this.ModelID = eo.modelID;
+            this.Key = eo.key;
+            this.X = eo.X;
+            this.Y = eo.Y;
+            this.Type = eo.type;
+        }
+        #endregion
     }
 }

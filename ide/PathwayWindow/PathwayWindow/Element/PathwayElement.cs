@@ -45,12 +45,13 @@ namespace EcellLib.PathwayWindow.Element
     [Serializable]
     public abstract class PathwayElement
     {
-        #region Fields
+        #region Enums
         /// <summary>
         /// Type of element.
         /// In constructor of subclasses, one of this type will be set to m_elementType.
         /// </summary>
-        public enum ElementType {
+        public enum ElementType
+        {
             /// <summary>
             /// type of pathway canvas
             /// </summary>
@@ -66,7 +67,7 @@ namespace EcellLib.PathwayWindow.Element
             /// <summary>
             /// type of variable
             /// </summary>
-            Variable, 
+            Variable,
             /// <summary>
             /// type of process
             /// </summary>
@@ -74,8 +75,11 @@ namespace EcellLib.PathwayWindow.Element
             /// <summary>
             /// type of attribute
             /// </summary>
-            Attribute };
+            Attribute
+        };
+        #endregion
 
+        #region Fields
         /// <summary>
         /// Type of element for this instance.
         /// </summary>

@@ -49,61 +49,23 @@ namespace EcellLib.PathwayWindow.Node
     /// </summary>
     public abstract class PPathwayObject : PNode
     {
-        #region Abstract Methods
+        #region Enums
         /// <summary>
-        /// Delete
+        /// Represents the types of picking modes for a PProcess object.
         /// </summary>
-        public abstract void Delete();
-        /// <summary>
-        /// Highlighted
-        /// </summary>
-        /// <param name="highlight"></param>
-        /// <returns></returns>
-        public abstract bool HighLighted(bool highlight);
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        public abstract void Initialize();
-        /// <summary>
-        /// DataChanged
-        /// </summary>
-        /// <param name="ecellObj"></param>
-        public abstract void DataChanged(EcellObject ecellObj);
-        /// <summary>
-        /// DataDeleted
-        /// </summary>
-        public abstract void DataDeleted();
-        /// <summary>
-        /// SelectChanged
-        /// </summary>
-        public abstract void SelectChanged();
-        /// <summary>
-        /// Start
-        /// </summary>
-        public abstract void Start();
-        /// <summary>
-        /// Change
-        /// </summary>
-        public abstract void Change();
-        /// <summary>
-        /// Stop
-        /// </summary>
-        public abstract void Stop();
-        /// <summary>
-        /// End
-        /// </summary>
-        public abstract void End();
-        /// <summary>
-        /// Get a list of PathwayElement of this instance and children below this instance.
-        /// </summary>
-        /// <returns></returns>
-        public abstract List<PathwayElement> GetElements();
+        public enum PathPickMode
+        {
+            /// <summary>
+            /// Faster Picking.  Paths are picked in local coordinates.
+            /// </summary>
+            Fast,
 
-        /// <summary>
-        /// Create new instance of this object.
-        /// </summary>
-        /// <returns></returns>
-        public abstract PPathwayObject CreateNewObject();
+            /// <summary>
+            /// Slower and more accurate picking.  Paths are picked in canvas
+            /// coordinates.
+            /// </summary>
+            Accurate
+        }
         #endregion
 
         #region Fields
@@ -445,25 +407,74 @@ namespace EcellLib.PathwayWindow.Node
         }
         #endregion
 
-        #region Enums
+        #region Constructor
         /// <summary>
-        /// Represents the types of picking modes for a PProcess object.
+        /// Constructor
         /// </summary>
-        public enum PathPickMode
+        public PPathwayObject()
         {
-            /// <summary>
-            /// Faster Picking.  Paths are picked in local coordinates.
-            /// </summary>
-            Fast,
-
-            /// <summary>
-            /// Slower and more accurate picking.  Paths are picked in canvas
-            /// coordinates.
-            /// </summary>
-            Accurate
+            pen = DEFAULT_PEN;
+            path = new GraphicsPath();
         }
         #endregion
-        
+
+        #region Abstract Methods
+        /// <summary>
+        /// Delete
+        /// </summary>
+        public abstract void Delete();
+        /// <summary>
+        /// Highlighted
+        /// </summary>
+        /// <param name="highlight"></param>
+        /// <returns></returns>
+        public abstract bool HighLighted(bool highlight);
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        public abstract void Initialize();
+        /// <summary>
+        /// DataChanged
+        /// </summary>
+        /// <param name="ecellObj"></param>
+        public abstract void DataChanged(EcellObject ecellObj);
+        /// <summary>
+        /// DataDeleted
+        /// </summary>
+        public abstract void DataDeleted();
+        /// <summary>
+        /// SelectChanged
+        /// </summary>
+        public abstract void SelectChanged();
+        /// <summary>
+        /// Start
+        /// </summary>
+        public abstract void Start();
+        /// <summary>
+        /// Change
+        /// </summary>
+        public abstract void Change();
+        /// <summary>
+        /// Stop
+        /// </summary>
+        public abstract void Stop();
+        /// <summary>
+        /// End
+        /// </summary>
+        public abstract void End();
+        /// <summary>
+        /// Get a list of PathwayElement of this instance and children below this instance.
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<PathwayElement> GetElements();
+
+        /// <summary>
+        /// Create new instance of this object.
+        /// </summary>
+        /// <returns></returns>
+        public abstract PPathwayObject CreateNewObject();
+        #endregion
+
         #region Pen
         //****************************************************************
         // Pen - Methods for changing the pen used when rendering the
@@ -747,17 +758,6 @@ namespace EcellLib.PathwayWindow.Node
                 }
             }
             updatingBoundsFromPath = false;
-        }
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public PPathwayObject()
-        {
-            pen = DEFAULT_PEN;
-            path = new GraphicsPath();
         }
         #endregion
         
@@ -1079,6 +1079,7 @@ namespace EcellLib.PathwayWindow.Node
             this.Pickable = m_isPickableBeforeFreeze;
         }
         #endregion
+
         #region Serialization
         //****************************************************************
         // Serialization - Nodes conditionally serialize their parent.

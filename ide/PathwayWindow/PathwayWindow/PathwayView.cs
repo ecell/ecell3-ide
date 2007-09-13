@@ -748,17 +748,17 @@ namespace EcellLib.PathwayWindow
             bool isAnchor,
             string valueStr)
         {
+            // Error check.
+            if (eo == null)
+                throw new PathwayException(m_resources.GetString("ErrAddObjNot"));
             if (string.IsNullOrEmpty(eo.key))
                 throw new PathwayException(m_resources.GetString("ErrKeyNot"));
-
             if (!RegisterObj(cType, eo.key, canvasName))
                 return;
 
+            // If eo is not registered.
             if (needToNotify)
             {
-                if (eo == null)
-                    throw new PathwayException(m_resources.GetString("ErrAddObjNot"));
-
                 try
                 {
                     NotifyDataAdd(eo, isAnchor);
@@ -776,62 +776,41 @@ namespace EcellLib.PathwayWindow
                 }
             }
 
-            if (cs == null )
-                cs = GetComponentSetting(cType);
+            // Set Element
             ComponentElement element = null;
             string type = null;
             switch (cType)
             {
                 case ComponentType.Variable:
-                    type = VARIABLE_STRING;
                     if (eo.key.EndsWith(":SIZE"))
                     {
-                        element = new AttributeElement();
+                        element = new AttributeElement(eo);
                         if (!needToNotify)
                         {
                             if (null == valueStr)
-                                ((AttributeElement)element).Value = GetEcellData(eo.key, type, "Value");
+                                ((AttributeElement)element).Value = eo.GetEcellValue("Value").ToString();
                             else
                                 ((AttributeElement)element).Value = valueStr;
                         }
                     }
                     else
                     {
-                        element = new VariableElement();
-                        type = VARIABLE_STRING;
+                        element = new VariableElement(eo);
                     }
                     break;
 
                 case ComponentType.Process:
-                    element = new ProcessElement();
-                    type = PROCESS_STRING;
-                    ((ProcessElement)element).SetEdgesByEcellValue(eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST));
+                    element = new ProcessElement(eo);
                     break;
 
                 case ComponentType.System:
-                    element = new SystemElement();
-                    type = SYSTEM_STRING;
-                    if (eo.IsPosSet)
-                    {
-                        ((SystemElement)element).Width = eo.Width;
-                        ((SystemElement)element).Height = eo.Height;
-                    }
-                    else
-                    {
-                        ((SystemElement)element).Width = PEcellSystem.DEFAULT_WIDTH;
-                        ((SystemElement)element).Height = PEcellSystem.DEFAULT_HEIGHT;
-                    }
-
+                    element = new SystemElement(eo);
                     break;
             }
-
-            element.ModelID = eo.modelID;
-            element.Key = eo.key;
             element.CanvasID = canvasName;
-            element.X = eo.X;
-            element.Y = eo.Y;
-            element.Type = type;
 
+            if (cs == null)
+                cs = GetComponentSetting(cType);
             if (!string.IsNullOrEmpty(canvasName) && m_canvasDict.ContainsKey(canvasName))
             {
                 if (element is AttributeElement)
@@ -2861,8 +2840,8 @@ namespace EcellLib.PathwayWindow
             if (line != null)
             {
                 NotifyVariableReferenceChanged(
-                    ((Line)line).Info.ProcessKey,
-                    ((Line)line).Info.VariableKey,
+                    line.Info.ProcessKey,
+                    line.Info.VariableKey,
                     RefChangeType.Delete,
                     0);
                 ActiveCanvas.ResetSelectedLine();
