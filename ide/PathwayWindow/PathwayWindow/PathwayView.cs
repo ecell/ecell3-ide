@@ -2812,8 +2812,8 @@ namespace EcellLib.PathwayWindow
                     eo.SetPosition( eo.X + diff.X, eo.Y + diff.Y);
 
                     // Check Position
-                    if (!ActiveCanvas.DoesSystemContainAPoint(sys.key, new PointF(eo.X, eo.Y))
-                        && !ActiveCanvas.DoesSystemContainAPoint(sys.key, new PointF(eo.X + PPathwayNode.DefaultWidth / 2, eo.Y + PPathwayNode.DefaultHeight / 2)))
+                    if (!ActiveCanvas.DoesSystemContainAPoint(sys.key, new PointF(eo.X, eo.Y) )
+                        || !ActiveCanvas.DoesSystemContainAPoint(sys.key, new PointF(eo.X + PPathwayNode.DefaultWidth / 2, eo.Y + PPathwayNode.DefaultHeight / 2)))
                         ActiveCanvas.SetVacantPoint(sys, eo);
 
                     copiedNodes.Add(eo);
@@ -2856,11 +2856,18 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void DeleteClick(object sender, EventArgs e)
         {
-            /* 20070629 delete by sachiboo. 
-                        //PPathwayObject obj = (PPathwayObject)ClickedNode;
-            */
-
-
+            // Delete Selected Line
+            Line line = (Line)ActiveCanvas.SelectedLine;
+            if (line != null)
+            {
+                NotifyVariableReferenceChanged(
+                    ((Line)line).Info.ProcessKey,
+                    ((Line)line).Info.VariableKey,
+                    RefChangeType.Delete,
+                    0);
+                ActiveCanvas.ResetSelectedLine();
+            }
+            // Delete Selected Nodes
             if (this.ActiveCanvas.SelectedNodes != null)
             {
                 List<PPathwayNode> slist = new List<PPathwayNode>();
@@ -2888,13 +2895,14 @@ namespace EcellLib.PathwayWindow
                         deleteNode.Parent.RemoveChild(deleteNode);
                 }
             }
-            Object obj = ((ToolStripItem)sender).Tag;
-            if (obj is PEcellSystem)
+            // Delete Selected System
+            if (ActiveCanvas.SelectedSystemName != null)
             {
-                PEcellSystem deleteSystem = (PEcellSystem)obj;
-                if (string.IsNullOrEmpty(deleteSystem.Name))
+                PEcellSystem sys = (PEcellSystem)ActiveCanvas.Systems[ActiveCanvas.SelectedSystemName].EcellSystems[0];
+                // Return if sys is null or root sys.
+                if (string.IsNullOrEmpty(sys.Name))
                     return;
-                if (deleteSystem.Name.Equals("/"))
+                if (sys.Name.Equals("/"))
                 {
                     MessageBox.Show(m_resources.GetString("ErrDelRoot"),
                                     "Error",
@@ -2902,28 +2910,17 @@ namespace EcellLib.PathwayWindow
                                     MessageBoxIcon.Error);
                     return;
                 }
+                // Delete sys.
                 try
                 {
-                    NotifyDataDelete(deleteSystem.Element.Key, ComponentType.System, true);
+                    NotifyDataDelete(sys.Element.Key, ComponentType.System, true);
                 }
                 catch (IgnoreException)
                 {
                     return;
                 }
-                if (deleteSystem.IsHighLighted)
-                    ActiveCanvas.ResetSelectedSystem();
-
+                ActiveCanvas.ResetSelectedSystem();
             }
-            else if (obj is Line)
-            {
-                NotifyVariableReferenceChanged(
-                    ((Line)obj).Info.ProcessKey,
-                    ((Line)obj).Info.VariableKey,
-                    RefChangeType.Delete,
-                    0);
-                ActiveCanvas.ResetSelectedLine();
-            }
-            ((ToolStripMenuItem)sender).Tag = null;
         }
         #endregion
     }

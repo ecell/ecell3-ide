@@ -520,6 +520,22 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Accessor for m_selectedNodes.
+        /// </summary>
+        public PNode SelectedLine
+        {
+            get { return m_selectedLine; }
+        }
+
+        /// <summary>
+        /// Accessor for m_selectedNodes.
+        /// </summary>
+        public string SelectedSystemName
+        {
+            get { return m_selectedSystemName; }
+        }
+
+        /// <summary>
         /// Accessor for m_overviewCanvas.
         /// </summary>
         public PCanvas OverviewCanvas
@@ -3967,7 +3983,7 @@ namespace EcellLib.PathwayWindow
                     ans = false;
             return ans;
         }
-        
+
         /// <summary>
         /// Return nearest vacant point of EcellSystem.
         /// </summary>
