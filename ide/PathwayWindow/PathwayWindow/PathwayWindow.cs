@@ -913,7 +913,9 @@ namespace EcellLib.PathwayWindow
                 // Change system data.
                 if(ct == ComponentType.System)
                 {
-                    if(data.IsPosSet)
+                    //m_view.DataDelete(key, data.type);
+                    //m_view.AddNewObj(m_defCanvasId, data.parentSystemID, ComponentType.System, null, data, false, true, null);
+                    if (data.IsPosSet)
                     {
                         m_view.DataChanged(key, data, ComponentType.System);
                     }
@@ -930,7 +932,6 @@ namespace EcellLib.PathwayWindow
                             {
                                 valueStr = ((AttributeElement)m_view.GetElement(ComponentType.Variable, uk.Key)).Value;
                             }
-                            m_view.DataDelete(uk.Key, uk.Type);
                             string newKey = PathUtil.GetMovedKey(uk.Key, key, data.key);
                             m_view.AddNewObj(m_defCanvasId, PathUtil.GetParentSystemId(newKey), uk.Type, null, modelID, newKey, false, 0, 0, 0, 0, false, true, null, valueStr, true);                            
                         }

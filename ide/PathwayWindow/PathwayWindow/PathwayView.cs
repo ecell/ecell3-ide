@@ -778,7 +778,6 @@ namespace EcellLib.PathwayWindow
 
             // Set Element
             ComponentElement element = null;
-            string type = null;
             switch (cType)
             {
                 case ComponentType.Variable:
@@ -1403,35 +1402,35 @@ namespace EcellLib.PathwayWindow
                 case ComponentType.System:
                     if (!m_keySysCanvasDict.ContainsKey(key))
                         return;
-                    m_canvasDict[m_keySysCanvasDict[key]].DataChanged(key, data, type);
                     if (data.key != null && !key.Equals(data.key))
                     {
                         string canvasId = m_keySysCanvasDict[key];
                         m_keySysCanvasDict.Remove(key);
                         m_keySysCanvasDict.Add(data.key, canvasId);
                     }
+                    m_canvasDict[m_keySysCanvasDict[data.key]].DataChanged(key, data, type);
                     break;
                 case ComponentType.Variable:
                     if (!m_keyVarCanvasDict.ContainsKey(key))
                         return;
-                    m_canvasDict[m_keyVarCanvasDict[key]].DataChanged(key, data, type);
                     if(data.key != null && !key.Equals(data.key))
                     {
                         string canvasId = m_keyVarCanvasDict[key];
                         m_keyVarCanvasDict.Remove(key);
                         m_keyVarCanvasDict.Add(data.key, canvasId);
+                        m_canvasDict[m_keyVarCanvasDict[data.key]].DataChanged(key, data, type);
                     }
                     break;
                 case ComponentType.Process:
                     if (!m_keyProCanvasDict.ContainsKey(key))
                         return;
-                    m_canvasDict[m_keyProCanvasDict[key]].DataChanged(key, data, type);
                     if(data.key != null && !key.Equals(data.key))
                     {
                         string canvasId = m_keyProCanvasDict[key];
                         m_keyProCanvasDict.Remove(key);
                         m_keyProCanvasDict.Add(data.key, canvasId);
                     }
+                    m_canvasDict[m_keyProCanvasDict[data.key]].DataChanged(key, data, type);
                     break;
             }
         }

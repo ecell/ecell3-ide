@@ -148,7 +148,7 @@ namespace EcellLib.PathwayWindow
 
                     ComponentSetting cs = m_view.ComponentSettings[m_view.SelectedHandle.CsID];
 
-                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Process, cs, eo.modelID, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, true, eo, null, false);                    
+                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Process, cs, eo, true, true, null);
                 }
                 else
                 {
@@ -165,7 +165,7 @@ namespace EcellLib.PathwayWindow
 
                     ComponentSetting cs = m_view.ComponentSettings[m_view.SelectedHandle.CsID];
 
-                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Variable, cs, eo.modelID, eo.key, true, m_downPos.X, m_downPos.Y, 0, 0, true, true, eo, null, false);
+                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Variable, cs, eo, true, true, null);
                 }
             }
         }
