@@ -57,7 +57,12 @@ namespace EcellLib.AlignLayout
             /// <summary>
             /// Align horizontally at lower side.
             /// </summary>
-            Lower }
+            Lower
+        }
+        /// <summary>
+        /// Execute layout
+        /// </summary>
+        private ComponentResourceManager m_crm = new ComponentResourceManager(typeof(AlignLayout));
 
         /// <summary>
         /// Execute layout
@@ -67,6 +72,7 @@ namespace EcellLib.AlignLayout
         /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
         /// If layout name itself was clicked, subCommandNum = -1.
         /// </param>
+        /// <param name="subNum">Number of Layout</param>
         /// <param name="layoutSystem">Whether systems should be layouted or not</param>
         /// <param name="systemElements">Systems</param>
         /// <param name="nodeElements">Nodes (Variables, Processes)</param>
@@ -87,25 +93,7 @@ namespace EcellLib.AlignLayout
             if(nodeElements.Count <= 1)
                 return false;
 
-            Alignment align;
-            switch (subNum)
-            {
-                case 0:
-                    align = Alignment.Left;
-                    break;
-                case 1:
-                    align = Alignment.Right;
-                    break;
-                case 2:
-                    align = Alignment.Upper;
-                    break;
-                case 3:
-                    align = Alignment.Lower;
-                    break;
-                default:
-                    align = Alignment.Left;
-                    break;
-            }
+            Alignment align = GetAlignment(subNum);
 
             bool isFirst = true;
             float alignValue = 0; // Set all nodes X or Y to this position
@@ -180,6 +168,55 @@ namespace EcellLib.AlignLayout
         }
 
         /// <summary>
+        /// Execute layout
+        /// </summary>
+        /// <param name="subNum">
+        /// An index of sub command which was clicked on subMenu.
+        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
+        /// If layout name itself was clicked, subCommandNum = -1.
+        /// </param>
+        /// <param name="subNum">Number of Layout</param>
+        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
+        /// <param name="systemList">Systems (can null)</param>
+        /// <param name="nodeList">Nodes (Variables, Processes)</param>
+        /// <returns>Whether layout is completed or aborted</returns>
+        public bool DoLayout(int subNum,
+                             bool layoutSystem,
+                             List<EcellObject> systemList,
+                             List<EcellObject> nodeList)
+        {
+            // Error check.
+            if (nodeList == null || nodeList.Count <= 0)
+                return false;
+
+            // Set Alignment
+            Alignment align = GetAlignment(subNum);
+            // Settle alignValue
+            float alignValue = GetAlignValue(nodeList, align); // Set all nodes X or Y to this position
+
+            // Set x or y coordinate to alignValue
+            foreach (EcellObject node in nodeList)
+            {
+                switch (align)
+                {
+                    case Alignment.Left:
+                        node.X = alignValue;
+                        break;
+                    case Alignment.Right:
+                        node.X = alignValue;
+                        break;
+                    case Alignment.Upper:
+                        node.Y = alignValue;
+                        break;
+                    case Alignment.Lower:
+                        node.Y = alignValue;
+                        break;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
         /// Get LayoutType of this layout
         /// </summary>
         /// <returns>LayoutType of this layout</returns>
@@ -194,8 +231,7 @@ namespace EcellLib.AlignLayout
         /// <returns>menu name of this algorithm</returns>
         public string GetMenuText()
         {
-            ComponentResourceManager crm = new ComponentResourceManager(typeof(AlignLayout));
-            return crm.GetString("MenuItemAlign");
+            return m_crm.GetString("MenuItemAlign");
         }
 
         /// <summary>
@@ -213,8 +249,7 @@ namespace EcellLib.AlignLayout
         /// <returns>tooltip</returns>
         public string GetToolTipText()
         {
-            ComponentResourceManager crm = new ComponentResourceManager(typeof(AlignLayout));
-            return crm.GetString("ToolTip");
+            return m_crm.GetString("ToolTip");
         }
 
         /// <summary>
@@ -223,14 +258,72 @@ namespace EcellLib.AlignLayout
         /// <returns>a list of name of sub commands</returns>
         public List<string> GetSubCommands()
         {
-            ComponentResourceManager crm = new ComponentResourceManager(typeof(AlignLayout));
             List<string> subCommands = new List<string>();
-            subCommands.Add(crm.GetString("MenuItemSubLeft"));
-            subCommands.Add(crm.GetString("MenuItemSubRight"));
-            subCommands.Add(crm.GetString("MenuItemSubUpper"));
-            subCommands.Add(crm.GetString("MenuItemSubLower"));
+            subCommands.Add(m_crm.GetString("MenuItemSubLeft"));
+            subCommands.Add(m_crm.GetString("MenuItemSubRight"));
+            subCommands.Add(m_crm.GetString("MenuItemSubUpper"));
+            subCommands.Add(m_crm.GetString("MenuItemSubLower"));
 
             return subCommands;
         }
+
+        #region Private Methods
+        /// <summary>
+        /// Get aligned value.
+        /// </summary>
+        /// <param name="nodeList">List</param>
+        /// <param name="align">Alignment</param>
+        /// <returns>float</returns>
+        private float GetAlignValue(List<EcellObject> nodeList, Alignment align)
+        {
+            float minX = nodeList[0].X;
+            float maxX = nodeList[0].X;
+            float minY = nodeList[0].Y;
+            float maxY = nodeList[0].Y;
+            foreach (EcellObject node in nodeList)
+            {
+                if (node.X < minX)
+                    minX = node.X;
+                else if (node.X > maxX)
+                    maxX = node.X;
+                if (node.Y < minY)
+                    minY = node.Y;
+                else if (node.Y > maxY)
+                    maxY = node.Y;
+            }
+            switch (align)
+            {
+                case Alignment.Left:
+                default:
+                    return minX;
+                case Alignment.Right:
+                    return maxX;
+                case Alignment.Upper:
+                    return minY;
+                case Alignment.Lower:
+                    return maxY;
+            }
+        }
+
+        /// <summary>
+        /// Get Alignment.
+        /// </summary>
+        /// <param name="subNum">Number of Layout</param>
+        /// <returns>Alignment</returns>
+        private Alignment GetAlignment(int subNum)
+        {
+            switch (subNum)
+            {
+                case 0:default:
+                    return Alignment.Left;
+                case 1:
+                    return Alignment.Right;
+                case 2:
+                    return Alignment.Upper;
+                case 3:
+                    return Alignment.Lower;
+            }
+        }
+        #endregion
     }
 }

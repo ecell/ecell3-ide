@@ -90,6 +90,12 @@
       <LastGenOutput>CircularLayout.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EcellLib\EcellLib\EcellLib.csproj">
+      <Project>{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}</Project>
+      <Name>EcellLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

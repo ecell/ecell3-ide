@@ -1382,6 +1382,24 @@ namespace EcellLib
         /// <summary>
         /// Changes the "EcellObject".
         /// </summary>
+        /// <param name="l_ecellObjectList">The changed "EcellObject"</param>
+        public void DataChanged(List<EcellObject> l_ecellObjectList)
+        {
+            DataChanged(l_ecellObjectList, true, true);
+        }
+        /// <summary>
+        /// Changes the "EcellObject".
+        /// </summary>
+        /// <param name="l_ecellObjectList">The changed "EcellObject"</param>
+        public void DataChanged(List<EcellObject> l_ecellObjectList, bool l_isRecorded, bool l_isAnchor)
+        {
+            foreach (EcellObject obj in l_ecellObjectList)
+                DataChanged(obj.modelID, obj.key, obj.type, obj, l_isRecorded, l_isAnchor);
+        }
+
+        /// <summary>
+        /// Changes the "EcellObject".
+        /// </summary>
         /// <param name="l_modelID">The model ID</param>
         /// <param name="l_key">The key</param>
         /// <param name="l_type">The type of the "EcellObject"</param>

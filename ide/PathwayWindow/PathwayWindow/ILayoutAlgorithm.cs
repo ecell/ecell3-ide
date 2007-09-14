@@ -70,6 +70,22 @@ namespace EcellLib.PathwayWindow
                       bool layoutSystem,
                       List<SystemElement> systemElements,
                       List<NodeElement> nodeElements);
+        /// <summary>
+        /// Execute layout
+        /// </summary>
+        /// <param name="subCommandNum">
+        /// An index of sub command which was clicked on subMenu.
+        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
+        /// If layout name itself was clicked, subCommandNum = -1.
+        /// </param>
+        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
+        /// <param name="systemList">Systems</param>
+        /// <param name="nodeList">Nodes (Variables, Processes)</param>
+        /// <returns>Whether layout is completed or aborted</returns>       
+        bool DoLayout(int subCommandNum,
+                      bool layoutSystem,
+                      List<EcellObject> systemList,
+                      List<EcellObject> nodeList);
 
         /// <summary>
         /// Which LayoutType does this algorithm serves.

@@ -106,6 +106,78 @@ namespace EcellLib.CircularLayout
 
             return true;
         }
+        /// <summary>
+        /// Execute layout
+        /// </summary>
+        /// <param name="subNum">
+        /// An index of sub command which was clicked on subMenu.
+        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
+        /// If layout name itself was clicked, subCommandNum = -1.
+        /// </param>
+        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
+        /// <param name="systemElements">Systems</param>
+        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
+        /// <returns>Whether layout is completed or aborted</returns>
+        public bool DoLayout(int subNum,
+                             bool layoutSystem,
+                             List<EcellObject> systemList,
+                             List<EcellObject> nodeList)
+        {
+            // Error check.
+            if (nodeList == null || nodeList.Count == 2)
+                return false;
+            // Get region.
+            RectangleF rect = GetSurroundingRect(nodeList);
+
+            // Number of layouts to be layouted.
+            int nodeNum = nodeList.Count;
+            // If arguments are invalid, show message and return.
+            if (!Validate(nodeNum, rect))
+                return false;
+
+            // Coordinates of the points on the circle.
+            // circlePoints[0] is the coordinates of the east point on the circle.
+            // circlePoints[1] is the coordinates of the next clockwise point from circlePoints[0], and so on.
+            PointF[] circlePoints = GetCirclePoints(rect, nodeNum);
+
+            //// first numLayout elements are NodeElements to be layouted.
+            //// And rest are NodeElement which are connected with layouted nodes.
+            //List<EcellObject> orderedList = GetRelatedNodes(nodeList);
+
+            //// Distance between the points one the circle.
+            //float[] iDistance = GetInsideDistanceMatrix(circlePoints);
+
+            //// Distances between the points on the circle and the points not on the circle.
+            //float[,] bDistance = GetBetweenDistanceMatrix(circlePoints, orderedList);
+
+            //// Relation between the points on the circle and the points not on the circle.
+            //bool[,] relation = GetRelationMatrix(orderedList);
+
+            //// Settle positions with which the sum of edges lengthes become shortest.
+            //int[] pos = GetBestPositions(nodeNum, relation, iDistance, bDistance);
+
+            //// Nodes are moved, at last.
+            //MoveNodeElement(pos, orderedList, circlePoints);
+
+            return true;
+        }
+
+        private PointF[] GetCirclePoints(RectangleF rect, int nodeNum)
+        {
+            float rx = rect.Width / 2;
+            float ry = rect.Height / 2;
+            float cx = rect.X + rx;
+            float cy = rect.Y + ry;
+            float rad = (float)Math.PI * 2f / nodeNum; // space between nodes in radian
+
+            PointF[] circlePoints = new PointF[nodeNum];
+            for (int i = 0; i < nodeNum; i++)
+            {
+                circlePoints[i].X = cx + rx * (float)Math.Cos(rad * i);
+                circlePoints[i].Y = cy + ry * (float)Math.Sin(rad * i);
+            }
+            return circlePoints;
+        }
 
         #region Inner use
 
@@ -579,37 +651,45 @@ namespace EcellLib.CircularLayout
         /// <returns>surrounded rectangle</returns>
         private RectangleF GetSurroundingRect(List<NodeElement> nodeElements)
         {
-            float minX = 0;
-            float maxX = 0;
-            float minY = 0;
-            float maxY = 0;
-            bool isFirst = true;
+            float minX = nodeElements[0].X;
+            float maxX = nodeElements[0].X;
+            float minY = nodeElements[0].Y;
+            float maxY = nodeElements[0].Y;
             foreach (NodeElement element in nodeElements)
-                if (!element.Fixed)
-                {
-                    if (isFirst)
-                    {
-                        minX = element.X;
-                        maxX = element.X;
-                        minY = element.Y;
-                        maxY = element.Y;
-                        isFirst = false;
-                    }
-                    else
-                    {
-                        if (element.X < minX)
-                            minX = element.X;
-
-                        if (maxX < element.X)
-                            maxX = element.X;
-
-                        if (element.Y < minY)
-                            minY = element.Y;
-
-                        if (maxY < element.Y)
-                            maxY = element.Y;
-                    }
-                }
+            {
+                if (element.X < minX)
+                    minX = element.X;
+                else if (maxX < element.X)
+                    maxX = element.X;
+                if (element.Y < minY)
+                    minY = element.Y;
+                else if (maxY < element.Y)
+                    maxY = element.Y;
+            }
+            return new RectangleF(minX, minY, maxX - minX, maxY - minY);
+        }
+        /// <summary>
+        /// Get a rectangle surrounded by given nodes.
+        /// </summary>
+        /// <param name="nodeElements">rectangle, which will be surrounded by these nodes will be returned.</param>
+        /// <returns>surrounded rectangle</returns>
+        private RectangleF GetSurroundingRect(List<EcellObject> nodeList)
+        {
+            float minX = nodeList[0].X;
+            float maxX = nodeList[0].X;
+            float minY = nodeList[0].Y;
+            float maxY = nodeList[0].Y;
+            foreach (EcellObject node in nodeList)
+            {
+                if (node.X < minX)
+                    minX = node.X;
+                else if (maxX < node.X)
+                    maxX = node.X;
+                if (node.Y < minY)
+                    minY = node.Y;
+                else if (maxY < node.Y)
+                    maxY = node.Y;
+            }
             return new RectangleF(minX, minY, maxX - minX, maxY - minY);
         }
 
@@ -720,6 +800,12 @@ namespace EcellLib.CircularLayout
             private int m_direction;
             private float m_energyDiff;
 
+            public DirectionEnergyDiff(int dir, float diff)
+            {
+                m_direction = dir;
+                m_energyDiff = diff;
+            }
+
             public int Direction
             {
                 get { return m_direction; }
@@ -730,12 +816,6 @@ namespace EcellLib.CircularLayout
             {
                 get { return m_energyDiff; }
                 set { m_energyDiff = value; }
-            }
-
-            public DirectionEnergyDiff(int dir, float diff)
-            {
-                m_direction = dir;
-                m_energyDiff = diff;
             }
         }
         #endregion
