@@ -398,13 +398,22 @@ namespace EcellLib.TracerWindow
             ToolStripItem item = (ToolStripItem)sender;
             m_win = new TraceWindow();
             m_win.m_parent = Form.ActiveForm;
-            m_win.DockHandler.DockPanel = PluginManager.GetPluginManager().DockPanel;
             m_win.Disposed += new EventHandler(FormDisposed);
 //            m_win.FormClosed += new FormClosedEventHandler(FormDisposed);
             m_win.Shown += new EventHandler(m_win.ShownEvent);
             //            if (m_winList.Count == 0) m_win.m_entry = m_entry;
             //            else m_win.m_entry = new List<TagData>();
             m_win.m_entry = new List<TagData>();
+
+            // Set Dock settings
+            DockPanel panel = PluginManager.GetPluginManager().DockPanel;
+            m_win.DockHandler.DockPanel = panel;
+            m_win.DockHandler.FloatPane = panel.DockPaneFactory.CreateDockPane(m_win, DockState.Float, true);
+            //m_win.Pane = null;
+            //m_win.PanelPane = null;
+            //m_win.FloatPane = null;
+            m_win.IsHidden = false;
+
             if (m_winList.Count == 0)
             {
                 foreach (TagData tag in m_entry.Keys)
