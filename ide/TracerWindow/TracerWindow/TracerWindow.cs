@@ -409,10 +409,11 @@ namespace EcellLib.TracerWindow
             DockPanel panel = PluginManager.GetPluginManager().DockPanel;
             m_win.DockHandler.DockPanel = panel;
             m_win.DockHandler.FloatPane = panel.DockPaneFactory.CreateDockPane(m_win, DockState.Float, true);
-            //m_win.Pane = null;
-            //m_win.PanelPane = null;
-            //m_win.FloatPane = null;
-            m_win.IsHidden = false;
+            FloatWindow fw = panel.FloatWindowFactory.CreateFloatWindow(
+                                panel,
+                                m_win.FloatPane,
+                                new Rectangle(m_win.Left, m_win.Top, m_win.Width, m_win.Height));
+            m_win.Pane.DockTo(fw);
 
             if (m_winList.Count == 0)
             {
@@ -423,9 +424,9 @@ namespace EcellLib.TracerWindow
                 }
             }
             m_winList.Add(m_win);
-
-            Thread t = new Thread(new ThreadStart(TraceWindowAppStart));
-            t.Start();
+            m_win.Show();
+            //Thread t = new Thread(new ThreadStart(TraceWindowAppStart));
+            //t.Start();
         }
 
 
