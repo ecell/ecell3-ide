@@ -44,6 +44,24 @@ namespace EcellLib.DistributeLayout
         enum Direction { Horizontally, Vertically }
 
         /// <summary>
+        /// Execute layout
+        /// </summary>
+        /// <param name="subNum">
+        /// An index of sub command which was clicked on subMenu.
+        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
+        /// If layout name itself was clicked, subCommandNum = -1.
+        /// </param>
+        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
+        /// <param name="systemElements">Systems</param>
+        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
+        /// <returns>Whether layout is completed or aborted</returns>
+        public bool DoLayout(int subNum,
+                             bool layoutSystem,
+                             List<EcellObject> systemList,
+                             List<EcellObject> nodeList)
+        {
+        }
+        /// <summary>
         /// Execute layout.
         /// </summary>
         /// <param name="subNum">

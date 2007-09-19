@@ -73,6 +73,23 @@ namespace EcellLib.GridLayout
         /// -1: Layouting based on current positions
         /// </param>
         /// <param name="layoutSystem">Whether systems should be layouted or not</param>
+        /// <param name="systemList">Systems</param>
+        /// <param name="nodeList">Nodes (Variables, Processes)</param>
+        /// <returns>Whether layout is completed or aborted</returns>
+        public bool DoLayout(int subNum,
+                             bool layoutSystem,
+                             List<EcellObject> systemList,
+                             List<EcellObject> nodeList)
+        {
+        }
+        /// <summary>
+        /// Execute layout
+        /// </summary>
+        /// <param name="subNum">
+        /// 0: Layouting from scratch
+        /// -1: Layouting based on current positions
+        /// </param>
+        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
         /// <param name="systemElements">Systems</param>
         /// <param name="nodeElements">Nodes (Variables, Processes)</param>
         /// <returns>Whether layout is completed or aborted</returns>
