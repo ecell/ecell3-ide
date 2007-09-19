@@ -37,6 +37,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Drawing.Drawing2D;
 using System.Reflection;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.TracerWindow
 {
@@ -188,16 +189,6 @@ namespace EcellLib.TracerWindow
             }
             list.Clear();
             list = null;
-        }
-
-
-        /// <summary>
-        /// Execute tracer widonw with threading.
-        /// </summary>
-        public void TraceWindowAppStart()
-        {
-            Util.InitialLanguage();
-            Application.Run(m_win);
         }
 
         /// <summary>
@@ -404,8 +395,10 @@ namespace EcellLib.TracerWindow
         /// <param name="e">EventArgs</param>
         void ShowTracerWindow(Object sender, EventArgs e)
         {
+            ToolStripItem item = (ToolStripItem)sender;
             m_win = new TraceWindow();
             m_win.m_parent = Form.ActiveForm;
+            m_win.DockHandler.DockPanel = PluginManager.GetPluginManager().DockPanel;
             m_win.Disposed += new EventHandler(FormDisposed);
 //            m_win.FormClosed += new FormClosedEventHandler(FormDisposed);
             m_win.Shown += new EventHandler(m_win.ShownEvent);
@@ -424,6 +417,16 @@ namespace EcellLib.TracerWindow
 
             Thread t = new Thread(new ThreadStart(TraceWindowAppStart));
             t.Start();
+        }
+
+
+        /// <summary>
+        /// Execute tracer widonw with threading.
+        /// </summary>
+        public void TraceWindowAppStart()
+        {
+            Util.InitialLanguage();
+            Application.Run(m_win);
         }
 
         /// <summary>
@@ -522,7 +525,7 @@ namespace EcellLib.TracerWindow
         /// Get the window form for TracerWindow plugin.
         /// </summary>
         /// <returns>null</returns>
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
             return null;
         }
@@ -851,15 +854,6 @@ namespace EcellLib.TracerWindow
         /// <param name="directory">output directory.</param>
         public void SaveModel(string modelID, string directory)
         {
-        }
-
-        /// <summary>
-        /// Set the panel that show this plugin in MainWindow.
-        /// </summary>
-        /// <param name="panel">The set panel.</param>
-        public void SetPanel(Panel panel)
-        {
-            // nothing
         }
 
         /// <summary>

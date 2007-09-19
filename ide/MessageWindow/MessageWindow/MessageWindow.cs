@@ -33,6 +33,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
+using WeifenLuo.WinFormsUI.Docking;
 
 using EcellLib;
 
@@ -48,10 +49,6 @@ namespace EcellLib.MessageWindow
         ///  MessageWindow form.
         /// </summary>
         private MessageWindowControl m_form = null;
-        /// <summary>
-        /// The panel that show this plugin in MainWindow.
-        /// </summary>
-        private Panel m_panel = null;
         /// <summary>
         /// The delegate function while simulation is running.
         /// </summary>
@@ -147,9 +144,9 @@ namespace EcellLib.MessageWindow
         /// Get the window form for TracerWindow plugin.
         /// </summary>
         /// <returns>Windows form</returns>
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
-            List<UserControl> array = new List<UserControl>();
+            List<DockContent> array = new List<DockContent>();
             m_form = new MessageWindowControl();
             array.Add(m_form);
 
@@ -361,15 +358,6 @@ namespace EcellLib.MessageWindow
         }
 
         /// <summary>
-        /// Set the panel that show this plugin in MainWindow.
-        /// </summary>
-        /// <param name="panel">The set panel.</param>
-        public void SetPanel(Panel panel)
-        {
-            this.m_panel = panel;
-        }
-
-        /// <summary>
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>
@@ -421,30 +409,6 @@ namespace EcellLib.MessageWindow
         /// <param name="data">EcellObject, whose position will be set</param>
         public void SetPosition(EcellObject data)
         {
-        }
-        #endregion
-
-        #region Event
-        /// <summary>
-        /// The action when select [Show MessageWindow] menu.
-        /// </summary>
-        /// <param name="sender">object(ToolStripMenuItem)</param>
-        /// <param name="e">EventArgs</param>
-        public void ShowPlugin(object sender, EventArgs e)
-        {
-            if (this.m_panel != null)
-                this.m_panel.Show();
-        }
-
-        /// <summary>
-        /// The action when select [Hide MessageWindow] menu.
-        /// </summary>
-        /// <param name="sender">object(ToolStripMenuItem)</param>
-        /// <param name="e">EventArgs</param>
-        public void HidePlugin(object sender, EventArgs e)
-        {
-            if (this.m_panel != null)
-                this.m_panel.Hide();
         }
         #endregion
     }

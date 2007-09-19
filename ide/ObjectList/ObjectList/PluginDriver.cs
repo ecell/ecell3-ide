@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 using EcellLib;
 
@@ -50,10 +51,11 @@ namespace EcellLib.ObjectList
             }
 
             // UserControlを加える。
-            List<UserControl> windowList = pb.GetWindowsForms();
-            foreach (UserControl control in windowList)
+            List<DockContent> windowList = pb.GetWindowsForms();
+            foreach (DockContent win in windowList)
             {
-                panel2.Controls.Add(control);
+                foreach(Control con in win.Controls)
+                    panel2.Controls.Add(con);
             }
 
             // プリント機能の設定をする。

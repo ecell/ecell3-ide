@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.AboutWindow
 {
@@ -39,16 +40,6 @@ namespace EcellLib.AboutWindow
                 foreach (ToolStripButton button in toolList)
                 {
                     toolStrip1.Items.Add(button);
-                }
-            }
-
-            //UserControlÇâ¡Ç¶ÇÈÅB
-            List<UserControl> windowList = pb.GetWindowsForms();
-            if (windowList != null)
-            {
-                foreach (UserControl control in windowList)
-                {
-                    panel2.Controls.Add(control);
                 }
             }
 

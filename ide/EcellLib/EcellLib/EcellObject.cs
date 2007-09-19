@@ -181,7 +181,7 @@ namespace EcellLib
         /// <summary>
         /// get text.
         /// </summary>
-        public string Text
+        public string Name
         {
             get
             {
@@ -417,7 +417,7 @@ namespace EcellLib
         {
             Regex postColonRegex = new Regex(":\\w*$");
             Regex postSlashRegex = new Regex("/\\w*$");
-            if (key == null || key.Equals("/"))
+            if (key == null || key.Equals("") || key.Equals("/"))
                 return "";
             else if (key.Contains(":"))
             {
@@ -1350,7 +1350,7 @@ namespace EcellLib
         /// </summary>
         public string Key
         {
-            get { return this.m_fullID.Substring(1, m_fullID.Length - 1); }
+            get { return this.m_fullID.Substring(1); }
             set { this.m_fullID = ":" + value; }
         }
 

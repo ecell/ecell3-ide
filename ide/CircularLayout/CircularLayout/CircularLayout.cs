@@ -115,8 +115,8 @@ namespace EcellLib.CircularLayout
         /// If layout name itself was clicked, subCommandNum = -1.
         /// </param>
         /// <param name="layoutSystem">Whether systems should be layouted or not</param>
-        /// <param name="systemElements">Systems</param>
-        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
+        /// <param name="systemList">Systems</param>
+        /// <param name="nodeList">Nodes (Variables, Processes)</param>
         /// <returns>Whether layout is completed or aborted</returns>
         public bool DoLayout(int subNum,
                              bool layoutSystem,
@@ -135,17 +135,17 @@ namespace EcellLib.CircularLayout
             if (!Validate(nodeNum, rect))
                 return false;
 
+            // first numLayout elements are NodeElements to be layouted.
+            // And rest are NodeElement which are connected with layouted nodes.
+            List<EcellObject> orderedList = GetRelatedNodes(nodeList);
+
             // Coordinates of the points on the circle.
             // circlePoints[0] is the coordinates of the east point on the circle.
             // circlePoints[1] is the coordinates of the next clockwise point from circlePoints[0], and so on.
             PointF[] circlePoints = GetCirclePoints(rect, nodeNum);
 
-            //// first numLayout elements are NodeElements to be layouted.
-            //// And rest are NodeElement which are connected with layouted nodes.
-            //List<EcellObject> orderedList = GetRelatedNodes(nodeList);
-
-            //// Distance between the points one the circle.
-            //float[] iDistance = GetInsideDistanceMatrix(circlePoints);
+            // Distance between the points one the circle.
+            float[] iDistance = GetInsideDistanceMatrix(circlePoints);
 
             //// Distances between the points on the circle and the points not on the circle.
             //float[,] bDistance = GetBetweenDistanceMatrix(circlePoints, orderedList);
@@ -632,6 +632,63 @@ namespace EcellLib.CircularLayout
                         {
                             string unique = pro.Key + ":process";
                             if(inDict.ContainsKey(key) && !relatedOutDict.ContainsKey(unique))
+                            {
+                                returnNodes.Add(pro);
+                                relatedOutDict.Add(unique, pro);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return returnNodes;
+        }
+
+        /// <summary>
+        /// Get nodes related to layouting.
+        /// When the number of nodes is m, first m'th elements of return list contains nodes on the circle.
+        /// And the rest of the list contains nodes which are connected with nodes on the circle.
+        /// </summary>
+        /// <param name="nodeElements"></param>
+        /// <returns></returns>
+        private List<EcellObject> GetRelatedNodes(List<EcellObject> nodeList)
+        {
+            List<EcellObject> returnList = new List<EcellObject>();
+
+            Dictionary<string, EcellObject> inDict = new Dictionary<string, EcellObject>();
+            Dictionary<string, EcellObject> outDict = new Dictionary<string, EcellObject>();
+
+            foreach (EcellObject node in nodeList)
+            {
+                returnList.Add(node);
+                inDict.Add(node.key, node);
+            }
+            Dictionary<string, EcellObject> relatedOutDict = new Dictionary<string, EcellObject>();
+
+            foreach (EcellObject node in nodeList)
+            {
+                if (node is EcellProcess)
+                {
+                    EcellProcess pro = (EcellProcess)node;
+
+                    if (!pro.Fixed)
+                    {
+                        foreach (string key in pro.Edges.Keys)
+                        {
+                            string unique = key + ":variable";
+                            if (outDict.ContainsKey(key) && !relatedOutDict.ContainsKey(unique))
+                            {
+                                returnNodes.Add(outDict[key]);
+                                relatedOutDict.Add(unique, outDict[key]);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (string key in pro.Edges.Keys)
+                        {
+                            string unique = pro.Key + ":process";
+                            if (inDict.ContainsKey(key) && !relatedOutDict.ContainsKey(unique))
                             {
                                 returnNodes.Add(pro);
                                 relatedOutDict.Add(unique, pro);

@@ -34,7 +34,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
-
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.Analysis
 {
@@ -105,7 +105,7 @@ namespace EcellLib.Analysis
         /// PathwayWindow get it and attach some delegates to them and pass it to PluginManager.
         /// </summary>
         /// <returns>UserControl with pathway canvases, etc.</returns>
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
             return null;
         }
@@ -281,15 +281,6 @@ namespace EcellLib.Analysis
         public void ResetSelect()
         {
             // not implement
-        }
-
-
-        /// <summary>
-        /// Set the panel that show this plugin in MainWindow.
-        /// </summary>
-        /// <param name="panel">The set panel.</param>
-        public void SetPanel(System.Windows.Forms.Panel panel)
-        {
         }
 
         /// <summary>

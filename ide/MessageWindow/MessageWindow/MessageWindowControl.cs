@@ -5,13 +5,14 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.MessageWindow
 {
     /// <summary>
     /// User Control for MessageWindow.
     /// </summary>
-    public partial class MessageWindowControl : UserControl
+    public partial class MessageWindowControl : DockContent
     {
         /// <summary>
         /// Constructor.

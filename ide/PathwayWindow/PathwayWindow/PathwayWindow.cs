@@ -62,6 +62,7 @@ using EcellLib.PathwayWindow.Node;
 using System.Collections;
 using System.Reflection;
 using System.Collections.Specialized;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.PathwayWindow
 {
@@ -756,20 +757,48 @@ namespace EcellLib.PathwayWindow
         /// PathwayWindow get it and attach some delegates to them and pass it to PluginManager.
         /// </summary>
         /// <returns>UserControl with pathway canvases, etc.</returns>
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
-            List<UserControl> array = new List<UserControl>();
-            UserControl uc = new UserControl();
+            List<DockContent> list = GetWindowList(m_view.Control);
 
-            uc.Controls.Add(m_view.Control);
-            uc.Dock = DockStyle.Fill;
-            uc.Load += new EventHandler(m_view.SizeChanged);
-            uc.Resize += new EventHandler(m_view.SizeChanged);
-            uc.MouseEnter += new EventHandler(uc_MouseEnter);
+            //uc.Controls.Add(m_view.Control);
+            //uc.Dock = DockStyle.Fill;
+            //uc.Load += new EventHandler(m_view.SizeChanged);
+            //uc.Resize += new EventHandler(m_view.SizeChanged);
+            //uc.MouseEnter += new EventHandler(uc_MouseEnter);
             
-            array.Add(uc);
-
-            return array;
+            return list;
+        }
+        private List<DockContent> GetWindowList(Control con)
+        {
+            List<DockContent> list = new List<DockContent>();
+            // recursive
+            foreach (Control subCon in con.Controls)
+            {
+                list.AddRange(GetWindowList(subCon));
+            }
+            if (con.GetType() == typeof(TabControl))
+            {
+                DockContent dock = new DockContent();
+                dock.Controls.Add(con);
+                dock.Text = "PathwayView";
+                list.Add(dock);
+            }
+            else if (con.GetType() == typeof(GroupBox) && con.Text == "Overview")
+            {
+                DockContent dock = new DockContent();
+                dock.Controls.Add(con);
+                dock.Text = "OverView";
+                list.Add(dock);
+            }
+            else if (con.GetType() == typeof(GroupBox) && con.Text == "Layer")
+            {
+                DockContent dock = new DockContent();
+                dock.Controls.Add(con);
+                dock.Text = "LayerView";
+                list.Add(dock);
+            }
+            return list;
         }
 
         /// <summary>
@@ -1130,15 +1159,6 @@ namespace EcellLib.PathwayWindow
         public void ResetSelect()
         {
             // not implement
-        }
-
-        /// <summary>
-        /// Set the panel that show this plugin in MainWindow.
-        /// </summary>
-        /// <param name="panel">The set panel.</param>
-        public void SetPanel(System.Windows.Forms.Panel panel)
-        {
-            //this.m_panel = panel;
         }
 
         /// <summary>

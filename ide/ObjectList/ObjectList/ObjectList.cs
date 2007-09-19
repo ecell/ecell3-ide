@@ -39,6 +39,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Reflection;
 using System.ComponentModel;
+using WeifenLuo.WinFormsUI.Docking;
 
 using EcellLib;
 
@@ -571,14 +572,14 @@ namespace EcellLib.ObjectList
         /// Get the window form for ObjectList.
         /// </summary>
         /// <returns>UserControl</returns>        
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
-            UserControl control = new UserControl();
-            control.Dock = DockStyle.Fill;
-            control.Controls.Add(m_tabControl);
-
-            List<UserControl> list = new List<UserControl>();
-            list.Add(control);
+            DockContent win = new DockContent();
+            m_tabControl.Dock = DockStyle.Fill;
+            win.Controls.Add(m_tabControl);
+            win.Text = "ObjectList";
+            List<DockContent> list = new List<DockContent>();
+            list.Add(win);
 
             return list;
         }
@@ -1027,15 +1028,6 @@ namespace EcellLib.ObjectList
         /// <param name="directory">output directory.</param>
         public void SaveModel(string modelID, string directory)
         {
-        }
-
-        /// <summary>
-        /// Set the panel that show this plugin in MainWindow.
-        /// </summary>
-        /// <param name="panel">The set panel.</param>
-        public void SetPanel(Panel panel)
-        {
-            // nothing
         }
 
         /// <summary>

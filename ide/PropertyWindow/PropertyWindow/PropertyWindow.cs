@@ -38,6 +38,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
+using WeifenLuo.WinFormsUI.Docking;
 
 using Formulator;
 
@@ -390,14 +391,15 @@ namespace EcellLib.PropertyWindow
         /// Get the window form for PropertyWindow.
         /// </summary>
         /// <returns>UserControl</returns>
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
-            UserControl control = new UserControl();
-            control.Dock = DockStyle.Fill;
-            control.Controls.Add(m_dgv);
+            DockContent dock = new DockContent();
+            dock.Dock = DockStyle.Fill;
+            dock.Text = "PropertyWindow";
+            dock.Controls.Add(m_dgv);
 
-            List<UserControl> list = new List<UserControl>();
-            list.Add(control);
+            List<DockContent> list = new List<DockContent>();
+            list.Add(dock);
 
             return list;
         }
@@ -677,14 +679,6 @@ namespace EcellLib.PropertyWindow
         /// <param name="modelID">selected model.</param>
         /// <param name="directory">output directory.</param>
         public void SaveModel(string modelID, string directory)
-        {
-        }
-
-        /// <summary>
-        /// Set the panel that show this plugin in MainWindow.
-        /// </summary>
-        /// <param name="panel">The set panel.</param>
-        public void SetPanel(Panel panel)
         {
         }
 

@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib
 {
@@ -41,23 +42,24 @@ namespace EcellLib
     public interface PluginBase
     {
         /// <summary>
-        /// Get menustrips for EntityListWindow plugin.
+        /// Get menustrips for each plugin.
         /// </summary>
         /// <returns>null.</returns>
         List<ToolStripMenuItem> GetMenuStripItems();
 
         /// <summary>
-        /// Get toolbar buttons for EntityListWindow plugin.
+        /// Get toolbar buttons for each plugin.
         /// </summary>
         /// <returns>null</returns>
         List<ToolStripItem> GetToolBarMenuStripItems();
 
         /// <summary>
-        /// Get the window form for EntityListWindow.
-        /// This user control add the NodeMouseClick event action.
+        /// Get the window forms of each plugin.
+        /// DockContent is a docking window class of WeifenLuo.WinFormsUI plugin.
         /// </summary>
         /// <returns>UserControl.</returns>
-        List<UserControl> GetWindowsForms();
+        //List<UserControl> GetWindowsForms();
+        List<DockContent> GetWindowsForms();
 
         /// <summary>
         /// The event sequence on changing selected object at other plugin.
@@ -170,12 +172,6 @@ namespace EcellLib
         /// <param name="modelID">ModelID of a model which is going to be saved</param>
         /// <param name="directory">A saved file must be under this directory </param>
         void SaveModel(string modelID, string directory);
-
-        /// <summary>
-        /// Set the panel that show this plugin in MainWindow.
-        /// </summary>
-        /// <param name="panel">The set panel.</param>
-        void SetPanel(Panel panel);
 
         /// <summary>
         /// The event sequence on closing project.

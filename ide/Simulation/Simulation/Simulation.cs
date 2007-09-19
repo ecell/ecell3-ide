@@ -36,6 +36,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Reflection;
 using System.ComponentModel;
+using WeifenLuo.WinFormsUI.Docking;
 
 using EcellLib;
 
@@ -287,7 +288,7 @@ namespace EcellLib.Simulation
         /// Get the windows form for Simulation.
         /// </summary>
         /// <returns>null</returns>
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
             return null;
         }
@@ -502,15 +503,6 @@ namespace EcellLib.Simulation
         /// <param name="directory">output directory.</param>
         public void SaveModel(string modelID, string directory)
         {
-        }
-
-        /// <summary>
-        /// Set the panel that show this plugin in MainWindow.
-        /// </summary>
-        /// <param name="panel">The set panel.</param>
-        public void SetPanel(Panel panel)
-        {
-            // nothing
         }
 
         /// <summary>

@@ -34,7 +34,8 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Text;
 using System.Reflection;
-
+using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 
 namespace EcellLib
@@ -104,6 +105,10 @@ namespace EcellLib
         /// CopyRights String.
         /// </summary>
         private String m_copyright;
+        /// <summary>
+        /// DockPanel of MainWindow.
+        /// </summary>
+        private DockPanel m_panel;
         #endregion
 
         /// <summary>
@@ -126,6 +131,15 @@ namespace EcellLib
             m_imageDict.Add("Variable", 2);
             m_imageDict.Add("Process", 1);
             m_imageDict.Add("Model", 3);
+        }
+
+        /// <summary>
+        /// get/set main form of application.
+        /// </summary>
+        public DockPanel DockPanel
+        {
+            get { return this.m_panel; }
+            set { this.m_panel = value; }
         }
 
         /// <summary>

@@ -450,7 +450,6 @@ namespace EcellLib.MainWindow
         private System.Windows.Forms.ToolStripMenuItem loadWindowSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showWindowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setIDEToolStripMenuItem;
-        public WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
     }

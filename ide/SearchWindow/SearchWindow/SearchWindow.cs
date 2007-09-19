@@ -34,6 +34,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Text;
 using System.Reflection;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.SearchWindow
 {
@@ -164,7 +165,7 @@ namespace EcellLib.SearchWindow
         /// Get the window form for SearchWindow.
         /// </summary>
         /// <returns>UserControl.</returns>
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
             return null;
         }
@@ -328,16 +329,6 @@ namespace EcellLib.SearchWindow
 
         public void SaveModel(string modelID, string directory)
         {
-        }
-
-        /// <summary>
-        /// Set the panel that show this plugin in MainWindow.
-        /// </summary>
-        /// <param name="panel">The set panel.</param>
-        public void SetPanel(Panel panel)
-        {
-            
-            // nothing
         }
 
         /// <summary>

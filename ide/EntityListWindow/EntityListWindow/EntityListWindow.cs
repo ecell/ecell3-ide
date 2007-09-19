@@ -37,6 +37,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
+using WeifenLuo.WinFormsUI.Docking;
 
 using EcellLib;
 
@@ -52,10 +53,6 @@ namespace EcellLib.EntityListWindow
         /// m_form (EntityList form) 
         /// </summary>
         private EntityList m_form = null;
-        /// <summary>
-        /// m_panel (the panel that show this plugin in MainWindow)
-        /// </summary>
-        private Panel m_panel = null;
         /// <summary>
         /// m_pManager (PluginManager)
         /// </summary>
@@ -1151,9 +1148,9 @@ namespace EcellLib.EntityListWindow
         /// This user control add the NodeMouseClick event action.
         /// </summary>
         /// <returns>UserControl.</returns>
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
-            List<UserControl> array = new List<UserControl>();
+            List<DockContent> list = new List<DockContent>();
             m_form = new EntityList();
             m_form.treeView1.NodeMouseClick +=
                 new TreeNodeMouseClickEventHandler(this.NodeMouseClick);
@@ -1162,9 +1159,10 @@ namespace EcellLib.EntityListWindow
             m_form.treeView1.TreeViewNodeSorter = new TypeSorter();
 
             CreatePopupMenu();
-            array.Add(m_form);
+            m_form.Text = "EntityList";
+            list.Add(m_form);
 
-            return array;
+            return list;
         }
 
         /// <summary>
@@ -1622,15 +1620,6 @@ namespace EcellLib.EntityListWindow
         /// <param name="directory">output directory.</param>
         public void SaveModel(string modelID, string directory)
         {
-        }
-
-        /// <summary>
-        /// Set the panel that show this plugin in MainWindow.
-        /// </summary>
-        /// <param name="panel">The set panel.</param>
-        public void SetPanel(Panel panel)
-        {
-            this.m_panel = panel;
         }
 
         /// <summary>

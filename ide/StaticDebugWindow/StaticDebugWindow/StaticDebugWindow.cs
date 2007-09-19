@@ -40,6 +40,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
 using System.ComponentModel;
+using WeifenLuo.WinFormsUI.Docking;
 
 using EcellLib;
 
@@ -256,7 +257,7 @@ namespace EcellLib.StaticDebugWindow
         /// Returns window forms used on the main window.
         /// </summary>
         /// <returns>window forms</returns>
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
             return null;
         }
@@ -372,15 +373,6 @@ namespace EcellLib.StaticDebugWindow
         public void ResetSelect()
         {
             // not implement
-        }
-
-        /// <summary>
-        /// Sets the panel that shows this plugin in the MainWindow.
-        /// </summary>
-        /// <param name="panel">the set panel</param>
-        public void SetPanel(Panel panel)
-        {
-            // nothing
         }
 
         /// <summary>

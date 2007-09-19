@@ -59,8 +59,6 @@ namespace EcellLib.MainWindow
 
         private readonly string strEntityList = "EntityList";
 
-        private readonly string strPathwayWindow = "PathwayWindow";
-
         private readonly string strPathwayView = "PathwayView";
 
         private readonly string strOverView = "OverView";
@@ -158,6 +156,7 @@ namespace EcellLib.MainWindow
         /// ResourceManager for MainWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMain));
+        public WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
         #endregion
 
         public String projetID
@@ -180,6 +179,8 @@ namespace EcellLib.MainWindow
             InitializeComponent();
             m_dockWindowDic = new Dictionary<string,DockContent>();
             m_dockMenuDic = new Dictionary<string,ToolStripMenuItem>();
+            PluginManager pm = PluginManager.GetPluginManager();
+            pm.DockPanel = this.dockPanel;
             LoadPlugins();
             //Load default window settings.
             setFilePath();
@@ -335,8 +336,8 @@ namespace EcellLib.MainWindow
         /// <param name="path">path of plugin.</param>
         void LoadPlugin(string path)
         {
-            PluginBase p = null;
-            List<System.Windows.Forms.UserControl> winList = null;
+            PluginBase pb = null;
+            List<DockContent> winList = null;
             List<ToolStripMenuItem> menuList = null;
             List<ToolStripItem> toolList = null;
 
@@ -348,8 +349,8 @@ namespace EcellLib.MainWindow
 
             try
             {
-                p = m_pManager.LoadPlugin(path, className);
-                winList = p.GetWindowsForms();
+                pb = m_pManager.LoadPlugin(path, className);
+                winList = pb.GetWindowsForms();
             }
             catch (Exception ex)
             {
@@ -361,49 +362,57 @@ namespace EcellLib.MainWindow
 
             if (winList != null && winList.Count > 0)
             {
-                foreach (UserControl win in winList)
+                foreach (DockContent dock in winList)
                 {
                     // Create DockContent
-                    if (pName == "EntityListWindow")
+                    if (dock.Text == strEntityList)
                     {
                         //Create EntityList
-                        DockContent dock = setDockContent(strEntityList, win);
+                        SetDockContent(strEntityList, dock);
                         dock.Show(this.dockPanel, DockState.DockLeft);
                     }
-                    else if (pName == strMessageWindow)
+                    else if (dock.Text == strMessageWindow)
                     {
                         //Create MessageWindow
-                        DockContent dock = setDockContent(strMessageWindow, win);
+                        SetDockContent(strMessageWindow, dock);
                         dock.Show(this.dockPanel, DockState.DockBottom);
                     }
-                    else if (pName == strObjectList)
+                    else if (dock.Text == strObjectList)
                     {
                         //Create ObjectList
-                        DockContent dock = setDockContent(strObjectList, win);
+                        SetDockContent(strObjectList, dock);
                         dock.Show(m_dockWindowDic[strEntityList].Pane, DockAlignment.Bottom, 0.5);
                     }
-                    else if (pName == strPathwayWindow)
+                    else if (dock.Text == strPathwayView)
                     {
-                        //Create PathwayWindow
-                        setPathwayDock(win);
-                        //DockContent dock = setDockContent(strPathwayWindow, win);
-                        //dock.Show(this.dockPanel, DockState.Document);
+                        SetDockContent(strPathwayView, dock);
+                        dock.Show(this.dockPanel, DockState.Document);
                     }
-                    else if (pName == strPropertyWindow)
+                    else if (dock.Text == strOverView)
+                    {
+                        SetDockContent(strOverView, dock);
+                        dock.Show(m_dockWindowDic[strMessageWindow].Pane, DockAlignment.Right, 0.3);
+                    }
+                    else if (dock.Text == strLayerView)
+                    {
+                        SetDockContent(strLayerView, dock);
+                        dock.Show(m_dockWindowDic[strOverView].Pane, null);
+                    }
+                    else if (dock.Text == strPropertyWindow)
                     {
                         //Create PropertyWindow
-                        DockContent dock = setDockContent(strPropertyWindow, win);
+                        SetDockContent(strPropertyWindow, dock);
                         dock.Show(m_dockWindowDic[strOverView].Pane, DockAlignment.Top, 0.7);
                     }
                     else
                     {
-                        DockContent dock = setDockContent(pName, win);
+                        SetDockContent(dock.Text, dock);
                         dock.Show(this.dockPanel, DockState.Float);
                     }
                     
                 }
             }
-            menuList = p.GetMenuStripItems();
+            menuList = pb.GetMenuStripItems();
             if (menuList != null)
             {
                 foreach (ToolStripMenuItem menu in menuList)
@@ -442,7 +451,7 @@ namespace EcellLib.MainWindow
                     }
                 }
             }
-            toolList = p.GetToolBarMenuStripItems();
+            toolList = pb.GetToolBarMenuStripItems();
             if (toolList != null)
             {
                 if (this.toolstrip.Items.Count > 0)
@@ -451,51 +460,27 @@ namespace EcellLib.MainWindow
                     this.toolstrip.Items.AddRange(new ToolStripItem[] { tool });
             }
         }
-        private void setPathwayDock(Control win)
-        {
-            // recursive
-            foreach (Control con in win.Controls)
-            {
-                setPathwayDock(con);
-            }
-            if (win.GetType() == typeof(TabControl))
-            {
-                DockContent dock = setDockContent(strPathwayView, win);
-                dock.Show(this.dockPanel, DockState.Document);
-            }
-            else if (win.GetType() == typeof(GroupBox) && win.Text == "Overview")
-            {
-                DockContent dock = setDockContent(strOverView, win);
-                dock.Show(this.dockPanel, DockState.DockRight);
-            }
-            else if (win.GetType() == typeof(GroupBox) && win.Text == "Layer")
-            {
-                DockContent dock = setDockContent(strLayerView, win);
-                dock.Show(m_dockWindowDic[strOverView].Pane, DockAlignment.Bottom, 0.2);
-            }
-
-        }
         
         /// <summary>
         /// set DockContent
         /// </summary>
-        DockContent setDockContent(string name, Control win)
+        private void SetDockContent(string name, DockContent dock)
         {
             Debug.WriteLine("create dock: " + name);
             //Create New DockContent
-            DockContent dock = new DockContent();
-            dock.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
             dock.Name = name;
             dock.Text = name;
             dock.Tag = name;
-            win.Dock = DockStyle.Fill;
-            dock.Controls.Add(win);
+            dock.Pane = null;
+            dock.PanelPane = null;
+            dock.FloatPane = null;
+            dock.DockHandler.DockPanel = this.dockPanel;
+            dock.IsHidden = false;
+            dock.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
 
             //Create DockWindow Menu
             setDockMenu(name);
-
             m_dockWindowDic.Add(name, dock);
-            return dock;
         }
         /// <summary>
         /// set DockContent
@@ -640,7 +625,7 @@ namespace EcellLib.MainWindow
         /// Get the window form for MainWindow plugin.
         /// </summary>
         /// <returns>Windows form</returns>
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
             return null;
         }
@@ -1758,10 +1743,6 @@ namespace EcellLib.MainWindow
 
         [System.Runtime.InteropServices.DllImport("kernel32.dll")]
         public static extern bool SetProcessWorkingSetSize(IntPtr hwnd, int min, int max);
-
-        public void SetPanel(Panel panel)
-        {
-        }
 
         private void dockWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {

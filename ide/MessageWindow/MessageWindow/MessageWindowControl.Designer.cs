@@ -50,7 +50,7 @@
             this.tabContorl.Location = new System.Drawing.Point(0, 0);
             this.tabContorl.Name = "tabContorl";
             this.tabContorl.SelectedIndex = 0;
-            this.tabContorl.Size = new System.Drawing.Size(370, 209);
+            this.tabContorl.Size = new System.Drawing.Size(362, 182);
             this.tabContorl.TabIndex = 0;
             // 
             // simTab
@@ -59,7 +59,7 @@
             this.simTab.Location = new System.Drawing.Point(4, 21);
             this.simTab.Name = "simTab";
             this.simTab.Padding = new System.Windows.Forms.Padding(3);
-            this.simTab.Size = new System.Drawing.Size(362, 184);
+            this.simTab.Size = new System.Drawing.Size(354, 157);
             this.simTab.TabIndex = 0;
             this.simTab.Text = "Simulation";
             this.simTab.UseVisualStyleBackColor = true;
@@ -72,7 +72,7 @@
             this.simText.Name = "simText";
             this.simText.ReadOnly = true;
             this.simText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.simText.Size = new System.Drawing.Size(356, 178);
+            this.simText.Size = new System.Drawing.Size(348, 151);
             this.simText.TabIndex = 0;
             // 
             // debTab
@@ -123,9 +123,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(362, 182);
             this.Controls.Add(this.tabContorl);
             this.Name = "MessageWindowControl";
-            this.Size = new System.Drawing.Size(370, 209);
+            this.TabText = "MessageWindow";
+            this.Text = "MessageWindow";
             this.tabContorl.ResumeLayout(false);
             this.simTab.ResumeLayout(false);
             this.simTab.PerformLayout();

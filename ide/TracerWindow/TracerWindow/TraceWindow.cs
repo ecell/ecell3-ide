@@ -38,13 +38,14 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using ZedGraph;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.TracerWindow
 {
     /// <summary>
     /// Form to show trace of target object property.
     /// </summary>
-    public partial class TraceWindow : Form
+    public partial class TraceWindow : DockContent
     {
         #region Fields
         /// <summary>

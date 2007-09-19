@@ -36,6 +36,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Reflection;
 using EcellLib;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.AboutWindow
 {
@@ -88,7 +89,7 @@ namespace EcellLib.AboutWindow
         /// Get the window form for AboutWindow plugin.
         /// </summary>
         /// <returns>null.</returns>
-        public List<UserControl> GetWindowsForms()
+        public List<DockContent> GetWindowsForms()
         {
             return null;
         }
@@ -254,15 +255,6 @@ namespace EcellLib.AboutWindow
         /// <param name="directory">output directory.</param>
         public void SaveModel(string modelID, string directory)
         {
-        }
-
-        /// <summary>
-        /// Set the panel that show this plugin in MainWindow.
-        /// </summary>
-        /// <param name="panel">The set panel.</param>
-        public void SetPanel(Panel panel)
-        {
-            // nothing
         }
 
         /// <summary>
