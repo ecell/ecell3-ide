@@ -786,6 +786,7 @@ namespace EcellLib.Simulation
             if (m_type == Util.RUNNING) return;
             if (m_type == Util.NOTLOAD) return;
             int preType = m_type;
+            m_type = Util.RUNNING;
             try
             {
                 if (m_combo1.Text == "Step")

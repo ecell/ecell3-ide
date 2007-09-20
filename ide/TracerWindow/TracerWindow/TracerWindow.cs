@@ -803,8 +803,6 @@ namespace EcellLib.TracerWindow
             {
                 if (isStep == false && m_type != Util.SUSPEND)
                 {
-                    DataManager manager = DataManager.GetDataManager();
-                    manager.SimulationStop();
                     m_current = 0.0;
                     foreach (TraceWindow t in m_winList)
                     {
@@ -843,7 +841,7 @@ namespace EcellLib.TracerWindow
                 }
                 else
                 {
-                    this.StartSimulation();
+//                    this.StartSimulation();
                 }
             }
 
