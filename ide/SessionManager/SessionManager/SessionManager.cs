@@ -196,6 +196,10 @@ namespace SessionManager
             return m_proxy.GetProperty();
         }
 
+        /// <summary>
+        /// Update the property of proxy.
+        /// </summary>
+        /// <param name="list">the list of new property.</param>
         public void SetEnvironmentProperty(Dictionary<String, Object> list)
         {
             if (m_proxy == null) return;
@@ -321,9 +325,15 @@ namespace SessionManager
             }
         }
 
+        /// <summary>
+        /// Update the information of session.
+        /// </summary>
         public void Upate()
         {
-            // not implement
+            foreach (int job in m_sessionList.Keys)
+            {
+                m_sessionList[job].Update();
+            }
         }
 
         /// <summary>
@@ -456,12 +466,12 @@ namespace SessionManager
             {
                 foreach (int id in m_sessionList.Keys)
                 {
-                    m_sessionList[id].stop();
+                    m_sessionList[id].Stop();
                 }
             }
             else
             {
-                m_sessionList[jobid].stop();
+                m_sessionList[jobid].Stop();
             }
         }
 
@@ -475,7 +485,7 @@ namespace SessionManager
                 if (m_sessionList[id].Status == JobStatus.QUEUED ||
                     m_sessionList[id].Status == JobStatus.RUNNING)
                 {
-                    m_sessionList[id].stop();
+                    m_sessionList[id].Stop();
                 }
             }
         }

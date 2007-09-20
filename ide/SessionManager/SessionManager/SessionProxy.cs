@@ -33,6 +33,9 @@ using System.Text;
 
 namespace SessionManager
 {
+    /// <summary>
+    /// enumerable set of status for job.
+    /// </summary>
     public enum JobStatus
     {
         QUEUED,
@@ -41,24 +44,44 @@ namespace SessionManager
         FINISHED
     }
 
+    /// <summary>
+    /// SessionProxy class. This class is abstract class managed job.
+    /// </summary>
     public class SessionProxy
     {
         private int m_jobId;
         private JobStatus m_status;
 
+        /// <summary>
+        /// get / set status of job.
+        /// </summary>
         public JobStatus Status
         {
             get { return this.m_status; }
             set { this.m_status = value; }
         }
 
+        /// <summary>
+        /// get / set ID of job.
+        /// </summary>
         public int JobID
         {
             get { return this.m_jobId; }
             set { this.m_jobId = value; }
         }
 
-        public void stop()
+        /// <summary>
+        /// Stop this job.
+        /// </summary>
+        public void Stop()
+        {
+            // not implement
+        }
+
+        /// <summary>
+        /// Update the status of job.
+        /// </summary>
+        public void Update()
         {
             // not implement
         }

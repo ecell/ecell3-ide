@@ -34,7 +34,7 @@ using System.Text;
 namespace SessionManager
 {
     /// <summary>
-    /// SystemProxy class. Abstract class of proxy.
+    /// SystemProxy class. This class is abstract class managed session.
     /// </summary>
     public class SystemProxy
     {
@@ -83,6 +83,10 @@ namespace SessionManager
             return null;
         }
 
+        /// <summary>
+        /// Update the property of proxy.
+        /// </summary>
+        /// <param name="list">the list of property.</param>
         public void SetProperty(Dictionary<String, Object> list)
         {
             // not implement
