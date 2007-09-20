@@ -203,7 +203,7 @@ namespace EcellLib.MainWindow
             //Save current window settings.
             try
             {
-                ECellSerializer.saveAsXML(this, filename);
+                ECellSerializer.SaveAsXML(this, filename);
                 Debug.WriteLine("save window settings: " + filename);
             }
             catch (Exception ex)
@@ -224,7 +224,7 @@ namespace EcellLib.MainWindow
             {
                 if (!File.Exists(filename))
                     throw new Exception(m_resources.GetString("FileNotFound"));
-                ECellSerializer.loadFromXML(this, filename);
+                ECellSerializer.LoadFromXML(this, filename);
                 Debug.WriteLine("load window settings: " + filename);
                 return true;
             }

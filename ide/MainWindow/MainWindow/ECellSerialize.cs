@@ -61,10 +61,11 @@ namespace EcellLib.MainWindow {
         /// <summary>
         /// Save ECell window settings.
         /// </summary>
-        public static void saveAsXML(MainWindow window, string filename)
+        public static void SaveAsXML(MainWindow window, string filename)
         {
             DockPanel dockPanel = window.dockPanel;
-            checkDirectory(filename);
+            CloseTracerWindow(dockPanel);
+            CheckFilePath(filename);
             FileStream fs = null;
             XmlTextWriter xmlOut = null;
             try
@@ -107,7 +108,7 @@ namespace EcellLib.MainWindow {
                 xmlOut.WriteEndElement();   //</Form>
 
                 // DockPanel settings
-                xmlOut.WriteStartElement("DockPanel");
+                xmlOut.WriteStartElement("DockPanel");//	<DockPanel>
                 xmlOut.WriteAttributeString("DockLeftPortion", dockPanel.DockLeftPortion.ToString(CultureInfo.InvariantCulture));
                 xmlOut.WriteAttributeString("DockRightPortion", dockPanel.DockRightPortion.ToString(CultureInfo.InvariantCulture));
                 xmlOut.WriteAttributeString("DockTopPortion", dockPanel.DockTopPortion.ToString(CultureInfo.InvariantCulture));
@@ -116,7 +117,7 @@ namespace EcellLib.MainWindow {
                 xmlOut.WriteAttributeString("ActivePane", dockPanel.Panes.IndexOf(dockPanel.ActivePane).ToString(CultureInfo.InvariantCulture));
                 
                 // Contents
-                xmlOut.WriteStartElement("Contents");
+                xmlOut.WriteStartElement("Contents");//	<Contents>
                 xmlOut.WriteAttributeString("Count", dockPanel.Contents.Count.ToString(CultureInfo.InvariantCulture));
                 foreach (DockContent content in dockPanel.Contents)
                 {
@@ -131,23 +132,23 @@ namespace EcellLib.MainWindow {
                 xmlOut.WriteEndElement();//	</Contents>
 
                 // Panes
-                xmlOut.WriteStartElement("Panes");
+                xmlOut.WriteStartElement("Panes");//	<Panes>
                 xmlOut.WriteAttributeString("Count", dockPanel.Panes.Count.ToString(CultureInfo.InvariantCulture));
                 foreach (DockPane pane in dockPanel.Panes)
                 {
-                    xmlOut.WriteStartElement("Pane");
+                    xmlOut.WriteStartElement("Pane");//	<Panes>
                     xmlOut.WriteAttributeString("ID", dockPanel.Panes.IndexOf(pane).ToString(CultureInfo.InvariantCulture));
                     xmlOut.WriteAttributeString("DockState", pane.DockState.ToString());
                     xmlOut.WriteAttributeString("ActiveContent", dockPanel.Contents.IndexOf(pane.ActiveContent).ToString(CultureInfo.InvariantCulture));
-                    xmlOut.WriteStartElement("Contents");
+                    xmlOut.WriteStartElement("Contents");//	<Contents>
                     xmlOut.WriteAttributeString("Count", pane.Contents.Count.ToString(CultureInfo.InvariantCulture));
                     foreach (DockContent content in pane.Contents)
                     {
-                        xmlOut.WriteStartElement("Content");
+                        xmlOut.WriteStartElement("Content");//	<Content>
                         xmlOut.WriteAttributeString("ID", pane.Contents.IndexOf(content).ToString(CultureInfo.InvariantCulture));
                         xmlOut.WriteAttributeString("Name", content.Name);
                         xmlOut.WriteAttributeString("RefID", dockPanel.Contents.IndexOf(content).ToString(CultureInfo.InvariantCulture));
-                        xmlOut.WriteEndElement();
+                        xmlOut.WriteEndElement();//	</Content>
                     }
                     xmlOut.WriteEndElement();//	</Contents>
                     xmlOut.WriteEndElement();//	</Pane>
@@ -223,7 +224,25 @@ namespace EcellLib.MainWindow {
             }
         }
 
-        private static void checkDirectory(string filename)
+        /// <summary>
+        /// Close TracerWindow.
+        /// </summary>
+        private static void CloseTracerWindow(DockPanel dockPanel)
+        {
+            List<DockContent> list = new List<DockContent>();
+            for (int i = dockPanel.Contents.Count - 1; i > 0; i--)
+            {
+                DockContent content = (DockContent)dockPanel.Contents[i];
+                if (content.Text.Contains("Tracer") || content.Text.Contains("ÉgÉåÅ[ÉT"))
+                    content.Close();
+            }
+            dockPanel.Refresh();
+        }
+
+        /// <summary>
+        /// Check file path.
+        /// </summary>
+        private static void CheckFilePath(string filename)
         {
             string path = Path.GetDirectoryName(filename);
             if (!Directory.Exists(path))
@@ -233,7 +252,7 @@ namespace EcellLib.MainWindow {
         /// <summary>
         /// Load ECell window settings.
         /// </summary>
-        public static void loadFromXML(MainWindow window, string filename)
+        public static void LoadFromXML(MainWindow window, string filename)
         {
             DockPanel dockPanel = window.dockPanel;
             FileStream fs = null;
@@ -269,7 +288,7 @@ namespace EcellLib.MainWindow {
                 window.Height = Convert.ToInt32(xmlIn.GetAttribute("Height"), CultureInfo.InvariantCulture);
                 window.Width = Convert.ToInt32(xmlIn.GetAttribute("Width"), CultureInfo.InvariantCulture);
                 // checkWindowSize
-                checkWindowSize(window);
+                CheckWindowSize(window);
 
                 while (!xmlIn.Name.Equals("DockPanel"))
                 {
@@ -338,7 +357,7 @@ namespace EcellLib.MainWindow {
                 // Create Contents
                 for (int i = 0; i < contents.Length; i++)
                 {
-                    IDockContent content = setDockContent(window, contents[i]);
+                    IDockContent content = SetDockContent(window, contents[i]);
                     if (content == null)
                         content = new DockContent();
                     content.DockHandler.DockPanel = dockPanel;
@@ -392,7 +411,7 @@ namespace EcellLib.MainWindow {
                         if (j == 0)
                         {
                             fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, floatWindows[i].Bounds);
-                            checkWindowSize(fw);
+                            CheckWindowSize(fw);
                         }
                         else
                         {
@@ -705,7 +724,7 @@ namespace EcellLib.MainWindow {
             return contents;
         }
 
-        private static DockContent setDockContent(MainWindow window, ContentStruct content)
+        private static DockContent SetDockContent(MainWindow window, ContentStruct content)
         {
             DockContent dock = window.getDockContent(content.Name);
             dock.IsHidden = content.IsHidden;
@@ -828,7 +847,7 @@ namespace EcellLib.MainWindow {
             return floatWindows;
         }
 
-        public static void checkWindowSize(Form win)
+        private static void CheckWindowSize(Form win)
         {
             if (win.Left < 0)
                 win.Left = 0;
