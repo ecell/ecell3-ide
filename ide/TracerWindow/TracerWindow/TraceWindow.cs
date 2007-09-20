@@ -700,39 +700,16 @@ namespace EcellLib.TracerWindow
         /// <param name="tag"></param>
         public void DeleteTraceEntry(TagData tag)
         {
-            EcellObject m_currentObj = null;
             DataManager m_dManager = DataManager.GetDataManager();
+            EcellObject m_currentObj = m_dManager.GetEcellObject(tag.M_modelID, tag.M_key, tag.M_type);
 
-            string[] keys = tag.M_key.Split(new char[] { ':' });
-            List<EcellObject> list = m_dManager.GetData(tag.M_modelID, keys[0]);
-            if (list == null || list.Count == 0)
+            if (m_currentObj == null)
             {
                 String errmes = m_resources.GetString("ErrNoFind");
                 MessageBox.Show(errmes + "(" + tag.M_modelID + "," + tag.M_key + ")",
                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            for (int i = 0; i < list.Count; i++)
-            {
-                List<EcellObject> insList = list[i].M_instances;
-                if (insList == null || insList.Count == 0) continue;
-                for (int j = 0; j < insList.Count; j++)
-                {
-                    if (insList[j].key == tag.M_key && insList[j].type == tag.M_type)
-                    {
-                        m_currentObj = insList[j];
-                        break;
-                    }
-                }
-            }
-
-            if (m_currentObj == null) return;
-
-            EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID,
-                                            m_currentObj.key,
-                                            m_currentObj.type,
-                                            m_currentObj.classname,
-                                            new List<EcellData>());
 
             foreach (EcellData d in m_currentObj.M_value)
             {
@@ -740,13 +717,12 @@ namespace EcellLib.TracerWindow
                 {
                     d.M_isLogger = false;
                 }
-                obj.M_value.Add(d);
             }
 
             m_dManager.DataChanged(m_currentObj.modelID,
                 m_currentObj.key,
                 m_currentObj.type,
-                obj);
+                m_currentObj);
         }
 
 
