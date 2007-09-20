@@ -1250,6 +1250,11 @@ namespace EcellLib.PathwayWindow
                     if (logger.Equals(d.M_name))
                     {
                         d.M_isLogger = true;
+                        PluginManager.GetPluginManager().LoggerAdd(
+                            ecellobj.modelID,
+                            ecellobj.key,
+                            ecellobj.type,
+                            d.M_entityPath);
                     }
                 }
                 // modify changes
