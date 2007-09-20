@@ -792,17 +792,17 @@ namespace EcellLib.Simulation
                 {
                     int stepCount = Convert.ToInt32(m_text1.Text);
                     if (stepCount < 0) return;
-                    PluginManager.GetPluginManager().ChangeStatus(Util.STEP);
                     m_dManager.SimulationStartKeepSetting(stepCount); // m_dManager.SimulationStart(stepCount);
+                    PluginManager.GetPluginManager().ChangeStatus(Util.STEP);
                 }
                 else
                 {
                     double timeCount = Convert.ToDouble(m_text1.Text);
                     if (timeCount < 0) return;
-                    PluginManager.GetPluginManager().ChangeStatus(Util.STEP);
                     m_dManager.SimulationStartKeepSetting(timeCount); // m_dManager.SimulationStart(timeCount);
+                    PluginManager.GetPluginManager().ChangeStatus(Util.STEP);
                 }
-                PluginManager.GetPluginManager().ChangeStatus(Util.STEP);
+//                PluginManager.GetPluginManager().ChangeStatus(Util.STEP);
             }
             catch (Exception ex)
             {

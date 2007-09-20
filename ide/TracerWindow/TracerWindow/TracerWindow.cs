@@ -801,8 +801,10 @@ namespace EcellLib.TracerWindow
             }
             else if (type == Util.STEP)
             {
-                if (isStep == false)
+                if (isStep == false && m_type != Util.SUSPEND)
                 {
+                    DataManager manager = DataManager.GetDataManager();
+                    manager.SimulationStop();
                     m_current = 0.0;
                     foreach (TraceWindow t in m_winList)
                     {
