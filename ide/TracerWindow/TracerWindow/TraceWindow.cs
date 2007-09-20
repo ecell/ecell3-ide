@@ -283,6 +283,12 @@ namespace EcellLib.TracerWindow
             }
             else
             {
+                if (!isSuspend)
+                {
+                    m_zCnt.GraphPane.XAxis.Scale.Max = 10.0;
+                    m_zCnt.AxisChange();
+                    m_zCnt.Refresh();
+                }
                 searchDirButton.Enabled = false;
                 TWSaveButton.Enabled = false;
             }
