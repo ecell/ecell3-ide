@@ -162,6 +162,25 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// get / set name.
+        /// </summary>
+        public string name
+        {
+            get {
+                if (IsEcellValueExists("Name"))
+                    return GetEcellValue("Name").ToString();
+                else
+                    return null;
+                }
+            set {
+                if (IsEcellValueExists("Name"))
+                    GetEcellValue("Name").M_value = value;
+                else
+                    AddEcellValue("Name", new EcellValue(value) );
+            }
+        }
+
+        /// <summary>
         /// get/set m_keyID.
         /// </summary>
         public string key
@@ -181,16 +200,21 @@ namespace EcellLib
         /// <summary>
         /// get text.
         /// </summary>
-        public string Name
+        public string Text
         {
             get
             {
+                string text;
                 if (key == null || key.Equals("/"))
-                    return "/";
+                    text = "/";
                 else if (key.Contains(":"))
-                    return key.Substring(key.LastIndexOf(":") + 1 );
+                    text = key.Substring(key.LastIndexOf(":") + 1);
                 else
-                    return key.Substring(key.LastIndexOf("/") + 1);
+                    text = key.Substring(key.LastIndexOf("/") + 1);
+                if (IsLogger)
+                    text += " *";
+
+                return text;
             }
             set
             {
@@ -476,15 +500,6 @@ namespace EcellLib
         public void AddValue(EcellData d)
         {
             this.m_ecellDatas.Add(d);
-            this.DistributeValue(d);
-        }
-
-        /// <summary>
-        /// Distribute the property to member.
-        /// </summary>
-        /// <param name="d">EcellData.</param>
-        protected void DistributeValue(EcellData d)
-        {
         }
 
         /// <summary>
@@ -494,12 +509,6 @@ namespace EcellLib
         public void SetEcellDatas(List<EcellData> list)
         {
             this.m_ecellDatas = list;
-
-            if (list == null) return;
-            foreach (EcellData d in list)
-            {
-                DistributeValue(d);
-            }
         }
 
         /// <summary>
@@ -550,6 +559,16 @@ namespace EcellLib
                 if (d.M_name == name)
                     return true;
             return false;
+        }
+
+        /// <summary>
+        /// Add EcellValue.
+        /// </summary>
+        protected void AddEcellValue(string name, EcellValue value)
+        {
+            string entytyPath = this.type + ":" + this.key + ":" + name;
+            EcellData data = new EcellData(name, value, entytyPath);
+            AddValue(data);
         }
 
         #endregion
@@ -847,6 +866,26 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Creates a new "EcellValue" instance with a "List&lt;EcellValue&gt;" argument.
+        /// </summary>
+        /// <param name="l_value">The "List&lt;EcellValue&gt;" value</param>
+        public EcellValue(EcellReference l_ref)
+        {
+            List<EcellValue> l_list = new List<EcellValue>();
+            EcellValue value1 = new EcellValue(l_ref.name);
+            EcellValue value2 = new EcellValue(l_ref.fullID);
+            EcellValue value3 = new EcellValue(l_ref.coefficient);
+            EcellValue value4 = new EcellValue(l_ref.isAccessor);
+            l_list.Add(value1);
+            l_list.Add(value2);
+            l_list.Add(value3);
+            l_list.Add(value4);
+
+            m_value = l_list;
+            m_type = typeof(List<EcellValue>);
+        }
+
+        /// <summary>
         /// Creates a new "EcellValue" instance with a "WrappedPolymorph" argument.
         /// </summary>
         /// <param name="l_value">The "WrappedPolymorph" value</param>
@@ -899,7 +938,10 @@ namespace EcellLib
         public Object M_value
         {
             get { return this.m_value; }
-            set { this.m_value = value; }
+            set {
+                this.m_value = value;
+                m_type = this.m_value.GetType();
+            }
         }
         #endregion
 
@@ -1324,6 +1366,20 @@ namespace EcellLib
                 this.m_accessor = Convert.ToInt32(m.Groups["fix"].Value);
             }
         }
+        /// <summary>
+        /// Constructor with initial parameter.
+        /// </summary>
+        /// <param name="value">EcellValue</param>
+        public EcellReference(EcellValue value)
+        {
+            List<EcellValue> list = value.CastToList();
+            if (list.Count != 4)
+                return;
+            this.m_name = list[0].CastToString();
+            this.m_fullID = list[1].CastToString();
+            this.m_coeff = list[2].CastToInt();
+            this.m_accessor = list[3].CastToInt();
+        }
         #endregion
 
         #region Accessors
@@ -1423,6 +1479,44 @@ namespace EcellLib
             }
             return list;
         }
+
+        /// <summary>
+        /// Get the list of reference from VariableReferenceList.
+        /// </summary>
+        /// <param name="varRef">VariableReferenceList.</param>
+        /// <returns>the list of EcellReference.</returns>
+        public static List<EcellReference> ConvertFromVarRefList(EcellValue varRef)
+        {
+            List<EcellValue> varRefList = varRef.CastToList();
+            List<EcellReference> list = new List<EcellReference>();
+            if (varRefList == null || varRefList.Count == 0)
+                return list;
+            foreach (EcellValue value in varRefList)
+            {
+                EcellReference er = new EcellReference(value);
+                list.Add(er);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Get the list of reference from VariableReferenceList.
+        /// </summary>
+        /// <param name="varRefList">VariableReferenceList.</param>
+        /// <returns>the list of EcellReference.</returns>
+        public static EcellValue ConvertToVarRefList(List<EcellReference> refList)
+        {
+            List<EcellValue> list = new List<EcellValue>();
+            if (refList == null || refList.Count == 0)
+                return new EcellValue(list);
+
+            foreach (EcellReference er in refList)
+            {
+                EcellValue value = new EcellValue(er);
+                list.Add(value);
+            }
+            return new EcellValue(list);
+        }
         #endregion
     }
 
@@ -1432,10 +1526,9 @@ namespace EcellLib
     /// </summary>
     public class EcellSystem : EcellObject
     {
-        #region Fields
-        private string m_name;
-        private double m_size;
-        private string m_stepperID;
+
+        #region Constant
+        public const string SIZE = "Size";
         #endregion
 
         #region Constractors
@@ -1459,22 +1552,24 @@ namespace EcellLib
         #endregion
 
         #region Accessors
-        /// <summary>
-        /// get / set name.
-        /// </summary>
-        public string name
-        {
-            get { return this.m_name; }
-            set { this.m_name = value; }
-        }
 
         /// <summary>
         /// get / set size;
         /// </summary>
         public double size
         {
-            get { return this.size; }
-            set { this.m_size = value; }
+            get {
+                if (IsEcellValueExists(SIZE))
+                    return GetEcellValue(SIZE).CastToDouble();
+                else
+                    return 0;
+                }
+            set {
+                if (IsEcellValueExists(SIZE))
+                    GetEcellValue(SIZE).M_value = value;
+                else
+                    AddEcellValue(SIZE, new EcellValue(value));
+            }
         }
 
         /// <summary>
@@ -1482,22 +1577,36 @@ namespace EcellLib
         /// </summary>
         public string stepperID
         {
-            get { return this.m_stepperID; }
-            set { this.m_stepperID = value; }
+            get {
+                if (IsEcellValueExists("StepperID"))
+                    return GetEcellValue("StepperID").ToString();
+                else
+                    return null;
+                }
+            set {
+                if (IsEcellValueExists("StepperID"))
+                    GetEcellValue("StepperID").M_value = value;
+                else
+                    AddEcellValue("StepperID", new EcellValue(value) );
+            }
+        }
+        public new string Text
+        {
+            get
+            {
+                string text = base.Text;
+                if (IsEcellValueExists(SIZE))
+                    text += " (SIZE:" + GetEcellValue(SIZE).ToString() +")";
+                return text;
+            }
+            set
+            {
+                base.Text = value;
+            }        
         }
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Distribute the property to member.
-        /// </summary>
-        /// <param name="d">parameter.</param>
-        public new void DistributeValue(EcellData d)
-        {
-            if (d.M_name == "Name") m_name = d.M_value.CastToString();
-            else if (d.M_name == "Size") m_size = d.M_value.CastToDouble();
-            else if (d.M_name == "StepperID") m_stepperID = d.M_value.CastToString();
-        }
         #endregion
     }
 
@@ -1508,13 +1617,6 @@ namespace EcellLib
     public class EcellVariable : EcellObject
     {
         #region Fields
-        private int m_isFixed;
-        private double m_molarConc;
-        private string m_name;
-        private double m_numberConc;
-        private double m_totalVelocity;
-        private double m_valueData;
-        private double m_velocity;
         #endregion
 
         #region Constractors
@@ -1543,8 +1645,18 @@ namespace EcellLib
         /// </summary>
         public int isFixed
         {
-            get { return this.m_isFixed; }
-            set { this.m_isFixed = value; }
+            get {
+                if (IsEcellValueExists("Fixed"))
+                    return GetEcellValue("Fixed").CastToInt();
+                else
+                    return 0;
+                }
+            set {
+                if (IsEcellValueExists("Fixed"))
+                    GetEcellValue("Fixed").M_value = value;
+                else
+                    AddEcellValue("Fixed", new EcellValue(value));
+            }
         }
 
         /// <summary>
@@ -1552,16 +1664,18 @@ namespace EcellLib
         /// </summary>
         public double molarConc
         {
-            get { return this.m_molarConc; }
-            set { this.m_molarConc = value; }
-        }
-        /// <summary>
-        /// get / set name.
-        /// </summary>
-        public string name
-        {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get {
+                if (IsEcellValueExists("MolarConc"))
+                    return GetEcellValue("MolarConc").CastToDouble();
+                else
+                    return 0;
+                }
+            set {
+                if (IsEcellValueExists("MolarConc"))
+                    GetEcellValue("MolarConc").M_value = value;
+                else
+                    AddEcellValue("MolarConc", new EcellValue(value));
+            }
         }
 
         /// <summary>
@@ -1569,8 +1683,20 @@ namespace EcellLib
         /// </summary>
         public double numberConc
         {
-            get { return this.m_numberConc; }
-            set { this.m_numberConc = value; }
+            get
+            {
+                if (IsEcellValueExists("NumberConc"))
+                    return GetEcellValue("NumberConc").CastToDouble();
+                else
+                    return 0;
+            }
+            set
+            {
+                if (IsEcellValueExists("NumberConc"))
+                    GetEcellValue("NumberConc").M_value = value;
+                else
+                    AddEcellValue("NumberConc", new EcellValue(value));
+            }
         }
 
         /// <summary>
@@ -1578,8 +1704,20 @@ namespace EcellLib
         /// </summary>
         public double totalVelocity
         {
-            get { return this.m_totalVelocity; }
-            set { this.m_totalVelocity = value; }
+            get
+            {
+                if (IsEcellValueExists("TotalVelocity"))
+                    return GetEcellValue("TotalVelocity").CastToDouble();
+                else
+                    return 0;
+            }
+            set
+            {
+                if (IsEcellValueExists("TotalVelocity"))
+                    GetEcellValue("TotalVelocity").M_value = value;
+                else
+                    AddEcellValue("TotalVelocity", new EcellValue(value));
+            }
         }
 
         /// <summary>
@@ -1587,8 +1725,20 @@ namespace EcellLib
         /// </summary>
         public double value
         {
-            get { return this.m_valueData; }
-            set { this.m_valueData = value; }
+            get
+            {
+                if (IsEcellValueExists("Value"))
+                    return GetEcellValue("Value").CastToDouble();
+                else
+                    return 0;
+            }
+            set
+            {
+                if (IsEcellValueExists("Value"))
+                    GetEcellValue("Value").M_value = value;
+                else
+                    AddEcellValue("Value", new EcellValue(value));
+            }
         }
 
         /// <summary>
@@ -1596,26 +1746,24 @@ namespace EcellLib
         /// </summary>
         public double velocity
         {
-            get { return this.m_velocity; }
-            set { this.m_velocity = value; }
+            get
+            {
+                if (IsEcellValueExists("Velocity"))
+                    return GetEcellValue("Velocity").CastToDouble();
+                else
+                    return 0;
+            }
+            set
+            {
+                if (IsEcellValueExists("Velocity"))
+                    GetEcellValue("Velocity").M_value = value;
+                else
+                    AddEcellValue("Velocity", new EcellValue(value));
+            }
         }
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Distribute the property to member.
-        /// </summary>
-        /// <param name="d">parameter.</param>
-        public new void DistributeValue(EcellData d)
-        {
-            if (d.M_name == "Fixed") m_isFixed = d.M_value.CastToInt();
-            else if (d.M_name == "MolarConc") m_molarConc = d.M_value.CastToDouble();
-            else if (d.M_name == "Name") m_name = d.M_value.CastToString();
-            else if (d.M_name == "NumberConc") m_numberConc = d.M_value.CastToDouble();
-            else if (d.M_name == "TotalVelocity") m_totalVelocity = d.M_value.CastToDouble();
-            else if (d.M_name == "Value") m_valueData = d.M_value.CastToDouble();
-            else if (d.M_name == "Velocity") m_velocity = d.M_value.CastToDouble();
-        }
         #endregion
     }
 
@@ -1663,13 +1811,6 @@ namespace EcellLib
         #endregion
 
         #region Fields
-        private double m_activity;
-        private string m_expression;
-        private int m_iscontinuous;
-        private string m_name;
-        private int m_priority;
-        private string m_stepperID;
-        private List<EcellReference> m_refList;
         #endregion
         
         #region Constractors
@@ -1698,8 +1839,20 @@ namespace EcellLib
         /// </summary>
         public double activity
         {
-            get { return this.m_activity; }
-            set { this.m_activity = value; }
+            get
+            {
+                if (IsEcellValueExists(ACTIVITY))
+                    return GetEcellValue(ACTIVITY).CastToDouble();
+                else
+                    return 0;
+            }
+            set
+            {
+                if (IsEcellValueExists(ACTIVITY))
+                    GetEcellValue(ACTIVITY).M_value = value;
+                else
+                    AddEcellValue(ACTIVITY, new EcellValue(value));
+            }
         }
 
         /// <summary>
@@ -1707,8 +1860,18 @@ namespace EcellLib
         /// </summary>
         public string expression
         {
-            get { return this.m_expression; }
-            set { this.m_expression = value; }
+            get {
+                if ( IsEcellValueExists(EXPRESSION) )
+                    return GetEcellValue(EXPRESSION).ToString();
+                else
+                    return null;
+                }
+            set {
+                if (IsEcellValueExists(EXPRESSION))
+                    GetEcellValue(EXPRESSION).M_value = value;
+                else
+                    AddEcellValue(EXPRESSION, new EcellValue(value) );
+            }
         }
 
         /// <summary>
@@ -1716,17 +1879,20 @@ namespace EcellLib
         /// </summary>
         public int isContinuous
         {
-            get { return this.m_iscontinuous; }
-            set { this.m_iscontinuous = value; }
-        }
-
-        /// <summary>
-        /// get / set the name of object.
-        /// </summary>
-        public string name
-        {
-            get { return this.m_name; }
-            set { this.m_name = value; }
+            get
+            {
+                if (IsEcellValueExists(ISCONTINUOUS))
+                    return GetEcellValue(ISCONTINUOUS).CastToInt();
+                else
+                    return 0;
+            }
+            set
+            {
+                if (IsEcellValueExists(ISCONTINUOUS))
+                    GetEcellValue(ISCONTINUOUS).M_value = value;
+                else
+                    AddEcellValue(ISCONTINUOUS, new EcellValue(value));
+            }
         }
 
         /// <summary>
@@ -1734,8 +1900,20 @@ namespace EcellLib
         /// </summary>
         public int priority
         {
-            get { return this.m_priority; }
-            set { this.m_priority = value; }
+            get
+            {
+                if (IsEcellValueExists(PRIORITY))
+                    return GetEcellValue(PRIORITY).CastToInt();
+                else
+                    return 0;
+            }
+            set
+            {
+                if (IsEcellValueExists(PRIORITY))
+                    GetEcellValue(PRIORITY).M_value = value;
+                else
+                    AddEcellValue(PRIORITY, new EcellValue(value));
+            }
         }
 
         /// <summary>
@@ -1743,36 +1921,36 @@ namespace EcellLib
         /// </summary>
         public string stepperID
         {
-            get { return this.m_stepperID; }
-            set { this.m_stepperID = value; }
+            get
+            {
+                if (IsEcellValueExists(STEPPERID))
+                    return GetEcellValue(STEPPERID).ToString();
+                else
+                    return null;
+            }
+            set
+            {
+                if (IsEcellValueExists(STEPPERID))
+                    GetEcellValue(STEPPERID).M_value = value;
+                else
+                    AddEcellValue(STEPPERID, new EcellValue(value));
+            }
         }
 
         /// <summary>
         /// get / set the property of VariableReferenceList.
         /// </summary>
-        public List<EcellReference> VariableReferenceList
+        public List<EcellReference> ReferenceList
         {
-            get { return this.m_refList; }
-            set { this.m_refList = value; }
+            get { return EcellReference.ConvertFromVarRefList(this.GetEcellValue(VARIABLEREFERENCELIST)); }
+            set {
+                EcellValue varRef = EcellReference.ConvertToVarRefList(value);
+                this.GetEcellData(VARIABLEREFERENCELIST).M_value = varRef;
+            }
         }
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Distribute the property to member.
-        /// </summary>
-        /// <param name="d">property.</param>
-        public new void DistributeValue(EcellData d)
-        {
-            if (d.M_name == ACTIVITY) m_activity = d.M_value.CastToDouble();
-            else if (d.M_name == EXPRESSION) m_expression = d.M_value.CastToString();
-            else if (d.M_name == ISCONTINUOUS) m_iscontinuous = d.M_value.CastToInt();
-            else if (d.M_name == NAME) m_name = d.M_value.CastToString();
-            else if (d.M_name == PRIORITY) m_priority = d.M_value.CastToInt();
-            else if (d.M_name == STEPPERID) m_stepperID = d.M_value.CastToString();
-            else if (d.M_name == VARIABLEREFERENCELIST)
-                m_refList = EcellReference.ConvertString(d.M_value.CastToString());
-        }
         #endregion
     }
 }
