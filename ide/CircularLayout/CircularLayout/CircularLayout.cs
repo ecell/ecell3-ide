@@ -137,7 +137,7 @@ namespace EcellLib.CircularLayout
 
             // first numLayout elements are NodeElements to be layouted.
             // And rest are NodeElement which are connected with layouted nodes.
-            List<EcellObject> orderedList = GetRelatedNodes(nodeList);
+            //List<EcellObject> orderedList = GetRelatedNodes(nodeList);
 
             // Coordinates of the points on the circle.
             // circlePoints[0] is the coordinates of the east point on the circle.
@@ -651,55 +651,55 @@ namespace EcellLib.CircularLayout
         /// </summary>
         /// <param name="nodeElements"></param>
         /// <returns></returns>
-        private List<EcellObject> GetRelatedNodes(List<EcellObject> nodeList)
-        {
-            List<EcellObject> returnList = new List<EcellObject>();
+        //private List<EcellObject> GetRelatedNodes(List<EcellObject> nodeList)
+        //{
+        //    List<EcellObject> returnList = new List<EcellObject>();
 
-            Dictionary<string, EcellObject> inDict = new Dictionary<string, EcellObject>();
-            Dictionary<string, EcellObject> outDict = new Dictionary<string, EcellObject>();
+        //    Dictionary<string, EcellObject> inDict = new Dictionary<string, EcellObject>();
+        //    Dictionary<string, EcellObject> outDict = new Dictionary<string, EcellObject>();
 
-            foreach (EcellObject node in nodeList)
-            {
-                returnList.Add(node);
-                inDict.Add(node.key, node);
-            }
-            Dictionary<string, EcellObject> relatedOutDict = new Dictionary<string, EcellObject>();
+        //    foreach (EcellObject node in nodeList)
+        //    {
+        //        returnList.Add(node);
+        //        inDict.Add(node.key, node);
+        //    }
+        //    Dictionary<string, EcellObject> relatedOutDict = new Dictionary<string, EcellObject>();
 
-            foreach (EcellObject node in nodeList)
-            {
-                if (node is EcellProcess)
-                {
-                    EcellProcess pro = (EcellProcess)node;
+        //    foreach (EcellObject node in nodeList)
+        //    {
+        //        if (node is EcellProcess)
+        //        {
+        //            EcellProcess pro = (EcellProcess)node;
 
-                    if (!pro.Fixed)
-                    {
-                        foreach (string key in pro.Edges.Keys)
-                        {
-                            string unique = key + ":variable";
-                            if (outDict.ContainsKey(key) && !relatedOutDict.ContainsKey(unique))
-                            {
-                                returnNodes.Add(outDict[key]);
-                                relatedOutDict.Add(unique, outDict[key]);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (string key in pro.Edges.Keys)
-                        {
-                            string unique = pro.Key + ":process";
-                            if (inDict.ContainsKey(key) && !relatedOutDict.ContainsKey(unique))
-                            {
-                                returnNodes.Add(pro);
-                                relatedOutDict.Add(unique, pro);
-                            }
-                        }
-                    }
-                }
-            }
+        //            if (!pro.Fixed)
+        //            {
+        //                foreach (string key in pro.Edges.Keys)
+        //                {
+        //                    string unique = key + ":variable";
+        //                    if (outDict.ContainsKey(key) && !relatedOutDict.ContainsKey(unique))
+        //                    {
+        //                        returnNodes.Add(outDict[key]);
+        //                        relatedOutDict.Add(unique, outDict[key]);
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                foreach (string key in pro.Edges.Keys)
+        //                {
+        //                    string unique = pro.Key + ":process";
+        //                    if (inDict.ContainsKey(key) && !relatedOutDict.ContainsKey(unique))
+        //                    {
+        //                        returnNodes.Add(pro);
+        //                        relatedOutDict.Add(unique, pro);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
 
-            return returnNodes;
-        }
+        //    return returnNodes;
+        //}
 
         /// <summary>
         /// Get a rectangle surrounded by given nodes.
