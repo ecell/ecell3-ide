@@ -3517,10 +3517,8 @@ namespace EcellLib.PathwayWindow
                     pro.OffsetX = data.OffsetX;
                     pro.OffsetY = data.OffsetY;
 
-                    string vrl = data.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString();
-
                     ProcessElement pe = (ProcessElement)pro.Element;
-                    pe.SetEdgesByStr(vrl);
+                    pe.SetEdgesByEcellValue(data.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST));
                     pro.DeleteEdges();
                     pro.CreateEdges();
                     

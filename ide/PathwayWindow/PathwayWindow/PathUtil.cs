@@ -279,31 +279,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Convert Ecell FullID to key
-        ///  ex) When argument is ":/CELL/CYTOPLASM:P", a return value will be "/CELL/CYTOPLASM:P"
-        /// </summary>
-        /// <param name="fullID">Ecell FullID</param>
-        /// <returns>Ecell key</returns>
-        public static string FullID2Key(string fullID)
-        {
-            if (fullID == null)
-                return null;
-            else
-                return m_headColonRegex.Replace(fullID, "");
-        }
-
-        /// <summary>
-        /// Convert Ecell key to FullID
-        ///  ex) When argument is "/CELL/CYTOPLASM:P", a return value will be ":/CELL/CYTOPLASM:P"
-        /// </summary>
-        /// <param name="key">Ecell key</param>
-        /// <returns>Ecell FullID</returns>
-        public static string Key2FullID(string key)
-        {
-            return ":" + key;
-        }
-
-        /// <summary>
         /// Get distance between two points
         /// </summary>
         /// <param name="point1">point 1</param>

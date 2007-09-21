@@ -60,7 +60,76 @@ namespace EcellLib.DistributeLayout
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
         {
-            return false;
+            if (nodeList.Count <= 2)
+                return false;
+
+            Direction dir = GetDirection(subNum);
+
+            float min = GetValue(nodeList[0], dir);
+            float max = GetValue(nodeList[0], dir);
+            SortedDictionary<float, List<EcellObject>> posDict = new SortedDictionary<float, List<EcellObject>>();
+
+            foreach (EcellObject node in nodeList)
+            {
+                float value = GetValue(node, dir);
+                this.AddIntoDictionary(posDict, value, node);
+                if (value < min)
+                    min = value;
+                else if (max < value)
+                    max = value;
+            }
+
+            float increment = (max - min) / ((float)nodeList.Count - 1);
+
+            float count = 0;
+
+            foreach (KeyValuePair<float, List<EcellObject>> pair in posDict)
+            {
+                foreach (EcellObject node in pair.Value)
+                {
+                    switch (dir)
+                    {
+                        case Direction.Horizontally:
+                            node.X = min + increment * count;
+                            break;
+                        case Direction.Vertically:
+                            node.Y = min + increment * count;
+                            break;
+                    }
+                    count = count + 1;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Get Value.
+        /// </summary>
+        private float GetValue(EcellObject node, Direction dir)
+        {
+            switch (dir)
+            {
+                case Direction.Horizontally:default:
+                    return node.X;
+                case Direction.Vertically:
+                    return node.Y;
+            }
+        }
+
+        /// <summary>
+        /// Get Direction.
+        /// </summary>
+        private Direction GetDirection(int subNum)
+        {
+            switch (subNum)
+            {
+                case 0:
+                default:
+                    return Direction.Horizontally;
+                case 1:
+                    return Direction.Vertically;
+            }
         }
         /// <summary>
         /// Execute layout.
@@ -90,19 +159,7 @@ namespace EcellLib.DistributeLayout
             if (nodeElements.Count <= 2)
                 return false;
 
-            Direction dir;
-            switch(subNum)
-            {
-                case 0:
-                    dir = Direction.Horizontally;
-                    break;
-                case 1:
-                    dir = Direction.Vertically;
-                    break;
-                default:
-                    dir = Direction.Horizontally;
-                    break;
-            }
+            Direction dir = GetDirection(subNum);
 
             bool isFirst = true;
             float min = 0;
@@ -179,7 +236,7 @@ namespace EcellLib.DistributeLayout
                                        float posValue,
                                        NodeElement nodeEle)
         {
-            if(dict == null)
+            if (dict == null)
                 return;
             if (dict.ContainsKey(posValue))
                 dict[posValue].Add(nodeEle);
@@ -187,7 +244,23 @@ namespace EcellLib.DistributeLayout
             {
                 List<NodeElement> newDict = new List<NodeElement>();
                 newDict.Add(nodeEle);
-                dict.Add(posValue,newDict);
+                dict.Add(posValue, newDict);
+            }
+        }
+
+        private void AddIntoDictionary(SortedDictionary<float, List<EcellObject>> dict,
+                                       float posValue,
+                                       EcellObject node)
+        {
+            if (dict == null)
+                return;
+            if (dict.ContainsKey(posValue))
+                dict[posValue].Add(node);
+            else
+            {
+                List<EcellObject> newDict = new List<EcellObject>();
+                newDict.Add(node);
+                dict.Add(posValue, newDict);
             }
         }
 

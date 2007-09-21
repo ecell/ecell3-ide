@@ -261,6 +261,22 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// X center
+        /// </summary>
+        public float CenterX
+        {
+            get { return m_x + m_width / 2; }
+        }
+
+        /// <summary>
+        /// Y center
+        /// </summary>
+        public float CenterY
+        {
+            get { return m_y + m_height / 2; }
+        }
+
+        /// <summary>
         /// X offset
         /// </summary>
         public float OffsetX
@@ -1607,6 +1623,14 @@ namespace EcellLib
         #endregion
 
         #region Methods
+        public bool IsContaining(EcellObject l_obj)
+        {
+            if (l_obj.X < this.X || l_obj.Y < this.Y)
+                return false;
+            if (l_obj.CenterX > this.X + this.Width || CenterY > this.Y + this.Height)
+                return false;
+            return true;
+        }
         #endregion
     }
 

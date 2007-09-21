@@ -99,7 +99,6 @@
     <Compile Include="ComponentSetting.cs" />
     <Compile Include="ComponentSettingsManager.cs" />
     <Compile Include="CreateNodeMouseHandler.cs" />
-    <Compile Include="DefaultLayoutAlgorithm.cs" />
     <Compile Include="DefaultMouseHandler.cs" />
     <Compile Include="ElementArray.cs" />
     <Compile Include="Element\NamespaceDoc.cs" />
