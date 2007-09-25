@@ -72,7 +72,6 @@ namespace EcellLib.AlignLayout
         /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
         /// If layout name itself was clicked, subCommandNum = -1.
         /// </param>
-        /// <param name="subNum">Number of Layout</param>
         /// <param name="layoutSystem">Whether systems should be layouted or not</param>
         /// <param name="systemElements">Systems</param>
         /// <param name="nodeElements">Nodes (Variables, Processes)</param>
@@ -175,7 +174,6 @@ namespace EcellLib.AlignLayout
         /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
         /// If layout name itself was clicked, subCommandNum = -1.
         /// </param>
-        /// <param name="subNum">Number of Layout</param>
         /// <param name="layoutSystem">Whether systems should be layouted or not</param>
         /// <param name="systemList">Systems (can null)</param>
         /// <param name="nodeList">Nodes (Variables, Processes)</param>

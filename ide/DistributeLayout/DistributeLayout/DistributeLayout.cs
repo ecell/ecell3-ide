@@ -52,8 +52,8 @@ namespace EcellLib.DistributeLayout
         /// If layout name itself was clicked, subCommandNum = -1.
         /// </param>
         /// <param name="layoutSystem">Whether systems should be layouted or not</param>
-        /// <param name="systemElements">Systems</param>
-        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
+        /// <param name="systemList">Systems</param>
+        /// <param name="nodeList">Nodes (Variables, Processes)</param>
         /// <returns>Whether layout is completed or aborted</returns>
         public bool DoLayout(int subNum,
                              bool layoutSystem,

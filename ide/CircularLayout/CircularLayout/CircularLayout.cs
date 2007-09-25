@@ -728,7 +728,7 @@ namespace EcellLib.CircularLayout
         /// <summary>
         /// Get a rectangle surrounded by given nodes.
         /// </summary>
-        /// <param name="nodeElements">rectangle, which will be surrounded by these nodes will be returned.</param>
+        /// <param name="nodeList">rectangle, which will be surrounded by these nodes will be returned.</param>
         /// <returns>surrounded rectangle</returns>
         private RectangleF GetSurroundingRect(List<EcellObject> nodeList)
         {
