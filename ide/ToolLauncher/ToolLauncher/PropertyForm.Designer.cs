@@ -1,5 +1,8 @@
 ﻿namespace ToolLauncher
 {
+    /// <summary>
+    /// PropertyForm class.
+    /// </summary>
     partial class PropertyForm
     {
         /// <summary>

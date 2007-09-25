@@ -12,6 +12,9 @@ namespace ToolLauncher
     {
         private Util util = null;
 
+        /// <summary>
+        /// Constructor for PropertyForm.
+        /// </summary>
         public PropertyForm()
         {
             InitializeComponent();

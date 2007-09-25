@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace ToolLauncher
 {
+    /// <summary>
+    /// ToolLauncher Main Form.
+    /// </summary>
     public partial class MainForm : Form
     {
         private Util util = null;
