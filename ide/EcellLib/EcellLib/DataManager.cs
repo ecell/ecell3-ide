@@ -1817,7 +1817,7 @@ namespace EcellLib
                 }
                 else if (l_key.Contains(":"))
                 { // not system
-                    DataDelete4Node(l_modelID, l_key, l_type, true, l_isRecorded, l_isAnchor);
+                    DataDelete4Node(l_modelID, l_key, l_type, true, l_isRecorded, false);
                 }
                 else
                 { // system
