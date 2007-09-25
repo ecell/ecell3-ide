@@ -2010,4 +2010,77 @@ namespace EcellLib
         #region Methods
         #endregion
     }
+
+    /// <summary>
+    /// EcellObject to drag and drop.
+    /// </summary>
+    public class EcellDragObject
+    {
+        string m_modelID;
+        string m_key;
+        string m_type;
+        string m_path;
+
+        /// <summary>
+        /// Constructor without initial parameters.
+        /// </summary>
+        public EcellDragObject()
+        {
+            m_modelID = "";
+            m_key = "";
+            m_type = "";
+            m_path = "";
+        }
+
+        /// <summary>
+        /// Constructor with initial parameters.
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        /// <param name="path"></param>
+        public EcellDragObject(string modelID, string key, string type, string path)
+        {
+            m_modelID = modelID;
+            m_key = key;
+            m_type = type;
+            m_path = path;
+        }
+
+        /// <summary>
+        /// get/set model ID.
+        /// </summary>
+        public String ModelID
+        {
+            get { return this.m_modelID; }
+            set { this.m_modelID = value; }
+        }
+
+        /// <summary>
+        /// get/set key of object.
+        /// </summary>
+        public String Key
+        {
+            get { return this.m_key; }
+            set { this.m_key = value; }
+        }
+
+        /// <summary>
+        /// get/set type of object.
+        /// </summary>
+        public String Type
+        {
+            get { return this.m_type; }
+            set { this.m_type = value; }
+        }
+
+        /// <summary>
+        /// get/set entity path of logger.
+        /// </summary>
+        public String Path
+        {
+            get { return this.m_path; }
+            set { this.m_path = value; }
+        }
+    }
 }

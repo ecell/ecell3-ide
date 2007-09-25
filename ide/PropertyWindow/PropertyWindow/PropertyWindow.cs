@@ -123,6 +123,7 @@ namespace EcellLib.PropertyWindow
             m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
                     textName, textValue});
 
+            m_dgv.MouseDown += new MouseEventHandler(m_dgv_MouseDown);
             m_dgv.UserDeletingRow += new DataGridViewRowCancelEventHandler(DgvUserDeletingRow);
             m_dgv.CellClick += new DataGridViewCellEventHandler(CellClick);
             m_dgv.CellEndEdit += new DataGridViewCellEventHandler(PropertyChanged);
@@ -138,6 +139,35 @@ namespace EcellLib.PropertyWindow
             m_deletetime.Interval = 100;
             m_deletetime.Tick += new EventHandler(DeleteTimerFire);
         }
+
+        void m_dgv_MouseDown(object sender, MouseEventArgs e)
+        {
+            DataGridView v = sender as DataGridView;
+            if (e.Button == MouseButtons.Left)
+            {
+                DataGridView.HitTestInfo hti = v.HitTest(e.X, e.Y);
+                if (hti.ColumnIndex > 0) return;
+//                if (hti.ColumnIndex < 0) return;
+                if (hti.RowIndex <= 0) return;
+                string s = v[0, hti.RowIndex].Value as string;
+                if (s == null) return;
+                foreach (EcellData d in m_current.M_value)
+                {
+                    if (d.M_name.Equals(s))
+                    {
+                        if (!d.M_isLogable) break;
+                        EcellDragObject dobj = new EcellDragObject(m_current.modelID,
+                            m_current.key,
+                            m_current.type,
+                            d.M_entityPath);
+                        
+                        v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+                        return;
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// Execute redraw process on simulation running at every 1sec.

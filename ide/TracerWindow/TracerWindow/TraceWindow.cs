@@ -125,6 +125,38 @@ namespace EcellLib.TracerWindow
         public TraceWindow()
         {
             InitializeComponent();
+            dgv.DragEnter += new DragEventHandler(dgv_DragEnter);
+            dgv.DragDrop += new DragEventHandler(dgv_DragDrop);
+        }
+
+        void dgv_DragEnter(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            if (obj != null)
+                e.Effect = DragDropEffects.Move;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        void dgv_DragDrop(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            if (obj == null) return;
+            EcellDragObject dobj = obj as EcellDragObject;
+
+            PluginManager pManager = PluginManager.GetPluginManager();
+            pManager.LoggerAdd(dobj.ModelID, dobj.Type, dobj.Key, dobj.Path);
+            DataManager dManager = DataManager.GetDataManager();
+            EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
+            foreach (EcellData d in t.M_value)
+            {
+                if (d.M_entityPath.Equals(dobj.Path))
+                {
+                    d.M_isLogger = true;
+                    break;
+                }
+            }
+            dManager.DataChanged(t.modelID, t.key, t.type, t);
         }
 
         /// <summary>

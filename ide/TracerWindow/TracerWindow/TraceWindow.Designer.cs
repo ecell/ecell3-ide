@@ -195,6 +195,7 @@
             // 
             // dgv
             // 
+            this.dgv.AllowDrop = true;
             this.dgv.AllowUserToAddRows = false;
             this.dgv.AllowUserToDeleteRows = false;
             this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
