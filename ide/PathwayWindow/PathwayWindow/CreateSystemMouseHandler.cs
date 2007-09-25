@@ -280,7 +280,7 @@ namespace EcellLib.PathwayWindow
                 eo.Width = m_rect.Width;
                 eo.Height = m_rect.Height;
 
-                m_view.AddNewObj(m_set.CanvasID, m_surSystem, ComponentType.Variable, cs, eo, true, true, null);
+                m_view.AddNewObj(m_set.CanvasID, m_surSystem, ComponentType.System, cs, eo, true, true, null);
                 
                 foreach (PPathwayObject node in newlySelectedList)
                 {

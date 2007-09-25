@@ -38,6 +38,7 @@ using UMD.HCIL.Piccolo.Util;
 
 namespace EcellLib.PathwayWindow
 {
+    #region Enums
     /// <summary>
     /// Type of component.
     /// </summary>
@@ -54,22 +55,23 @@ namespace EcellLib.PathwayWindow
         /// type of process
         /// </summary>
         Process };
-
-    /// <summary>
+    #endregion
+        /// <summary>
     /// ComponentSetting contains all information for creating one kind of a component of pathway.
     /// ex) Shape, color, etc.
     /// </summary>
     public class ComponentSetting
     {
-        #region Fields
+        #region Enums
         /// <summary>
         /// Type of errors which are returned by methods of this class.
         /// </summary>
-        public enum ErrorType {
+        public enum ErrorType
+        {
             /// <summary>
             /// not an error.
             /// </summary>
-            No_Error, 
+            No_Error,
             /// <summary>
             /// figure is null
             /// </summary>
@@ -85,12 +87,15 @@ namespace EcellLib.PathwayWindow
             /// <summary>
             /// some argument is lost
             /// </summary>
-            Error_LessArgs, 
+            Error_LessArgs,
             /// <summary>
             /// format is illegal
             /// </summary>
-            Error_IllegalFormat };
-        
+            Error_IllegalFormat
+        };
+        #endregion
+
+        #region Fields
         /// <summary>
         /// Type of component which this instance offers.
         /// </summary>
