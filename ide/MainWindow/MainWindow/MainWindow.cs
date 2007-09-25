@@ -156,9 +156,15 @@ namespace EcellLib.MainWindow
         /// ResourceManager for MainWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMain));
+        /// <summary>
+        /// Docking Windows object.
+        /// </summary>
         public WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
         #endregion
 
+        /// <summary>
+        /// get / set projectID.
+        /// </summary>
         public String projetID
         {
             get { return this.m_project; }
@@ -520,6 +526,12 @@ namespace EcellLib.MainWindow
             }
 
         }
+
+        /// <summary>
+        /// Set the check information of window menu.
+        /// </summary>
+        /// <param name="name">window menu name.</param>
+        /// <param name="bChecked">input data.</param>
         public void checkWindowMenu(String name, bool bChecked)
         {
             m_dockMenuDic[name].Checked = bChecked;
@@ -1365,6 +1377,10 @@ namespace EcellLib.MainWindow
             }
         }
 
+        /// <summary>
+        /// Load model from input file.
+        /// </summary>
+        /// <param name="path">file nane.</param>
         public void LoadModel(string path)
         {
             if (m_isLoadProject == false)
@@ -1741,6 +1757,13 @@ namespace EcellLib.MainWindow
             }
        }
 
+        /// <summary>
+        /// Set the process size.
+        /// </summary>
+        /// <param name="hwnd">window descriptor.</param>
+        /// <param name="min">min size.</param>
+        /// <param name="max">max size.</param>
+        /// <returns>If contains size, retur true.</returns>
         [System.Runtime.InteropServices.DllImport("kernel32.dll")]
         public static extern bool SetProcessWorkingSetSize(IntPtr hwnd, int min, int max);
 

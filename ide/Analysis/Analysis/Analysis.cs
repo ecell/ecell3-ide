@@ -136,7 +136,7 @@ namespace EcellLib.Analysis
         /// <param name="status"></param>
         public void ChangeUndoStatus(UndoStatus status)
         {
-            /// Nothing should be done.
+            // Nothing should be done.
         }
 
         /// <summary>

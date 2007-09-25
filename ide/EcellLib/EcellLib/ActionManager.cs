@@ -619,6 +619,7 @@ namespace EcellLib
         /// The constructor for DataAddAction with initial parameters.
         /// </summary>
         /// <param name="obj"></param>
+        /// <param name="isUndoable">The flag the action is undoable.</param>
         /// <param name="isAnchor">Whether this action is an anchor or not</param>
         public DataAddAction(EcellObject obj, bool isUndoable, bool isAnchor)
         {

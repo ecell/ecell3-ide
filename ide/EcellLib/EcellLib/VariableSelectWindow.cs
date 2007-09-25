@@ -177,7 +177,7 @@ namespace EcellLib
                 j++;
             }
 
-            m_win.dgv.Rows.Add(new object[] { id, key, 1, true });
+            m_win.dgv.Rows.Add(new object[] { id, key, -1, true });
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace EcellLib
                 j++;
             }
 
-            m_win.dgv.Rows.Add(new object[] { id, key, 1, true });
+            m_win.dgv.Rows.Add(new object[] { id, key, 0, true });
         }
 
 

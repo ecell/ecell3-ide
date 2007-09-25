@@ -884,7 +884,7 @@ namespace EcellLib
         /// <summary>
         /// Creates a new "EcellValue" instance with a "List&lt;EcellValue&gt;" argument.
         /// </summary>
-        /// <param name="l_value">The "List&lt;EcellValue&gt;" value</param>
+        /// <param name="l_ref">The "List&lt;EcellValue&gt;" value</param>
         public EcellValue(EcellReference l_ref)
         {
             List<EcellValue> l_list = new List<EcellValue>();
@@ -1518,7 +1518,7 @@ namespace EcellLib
         /// <summary>
         /// Get the list of reference from VariableReferenceList.
         /// </summary>
-        /// <param name="varRefList">VariableReferenceList.</param>
+        /// <param name="refList">VariableReferenceList.</param>
         /// <returns>the list of EcellReference.</returns>
         public static EcellValue ConvertToVarRefList(List<EcellReference> refList)
         {
@@ -1544,6 +1544,9 @@ namespace EcellLib
     {
 
         #region Constant
+        /// <summary>
+        /// Size name. The reserved name.
+        /// </summary>
         public const string SIZE = "Size";
         #endregion
 
@@ -1606,6 +1609,10 @@ namespace EcellLib
                     AddEcellValue("StepperID", new EcellValue(value) );
             }
         }
+
+        /// <summary>
+        /// get/set system name.
+        /// </summary>
         public new string Text
         {
             get
@@ -1623,6 +1630,11 @@ namespace EcellLib
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Check whether this object contain the input object.
+        /// </summary>
+        /// <param name="l_obj">check object.</param>
+        /// <returns>if contains, return true.</returns>
         public bool IsContaining(EcellObject l_obj)
         {
             if (l_obj.X < this.X || l_obj.Y < this.Y)
@@ -1825,12 +1837,33 @@ namespace EcellLib
     public class EcellProcess : EcellObject
     {
         #region Constants
+        /// <summary>
+        /// VariableReferenceList. The reserved name.
+        /// </summary>
         public const string VARIABLEREFERENCELIST = "VariableReferenceList";
+        /// <summary>
+        /// Activity. The reserved name.
+        /// </summary>
         public const string ACTIVITY = "Activity";
+        /// <summary>
+        /// Expression. The reserved name.
+        /// </summary>
         public const string EXPRESSION = "Expression";
+        /// <summary>
+        /// IsContinuous. The reserved name.
+        /// </summary>
         public const string ISCONTINUOUS = "IsContinuous";
+        /// <summary>
+        /// Name. The reserved name.
+        /// </summary>
         public const string NAME = "Name";
+        /// <summary>
+        /// Priority. The reserved name.
+        /// </summary>
         public const string PRIORITY = "Priority";
+        /// <summary>
+        /// StepperID. The reserved name.
+        /// </summary>
         public const string STEPPERID = "StepperID";
         #endregion
 

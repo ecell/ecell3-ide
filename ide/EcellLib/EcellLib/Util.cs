@@ -455,6 +455,10 @@ namespace EcellLib
             return GetRegistryValue(s_registryDMDirKey) + ";" + GetCommonDocumentDir() + "\\My E-Cell Projects\\sample\\dm";
         }
 
+        /// <summary>
+        /// Get common document directory.
+        /// </summary>
+        /// <returns>directory path.</returns>
         static public string GetCommonDocumentDir()
         {
             string l_currentDir = null;
@@ -706,6 +710,12 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// Convert from name to full path.
+        /// </summary>
+        /// <param name="key">system name.</param>
+        /// <param name="prop">property name.</param>
+        /// <returns>full path.</returns>
         static public string ConvertSystemEntityPath(string key, string prop)
         {
             string dir = "";

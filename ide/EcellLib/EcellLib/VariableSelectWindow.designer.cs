@@ -131,7 +131,13 @@
         /// </summary>
         public System.Windows.Forms.Button VSCloseButton;
         private System.Windows.Forms.ImageList imageList1;
+        /// <summary>
+        /// Button to add the source variable to VariableReferenceList.
+        /// </summary>
         public System.Windows.Forms.Button VSSourceButton;
+        /// <summary>
+        /// Button to add the constant variable to VariableReferenceList.
+        /// </summary>
         public System.Windows.Forms.Button VSConstantButton;
     }
 }

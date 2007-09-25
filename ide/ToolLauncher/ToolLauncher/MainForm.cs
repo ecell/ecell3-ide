@@ -16,6 +16,9 @@ namespace ToolLauncher
         private Util util = null;
         private string defaultDir = null;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();

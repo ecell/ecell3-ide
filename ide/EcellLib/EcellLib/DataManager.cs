@@ -1391,6 +1391,8 @@ namespace EcellLib
         /// Changes the "EcellObject".
         /// </summary>
         /// <param name="l_ecellObjectList">The changed "EcellObject"</param>
+        /// <param name="l_isRecorded">The flag whether this action is recorded.</param>
+        /// <param name="l_isAnchor">The flag whether this action is anchor.</param>
         public void DataChanged(List<EcellObject> l_ecellObjectList, bool l_isRecorded, bool l_isAnchor)
         {
             foreach (EcellObject obj in l_ecellObjectList)
@@ -1893,6 +1895,8 @@ namespace EcellLib
         /// <param name="l_key">The key of the "EcellObject"</param>
         /// <param name="l_type">The type of the "EcellObject"</param>
         /// <param name="l_messageFlag">The flag of the message</param>
+        /// <param name="l_isRecorded">The flag whether this action is recorded.</param>
+        /// <param name="l_isAnchor">The flag whether this action is anchor.</param>
         private void DataDelete4Node(
             string l_model,
             string l_key,
@@ -1958,6 +1962,8 @@ namespace EcellLib
         /// Deletes entries of the "VariableRefereceList".
         /// </summary>
         /// <param name="l_delList">The list of the deleted "Variable"</param>
+        /// <param name="l_isRecorded">The flag whether this action is recorded.</param>
+        /// <param name="l_isAnchor">The flag whether this action is anchor.</param>
         private void DataDelete4VariableReferenceList(List<EcellObject> l_delList, bool l_isRecorded, bool l_isAnchor)
         {
             if (l_delList == null || l_delList.Count <= 0)
@@ -2038,6 +2044,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="modelID">modelID of deleted system.</param>
         /// <param name="key">key of deleted system.</param>
+        /// <param name="type">type of deleted system.</param>
         /// <returns>true if the key exists; false otherwise</returns>
         public bool IsDataExists(string modelID, string key, string type)
         {
@@ -3915,6 +3922,12 @@ namespace EcellLib
             return this.m_dmDic[Util.s_xpathProcess];
         }
 
+        /// <summary>
+        /// Check whether this dm is able to add the property.
+        /// </summary>
+        /// <param name="prjID">project ID.</param>
+        /// <param name="l_dmName">dm Name.</param>
+        /// <returns>if this dm is enable to add property, return true.</returns>
         public static bool IsEnableAddProperty(String prjID, string l_dmName)
         {
             WrappedSimulator l_simulator = null;
@@ -3945,6 +3958,7 @@ namespace EcellLib
                 }
                 catch (Exception ex)
                 {
+                    ex.ToString();
                     isEnable = false;
                 }
             }
@@ -3964,6 +3978,7 @@ namespace EcellLib
         /// <summary>
         /// Returns the list of the "Process" property. 
         /// </summary>
+        /// <param name="prjID">project ID</param>
         /// <param name="l_dmName">The DM name</param>
         /// <returns>The dictionary of the "Process" property</returns>
         public static Dictionary<string, EcellData> GetProcessProperty(String prjID, string l_dmName)
@@ -4263,6 +4278,7 @@ namespace EcellLib
         /// <summary>
         /// Returns the list of the "Stepper" property. 
         /// </summary>
+        /// <param name="prjID">project ID</param>
         /// <param name="l_dmName">The DM name</param>
         /// <returns>The dictionary of the "Stepper" property</returns>
         public static Dictionary<string, EcellData> GetStepperProperty(String prjID, string l_dmName)
@@ -6355,7 +6371,6 @@ namespace EcellLib
                 throw new Exception(m_resources.GetString("ErrFindDmDir"));
             }
             string[] l_dmPathArray = dmDirName.Split(Util.s_delimiterSemiColon.ToCharArray());
-            bool l_searchFlag = false;
             foreach (string l_dmPath in l_dmPathArray)
             {
                 if (!Directory.Exists(l_dmPath))
@@ -6370,7 +6385,6 @@ namespace EcellLib
                 foreach (string l_processDM in l_processDMArray)
                 {
                     this.m_dmDic[Util.s_xpathProcess].Add(Path.GetFileNameWithoutExtension(l_processDM));
-                    l_searchFlag = true;
                 }
                 // 4 Stepper
                 string[] l_stepperDMArray = Directory.GetFiles(
@@ -6380,7 +6394,6 @@ namespace EcellLib
                 foreach (string l_stepperDM in l_stepperDMArray)
                 {
                     this.m_dmDic[Util.s_xpathStepper].Add(Path.GetFileNameWithoutExtension(l_stepperDM));
-                    l_searchFlag = true;
                 }
                 // 4 System
                 string[] l_systemDMArray = Directory.GetFiles(
@@ -6390,7 +6403,6 @@ namespace EcellLib
                 foreach (string l_systemDM in l_systemDMArray)
                 {
                     this.m_dmDic[Util.s_xpathSystem].Add(Path.GetFileNameWithoutExtension(l_systemDM));
-                    l_searchFlag = true;
                 }
                 // 4 Variable
                 string[] l_variableDMArray = Directory.GetFiles(
@@ -6400,7 +6412,6 @@ namespace EcellLib
                 foreach (string l_variableDM in l_variableDMArray)
                 {
                     this.m_dmDic[Util.s_xpathVariable].Add(Path.GetFileNameWithoutExtension(l_variableDM));
-                    l_searchFlag = true;
                 }
             }
         }
@@ -7030,10 +7041,6 @@ namespace EcellLib
                 throw new Exception(m_resources.GetString("ErrSetInitParam") + l_message
                     + " {" + l_ex.ToString() + "}");
             }
-        }
-
-        public void TestGetObj()
-        {
         }
 
         /// <summary>
