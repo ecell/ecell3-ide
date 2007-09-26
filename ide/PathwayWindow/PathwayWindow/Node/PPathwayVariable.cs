@@ -43,7 +43,7 @@ namespace EcellLib.PathwayWindow.Node
     /// <summary>
     /// Subclass of PPathwayNode for variable of E-Cell.
     /// </summary>
-    public class PEcellVariable : PPathwayNode
+    public class PPathwayVariable : PPathwayNode
     {
         #region Static readonly
         /// <summary>
@@ -60,7 +60,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         /// list of related processes.
         /// </summary>
-        protected List<PEcellProcess> m_relatedProcesses = new List<PEcellProcess>();
+        protected List<PPathwayProcess> m_relatedProcesses = new List<PPathwayProcess>();
 
         /// <summary>
         /// create new PEcellVariable.
@@ -68,7 +68,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <returns></returns>
         public override PPathwayObject CreateNewObject()
         {
-            return new PEcellVariable();
+            return new PPathwayVariable();
         }
         
         /// <summary>
@@ -95,7 +95,7 @@ namespace EcellLib.PathwayWindow.Node
         public override void OnMouseUp(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseUp(e);
-            foreach (PEcellProcess process in m_relatedProcesses)
+            foreach (PPathwayProcess process in m_relatedProcesses)
             {
                 process.RefreshEdges();
             }
@@ -126,8 +126,8 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public override void ValidateEdges()
         {
-            List<PEcellProcess> newProcesses = new List<PEcellProcess>();
-            foreach (PEcellProcess process in m_relatedProcesses)
+            List<PPathwayProcess> newProcesses = new List<PPathwayProcess>();
+            foreach (PPathwayProcess process in m_relatedProcesses)
             {
                 if (base.m_set.Processes.ContainsKey(process.Element.Key))
                     newProcesses.Add(process);
@@ -140,7 +140,7 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public override void NotifyMovement()
         {
-            foreach (PEcellProcess p in m_relatedProcesses)
+            foreach (PPathwayProcess p in m_relatedProcesses)
             {
                 p.RefreshEdges();
             }
@@ -150,7 +150,7 @@ namespace EcellLib.PathwayWindow.Node
         /// notify to add the related process to list.
         /// </summary>
         /// <param name="pro">the related process.</param>
-        public void NotifyAddRelatedProcess(PEcellProcess pro)
+        public void NotifyAddRelatedProcess(PPathwayProcess pro)
         {
             if (!m_relatedProcesses.Contains(pro))
                 m_relatedProcesses.Add(pro);
@@ -162,12 +162,12 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public void NotifyRemoveRelatedVariable()
         {
-            List<PEcellProcess> list = new List<PEcellProcess>();
-            foreach (PEcellProcess p in m_relatedProcesses)
+            List<PPathwayProcess> list = new List<PPathwayProcess>();
+            foreach (PPathwayProcess p in m_relatedProcesses)
                 list.Add(p);
             m_relatedProcesses.Clear();
 
-            foreach (PEcellProcess p in list)
+            foreach (PPathwayProcess p in list)
             {
                 p.DeleteEdges();
                 p.NotifyRemoveRelatedVariable(this.Element.Key);
@@ -181,8 +181,8 @@ namespace EcellLib.PathwayWindow.Node
         /// <param name="key"></param>
         public void NotifyRemoveRelatedProcess(string key)
         {
-            List<PEcellProcess> rList = new List<PEcellProcess>();
-            foreach (PEcellProcess p in m_relatedProcesses)
+            List<PPathwayProcess> rList = new List<PPathwayProcess>();
+            foreach (PPathwayProcess p in m_relatedProcesses)
             {
                 if (p.Element.Key.Equals(key))
                 {
@@ -190,7 +190,7 @@ namespace EcellLib.PathwayWindow.Node
                 }
             }
 
-            foreach (PEcellProcess p in rList)
+            foreach (PPathwayProcess p in rList)
             {
                 m_relatedProcesses.Remove(p);
             }
@@ -203,7 +203,7 @@ namespace EcellLib.PathwayWindow.Node
         public void ReconstructEdges()
         {
             ValidateEdges();
-            foreach(PEcellProcess p in m_relatedProcesses)
+            foreach(PPathwayProcess p in m_relatedProcesses)
             {
                 p.DeleteEdges();
                 p.CreateEdges();
@@ -216,7 +216,7 @@ namespace EcellLib.PathwayWindow.Node
         public override void Refresh()
         {
             ValidateEdges();
-            foreach(PEcellProcess p in m_relatedProcesses)
+            foreach(PPathwayProcess p in m_relatedProcesses)
             {
                 p.RefreshEdges();
             }
@@ -228,7 +228,7 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public override void MoveStart()
         {
-            foreach (PEcellProcess p in m_relatedProcesses)
+            foreach (PPathwayProcess p in m_relatedProcesses)
             {
                 p.DeleteEdge(this);
                 p.RefreshEdges();
@@ -240,7 +240,7 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public override void MoveEnd()
         {
-            foreach (PEcellProcess p in m_relatedProcesses)
+            foreach (PPathwayProcess p in m_relatedProcesses)
             {
 //                p.DeleteEdges();
                 p.MoveEnd();

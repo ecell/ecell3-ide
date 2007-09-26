@@ -113,7 +113,9 @@
     <Compile Include="Handler\NamespaceDoc.cs" />
     <Compile Include="Handler\PPathwayZoomEventHandler.cs" />
     <Compile Include="Handle.cs" />
-    <Compile Include="ILayoutAlgorithm.cs" />
+    <Compile Include="ILayoutAlgorithm.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MessageResPathway.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -145,9 +147,9 @@
     <Compile Include="UIComponent\PDisplayedArea.cs" />
     <Compile Include="Node\PEcellComposite.cs" />
     <Compile Include="Node\PEcellModel.cs" />
-    <Compile Include="Node\PEcellProcess.cs" />
-    <Compile Include="Node\PEcellSystem.cs" />
-    <Compile Include="Node\PEcellVariable.cs" />
+    <Compile Include="Node\PPathwayProcess.cs" />
+    <Compile Include="Node\PPathwaySystem.cs" />
+    <Compile Include="Node\PPathwayVariable.cs" />
     <Compile Include="Node\PPathwayNode.cs" />
     <Compile Include="Node\PPathwayObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

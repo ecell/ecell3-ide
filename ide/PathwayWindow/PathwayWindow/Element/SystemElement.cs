@@ -238,8 +238,8 @@ namespace EcellLib.PathwayWindow.Element
             }
             else
             {
-                Width = PEcellSystem.DEFAULT_WIDTH;
-                Height = PEcellSystem.DEFAULT_HEIGHT;
+                Width = PPathwaySystem.DEFAULT_WIDTH;
+                Height = PPathwaySystem.DEFAULT_HEIGHT;
             }
 
         }

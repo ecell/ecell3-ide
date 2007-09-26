@@ -91,7 +91,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         /// system have this node.
         /// </summary>
-        protected PEcellSystem m_system;
+        protected PPathwaySystem m_system;
 
         /// <summary>
         /// handler for line
@@ -240,7 +240,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         /// get/set the parent system.
         /// </summary>
-        public virtual PEcellSystem ParentSystem
+        public virtual PPathwaySystem ParentSystem
         {
             get { return m_system; }
             set { m_system = value; }

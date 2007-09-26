@@ -355,8 +355,8 @@ namespace EcellLib.PathwayWindow.Node
             this.Element.Y = base.m_originalY;
             foreach(PPathwayObject obj in this.ChildObjectList)
             {
-                if (obj is PEcellVariable)
-                    ((PEcellVariable)obj).Refresh();
+                if (obj is PPathwayVariable)
+                    ((PPathwayVariable)obj).Refresh();
             }
         }
 
@@ -384,7 +384,7 @@ namespace EcellLib.PathwayWindow.Node
             PNodeList tmplist = new PNodeList();
             foreach (PNode p in this.ChildrenReference)
             {
-                if (p is PEcellProcess)
+                if (p is PPathwayProcess)
                     tmplist.Add(p);
             }
             foreach (PNode p in tmplist) {
@@ -408,7 +408,7 @@ namespace EcellLib.PathwayWindow.Node
             PNodeList tmplist = new PNodeList();
             foreach (PNode p in this.ChildrenReference)
             {
-                if (p is PEcellProcess)
+                if (p is PPathwayProcess)
                     tmplist.Add(p);
             }
             foreach (PNode p in tmplist)

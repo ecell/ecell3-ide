@@ -207,9 +207,9 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_LOGGER].Visible = false;
 
                 }
-                else if (m_cview.ClickedNode is PEcellSystem)
+                else if (m_cview.ClickedNode is PPathwaySystem)
                 {
-                    PEcellSystem n = m_cview.ClickedNode as PEcellSystem;
+                    PPathwaySystem n = m_cview.ClickedNode as PPathwaySystem;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Text = n.Element.Key;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR1].Visible = true;

@@ -48,7 +48,7 @@ namespace EcellLib.PathwayWindow.Node
     /// <summary>
     /// PPathwayObject for E-Cell variable.
     /// </summary>
-    public class PEcellProcess : PPathwayNode
+    public class PPathwayProcess : PPathwayNode
     {
         #region Static readonly fields
         /// <summary>
@@ -76,7 +76,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         /// dictionary of Line for variable. key is PPEcellVariable.
         /// </summary>
-        protected Dictionary<PEcellVariable,List<Line>> m_relatedVariables = new Dictionary<PEcellVariable,List<Line>>();
+        protected Dictionary<PPathwayVariable,List<Line>> m_relatedVariables = new Dictionary<PPathwayVariable,List<Line>>();
 
         /// <summary>
         /// delta of moving this node.
@@ -117,7 +117,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <returns></returns>
         public override PPathwayObject CreateNewObject()
         {
-            return new PEcellProcess();
+            return new PPathwayProcess();
         }
         #endregion
 
@@ -128,7 +128,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <returns></returns>
         public override object Clone()
         {
-            PEcellProcess process = new PEcellProcess();
+            PPathwayProcess process = new PPathwayProcess();
             process.Bounds = this.Bounds;
             process.Brush = this.Brush;
             process.m_idText = this.m_idText;
@@ -221,7 +221,7 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         /// <param name="var">the related variable.</param>
         /// <param name="path">PPath of the related variable.</param>
-        private void NotifyAddRelatedVariable(PEcellVariable var, Line path)
+        private void NotifyAddRelatedVariable(PPathwayVariable var, Line path)
         {
             if (m_relatedVariables.ContainsKey(var))
             {
@@ -250,7 +250,7 @@ namespace EcellLib.PathwayWindow.Node
                     {
                         if (base.m_set.Variables.ContainsKey(edge.VariableKey))
                         {
-                            PEcellVariable var = base.m_set.Variables[edge.VariableKey];
+                            PPathwayVariable var = base.m_set.Variables[edge.VariableKey];
                             Line path = new Line(edge);
                             
                             path.MouseDown += this.m_handler4Line;
@@ -261,10 +261,10 @@ namespace EcellLib.PathwayWindow.Node
                             path.VarPoint = endPos;
                             path.ProPoint = startPos;
 
-                            if (base.ParentObject is PEcellSystem)
+                            if (base.ParentObject is PPathwaySystem)
                             {
-                                startPos = ((PEcellSystem)base.ParentObject).CanvasPos2SystemPos(startPos);
-                                endPos = ((PEcellSystem)base.ParentObject).CanvasPos2SystemPos(endPos);
+                                startPos = ((PPathwaySystem)base.ParentObject).CanvasPos2SystemPos(startPos);
+                                endPos = ((PPathwaySystem)base.ParentObject).CanvasPos2SystemPos(endPos);
                             }
 
                             switch (edge.TypeOfLine)
@@ -275,7 +275,7 @@ namespace EcellLib.PathwayWindow.Node
                                     break;
                                 case LineType.Dashed:
                                     path.Pen = new Pen(Brushes.Black, 3);
-                                    PEcellProcess.AddDashedLine(path, startPos.X, startPos.Y, endPos.X, endPos.Y);
+                                    PPathwayProcess.AddDashedLine(path, startPos.X, startPos.Y + 5, endPos.X, endPos.Y + 5);
                                     break;
                                 case LineType.Unknown:
                                     path.AddLine(startPos.X, startPos.Y, endPos.X, endPos.Y);
@@ -324,7 +324,7 @@ namespace EcellLib.PathwayWindow.Node
                 {
                     if (base.m_set.Variables.ContainsKey(edge.VariableKey))
                     {
-                        PEcellVariable var = base.m_set.Variables[edge.VariableKey];
+                        PPathwayVariable var = base.m_set.Variables[edge.VariableKey];
                         PointF baseCenter = base.CenterPointToCanvas;
                         PointF endPos = var.GetContactPoint(baseCenter);
                         PointF startPos = base.GetContactPoint(endPos);
@@ -332,10 +332,10 @@ namespace EcellLib.PathwayWindow.Node
                         PointF globalEndPos = endPos;
                         PointF globalStartPos = startPos;
 
-                        if (base.ParentObject is PEcellSystem)
+                        if (base.ParentObject is PPathwaySystem)
                         {
-                            startPos = ((PEcellSystem)base.ParentObject).CanvasPos2SystemPos(startPos);
-                            endPos = ((PEcellSystem)base.ParentObject).CanvasPos2SystemPos(endPos);
+                            startPos = ((PPathwaySystem)base.ParentObject).CanvasPos2SystemPos(startPos);
+                            endPos = ((PPathwaySystem)base.ParentObject).CanvasPos2SystemPos(endPos);
                         }
 
                         if (m_relatedVariables.ContainsKey(var))
@@ -357,7 +357,7 @@ namespace EcellLib.PathwayWindow.Node
                                         break;
                                     case LineType.Dashed:
                                         path.Pen = new Pen(Brushes.Black, 3);
-                                        PEcellProcess.AddDashedLine(path, startPos.X, startPos.Y, endPos.X, endPos.Y);
+                                        PPathwayProcess.AddDashedLine(path, startPos.X, startPos.Y + 5, endPos.X, endPos.Y + 5);
                                         break;
                                     case LineType.Unknown:
                                         path.AddLine(startPos.X, startPos.Y, endPos.X, endPos.Y);
@@ -401,14 +401,14 @@ namespace EcellLib.PathwayWindow.Node
                     }
                 }
             }
-            m_relatedVariables = new Dictionary<PEcellVariable, List<Line>>();
+            m_relatedVariables = new Dictionary<PPathwayVariable, List<Line>>();
         }
 
         /// <summary>
         /// delete the specified related variable from list.
         /// </summary>
         /// <param name="p">the specified variable.</param>
-        public void DeleteEdge(PEcellVariable p)
+        public void DeleteEdge(PPathwayVariable p)
         {
             if (!m_relatedVariables.ContainsKey(p)) return;
             List<Line> pathList = m_relatedVariables[p];
@@ -497,21 +497,21 @@ namespace EcellLib.PathwayWindow.Node
         /// <param name="key"></param>
         public void NotifyRemoveRelatedVariable(string key)
         {
-            List<PEcellVariable> rList = new List<PEcellVariable>();
-            foreach (PEcellVariable p in m_relatedVariables.Keys)
+            List<PPathwayVariable> rList = new List<PPathwayVariable>();
+            foreach (PPathwayVariable p in m_relatedVariables.Keys)
             {
-                if (p.Element.Key.Equals(key))
+                if (p.Element.Key.StartsWith(key))
                 {
                     rList.Add(p);
                 }
             }
 
-            foreach (PEcellVariable p in rList)
+            foreach (PPathwayVariable p in rList)
             {
                 m_relatedVariables.Remove(p);
             }
             rList.Clear();
-            ((ProcessElement)this.Element).Edges.Remove(key);            
+            ((ProcessElement)this.Element).RemoveReference(key);            
         }
 
         /// <summary>
@@ -519,7 +519,7 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public void NotifyRemoveRelatedProcess()
         {
-            foreach (PEcellVariable p in m_relatedVariables.Keys)
+            foreach (PPathwayVariable p in m_relatedVariables.Keys)
             {
                 p.NotifyRemoveRelatedProcess(this.Element.Key);
             }

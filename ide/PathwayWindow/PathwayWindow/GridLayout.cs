@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using EcellLib;
 using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Element;
 using System.Windows.Forms;
@@ -272,14 +273,14 @@ namespace EcellLib.PathwayWindow
             {
                 if (nodeEle is ProcessElement)
                 {
-                    foreach (string key in ((ProcessElement)nodeEle).Edges.Keys)
+                    foreach (EdgeInfo info in ((ProcessElement)nodeEle).Edges.Values)
                     {
-                        if (string.IsNullOrEmpty(key))
+                        if (string.IsNullOrEmpty(info.VariableKey))
                             continue;
 
                         try
                         {
-                            int pos = keyDict[key];
+                            int pos = keyDict[info.VariableKey];
                             relationMatrix[num, pos] = 1;
                             relationMatrix[pos, num] = 1;
                         }

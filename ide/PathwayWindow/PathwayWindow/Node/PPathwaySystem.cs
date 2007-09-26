@@ -47,7 +47,7 @@ namespace EcellLib.PathwayWindow.Node
     /// <summary>
     /// PPathwayNode for E-cell system.
     /// </summary>
-    public class PEcellSystem : PSystem
+    public class PPathwaySystem : PSystem
     {
         #region Static readonly fields
         /// <summary>
@@ -271,7 +271,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <returns>new instance</returns>
         public override PPathwayObject CreateNewObject()
         {
-            return new PEcellSystem();
+            return new PPathwaySystem();
         }
 
         /// <summary>
@@ -286,7 +286,7 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         /// Constructor for PEcellSystem.
         /// </summary>
-        public PEcellSystem()
+        public PPathwaySystem()
         {
         }
 
@@ -450,7 +450,7 @@ namespace EcellLib.PathwayWindow.Node
             yDirSpace.X += base.Offset.X;
             yDirSpace.Y += base.Offset.Y;
 
-            if(null != this.Parent && this.Parent is PEcellSystem)
+            if(null != this.Parent && this.Parent is PPathwaySystem)
             {
                 // Make parent system create space for this system.
                 RectangleF xDirParentSpace
@@ -466,7 +466,7 @@ namespace EcellLib.PathwayWindow.Node
                     base.Y + base.Height,
                     base.Width,
                     yDirSpace.Height);
-                ((PEcellSystem)this.Parent).MakeSpace(xDirParentSpace, yDirParentSpace);
+                ((PPathwaySystem)this.Parent).MakeSpace(xDirParentSpace, yDirParentSpace);
             }
 
             // Enlarge this system
@@ -542,8 +542,8 @@ namespace EcellLib.PathwayWindow.Node
         /// <param name="e"></param>
         public override void OnDoubleClick(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
-            if (!(e.PickedNode is PEcellSystem)) return;
-            PEcellSystem p = (PEcellSystem)e.PickedNode;
+            if (!(e.PickedNode is PPathwaySystem)) return;
+            PPathwaySystem p = (PPathwaySystem)e.PickedNode;
             if (!p.Element.Key.Equals(Element.Key)) return;
 
             EcellObject obj = m_set.PathwayView.GetEcellObject(Element.Key, "System");

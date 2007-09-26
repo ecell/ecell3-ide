@@ -451,14 +451,13 @@ namespace EcellLib.PathwayWindow
         {
             // Get EcellObject of identified process.
             DataManager dm = DataManager.GetDataManager();
-            EcellObject obj = dm.GetEcellObject(m_modelId, proKey, PathwayView.PROCESS_STRING);
+            EcellProcess process = (EcellProcess)dm.GetEcellObject(m_modelId, proKey, PathwayView.PROCESS_STRING);
             // End if obj is null.
-            if (null == obj)
+            if (null == process)
                 return;
 
             // Get EcellReference List.
-            List<EcellReference> refList = EcellReference.ConvertString(
-                obj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString());
+            List<EcellReference> refList = process.ReferenceList;
             List<EcellReference> newList = new List<EcellReference>();
             EcellReference changedRef = null;
 
@@ -527,11 +526,11 @@ namespace EcellLib.PathwayWindow
                 else refStr = refStr + ", " + v.ToString();
             }
             refStr = refStr + ")";
-            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = EcellValue.ToVariableReferenceList(refStr);
+            process.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = EcellValue.ToVariableReferenceList(refStr);
 
             try
             {
-                dm.DataChanged(m_modelId, proKey, PathwayView.PROCESS_STRING, obj);
+                dm.DataChanged(m_modelId, proKey, PathwayView.PROCESS_STRING, process);
             }
             catch(IgnoreException)
             {

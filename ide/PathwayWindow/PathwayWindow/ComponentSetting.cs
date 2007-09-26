@@ -298,17 +298,17 @@ namespace EcellLib.PathwayWindow
             }
             if(className.Equals("PEcellVariable"))
             {
-                PEcellVariable variable = new PEcellVariable();
+                PPathwayVariable variable = new PPathwayVariable();
                 m_createMethod = variable.CreateNewObject;
             }
             else if(className.Equals("PEcellProcess"))
             {
-                PEcellProcess process = new PEcellProcess();
+                PPathwayProcess process = new PPathwayProcess();
                 m_createMethod = process.CreateNewObject;
             }
             else if(className.Equals("PEcellSystem"))
             {
-                PEcellSystem system = new PEcellSystem();
+                PPathwaySystem system = new PPathwaySystem();
                 m_createMethod = system.CreateNewObject;
             }
         }

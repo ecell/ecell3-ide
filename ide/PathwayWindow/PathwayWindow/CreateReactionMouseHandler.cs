@@ -108,51 +108,51 @@ namespace EcellLib.PathwayWindow
             {
                 SetCurrent(canvas, newNode);
             }
-            else if(m_current is PEcellVariable)
+            else if(m_current is PPathwayVariable)
             {
-                if (newNode is PEcellProcess)
+                if (newNode is PPathwayProcess)
                 {
                     if (m_view.SelectedHandle.Mode == Mode.CreateConstant)
                     {
-                        this.CreateEdge((PEcellProcess)newNode, (PEcellVariable)m_current, 0);
+                        this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, 0);
                     }
                     else if (m_view.SelectedHandle.Mode == Mode.CreateOneWayReaction)
                     {
-                        this.CreateEdge((PEcellProcess)newNode, (PEcellVariable)m_current, -1);
+                        this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, -1);
                     }
                     else if (m_view.SelectedHandle.Mode == Mode.CreateMutualReaction)
                     {
-                        this.CreateEdge((PEcellProcess)newNode, (PEcellVariable)m_current, -1);
-                        this.CreateEdge((PEcellProcess)newNode, (PEcellVariable)m_current, 1);
+                        this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, -1);
+                        this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, 1);
                     }
 
                     SetCurrent(canvas, null);
                 }
-                else if(newNode is PEcellVariable)
+                else if(newNode is PPathwayVariable)
                 {
                     SetCurrent(canvas, newNode);
                 }
             }
-            else if(m_current is PEcellProcess)
+            else if(m_current is PPathwayProcess)
             {
-                if (newNode is PEcellVariable)
+                if (newNode is PPathwayVariable)
                 {
                     if (m_view.SelectedHandle.Mode == Mode.CreateConstant)
                     {
-                        this.CreateEdge((PEcellProcess)m_current, (PEcellVariable)newNode, 0);
+                        this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, 0);
                     }
                     else if (m_view.SelectedHandle.Mode == Mode.CreateOneWayReaction)
                     {
-                        this.CreateEdge((PEcellProcess)m_current, (PEcellVariable)newNode, 1);
+                        this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, 1);
                     }
                     else if (m_view.SelectedHandle.Mode == Mode.CreateMutualReaction)
                     {
-                        this.CreateEdge((PEcellProcess)m_current, (PEcellVariable)newNode, 1);
-                        this.CreateEdge((PEcellProcess)m_current, (PEcellVariable)newNode, -1);
+                        this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, 1);
+                        this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, -1);
                     }
                     SetCurrent(canvas, null);
                 }
-                else if(newNode is PEcellProcess)
+                else if(newNode is PPathwayProcess)
                 {
                     SetCurrent(canvas, newNode);
                 }
@@ -181,9 +181,9 @@ namespace EcellLib.PathwayWindow
                         PathUtil.GetArrowPoints(
                         e.Position,
                         contactP,
-                        PEcellProcess.ARROW_RADIAN_A,
-                        PEcellProcess.ARROW_RADIAN_B,
-                        PEcellProcess.ARROW_LENGTH));
+                        PPathwayProcess.ARROW_RADIAN_A,
+                        PPathwayProcess.ARROW_RADIAN_B,
+                        PPathwayProcess.ARROW_LENGTH));
 
                     if (m_view.SelectedHandle.Mode == Mode.CreateMutualReaction)
                     {
@@ -191,14 +191,14 @@ namespace EcellLib.PathwayWindow
                         PathUtil.GetArrowPoints(
                         contactP,
                         e.Position,
-                        PEcellProcess.ARROW_RADIAN_A,
-                        PEcellProcess.ARROW_RADIAN_B,
-                        PEcellProcess.ARROW_LENGTH));
+                        PPathwayProcess.ARROW_RADIAN_A,
+                        PPathwayProcess.ARROW_RADIAN_B,
+                        PPathwayProcess.ARROW_LENGTH));
                     }
                 }
                 else
                 {
-                    PEcellProcess.AddDashedLine(line, contactP.X, contactP.Y, e.Position.X, e.Position.Y);
+                    PPathwayProcess.AddDashedLine(line, contactP.X, contactP.Y, e.Position.X, e.Position.Y);
                 }
             }
         }
@@ -209,7 +209,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="process">For this process, VariableReferenceList will be created</param>
         /// <param name="variable">VariableReferenceList to this variable will be created</param>
         /// <param name="coefficient">coefficient of VariableReferenceList of process</param>
-        private void CreateEdge(PEcellProcess process, PEcellVariable variable, int coefficient)
+        private void CreateEdge(PPathwayProcess process, PPathwayVariable variable, int coefficient)
         {
             m_view.CreateEdge(process, variable, coefficient);
         }

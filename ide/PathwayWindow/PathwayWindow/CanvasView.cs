@@ -297,12 +297,12 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The dictionary for all variables on this canvas.
         /// </summary>
-        protected Dictionary<string, PEcellVariable> m_variables = new Dictionary<string, PEcellVariable>();
+        protected Dictionary<string, PPathwayVariable> m_variables = new Dictionary<string, PPathwayVariable>();
 
         /// <summary>
         /// The dictionary for all processes on this canvas.
         /// </summary>
-        protected Dictionary<string, PEcellProcess> m_processes = new Dictionary<string, PEcellProcess>();
+        protected Dictionary<string, PPathwayProcess> m_processes = new Dictionary<string, PPathwayProcess>();
                 
         /// <summary>
         /// PLayer for control use.
@@ -578,7 +578,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_variables.
         /// </summary>
-        public Dictionary<string, PEcellVariable> Variables
+        public Dictionary<string, PPathwayVariable> Variables
         {
             get { return m_variables; }
         }
@@ -586,7 +586,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_processes.
         /// </summary>
-        public Dictionary<string, PEcellProcess> Processes
+        public Dictionary<string, PPathwayProcess> Processes
         {
             get { return m_processes; }
         }
@@ -992,7 +992,7 @@ namespace EcellLib.PathwayWindow
                     m_line4reconnect.AddLine(vpoint.X, vpoint.Y, ppoint.X, ppoint.Y);
                     break;
                 case LineType.Dashed:
-                    PEcellProcess.AddDashedLine(m_line4reconnect, vpoint.X, vpoint.Y, ppoint.X, ppoint.Y);
+                    PPathwayProcess.AddDashedLine(m_line4reconnect, vpoint.X, vpoint.Y, ppoint.X, ppoint.Y);
                     break;
                 case LineType.Unknown:
                     m_line4reconnect.AddLine(vpoint.X, vpoint.Y, ppoint.X, ppoint.Y);
@@ -1002,14 +1002,14 @@ namespace EcellLib.PathwayWindow
             switch (m_selectedLine.Info.Direction)
             {
                 case EdgeDirection.Bidirection:
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(ppoint, vpoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(vpoint, ppoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(ppoint, vpoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(vpoint, ppoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
                     break;
                 case EdgeDirection.Inward:
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(ppoint, vpoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(ppoint, vpoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
                     break;
                 case EdgeDirection.Outward:
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(vpoint, ppoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(vpoint, ppoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
                     break;
                 case EdgeDirection.None:
                     break;
@@ -1200,9 +1200,9 @@ namespace EcellLib.PathwayWindow
             */
 
             Object obj = ((ToolStripItem)sender).Tag;
-            if (obj is PEcellSystem)
+            if (obj is PPathwaySystem)
             {
-                PEcellSystem deleteSystem = (PEcellSystem)obj;
+                PPathwaySystem deleteSystem = (PPathwaySystem)obj;
                 if (string.IsNullOrEmpty(deleteSystem.Name))
                     return;
                 if (deleteSystem.Name.Equals("/"))
@@ -1334,7 +1334,7 @@ namespace EcellLib.PathwayWindow
                 return;
             ClearSurroundState();
             m_surroundedBySystem = new PNodeList();
-            PEcellSystem topSystem = m_systems[m_selectedSystemName].EcellSystems[0];
+            PPathwaySystem topSystem = m_systems[m_selectedSystemName].EcellSystems[0];
             foreach(PLayer layer in Layers.Values)
             {
                 PNodeList list = new PNodeList();
@@ -1374,7 +1374,7 @@ namespace EcellLib.PathwayWindow
             if (m_selectedSystemName == null)
                 return;
             // Get selected system
-            PEcellSystem system = m_systems[m_selectedSystemName].EcellSystems[0];
+            PPathwaySystem system = m_systems[m_selectedSystemName].EcellSystems[0];
             
             // If selected system overlaps another one, cancel change.
             if (this.DoesSystemOverlaps(system.GlobalBounds, system.Element.Key))
@@ -1403,12 +1403,12 @@ namespace EcellLib.PathwayWindow
             if (m_selectedSystemName == null)
                 return;
             // Get selected system
-            PEcellSystem system = m_systems[m_selectedSystemName].EcellSystems[0];
+            PPathwaySystem system = m_systems[m_selectedSystemName].EcellSystems[0];
 
             // If selected system overlaps another, reset system region.
             if (this.DoesSystemOverlaps(system.GlobalBounds, system.Element.Key))
             {
-                foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
+                foreach (PPathwaySystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     eachSys.ReturnToMemorizedPosition();
                     this.ValidateSystem(eachSys);
@@ -1417,11 +1417,11 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
-                foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
+                foreach (PPathwaySystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
                     eachSys.Reset();
                 
                 PNodeList currentSystemChildren = new PNodeList();
-                PEcellSystem topSystem = m_systems[m_selectedSystemName].EcellSystems[0];
+                PPathwaySystem topSystem = m_systems[m_selectedSystemName].EcellSystems[0];
                 List<PNode> tmpList = new List<PNode>();
                 foreach (PLayer layer in this.Layers.Values)
                 {
@@ -1431,10 +1431,10 @@ namespace EcellLib.PathwayWindow
                     {
                         if (!currentSystemChildren.Contains(p))
                             currentSystemChildren.Add(p);
-                        if (p is PEcellSystem && p != topSystem)
+                        if (p is PPathwaySystem && p != topSystem)
                         {
                             PNodeList tmpNodeList = new PNodeList();
-                            layer.FindIntersectingNodes(((PEcellSystem)p).Rect, tmpNodeList);
+                            layer.FindIntersectingNodes(((PPathwaySystem)p).Rect, tmpNodeList);
                             foreach (PNode pn in tmpNodeList)
                             {
                                 if (pn != p && !tmpList.Contains(pn)) tmpList.Add(pn);
@@ -1451,10 +1451,10 @@ namespace EcellLib.PathwayWindow
                     {
                         currentDict.Add( ((PPathwayNode)child).Element.Type + ":" + ((PPathwayNode)child).Element.Key, child);
                     }
-                    else if (child is PEcellSystem)
+                    else if (child is PPathwaySystem)
                     {
-                        if (!m_selectedSystemName.Equals(((PEcellSystem)child).Element.Key))
-                            currentDict.Add( ((PEcellSystem)child).Element.Type + ":" + ((PEcellSystem)child).Element.Key, child);
+                        if (!m_selectedSystemName.Equals(((PPathwaySystem)child).Element.Key))
+                            currentDict.Add( ((PPathwaySystem)child).Element.Type + ":" + ((PPathwaySystem)child).Element.Key, child);
                     }
                 }
 
@@ -1468,10 +1468,10 @@ namespace EcellLib.PathwayWindow
                         key = childNode.Element.Key;
                         beforeDict.Add(childNode.Element.Type + ":" + key, child);
                     }
-                    else if (child is PEcellSystem)
+                    else if (child is PPathwaySystem)
                     {
-                        key = ((PEcellSystem)child).Element.Key;
-                        beforeDict.Add(((PEcellSystem)child).Element.Type + ":" + key, child);
+                        key = ((PPathwaySystem)child).Element.Key;
+                        beforeDict.Add(((PPathwaySystem)child).Element.Type + ":" + key, child);
                     }
                 }
 
@@ -1482,12 +1482,12 @@ namespace EcellLib.PathwayWindow
                 {
                     string name = PathUtil.RemovePath(node.Key);
 
-                    if (node.Value is PEcellVariable )
+                    if (node.Value is PPathwayVariable )
                     {
                         if (varNameDict.ContainsKey(name))
                         {
                             // Resizing is aborted
-                            foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
+                            foreach (PPathwaySystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
                             {
                                 eachSys.ReturnToMemorizedPosition();
                                 this.ValidateSystem(eachSys);
@@ -1506,12 +1506,12 @@ namespace EcellLib.PathwayWindow
                             varNameDict.Add(name, null);
                         }
                     }
-                    else if(node.Value is PEcellProcess)
+                    else if(node.Value is PPathwayProcess)
                     {
                         if (proNameDict.ContainsKey(name))
                         {
                             // Resizing is aborted
-                            foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
+                            foreach (PPathwaySystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
                             {
                                 eachSys.ReturnToMemorizedPosition();
                                 this.ValidateSystem(eachSys);
@@ -1545,7 +1545,7 @@ namespace EcellLib.PathwayWindow
                             PPathwayObject p = system.ParentObject;
                             if (p == null)
                                 continue;
-                            String newkey = ((PEcellSystem)p).Element.Key + "/" + sp[sp.Length - 1];
+                            String newkey = ((PPathwaySystem)p).Element.Key + "/" + sp[sp.Length - 1];
                             if (m_pathwayView.HasObject(ComponentType.System, newkey))
                                 isDuplicate = true;
                             
@@ -1556,7 +1556,7 @@ namespace EcellLib.PathwayWindow
                             PPathwayObject p = system.ParentObject;
                             if (p == null)
                                 continue;
-                            String newkey = ((PEcellSystem)p).Element.Key + ":" + sp[2];
+                            String newkey = ((PPathwaySystem)p).Element.Key + ":" + sp[2];
                             ComponentType ct = ComponentSetting.ParseComponentKind(sp[0]);
                             if (m_pathwayView.HasObject(ct, newkey))
                             isDuplicate = true;
@@ -1565,7 +1565,7 @@ namespace EcellLib.PathwayWindow
                         if (isDuplicate)
                         {
                             // Resizing is aborted
-                            foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
+                            foreach (PPathwaySystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
                             {
                                 eachSys.ReturnToMemorizedPosition();
                                 this.ValidateSystem(eachSys);
@@ -1632,7 +1632,7 @@ namespace EcellLib.PathwayWindow
 
                     if (m_selectedSystemName.Equals("/"))
                     {
-                        foreach (PEcellSystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
+                        foreach (PPathwaySystem eachSys in m_systems[m_selectedSystemName].EcellSystems)
                         {
                             eachSys.ReturnToMemorizedPosition();
                             this.ValidateSystem(eachSys);
@@ -1652,32 +1652,32 @@ namespace EcellLib.PathwayWindow
                         String name = sp[1];
                         sp = sp[1].Split(new char[] { '/' });
                         PPathwayObject p = system.ParentObject;
-                        String newkey =  ((PEcellSystem)p).Element.Key + "/" + sp[sp.Length - 1];
+                        String newkey =  ((PPathwaySystem)p).Element.Key + "/" + sp[sp.Length - 1];
                         EcellObject obj = m_pathwayView.GetEcellObject(name, "System");
                         String prevkey = name;
                         obj.key = newkey;
 
                         String tmp = m_selectedSystemName;
-                        this.TransferSystemTo(((PEcellSystem)p).Element.Key, prevkey, true);
+                        this.TransferSystemTo(((PPathwaySystem)p).Element.Key, prevkey, true);
                         m_selectedSystemName = tmp;
                     }
                     else
                     {
                         String data = sp[1] + ":" + sp[2];
                         PPathwayObject p = system.ParentObject;
-                        String newkey = ((PEcellSystem)p).Element.Key + ":" + sp[2];
+                        String newkey = ((PPathwaySystem)p).Element.Key + ":" + sp[2];
                         EcellObject obj = m_pathwayView.GetEcellObject(data, sp[0]);
                         String prevkey = data;
                         obj.key = newkey;
 
                         if (key.StartsWith("Process"))
                         {
-                            this.TransferNodeToByResize(((PEcellSystem)p).Element.Key, m_processes[prevkey], false);
+                            this.TransferNodeToByResize(((PPathwaySystem)p).Element.Key, m_processes[prevkey], false);
                             m_processes[newkey].RefreshEdges();
                         }
                         else
                         {
-                            this.TransferNodeToByResize(((PEcellSystem)p).Element.Key, m_variables[prevkey], false);
+                            this.TransferNodeToByResize(((PPathwaySystem)p).Element.Key, m_variables[prevkey], false);
                             m_variables[newkey].Refresh();
                         }
                         
@@ -1716,7 +1716,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void PEcellSystem_MouseDown(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
-            PEcellSystem system = m_systems[m_selectedSystemName].EcellSystems[0];
+            PPathwaySystem system = m_systems[m_selectedSystemName].EcellSystems[0];
             system.MemorizeCurrentPosition();
             PointF offsetToL = m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer;
             PointF lP = new PointF(system.X + offsetToL.X, system.Y + offsetToL.Y);
@@ -1728,7 +1728,7 @@ namespace EcellLib.PathwayWindow
 
             m_systemChildrenBeforeDrag = new PNodeList();
 
-            foreach (PEcellSystem oneSystem in m_systems[m_selectedSystemName].EcellSystems)
+            foreach (PPathwaySystem oneSystem in m_systems[m_selectedSystemName].EcellSystems)
                 m_systemChildrenBeforeDrag.AddRange(oneSystem.ChildrenReference);
         }
 
@@ -1747,7 +1747,7 @@ namespace EcellLib.PathwayWindow
             float Y = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth - sysEle.HalfThickness;
             float width = m_lowerRightPoint.X - X;
             float height = m_lowerRightPoint.Y - Y;
-            if (width > PEcellSystem.MIN_X_LENGTH && height > PEcellSystem.MIN_Y_LENGTH)
+            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.X = X;
@@ -1756,7 +1756,7 @@ namespace EcellLib.PathwayWindow
                 sysEle.Height = height;
                 m_systems[m_selectedSystemName].UpdateText();
                 PointF offsetToL = m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer;
-                foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.X = sysEle.X - offsetToL.X;
                     system.Y = sysEle.Y - offsetToL.Y;
@@ -1773,11 +1773,11 @@ namespace EcellLib.PathwayWindow
             {
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
-                if (width <= PEcellSystem.MIN_X_LENGTH)
+                if (width <= PPathwaySystem.MIN_X_LENGTH)
                 {
                     ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
                 }
-                if (height <= PEcellSystem.MIN_Y_LENGTH)
+                if (height <= PPathwaySystem.MIN_Y_LENGTH)
                 {
                     ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
                 }
@@ -1799,14 +1799,14 @@ namespace EcellLib.PathwayWindow
             float Y = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth - sysEle.HalfThickness;
             float height = m_lowerRightPoint.Y - Y;
 
-            if (height > PEcellSystem.MIN_Y_LENGTH)
+            if (height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.Y = Y;
                 sysEle.Height = height;
                 m_systems[m_selectedSystemName].UpdateText();
                 PointF offsetToL = m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer;
-                foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.Y = sysEle.Y - offsetToL.Y;
                     system.Height = sysEle.Height;
@@ -1838,7 +1838,7 @@ namespace EcellLib.PathwayWindow
                                - sysEle.X - m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer.X;
             float height = m_lowerLeftPoint.Y - Y;
 
-            if (width > PEcellSystem.MIN_X_LENGTH && height > PEcellSystem.MIN_Y_LENGTH)
+            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.Y = Y;
@@ -1846,7 +1846,7 @@ namespace EcellLib.PathwayWindow
                 sysEle.Height = height;
                 m_systems[m_selectedSystemName].UpdateText();
                 PointF offsetToL = m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer;
-                foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.Y = sysEle.Y - offsetToL.Y;
                     system.Width = sysEle.Width;
@@ -1863,11 +1863,11 @@ namespace EcellLib.PathwayWindow
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
 
-                if (width <= PEcellSystem.MIN_X_LENGTH)
+                if (width <= PPathwaySystem.MIN_X_LENGTH)
                 {
                     ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
                 }
-                if (height <= PEcellSystem.MIN_Y_LENGTH)
+                if (height <= PPathwaySystem.MIN_Y_LENGTH)
                 {
                     ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
                 }
@@ -1888,12 +1888,12 @@ namespace EcellLib.PathwayWindow
 
             float width = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth + sysEle.HalfThickness
                               - sysEle.X - m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer.X;
-            if (width > PEcellSystem.MIN_X_LENGTH)
+            if (width > PPathwaySystem.MIN_X_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.Width = width;
                 m_systems[m_selectedSystemName].UpdateText();
-                foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.Width = sysEle.Width;
                     //system.SystemWidth = sysEle.Width;
@@ -1925,14 +1925,14 @@ namespace EcellLib.PathwayWindow
             float height = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth + sysEle.HalfThickness
                                 - sysEle.Y - m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer.Y;
 
-            if (width > PEcellSystem.MIN_X_LENGTH && height > PEcellSystem.MIN_Y_LENGTH)
+            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.Width = width;
                 sysEle.Height = height;
                 m_systems[m_selectedSystemName].UpdateText();
                 PointF offsetToL = m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer;
-                foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.Width = sysEle.Width;
                     system.Height = sysEle.Height;
@@ -1948,11 +1948,11 @@ namespace EcellLib.PathwayWindow
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
 
-                if (width <= PEcellSystem.MIN_X_LENGTH)
+                if (width <= PPathwaySystem.MIN_X_LENGTH)
                 {
                     ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
                 }
-                if (height <= PEcellSystem.MIN_Y_LENGTH)
+                if (height <= PPathwaySystem.MIN_Y_LENGTH)
                 {
                     ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
                 }
@@ -1974,13 +1974,13 @@ namespace EcellLib.PathwayWindow
             float height = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth + sysEle.HalfThickness
                                  - sysEle.Y - m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer.Y;
 
-            if (height > PEcellSystem.MIN_Y_LENGTH)
+            if (height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.Height = height;
                 m_systems[m_selectedSystemName].UpdateText();
 
-                foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.Height = sysEle.Height;
                     this.ValidateSystem(system);
@@ -2011,7 +2011,7 @@ namespace EcellLib.PathwayWindow
             float height = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth + sysEle.HalfThickness
                                - sysEle.Y - m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer.Y;
 
-            if (width > PEcellSystem.MIN_X_LENGTH && height > PEcellSystem.MIN_Y_LENGTH)
+            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.X = X;
@@ -2019,7 +2019,7 @@ namespace EcellLib.PathwayWindow
                 sysEle.Height = height;
                 m_systems[m_selectedSystemName].UpdateText();
                 PointF offsetToL = m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer;
-                foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.X = sysEle.X - offsetToL.X;
                     system.Width = sysEle.Width;
@@ -2036,11 +2036,11 @@ namespace EcellLib.PathwayWindow
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
                 ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
 
-                if (width <= PEcellSystem.MIN_X_LENGTH)
+                if (width <= PPathwaySystem.MIN_X_LENGTH)
                 {
                     ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
                 }
-                if (height <= PEcellSystem.MIN_Y_LENGTH)
+                if (height <= PPathwaySystem.MIN_Y_LENGTH)
                 {
                     ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
                 }
@@ -2062,14 +2062,14 @@ namespace EcellLib.PathwayWindow
             float X = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth - sysEle.HalfThickness;
             float width = m_lowerRightPoint.X - X;
 
-            if (width > PEcellSystem.MIN_X_LENGTH)
+            if (width > PPathwaySystem.MIN_X_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 sysEle.X = X;
                 sysEle.Width = width;
                 m_systems[m_selectedSystemName].UpdateText();
                 PointF offsetToL = m_systems[m_selectedSystemName].EcellSystems[0].OffsetToLayer;
-                foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.X = sysEle.X - offsetToL.X;
                     system.Width = sysEle.Width;
@@ -2140,7 +2140,7 @@ namespace EcellLib.PathwayWindow
         /// Validate a system. According to result, system.Valid will be changed.
         /// </summary>
         /// <param name="system">PEcellSystem to be validated</param>
-        protected void ValidateSystem(PEcellSystem system)
+        protected void ValidateSystem(PPathwaySystem system)
         {
             if (this.DoesSystemOverlaps(system))
                 system.Valid = false;
@@ -2167,15 +2167,15 @@ namespace EcellLib.PathwayWindow
             if (m_selectedSystemName == null || !m_systems.ContainsKey(m_selectedSystemName))
                 return;
 
-            PEcellSystem system = m_systems[m_selectedSystemName].EcellSystems[0];
+            PPathwaySystem system = m_systems[m_selectedSystemName].EcellSystems[0];
 
             PointF gP = new PointF(system.X + system.OffsetX, system.Y + system.OffsetY);
 
-            PEcellSystem parentSystem = system;
+            PPathwaySystem parentSystem = system;
 
-            while(parentSystem.Parent is PEcellSystem)
+            while(parentSystem.Parent is PPathwaySystem)
             {
-                parentSystem = (PEcellSystem)parentSystem.Parent;
+                parentSystem = (PPathwaySystem)parentSystem.Parent;
                 parentSystem.LocalToParent(gP);
                 gP.X = gP.X + parentSystem.OffsetX;
                 gP.Y = gP.Y + parentSystem.OffsetY;
@@ -2202,15 +2202,15 @@ namespace EcellLib.PathwayWindow
             if (m_selectedSystemName == null)
                 return;
 
-            PEcellSystem system = m_systems[m_selectedSystemName].EcellSystems[0];
+            PPathwaySystem system = m_systems[m_selectedSystemName].EcellSystems[0];
 
             PointF gP = new PointF(system.X + system.OffsetX, system.Y + system.OffsetY);
 
-            PEcellSystem parentSystem = system;
+            PPathwaySystem parentSystem = system;
 
-            while (parentSystem.Parent is PEcellSystem)
+            while (parentSystem.Parent is PPathwaySystem)
             {
-                parentSystem = (PEcellSystem)parentSystem.Parent;
+                parentSystem = (PPathwaySystem)parentSystem.Parent;
                 parentSystem.LocalToParent(gP);
                 gP.X = gP.X + parentSystem.OffsetX;
                 gP.Y = gP.Y + parentSystem.OffsetY;
@@ -2281,7 +2281,7 @@ namespace EcellLib.PathwayWindow
         {
             foreach(SystemContainer sysCon in m_systems.Values)
             {
-                foreach(PEcellSystem system in sysCon.EcellSystems)
+                foreach(PPathwaySystem system in sysCon.EcellSystems)
                 {
                     system.BackgroundBrush = null;
                 }
@@ -2342,7 +2342,7 @@ namespace EcellLib.PathwayWindow
         public void TransferNodeTo(string systemName, PPathwayObject obj, bool toBeNotified, bool isAnchor)
         {
             // The case that obj is transfered to PEcellSystem.
-            foreach(PEcellSystem system in m_systems[systemName].EcellSystems)
+            foreach(PPathwaySystem system in m_systems[systemName].EcellSystems)
             {
                 if (system.Layer == obj.Layer && system != obj)
                 {
@@ -2358,9 +2358,9 @@ namespace EcellLib.PathwayWindow
                     }
                 }
             }
-            if(obj is PEcellVariable)
+            if(obj is PPathwayVariable)
             {
-                PEcellVariable var = (PEcellVariable)obj;
+                PPathwayVariable var = (PPathwayVariable)obj;
                 m_variables.Remove(var.Element.Key);
                 string newKey = systemName + ":" + PathUtil.RemovePath(var.Element.Key);
                 string oldKey = var.Element.Key;
@@ -2385,9 +2385,9 @@ namespace EcellLib.PathwayWindow
                 }
                 var.Refresh();
             }
-            else if(obj is PEcellProcess)
+            else if(obj is PPathwayProcess)
             {
-                PEcellProcess pro = (PEcellProcess)obj;
+                PPathwayProcess pro = (PPathwayProcess)obj;
                 m_processes.Remove(pro.Element.Key);
                 string newKey = systemName + ":" + PathUtil.RemovePath(pro.Element.Key);
                 string oldKey = pro.Element.Key;
@@ -2425,7 +2425,7 @@ namespace EcellLib.PathwayWindow
         public void TransferNodeToByResize(string systemName, PPathwayObject obj, bool isAnchor)
         {
             // The case that obj is transfered to PEcellSystem.
-            foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+            foreach (PPathwaySystem system in m_systems[systemName].EcellSystems)
             {
                 if (system.Layer == obj.Layer && system != obj)
                 {
@@ -2452,9 +2452,9 @@ namespace EcellLib.PathwayWindow
                     }
                 }
             }
-            if (obj is PEcellVariable)
+            if (obj is PPathwayVariable)
             {
-                PEcellVariable var = (PEcellVariable)obj;
+                PPathwayVariable var = (PPathwayVariable)obj;
                 m_variables.Remove(var.Element.Key);
                 string newKey = systemName + ":" + PathUtil.RemovePath(var.Element.Key);
                 string oldKey = var.Element.Key;
@@ -2475,9 +2475,9 @@ namespace EcellLib.PathwayWindow
                         true,
                         isAnchor);
             }
-            else if (obj is PEcellProcess)
+            else if (obj is PPathwayProcess)
             {
-                PEcellProcess pro = (PEcellProcess)obj;
+                PPathwayProcess pro = (PPathwayProcess)obj;
                 m_processes.Remove(pro.Element.Key);
                 string newKey = systemName + ":" + PathUtil.RemovePath(pro.Element.Key);
                 string oldKey = pro.Element.Key;
@@ -2525,10 +2525,10 @@ namespace EcellLib.PathwayWindow
             SystemContainer oldSysCon = m_systems[oldKey];
             SystemContainer parentSysCon = m_systems[systemName];
 
-            foreach(PEcellSystem pes in oldSysCon.EcellSystems)
+            foreach(PPathwaySystem pes in oldSysCon.EcellSystems)
             {
                 pes.Parent.RemoveChild(pes);
-                foreach (PEcellSystem ppes in parentSysCon.EcellSystems)
+                foreach (PPathwaySystem ppes in parentSysCon.EcellSystems)
                     if (ppes.Layer == pes.Layer)
                         ppes.AddChild(pes);
             }
@@ -2568,7 +2568,7 @@ namespace EcellLib.PathwayWindow
                 SystemContainer sysCon = m_systems[key];
                 m_systems.Remove(key);
                 string newSysKey = key.Replace(oldKey, newKey);
-                foreach (PEcellSystem system in sysCon.EcellSystems)
+                foreach (PPathwaySystem system in sysCon.EcellSystems)
                     system.Name = newSysKey;
                 sysCon.Element.Key = newSysKey;
                 m_systems.Add(newSysKey, sysCon);
@@ -2576,7 +2576,7 @@ namespace EcellLib.PathwayWindow
 
             foreach (string key in this.GetAllVariableUnder(oldKey))
             {
-                PEcellVariable pev = m_variables[key];
+                PPathwayVariable pev = m_variables[key];
                 m_variables.Remove(key);
                 string newVarKey = key.Replace(oldKey, newKey);
                 pev.Name = newVarKey;
@@ -2585,7 +2585,7 @@ namespace EcellLib.PathwayWindow
 
             foreach (string key in this.GetAllProcessUnder(oldKey))
             {
-                PEcellProcess pep = m_processes[key];
+                PPathwayProcess pep = m_processes[key];
                 m_processes.Remove(key);
                 string newProKey = key.Replace(oldKey, newKey);
                 pep.Name = newProKey;
@@ -2645,7 +2645,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="system">system, to be checked</param>
         /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
-        public bool DoesSystemOverlaps(PEcellSystem system)
+        public bool DoesSystemOverlaps(PPathwaySystem system)
         {
             bool isOverlaping = false;
             foreach (SystemContainer sysCon in m_systems.Values)
@@ -2691,11 +2691,11 @@ namespace EcellLib.PathwayWindow
                     {
                         // Get a vacant point where an incoming node should be placed.
                         List<PPathwayNode> nodeList = new List<PPathwayNode>();
-                        foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                        foreach (PPathwaySystem system in m_systems[systemName].EcellSystems)
                             foreach (PPathwayObject ppo in system.ChildObjectList)
                                 if (ppo is PPathwayNode)
                                     nodeList.Add((PPathwayNode)ppo);
-                        PEcellSystem topSystem = m_systems[systemName].EcellSystems[0];
+                        PPathwaySystem topSystem = m_systems[systemName].EcellSystems[0];
                         RectangleF sysRect = new RectangleF(
                             topSystem.X + topSystem.OffsetToLayer.X,
                             topSystem.Y + topSystem.OffsetToLayer.Y,
@@ -2705,13 +2705,13 @@ namespace EcellLib.PathwayWindow
                         List<PPathwayObject> childList = topSystem.ChildObjectList;
                         foreach (PPathwayObject child in childList)
                         {
-                            if (child is PEcellSystem)
+                            if (child is PPathwaySystem)
                             {
                                 excludeRectList.Add(new RectangleF(
-                                    child.X + ((PEcellSystem)child).OffsetToLayer.X,
-                                    child.Y + ((PEcellSystem)child).OffsetToLayer.Y,
-                                    ((PEcellSystem)child).Width,
-                                    ((PEcellSystem)child).Height));
+                                    child.X + ((PPathwaySystem)child).OffsetToLayer.X,
+                                    child.Y + ((PPathwaySystem)child).OffsetToLayer.Y,
+                                    ((PPathwaySystem)child).Width,
+                                    ((PPathwaySystem)child).Height));
                             }
                         }
                         PointF vacantPoint = GetVacantPoint(sysRect, excludeRectList, nodeList);
@@ -2729,7 +2729,7 @@ namespace EcellLib.PathwayWindow
                         float systemOffsetToLayerX = 0f;
                         float systemOffsetToLayerY = 0f;
 
-                        foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                        foreach (PPathwaySystem system in m_systems[systemName].EcellSystems)
                         {
                             systemX = system.X;
                             systemY = system.Y;
@@ -2748,9 +2748,9 @@ namespace EcellLib.PathwayWindow
                                     x = ppo.X + ppo.OffsetX;
                                     y = ppo.Y + ppo.OffsetY;
                                 }
-                                else if (ppo is PEcellSystem)
+                                else if (ppo is PPathwaySystem)
                                 {
-                                    PEcellSystem pes = (PEcellSystem)ppo;
+                                    PPathwaySystem pes = (PPathwaySystem)ppo;
                                     x = pes.X + pes.OffsetX + pes.Width;
                                     y = pes.Y + pes.OffsetY + pes.Height;
 
@@ -2763,10 +2763,10 @@ namespace EcellLib.PathwayWindow
                         }
 
                         // Calculate size needed for parent system to house this system.
-                        float needX = maxX + PEcellSystem.DEFAULT_WIDTH + 2 * PathwayView.SYSTEM_SYSTEM_MARGIN;
+                        float needX = maxX + PPathwaySystem.DEFAULT_WIDTH + 2 * PathwayView.SYSTEM_SYSTEM_MARGIN;
                         float needY = maxY;
-                        if (needY < PEcellSystem.DEFAULT_HEIGHT + 2 * PathwayView.SYSTEM_SYSTEM_MARGIN)
-                            needY = PEcellSystem.DEFAULT_HEIGHT + 2 * PathwayView.SYSTEM_SYSTEM_MARGIN;
+                        if (needY < PPathwaySystem.DEFAULT_HEIGHT + 2 * PathwayView.SYSTEM_SYSTEM_MARGIN)
+                            needY = PPathwaySystem.DEFAULT_HEIGHT + 2 * PathwayView.SYSTEM_SYSTEM_MARGIN;
 
                         RectangleF request4XDir = RectangleF.Empty;
                         RectangleF request4YDir = RectangleF.Empty;
@@ -2777,12 +2777,12 @@ namespace EcellLib.PathwayWindow
                         if (systemH < needY)
                             request4YDir = new RectangleF(systemX, systemY + systemH, systemW, needY - systemH);
 
-                        foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                        foreach (PPathwaySystem system in m_systems[systemName].EcellSystems)
                             system.MakeSpace(request4XDir, request4YDir);
 
                         foreach (SystemContainer sysCon in m_systems.Values)
                         {
-                            foreach (PEcellSystem system in sysCon.EcellSystems)
+                            foreach (PPathwaySystem system in sysCon.EcellSystems)
                                 system.Reset();
                             sysCon.UpdateText();
                         }
@@ -2794,7 +2794,7 @@ namespace EcellLib.PathwayWindow
                 }
 
                 // Set obj to appropriate layer.
-                foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[systemName].EcellSystems)
                 {
                     if (system.Layer == m_layers[layer])
                     {
@@ -2819,8 +2819,8 @@ namespace EcellLib.PathwayWindow
                         if (obj is PPathwayObject)
                             ((PPathwayObject)obj).ParentObject = system;
                     }
-                    if (obj is PEcellProcess)
-                        ((PEcellProcess)obj).CreateEdges();
+                    if (obj is PPathwayProcess)
+                        ((PPathwayProcess)obj).CreateEdges();
                 }
             }
         }
@@ -2854,7 +2854,7 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
-                foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[systemName].EcellSystems)
                 {
                     if (system.Layer == m_layers[layer])
                     {
@@ -2878,7 +2878,7 @@ namespace EcellLib.PathwayWindow
             RegisterObjToSet(obj);
             if(obj.Layer == null)
             {
-                PEcellSystem system = m_systems[systemName].EcellSystems[0];
+                PPathwaySystem system = m_systems[systemName].EcellSystems[0];
                 obj.Layer = system.Layer;
                 if(!isCoordSet)
                 {
@@ -2898,7 +2898,7 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
-                foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[systemName].EcellSystems)
                 {
                     if (system.Layer == obj.Layer)
                     {
@@ -2952,14 +2952,14 @@ namespace EcellLib.PathwayWindow
         /// <param name="obj">the registered object.</param>
         public void RegisterObjToSet(PPathwayObject obj)
         {
-            if(obj is PEcellVariable)
+            if(obj is PPathwayVariable)
             {
-                PEcellVariable node = (PEcellVariable)obj;
+                PPathwayVariable node = (PPathwayVariable)obj;
                 m_variables.Add(node.Element.Key, node);
             }
-            else if(obj is PEcellProcess)
+            else if(obj is PPathwayProcess)
             {
-                PEcellProcess node = (PEcellProcess)obj;
+                PPathwayProcess node = (PPathwayProcess)obj;
                 m_processes.Add(node.Element.Key, node);
             }
             if (obj.CanvasView == null)
@@ -3042,12 +3042,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="attrElement">attribute element.</param>
         /// <param name="systemList">child system.</param>
         public void AddSystem(string systemName, SystemElement systemElement, 
-            AttributeElement attrElement, List<PEcellSystem> systemList)
+            AttributeElement attrElement, List<PPathwaySystem> systemList)
         {
             SystemContainer sysCon = new SystemContainer(systemList, systemElement);
             m_systems.Add(systemName, sysCon);
             this.AddAttributeToSystem(systemName, attrElement);
-            foreach (PEcellSystem p in systemList)
+            foreach (PPathwaySystem p in systemList)
             {
                 if (p.CanvasView == null)
                     p.CanvasView = this;
@@ -3059,7 +3059,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="systemName">system name.</param>
         /// <returns>the list of system.</returns>
-        public List<PEcellSystem> GetSystem(string systemName)
+        public List<PPathwaySystem> GetSystem(string systemName)
         {
             return m_systems[systemName].EcellSystems;
         }
@@ -3150,7 +3150,7 @@ namespace EcellLib.PathwayWindow
             m_selectedSystemName = systemName;
             if(m_systems.ContainsKey(systemName))
             {
-                foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[systemName].EcellSystems)
                     system.IsHighLighted = true;
             }
             ShowResizeHandles();
@@ -3197,7 +3197,7 @@ namespace EcellLib.PathwayWindow
                     m_line4reconnect.AddLine(line.VarPoint.X, line.VarPoint.Y, line.ProPoint.X, line.ProPoint.Y);
                     break;
                 case LineType.Dashed:
-                    PEcellProcess.AddDashedLine(m_line4reconnect, line.VarPoint.X, line.VarPoint.Y, line.ProPoint.X, line.ProPoint.Y);
+                    PPathwayProcess.AddDashedLine(m_line4reconnect, line.VarPoint.X, line.VarPoint.Y, line.ProPoint.X, line.ProPoint.Y);
                     break;
                 case LineType.Unknown:
                     m_line4reconnect.AddLine(line.VarPoint.X, line.VarPoint.Y, line.ProPoint.X, line.ProPoint.Y);
@@ -3207,14 +3207,14 @@ namespace EcellLib.PathwayWindow
             switch (line.Info.Direction)
             {
                 case EdgeDirection.Bidirection:
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.ProPoint, line.VarPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.VarPoint, line.ProPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.ProPoint, line.VarPoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.VarPoint, line.ProPoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
                     break;
                 case EdgeDirection.Inward:
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.ProPoint, line.VarPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.ProPoint, line.VarPoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
                     break;
                 case EdgeDirection.Outward:
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.VarPoint, line.ProPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(line.VarPoint, line.ProPoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
                     break;
                 case EdgeDirection.None:
                     break;
@@ -3259,9 +3259,9 @@ namespace EcellLib.PathwayWindow
         {
             foreach (SystemContainer sysCon in m_systems.Values)
                 sysCon.Freeze();
-            foreach (PEcellVariable var in m_variables.Values)
+            foreach (PPathwayVariable var in m_variables.Values)
                 var.Freeze();
-            foreach (PEcellProcess pro in m_processes.Values)
+            foreach (PPathwayProcess pro in m_processes.Values)
                 pro.Freeze();            
         }
 
@@ -3467,7 +3467,7 @@ namespace EcellLib.PathwayWindow
                     }
 
                     sysCon.Element.Key = data.key;
-                    foreach(PEcellSystem sys in sysCon.EcellSystems)
+                    foreach(PPathwaySystem sys in sysCon.EcellSystems)
                     {
                         sys.Element.Key = data.key;
                         sys.Name = data.key;
@@ -3492,7 +3492,7 @@ namespace EcellLib.PathwayWindow
                         UpdateSystemSize(key, data);
                         return;
                     }
-                    PEcellVariable var = m_variables[key];
+                    PPathwayVariable var = m_variables[key];
                     m_variables.Remove(key);
                     var.Element.Key = data.key;
                     var.Name = PathUtil.RemovePath(data.key);
@@ -3510,7 +3510,7 @@ namespace EcellLib.PathwayWindow
                 case ComponentType.Process:                    
                     if (!m_processes.ContainsKey(key))
                         return;
-                    PEcellProcess pro = m_processes[key];
+                    PPathwayProcess pro = m_processes[key];
 
                     pro.X = data.X;
                     pro.Y = data.Y;
@@ -3550,7 +3550,7 @@ namespace EcellLib.PathwayWindow
             switch (type)
             {
                 case ComponentType.System:
-                    foreach (PEcellSystem system in m_systems[key].EcellSystems)
+                    foreach (PPathwaySystem system in m_systems[key].EcellSystems)
                         system.Parent.RemoveChild(system);
                     
                     SystemContainer con = m_systems[key];
@@ -3584,7 +3584,7 @@ namespace EcellLib.PathwayWindow
                 case ComponentType.Variable:
                     if (m_variables.ContainsKey(key))
                     {
-                        PEcellVariable v = m_variables[key];
+                        PPathwayVariable v = m_variables[key];
                         v.NotifyRemoveRelatedVariable();
                         v.Parent.RemoveChild(v);
                         v.Reset();
@@ -3598,7 +3598,7 @@ namespace EcellLib.PathwayWindow
                 case ComponentType.Process:
                     if (m_processes.ContainsKey(key))
                     {
-                        PEcellProcess p = m_processes[key];
+                        PPathwayProcess p = m_processes[key];
                         p.NotifyRemoveRelatedProcess();
                         p.DeleteEdges();
                         p.Parent.RemoveChild(p);
@@ -3623,7 +3623,7 @@ namespace EcellLib.PathwayWindow
                         return;
                     this.ResetSelectedObjects();
                     this.AddSelectedSystem(key);
-                    PEcellSystem focusSystem = (PEcellSystem)m_systems[key].EcellSystems[0];
+                    PPathwaySystem focusSystem = (PPathwaySystem)m_systems[key].EcellSystems[0];
                     if(null != focusSystem)
                     {
                         m_pathwayCanvas.Camera.AnimateViewToCenterBounds(focusSystem.FullBounds,
@@ -3637,7 +3637,7 @@ namespace EcellLib.PathwayWindow
                     bool isAlreadySelected = false;
                     foreach (PPathwayNode selectNode in SelectedNodes)
                     {
-                        if (key.Equals(selectNode.Element.Key) && selectNode is PEcellVariable)
+                        if (key.Equals(selectNode.Element.Key) && selectNode is PPathwayVariable)
                         {
                             isAlreadySelected = true;
                             break;
@@ -3661,7 +3661,7 @@ namespace EcellLib.PathwayWindow
                     bool isProAlreadySelected = false;
                     foreach (PPathwayNode selectNode in SelectedNodes)
                     {
-                        if (key.Equals(selectNode.Element.Key) && selectNode is PEcellProcess)
+                        if (key.Equals(selectNode.Element.Key) && selectNode is PPathwayProcess)
                         {
                             isProAlreadySelected = true;
                             break;
@@ -3690,9 +3690,9 @@ namespace EcellLib.PathwayWindow
         {
             foreach (SystemContainer sysCon in m_systems.Values)
                 sysCon.UnFreeze();
-            foreach (PEcellVariable var in m_variables.Values)
+            foreach (PPathwayVariable var in m_variables.Values)
                 var.Unfreeze();
-            foreach (PEcellProcess pro in m_processes.Values)
+            foreach (PPathwayProcess pro in m_processes.Values)
                 pro.Unfreeze();
         }
 
@@ -3780,7 +3780,7 @@ namespace EcellLib.PathwayWindow
         {
             if (m_selectedSystemName != null && m_systems.ContainsKey(m_selectedSystemName))
             {
-                foreach (PEcellSystem system in m_systems[m_selectedSystemName].EcellSystems)
+                foreach (PPathwaySystem system in m_systems[m_selectedSystemName].EcellSystems)
                 {
                     system.IsHighLighted = false;
                 }
@@ -3849,7 +3849,7 @@ namespace EcellLib.PathwayWindow
                     m_line4reconnect.AddLine(varPoint.X, varPoint.Y, proPoint.X, proPoint.Y);
                     break;
                 case LineType.Dashed:
-                    PEcellProcess.AddDashedLine(m_line4reconnect, varPoint.X, varPoint.Y, proPoint.X, proPoint.Y);
+                    PPathwayProcess.AddDashedLine(m_line4reconnect, varPoint.X, varPoint.Y, proPoint.X, proPoint.Y);
                     break;
                 case LineType.Unknown:
                     m_line4reconnect.AddLine(varPoint.X, varPoint.Y, proPoint.X, proPoint.Y);
@@ -3859,14 +3859,14 @@ namespace EcellLib.PathwayWindow
             switch (m_selectedLine.Info.Direction)
             {
                 case EdgeDirection.Bidirection:
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(proPoint, varPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(varPoint, proPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(proPoint, varPoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(varPoint, proPoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
                     break;
                 case EdgeDirection.Inward:
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(proPoint, varPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(proPoint, varPoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
                     break;
                 case EdgeDirection.Outward:
-                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(varPoint, proPoint, PEcellProcess.ARROW_RADIAN_A, PEcellProcess.ARROW_RADIAN_B, PEcellProcess.ARROW_LENGTH));
+                    m_line4reconnect.AddPolygon(PathUtil.GetArrowPoints(varPoint, proPoint, PPathwayProcess.ARROW_RADIAN_A, PPathwayProcess.ARROW_RADIAN_B, PPathwayProcess.ARROW_LENGTH));
                     break;
                 case EdgeDirection.None:
                     break;
@@ -4017,11 +4017,11 @@ namespace EcellLib.PathwayWindow
         {
             // Get a vacant point where an incoming node should be placed.
             List<PPathwayNode> nodeList = new List<PPathwayNode>();
-            foreach (PEcellSystem system in m_systems[systemName].EcellSystems)
+            foreach (PPathwaySystem system in m_systems[systemName].EcellSystems)
                 foreach (PPathwayObject ppo in system.ChildObjectList)
                     if (ppo is PPathwayNode)
                         nodeList.Add((PPathwayNode)ppo);
-            PEcellSystem topSystem = m_systems[systemName].EcellSystems[0];
+            PPathwaySystem topSystem = m_systems[systemName].EcellSystems[0];
             RectangleF sysRect = new RectangleF(
                 topSystem.X + topSystem.OffsetToLayer.X,
                 topSystem.Y + topSystem.OffsetToLayer.Y,
@@ -4031,13 +4031,13 @@ namespace EcellLib.PathwayWindow
             List<PPathwayObject> childList = topSystem.ChildObjectList;
             foreach (PPathwayObject child in childList)
             {
-                if (child is PEcellSystem)
+                if (child is PPathwaySystem)
                 {
                     excludeRectList.Add(new RectangleF(
-                        child.X + ((PEcellSystem)child).OffsetToLayer.X,
-                        child.Y + ((PEcellSystem)child).OffsetToLayer.Y,
-                        ((PEcellSystem)child).Width,
-                        ((PEcellSystem)child).Height));
+                        child.X + ((PPathwaySystem)child).OffsetToLayer.X,
+                        child.Y + ((PPathwaySystem)child).OffsetToLayer.Y,
+                        ((PPathwaySystem)child).Width,
+                        ((PPathwaySystem)child).Height));
                 }
             }
             return GetVacantPoint(sysRect, excludeRectList, nodeList);
@@ -4176,7 +4176,7 @@ namespace EcellLib.PathwayWindow
             /// <summary>
             /// the list of PEcellSystem.
             /// </summary>
-            private List<PEcellSystem> m_systemList;
+            private List<PPathwaySystem> m_systemList;
             /// <summary>
             /// ResourceManager for PathwayWindow.
             /// </summary>
@@ -4216,8 +4216,8 @@ namespace EcellLib.PathwayWindow
             {
                 base.OnMouseDown(sender, e);
                 
-                if (e.PickedNode is PEcellProcess)
-                    ((PEcellProcess)e.PickedNode).ValidateEdges();
+                if (e.PickedNode is PPathwayProcess)
+                    ((PPathwayProcess)e.PickedNode).ValidateEdges();
 
                 if (e.PickedNode is PPathwayNode)
                 {
@@ -4239,9 +4239,9 @@ namespace EcellLib.PathwayWindow
                         }
                     }
                 }
-                else if(e.PickedNode is PEcellSystem)
+                else if(e.PickedNode is PPathwaySystem)
                 {
-                    ((PEcellSystem)e.PickedNode).MemorizeCurrentPosition();
+                    ((PPathwaySystem)e.PickedNode).MemorizeCurrentPosition();
                 }
 
                 e.Canvas.BackColor = Color.Silver;
@@ -4258,9 +4258,9 @@ namespace EcellLib.PathwayWindow
             {
                 base.OnStartDrag(sender, e);
                 m_isMoved = false;
-                if (e.PickedNode is PEcellSystem)
+                if (e.PickedNode is PPathwaySystem)
                 {
-                    SystemContainer system = m_dict[((PEcellSystem)e.PickedNode).Name];
+                    SystemContainer system = m_dict[((PPathwaySystem)e.PickedNode).Name];
                     m_systemList = m_set.GetSystem(system.Element.Key);
                     foreach (KeyValuePair<string, SystemContainer> sysPair in m_dict)
                     {
@@ -4291,16 +4291,16 @@ namespace EcellLib.PathwayWindow
                 e.Canvas.BackColor = Color.Silver;
                 m_set.SetBackToDefault();
                 m_set.SetShadeWithoutSystem( m_set.GetSurroundingSystem(e.Position, null) );
-                if(e.PickedNode is PEcellSystem)
+                if(e.PickedNode is PPathwaySystem)
                 {
-                    PEcellSystem picked = (PEcellSystem)e.PickedNode;
+                    PPathwaySystem picked = (PPathwaySystem)e.PickedNode;
                     SystemElement element = m_dict[picked.Name].Element;
                     element.X = e.PickedNode.X;
                     element.Y = e.PickedNode.Y;
                     element.OffsetX = e.PickedNode.OffsetX;
                     element.OffsetY = e.PickedNode.OffsetY;
                     m_dict[picked.Name].UpdateText();
-                    foreach(PEcellSystem system in m_systemList)
+                    foreach(PPathwaySystem system in m_systemList)
                     {
                         system.X = e.PickedNode.X;
                         system.Y = e.PickedNode.Y;
@@ -4381,9 +4381,9 @@ namespace EcellLib.PathwayWindow
                         m_composite = null;
                     }
                 }
-                else if(e.PickedNode is PEcellSystem)
+                else if(e.PickedNode is PPathwaySystem)
                 {
-                    PEcellSystem picked = (PEcellSystem)e.PickedNode;
+                    PPathwaySystem picked = (PPathwaySystem)e.PickedNode;
                     if (picked.Parent is PLayer)
                     {
                         m_set.PathwayView.NotifyDataChanged(
@@ -4417,7 +4417,7 @@ namespace EcellLib.PathwayWindow
                         }
                         else
                         {
-                            string oldSystemName = ((PEcellSystem)e.PickedNode).Name;
+                            string oldSystemName = ((PPathwaySystem)e.PickedNode).Name;
                             string surSys = m_set.GetSurroundingSystem(e.Position, oldSystemName);
                             string newSys = null;
                             if (surSys.Equals("/"))
@@ -4460,9 +4460,9 @@ namespace EcellLib.PathwayWindow
                     m_sysConList.RemoveRange(0,m_sysConList.Count);
                 m_set.SetBackToDefault();
                 m_set.UpdateOverview();
-                if (e.PickedNode is PEcellSystem)
+                if (e.PickedNode is PPathwaySystem)
                 {
-                    PEcellSystem picked = (PEcellSystem)e.PickedNode;
+                    PPathwaySystem picked = (PPathwaySystem)e.PickedNode;
                     picked.MoveEnd();
                 }
             }
@@ -4482,9 +4482,9 @@ namespace EcellLib.PathwayWindow
                     {
                         m_set.TransferNodeTo(m_set.GetSurroundingSystem(newPosition, null), (PPathwayObject)node, toBeNotified, true);
                     }
-                    else if (node is PEcellVariable)
+                    else if (node is PPathwayVariable)
                     {
-                        string nodeName = PathUtil.RemovePath(((PEcellVariable)node).Element.Key);
+                        string nodeName = PathUtil.RemovePath(((PPathwayVariable)node).Element.Key);
                         if (m_set.Variables.ContainsKey(newSystem + ":" + nodeName))
                         {
                             ((PPathwayNode)node).ParentObject.AddChild(node);
@@ -4498,9 +4498,9 @@ namespace EcellLib.PathwayWindow
                             m_set.TransferNodeTo(m_set.GetSurroundingSystem(newPosition, null), (PPathwayObject)node, toBeNotified, true);
                         }
                     }
-                    else if (node is PEcellProcess)
+                    else if (node is PPathwayProcess)
                     {
-                        string nodeName = PathUtil.RemovePath(((PEcellProcess)node).Element.Key);
+                        string nodeName = PathUtil.RemovePath(((PPathwayProcess)node).Element.Key);
                         if (m_set.Processes.ContainsKey(newSystem + ":" + nodeName))
                         {
                             ((PPathwayNode)node).ParentObject.AddChild(node);
@@ -4535,7 +4535,7 @@ namespace EcellLib.PathwayWindow
             /// every PLayer. If there are eight PLayers in a canvas, there are eight PEcellSystems.
             /// This list contains these PEcellSystem.
             /// </summary>
-            private List<PEcellSystem> m_pEcellSystems;
+            private List<PPathwaySystem> m_pEcellSystems;
 
             /// <summary>
             /// SystemElement of this system.
@@ -4557,7 +4557,7 @@ namespace EcellLib.PathwayWindow
             /// <summary>
             /// get/set the list of related system.
             /// </summary>
-            public List<PEcellSystem> EcellSystems
+            public List<PPathwaySystem> EcellSystems
             {
                 get { return m_pEcellSystems; }
                 set { m_pEcellSystems = value; }
@@ -4597,7 +4597,7 @@ namespace EcellLib.PathwayWindow
             /// </summary>
             /// <param name="ecellSystems">the list of related systems.</param>
             /// <param name="element">the related element.</param>
-            public SystemContainer(List<PEcellSystem> ecellSystems, SystemElement element)
+            public SystemContainer(List<PPathwaySystem> ecellSystems, SystemElement element)
             {
                 m_pEcellSystems = ecellSystems;
                 m_systemElement = element;
@@ -4610,7 +4610,7 @@ namespace EcellLib.PathwayWindow
             /// </summary>
             public void Freeze()
             {
-                foreach(PEcellSystem system in this.EcellSystems)
+                foreach(PPathwaySystem system in this.EcellSystems)
                     system.Freeze();
             }
             /// <summary>
@@ -4618,7 +4618,7 @@ namespace EcellLib.PathwayWindow
             /// </summary>
             public void UnFreeze()
             {
-                foreach (PEcellSystem system in this.EcellSystems)
+                foreach (PPathwaySystem system in this.EcellSystems)
                     system.Unfreeze();
             }
             /// <summary>
@@ -4646,7 +4646,7 @@ namespace EcellLib.PathwayWindow
             /// <returns>bool</returns>
             public bool DoesSystemContainAPoint(PointF point)
             {
-                foreach (PEcellSystem system in EcellSystems)
+                foreach (PPathwaySystem system in EcellSystems)
                     if (system.Rect.Contains(point))
                         return true;
                 return false;

@@ -144,7 +144,8 @@ namespace EcellLib.PathwayWindow.Element
             // Get Variable Reference List
             if (value == null) return;
             List<EcellValue> varRefList = value.CastToList();
-            if (varRefList == null || varRefList.Count == 0) return;
+            if (varRefList == null || varRefList.Count == 0)
+                return;
 
             // Flag for whether all VariableReferences are in valid format or not.
             Dictionary<string, EdgeInfo> edgeInfos = new Dictionary<string, EdgeInfo>();
@@ -153,9 +154,17 @@ namespace EcellLib.PathwayWindow.Element
             foreach (EcellValue varRef in varRefList)
             {
                 EdgeInfo edgeInfo = new EdgeInfo(this.Key, varRef);
-                edgeInfos.Add(edgeInfo.VariableKey, edgeInfo);
+                edgeInfos.Add(edgeInfo.EdgeKey, edgeInfo);
             }
             m_edges = edgeInfos;
+        }
+        /// <summary>
+        /// Set EdgeInfos of this process.
+        /// </summary>
+        /// <param name="value">EcellValue</param>
+        public void RemoveReference(string varKey)
+        {
+            m_edges.Remove(varKey);
         }
         #endregion
     }
@@ -191,11 +200,6 @@ namespace EcellLib.PathwayWindow.Element
         /// Type of a line of this edge.
         /// </summary>
         protected int m_isFixed = 0;
-
-        /// <summary>
-        /// List of EachRelation.
-        /// </summary>
-        protected List<EachRelation> m_each = new List<EachRelation>();
         #endregion
 
         #region Constructor
@@ -223,35 +227,36 @@ namespace EcellLib.PathwayWindow.Element
         {
             List<EcellValue> values = ecellValue.CastToList();
             m_proKey = processKey;
-            m_varKey = values[1].CastToString().Substring(1);
             // Set Relation
-            string l_name = values[0].CastToString();
             int l_coef = values[2].CastToInt();
-            int l_isFixed = values[3].CastToInt();
-
-            EdgeDirection l_direction;
-            LineType l_type;
             if (l_coef < 0)
             {
-                l_direction = EdgeDirection.Inward;
-                l_type = LineType.Solid;
+                m_direction = EdgeDirection.Inward;
+                m_type = LineType.Solid;
             }
             else if (l_coef == 0)
             {
-                l_direction = EdgeDirection.None;
-                l_type = LineType.Dashed;
+                m_direction = EdgeDirection.None;
+                m_type = LineType.Dashed;
             }
             else
             {
-                l_direction = EdgeDirection.Outward;
-                l_type = LineType.Solid;
+                m_direction = EdgeDirection.Outward;
+                m_type = LineType.Solid;
             }
-
-            AddRelation(l_name, l_direction, l_type, l_isFixed);
+            m_varKey = values[1].CastToString().Substring(1);
+            m_isFixed = values[3].CastToInt();
         }
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// Accessor for m_varkey.
+        /// </summary>
+        public string EdgeKey
+        {
+            get { return m_varKey + ":" + m_direction.ToString(); }
+        }
         /// <summary>
         /// Accessor for m_varkey.
         /// </summary>
@@ -295,50 +300,6 @@ namespace EcellLib.PathwayWindow.Element
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Add new relation to this .
-        /// </summary>
-        /// <param name="name">The name of VariableReference</param>
-        /// <param name="direction">A type of direction</param>
-        /// <param name="type">A line type.</param>
-        /// <param name="isFixed">Whether this relation is fixed or not</param>
-        public void AddRelation(string name, EdgeDirection direction, LineType type, int isFixed)
-        {
-            switch (m_direction)
-            {
-                case EdgeDirection.Bidirection:
-                    break;
-                case EdgeDirection.Inward:
-                    if (direction == EdgeDirection.Outward)
-                        m_direction = EdgeDirection.Bidirection;
-                    break;
-                case EdgeDirection.Outward:
-                    if (direction == EdgeDirection.Inward)
-                        m_direction = EdgeDirection.Bidirection;
-                    break;
-                case EdgeDirection.None:
-                    m_direction = direction;
-                    break;
-            }
-            
-            switch (m_type)
-            {
-                case LineType.Unknown:
-                    m_type = type;
-                    break;
-                case LineType.Solid:
-                    m_type = type;
-                    break;
-                case LineType.Dashed:
-                    m_type = type;
-                    break;
-            }
-
-            m_isFixed = isFixed;
-
-            m_each.Add( new EachRelation(name, direction, type, isFixed) );
-        }
-
         #endregion
 
         /// <summary>

@@ -71,7 +71,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// This handler controls these systems.
         /// </summary>
-        private List<PEcellSystem> m_systemList;
+        private List<PPathwaySystem> m_systemList;
         #endregion
 
         /*
@@ -100,8 +100,8 @@ namespace EcellLib.PathwayWindow
         protected override void OnStartDrag(object sender, PInputEventArgs e)
         {
             base.OnStartDrag(sender, e);
-            if (e.PickedNode is PEcellSystem)
-                m_systemList = m_set.GetSystem(((PEcellSystem)e.PickedNode).Name);
+            if (e.PickedNode is PPathwaySystem)
+                m_systemList = m_set.GetSystem(((PPathwaySystem)e.PickedNode).Name);
             e.Handled = true;
             if (!(e.PickedNode is PEcellComposite) ||
                 e.PickedNode.ChildrenCount != 1 ||
