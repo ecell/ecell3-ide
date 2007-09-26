@@ -145,8 +145,6 @@
     <Compile Include="PathwayView.cs" />
     <Compile Include="PathwayWindow.cs" />
     <Compile Include="UIComponent\PDisplayedArea.cs" />
-    <Compile Include="Node\PEcellComposite.cs" />
-    <Compile Include="Node\PEcellModel.cs" />
     <Compile Include="Node\PPathwayProcess.cs" />
     <Compile Include="Node\PPathwaySystem.cs" />
     <Compile Include="Node\PPathwayVariable.cs" />

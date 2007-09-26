@@ -103,9 +103,7 @@ namespace EcellLib.PathwayWindow
             if (e.PickedNode is PPathwaySystem)
                 m_systemList = m_set.GetSystem(((PPathwaySystem)e.PickedNode).Name);
             e.Handled = true;
-            if (!(e.PickedNode is PEcellComposite) ||
-                e.PickedNode.ChildrenCount != 1 ||
-                !(e.PickedNode.ChildrenReference[0] is PSystem))
+            if (e.PickedNode.ChildrenCount != 1 || !(e.PickedNode.ChildrenReference[0] is PPathwaySystem))
                 e.PickedNode.MoveToFront();
         }
 

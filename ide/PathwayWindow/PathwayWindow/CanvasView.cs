@@ -2906,17 +2906,11 @@ namespace EcellLib.PathwayWindow
                         {
                             obj.X = system.X + ((system.Width > 80) ? 80 : system.Width / 2) - obj.Width;
                             obj.Y = system.Y + ((system.Height > 80) ? 80 : system.Height / 2) - obj.Height;
+                            obj.Element.X = obj.X;
+                            obj.Element.Y = obj.Y;
                             if (obj is PPathwayNode)
-                            {
-                                ((PPathwayNode)obj).Element.X = obj.X;
-                                ((PPathwayNode)obj).Element.Y = obj.Y;
                                 ((PPathwayNode)obj).RefreshText();
-                            }
-                            else if(obj is PSystem)
-                            {
-                                ((PSystem)obj).Element.X = obj.X;
-                                ((PSystem)obj).Element.Y = obj.Y;
-                            }
+
                         }
                         PointF offsetToL = system.OffsetToLayer;
                         obj.OffsetBy(-1 * offsetToL.X, -1 * offsetToL.Y);                        
@@ -4271,9 +4265,7 @@ namespace EcellLib.PathwayWindow
                     }
                 }
                 e.Handled = true;
-                if (!(e.PickedNode is PEcellComposite) ||
-                    e.PickedNode.ChildrenCount != 1 ||
-                    !(e.PickedNode.ChildrenReference[0] is PSystem))
+                if (e.PickedNode.ChildrenCount != 1 || !(e.PickedNode.ChildrenReference[0] is PPathwaySystem))
                 {
                     e.PickedNode.MoveToFront();
                 }

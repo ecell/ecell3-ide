@@ -158,23 +158,6 @@ namespace EcellLib.PathwayWindow.Node
         }
         #endregion
 
-        /// <summary>
-        /// set the rectangles displayed this system in canvas.
-        /// </summary>
-        /// <param name="x">the position of this system.</param>
-        /// <param name="y">the position of this system.</param>
-        /// <param name="width">the width of this system.</param>
-        /// <param name="height">the height of this system.</param>
-        public virtual void SetRect(float x, float y, float width, float height)
-        {
-            base.X = x;
-            base.Y = y;
-            base.Width = width;
-            //m_systemWidth = width;
-            base.Height = height;
-            //m_systemHeight = height;
-        }
-
         #region nouse
         /// <summary>
         /// Update position of resize handles.

@@ -110,16 +110,8 @@ namespace EcellLib.PathwayWindow.Node
                 PointF returnP = new PointF(base.X + base.Width / 2f,
                                       base.Y + base.Height / 2f);
 
-                if (this.Parent != null && this.Parent is PEcellComposite)
-                {
-                    returnP.X += base.Parent.OffsetX;
-                    returnP.Y += base.Parent.OffsetY;
-                }
-                else
-                {
-                    returnP.X += base.OffsetX;
-                    returnP.Y += base.OffsetY;
-                }
+                returnP.X += base.OffsetX;
+                returnP.Y += base.OffsetY;
 
                 return returnP;
             }

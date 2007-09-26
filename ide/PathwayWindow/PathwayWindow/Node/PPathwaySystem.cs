@@ -345,7 +345,10 @@ namespace EcellLib.PathwayWindow.Node
         /// <param name="height">the height of system.</param>
         public override void SetRect(float x, float y, float width, float height)
         {
-            base.SetRect(x, y, width, height);
+            base.X = x;
+            base.Y = y;
+            base.Width = width;
+            base.Height = height;
             Reset();
         }
 
