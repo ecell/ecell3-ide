@@ -21,7 +21,7 @@
     <AssemblyOriginatorKeyFile>formulator.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferencePath>$(ECELL_STAGING_HOME)bin;$(REFPATH)</ReferencePath>
+    <ReferencePath>$(ECELL_STAGING_HOME)\bin;$(REFPATH)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
