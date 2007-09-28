@@ -38,7 +38,17 @@ namespace SessionManager
     /// </summary>
     public class SystemProxy
     {
+        private int m_defaultConcurrency;
         private SessionManager m_manager;
+
+        /// <summary>
+        /// get / set the default concurrency.
+        /// </summary>
+        public int DefaultConcurrency
+        {
+            get { return this.m_defaultConcurrency; }
+            set { this.m_defaultConcurrency = value; }
+        }
 
         /// <summary>
         /// get / set manager.
@@ -68,17 +78,23 @@ namespace SessionManager
         }
 
         /// <summary>
-        /// Update the property of this proxy.
+        /// Create the proxy for session with initial parameters.
         /// </summary>
-        public void Update()
+        /// <param name="script">script file name.</param>
+        /// <param name="arg">argument of script file.</param>
+        /// <param name="extFile">extra file of script file.</param>
+        /// <param name="tmpDir">tmp directory of script file</param>
+        /// <returns>Class of proxy for session.</returns>
+        public SessionProxy CreateSessionProxy(String script, String arg, List<String> extFile, String tmpDir)
         {
+            return null;
         }
 
         /// <summary>
         /// Get the property of this proxy.
         /// </summary>
         /// <returns>list of property name.</returns>
-        public List<string> GetProperty()
+        public Dictionary<String, Object> GetProperty()
         {
             return null;
         }
@@ -89,7 +105,14 @@ namespace SessionManager
         /// <param name="list">the list of property.</param>
         public void SetProperty(Dictionary<String, Object> list)
         {
-            // not implement
+        }
+
+        /// <summary>
+        /// Execute the queue session corresponding with Environment.
+        /// </summary>
+        public void Update()
+        {
+            // nothing
         }
     }
 }

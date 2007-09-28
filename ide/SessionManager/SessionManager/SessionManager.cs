@@ -30,6 +30,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace SessionManager
 {
@@ -38,24 +40,31 @@ namespace SessionManager
     /// </summary>
     public class SessionManager
     {
-        private bool m_tmpDirRemovable;
-        private string m_module;
-        private string m_tmpRootDir;
-        private string m_tmpDir;
-        private int m_conc;
-        private int m_limitRetry;
+        private bool m_tmpDirRemovable = false;
+        private string m_module = null;
+        private string m_tmpRootDir = null;
+        private string m_tmpDir = null;
+        private int m_conc = -1;
+        private int m_limitRetry = 5;
         private int m_updateInterval = 1;
         private int m_globalTimeOut = 0;
         private SystemProxy m_proxy;
         private Dictionary<string, SystemProxy> m_proxyList = new Dictionary<string, SystemProxy>();
         private Dictionary<int, SessionProxy> m_sessionList = new Dictionary<int, SessionProxy>();
-        
+
+        private Timer m_timer;
+
         /// <summary>
         /// Constructor.
         /// </summary>
         public SessionManager()
         {
+            m_timer = new Timer();
+            m_timer.Enabled = false;
+            m_timer.Interval = m_updateInterval;
+            m_timer.Tick += new EventHandler(UpdateTimeFire);
         }
+
 
         /// <summary>
         /// Constructor with the initial prameters.
@@ -68,6 +77,11 @@ namespace SessionManager
             this.m_module = module;
             this.m_conc = conc;
             this.SetEnvironment(env);
+
+            m_timer = new Timer();
+            m_timer.Enabled = false;
+            m_timer.Interval = m_updateInterval;
+            m_timer.Tick += new EventHandler(UpdateTimeFire);
         }
 
         /// <summary>
@@ -75,7 +89,10 @@ namespace SessionManager
         /// </summary>
         public int Concurrency
         {
-            get { return this.m_conc; }
+            get {
+                if (m_conc <= 0) m_conc = GetDefaultConcurrency();
+                return m_conc;
+            }
             set { this.m_conc = value; }
         }
 
@@ -85,10 +102,10 @@ namespace SessionManager
         public string TmpRootDir
         {
             get { return this.m_tmpRootDir; }
-            set { 
-                this.m_tmpRootDir = value; 
-                // not implement
-                // this.m_tmpDir = "";
+            set {
+                this.m_tmpRootDir = value;
+                Process p = Process.GetCurrentProcess();
+                this.m_tmpDir = m_tmpDir + "/" + p.Id;
             }
         }
 
@@ -109,7 +126,9 @@ namespace SessionManager
             set { this.m_tmpDirRemovable = value; }
         }
 
-
+        /// <summary>
+        /// set the the limit number of retry.
+        /// </summary>
         public int LimitRetry
         {
             set { this.m_limitRetry = value; }
@@ -121,7 +140,10 @@ namespace SessionManager
         public int UpdateInterval
         {
             get { return this.m_updateInterval; }
-            set { this.m_updateInterval = value; }
+            set { 
+                this.m_updateInterval = value;
+                m_timer.Interval = value;
+            }
         }
 
         /// <summary>
@@ -190,7 +212,7 @@ namespace SessionManager
         /// Get the list of property for environment.
         /// </summary>
         /// <returns>the list of string.</returns>
-        public List<string> GetEnvironmentProperty()
+        public Dictionary<String, Object> GetEnvironmentProperty()
         {
             if (m_proxy == null) return null;
             return m_proxy.GetProperty();
@@ -212,19 +234,32 @@ namespace SessionManager
         /// <returns></returns>
         public int GetDefaultConcurrency()
         {
-            // not implement
-            return 0;
+            if (m_proxy == null) return 1;
+            return m_proxy.DefaultConcurrency;
         }
 
         /// <summary>
         /// Regist the jobs.
         /// </summary>
+        /// <param name="script">Script file name.</param>
+        /// <param name="arg">Argument of script file.</param>
+        /// <param name="extFile">Extra file list of script file.</param>
         /// <returns>the status of job.</returns>
-        public int RegisterJob()
+        public int RegisterJob(string script, string arg, List<string> extFile)
         {
-            // not implement
-            return 0;
-        }
+            if (m_proxy == null) return -1;
+            SessionProxy s = m_proxy.CreateSessionProxy();
+            if (s == null) return -1;
+
+            s.ScriptFile = script;
+            s.Argument = arg;
+            s.ExtraFileList = extFile;
+            // dmpath
+            s.JobDirectory = TmpDir + "/" + s.JobID;
+            m_sessionList.Add(s.JobID, s);
+
+            return s.JobID;
+            }
 
         /// <summary>
         /// Regist the session of e-cell.
@@ -328,12 +363,13 @@ namespace SessionManager
         /// <summary>
         /// Update the information of session.
         /// </summary>
-        public void Upate()
+        public void Update()
         {
             foreach (int job in m_sessionList.Keys)
             {
                 m_sessionList[job].Update();
             }
+            if (m_proxy != null) m_proxy.Update();
         }
 
         /// <summary>
@@ -448,11 +484,36 @@ namespace SessionManager
         // timeout?
 
         /// <summary>
+        /// Preapre to execute the process.
+        /// Ex. script file, extra file, job directory and so on.
+        /// </summary>
+        private void PrepareProcessRun()
+        {
+            // not implement
+        }
+
+        /// <summary>
         /// Run the jobs.
         /// </summary>
         public void Run()
         {
-            // not implement
+            PrepareProcessRun();
+            m_timer.Enabled = true;
+            m_timer.Start();
+        }
+
+        /// <summary>
+        /// Run the jobs and execute this process until all SessionProxy is finished.
+        /// </summary>
+        public void RunWaitFinish()
+        {
+            PrepareProcessRun();
+
+            while (!IsFinished())
+            {
+                Update();
+                System.Threading.Thread.Sleep(m_updateInterval * 1000);
+            }
         }
 
         /// <summary>
@@ -468,6 +529,8 @@ namespace SessionManager
                 {
                     m_sessionList[id].Stop();
                 }
+                m_timer.Enabled = true;
+                m_timer.Start();
             }
             else
             {
@@ -512,17 +575,26 @@ namespace SessionManager
             return tmpList;
         }
 
+        /// <summary>
+        /// Get the job directory of session correspond to jobID.
+        /// </summary>
+        /// <param name="jobid">JobID.</param>
+        /// <returns>Directory path.</returns>
+        public String GetJobDirectory(int jobid)
+        {
+            if (jobid <= 0) return null;
+            if (m_sessionList.ContainsKey(jobid))
+            {
+                return m_sessionList[jobid].JobDirectory;
+            }
+            return null;
+        }
+
+
         //************************************************************************
         // whether set/get function of stdout and stderr include in SessionProxy...
         // max count
         //************************************************************************
-
-        public String GetJobDirectory(int jobid)
-        {
-            // not implement
-            return null;
-        }
-
 
         public System.IO.FileStream GetStdout(int jobid)
         {
@@ -538,6 +610,7 @@ namespace SessionManager
 
         public void SetOptionList(List<String> optionList)
         {
+            
             // not implement
         }
 
@@ -546,5 +619,22 @@ namespace SessionManager
             // not implement
             return null;
         }
+
+        /// <summary>
+        /// Update the status of session at intervals while program is running.
+        /// </summary>
+        /// <param name="sender">Timer.</param>
+        /// <param name="e">EventArgs.</param>
+        void UpdateTimeFire(object sender, EventArgs e)
+        {
+            Update();
+
+            if (!IsFinished())
+            {
+                m_timer.Enabled = false;
+                m_timer.Stop();
+            }
+        }
+
     }
 }
