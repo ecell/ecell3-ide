@@ -129,6 +129,9 @@
   <data name="FinishSave" xml:space="preserve">
     <value>シミュレーションログを保存しました</value>
   </data>
+  <data name="MenuItemShowSaveTraceText" xml:space="preserve">
+    <value>トレース保存</value>
+  </data>
   <data name="MenuItemShowTraceSetupText" xml:space="preserve">
     <value>トレーサー設定(&amp;T)...</value>
   </data>

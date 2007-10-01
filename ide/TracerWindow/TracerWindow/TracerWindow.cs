@@ -76,6 +76,10 @@ namespace EcellLib.TracerWindow
         /// </summary>
         ToolStripMenuItem m_showWin;
         /// <summary>
+        /// The menu item for [Show] -> [Show Save Trace].
+        /// </summary>
+        ToolStripMenuItem m_showSaveWin;
+        /// <summary>
         /// The menu item for [Setup] -> [TraceWindow].
         /// </summary>
         ToolStripMenuItem m_setupWin;
@@ -150,6 +154,9 @@ namespace EcellLib.TracerWindow
             m_time.Tick += new EventHandler(TimerFire);
         }
 
+        /// <summary>
+        /// get/set the current TraceWindow.
+        /// </summary>
         public TraceWindow CurrentWin
         {
             get { return this.m_win; }
@@ -395,6 +402,18 @@ namespace EcellLib.TracerWindow
         }
 
         /// <summary>
+        /// Show the dialog to save the trace.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ShowSaveTracerWindow(Object sender, EventArgs e)
+        {
+            SaveTraceWindow win = new SaveTraceWindow();
+            win.AddEntry(m_entry);
+            win.ShowDialog();
+        }
+
+        /// <summary>
         /// Show tracer window with thread.
         /// Tracer window works busy, then this function is threading.
         /// </summary>
@@ -494,13 +513,20 @@ namespace EcellLib.TracerWindow
             m_showWin.Text = resources.GetString( "MenuItemShowTraceText");
             m_showWin.Name = "MenuItemShowTrace";
             m_showWin.Size = new Size(96, 22);
-//            m_showWin.Text = "Show TracerWindow";
             m_showWin.Enabled = false;
             m_showWin.Click += new EventHandler(this.ShowTracerWindow);
 
+            m_showSaveWin = new ToolStripMenuItem();
+            m_showSaveWin.Text = resources.GetString("MenuItemShowSaveTraceText");
+            m_showSaveWin.Name = "MenuItemShowSaveTrace";
+            m_showSaveWin.Size = new Size(96, 22);
+            m_showSaveWin.Enabled = false;
+            m_showSaveWin.Click += new EventHandler(this.ShowSaveTracerWindow);
+
             ToolStripMenuItem view = new ToolStripMenuItem();
             view.DropDownItems.AddRange(new ToolStripItem[] {
-                m_showWin
+                m_showWin,
+                m_showSaveWin
             });
             view.Name = "MenuItemView";
             view.Size = new Size(36, 20);
@@ -791,18 +817,21 @@ namespace EcellLib.TracerWindow
             {
                 isStep = false;
                 m_showWin.Enabled = false;
+                m_showSaveWin.Enabled = false;
                 m_setupWin.Enabled = true;
             }
             else if (type == Util.LOADED)
             {
                 isStep = false;
                 m_showWin.Enabled = true;
+                m_showSaveWin.Enabled = true;
                 m_setupWin.Enabled = true;
             }
             else if (type == Util.RUNNING)
             {
                 isStep = false;
                 m_showWin.Enabled = false;
+                m_showSaveWin.Enabled = false;
                 m_setupWin.Enabled = false;
             }
             else if (type == Util.STEP)
@@ -822,6 +851,7 @@ namespace EcellLib.TracerWindow
             {
                 isStep = false;
                 m_showWin.Enabled = false;
+                m_showSaveWin.Enabled = false;
                 m_setupWin.Enabled = false;
             }
 

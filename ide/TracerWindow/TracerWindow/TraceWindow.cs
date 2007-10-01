@@ -57,10 +57,6 @@ namespace EcellLib.TracerWindow
         /// </summary>
         public Form m_parent;
         /// <summary>
-        /// The flag whether simulation runs.
-        /// </summary>
-        bool isRun = false;
-        /// <summary>
         /// The flag whether simulation suspends.
         /// </summary>
         bool isSuspend = false;
@@ -337,10 +333,9 @@ namespace EcellLib.TracerWindow
                     m_zCnt.AxisChange();
                     m_zCnt.Refresh();
                 }
-                searchDirButton.Enabled = false;
-                TWSaveButton.Enabled = false;
+                //searchDirButton.Enabled = false;
+                //TWSaveButton.Enabled = false;
             }
-            isRun = true;
             isSuspend = false;
         }
 
@@ -354,13 +349,12 @@ namespace EcellLib.TracerWindow
             if (status == false)
             {
                 if (isSuspend == false)
-//                    m_zCnt.GraphPane.XAxis.Max = 10.0;
                     m_zCnt.GraphPane.XAxis.Scale.Max = 10.0;
                 m_zCnt.AxisChange();
                 m_zCnt.Refresh();
             }
-            searchDirButton.Enabled = status;
-            TWSaveButton.Enabled = status;
+            //searchDirButton.Enabled = status;
+            //TWSaveButton.Enabled = status;
         }
 
         /// <summary>
@@ -376,11 +370,10 @@ namespace EcellLib.TracerWindow
             }
             else
             {
-                searchDirButton.Enabled = true;
-                TWSaveButton.Enabled = true;
+                //searchDirButton.Enabled = true;
+                //TWSaveButton.Enabled = true;
             }
             m_zCnt.IsShowContextMenu = true;
-            isRun = false;
             isSuspend = false;
         }
 
@@ -398,10 +391,9 @@ namespace EcellLib.TracerWindow
             }
             else
             {
-                searchDirButton.Enabled = true;
-                TWSaveButton.Enabled = true;
+                //searchDirButton.Enabled = true;
+                //TWSaveButton.Enabled = true;
             }
-            isRun = false;
             isSuspend = true;
         }
 
@@ -837,41 +829,6 @@ namespace EcellLib.TracerWindow
         }
 
         /// <summary>
-        /// The action of clicking search button.
-        /// This action display DirectorySelectionDialog.
-        /// If the process fired this action is threading, you delegate this process.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        private void SearchDirButtonClick(object sender, EventArgs e)
-        {
-            if (isRun) return;
-            this.Hide();
-            if (m_parent.InvokeRequired)
-            {
-                ShowDialogCallBack f = new ShowDialogCallBack(ShowSelectDialog);
-                m_parent.Invoke(f);
-            }
-            else
-            {
-                m_folderDialog.ShowDialog();
-            }
-            dirTextBox.Text = m_text;
-            this.Show();
-        }
-
-        /// <summary>
-        /// The event of clicking close button.
-        /// This action close this window.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        private void CloseButtonClick(object sender, EventArgs e)
-        {
-            this.Dispose();
-        }
-
-        /// <summary>
         /// Process when user click close button on Window.
         /// </summary>
         /// <param name="m">Message</param>
@@ -891,20 +848,6 @@ namespace EcellLib.TracerWindow
 
             base.WndProc(ref m);
         }
-
-        /*
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                const int CS_NOCLOSE = 0x200;
-                CreateParams cp = base.CreateParams;
-                cp.ClassStyle = cp.ClassStyle | CS_NOCLOSE;
-
-                return cp;
-            }
-        }
-        */
 
         /// <summary>
         /// The event of zoom on ZedGraphControl.
@@ -957,51 +900,6 @@ namespace EcellLib.TracerWindow
             list.Clear();
             list = null;
             
-        }
-
-        /// <summary>
-        /// The action of clicking save button.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        private void UpdateButtonClick(object sender, EventArgs e)
-        {
-            double start, end;
-            if (isRun) return;
-            string saveDir;
-            if (dirTextBox.Text == null) saveDir = "";
-            else saveDir = dirTextBox.Text;
-            DataManager manager = DataManager.GetDataManager();
-
-            List<string> fullList = new List<string>();
-            foreach (DataGridViewRow row in dgv.Rows)
-            {
-                bool check = (bool)row.Cells[0].Value;
-                string full = (string)row.Cells[3].Value;
-
-                if (check && full != null)
-                {
-                    fullList.Add(full);
-                }
-            }
-            if (startText.Text == "" || startText.Text == null) start = 0.0;
-            else start = Convert.ToDouble(startText.Text);
-
-            if (endText.Text == "" || endText.Text == null) end = 0.0;
-            else end = Convert.ToDouble(endText.Text);
-
-            if (m_parent.InvokeRequired)
-            {
-                SaveSimulationCallback f = new SaveSimulationCallback(SaveSimulationInvoke);
-                m_parent.Invoke(f, new object[] { saveDir, start, end, saveTypeCombo.Text, fullList });
-            }
-            else
-            {
-                manager.SaveSimulationResult(dirTextBox.Text, start, end, saveTypeCombo.Text, fullList);
-            }
-            String mes = m_resources.GetString("FinishSave");
-            MessageBox.Show(mes, "Information",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #endregion
