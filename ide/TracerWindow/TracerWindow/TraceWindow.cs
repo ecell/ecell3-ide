@@ -49,6 +49,10 @@ namespace EcellLib.TracerWindow
     {
         #region Fields
         /// <summary>
+        /// The object managed this window.
+        /// </summary>
+        TracerWindow m_control;
+        /// <summary>
         /// The parent form of this form.
         /// </summary>
         public Form m_parent;
@@ -129,6 +133,15 @@ namespace EcellLib.TracerWindow
             dgv.DragDrop += new DragEventHandler(dgv_DragDrop);
         }
 
+        /// <summary>
+        /// get/set the control managed this form.
+        /// </summary>
+        public TracerWindow Control
+        {
+            get { return this.m_control; }
+            set { this.m_control = value; }
+        }
+
         void dgv_DragEnter(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
@@ -145,7 +158,10 @@ namespace EcellLib.TracerWindow
             EcellDragObject dobj = obj as EcellDragObject;
 
             PluginManager pManager = PluginManager.GetPluginManager();
+            TraceWindow tWin = m_control.CurrentWin;
+            m_control.CurrentWin = this;
             pManager.LoggerAdd(dobj.ModelID, dobj.Type, dobj.Key, dobj.Path);
+            m_control.CurrentWin = tWin;
             DataManager dManager = DataManager.GetDataManager();
             EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
             foreach (EcellData d in t.M_value)

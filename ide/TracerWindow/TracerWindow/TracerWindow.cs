@@ -132,6 +132,7 @@ namespace EcellLib.TracerWindow
         /// </summary>
         int m_timespan = 100;
         bool isStep = false;
+        bool isLogAdding = false;
         #endregion
 
         /// <summary>
@@ -147,6 +148,12 @@ namespace EcellLib.TracerWindow
             m_time.Enabled = false;
             m_time.Interval = 100;
             m_time.Tick += new EventHandler(TimerFire);
+        }
+
+        public TraceWindow CurrentWin
+        {
+            get { return this.m_win; }
+            set { this.m_win = value; }
         }
 
         /// <summary>
@@ -399,11 +406,9 @@ namespace EcellLib.TracerWindow
             m_win = new TraceWindow();
             m_win.m_parent = Form.ActiveForm;
             m_win.Disposed += new EventHandler(FormDisposed);
-//            m_win.FormClosed += new FormClosedEventHandler(FormDisposed);
             m_win.Shown += new EventHandler(m_win.ShownEvent);
-            //            if (m_winList.Count == 0) m_win.m_entry = m_entry;
-            //            else m_win.m_entry = new List<TagData>();
             m_win.m_entry = new List<TagData>();
+            m_win.Control = this;
 
             // Set Dock settings
             DockPanel panel = PluginManager.GetPluginManager().DockPanel;
@@ -676,6 +681,7 @@ namespace EcellLib.TracerWindow
         /// <param name="path">The path of entity.</param>
         public void LoggerAdd(string modelID, string key, string type, string path)
         {
+            if (isLogAdding) return;
             TagData tag = new TagData(modelID, key, type, path);
             AddToEntry(tag);
         }
