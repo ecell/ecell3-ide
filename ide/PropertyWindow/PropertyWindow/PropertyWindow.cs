@@ -504,6 +504,10 @@ namespace EcellLib.PropertyWindow
                 PropertyAdd(dSize, type);
             }
             m_current = obj;
+            if (m_type == Util.SUSPEND)
+            {
+                UpdatePropForSimulation();
+            }
         }
 
         /// <summary>
@@ -556,10 +560,6 @@ namespace EcellLib.PropertyWindow
         {
             if (m_current == null) return;
             if (m_isChanging == true) return;
-            if (!modelID.Equals(m_current.modelID) ||
-                !key.Equals(m_current.key) ||
-                !type.Equals(m_current.type)) return;
-
             SelectChanged(data.modelID, data.key, data.type);
         }
 
@@ -1021,6 +1021,7 @@ namespace EcellLib.PropertyWindow
                             m_current.type,
                             p);
                         m_isChanging = false;
+                        m_current = p;
                         m_dgv.Rows[e.RowIndex].Cells[1].Value = 0.0;
                     }
                     catch (Exception ex)
@@ -1085,6 +1086,7 @@ namespace EcellLib.PropertyWindow
                         m_current.key,
                         m_current.type,
                         p);
+                    m_current = p;
                     m_isChanging = false;
                 }
                 catch (Exception ex)
@@ -1221,6 +1223,7 @@ namespace EcellLib.PropertyWindow
                         m_current.key,
                         m_current.type,
                         p);
+                    m_current = p;
                     m_isChanging = false;
                 }
                 catch (Exception ex)
