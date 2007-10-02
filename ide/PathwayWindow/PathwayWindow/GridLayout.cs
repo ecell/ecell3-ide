@@ -143,8 +143,48 @@ namespace EcellLib.PathwayWindow
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
         {
+            // Prepare the progress bar
+            ProgressDialog form = new ProgressDialog();
+            form.Bar.Minimum = 1;
+            form.Bar.Maximum = m_kmax;
+            form.Bar.Step = 1;
+            form.Bar.Value = 1;
+            form.Show();
+
+            // At first, all systems layout will be settled
+            if (layoutSystem)
+                DoSystemLayout(systemList, nodeList);
+
+            // Next, nodes within one system will be layouted, for each systems.
+            bool isFromScratch = (subNum == 0);
+
+            foreach (EcellObject sys in systemList)
+            {
+                List<EcellObject> nodesOfTheSystem = new List<EcellObject>();
+                foreach (EcellObject node in nodeList)
+                {
+                    if (!string.IsNullOrEmpty(sys.key)
+                        && !string.IsNullOrEmpty(node.parentSystemID)
+                        && sys.key.Equals(node.parentSystemID))
+                    {
+                        nodesOfTheSystem.Add(node);
+                    }
+                }
+
+                List<EcellObject> childSystems = new List<EcellObject>();
+                foreach (EcellObject eachSys in systemList)
+                {
+                    if (eachSys.parentSystemID.Equals(sys.key))
+                        childSystems.Add(eachSys);
+                }
+
+                if (nodesOfTheSystem.Count > 1)
+                    DoNodeLayout(sys, childSystems, nodesOfTheSystem, form, isFromScratch);
+            }
+            form.Dispose();
             return false;
         }
+
         /// <summary>
         /// Get LayoutType of this layout algorithm.
         /// </summary>
@@ -371,7 +411,7 @@ namespace EcellLib.PathwayWindow
                 foreach (SystemElement sysEle in systemElements)
                 {
                     SystemContainer container = new SystemContainer();
-                    container.Self = sysEle;
+                    container.Self = (EcellSystem)sysEle.EcellObject;
                     if (sysEle.ChildNodeNum != 0)
                     {
                         SystemContainer childDummyContainer = new SystemContainer();
@@ -385,9 +425,9 @@ namespace EcellLib.PathwayWindow
                 }
                 foreach (SystemContainer sysCon in containerDict.Values)
                 {
-                    if (containerDict.ContainsKey(sysCon.Self.ParentSystemID))
+                    if (containerDict.ContainsKey(sysCon.Self.parentSystemID))
                     {
-                        containerDict[sysCon.Self.ParentSystemID].AddChildContainer(sysCon);
+                        containerDict[sysCon.Self.parentSystemID].AddChildContainer(sysCon);
                     }
                 }
                 // Settle system coordinates
@@ -770,6 +810,680 @@ namespace EcellLib.PathwayWindow
             return true;
         }
 
+        /// <summary>
+        /// Layout systems
+        /// </summary>
+        /// <param name="systemElements">systems, which will be layouted</param>
+        /// <param name="nodeElements">nodes</param>
+        private void DoSystemLayout(List<EcellObject> systemList, List<EcellObject> nodeList)
+        {
+            if (systemList == null || nodeList == null)
+                return;
+
+            Dictionary<string, EcellObject> sysDict = new Dictionary<string, EcellObject>();
+            foreach (EcellObject sys in systemList)
+                sysDict.Add(sys.key, sys);
+            Dictionary<string, SystemContainer> containerDict = new Dictionary<string, SystemContainer>();
+            SystemContainer rootContainer = null;
+            foreach (EcellObject sys in systemList)
+            {
+                SystemContainer container = new SystemContainer();
+                container.Self = sys;
+                if (sys.M_instances.Count == 0)
+                    continue;
+                SystemContainer childDummyContainer = new SystemContainer();
+                childDummyContainer.ChildNodeNum = sys.M_instances.Count;
+                childDummyContainer.IsDummyContainer = true;
+                container.AddChildContainer(childDummyContainer);
+
+                if (sys.key.Equals("/"))
+                    rootContainer = container;
+                containerDict.Add(sys.key, container);
+            }
+            foreach (SystemContainer sysCon in containerDict.Values)
+            {
+                if (containerDict.ContainsKey(sysCon.Self.parentSystemID))
+                {
+                    containerDict[sysCon.Self.parentSystemID].AddChildContainer(sysCon);
+                }
+            }
+            // Settle system coordinates
+            rootContainer.ArrangeAllCoordinates(0, 0);
+        }
+        
+        /// <summary>
+        /// Formally, an energy between two nodes will be calculated like below.
+        ///   1       K
+        ///  --- * ------- * (d - m_naturalLength)^2 
+        ///   2     Hop^2
+        /// 
+        /// But K / 2 is a constant, so I use the following energy formula
+        /// ( (d - m_naturalLength) / Hop )^2
+        /// </summary>
+        /// <param name="relationMatrix"></param>
+        ///     This matrix contains node relation.
+        ///     If relationMatrix[1,3] is true, nodeElements[1] and nodeElements[3] are connected in a pathway. 
+        /// <param name="nodeIndex">A node of nodeElements at nodeIndex position, will be moved</param>
+        /// <param name="nodeElements">An array of all nodes</param>
+        /// <returns></returns>
+        private float CalculateEnergy(int[,] relationMatrix, int nodeIndex, List<EcellObject> nodeList)
+        {
+            EcellObject targetNode = nodeList[nodeIndex];
+
+            float energy = 0;
+
+            int count = 0;
+
+            foreach (EcellObject node in nodeList)
+            {
+                float hop = (float)relationMatrix[nodeIndex, count];
+                if (hop > 0)
+                {
+                    float d = (float)Math.Sqrt(Math.Pow(node.X - targetNode.X, 2) + Math.Pow(node.Y - targetNode.Y, 2));
+                    energy += (float)Math.Pow(Math.Abs((d - m_naturalLength * Math.Sqrt(hop)) / hop), 2);
+                }
+
+                count++;
+            }
+            return energy;
+        }
+
+        /// <summary>
+        /// A relation matrix contains node relations on the pathway.
+        /// relationMatrix[i,j] = 3 means that a shortest path length between node i and node j is 3.
+        /// In other words, there are three edges between node i and node j at shortest.
+        /// If two nodes have totally no relation (if start from one node, never arrive another node), relationMatrix[i,j] = -1
+        /// relationMatrix[i,i] = 0 means that length between a node and the same node is zero, off course
+        /// </summary>
+        /// <param name="nodeElements">relation of these nodes will be checked</param>
+        /// <returns>relationMatrix, described above</returns>
+        private int[,] CreateRelationMatrix(List<EcellObject> nodeList)
+        {
+            int[,] relationMatrix = new int[nodeList.Count, nodeList.Count];
+
+            // Initialize matrix
+            for (int i = 0; i < nodeList.Count; i++)
+                for (int j = 0; j < nodeList.Count; j++)
+                {
+                    if (i == j)
+                        relationMatrix[i, j] = 0;
+                    else
+                        relationMatrix[i, j] = -1;
+                }
+
+            // that's all for this case
+            if (nodeList.Count <= 1)
+                return relationMatrix;
+
+            // using nodeElements, let lengths of neighboring nodes be 1
+            Dictionary<string, int> keyDict = new Dictionary<string, int>();
+            int num = 0;
+            foreach (EcellObject node in nodeList)
+            {
+                if (node is EcellVariable)
+                    keyDict.Add(node.key, num);
+                num++;
+            }
+            num = 0;
+
+            foreach (EcellObject node in nodeList)
+            {
+                if (node is EcellProcess)
+                {
+                    foreach (EcellReference er in ((EcellProcess)node).ReferenceList)
+                    {
+                        if (string.IsNullOrEmpty(er.Key))
+                            continue;
+
+                        try
+                        {
+                            int pos = keyDict[er.Key];
+                            relationMatrix[num, pos] = 1;
+                            relationMatrix[pos, num] = 1;
+                        }
+                        catch (KeyNotFoundException) { }
+                    }
+                }
+                num++;
+            }
+
+            for (int i = 0; i < nodeList.Count; i++)
+            {
+                bool toBeDone = false;
+                bool[] already = new bool[nodeList.Count];
+                for (int j = 0; j < nodeList.Count; j++)
+                {
+                    already[j] = false;
+
+                    if (relationMatrix[i, j] == -1)
+                        toBeDone = true;
+                    else if (relationMatrix[i, j] == 0)
+                        already[j] = true;
+                }
+                if (!toBeDone)
+                    continue;
+
+                List<int> presentNodes = new List<int>();
+                presentNodes.Add(i);
+
+                int hopNum = 0;
+
+                do
+                {
+                    hopNum++;
+                    List<int> newNodes = new List<int>();
+
+                    while (presentNodes.Count != 0)
+                    {
+                        int current = presentNodes[0];
+                        presentNodes.Remove(current);
+
+                        for (int j = 0; j < nodeList.Count; j++)
+                        {
+                            if (relationMatrix[current, j] == 1 && already[j] == false)
+                            {
+                                newNodes.Add(j);
+                                already[j] = true;
+                            }
+                        }
+                    }
+
+                    foreach (int newone in newNodes)
+                    {
+                        if (relationMatrix[i, newone] != -1)
+                            continue;
+                        relationMatrix[i, newone] = hopNum;
+                        relationMatrix[newone, i] = hopNum;
+                    }
+
+                    presentNodes = newNodes;
+                }
+                while (presentNodes.Count != 0);
+            }
+
+            return relationMatrix;
+        }
+
+        /// <summary>
+        /// Layout nodes within the system
+        /// </summary>
+        /// <param name="sysElement">nodes must be within this sytem</param>
+        /// <param name="childSystems">child systems of this system</param>
+        /// <param name="nodeElements">nodes, to be layouted</param>
+        /// <param name="dialog">a progress bar</param>
+        /// <param name="isFromScratch">Whether layouting will be done from scratch or from current positions</param>
+        private void DoNodeLayout(
+            EcellObject sys,
+            List<EcellObject> childSystems,
+            List<EcellObject> nodeList,
+            ProgressDialog dialog,
+            bool isFromScratch)
+        {
+            int[,] relationMatrix = CreateRelationMatrix(nodeList);
+
+            // For convenience, simulated annealing procedure will be calculated using
+            // virtual grid coordinate system :positionMatrix[x,y] (0 <= x <= maxX, 0 <= y <= maxY)
+            // gridDistance means physical distance in Piccolo between neighboring two nodes in grid coordinate system
+            // An initial value of gridDistance is m_defGridDistance. gridDistance will be decreased until numbers of
+            // position on grid coorindate system become sufficient to contain all nodes.
+            bool[,] positionMatrix = new bool[1, 1];
+            float gridDistance = m_defGridDistance;
+            float systemMargin = m_defSystemMargin;
+            bool posUnsettled = true;
+            int maxX = 0;
+            int maxY = 0;
+            while (posUnsettled)
+            {
+                maxX = (int)((sys.X + sys.Width - systemMargin) / gridDistance)
+                           - (int)((sys.X + systemMargin) / gridDistance) - 1;
+                maxY = (int)((sys.Y + sys.Height - systemMargin) / gridDistance)
+                           - (int)((sys.Y + systemMargin) / gridDistance) - 1;
+
+                if (maxX < 0 || maxY < 0)
+                {
+                    gridDistance = gridDistance / 2f;
+                    systemMargin = systemMargin / 2f;
+                    continue;
+                }
+
+                positionMatrix = new bool[maxX + 1, maxY + 1];
+
+                // Initialize position matrix
+                for (int i = 0; i < maxX + 1; i++)
+                    for (int j = 0; j < maxY + 1; j++)
+                        positionMatrix[i, j] = false;
+
+                foreach (EcellObject childsys in childSystems)
+                {
+                    int leftX = (int)((childsys.X + childsys.OffsetX) / gridDistance) - (int)((sys.X) / gridDistance) - 1;
+                    int rightX = (int)((childsys.X + childsys.OffsetX + childsys.Width) / gridDistance) - (int)((sys.X) / gridDistance) - 1;
+                    int upperY = (int)((childsys.Y + childsys.OffsetY) / gridDistance) - (int)((sys.Y) / gridDistance) - 1;
+                    int lowerY = (int)((childsys.Y + childsys.OffsetY + childsys.Height) / gridDistance) - (int)((sys.Y) / gridDistance) - 1;
+                    for (int i = leftX; i < rightX; i++)
+                        for (int j = upperY; j < lowerY; j++)
+                        {
+                            if (0 <= i && i <= maxX && 0 <= j && j <= maxY)
+                                positionMatrix[i, j] = true;
+                        }
+                }
+
+                // Count the number of vacant points
+                int numOfVacantPoint = 0;
+
+                for (int i = 0; i < maxX + 1; i++)
+                    for (int j = 0; j < maxY + 1; j++)
+                        if (positionMatrix[i, j] == false)
+                            numOfVacantPoint++;
+
+                // Check if there is enough space for nodes
+                if (nodeList.Count * 2 < numOfVacantPoint)
+                    posUnsettled = false;
+                else
+                {
+                    gridDistance = gridDistance / 2f;
+                    systemMargin = systemMargin / 2f;
+                }
+            }
+
+            // Initialize position in virtual coordinates system
+            if (isFromScratch)
+                RandomizeLayout(maxX, maxY, nodeList, positionMatrix);
+            else
+                ToVirtualCoordinates(maxX, maxY, sys, nodeList, positionMatrix, gridDistance, systemMargin);
+
+            // Create random number generator
+            Random ran = new Random();
+
+            // Repeat simulated annealing steps
+            float t = m_initialT;
+            int k = isFromScratch ? 0 : (int)(m_kmax * 0.95f);
+
+            while (k < m_kmax)
+            {
+                int nodeIndex = 0;
+                foreach (EcellObject node in nodeList)
+                {
+                    DirectionEnergyDiff neighbor = GetNeighbor(relationMatrix, nodeIndex, nodeList, maxX, maxY, positionMatrix);
+
+                    float currentT = m_initialT * (float)(m_kmax - k) / (float)m_kmax;
+
+                    if (ran.NextDouble() < GetProbability(neighbor.EnergyDifference, currentT))
+                        MoveNode(node, neighbor.Direction, positionMatrix);
+
+                    nodeIndex++;
+                }
+                dialog.Bar.PerformStep();
+                k++;
+            }
+
+            // Transform coordinate system from virtual grid coordinate to piccolo coordinate
+            float baseX = ((int)((sys.X + systemMargin) / gridDistance) + 1) * gridDistance;
+            float baseY = ((int)((sys.Y + systemMargin) / gridDistance) + 1) * gridDistance;
+
+            foreach (EcellObject node in nodeList)
+            {
+                node.X = node.X * gridDistance + baseX;
+                node.Y = node.Y * gridDistance + baseY;
+            }
+        }
+
+        /// <summary>
+        /// Move the position of a node to the direction.
+        /// </summary>
+        /// <param name="nodeElement">a node, to be moved.</param>
+        /// <param name="direction">direction, to be moved to.</param>
+        /// <param name="posMatrix">a matrix of position in grid coordinate system</param>
+        private void MoveNode(EcellObject node, GridLayout.Direction direction, bool[,] posMatrix)
+        {
+            if (posMatrix != null)
+                posMatrix[(int)node.X, (int)node.Y] = false;
+            switch (direction)
+            {
+                case Direction.LeftUpper:
+                    node.X = node.X - 1;
+                    node.Y = node.Y - 1;
+                    break;
+                case Direction.Upper:
+                    node.Y = node.Y - 1;
+                    break;
+                case Direction.RightUpper:
+                    node.X = node.X + 1;
+                    node.Y = node.Y - 1;
+                    break;
+                case Direction.Right:
+                    node.X = node.X + 1;
+                    break;
+                case Direction.RightLower:
+                    node.X = node.X + 1;
+                    node.Y = node.Y + 1;
+                    break;
+                case Direction.Lower:
+                    node.Y = node.Y + 1;
+                    break;
+                case Direction.LeftLower:
+                    node.X = node.X - 1;
+                    node.Y = node.Y + 1;
+                    break;
+                case Direction.Left:
+                    node.X = node.X - 1;
+                    break;
+            }
+            if (posMatrix != null)
+                posMatrix[(int)node.X, (int)node.Y] = true;
+        }
+
+        /// <summary>
+        /// Put nodes in random positions
+        /// </summary>
+        /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
+        /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
+        /// <param name="nodeElements">nodes, which will be layouted</param>
+        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
+        /// <returns>false, if no enough space for nodes. otherwise, return true.</returns>
+        private bool RandomizeLayout(int maxX, int maxY, List<EcellObject> nodeList, bool[,] posMatrix)
+        {
+            // When no enough vacant positions, return with false
+            if ((maxX + 1) * (maxY + 1) < nodeList.Count)
+                return false;
+
+            // Initialize reservedPoints to true.
+            /*
+            for(int i = 0; i < maxX + 1; i++ )
+                for(int j = 0; j < maxY + 1; j++)
+                    posMatrix[i,j] = false;
+            
+             */
+            // Constansiate a random number generator.
+            Random ran = new Random();
+
+            // In each loop, a node will be assigned a position
+            foreach (EcellObject node in nodeList)
+            {
+                int x = -1;
+                int y = -1;
+
+                // do until a vacant position will be found
+                do
+                {
+                    x = ran.Next(maxX + 1);
+                    y = ran.Next(maxY + 1);
+                }
+                while (posMatrix[x, y]);
+
+                node.X = x;
+                node.Y = y;
+
+                posMatrix[x, y] = true;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Put nodes which have real coordinates into virtual grid coordinate.
+        /// </summary>
+        /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
+        /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
+        /// <param name="sysElement">nodes, which will be layouted</param>
+        /// <param name="nodeElements">nodes, which will be layouted</param>
+        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
+        /// <param name="gridDistance">distance between neighboring grid point in piccolo coordinate system</param>
+        /// <param name="systemMargin">nodes must not be placed within margin from system bounds</param>
+        private void ToVirtualCoordinates(
+            int maxX,
+            int maxY,
+            EcellObject sys,
+            List<EcellObject> nodeList,
+            bool[,] posMatrix,
+            float gridDistance,
+            float systemMargin)
+        {
+            foreach (EcellObject node in nodeList)
+            {
+                int x = (int)((sys.X + node.X - systemMargin) / gridDistance)
+                           - (int)((sys.X + systemMargin) / gridDistance) - 1;
+                int y = (int)((sys.Y + node.Y - systemMargin) / gridDistance)
+                           - (int)((sys.Y + systemMargin) / gridDistance) - 1;
+
+                Point startPoint = new Point(x, y);
+
+                Point vacantPoint = SearchAround4VacantPoint(maxX, maxY, startPoint, posMatrix);
+
+                posMatrix[vacantPoint.X, vacantPoint.Y] = true;
+                node.X = vacantPoint.X;
+                node.Y = vacantPoint.Y;
+            }
+        }
+
+        /// <summary>
+        /// In the figure below, N means a node and number means a position into one of which
+        /// a node is going to be move.  
+        ///  1 | 2 | 3
+        /// ---+---+---
+        ///  4 | N | 5
+        /// ---+---+---
+        ///  6 | 7 | 8
+        /// At first, an energy will be calculated when a node is in N.
+        /// Next, an energy will be calculated when a node is in 1.
+        /// Also, energies wil be calculated when a node is in 2 - 8
+        /// Energy differences will be calculated when a node is moved from N to each of neighboring positions (1 - 8)
+        /// At last, one neighboring position of 1 - 8 which has lowest energy difference will be selected.
+        /// </summary>
+        /// <param name="relationMatrix">
+        ///     This matrix contains node relation.
+        ///     If relationMatrix[1,3] is true, nodeElements[1] and nodeElements[3] are connected in a pathway. 
+        /// </param>
+        /// <param name="nodeIndex">a node of nodeElements at nodeIndex position, will be moved</param>
+        /// <param name="nodeElements">an array of all nodes</param>
+        /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
+        /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
+        /// <param name="posMatrix">a matrix of positions in grid coordinate system</param>
+        /// <returns></returns>
+        private DirectionEnergyDiff GetNeighbor(int[,] relationMatrix, int nodeIndex, List<EcellObject> nodeList, int maxX, int maxY, bool[,] posMatrix)
+        {
+            int presentX = (int)nodeList[nodeIndex].X;
+            int presentY = (int)nodeList[nodeIndex].Y;
+
+            GridLayout.Direction lowestEnergyDir = Direction.None;
+            float lowestEnergy = 0;
+            float energyAtN = CalculateEnergy(relationMatrix, nodeIndex, nodeList);
+
+            // Move to leftupper
+            if (presentX != 0 && presentY != 0 && !posMatrix[presentX - 1, presentY - 1])
+            {
+                MoveNode(nodeList[nodeIndex], Direction.LeftUpper, null);
+                float energyWhenMoved = CalculateEnergy(relationMatrix, nodeIndex, nodeList);
+                MoveNode(nodeList[nodeIndex], Direction.RightLower, null);
+
+                if ((lowestEnergyDir == Direction.None) || (energyWhenMoved < lowestEnergy))
+                {
+                    lowestEnergyDir = Direction.LeftUpper;
+                    lowestEnergy = energyWhenMoved;
+                }
+            }
+
+            // Move to upper
+            if (presentY != 0 && !posMatrix[presentX, presentY - 1])
+            {
+                MoveNode(nodeList[nodeIndex], Direction.Upper, null);
+                float energyWhenMoved = CalculateEnergy(relationMatrix, nodeIndex, nodeList);
+                MoveNode(nodeList[nodeIndex], Direction.Lower, null);
+
+                if ((lowestEnergyDir == Direction.None) || (energyWhenMoved < lowestEnergy))
+                {
+                    lowestEnergyDir = Direction.Upper;
+                    lowestEnergy = energyWhenMoved;
+                }
+            }
+
+            // Move to rightupper
+            if (presentX != maxX && presentY != 0 && !posMatrix[presentX + 1, presentY - 1])
+            {
+                MoveNode(nodeList[nodeIndex], Direction.RightUpper, null);
+                float energyWhenMoved = CalculateEnergy(relationMatrix, nodeIndex, nodeList);
+                MoveNode(nodeList[nodeIndex], Direction.LeftLower, null);
+
+                if ((lowestEnergyDir == Direction.None) || (energyWhenMoved < lowestEnergy))
+                {
+                    lowestEnergyDir = Direction.RightUpper;
+                    lowestEnergy = energyWhenMoved;
+                }
+            }
+
+            // Move to right
+            if (presentX != maxX && !posMatrix[presentX + 1, presentY])
+            {
+                MoveNode(nodeList[nodeIndex], Direction.Right, null);
+                float energyWhenMoved = CalculateEnergy(relationMatrix, nodeIndex, nodeList);
+                MoveNode(nodeList[nodeIndex], Direction.Left, null);
+
+                if ((lowestEnergyDir == Direction.None) || (energyWhenMoved < lowestEnergy))
+                {
+                    lowestEnergyDir = Direction.Right;
+                    lowestEnergy = energyWhenMoved;
+                }
+            }
+
+            // Move to rightlower
+            if (presentX != maxX && presentY != maxY && !posMatrix[presentX + 1, presentY + 1])
+            {
+                MoveNode(nodeList[nodeIndex], Direction.RightLower, null);
+                float energyWhenMoved = CalculateEnergy(relationMatrix, nodeIndex, nodeList);
+                MoveNode(nodeList[nodeIndex], Direction.LeftUpper, null);
+
+                if ((lowestEnergyDir == Direction.None) || (energyWhenMoved < lowestEnergy))
+                {
+                    lowestEnergyDir = Direction.RightLower;
+                    lowestEnergy = energyWhenMoved;
+                }
+            }
+
+            // Move to lower
+            if (presentY != maxY && !posMatrix[presentX, presentY + 1])
+            {
+                MoveNode(nodeList[nodeIndex], Direction.Lower, null);
+                float energyWhenMoved = CalculateEnergy(relationMatrix, nodeIndex, nodeList);
+                MoveNode(nodeList[nodeIndex], Direction.Upper, null);
+
+                if ((lowestEnergyDir == Direction.None) || (energyWhenMoved < lowestEnergy))
+                {
+                    lowestEnergyDir = Direction.Lower;
+                    lowestEnergy = energyWhenMoved;
+                }
+            }
+
+            // Move to leftlower
+            if (presentX != 0 && presentY != maxY && !posMatrix[presentX - 1, presentY + 1])
+            {
+                MoveNode(nodeList[nodeIndex], Direction.LeftLower, null);
+                float energyWhenMoved = CalculateEnergy(relationMatrix, nodeIndex, nodeList);
+                MoveNode(nodeList[nodeIndex], Direction.RightUpper, null);
+
+                if ((lowestEnergyDir == Direction.None) || (energyWhenMoved < lowestEnergy))
+                {
+                    lowestEnergyDir = Direction.LeftLower;
+                    lowestEnergy = energyWhenMoved;
+                }
+            }
+
+            // Move to left
+            if (presentX != 0 && !posMatrix[presentX - 1, presentY])
+            {
+                MoveNode(nodeList[nodeIndex], Direction.Left, null);
+                float energyWhenMoved = CalculateEnergy(relationMatrix, nodeIndex, nodeList);
+                MoveNode(nodeList[nodeIndex], Direction.Right, null);
+
+                if ((lowestEnergyDir == Direction.None) || (energyWhenMoved < lowestEnergy))
+                {
+                    lowestEnergyDir = Direction.Left;
+                    lowestEnergy = energyWhenMoved;
+                }
+            }
+
+            if (lowestEnergyDir != Direction.None)
+                return new DirectionEnergyDiff(lowestEnergyDir, lowestEnergy - energyAtN);
+            else
+                return new DirectionEnergyDiff(Direction.None, 0);
+        }
+
+        /// <summary>
+        /// In virtual grid coordinate system, vacant point which is closest to startPoint will be searched.
+        /// Searching starts from startPoint, and finishs when a vacant point is found.        /// 
+        /// </summary>
+        /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
+        /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
+        /// <param name="startPoint">search start point</param>
+        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
+        /// <returns>a found point</returns>
+        private Point SearchAround4VacantPoint(int maxX, int maxY, Point startPoint, bool[,] posMatrix)
+        {
+            if (0 <= startPoint.X && startPoint.X <= maxX
+              && 0 <= startPoint.Y && startPoint.Y <= maxY
+              && posMatrix[startPoint.X, startPoint.Y] == false)
+                return startPoint;
+
+            int searchSize = 0;
+
+            while (searchSize <= maxX || searchSize <= maxY)
+            {
+                searchSize += 1;
+
+                Point currentPoint = new Point(startPoint.X - searchSize, startPoint.Y - searchSize);
+
+                // search left to right
+                for (int i = 0; i < searchSize * 2; i++)
+                {
+                    currentPoint.X += 1;
+                    if (IsVacant(maxX, maxY, posMatrix, currentPoint))
+                        return currentPoint;
+                }
+
+                // search upper to lower
+                for (int i = 0; i < searchSize * 2; i++)
+                {
+                    currentPoint.Y += 1;
+                    if (IsVacant(maxX, maxY, posMatrix, currentPoint))
+                        return currentPoint;
+                }
+
+                // search right to left
+                for (int i = 0; i < searchSize * 2; i++)
+                {
+                    currentPoint.X -= 1;
+                    if (IsVacant(maxX, maxY, posMatrix, currentPoint))
+                        return currentPoint;
+                }
+
+                // search lower to upper
+                for (int i = 0; i < searchSize * 2; i++)
+                {
+                    currentPoint.Y -= 1;
+                    if (IsVacant(maxX, maxY, posMatrix, currentPoint))
+                        return currentPoint;
+                }
+
+            }
+
+            throw new Exception("Can't assign a point in grid coordinate system");
+        }
+
+        /// <summary>
+        /// Check if a point is vacant or not
+        /// </summary>
+        /// <param name="maxX">x coordinate must be between 0 and maxX</param>
+        /// <param name="maxY">y coordinate must be between 0 and maxY</param>
+        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
+        /// <param name="currentPoint">this point is checked</param>
+        /// <returns>true if vacant, false if not vacant</returns>
+        private bool IsVacant(int maxX, int maxY, bool[,] posMatrix, Point currentPoint)
+        {
+            if (0 <= currentPoint.X && currentPoint.X <= maxX
+             && 0 <= currentPoint.Y && currentPoint.Y <= maxY
+             && posMatrix[currentPoint.X, currentPoint.Y] == false)
+                return true;
+            else
+                return false;
+        }
         #endregion
 
         #region Inner class
@@ -819,7 +1533,7 @@ namespace EcellLib.PathwayWindow
             private float m_squarePerNode = 20000;//25000;
             private bool m_isDummyContainer = false;
             private int m_childNodeNum;
-            private SystemElement m_self;
+            private EcellObject m_self;
             private List<SystemContainer> m_childSystems;
 
             private int m_pointNumSqrt = 0;
@@ -859,7 +1573,7 @@ namespace EcellLib.PathwayWindow
                 get { return m_isDummyContainer; }
                 set { m_isDummyContainer = value; }
             }
-            public SystemElement Self
+            public EcellObject Self
             {
                 get { return m_self; }
                 set
@@ -918,6 +1632,7 @@ namespace EcellLib.PathwayWindow
             }
             #endregion
 
+            #region Methods
             public void AddChildContainer(SystemContainer childCon)
             {
                 m_childSystems.Add(childCon);
@@ -933,7 +1648,7 @@ namespace EcellLib.PathwayWindow
             {
                 float width = 2 * m_outlineWidth;
                 float height = 2 * m_outlineWidth;
-                if (m_self != null && m_self.Key.Equals("/") && m_childSystems.Count == 0)
+                if (m_self != null && m_self.key.Equals("/") && m_childSystems.Count == 0)
                 {
                     width = m_defaultRootSize;
                     height = m_defaultRootSize;
@@ -1026,5 +1741,6 @@ namespace EcellLib.PathwayWindow
             }
         #endregion
         }
+        #endregion
     }
 }

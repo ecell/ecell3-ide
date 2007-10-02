@@ -74,15 +74,6 @@ namespace EcellLib.PathwayWindow.Node
 
         #region Accessors
         /// <summary>
-        /// Accessor for m_systemElement.
-        /// </summary>
-        public new SystemElement Element
-        {
-            get { return (SystemElement)base.m_element; }
-            set { base.m_element = value; }
-        }
-
-        /// <summary>
         /// Accessor for x coordinates of memorized position.
         /// </summary>
         public virtual float OriginalX

@@ -97,6 +97,15 @@ namespace EcellLib.PathwayWindow.Node
 
         #region Accessors
         /// <summary>
+        /// Accessor for m_systemElement.
+        /// </summary>
+        public new SystemElement Element
+        {
+            get { return (SystemElement)base.m_element; }
+            set { base.m_element = value; }
+        }
+
+        /// <summary>
         /// get/set the flag whether display this system with highlight.
         /// </summary>
         public override bool IsHighLighted
@@ -265,6 +274,15 @@ namespace EcellLib.PathwayWindow.Node
         }
         #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructor for PEcellSystem.
+        /// </summary>
+        public PPathwaySystem()
+        {
+        }
+        #endregion
+
         /// <summary>
         /// Create object of PPathwayObject.
         /// </summary>
@@ -281,13 +299,6 @@ namespace EcellLib.PathwayWindow.Node
         public override void AddChild(PNode child)
         {
             base.AddChild(child);
-        }
-
-        /// <summary>
-        /// Constructor for PEcellSystem.
-        /// </summary>
-        public PPathwaySystem()
-        {
         }
 
         /// <summary>
@@ -390,37 +401,6 @@ namespace EcellLib.PathwayWindow.Node
             Y = prevY;
 
             SetGraphicsPath();
-            
-            /*
-            float prevX = X;
-            float prevY = Y;
-
-            base.Reset();
-            float thickness = SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS;
-            float outerDiameter = SystemElement.OUTER_RADIUS * 2;
-            float innerDiameter = SystemElement.INNER_RADIUS * 2;
-            float horizontalRectWidth = m_systemWidth - 2f * SystemElement.OUTER_RADIUS;
-            float verticalRectHeight = m_systemHeight - 2f * SystemElement.OUTER_RADIUS;
-            GraphicsPath gp = new GraphicsPath();
-            gp.AddPie(0, 0, outerDiameter, outerDiameter, 180, 90);
-            gp.AddPie(thickness, thickness, innerDiameter, innerDiameter, 180, 90);
-            gp.AddRectangle(new RectangleF(SystemElement.OUTER_RADIUS, 0, m_systemWidth - outerDiameter, thickness));
-            gp.AddPie(m_systemWidth - outerDiameter, 0, outerDiameter, outerDiameter, 270, 90);
-            gp.AddPie(m_systemWidth - outerDiameter + thickness, thickness, innerDiameter, innerDiameter, 270, 90);
-            gp.AddRectangle(new RectangleF(m_systemWidth - thickness, SystemElement.OUTER_RADIUS, thickness, verticalRectHeight));
-            gp.AddPie(m_systemWidth - outerDiameter, m_systemHeight - outerDiameter, outerDiameter, outerDiameter, 0, 90);
-            gp.AddPie(m_systemWidth - outerDiameter + thickness,
-                      m_systemHeight - outerDiameter + thickness, innerDiameter, innerDiameter, 0, 90);
-            gp.AddRectangle(new RectangleF(SystemElement.OUTER_RADIUS, m_systemHeight - thickness, horizontalRectWidth, thickness));
-            gp.AddPie(0, m_systemHeight - outerDiameter, outerDiameter, outerDiameter, 90, 90);
-            gp.AddPie(thickness, m_systemHeight - outerDiameter + thickness, innerDiameter, innerDiameter, 90, 90);
-            gp.AddRectangle(new RectangleF(0, SystemElement.OUTER_RADIUS, thickness, verticalRectHeight));
-
-            AddPath(gp, false);
-            X = prevX;
-            Y = prevY;
-
-            SetGraphicsPath();*/
         }
 
         /// <summary>
@@ -625,64 +605,6 @@ namespace EcellLib.PathwayWindow.Node
             m_outlineGp.AddArc(X + thickness, Y + base.Height - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, innerDiameter, innerDiameter, 90, 90);
             m_outlineGp.AddLine(X + thickness, Y + SystemElement.OUTER_RADIUS, X + thickness, Y + base.Height - SystemElement.OUTER_RADIUS);
 
-
-            /*
-            float thickness = SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS;
-            float outerDiameter = SystemElement.OUTER_RADIUS * 2;
-            float innerDiameter = SystemElement.INNER_RADIUS * 2;
-            float horizontalRectWidth = m_systemWidth - 2f * SystemElement.OUTER_RADIUS;
-            float verticalRectHeight = m_systemHeight - 2f * SystemElement.OUTER_RADIUS;
-
-            m_backGp = new GraphicsPath();
-            m_backGp.FillMode = FillMode.Alternate;
-            m_backGp.AddRectangle(new RectangleF(X + thickness,
-                                               Y + thickness,
-                                               m_systemWidth - 2 * thickness,
-                                               m_systemHeight - 2 * thickness));
-            m_backGp.AddRectangle(new RectangleF(X + thickness,
-                                               Y + thickness,
-                                               SystemElement.INNER_RADIUS,
-                                               SystemElement.INNER_RADIUS));
-            m_backGp.AddRectangle(new RectangleF(X + m_systemWidth - SystemElement.OUTER_RADIUS,
-                                               Y + thickness,
-                                               SystemElement.INNER_RADIUS,
-                                               SystemElement.INNER_RADIUS));
-            m_backGp.AddRectangle(new RectangleF(X + m_systemWidth - SystemElement.OUTER_RADIUS,
-                                               Y + m_systemHeight - SystemElement.OUTER_RADIUS,
-                                               SystemElement.INNER_RADIUS,
-                                               SystemElement.INNER_RADIUS));
-            m_backGp.AddRectangle(new RectangleF(X + thickness,
-                                               Y + m_systemHeight - SystemElement.OUTER_RADIUS,
-                                               SystemElement.INNER_RADIUS,
-                                               SystemElement.INNER_RADIUS));
-            m_backGp.AddPie(X + thickness, Y + thickness, innerDiameter, innerDiameter, 180, 90);
-            m_backGp.AddPie(X + m_systemWidth - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, Y + thickness,
-                           innerDiameter, innerDiameter, 270, 90);
-            m_backGp.AddPie(X + m_systemWidth - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, 
-                            Y + m_systemHeight - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
-                            innerDiameter, innerDiameter, 0, 90);
-            m_backGp.AddPie(X + thickness, Y + m_systemHeight - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
-                           innerDiameter, innerDiameter, 90, 90);
-
-
-            m_outlineGp = new GraphicsPath();
-            m_outlineGp.FillMode = FillMode.Alternate;
-            m_outlineGp.AddArc(X, Y, outerDiameter, outerDiameter, 180, 90);
-            m_outlineGp.AddArc(X + m_systemWidth - outerDiameter, Y, outerDiameter, outerDiameter, 270, 90);
-            m_outlineGp.AddArc(X + m_systemWidth - outerDiameter, Y + m_systemHeight - outerDiameter,
-                      outerDiameter, outerDiameter, 0, 90);
-            m_outlineGp.AddArc(X, Y + m_systemHeight - outerDiameter, outerDiameter, outerDiameter, 90, 90);
-            m_outlineGp.AddLine(X, Y + SystemElement.OUTER_RADIUS, X, Y + m_systemHeight - SystemElement.OUTER_RADIUS);
-            m_outlineGp.CloseFigure();
-            m_outlineGp.AddArc(X + thickness, Y + thickness, innerDiameter, innerDiameter, 180, 90);
-            m_outlineGp.AddArc(X + m_systemWidth - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
-                      Y + thickness, innerDiameter, innerDiameter, 270, 90);
-            m_outlineGp.AddArc(X + m_systemWidth - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
-                      Y + m_systemHeight - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
-                      innerDiameter, innerDiameter, 0, 90);
-            m_outlineGp.AddArc(X + thickness, Y + m_systemHeight - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, innerDiameter, innerDiameter, 90, 90);
-            m_outlineGp.AddLine(X + thickness, Y + SystemElement.OUTER_RADIUS, X + thickness, Y + m_systemHeight - SystemElement.OUTER_RADIUS);            
-            */
         }
     }    
 }

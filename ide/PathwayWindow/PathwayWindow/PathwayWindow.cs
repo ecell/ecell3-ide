@@ -690,55 +690,56 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void eachLayoutItem_Click(object sender, EventArgs e)
         {
-            if (sender is ToolStripMenuItem)
+            if (!(sender is ToolStripMenuItem))
+                return;
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            int layoutIdx = 0;
+            int subIdx = 0;
+            try
             {
-                int layoutIdx = 0;
-                int subIdx = 0;
-                try
+                if( ((ToolStripMenuItem)sender).Tag is int)
                 {
-                    if(((ToolStripMenuItem)sender).Tag is int)
-                    {
-                        layoutIdx = (int)((ToolStripMenuItem)sender).Tag;
-                        subIdx = -1;
-                    }
-                    else
-                    {
-                        string[] tags = ((string)((ToolStripMenuItem)sender).Tag).Split(',');
-                        layoutIdx = int.Parse(tags[0]);
-                        subIdx = int.Parse(tags[1]);
-                    }
-                }
-                catch(Exception)
-                {
-                    MessageBox.Show(m_resources.GetString("ErrLayout"));
-                }
-                ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
-
-                if (algorithm.GetLayoutType() == LayoutType.Selected)
-                {
-                    m_view.LayoutSelected(algorithm,subIdx);
+                    layoutIdx = (int)item.Tag;
+                    subIdx = -1;
                 }
                 else
                 {
-                    PathwayElements elements = new PathwayElements();
-                    elements.Elements = m_view.GetElements().ToArray();
-
-                    List<SystemElement> systemList = new List<SystemElement>();
-                    List<NodeElement> nodeList = new List<NodeElement>();
-
-                    foreach (PathwayElement ele in elements.Elements)
-                    {
-                        if (ele is SystemElement)
-                            systemList.Add((SystemElement)ele);
-                        else if (ele is NodeElement)
-                            nodeList.Add((NodeElement)ele);
-                    }
-
-                    algorithm.DoLayout(subIdx, false, systemList, nodeList);
-                    m_view.Clear();
-                    m_view.Replace(new List<PathwayElement>(elements.Elements), false);
+                    string[] tags = ((string)item.Tag).Split(',');
+                    layoutIdx = int.Parse(tags[0]);
+                    subIdx = int.Parse(tags[1]);
                 }
-            }            
+            }
+            catch(Exception)
+            {
+                MessageBox.Show(m_resources.GetString("ErrLayout"));
+            }
+
+            ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
+
+            if (algorithm.GetLayoutType() == LayoutType.Selected)
+            {
+                m_view.LayoutSelected(algorithm,subIdx);
+            }
+            else
+            {
+                PathwayElements elements = new PathwayElements();
+                elements.Elements = m_view.GetElements().ToArray();
+
+                List<SystemElement> systemList = new List<SystemElement>();
+                List<NodeElement> nodeList = new List<NodeElement>();
+
+                foreach (PathwayElement ele in elements.Elements)
+                {
+                    if (ele is SystemElement)
+                        systemList.Add((SystemElement)ele);
+                    else if (ele is NodeElement)
+                        nodeList.Add((NodeElement)ele);
+                }
+
+                algorithm.DoLayout(subIdx, false, systemList, nodeList);
+                m_view.Clear();
+                m_view.Replace(new List<PathwayElement>(elements.Elements), false);
+            }
         }
 
         /// <summary>
