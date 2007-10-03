@@ -6128,13 +6128,37 @@ namespace EcellLib
         {
             try
             {
-                this.SaveProject(this.m_currentProjectID);
+                s_stepperCount = 0;
+                s_sysCount = 0;
+                s_varCount = 0;
+                s_proCount = 0;
+                s_exportSystem.Clear();
+                s_exportProcess.Clear();
+                s_exportVariable.Clear();
+
+                Encoding enc = Encoding.GetEncoding(932);
+                File.WriteAllText(l_fileName, "", enc);
+                WritePrefix(l_fileName, enc);
+                foreach (EcellObject modelObj in m_modelDic[m_currentProjectID])
+                {
+                    WriteModelEntry(l_fileName, enc, modelObj.modelID);
+                }
+                WritePostfix(l_fileName, enc);
+                
             }
             catch (Exception l_ex)
             {
                 l_ex.ToString();
             }
         }
+        static private int s_stepperCount = 0;
+        static private int s_sysCount = 0;
+        static private int s_proCount = 0;
+        static private int s_varCount = 0;
+        static private Dictionary<string, int> s_exportStepper = new Dictionary<string, int>();
+        static private Dictionary<string, int> s_exportSystem = new Dictionary<string, int>();
+        static private Dictionary<string, int> s_exportProcess = new Dictionary<string, int>();
+        static private Dictionary<string, int> s_exportVariable = new Dictionary<string, int>();
 
         /// <summary>
         /// Saves the simulation parameter.
@@ -7185,6 +7209,221 @@ namespace EcellLib
         {
             m_aManager.RedoAction();
         }
+
+        /// <summary>
+        /// Write the prefix information in script file.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        private void WritePrefix(string fileName, Encoding enc)
+        {
+            DateTime n = DateTime.Now;
+            String timeStr = n.ToString("d");
+            File.AppendAllText(fileName, "from EcellIDE import *\n", enc);
+            File.AppendAllText(fileName, "import time\n", enc);
+            File.AppendAllText(fileName, "import System.Threading\n\n", enc);
+
+            File.AppendAllText(fileName, "count = 1000\n", enc);
+            File.AppendAllText(fileName, "session=Session()\n", enc);
+            File.AppendAllText(fileName, "session.createProject(\"" + m_currentProjectID + "\",\"" + timeStr +"\")\n\n", enc);
+        }
+
+        /// <summary>
+        /// Write the postfix information in script file.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        private void WritePostfix(string fileName, Encoding enc)
+        {
+            File.AppendAllText(fileName, "session.initialize()\n", enc);
+            File.AppendAllText(fileName, "session.step(count)\n", enc);
+            File.AppendAllText(fileName, "while session.isActive():\n", enc);
+            File.AppendAllText(fileName, "    System.Threading.Thread.Sleep(1000)\n", enc);
+        }
+
+        /// <summary>
+        /// Write the model information in script file.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="modelName">model name.</param>
+        private void WriteModelEntry(string fileName, Encoding enc, string modelName)
+        {
+            File.AppendAllText(fileName, "session.createModel(\"" + modelName + "\")\n\n", enc);
+            File.AppendAllText(fileName, "# Stepper\n", enc);
+            foreach (EcellObject stepObj in
+                m_stepperDic[m_currentProjectID][m_currentParameterID][modelName])
+            {
+                File.AppendAllText(fileName, "stepperStub" + s_stepperCount + "=session.createStepperStub(\"" + stepObj.key + "\")\n", enc);
+                File.AppendAllText(fileName, "stepperStub" + s_stepperCount + ".create(\"" + stepObj.classname + "\")\n", enc);
+                File.AppendAllText(fileName, "session.deleteDefaultStepperStub()\n", enc);
+                s_exportStepper.Add(stepObj.key, s_stepperCount);
+                s_stepperCount++;
+            }
+
+            foreach (EcellObject stepObj in 
+                m_stepperDic[m_currentProjectID][m_currentParameterID][modelName])
+            {
+                File.AppendAllText(fileName, "\n# System\n", enc);
+                foreach (EcellObject sysObj in
+                    m_systemDic[m_currentProjectID][modelName])
+                {
+                    s_exportSystem.Add(sysObj.key, s_sysCount);
+                    string prefix = "";
+                    string data = "";
+                    if (sysObj.key.Equals("/"))
+                    {
+                        prefix = "";
+                        data = "/";
+                    }
+                    else
+                    {
+                        string[] ele = sysObj.key.Split(new char[] { '/' });
+                        if (ele.Length == 2)
+                        {
+                            prefix = "/";
+                            data = ele[ele.Length - 1];
+                        }
+                        else
+                        {
+                            for (int i = 1; i < ele.Length - 1; i++)
+                            {
+                                prefix = prefix + "/" + ele[i];
+                            }
+                            data = ele[ele.Length - 1];
+                        }
+                    }
+                    File.AppendAllText(fileName, "systemStub" + s_sysCount + "= session.createEntityStub(\"System:" + prefix + ":" + data + "\")\n", enc);
+                    File.AppendAllText(fileName, "systemStub" + s_sysCount + ".create(\"System\")\n", enc);
+                    s_sysCount++;
+                }
+
+                foreach (EcellObject sysObj in
+                     m_systemDic[m_currentProjectID][modelName])
+                {
+                    WriteComponentEntry(fileName, enc, sysObj);
+                }
+            }
+
+            File.AppendAllText(fileName, "\n# Stepper\n", enc);
+            foreach (EcellObject stepObj in
+                m_stepperDic[m_currentProjectID][m_currentParameterID][modelName])
+            {
+                int count = s_exportStepper[stepObj.key];
+                foreach (EcellData d in stepObj.M_value)
+                {
+                    if (!d.M_isSettable) continue;
+                    File.AppendAllText(fileName, 
+                        "stepperStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString() + "\")\n" , enc);
+                }
+            }
+
+            foreach (EcellObject stepObj in
+                m_stepperDic[m_currentProjectID][m_currentParameterID][modelName])
+            {
+                File.AppendAllText(fileName, "\n# System\n", enc);
+                foreach (EcellObject sysObj in
+                    m_systemDic[m_currentProjectID][modelName])
+                {
+                    int count = s_exportSystem[sysObj.key];
+                    foreach (EcellData d in sysObj.M_value)
+                    {
+                        if (!d.M_isSettable) continue;
+                        File.AppendAllText(fileName,
+                            "systemStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString() + "\")\n", enc);
+                    }
+                }
+
+                foreach (EcellObject sysObj in
+                     m_systemDic[m_currentProjectID][modelName])
+                {
+                    WriteComponentProperty(fileName, enc, sysObj);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Write the component entry of model in script file.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="sysObj">system object.</param>
+        private void WriteComponentEntry(string fileName, Encoding enc, EcellObject sysObj)
+        {
+            File.AppendAllText(fileName, "\n# Variable\n", enc);
+            foreach (EcellObject obj in sysObj.M_instances)
+            {
+                if (!obj.type.Equals("Variable")) continue;
+                string[] names = obj.key.Split(new char[] { ':' });
+                string name = names[names.Length - 1];
+
+                File.AppendAllText(fileName, 
+                    "variableStub" + s_varCount + name + "= session.createEntityStub(\"Variable:" + obj.key + "\")\n", 
+                    enc);
+                File.AppendAllText(fileName,
+                    "variableStub" + s_varCount + name + ".create(\"Variable\")\n", enc);
+                s_exportVariable.Add(obj.key, s_varCount);
+                s_varCount++;
+            }
+
+            File.AppendAllText(fileName, "\n# Process\n", enc);
+            foreach (EcellObject obj in sysObj.M_instances)
+            {
+                if (!obj.type.Equals("Process")) continue;
+                string[] names = obj.key.Split(new char[] { ':' });
+                string name = names[names.Length - 1];
+
+                File.AppendAllText(fileName,
+                    "processStub" + s_proCount + name + "= session.createEntityStub(\"Process:" + obj.key + "\")\n",
+                    enc);
+                File.AppendAllText(fileName,
+                    "processStub" + s_proCount + name + ".create(\"" + obj.classname + "\")\n", enc);
+                s_exportProcess.Add(obj.key, s_proCount);
+                s_proCount++;
+            }
+        }
+
+        /// <summary>
+        /// Write the component property of model in script file.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="sysObj">system object.</param>
+        private void WriteComponentProperty(string fileName, Encoding enc, EcellObject sysObj)
+        {
+            File.AppendAllText(fileName, "\n# Variable\n", enc);
+            foreach (EcellObject obj in sysObj.M_instances)
+            {
+                if (!obj.type.Equals("Variable")) continue;
+                string[] names = obj.key.Split(new char[] { ':' });
+                string name = names[names.Length - 1];
+                int count = s_exportVariable[obj.key];
+
+                foreach (EcellData d in obj.M_value)
+                {
+                    if (!d.M_isSettable) continue;
+                    File.AppendAllText(fileName,
+                        "variableStub" + count + name + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString() + "\")\n", enc);
+                }
+            }
+
+            File.AppendAllText(fileName, "\n# Process\n", enc);
+            foreach (EcellObject obj in sysObj.M_instances)
+            {
+                if (!obj.type.Equals("Process")) continue;
+                string[] names = obj.key.Split(new char[] { ':' });
+                string name = names[names.Length - 1];
+                int count = s_exportProcess[obj.key];
+
+                foreach (EcellData d in obj.M_value)
+                {
+                    if (!d.M_isSettable) continue;
+                    File.AppendAllText(fileName,
+                        "processStub" + count + name + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString().Replace("\"", "\\\"") + "\")\n", enc);
+                }
+            }
+        }
+
     }
 
 

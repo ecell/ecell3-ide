@@ -808,7 +808,7 @@ namespace EcellLib.MainWindow
                 exportModelToolStripMenuItem.Enabled = true;
                 importModelToolStripMenuItem.Enabled = true;
                 importScriptToolStripMenuItem.Enabled = false;
-                saveScriptToolStripMenuItem.Enabled = false;
+                saveScriptToolStripMenuItem.Enabled = true;
                 printToolStripMenuItem.Enabled = true;
                 exitToolStripMenuItem.Enabled = true;
             }
@@ -1483,7 +1483,7 @@ namespace EcellLib.MainWindow
             try
             {
                 saveFileDialog.RestoreDirectory = true;
-                saveFileDialog.Filter = "eml file(*.ems)|*.ems";
+                saveFileDialog.Filter = "ess file(*.ess)|*.ess";
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     m_dManager.SaveScript(saveFileDialog.FileName);
