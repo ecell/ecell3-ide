@@ -306,6 +306,22 @@ namespace EcellLib.TracerWindow
         }
 
         /// <summary>
+        /// Initial time.
+        /// </summary>
+        public void ClearTime()
+        {
+            foreach (string key in m_paneDic.Keys)
+            {
+                m_paneDic[key].Clear();
+                m_tmpPaneDic[key].Clear();
+            }
+            m_current = 0.0;
+            m_zCnt.GraphPane.XAxis.Scale.Max = 10.0;
+            m_zCnt.AxisChange();
+            m_zCnt.Refresh();
+        }
+
+        /// <summary>
         /// Call this function, when simulation start.
         /// </summary>
         public void StartSimulation()
@@ -481,6 +497,8 @@ namespace EcellLib.TracerWindow
                                     i = i + 2;
                                 }
                             }
+                            int l = m_paneDic[key].Points.Count;
+                            m_tmpPaneDic[key].AddPoint(m_paneDic[key].Points[l - 1]);
                         }
                     }
                     isAxis = true;

@@ -178,6 +178,11 @@ namespace EcellLib.TracerWindow
             {
                 if (nextTime > m_currentMax * 1.3)
                 {
+                    foreach (TraceWindow t in m_winList)
+                    {
+                        t.ClearTime();
+                        t.m_current = 0.0;
+                    }
                     m_currentMax = nextTime * 1.3;
                     m_step = m_currentMax / m_count;
                     list = manager.GetLogData(0.0, nextTime, m_step);
@@ -187,11 +192,45 @@ namespace EcellLib.TracerWindow
                     m_currentMax = m_currentMax * 1.3;
                     m_step = m_currentMax / m_count;
                     list = manager.GetLogData(m_current, nextTime, m_step);
+                    if (list != null)
+                    {
+                        foreach (LogData d in list)
+                        {
+                            List<LogValue> delList = new List<LogValue>();
+                            foreach (LogValue v in d.logValueList)
+                            {
+                                if (v.time < m_current) delList.Add(v);
+                            }
+                            foreach (LogValue v in delList)
+                            {
+                                d.logValueList.Remove(v);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (m_current + m_step < nextTime)
+            {
+                list = manager.GetLogData(m_current, nextTime, m_step);
+                if (list != null)
+                {
+                    foreach (LogData d in list)
+                    {
+                        List<LogValue> delList = new List<LogValue>();
+                        foreach (LogValue v in d.logValueList)
+                        {
+                            if (v.time < m_current) delList.Add(v);
+                        }
+                        foreach (LogValue v in delList)
+                        {
+                            d.logValueList.Remove(v);
+                        }
+                    }
                 }
             }
             else
             {
-                list = manager.GetLogData(m_current, nextTime, m_step);
+                return;
             }
 
             m_current = nextTime + m_step / 10.0;
@@ -829,6 +868,7 @@ namespace EcellLib.TracerWindow
             }
             else if (type == Util.RUNNING)
             {
+                m_currentMax = 1.0;
                 isStep = false;
                 m_showWin.Enabled = false;
                 m_showSaveWin.Enabled = false;
@@ -839,8 +879,10 @@ namespace EcellLib.TracerWindow
                 if (isStep == false && m_type != Util.SUSPEND)
                 {
                     m_current = 0.0;
+                    m_currentMax = 1.0;
                     foreach (TraceWindow t in m_winList)
                     {
+                        t.ClearTime();
                         t.m_current = 0.0;
                     }
                 }
@@ -862,16 +904,19 @@ namespace EcellLib.TracerWindow
             else if ((m_type == Util.RUNNING || m_type == Util.SUSPEND || m_type == Util.STEP) &&
                 type == Util.LOADED)
             {
+                UpdateGraphDelegate(); // vomit the remainder log.
                 this.StopSimulation();
             }
             else if (type == Util.SUSPEND)
             {
+                UpdateGraphDelegate(); // vomit the remainder log.
                 this.SuspendSimulation();
             }
             else if (type == Util.STEP)
             {
                 if (m_type == Util.STEP)
                 {
+                    UpdateGraphDelegate(); // vomit the remainder log.
                     this.SuspendSimulation();
                     type = Util.SUSPEND;
                 }
