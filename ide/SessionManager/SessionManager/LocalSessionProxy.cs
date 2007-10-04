@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
 //        This file is part of E-Cell Environment Application package
@@ -31,25 +27,33 @@ using System.Text;
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Diagnostics;
 
 namespace SessionManager
 {
     public class LocalSessionProxy : SessionProxy
     {
+        Process m_currentProcess = null;
+
         /// <summary>
         /// Constructor.
         /// </summary>
         public LocalSessionProxy()
             : base()
         {
-
         }
 
         /// <summary>
         /// Retry this session.
         /// </summary>
-        public new void Retry()
+        public new void retry()
         {
+            this.stop();
+            this.Status = JobStatus.QUEUED;
+            this.run();
         }
 
         /// <summary>
@@ -57,14 +61,77 @@ namespace SessionManager
         /// </summary>
         public new void run()
         {
-            // not implement
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.FileName = ScriptFile;
+            psi.UseShellExecute = false;
+            psi.CreateNoWindow = true;
+            psi.Arguments = Argument;
+            m_currentProcess = Process.Start(psi);
+            m_currentProcess.Exited += new EventHandler(ProcessExited);
+            ProcessID = m_currentProcess.Id;
+            this.Status = JobStatus.RUNNING;
         }
 
         /// Stop this session.
         /// </summary>
-        public new void Stop()
+        public new void stop()
         {
-            // not implement
+            if (m_currentProcess != null)
+            {
+                m_currentProcess.Kill();
+                Status = JobStatus.STOPPED;
+                m_currentProcess = null;
+            }
+            if (Status != JobStatus.QUEUED)
+            {
+                Status = JobStatus.STOPPED;
+            }
         }
+
+        /// <summary>
+        /// Update the status of job.
+        /// </summary>
+        public new void Update()
+        {
+            try
+            {
+                if (m_currentProcess != null)
+                {
+                    int exitCode = m_currentProcess.ExitCode;
+                    if (exitCode == 0)
+                    {
+                        this.Status = JobStatus.FINISHED;
+                    }
+                    else
+                    {
+                        this.Status = JobStatus.ERROR;
+                    }
+                    m_currentProcess = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                // nothing.
+            }
+        }
+
+        /// <summary>
+        /// End process event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ProcessExited(object sender, EventArgs e)
+        {
+            if (m_currentProcess.ExitCode == 0)
+            {
+                this.Status = JobStatus.FINISHED;
+            }
+            else
+            {
+                this.Status = JobStatus.ERROR;
+            }
+        }
+
+
     }
 }

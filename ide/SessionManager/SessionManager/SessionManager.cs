@@ -527,14 +527,14 @@ namespace SessionManager
             {
                 foreach (int id in m_sessionList.Keys)
                 {
-                    m_sessionList[id].Stop();
+                    m_sessionList[id].stop();
                 }
                 m_timer.Enabled = true;
                 m_timer.Start();
             }
             else
             {
-                m_sessionList[jobid].Stop();
+                m_sessionList[jobid].stop();
             }
         }
 
@@ -548,7 +548,7 @@ namespace SessionManager
                 if (m_sessionList[id].Status == JobStatus.QUEUED ||
                     m_sessionList[id].Status == JobStatus.RUNNING)
                 {
-                    m_sessionList[id].Stop();
+                    m_sessionList[id].stop();
                 }
             }
         }

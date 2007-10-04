@@ -42,6 +42,7 @@ namespace SessionManager
         QUEUED,
         RUNNING,
         ERROR,
+        STOPPED,
         FINISHED
     }
 
@@ -189,7 +190,7 @@ namespace SessionManager
         /// <summary>
         /// Retry this session.
         /// </summary>
-        public void Retry()
+        public void retry()
         {
         }
 
@@ -203,7 +204,7 @@ namespace SessionManager
         /// <summary>
         /// Stop this job.
         /// </summary>
-        public void Stop()
+        public void stop()
         {
             // not implement
         }
