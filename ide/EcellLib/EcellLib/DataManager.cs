@@ -6135,13 +6135,24 @@ namespace EcellLib
                 s_exportSystem.Clear();
                 s_exportProcess.Clear();
                 s_exportVariable.Clear();
+                s_exportStepper.Clear();
 
                 Encoding enc = Encoding.GetEncoding(932);
                 File.WriteAllText(l_fileName, "", enc);
                 WritePrefix(l_fileName, enc);
                 foreach (EcellObject modelObj in m_modelDic[m_currentProjectID])
                 {
-                    WriteModelEntry(l_fileName, enc, modelObj.modelID);
+                    String modelName = modelObj.modelID;
+                    WriteModelEntry(l_fileName, enc, modelName);
+                    WriteModelProperty(l_fileName, enc, modelName);
+                    WriteSystemEntry(l_fileName, enc, modelName);
+                    WriteSystemProperty(l_fileName, enc, modelName);
+                    foreach (EcellObject sysObj in
+                        m_systemDic[m_currentProjectID][modelName])
+                    {
+                        WriteComponentEntry(l_fileName, enc, sysObj);
+                        WriteComponentProperty(l_fileName, enc, sysObj);
+                    }
                 }
                 WritePostfix(l_fileName, enc);
                 
@@ -7215,7 +7226,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
-        private void WritePrefix(string fileName, Encoding enc)
+        public void WritePrefix(string fileName, Encoding enc)
         {
             DateTime n = DateTime.Now;
             String timeStr = n.ToString("d");
@@ -7233,7 +7244,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
-        private void WritePostfix(string fileName, Encoding enc)
+        public void WritePostfix(string fileName, Encoding enc)
         {
             File.AppendAllText(fileName, "session.initialize()\n", enc);
             File.AppendAllText(fileName, "session.step(count)\n", enc);
@@ -7247,7 +7258,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
-        private void WriteModelEntry(string fileName, Encoding enc, string modelName)
+        public void WriteModelEntry(string fileName, Encoding enc, string modelName)
         {
             File.AppendAllText(fileName, "session.createModel(\"" + modelName + "\")\n\n", enc);
             File.AppendAllText(fileName, "# Stepper\n", enc);
@@ -7260,51 +7271,16 @@ namespace EcellLib
                 s_exportStepper.Add(stepObj.key, s_stepperCount);
                 s_stepperCount++;
             }
+        }
 
-            foreach (EcellObject stepObj in 
-                m_stepperDic[m_currentProjectID][m_currentParameterID][modelName])
-            {
-                File.AppendAllText(fileName, "\n# System\n", enc);
-                foreach (EcellObject sysObj in
-                    m_systemDic[m_currentProjectID][modelName])
-                {
-                    s_exportSystem.Add(sysObj.key, s_sysCount);
-                    string prefix = "";
-                    string data = "";
-                    if (sysObj.key.Equals("/"))
-                    {
-                        prefix = "";
-                        data = "/";
-                    }
-                    else
-                    {
-                        string[] ele = sysObj.key.Split(new char[] { '/' });
-                        if (ele.Length == 2)
-                        {
-                            prefix = "/";
-                            data = ele[ele.Length - 1];
-                        }
-                        else
-                        {
-                            for (int i = 1; i < ele.Length - 1; i++)
-                            {
-                                prefix = prefix + "/" + ele[i];
-                            }
-                            data = ele[ele.Length - 1];
-                        }
-                    }
-                    File.AppendAllText(fileName, "systemStub" + s_sysCount + "= session.createEntityStub(\"System:" + prefix + ":" + data + "\")\n", enc);
-                    File.AppendAllText(fileName, "systemStub" + s_sysCount + ".create(\"System\")\n", enc);
-                    s_sysCount++;
-                }
-
-                foreach (EcellObject sysObj in
-                     m_systemDic[m_currentProjectID][modelName])
-                {
-                    WriteComponentEntry(fileName, enc, sysObj);
-                }
-            }
-
+        /// <summary>
+        /// Write the model property in script file.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="modelName">model name.</param>
+        public void WriteModelProperty(string fileName, Encoding enc, string modelName)
+        {
             File.AppendAllText(fileName, "\n# Stepper\n", enc);
             foreach (EcellObject stepObj in
                 m_stepperDic[m_currentProjectID][m_currentParameterID][modelName])
@@ -7317,30 +7293,73 @@ namespace EcellLib
                         "stepperStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString() + "\")\n" , enc);
                 }
             }
+        }
 
-            foreach (EcellObject stepObj in
-                m_stepperDic[m_currentProjectID][m_currentParameterID][modelName])
+        /// <summary>
+        /// Write the system entry in script file.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="modelName">model name.</param>
+        public void WriteSystemEntry(string fileName, Encoding enc, string modelName)
+        {
+            File.AppendAllText(fileName, "\n# System\n", enc);
+            foreach (EcellObject sysObj in
+                m_systemDic[m_currentProjectID][modelName])
             {
-                File.AppendAllText(fileName, "\n# System\n", enc);
-                foreach (EcellObject sysObj in
-                    m_systemDic[m_currentProjectID][modelName])
+                s_exportSystem.Add(sysObj.key, s_sysCount);
+                string prefix = "";
+                string data = "";
+                if (sysObj.key.Equals("/"))
                 {
-                    int count = s_exportSystem[sysObj.key];
-                    foreach (EcellData d in sysObj.M_value)
+                    prefix = "";
+                    data = "/";
+                }
+                else
+                {
+                    string[] ele = sysObj.key.Split(new char[] { '/' });
+                    if (ele.Length == 2)
                     {
-                        if (!d.M_isSettable) continue;
-                        File.AppendAllText(fileName,
-                            "systemStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString() + "\")\n", enc);
+                        prefix = "/";
+                        data = ele[ele.Length - 1];
+                    }
+                    else
+                    {
+                        for (int i = 1; i < ele.Length - 1; i++)
+                        {
+                            prefix = prefix + "/" + ele[i];
+                        }
+                        data = ele[ele.Length - 1];
                     }
                 }
+                File.AppendAllText(fileName, "systemStub" + s_sysCount + "= session.createEntityStub(\"System:" + prefix + ":" + data + "\")\n", enc);
+                File.AppendAllText(fileName, "systemStub" + s_sysCount + ".create(\"System\")\n", enc);
+                s_sysCount++;
+            }
+        }
 
-                foreach (EcellObject sysObj in
-                     m_systemDic[m_currentProjectID][modelName])
+        /// <summary>
+        /// Write the system property in script file.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="modelName">model name.</param>
+        public void WriteSystemProperty(string fileName, Encoding enc, string modelName)
+        {
+            File.AppendAllText(fileName, "\n# System\n", enc);
+            foreach (EcellObject sysObj in
+                m_systemDic[m_currentProjectID][modelName])
+            {
+                int count = s_exportSystem[sysObj.key];
+                foreach (EcellData d in sysObj.M_value)
                 {
-                    WriteComponentProperty(fileName, enc, sysObj);
+                    if (!d.M_isSettable) continue;
+                    File.AppendAllText(fileName,
+                        "systemStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString() + "\")\n", enc);
                 }
             }
         }
+
 
         /// <summary>
         /// Write the component entry of model in script file.
@@ -7348,7 +7367,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="sysObj">system object.</param>
-        private void WriteComponentEntry(string fileName, Encoding enc, EcellObject sysObj)
+        public void WriteComponentEntry(string fileName, Encoding enc, EcellObject sysObj)
         {
             File.AppendAllText(fileName, "\n# Variable\n", enc);
             foreach (EcellObject obj in sysObj.M_instances)
@@ -7389,7 +7408,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="sysObj">system object.</param>
-        private void WriteComponentProperty(string fileName, Encoding enc, EcellObject sysObj)
+        public void WriteComponentProperty(string fileName, Encoding enc, EcellObject sysObj)
         {
             File.AppendAllText(fileName, "\n# Variable\n", enc);
             foreach (EcellObject obj in sysObj.M_instances)
