@@ -388,7 +388,7 @@ begin
 
   // Check for required netfx installation
   if (not RegKeyExists(HKLM, 'Software\Microsoft\.NETFramework\policy\v2.0')) then begin
-    MsgBox('This application needs the Microsoft .NET Framework with version 2.0', mbInformation, MB_OK);
+    MsgBox('This application needs Microsoft .NET Framework version 2.0', mbInformation, MB_OK);
     Result := false
   end;
 end;
