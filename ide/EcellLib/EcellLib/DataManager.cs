@@ -6120,6 +6120,19 @@ namespace EcellLib
             }
         }
 
+        public void ClearScriptInfo()
+        {
+            s_stepperCount = 0;
+            s_sysCount = 0;
+            s_varCount = 0;
+            s_proCount = 0;
+            s_logCount = 0;
+            s_exportSystem.Clear();
+            s_exportProcess.Clear();
+            s_exportVariable.Clear();
+            s_exportStepper.Clear();
+        }
+
         /// <summary>
         /// Saves the script.
         /// </summary>
@@ -6128,15 +6141,7 @@ namespace EcellLib
         {
             try
             {
-                s_stepperCount = 0;
-                s_sysCount = 0;
-                s_varCount = 0;
-                s_proCount = 0;
-                s_exportSystem.Clear();
-                s_exportProcess.Clear();
-                s_exportVariable.Clear();
-                s_exportStepper.Clear();
-
+                ClearScriptInfo();
                 Encoding enc = Encoding.GetEncoding(932);
                 File.WriteAllText(l_fileName, "", enc);
                 WritePrefix(l_fileName, enc);
@@ -6145,8 +6150,13 @@ namespace EcellLib
                     String modelName = modelObj.modelID;
                     WriteModelEntry(l_fileName, enc, modelName);
                     WriteModelProperty(l_fileName, enc, modelName);
-                    WriteSystemEntry(l_fileName, enc, modelName);
-                    WriteSystemProperty(l_fileName, enc, modelName);
+                    File.WriteAllText(l_fileName, "\n# System\n", enc);
+                    foreach (EcellObject sysObj in
+                        m_systemDic[m_currentProjectID][modelName])
+                    {
+                        WriteSystemEntry(l_fileName, enc, modelName, sysObj);
+                        WriteSystemProperty(l_fileName, enc, modelName, sysObj);
+                    }
                     foreach (EcellObject sysObj in
                         m_systemDic[m_currentProjectID][modelName])
                     {
@@ -6154,7 +6164,7 @@ namespace EcellLib
                         WriteComponentProperty(l_fileName, enc, sysObj);
                     }
                 }
-                WritePostfix(l_fileName, enc);
+                WriteSimulation(l_fileName, enc);
                 
             }
             catch (Exception l_ex)
@@ -6166,6 +6176,7 @@ namespace EcellLib
         static private int s_sysCount = 0;
         static private int s_proCount = 0;
         static private int s_varCount = 0;
+        static private int s_logCount = 0;
         static private Dictionary<string, int> s_exportStepper = new Dictionary<string, int>();
         static private Dictionary<string, int> s_exportSystem = new Dictionary<string, int>();
         static private Dictionary<string, int> s_exportProcess = new Dictionary<string, int>();
@@ -7244,7 +7255,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
-        public void WritePostfix(string fileName, Encoding enc)
+        public void WriteSimulation(string fileName, Encoding enc)
         {
             File.AppendAllText(fileName, "session.initialize()\n", enc);
             File.AppendAllText(fileName, "session.step(count)\n", enc);
@@ -7301,12 +7312,9 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
-        public void WriteSystemEntry(string fileName, Encoding enc, string modelName)
+        public void WriteSystemEntry(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
-            File.AppendAllText(fileName, "\n# System\n", enc);
-            foreach (EcellObject sysObj in
-                m_systemDic[m_currentProjectID][modelName])
-            {
+
                 s_exportSystem.Add(sysObj.key, s_sysCount);
                 string prefix = "";
                 string data = "";
@@ -7335,7 +7343,6 @@ namespace EcellLib
                 File.AppendAllText(fileName, "systemStub" + s_sysCount + "= session.createEntityStub(\"System:" + prefix + ":" + data + "\")\n", enc);
                 File.AppendAllText(fileName, "systemStub" + s_sysCount + ".create(\"System\")\n", enc);
                 s_sysCount++;
-            }
         }
 
         /// <summary>
@@ -7344,12 +7351,8 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
-        public void WriteSystemProperty(string fileName, Encoding enc, string modelName)
+        public void WriteSystemProperty(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
-            File.AppendAllText(fileName, "\n# System\n", enc);
-            foreach (EcellObject sysObj in
-                m_systemDic[m_currentProjectID][modelName])
-            {
                 int count = s_exportSystem[sysObj.key];
                 foreach (EcellData d in sysObj.M_value)
                 {
@@ -7357,6 +7360,34 @@ namespace EcellLib
                     File.AppendAllText(fileName,
                         "systemStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString() + "\")\n", enc);
                 }
+        }
+
+
+        public void WriteLoggerProperty(string fileName, Encoding enc, List<string> logList)
+        {
+            File.AppendAllText(fileName, "\n# Logger Policy\n");
+            foreach (string path in logList)
+            {
+                File.AppendAllText(fileName, 
+                    "logger" + s_logCount + "=session.createLoggerStub(\"" + path + "\")\n", 
+                    enc);
+                File.AppendAllText(fileName,
+                    "logger" + s_logCount + ".create()\n",
+                    enc);
+                s_logCount++;
+            }
+        }
+
+        public void WriteLoggerSaveEntry(string fileName, Encoding enc, List<SaveLoggerProperty> saveList)
+        {
+            File.AppendAllText(fileName, "\n# Save logging\n", enc);
+            foreach (SaveLoggerProperty s in saveList)
+            {
+                File.AppendAllText(
+                    fileName,
+                    "session.saveLoggerData(\"" + s.FullPath + "\",\"" + s.DirName + "\"," +
+                    s.Start + "," + s.End + ")",
+                    enc);
             }
         }
 
@@ -9059,6 +9090,74 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Property object to manage the information of saved logger.
+    /// </summary>
+    public class SaveLoggerProperty
+    {
+        private string m_fullPath = "";
+        private double m_start = 0.0;
+        private double m_end = 0.0;
+        private string m_dirName = "";
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public SaveLoggerProperty()
+        {
+        }
+
+        /// <summary>
+        /// Constructor with initial parameters.
+        /// </summary>
+        /// <param name="path">the full path.</param>
+        /// <param name="start">start time.</param>
+        /// <param name="end">end time.</param>
+        /// <param name="dir">output directory name.</param>
+        public SaveLoggerProperty(string path, double start, double end, string dir)
+        {
+            m_fullPath = path;
+            m_start = start;
+            m_end = end;
+            m_dirName = dir;
+        }
+
+        /// <summary>
+        /// get/set the full path of logger.
+        /// </summary>
+        public string FullPath
+        {
+            get { return this.m_fullPath; }
+            set { this.m_fullPath = value; }
+        }
+
+        /// <summary>
+        /// get/set the start time of logger.
+        /// </summary>
+        public double Start
+        {
+            get { return this.m_start; }
+            set { this.m_start = value; }
+        }
+
+        /// <summary>
+        /// get/set the end time of logger.
+        /// </summary>
+        public double End 
+        {
+            get { return this.m_end; }
+            set { this.m_end = value; }
+        }
+
+        /// <summary>
+        /// get/set the output directory name of logger.
+        /// </summary>
+        public string DirName
+        {
+            get { return this.m_dirName; }
+            set { this.m_dirName = value; }
+        }
+    }
 
     /// <summary>
     /// Stores the simulation results.

@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace SessionManager
 {
@@ -44,12 +45,13 @@ namespace SessionManager
         public LocalSessionProxy()
             : base()
         {
+            this.JobDirectory = "";
         }
 
         /// <summary>
         /// Retry this session.
         /// </summary>
-        public new void retry()
+        public override void retry()
         {
             this.stop();
             this.Status = JobStatus.QUEUED;
@@ -59,27 +61,38 @@ namespace SessionManager
         /// <summary>
         /// Start this session.
         /// </summary>
-        public new void run()
+        public override void run()
         {
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.FileName = ScriptFile;
             psi.UseShellExecute = false;
             psi.CreateNoWindow = true;
             psi.Arguments = Argument;
-            m_currentProcess = Process.Start(psi);
-            m_currentProcess.Exited += new EventHandler(ProcessExited);
-            ProcessID = m_currentProcess.Id;
+            psi.WorkingDirectory = GetAnalysisDir();
+            psi.CreateNoWindow = true;
+            psi.RedirectStandardError = true;
+            psi.RedirectStandardOutput = true;
             this.Status = JobStatus.RUNNING;
+            m_currentProcess = Process.Start(psi);
+            ProcessID = m_currentProcess.Id;
         }
 
         /// Stop this session.
         /// </summary>
-        public new void stop()
+        public override void stop()
         {
+            if (this.Status != JobStatus.RUNNING || this.Status != JobStatus.QUEUED)
+                return;
             if (m_currentProcess != null)
             {
-                m_currentProcess.Kill();
                 Status = JobStatus.STOPPED;
+                try {
+                    int i = m_currentProcess.ExitCode;
+                }catch (Exception ex)
+                {
+                    ex.ToString();
+                    m_currentProcess.Kill();
+                }
                 m_currentProcess = null;
             }
             if (Status != JobStatus.QUEUED)
@@ -91,11 +104,11 @@ namespace SessionManager
         /// <summary>
         /// Update the status of job.
         /// </summary>
-        public new void Update()
+        public override void Update()
         {
             try
             {
-                if (m_currentProcess != null)
+                if (m_currentProcess != null && Status == JobStatus.RUNNING)
                 {
                     int exitCode = m_currentProcess.ExitCode;
                     if (exitCode == 0)
@@ -103,7 +116,7 @@ namespace SessionManager
                         this.Status = JobStatus.FINISHED;
                     }
                     else
-                    {
+                    {                       
                         this.Status = JobStatus.ERROR;
                     }
                     m_currentProcess = null;
@@ -111,27 +124,53 @@ namespace SessionManager
             }
             catch (Exception ex)
             {
+                ex.ToString();
                 // nothing.
             }
         }
 
         /// <summary>
-        /// End process event.
+        /// Get the stream of StrOut for this process.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ProcessExited(object sender, EventArgs e)
+        /// <returns>StreamReader.</returns>
+        public override System.IO.StreamReader GetStdOut()
         {
-            if (m_currentProcess.ExitCode == 0)
-            {
-                this.Status = JobStatus.FINISHED;
-            }
-            else
-            {
-                this.Status = JobStatus.ERROR;
-            }
+            if (m_currentProcess == null) return null;
+            return m_currentProcess.StandardOutput;
         }
 
+        /// <summary>
+        /// Get the stream of StdErr for this process.
+        /// </summary>
+        /// <returns>StreamReader.</returns>
+        public override System.IO.StreamReader GetStdErr()
+        {
+            if (m_currentProcess == null) return null;
+            return m_currentProcess.StandardError;
+        }
+
+        /// <summary>
+        /// Prepare the file before the process run.
+        /// </summary>
+        public override void PrepareProcess()
+        {
+            base.PrepareProcess();
+        }
+
+
+        private string GetAnalysisDir()
+        {
+            string l_currentDir = null;
+            Microsoft.Win32.RegistryKey l_subkey = null;
+            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.LocalMachine;
+            l_subkey = l_key.OpenSubKey("software\\KeioUniv\\E-Cell IDE");
+            if (l_subkey != null)
+            {
+                l_currentDir = (string)l_subkey.GetValue("E-Cell IDE Analysis");
+            }
+            return l_currentDir;
+
+        }
 
     }
 }

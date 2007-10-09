@@ -50,6 +50,10 @@
     <DocumentationFile>bin\x86_64\Release\SessionManager.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7d5574583093e55f, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\EcellLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -84,4 +88,9 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\bin"
+FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\bin\%25%25D"
+FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\bin\%25%25D"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

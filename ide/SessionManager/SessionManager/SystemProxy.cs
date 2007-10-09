@@ -44,7 +44,7 @@ namespace SessionManager
         /// <summary>
         /// get / set the default concurrency.
         /// </summary>
-        public int DefaultConcurrency
+        public virtual int DefaultConcurrency
         {
             get { return this.m_defaultConcurrency; }
             set { this.m_defaultConcurrency = value; }
@@ -53,7 +53,7 @@ namespace SessionManager
         /// <summary>
         /// get / set manager.
         /// </summary>
-        public SessionManager Manager
+        public virtual SessionManager Manager
         {
             get { return this.m_manager; }
             set { this.m_manager = value; }
@@ -63,7 +63,7 @@ namespace SessionManager
         /// Get environment name of this proxy.
         /// </summary>
         /// <returns>environment name.</returns>
-        public String GetEnvironment()
+        public virtual String GetEnvironment()
         {
             return null;
         }
@@ -72,7 +72,7 @@ namespace SessionManager
         /// Create the proxy for session.
         /// </summary>
         /// <returns>Class of proxy for session.</returns>
-        public SessionProxy CreateSessionProxy()
+        public virtual SessionProxy CreateSessionProxy()
         {
             return null;
         }
@@ -85,7 +85,8 @@ namespace SessionManager
         /// <param name="extFile">extra file of script file.</param>
         /// <param name="tmpDir">tmp directory of script file</param>
         /// <returns>Class of proxy for session.</returns>
-        public SessionProxy CreateSessionProxy(String script, String arg, List<String> extFile, String tmpDir)
+        public virtual SessionProxy CreateSessionProxy(String script, 
+            String arg, List<String> extFile, String tmpDir)
         {
             return null;
         }
@@ -94,7 +95,7 @@ namespace SessionManager
         /// Get the property of this proxy.
         /// </summary>
         /// <returns>list of property name.</returns>
-        public Dictionary<String, Object> GetProperty()
+        public virtual Dictionary<String, Object> GetProperty()
         {
             return null;
         }
@@ -103,14 +104,14 @@ namespace SessionManager
         /// Update the property of proxy.
         /// </summary>
         /// <param name="list">the list of property.</param>
-        public void SetProperty(Dictionary<String, Object> list)
+        public virtual void SetProperty(Dictionary<String, Object> list)
         {
         }
 
         /// <summary>
         /// Execute the queue session corresponding with Environment.
         /// </summary>
-        public void Update()
+        public virtual void Update()
         {
             // nothing
         }

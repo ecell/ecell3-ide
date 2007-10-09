@@ -57,8 +57,8 @@ namespace SessionManager
         private string m_argument;
         private string m_jobDirectory;
         private List<String> m_extraFile;
-
         private JobStatus m_status;
+
         static private String s_dmPath;
         static private int s_maxCount;
         static private int s_jobID = 0;
@@ -126,6 +126,7 @@ namespace SessionManager
             set { this.m_extraFile = value; }
         }
 
+
         /// <summary>
         /// get / set the dm directory path.
         /// </summary>
@@ -190,21 +191,21 @@ namespace SessionManager
         /// <summary>
         /// Retry this session.
         /// </summary>
-        public void retry()
+        public virtual void retry()
         {
         }
 
         /// <summary>
         /// Start this session.
         /// </summary>
-        public void run()
+        public virtual void run()
         {
         }
 
         /// <summary>
         /// Stop this job.
         /// </summary>
-        public void stop()
+        public virtual void stop()
         {
             // not implement
         }
@@ -212,7 +213,7 @@ namespace SessionManager
         /// <summary>
         /// Update the status of job.
         /// </summary>
-        public void Update()
+        public virtual void Update()
         {
             // not implement
         }
@@ -221,7 +222,7 @@ namespace SessionManager
         /// Get the judgement of script if script is output.
         /// </summary>
         /// <returns>judgement.</returns>
-        public int GetJudge()
+        public virtual int GetJudge()
         {
             // not implement.
             return 0;
@@ -231,10 +232,36 @@ namespace SessionManager
         /// Get log data output the script.
         /// </summary>
         /// <returns>log data.</returns>
-        public string GetLogData()
+        public virtual string GetLogData()
         {
             // not implement.
             return "";
+        }
+
+        /// <summary>
+        /// Get the stream of StdOut for this process.
+        /// </summary>
+        /// <returns>StreamReader.</returns>
+        public virtual System.IO.StreamReader GetStdOut()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Get the stream of StdErr for this process.
+        /// </summary>
+        /// <returns>StreamReader.</returns>
+        public virtual System.IO.StreamReader GetStdErr()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Prepare the file before the process run.
+        /// </summary>
+        public virtual void PrepareProcess()
+        {
+            this.Status = JobStatus.QUEUED;
         }
     }
 }

@@ -29,9 +29,11 @@
 //
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
+using EcellLib;
 
 namespace SessionManager
 {
@@ -46,7 +48,7 @@ namespace SessionManager
         private string m_tmpDir = null;
         private int m_conc = -1;
         private int m_limitRetry = 5;
-        private int m_updateInterval = 1;
+        private int m_updateInterval = 5;
         private int m_globalTimeOut = 0;
         private SystemProxy m_proxy;
         private Dictionary<string, SystemProxy> m_proxyList = new Dictionary<string, SystemProxy>();
@@ -63,6 +65,10 @@ namespace SessionManager
             m_timer.Enabled = false;
             m_timer.Interval = m_updateInterval;
             m_timer.Tick += new EventHandler(UpdateTimeFire);
+
+            LocalSystemProxy p = new LocalSystemProxy();
+            p.Manager = this;
+            m_proxyList.Add("Local", p);
         }
 
 
@@ -82,6 +88,10 @@ namespace SessionManager
             m_timer.Enabled = false;
             m_timer.Interval = m_updateInterval;
             m_timer.Tick += new EventHandler(UpdateTimeFire);
+
+            LocalSystemProxy p = new LocalSystemProxy();
+            p.Manager = this;
+            m_proxyList.Add("Local", p);
         }
 
         /// <summary>
@@ -259,7 +269,7 @@ namespace SessionManager
             m_sessionList.Add(s.JobID, s);
 
             return s.JobID;
-            }
+        }
 
         /// <summary>
         /// Regist the session of e-cell.
@@ -367,7 +377,11 @@ namespace SessionManager
         {
             foreach (int job in m_sessionList.Keys)
             {
-                m_sessionList[job].Update();
+                if (m_sessionList[job].Status == JobStatus.QUEUED ||
+                    m_sessionList[job].Status == JobStatus.RUNNING)
+                {
+                    m_sessionList[job].Update();
+                }
             }
             if (m_proxy != null) m_proxy.Update();
         }
@@ -481,15 +495,19 @@ namespace SessionManager
             return false;
         }
 
-        // timeout?
-
         /// <summary>
         /// Preapre to execute the process.
         /// Ex. script file, extra file, job directory and so on.
         /// </summary>
         private void PrepareProcessRun()
         {
-            // not implement
+            foreach (SessionProxy p in m_sessionList.Values)
+            {
+                if (p.Status == JobStatus.NONE)
+                {
+                    p.PrepareProcess();
+                }
+            }
         }
 
         /// <summary>
@@ -498,6 +516,7 @@ namespace SessionManager
         public void Run()
         {
             PrepareProcessRun();
+            Update();
             m_timer.Enabled = true;
             m_timer.Start();
         }
@@ -529,8 +548,8 @@ namespace SessionManager
                 {
                     m_sessionList[id].stop();
                 }
-                m_timer.Enabled = true;
-                m_timer.Start();
+                m_timer.Enabled = false;
+                m_timer.Stop();
             }
             else
             {
@@ -590,22 +609,24 @@ namespace SessionManager
             return null;
         }
 
-
-        //************************************************************************
-        // whether set/get function of stdout and stderr include in SessionProxy...
-        // max count
-        //************************************************************************
-
-        public System.IO.FileStream GetStdout(int jobid)
+        /// <summary>
+        /// Get the stream of StrOut.
+        /// </summary>
+        /// <param name="jobid">job id.</param>
+        /// <returns>StreamReader</returns>
+        public System.IO.StreamReader GetStdout(int jobid)
         {
-            // not implement
-            return null;
+            return m_sessionList[jobid].GetStdOut();
         }
 
-        public System.IO.FileStream GetStderr(int jobid)
+        /// <summary>
+        /// Get the stream of StdErr.
+        /// </summary>
+        /// <param name="jobid">job id.</param>
+        /// <returns>StreamReader</returns>
+        public System.IO.StreamReader GetStderr(int jobid)
         {
-            // not implement
-            return null;
+            return m_sessionList[jobid].GetStdErr();
         }
 
         public void SetOptionList(List<String> optionList)
@@ -629,12 +650,121 @@ namespace SessionManager
         {
             Update();
 
-            if (!IsFinished())
+            if (IsFinished())
             {
                 m_timer.Enabled = false;
                 m_timer.Stop();
             }
         }
 
+        //======================================================
+        // The following member and function is in here or
+        // EcellLib.AnalysisManager.
+        //======================================================
+        private List<ParameterRange> m_paramList = new List<ParameterRange>();
+        private List<SaveLoggerProperty> m_logList = new List<SaveLoggerProperty>();
+
+        public void SetLoggerData(List<SaveLoggerProperty> sList)
+        {
+            m_logList.Clear();
+
+            foreach (SaveLoggerProperty p in m_logList)
+            {
+                m_logList.Add(p);
+            }
+        }
+
+        public void SetParameterRange(List<ParameterRange> pList)
+        {
+            m_paramList.Clear();
+
+            foreach (ParameterRange p in pList)
+            {
+                m_paramList.Add(p);
+            }
+        }
+
+        public void RunSimParameterRange(string topDir, string modelName, int num)
+        {
+            DataManager manager = DataManager.GetDataManager();
+            List<EcellObject> sysList = manager.GetData(modelName, null);
+            Dictionary<string, double> paramDic = new Dictionary<string, double>();
+            Random hRandom = new Random();
+            for (int i = 0 ; i < num ; i++ )
+            {
+                paramDic.Clear();
+                foreach (ParameterRange p in m_paramList)
+                {
+                    double d = hRandom.NextDouble();
+                    double data = (d - p.Min) / (p.Max - p.Min) + p.Min;
+                    paramDic.Add(p.FullPath, data);
+                }
+                string dirName = topDir + "/" + num;
+                string fileName = topDir + "/" + num + ".ess";
+                Encoding enc = Encoding.GetEncoding(932);
+
+                manager.ClearScriptInfo();
+                File.WriteAllText(fileName, "", enc);
+                manager.WritePrefix(fileName, enc);
+                manager.WriteModelEntry(fileName, enc, modelName);
+                manager.WriteModelProperty(fileName, enc, modelName);
+                File.WriteAllText(fileName, "\n# System\n", enc);
+                foreach (EcellObject sysObj in sysList)
+                {
+                    manager.WriteSystemEntry(fileName, enc, modelName, sysObj);
+                    manager.WriteSystemProperty(fileName, enc, modelName, sysObj);
+                }
+                foreach (EcellObject sysObj in sysList)
+                {
+                    manager.WriteComponentEntry(fileName, enc, sysObj);
+                    manager.WriteComponentProperty(fileName, enc, sysObj);
+                }
+                List<string> sList = new List<string>();
+                foreach (SaveLoggerProperty s in m_logList)
+                {
+                    sList.Add(s.FullPath);
+                }
+                manager.WriteLoggerProperty(fileName, enc, sList); 
+                manager.WriteSimulation(fileName, enc);
+                manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
+            }
+        }
+        
+    }
+
+    public class ParameterRange
+    {
+        private string m_fullPath = "";
+        private double m_min = 0.0;
+        private double m_max = 0.0;
+
+        public ParameterRange()
+        {
+        }
+
+        public ParameterRange(string path, double min, double max)
+        {
+            m_fullPath = path;
+            m_min = min;
+            m_max = max;
+        }
+
+        public string FullPath
+        {
+            get { return this.m_fullPath; }
+            set { this.m_fullPath = value; }
+        }
+
+        public double Max
+        {
+            get { return this.m_max; }
+            set { this.m_max = value; }
+        }
+
+        public double Min
+        {
+            get { return this.m_min; }
+            set { this.m_min = value; }
+        }
     }
 }

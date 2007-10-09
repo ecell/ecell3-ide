@@ -48,7 +48,7 @@ namespace SessionManager
         /// Create the proxy for session.
         /// </summary>
         /// <returns>LocalSessionProxy.</returns>
-        public new SessionProxy CreateSessionProxy()
+        public override SessionProxy CreateSessionProxy()
         {
             return new LocalSessionProxy();
         }
@@ -56,7 +56,7 @@ namespace SessionManager
         /// <summary>
         /// Execute the queue session in Local.
         /// </summary>
-        public new void Update()
+        public override void Update()
         {
             int dispatchNum =  Manager.Concurrency - Manager.GetRunningJobList().Count;
             if (dispatchNum != 0)
