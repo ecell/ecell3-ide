@@ -1,42 +1,92 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-using UMD.HCIL.Piccolo;
-using EcellLib;
 using System.Drawing.Drawing2D;
 using System.Drawing;
-using UMD.HCIL.Piccolo.Util;
 using System.Runtime.Serialization;
+using UMD.HCIL.Piccolo;
+using UMD.HCIL.Piccolo.Util;
+using UMD.HCIL.Piccolo.Nodes;
+using EcellLib;
+using System.ComponentModel;
 
-namespace EcellLib.PathwayWindow
+namespace EcellLib.PathwayWindow.Nodes
 {
+    /// <summary>
+    /// PPathwayObject is a super class for all component of PCanvas.
+    /// </summary>
     public abstract class PPathwayObject : PNode
     {
+        #region Enums
+        /// <summary>
+        /// Represents the types of picking modes for a PProcess object.
+        /// </summary>
+        public enum PathPickMode
+        {
+            /// <summary>
+            /// Faster Picking.  Paths are picked in local coordinates.
+            /// </summary>
+            Fast,
 
-        #region Abstract Methods
-        public abstract void Delete();
-        public abstract bool HighLighted(bool highlight);
-        public abstract void Initialize();
-        public abstract void DataChanged(EcellObject ecellObj);
-        public abstract void DataDeleted();
-        public abstract void SelectChanged();
-        public abstract void Start();
-        public abstract void Change();
-        public abstract void Stop();
-        public abstract void End();
-        public abstract List<PathwayElement> GetElements();
-        public abstract PPathwayObject CreateNewObject();
+            /// <summary>
+            /// Slower and more accurate picking.  Paths are picked in canvas
+            /// coordinates.
+            /// </summary>
+            Accurate
+        }
         #endregion
 
         #region Fields
+        protected static readonly int m_nodeTextFontSize = 10;
+        /// <summary>
+        /// From this ComponentSetting, this object was created.
+        /// </summary>
+        protected ComponentSetting m_setting;
         /// <summary>
         /// On this CanvasViewComponentSet this PPathwayObject is drawn.
         /// </summary>
-        protected CanvasViewComponentSet m_set;
+        protected CanvasView m_set;
         /// <summary>
         /// EcellObject for this object.
         /// </summary>
         protected EcellObject m_ecellObj;
+        /// <summary>
+        /// PText for showing this object's ID.
+        /// </summary>
+        protected PText m_pText;
         /// <summary>
         /// The name of this instance;
         /// </summary>
@@ -53,11 +103,26 @@ namespace EcellLib.PathwayWindow
         /// Object will be painted with this Brush when object is selected.
         /// </summary>
         protected Brush m_highLightBrush = Brushes.Gold;
+        
+        /// <summary>
+        /// Object will be painted with this Brush when object is in invalid state.
+        /// </summary>
+        protected Brush m_invalidBrush = Brushes.Red;
         /// <summary>
         /// Whether this object is highlighted or not.
         /// </summary>
         protected bool m_isSelected = false;
-                
+        
+        /// <summary>
+        /// Whether this object is in invalid state or not.
+        /// </summary>
+        protected bool m_isInvalid = false;
+
+        /// <summary>
+        /// This object.Pickable before freeze() method called.
+        /// </summary>
+        protected bool m_isPickableBeforeFreeze = false;
+
         /// <summary>
         /// The key that identifies a change in this node's <see cref="Pen">Pen</see>.
         /// </summary>
@@ -98,37 +163,292 @@ namespace EcellLib.PathwayWindow
         /// </remarks>
         public const int PROPERTY_CODE_PATH = 1 << 16;
 
+        /// <summary>
+        /// tempolary GraphicsPath.
+        /// </summary>
         protected static GraphicsPath TEMP_PATH = new GraphicsPath();
 
+        /// <summary>
+        /// tempolary region.
+        /// </summary>
         protected static Region TEMP_REGION = new Region();
+
+        /// <summary>
+        /// tempolary matrix.
+        /// </summary>
         protected static PMatrix TEMP_MATRIX = new PMatrix();
+
+        /// <summary>
+        /// default Pen is Black.
+        /// </summary>
         protected static Pen DEFAULT_PEN = Pens.Black;
+
+        /// <summary>
+        /// FillMode of this Node.
+        /// </summary>
         protected const FillMode DEFAULT_FILLMODE = FillMode.Alternate;
 
+        /// <summary>
+        /// this node belong the layer.
+        /// </summary>
         protected PLayer m_layer;
 
+        /// <summary>
+        /// PathwayView managed this Node.
+        /// </summary>
         protected PathwayView m_pathwayView;
 
+        /// <summary>
+        /// GraphicsPath.
+        /// </summary>
         protected GraphicsPath path;
+
+        /// <summary>
+        /// GraphicsPath for resize.
+        /// </summary>
         [NonSerialized]
         protected GraphicsPath resizePath;
+
+        /// <summary>
+        /// Pen written this node.
+        /// </summary>
         [NonSerialized]
         protected Pen pen;
+
+        /// <summary>
+        /// the flag whether bound from path.
+        /// </summary>
         [NonSerialized]
         protected bool updatingBoundsFromPath;
+
+        /// <summary>
+        /// mode to pick this node.
+        /// </summary>
         protected PathPickMode pickMode = PathPickMode.Fast;
+
+        /// <summary>
+        /// For memorizing a position before the start of a dragging.
+        /// When the dragging failed, this object will be returned to this position.
+        /// </summary>
+        protected float m_originalX = 0;
+
+        /// <summary>
+        /// For memorizing a position before the start of a dragging.
+        /// When the dragging failed, this object will be returned to this position.
+        /// </summary>
+        protected float m_originalY = 0;
+
+        /// <summary>
+        /// For memorizing a position before the start of a dragging.
+        /// When the dragging failed, this object will be returned to this position.
+        /// </summary>
+        protected float m_originalOffsetX = 0;
+
+        /// <summary>
+        /// For memorizing a position before the start of a dragging.
+        /// When the dragging failed, this object will be returned to this position.
+        /// </summary>
+        protected float m_originalOffsetY = 0;
+
+        /// <summary>
+        /// Whether this node is showing ID or not.
+        /// </summary>
+        protected bool m_showingId;
+
+        /// <summary>
+        /// Canvas ID.
+        /// </summary>
+        protected string m_canvasID;
+
+        /// <summary>
+        /// Parent object. Maybe PEcellSystem.
+        /// </summary>
+        protected PPathwayObject m_parentObject;
+        /// <summary>
+        /// ResourceManager for PathwayWindow.
+        /// </summary>
+        protected ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+
         #endregion
 
         #region Accessors
-        public EcellObject ECellObject
+        /// <summary>
+        /// Accessor for EcellObject.
+        /// </summary>
+        public EcellObject EcellObject
         {
             get { return this.m_ecellObj; }
-            set { this.m_ecellObj = value; }
+            set
+            {
+                this.m_ecellObj = value;
+                if (m_ecellObj.IsPosSet)
+                {
+                    base.X = m_ecellObj.X;
+                    base.Y = m_ecellObj.Y;
+                    base.Width = m_ecellObj.Width;
+                    base.Height = m_ecellObj.Height;
+                    base.OffsetX = m_ecellObj.OffsetX;
+                    base.OffsetY = m_ecellObj.OffsetY;
+                }
+                else
+                {
+                    m_ecellObj.X = base.X;
+                    m_ecellObj.Y = base.Y;
+                    m_ecellObj.Width = base.Width;
+                    m_ecellObj.Height = base.Height;
+                    m_ecellObj.OffsetX = base.OffsetX;
+                    m_ecellObj.OffsetY = base.OffsetY;
+                }
+                RefreshText();
+            }
         }
+        /// <summary>
+        /// Accessor for X coordinate.
+        /// </summary>
+        public PointF PointF
+        {
+            get { return new PointF(this.X, this.Y); }
+            set
+            {
+                this.X = value.X;
+                this.Y = value.Y;
+            }
+        }
+        /// <summary>
+        /// Accessor for X coordinate.
+        /// </summary>
+        public override float X
+        {
+            get { return base.X; }
+            set
+            {
+                base.X = value;
+                if (EcellObject != null)
+                    EcellObject.X = value;
+            }
+        }
+        /// <summary>
+        /// Accessor for Y coordinate.
+        /// </summary>
+        public override float Y
+        {
+            get { return base.Y; }
+            set
+            {
+                base.Y = value;
+                if (EcellObject != null)
+                    EcellObject.Y = value;
+            }
+        }
+        /// <summary>
+        /// Accessor for OffsetX coordinate.
+        /// </summary>
+        public override float OffsetX
+        {
+            get { return base.OffsetX; }
+            set
+            {
+                base.OffsetX = value;
+                if (EcellObject != null)
+                    EcellObject.OffsetX = value;
+            }
+        }
+        /// <summary>
+        /// Accessor for OffsetY coordinate.
+        /// </summary>
+        public override float OffsetY
+        {
+            get { return base.OffsetY; }
+            set
+            {
+                base.OffsetY = value;
+                if (EcellObject != null)
+                    EcellObject.OffsetY = value;
+            }
+        }
+        /// <summary>
+        /// Accessor for OffsetY coordinate.
+        /// </summary>
+        public override float Width
+        {
+            get { return base.Width; }
+            set
+            {
+                base.Width = value;
+                if (EcellObject != null)
+                    EcellObject.Width = value;
+            }
+        }
+        /// <summary>
+        /// Accessor for OffsetY coordinate.
+        /// </summary>
+        public override float Height
+        {
+            get { return base.Height; }
+            set
+            {
+                base.Height = value;
+                if (EcellObject != null)
+                    EcellObject.Height = value;
+            }
+        }
+
+        /// <summary>
+        /// Accessor for m_canvasId.
+        /// </summary>
+        public string CanvasID
+        {
+            get { return m_canvasID; }
+            set { m_canvasID = value; }
+        }
+        /// <summary>
+        /// Accessor for coordinate in PCanvas.
+        /// </summary>
+        public PointF CanvasPosition
+        {
+            get
+            {
+                PNode dummyParent = null;
+                PointF canPos = new PointF(this.X, this.Y);
+                do
+                {
+                    if (dummyParent == null)
+                        dummyParent = this.Parent;
+                    else
+                        dummyParent = dummyParent.Parent;
+                    canPos.X += dummyParent.OffsetX;
+                    canPos.Y += dummyParent.OffsetY;
+                } while (dummyParent != this.Root);
+                return canPos;
+            }
+        }
+        /// <summary>
+        /// Accessor for m_setting.
+        /// </summary>
+        public ComponentSetting Setting
+        {
+            get { return this.m_setting; }
+            set { this.m_setting = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_name.
+        /// </summary>
         public string Name
         {
             get { return this.m_name; }
             set { this.m_name = value; }
+        }
+        /// <summary>
+        /// Accessor for Text.
+        /// </summary>
+        public PText Text
+        {
+            get
+            {
+                RefreshText();
+                return m_pText;
+            }
         }
         /// <summary>
         /// Accessor for m_normalBrush.
@@ -136,7 +456,7 @@ namespace EcellLib.PathwayWindow
         public Brush NormalBrush
         {
             get { return this.m_normalBrush; }
-            set{ this.m_normalBrush = value; }
+            set { this.m_normalBrush = value; }
         }
         /// <summary>
         /// Accessor for m_highLightBrush.
@@ -147,7 +467,7 @@ namespace EcellLib.PathwayWindow
             set { this.m_highLightBrush = value; }
         }
         /// <summary>
-        /// Accessor for m_isighLighted.
+        /// Accessor for m_isHighLighted.
         /// </summary>
         public virtual bool IsHighLighted
         {
@@ -161,61 +481,147 @@ namespace EcellLib.PathwayWindow
                     this.Brush = m_normalBrush;
             }
         }
+        
+        /// <summary>
+        /// Accessor for m_isInvalid.
+        /// </summary>
+        public virtual bool IsInvalid
+        {
+            get { return this.m_isInvalid; }
+            set { this.m_isInvalid = value; }
+        }
+        /// <summary>
+        /// Accessor for m_layer.
+        /// </summary>
         public virtual PLayer Layer
         {
             get { return this.m_layer; }
             set { this.m_layer = value; }
         }
+        /// <summary>
+        /// Accessor for m_pathwayView.
+        /// </summary>
         public virtual PathwayView PathwayView
         {
             get { return this.m_pathwayView; }
             set { this.m_pathwayView = value; }
         }
+        /// <summary>
+        /// Accessor for m_csId.
+        /// </summary>
         public virtual string CsID
         {
             get { return this.m_csId; }
             set { this.m_csId = value; }
         }
-        public virtual List<PPathwayObject> ChildObjectList
-        {
-            get
-            {
-                List<PPathwayObject> returnList =  new List<PPathwayObject>();
-                
-                foreach(PNode node in ChildrenReference)
-                {
-                    if (node is PPathwayObject)
-                        returnList.Add((PPathwayObject)node);
-                }
-                return returnList;
-            }
-        }
-        public virtual CanvasViewComponentSet CanvasViewComponentSet
+        /// <summary>
+        /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
+        /// </summary>
+        public virtual CanvasView CanvasView
         {
             get { return m_set; }
             set { m_set = value; }
         }
+        /// <summary>
+        /// Accessor for m_parentObject.
+        /// </summary>
+        public virtual PPathwayObject ParentObject
+        {
+            get { return m_parentObject; }
+            set { m_parentObject = value; }
+        }
+
+        /// <summary>
+        /// get the position of center for the text.
+        /// </summary>
+        public float TextCenterX
+        {
+            get
+            {
+                return this.EcellObject.CenterX;
+            }
+        }
+
+        /// <summary>
+        /// get the position of center for the text.
+        /// </summary>
+        public float TextCenterY
+        {
+            get
+            {
+                return this.EcellObject.CenterY;
+            }
+        }
+
         #endregion
 
-        #region Enums
+        #region Constructor
         /// <summary>
-        /// Represents the types of picking modes for a PProcess object.
+        /// Constructor
         /// </summary>
-        public enum PathPickMode
+        public PPathwayObject()
         {
-            /// <summary>
-            /// Faster Picking.  Paths are picked in local coordinates.
-            /// </summary>
-            Fast,
-
-            /// <summary>
-            /// Slower and more accurate picking.  Paths are picked in canvas
-            /// coordinates.
-            /// </summary>
-            Accurate
+            pen = DEFAULT_PEN;
+            path = new GraphicsPath();
+            m_pText = new PText();
+            m_pText.Pickable = false;
+            m_pText.Font = new Font("Gothics", m_nodeTextFontSize, System.Drawing.FontStyle.Bold);
+            this.AddChild(m_pText);
         }
         #endregion
-        
+
+        #region Abstract Methods
+        /// <summary>
+        /// Delete
+        /// </summary>
+        public abstract void Delete();
+        /// <summary>
+        /// Highlighted
+        /// </summary>
+        /// <param name="highlight"></param>
+        /// <returns></returns>
+        public abstract bool HighLighted(bool highlight);
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        public abstract void Initialize();
+        /// <summary>
+        /// DataChanged
+        /// </summary>
+        /// <param name="ecellObj"></param>
+        public abstract void DataChanged(EcellObject ecellObj);
+        /// <summary>
+        /// DataDeleted
+        /// </summary>
+        public abstract void DataDeleted();
+        /// <summary>
+        /// SelectChanged
+        /// </summary>
+        public abstract void SelectChanged();
+        /// <summary>
+        /// Start
+        /// </summary>
+        public abstract void Start();
+        /// <summary>
+        /// Change
+        /// </summary>
+        public abstract void Change();
+        /// <summary>
+        /// Stop
+        /// </summary>
+        public abstract void Stop();
+        /// <summary>
+        /// End
+        /// </summary>
+        public abstract void End();
+
+        /// <summary>
+        /// Create new instance of this object.
+        /// </summary>
+        /// <returns></returns>
+        public abstract PPathwayObject CreateNewObject();
+        #endregion
+
         #region Pen
         //****************************************************************
         // Pen - Methods for changing the pen used when rendering the
@@ -257,7 +663,7 @@ namespace EcellLib.PathwayWindow
                 FirePropertyChangedEvent(PROPERTY_KEY_PEN, PROPERTY_CODE_PEN, old, pen);
             }
         }
-                #endregion
+        #endregion
 
         #region Picking Mode
         /// <summary>
@@ -372,7 +778,7 @@ namespace EcellLib.PathwayWindow
         /// <para>
         /// <b>Performance Note</b>:  For some paths, this method can be very slow.  This is due
         /// to the implementation of IsVisible.  The problem usually occurs when many lines are
-        /// joined at very steep angles.  See <see cref="PProcess">PProcess Overview</see> for workarounds.
+        /// joined at very steep angles.  See <see cref="PEcellProcess">PProcess Overview</see> for workarounds.
         /// </para>
         /// </remarks>
         /// <param name="bounds">The rectangle to check for intersection.</param>
@@ -413,7 +819,7 @@ namespace EcellLib.PathwayWindow
         /// <para>
         /// <b>Performance Note</b>:  For some paths, this method can be very slow.  This is due
         /// to the implementation of IsVisible.  The problem usually occurs when many lines are
-        /// joined at very steep angles.  See <see cref="PProcess">PProcess Overview</see> for workarounds.
+        /// joined at very steep angles.  See <see cref="PEcellProcess">PProcess Overview</see> for workarounds.
         /// </para>
         /// </remarks>
         /// <param name="bounds">The rectangle to check for intersection.</param>
@@ -501,14 +907,6 @@ namespace EcellLib.PathwayWindow
             updatingBoundsFromPath = false;
         }
         #endregion
-
-        #region Constructor
-        public PPathwayObject()
-        {
-            pen = DEFAULT_PEN;
-            path = new GraphicsPath();
-        }
-        #endregion
         
         #region Painting
         //****************************************************************
@@ -532,14 +930,6 @@ namespace EcellLib.PathwayWindow
             {
                 g.DrawPath(pen, path);
             }
-
-            //g.DrawString("X=" + this.X + "\nY=" + this.Y + "\nOffset=" + this.Offset, new Font("Arial", 6), new SolidBrush(Color.Black), new Point((int)(this.bounds.X + 5), (int)(this.bounds.Y + 10)));
-
-        }
-
-        protected override void PaintAfterChildren(PPaintContext paintContext)
-        {
-            base.PaintAfterChildren(paintContext);
         }
         #endregion
 
@@ -590,7 +980,19 @@ namespace EcellLib.PathwayWindow
                 InvalidatePaint();
             }
         }
-
+        /// <summary>
+        /// get/set whether is shown ID.
+        /// </summary>
+        public bool ShowingID
+        {
+            get { return m_showingId; }
+            set { m_showingId = value;
+                if (m_showingId)
+                    m_pText.Visible = true;
+                else
+                    m_pText.Visible = false;
+            }
+        }
         /// <summary>
         /// See <see cref="GraphicsPath.PathData">GraphicsPath.PathData</see>.
         /// </summary>
@@ -607,6 +1009,19 @@ namespace EcellLib.PathwayWindow
             get { return path.PointCount; }
         }
 
+        /// <summary>
+        /// acessor for a rectangle of this system.
+        /// </summary>
+        public virtual RectangleF Rect
+        {
+            get
+            {
+                return new RectangleF(base.X + this.OffsetX,
+                                      base.Y + this.OffsetY,
+                                      base.Width,
+                                      base.Height);
+            }
+        }
         /// <summary>
         /// See <see cref="GraphicsPath.AddArc(float, float, float, float, float, float)">
         /// GraphicsPath.AddArc</see>.
@@ -742,9 +1157,114 @@ namespace EcellLib.PathwayWindow
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
+
+        /// <summary>
+        /// Cancel offsets of this object's all parent.
+        /// </summary>
+        public virtual void CancelAllParentOffsets()
+        {
+            PNode dummyParent = null;
+            do
+            {
+                if (dummyParent == null)
+                    dummyParent = this.Parent;
+                else
+                    dummyParent = dummyParent.Parent;
+                this.X += dummyParent.OffsetX;
+                this.Y += dummyParent.OffsetY;
+                
+            }while(dummyParent != this.Root);
+        }
+
         #endregion
 
+        #region Messaging between subclasses
+
+        /// <summary>
+        /// Notify children about movement.
+        /// </summary>
+        public virtual void NotifyMovement()
+        {
+            PNodeList children = new PNodeList(this.ChildrenReference);
+            foreach(PNode child in children)
+            {
+                if (!(child is PPathwayObject))
+                    continue;
+                ((PPathwayObject)child).NotifyMovement();
+            }
+        }
+        #endregion
+
+        #region Virtual Methods
+        /// <summary>
+        /// Memorize a current position for returning to this position in the future in neccessary.
+        /// </summary>
+        public virtual void MemorizeCurrentPosition()
+        {
+        }
+
+        /// <summary>
+        /// Return to memorized position.
+        /// </summary>
+        public virtual void ReturnToMemorizedPosition()
+        {
+        }
+
+        /// <summary>
+        /// Refresh graphical contents of this object.
+        /// ex) Edges of a process can be refreshed by using this.
+        /// </summary>
+        public virtual void Refresh()
+        {
+            base.X = this.m_originalX;
+            base.Y = this.m_originalY;
+            base.OffsetX = this.m_originalOffsetX;
+            base.OffsetY = this.m_originalOffsetY;
+            RefreshText();
+        }
+        /// <summary>
+        /// Refresh Text contents of this object.
+        /// </summary>
+        public virtual void RefreshText()
+        {
+            this.m_pText.Text = this.EcellObject.Text;
+            this.m_pText.CenterBoundsOnPoint(TextCenterX, TextCenterY);
+            this.m_pText.MoveToFront();           
+        }
         
+        /// <summary>
+        /// start to move this Node by drag.
+        /// </summary>
+        public virtual void MoveStart()
+        {
+        }
+
+        /// <summary>
+        /// end to move this Node by drag.
+        /// </summary>
+        public virtual void MoveEnd()
+        {
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Make this object freezed.
+        /// </summary>
+        public virtual void Freeze()
+        {
+            m_isPickableBeforeFreeze = this.Pickable;
+            this.Pickable = false;
+        }
+
+        /// <summary>
+        /// Reset freeze status.
+        /// </summary>
+        public virtual void Unfreeze()
+        {
+            this.Pickable = m_isPickableBeforeFreeze;
+        }
+        #endregion
 
         #region Serialization
         //****************************************************************
@@ -753,24 +1273,6 @@ namespace EcellLib.PathwayWindow
         // (using GetObjectData) serialized by someone else will be restored
         // when the node is deserialized.
         //****************************************************************
-
-        /// <summary>
-        /// Read this PProcess and all of its descendent nodes from the given SerializationInfo.
-        /// </summary>
-        /// <param name="info">The SerializationInfo to read from.</param>
-        /// <param name="context">The StreamingContext of this serialization operation.</param>
-        /// <remarks>
-        /// This constructor is required for Deserialization.
-        /// </remarks>
-        /*
-        protected PProcess(SerializationInfo info, StreamingContext context)
-            :
-            base(info, context)
-        {
-
-            pen = PUtil.ReadPen(info);
-        }
-        */
         /// <summary>
         /// Write this PProcess and all of its descendent nodes to the given SerializationInfo.
         /// </summary>
