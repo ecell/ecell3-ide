@@ -318,7 +318,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// List of PPathwayNode for selected object.
         /// </summary>
-        List<PPathwayNode> m_selectedNodes = new List<PPathwayNode>();
+        List<EcellObject> m_selectedNodes = new List<EcellObject>();
 
         /// <summary>
         /// selected line
@@ -509,7 +509,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_selectedNodes.
         /// </summary>
-        public List<PPathwayNode> SelectedNodes
+        public List<EcellObject> SelectedNodes
         {
             get { return m_selectedNodes; }
         }
@@ -1578,7 +1578,7 @@ namespace EcellLib.PathwayWindow
             m_view.NotifyDataChanged(
                 system.EcellObject.key,
                 system.EcellObject.key,
-                system,
+                system.EcellObject,
                 true);
 
             system.RefreshText();
@@ -2128,46 +2128,12 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Set background color of pathway view to default color;
-        /// </summary>
-        protected void SetBackToDefault()
-        {
-            foreach (PPathwaySystem system in m_systems.Values)
-                system.BackgroundBrush = null;
-            
-            m_pathwayCanvas.BackColor = Color.White;
-        }
-
-        /// <summary>
-        /// Set background color of pathway view without given systemName to shading color
-        /// </summary>
-        /// <param name="systemName">Only this system's color remain default state.</param>
-        protected void SetShadeWithoutSystem(string systemName)
-        {
-            if (systemName != null && m_systems.ContainsKey(systemName))
-            {
-                m_pathwayCanvas.BackColor = Color.Silver;
-                m_systems[systemName].BackgroundBrush = Brushes.White;
-
-                foreach (PPathwaySystem system in m_systems.Values)
-                    if (!system.EcellObject.key.Equals(systemName))
-                        system.BackgroundBrush = Brushes.Silver;
-            }
-            else
-            {
-                m_pathwayCanvas.BackColor = Color.White;
-                foreach (PPathwaySystem system in m_systems.Values)
-                    system.BackgroundBrush = Brushes.Silver;
-            }
-        }
-
-        /// <summary>
         /// Transfer selected objects from one PEcellSystem/Layer to PEcellSystem/Layer.
         /// </summary>
         /// <param name="systemName"></param>
         public void TransferSelectedTo(string systemName)
         {
-            foreach (PPathwayNode node in SelectedNodes)
+            foreach (EcellObject node in SelectedNodes)
             {
                 TransferNodeTo(systemName, node, true, true);
             }
@@ -2182,61 +2148,33 @@ namespace EcellLib.PathwayWindow
         /// <param name="obj">transfered object</param>
         /// <param name="toBeNotified">Whether this needs to be notified or not</param>
         /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        public void TransferNodeTo(string systemName, PPathwayObject obj, bool toBeNotified, bool isAnchor)
+        public void TransferNodeTo(string systemName, EcellObject eo, bool toBeNotified, bool isAnchor)
         {
-            // The case that obj is transfered to PEcellSystem.
-            PPathwaySystem system = m_systems[systemName];
-            if (system.Layer == obj.Layer && system != obj)
-            {
-                PointF offset = system.Offset;
+            // Set new system.
+            string oldKey = eo.key;
+            eo.parentSystemID = systemName;
 
-                obj.X -= offset.X;
-                obj.Y -= offset.Y;
+            if (eo is EcellVariable)
+            {
+                PPathwayVariable var = Variables[oldKey];
+                m_variables.Remove(oldKey);
+                m_variables.Add(eo.key, var);
+            }
+            else if (eo is EcellProcess)
+            {
+                PPathwayProcess pro = Processes[oldKey];
+                m_processes.Remove(oldKey);
+                m_processes.Add(eo.key, pro);
+            }
+            if (toBeNotified)
+            {
+                m_view.NotifyDataChanged(
+                    oldKey,
+                    eo.key,
+                    eo,
+                    isAnchor);
+            }
 
-                system.AddChild(obj);
-                if (obj is PPathwayNode)
-                {
-                    ((PPathwayNode)obj).ParentObject = system;
-                }
-            }
-            if (obj is PPathwayVariable)
-            {
-                PPathwayVariable var = (PPathwayVariable)obj;
-                m_variables.Remove(var.EcellObject.key);
-                string newKey = systemName + ":" + PathUtil.RemovePath(var.EcellObject.key);
-                string oldKey = var.EcellObject.key;
-                var.EcellObject.key = newKey;
-                m_variables.Add(var.EcellObject.key, var);
-                //if (!oldKey.Equals(newKey))
-                if (toBeNotified)
-                {
-                    m_view.NotifyDataChanged(
-                        oldKey,
-                        newKey,
-                        obj,
-                        isAnchor);
-                }
-                var.Refresh();
-            }
-            else if (obj is PPathwayProcess)
-            {
-                PPathwayProcess pro = (PPathwayProcess)obj;
-                m_processes.Remove(pro.EcellObject.key);
-                string newKey = systemName + ":" + PathUtil.RemovePath(pro.EcellObject.key);
-                string oldKey = pro.EcellObject.key;
-                pro.EcellObject.key = newKey;
-                m_processes.Add(pro.EcellObject.key, pro);
-                //if (!oldKey.Equals(newKey))
-                if (toBeNotified)
-                {
-                    m_view.NotifyDataChanged(
-                        oldKey,
-                        newKey,
-                        obj,
-                        isAnchor);
-                }
-                pro.Refresh();
-            }
         }
 
 
@@ -2288,7 +2226,7 @@ namespace EcellLib.PathwayWindow
                     m_view.NotifyDataChanged(
                         oldKey,
                         newKey,
-                        obj,
+                        obj.EcellObject,
                         isAnchor);
             }
             else if (obj is PPathwayProcess)
@@ -2304,7 +2242,7 @@ namespace EcellLib.PathwayWindow
                     m_view.NotifyDataChanged(
                         oldKey,
                         newKey,
-                        obj,
+                        obj.EcellObject,
                         isAnchor);
             }
         }
@@ -2337,7 +2275,7 @@ namespace EcellLib.PathwayWindow
                 m_view.NotifyDataChanged(
                     oldKey,
                     newKey,
-                    system,
+                    system.EcellObject,
                     true);
             }
 
@@ -2676,6 +2614,16 @@ namespace EcellLib.PathwayWindow
                 return false;
         }
         /// <summary>
+        /// Get a temporary key of EcellObject.
+        /// </summary>
+        /// <param name="type">The data type of EcellObject.</param>
+        /// <param name="key">The ID of parent system.</param>
+        /// <returns>"TemporaryID"</returns> 
+        public string GetTemporaryID(string type, string systemID)
+        {
+            return this.PathwayView.Window.GetTemporaryID(type, systemID);
+        }
+        /// <summary>
         /// Return a system which surrounds a given point.
         /// If more than one system surround a given point, smallest system will be returned.
         /// </summary>
@@ -2732,13 +2680,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="toBeNotified">Whether selection must be notified to Ecell-Core or not.</param>
         public void AddSelectedNode(PPathwayNode obj, bool toBeNotified)
         {
-            SelectedNodes.Add(obj);
-            foreach (PPathwayObject eachObj in SelectedNodes)
+            SelectedNodes.Add(obj.EcellObject);
+            foreach (EcellObject eo in SelectedNodes)
             {
-                eachObj.IsHighLighted = true;
+                if (toBeNotified)
+                    m_view.NotifySelectChanged(eo.key, eo.type);
             }
-            if (toBeNotified)
-                m_view.NotifySelectChanged(obj.EcellObject.key, obj.EcellObject.type);
         }
 
         /// <summary>
@@ -2887,6 +2834,22 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Get all EcellObjects of this object.
         /// </summary>
+        /// <param name="systemKey"></param>
+        /// <param name="systemKey"></param>
+        /// <returns>A list which contains all PathwayElements of this object</returns>
+        public PPathwayObject GetSelectedObject(string key, string type)
+        {
+            if (type.Equals(EcellObject.SYSTEM))
+                return Systems[key];
+            if (type.Equals(EcellObject.PROCESS))
+                return Processes[key];
+            if (type.Equals(EcellObject.VARIABLE))
+                return Variables[key];
+            return null;
+        }
+        /// <summary>
+        /// Get all EcellObjects of this object.
+        /// </summary>
         /// <returns>A list which contains all PathwayElements of this object</returns>
         public List<EcellObject> GetAllObjects()
         {
@@ -2915,10 +2878,10 @@ namespace EcellLib.PathwayWindow
         public List<EcellObject> GetNodeList()
         {
             List<EcellObject> returnList = new List<EcellObject>();
-            foreach (PPathwayProcess process in this.Processes.Values)
-                returnList.Add(process.EcellObject);
             foreach (PPathwayVariable variable in this.Variables.Values)
                 returnList.Add(variable.EcellObject);
+            foreach (PPathwayProcess process in this.Processes.Values)
+                returnList.Add(process.EcellObject);
 
             return returnList;
         }
@@ -3083,9 +3046,9 @@ namespace EcellLib.PathwayWindow
                     break;
                 case ComponentType.Variable:
                     bool isAlreadySelected = false;
-                    foreach (PPathwayNode selectNode in SelectedNodes)
+                    foreach (EcellObject selectNode in SelectedNodes)
                     {
-                        if (key.Equals(selectNode.EcellObject.key) && selectNode is PPathwayVariable)
+                        if (key.Equals(selectNode.key) && selectNode is EcellVariable)
                         {
                             isAlreadySelected = true;
                             break;
@@ -3107,9 +3070,9 @@ namespace EcellLib.PathwayWindow
                     break;
                 case ComponentType.Process:
                     bool isProAlreadySelected = false;
-                    foreach (PPathwayNode selectNode in SelectedNodes)
+                    foreach (EcellObject selectNode in SelectedNodes)
                     {
-                        if (key.Equals(selectNode.EcellObject.key) && selectNode is PPathwayProcess)
+                        if (key.Equals(selectNode.key) && selectNode is EcellProcess)
                         {
                             isProAlreadySelected = true;
                             break;
@@ -3246,14 +3209,12 @@ namespace EcellLib.PathwayWindow
                 return;
             }
             PNodeList spareList = new PNodeList();
-            foreach (PPathwayObject obj in SelectedNodes)
-            {
-                obj.IsHighLighted = false;
-            }
+            foreach (EcellObject obj in SelectedNodes)
+                GetSelectedObject(obj.key, obj.type).IsHighLighted = false;
+
             lock (this)
             {
-                if (SelectedNodes.Count != 0)
-                    SelectedNodes.RemoveRange(0, SelectedNodes.Count);
+                SelectedNodes.Clear();
             }
         }
 
@@ -3420,340 +3381,6 @@ namespace EcellLib.PathwayWindow
 
             } while (r < sys.Width || r < sys.Height);
             return newPos;
-        }
-
-        class NodeDragHandler : PDragEventHandler
-        {
-            #region Fields
-            /// <summary>
-            /// the related CanvasViewCompomnetSet.
-            /// </summary>
-            private CanvasView m_set;
-
-            /// <summary>
-            /// PComposite to move selected nodes together.
-            /// </summary>
-            private PComposite m_composite;
-
-            /// <summary>
-            /// Point, where the mouse is down.
-            /// </summary>
-            private PointF m_downPosition;
-
-            /// <summary>
-            /// dictionary of system container that key is name.
-            /// </summary>
-            private Dictionary<string, PPathwaySystem> m_dict;
-
-            /// <summary>
-            /// Edges will be refreshed every time when this process has moved by this distance.
-            /// </summary>
-            private static readonly float m_refreshDistance = 4;
-
-            /// <summary>
-            /// Whether a node is moved or not.
-            /// </summary>
-            private bool m_isMoved = false;
-
-            /// <summary>
-            /// the delta of moving.
-            /// </summary>
-            private SizeF m_movingDelta = new SizeF(0, 0);
-
-            /// <summary>
-            /// ResourceManager for PathwayWindow.
-            /// </summary>
-            ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
-
-
-            #endregion
-
-            /// <summary>
-            /// constructor with initial parameters.
-            /// </summary>
-            /// <param name="set">component set.</param>
-            /// <param name="dict">dictionary of system.</param>
-            public NodeDragHandler(CanvasView set, Dictionary<string, PPathwaySystem> dict)
-            {
-                m_set = set;
-                m_dict = dict;
-            }
-
-            /// <summary>
-            /// check whether this event is mouse event.
-            /// </summary>
-            /// <param name="e">event.</param>
-            /// <returns>mouse event is true.</returns>
-            public override bool DoesAcceptEvent(PInputEventArgs e)
-            {
-                return e.IsMouseEvent
-                   && (e.Button == MouseButtons.Left || e.IsMouseEnterOrMouseLeave);
-            }
-
-            /// <summary>
-            /// event on down the mouse button in canvas.
-            /// </summary>
-            /// <param name="sender">PathwayView.</param>
-            /// <param name="e">PInputEventArgs.</param>
-            public override void OnMouseDown(object sender, PInputEventArgs e)
-            {
-                base.OnMouseDown(sender, e);
-
-                if (e.PickedNode is PPathwayProcess)
-                    ((PPathwayProcess)e.PickedNode).RefreshEdges();
-
-                if (e.PickedNode is PPathwayNode)
-                {
-                    PPathwayNode pnode = (PPathwayNode)e.PickedNode;
-                    pnode.MemorizeCurrentPosition();
-                    pnode.CancelAllParentOffsets();
-                    m_set.ControlLayer.AddChild(pnode);
-
-                    m_downPosition = new PointF(e.Position.X, e.Position.Y);
-                    m_composite = new PComposite();
-                    m_set.ControlLayer.AddChild(m_composite);
-                    foreach (PPathwayObject obj in m_set.SelectedNodes)
-                    {
-                        if (obj != e.PickedNode)
-                        {
-                            obj.MemorizeCurrentPosition();
-                            obj.CancelAllParentOffsets();
-                            m_composite.AddChild(obj);
-                        }
-                    }
-                }
-                else if (e.PickedNode is PPathwaySystem)
-                {
-                    ((PPathwaySystem)e.PickedNode).MemorizeCurrentPosition();
-                }
-
-                e.Canvas.BackColor = Color.Silver;
-                m_set.SetBackToDefault();
-                m_set.SetShadeWithoutSystem(m_set.GetSurroundingSystemKey(e.Position));
-            }
-
-            /// <summary>
-            /// event on start to drag PNode.
-            /// </summary>
-            /// <param name="sender">PathwayView.</param>
-            /// <param name="e">PInputEventArgs.</param>
-            protected override void OnStartDrag(object sender, PInputEventArgs e)
-            {
-                base.OnStartDrag(sender, e);
-                m_isMoved = false;
-                if (e.PickedNode is PPathwaySystem)
-                {
-                    PPathwaySystem system = (PPathwaySystem)e.PickedNode;
-                }
-                e.Handled = true;
-                if (e.PickedNode.ChildrenCount != 1 || !(e.PickedNode.ChildrenReference[0] is PPathwaySystem))
-                {
-                    e.PickedNode.MoveToFront();
-                }
-            }
-
-            /// <summary>
-            /// event on drag PNode.
-            /// </summary>
-            /// <param name="sender">PathwayView.</param>
-            /// <param name="e">PInputEventArgs.</param>
-            protected override void OnDrag(object sender, PInputEventArgs e)
-            {
-                base.OnDrag(sender, e);
-                m_isMoved = true;
-                e.Canvas.BackColor = Color.Silver;
-                m_set.SetBackToDefault();
-                m_set.SetShadeWithoutSystem(m_set.GetSurroundingSystemKey(e.Position));
-                if (e.PickedNode is PPathwaySystem)
-                {
-                    PPathwaySystem picked = (PPathwaySystem)e.PickedNode;
-                    picked.Refresh();
-                    // Change color if the system overlaps other system
-                    RectangleF rectF = picked.Rect;
-                    if (m_set.DoesSystemOverlaps(picked.GlobalBounds, picked.EcellObject.key)
-                        || !m_set.IsInsideRoot(rectF))
-                        picked.IsInvalid = true;
-                    else
-                        picked.IsInvalid = false;
-                    m_set.UpdateResizeHandlePositions();
-
-                    picked.MoveStart();
-                }
-                else if (e.PickedNode is PPathwayNode)
-                {
-                    m_composite.OffsetX += e.Delta.Width;
-                    m_composite.OffsetY += e.Delta.Height;
-
-                    m_movingDelta += e.CanvasDelta;
-
-                    if ((Math.Abs(m_movingDelta.Width) + Math.Abs(m_movingDelta.Height)) > m_refreshDistance)
-                    {
-                        m_movingDelta = new SizeF(0, 0);
-                        foreach (PPathwayNode node in m_set.SelectedNodes)
-                            node.Refresh();
-                    }
-                }
-            }
-
-            /// <summary>
-            /// event on end to drag PNode in PathwayView.
-            /// </summary>
-            /// <param name="sender">Pathwayview.</param>
-            /// <param name="e">PInputEventArgs.</param>
-            protected override void OnEndDrag(object sender, PInputEventArgs e)
-            {
-                base.OnEndDrag(sender, e);
-                if (e.PickedNode is PPathwayNode)
-                {
-                    PPathwayNode pnode = (PPathwayNode)e.PickedNode;
-                    pnode.OffsetX = 0; pnode.OffsetY = 0;
-                    //PointF cp = 
-                    //    m_set.Systems[PathUtil.GetParentSystemId(pnode.Element.Key)].EcellSystems[0].SystemPos2CanvasPos(new PointF(pnode.X, pnode.Y));
-                    //pnode.X = cp.X;
-                    //pnode.Y = cp.Y;
-                    ReturnToSystem(pnode, m_downPosition, e.Position, m_isMoved);
-
-                    PNodeList togetherList = new PNodeList();
-
-                    foreach (PNode together in m_composite.ChildrenReference)
-                    {
-                        togetherList.Add(together);
-                    }
-
-                    foreach (PNode together in togetherList)
-                    {
-                        PPathwayNode ptogether = (PPathwayNode)together;
-                        ReturnToSystem(ptogether,
-                                       new PointF(ptogether.X, ptogether.Y),
-                                       new PointF(ptogether.X + m_composite.OffsetX, ptogether.Y + m_composite.OffsetY),
-                                       m_isMoved);
-                    }
-                    if (m_set.ControlLayer.ChildrenReference.Contains(m_composite))
-                    {
-                        m_set.ControlLayer.RemoveChild(m_composite);
-                        m_composite = null;
-                    }
-                }
-                else if (e.PickedNode is PPathwaySystem)
-                {
-                    PPathwaySystem picked = (PPathwaySystem)e.PickedNode;
-                    if (picked.Parent is PLayer)
-                    {
-                        m_set.PathwayView.NotifyDataChanged(
-                                        picked.EcellObject.key,
-                                        picked.EcellObject.key,
-                                        picked,
-                                        true);
-                    }
-                    else
-                    {
-                        RectangleF rectF = picked.Rect;
-
-                        if (m_set.DoesSystemOverlaps(picked.GlobalBounds, picked.EcellObject.key)
-                            || !m_set.IsInsideRoot(rectF))
-                        {
-                            picked.ReturnToMemorizedPosition();
-                            m_set.m_systems[picked.Name].Refresh();
-                            m_set.UpdateResizeHandlePositions();
-                            picked.IsInvalid = false;
-                        }
-                        else
-                        {
-                            string oldSystemName = ((PPathwaySystem)e.PickedNode).Name;
-                            string surSys = m_set.GetSurroundingSystemKey(e.Position, oldSystemName);
-                            string newSys = null;
-                            if (surSys.Equals("/"))
-                                newSys = "/" + PathUtil.RemovePath(oldSystemName);
-                            else
-                                newSys = surSys + "/" + PathUtil.RemovePath(oldSystemName);
-                            if (!oldSystemName.Equals(newSys) && m_set.Systems.ContainsKey(newSys))
-                            {
-                                MessageBox.Show(newSys + m_resources.GetString("ErrAlrExist"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                picked.ReturnToMemorizedPosition();
-                                m_set.m_systems[picked.Name].Refresh();
-                                m_set.UpdateResizeHandlePositions();
-                                picked.IsInvalid = false;
-                            }
-                            else
-                            {
-                                if (surSys == null || !surSys.Equals(PathUtil.GetParentSystemId(oldSystemName)))
-                                    m_set.TransferSystemTo(surSys, oldSystemName, true);
-                                else
-                                {
-                                    m_set.PathwayView.NotifyDataChanged(
-                                        oldSystemName,
-                                        oldSystemName,
-                                        picked,
-                                        true);
-                                }
-
-                            }
-                        }
-                    }
-                }
-                m_set.SetBackToDefault();
-                m_set.UpdateOverview();
-                if (e.PickedNode is PPathwaySystem)
-                {
-                    PPathwaySystem picked = (PPathwaySystem)e.PickedNode;
-                    picked.MoveEnd();
-                }
-            }
-
-            private void ReturnToSystem(PPathwayNode node, PointF oldPosition, PointF newPosition, bool toBeNotified)
-            {
-                string oldSystem = PathUtil.GetParentSystemId(((PPathwayNode)node).EcellObject.key);
-
-                if (m_set.GetSurroundingSystemKey(newPosition) != null)
-                {
-                    string newSystem = m_set.GetSurroundingSystemKey(newPosition);
-
-                    node.X += newPosition.X - oldPosition.X;
-                    node.Y += newPosition.Y - oldPosition.Y;
-
-                    if (newSystem.Equals(oldSystem))
-                    {
-                        m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), (PPathwayObject)node, toBeNotified, true);
-                    }
-                    else if (node is PPathwayVariable)
-                    {
-                        string nodeName = PathUtil.RemovePath(((PPathwayVariable)node).EcellObject.key);
-                        if (m_set.Variables.ContainsKey(newSystem + ":" + nodeName))
-                        {
-                            ((PPathwayNode)node).ParentObject.AddChild(node);
-                            ((PPathwayNode)node).ReturnToMemorizedPosition();
-                            MessageBox.Show(nodeName + m_resources.GetString("ErrAlrExist"),
-                                            "Error", MessageBoxButtons.OK,
-                                            MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), (PPathwayObject)node, toBeNotified, true);
-                        }
-                    }
-                    else if (node is PPathwayProcess)
-                    {
-                        string nodeName = PathUtil.RemovePath(((PPathwayProcess)node).EcellObject.key);
-                        if (m_set.Processes.ContainsKey(newSystem + ":" + nodeName))
-                        {
-                            ((PPathwayNode)node).ParentObject.AddChild(node);
-                            ((PPathwayNode)node).ReturnToMemorizedPosition();
-                            MessageBox.Show(nodeName + m_resources.GetString("ErrAlrExist"),
-                                            "Error", MessageBoxButtons.OK,
-                                            MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), (PPathwayObject)node, toBeNotified, true);
-                        }
-                    }
-                }
-                else
-                {
-                    m_set.TransferNodeTo(oldSystem, (PPathwayObject)node, toBeNotified, true);
-                    ((PPathwayNode)node).ReturnToMemorizedPosition();
-                }
-            }
         }
     }
     #region Enums

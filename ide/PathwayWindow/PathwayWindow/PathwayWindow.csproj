@@ -102,11 +102,9 @@
     <Compile Include="Figure\Rectangle.cs" />
     <Compile Include="GridLayout.cs" />
     <Compile Include="Handler\NamespaceDoc.cs" />
+    <Compile Include="Handler\NodeDragHandler.cs" />
     <Compile Include="Handler\PPathwayZoomEventHandler.cs" />
     <Compile Include="Handle.cs" />
-    <Compile Include="ILayoutAlgorithm.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="MessageResPathway.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -1352,20 +1352,13 @@ namespace EcellLib.PathwayWindow
                 dic = m_keyProCanvasDict;
             else
                 return;
-            if(dic.ContainsKey(oldKey))
-            {
-                string canvasId = dic[oldKey];
-                dic.Remove(oldKey);
-                dic.Add(newKey, canvasId);
-                EcellObject eo = obj.EcellObject;
-                eo.X = obj.X;
-                eo.Y = obj.Y;
-                eo.OffsetX = obj.OffsetX;
-                eo.OffsetY = obj.OffsetY;
-                eo.Width = obj.Width;
-                eo.Height = obj.Height;
-                m_pathwayWindow.NotifyDataChanged(oldKey, newKey, eo, isAnchor);
-            }
+            if (!dic.ContainsKey(oldKey))
+                return;
+            string canvasId = dic[oldKey];
+            dic.Remove(oldKey);
+            dic.Add(newKey, canvasId);
+
+            m_pathwayWindow.NotifyDataChanged(oldKey, newKey, obj.EcellObject, isAnchor);
         }
 
         /// <summary>
@@ -1566,86 +1559,6 @@ namespace EcellLib.PathwayWindow
             }
         }
 
-        /// <summary>
-        /// Collects all PathwayElements, currently displayed in this pathway window
-        /// </summary>
-        /// <returns>all PathwayElements on this pathway window</returns>
-        public List<EcellObject> GetAllObjects()
-        {
-            List<EcellObject> returnList = new List<EcellObject>();
-            if (ActiveCanvas == null)
-                return returnList;
-
-            returnList.AddRange(ActiveCanvas.GetAllObjects());
-            return returnList;
-        }
-
-        /// <summary>
-        /// Get keys of objects under a system.
-        /// </summary>
-        /// <param name="systemKey"></param>
-        /// <returns></returns>
-        public List<UniqueKey> GetKeysUnderSystem(string systemKey)
-        {
-            List<UniqueKey> returnList = new List<UniqueKey>();
-
-            if (null == systemKey)
-                return returnList;
-
-            foreach (string key in m_keySysCanvasDict.Keys)            
-                if (PathUtil.IsUnder(systemKey, key))
-                    returnList.Add(new UniqueKey(ComponentType.System, key));
-            
-            foreach (string key in m_keyVarCanvasDict.Keys)
-                if (PathUtil.IsUnder(systemKey, key))
-                    returnList.Add(new UniqueKey(ComponentType.Variable, key));
-
-            foreach (string key in m_keyProCanvasDict.Keys)
-                if (PathUtil.IsUnder(systemKey, key))
-                    returnList.Add(new UniqueKey(ComponentType.Process, key));
-            return returnList;
-        }
-
-        /// <summary>
-        /// Layout selected nodes on the currently active canvas.
-        /// </summary>
-        /// <param name="algorithm"></param>
-        /// <param name="commandNum"></param>
-        public void LayoutSelected(ILayoutAlgorithm algorithm, int commandNum)
-        {
-            // No nodes are selected, so exit.
-            if (this.ActiveCanvas.SelectedNodes.Count == 0 || algorithm == null)
-            {
-                ComponentResourceManager crm = new ComponentResourceManager(typeof(MessageResPathway));
-                MessageBox.Show(crm.GetString("MsgLayoutNoNode"),
-                                "Layout Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
-                return;
-            }
-            foreach (PPathwayNode node in this.ActiveCanvas.SelectedNodes)
-                node.EcellObject.isFixed = EcellObject.Fixed;
-
-            List<EcellObject> systemList = this.ActiveCanvas.GetSystemList();
-            List<EcellObject> nodeList = this.ActiveCanvas.GetNodeList();
-
-            if ( algorithm.DoLayout(commandNum, false, systemList, nodeList) )
-            {
-                foreach (EcellObject system in systemList)
-                    this.ActiveCanvas.Systems[system.key].EcellObject = (EcellSystem)system;
-
-                foreach (EcellObject node in nodeList)
-                {
-                    if (node is EcellProcess)
-                        this.ActiveCanvas.Processes[node.key].EcellObject = (EcellProcess)node;
-                    else
-                        this.ActiveCanvas.Variables[node.key].EcellObject = (EcellVariable)node;
-                }
-            }
-            
-            foreach (EcellObject obj in this.ActiveCanvas.GetAllObjects())
-                obj.isFixed = EcellObject.NotFixed;
-        }
         #region EventHandler
         /// <summary>
         /// Called when UserControl is resized.
@@ -1902,17 +1815,17 @@ namespace EcellLib.PathwayWindow
             }
         }
 
-        private List<EcellObject> SetCopyNodes(List<PPathwayNode> nodeList)
+        private List<EcellObject> SetCopyNodes(List<EcellObject> nodeList)
         {
             List<EcellObject> copyNodes = new List<EcellObject>();
             //Copy Variavles
-            foreach (PPathwayNode node in nodeList)
-                if (node is PPathwayVariable)
-                    copyNodes.Add(node.EcellObject.Copy());
+            foreach (EcellObject node in nodeList)
+                if (node is EcellVariable)
+                    copyNodes.Add(node.Copy());
             //Copy Processes
-            foreach (PPathwayNode node in nodeList)
-                if (node is PPathwayProcess)
-                    copyNodes.Add(node.EcellObject.Copy());
+            foreach (EcellObject node in nodeList)
+                if (node is EcellProcess)
+                    copyNodes.Add(node.Copy());
             return copyNodes;
         }
 
@@ -1995,29 +1908,25 @@ namespace EcellLib.PathwayWindow
             // Delete Selected Nodes
             if (this.ActiveCanvas.SelectedNodes != null)
             {
-                List<PPathwayNode> slist = new List<PPathwayNode>();
-                foreach (PPathwayNode t in this.ActiveCanvas.SelectedNodes)
-                {
+                List<EcellObject> slist = new List<EcellObject>();
+                foreach (EcellObject t in this.ActiveCanvas.SelectedNodes)
                     slist.Add(t);
-                }
 
                 int i = 0;
-                foreach (PPathwayNode deleteNode in slist)
+                foreach (EcellObject deleteNode in slist)
                 {
                     i++;
                     bool isAnchor = (i == slist.Count);
                     try
                     {
-                        NotifyDataDelete(deleteNode.EcellObject.key,
-                                                        ComponentSetting.ParseComponentKind(deleteNode.EcellObject.type),
-                                                        isAnchor);
+                        NotifyDataDelete(deleteNode.key,
+                                         ComponentSetting.ParseComponentKind(deleteNode.type),
+                                         isAnchor);
                     }
                     catch (IgnoreException)
                     {
                         return;
                     }
-                    if (deleteNode.Parent != null)
-                        deleteNode.Parent.RemoveChild(deleteNode);
                 }
             }
             // Delete Selected System

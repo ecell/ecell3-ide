@@ -245,12 +245,8 @@ namespace EcellLib.PathwayWindow
                     return;
                 }
 
-                List<EcellObject> tmpList = DataManager.GetDataManager().GetData(m_view.Window.ModelID, m_surSystem);
-                EcellObject m_currentObj = null;
-                if (tmpList.Count > 0) m_currentObj = tmpList[0];
-                
-                String tmpID = DataManager.GetDataManager().GetTemporaryID(m_currentObj.modelID,
-                    "System", m_currentObj.key);
+                string modelID = this.m_set.PathwayView.Window.ModelID;
+                string tmpID = m_set.GetTemporaryID("System", m_surSystem);
 
                 Dictionary<string, EcellData> dict = DataManager.GetSystemProperty();
                 List<EcellData> dataList = new List<EcellData>();
@@ -270,7 +266,7 @@ namespace EcellLib.PathwayWindow
                             newlySelectedList.Add((PPathwayObject)node);
                 }
 
-                EcellObject eo = EcellObject.CreateObject(m_currentObj.modelID, tmpID, "System", "System", dataList);
+                EcellObject eo = EcellObject.CreateObject(modelID, tmpID, "System", "System", dataList);
 
                 eo.X = m_rect.X;
                 eo.Y = m_rect.Y;

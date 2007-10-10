@@ -335,8 +335,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="isAnchor">Whether this action is anchor or not.</param>
         public void NotifyDataAdd(List<EcellObject> list, bool isAnchor)
         {
-            DataManager dm = DataManager.GetDataManager();
-            dm.DataAdd(list, true, isAnchor);
+            m_dManager.DataAdd(list, true, isAnchor);
         }
 
         /// <summary>
@@ -466,8 +465,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="isAnchor"></param>
         public void NotifyDataDelete(string key, string type, bool isAnchor)
         {
-            DataManager dm = DataManager.GetDataManager();
-            dm.DataDelete(m_modelId, key, type, true, isAnchor);
+            m_dManager.DataDelete(m_modelId, key, type, true, isAnchor);
         }
 
         /// <summary>
@@ -479,8 +477,7 @@ namespace EcellLib.PathwayWindow
         {
             try
             {
-                DataManager dm = DataManager.GetDataManager();
-                dm.SystemDeleteAndMove(m_modelId, key);
+                m_dManager.SystemDeleteAndMove(m_modelId, key);
             }
             catch (Exception ex)
             {
@@ -636,17 +633,34 @@ namespace EcellLib.PathwayWindow
 
             ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
 
+            // Check Selected nodes when the layout algorithm uses selected objects.
             if (algorithm.GetLayoutType() == LayoutType.Selected)
-            {
-                m_view.LayoutSelected(algorithm,subIdx);
-            }
-            else
-            {
-                List<EcellObject> systemList = m_view.ActiveCanvas.GetSystemList();
-                List<EcellObject> nodeList = m_view.ActiveCanvas.GetNodeList();
+                foreach (EcellObject node in this.m_view.ActiveCanvas.SelectedNodes)
+                    node.isFixed = EcellObject.Fixed;
 
+            List<EcellObject> systemList = m_view.ActiveCanvas.GetSystemList();
+            List<EcellObject> nodeList = m_view.ActiveCanvas.GetNodeList();
+
+            try
+            {
                 algorithm.DoLayout(subIdx, false, systemList, nodeList);
-                m_view.Clear();
+            }
+            catch(Exception)
+            {
+                MessageBox.Show(m_resources.GetString("ErrLayout"));
+                return;
+            }
+
+            // Set Layout.
+            foreach (EcellObject system in systemList)
+                this.m_view.ActiveCanvas.Systems[system.key].EcellObject = (EcellSystem)system;
+            foreach (EcellObject node in nodeList)
+            {
+                node.isFixed = EcellObject.NotFixed;
+                if (node is EcellProcess)
+                    this.m_view.ActiveCanvas.Processes[node.key].EcellObject = (EcellProcess)node;
+                else
+                    this.m_view.ActiveCanvas.Variables[node.key].EcellObject = (EcellVariable)node;
             }
         }
 
@@ -794,8 +808,7 @@ namespace EcellLib.PathwayWindow
                 if (isOtherModel)
                 {
                     // New model will be added.
-                    DataManager dm = DataManager.GetDataManager();
-                    string fileName = dm.GetDirPath(modelId) + "\\" + modelId + ".leml";
+                    string fileName = m_dManager.GetDirPath(modelId) + "\\" + modelId + ".leml";
                     
                     if (File.Exists(fileName))
                     {
@@ -1060,6 +1073,16 @@ namespace EcellLib.PathwayWindow
         public string GetPluginName()
         {
             return "PathwayWindow";
+        }
+        /// <summary>
+        /// Get a temporary key of EcellObject.
+        /// </summary>
+        /// <param name="type">The data type of EcellObject.</param>
+        /// <param name="key">The ID of parent system.</param>
+        /// <returns>"TemporaryID"</returns> 
+        public string GetTemporaryID(string type, string systemID)
+        {
+            return m_dManager.GetTemporaryID(this.ModelID, type, systemID);
         }
 
         /// <summary>

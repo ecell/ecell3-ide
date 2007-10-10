@@ -278,7 +278,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             if (obj.EcellObject == null || obj.EcellObject.modelID == null)
                 return;
 
-            EcellObject ecellobj = DataManager.GetDataManager().GetEcellObject(obj.EcellObject.modelID, obj.EcellObject.key, obj.EcellObject.type);
+            EcellObject ecellobj = obj.EcellObject;
             if (ecellobj == null)
                 return;
             // set logger menu
