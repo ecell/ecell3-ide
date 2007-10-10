@@ -31,8 +31,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using EcellLib.PathwayWindow;
-using EcellLib.PathwayWindow.Element;
 using System.ComponentModel;
 
 namespace EcellLib.DistributeLayout
@@ -108,122 +106,6 @@ namespace EcellLib.DistributeLayout
                     return Direction.Horizontally;
                 case 1:
                     return Direction.Vertically;
-            }
-        }
-        /// <summary>
-        /// Execute layout.
-        /// </summary>
-        /// <param name="subNum">
-        /// An index of sub command which was clicked on subMenu.
-        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
-        /// If layout name itself was clicked, subCommandNum = -1.
-        /// </param>
-        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
-        /// <param name="systemElements">Systems</param>
-        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
-        /// <returns>Whether layout is completed or aborted</returns>
-        public bool DoLayout(int subNum,
-                             bool layoutSystem,
-                             List<SystemElement> systemElements,
-                             List<NodeElement> nodeElements)
-        {
-            List<NodeElement> newNodeElements = new List<NodeElement>();
-
-            foreach (NodeElement element in nodeElements)
-                if (!element.Fixed)
-                    newNodeElements.Add(element);
-
-            nodeElements = newNodeElements;
-
-            if (nodeElements.Count <= 2)
-                return false;
-
-            Direction dir = GetDirection(subNum);
-
-            bool isFirst = true;
-            float min = 0;
-            float max = 0;
-            SortedDictionary<float, List<NodeElement>> posDict = new SortedDictionary<float, List<NodeElement>>();
-
-            foreach(NodeElement nodeEle in nodeElements)
-            {
-                if (isFirst)
-                {
-                    switch (dir)
-                    {
-                        case Direction.Horizontally:
-                            min = nodeEle.X;
-                            max = nodeEle.X;
-                            this.AddIntoDictionary(posDict, nodeEle.X, nodeEle);
-                            break;
-                        case Direction.Vertically:
-                            min = nodeEle.Y;
-                            max = nodeEle.Y;
-                            this.AddIntoDictionary(posDict, nodeEle.Y, nodeEle);
-                            break;
-                    }
-
-                    isFirst = false;
-                }
-                else
-                {
-                    switch(dir)
-                    {
-                        case Direction.Horizontally:
-                            if (nodeEle.X < min)
-                                min = nodeEle.X;
-                            else if (max < nodeEle.X)
-                                max = nodeEle.X;
-                            this.AddIntoDictionary(posDict, nodeEle.X, nodeEle);
-                            break;
-                        case Direction.Vertically:
-                            if (nodeEle.Y < min)
-                                min = nodeEle.Y;
-                            else if (max < nodeEle.Y)
-                                max = nodeEle.Y;
-                            this.AddIntoDictionary(posDict, nodeEle.Y, nodeEle);
-                            break;
-                    }
-                }
-            }
-
-            float increment = (max - min) / ((float)nodeElements.Count - 1);
-
-            float count = 0;
-
-            foreach(KeyValuePair<float, List<NodeElement>> pair in posDict)
-            {
-                foreach(NodeElement node in pair.Value)
-                {
-                    switch(dir)
-                    {
-                        case Direction.Horizontally:
-                            node.X = min + increment * count;
-                            break;
-                        case Direction.Vertically:
-                            node.Y = min + increment * count;
-                            break;
-                    }
-                    count = count + 1;
-                }
-            }
-
-            return true;
-        }
-
-        private void AddIntoDictionary(SortedDictionary<float, List<NodeElement>> dict,
-                                       float posValue,
-                                       NodeElement nodeEle)
-        {
-            if (dict == null)
-                return;
-            if (dict.ContainsKey(posValue))
-                dict[posValue].Add(nodeEle);
-            else
-            {
-                List<NodeElement> newDict = new List<NodeElement>();
-                newDict.Add(nodeEle);
-                dict.Add(posValue, newDict);
             }
         }
 

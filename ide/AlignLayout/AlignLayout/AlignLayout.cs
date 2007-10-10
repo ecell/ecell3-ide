@@ -30,8 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using EcellLib.PathwayWindow;
-using EcellLib.PathwayWindow.Element;
 using System.ComponentModel;
 using System.Drawing;
 
@@ -64,108 +62,6 @@ namespace EcellLib.AlignLayout
         /// Execute layout
         /// </summary>
         private ComponentResourceManager m_crm = new ComponentResourceManager(typeof(AlignLayout));
-
-        /// <summary>
-        /// Execute layout
-        /// </summary>
-        /// <param name="subNum">
-        /// An index of sub command which was clicked on subMenu.
-        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
-        /// If layout name itself was clicked, subCommandNum = -1.
-        /// </param>
-        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
-        /// <param name="systemElements">Systems</param>
-        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
-        /// <returns>Whether layout is completed or aborted</returns>
-        public bool DoLayout(int subNum,
-                             bool layoutSystem,
-                             List<SystemElement> systemElements,
-                             List<NodeElement> nodeElements)
-        {
-            List<NodeElement> newNodeElements = new List<NodeElement>();
-
-            foreach(NodeElement element in nodeElements)
-                if (!element.Fixed)
-                    newNodeElements.Add(element);
-
-            nodeElements = newNodeElements;
-
-            if(nodeElements.Count <= 1)
-                return false;
-
-            Alignment align = GetAlignment(subNum);
-
-            bool isFirst = true;
-            float alignValue = 0; // Set all nodes X or Y to this position
-
-            // Settle alignValue
-            foreach(NodeElement node in nodeElements)
-            {
-                if(isFirst)
-                {
-                    switch (align)
-                    {
-                        case Alignment.Left:
-                            alignValue = node.X;
-                            break;
-                        case Alignment.Right:
-                            alignValue = node.X;
-                            break;
-                        case Alignment.Upper:
-                            alignValue = node.Y;
-                            break;
-                        case Alignment.Lower:
-                            alignValue = node.Y;
-                            break;
-                    }
-                    isFirst = false;
-                }
-                else
-                {
-                    switch (align)
-                    {
-                        case Alignment.Left:
-                            if (node.X < alignValue)
-                                alignValue = node.X;
-                            break;
-                        case Alignment.Right:
-                            if (alignValue < node.X)
-                                alignValue = node.X;
-                            break;
-                        case Alignment.Upper:
-                            if (node.Y < alignValue)
-                                alignValue = node.Y;
-                            break;
-                        case Alignment.Lower:
-                            if (alignValue < node.Y)
-                                alignValue = node.Y;
-                            break;
-                    }
-                }
-            }
-
-            // Set x or y coordinate to alignValue
-            foreach(NodeElement node in nodeElements)
-            {
-                switch(align)
-                {
-                    case Alignment.Left:
-                        node.X = alignValue;
-                        break;
-                    case Alignment.Right:
-                        node.X = alignValue;
-                        break;
-                    case Alignment.Upper:
-                        node.Y = alignValue;
-                        break;
-                    case Alignment.Lower:
-                        node.Y = alignValue;
-                        break;
-                }
-            }
-
-            return true;
-        }
 
         /// <summary>
         /// Execute layout

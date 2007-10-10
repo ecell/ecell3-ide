@@ -117,10 +117,6 @@ namespace EcellLib
         /// </summary>
         private float m_height;
         /// <summary>
-        /// Whether position of this object has been already set or not.
-        /// </summary>
-        private bool m_isPosSet = false;
-        /// <summary>
         /// The value
         /// </summary>
         protected List<EcellData> m_ecellDatas;
@@ -177,16 +173,23 @@ namespace EcellLib
         public string name
         {
             get {
-                if (IsEcellValueExists("Name"))
-                    return GetEcellValue("Name").ToString();
+                string name;
+                if (key == null || key.Equals("/"))
+                    name = "/";
+                else if (key.Contains(":"))
+                    name = key.Substring(key.LastIndexOf(":") + 1);
                 else
-                    return null;
-                }
-            set {
-                if (IsEcellValueExists("Name"))
-                    GetEcellValue("Name").M_value = value;
+                    name = key.Substring(key.LastIndexOf("/") + 1);
+                return name;
+            }
+            set
+            {
+                if (key == null || key.Equals("/"))
+                    this.m_key = "/";
+                else if (key.Contains(":"))
+                    this.m_key = parentSystemID + ":" + value;
                 else
-                    AddEcellValue("Name", new EcellValue(value) );
+                    this.m_key = parentSystemID + "/" + value;
             }
         }
 
@@ -205,6 +208,16 @@ namespace EcellLib
         public string parentSystemID
         {
             get { return GetParentSystemId(key); }
+            set
+            {
+                if (key == null || key.Equals("/"))
+                    this.m_key = "/";
+                else if (key.Contains(":"))
+                    this.m_key = value + ":" + name;
+                else
+                    this.m_key = value + "/" + name;
+            }
+
         }
 
         /// <summary>
@@ -214,26 +227,11 @@ namespace EcellLib
         {
             get
             {
-                string text;
-                if (key == null || key.Equals("/"))
-                    text = "/";
-                else if (key.Contains(":"))
-                    text = key.Substring(key.LastIndexOf(":") + 1);
-                else
-                    text = key.Substring(key.LastIndexOf("/") + 1);
+                string text = this.name;
                 if (IsLogger)
                     text += " *";
 
                 return text;
-            }
-            set
-            {
-                if (key == null || key.Equals("/"))
-                    this.m_key = "/";
-                else if (key.Contains(":"))
-                    this.m_key = parentSystemID + ":" + value;
-                else
-                    this.m_key = parentSystemID + "/" + value;
             }
         }
 
@@ -1699,10 +1697,6 @@ namespace EcellLib
                     text += " (SIZE:" + GetEcellValue(SIZE).ToString() +")";
                 return text;
             }
-            set
-            {
-                base.Text = value;
-            }        
         }
         #endregion
 

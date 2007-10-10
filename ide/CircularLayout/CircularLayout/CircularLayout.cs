@@ -30,8 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using EcellLib.PathwayWindow;
-using EcellLib.PathwayWindow.Element;
 using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
@@ -43,66 +41,6 @@ namespace EcellLib.CircularLayout
     /// </summary>
     public class CircularLayout : LayoutBase, ILayoutAlgorithm
     {
-        /// <summary>
-        /// Execute layout
-        /// </summary>
-        /// <param name="subNum">
-        /// An index of sub command which was clicked on subMenu.
-        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
-        /// If layout name itself was clicked, subCommandNum = -1.
-        /// </param>
-        /// <param name="layoutSystem">Whether systems should be layouted or not</param>
-        /// <param name="systemElements">Systems</param>
-        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
-        /// <returns>Whether layout is completed or aborted</returns>
-        public bool DoLayout(int subNum,
-                             bool layoutSystem,
-                             List<SystemElement> systemElements,
-                             List<NodeElement> nodeElements)
-        {
-            List<NodeElement> newNodeElements = new List<NodeElement>();
-            // A rectangle area in which all nodes to be layouted exist.
-            foreach(NodeElement element in nodeElements)
-                if (!element.Fixed)
-                    newNodeElements.Add(element);
-
-            RectangleF rect = GetSurroundingRect(newNodeElements);
-
-            // If arguments are invalid, show message and return.
-            if(!Validate(newNodeElements.Count, rect))
-                return false;
-
-            // Number of layouts to be layouted.
-            int numLayout = newNodeElements.Count;
-            
-            newNodeElements = null; // delete reference for memory usage
-
-            // first numLayout elements are NodeElements to be layouted.
-            // And rest are NodeElement which are connected with layouted nodes.
-            List<NodeElement> orderedList = GetRelatedNodes(nodeElements);
-
-            // Coordinates of the points on the circle.
-            // circlePoints[0] is the coordinates of the east point on the circle.
-            // circlePoints[1] is the coordinates of the next anticlockwise point from circlePoints[0], and so on.
-            PointF[] circlePoints = GetCirclePoints(rect, numLayout);
-
-            // Distance between the points one the circle.
-            float[] iDistance = GetInsideDistanceMatrix(circlePoints);
-
-            // Distances between the points on the circle and the points not on the circle.
-            float[,] bDistance = GetBetweenDistanceMatrix(circlePoints, orderedList);
-
-            // Relation between the points on the circle and the points not on the circle.
-            bool[,] relation = GetRelationMatrix(orderedList);
-
-            // Settle positions with which the sum of edges lengthes become shortest.
-            int[] pos = GetBestPositions(numLayout, relation, iDistance, bDistance);
-
-            // Nodes are moved, at last.
-            MoveNodeElement(pos, orderedList, circlePoints);
-
-            return true;
-        }
         /// <summary>
         /// Execute layout
         /// </summary>
@@ -144,19 +82,19 @@ namespace EcellLib.CircularLayout
 
             // first numLayout elements are NodeElements to be layouted.
             // And rest are NodeElement which are connected with layouted nodes.
-            List<EcellObject> orderedList = GetRelatedNodes(selectedList);
+            // List<EcellObject> orderedList = GetRelatedNodes(selectedList);
 
             //// Relation between the points on the circle and the points not on the circle.
-            bool[,] relation = GetRelationMatrix(orderedList);
+            bool[,] relation = GetRelationMatrix(selectedList);
 
             // Distances between the points on the circle and the points not on the circle.
-            float[,] bDistance = GetBetweenDistanceMatrix(circlePoints, orderedList);
+            float[,] bDistance = GetBetweenDistanceMatrix(circlePoints, selectedList);
 
             //// Settle positions with which the sum of edges lengthes become shortest.
             int[] pos = GetBestPositions(nodeNum, relation, iDistance, bDistance);
 
             //// Nodes are moved, at last.
-            MoveNodeElement(pos, orderedList, circlePoints);
+            MoveNodeElement(pos, selectedList, circlePoints);
 
             return true;
         }
@@ -385,39 +323,6 @@ namespace EcellLib.CircularLayout
         /// <param name="circlePoints">Coordinates of the circle points</param>
         /// <param name="nodeElements">NodeElement of points</param>
         /// <returns></returns>
-        private float[,] GetBetweenDistanceMatrix(PointF[] circlePoints, List<NodeElement> nodeElements)
-        {
-            int inP = circlePoints.Length;
-            int outP = nodeElements.Count - inP;
-
-            float[,] matrix = new float[inP, outP];
-
-            // Fill in matrix with distance.
-            int count = 0;
-            foreach (NodeElement node in nodeElements)
-            {
-                if (count >= circlePoints.Length)
-                {
-                    PointF point = new PointF(node.X, node.Y);
-
-                    for (int i = 0; i < circlePoints.Length; i++)
-                        matrix[i, count - circlePoints.Length] = PathUtil.GetDistance(point, circlePoints[i]);
-                }
-
-                count++;
-            }
-
-            return matrix;
-        }
-
-        /// <summary>
-        /// Get distance matrix between circle points and points which are not on the circle.
-        /// When m is the number of circle points, and n is the number of points no on the circle,
-        /// matrix float[m,n] will be returned.
-        /// </summary>
-        /// <param name="circlePoints">Coordinates of the circle points</param>
-        /// <param name="nodeElements">NodeElement of points</param>
-        /// <returns></returns>
         private float[,] GetBetweenDistanceMatrix(PointF[] circlePoints, List<EcellObject> nodeList)
         {
             int inP = circlePoints.Length;
@@ -434,13 +339,26 @@ namespace EcellLib.CircularLayout
                     PointF point = new PointF(node.X, node.Y);
 
                     for (int i = 0; i < circlePoints.Length; i++)
-                        matrix[i, count - circlePoints.Length] = PathUtil.GetDistance(point, circlePoints[i]);
+                        matrix[i, count - circlePoints.Length] = GetDistance(point, circlePoints[i]);
                 }
 
                 count++;
             }
 
             return matrix;
+        }
+
+        /// <summary>
+        /// Get distance between two points
+        /// </summary>
+        /// <param name="point1">point 1</param>
+        /// <param name="point2">point 2</param>
+        /// <returns>Distance between point 1 and point 2</returns>
+        public static float GetDistance(PointF point1, PointF point2)
+        {
+            double x = point2.X - point1.X;
+            double y = point2.Y - point1.Y;
+            return (float)Math.Sqrt(x * x + y * y);
         }
 
         /// <summary>
@@ -458,7 +376,8 @@ namespace EcellLib.CircularLayout
             int count = 0;
             foreach (EcellObject node in nodeList)
             {
-                varDict.Add(node.key, count);                
+                if (node is EcellVariable)
+                    varDict.Add(node.key, count);                
                 count++;
             }
 
@@ -477,51 +396,6 @@ namespace EcellLib.CircularLayout
             }
             return relationMatrix;
         }
-        /// <summary>
-        /// Get relation matrix between the nodes.
-        /// return[m,n] means whether connection exists between m'th node and n'th node of relatedNodes
-        /// </summary>
-        /// <param name="relatedNodes">Relation between these nodes will be searched.</param>
-        /// <returns>relation matrix. true if two nodes connected, false if not.</returns>
-        private bool[,] GetRelationMatrix(List<NodeElement> relatedNodes)
-        {
-            bool[,] relateMat = new bool[relatedNodes.Count, relatedNodes.Count];
-
-            // Initialize
-            for (int m = 0; m < relatedNodes.Count; m++)
-                for (int n = 0; n < relatedNodes.Count; n++)
-                    relateMat[m, n] = false;
-
-            Dictionary<string, int> varDict = new Dictionary<string, int>();
-
-            int count = 0;
-            foreach (NodeElement node in relatedNodes)
-            {
-                if (node is VariableElement)
-                    varDict.Add(node.Key, count);
-
-                count++;
-            }
-
-            count = 0;
-            foreach (NodeElement node in relatedNodes)
-            {
-                if (node is ProcessElement)
-                {
-                    foreach (string varKey in ((ProcessElement)node).Edges.Keys)
-                    {
-                        if (!string.IsNullOrEmpty(varKey) && varDict.ContainsKey(varKey))
-                        {
-                            relateMat[count, varDict[varKey]] = true;
-                            relateMat[varDict[varKey], count] = true;
-                        }
-                    }
-                }
-
-                count++;
-            }
-            return relateMat;
-        }
 
         /// <summary>
         /// Get distance array for circle points.
@@ -538,7 +412,7 @@ namespace EcellLib.CircularLayout
             {
                 if(i <= half)
                 {
-                    distMat[i] = PathUtil.GetDistance(circlePoints[0], circlePoints[i]);
+                    distMat[i] = GetDistance(circlePoints[0], circlePoints[i]);
                 }
                 else
                 {
@@ -547,68 +421,6 @@ namespace EcellLib.CircularLayout
             }
              
             return distMat;
-        }
-
-        /// <summary>
-        /// Get nodes related to layouting.
-        /// When the number of nodes is m, first m'th elements of return list contains nodes on the circle.
-        /// And the rest of the list contains nodes which are connected with nodes on the circle.
-        /// </summary>
-        /// <param name="nodeElements"></param>
-        /// <returns></returns>
-        private List<NodeElement> GetRelatedNodes(List<NodeElement> nodeElements)
-        {
-            List<NodeElement> returnNodes = new List<NodeElement>();
-
-            Dictionary<string, NodeElement> inDict = new Dictionary<string, NodeElement>();
-            Dictionary<string, NodeElement> outDict = new Dictionary<string, NodeElement>();
-
-            foreach (NodeElement node in nodeElements)
-                if (!node.Fixed)
-                {
-                    returnNodes.Add(node);
-                    if (node is VariableElement)
-                        inDict.Add(node.Key, node);
-                }
-                else if (node is VariableElement)
-                    outDict.Add(node.Key, node);
-
-            Dictionary<string, NodeElement> relatedOutDict = new Dictionary<string, NodeElement>();
-
-            foreach (NodeElement node in nodeElements)
-            {
-                if (node is ProcessElement)
-                {
-                    ProcessElement pro = (ProcessElement)node;
-
-                    if (!pro.Fixed)
-                    {
-                        foreach (string key in pro.Edges.Keys)
-                        {
-                            string unique = key + ":variable";
-                            if (outDict.ContainsKey(key) && !relatedOutDict.ContainsKey(unique))
-                            {
-                                returnNodes.Add(outDict[key]);
-                                relatedOutDict.Add(unique, outDict[key]);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (string key in pro.Edges.Keys)
-                        {
-                            string unique = pro.Key + ":process";
-                            if (inDict.ContainsKey(key) && !relatedOutDict.ContainsKey(unique))
-                            {
-                                returnNodes.Add(pro);
-                                relatedOutDict.Add(unique, pro);
-                            }
-                        }
-                    }
-                }
-            }
-
-            return returnNodes;
         }
 
         /// <summary>
@@ -671,53 +483,6 @@ namespace EcellLib.CircularLayout
             }
 
             return returnNodes;
-        }
-
-        /// <summary>
-        /// Get a rectangle surrounded by given nodes.
-        /// </summary>
-        /// <param name="nodeElements">rectangle, which will be surrounded by these nodes will be returned.</param>
-        /// <returns>surrounded rectangle</returns>
-        private RectangleF GetSurroundingRect(List<NodeElement> nodeElements)
-        {
-            float minX = nodeElements[0].X;
-            float maxX = nodeElements[0].X;
-            float minY = nodeElements[0].Y;
-            float maxY = nodeElements[0].Y;
-            foreach (NodeElement element in nodeElements)
-            {
-                if (element.X < minX)
-                    minX = element.X;
-                else if (maxX < element.X)
-                    maxX = element.X;
-                if (element.Y < minY)
-                    minY = element.Y;
-                else if (maxY < element.Y)
-                    maxY = element.Y;
-            }
-            return new RectangleF(minX, minY, maxX - minX, maxY - minY);
-        }
-
-        /// <summary>
-        /// Move each NodeElements positions to the point on the circle
-        /// </summary>
-        /// <param name="positions">positions[m] indicates m'th element of relatedNodes comes to which point of circlePoints</param>
-        /// <param name="relatedNodes">first positions.Length elements of relatedNodes are on the circle</param>
-        /// <param name="circlePoints">Coordinates of each circle points</param>
-        private void MoveNodeElement(int[] positions, List<NodeElement> relatedNodes, PointF[] circlePoints)
-        {
-            int count = 0;
-            foreach (NodeElement node in relatedNodes)
-            {
-                PointF coords = circlePoints[positions[count]];
-
-                node.X = coords.X;
-                node.Y = coords.Y;
-
-                count++;
-                if (count >= positions.Length)
-                    return;
-            }
         }
 
         /// <summary>
