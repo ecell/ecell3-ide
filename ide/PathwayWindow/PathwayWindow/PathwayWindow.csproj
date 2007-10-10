@@ -110,7 +110,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResPathway.resx</DependentUpon>
     </Compile>
-    <Compile Include="MouseDownHandler.cs" />
+    <Compile Include="Handler\MouseDownHandler.cs" />
     <Compile Include="Nodes\NamespaceDoc.cs" />
     <Compile Include="NoSuchComponentClassException.cs" />
     <Compile Include="NoSuchComponentKindException.cs" />
@@ -147,7 +147,6 @@
     </Compile>
     <Compile Include="UIComponent\ResizeHandle.cs" />
     <Compile Include="UIComponent\NamespaceDoc.cs" />
-    <Compile Include="UniqueKey.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MessageResPathway.ja.resx">

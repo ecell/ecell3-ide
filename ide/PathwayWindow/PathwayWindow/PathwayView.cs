@@ -1125,8 +1125,8 @@ namespace EcellLib.PathwayWindow
                         string canvasId = m_keyVarCanvasDict[key];
                         m_keyVarCanvasDict.Remove(key);
                         m_keyVarCanvasDict.Add(data.key, canvasId);
-                        m_canvasDict[m_keyVarCanvasDict[data.key]].DataChanged(key, data, type);
                     }
+                    m_canvasDict[m_keyVarCanvasDict[data.key]].DataChanged(key, data, type);
                     break;
                 case ComponentType.Process:
                     if (!m_keyProCanvasDict.ContainsKey(key))

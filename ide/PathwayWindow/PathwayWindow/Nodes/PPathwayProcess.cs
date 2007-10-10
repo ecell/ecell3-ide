@@ -142,8 +142,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void OnMouseDrag(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseDrag(e);
-
-
+            this.RefreshText();
             this.RefreshEdges();
         }
 

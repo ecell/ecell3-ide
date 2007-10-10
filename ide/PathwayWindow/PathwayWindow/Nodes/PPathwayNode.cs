@@ -329,6 +329,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 base.m_set.NotifyMouseEnter(this.EcellObject);
             }
         }
+
         /// <summary>
         /// Called when the mouse leaves this object.
         /// </summary>

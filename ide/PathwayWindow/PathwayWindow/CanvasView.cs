@@ -2680,12 +2680,11 @@ namespace EcellLib.PathwayWindow
         /// <param name="toBeNotified">Whether selection must be notified to Ecell-Core or not.</param>
         public void AddSelectedNode(PPathwayNode obj, bool toBeNotified)
         {
-            SelectedNodes.Add(obj.EcellObject);
-            foreach (EcellObject eo in SelectedNodes)
-            {
-                if (toBeNotified)
-                    m_view.NotifySelectChanged(eo.key, eo.type);
-            }
+            EcellObject eo = obj.EcellObject;
+            SelectedNodes.Add(eo);
+            obj.IsHighLighted = true;
+            if (toBeNotified)
+                m_view.NotifySelectChanged(obj.EcellObject.key, obj.EcellObject.type);
         }
 
         /// <summary>
@@ -3205,17 +3204,13 @@ namespace EcellLib.PathwayWindow
         public void ResetSelectedNodes()
         {
             if (SelectedNodes.Count == 0)
-            {
                 return;
-            }
-            PNodeList spareList = new PNodeList();
+
             foreach (EcellObject obj in SelectedNodes)
                 GetSelectedObject(obj.key, obj.type).IsHighLighted = false;
 
             lock (this)
-            {
                 SelectedNodes.Clear();
-            }
         }
 
         /// <summary>

@@ -84,7 +84,17 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             return new PPathwayVariable();
         }
-        
+
+        /// <summary>
+        /// event on mouse drag on this node.
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnMouseDrag(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
+        {
+            base.OnMouseDrag(e);
+            this.Refresh();
+        }
+
         /// <summary>
         /// event on mouse up on this variable.
         /// </summary>

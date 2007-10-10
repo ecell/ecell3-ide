@@ -97,7 +97,6 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 PPathwayNode pnode = (PPathwayNode)e.PickedNode;
                 pnode.MemorizeCurrentPosition();
-                pnode.CancelAllParentOffsets();
                 m_set.ControlLayer.AddChild(pnode);
 
                 m_downPosition = new PointF(e.Position.X, e.Position.Y);
@@ -110,7 +109,6 @@ namespace EcellLib.PathwayWindow.Handler
 
                     PPathwayNode obj = (PPathwayNode)m_set.GetSelectedObject(eo.key, eo.type);
                     obj.MemorizeCurrentPosition();
-                    obj.CancelAllParentOffsets();
                     m_composite.AddChild(obj);
                 }
             }

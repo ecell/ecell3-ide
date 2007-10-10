@@ -289,6 +289,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     base.Height = m_ecellObj.Height;
                     base.OffsetX = m_ecellObj.OffsetX;
                     base.OffsetY = m_ecellObj.OffsetY;
+                    RefreshText();
                 }
                 else
                 {
