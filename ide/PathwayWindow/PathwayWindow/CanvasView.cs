@@ -1996,7 +1996,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="system">PEcellSystem to be validated</param>
         protected void ValidateSystem(PPathwaySystem system)
         {
-            if (this.DoesSystemOverlaps(system.Rect))
+            if (this.DoesSystemOverlaps(system.Rect, system.Name))
                 system.Valid = false;
             else
                 system.Valid = true;
