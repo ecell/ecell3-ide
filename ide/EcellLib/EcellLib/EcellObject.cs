@@ -39,6 +39,7 @@ using System.ComponentModel;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 using EcellCoreLib;
 using System.Text.RegularExpressions;
 
@@ -48,6 +49,7 @@ namespace EcellLib
     /// <summary>
     /// The base class of E-CELL model editor.
     /// </summary>
+    [Serializable]
     public class EcellObject
     {
         #region Constant
@@ -63,6 +65,14 @@ namespace EcellLib
         /// Type string of "Variable".
         /// </summary>
         public const string VARIABLE = "Variable";
+        /// <summary>
+        /// Value of fixed object.
+        /// </summary>
+        public const int Fixed = 1;
+        /// <summary>
+        /// Value of not fixed object.
+        /// </summary>
+        public const int NotFixed = 0;
         #endregion
 
         #region Fields
@@ -237,14 +247,27 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// PointF
+        /// </summary>
+        public PointF PointF
+        {
+            get { return new PointF(m_x, m_y); }
+            set
+            {
+                m_x = value.X;
+                m_y = value.Y;
+            }
+        }
+
+        /// <summary>
         /// X coordinate
         /// </summary>
         public float X
         {
             get { return m_x; }
-            set { 
+            set
+            {
                 m_x = value;
-                m_isPosSet = true;
             }
         }
 
@@ -256,7 +279,19 @@ namespace EcellLib
             get { return m_y; }
             set {
                 m_y = value;
-                m_isPosSet = true;
+            }
+        }
+
+        /// <summary>
+        /// PointF
+        /// </summary>
+        public PointF Center
+        {
+            get { return new PointF(CenterX, CenterY); }
+            set
+            {
+                CenterX = value.X;
+                CenterY = value.Y;
             }
         }
 
@@ -266,6 +301,7 @@ namespace EcellLib
         public float CenterX
         {
             get { return m_x + m_width / 2; }
+            set { m_x = value - m_width / 2; }
         }
 
         /// <summary>
@@ -274,6 +310,7 @@ namespace EcellLib
         public float CenterY
         {
             get { return m_y + m_height / 2; }
+            set { m_y = value - m_height / 2; }
         }
 
         /// <summary>
@@ -282,10 +319,7 @@ namespace EcellLib
         public float OffsetX
         {
             get { return m_offsetX; }
-            set {
-                m_offsetX = value;
-                m_isPosSet = true;
-            }
+            set { m_offsetX = value; }
         }
 
         /// <summary>
@@ -294,10 +328,7 @@ namespace EcellLib
         public float OffsetY
         {
             get { return m_offsetY; }
-            set {
-                m_offsetY = value;
-                m_isPosSet = true;
-            }
+            set { m_offsetY = value; }
         }
 
         /// <summary>
@@ -308,7 +339,6 @@ namespace EcellLib
             get { return m_width; }
             set {
                 m_width = value;
-                m_isPosSet = true;
             }
         }
 
@@ -320,7 +350,6 @@ namespace EcellLib
             get { return m_height; }
             set {
                 m_height = value;
-                m_isPosSet = true;
             }
         }
 
@@ -376,7 +405,33 @@ namespace EcellLib
         /// </summary>
         public bool IsPosSet
         {
-            get { return m_isPosSet; }
+            get
+            {
+                if (this.X != 0 || this.Y != 0)
+                    return true;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// get / set whether this parameter is fix.
+        /// </summary>
+        public int isFixed
+        {
+            get
+            {
+                if (IsEcellValueExists("Fixed"))
+                    return GetEcellValue("Fixed").CastToInt();
+                else
+                    return 0;
+            }
+            set
+            {
+                if (IsEcellValueExists("Fixed"))
+                    GetEcellValue("Fixed").M_value = value;
+                else
+                    AddEcellValue("Fixed", new EcellValue(value));
+            }
         }
         #endregion
 
@@ -439,7 +494,7 @@ namespace EcellLib
             return l_copyInstancesList;
         }
         /// <summary>
-        /// get parent system ID.
+        /// Set object coordinates.
         /// </summary>
         /// <param name="x">X Position</param>
         /// <param name="y">Y Position</param>
@@ -447,6 +502,19 @@ namespace EcellLib
         {
             this.X = x;
             this.Y = y;
+        }
+        /// <summary>
+        /// Copy coordinates of passed object.
+        /// </summary>
+        /// <param name="obj">EcellObject</param>
+        public void SetPosition(EcellObject obj)
+        {
+            this.X = obj.X;
+            this.Y = obj.Y;
+            this.OffsetX = obj.OffsetX;
+            this.OffsetY = obj.OffsetY;
+            this.Width = obj.Width;
+            this.Height = obj.Height;
         }
 
         /// <summary>
@@ -1540,6 +1608,7 @@ namespace EcellLib
     /// <summary>
     /// Object class for System.
     /// </summary>
+    [Serializable]
     public class EcellSystem : EcellObject
     {
 
@@ -1548,6 +1617,13 @@ namespace EcellLib
         /// Size name. The reserved name.
         /// </summary>
         public const string SIZE = "Size";
+        #endregion
+
+        #region Fields
+        /// <summary>
+        /// List of child systems;
+        /// </summary>
+        List<EcellSystem> m_childSystems = new List<EcellSystem>();
         #endregion
 
         #region Constractors
@@ -1567,6 +1643,7 @@ namespace EcellLib
             this.type = l_type;
             this.classname = l_class;
             this.SetEcellDatas(l_data);
+            this.M_instances = new List<EcellObject>();
         }
         #endregion
 
@@ -1650,6 +1727,7 @@ namespace EcellLib
     /// <summary>
     /// Object class for Variable.
     /// </summary>
+    [Serializable]
     public class EcellVariable : EcellObject
     {
         #region Fields
@@ -1676,25 +1754,6 @@ namespace EcellLib
         #endregion
 
         #region Accessors
-        /// <summary>
-        /// get / set whether this parameter is fix.
-        /// </summary>
-        public int isFixed
-        {
-            get {
-                if (IsEcellValueExists("Fixed"))
-                    return GetEcellValue("Fixed").CastToInt();
-                else
-                    return 0;
-                }
-            set {
-                if (IsEcellValueExists("Fixed"))
-                    GetEcellValue("Fixed").M_value = value;
-                else
-                    AddEcellValue("Fixed", new EcellValue(value));
-            }
-        }
-
         /// <summary>
         /// get / set the molar concentrate.
         /// </summary>
@@ -1834,6 +1893,7 @@ namespace EcellLib
     /// <summary>
     /// Object class for Process.
     /// </summary>
+    [Serializable]
     public class EcellProcess : EcellObject
     {
         #region Constants

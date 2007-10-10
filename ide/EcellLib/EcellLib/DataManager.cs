@@ -1547,9 +1547,6 @@ namespace EcellLib
                         {
                             l_systemList[i].M_instances[j] = l_ecellObject.Copy();
                             this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
-                            /* Deleted by m.ishikawa
-                            this.m_aManager.AddAction(
-                               new DataChangeAction(l_modelID, l_key, l_type, l_ecellObject));*/
                         }
                         else
                         {
@@ -1558,27 +1555,6 @@ namespace EcellLib
                             //
                             this.DataAdd4Entity(l_ecellObject.Copy(), false);
                             this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);                            
-                            /* Deleted by m.ishikawa
-                             * this.m_aManager.AddAction(
-                                new DataChangeAction(l_modelID, l_key, l_type, l_ecellObject));*/
-                            //
-                            // Checks all "VariableReferenceList"s.
-                            //
-                            /*
-                            if (l_ecellObject.type.Equals(Util.s_xpathVariable))
-                            {
-                                l_changedProcessList.AddRange(this.CheckVariableReferenceList(l_ecellObject, l_key));
-                                if (l_changedProcessList.Count > 0)
-                                {
-                                    foreach (EcellObject l_changedProcess in l_changedProcessList)
-                                    {
-                                        this.DataChanged4Entity(
-                                            l_changedProcess.modelID, l_changedProcess.key,
-                                            l_changedProcess.type, l_changedProcess, l_pManagerFlag);
-                                    }
-                                }
-                            }
-                             */
                             //
                             // Deletes the old object.
                             //
