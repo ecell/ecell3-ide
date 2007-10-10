@@ -126,7 +126,6 @@ namespace SessionManager
             set { this.m_extraFile = value; }
         }
 
-
         /// <summary>
         /// get / set the dm directory path.
         /// </summary>
@@ -221,8 +220,9 @@ namespace SessionManager
         /// <summary>
         /// Get the judgement of script if script is output.
         /// </summary>
+        /// <param name="judgeFile">script file to judge.</param>
         /// <returns>judgement.</returns>
-        public virtual int GetJudge()
+        public virtual int GetJudge(String judgeFile)
         {
             // not implement.
             return 0;

@@ -56,6 +56,8 @@ namespace SessionManager
 
         private Timer m_timer;
 
+        private static SessionManager s_manager = null;
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -239,6 +241,19 @@ namespace SessionManager
         }
 
         /// <summary>
+        /// Get the singleton of this class.
+        /// </summary>
+        /// <returns>The singleton object.</returns>
+        public static SessionManager GetManager()
+        {
+            if (s_manager == null)
+            {
+                s_manager = new SessionManager();
+            }
+            return s_manager;
+        }
+
+        /// <summary>
         /// get the defalut concurrency of environment.
         /// </summary>
         /// <returns></returns>
@@ -264,7 +279,7 @@ namespace SessionManager
             s.ScriptFile = script;
             s.Argument = arg;
             s.ExtraFileList = extFile;
-            // dmpath
+            // search dmpath
             s.JobDirectory = TmpDir + "/" + s.JobID;
             m_sessionList.Add(s.JobID, s);
 
@@ -275,10 +290,20 @@ namespace SessionManager
         /// Regist the session of e-cell.
         /// </summary>
         /// <returns>the status of job.</returns>
-        public int RegisterEcellSession()
+        public int RegisterEcellSession(string script, string arg, List<string> extFile)
         {
-            // not implement
-            return 0;
+            if (m_proxy == null) return -1;
+            SessionProxy s = m_proxy.CreateSessionProxy();
+            if (s == null) return -1;
+
+            s.ScriptFile = script;
+            s.Argument = arg;
+            s.ExtraFileList = extFile;
+            // search dmpath
+            s.JobDirectory = TmpDir + "/" + s.JobID;
+            m_sessionList.Add(s.JobID, s);
+
+            return s.JobID;
         }
 
         /// <summary>
@@ -629,16 +654,24 @@ namespace SessionManager
             return m_sessionList[jobid].GetStdErr();
         }
 
-        public void SetOptionList(List<String> optionList)
+        /// <summary>
+        /// Get the string of option.
+        /// </summary>
+        /// <returns>options for SystemProxy.</returns>
+        public String GetOptionList()
         {
-            
-            // not implement
-        }
-
-        public List<String> GetOptionList()
-        {
-            // not implement
-            return null;
+            if (m_proxy == null) return null;
+            Dictionary<string, object> dic = GetEnvironmentProperty();
+            String result = "";
+            foreach (string opt in dic.Keys)
+            {
+                result = result + " " + opt;
+                if (dic[opt] != null)
+                {
+                    result = result + " \"" + dic[opt].ToString() + "\"";
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -695,8 +728,16 @@ namespace SessionManager
                 paramDic.Clear();
                 foreach (ParameterRange p in m_paramList)
                 {
-                    double d = hRandom.NextDouble();
-                    double data = (d - p.Min) / (p.Max - p.Min) + p.Min;
+                    double data = 0.0;
+                    if (p.Step <= 0.0)
+                    {
+                        double d = hRandom.NextDouble();
+                        data = (d - p.Min) / (p.Max - p.Min) + p.Min;
+                    }
+                    else
+                    {
+                        data = p.Step * i + p.Min;
+                    }
                     paramDic.Add(p.FullPath, data);
                 }
                 string dirName = topDir + "/" + num;
@@ -711,11 +752,35 @@ namespace SessionManager
                 File.WriteAllText(fileName, "\n# System\n", enc);
                 foreach (EcellObject sysObj in sysList)
                 {
+                    foreach (string path in paramDic.Keys)
+                    {
+                        if (sysObj.M_value == null) continue;
+                        foreach (EcellData v in sysObj.M_value)
+                        {
+                            if (!path.Equals(v.M_entityPath)) continue;
+                            v.M_value.M_value = paramDic[path];
+                            break;
+                        }
+                    }
                     manager.WriteSystemEntry(fileName, enc, modelName, sysObj);
                     manager.WriteSystemProperty(fileName, enc, modelName, sysObj);
                 }
                 foreach (EcellObject sysObj in sysList)
                 {
+                    foreach (string path in paramDic.Keys)
+                    {
+                        if (sysObj.M_instances == null) continue;
+                        foreach (EcellObject obj in sysObj.M_instances)
+                        {
+                            if (obj.M_value == null) continue;
+                            foreach (EcellData v in obj.M_value)
+                            {
+                                if (!path.Equals(v.M_entityPath)) continue;
+                                v.M_value.M_value = paramDic[path];
+                                break;
+                            }
+                        }
+                    }
                     manager.WriteComponentEntry(fileName, enc, sysObj);
                     manager.WriteComponentProperty(fileName, enc, sysObj);
                 }
@@ -729,7 +794,90 @@ namespace SessionManager
                 manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
             }
         }
-        
+
+        public void RunSimParameterMatrix(string topDir, string modelName)
+        {
+            DataManager manager = DataManager.GetDataManager();
+            List<EcellObject> sysList = manager.GetData(modelName, null);
+            Dictionary<string, double> paramDic = new Dictionary<string, double>();
+            if (m_paramList.Count != 2)
+            {
+                // not implement
+                MessageBox.Show("ERROR", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            ParameterRange x = m_paramList[0];
+            ParameterRange y = m_paramList[1];
+            int i = 0;
+            for (double xd = x.Min ; xd < x.Max; xd += x.Step)
+            {
+                int j = 0;
+                for (double yd = y.Min; yd < y.Max; yd += y.Step)
+                {
+                    paramDic.Clear();
+                    string dirName = topDir + "/" + i + "-" + j;
+                    string fileName = topDir + "/" + i + "-" + j + ".ess";
+                    Encoding enc = Encoding.GetEncoding(932);
+
+                    manager.ClearScriptInfo();
+                    File.WriteAllText(fileName, "", enc);
+                    manager.WritePrefix(fileName, enc);
+                    manager.WriteModelEntry(fileName, enc, modelName);
+                    manager.WriteModelProperty(fileName, enc, modelName);
+                    File.WriteAllText(fileName, "\n# System\n", enc);
+                    foreach (EcellObject sysObj in sysList)
+                    {
+                        if (sysObj.M_value != null)
+                        {
+                            foreach (EcellData d in sysObj.M_value)
+                            {
+                                if (d.M_entityPath.Equals(x.FullPath))
+                                {
+                                    d.M_value.M_value = xd * x.Step + x.Min;
+                                }
+                                else if (d.M_entityPath.Equals(y.FullPath))
+                                {
+                                    d.M_value.M_value = yd * y.Step + y.Min;
+                                }
+                            }
+                        }
+                        manager.WriteSystemEntry(fileName, enc, modelName, sysObj);
+                        manager.WriteSystemProperty(fileName, enc, modelName, sysObj);
+                    }
+                    foreach (EcellObject sysObj in sysList)
+                    {
+                        if (sysObj.M_instances == null) continue;
+                        foreach (EcellObject obj in sysObj.M_instances)
+                        {
+                            if (obj.M_value == null) continue;
+                            foreach (EcellData d in obj.M_value)
+                            {
+                                if (d.M_entityPath.Equals(x.FullPath))
+                                {
+                                    d.M_value.M_value = xd * x.Step + x.Min;
+                                }
+                                else if (d.M_entityPath.Equals(y.FullPath))
+                                {
+                                    d.M_value.M_value = yd * y.Step + y.Min;
+                                }
+                            }
+                        }
+                        manager.WriteComponentEntry(fileName, enc, sysObj);
+                        manager.WriteComponentProperty(fileName, enc, sysObj);
+                    }
+                    List<string> sList = new List<string>();
+                    foreach (SaveLoggerProperty s in m_logList)
+                    {
+                        sList.Add(s.FullPath);
+                    }
+                    manager.WriteLoggerProperty(fileName, enc, sList);
+                    manager.WriteSimulation(fileName, enc);
+                    manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
+                    j++;
+                }
+                i++;
+            }
+        }
     }
 
     public class ParameterRange
@@ -737,16 +885,18 @@ namespace SessionManager
         private string m_fullPath = "";
         private double m_min = 0.0;
         private double m_max = 0.0;
+        private double m_step = 0.0;
 
         public ParameterRange()
         {
         }
 
-        public ParameterRange(string path, double min, double max)
+        public ParameterRange(string path, double min, double max, double step)
         {
             m_fullPath = path;
             m_min = min;
             m_max = max;
+            m_step = step;
         }
 
         public string FullPath
@@ -765,6 +915,16 @@ namespace SessionManager
         {
             get { return this.m_min; }
             set { this.m_min = value; }
+        }
+
+        /// <summary>
+        /// get/set step interval of parameter.
+        /// If this valus is smaller than 0.0, this value is randam parameter.
+        /// </summary>
+        public double Step
+        {
+            get { return this.m_step; }
+            set { this.m_step = value; }
         }
     }
 }

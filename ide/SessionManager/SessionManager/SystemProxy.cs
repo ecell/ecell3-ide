@@ -115,5 +115,14 @@ namespace SessionManager
         {
             // nothing
         }
+
+        /// <summary>
+        /// Get the flag whether this script use IDE functions.
+        /// </summary>
+        /// <returns>if use IDE function, return true.</returns>
+        public virtual bool IsIDE()
+        {
+            return false;
+        }
     }
 }

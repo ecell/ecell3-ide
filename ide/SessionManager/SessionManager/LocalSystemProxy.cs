@@ -35,6 +35,8 @@ namespace SessionManager
 {
     public class LocalSystemProxy : SystemProxy
     {
+        static private Dictionary<string, object> s_optDic = new Dictionary<string, object>();
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -72,7 +74,33 @@ namespace SessionManager
                     }
                 }
             }
+        }
 
+        /// <summary>
+        /// Get the flag whether this script use IDE functions.
+        /// </summary>
+        /// <returns>return true.</returns>
+        public override bool IsIDE()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Set the list of option to all session.
+        /// </summary>
+        /// <param name="list">property dictionary.</param>
+        public override void SetProperty(Dictionary<string, object> list)
+        {
+            LocalSystemProxy.s_optDic = list;
+        }
+
+        /// <summary>
+        /// Get the list of option set all session.
+        /// </summary>
+        /// <returns>dictionary of option.</returns>
+        public override Dictionary<string, object> GetProperty()
+        {
+            return LocalSystemProxy.s_optDic;
         }
 
     }
