@@ -35,7 +35,8 @@ using System.Text;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
-using EcellLib.PathwayWindow.Node;
+using EcellLib.PathwayWindow.Nodes;
+using EcellLib.PathwayWindow.UIComponent;
 using System.Drawing;
 using UMD.HCIL.Piccolo.Nodes;
 
@@ -177,28 +178,16 @@ namespace EcellLib.PathwayWindow
                 if (m_view.SelectedHandle.Mode != Mode.CreateConstant)
                 {
                     line.AddLine(contactP.X, contactP.Y, e.Position.X, e.Position.Y);
-                    line.AddPolygon(
-                        PathUtil.GetArrowPoints(
-                        e.Position,
-                        contactP,
-                        PPathwayProcess.ARROW_RADIAN_A,
-                        PPathwayProcess.ARROW_RADIAN_B,
-                        PPathwayProcess.ARROW_LENGTH));
+                    line.AddPolygon( Line.GetArrowPoints( e.Position, contactP));
 
                     if (m_view.SelectedHandle.Mode == Mode.CreateMutualReaction)
                     {
-                        line.AddPolygon(
-                        PathUtil.GetArrowPoints(
-                        contactP,
-                        e.Position,
-                        PPathwayProcess.ARROW_RADIAN_A,
-                        PPathwayProcess.ARROW_RADIAN_B,
-                        PPathwayProcess.ARROW_LENGTH));
+                        line.AddPolygon( Line.GetArrowPoints( contactP, e.Position ));
                     }
                 }
                 else
                 {
-                    PPathwayProcess.AddDashedLine(line, contactP.X, contactP.Y, e.Position.X, e.Position.Y);
+                    Line.AddDashedLine(line, contactP.X, contactP.Y, e.Position.X, e.Position.Y);
                 }
             }
         }
@@ -211,7 +200,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="coefficient">coefficient of VariableReferenceList of process</param>
         private void CreateEdge(PPathwayProcess process, PPathwayVariable variable, int coefficient)
         {
-            m_view.CreateEdge(process, variable, coefficient);
+            process.CreateEdge(variable, coefficient);
         }
 
         /// <summary>

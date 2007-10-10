@@ -41,9 +41,8 @@ using System.ComponentModel;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Event;
-using EcellLib.PathwayWindow.Node;
+using EcellLib.PathwayWindow.Nodes;
 using PathwayWindow.UIComponent;
-using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -67,15 +66,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_cview = cview;
         }
 
-        /// <summary>
-        /// Called when the mouse is on this canvas.
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnMouseEnter(EventArgs e)
-        {
-            base.OnMouseEnter(e);
-            m_cview.PathwayView.TabControl.Focus();
-        }
         /// <summary>
         /// Called when the mouse is on this canvas.
         /// </summary>
@@ -120,7 +110,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 else if (m_cview.ClickedNode is PPathwayNode)
                 {
                     PPathwayNode n = m_cview.ClickedNode as PPathwayNode;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Text = n.Element.Key;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Text = n.EcellObject.key;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR1].Visible = true;
                     
@@ -210,7 +200,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 else if (m_cview.ClickedNode is PPathwaySystem)
                 {
                     PPathwaySystem n = m_cview.ClickedNode as PPathwaySystem;
-                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Text = n.Element.Key;
+                    m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Text = n.EcellObject.key;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_ID].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_SEPARATOR1].Visible = true;
 
@@ -228,11 +218,11 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CUT].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_COPY].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = false;
-                    if (n.Element.Key != "/")
+                    if (n.EcellObject.key != "/")
                     {
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE].Visible = true;
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_WITH].Visible = true;
-                        String superSys = n.Element.Key.Substring(0, n.Element.Key.LastIndexOf("/"));
+                        String superSys = n.EcellObject.key.Substring(0, n.EcellObject.key.LastIndexOf("/"));
                         if (superSys == "") superSys = "/";
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_DELETE_WITH].Text =
                             m_resources.GetString("MergeMenuText") + "(" + superSys + ")";
@@ -285,10 +275,10 @@ namespace EcellLib.PathwayWindow.UIComponent
             createLogger.DropDown.Items.Clear();
             deleteLogger.DropDown.Items.Clear();
 
-            if (obj.Element == null || obj.Element.ModelID == null)
+            if (obj.EcellObject == null || obj.EcellObject.modelID == null)
                 return;
 
-            EcellObject ecellobj = DataManager.GetDataManager().GetEcellObject(obj.Element.ModelID, obj.Element.Key, obj.Element.Type);
+            EcellObject ecellobj = DataManager.GetDataManager().GetEcellObject(obj.EcellObject.modelID, obj.EcellObject.key, obj.EcellObject.type);
             if (ecellobj == null)
                 return;
             // set logger menu

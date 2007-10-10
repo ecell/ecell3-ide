@@ -40,9 +40,8 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.PiccoloX.Nodes;
 using UMD.HCIL.Piccolo.Util;
-using EcellLib.PathwayWindow.Node;
+using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.UIComponent;
-using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow
 {
@@ -137,7 +136,7 @@ namespace EcellLib.PathwayWindow
 
             if (e.PickedNode is PCamera)
             {
-                m_surSystem = m_view.CanvasDictionary[e.Canvas.Name].GetSurroundingSystem(e.Position, null);
+                m_surSystem = m_view.CanvasDictionary[e.Canvas.Name].GetSurroundingSystemKey(e.Position);
 
                 if (string.IsNullOrEmpty(m_surSystem))
                 {
@@ -270,17 +269,15 @@ namespace EcellLib.PathwayWindow
                         if (node is PPathwayObject)
                             newlySelectedList.Add((PPathwayObject)node);
                 }
-                ComponentSetting cs = m_view.ComponentSettings[m_view.SelectedHandle.CsID];
 
-                EcellObject eo = EcellObject.CreateObject(m_currentObj.modelID, tmpID,
-                    "System", "System", dataList);
+                EcellObject eo = EcellObject.CreateObject(m_currentObj.modelID, tmpID, "System", "System", dataList);
 
                 eo.X = m_rect.X;
                 eo.Y = m_rect.Y;
                 eo.Width = m_rect.Width;
                 eo.Height = m_rect.Height;
 
-                m_view.AddNewObj(m_set.CanvasID, m_surSystem, ComponentType.System, cs, eo, true, true, null);
+                m_view.NotifyDataAdd(eo, true);
                 
                 foreach (PPathwayObject node in newlySelectedList)
                 {

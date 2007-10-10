@@ -36,9 +36,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Threading;
-using EcellLib.PathwayWindow.Element;
 
-namespace EcellLib.PathwayWindow.Node
+namespace EcellLib.PathwayWindow.Nodes
 {
     /// <summary>
     /// Subclass of PPathwayNode for variable of E-Cell.
@@ -62,6 +61,21 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         protected List<PPathwayProcess> m_relatedProcesses = new List<PPathwayProcess>();
 
+        #region Accessors
+        /// <summary>
+        /// get/set the related element.
+        /// </summary>
+        public new EcellVariable EcellObject
+        {
+            get { return (EcellVariable)base.m_ecellObj; }
+            set
+            {
+                base.EcellObject = value;
+                Refresh();
+            }
+        }
+        #endregion
+
         /// <summary>
         /// create new PEcellVariable.
         /// </summary>
@@ -69,23 +83,6 @@ namespace EcellLib.PathwayWindow.Node
         public override PPathwayObject CreateNewObject()
         {
             return new PPathwayVariable();
-        }
-        
-        /// <summary>
-        /// get any related elements.
-        /// </summary>
-        /// <returns>the list of elements.</returns>
-        public override List<PathwayElement> GetElements()
-        {
-            List<PathwayElement> elementList = new List<PathwayElement>();
-            
-            base.Element.X = this.X + this.OffsetX; //+ this.bounds.Width / 2;
-            base.Element.Y = this.Y + this.OffsetY; //+ this.bounds.Height / 2;
-            base.Element.CsId = this.m_csId;
-
-            elementList.Add(base.Element);
-
-            return elementList;
         }
         
         /// <summary>
@@ -108,13 +105,10 @@ namespace EcellLib.PathwayWindow.Node
         /// <param name="e">PInputEventArgs.</param>
         public override void OnDoubleClick(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
-
-            EcellObject obj = m_set.PathwayView.GetEcellObject(Element.Key, "Variable");
-
             PropertyEditor editor = new PropertyEditor();
             editor.layoutPanel.SuspendLayout();
-            editor.SetCurrentObject(obj);
-            editor.SetDataType(obj.type);
+            editor.SetCurrentObject(EcellObject);
+            editor.SetDataType(EcellObject.type);
             editor.PEApplyButton.Click += new EventHandler(editor.UpdateProperty);
             editor.LayoutPropertyEditor();
             editor.layoutPanel.ResumeLayout(false);
@@ -129,7 +123,7 @@ namespace EcellLib.PathwayWindow.Node
             List<PPathwayProcess> newProcesses = new List<PPathwayProcess>();
             foreach (PPathwayProcess process in m_relatedProcesses)
             {
-                if (base.m_set.Processes.ContainsKey(process.Element.Key))
+                if (base.m_set.Processes.ContainsKey(process.EcellObject.key))
                     newProcesses.Add(process);
             }
             m_relatedProcesses = newProcesses;
@@ -170,7 +164,7 @@ namespace EcellLib.PathwayWindow.Node
             foreach (PPathwayProcess p in list)
             {
                 p.DeleteEdges();
-                p.NotifyRemoveRelatedVariable(this.Element.Key);
+                p.NotifyRemoveRelatedVariable(this.EcellObject.key);
                 p.CreateEdges();
             }
         }
@@ -184,7 +178,7 @@ namespace EcellLib.PathwayWindow.Node
             List<PPathwayProcess> rList = new List<PPathwayProcess>();
             foreach (PPathwayProcess p in m_relatedProcesses)
             {
-                if (p.Element.Key.Equals(key))
+                if (p.EcellObject.key.Equals(key))
                 {
                     rList.Add(p);
                 }
@@ -195,19 +189,6 @@ namespace EcellLib.PathwayWindow.Node
                 m_relatedProcesses.Remove(p);
             }
             rList.Clear();
-        }
-
-        /// <summary>
-        /// Reconstruct edges.
-        /// </summary>
-        public void ReconstructEdges()
-        {
-            ValidateEdges();
-            foreach(PPathwayProcess p in m_relatedProcesses)
-            {
-                p.DeleteEdges();
-                p.CreateEdges();
-            }
         }
 
         /// <summary>

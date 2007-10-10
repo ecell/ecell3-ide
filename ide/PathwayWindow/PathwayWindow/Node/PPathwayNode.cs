@@ -36,12 +36,11 @@ using System.Collections.Generic;
 using System.Text;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Util;
-using EcellLib.PathwayWindow.Element;
 using UMD.HCIL.Piccolo.Nodes;
 using System.Drawing;
 using EcellLib.PathwayWindow.Figure;
 
-namespace EcellLib.PathwayWindow.Node
+namespace EcellLib.PathwayWindow.Nodes
 {
     /// <summary>
     /// Super class for piccolo object of variable, process, etc.
@@ -52,26 +51,15 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         /// Font size for text.
         /// </summary>
-        protected static readonly int m_nodeTextFontSize = 10;
-        public static readonly float DefaultWidth = 60;
-        public static readonly float DefaultHeight = 40;
+        public static readonly float DEFAULT_WIDTH = 60;
+        public static readonly float DEFAULT_HEIGHT = 40;
         #endregion
 
         #region Fields
         /// <summary>
-        /// PText for showing this node's ID on it.
-        /// </summary>
-        protected PText m_idText;
-
-        /// <summary>
         /// list of figure.
         /// </summary>
         protected List<FigureBase> m_figureList;
-
-        /// <summary>
-        /// Whether this node is showing ID or not.
-        /// </summary>
-        protected bool m_showingId;
 
         /// <summary>
         /// Object will be painted with this Brush when object is to be connected.
@@ -186,37 +174,15 @@ namespace EcellLib.PathwayWindow.Node
         }
 
         /// <summary>
-        /// get/set whether is shown ID.
-        /// </summary>
-        public bool ShowingID
-        {
-            get { return m_showingId; }
-            set
-            {
-                m_showingId = value;
-                if (m_showingId)
-                    m_idText.Visible = true;
-                else
-                    m_idText.Visible = false;
-            }
-        }
-
-        /// <summary>
         /// get/set related element.
         /// </summary>
-        public new virtual NodeElement Element
+        public new virtual EcellObject EcellObject
         {
-            get { return (NodeElement)base.m_element; }
+            get { return base.m_ecellObj; }
             set
-            {
-                base.m_element = value;
-                base.X = this.Element.X; //-this.Bounds.Width / 2;
-                base.Y = this.Element.Y;// -this.Bounds.Height / 2;
-                base.OffsetX = 0;
-                base.OffsetY = 0;
-//                Refresh();
+            {   
+                base.EcellObject = value;
                 RefreshText();
-                this.m_idText.MoveToFront();           
             }
         }
 
@@ -245,10 +211,8 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public PPathwayNode()
         {
-            m_idText = new PText();
-            m_idText.Pickable = false;
-            m_idText.Font = new Font("Gothics", m_nodeTextFontSize, System.Drawing.FontStyle.Bold);
-            this.AddChild(m_idText);
+            this.Width = DEFAULT_WIDTH;
+            this.Height = DEFAULT_HEIGHT;
         }
         #endregion
 
@@ -318,14 +282,6 @@ namespace EcellLib.PathwayWindow.Node
         {
         }
         /// <summary>
-        /// Get a list of PathwayElement which are related to this node.
-        /// </summary>
-        /// <returns></returns>
-        public override List<PathwayElement> GetElements()
-        {
-            return new List<PathwayElement>();
-        }
-        /// <summary>
         /// Create new instance of this class.
         /// </summary>
         /// <returns></returns>
@@ -368,9 +324,9 @@ namespace EcellLib.PathwayWindow.Node
         public override void OnMouseEnter(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseEnter(e);
-            if(null != base.m_set)
+            if(base.m_set != null)
             {
-                base.m_set.NotifyMouseEnter(this.Element);
+                base.m_set.NotifyMouseEnter(this.EcellObject);
             }
         }
         /// <summary>
@@ -412,8 +368,7 @@ namespace EcellLib.PathwayWindow.Node
                     dummyParent = dummyParent.Parent;
                 this.X += dummyParent.OffsetX;
                 this.Y += dummyParent.OffsetY;
-                m_idText.X += dummyParent.OffsetX;
-                m_idText.Y += dummyParent.OffsetY;
+                RefreshText();
 
             } while (dummyParent != this.Root);
         }
@@ -466,26 +421,13 @@ namespace EcellLib.PathwayWindow.Node
         }
 
         /// <summary>
-        /// redraw the text of this Node.
-        /// </summary>
-        public virtual void RefreshText()
-        {
-            m_idText.Text = this.Element.Text;
-            RectangleF rect = base.bounds;
-            this.Element.X = rect.X + rect.Width / 2f;
-            this.Element.Y = rect.Y + rect.Height / 2f;
-            m_idText.CenterBoundsOnPoint(this.Element.X,
-                                         this.Element.Y);
-        }
-
-        /// <summary>
         /// String expression of this object.
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            return base.ToString() + ", m_idText.X:" + m_idText.X + ", m_idText.Y:" + m_idText.Y
-                + ", m_idText.OffsetX:" + m_idText.OffsetX + ", m_idText.OffsetY:" + m_idText.OffsetY;
+            return base.ToString() + ", Text.X:" + Text.X + ", Text.Y:" + Text.Y
+                + ", Text.OffsetX:" + Text.OffsetX + ", Text.OffsetY:" + Text.OffsetY;
         }
         #endregion
     }

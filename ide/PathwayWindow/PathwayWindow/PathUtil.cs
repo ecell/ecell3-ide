@@ -36,7 +36,6 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using EcellLib;
-using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow
 {
@@ -68,33 +67,6 @@ namespace EcellLib.PathwayWindow
             set { this.m_brushDic = value; }
         }
         #endregion
-
-        /// <summary>
-        /// This method checks whether an EcellReference list contain a key with same coefficient or not.
-        /// </summary>
-        /// <param name="list">list of EcellReference to be checked</param>
-        /// <param name="key">key of Entity</param>
-        /// <param name="coefficient">coefficient of reference</param>
-        /// <returns>true if a list contains a key. false if a list doesn't contain a key</returns>
-        public static bool CheckReferenceListContainsEntity(List<EcellReference> list, string key, int coefficient)
-        {
-            // null check
-            if (null == list || null == key)
-                return false;
-
-            bool contains = false;
-
-            foreach(EcellReference reference in list)
-            {
-                if (reference.fullID.EndsWith(key))
-                {
-                    if (reference.coefficient * coefficient >= 0)
-                        contains = true;
-                }
-            }
-
-            return contains;
-        }
 
         /// <summary>
         /// Create new instance of EcellReference which has same information of an argument EcellReference
@@ -150,46 +122,6 @@ namespace EcellLib.PathwayWindow
             float centerY = focusObj.Y + focusObj.Height / 2f;
 
             return new RectangleF(centerX - size / 2f, centerY - size / 2f, size, size);
-        }
-
-        /// <summary>
-        /// Get coordinates of an arrow head.
-        /// </summary>
-        /// <param name="arrowApex">an apex of an arrow</param>
-        /// <param name="guidePoint">an arrow line goes direction from arrowApex to guidePoint</param>
-        /// <param name="arrowRadianA">angle of skirt of an arrow head</param>
-        /// <param name="arrowRadianB">angle of skirt of an arrow head</param>
-        /// <param name="arrowLength">length of an arrow head</param>
-        /// <returns></returns>
-        public static PointF[] GetArrowPoints(PointF arrowApex,
-                                              PointF guidePoint,
-                                              float arrowRadianA,
-                                              float arrowRadianB,
-                                              float arrowLength)
-        {
-            guidePoint.X = guidePoint.X - arrowApex.X;
-            guidePoint.Y = guidePoint.Y - arrowApex.Y;
-
-            float factor = PathUtil.GetDistance(guidePoint, new Point(0,0));
-            if(factor == 0)
-                return new PointF[] { arrowApex, arrowApex, arrowApex };
-            guidePoint.X = guidePoint.X / factor;
-            float guideRadian = (float)Math.Acos(guidePoint.X);
-            if (guidePoint.Y < 0)
-                guideRadian = 6.283f - guideRadian;
-
-            arrowRadianA += guideRadian;
-            arrowRadianB += guideRadian;
-
-            PointF arrowPointA = new PointF((float)Math.Cos(arrowRadianA), (float)Math.Sin(arrowRadianA));
-            PointF arrowPointB = new PointF((float)Math.Cos(arrowRadianB), (float)Math.Sin(arrowRadianB));
-
-            arrowPointA.X = arrowPointA.X * arrowLength + arrowApex.X;
-            arrowPointA.Y = arrowPointA.Y * arrowLength + arrowApex.Y;
-            arrowPointB.X = arrowPointB.X * arrowLength + arrowApex.X;
-            arrowPointB.Y = arrowPointB.Y * arrowLength + arrowApex.Y;
-
-            return new PointF[] { arrowApex, arrowPointA, arrowPointB };
         }
 
         /// <summary>
@@ -409,45 +341,45 @@ namespace EcellLib.PathwayWindow
 
         }
 
-        /// <summary>
-        /// Serialize a list of PathwayElements into a file.
-        /// </summary>
-        /// <param name="fileName">Serialized into this file</param>
-        /// <param name="list">PathwayElement objects, which is going to be serialized</param>
-        public static void SerializeElements(string fileName, List<PathwayElement> list)
-        {
-            if (fileName == null)
-                return;
-            IFormatter formatter = new BinaryFormatter();
-            using (Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
-            {
-                foreach(PathwayElement element in list)
-                {
-                    formatter.Serialize(stream, element);
-                }
-            }
-        }
+        ///// <summary>
+        ///// Serialize a list of PathwayElements into a file.
+        ///// </summary>
+        ///// <param name="fileName">Serialized into this file</param>
+        ///// <param name="list">PathwayElement objects, which is going to be serialized</param>
+        //public static void SerializeElements(string fileName, List<PathwayElement> list)
+        //{
+        //    if (fileName == null)
+        //        return;
+        //    IFormatter formatter = new BinaryFormatter();
+        //    using (Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+        //    {
+        //        foreach(PathwayElement element in list)
+        //        {
+        //            formatter.Serialize(stream, element);
+        //        }
+        //    }
+        //}
 
-        /// <summary>
-        /// Deserialize a list of PathwayElements from a file
-        /// </summary>
-        /// <param name="fileName">Deserialized from this file</param>
-        /// <returns>Deserialized list of PathwayElements</returns>
-        public static List<PathwayElement> DeserializeElements(string fileName)
-        {
-            List<PathwayElement> list = new List<PathwayElement>();
-            if (fileName == null || !File.Exists(fileName))
-                return list;
-            BinaryFormatter formatter = new BinaryFormatter();            
-            using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.None))
-            {
-                while (stream.Length != stream.Position)
-                {
-                    list.Add((PathwayElement)formatter.Deserialize(stream));
-                }
-            }
-            return list;
-        }
+        ///// <summary>
+        ///// Deserialize a list of PathwayElements from a file
+        ///// </summary>
+        ///// <param name="fileName">Deserialized from this file</param>
+        ///// <returns>Deserialized list of PathwayElements</returns>
+        //public static List<PathwayElement> DeserializeElements(string fileName)
+        //{
+        //    List<PathwayElement> list = new List<PathwayElement>();
+        //    if (fileName == null || !File.Exists(fileName))
+        //        return list;
+        //    BinaryFormatter formatter = new BinaryFormatter();            
+        //    using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.None))
+        //    {
+        //        while (stream.Length != stream.Position)
+        //        {
+        //            list.Add((PathwayElement)formatter.Deserialize(stream));
+        //        }
+        //    }
+        //    return list;
+        //}
 
         /// <summary>
         /// Create a dictionary (key: name of brush, value: Brush object)

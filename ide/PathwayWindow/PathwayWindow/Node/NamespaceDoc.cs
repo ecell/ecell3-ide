@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib.PathwayWindow.Node
+namespace EcellLib.PathwayWindow.Nodes
 {
     /// <summary>
     /// This namespace supports Piccolo PNode's subclasses, which are customized

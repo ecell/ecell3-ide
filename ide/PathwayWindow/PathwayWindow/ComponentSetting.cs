@@ -33,7 +33,7 @@ using System.Text;
 using System.Drawing.Drawing2D;
 using System.Drawing;
 using EcellLib.PathwayWindow.Figure;
-using EcellLib.PathwayWindow.Node;
+using EcellLib.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo.Util;
 
 namespace EcellLib.PathwayWindow
@@ -316,26 +316,19 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// This method create a new component with information in this class.
         /// </summary>
-        /// <param name="x">X residue of new component</param>
-        /// <param name="y">Y residue of new component</param>
-        /// <param name="width">width of new component</param>
-        /// <param name="height">height of new component</param>
+        /// <param name="eo">EcellObject</param>
         /// <param name="view">PathwayView instance</param>
         /// <returns>Created component</returns>
-        public PPathwayObject CreateNewComponent(float x, float y, float width, float height, PathwayView view)
+        public PPathwayObject CreateNewComponent(EcellObject eo, PathwayView view)
         {
             PPathwayObject obj = m_createMethod();
+            obj.EcellObject = eo;
             obj.CsID = m_name;
             obj.Setting = this;
             if(m_componentKind == ComponentType.System)
             {
                 obj.NormalBrush = Brushes.LightBlue;
                 obj.Pen = null;
-                //((PSystem)obj).SetRect(x,y,width,height);
-                obj.X = x;
-                obj.Y = y;
-                obj.Width = width;
-                obj.Height = height;                
                 obj.IsHighLighted = false;
                 obj.PathwayView = view;
             }
@@ -344,16 +337,8 @@ namespace EcellLib.PathwayWindow
                 obj.AddPath(m_gp,false);
                 obj.NormalBrush = m_normalBrush;
                 obj.HighLightBrush = m_highlightBrush;
-                obj.IsHighLighted = false;
-                RectangleF rect = obj.Bounds;
-                obj.X = x;
-                obj.Y = y;
-                //PMatrix mat = new PMatrix();
-                //mat.TranslateBy(-1 * rect.Width / 2f, -1 * rect.Height / 2f);
-                //obj.TransformBy(mat);
-                //obj.X = x - rect.Width / 2f;
-                //obj.Y = y - rect.Height / 2f;
             }
+            obj.IsHighLighted = false;
 
             return obj;
         }

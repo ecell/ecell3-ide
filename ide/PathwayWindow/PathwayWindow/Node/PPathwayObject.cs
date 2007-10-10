@@ -39,10 +39,11 @@ using System.Drawing;
 using System.Runtime.Serialization;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Util;
+using UMD.HCIL.Piccolo.Nodes;
 using EcellLib;
-using EcellLib.PathwayWindow.Element;
+using System.ComponentModel;
 
-namespace EcellLib.PathwayWindow.Node
+namespace EcellLib.PathwayWindow.Nodes
 {
     /// <summary>
     /// PPathwayObject is a super class for all component of PCanvas.
@@ -69,6 +70,7 @@ namespace EcellLib.PathwayWindow.Node
         #endregion
 
         #region Fields
+        protected static readonly int m_nodeTextFontSize = 10;
         /// <summary>
         /// From this ComponentSetting, this object was created.
         /// </summary>
@@ -82,9 +84,9 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         protected EcellObject m_ecellObj;
         /// <summary>
-        /// ComponentElement for this object.
+        /// PText for showing this object's ID.
         /// </summary>
-        protected ComponentElement m_element;
+        protected PText m_pText;
         /// <summary>
         /// The name of this instance;
         /// </summary>
@@ -249,13 +251,156 @@ namespace EcellLib.PathwayWindow.Node
         protected float m_originalOffsetY = 0;
 
         /// <summary>
+        /// Whether this node is showing ID or not.
+        /// </summary>
+        protected bool m_showingId;
+
+        /// <summary>
+        /// Canvas ID.
+        /// </summary>
+        protected string m_canvasID;
+
+        /// <summary>
         /// Parent object. Maybe PEcellSystem.
         /// </summary>
         protected PPathwayObject m_parentObject;
+        /// <summary>
+        /// ResourceManager for PathwayWindow.
+        /// </summary>
+        protected ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
 
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// Accessor for EcellObject.
+        /// </summary>
+        public EcellObject EcellObject
+        {
+            get { return this.m_ecellObj; }
+            set
+            {
+                this.m_ecellObj = value;
+                if (m_ecellObj.IsPosSet)
+                {
+                    base.X = m_ecellObj.X;
+                    base.Y = m_ecellObj.Y;
+                    base.Width = m_ecellObj.Width;
+                    base.Height = m_ecellObj.Height;
+                    base.OffsetX = m_ecellObj.OffsetX;
+                    base.OffsetY = m_ecellObj.OffsetY;
+                }
+                else
+                {
+                    m_ecellObj.X = base.X;
+                    m_ecellObj.Y = base.Y;
+                    m_ecellObj.Width = base.Width;
+                    m_ecellObj.Height = base.Height;
+                    m_ecellObj.OffsetX = base.OffsetX;
+                    m_ecellObj.OffsetY = base.OffsetY;
+                }
+                RefreshText();
+            }
+        }
+        /// <summary>
+        /// Accessor for X coordinate.
+        /// </summary>
+        public PointF PointF
+        {
+            get { return new PointF(this.X, this.Y); }
+            set
+            {
+                this.X = value.X;
+                this.Y = value.Y;
+            }
+        }
+        /// <summary>
+        /// Accessor for X coordinate.
+        /// </summary>
+        public override float X
+        {
+            get { return base.X; }
+            set
+            {
+                base.X = value;
+                if (EcellObject != null)
+                    EcellObject.X = value;
+            }
+        }
+        /// <summary>
+        /// Accessor for Y coordinate.
+        /// </summary>
+        public override float Y
+        {
+            get { return base.Y; }
+            set
+            {
+                base.Y = value;
+                if (EcellObject != null)
+                    EcellObject.Y = value;
+            }
+        }
+        /// <summary>
+        /// Accessor for OffsetX coordinate.
+        /// </summary>
+        public override float OffsetX
+        {
+            get { return base.OffsetX; }
+            set
+            {
+                base.OffsetX = value;
+                if (EcellObject != null)
+                    EcellObject.OffsetX = value;
+            }
+        }
+        /// <summary>
+        /// Accessor for OffsetY coordinate.
+        /// </summary>
+        public override float OffsetY
+        {
+            get { return base.OffsetY; }
+            set
+            {
+                base.OffsetY = value;
+                if (EcellObject != null)
+                    EcellObject.OffsetY = value;
+            }
+        }
+        /// <summary>
+        /// Accessor for OffsetY coordinate.
+        /// </summary>
+        public override float Width
+        {
+            get { return base.Width; }
+            set
+            {
+                base.Width = value;
+                if (EcellObject != null)
+                    EcellObject.Width = value;
+            }
+        }
+        /// <summary>
+        /// Accessor for OffsetY coordinate.
+        /// </summary>
+        public override float Height
+        {
+            get { return base.Height; }
+            set
+            {
+                base.Height = value;
+                if (EcellObject != null)
+                    EcellObject.Height = value;
+            }
+        }
+
+        /// <summary>
+        /// Accessor for m_canvasId.
+        /// </summary>
+        public string CanvasID
+        {
+            get { return m_canvasID; }
+            set { m_canvasID = value; }
+        }
         /// <summary>
         /// Accessor for coordinate in PCanvas.
         /// </summary>
@@ -287,14 +432,6 @@ namespace EcellLib.PathwayWindow.Node
         }
 
         /// <summary>
-        /// Accessor for m_ecellObj.
-        /// </summary>
-        public virtual ComponentElement Element
-        {
-            get { return this.m_element; }
-            set { this.m_element = value; }
-        }
-        /// <summary>
         /// Accessor for m_name.
         /// </summary>
         public string Name
@@ -305,9 +442,13 @@ namespace EcellLib.PathwayWindow.Node
         /// <summary>
         /// Accessor for Text.
         /// </summary>
-        public string Text
+        public PText Text
         {
-            get { return this.m_element.Text; }
+            get
+            {
+                RefreshText();
+                return m_pText;
+            }
         }
         /// <summary>
         /// Accessor for m_normalBrush.
@@ -374,22 +515,6 @@ namespace EcellLib.PathwayWindow.Node
             set { this.m_csId = value; }
         }
         /// <summary>
-        /// Accessor for children of this instance.
-        /// </summary>
-        public virtual List<PPathwayObject> ChildObjectList
-        {
-            get
-            {
-                List<PPathwayObject> returnList =  new List<PPathwayObject>();
-                foreach(PNode node in ChildrenReference)
-                {
-                    if (node is PPathwayObject)
-                        returnList.Add((PPathwayObject)node);
-                }
-                return returnList;
-            }
-        }
-        /// <summary>
         /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
         /// </summary>
         public virtual CanvasView CanvasView
@@ -405,6 +530,29 @@ namespace EcellLib.PathwayWindow.Node
             get { return m_parentObject; }
             set { m_parentObject = value; }
         }
+
+        /// <summary>
+        /// get the position of center for the text.
+        /// </summary>
+        public float TextCenterX
+        {
+            get
+            {
+                return this.EcellObject.CenterX;
+            }
+        }
+
+        /// <summary>
+        /// get the position of center for the text.
+        /// </summary>
+        public float TextCenterY
+        {
+            get
+            {
+                return this.EcellObject.CenterY;
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -415,6 +563,10 @@ namespace EcellLib.PathwayWindow.Node
         {
             pen = DEFAULT_PEN;
             path = new GraphicsPath();
+            m_pText = new PText();
+            m_pText.Pickable = false;
+            m_pText.Font = new Font("Gothics", m_nodeTextFontSize, System.Drawing.FontStyle.Bold);
+            this.AddChild(m_pText);
         }
         #endregion
 
@@ -462,11 +614,6 @@ namespace EcellLib.PathwayWindow.Node
         /// End
         /// </summary>
         public abstract void End();
-        /// <summary>
-        /// Get a list of PathwayElement of this instance and children below this instance.
-        /// </summary>
-        /// <returns></returns>
-        public abstract List<PathwayElement> GetElements();
 
         /// <summary>
         /// Create new instance of this object.
@@ -833,7 +980,19 @@ namespace EcellLib.PathwayWindow.Node
                 InvalidatePaint();
             }
         }
-
+        /// <summary>
+        /// get/set whether is shown ID.
+        /// </summary>
+        public bool ShowingID
+        {
+            get { return m_showingId; }
+            set { m_showingId = value;
+                if (m_showingId)
+                    m_pText.Visible = true;
+                else
+                    m_pText.Visible = false;
+            }
+        }
         /// <summary>
         /// See <see cref="GraphicsPath.PathData">GraphicsPath.PathData</see>.
         /// </summary>
@@ -850,6 +1009,19 @@ namespace EcellLib.PathwayWindow.Node
             get { return path.PointCount; }
         }
 
+        /// <summary>
+        /// acessor for a rectangle of this system.
+        /// </summary>
+        public virtual RectangleF Rect
+        {
+            get
+            {
+                return new RectangleF(base.X + this.OffsetX,
+                                      base.Y + this.OffsetY,
+                                      base.Width,
+                                      base.Height);
+            }
+        }
         /// <summary>
         /// See <see cref="GraphicsPath.AddArc(float, float, float, float, float, float)">
         /// GraphicsPath.AddArc</see>.
@@ -1017,7 +1189,7 @@ namespace EcellLib.PathwayWindow.Node
             foreach(PNode child in children)
             {
                 if (!(child is PPathwayObject))
-                    return;
+                    continue;
                 ((PPathwayObject)child).NotifyMovement();
             }
         }
@@ -1043,7 +1215,21 @@ namespace EcellLib.PathwayWindow.Node
         /// ex) Edges of a process can be refreshed by using this.
         /// </summary>
         public virtual void Refresh()
-        {            
+        {
+            base.X = this.m_originalX;
+            base.Y = this.m_originalY;
+            base.OffsetX = this.m_originalOffsetX;
+            base.OffsetY = this.m_originalOffsetY;
+            RefreshText();
+        }
+        /// <summary>
+        /// Refresh Text contents of this object.
+        /// </summary>
+        public virtual void RefreshText()
+        {
+            this.m_pText.Text = this.EcellObject.Text;
+            this.m_pText.CenterBoundsOnPoint(TextCenterX, TextCenterY);
+            this.m_pText.MoveToFront();           
         }
         
         /// <summary>

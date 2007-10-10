@@ -40,14 +40,13 @@ using System.Drawing;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
-using EcellLib.PathwayWindow.Element;
 
-namespace EcellLib.PathwayWindow.Node
+namespace EcellLib.PathwayWindow.Nodes
 {
     /// <summary>
     /// PPathwayNode for E-cell system.
     /// </summary>
-    public class PPathwaySystem : PSystem
+    public class PPathwaySystem : PPathwayObject
     {
         #region Static readonly fields
         /// <summary>
@@ -59,6 +58,12 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public static readonly float DEFAULT_HEIGHT = 500;
         /// <summary>
+        /// When new system will be added by other plugin, it will be positioned this length away from
+        /// parent system boundary.
+        /// </summary>
+        public static readonly float SYSTEM_MARGIN = 60;
+
+        /// <summary>
         /// minimum width
         /// </summary>
         public static readonly float MIN_X_LENGTH = 80;
@@ -66,9 +71,48 @@ namespace EcellLib.PathwayWindow.Node
         /// minimum height
         /// </summary>
         public static readonly float MIN_Y_LENGTH = 80;
+        /// <summary>
+        /// An outer radius of round-shaped corner of a system.
+        /// </summary>
+        public static readonly float OUTER_RADIUS = 20f;
+
+        /// <summary>
+        /// An inner radius of round-shaped corner of a system.
+        /// </summary>
+        public static readonly float INNER_RADIUS = 10f;
+        /// <summary>
+        /// Thickness of system.
+        /// </summary>
+        public static readonly float HALF_THICKNESS = (OUTER_RADIUS - INNER_RADIUS) / 2f;
+        /// <summary>
+        /// Margin between lower hem and PText for a name of a system.
+        /// </summary>
+        public static readonly float TEXT_LOWER_MARGIN = 20f;
         #endregion
 
         #region Fields
+        /// <summary>
+        /// Indicate whether this PSystem is valid or not.
+        /// </summary>
+        protected bool m_valid = true;
+
+        /// <summary>
+        /// Brush for drawing back ground.
+        /// </summary>
+        protected Brush m_backBrush = Brushes.White;
+
+        /// <summary>
+        /// For memorizing a width and a height before the start of a dragging.
+        /// When the dragging failed, this object will be set to this width
+        /// </summary>
+        protected float m_originalWidth = 0;
+
+        /// <summary>
+        /// For memorizing a width and a height before the start of a dragging.
+        /// When the dragging failed, this object will be set to this width
+        /// </summary>
+        protected float m_originalHeight = 0;
+
         /// <summary>
         /// the flag whether this system is changed.
         /// </summary>
@@ -90,19 +134,31 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         protected GraphicsPath m_backGp;
         /// <summary>
-        /// GraohicsPath of outline,
+        /// GraohicsPath of outline.
         /// </summary>
         protected GraphicsPath m_outlineGp;
+        /// <summary>
+        /// Child object list.
+        /// </summary>
+        protected List<PPathwayObject> m_childList = new List<PPathwayObject>();
         #endregion
 
         #region Accessors
         /// <summary>
-        /// Accessor for m_systemElement.
+        /// Accessor for m_ecellobj.
         /// </summary>
-        public new SystemElement Element
+        public new EcellSystem EcellObject
         {
-            get { return (SystemElement)base.m_element; }
-            set { base.m_element = value; }
+            get { return (EcellSystem)base.m_ecellObj; }
+            set { base.EcellObject = value; }
+        }
+        /// <summary>
+        /// Accessor for m_ecellobj.
+        /// </summary>
+        public List<PPathwayObject> ChildObjectList
+        {
+            get { return this.m_childList; }
+            set { this.m_childList = value; }
         }
 
         /// <summary>
@@ -117,7 +173,6 @@ namespace EcellLib.PathwayWindow.Node
                 if (value)
                 {
                     this.Brush = m_highLightBrush;
-                    UpdateResizeHandlePositions();
                 }
                 else
                 {
@@ -143,7 +198,6 @@ namespace EcellLib.PathwayWindow.Node
                 if (value)
                 {
                     this.Brush = m_invalidBrush;
-                    UpdateResizeHandlePositions();
                 }
                 else if (m_isSelected)
                     this.Brush = m_highLightBrush;
@@ -199,68 +253,20 @@ namespace EcellLib.PathwayWindow.Node
                 m_isChanged = true;
             }
         }
-        /*
-        /// <summary>
-        /// get/set the width of this system.
-        /// </summary>
-        public override float SystemWidth
-        {
-            get { return m_systemWidth; }
-            set
-            {
-                m_systemWidth = value;
-                m_isChanged = true;
-            }
-        }
-
-        /// <summary>
-        /// get/set the height of this system.
-        /// </summary>
-        public override float SystemHeight
-        {
-            get { return m_systemHeight; }
-            set
-            {
-                m_systemHeight = value;
-                m_isChanged = true;
-            }
-        }*/
-
-        /// <summary>
-        /// get the position of center for the text.
-        /// </summary>
-        public float TextCenterX
-        {
-            get
-            {
-                return this.X + this.OffsetToLayer.X + Width / 2f;
-            }
-        }
-
-        /// <summary>
-        /// get the position of center for the text.
-        /// </summary>
-        public float TextCenterY
-        {
-            get
-            {
-                return this.Y + this.OffsetToLayer.Y + this.Height - this.Element.TextLowerMargin;
-            }
-        }
 
         /// <summary>
         /// get/set the flag whether this system is valid.
         /// </summary>
-        public override bool Valid
+        public bool Valid
         {
             get
             {
-                return base.Valid;
+                return m_valid;
             }
             set
             {
-                base.Valid = value;
-                if (base.Valid)
+                this.m_valid = value;
+                if (this.m_valid)
                 {
                     if (this.m_isSelected)
                         this.Brush = m_highLightBrush;
@@ -272,6 +278,53 @@ namespace EcellLib.PathwayWindow.Node
                 m_isChanged = true;
             }
         }
+        /// <summary>
+        /// Accessor for x coordinates of memorized position.
+        /// </summary>
+        public virtual float OriginalX
+        {
+            get { return m_originalX; }
+        }
+
+        /// <summary>
+        /// Accessor for y coordinates of memorized position.
+        /// </summary>
+        public virtual float OriginalY
+        {
+            get { return m_originalY; }
+        }
+
+        /// <summary>
+        /// Accessor for m_backBrush.
+        /// </summary>
+        public virtual Brush BackgroundBrush
+        {
+            get { return m_backBrush; }
+            set { m_backBrush = value; }
+        }
+
+        /// <summary>
+        /// get the position of center for the text.
+        /// </summary>
+        public new float TextCenterX
+        {
+            get
+            {
+                //return this.X + this.OffsetToLayer.X + Width / 2f;
+                return this.X + Width / 2f;
+            }
+        }
+
+        /// <summary>
+        /// get the position of center for the text.
+        /// </summary>
+        public new float TextCenterY
+        {
+            get
+            {
+                return this.Y + this.Height - TEXT_LOWER_MARGIN;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -280,9 +333,12 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public PPathwaySystem()
         {
+            base.Width = DEFAULT_WIDTH;
+            base.Height = DEFAULT_HEIGHT;
         }
         #endregion
 
+        #region Methods
         /// <summary>
         /// Create object of PPathwayObject.
         /// </summary>
@@ -376,25 +432,25 @@ namespace EcellLib.PathwayWindow.Node
             base.Reset();
             base.Width = prevWidth;
             base.Height = prevHeight;
-            float thickness = SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS;
-            float outerDiameter = SystemElement.OUTER_RADIUS * 2;
-            float innerDiameter = SystemElement.INNER_RADIUS * 2;
-            float horizontalRectWidth = base.Width - 2f * SystemElement.OUTER_RADIUS;
-            float verticalRectHeight = base.Height - 2f * SystemElement.OUTER_RADIUS;
+            float thickness = OUTER_RADIUS - INNER_RADIUS;
+            float outerDiameter = OUTER_RADIUS * 2;
+            float innerDiameter = INNER_RADIUS * 2;
+            float horizontalRectWidth = base.Width - 2f * OUTER_RADIUS;
+            float verticalRectHeight = base.Height - 2f * OUTER_RADIUS;
             GraphicsPath gp = new GraphicsPath();
             gp.AddPie(0, 0, outerDiameter, outerDiameter, 180, 90);
             gp.AddPie(thickness, thickness, innerDiameter, innerDiameter, 180, 90);
-            gp.AddRectangle(new RectangleF(SystemElement.OUTER_RADIUS, 0, base.Width - outerDiameter, thickness));
+            gp.AddRectangle(new RectangleF(OUTER_RADIUS, 0, base.Width - outerDiameter, thickness));
             gp.AddPie(base.Width - outerDiameter, 0, outerDiameter, outerDiameter, 270, 90);
             gp.AddPie(base.Width - outerDiameter + thickness, thickness, innerDiameter, innerDiameter, 270, 90);
-            gp.AddRectangle(new RectangleF(base.Width - thickness, SystemElement.OUTER_RADIUS, thickness, verticalRectHeight));
+            gp.AddRectangle(new RectangleF(base.Width - thickness, OUTER_RADIUS, thickness, verticalRectHeight));
             gp.AddPie(base.Width - outerDiameter, base.Height - outerDiameter, outerDiameter, outerDiameter, 0, 90);
             gp.AddPie(base.Width - outerDiameter + thickness,
                       base.Height - outerDiameter + thickness, innerDiameter, innerDiameter, 0, 90);
-            gp.AddRectangle(new RectangleF(SystemElement.OUTER_RADIUS, base.Height - thickness, horizontalRectWidth, thickness));
+            gp.AddRectangle(new RectangleF(OUTER_RADIUS, base.Height - thickness, horizontalRectWidth, thickness));
             gp.AddPie(0, base.Height - outerDiameter, outerDiameter, outerDiameter, 90, 90);
             gp.AddPie(thickness, base.Height - outerDiameter + thickness, innerDiameter, innerDiameter, 90, 90);
-            gp.AddRectangle(new RectangleF(0,SystemElement.OUTER_RADIUS,thickness,verticalRectHeight));
+            gp.AddRectangle(new RectangleF(0, OUTER_RADIUS, thickness, verticalRectHeight));
             
             AddPath(gp,false);
             X = prevX;
@@ -404,85 +460,33 @@ namespace EcellLib.PathwayWindow.Node
         }
 
         /// <summary>
-        /// get the list of element in system.
+        /// Make space for child rectangle.
+        /// Extend current space to contain given rectangle.
         /// </summary>
-        /// <returns></returns>
-        public override List<PathwayElement> GetElements()
+        /// <param name="rect"></param>
+        public void MakeSpace(PPathwayObject obj)
         {
-            List<PathwayElement> elementList = new List<PathwayElement>();
-        
-            foreach(PPathwayObject obj in this.ChildObjectList)
-            {
-                elementList.AddRange(obj.GetElements());
-            }
-
-            return elementList;
-        }
-
-        /// <summary>
-        /// Make space for child.
-        /// Region which is indicated by xDirSpace and yDirSpace and is owned by this system will be
-        /// child's region, so make room for this region.
-        /// </summary>
-        /// <param name="xDirSpace"></param>
-        /// <param name="yDirSpace"></param>
-        public void MakeSpace(RectangleF xDirSpace, RectangleF yDirSpace)
-        {
-            xDirSpace.X += base.Offset.X;
-            xDirSpace.Y += base.Offset.Y;
-            yDirSpace.X += base.Offset.X;
-            yDirSpace.Y += base.Offset.Y;
-
-            if(null != this.Parent && this.Parent is PPathwaySystem)
-            {
-                // Make parent system create space for this system.
-                RectangleF xDirParentSpace
-                    = new RectangleF(
-                    base.X + base.Width,
-                    base.Y,
-                    xDirSpace.Width,
-                    base.Height + yDirSpace.Height);
-
-                RectangleF yDirParentSpace
-                    = new RectangleF(
-                    base.X,
-                    base.Y + base.Height,
-                    base.Width,
-                    yDirSpace.Height);
-                ((PPathwaySystem)this.Parent).MakeSpace(xDirParentSpace, yDirParentSpace);
-            }
-
+            // Offset position of given object.
+            if (obj.X < this.X + this.Offset.X + SYSTEM_MARGIN)
+                obj.X = this.X + this.Offset.X + SYSTEM_MARGIN;
+            if (obj.Y < this.Y + this.Offset.Y + SYSTEM_MARGIN)
+                obj.Y = this.Y + this.Offset.Y + SYSTEM_MARGIN;
             // Enlarge this system
-            base.Width += xDirSpace.Width;
-            base.Height += yDirSpace.Height;
+            if (this.X + this.Width < obj.X + obj.Width + SYSTEM_MARGIN)
+                this.Width = obj.X + obj.Width + SYSTEM_MARGIN - this.X;
+            if (this.Y + this.Height < obj.Y + obj.Height + SYSTEM_MARGIN)
+                this.Height = obj.Y + obj.Height + SYSTEM_MARGIN - this.Y;
+
+            // Make parent system create space for this system.
+            if (null != this.Parent && this.Parent is PPathwaySystem)
+                ((PPathwaySystem)this.Parent).MakeSpace(this);
 
             // Move child nodes position.
-            if(null != this.ChildObjectList)
-            {
-                foreach(PPathwayObject child in this.ChildObjectList)
-                {
-                    float xPos = child.X + child.Offset.X;
-                    float yPos = child.Y + child.Offset.Y;
-                    if (xDirSpace.X < xPos && xDirSpace.Y < yPos)
-                    {
-                        child.X += xDirSpace.Width;
-                        if (child is PPathwayNode)
-                        {
-                            ((PPathwayNode)child).RefreshText();
-                            ((PPathwayNode)child).Refresh();
-                        }
-                    }
-                    else if(yDirSpace.X < xPos && xPos < yDirSpace.Right && yDirSpace.Y < yPos)
-                    {
-                        child.Y += yDirSpace.Height;
-                        if (child is PPathwayNode)
-                        {
-                            ((PPathwayNode)child).RefreshText();
-                            ((PPathwayNode)child).Refresh();
-                        }
-                    }
-                }
-            }
+            if (this.ChildObjectList == null)
+                return;
+            foreach(PPathwayObject child in this.ChildObjectList)
+                if (obj.Rect.Contains(child.Rect) || obj.Rect.IntersectsWith(child.Rect))
+                    child.X += obj.Width;
         }
 
         /// <summary>
@@ -526,18 +530,15 @@ namespace EcellLib.PathwayWindow.Node
         public override void OnDoubleClick(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             if (!(e.PickedNode is PPathwaySystem)) return;
-            PPathwaySystem p = (PPathwaySystem)e.PickedNode;
-            if (!p.Element.Key.Equals(Element.Key)) return;
-
-            EcellObject obj = m_set.PathwayView.GetEcellObject(Element.Key, "System");
-
-            if (null == obj)
+            if (EcellObject == null)
                 return;
+            PPathwaySystem p = (PPathwaySystem)e.PickedNode;
+            if (!p.EcellObject.key.Equals(EcellObject.key)) return;
 
             PropertyEditor editor = new PropertyEditor();
             editor.layoutPanel.SuspendLayout();
-            editor.SetCurrentObject(obj);
-            editor.SetDataType(obj.type);
+            editor.SetCurrentObject(EcellObject);
+            editor.SetDataType(EcellObject.type);
             editor.PEApplyButton.Click += new EventHandler(editor.UpdateProperty);
             editor.LayoutPropertyEditor();
             editor.layoutPanel.ResumeLayout(false);
@@ -549,11 +550,11 @@ namespace EcellLib.PathwayWindow.Node
         /// </summary>
         public void SetGraphicsPath()
         {
-            float thickness = SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS;
-            float outerDiameter = SystemElement.OUTER_RADIUS * 2;
-            float innerDiameter = SystemElement.INNER_RADIUS * 2;
-            float horizontalRectWidth = base.Width - 2f * SystemElement.OUTER_RADIUS;
-            float verticalRectHeight = base.Height - 2f * SystemElement.OUTER_RADIUS;
+            float thickness = OUTER_RADIUS - INNER_RADIUS;
+            float outerDiameter = OUTER_RADIUS * 2;
+            float innerDiameter = INNER_RADIUS * 2;
+            float horizontalRectWidth = base.Width - 2f * OUTER_RADIUS;
+            float verticalRectHeight = base.Height - 2f * OUTER_RADIUS;
 
             m_backGp = new GraphicsPath();
             m_backGp.FillMode = FillMode.Alternate;
@@ -563,27 +564,27 @@ namespace EcellLib.PathwayWindow.Node
                                                base.Height - 2 * thickness));
             m_backGp.AddRectangle(new RectangleF(X + thickness,
                                                Y + thickness,
-                                               SystemElement.INNER_RADIUS,
-                                               SystemElement.INNER_RADIUS));
-            m_backGp.AddRectangle(new RectangleF(X + base.Width - SystemElement.OUTER_RADIUS,
+                                               INNER_RADIUS,
+                                               INNER_RADIUS));
+            m_backGp.AddRectangle(new RectangleF(X + base.Width - OUTER_RADIUS,
                                                Y + thickness,
-                                               SystemElement.INNER_RADIUS,
-                                               SystemElement.INNER_RADIUS));
-            m_backGp.AddRectangle(new RectangleF(X + base.Width - SystemElement.OUTER_RADIUS,
-                                               Y + base.Height - SystemElement.OUTER_RADIUS,
-                                               SystemElement.INNER_RADIUS,
-                                               SystemElement.INNER_RADIUS));
+                                               INNER_RADIUS,
+                                               INNER_RADIUS));
+            m_backGp.AddRectangle(new RectangleF(X + base.Width - OUTER_RADIUS,
+                                               Y + base.Height - OUTER_RADIUS,
+                                               INNER_RADIUS,
+                                               INNER_RADIUS));
             m_backGp.AddRectangle(new RectangleF(X + thickness,
-                                               Y + base.Height - SystemElement.OUTER_RADIUS,
-                                               SystemElement.INNER_RADIUS,
-                                               SystemElement.INNER_RADIUS));
+                                               Y + base.Height - OUTER_RADIUS,
+                                               INNER_RADIUS,
+                                               INNER_RADIUS));
             m_backGp.AddPie(X + thickness, Y + thickness, innerDiameter, innerDiameter, 180, 90);
-            m_backGp.AddPie(X + base.Width - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, Y + thickness,
+            m_backGp.AddPie(X + base.Width - OUTER_RADIUS - INNER_RADIUS, Y + thickness,
                            innerDiameter, innerDiameter, 270, 90);
-            m_backGp.AddPie(X + base.Width - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
-                            Y + base.Height - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+            m_backGp.AddPie(X + base.Width - OUTER_RADIUS - INNER_RADIUS,
+                            Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
                             innerDiameter, innerDiameter, 0, 90);
-            m_backGp.AddPie(X + thickness, Y + base.Height - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+            m_backGp.AddPie(X + thickness, Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
                            innerDiameter, innerDiameter, 90, 90);
 
 
@@ -594,17 +595,164 @@ namespace EcellLib.PathwayWindow.Node
             m_outlineGp.AddArc(X + base.Width - outerDiameter, Y + base.Height - outerDiameter,
                       outerDiameter, outerDiameter, 0, 90);
             m_outlineGp.AddArc(X, Y + base.Height - outerDiameter, outerDiameter, outerDiameter, 90, 90);
-            m_outlineGp.AddLine(X, Y + SystemElement.OUTER_RADIUS, X, Y + base.Height - SystemElement.OUTER_RADIUS);
+            m_outlineGp.AddLine(X, Y + OUTER_RADIUS, X, Y + base.Height - OUTER_RADIUS);
             m_outlineGp.CloseFigure();
             m_outlineGp.AddArc(X + thickness, Y + thickness, innerDiameter, innerDiameter, 180, 90);
-            m_outlineGp.AddArc(X + base.Width - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+            m_outlineGp.AddArc(X + base.Width - OUTER_RADIUS - INNER_RADIUS,
                       Y + thickness, innerDiameter, innerDiameter, 270, 90);
-            m_outlineGp.AddArc(X + base.Width - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
-                      Y + base.Height - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS,
+            m_outlineGp.AddArc(X + base.Width - OUTER_RADIUS - INNER_RADIUS,
+                      Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
                       innerDiameter, innerDiameter, 0, 90);
-            m_outlineGp.AddArc(X + thickness, Y + base.Height - SystemElement.OUTER_RADIUS - SystemElement.INNER_RADIUS, innerDiameter, innerDiameter, 90, 90);
-            m_outlineGp.AddLine(X + thickness, Y + SystemElement.OUTER_RADIUS, X + thickness, Y + base.Height - SystemElement.OUTER_RADIUS);
+            m_outlineGp.AddArc(X + thickness, Y + base.Height - OUTER_RADIUS - INNER_RADIUS, innerDiameter, innerDiameter, 90, 90);
+            m_outlineGp.AddLine(X + thickness, Y + OUTER_RADIUS, X + thickness, Y + base.Height - OUTER_RADIUS);
 
         }
+
+        /// <summary>
+        /// Check if this PSystem's region overlaps given rectangle
+        /// </summary>
+        /// <param name="rect">RectangleF to be checked</param>
+        /// <returns>True if each rectangle overlaps other rectangle
+        /// (doesn't contain whole rectangle)</returns>
+        public virtual bool Overlaps(RectangleF rect)
+        {
+            return this.Rect.IntersectsWith(rect);
+        }
+
+        /// <summary>
+        /// Memorize current position of the canvas.
+        /// </summary>
+        public override void MemorizeCurrentPosition()
+        {
+            base.m_originalX = base.X;
+            base.m_originalY = base.Y;
+            base.m_originalOffsetX = base.OffsetX;
+            base.m_originalOffsetY = base.OffsetY;
+            this.m_originalWidth = this.Width;//this.SystemWidth;
+            this.m_originalHeight = this.Height;// this.SystemHeight;
+        }
+
+        /// <summary>
+        /// Return to memorized position.
+        /// </summary>
+        public override void ReturnToMemorizedPosition()
+        {
+            base.X = base.m_originalX;
+            base.Y = base.m_originalY;
+            base.OffsetX = base.m_originalOffsetX;
+            base.OffsetY = base.m_originalOffsetY;
+            base.Width = this.m_originalWidth;
+            base.Height = this.m_originalHeight;
+            //this.SystemWidth = this.m_originalWidth;
+            //this.SystemHeight = this.m_originalHeight;
+            foreach (PPathwayObject obj in this.ChildObjectList)
+            {
+                if (obj is PPathwayVariable)
+                    ((PPathwayVariable)obj).Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Refresh graphical contents of this object.
+        /// ex) Edges of a process can be refreshed by using this.
+        /// </summary>
+        public override void Refresh()
+        {
+            base.Refresh();
+            this.RefreshText();
+            //this.SystemWidth = this.m_originalWidth;
+            //this.SystemHeight = this.m_originalHeight;
+            //base.Width = this.m_originalWidth;
+            //base.Height = this.m_originalHeight;
+        }
+        /// <summary>
+        /// Refresh Text contents of this object.
+        /// </summary>
+        public override void RefreshText()
+        {
+            base.m_pText.Text = this.EcellObject.Text;
+            base.m_pText.CenterBoundsOnPoint(TextCenterX, TextCenterY);
+            base.m_pText.MoveToFront();
+        }
+
+        /// <summary>
+        /// start to move this Node by drag.
+        /// </summary>
+        public override void MoveStart()
+        {
+            PNodeList tmplist = new PNodeList();
+            foreach (PNode p in this.ChildrenReference)
+            {
+                if (p is PPathwayProcess)
+                    tmplist.Add(p);
+            }
+            foreach (PNode p in tmplist)
+            {
+                if (p is PPathwayObject)
+                {
+                    ((PPathwayObject)p).MoveStart();
+                }
+                else if (p is PPath)
+                {
+                    int ind = this.IndexOfChild(p);
+                    this.RemoveChild(ind);
+                }
+            }
+        }
+
+        /// <summary>
+        /// end to move this Node by drag.
+        /// </summary>
+        public override void MoveEnd()
+        {
+            PNodeList tmplist = new PNodeList();
+            foreach (PNode p in this.ChildrenReference)
+            {
+                if (p is PPathwayProcess)
+                    tmplist.Add(p);
+            }
+            foreach (PNode p in tmplist)
+            {
+                if (p is PPathwayObject)
+                {
+                    ((PPathwayObject)p).MoveEnd();
+                }
+            }
+        }
+        #endregion
+
+        #region nouse
+        public override void Delete()
+        {
+        }
+        public override bool HighLighted(bool highlight)
+        {
+            return true;
+        }
+        public override void Initialize()
+        {
+        }
+        public override void DataChanged(EcellObject ecellObj)
+        {
+        }
+        public override void DataDeleted()
+        {
+        }
+        public override void SelectChanged()
+        {
+        }
+        public override void Start()
+        {
+        }
+        public override void Change()
+        {
+        }
+        public override void Stop()
+        {
+        }
+        public override void End()
+        {
+        }
+        #endregion
     }    
 }

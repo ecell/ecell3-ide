@@ -42,7 +42,7 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.PiccoloX.Nodes;
-using EcellLib.PathwayWindow.Node;
+using EcellLib.PathwayWindow.Nodes;
 
 namespace EcellLib.PathwayWindow
 {
@@ -148,9 +148,9 @@ namespace EcellLib.PathwayWindow
                     if (node is PPathwayNode)
                     {
                         m_view.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)node, false);
-                        PPathwayObject obj = (PPathwayObject)node;
-                        pManager.AddSelect( obj.Element.ModelID, obj.Element.Key, obj.Element.Type );
-                        lastNode = (PPathwayNode)obj;
+                        PPathwayObject pObj = (PPathwayObject)node;
+                        pManager.AddSelect(pObj.EcellObject.modelID, pObj.EcellObject.key, pObj.EcellObject.type);
+                        lastNode = (PPathwayNode)pObj;
                     }
                     if (node == m_lastSelectedObj)
                         isAlreadySelected = true;
@@ -158,7 +158,7 @@ namespace EcellLib.PathwayWindow
 
                 if (!isAlreadySelected && lastNode != null)
                 {
-                    m_view.CanvasDictionary[e.Canvas.Name].NotifySelectChanged(lastNode.Element.Key, lastNode.Element.Type);
+                    m_view.CanvasDictionary[e.Canvas.Name].NotifySelectChanged(lastNode.EcellObject.key, lastNode.EcellObject.type);
                     m_lastSelectedObj = lastNode;
                 }
             }

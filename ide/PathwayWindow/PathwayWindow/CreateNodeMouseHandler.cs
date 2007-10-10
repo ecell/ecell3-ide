@@ -37,9 +37,8 @@ using System.Threading;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
-using EcellLib.PathwayWindow.Node;
+using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.UIComponent;
-using EcellLib.PathwayWindow.Element;
 
 namespace EcellLib.PathwayWindow
 {
@@ -116,7 +115,7 @@ namespace EcellLib.PathwayWindow
                 m_set = m_view.CanvasDictionary[e.Canvas.Name];
                 m_canvasName = ((PCamera)sender).Canvas.Name;
                 m_downPos = e.Position;
-                m_surSystem = m_view.CanvasDictionary[e.Canvas.Name].GetSurroundingSystem(e.Position, null);
+                m_surSystem = m_view.CanvasDictionary[e.Canvas.Name].GetSurroundingSystemKey(e.Position);
 
                 if (string.IsNullOrEmpty(m_surSystem))
                 {
@@ -141,14 +140,11 @@ namespace EcellLib.PathwayWindow
                         list.Add(d);
                     }
                     
-                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, tmpId,
-                    "Process", "ExpressionFluxProcess", list);
+                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, tmpId, "Process", "ExpressionFluxProcess", list);
                     eo.X = m_downPos.X;
                     eo.Y = m_downPos.Y;
 
-                    ComponentSetting cs = m_view.ComponentSettings[m_view.SelectedHandle.CsID];
-
-                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Process, cs, eo, true, true, null);
+                    m_view.NotifyDataAdd(eo, true);
                 }
                 else
                 {
@@ -158,14 +154,11 @@ namespace EcellLib.PathwayWindow
                     foreach (EcellData d in dict.Values)
                         list.Add(d);
 
-                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, tmpId,
-                    "Variable", "Variable", list);
+                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, tmpId, "Variable", "Variable", list);
                     eo.X = m_downPos.X;
                     eo.Y = m_downPos.Y;
 
-                    ComponentSetting cs = m_view.ComponentSettings[m_view.SelectedHandle.CsID];
-
-                    m_view.AddNewObj(m_canvasName, m_surSystem, ComponentType.Variable, cs, eo, true, true, null);
+                    m_view.NotifyDataAdd(eo, true);
                 }
             }
         }

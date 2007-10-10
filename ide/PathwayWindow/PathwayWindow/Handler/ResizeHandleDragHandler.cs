@@ -33,7 +33,7 @@ using System.Drawing;
 using System.Text;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
-using EcellLib.PathwayWindow.Node;
+using EcellLib.PathwayWindow.Nodes;
 using PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow
@@ -67,21 +67,7 @@ namespace EcellLib.PathwayWindow
         /// CanvasView, to which this handler belongs.
         /// </summary>
         private CanvasView m_set;
-
-        /// <summary>
-        /// This handler controls these systems.
-        /// </summary>
-        private List<PPathwaySystem> m_systemList;
         #endregion
-
-        /*
-        #region Accessors        
-        public MovingRestriction Restrict
-        {
-            get { return this.m_restrict; }
-            set { this.m_restrict = value; }
-        }
-        #endregion*/
 
         /// <summary>
         /// Constructor.
@@ -100,8 +86,6 @@ namespace EcellLib.PathwayWindow
         protected override void OnStartDrag(object sender, PInputEventArgs e)
         {
             base.OnStartDrag(sender, e);
-            if (e.PickedNode is PPathwaySystem)
-                m_systemList = m_set.GetSystem(((PPathwaySystem)e.PickedNode).Name);
             e.Handled = true;
             if (e.PickedNode.ChildrenCount != 1 || !(e.PickedNode.ChildrenReference[0] is PPathwaySystem))
                 e.PickedNode.MoveToFront();

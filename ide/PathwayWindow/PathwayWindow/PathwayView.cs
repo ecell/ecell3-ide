@@ -47,8 +47,7 @@ using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.PiccoloX.Nodes;
 using UMD.HCIL.Piccolo.Util;
 using EcellLib.PathwayWindow.UIComponent;
-using EcellLib.PathwayWindow.Node;
-using EcellLib.PathwayWindow.Element;
+using EcellLib.PathwayWindow.Nodes;
 using PathwayWindow;
 using PathwayWindow.UIComponent;
 using System.IO;
@@ -148,11 +147,6 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public static readonly string PROCESS_STRING = "Process";
 
-        /// <summary>
-        /// When new system will be added by other plugin, it will be positioned this length away from
-        /// parent system boundary.
-        /// </summary>
-        public static readonly float SYSTEM_SYSTEM_MARGIN = 60;
         #endregion
 
         #region Fields
@@ -160,11 +154,6 @@ namespace EcellLib.PathwayWindow
         /// PathwayWindow.
         /// </summary>
         PathwayWindow m_pathwayWindow;
-
-        /// <summary>
-        /// m_dManager (DataManager)
-        /// </summary>
-        private DataManager m_dManager;
 
         /// <summary>
         /// A list of ComponentSettings.
@@ -193,6 +182,11 @@ namespace EcellLib.PathwayWindow
         /// The CanvasID of currently active canvas.
         /// </summary>
         string m_activeCanvasID;
+
+        /// <summary>
+        /// Default LayerID
+        /// </summary>
+        string m_defLayerId = "first";
 
         /// <summary>
         /// Having relation between Ecell key of a system and canvas ID;
@@ -271,11 +265,6 @@ namespace EcellLib.PathwayWindow
         DataTable m_layerDataTable;
 
         /// <summary>
-        /// Whether the lower panel (overview, layer control) is shown or not (collapsed).
-        /// </summary>
-        bool m_lowerPanelShown = true;
-
-        /// <summary>
         /// Whether each node is showing it's ID or not;
         /// </summary>
         bool m_showingId = true;
@@ -317,7 +306,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public CanvasView ActiveCanvas
         {
-            get {
+            get
+            {
                 if (m_activeCanvasID == null)
                     return null;
                 else
@@ -427,9 +417,6 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public PathwayView()
         {
-            // Preparing a DataManager
-            m_dManager = DataManager.GetDataManager();
-
             // Preparing a pathway panel
             m_tabControl = new TabControl();
             m_tabControl.Dock = DockStyle.Fill;
@@ -524,7 +511,26 @@ namespace EcellLib.PathwayWindow
         }
 
         #endregion
+        /// <summary>
+        /// Create pathway canvas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void CreateCanvas(string canvasID)
+        {
+            m_canvasDict = new Dictionary<string, CanvasView>();
 
+            CanvasView canvas = new CanvasView(this, canvasID, REDUCTION_SCALE, null);
+            m_activeCanvasID = canvasID;
+            m_canvasDict.Add(canvasID, canvas);
+            canvas.AddLayer(this.m_defLayerId);
+
+            m_tabControl.Controls.Add(canvas.TabPage);
+            m_layerDs.Tables.Clear();
+            m_layerDs.Tables.Add(canvas.LayerTable);
+            canvas.UpdateOverview();
+
+        }
         /// <summary>
         /// event sequence of changing the check of layer showing.
         /// </summary>
@@ -539,7 +545,7 @@ namespace EcellLib.PathwayWindow
                 string layerName = (string)((DataGridView)sender).CurrentRow.Cells["Name"].Value;             
                 m_canvasDict[dataMember].Layers[layerName].Visible = show;
                 m_canvasDict[dataMember].PathwayCanvas.Refresh();
-                m_canvasDict[dataMember].OverviewCanvas.Refresh();
+                m_canvasDict[dataMember].OverView.Canvas.Refresh();
                 m_canvasDict[dataMember].RefreshVisibility();
                 m_dirtyEventProcessed = true;
             }
@@ -557,183 +563,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="systemName">name of system</param>
         /// <param name="cType">type of component</param>
         /// <param name="cs">ComponentSetting</param>
-        /// <param name="modelID">model id</param>
-        /// <param name="key">key</param>
-        /// <param name="hasCoords">whether an object has coordinates or not</param>
-        /// <param name="x">x</param>
-        /// <param name="y">y</param>
-        /// <param name="width">width</param>
-        /// <param name="height">height</param>
-        /// <param name="needToNotify">whether notification is needed or not</param>
-        /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
-        /// only the last action's isAnchor is true, the others' isAnchor is false</param>
-        /// <param name="eo">EcellObject</param>
-        /// <param name="valueStr"></param>
-        /// <param name="change"></param>
-        public void AddNewObj(string canvasName,
-            string systemName,
-            ComponentType cType,
-            ComponentSetting cs,
-            string modelID,
-            string key,
-            bool hasCoords,
-            float x,
-            float y,
-            float width,
-            float height,
-            bool needToNotify,
-            bool isAnchor,
-            EcellObject eo,
-            string valueStr,
-            bool change)
-        {
-            if (string.IsNullOrEmpty(key))
-                throw new PathwayException(m_resources.GetString("ErrKeyNot"));
-
-            if (!RegisterObj(cType, key, canvasName))
-                return;
-
-            if (needToNotify)
-            {
-                if (eo == null)
-                    throw new PathwayException(m_resources.GetString("ErrAddObjNot"));
-
-                try
-                {
-                    NotifyDataAdd(eo, isAnchor);
-                }
-                catch (IgnoreException)
-                {
-                    UnregisterObj(cType, key);
-                    return;
-                }
-                catch (Exception e)
-                {
-                    UnregisterObj(cType, key);
-                    MessageBox.Show(m_resources.GetString("ErrAddObj"), "Error\n" + e.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-            
-            ComponentElement element = null;
-            string type = null;
-            switch(cType)
-            {
-                case ComponentType.Variable:
-                    type = VARIABLE_STRING;
-                    if(key.EndsWith(":SIZE"))
-                    {
-                        element = new AttributeElement();
-                        if (!needToNotify)
-                        {
-                            if (null == valueStr)
-                                ((AttributeElement)element).Value = GetEcellData(key, type, "Value");
-                            else
-                                ((AttributeElement)element).Value = valueStr;
-                        }
-                    }
-                    else
-                    {
-                        element = new VariableElement();
-                        type = VARIABLE_STRING;
-                        if(cs == null)
-                            cs = ComponentSettingsManager.DefaultVariableSetting;
-                    }
-                    break;
-
-                case ComponentType.Process:
-                    element = new ProcessElement();
-                    type = PROCESS_STRING;
-                    if(cs == null)
-                        cs = ComponentSettingsManager.DefaultProcessSetting;
-                    if(!needToNotify && !change)
-                        ((ProcessElement)element).SetEdgesByEcellValue(eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST));
-                    break;
-
-                case ComponentType.System:
-                    element = new SystemElement();
-                    type = SYSTEM_STRING;
-                    if (cs == null)
-                        cs = ComponentSettingsManager.DefaultSystemSetting;
-                    if(hasCoords)
-                    {
-                        ((SystemElement)element).Width = width;
-                        ((SystemElement)element).Height = height;
-                    }
-                    else
-                    {
-                        ((SystemElement)element).Width = PPathwaySystem.DEFAULT_WIDTH;
-                        ((SystemElement)element).Height = PPathwaySystem.DEFAULT_HEIGHT;
-                    }
-
-                    break;
-            }
-
-            element.ModelID = modelID;
-            element.Key = key;
-            element.CanvasID = canvasName;
-            element.X = x;
-            element.Y = y;
-            element.Type = type;
-
-            if (!string.IsNullOrEmpty(canvasName) && m_canvasDict.ContainsKey(canvasName))
-            {
-                if (element is AttributeElement)
-                    m_canvasDict[canvasName].AddAttributeToSystem(((AttributeElement)element).TargetKey, (AttributeElement)element);
-                else if(element is SystemElement)
-                {
-                    List<PPathwaySystem> systemList = new List<PPathwaySystem>();
-                    SystemElement se = (SystemElement)element;
-                    CanvasView canvas = m_canvasDict[canvasName];
-                    foreach(PLayer layer in canvas.Layers.Values)
-                    {
-                        PPathwaySystem system = (PPathwaySystem)cs.CreateNewComponent(se.X, se.Y, se.Width, se.Height, this);
-                        system.Reset();
-                        system.Element = se;
-                        system.MouseDown += new PInputEventHandler(SystemSelected);
-                        systemList.Add(system);
-                        system.Layer = layer;
-                        system.Name = key;
-                        systemName = system.Name;
-                        string parentSystemId = eo.parentSystemID;
-                        if (string.IsNullOrEmpty(parentSystemId))
-                            layer.AddChild(system);
-                        else
-                            canvas.AddNewObj(null, parentSystemId, system, hasCoords, false);
-                            //canvas.AddChildToSelectedSystem(parentSystemId, system, hasCoords);
-                    }
-                    se.X = systemList[0].X;
-                    se.Y = systemList[0].Y;
-                    canvas.AddSystem(key, se, null, systemList);
-                }
-                else
-                {
-                    PPathwayObject obj = cs.CreateNewComponent(x, y, 0, 0, this);
-                    ((PPathwayNode)obj).Element = (NodeElement)element;
-                    ((PPathwayNode)obj).ShowingID = m_showingId;
-                    obj.MouseDown += new PInputEventHandler(NodeSelected);
-                    obj.MouseEnter += new PInputEventHandler(NodeEntered);
-                    obj.MouseLeave += new PInputEventHandler(NodeLeft);
-                    ((PPathwayNode)obj).Handler4Line = new PInputEventHandler(LineSelected);
-
-                    string layer = null;
-                    if (m_dgv.SelectedRows.Count != 0)
-                        layer = (string)m_dgv[m_dgv.Columns["Name"].Index, m_dgv.SelectedRows[0].Index].Value;
-                    m_canvasDict[canvasName].AddNewObj(layer, systemName, obj, hasCoords, false);
-                }                
-            }
-            else
-                throw new PathwayException(m_resources.GetString("ErrNotSetCanvas") + key);
-
-            //m_pathwayWindow.NotifySelectChanged(key, type);
-        }
-        /// <summary>
-        /// Add new object to this canvas.
-        /// </summary>
-        /// <param name="canvasName">name of canvas</param>
-        /// <param name="systemName">name of system</param>
-        /// <param name="cType">type of component</param>
-        /// <param name="cs">ComponentSetting</param>
         /// <param name="eo">EcellObject</param>
         /// <param name="needToNotify">whether notification is needed or not</param>
         /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
@@ -741,125 +570,47 @@ namespace EcellLib.PathwayWindow
         /// <param name="valueStr">String for System label.</param>
         public void AddNewObj(string canvasName,
             string systemName,
-            ComponentType cType,
-            ComponentSetting cs,
             EcellObject eo,
-            bool needToNotify,
-            bool isAnchor,
-            string valueStr)
+            bool isAnchor)
         {
+            ComponentType cType = ComponentSetting.ParseComponentKind(eo.type);
+            ComponentSetting cs = GetComponentSetting(cType);
             // Error check.
             if (eo == null)
                 throw new PathwayException(m_resources.GetString("ErrAddObjNot"));
-            if (string.IsNullOrEmpty(eo.key))
-                throw new PathwayException(m_resources.GetString("ErrKeyNot"));
+            if (eo.key.EndsWith(":SIZE"))
+                return;
             if (!RegisterObj(cType, eo.key, canvasName))
                 return;
-
-            // If eo is not registered.
-            if (needToNotify)
-            {
-                try
-                {
-                    NotifyDataAdd(eo, isAnchor);
-                }
-                catch (IgnoreException)
-                {
-                    UnregisterObj(cType, eo.key);
-                    return;
-                }
-                catch (Exception e)
-                {
-                    UnregisterObj(cType, eo.key);
-                    MessageBox.Show(m_resources.GetString("ErrAddObj"), "Error\n" + e.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-
-            // Set Element
-            ComponentElement element = null;
-            switch (cType)
-            {
-                case ComponentType.Variable:
-                    if (eo.key.EndsWith(":SIZE"))
-                    {
-                        element = new AttributeElement(eo);
-                        if (!needToNotify)
-                        {
-                            if (null == valueStr)
-                                ((AttributeElement)element).Value = eo.GetEcellValue("Value").ToString();
-                            else
-                                ((AttributeElement)element).Value = valueStr;
-                        }
-                    }
-                    else
-                    {
-                        element = new VariableElement(eo);
-                    }
-                    break;
-
-                case ComponentType.Process:
-                    element = new ProcessElement(eo);
-                    break;
-
-                case ComponentType.System:
-                    element = new SystemElement(eo);
-                    break;
-            }
-            element.CanvasID = canvasName;
-
-            if (cs == null)
-                cs = GetComponentSetting(cType);
-            if (!string.IsNullOrEmpty(canvasName) && m_canvasDict.ContainsKey(canvasName))
-            {
-                if (element is AttributeElement)
-                    m_canvasDict[canvasName].AddAttributeToSystem(((AttributeElement)element).TargetKey, (AttributeElement)element);
-                else if (element is SystemElement)
-                {
-                    List<PPathwaySystem> systemList = new List<PPathwaySystem>();
-                    SystemElement se = (SystemElement)element;
-                    CanvasView canvas = m_canvasDict[canvasName];
-                    foreach (PLayer layer in canvas.Layers.Values)
-                    {
-                        PPathwaySystem system = (PPathwaySystem)cs.CreateNewComponent(se.X, se.Y, se.Width, se.Height, this);
-                        system.Reset();
-                        system.Element = se;
-                        system.MouseDown += new PInputEventHandler(SystemSelected);
-                        systemList.Add(system);
-                        system.Layer = layer;
-                        system.Name = eo.key;
-                        systemName = system.Name;
-                        string parentSystemId = PathUtil.GetParentSystemId(eo.key);
-                        if (string.IsNullOrEmpty(parentSystemId))
-                            layer.AddChild(system);
-                        else
-                            canvas.AddNewObj(null, parentSystemId, system, eo.IsPosSet, false);
-                        //canvas.AddChildToSelectedSystem(parentSystemId, system, hasCoords);
-                    }
-                    se.X = systemList[0].X;
-                    se.Y = systemList[0].Y;
-                    canvas.AddSystem(eo.key, se, null, systemList);
-                }
-                else
-                {
-                    PPathwayObject obj = cs.CreateNewComponent(eo.X, eo.Y, 0, 0, this);
-                    ((PPathwayNode)obj).Element = (NodeElement)element;
-                    ((PPathwayNode)obj).ShowingID = m_showingId;
-                    obj.MouseDown += new PInputEventHandler(NodeSelected);
-                    obj.MouseEnter += new PInputEventHandler(NodeEntered);
-                    obj.MouseLeave += new PInputEventHandler(NodeLeft);
-                    ((PPathwayNode)obj).Handler4Line = new PInputEventHandler(LineSelected);
-
-                    string layer = null;
-                    if (m_dgv.SelectedRows.Count != 0)
-                        layer = (string)m_dgv[m_dgv.Columns["Name"].Index, m_dgv.SelectedRows[0].Index].Value;
-                    m_canvasDict[canvasName].AddNewObj(layer, systemName, obj, eo.IsPosSet, false);
-                }
-            }
-            else
+            if (string.IsNullOrEmpty(eo.key))
+                throw new PathwayException(m_resources.GetString("ErrKeyNot"));
+            if (string.IsNullOrEmpty(canvasName) || !m_canvasDict.ContainsKey(canvasName))
                 throw new PathwayException(m_resources.GetString("ErrNotSetCanvas") + eo.key);
 
-            //m_pathwayWindow.NotifySelectChanged(key, type);
+            CanvasView canvas = m_canvasDict[canvasName];
+            PLayer layer = ActiveCanvas.Layers[this.m_defLayerId];
+
+
+            if (eo is EcellSystem)
+            {
+                PPathwaySystem system = (PPathwaySystem)cs.CreateNewComponent(eo, this);
+                system.Reset();
+                system.MouseDown += new PInputEventHandler(SystemSelected);
+                system.Layer = layer;
+                system.Name = eo.key;
+                canvas.AddNewObj(m_defLayerId, systemName, system, eo.IsPosSet, false);
+                //canvas.AddChildToSelectedSystem(parentSystemId, system, hasCoords);
+            }
+            else
+            {
+                PPathwayObject obj = cs.CreateNewComponent(eo, this);
+                obj.ShowingID = m_showingId;
+                obj.MouseDown += new PInputEventHandler(NodeSelected);
+                obj.MouseEnter += new PInputEventHandler(NodeEntered);
+                obj.MouseLeave += new PInputEventHandler(NodeLeft);
+                ((PPathwayNode)obj).Handler4Line = new PInputEventHandler(LineSelected);
+                canvas.AddNewObj(m_defLayerId, systemName, obj, eo.IsPosSet, false);
+            }
         }
 
         /// <summary>
@@ -1054,18 +805,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">EventArgs.</param>
         public void ButtonStateChanged(object sender, EventArgs e)
         {
-            /*
-            if (CheckedComponent >= 0)
-                RemoveInputEventListener(m_objectHandlerList[CheckedComponent]);
-            else if (CheckedComponent == -1)
-                RemoveInputEventListener(m_canvasHandlerList[0]);
-            else if (CheckedComponent == -2)
-                RemoveInputEventListener(m_canvasHandlerList[1]);
-            else if (CheckedComponent == -3)
-                RemoveInputEventListener(m_canvasHandlerList[2]);
-            else if (CheckedComponent == -4)
-                RemoveInputEventListener(m_canvasHandlerList[2]);*/
-
             RemoveInputEventListener(m_handlerDict[SelectedHandle.HandleID]);
                         
             SelectedHandle = (Handle)((ToolStripButton)sender).Tag;
@@ -1092,38 +831,6 @@ namespace EcellLib.PathwayWindow
                 SetRefreshOverview(false);
                 Unfreeze();
             }
-            /*
-            if (CheckedComponent >= 0)
-            {
-                AddInputEventListener(m_objectHandlerList[CheckedComponent]);
-                SetRefreshOverview(false);
-                Unfreeze();
-            }
-            else if (CheckedComponent == -1)
-            {
-                AddInputEventListener(m_canvasHandlerList[0]);
-                SetRefreshOverview(false);
-                Unfreeze();
-            }
-            else if (CheckedComponent == -2)
-            {
-                m_splitCon.Cursor = new Cursor( new MemoryStream( Resource1.move ));
-                AddInputEventListener(m_canvasHandlerList[1]);
-                SetRefreshOverview(true);
-                Freeze();
-            }
-            else if (CheckedComponent == -3)
-            {
-                AddInputEventListener(m_canvasHandlerList[2]);
-                SetRefreshOverview(false);
-                Unfreeze();
-            }
-            else if (CheckedComponent == -4)
-            {
-                AddInputEventListener(m_canvasHandlerList[2]);
-                SetRefreshOverview(false);
-                Unfreeze();
-            }*/
         }
 
         /// <summary>
@@ -1156,7 +863,7 @@ namespace EcellLib.PathwayWindow
                 m_dgv.DataMember = name;
 
                 m_overviewGB.Controls.Remove(m_overCanvas);
-                m_overCanvas = m_canvasDict[name].OverviewCanvas;
+                m_overCanvas = m_canvasDict[name].OverView.Canvas;
                 m_overviewGB.Controls.Add(m_overCanvas);
 
             }
@@ -1576,86 +1283,22 @@ namespace EcellLib.PathwayWindow
         {
             string systemName = PathUtil.GetParentSystemId(eo.key);
 
-            bool isExist = false;
-
             if(SYSTEM_STRING.Equals(eo.type))
-            {
                 if (m_canvasDict[canvas].Systems.ContainsKey(eo.key))
-                {
-                    EcellLib.PathwayWindow.CanvasView.SystemContainer sysCon = m_canvasDict[canvas].Systems[eo.key];
-                    eo.X = sysCon.EcellSystems[0].X;
-                    eo.Y = sysCon.EcellSystems[0].Y;
-                    eo.OffsetX = sysCon.EcellSystems[0].OffsetX;
-                    eo.OffsetY = sysCon.EcellSystems[0].OffsetY;
-                    eo.Width = sysCon.EcellSystems[0].Width;
-                    eo.Height = sysCon.EcellSystems[0].Height;
-                    isExist = true;
-                }
-            }
+                    m_canvasDict[canvas].Systems[eo.key].EcellObject = (EcellSystem)eo;
+
             else if(VARIABLE_STRING.Equals(eo.type))
-            {
                 if (m_canvasDict[canvas].Variables.ContainsKey(eo.key))
-                {
-                    PPathwayVariable var = m_canvasDict[canvas].Variables[eo.key];
-                    eo.X = var.X;
-                    eo.Y = var.Y;
-                    eo.OffsetX = var.OffsetX;
-                    eo.OffsetY = var.OffsetY;
-                    isExist = true;
-                }
-            }
+                    m_canvasDict[canvas].Variables[eo.key].EcellObject = (EcellVariable)eo;
+
             else if(PROCESS_STRING.Equals(eo.type))
-            {
                 if(m_canvasDict[canvas].Processes.ContainsKey(eo.key))
-                {
-                    PPathwayProcess pro = m_canvasDict[canvas].Processes[eo.key];
-                    eo.X = pro.X;
-                    eo.Y = pro.Y;
-                    eo.OffsetX = pro.OffsetX;
-                    eo.OffsetY = pro.OffsetY;
-                    isExist = true;
-                }
-            }
+                    m_canvasDict[canvas].Processes[eo.key].EcellObject = (EcellProcess)eo;
             
-            /*
-            if(!isExist)
-            {
-                PointF point = m_canvasDict[canvas].GetPosition(systemName);
-                eo.X = point.X;
-                eo.Y = point.Y;
-            }*/
         }
         #endregion
 
         #region Methods to notify from view to controller (PathwayWindow)
-        /// <summary>
-        /// get data from DataManager by using the key and the type.
-        /// </summary>
-        /// <param name="key">the key of object.</param>
-        /// <param name="type">the type of object.</param>
-        /// <returns>EcellObject.</returns>
-        public EcellObject GetEcellObject(string key, string type)
-        {
-            if (string.IsNullOrEmpty(key))
-                return null;
-            return m_dManager.GetEcellObject(m_pathwayWindow.ModelID, key, type);
-        }
-
-        /// <summary>
-        /// Call value of E-cell object.
-        /// </summary>
-        /// <param name="key">key of EcellObject</param>
-        /// <param name="type">type of EcellObject</param>
-        /// <param name="name">name of EcellData</param>
-        /// <returns></returns>
-        public string GetEcellData(string key, string type, string name)
-        {
-            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(name))
-                return null;
-
-            return m_dManager.GetEcellData(this.m_pathwayWindow.ModelID, key, type, name);
-        }
-
         /// <summary>
         /// Notify DataAdd event to outside.
         /// </summary>
@@ -1671,67 +1314,57 @@ namespace EcellLib.PathwayWindow
 
         /// <summary>
         /// Notify DataChanged event to outside (PathwayView -> PathwayWindow -> DataManager)
+        /// To notify position or size change.
         /// </summary>
         /// <param name="oldKey">the key before adding.</param>
         /// <param name="newKey">the key after adding.</param>
-        /// <param name="type">type of EcellObject</param>
-        /// <param name="x">x coordinate of object.</param>
-        /// <param name="y">y coordinate of object.</param>
-        /// <param name="offsetx">x offset of object.</param>
-        /// <param name="offsety">y offset of object.</param>
-        /// <param name="width">width of object.</param>
-        /// <param name="height">height of object.</param>
-        /// <param name="isExternal">If true, notification will go to PathwayWindow.
-        /// If false, notification will not go to PathwayWindow
-        /// </param>
+        /// <param name="obj">x coordinate of object.</param>
         /// <param name="isAnchor">Whether this action is an anchor or not.</param>
         public void NotifyDataChanged(
             string oldKey,
             string newKey,
-            string type,
-            float x,
-            float y,
-            float offsetx,
-            float offsety,
-            float width,
-            float height,
-            Boolean isExternal,
+            EcellObject eo,
             bool isAnchor)
         {
-            if(PathwayView.SYSTEM_STRING.Equals(type))
+            m_pathwayWindow.NotifyDataChanged(oldKey, newKey, eo, isAnchor);
+        }
+
+        /// <summary>
+        /// Notify DataChanged event to outside (PathwayView -> PathwayWindow -> DataManager)
+        /// To notify position or size change.
+        /// </summary>
+        /// <param name="oldKey">the key before adding.</param>
+        /// <param name="newKey">the key after adding.</param>
+        /// <param name="obj">x coordinate of object.</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
+        public void NotifyDataChanged(
+            string oldKey,
+            string newKey,
+            PPathwayObject obj,
+            bool isAnchor)
+        {
+            Dictionary<string, string> dic;
+            if (PathwayView.SYSTEM_STRING.Equals(obj.EcellObject.type))
+                dic = m_keySysCanvasDict;
+            else if (PathwayView.VARIABLE_STRING.Equals(obj.EcellObject.type))
+                dic = m_keyVarCanvasDict;
+            else if (PathwayView.PROCESS_STRING.Equals(obj.EcellObject.type))
+                dic = m_keyProCanvasDict;
+            else
+                return;
+            if(dic.ContainsKey(oldKey))
             {
-                if(m_keySysCanvasDict.ContainsKey(oldKey))
-                {
-                    string canvasId = m_keySysCanvasDict[oldKey];
-                    m_keySysCanvasDict.Remove(oldKey);
-                    m_keySysCanvasDict.Add(newKey, canvasId);
-                    if(isExternal)
-                        m_pathwayWindow.NotifyDataChanged(oldKey, newKey, type, x, y, offsetx, offsety, width, height, isAnchor);
-                }
-            }
-            else if(PathwayView.VARIABLE_STRING.Equals(type))
-            {
-                // Update m_keyVarCanvasDict
-                if (m_keyVarCanvasDict.ContainsKey(oldKey))
-                {
-                    string canvasId = m_keyVarCanvasDict[oldKey];
-                    m_keyVarCanvasDict.Remove(oldKey);
-                    m_keyVarCanvasDict.Add(newKey, canvasId);
-                    if(isExternal)
-                        m_pathwayWindow.NotifyDataChanged(oldKey, newKey, type, x, y, offsetx, offsety, width, height, isAnchor);
-                }
-            }
-            else if (PathwayView.PROCESS_STRING.Equals(type))
-            {
-                // Update m_keyProCanvasDict
-                if (m_keyProCanvasDict.ContainsKey(oldKey))
-                {
-                    string canvasId = m_keyProCanvasDict[oldKey];
-                    m_keyProCanvasDict.Remove(oldKey);
-                    m_keyProCanvasDict.Add(newKey, canvasId);
-                    if(isExternal)
-                        m_pathwayWindow.NotifyDataChanged(oldKey, newKey, type, x, y, offsetx, offsety, width, height, isAnchor);
-                }
+                string canvasId = dic[oldKey];
+                dic.Remove(oldKey);
+                dic.Add(newKey, canvasId);
+                EcellObject eo = obj.EcellObject;
+                eo.X = obj.X;
+                eo.Y = obj.Y;
+                eo.OffsetX = obj.OffsetX;
+                eo.OffsetY = obj.OffsetY;
+                eo.Width = obj.Width;
+                eo.Height = obj.Height;
+                m_pathwayWindow.NotifyDataChanged(oldKey, newKey, eo, isAnchor);
             }
         }
 
@@ -1908,7 +1541,7 @@ namespace EcellLib.PathwayWindow
             if (m_tabControl.SelectedIndex > -1)
             {
                 string name = m_tabControl.TabPages[m_tabControl.SelectedIndex].Name;
-                m_overviewGB.Controls.Remove(m_canvasDict[name].OverviewCanvas);
+                m_overviewGB.Controls.Remove(m_canvasDict[name].OverView);
             }
             m_tabControl.TabPages.Clear();
 
@@ -1934,42 +1567,16 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Collect PathwayElement indicated by a key
-        /// </summary>
-        /// <returns></returns>
-        public PathwayElement GetElement(ComponentType ct, string key)
-        {
-            string canvasName = null;
-            switch (ct)
-            {
-                case ComponentType.System:
-                    canvasName = m_keySysCanvasDict[key];
-                    break;
-                case ComponentType.Variable:
-                    canvasName = m_keyVarCanvasDict[key];
-                    break;
-                case ComponentType.Process:
-                    canvasName = m_keyProCanvasDict[key];
-                    break;
-            }
-            return m_canvasDict[canvasName].GetElement(ct, key);
-        }
-
-        /// <summary>
         /// Collects all PathwayElements, currently displayed in this pathway window
         /// </summary>
         /// <returns>all PathwayElements on this pathway window</returns>
-        public List<PathwayElement> GetElements()
+        public List<EcellObject> GetAllObjects()
         {
-            List<PathwayElement> returnList = new List<PathwayElement>();
-            if (m_canvasDict != null)
-            {
-                foreach (CanvasView set in m_canvasDict.Values)
-                {
-                    returnList.AddRange(set.GetAllElements());
-                }
-            }
+            List<EcellObject> returnList = new List<EcellObject>();
+            if (ActiveCanvas == null)
+                return returnList;
 
+            returnList.AddRange(ActiveCanvas.GetAllObjects());
             return returnList;
         }
 
@@ -2006,11 +1613,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="commandNum"></param>
         public void LayoutSelected(ILayoutAlgorithm algorithm, int commandNum)
         {
-            if (algorithm == null)
-                return;
-
             // No nodes are selected, so exit.
-            if (this.ActiveCanvas.SelectedNodes.Count == 0)
+            if (this.ActiveCanvas.SelectedNodes.Count == 0 || algorithm == null)
             {
                 ComponentResourceManager crm = new ComponentResourceManager(typeof(MessageResPathway));
                 MessageBox.Show(crm.GetString("MsgLayoutNoNode"),
@@ -2019,485 +1623,29 @@ namespace EcellLib.PathwayWindow
                                 MessageBoxIcon.Error);
                 return;
             }
-
-            List<NodeElement> nodeElements = new List<NodeElement>();
-            Dictionary<string, PPathwayNode> selectedKeys = new Dictionary<string, PPathwayNode>();
-            string parentSystemId = null;
-
             foreach (PPathwayNode node in this.ActiveCanvas.SelectedNodes)
-            {
-                foreach (PathwayElement pe in node.GetElements())
-                    if (pe is NodeElement)
-                    {
-                        if (parentSystemId == null)
-                            parentSystemId = PathUtil.GetParentSystemId(((NodeElement)pe).Key);
-                        selectedKeys.Add(((NodeElement)pe).Key + ":" + ((NodeElement)pe).Type, node);
-                        break;
-                    }
-            }
+                node.EcellObject.isFixed = EcellObject.Fixed;
 
-            foreach (PathwayElement element in this.ActiveCanvas.GetAllElements())
+            List<EcellObject> systemList = this.ActiveCanvas.GetSystemList();
+            List<EcellObject> nodeList = this.ActiveCanvas.GetNodeList();
+
+            if ( algorithm.DoLayout(commandNum, false, systemList, nodeList) )
             {
-                if (element is NodeElement)
+                foreach (EcellObject system in systemList)
+                    this.ActiveCanvas.Systems[system.key].EcellObject = (EcellSystem)system;
+
+                foreach (EcellObject node in nodeList)
                 {
-                    NodeElement ne = (NodeElement)element;
-                    if(!string.IsNullOrEmpty(parentSystemId) && parentSystemId.Equals(PathUtil.GetParentSystemId(ne.Key)))
-                    {
-                        string unique = ne.Key + ":" + ne.Type;
-                        if (selectedKeys.ContainsKey(unique))
-                        {
-                            PointF offsetToL = ((PPathwaySystem)selectedKeys[unique].ParentObject).OffsetToLayer;
-                            ne.X += offsetToL.X;
-                            ne.Y += offsetToL.Y;
-                            ne.Fixed = false;
-                        }
-                        else
-                            ne.Fixed = true;
-                        nodeElements.Add(ne);
-                    }
-                }
-            }
-
-            if (algorithm.DoLayout(commandNum, false, null, nodeElements))
-            {
-                int total = nodeElements.Count;
-                int i = 0;
-
-                foreach (NodeElement ne in nodeElements)
-                {
-                    i++;
-                    string unique = ne.Key + ":" + ne.Type;
-                    if (selectedKeys.ContainsKey(unique))
-                    {
-                        selectedKeys[unique].Element = ne;
-                        PointF newPos = new PointF(ne.X, ne.Y);
-                        string surSystem = this.ActiveCanvas.GetSurroundingSystem(newPos, null);
-                        this.ActiveCanvas.TransferNodeTo(surSystem, selectedKeys[unique], true, (i == total));
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Replace the contents with new PathwayElements.
-        /// </summary>
-        /// <param name="elements">The contents of the pathway window will be
-        /// replaced with these elements</param>
-        /// <param name="doLayout">whether nodes should be layouted or not</param>
-        /// <returns>Old PathwayElements which was replaced</returns>
-        public List<PathwayElement> Replace(List<PathwayElement> elements, bool doLayout)
-        {
-            // Collect all PathwayElements.
-            List<PathwayElement> returnList = GetElements();
-
-            // Clear the pathway window.
-            if (m_canvasDict != null && m_canvasDict.Count != 0)
-                Clear();
-
-            m_canvasDict = new Dictionary<string, CanvasView>();
-
-            Dictionary<string, CanvasElement> canvasElements = new Dictionary<string, CanvasElement>();
-            Dictionary<string, List<LayerElement>> layerElements = new Dictionary<string, List<LayerElement>>();
-            Dictionary<string, List<SystemElement>> systemElements = new Dictionary<string, List<SystemElement>>();
-            Dictionary<string, List<VariableElement>> variableElements = new Dictionary<string, List<VariableElement>>();
-            Dictionary<string, List<ProcessElement>> processElements = new Dictionary<string, List<ProcessElement>>();
-            Dictionary<string, List<AttributeElement>> attrElements = new Dictionary<string, List<AttributeElement>>();
-
-            Dictionary<string, AttributeElement> attrDict = new Dictionary<string,AttributeElement>();
-
-            foreach(PathwayElement element in elements)
-            {
-                switch(element.Element)
-                {
-                    case PathwayElement.ElementType.Canvas:
-                        CanvasElement ce = (CanvasElement)element;
-                        canvasElements.Add(ce.CanvasID,ce);
-                        break;
-                    case PathwayElement.ElementType.Layer:
-                        LayerElement le = (LayerElement)element;
-                        this.AddLayer(layerElements, le.CanvasID, le);
-                        break;
-                    case PathwayElement.ElementType.System:
-                        SystemElement se = (SystemElement)element;
-                        this.AddSystem(systemElements, se.CanvasID, se);
-                        m_keySysCanvasDict.Add(se.Key, se.CanvasID);
-                        break;
-                    case PathwayElement.ElementType.Variable:
-                        VariableElement ve = (VariableElement)element;
-                        this.AddVariable(variableElements, ve.CanvasID, ve);
-                        m_keyVarCanvasDict.Add(ve.Key, ve.CanvasID);
-                        break;
-                    case PathwayElement.ElementType.Process:
-                        ProcessElement pe = (ProcessElement)element;
-                        this.AddProcess(processElements, pe.CanvasID, pe);
-                        m_keyProCanvasDict.Add(pe.Key, pe.CanvasID);
-                        break;
-                    case PathwayElement.ElementType.Attribute:
-                        AttributeElement ae = (AttributeElement)element;
-                        this.AddAttribute(attrElements, ae.CanvasID, ae);
-                        m_keyVarCanvasDict.Add(ae.Key, ae.CanvasID);
-                        attrDict.Add(ae.Key, ae);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            m_layerDs.Tables.Clear();
-            foreach (CanvasElement ce in canvasElements.Values)
-            {
-                CanvasView set =
-                    new CanvasView(this, ce.CanvasID, m_lowerPanelShown, REDUCTION_SCALE, null);
-
-                m_tabControl.Controls.Add(set.TabPage);
-                m_activeCanvasID = ce.CanvasID;
-                m_canvasDict.Add(ce.CanvasID, set);
-                m_layerDs.Tables.Add(set.LayerTable);
-
-                set.UpdateOverview();
-
-                if(doLayout)
-                {
-                    // Layouted automatically in default layout manner
-                    List<SystemElement> layoutSystemElement = null;
-                    List<NodeElement> layoutNodeElement = new List<NodeElement>();
-
-                    if (systemElements.ContainsKey(ce.CanvasID))
-                        layoutSystemElement = systemElements[ce.CanvasID];
-                    if (variableElements.ContainsKey(ce.CanvasID))
-                        foreach (VariableElement ve in variableElements[ce.CanvasID])
-                            layoutNodeElement.Add(ve);
-                    if (processElements.ContainsKey(ce.CanvasID))
-                        foreach (ProcessElement pe in processElements[ce.CanvasID])
-                            layoutNodeElement.Add(pe);
-                    
-                    m_pathwayWindow.DefaultLayoutAlgorithm.DoLayout(0, true, layoutSystemElement, layoutNodeElement);
+                    if (node is EcellProcess)
+                        this.ActiveCanvas.Processes[node.key].EcellObject = (EcellProcess)node;
+                    else
+                        this.ActiveCanvas.Variables[node.key].EcellObject = (EcellVariable)node;
                 }
             }
             
-            foreach(List<LayerElement> listLe in layerElements.Values)
-                foreach(LayerElement le in listLe)
-                    m_canvasDict[le.CanvasID].AddLayer(le.LayerID);
-            
-            // Setting default contents for overview panel and layer control panel
-            foreach (CanvasView set in m_canvasDict.Values)
-            {
-                m_overviewGB.Controls.Remove(m_overCanvas);
-                m_overCanvas = set.OverviewCanvas;
-                m_overviewGB.Controls.Add(m_overCanvas);
-                m_dgv.DataMember = set.LayerTable.TableName;
-                break;
-            }
-            
-            // Locate each PEcellSystem on PCanvas
-            foreach (CanvasView set in m_canvasDict.Values)
-            {
-                if(systemElements.ContainsKey(set.CanvasID))
-                {
-                    foreach(SystemElement sysEle in systemElements[set.CanvasID])
-                    {
-                        List<PPathwaySystem> systemList = new List<PPathwaySystem>();
-                        
-                        foreach(PLayer layer in this.CanvasDictionary[set.CanvasID].Layers.Values)
-                        {
-                            PPathwaySystem system = this.CreateSystem(sysEle);
-                            system.MouseDown += new PInputEventHandler(SystemSelected);
-                            systemList.Add(system);
-                            system.Layer = layer;
-                            system.Name = sysEle.Key;
-
-                            string parentSystemId = PathUtil.GetParentSystemId(system.Element.Key);
-                            if (parentSystemId.Equals(""))
-                                layer.AddChild(system);
-                            else
-                                this.CanvasDictionary[set.CanvasID].AddNewObj(null, parentSystemId, system, true, true);
-                                //this.CanvasDictionary[set.CanvasID].AddChildToSelectedSystem(parentSystemId, system, true);
-                        }
-                        if (attrDict.ContainsKey(sysEle.Key + ":SIZE"))
-                            set.AddSystem(sysEle.Key, sysEle, attrDict[sysEle.Key + ":SIZE"], systemList);
-                        else
-                            set.AddSystem(sysEle.Key, sysEle, null, systemList);
-                    }
-                }
-
-                // Locate each PPathwayNode on PCanvas
-                if (variableElements.ContainsKey(set.CanvasID))
-                {
-                    foreach (VariableElement varEle in variableElements[set.CanvasID])
-                    {
-                        PPathwayNode pnode = this.CreateVariable(varEle);
-                        pnode.MouseDown += new PInputEventHandler(NodeSelected);
-                        pnode.MouseEnter += new PInputEventHandler(NodeEntered);
-                        pnode.MouseLeave += new PInputEventHandler(NodeLeft);
-                        pnode.CanvasView = set;
-
-                        if (pnode == null)
-                            continue;
-                        set.AddChildToSelectedLayer(varEle.LayerID, varEle.ParentSystemID, pnode);
-                    }
-                }
-                if (processElements.ContainsKey(set.CanvasID))
-                {
-                    foreach (ProcessElement nodeEle in processElements[set.CanvasID])
-                    {
-                        PPathwayNode pnode = null;
-                        pnode = this.CreateProcess(nodeEle);
-
-                        pnode.MouseDown += new PInputEventHandler(NodeSelected);
-                        pnode.MouseEnter += new PInputEventHandler(NodeEntered);
-                        pnode.MouseLeave += new PInputEventHandler(NodeLeft);
-                        pnode.Handler4Line = new PInputEventHandler(LineSelected);
-                        pnode.CanvasView = set;
-
-                        if (pnode == null)
-                            continue;
-                        set.AddChildToSelectedLayer(nodeEle.LayerID, nodeEle.ParentSystemID, pnode);
-                        ((PPathwayProcess)pnode).CreateEdges();
-                        ((PPathwayProcess)pnode).RefreshEdges();
-                    }
-                }
-            }
-            return returnList;
+            foreach (EcellObject obj in this.ActiveCanvas.GetAllObjects())
+                obj.isFixed = EcellObject.NotFixed;
         }
-        
-        #region Methods for internal use
-        /// <summary>
-        /// add the layer to managed list.
-        /// </summary>
-        /// <param name="dict">dictionary of canvas.</param>
-        /// <param name="canvasId">canvas id.</param>
-        /// <param name="le">added layer.</param>
-        private void AddLayer(Dictionary<string, List<LayerElement>> dict,
-            string canvasId, LayerElement le)
-        {
-            if (dict.ContainsKey(canvasId))
-                dict[canvasId].Add(le);
-            else
-            {
-                List<LayerElement> list = new List<LayerElement>();
-                list.Add(le);
-                dict.Add(canvasId, list);
-            }
-        }
-
-        /// <summary>
-        /// add the system the managed list.
-        /// </summary>
-        /// <param name="dict">dictionary of canvas.</param>
-        /// <param name="canvasId">canvas id.</param>
-        /// <param name="se">the added system.</param>
-        private void AddSystem(Dictionary<string, List<SystemElement>> dict, string canvasId, SystemElement se)
-        {
-            if (dict.ContainsKey(canvasId))
-                dict[canvasId].Add(se);
-            else
-            {
-                List<SystemElement> list = new List<SystemElement>();
-                list.Add(se);
-                dict.Add(canvasId, list);
-            }
-        }
-
-        /// <summary>
-        /// add the variable to managed list.
-        /// </summary>
-        /// <param name="dict">dictionary of canvas.</param>
-        /// <param name="canvasId">canvas id.</param>
-        /// <param name="ne">the added variable.</param>
-        private void AddVariable(Dictionary<string, List<VariableElement>> dict, string canvasId, VariableElement ne)
-        {
-            if (dict.ContainsKey(canvasId))
-                dict[canvasId].Add(ne);
-            else
-            {
-                List<VariableElement> list = new List<VariableElement>();
-                list.Add(ne);
-                dict.Add(canvasId, list);
-            }
-        }
-
-        /// <summary>
-        /// add the process to managed list.
-        /// </summary>
-        /// <param name="dict">the dictionary of canvas.</param>
-        /// <param name="canvasId">canvas id.</param>
-        /// <param name="ne">the added process.</param>
-        private void AddProcess(Dictionary<string, List<ProcessElement>> dict, string canvasId, ProcessElement ne)
-        {
-            if (dict.ContainsKey(canvasId))
-            {
-                dict[canvasId].Add(ne);
-            }
-            else
-            {
-                List<ProcessElement> list = new List<ProcessElement>();
-                list.Add(ne);
-                dict.Add(canvasId, list);
-            }
-        }
-
-        /// <summary>
-        /// add the attribute to managed list.
-        /// </summary>
-        /// <param name="dict">the dictionary of canvas.</param>
-        /// <param name="canvasId">canvas id.</param>
-        /// <param name="ae">the added attribute.</param>
-        private void AddAttribute(Dictionary<string, List<AttributeElement>> dict, string canvasId, AttributeElement ae)
-        {
-            if (dict.ContainsKey(canvasId))
-                dict[canvasId].Add(ae);
-            else
-            {
-                List<AttributeElement> list = new List<AttributeElement>();
-                list.Add(ae);
-                dict.Add(canvasId, list);
-            }
-        }
-
-        /// <summary>
-        /// create PNode of system using the information of element.
-        /// </summary>
-        /// <param name="sysEle">element.</param>
-        /// <returns>PNode of system(PEcellSystem).</returns>
-        private PPathwaySystem CreateSystem(SystemElement sysEle)
-        {
-            if(sysEle == null || m_csManager == null || m_csManager.DefaultSystemSetting == null)
-                return null;
-            PPathwaySystem returnSystem = (PPathwaySystem)m_csManager.DefaultSystemSetting.CreateNewComponent(sysEle.X, sysEle.Y, sysEle.Width, sysEle.Height, this);
-            returnSystem.OffsetX = sysEle.OffsetX;
-            returnSystem.OffsetY = sysEle.OffsetY;
-            returnSystem.Element = sysEle;
-            returnSystem.Reset();
-            return returnSystem;
-        }
-
-        /// <summary>
-        /// create PNode of process using the information of element.
-        /// </summary>
-        /// <param name="nodeEle">element.</param>
-        /// <returns>PNode of process(PEcellProcess).</returns>
-        private PPathwayProcess CreateProcess(ProcessElement nodeEle)
-        {
-            if (nodeEle == null || m_csManager == null | m_csManager.DefaultProcessSetting == null)
-                return null;
-            PPathwayProcess returnProcess = (PPathwayProcess)m_csManager.ProcessSettings[nodeEle.CsId].CreateNewComponent(nodeEle.X, nodeEle.Y, 0, 0, this);
-            returnProcess.Element = nodeEle;
-            return returnProcess;
-        }
-
-        /// <summary>
-        /// create PNode of variable using the information of element.
-        /// </summary>
-        /// <param name="nodeEle">element of variable.</param>
-        /// <returns>PNode of variable(PEcellVariable)</returns>
-        private PPathwayVariable CreateVariable(VariableElement nodeEle)
-        {
-            if (nodeEle == null || m_csManager == null | m_csManager.DefaultVariableSetting == null)
-                return null;
-            PPathwayVariable returnVariable = (PPathwayVariable)m_csManager.VariableSettings[nodeEle.CsId].CreateNewComponent(nodeEle.X, nodeEle.Y, 0, 0, this);
-            returnVariable.Element = nodeEle;
-            return returnVariable;
-        }
-
-        /// <summary>
-        /// Create edge from PEcellVariable.
-        /// </summary>
-        /// <param name="process">PEcellProcess</param>
-        /// <param name="variable">PEcellVariable</param>
-        /// <param name="coefficient">coefficient</param>
-        public void CreateEdge(PPathwayProcess process, PPathwayVariable variable, int coefficient)
-        {
-            CreateEdge(process, variable.Element.Key, coefficient);
-        }
-
-        /// <summary>
-        /// Create edge from variable key.
-        /// </summary>
-        /// <param name="process">PEcellProcess</param>
-        /// <param name="variable">Variable key.</param>
-        /// <param name="coefficient">coefficient</param>
-        public void CreateEdge(PPathwayProcess process, string variableKey, int coefficient)
-        {
-            EcellObject obj = m_dManager.GetEcellObject(process.Element.ModelID, process.Element.Key, process.Element.Type);
-
-            List<EcellReference> list = EcellReference.ConvertString(
-                obj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString() );
-
-            // If this process and variable are connected in the same direction, nothing will be done.
-            if (PathUtil.CheckReferenceListContainsEntity(list, variableKey, coefficient))
-            {
-                MessageBox.Show(m_resources.GetString("ErrAlrConnect"),
-                 "Notice",
-                 MessageBoxButtons.OK,
-                 MessageBoxIcon.Exclamation);
-                return;
-            }
-
-            String refStr = "(";
-            int i = 0;
-            foreach (EcellReference r in list)
-            {
-                if (i == 0) refStr = refStr + r.ToString();
-                else refStr = refStr + ", " + r.ToString();
-                i++;
-            }
-
-            String n = "";
-            String pre = "";
-
-            if (coefficient == 0)
-                pre = "C";
-            else if (coefficient == -1)
-                pre = "S";
-            else 
-                pre = "P";
-
-            int k = 0;
-            while (true)
-            {
-                bool ishit = false;
-                n = pre + k;
-                foreach (EcellReference r in list)
-                {
-                    if (r.name == n)
-                    {
-                        k++;
-                        ishit = true;
-                        continue;
-                    }
-                }
-                if (ishit == false) break;
-            }
-
-            EcellReference eref = new EcellReference();
-            eref.name = n;
-            eref.fullID = ":" + variableKey;
-            eref.coefficient = coefficient;
-            eref.isAccessor = 1;
-
-            if (i == 0) refStr = refStr + eref.ToString();
-            else refStr = refStr + ", " + eref.ToString();
-            refStr = refStr + ")";
-
-            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = EcellValue.ToVariableReferenceList(refStr);
-
-            m_dManager.DataChanged(obj.modelID, obj.key, obj.type, obj);
-            return;
-        }
-        /// <summary>
-        /// Create edge from variable key.
-        /// </summary>
-        public void ClearEdges(PPathwayProcess process)
-        {
-            EcellObject obj = m_dManager.GetEcellObject(process.Element.ModelID, process.Element.Key, process.Element.Type);
-            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = EcellValue.ToVariableReferenceList("()");
-
-            m_dManager.DataChanged(obj.modelID, obj.key, obj.type, obj);
-            return;
-        }
-
-        #endregion
-
         #region EventHandler
         /// <summary>
         /// Called when UserControl is resized.
@@ -2760,11 +1908,11 @@ namespace EcellLib.PathwayWindow
             //Copy Variavles
             foreach (PPathwayNode node in nodeList)
                 if (node is PPathwayVariable)
-                    copyNodes.Add(node.Element.EcellObject.Copy());
+                    copyNodes.Add(node.EcellObject.Copy());
             //Copy Processes
             foreach (PPathwayNode node in nodeList)
                 if (node is PPathwayProcess)
-                    copyNodes.Add(node.Element.EcellObject.Copy());
+                    copyNodes.Add(node.EcellObject.Copy());
             return copyNodes;
         }
 
@@ -2775,8 +1923,8 @@ namespace EcellLib.PathwayWindow
             // Get position diff
             PointF diff = GetDiff(this.MousePosition, this.m_copyPos);
             // Get parent System
-            EcellObject sys = this.ActiveCanvas.GetSystemOfSelectedPoint(this.MousePosition);
-
+            EcellObject sys = this.ActiveCanvas.GetSurroundingSystem(this.MousePosition);
+            DataManager m_dManager = DataManager.GetDataManager();
             // Set m_copiedNodes.
             if (nodeList != null)
             {
@@ -2790,9 +1938,8 @@ namespace EcellLib.PathwayWindow
                     eo.SetPosition( eo.X + diff.X, eo.Y + diff.Y);
 
                     // Check Position
-                    if (!ActiveCanvas.DoesSystemContainAPoint(sys.key, new PointF(eo.X, eo.Y) )
-                        || !ActiveCanvas.DoesSystemContainAPoint(sys.key, new PointF(eo.X + PPathwayNode.DefaultWidth / 2, eo.Y + PPathwayNode.DefaultHeight / 2)))
-                        ActiveCanvas.SetVacantPoint(sys, eo);
+                    if (!ActiveCanvas.CheckNodePosition(eo) )
+                        eo.PointF = ActiveCanvas.GetVacantPoint(sys.key, eo.PointF);
 
                     copiedNodes.Add(eo);
                     // Set Variable name.
@@ -2861,8 +2008,8 @@ namespace EcellLib.PathwayWindow
                     bool isAnchor = (i == slist.Count);
                     try
                     {
-                        NotifyDataDelete(deleteNode.Element.Key,
-                                                        ComponentSetting.ParseComponentKind(deleteNode.Element.Type),
+                        NotifyDataDelete(deleteNode.EcellObject.key,
+                                                        ComponentSetting.ParseComponentKind(deleteNode.EcellObject.type),
                                                         isAnchor);
                     }
                     catch (IgnoreException)
@@ -2876,7 +2023,7 @@ namespace EcellLib.PathwayWindow
             // Delete Selected System
             if (ActiveCanvas.SelectedSystemName != null)
             {
-                PPathwaySystem sys = (PPathwaySystem)ActiveCanvas.Systems[ActiveCanvas.SelectedSystemName].EcellSystems[0];
+                PPathwaySystem sys = (PPathwaySystem)ActiveCanvas.Systems[ActiveCanvas.SelectedSystemName];
                 // Return if sys is null or root sys.
                 if (string.IsNullOrEmpty(sys.Name))
                     return;
@@ -2891,7 +2038,7 @@ namespace EcellLib.PathwayWindow
                 // Delete sys.
                 try
                 {
-                    NotifyDataDelete(sys.Element.Key, ComponentType.System, true);
+                    NotifyDataDelete(sys.EcellObject.key, ComponentType.System, true);
                 }
                 catch (IgnoreException)
                 {

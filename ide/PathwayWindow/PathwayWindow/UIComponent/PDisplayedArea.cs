@@ -34,8 +34,7 @@ using System.Text;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
-using EcellLib.PathwayWindow.Node;
-using EcellLib.PathwayWindow.Element;
+using EcellLib.PathwayWindow.Nodes;
 using PathwayWindow;
 using System.IO;
 
@@ -146,15 +145,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         public override void End()
         {            
-        }
-
-        /// <summary>
-        /// Get elements related to this instance.
-        /// </summary>
-        /// <returns></returns>
-        public override List<PathwayElement> GetElements()
-        {
-            return new List<PathwayElement>();
         }
 
         /// <summary>

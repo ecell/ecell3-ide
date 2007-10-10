@@ -36,32 +36,29 @@
 
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Configuration;
+using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 using System.Windows.Forms;
 
 using EcellLib;
-using System.Drawing.Drawing2D;
-using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
+using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
-using PathwayWindow;
 using UMD.HCIL.PiccoloX.Components;
-using System.Xml;
-using System.IO;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.PiccoloX.Nodes;
-using System.Data;
-using System.ComponentModel;
-using System.Xml.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using EcellLib.PathwayWindow.Element;
-using EcellLib.PathwayWindow.Node;
-using System.Collections;
-using System.Reflection;
-using System.Collections.Specialized;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.PathwayWindow
@@ -109,16 +106,6 @@ namespace EcellLib.PathwayWindow
         string m_modelId = "";
 
         /// <summary>
-        /// Default CanvasID
-        /// </summary>
-        string m_defCanvasId = "Metabolic";
-
-        /// <summary>
-        /// Default LayerID
-        /// </summary>
-        string m_defLayerId = "first";
-
-        /// <summary>
         /// A list for layout algorithms, which implement ILayoutAlgorithm.
         /// </summary>
         private List<ILayoutAlgorithm> m_layoutList = new List<ILayoutAlgorithm>();
@@ -142,6 +129,10 @@ namespace EcellLib.PathwayWindow
         /// ResourceManager for PathwayWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+        /// <summary>
+        /// m_dManager (DataManager)
+        /// </summary>
+        private DataManager m_dManager;
 
         #endregion
 
@@ -183,6 +174,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public PathwayWindow()
         {
+            m_dManager = DataManager.GetDataManager();
+
             // Read component settings from ComopnentSettings.xml
             // string settingFile = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
             string settingFile = EcellLib.Util.GetPluginDir();
@@ -362,81 +355,18 @@ namespace EcellLib.PathwayWindow
         public void NotifyDataChanged(
             string oldKey,
             string newKey,
-            string type,
-            float x,
-            float y,
-            float offsetx,
-            float offsety,
-            float width,
-            float height,
+            EcellObject eo,
             bool isAnchor)
         {
-            if(oldKey == null || newKey == null || type == null)
+            if(oldKey == null || newKey == null || eo.type == null)
                 return;
-
-            // Get EcellObject which has oldKey
-            DataManager dm = DataManager.GetDataManager();
-            if(type.Equals(PathwayView.SYSTEM_STRING))
+            try
             {
-                EcellObject original = dm.GetEcellObject(m_modelId, oldKey, type);
-
-                EcellObject eo = original.Copy();
-
-                eo.key = newKey;
-                eo.X = x;
-                eo.Y = y;
-                eo.OffsetX = offsetx;
-                eo.OffsetY = offsety;
-                eo.Width = width;
-                eo.Height = height;
-                try
-                {
-                    dm.DataChanged(m_modelId, oldKey, type, eo, true, isAnchor);
-                }
-                catch (IgnoreException)
-                {
-                    this.DataChanged(m_modelId, newKey, type, original);
-                }
+                m_dManager.DataChanged(m_modelId, oldKey, eo.type, eo, true, isAnchor);
             }
-            else
+            catch (IgnoreException)
             {
-                List<EcellObject> list = dm.GetData(m_modelId, PathUtil.GetParentSystemId(oldKey));
-                EcellObject original = null;
-                foreach(EcellObject system in list)
-                {
-                    if (system.M_instances == null)
-                        continue;
-
-                    foreach(EcellObject obj in system.M_instances)
-                    {
-                        if (obj.key.Equals(oldKey) && obj.type.Equals(type))
-                        {
-                            original = obj;
-                            break;
-                        }
-                    }
-                }
-                if (original == null)
-                    return;
-
-                EcellObject toBeChanged = original.Copy();
-
-                // Change key of EcellObject to new one
-                toBeChanged.key = newKey;
-                toBeChanged.X = x;
-                toBeChanged.Y = y;
-                toBeChanged.OffsetX = offsetx;
-                toBeChanged.OffsetY = offsety;
-
-                // Register change to DataManager
-                try
-                {
-                    dm.DataChanged(m_modelId, oldKey, type, toBeChanged, true, isAnchor);
-                }
-                catch (IgnoreException)
-                {
-                    this.DataChanged(m_modelId, newKey, type, original);
-                }
+                this.DataChanged(m_modelId, newKey, eo.type, eo);
             }
         }
 
@@ -450,8 +380,7 @@ namespace EcellLib.PathwayWindow
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient)
         {
             // Get EcellObject of identified process.
-            DataManager dm = DataManager.GetDataManager();
-            EcellProcess process = (EcellProcess)dm.GetEcellObject(m_modelId, proKey, PathwayView.PROCESS_STRING);
+            EcellProcess process = (EcellProcess)m_dManager.GetEcellObject(m_modelId, proKey, PathwayView.PROCESS_STRING);
             // End if obj is null.
             if (null == process)
                 return;
@@ -461,7 +390,6 @@ namespace EcellLib.PathwayWindow
             List<EcellReference> newList = new List<EcellReference>();
             EcellReference changedRef = null;
 
-            int i = 0;
             foreach (EcellReference v in refList)
             {
                 if (v.fullID.EndsWith(varKey))
@@ -470,7 +398,7 @@ namespace EcellLib.PathwayWindow
                     newList.Add(v);
             }
 
-            if (null != changedRef && changeType != RefChangeType.Delete)
+            if (changedRef != null && changeType != RefChangeType.Delete)
             {
                 switch(changeType)
                 {
@@ -489,7 +417,7 @@ namespace EcellLib.PathwayWindow
                         break;
                 }
             }
-            else if(null == changedRef)
+            else if(changedRef == null)
             {
                 switch(changeType)
                 {
@@ -518,19 +446,11 @@ namespace EcellLib.PathwayWindow
                         break;
                 }
             }
-
-            string refStr = "(";
-            foreach (EcellReference v in newList)
-            {
-                if (i == 0) refStr = refStr + v.ToString();
-                else refStr = refStr + ", " + v.ToString();
-            }
-            refStr = refStr + ")";
-            process.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = EcellValue.ToVariableReferenceList(refStr);
+            process.ReferenceList = newList;
 
             try
             {
-                dm.DataChanged(m_modelId, proKey, PathwayView.PROCESS_STRING, process);
+                m_dManager.DataChanged(m_modelId, proKey, PathwayView.PROCESS_STRING, process);
             }
             catch(IgnoreException)
             {
@@ -722,23 +642,11 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
-                PathwayElements elements = new PathwayElements();
-                elements.Elements = m_view.GetElements().ToArray();
-
-                List<SystemElement> systemList = new List<SystemElement>();
-                List<NodeElement> nodeList = new List<NodeElement>();
-
-                foreach (PathwayElement ele in elements.Elements)
-                {
-                    if (ele is SystemElement)
-                        systemList.Add((SystemElement)ele);
-                    else if (ele is NodeElement)
-                        nodeList.Add((NodeElement)ele);
-                }
+                List<EcellObject> systemList = m_view.ActiveCanvas.GetSystemList();
+                List<EcellObject> nodeList = m_view.ActiveCanvas.GetNodeList();
 
                 algorithm.DoLayout(subIdx, false, systemList, nodeList);
                 m_view.Clear();
-                m_view.Replace(new List<PathwayElement>(elements.Elements), false);
             }
         }
 
@@ -860,16 +768,17 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="data">List of EcellObjects to be added</param>
         public void DataAdd(List<EcellObject> data)
-        {            
-            bool toBeLoaded = false;    // Whether there is any EcellObject should be loaded onto PathwayView.
+        {
+            if (data == null || data.Count == 0)
+                return;
+
             bool isOtherModel = false;  // Whether this model is the same as currently displayed model or not.
             string modelId = null;
             foreach(EcellObject obj in data)
             {
                 modelId = obj.modelID;
-                if(obj.type.Equals("System"))
+                if(obj is EcellSystem)
                 {
-                    toBeLoaded = true;
                     if (obj.modelID != null && !m_modelId.Equals(obj.modelID))
                     {
                         isOtherModel = true;
@@ -877,14 +786,8 @@ namespace EcellLib.PathwayWindow
                         break;
                     }
                 }
-                else if(obj.type.Equals("Variable") || obj.type.Equals("Process"))
-                {
-                    toBeLoaded = true;
-                }
             }
 
-            if (!toBeLoaded)
-                return;
 
             try
             {
@@ -896,11 +799,13 @@ namespace EcellLib.PathwayWindow
                     
                     if (File.Exists(fileName))
                     {
+                        this.m_view.CreateCanvas(modelId);
                         this.DataAddWithLeml(fileName, data);
                     }
                     else
                     {
-                        this.DataAddWithoutLeml(data);
+                        this.m_view.CreateCanvas(modelId);
+                        this.NewDataAddToModel(data);
                     }
                 }
                 else
@@ -942,30 +847,7 @@ namespace EcellLib.PathwayWindow
                 // Change system data.
                 if(ct == ComponentType.System)
                 {
-                    //m_view.DataDelete(key, data.type);
-                    //m_view.AddNewObj(m_defCanvasId, data.parentSystemID, ComponentType.System, null, data, false, true, null);
-                    if (data.IsPosSet)
-                    {
-                        m_view.DataChanged(key, data, ComponentType.System);
-                    }
-                    else
-                    {
-                        List<EcellObject> list = new List<EcellObject>();
-                        list.Add(data);
-                        this.NewDataAddToModel(list);
-                        List<UniqueKey> underList = m_view.GetKeysUnderSystem(key);
-                        foreach(UniqueKey uk in underList)
-                        {
-                            string valueStr = null;
-                            if (uk.Type == ComponentType.Variable && uk.Key.EndsWith(":SIZE"))
-                            {
-                                valueStr = ((AttributeElement)m_view.GetElement(ComponentType.Variable, uk.Key)).Value;
-                            }
-                            string newKey = PathUtil.GetMovedKey(uk.Key, key, data.key);
-                            m_view.AddNewObj(m_defCanvasId, PathUtil.GetParentSystemId(newKey), uk.Type, null, modelID, newKey, false, 0, 0, 0, 0, false, true, null, valueStr, true);                            
-                        }
-                        m_view.DataDelete(key, ct);
-                    }
+                    m_view.DataChanged(key, data, ComponentType.System);
                 }
                 // Change node data.
                 else
@@ -1090,16 +972,15 @@ namespace EcellLib.PathwayWindow
             
             if(ModelID.Equals(m_modelId))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(PathwayElements));
-                PathwayElements elements = new PathwayElements();
-                elements.Elements = m_view.GetElements().ToArray();
+                XmlSerializer serializer = new XmlSerializer(typeof(List<EcellObject>));
+                List<EcellObject> objectList = this.m_view.ActiveCanvas.GetAllObjects();
                 string fileName = directory + "\\" + modelID + ".leml";
-//                using (Stream writer = new FileStream(fileName, FileMode.Create))
+
                 using (XmlTextWriter writer = new XmlTextWriter(new FileStream(fileName, FileMode.Create), Encoding.UTF8))
                 {
                     writer.Formatting = Formatting.Indented;
                     writer.Indentation = 0;
-                    serializer.Serialize(writer, elements);
+                    serializer.Serialize(writer, objectList);
                 }
             }
         }
@@ -1199,13 +1080,13 @@ namespace EcellLib.PathwayWindow
         {
             if (null != data)
             {
-                m_view.SetPosition(m_defCanvasId, data);
+                m_view.SetPosition(m_modelId, data);
                 List<EcellObject> list = data.M_instances;
                 if (null == list || list.Count == 0)
                     return;
                 foreach(EcellObject eo in list)
                 {
-                    m_view.SetPosition(m_defCanvasId, eo);
+                    m_view.SetPosition(m_modelId, eo);
                 }
             }
         }
@@ -1276,19 +1157,21 @@ namespace EcellLib.PathwayWindow
             // These new EcellObjects will be loaded onto the Model currently displayed
             foreach (EcellObject obj in data)
             {
+                if (!(obj is EcellSystem || obj is EcellProcess || obj is EcellVariable))
+                    continue;
                 try
                 {
-
-                    ComponentType cType = ComponentSetting.ParseComponentKind(obj.type);
-
-                    m_view.AddNewObj(m_defCanvasId,
+                    m_view.AddNewObj(obj.modelID,
                                     obj.parentSystemID,
-                                    cType,
-                                    null,
                                     obj,
-                                    false,
-                                    true,
-                                    null);
+                                    true);
+                    if (obj is EcellSystem)
+                        foreach (EcellObject node in obj.M_instances)
+                            m_view.AddNewObj(node.modelID,
+                                            node.parentSystemID,
+                                            node,
+                                            true);
+
                 } catch (Exception ex)
                 {
                     throw new PathwayException(m_resources.GetString("ErrUnknowType") + "\n" + ex.StackTrace);
@@ -1305,237 +1188,37 @@ namespace EcellLib.PathwayWindow
         private void DataAddWithLeml(string fileName, List<EcellObject> data)
         {
             // Deserialize objects from a file
-            XmlSerializer serializer = new XmlSerializer(typeof(PathwayElements));
-            List<PathwayElement> pathList = new List<PathwayElement>();
-            PathwayElements pathEles;
+            XmlSerializer serializer = new XmlSerializer(typeof(List<EcellObject>));
+            List<EcellObject> objList;
             using (Stream reader = new FileStream(fileName, FileMode.Open))
             {
-                pathEles = (PathwayElements)serializer.Deserialize(reader);
+                objList = (List<EcellObject>)serializer.Deserialize(reader);
             }
 
-            Dictionary<string, ComponentElement> sysEleDict = new Dictionary<string, ComponentElement>();
-            Dictionary<string, ComponentElement> varEleDict = new Dictionary<string, ComponentElement>();
-            Dictionary<string, ComponentElement> proEleDict = new Dictionary<string, ComponentElement>();
+            Dictionary<string, EcellSystem> sysDict = new Dictionary<string, EcellSystem>();
+            Dictionary<string, EcellProcess> proDict = new Dictionary<string, EcellProcess>();
+            Dictionary<string, EcellVariable> varDict = new Dictionary<string, EcellVariable>();
 
-            foreach (PathwayElement pathEle in pathEles.Elements)
+            foreach (EcellObject eo in objList)
             {
-                if (pathEle is ComponentElement)
-                {
-                    ComponentElement comEle = (ComponentElement)pathEle;
-                    if (comEle is SystemElement)
-                        sysEleDict.Add(comEle.Key, comEle);
-                    else if (comEle is VariableElement)
-                        varEleDict.Add(comEle.Key, comEle);
-                    else if (comEle is ProcessElement)
-                        proEleDict.Add(comEle.Key, comEle);
-                }
-                else
-                {
-                    pathList.Add(pathEle);
-                }
+                if (eo is EcellSystem)
+                    sysDict.Add(eo.key, (EcellSystem)eo);
+                else if (eo is EcellProcess)
+                    proDict.Add(eo.key, (EcellProcess)eo);
+                else if (eo is EcellVariable)
+                    varDict.Add(eo.key, (EcellVariable)eo);
             }
 
-            foreach (EcellObject obj in data)
+            foreach (EcellObject eo in data)
             {
-                if (obj.type.Equals(PathwayView.SYSTEM_STRING))
-                {
-                    if (!sysEleDict.ContainsKey(obj.key))
-                    {
-                        SystemElement systemElement = new SystemElement();
-                        systemElement.CanvasID = m_defCanvasId;
-                        systemElement.LayerID = m_defLayerId;
-                        systemElement.ModelID = obj.modelID;
-                        systemElement.Type = obj.type;
-                        systemElement.Key = obj.key;
-                        pathList.Add(systemElement);
-                    }
-                    else
-                    {
-                        sysEleDict[obj.key].Type = PathwayView.SYSTEM_STRING;
-                        pathList.Add(sysEleDict[obj.key]);
-                    }
-
-                    if (obj.M_instances == null)
-                        continue;
-                    foreach (EcellObject node in obj.M_instances)
-                    {
-                        if (node.type == null)
-                            return;
-                        if (PathwayView.VARIABLE_STRING.Equals(node.type))
-                        {
-                            if (varEleDict.ContainsKey(node.key))
-                            {
-                                varEleDict[node.key].Type = PathwayView.VARIABLE_STRING;
-                                pathList.Add(varEleDict[node.key]);
-                            }
-                            else if (node.key.EndsWith("SIZE"))
-                            {
-                                AttributeElement attrElement = new AttributeElement();
-                                attrElement.Attribute = AttributeElement.AttributeType.Size;
-                                attrElement.CanvasID = m_defLayerId;
-                                attrElement.LayerID = m_defLayerId;
-                                attrElement.ModelID = node.modelID;
-                                attrElement.Key = node.key;
-                                attrElement.Type = node.type;
-                                attrElement.TargetModelID = node.modelID;
-                                if (node.IsEcellValueExists("Value"))
-                                    attrElement.Value = node.GetEcellValue("Value").ToString();
-                                pathList.Add(attrElement);
-                            }
-                            else if (node.type.Equals(PathwayView.VARIABLE_STRING))
-                            {
-                                VariableElement varElement = new VariableElement();
-                                varElement.CanvasID = m_defCanvasId;
-                                varElement.LayerID = m_defLayerId;
-                                varElement.ModelID = node.modelID;
-                                varElement.Key = node.key;
-                                varElement.Type = node.type;
-                                varElement.CsId = m_view.ComponentSettingsManager.DefaultVariableSetting.Name;
-
-                                pathList.Add(varElement);
-                            }
-                        }
-                        else if (PathwayView.PROCESS_STRING.Equals(node.type))
-                        {
-                            if (proEleDict.ContainsKey(node.key))
-                            {
-                                proEleDict[node.key].Type = PathwayView.PROCESS_STRING;
-                                if (proEleDict[node.key] is ProcessElement)
-                                    ((ProcessElement)proEleDict[node.key]).SetEdgesByEcellValue(
-                                        node.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST));
-                                pathList.Add(proEleDict[node.key]);
-                            }
-                            else
-                            {
-                                ProcessElement proElement = new ProcessElement();
-                                proElement.SetEdgesByEcellValue(
-                                    node.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST));
-                                proElement.CanvasID = m_defCanvasId;
-                                proElement.LayerID = m_defLayerId;
-                                proElement.ModelID = node.modelID;
-                                proElement.Key = node.key;
-                                proElement.Type = node.type;
-                                proElement.CsId = m_view.ComponentSettingsManager.DefaultProcessSetting.Name;
-
-                                pathList.Add(proElement);
-                            }
-                        }
-                    }
-                }
+                if (eo is EcellSystem && sysDict.ContainsKey(eo.key))
+                    eo.SetPosition(sysDict[eo.key]);
+                if (eo is EcellProcess && proDict.ContainsKey(eo.key))
+                    eo.SetPosition(proDict[eo.key]);
+                if (eo is EcellVariable && varDict.ContainsKey(eo.key))
+                    eo.SetPosition(varDict[eo.key]);
             }
-            try
-            {
-                m_view.Replace(pathList, false);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-
-        /// <summary>
-        /// This method was made for dividing long and redundant DataAdd method.
-        /// So, used by DataAdd only.
-        /// </summary>
-        /// <param name="data">list of EcellObject, to be added</param>
-        private void DataAddWithoutLeml(List<EcellObject> data)
-        {
-            string previousModelId = m_modelId;
-
-            List<PathwayElement> pathElements = new List<PathwayElement>();
-
-            CanvasElement metaCanvas = new CanvasElement();
-            metaCanvas.CanvasID = m_defCanvasId;
-            metaCanvas.HasGrid = false;
-            metaCanvas.OffsetX = 0f;
-            metaCanvas.OffsetY = 0f;
-            pathElements.Add(metaCanvas);
-
-            LayerElement firstLayer = new LayerElement();
-            firstLayer.CanvasID = m_defCanvasId;
-            firstLayer.LayerID = m_defLayerId;
-            firstLayer.ZOrder = 0;
-            pathElements.Add(firstLayer);
-
-            // Currently displayed model must be saved
-            foreach (EcellObject obj in data)
-            {
-                if (obj.type.Equals(PathwayView.SYSTEM_STRING))
-                {
-                    //m_modelId = obj.modelID;
-                    SystemElement systemElement = new SystemElement();
-                    systemElement.CanvasID = m_defCanvasId;
-                    systemElement.LayerID = m_defLayerId;
-                    systemElement.ModelID = obj.modelID;
-                    systemElement.Type = obj.type;
-                    systemElement.Key = obj.key;
-
-                    if (obj.key.Equals("/"))
-                    {
-                        systemElement.Width = 300;
-                        systemElement.Height = 300;
-                    }
-
-                    pathElements.Add(systemElement);
-
-                    if (obj.M_instances == null)
-                        continue;
-                    foreach (EcellObject node in obj.M_instances)
-                    {
-                        if (node.key.EndsWith("SIZE"))
-                        {
-                            AttributeElement attrElement = new AttributeElement();
-                            attrElement.Attribute = AttributeElement.AttributeType.Size;
-                            attrElement.CanvasID = m_defCanvasId;
-                            attrElement.LayerID = m_defLayerId;
-                            attrElement.ModelID = node.modelID;
-                            attrElement.Key = node.key;
-                            attrElement.Type = node.type;
-                            attrElement.TargetModelID = node.modelID;
-                            if (node.IsEcellValueExists("Value"))
-                                attrElement.Value = node.GetEcellValue("Value").ToString();
-
-                            pathElements.Add(attrElement);
-                        }
-                        else if (node.type.Equals(PathwayView.VARIABLE_STRING))
-                        {
-                            VariableElement varElement = new VariableElement();
-                            varElement.CanvasID = m_defCanvasId;
-                            varElement.LayerID = m_defLayerId;
-                            varElement.ModelID = node.modelID;
-                            varElement.Key = node.key;
-                            varElement.Type = node.type;
-                            varElement.CsId = m_view.ComponentSettingsManager.DefaultVariableSetting.Name;
-
-                            pathElements.Add(varElement);
-                        }
-                        else if (node.type.Equals(PathwayView.PROCESS_STRING))
-                        {
-                            ProcessElement proElement = new ProcessElement();
-                            
-                            proElement.CanvasID = m_defCanvasId;
-                            proElement.LayerID = m_defLayerId;
-                            proElement.ModelID = node.modelID;
-                            proElement.Key = node.key;
-                            proElement.Type = node.type;
-                            proElement.CsId = m_view.ComponentSettingsManager.DefaultProcessSetting.Name;
-                            proElement.SetEdgesByEcellValue(
-                                node.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST) );
-                            
-                            pathElements.Add(proElement);
-                        }
-                    }
-                }
-            }
-
-            try
-            {
-                List<PathwayElement> saveElements = m_view.Replace(pathElements, true);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            this.NewDataAddToModel(data);
         }
         #endregion
 
@@ -1551,15 +1234,6 @@ namespace EcellLib.PathwayWindow
                 m_view.ShowingID = true;
             else
                 m_view.ShowingID = false;
-        }
-        /// <summary>
-        /// the event sequence of enter the mouse.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e">MouseEventArgs.</param>
-        void uc_MouseEnter(object sender, EventArgs e)
-        {
-            m_view.TabControl.Focus();
         }
         #endregion
     }
