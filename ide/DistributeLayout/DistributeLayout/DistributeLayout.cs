@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Element;
 using System.ComponentModel;
@@ -39,7 +40,7 @@ namespace EcellLib.DistributeLayout
     /// <summary>
     /// Layout algorithm to distribute nodes evenly spaced
     /// </summary>
-    public class DistributeLayout : ILayoutAlgorithm
+    public class DistributeLayout : LayoutBase, ILayoutAlgorithm
     {
         enum Direction { Horizontally, Vertically }
 
@@ -63,24 +64,16 @@ namespace EcellLib.DistributeLayout
             if (nodeList.Count <= 2)
                 return false;
 
+            nodeList = GetSelectedObject(nodeList);
+            RectangleF rect = GetSurroundingRect(nodeList);
+
             Direction dir = GetDirection(subNum);
 
-            float min = GetValue(nodeList[0], dir);
-            float max = GetValue(nodeList[0], dir);
             SortedDictionary<float, List<EcellObject>> posDict = new SortedDictionary<float, List<EcellObject>>();
-
             foreach (EcellObject node in nodeList)
-            {
-                float value = GetValue(node, dir);
-                this.AddIntoDictionary(posDict, value, node);
-                if (value < min)
-                    min = value;
-                else if (max < value)
-                    max = value;
-            }
+                this.AddIntoDictionary(posDict, (Direction.Horizontally == dir) ? node.X : node.Y, node);
 
-            float increment = (max - min) / ((float)nodeList.Count - 1);
-
+            float increment = (Direction.Horizontally == dir) ? rect.Width / (float)(nodeList.Count - 1) : rect.Height / (float)(nodeList.Count - 1);
             float count = 0;
 
             foreach (KeyValuePair<float, List<EcellObject>> pair in posDict)
@@ -90,10 +83,10 @@ namespace EcellLib.DistributeLayout
                     switch (dir)
                     {
                         case Direction.Horizontally:
-                            node.X = min + increment * count;
+                            node.X = rect.X + increment * count;
                             break;
                         case Direction.Vertically:
-                            node.Y = min + increment * count;
+                            node.Y = rect.Y + increment * count;
                             break;
                     }
                     count = count + 1;
@@ -101,20 +94,6 @@ namespace EcellLib.DistributeLayout
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Get Value.
-        /// </summary>
-        private float GetValue(EcellObject node, Direction dir)
-        {
-            switch (dir)
-            {
-                case Direction.Horizontally:default:
-                    return node.X;
-                case Direction.Vertically:
-                    return node.Y;
-            }
         }
 
         /// <summary>

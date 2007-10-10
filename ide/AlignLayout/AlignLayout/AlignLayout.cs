@@ -33,13 +33,14 @@ using System.Text;
 using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Element;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace EcellLib.AlignLayout
 {
     /// <summary>
     /// Layout algorithm to align nodes
     /// </summary>
-    public class AlignLayout : ILayoutAlgorithm
+    public class AlignLayout : LayoutBase, ILayoutAlgorithm
     {
         enum Alignment {
             /// <summary>
@@ -184,13 +185,13 @@ namespace EcellLib.AlignLayout
                              List<EcellObject> nodeList)
         {
             // Error check.
-            if (nodeList == null || nodeList.Count <= 0)
+            if (nodeList == null || nodeList.Count <= 1)
                 return false;
+            nodeList = GetSelectedObject(nodeList);
+            RectangleF rect = GetSurroundingRect(nodeList);
 
-            // Set Alignment
             Alignment align = GetAlignment(subNum);
-            // Settle alignValue
-            float alignValue = GetAlignValue(nodeList, align); // Set all nodes X or Y to this position
+            float alignValue = GetAlignValue(rect, align); // Set all nodes X or Y to this position
 
             // Set x or y coordinate to alignValue
             foreach (EcellObject node in nodeList)
@@ -198,14 +199,10 @@ namespace EcellLib.AlignLayout
                 switch (align)
                 {
                     case Alignment.Left:
-                        node.X = alignValue;
-                        break;
                     case Alignment.Right:
                         node.X = alignValue;
                         break;
                     case Alignment.Upper:
-                        node.Y = alignValue;
-                        break;
                     case Alignment.Lower:
                         node.Y = alignValue;
                         break;
@@ -272,39 +269,24 @@ namespace EcellLib.AlignLayout
         /// <param name="nodeList">List</param>
         /// <param name="align">Alignment</param>
         /// <returns>float</returns>
-        private float GetAlignValue(List<EcellObject> nodeList, Alignment align)
+        private float GetAlignValue(RectangleF rect, Alignment align)
         {
-            float minX = nodeList[0].X;
-            float maxX = nodeList[0].X;
-            float minY = nodeList[0].Y;
-            float maxY = nodeList[0].Y;
-            foreach (EcellObject node in nodeList)
-            {
-                if (node.X < minX)
-                    minX = node.X;
-                else if (node.X > maxX)
-                    maxX = node.X;
-                if (node.Y < minY)
-                    minY = node.Y;
-                else if (node.Y > maxY)
-                    maxY = node.Y;
-            }
             switch (align)
             {
                 case Alignment.Left:
                 default:
-                    return minX;
+                    return rect.X;
                 case Alignment.Right:
-                    return maxX;
+                    return rect.X + rect.Width;
                 case Alignment.Upper:
-                    return minY;
+                    return rect.Y;
                 case Alignment.Lower:
-                    return maxY;
+                    return rect.Y + rect.Height;
             }
         }
 
         /// <summary>
-        /// Get Alignment.
+        /// Get Alignment direction.
         /// </summary>
         /// <param name="subNum">Number of Layout</param>
         /// <returns>Alignment</returns>
