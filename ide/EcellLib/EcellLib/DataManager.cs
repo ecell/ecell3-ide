@@ -6096,6 +6096,9 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// Clear the counter to count object in model.
+        /// </summary>
         public void ClearScriptInfo()
         {
             s_stepperCount = 0;
@@ -7288,6 +7291,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
+        /// <param name="sysObj">written system object.</param>
         public void WriteSystemEntry(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
 
@@ -7327,6 +7331,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
+        /// <param name="sysObj">written system object.</param>
         public void WriteSystemProperty(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
                 int count = s_exportSystem[sysObj.key];
@@ -7338,7 +7343,12 @@ namespace EcellLib
                 }
         }
 
-
+        /// <summary>
+        /// Write the logger property in script file.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="logList">Logger list.</param>
         public void WriteLoggerProperty(string fileName, Encoding enc, List<string> logList)
         {
             File.AppendAllText(fileName, "\n# Logger Policy\n");
@@ -7354,6 +7364,12 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// Write the logger property to save the log in script file.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        /// <param name="saveList">save property list.</param>
         public void WriteLoggerSaveEntry(string fileName, Encoding enc, List<SaveLoggerProperty> saveList)
         {
             File.AppendAllText(fileName, "\n# Save logging\n", enc);

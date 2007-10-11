@@ -120,6 +120,9 @@
   <data name="ConfirmRestart" xml:space="preserve">
     <value>この設定は次回起動時から有効になります。</value>
   </data>
+  <data name="ErrConcInvalid" xml:space="preserve">
+    <value>Concurrencyに１以上を設定してください。</value>
+  </data>
   <data name="ErrCreatePrj" xml:space="preserve">
     <value>プロジェクトの作成に失敗しました。</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="ErrNoSelectPrj" xml:space="preserve">
     <value>プロジェクトが選択されていません。選択してください。</value>
+  </data>
+  <data name="ErrNoWorkDir" xml:space="preserve">
+    <value>作業用ディレクトリが設定されていません。</value>
   </data>
   <data name="ErrOpenPrj" xml:space="preserve">
     <value>選択したプロジェクトを開くのに失敗しました。</value>
@@ -182,6 +188,9 @@
   </data>
   <data name="ErrStartup" xml:space="preserve">
     <value>システムに必要なパラメータが見つかりません。再インストールしてください。</value>
+  </data>
+  <data name="ErrUpdateDistEnv" xml:space="preserve">
+    <value>分散環境の設定に失敗しました。</value>
   </data>
   <data name="ExpModelMes" xml:space="preserve">
     <value>作業用ディレクトリを設定してください。</value>

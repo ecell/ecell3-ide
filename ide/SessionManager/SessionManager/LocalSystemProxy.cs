@@ -35,7 +35,8 @@ namespace SessionManager
 {
     public class LocalSystemProxy : SystemProxy
     {
-        static private Dictionary<string, object> s_optDic = new Dictionary<string, object>();
+        private Dictionary<string, object> m_optDic = new Dictionary<string, object>();
+        static private Dictionary<string, object> s_optDic = null;
 
         /// <summary>
         /// Constructor.
@@ -43,7 +44,17 @@ namespace SessionManager
         public LocalSystemProxy()
             : base()
         {
+            LocalSystemProxy.Initialize();
             this.DefaultConcurrency = 1;
+            m_optDic = s_optDic;
+        }
+
+        private static void Initialize()
+        {
+            if (s_optDic == null)
+            {
+                s_optDic = new Dictionary<string, object>();
+            }
         }
 
         /// <summary>
@@ -53,6 +64,11 @@ namespace SessionManager
         public override SessionProxy CreateSessionProxy()
         {
             return new LocalSessionProxy();
+        }
+
+        public override string GetEnvironment()
+        {
+            return "Local";
         }
 
         /// <summary>
@@ -91,7 +107,17 @@ namespace SessionManager
         /// <param name="list">property dictionary.</param>
         public override void SetProperty(Dictionary<string, object> list)
         {
-            LocalSystemProxy.s_optDic = list;
+            m_optDic = list;
+        }
+
+        /// <summary>
+        /// Get the list of option set all session.
+        /// </summary>
+        /// <returns>dictionary of option.</returns>
+        public override Dictionary<string, object> GetDefaultProperty()
+        {
+            LocalSystemProxy.Initialize();
+            return LocalSystemProxy.s_optDic;
         }
 
         /// <summary>
@@ -100,7 +126,7 @@ namespace SessionManager
         /// <returns>dictionary of option.</returns>
         public override Dictionary<string, object> GetProperty()
         {
-            return LocalSystemProxy.s_optDic;
+            return m_optDic;
         }
 
     }

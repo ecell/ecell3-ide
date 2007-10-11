@@ -72,6 +72,8 @@ namespace EcellLib.MainWindow
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.distributedEnvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menustrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -263,7 +265,9 @@ namespace EcellLib.MainWindow
             // 
             this.MenuItemSetup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modelEditorToolStripMenuItem,
-            this.setIDEToolStripMenuItem});
+            this.setIDEToolStripMenuItem,
+            this.toolStripSeparator7,
+            this.distributedEnvToolStripMenuItem});
             this.MenuItemSetup.Name = "MenuItemSetup";
             resources.ApplyResources(this.MenuItemSetup, "MenuItemSetup");
             // 
@@ -346,6 +350,17 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.dockPanel, "dockPanel");
             this.dockPanel.DocumentStyle = WeifenLuo.WinFormsUI.Docking.DocumentStyle.DockingWindow;
             this.dockPanel.Name = "dockPanel";
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            resources.ApplyResources(this.toolStripSeparator7, "toolStripSeparator7");
+            // 
+            // distributedEnvToolStripMenuItem
+            // 
+            this.distributedEnvToolStripMenuItem.Name = "distributedEnvToolStripMenuItem";
+            resources.ApplyResources(this.distributedEnvToolStripMenuItem, "distributedEnvToolStripMenuItem");
+            this.distributedEnvToolStripMenuItem.Click += new System.EventHandler(this.DistributedEnvMenuClick);
             // 
             // MainWindow
             // 
@@ -452,6 +467,11 @@ namespace EcellLib.MainWindow
         private System.Windows.Forms.ToolStripMenuItem setIDEToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        /// <summary>
+        /// MenuItem to display the setup dialog to set distributed environment.
+        /// </summary>
+        public System.Windows.Forms.ToolStripMenuItem distributedEnvToolStripMenuItem;
     }
 }
 

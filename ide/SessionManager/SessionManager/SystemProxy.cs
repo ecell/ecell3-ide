@@ -101,6 +101,15 @@ namespace SessionManager
         }
 
         /// <summary>
+        /// Get the list of option set all session.
+        /// </summary>
+        /// <returns>dictionary of option.</returns>
+        public virtual Dictionary<string, object> GetDefaultProperty()
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Update the property of proxy.
         /// </summary>
         /// <param name="list">the list of property.</param>

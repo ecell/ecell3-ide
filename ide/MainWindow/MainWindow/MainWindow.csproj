@@ -97,6 +97,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DistributedEnvSetupWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DistributedEnvSetupWindow.Designer.cs">
+      <DependentUpon>DistributedEnvSetupWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ECellSerialize.cs">
     </Compile>
     <Compile Include="MessageResMain.Designer.cs">
@@ -148,6 +154,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DistributedEnvSetupWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DistributedEnvSetupWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DistributedEnvSetupWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DistributedEnvSetupWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainWindow.cs</DependentUpon>

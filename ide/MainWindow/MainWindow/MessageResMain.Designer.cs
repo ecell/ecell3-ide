@@ -70,6 +70,15 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
+        ///   Concurrency should be larger than 1. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrConcInvalid {
+            get {
+                return ResourceManager.GetString("ErrConcInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Fail to create the project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrCreatePrj {
@@ -156,6 +165,15 @@ namespace EcellLib.MainWindow {
         internal static string ErrNoSelectPrj {
             get {
                 return ResourceManager.GetString("ErrNoSelectPrj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No set the working directory. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNoWorkDir {
+            get {
+                return ResourceManager.GetString("ErrNoWorkDir", resourceCulture);
             }
         }
         
@@ -255,6 +273,15 @@ namespace EcellLib.MainWindow {
         internal static string ErrStartup {
             get {
                 return ResourceManager.GetString("ErrStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fail to set the property of distributed environment. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrUpdateDistEnv {
+            get {
+                return ResourceManager.GetString("ErrUpdateDistEnv", resourceCulture);
             }
         }
         

@@ -449,4 +449,7 @@
   <data name="undoToolStripMenuItem.Text" xml:space="preserve">
     <value>元に戻す(&amp;Z)...</value>
   </data>
+  <data name="distributedEnvToolStripMenuItem.Text" xml:space="preserve">
+    <value>分散環境設定</value>
+  </data>
 </root>

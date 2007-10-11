@@ -70,7 +70,8 @@ namespace SessionManager
 
             LocalSystemProxy p = new LocalSystemProxy();
             p.Manager = this;
-            m_proxyList.Add("Local", p);
+            m_proxyList.Add(p.GetEnvironment(), p);
+            SetEnvironment(p.GetEnvironment());
         }
 
 
@@ -93,7 +94,8 @@ namespace SessionManager
 
             LocalSystemProxy p = new LocalSystemProxy();
             p.Manager = this;
-            m_proxyList.Add("Local", p);
+            m_proxyList.Add(p.GetEnvironment(), p);
+            SetEnvironment(p.GetEnvironment());
         }
 
         /// <summary>
@@ -230,6 +232,15 @@ namespace SessionManager
             return m_proxy.GetProperty();
         }
 
+        public Dictionary<string, object> GetDefaultEnvironmentProperty(string env)
+        {
+            if (m_proxyList.ContainsKey(env))
+            {
+                return m_proxyList[env].GetDefaultProperty();
+            }
+            return new Dictionary<string,object>();
+        }
+
         /// <summary>
         /// Update the property of proxy.
         /// </summary>
@@ -261,6 +272,19 @@ namespace SessionManager
         {
             if (m_proxy == null) return 1;
             return m_proxy.DefaultConcurrency;
+        }
+
+        /// <summary>
+        /// get the defalut concurrency of environment.
+        /// </summary>
+        /// <returns></returns>
+        public int GetDefaultConcurrency(string env)
+        {
+            if (m_proxyList.ContainsKey(env))
+            {
+                return m_proxyList[env].DefaultConcurrency;
+            }
+            return 1;
         }
 
         /// <summary>

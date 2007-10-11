@@ -1795,6 +1795,13 @@ namespace EcellLib.MainWindow
             saveWindowSetting(userWindowSettingPath);
         }
 
+        private void DistributedEnvMenuClick(object sender, EventArgs e)
+        {
+            DistributedEnvSetupWindow win = new DistributedEnvSetupWindow();
+            win.Shown += new EventHandler(win.WindowShown);
+            win.ShowDialog();
+        }
+
     }
 
     /// <summary>

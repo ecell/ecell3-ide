@@ -70,7 +70,7 @@ namespace EcellLib
         /// <summary>
         /// Get a rectangle surrounded by given nodes.
         /// </summary>
-        /// <param name="nodeElements">rectangle, which will be surrounded by these nodes will be returned.</param>
+        /// <param name="nodeList">rectangle, which will be surrounded by these nodes will be returned.</param>
         /// <returns>surrounded rectangle</returns>
         public static RectangleF GetSurroundingRect(List<EcellObject> nodeList)
         {

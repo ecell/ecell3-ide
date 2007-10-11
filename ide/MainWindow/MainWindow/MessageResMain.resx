@@ -120,6 +120,9 @@
   <data name="ConfirmRestart" xml:space="preserve">
     <value>The change will take effect after you restart this application.</value>
   </data>
+  <data name="ErrConcInvalid" xml:space="preserve">
+    <value>Concurrency should be larger than 1.</value>
+  </data>
   <data name="ErrCreatePrj" xml:space="preserve">
     <value>Fail to create the project.</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="ErrNoSelectPrj" xml:space="preserve">
     <value>No select the project.</value>
+  </data>
+  <data name="ErrNoWorkDir" xml:space="preserve">
+    <value>No set the working directory.</value>
   </data>
   <data name="ErrOpenPrj" xml:space="preserve">
     <value>Fail to open the project.</value>
@@ -182,6 +188,9 @@
   </data>
   <data name="ErrStartup" xml:space="preserve">
     <value>Can not find the parameter of E-Cell IDE. Please re-install E-Cell IDE.</value>
+  </data>
+  <data name="ErrUpdateDistEnv" xml:space="preserve">
+    <value>Fail to set the property of distributed environment.</value>
   </data>
   <data name="ExpModelMes" xml:space="preserve">
     <value>Please set the working directory.</value>
