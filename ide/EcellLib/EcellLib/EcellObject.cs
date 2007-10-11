@@ -256,6 +256,13 @@ namespace EcellLib
                 m_y = value.Y;
             }
         }
+        /// <summary>
+        /// PointF
+        /// </summary>
+        public RectangleF Rect
+        {
+            get { return new RectangleF(m_x, m_y, m_width, m_height); }
+        }
 
         /// <summary>
         /// X coordinate

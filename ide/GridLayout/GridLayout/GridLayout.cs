@@ -386,69 +386,54 @@ namespace EcellLib.GridLayout
             // An initial value of gridDistance is m_defGridDistance. gridDistance will be decreased until numbers of
             // position on grid coorindate system become sufficient to contain all nodes.
             bool[,] positionMatrix = new bool[1, 1];
-            float gridDistance = m_defGridDistance;
-            float systemMargin = m_defSystemMargin;
+            float grid = m_defGridDistance;
+            float margin = m_defGridDistance / 2;
             bool posUnsettled = true;
             int maxX = 0;
             int maxY = 0;
+
             while (posUnsettled)
             {
-                maxX = (int)((sys.X + sys.Width - systemMargin) / gridDistance)
-                           - (int)((sys.X + systemMargin) / gridDistance) - 1;
-                maxY = (int)((sys.Y + sys.Height - systemMargin) / gridDistance)
-                           - (int)((sys.Y + systemMargin) / gridDistance) - 1;
-
-                if (maxX < 0 || maxY < 0)
+                // Set Grid size.
+                maxX = (int)((sys.Width - margin * 2) / grid) - 1;
+                maxY = (int)((sys.Height - margin * 2) / grid) - 1;
+                if (maxX < 0 || maxY < 0 || maxX * maxY < nodeList.Count * 2)
                 {
-                    gridDistance = gridDistance / 2f;
-                    systemMargin = systemMargin / 2f;
+                    grid = grid / 2f;
                     continue;
                 }
 
-                positionMatrix = new bool[maxX + 1, maxY + 1];
-
                 // Initialize position matrix
-                for (int i = 0; i < maxX + 1; i++)
-                    for (int j = 0; j < maxY + 1; j++)
-                        positionMatrix[i, j] = false;
-
+                positionMatrix = new bool[maxX + 1, maxY + 1];
                 foreach (EcellObject childsys in childSystems)
                 {
-                    int leftX = (int)((childsys.X + childsys.OffsetX) / gridDistance) - (int)((sys.X) / gridDistance) - 1;
-                    int rightX = (int)((childsys.X + childsys.OffsetX + childsys.Width) / gridDistance) - (int)((sys.X) / gridDistance) - 1;
-                    int upperY = (int)((childsys.Y + childsys.OffsetY) / gridDistance) - (int)((sys.Y) / gridDistance) - 1;
-                    int lowerY = (int)((childsys.Y + childsys.OffsetY + childsys.Height) / gridDistance) - (int)((sys.Y) / gridDistance) - 1;
-                    for (int i = leftX; i < rightX; i++)
-                        for (int j = upperY; j < lowerY; j++)
+                    for (int x = 0; x < maxX + 1; x++)
+                        for (int y = 0; y < maxY + 1; y++)
                         {
-                            if (0 <= i && i <= maxX && 0 <= j && j <= maxY)
-                                positionMatrix[i, j] = true;
+                            if (childsys.Rect.Contains(sys.X + margin + x * grid, sys.Y + margin + y * grid) )
+                                positionMatrix[x, y] = true;
                         }
                 }
 
                 // Count the number of vacant points
                 int numOfVacantPoint = 0;
-
-                for (int i = 0; i < maxX + 1; i++)
-                    for (int j = 0; j < maxY + 1; j++)
-                        if (positionMatrix[i, j] == false)
+                for (int x = 0; x < maxX + 1; x++)
+                    for (int y = 0; y < maxY + 1; y++)
+                        if (positionMatrix[x, y] == false)
                             numOfVacantPoint++;
 
-                // Check if there is enough space for nodes
+                // Do again if there is not enough space for nodes
                 if (nodeList.Count * 2 < numOfVacantPoint)
                     posUnsettled = false;
                 else
-                {
-                    gridDistance = gridDistance / 2f;
-                    systemMargin = systemMargin / 2f;
-                }
+                    grid = grid / 2f;
             }
 
             // Initialize position in virtual coordinates system
             if (isFromScratch)
                 RandomizeLayout(maxX, maxY, nodeList, positionMatrix);
             else
-                ToVirtualCoordinates(maxX, maxY, sys, nodeList, positionMatrix, gridDistance, systemMargin);
+                ToVirtualCoordinates(maxX, maxY, sys, nodeList, positionMatrix, grid, margin);
 
             // Create random number generator
             Random ran = new Random();
@@ -476,13 +461,10 @@ namespace EcellLib.GridLayout
             }
 
             // Transform coordinate system from virtual grid coordinate to piccolo coordinate
-            float baseX = ((int)((sys.X + systemMargin) / gridDistance) + 1) * gridDistance;
-            float baseY = ((int)((sys.Y + systemMargin) / gridDistance) + 1) * gridDistance;
-
             foreach (EcellObject node in nodeList)
             {
-                node.X = node.X * gridDistance + baseX;
-                node.Y = node.Y * gridDistance + baseY;
+                node.X = sys.X + margin + node.X * grid;
+                node.Y = sys.Y + margin + node.Y * grid;
             }
         }
 
@@ -829,10 +811,8 @@ namespace EcellLib.GridLayout
         {
             foreach (EcellObject node in nodeList)
             {
-                int x = (int)((sys.X + node.X - systemMargin) / gridDistance)
-                           - (int)((sys.X + systemMargin) / gridDistance) - 1;
-                int y = (int)((sys.Y + node.Y - systemMargin) / gridDistance)
-                           - (int)((sys.Y + systemMargin) / gridDistance) - 1;
+                int x = (int)((node.X - sys.X) / gridDistance);
+                int y = (int)((node.Y - sys.Y) / gridDistance);
 
                 Point startPoint = new Point(x, y);
 

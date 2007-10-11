@@ -2,19 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using EcellLib;
-using EcellLib.PathwayWindow;
-using EcellLib.PathwayWindow.Nodes;
 using System.Windows.Forms;
 using System.ComponentModel;
-using PathwayWindow;
 
 namespace EcellLib.PathwayWindow
 {
     /// <summary>
     /// Layout algorithm to layout nodes on grid.
     /// </summary>
-    public class GridLayout : ILayoutAlgorithm
+    public class GridLayout : LayoutBase, ILayoutAlgorithm
     {
         #region fields
         /// <summary>
@@ -73,27 +69,18 @@ namespace EcellLib.PathwayWindow
         /// Execute layout
         /// </summary>
         /// <param name="subNum">
-        /// An index of sub command which was clicked on subMenu.
-        /// Sub command which is in subCommandNum position in the list returned by GetSubCommands() [0 origin]
-        /// If layout name itself was clicked, subCommandNum = -1.
+        /// 0: Layouting from scratch
+        /// -1: Layouting based on current positions
         /// </param>
         /// <param name="layoutSystem">Whether systems should be layouted or not</param>
-        /// <param name="systemElements">Systems</param>
-        /// <param name="nodeElements">Nodes (Variables, Processes)</param>
+        /// <param name="systemList">Systems</param>
+        /// <param name="nodeList">Nodes (Variables, Processes)</param>
         /// <returns>Whether layout is completed or aborted</returns>
         public bool DoLayout(int subNum,
                              bool layoutSystem,
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
         {
-            // Prepare the progress bar
-            ProgressDialog form = new ProgressDialog();
-            form.Bar.Minimum = 1;
-            form.Bar.Maximum = m_kmax;
-            form.Bar.Step = 1;
-            form.Bar.Value = 1;
-            form.Show();
-
             // At first, all systems layout will be settled
             if (layoutSystem)
                 DoSystemLayout(systemList, nodeList);
@@ -122,12 +109,10 @@ namespace EcellLib.PathwayWindow
                 }
 
                 if (nodesOfTheSystem.Count > 1)
-                    DoNodeLayout(sys, childSystems, nodesOfTheSystem, form, isFromScratch);
+                    DoNodeLayout(sys, childSystems, nodesOfTheSystem, isFromScratch);
             }
-            form.Dispose();
-            return false;
+            return true;
         }
-
         /// <summary>
         /// Get LayoutType of this layout algorithm.
         /// </summary>
@@ -178,65 +163,6 @@ namespace EcellLib.PathwayWindow
 
         #region methods for internal use
         /// <summary>
-        /// Calculate transition probability.
-        /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail
-        /// </summary>
-        /// <param name="difference">energy difference</param>
-        /// <param name="temperature">temperature</param>
-        /// <returns></returns>
-        private double GetProbability(float difference, float temperature)
-        {
-            if (difference < 0)
-                return 1;
-            else
-            {
-                double p = Math.Exp((double)((-1 * difference) / temperature));
-                return p;
-            }
-        }
-
-        /// <summary>
-        /// Layout systems
-        /// </summary>
-        /// <param name="systemElements">systems, which will be layouted</param>
-        /// <param name="nodeElements">nodes</param>
-        private void DoSystemLayout(List<EcellObject> systemList, List<EcellObject> nodeList)
-        {
-            if (systemList == null || nodeList == null)
-                return;
-
-            Dictionary<string, EcellObject> sysDict = new Dictionary<string, EcellObject>();
-            foreach (EcellObject sys in systemList)
-                sysDict.Add(sys.key, sys);
-            Dictionary<string, SystemContainer> containerDict = new Dictionary<string, SystemContainer>();
-            SystemContainer rootContainer = null;
-            foreach (EcellObject sys in systemList)
-            {
-                SystemContainer container = new SystemContainer();
-                container.Self = sys;
-                if (sys.M_instances.Count == 0)
-                    continue;
-                SystemContainer childDummyContainer = new SystemContainer();
-                childDummyContainer.ChildNodeNum = sys.M_instances.Count;
-                childDummyContainer.IsDummyContainer = true;
-                container.AddChildContainer(childDummyContainer);
-
-                if (sys.key.Equals("/"))
-                    rootContainer = container;
-                containerDict.Add(sys.key, container);
-            }
-            foreach (SystemContainer sysCon in containerDict.Values)
-            {
-                if (containerDict.ContainsKey(sysCon.Self.parentSystemID))
-                {
-                    containerDict[sysCon.Self.parentSystemID].AddChildContainer(sysCon);
-                }
-            }
-            // Settle system coordinates
-            rootContainer.ArrangeAllCoordinates(0, 0);
-        }
-        
-        /// <summary>
         /// Formally, an energy between two nodes will be calculated like below.
         ///   1       K
         ///  --- * ------- * (d - m_naturalLength)^2 
@@ -272,7 +198,6 @@ namespace EcellLib.PathwayWindow
             }
             return energy;
         }
-
         /// <summary>
         /// A relation matrix contains node relations on the pathway.
         /// relationMatrix[i,j] = 3 means that a shortest path length between node i and node j is 3.
@@ -390,6 +315,47 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Layout systems
+        /// </summary>
+        /// <param name="systemElements">systems, which will be layouted</param>
+        /// <param name="nodeElements">nodes</param>
+        private void DoSystemLayout(List<EcellObject> systemList, List<EcellObject> nodeList)
+        {
+            if (systemList == null || nodeList == null)
+                return;
+
+            Dictionary<string, EcellObject> sysDict = new Dictionary<string, EcellObject>();
+            foreach (EcellObject sys in systemList)
+                sysDict.Add(sys.key, sys);
+            Dictionary<string, SystemContainer> containerDict = new Dictionary<string, SystemContainer>();
+            SystemContainer rootContainer = null;
+            foreach (EcellObject sys in systemList)
+            {
+                SystemContainer container = new SystemContainer();
+                container.Self = sys;
+                if (sys.M_instances.Count == 0)
+                    continue;
+                SystemContainer childDummyContainer = new SystemContainer();
+                childDummyContainer.ChildNodeNum = sys.M_instances.Count;
+                childDummyContainer.IsDummyContainer = true;
+                container.AddChildContainer(childDummyContainer);
+
+                if (sys.key.Equals("/"))
+                    rootContainer = container;
+                containerDict.Add(sys.key, container);
+            }
+            foreach (SystemContainer sysCon in containerDict.Values)
+            {
+                if (containerDict.ContainsKey(sysCon.Self.parentSystemID))
+                {
+                    containerDict[sysCon.Self.parentSystemID].AddChildContainer(sysCon);
+                }
+            }
+            // Settle system coordinates
+            rootContainer.ArrangeAllCoordinates(0, 0);
+        }
+
+        /// <summary>
         /// Layout nodes within the system
         /// </summary>
         /// <param name="sysElement">nodes must be within this sytem</param>
@@ -401,7 +367,6 @@ namespace EcellLib.PathwayWindow
             EcellObject sys,
             List<EcellObject> childSystems,
             List<EcellObject> nodeList,
-            ProgressDialog dialog,
             bool isFromScratch)
         {
             int[,] relationMatrix = CreateRelationMatrix(nodeList);
@@ -412,69 +377,54 @@ namespace EcellLib.PathwayWindow
             // An initial value of gridDistance is m_defGridDistance. gridDistance will be decreased until numbers of
             // position on grid coorindate system become sufficient to contain all nodes.
             bool[,] positionMatrix = new bool[1, 1];
-            float gridDistance = m_defGridDistance;
-            float systemMargin = m_defSystemMargin;
+            float grid = m_defGridDistance;
+            float margin = m_defGridDistance / 2;
             bool posUnsettled = true;
             int maxX = 0;
             int maxY = 0;
+
             while (posUnsettled)
             {
-                maxX = (int)((sys.X + sys.Width - systemMargin) / gridDistance)
-                           - (int)((sys.X + systemMargin) / gridDistance) - 1;
-                maxY = (int)((sys.Y + sys.Height - systemMargin) / gridDistance)
-                           - (int)((sys.Y + systemMargin) / gridDistance) - 1;
-
-                if (maxX < 0 || maxY < 0)
+                // Set Grid size.
+                maxX = (int)((sys.Width - margin * 2) / grid) - 1;
+                maxY = (int)((sys.Height - margin * 2) / grid) - 1;
+                if (maxX < 0 || maxY < 0 || maxX * maxY < nodeList.Count * 2)
                 {
-                    gridDistance = gridDistance / 2f;
-                    systemMargin = systemMargin / 2f;
+                    grid = grid / 2f;
                     continue;
                 }
 
-                positionMatrix = new bool[maxX + 1, maxY + 1];
-
                 // Initialize position matrix
-                for (int i = 0; i < maxX + 1; i++)
-                    for (int j = 0; j < maxY + 1; j++)
-                        positionMatrix[i, j] = false;
-
+                positionMatrix = new bool[maxX + 1, maxY + 1];
                 foreach (EcellObject childsys in childSystems)
                 {
-                    int leftX = (int)((childsys.X + childsys.OffsetX) / gridDistance) - (int)((sys.X) / gridDistance) - 1;
-                    int rightX = (int)((childsys.X + childsys.OffsetX + childsys.Width) / gridDistance) - (int)((sys.X) / gridDistance) - 1;
-                    int upperY = (int)((childsys.Y + childsys.OffsetY) / gridDistance) - (int)((sys.Y) / gridDistance) - 1;
-                    int lowerY = (int)((childsys.Y + childsys.OffsetY + childsys.Height) / gridDistance) - (int)((sys.Y) / gridDistance) - 1;
-                    for (int i = leftX; i < rightX; i++)
-                        for (int j = upperY; j < lowerY; j++)
+                    for (int x = 0; x < maxX + 1; x++)
+                        for (int y = 0; y < maxY + 1; y++)
                         {
-                            if (0 <= i && i <= maxX && 0 <= j && j <= maxY)
-                                positionMatrix[i, j] = true;
+                            if (childsys.Rect.Contains(sys.X + margin + x * grid, sys.Y + margin + y * grid))
+                                positionMatrix[x, y] = true;
                         }
                 }
 
                 // Count the number of vacant points
                 int numOfVacantPoint = 0;
-
-                for (int i = 0; i < maxX + 1; i++)
-                    for (int j = 0; j < maxY + 1; j++)
-                        if (positionMatrix[i, j] == false)
+                for (int x = 0; x < maxX + 1; x++)
+                    for (int y = 0; y < maxY + 1; y++)
+                        if (positionMatrix[x, y] == false)
                             numOfVacantPoint++;
 
-                // Check if there is enough space for nodes
+                // Do again if there is not enough space for nodes
                 if (nodeList.Count * 2 < numOfVacantPoint)
                     posUnsettled = false;
                 else
-                {
-                    gridDistance = gridDistance / 2f;
-                    systemMargin = systemMargin / 2f;
-                }
+                    grid = grid / 2f;
             }
 
             // Initialize position in virtual coordinates system
             if (isFromScratch)
                 RandomizeLayout(maxX, maxY, nodeList, positionMatrix);
             else
-                ToVirtualCoordinates(maxX, maxY, sys, nodeList, positionMatrix, gridDistance, systemMargin);
+                ToVirtualCoordinates(maxX, maxY, sys, nodeList, positionMatrix, grid, margin);
 
             // Create random number generator
             Random ran = new Random();
@@ -497,146 +447,14 @@ namespace EcellLib.PathwayWindow
 
                     nodeIndex++;
                 }
-                dialog.Bar.PerformStep();
                 k++;
             }
 
             // Transform coordinate system from virtual grid coordinate to piccolo coordinate
-            float baseX = ((int)((sys.X + systemMargin) / gridDistance) + 1) * gridDistance;
-            float baseY = ((int)((sys.Y + systemMargin) / gridDistance) + 1) * gridDistance;
-
             foreach (EcellObject node in nodeList)
             {
-                node.X = node.X * gridDistance + baseX;
-                node.Y = node.Y * gridDistance + baseY;
-            }
-        }
-
-        /// <summary>
-        /// Move the position of a node to the direction.
-        /// </summary>
-        /// <param name="nodeElement">a node, to be moved.</param>
-        /// <param name="direction">direction, to be moved to.</param>
-        /// <param name="posMatrix">a matrix of position in grid coordinate system</param>
-        private void MoveNode(EcellObject node, Direction direction, bool[,] posMatrix)
-        {
-            if (posMatrix != null)
-                posMatrix[(int)node.X, (int)node.Y] = false;
-            switch (direction)
-            {
-                case Direction.LeftUpper:
-                    node.X = node.X - 1;
-                    node.Y = node.Y - 1;
-                    break;
-                case Direction.Upper:
-                    node.Y = node.Y - 1;
-                    break;
-                case Direction.RightUpper:
-                    node.X = node.X + 1;
-                    node.Y = node.Y - 1;
-                    break;
-                case Direction.Right:
-                    node.X = node.X + 1;
-                    break;
-                case Direction.RightLower:
-                    node.X = node.X + 1;
-                    node.Y = node.Y + 1;
-                    break;
-                case Direction.Lower:
-                    node.Y = node.Y + 1;
-                    break;
-                case Direction.LeftLower:
-                    node.X = node.X - 1;
-                    node.Y = node.Y + 1;
-                    break;
-                case Direction.Left:
-                    node.X = node.X - 1;
-                    break;
-            }
-            if (posMatrix != null)
-                posMatrix[(int)node.X, (int)node.Y] = true;
-        }
-
-        /// <summary>
-        /// Put nodes in random positions
-        /// </summary>
-        /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
-        /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
-        /// <param name="nodeElements">nodes, which will be layouted</param>
-        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
-        /// <returns>false, if no enough space for nodes. otherwise, return true.</returns>
-        private bool RandomizeLayout(int maxX, int maxY, List<EcellObject> nodeList, bool[,] posMatrix)
-        {
-            // When no enough vacant positions, return with false
-            if ((maxX + 1) * (maxY + 1) < nodeList.Count)
-                return false;
-
-            // Initialize reservedPoints to true.
-            /*
-            for(int i = 0; i < maxX + 1; i++ )
-                for(int j = 0; j < maxY + 1; j++)
-                    posMatrix[i,j] = false;
-            
-             */
-            // Constansiate a random number generator.
-            Random ran = new Random();
-
-            // In each loop, a node will be assigned a position
-            foreach (EcellObject node in nodeList)
-            {
-                int x = -1;
-                int y = -1;
-
-                // do until a vacant position will be found
-                do
-                {
-                    x = ran.Next(maxX + 1);
-                    y = ran.Next(maxY + 1);
-                }
-                while (posMatrix[x, y]);
-
-                node.X = x;
-                node.Y = y;
-
-                posMatrix[x, y] = true;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Put nodes which have real coordinates into virtual grid coordinate.
-        /// </summary>
-        /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
-        /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
-        /// <param name="sysElement">nodes, which will be layouted</param>
-        /// <param name="nodeElements">nodes, which will be layouted</param>
-        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
-        /// <param name="gridDistance">distance between neighboring grid point in piccolo coordinate system</param>
-        /// <param name="systemMargin">nodes must not be placed within margin from system bounds</param>
-        private void ToVirtualCoordinates(
-            int maxX,
-            int maxY,
-            EcellObject sys,
-            List<EcellObject> nodeList,
-            bool[,] posMatrix,
-            float gridDistance,
-            float systemMargin)
-        {
-            foreach (EcellObject node in nodeList)
-            {
-                int x = (int)((sys.X + node.X - systemMargin) / gridDistance)
-                           - (int)((sys.X + systemMargin) / gridDistance) - 1;
-                int y = (int)((sys.Y + node.Y - systemMargin) / gridDistance)
-                           - (int)((sys.Y + systemMargin) / gridDistance) - 1;
-
-                Point startPoint = new Point(x, y);
-
-                Point vacantPoint = SearchAround4VacantPoint(maxX, maxY, startPoint, posMatrix);
-
-                posMatrix[vacantPoint.X, vacantPoint.Y] = true;
-                node.X = vacantPoint.X;
-                node.Y = vacantPoint.Y;
+                node.X = sys.X + margin + node.X * grid;
+                node.Y = sys.Y + margin + node.Y * grid;
             }
         }
 
@@ -669,7 +487,7 @@ namespace EcellLib.PathwayWindow
             int presentX = (int)nodeList[nodeIndex].X;
             int presentY = (int)nodeList[nodeIndex].Y;
 
-            Direction lowestEnergyDir = Direction.None;
+            GridLayout.Direction lowestEnergyDir = Direction.None;
             float lowestEnergy = 0;
             float energyAtN = CalculateEnergy(relationMatrix, nodeIndex, nodeList);
 
@@ -792,6 +610,116 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Calculate transition probability.
+        /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail
+        /// </summary>
+        /// <param name="difference">energy difference</param>
+        /// <param name="temperature">temperature</param>
+        /// <returns></returns>
+        private double GetProbability(float difference, float temperature)
+        {
+            if (difference < 0)
+                return 1;
+            else
+            {
+                double p = Math.Exp((double)((-100f * difference) / temperature));
+                return p;
+            }
+        }
+
+        /// <summary>
+        /// Move the position of a node to the direction.
+        /// </summary>
+        /// <param name="nodeElement">a node, to be moved.</param>
+        /// <param name="direction">direction, to be moved to.</param>
+        /// <param name="posMatrix">a matrix of position in grid coordinate system</param>
+        private void MoveNode(EcellObject node, GridLayout.Direction direction, bool[,] posMatrix)
+        {
+            if (posMatrix != null)
+                posMatrix[(int)node.X, (int)node.Y] = false;
+            switch (direction)
+            {
+                case Direction.LeftUpper:
+                    node.X = node.X - 1;
+                    node.Y = node.Y - 1;
+                    break;
+                case Direction.Upper:
+                    node.Y = node.Y - 1;
+                    break;
+                case Direction.RightUpper:
+                    node.X = node.X + 1;
+                    node.Y = node.Y - 1;
+                    break;
+                case Direction.Right:
+                    node.X = node.X + 1;
+                    break;
+                case Direction.RightLower:
+                    node.X = node.X + 1;
+                    node.Y = node.Y + 1;
+                    break;
+                case Direction.Lower:
+                    node.Y = node.Y + 1;
+                    break;
+                case Direction.LeftLower:
+                    node.X = node.X - 1;
+                    node.Y = node.Y + 1;
+                    break;
+                case Direction.Left:
+                    node.X = node.X - 1;
+                    break;
+            }
+            if (posMatrix != null)
+                posMatrix[(int)node.X, (int)node.Y] = true;
+        }
+
+        /// <summary>
+        /// Put nodes in random positions
+        /// </summary>
+        /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
+        /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
+        /// <param name="nodeElements">nodes, which will be layouted</param>
+        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
+        /// <returns>false, if no enough space for nodes. otherwise, return true.</returns>
+        private bool RandomizeLayout(int maxX, int maxY, List<EcellObject> nodeList, bool[,] posMatrix)
+        {
+            // When no enough vacant positions, return with false
+            if ((maxX + 1) * (maxY + 1) < nodeList.Count)
+                return false;
+
+            // Initialize reservedPoints to true.
+            /*
+            for(int i = 0; i < maxX + 1; i++ )
+                for(int j = 0; j < maxY + 1; j++)
+                    posMatrix[i,j] = false;
+            
+             */
+            // Constansiate a random number generator.
+            Random ran = new Random();
+
+            // In each loop, a node will be assigned a position
+            foreach (EcellObject node in nodeList)
+            {
+                int x = -1;
+                int y = -1;
+
+                // do until a vacant position will be found
+                do
+                {
+                    x = ran.Next(maxX + 1);
+                    y = ran.Next(maxY + 1);
+                }
+                while (posMatrix[x, y]);
+
+                node.X = x;
+                node.Y = y;
+
+                posMatrix[x, y] = true;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// In virtual grid coordinate system, vacant point which is closest to startPoint will be searched.
         /// Searching starts from startPoint, and finishs when a vacant point is found.        /// 
         /// </summary>
@@ -853,6 +781,40 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Put nodes which have real coordinates into virtual grid coordinate.
+        /// </summary>
+        /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
+        /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
+        /// <param name="sysElement">nodes, which will be layouted</param>
+        /// <param name="nodeElements">nodes, which will be layouted</param>
+        /// <param name="posMatrix">matrix of position in grid coordinate system</param>
+        /// <param name="gridDistance">distance between neighboring grid point in piccolo coordinate system</param>
+        /// <param name="systemMargin">nodes must not be placed within margin from system bounds</param>
+        private void ToVirtualCoordinates(
+            int maxX,
+            int maxY,
+            EcellObject sys,
+            List<EcellObject> nodeList,
+            bool[,] posMatrix,
+            float gridDistance,
+            float systemMargin)
+        {
+            foreach (EcellObject node in nodeList)
+            {
+                int x = (int)((node.X - sys.X) / gridDistance);
+                int y = (int)((node.Y - sys.Y) / gridDistance);
+
+                Point startPoint = new Point(x, y);
+
+                Point vacantPoint = SearchAround4VacantPoint(maxX, maxY, startPoint, posMatrix);
+
+                posMatrix[vacantPoint.X, vacantPoint.Y] = true;
+                node.X = vacantPoint.X;
+                node.Y = vacantPoint.Y;
+            }
+        }
+
+        /// <summary>
         /// Check if a point is vacant or not
         /// </summary>
         /// <param name="maxX">x coordinate must be between 0 and maxX</param>
@@ -875,12 +837,12 @@ namespace EcellLib.PathwayWindow
         class DirectionEnergyDiff
         {
             #region Fields
-            private Direction m_direction;
+            private GridLayout.Direction m_direction;
             private float m_energyDiff;
             #endregion
 
             #region Accessors
-            public Direction Direction
+            public GridLayout.Direction Direction
             {
                 get { return m_direction; }
                 set { m_direction = value; }
@@ -893,7 +855,7 @@ namespace EcellLib.PathwayWindow
             #endregion
 
             #region Constructor
-            public DirectionEnergyDiff(Direction dir, float ene)
+            public DirectionEnergyDiff(GridLayout.Direction dir, float ene)
             {
                 this.m_direction = dir;
                 this.m_energyDiff = ene;
@@ -1017,7 +979,6 @@ namespace EcellLib.PathwayWindow
             }
             #endregion
 
-            #region Methods
             public void AddChildContainer(SystemContainer childCon)
             {
                 m_childSystems.Add(childCon);
@@ -1126,6 +1087,5 @@ namespace EcellLib.PathwayWindow
             }
         #endregion
         }
-        #endregion
     }
 }

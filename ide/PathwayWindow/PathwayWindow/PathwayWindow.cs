@@ -630,9 +630,13 @@ namespace EcellLib.PathwayWindow
             {
                 MessageBox.Show(m_resources.GetString("ErrLayout"));
             }
-
             ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
 
+            DoLayout(algorithm, subIdx);
+        }
+
+        private void DoLayout(ILayoutAlgorithm algorithm, int subIdx)
+        {
             // Check Selected nodes when the layout algorithm uses selected objects.
             if (algorithm.GetLayoutType() == LayoutType.Selected)
                 foreach (EcellObject node in this.m_view.ActiveCanvas.SelectedNodes)
@@ -645,7 +649,7 @@ namespace EcellLib.PathwayWindow
             {
                 algorithm.DoLayout(subIdx, false, systemList, nodeList);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show(m_resources.GetString("ErrLayout"));
                 return;
@@ -663,7 +667,6 @@ namespace EcellLib.PathwayWindow
                     this.m_view.ActiveCanvas.Variables[node.key].EcellObject = (EcellVariable)node;
             }
         }
-
         /// <summary>
         /// Get toolbar buttons for PathwayWindow plugin.
         /// </summary>
@@ -820,6 +823,7 @@ namespace EcellLib.PathwayWindow
                         this.m_view.CreateCanvas(modelId);
                         this.NewDataAddToModel(data);
                     }
+                    DoLayout(DefaultLayoutAlgorithm, 0);
                 }
                 else
                 {
