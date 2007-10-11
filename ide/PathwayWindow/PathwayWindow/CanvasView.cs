@@ -2991,9 +2991,10 @@ namespace EcellLib.PathwayWindow
                         break;
 
                     PPathwaySystem system = m_systems[key];
+                    system.RemoveAllChildren();
                     system.Parent.RemoveChild(system);
-                    int ind = m_ctrlLayer.IndexOfChild(system);
-                    m_ctrlLayer.RemoveChild(ind);
+                    //int ind = m_ctrlLayer.IndexOfChild(system);
+                    //m_ctrlLayer.RemoveChild(ind);
 
                     if (m_selectedSystemName != null && key.Equals(m_selectedSystemName))
                     {
@@ -3006,20 +3007,20 @@ namespace EcellLib.PathwayWindow
                 case ComponentType.Variable:
                     if (!m_variables.ContainsKey(key))
                         break;
-                    PPathwayVariable v = m_variables[key];
-                    v.NotifyRemoveRelatedVariable();
-                    v.Parent.RemoveChild(v);
-                    v.Reset();
+                    PPathwayVariable var = m_variables[key];
+                    var.NotifyRemoveRelatedProcess();
+                    var.Parent.RemoveChild(var);
+                    var.Reset();
                     m_variables.Remove(key);
                     break;
                 case ComponentType.Process:
                     if (!m_processes.ContainsKey(key))
                         break;
-                    PPathwayProcess p = m_processes[key];
-                    p.NotifyRemoveRelatedProcess();
-                    p.DeleteEdges();
-                    p.Parent.RemoveChild(p);
-                    p.Reset();
+                    PPathwayProcess pro = m_processes[key];
+                    pro.NotifyRemoveRelatedVariable();
+                    pro.DeleteEdges();
+                    pro.Parent.RemoveChild(pro);
+                    pro.Reset();
                     m_processes.Remove(key);
                     break;
             }

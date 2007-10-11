@@ -391,7 +391,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// notify to remove all related process from list.
         /// </summary>
-        public void NotifyRemoveRelatedProcess()
+        public void NotifyRemoveRelatedVariable()
         {
             foreach (PPathwayVariable p in m_relatedVariables.Keys)
             {

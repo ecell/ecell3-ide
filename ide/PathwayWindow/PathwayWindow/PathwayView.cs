@@ -189,21 +189,6 @@ namespace EcellLib.PathwayWindow
         string m_defLayerId = "first";
 
         /// <summary>
-        /// Having relation between Ecell key of a system and canvas ID;
-        /// </summary>
-        Dictionary<string, string> m_keySysCanvasDict = new Dictionary<string,string>();
-        
-        /// <summary>
-        /// Having relation between Ecell key of a variable and canvas ID.
-        /// </summary>
-        Dictionary<string, string> m_keyVarCanvasDict = new Dictionary<string,string>();
-
-        /// <summary>
-        /// Having relation between Ecell key of a process and canvas ID.
-        /// </summary>
-        Dictionary<string, string> m_keyProCanvasDict = new Dictionary<string,string>();
-
-        /// <summary>
         /// ComponentSettingsManager for creating Systems and Nodes
         /// </summary>
         ComponentSettingsManager m_csManager;
@@ -950,47 +935,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Delete objects under a given system from m_key****CanvasDict
-        /// </summary>
-        public void DeleteFromRegistoryUnder(string system)
-        {
-            if(string.IsNullOrEmpty(system))
-                return;
-
-            // Delete variables.
-            ICollection<string> keyList = CopyList(m_keyVarCanvasDict.Keys);
-            foreach (string key in keyList)
-                if (PathUtil.IsUnder(system, key))
-                {
-                    ActiveCanvas.DataDelete(key, ComponentType.Variable);
-                    m_keyVarCanvasDict.Remove(key);
-                }
-            
-            // Delete processes.
-            keyList = CopyList(m_keyProCanvasDict.Keys);
-            foreach (string key in keyList)
-                if (PathUtil.IsUnder(system, key))
-                {
-                    ActiveCanvas.DataDelete(key, ComponentType.Process);
-                    m_keyProCanvasDict.Remove(key);
-                }
-
-            // Delete systems.
-            keyList = CopyList(m_keySysCanvasDict.Keys);
-            foreach (string key in keyList)
-                if (PathUtil.IsUnder(system, key))
-                    m_keySysCanvasDict.Remove(key);
-        }
-
-        private List<string> CopyList(ICollection<string> list)
-        {
-            string[] tmpArray = new string[list.Count];
-            list.CopyTo(tmpArray, 0);
-            List<string> newList = new List<string>(tmpArray);
-            return newList;
-        }
-
-        /// <summary>
         /// get bitmap image of this pathway.
         /// </summary>
         /// <returns>Bitmap of this pathway.</returns>
@@ -1103,20 +1047,14 @@ namespace EcellLib.PathwayWindow
                 case ComponentType.System:
                     if (m_pathwayWindow != null)
                         m_pathwayWindow.NotifyDataDelete(key, SYSTEM_STRING, isAnchor);
-                    if (m_keySysCanvasDict.ContainsKey(key))
-                        m_keySysCanvasDict.Remove(key);
                     break;
                 case ComponentType.Variable:
                     if (m_pathwayWindow != null)
                         m_pathwayWindow.NotifyDataDelete(key, VARIABLE_STRING, isAnchor);
-                    if (m_keyVarCanvasDict.ContainsKey(key))
-                        m_keyVarCanvasDict.Remove(key);
                     break;
                 case ComponentType.Process:
                     if (m_pathwayWindow != null)
                         m_pathwayWindow.NotifyDataDelete(key, PROCESS_STRING, isAnchor);
-                    if (m_keyProCanvasDict.ContainsKey(key))
-                        m_keyProCanvasDict.Remove(key);
                     break;
             }            
         }
@@ -1133,8 +1071,6 @@ namespace EcellLib.PathwayWindow
                 case ComponentType.System:
                     if (m_pathwayWindow != null)
                         m_pathwayWindow.NotifyDataMerge(key, SYSTEM_STRING);
-                    if (m_keySysCanvasDict.ContainsKey(key))
-                        m_keySysCanvasDict.Remove(key);
                     break;
             }
         }
@@ -1151,30 +1087,6 @@ namespace EcellLib.PathwayWindow
                 m_pathwayWindow.NotifySelectChanged(key, type);
         }
         #endregion
-
-        /// <summary>
-        /// Whether this PathwayView contains an object or not.
-        /// </summary>
-        /// <returns></returns>
-        public bool HasObject(ComponentType ct, string key)
-        {
-            switch(ct)
-            {
-                case ComponentType.System:
-                    if (m_keySysCanvasDict.ContainsKey(key))
-                        return true;
-                    break;
-                case ComponentType.Variable:
-                    if (m_keyVarCanvasDict.ContainsKey(key))
-                        return true;
-                    break;
-                case ComponentType.Process:
-                    if (m_keyProCanvasDict.ContainsKey(key))
-                        return true;
-                    break;
-            }
-            return false;
-        }
 
         /// <summary>
         /// Freeze all objects to be unpickable.
@@ -1255,9 +1167,6 @@ namespace EcellLib.PathwayWindow
             }
             m_tabControl.TabPages.Clear();
 
-            m_keySysCanvasDict = new Dictionary<string, string>();
-            m_keyVarCanvasDict = new Dictionary<string, string>();
-            m_keyProCanvasDict = new Dictionary<string, string>();
             if(m_canvasDict != null)
             {
                 foreach(CanvasView set in m_canvasDict.Values)
@@ -1649,7 +1558,7 @@ namespace EcellLib.PathwayWindow
             // Delete Selected System
             if (ActiveCanvas.SelectedSystemName != null)
             {
-                PPathwaySystem sys = (PPathwaySystem)ActiveCanvas.Systems[ActiveCanvas.SelectedSystemName];
+                PPathwaySystem sys = ActiveCanvas.Systems[ActiveCanvas.SelectedSystemName];
                 // Return if sys is null or root sys.
                 if (string.IsNullOrEmpty(sys.Name))
                     return;

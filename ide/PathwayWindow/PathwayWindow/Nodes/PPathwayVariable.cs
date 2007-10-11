@@ -164,7 +164,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// before it delete this variable,
         /// notify to remove the related variable from list.
         /// </summary>
-        public void NotifyRemoveRelatedVariable()
+        public void NotifyRemoveRelatedProcess()
         {
             List<PPathwayProcess> list = new List<PPathwayProcess>();
             foreach (PPathwayProcess p in m_relatedProcesses)
