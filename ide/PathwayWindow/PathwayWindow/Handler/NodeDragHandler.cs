@@ -229,11 +229,7 @@ namespace EcellLib.PathwayWindow.Handler
             if (e.PickedNode is PPathwayNode)
             {
                 PPathwayNode pnode = (PPathwayNode)e.PickedNode;
-                pnode.OffsetX = 0; pnode.OffsetY = 0;
-                //PointF cp = 
-                //    m_set.Systems[PathUtil.GetParentSystemId(pnode.Element.Key)].EcellSystems[0].SystemPos2CanvasPos(new PointF(pnode.X, pnode.Y));
-                //pnode.X = cp.X;
-                //pnode.Y = cp.Y;
+                pnode.Offset = PointF.Empty;
                 ReturnToSystem(pnode, m_downPosition, e.Position, m_isMoved);
 
                 PNodeList togetherList = new PNodeList();
@@ -287,11 +283,11 @@ namespace EcellLib.PathwayWindow.Handler
                         string newSys = null;
                         if (surSys.Equals("/"))
                             newSys = "/" + PathUtil.RemovePath(oldSystemName);
-                        else if (surSys.Equals(oldSystemName))
-                        {
-                            newSys = oldSystemName;
-                            surSys = PathUtil.GetParentSystemId(oldSystemName);
-                        }
+                        //else if (surSys.Equals(oldSystemName))
+                        //{
+                        //    surSys = PathUtil.GetParentSystemId(oldSystemName);
+                        //    newSys = oldSystemName;
+                        //}
                         else
                             newSys = surSys + "/" + PathUtil.RemovePath(oldSystemName);
                         if (!oldSystemName.Equals(newSys) && m_systems.ContainsKey(newSys))
@@ -330,12 +326,11 @@ namespace EcellLib.PathwayWindow.Handler
 
         private void ReturnToSystem(PPathwayNode node, PointF oldPosition, PointF newPosition, bool toBeNotified)
         {
-            string oldSystem = PathUtil.GetParentSystemId(((PPathwayNode)node).EcellObject.key);
+            string oldSystem = node.EcellObject.parentSystemID;
+            string newSystem = m_set.GetSurroundingSystemKey(newPosition);
 
-            if (m_set.GetSurroundingSystemKey(newPosition) != null)
+            if (newSystem != null)
             {
-                string newSystem = m_set.GetSurroundingSystemKey(newPosition);
-
                 node.X += newPosition.X - oldPosition.X;
                 node.Y += newPosition.Y - oldPosition.Y;
 

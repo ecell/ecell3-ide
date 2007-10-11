@@ -704,7 +704,9 @@ namespace EcellLib.PathwayWindow
 
             // Preparing control layer
             m_ctrlLayer = new PLayer();
-            m_ctrlLayer.AddInputEventListener(new ResizeHandleDragHandler(this));
+            //m_ctrlLayer.AddInputEventListener(new ResizeHandleDragHandler(this));
+            m_ctrlLayer.AddInputEventListener(new NodeDragHandler(this, m_systems));
+
             m_pathwayCanvas.Root.AddChild(m_ctrlLayer);
             m_pathwayCanvas.Camera.AddLayer(m_ctrlLayer);
 
@@ -2642,7 +2644,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>Surrounding system name. Null will be returned if there is no surround system.</returns>
         public EcellObject GetSurroundingSystem(PointF point, string excludedSystem)
         {
-            EcellObject obj = this.Systems["/"].EcellObject;
+            EcellObject obj = null;
 
             foreach (PPathwaySystem sys in this.Systems.Values)
                 if (sys.Rect.Contains(point) && !sys.EcellObject.key.Equals(excludedSystem))
@@ -2659,7 +2661,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>Surrounding system name. Null will be returned if there is no surround system.</returns>
         public string GetSurroundingSystemKey(PointF point)
         {
-            return GetSurroundingSystem(point).key;
+            return GetSurroundingSystemKey(point, null);
         }
         /// <summary>
         /// Return a system which surrounds a given point.
@@ -2670,7 +2672,11 @@ namespace EcellLib.PathwayWindow
         /// <returns>Surrounding system name. Null will be returned if there is no surround system.</returns>
         public string GetSurroundingSystemKey(PointF point, string excludedSystem)
         {
-            return GetSurroundingSystem(point).key;
+            EcellObject obj = GetSurroundingSystem(point, excludedSystem);
+            if (obj == null)
+                return null;
+
+            return obj.key;
         }
 
         /// <summary>
