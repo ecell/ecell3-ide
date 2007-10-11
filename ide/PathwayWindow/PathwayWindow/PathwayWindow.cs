@@ -632,10 +632,10 @@ namespace EcellLib.PathwayWindow
             }
             ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
 
-            DoLayout(algorithm, subIdx);
+            DoLayout(algorithm, subIdx, false);
         }
 
-        private void DoLayout(ILayoutAlgorithm algorithm, int subIdx)
+        private void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool IsSystemResize)
         {
             // Check Selected nodes when the layout algorithm uses selected objects.
             if (algorithm.GetLayoutType() == LayoutType.Selected)
@@ -697,6 +697,7 @@ namespace EcellLib.PathwayWindow
         private List<DockContent> GetWindowList(Control con)
         {
             List<DockContent> list = new List<DockContent>();
+
             // recursive
             foreach (Control subCon in con.Controls)
             {
@@ -822,8 +823,8 @@ namespace EcellLib.PathwayWindow
                     {
                         this.m_view.CreateCanvas(modelId);
                         this.NewDataAddToModel(data);
+                        DoLayout(DefaultLayoutAlgorithm, 0, true);
                     }
-                    DoLayout(DefaultLayoutAlgorithm, 0);
                 }
                 else
                 {
@@ -847,42 +848,18 @@ namespace EcellLib.PathwayWindow
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             // Null Check.
-            if(String.IsNullOrEmpty(ModelID) || !m_modelId.Equals(modelID))
+            if(String.IsNullOrEmpty(ModelID))
                 return;
             if (type == null || String.IsNullOrEmpty(key) || data == null)
                 return;
+            // Select Canvas
+            CanvasView canvas = this.m_view.CanvasDictionary[modelID];
+
             // Change data.
             try
             {
-                ComponentType ct = ComponentSetting.ParseComponentKind(type);
-                
-                if (PathUtil.IsOnSameSystem(key, data.key))
-                {
-                    m_view.DataChanged(key, data, ct);
-                    return;
-                }
-                // Change system data.
-                if(ct == ComponentType.System)
-                {
-                    m_view.DataChanged(key, data, ComponentType.System);
-                }
-                // Change node data.
-                else
-                {
-                    if(m_view.HasObject(ct, key))
-                    {
-                        m_view.DataDelete(key, ct);
-                        List<EcellObject> list = new List<EcellObject>();
-                        list.Add(data);
-                        this.NewDataAddToModel(list);
-                    }
-                    else
-                    {
-                        m_view.DataChanged(data.key, data, ct);
-                    }
-                    
-                }
-                
+                ComponentType cType = ComponentSetting.ParseComponentKind(type);
+                canvas.DataChanged(key, data, cType);
             }
             catch (Exception e)
             {
@@ -900,17 +877,11 @@ namespace EcellLib.PathwayWindow
         {
             if (type == null)
                 return;
-            if (m_modelId.Equals(modelID))
-            {
-                if (type.Equals(PathwayView.MODEL_STRING))
-                    this.Clear();
-
-                m_view.DataDelete(key, ComponentSetting.ParseComponentKind(type) );
-            }
-            else
-            {
-                // Change Model & delete
-            }
+            if (type.Equals(PathwayView.MODEL_STRING))
+                this.Clear();
+            CanvasView canvas = this.m_view.CanvasDictionary[modelID];
+            if (canvas != null)
+                canvas.DataDelete(key, ComponentSetting.ParseComponentKind(type) );
         }
 
         /// <summary>
@@ -1014,12 +985,8 @@ namespace EcellLib.PathwayWindow
                 return;
             if(m_modelId.Equals(modelID))
             {
-                if(type.Equals(PathwayView.SYSTEM_STRING))
-                    m_view.SelectChanged(key,ComponentType.System);
-                else if(type.Equals(PathwayView.VARIABLE_STRING))
-                    m_view.SelectChanged(key,ComponentType.Variable);
-                else if(type.Equals(PathwayView.PROCESS_STRING))
-                    m_view.SelectChanged(key, ComponentType.Process);
+                ComponentType cType = ComponentSetting.ParseComponentKind(type);
+                this.m_view.ActiveCanvas.SelectChanged(key, cType);
             }
             else
             {
@@ -1112,9 +1079,7 @@ namespace EcellLib.PathwayWindow
                 if (null == list || list.Count == 0)
                     return;
                 foreach(EcellObject eo in list)
-                {
                     m_view.SetPosition(m_modelId, eo);
-                }
             }
         }
         #endregion

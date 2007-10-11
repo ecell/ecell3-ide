@@ -252,7 +252,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The unique ID of this canvas.
         /// </summary>
-        protected string m_canvasId;
+        protected string m_modelId;
 
         /// <summary>
         /// Tab page for this canvas.
@@ -450,10 +450,10 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_canvasId.
         /// </summary>
-        public string CanvasID
+        public string ModelID
         {
-            get { return m_canvasId; }
-            set { m_canvasId = value; }
+            get { return m_modelId; }
+            set { m_modelId = value; }
         }
 
         /// <summary>
@@ -651,16 +651,16 @@ namespace EcellLib.PathwayWindow
         /// <param name="overviewScale">scale of overview.</param>
         /// <param name="handler">EventHandler of PathwayView.</param>
         public CanvasView(PathwayView view,
-            string name,
+            string modelID,
             float overviewScale,
             PInputEventHandler handler)
         {
             m_view = view;
-            m_canvasId = name;
+            m_modelId = modelID;
 
             // Preparing TabPage
-            m_pathwayTabPage = new TabPage(name);
-            m_pathwayTabPage.Name = name;
+            m_pathwayTabPage = new TabPage(modelID);
+            m_pathwayTabPage.Name = modelID;
             m_pathwayTabPage.AutoScroll = true;
 
             m_pathwayCanvas = new PathwayCanvas(this);
@@ -672,7 +672,7 @@ namespace EcellLib.PathwayWindow
             m_pathwayCanvas.Dock = DockStyle.Fill;
             //m_pathwayCanvas.MouseDown += new MouseEventHandler(m_pathwayCanvas_MouseDown);
             //m_pathwayCanvas.MouseMove += new MouseEventHandler(m_pathwayCanvas_MouseMove);
-            m_pathwayCanvas.Name = name;
+            m_pathwayCanvas.Name = modelID;
             //m_pathwayCanvas.Camera.Scale = DEFAULT_CAMERA_SCALE;
             m_pathwayCanvas.Camera.ScaleViewBy(0.7f);
 
@@ -686,12 +686,12 @@ namespace EcellLib.PathwayWindow
             m_overview = new OverView(overviewScale,
                                       m_pathwayCanvas.Layer,
                                       m_pathwayCanvas.Camera,
-                                      m_area);
+                                      DisplayedArea);
 
             m_pathwayCanvas.Camera.RemoveLayer(m_pathwayCanvas.Layer);
 
             // Preparing DataTable
-            m_table = new DataTable(name);
+            m_table = new DataTable(modelID);
             DataColumn dc = new DataColumn(COLUMN_NAME4SHOW);
             dc.DataType = typeof(bool);
             m_table.Columns.Add(dc);
@@ -1464,10 +1464,8 @@ namespace EcellLib.PathwayWindow
                             PPathwayObject p = system.ParentObject;
                             if (p == null)
                                 continue;
-                            String newkey = ((PPathwaySystem)p).EcellObject.key + "/" + sp[sp.Length - 1];
-                            if (m_view.HasObject(ComponentType.System, newkey))
-                                isDuplicate = true;
-
+                            String newkey = p.EcellObject.key + "/" + sp[sp.Length - 1];
+                            isDuplicate = Systems.ContainsKey(newkey);
                         }
                         else
                         {
@@ -1475,10 +1473,12 @@ namespace EcellLib.PathwayWindow
                             PPathwayObject p = system.ParentObject;
                             if (p == null)
                                 continue;
-                            String newkey = ((PPathwaySystem)p).EcellObject.key + ":" + sp[2];
+                            String newkey = p.EcellObject.key + ":" + sp[2];
                             ComponentType ct = ComponentSetting.ParseComponentKind(sp[0]);
-                            if (m_view.HasObject(ct, newkey))
-                                isDuplicate = true;
+                            if (ct == ComponentType.Process)
+                                isDuplicate = Processes.ContainsKey(newkey);
+                            else
+                                isDuplicate = Variables.ContainsKey(newkey);
                         }
 
                         if (isDuplicate)
@@ -2593,10 +2593,10 @@ namespace EcellLib.PathwayWindow
             dr[COLUMN_NAME4NAME] = name;
             m_table.Rows.Add(dr);
 
-            m_overview.AddObservedLayer(layer);
+            OverView.AddObservedLayer(layer);
 
             Layers.Add(name, layer);
-            m_ctrlLayer.MoveToFront();
+            ControlLayer.MoveToFront();
 
         }
 
@@ -3144,11 +3144,11 @@ namespace EcellLib.PathwayWindow
             RectangleF localF = m_pathwayCanvas.Camera.Bounds;
             RectangleF recf = m_pathwayCanvas.Camera.ViewBounds;
             PMatrix matrix = m_pathwayCanvas.Camera.ViewMatrix;
-            m_area.Reset();
-            m_area.Offset = ZERO_POINT;
-            m_area.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
-            m_overview.UpdateTransparent();
-            m_overview.Canvas.Refresh();
+            DisplayedArea.Reset();
+            DisplayedArea.Offset = ZERO_POINT;
+            DisplayedArea.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
+            OverView.UpdateTransparent();
+            OverView.Canvas.Refresh();
         }
 
         /// <summary>
@@ -3187,8 +3187,8 @@ namespace EcellLib.PathwayWindow
             if (m_pathwayCanvas != null)
                 m_pathwayCanvas.Dispose();
 
-            if (m_overview != null)
-                m_overview.Dispose();
+            if (OverView != null)
+                OverView.Dispose();
         }
 
         /// <summary>

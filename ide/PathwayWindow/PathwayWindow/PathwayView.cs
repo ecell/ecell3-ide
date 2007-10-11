@@ -384,14 +384,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// get the list of string for canvas of Process.
-        /// </summary>
-        public Dictionary<string, string> KeyProcessCanvas
-        {
-            get { return this.m_keyProCanvasDict; }
-        }
-
-        /// <summary>
         /// get/set the number of checked component.
         /// </summary>
         public PointF MousePosition
@@ -580,8 +572,6 @@ namespace EcellLib.PathwayWindow
                 throw new PathwayException(m_resources.GetString("ErrAddObjNot"));
             if (eo.key.EndsWith(":SIZE"))
                 return;
-            if (!RegisterObj(cType, eo.key, canvasName))
-                return;
             if (string.IsNullOrEmpty(eo.key))
                 throw new PathwayException(m_resources.GetString("ErrKeyNot"));
             if (string.IsNullOrEmpty(canvasName) || !m_canvasDict.ContainsKey(canvasName))
@@ -632,51 +622,6 @@ namespace EcellLib.PathwayWindow
         }
         
         /// <summary>
-        /// Add PPathwayObject to selected layer of PCanvas
-        /// </summary>
-        /// <param name="canvas">obj is add to this canvas</param>
-        /// <param name="obj">obj is add to this canvas</param>
-        public void AddChildToSelectedLayer(string canvas, PPathwayObject obj)
-        {
-            if (obj is PPathwayNode)
-                ((PPathwayNode)obj).ShowingID = m_showingId;
-
-            if(m_dgv.SelectedRows.Count != 0)
-            {
-                string layer = (string)m_dgv[m_dgv.Columns["Name"].Index, m_dgv.SelectedRows[0].Index].Value;
-                m_canvasDict[canvas].AddChildToSelectedLayer(layer, obj);
-            }
-        }
-
-        /// <summary>
-        /// Add PPathwayObject to selected layer of PCanvas
-        /// </summary>
-        /// <param name="canvas">obj is add to this canvas</param>
-        /// <param name="system">obj is add to this system</param>
-        /// <param name="obj">obj is add to this canvas</param>
-        public void AddChildToSelectedLayer(string canvas, string system, PPathwayObject obj)
-        {
-            if (obj is PPathwayNode)
-                ((PPathwayNode)obj).ShowingID = m_showingId;
-
-            if (m_dgv.SelectedRows.Count != 0)
-            {
-                string layer = (string)m_dgv[m_dgv.Columns["Name"].Index, m_dgv.SelectedRows[0].Index].Value;
-                m_canvasDict[canvas].AddChildToSelectedLayer(layer, system, obj);
-            }
-        }
-
-        /// <summary>
-        /// Add PPathwayObject to top visible layer of PCanvas.
-        /// </summary>
-        /// <param name="canvas">obj is add to this canvas</param>
-        /// <param name="obj">this obj is add</param>
-        public void AddChildToTopVisibleLayer(string canvas, PPathwayObject obj)
-        {
-            m_canvasDict[canvas].AddChildToTopVisibleLayer(obj);
-        }
-        
-        /// <summary>
         /// Add the selected EventHandler to event listener.
         /// </summary>
         /// <param name="handler">added EventHandler.</param>
@@ -689,96 +634,6 @@ namespace EcellLib.PathwayWindow
                     set.PathwayCanvas.AddInputEventListener(handler);
                 }
             }
-        }
-
-        /// <summary>
-        /// Register a key to this PathwayView's dictionary.
-        /// </summary>
-        /// <param name="type">Object's type (Variable, Process, System)</param>
-        /// <param name="key">ECell key</param>
-        /// <param name="canvasName">
-        /// true, if registered.
-        /// false, if not registered because key is null or etc.
-        /// </param>
-        private bool RegisterObj(ComponentType type, string key, string canvasName)
-        {
-            if (key == null || canvasName == null)
-                return false;
-
-            switch (type)
-            {
-                case ComponentType.Variable:
-                    if (m_keyVarCanvasDict.ContainsKey(key))
-                        return false;
-                    else
-                    {
-                        m_keyVarCanvasDict.Add(key, canvasName);
-                        return true;
-                    }
-
-                case ComponentType.Process:
-                    if (m_keyProCanvasDict.ContainsKey(key))
-                        return false;
-                    else
-                    {
-                        m_keyProCanvasDict.Add(key, canvasName);
-                        return true;
-                    }
-
-                case ComponentType.System:
-                    if (m_keySysCanvasDict.ContainsKey(key))
-                        return false;
-                    else
-                    {
-                        m_keySysCanvasDict.Add(key, canvasName);
-                        return true;
-                    }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Unregister a key from this PathwayView's dictionary.
-        /// </summary>
-        /// <param name="type">Object's type (Variable, Process, System)</param>
-        /// <param name="key">ECell key</param>
-        /// <returns>
-        /// true, if unregistered.
-        /// false, if not unregistered bacause key is null or the registory doesn't have the key.
-        /// </returns>
-        private bool UnregisterObj(ComponentType type, string key)
-        {
-            if (key == null)
-                return false;
-
-            switch (type)
-            {
-                case ComponentType.Variable:
-                    if (m_keyVarCanvasDict.ContainsKey(key))
-                    {
-                        m_keyVarCanvasDict.Remove(key);
-                        return true;
-                    }
-                    else
-                        return false;
-                case ComponentType.Process:
-                    if (m_keyProCanvasDict.ContainsKey(key))
-                    {
-                        m_keyProCanvasDict.Remove(key);
-                        return true;
-                    }
-                    else
-                        return false;                    
-                case ComponentType.System:
-                    if (m_keySysCanvasDict.ContainsKey(key))
-                    {
-                        m_keySysCanvasDict.Remove(key);
-                        return true;
-                    }
-                    else
-                        return false;
-            }
-            return false;
         }
 
         /// <summary>
@@ -897,7 +752,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">EventArgs.</param>
         void m_tabControl_OnMouseEnter(object sender, EventArgs e)
         {
-            this.TabControl.Focus();
+            this.m_tabControl.Focus();
         }
         
         /// <summary>
@@ -1095,100 +950,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// The event sequence on changing value of data at other plugin.
-        /// </summary>
-        /// <param name="key">The ID before value change.</param>
-        /// <param name="type">The data type before value change.</param>
-        /// <param name="data">Changed value of object.</param>
-        public void DataChanged(string key, EcellObject data, ComponentType type)
-        {
-            if(string.IsNullOrEmpty(key))
-                return;
-            switch (type)
-            {
-                case ComponentType.System:
-                    if (!m_keySysCanvasDict.ContainsKey(key))
-                        return;
-                    if (data.key != null && !key.Equals(data.key))
-                    {
-                        string canvasId = m_keySysCanvasDict[key];
-                        m_keySysCanvasDict.Remove(key);
-                        m_keySysCanvasDict.Add(data.key, canvasId);
-                    }
-                    m_canvasDict[m_keySysCanvasDict[data.key]].DataChanged(key, data, type);
-                    break;
-                case ComponentType.Variable:
-                    if (!m_keyVarCanvasDict.ContainsKey(key))
-                        return;
-                    if(data.key != null && !key.Equals(data.key))
-                    {
-                        string canvasId = m_keyVarCanvasDict[key];
-                        m_keyVarCanvasDict.Remove(key);
-                        m_keyVarCanvasDict.Add(data.key, canvasId);
-                    }
-                    m_canvasDict[m_keyVarCanvasDict[data.key]].DataChanged(key, data, type);
-                    break;
-                case ComponentType.Process:
-                    if (!m_keyProCanvasDict.ContainsKey(key))
-                        return;
-                    if(data.key != null && !key.Equals(data.key))
-                    {
-                        string canvasId = m_keyProCanvasDict[key];
-                        m_keyProCanvasDict.Remove(key);
-                        m_keyProCanvasDict.Add(data.key, canvasId);
-                    }
-                    m_canvasDict[m_keyProCanvasDict[data.key]].DataChanged(key, data, type);
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// The event sequence on deleting the object at other plugin.
-        /// </summary>
-        /// <param name="key">The ID of deleted object.</param>
-        /// <param name="type">The object type of deleted object.</param>        
-        public void DataDelete(string key, ComponentType type)
-        {
-            switch(type)
-            {
-                case ComponentType.System:
-                    this.DeleteFromRegistoryUnder(key);
-                    if (m_keySysCanvasDict.ContainsKey(key))
-                    {
-                        if (m_canvasDict.ContainsKey(m_keySysCanvasDict[key]))
-                            m_canvasDict[m_keySysCanvasDict[key]].DataDelete(key, ComponentType.System);
-                        m_keySysCanvasDict.Remove(key);
-                    }                    
-                    break;
-                case ComponentType.Variable:
-                    if (m_keyVarCanvasDict.ContainsKey(key))
-                    {
-                        if (m_canvasDict.ContainsKey(m_keyVarCanvasDict[key]))
-                            m_canvasDict[m_keyVarCanvasDict[key]].DataDelete(key, ComponentType.Variable);
-                        else if (key.EndsWith(":SIZE"))
-                        {
-                            string[] list = key.Split(new char[] { ':' });
-                            if (list.Length > 0 && m_keySysCanvasDict.ContainsKey(list[0]))
-                            {
-                                if (m_canvasDict.ContainsKey(m_keySysCanvasDict[list[0]]))
-                                    m_canvasDict[m_keySysCanvasDict[list[0]]].DataDelete(key, ComponentType.Variable);
-                            }
-                        }
-                        m_keyVarCanvasDict.Remove(key);
-                    }
-                    break;
-                case ComponentType.Process:
-                    if (m_keyProCanvasDict.ContainsKey(key))
-                    {
-                        if (m_canvasDict.ContainsKey(m_keyProCanvasDict[key]))
-                            m_canvasDict[m_keyProCanvasDict[key]].DataDelete(key, ComponentType.Process);
-                        m_keyProCanvasDict.Remove(key);
-                    }
-                    break;
-            }
-        }
-
-        /// <summary>
         /// Delete objects under a given system from m_key****CanvasDict
         /// </summary>
         public void DeleteFromRegistoryUnder(string system)
@@ -1248,52 +1009,23 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// The event sequence on changing selected object at other plugin.
-        /// </summary>
-        /// <param name="key">Selected the ID.</param>
-        /// <param name="type">Selected the data type.</param>
-        public void SelectChanged(string key, ComponentType type)
-        {
-            switch(type)
-            {
-                case ComponentType.System:
-                    if (m_keySysCanvasDict.ContainsKey(key))
-                        if (m_canvasDict.ContainsKey(m_keySysCanvasDict[key]))
-                            m_canvasDict[ m_keySysCanvasDict[key] ].SelectChanged(key, ComponentType.System);
-                    break;
-                case ComponentType.Variable:
-                    if (m_keyVarCanvasDict.ContainsKey(key))
-                        if (m_canvasDict.ContainsKey(m_keyVarCanvasDict[key]))
-                            m_canvasDict[m_keyVarCanvasDict[key]].SelectChanged(key, ComponentType.Variable);
-                    break;
-                case ComponentType.Process:
-                    if (m_keyProCanvasDict.ContainsKey(key))
-                        if (m_canvasDict.ContainsKey(m_keyProCanvasDict[key]))
-                            m_canvasDict[m_keyProCanvasDict[key]].SelectChanged(key, ComponentType.Process);
-                    break;
-            }
-        }
-
-        /// <summary>
         /// Set position of EcellObject.
         /// </summary>
         /// <param name="canvas"></param>
         /// <param name="eo"></param>
-        public void SetPosition(string canvas, EcellObject eo)
+        public void SetPosition(string modelID, EcellObject eo)
         {
-            string systemName = PathUtil.GetParentSystemId(eo.key);
-
             if(SYSTEM_STRING.Equals(eo.type))
-                if (m_canvasDict[canvas].Systems.ContainsKey(eo.key))
-                    m_canvasDict[canvas].Systems[eo.key].EcellObject = (EcellSystem)eo;
+                if (m_canvasDict[modelID].Systems.ContainsKey(eo.key))
+                    m_canvasDict[modelID].Systems[eo.key].EcellObject = (EcellSystem)eo;
 
             else if(VARIABLE_STRING.Equals(eo.type))
-                if (m_canvasDict[canvas].Variables.ContainsKey(eo.key))
-                    m_canvasDict[canvas].Variables[eo.key].EcellObject = (EcellVariable)eo;
+                if (m_canvasDict[modelID].Variables.ContainsKey(eo.key))
+                    m_canvasDict[modelID].Variables[eo.key].EcellObject = (EcellVariable)eo;
 
             else if(PROCESS_STRING.Equals(eo.type))
-                if(m_canvasDict[canvas].Processes.ContainsKey(eo.key))
-                    m_canvasDict[canvas].Processes[eo.key].EcellObject = (EcellProcess)eo;
+                if(m_canvasDict[modelID].Processes.ContainsKey(eo.key))
+                    m_canvasDict[modelID].Processes[eo.key].EcellObject = (EcellProcess)eo;
             
         }
         #endregion
@@ -1343,21 +1075,6 @@ namespace EcellLib.PathwayWindow
             PPathwayObject obj,
             bool isAnchor)
         {
-            Dictionary<string, string> dic;
-            if (PathwayView.SYSTEM_STRING.Equals(obj.EcellObject.type))
-                dic = m_keySysCanvasDict;
-            else if (PathwayView.VARIABLE_STRING.Equals(obj.EcellObject.type))
-                dic = m_keyVarCanvasDict;
-            else if (PathwayView.PROCESS_STRING.Equals(obj.EcellObject.type))
-                dic = m_keyProCanvasDict;
-            else
-                return;
-            if (!dic.ContainsKey(oldKey))
-                return;
-            string canvasId = dic[oldKey];
-            dic.Remove(oldKey);
-            dic.Add(newKey, canvasId);
-
             m_pathwayWindow.NotifyDataChanged(oldKey, newKey, obj.EcellObject, isAnchor);
         }
 
