@@ -150,4 +150,7 @@
   <data name="MenuItemAnalysis" xml:space="preserve">
     <value>&amp;Analysis...</value>
   </data>
+  <data name="MenuItemRobustAnalysis" xml:space="preserve">
+    <value>&amp;Robust Analysis...</value>
+  </data>
 </root>

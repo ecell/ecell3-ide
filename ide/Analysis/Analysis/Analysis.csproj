@@ -85,6 +85,12 @@
     <Compile Include="AnalysisTemplate.Designer.cs">
       <DependentUpon>AnalysisTemplate.cs</DependentUpon>
     </Compile>
+    <Compile Include="RobustAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RobustAnalysis.Designer.cs">
+      <DependentUpon>RobustAnalysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="MessageResAnalysis.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

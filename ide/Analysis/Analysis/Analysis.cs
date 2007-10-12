@@ -45,28 +45,21 @@ namespace EcellLib.Analysis
     {
         #region Fields
         /// <summary>
-        /// MenuItem to display the window for analysis.
+        /// MenuItem to display the window for robust analysis.
         /// </summary>
-        private ToolStripMenuItem m_showIdItem;
+        private ToolStripMenuItem m_robustAnalysisItem;
 
         #endregion
 
-        /// <summary>
-        /// the event sequence of clicking the menu of [View]->[Show Id]
-        /// </summary>
-        /// <param name="sender">MenuStripItem.</param>
-        /// <param name="e">EventArgs.</param>
-        void ShowAnalysisWindow(object sender, EventArgs e)
-        {
-            AnalysisSetup w = new AnalysisSetup();
 
-            w.ShowDialog();
-            return;
+        void ShowRobustAnalysisWindow(object sender, EventArgs e)
+        {
+            // not implement
         }
 
         #region Inherited from PluginBase
         /// <summary>
-        /// Get menustrips for PathwayWindow plugin.
+        /// Get menustrips for Analysis plugin.
         /// </summary>
         /// <returns>the list of menu.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
@@ -74,24 +67,27 @@ namespace EcellLib.Analysis
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResAnalysis));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
-            m_showIdItem = new ToolStripMenuItem();
-//            m_showIdItem.Text = "Analysis";
-            m_showIdItem.Text = resources.GetString("MenuItemAnalysis");
-            m_showIdItem.ToolTipText = "Analysis";
-            m_showIdItem.Click += new EventHandler(ShowAnalysisWindow);
+            m_robustAnalysisItem = new ToolStripMenuItem();
+            //m_showIdItem.Text = resources.GetString("MenuItemAnalysis");
+            //m_showIdItem.ToolTipText = "Analysis";
+            //m_showIdItem.Click += new EventHandler(ShowAnalysisWindow);
+            m_robustAnalysisItem.Text = resources.GetString("MenuItemRobustAnalysis");
+            m_robustAnalysisItem.ToolTipText = "Robust Analysis";
+            m_robustAnalysisItem.Click += new EventHandler(ShowRobustAnalysisWindow);
 
-            ToolStripMenuItem viewMenu = new ToolStripMenuItem();
-            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { m_showIdItem });
-            viewMenu.Text = "Analysis";
-            viewMenu.Name = "MenuItemAnalysis";
 
-            list.Add(viewMenu);
+            ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
+            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem });
+            analysisMenu.Text = "Analysis";
+            analysisMenu.Name = "MenuItemAnalysis";
+
+            list.Add(analysisMenu);
 
             return list;
         }
 
         /// <summary>
-        /// Get toolbar buttons for PathwayWindow plugin.
+        /// Get toolbar buttons for Analysis plugin.
         /// </summary>
         /// <returns>the list of ToolBarMenu.</returns>
         public List<System.Windows.Forms.ToolStripItem> GetToolBarMenuStripItems()
@@ -101,10 +97,8 @@ namespace EcellLib.Analysis
 
         /// <summary>
         /// Called by PluginManager for getting UseControl.
-        /// UseControl for pathway is created and configurated in the PathwayView instance actually.
-        /// PathwayWindow get it and attach some delegates to them and pass it to PluginManager.
         /// </summary>
-        /// <returns>UserControl with pathway canvases, etc.</returns>
+        /// <returns>nothing.</returns>
         public List<DockContent> GetWindowsForms()
         {
             return null;
@@ -125,9 +119,9 @@ namespace EcellLib.Analysis
         public void ChangeStatus(int type)
         {
             if (Util.LOADED == type)
-                m_showIdItem.Enabled = true;
+                m_robustAnalysisItem.Enabled = true;
             else
-                m_showIdItem.Enabled = false;
+                m_robustAnalysisItem.Enabled = false;
         }
 
         /// <summary>

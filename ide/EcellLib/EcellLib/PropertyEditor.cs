@@ -167,16 +167,289 @@ namespace EcellLib
             m_type = type;
         }
 
+        private void GetCommitInfo(EcellData d)
+        {
+            IEnumerator iter = commitLayoutPanel.Controls.GetEnumerator();
+            while (iter.MoveNext())
+            {
+                Control c = (Control)iter.Current;
+                if (c == null) continue;
+                if (c.Tag == null) continue;
+                if (!c.Tag.ToString().Equals(d.M_name)) continue;
+                TableLayoutPanelCellPosition pos =
+                    layoutPanel.GetPositionFromControl(c);
+                if (pos.Column == 0) // IsCommit
+                {
+                    CheckBox c1 = c as CheckBox;
+                    if (c1 == null) continue;
+                    d.M_isCommit = c1.Checked;
+                }
+                else if (pos.Column == 2) // Max
+                {
+                    TextBox t = c as TextBox;
+                    if (t == null) continue;
+                    if (t.Text == null || t.Text == "") continue;
+                    d.Max = Convert.ToDouble(t.Text);
+                }
+                else if (pos.Column == 3) // Min
+                {
+                    TextBox t = c as TextBox;
+                    if (t == null) continue;
+                    if (t.Text == null || t.Text == "") continue;
+                    d.Min = Convert.ToDouble(t.Text);
+                }
+                else if (pos.Column == 4) // Step
+                {
+                    TextBox t = c as TextBox;
+                    if (t == null) continue;
+                    if (t.Text == null || t.Text == "") continue;
+                    d.Step = Convert.ToDouble(t.Text);
+                }
+            }
+        }
+
         /// <summary>
         /// layout the column of property editor according to data type.
         /// </summary>
         public void LayoutPropertyEditor()
         {
-            if (m_type.Equals("Model")) LayoutModelPropertyEditor();
-            else if (m_type.Equals(EcellObject.SYSTEM)) LayoutNodePropertyEditor();
-            else if (m_type.Equals(EcellObject.VARIABLE)) LayoutNodePropertyEditor();
-            else if (m_type.Equals(EcellObject.PROCESS)) LayoutNodePropertyEditor();
+            if (m_type.Equals("Model"))
+            {
+                LayoutModelPropertyEditor();
+                LayoutModelCommit();
+            }
+            else if (m_type.Equals(EcellObject.SYSTEM) ||
+                m_type.Equals(EcellObject.VARIABLE) ||
+                m_type.Equals(EcellObject.PROCESS))
+            {
+                LayoutNodePropertyEditor();
+                LayoutNodeCommit();
+            }
         }
+
+        private void LayoutModelCommit()
+        {
+            m_propDict.Clear();
+            int width = commitLayoutPanel.Width;
+            commitLayoutPanel.SuspendLayout();
+            commitLayoutPanel.Controls.Clear();
+            commitLayoutPanel.RowStyles.Clear();
+
+            commitLayoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
+            commitLayoutPanel.RowCount = m_propDict.Keys.Count + 5;
+            commitLayoutPanel.ResumeLayout(false);
+        }
+
+        private void LayoutNodeCommit()
+        {
+            int i = 0;
+            int width = commitLayoutPanel.Width;
+            commitLayoutPanel.Controls.Clear();
+            commitLayoutPanel.RowStyles.Clear();
+            commitLayoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 1));
+            commitLayoutPanel.RowCount = m_propDict.Keys.Count;
+
+            commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            Label l1 = new Label();
+            l1.Text = "Name";
+            l1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            l1.TextAlign = ContentAlignment.MiddleCenter;
+            commitLayoutPanel.Controls.Add(l1, 1, i);
+
+            Label l2 = new Label();
+            l2.Text = "Max";
+            l2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            l2.TextAlign = ContentAlignment.MiddleCenter;
+            commitLayoutPanel.Controls.Add(l2, 2, i);
+
+            Label l3 = new Label();
+            l3.Text = "Min";
+            l3.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            l3.TextAlign = ContentAlignment.MiddleCenter;
+            commitLayoutPanel.Controls.Add(l3, 3, i);
+
+            Label l4 = new Label();
+            l4.Text = "Step";
+            l4.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            l4.TextAlign = ContentAlignment.MiddleCenter;
+            commitLayoutPanel.Controls.Add(l4, 4, i);
+            i++;
+
+            foreach (string key in m_propDict.Keys)
+            {
+                if (key == "Size")
+                {
+                    continue;
+                }
+
+                commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                if (m_propDict[key].M_isSettable &&
+                    m_propDict[key].M_value.M_type == typeof(double))
+                {
+                    CheckBox c = new CheckBox();
+                    if (m_propDict[key].M_isCommit) c.Checked = true;
+                    else c.Checked = false;
+                    c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    c.Text = "";
+                    c.Tag = key;
+                    c.AutoSize = true;
+                    c.Enabled = true;
+                    commitLayoutPanel.Controls.Add(c, 0, i);
+                }
+                else
+                {
+                    CheckBox c = new CheckBox();
+                    c.Checked = true;
+                    c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    c.Text = "";
+                    c.Tag = key;
+                    c.AutoSize = true;
+                    c.Enabled = false;
+                    commitLayoutPanel.Controls.Add(c, 0, i);
+                }
+
+                Label l = new Label();
+                l.Text = key;
+                l.Dock = DockStyle.Fill;
+                commitLayoutPanel.Controls.Add(l, 1, i);
+
+                TextBox t1 = new TextBox();
+                t1.Text = m_propDict[key].Max.ToString();
+                t1.Dock = DockStyle.Fill;
+                t1.Tag = key;
+                if (!m_propDict[key].M_isSettable ||
+                    m_propDict[key].M_value.M_type != typeof(double))
+                {
+                    t1.ReadOnly = true;
+                }
+                //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                commitLayoutPanel.Controls.Add(t1, 2, i);
+
+                TextBox t2 = new TextBox();
+                t2.Text = m_propDict[key].Min.ToString();
+                t2.Dock = DockStyle.Fill;
+                t2.Tag = key;
+                if (!m_propDict[key].M_isSettable ||
+                    m_propDict[key].M_value.M_type != typeof(double))
+                {
+                    t2.ReadOnly = true;
+                }
+                //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                commitLayoutPanel.Controls.Add(t2, 3, i);
+
+                TextBox t3 = new TextBox();
+                t3.Text = m_propDict[key].Step.ToString();
+                t3.Dock = DockStyle.Fill;
+                t3.Tag = key;
+                if (!m_propDict[key].M_isSettable ||
+                    m_propDict[key].M_value.M_type != typeof(double))
+                {
+                    t3.ReadOnly = true;
+                }
+                //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                commitLayoutPanel.Controls.Add(t3, 4, i);
+                i++;
+            }
+
+            if (m_currentObj == null && m_type.Equals(EcellObject.SYSTEM))
+            {
+                CheckBox c = new CheckBox();
+                c.Checked = true;
+                c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                c.Text = "";
+                c.AutoSize = true;
+                c.Enabled = true;
+                c.Tag = "Size";
+                commitLayoutPanel.Controls.Add(c, 0, i);
+
+                commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                Label l = new Label();
+                l.Text = "Size";
+                l.Dock = DockStyle.Fill;
+                commitLayoutPanel.Controls.Add(l, 1, i);
+
+
+                TextBox t1 = new TextBox();
+                t1.Text = "";
+                t1.Dock = DockStyle.Fill;
+                t1.ReadOnly = true;
+                t1.Tag = "Size";
+                commitLayoutPanel.Controls.Add(t1, 2, i);
+
+                TextBox t2 = new TextBox();
+                t2.Text = "";
+                t2.Dock = DockStyle.Fill;
+                t2.ReadOnly = true;
+                t2.Tag = "Size";
+                commitLayoutPanel.Controls.Add(t2, 3, i);
+
+                TextBox t3 = new TextBox();
+                t3.Text = "";
+                t3.Dock = DockStyle.Fill;
+                t3.ReadOnly = true;
+                t3.Tag = "Size";
+                commitLayoutPanel.Controls.Add(t3, 4, i);
+                i++;
+            }
+            else if (m_currentObj != null && m_currentObj.type.Equals(EcellObject.SYSTEM))
+            {
+                commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+
+                CheckBox c = new CheckBox();
+                c.Checked = true;
+                c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                c.Text = "";
+                c.Tag = "Size";
+                c.AutoSize = true;
+                c.Enabled = true;
+                commitLayoutPanel.Controls.Add(c, 0, i);
+
+                Label l = new Label();
+                l.Text = "Size";
+                l.Dock = DockStyle.Fill;
+                commitLayoutPanel.Controls.Add(l, 1, i);
+
+                TextBox t1 = new TextBox();
+                t1.Text = "";
+                t1.Dock = DockStyle.Fill;
+                t1.Tag = "Size";
+                commitLayoutPanel.Controls.Add(t1, 2, i);
+
+                TextBox t2 = new TextBox();
+                t2.Text = "";
+                t2.Dock = DockStyle.Fill;
+                t2.Tag = "Size";
+                commitLayoutPanel.Controls.Add(t2, 3, i);
+
+                TextBox t3 = new TextBox();
+                t3.Text = "";
+                t3.Dock = DockStyle.Fill;
+                t3.Tag = "Size";
+                commitLayoutPanel.Controls.Add(t3, 4, i);
+
+                if (m_currentObj.M_instances != null)
+                {
+                    foreach (EcellObject o in m_currentObj.M_instances)
+                    {
+                        if (o.key.EndsWith(":SIZE"))
+                        {
+                            foreach (EcellData d in o.M_value)
+                            {
+                                if (d.M_entityPath.EndsWith(":Value"))
+                                {
+                                    t1.Text = d.Max.ToString();
+                                    t2.Text = d.Min.ToString();
+                                    t3.Text = d.Step.ToString();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+  
+            panel2.ClientSize = panel2.Size;
+        }
+
 
         /// <summary>
         /// layout the column of property editor for Model.
@@ -1465,6 +1738,8 @@ namespace EcellLib
                         data.M_isGettable = m_propDict[data.M_name].M_isGettable;
                         data.M_isLogable = m_propDict[data.M_name].M_isLogable;
                         data.M_isLogger = m_propDict[data.M_name].M_isLogger;
+                        GetCommitInfo(data);
+
                         list.Add(data);
                     }
                     else
@@ -1511,6 +1786,8 @@ namespace EcellLib
                         data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
                         data.M_isGettable = m_propDict[data.M_name].M_isGettable;
                         data.M_isLogable = m_propDict[data.M_name].M_isLogable;
+                        GetCommitInfo(data);
+
                         if (m_propDict[data.M_name].M_isLogger != isLogger)
                         {
                             PluginManager pManager = PluginManager.GetPluginManager();

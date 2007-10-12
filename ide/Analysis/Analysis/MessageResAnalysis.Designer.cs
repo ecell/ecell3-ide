@@ -158,5 +158,14 @@ namespace EcellLib.Analysis {
                 return ResourceManager.GetString("MenuItemAnalysis", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   &amp;Robust Analysis... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemRobustAnalysis {
+            get {
+                return ResourceManager.GetString("MenuItemRobustAnalysis", resourceCulture);
+            }
+        }
     }
 }
