@@ -177,7 +177,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 else
                 {
                     this.Brush = m_normalBrush;
-                    if(m_pathwayView != null)
+                    if(m_control != null)
                     {
                         //HideResizeHandles();
                     }

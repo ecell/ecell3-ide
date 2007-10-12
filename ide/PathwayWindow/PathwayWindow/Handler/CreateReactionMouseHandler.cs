@@ -54,7 +54,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// PathwayView
         /// </summary>
-        protected PathwayView m_view;
+        protected PathwayControl m_view;
 
         /// <summary>
         /// Currently selected node.
@@ -76,7 +76,7 @@ namespace EcellLib.PathwayWindow
         /// Constructor with PathwayView.
         /// </summary>
         /// <param name="view"></param>
-        public CreateReactionMouseHandler(PathwayView view)
+        public CreateReactionMouseHandler(PathwayControl view)
         {
             this.m_view = view;
         }

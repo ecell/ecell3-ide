@@ -319,7 +319,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="eo">EcellObject</param>
         /// <param name="view">PathwayView instance</param>
         /// <returns>Created component</returns>
-        public PPathwayObject CreateNewComponent(EcellObject eo, PathwayView view)
+        public PPathwayObject CreateNewComponent(EcellObject eo, PathwayControl view)
         {
             PPathwayObject obj = m_createMethod();
             obj.EcellObject = eo;
@@ -330,7 +330,7 @@ namespace EcellLib.PathwayWindow
                 obj.NormalBrush = Brushes.LightBlue;
                 obj.Pen = null;
                 obj.IsHighLighted = false;
-                obj.PathwayView = view;
+                obj.Control = view;
             }
             else
             {

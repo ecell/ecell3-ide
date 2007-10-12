@@ -54,7 +54,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The PathwayView instance.
         /// </summary>
-        private PathwayView m_view;
+        private PathwayControl m_view;
 
         /// <summary>
         /// The drag start point
@@ -75,7 +75,7 @@ namespace EcellLib.PathwayWindow
         /// constructor
         /// </summary>
         /// <param name="view"></param>
-        public DefaultMouseHandler(PathwayView view)
+        public DefaultMouseHandler(PathwayControl view)
         {
             this.m_view = view;
         }

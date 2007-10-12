@@ -42,6 +42,11 @@ namespace EcellLib.PathwayWindow.UIComponent
     {
         #region Fields
         /// <summary>
+        /// Graphical content of m_canvas is scaled by m_reductionScale in overview canvas (m_overCanvas)
+        /// </summary>
+        private static readonly float REDUCTION_SCALE = 0.05f;
+
+        /// <summary>
         /// Brush for m_transparentNode
         /// </summary>
         private static readonly SolidBrush m_transparentBrush
@@ -52,11 +57,13 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Normally, this node is colored in red.
         /// </summary>
         private PPath m_transparentNode;
+        private PCanvas m_canvas;
+        private System.Windows.Forms.GroupBox groupBox;
 
         /// <summary>
-        /// The canvas of overview.
+        /// Display rectangles using overview.
         /// </summary>
-        private PCanvas m_canvas;
+        protected PDisplayedArea m_area;
         #endregion
 
         #region Constructor
@@ -67,27 +74,11 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="observedLayer"></param>
         /// <param name="mainCamera"></param>
         /// <param name="area"></param>
-        public OverView(float reductionScale,
-                              PLayer observedLayer,
-                              PCamera mainCamera,
-                              PDisplayedArea area)
+        public OverView()
         {
-            m_transparentNode = PPath.CreateRectangle(-500,-500,1300,1300);
-            m_transparentNode.Brush = m_transparentBrush;
-            m_transparentNode.Pickable = true;
-
             InitializeComponent();
-            m_canvas.Camera.AddLayer(observedLayer);
-            m_canvas.RemoveInputEventListener(m_canvas.PanEventHandler);
-            m_canvas.RemoveInputEventListener(m_canvas.ZoomEventHandler);
-            m_canvas.Camera.AddInputEventListener(new AreaDragHandler(mainCamera));
-            m_canvas.Camera.ScaleViewBy(reductionScale);
-            m_canvas.Camera.TranslateViewBy(500, 500);
-            m_canvas.Layer.AddChild(m_transparentNode);
-            m_canvas.Layer.AddChild(area);
-            m_canvas.Camera.AddLayer(m_canvas.Layer);
-            m_canvas.Camera.ChildrenPickable = false;
-            m_canvas.Camera.BoundsChanged += new PPropertyEventHandler(Camera_BoundsChanged);
+            m_area = new PDisplayedArea();
+            m_transparentNode = new PPath();
         }
         #endregion
 
@@ -103,14 +94,62 @@ namespace EcellLib.PathwayWindow.UIComponent
             get { return m_canvas; }
         }
 
+        /// <summary>
+        /// Accessor for m_area.
+        /// </summary>
+        public PDisplayedArea DisplayedArea
+        {
+            get { return m_area; }
+        }
+
         #endregion
 
         #region Methods
         /// <summary>
+        /// Set PathwayCanvas.
+        /// </summary>
+        /// <param name="reductionScale"></param>
+        /// <param name="observedLayer"></param>
+        public void SetCanvas(CanvasView canvas)
+        {
+            // m_transparentNode
+            m_transparentNode = PPath.CreateRectangle(-500, -500, 1300, 1300);
+            m_transparentNode.Brush = m_transparentBrush;
+            m_transparentNode.Pickable = true;
+            // Preparing overview
+            m_area = new PDisplayedArea();
+
+            InitializeComponent();
+            // Set Layer and remove event handler
+            //m_canvas.Text = canvas.ModelID;
+            m_canvas.Camera.AddLayer(canvas.PathwayCanvas.Layer);
+            m_canvas.RemoveInputEventListener(m_canvas.PanEventHandler);
+            m_canvas.RemoveInputEventListener(m_canvas.ZoomEventHandler);
+
+            // Set new Layer.
+            m_canvas.Camera.AddInputEventListener(new AreaDragHandler(canvas.PathwayCanvas.Camera));
+            m_canvas.Camera.ScaleViewBy(OverView.REDUCTION_SCALE);
+            m_canvas.Camera.TranslateViewBy(500, 500);
+            m_canvas.Layer.AddChild(m_transparentNode);
+            m_canvas.Layer.AddChild(m_area);
+            m_canvas.Camera.AddLayer(m_canvas.Layer);
+            m_canvas.Camera.ChildrenPickable = false;
+            m_canvas.Camera.BoundsChanged += new PPropertyEventHandler(Camera_BoundsChanged);
+
+        }
+        /// <summary>
+        /// Set PathwayCanvas.
+        /// </summary>
+        public void Clear()
+        {
+            this.m_canvas = new PCanvas();
+        }
+
+        /// <summary>
         /// Set layer which will be overviewed on this overview canvas.
         /// </summary>
         /// <param name="layer"></param>
-        public void AddObservedLayer(PLayer layer)
+        public void AddLayer(PLayer layer)
         {
             this.m_canvas.Camera.AddLayer(0, layer);
         }
@@ -136,9 +175,11 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <summary>
         /// Initializer for PCanvas
         /// </summary>
-        private void InitializeComponent()
+        void InitializeComponent()
         {
-            this.m_canvas = new PCanvas();
+            this.m_canvas = new UMD.HCIL.Piccolo.PCanvas();
+            this.groupBox = new System.Windows.Forms.GroupBox();
+            this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // m_canvas
@@ -147,23 +188,37 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.m_canvas.BackColor = System.Drawing.Color.White;
             this.m_canvas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.m_canvas.GridFitText = false;
-            this.m_canvas.Location = new System.Drawing.Point(0, 0);
+            this.m_canvas.Location = new System.Drawing.Point(3, 15);
             this.m_canvas.Name = "m_canvas";
             this.m_canvas.RegionManagement = true;
-            this.m_canvas.Size = new System.Drawing.Size(292, 273);
+            this.m_canvas.Size = new System.Drawing.Size(286, 255);
             this.m_canvas.TabIndex = 0;
-            this.m_canvas.Text = "pCanvas1";
+            this.m_canvas.Text = "OverView";
+            // 
+            // groupBox
+            // 
+            this.groupBox.Controls.Add(this.m_canvas);
+            this.groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox.Location = new System.Drawing.Point(0, 0);
+            this.groupBox.Name = "groupBox";
+            this.groupBox.Size = new System.Drawing.Size(292, 273);
+            this.groupBox.TabIndex = 1;
+            this.groupBox.TabStop = false;
+            this.groupBox.Text = "OverView";
             // 
             // OverView
             // 
             this.ClientSize = new System.Drawing.Size(292, 273);
-            this.Controls.Add(this.m_canvas);
+            this.Controls.Add(this.groupBox);
             this.Name = "OverView";
+            this.TabText = "OverView";
+            this.Text = this.Name;
+            this.groupBox.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
-        void Camera_BoundsChanged(object sender, PPropertyEventArgs e)
+        private void Camera_BoundsChanged(object sender, PPropertyEventArgs e)
         {
             UpdateTransparent();
         }
@@ -226,6 +281,5 @@ namespace EcellLib.PathwayWindow.UIComponent
             }
         }
         #endregion
-
     }
 }

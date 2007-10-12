@@ -196,7 +196,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// PathwayView managed this Node.
         /// </summary>
-        protected PathwayView m_pathwayView;
+        protected PathwayControl m_control;
 
         /// <summary>
         /// GraphicsPath.
@@ -502,10 +502,10 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for m_pathwayView.
         /// </summary>
-        public virtual PathwayView PathwayView
+        public virtual PathwayControl Control
         {
-            get { return this.m_pathwayView; }
-            set { this.m_pathwayView = value; }
+            get { return this.m_control; }
+            set { this.m_control = value; }
         }
         /// <summary>
         /// Accessor for m_csId.

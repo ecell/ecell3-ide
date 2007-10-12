@@ -44,23 +44,6 @@ namespace EcellLib.PathwayWindow
     public class ResizeHandleDragHandler : PDragEventHandler
     {
         #region Fields
-        /// <summary>
-        /// Enumeration for restriction of movement
-        /// </summary>
-        public enum MovingRestriction {
-            /// <summary>
-            /// Can move vertically only
-            /// </summary>
-            Vertical,
-            /// <summary>
-            /// Can move horizontally only
-            /// </summary>
-            Horizontal,
-            /// <summary>
-            /// Can move in every direction
-            /// </summary>
-            NoRestriction}
-
         //private MovingRestriction m_restrict;
         
         /// <summary>
@@ -103,11 +86,11 @@ namespace EcellLib.PathwayWindow
                 SizeF s = e.GetDeltaRelativeTo(base.DraggedNode);
                 s = base.DraggedNode.LocalToParent(s);
 
-                ResizeHandleDragHandler.MovingRestriction restrict = (ResizeHandleDragHandler.MovingRestriction)((PPath)e.PickedNode).Tag;
+                MovingRestriction restrict = (MovingRestriction)((PPath)e.PickedNode).Tag;
 
-                if (restrict == ResizeHandleDragHandler.MovingRestriction.Horizontal)
+                if (restrict == MovingRestriction.Horizontal)
                     base.DraggedNode.OffsetBy(s.Width, 0);
-                else if (restrict == ResizeHandleDragHandler.MovingRestriction.Vertical)
+                else if (restrict == MovingRestriction.Vertical)
                     base.DraggedNode.OffsetBy(0, s.Height);
                 else
                     base.DraggedNode.OffsetBy(s.Width, s.Height);

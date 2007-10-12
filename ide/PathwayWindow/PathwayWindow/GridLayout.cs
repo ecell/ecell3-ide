@@ -45,11 +45,6 @@ namespace EcellLib.PathwayWindow
         private static float m_naturalLength = 4;
 
         /// <summary>
-        /// margin for a system. a node can't be put within this length from system's bound
-        /// </summary>
-        private static float m_defSystemMargin = 70;
-
-        /// <summary>
         /// initial temperature (for simulated annealing)
         /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
         /// </summary>

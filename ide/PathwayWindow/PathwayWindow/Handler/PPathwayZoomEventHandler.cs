@@ -60,7 +60,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// The PathwayView instance
         /// </summary>
-        protected PathwayView m_view;
+        protected PathwayControl m_view;
         
         /// <summary>
         /// The point where the mouse is down.
@@ -72,7 +72,7 @@ namespace EcellLib.PathwayWindow.Handler
 		/// <summary>
 		/// Constructs a new PZoomEventHandler.
 		/// </summary>
-		public PPathwayZoomEventHandler(PathwayView view) {
+		public PPathwayZoomEventHandler(PathwayControl view) {
 			this.AcceptsEvent = new AcceptsEventDelegate(PPathwayZoomEventHandlerAcceptsEvent);
             m_view = view;
 		}
@@ -82,7 +82,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Accessor for PathwayView, which this handler controls
         /// </summary>
-        public PathwayView View
+        public PathwayControl View
         {
             get { return m_view; }
             set { m_view = value; }
@@ -168,13 +168,13 @@ namespace EcellLib.PathwayWindow.Handler
 			float currentScale = camera.ViewScale;
 			float newScale = currentScale * scaleDelta;
 
-			if (newScale < PPathwayZoomEventHandler.MIN_SCALE) {
-                scaleDelta = PPathwayZoomEventHandler.MIN_SCALE / currentScale;
+			if (newScale < MIN_SCALE) {
+                scaleDelta = MIN_SCALE / currentScale;
 			}
 
-            if ((PPathwayZoomEventHandler.MAX_SCALE > 0) && (newScale > PPathwayZoomEventHandler.MAX_SCALE))
+            if ((MAX_SCALE > 0) && (newScale > MAX_SCALE))
             {
-                scaleDelta = PPathwayZoomEventHandler.MAX_SCALE / currentScale;
+                scaleDelta = MAX_SCALE / currentScale;
 			}
 
 			camera.ScaleViewBy(scaleDelta, m_viewZoomPoint.X, m_viewZoomPoint.Y);

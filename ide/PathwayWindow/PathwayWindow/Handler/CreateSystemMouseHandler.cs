@@ -53,7 +53,7 @@ namespace EcellLib.PathwayWindow
     class CreateSystemMouseHandler : PBasicInputEventHandler
     {
         #region Fields
-        protected PathwayView m_view;
+        protected PathwayControl m_view;
 
         protected CanvasView m_set;
 
@@ -114,7 +114,7 @@ namespace EcellLib.PathwayWindow
         /// Constructor
         /// </summary>
         /// <param name="view"></param>
-        public CreateSystemMouseHandler(PathwayView view)
+        public CreateSystemMouseHandler(PathwayControl view)
         {
             this.m_view = view;
         }

@@ -13,12 +13,12 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The PathwayView instance
         /// </summary>
-        private PathwayView m_view;
+        private PathwayControl m_view;
 
         /// <summary>
         /// The contructor
         /// </summary>
-        public MouseDownHandler(PathwayView pview)
+        public MouseDownHandler(PathwayControl pview)
         {
             m_view = pview;
         }

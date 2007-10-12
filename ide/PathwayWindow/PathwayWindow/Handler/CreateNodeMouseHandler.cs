@@ -50,7 +50,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// PathwayView
         /// </summary>
-        protected PathwayView m_view;
+        protected PathwayControl m_view;
 
         /// <summary>
         /// PropertyEditor. By using this, parameters for new object will be input.
@@ -61,11 +61,6 @@ namespace EcellLib.PathwayWindow
         /// CanvasViewComponentSet, on which a new object will be created.
         /// </summary>
         protected CanvasView m_set;
-
-        /// <summary>
-        /// The name of the canvas, on which a new object will be created.
-        /// </summary>
-        protected string m_canvasName;
 
         /// <summary>
         /// Where mouse was pressed down on pathwaycanvas.
@@ -86,7 +81,7 @@ namespace EcellLib.PathwayWindow
         /// Constructor
         /// </summary>
         /// <param name="view"></param>
-        public CreateNodeMouseHandler(PathwayView view)
+        public CreateNodeMouseHandler(PathwayControl view)
         {
             this.m_view = view;
         }
@@ -113,7 +108,6 @@ namespace EcellLib.PathwayWindow
             if (e.PickedNode is PCamera)
             {
                 m_set = m_view.CanvasDictionary[e.Canvas.Name];
-                m_canvasName = ((PCamera)sender).Canvas.Name;
                 m_downPos = e.Position;
                 m_surSystem = m_view.CanvasDictionary[e.Canvas.Name].GetSurroundingSystemKey(e.Position);
 

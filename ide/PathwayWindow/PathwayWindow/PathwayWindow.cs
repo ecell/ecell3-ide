@@ -63,25 +63,6 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.PathwayWindow
 {
-    #region enum
-    /// <summary>
-    /// Type of change to one reference of VariableReference
-    /// </summary>
-    public enum RefChangeType {
-        /// <summary>
-        /// Change VariableReference to single direction
-        /// </summary>
-        SingleDir,
-        /// <summary>
-        /// Change VariableReference to dual direction
-        /// </summary>
-        BiDir,
-        /// <summary>
-        /// Delete VariableReference
-        /// </summary>
-        Delete };
-    #endregion
-
     /// <summary>
     /// PathwayWindow plugin
     /// </summary>
@@ -98,7 +79,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// PathwayView, which contains and controls all GUI-related objects.
         /// </summary>
-        PathwayView m_view;
+        PathwayControl m_view;
 
         /// <summary>
         /// ModelID of Ecell "Model" which is currently focused on.
@@ -317,7 +298,7 @@ namespace EcellLib.PathwayWindow
                 }
             }
 
-            m_view = new PathwayView();
+            m_view = new PathwayControl();
             m_view.Window = this;
             m_view.SetSettings(componentSettings);
             m_view.ComponentSettingsManager = manager;
@@ -379,7 +360,7 @@ namespace EcellLib.PathwayWindow
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient)
         {
             // Get EcellObject of identified process.
-            EcellProcess process = (EcellProcess)m_dManager.GetEcellObject(m_modelId, proKey, PathwayView.PROCESS_STRING);
+            EcellProcess process = (EcellProcess)m_dManager.GetEcellObject(m_modelId, proKey, PathwayControl.PROCESS_STRING);
             // End if obj is null.
             if (null == process)
                 return;
@@ -449,7 +430,7 @@ namespace EcellLib.PathwayWindow
 
             try
             {
-                m_dManager.DataChanged(m_modelId, proKey, PathwayView.PROCESS_STRING, process);
+                m_dManager.DataChanged(m_modelId, proKey, PathwayControl.PROCESS_STRING, process);
             }
             catch(IgnoreException)
             {
@@ -685,19 +666,12 @@ namespace EcellLib.PathwayWindow
         public List<DockContent> GetWindowsForms()
         {
             List<DockContent> list = GetWindowList(m_view.Control);
-
-            //uc.Controls.Add(m_view.Control);
-            //uc.Dock = DockStyle.Fill;
-            //uc.Load += new EventHandler(m_view.SizeChanged);
-            //uc.Resize += new EventHandler(m_view.SizeChanged);
-            //uc.MouseEnter += new EventHandler(uc_MouseEnter);
-            
+            list.Add(m_view.OverView);
             return list;
         }
         private List<DockContent> GetWindowList(Control con)
         {
             List<DockContent> list = new List<DockContent>();
-
             // recursive
             foreach (Control subCon in con.Controls)
             {
@@ -708,13 +682,6 @@ namespace EcellLib.PathwayWindow
                 DockContent dock = new DockContent();
                 dock.Controls.Add(con);
                 dock.Text = "PathwayView";
-                list.Add(dock);
-            }
-            else if (con.GetType() == typeof(GroupBox) && con.Text == "Overview")
-            {
-                DockContent dock = new DockContent();
-                dock.Controls.Add(con);
-                dock.Text = "OverView";
                 list.Add(dock);
             }
             else if (con.GetType() == typeof(GroupBox) && con.Text == "Layer")
@@ -877,7 +844,7 @@ namespace EcellLib.PathwayWindow
         {
             if (type == null)
                 return;
-            if (type.Equals(PathwayView.MODEL_STRING))
+            if (type.Equals(PathwayControl.MODEL_STRING))
                 this.Clear();
             CanvasView canvas = this.m_view.CanvasDictionary[modelID];
             if (canvas != null)
@@ -981,17 +948,13 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
-            if (type == null)
+            if (type == null || type == "Model" || type == "Project")
                 return;
-            if(m_modelId.Equals(modelID))
-            {
-                ComponentType cType = ComponentSetting.ParseComponentKind(type);
-                this.m_view.ActiveCanvas.SelectChanged(key, cType);
-            }
-            else
-            {
-                // Change Model
-            }
+            CanvasView canvas = this.m_view.CanvasDictionary[modelID];
+            ComponentType cType = ComponentSetting.ParseComponentKind(type);
+            if (canvas != null)
+                canvas.SelectChanged(key, cType);
+
         }
 
         /// <summary>
@@ -1072,15 +1035,10 @@ namespace EcellLib.PathwayWindow
         /// <param name="data">EcellObject, whose position will be set</param>
         public void SetPosition(EcellObject data)
         {
-            if (null != data)
-            {
-                m_view.SetPosition(m_modelId, data);
-                List<EcellObject> list = data.M_instances;
-                if (null == list || list.Count == 0)
-                    return;
-                foreach(EcellObject eo in list)
-                    m_view.SetPosition(m_modelId, eo);
-            }
+            if (data == null)
+                return;
+
+            m_view.SetPosition(m_modelId, data);
         }
         #endregion
 
@@ -1186,30 +1144,15 @@ namespace EcellLib.PathwayWindow
             {
                 objList = (List<EcellObject>)serializer.Deserialize(reader);
             }
-
-            Dictionary<string, EcellSystem> sysDict = new Dictionary<string, EcellSystem>();
-            Dictionary<string, EcellProcess> proDict = new Dictionary<string, EcellProcess>();
-            Dictionary<string, EcellVariable> varDict = new Dictionary<string, EcellVariable>();
-
+            // Create Object dictionary.
+            Dictionary<string, EcellObject> objDict = new Dictionary<string, EcellObject>();
             foreach (EcellObject eo in objList)
-            {
-                if (eo is EcellSystem)
-                    sysDict.Add(eo.key, (EcellSystem)eo);
-                else if (eo is EcellProcess)
-                    proDict.Add(eo.key, (EcellProcess)eo);
-                else if (eo is EcellVariable)
-                    varDict.Add(eo.key, (EcellVariable)eo);
-            }
-
+                objDict.Add(eo.type + ":" + eo.key, eo);
+            // Set position.
             foreach (EcellObject eo in data)
-            {
-                if (eo is EcellSystem && sysDict.ContainsKey(eo.key))
-                    eo.SetPosition(sysDict[eo.key]);
-                if (eo is EcellProcess && proDict.ContainsKey(eo.key))
-                    eo.SetPosition(proDict[eo.key]);
-                if (eo is EcellVariable && varDict.ContainsKey(eo.key))
-                    eo.SetPosition(varDict[eo.key]);
-            }
+                if (objDict.ContainsKey(eo.key))
+                    eo.SetPosition(objDict[eo.key]);
+
             this.NewDataAddToModel(data);
         }
         #endregion

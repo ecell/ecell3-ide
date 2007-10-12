@@ -55,69 +55,12 @@ using System.ComponentModel;
 
 namespace EcellLib.PathwayWindow
 {
-    #region Enumeration
-    /// <summary>
-    /// Direction of scrolling the canvas.
-    /// </summary>
-    public enum Direction
-    {
-        /// <summary>
-        /// Vertical direction
-        /// </summary>
-        Vertical,
-        /// <summary>
-        /// Horizontal direction
-        /// </summary>
-        Horizontal
-    };
-
-    /// <summary>
-    /// Mode
-    /// </summary>
-    public enum Mode
-    {
-        /// <summary>
-        /// Select objects
-        /// </summary>
-        Select,
-        /// <summary>
-        /// Pan canvas
-        /// </summary>
-        Pan,
-        /// <summary>
-        /// Create reaction
-        /// </summary>
-        CreateOneWayReaction,
-        /// <summary>
-        /// Create mutual(Interactive) reaction
-        /// </summary>
-        CreateMutualReaction,
-        /// <summary>
-        /// Create constant
-        /// </summary>
-        CreateConstant,
-        /// <summary>
-        /// Create system
-        /// </summary>
-        CreateSystem,
-        /// <summary>
-        /// Create node
-        /// </summary>
-        CreateNode
-    };
-    #endregion
-
     /// <summary>
     /// PathwayView plays a role of View part of MVC-model.
     /// </summary>
-    public class PathwayView
+    public class PathwayControl
     {
         #region Static readonly fields
-        /// <summary>
-        /// Graphical content of m_canvas is scaled by m_reductionScale in overview canvas (m_overCanvas)
-        /// </summary>
-        private static readonly float REDUCTION_SCALE = 0.05f;
-
         /// <summary>
         /// Width of "Show" column of layer DataGridView.
         /// </summary>
@@ -160,10 +103,9 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         List<ComponentSetting> m_componentSettings;
 
-        //List<PBasicInputEventHandler> m_objectHandlerList = new List<PBasicInputEventHandler>();
-        
-        //List<PBasicInputEventHandler> m_canvasHandlerList = new List<PBasicInputEventHandler>();
-
+        /// <summary>
+        /// Dictionary for Eventhandlers.
+        /// </summary>
         Dictionary<int, PBasicInputEventHandler> m_handlerDict = new Dictionary<int, PBasicInputEventHandler>();
 
         /// <summary>
@@ -194,6 +136,11 @@ namespace EcellLib.PathwayWindow
         ComponentSettingsManager m_csManager;
 
         /// <summary>
+        /// the canvas of overview.
+        /// </summary>
+        OverView m_overview = new OverView();
+
+        /// <summary>
         /// SplitContainer splits main pathway area and other area (overview, layer control)
         /// </summary>
         SplitContainer m_splitCon;
@@ -203,16 +150,6 @@ namespace EcellLib.PathwayWindow
         /// metabolic networks, genetic networks.
         /// </summary>
         TabControl m_tabControl;
-
-        /// <summary>
-        /// GroupBox for overview panel.
-        /// </summary>
-        GroupBox m_overviewGB;
-
-        /// <summary>
-        /// PCanvas for overview area
-        /// </summary>
-        PCanvas m_overCanvas;
 
         /// <summary>
         /// List of PPathwayNode for copied object.
@@ -228,11 +165,6 @@ namespace EcellLib.PathwayWindow
         /// Point of mouse cursor.
         /// </summary>
         PointF m_copyPos;
-
-        /// <summary>
-        /// PPath on m_overCanvas, which stands for a viewed area in m_canvas (Main canvas)
-        /// </summary>
-        PDisplayedArea m_displayedArea;
 
         /// <summary>
         /// DataGridView for layer control panel.
@@ -300,6 +232,13 @@ namespace EcellLib.PathwayWindow
             }
         }
 
+        /// <summary>
+        /// Accessor for m_overviewCanvas.
+        /// </summary>
+        public OverView OverView
+        {
+            get { return m_overview; }
+        }
         /// <summary>
         /// get/set the number of checked component.
         /// </summary>
@@ -392,7 +331,7 @@ namespace EcellLib.PathwayWindow
         /// the constructor for PathwayView.
         /// set the handler of event and user control.
         /// </summary>
-        public PathwayView()
+        public PathwayControl()
         {
             // Preparing a pathway panel
             m_tabControl = new TabControl();
@@ -400,17 +339,8 @@ namespace EcellLib.PathwayWindow
             m_tabControl.SelectedIndexChanged += new EventHandler(m_tabControl_SelectedIndexChanged);
             m_tabControl.MouseEnter += new EventHandler(m_tabControl_OnMouseEnter);
             m_tabControl.MouseWheel += new MouseEventHandler(m_tabControl_OnMouseWheel);
-            /*
-            ContextMenuStrip nodeMenu = new ContextMenuStrip();
-            ToolStripItem delete = new ToolStripMenuItem("Delete");
-            delete.Click += new EventHandler(delete_Click);
-            nodeMenu.Items.AddRange(new ToolStripItem[]
-                                    {
-                                        delete
-                                    });
-            m_tabControl.ContextMenuStrip = nodeMenu;
 
-             */ 
+            // Preparing a SplitController (planning to remove)
             m_splitCon = new SplitContainer();
             m_splitCon.Dock = DockStyle.Fill;
             m_splitCon.Orientation = Orientation.Horizontal;
@@ -428,15 +358,7 @@ namespace EcellLib.PathwayWindow
             lowerSplitCon.SplitterMoved += new SplitterEventHandler(m_splitCon_SplitterMoved);
             m_splitCon.Panel2.Controls.Add(lowerSplitCon);
 
-            // Preparing an overview panel
-            m_overviewGB = new GroupBox();
-            m_overviewGB.Dock = DockStyle.Fill;
-            m_overviewGB.Text = "Overview";
-            m_displayedArea = new PDisplayedArea();
-            m_overviewGB.Controls.Add(m_overCanvas);
-            lowerSplitCon.Panel1.Controls.Add(m_overviewGB);
-
-            // Preparing a layer control panel
+            // Preparing a layer control panel (planning to move to LayerView(not created yet))
             m_dgv = new DataGridView();
             m_layerDataTable = new DataTable();
             DataColumn showDc = new DataColumn("Show");
@@ -468,11 +390,6 @@ namespace EcellLib.PathwayWindow
             layerGB.Controls.Add(m_dgv);
 
             lowerSplitCon.Panel2.Controls.Add(layerGB);
-
-            // Preparing handler list.
-            //m_canvasHandlerList.Add( new DefaultMouseHandler(this));
-            //m_canvasHandlerList.Add( new PPanEventHandler() );
-            //m_canvasHandlerList.Add(new CreateReactionMouseHandler(this));
         }
 
         void m_dgv_VisibleChanged(object sender, EventArgs e)
@@ -493,14 +410,16 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CreateCanvas(string canvasID)
+        public void CreateCanvas(string modelID)
         {
+            // Clear current canvas (TODO: Remove when support multiple canvas).
             m_canvasDict = new Dictionary<string, CanvasView>();
 
-            CanvasView canvas = new CanvasView(this, canvasID, REDUCTION_SCALE, null);
-            m_activeCanvasID = canvasID;
-            m_canvasDict.Add(canvasID, canvas);
+            CanvasView canvas = new CanvasView(this, modelID);
+            m_activeCanvasID = modelID;
+            m_canvasDict.Add(modelID, canvas);
             canvas.AddLayer(this.m_defLayerId);
+            m_overview.SetCanvas(canvas);
 
             m_tabControl.Controls.Add(canvas.TabPage);
             m_layerDs.Tables.Clear();
@@ -517,13 +436,13 @@ namespace EcellLib.PathwayWindow
         {            
             if (!m_dirtyEventProcessed)
             {
-                string dataMember = ((DataGridView)sender).DataMember;
+                string modelID = ((DataGridView)sender).DataMember;
                 bool show = !(bool)((DataGridView)sender).CurrentRow.Cells["Show"].Value;
                 string layerName = (string)((DataGridView)sender).CurrentRow.Cells["Name"].Value;             
-                m_canvasDict[dataMember].Layers[layerName].Visible = show;
-                m_canvasDict[dataMember].PathwayCanvas.Refresh();
-                m_canvasDict[dataMember].OverView.Canvas.Refresh();
-                m_canvasDict[dataMember].RefreshVisibility();
+                m_canvasDict[modelID].Layers[layerName].Visible = show;
+                m_canvasDict[modelID].PathwayCanvas.Refresh();
+                m_canvasDict[modelID].RefreshVisibility();
+                m_overview.Canvas.Refresh();
                 m_dirtyEventProcessed = true;
             }
             else
@@ -565,7 +484,6 @@ namespace EcellLib.PathwayWindow
             CanvasView canvas = m_canvasDict[canvasName];
             PLayer layer = ActiveCanvas.Layers[this.m_defLayerId];
 
-
             if (eo is EcellSystem)
             {
                 PPathwaySystem system = (PPathwaySystem)cs.CreateNewComponent(eo, this);
@@ -574,17 +492,17 @@ namespace EcellLib.PathwayWindow
                 system.Layer = layer;
                 system.Name = eo.key;
                 canvas.AddNewObj(m_defLayerId, systemName, system, eo.IsPosSet, false);
-                //canvas.AddChildToSelectedSystem(parentSystemId, system, hasCoords);
             }
             else
             {
-                PPathwayObject obj = cs.CreateNewComponent(eo, this);
-                obj.ShowingID = m_showingId;
-                obj.MouseDown += new PInputEventHandler(NodeSelected);
-                obj.MouseEnter += new PInputEventHandler(NodeEntered);
-                obj.MouseLeave += new PInputEventHandler(NodeLeft);
-                ((PPathwayNode)obj).Handler4Line = new PInputEventHandler(LineSelected);
-                canvas.AddNewObj(m_defLayerId, systemName, obj, eo.IsPosSet, false);
+                PPathwayNode node = (PPathwayNode)cs.CreateNewComponent(eo, this);
+                node.ShowingID = m_showingId;
+                node.Layer = layer;
+                node.MouseDown += new PInputEventHandler(NodeSelected);
+                node.MouseEnter += new PInputEventHandler(NodeEntered);
+                node.MouseLeave += new PInputEventHandler(NodeLeft);
+                node.Handler4Line = new PInputEventHandler(LineSelected);
+                canvas.AddNewObj(m_defLayerId, systemName, node, eo.IsPosSet, false);
             }
         }
 
@@ -662,29 +580,12 @@ namespace EcellLib.PathwayWindow
             if (SelectedHandle.Mode == Mode.Pan)
             {
                 m_splitCon.Cursor = new Cursor(new MemoryStream(Resource1.move));
-                SetRefreshOverview(true);
                 Freeze();
             }
             else
             {
                 m_splitCon.Cursor = Cursors.Arrow;
-                SetRefreshOverview(false);
                 Unfreeze();
-            }
-        }
-
-        /// <summary>
-        /// set whether refresh the overview.
-        /// </summary>
-        /// <param name="value"></param>
-        void SetRefreshOverview(bool value)
-        {
-            if (m_canvasDict == null)
-                return;
-
-            foreach(CanvasView set in m_canvasDict.Values)
-            {
-                set.RefreshOverview = value;
             }
         }
 
@@ -698,13 +599,10 @@ namespace EcellLib.PathwayWindow
         {
             if (((TabControl)sender).TabCount != 0)
             {
-                string name = ((TabControl)sender).TabPages[((TabControl)sender).SelectedIndex].Name;
+                string modelID = ((TabControl)sender).TabPages[((TabControl)sender).SelectedIndex].Name;
 
-                m_dgv.DataMember = name;
-
-                m_overviewGB.Controls.Remove(m_overCanvas);
-                m_overCanvas = m_canvasDict[name].OverView.Canvas;
-                m_overviewGB.Controls.Add(m_overCanvas);
+                m_dgv.DataMember = modelID;
+                m_overview.SetCanvas(m_canvasDict[modelID]);
 
             }
         }
@@ -970,7 +868,11 @@ namespace EcellLib.PathwayWindow
             else if(PROCESS_STRING.Equals(eo.type))
                 if(m_canvasDict[modelID].Processes.ContainsKey(eo.key))
                     m_canvasDict[modelID].Processes[eo.key].EcellObject = (EcellProcess)eo;
-            
+
+            if (eo.M_instances == null || eo.M_instances.Count == 0)
+                return;
+            foreach (EcellObject child in eo.M_instances)
+                SetPosition(modelID, child);
         }
         #endregion
 
@@ -1160,11 +1062,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void Clear()
         {
-            if (m_tabControl.SelectedIndex > -1)
-            {
-                string name = m_tabControl.TabPages[m_tabControl.SelectedIndex].Name;
-                m_overviewGB.Controls.Remove(m_canvasDict[name].OverView);
-            }
+            m_overview.Clear();
             m_tabControl.TabPages.Clear();
 
             if(m_canvasDict != null)
@@ -1220,15 +1118,6 @@ namespace EcellLib.PathwayWindow
                         CanvasDictionary[e.Canvas.Name].ContextMenuDict[iName].Tag = e.PickedNode;
                     }
                 }
-/*
-                foreach (ToolStripItem item in this.CanvasDictionary[e.Canvas.Name].NodeMenu.Items)
-                {
-                    if ("Delete".Equals(item.Text))
-                    {
-                        item.Tag = e.PickedNode;
-                    }
-                }
- */
             }
         }
 
@@ -1239,54 +1128,38 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">PInputEventArgs.</param>
         public void NodeSelected(object sender, PInputEventArgs e)
         {
-            //if (e.PickedNode is PPathwayNode)
-            //    ((PPathwayNode)e.PickedNode).ValidateEdges();
-            //if (e.Button == MouseButtons.Left)
-            //{
-                PPathwayNode pnode = (PPathwayNode)e.PickedNode;
+            PPathwayNode pnode = (PPathwayNode)e.PickedNode;
 
-                if (SelectedHandle.Mode == Mode.CreateOneWayReaction
-                    || SelectedHandle.Mode == Mode.CreateMutualReaction
-                    || SelectedHandle.Mode == Mode.CreateConstant)
+            if (SelectedHandle.Mode == Mode.CreateOneWayReaction
+                || SelectedHandle.Mode == Mode.CreateMutualReaction
+                || SelectedHandle.Mode == Mode.CreateConstant)
+            {
+                this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
+                this.CanvasDictionary[e.Canvas.Name].AddNodeToBeConnected((PPathwayNode)sender);
+            }
+            else
+            {
+                if (!pnode.IsHighLighted)
                 {
-                    this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
-                    this.CanvasDictionary[e.Canvas.Name].AddNodeToBeConnected((PPathwayNode)sender);
-                }
-                else
-                {
-                    if (!pnode.IsHighLighted)
+                    if (e.Modifiers == Keys.Shift)
                     {
-                        if (e.Modifiers == Keys.Shift)
-                        {
-                            this.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)sender, true);
-                        }
-                        else
-                        {
-                            this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
-                            this.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)sender, true);
-                        }
+                        this.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)sender, true);
+                    }
+                    else
+                    {
+                        this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
+                        this.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)sender, true);
                     }
                 }
-            //}
-            //else
-            //{
-                this.CanvasDictionary[e.Canvas.Name].ClickedNode = e.PickedNode;
-                foreach (String iName in CanvasDictionary[e.Canvas.Name].ContextMenuDict.Keys)
+            }
+            this.CanvasDictionary[e.Canvas.Name].ClickedNode = e.PickedNode;
+            foreach (String iName in CanvasDictionary[e.Canvas.Name].ContextMenuDict.Keys)
+            {
+                if (iName.StartsWith("delete"))
                 {
-                    if (iName.StartsWith("delete"))
-                    {
-                        CanvasDictionary[e.Canvas.Name].ContextMenuDict[iName].Tag = e.PickedNode;
-                    }
+                    CanvasDictionary[e.Canvas.Name].ContextMenuDict[iName].Tag = e.PickedNode;
                 }
-/*                foreach (ToolStripItem item in this.CanvasDictionary[e.Canvas.Name].NodeMenu.Items)
-                {
-                    if ("Delete".Equals(item.Text))
-                    {
-                        item.Tag = e.PickedNode;
-                    }
-                }
- */
-            //}
+            }
         }
 
         /// <summary>

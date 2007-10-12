@@ -56,21 +56,9 @@ namespace EcellLib.MainWindow
     public partial class MainWindow : Form, PluginBase
     {
         #region Readonly Fields 
-
-        private readonly string strEntityList = "EntityList";
-
-        private readonly string strPathwayView = "PathwayView";
-
-        private readonly string strOverView = "OverView";
-
-        private readonly string strLayerView = "LayerView";
-
-        private readonly string strMessageWindow = "MessageWindow";
-
-        private readonly string strObjectList = "ObjectList";
-
-        private readonly string strPropertyWindow = "PropertyWindow";
-
+        /// <summary>
+        /// Setting file of Docking window. 
+        /// </summary>
         private readonly string defaultWindowSettingsFile = "window.config";
 
         #endregion
@@ -356,7 +344,6 @@ namespace EcellLib.MainWindow
             try
             {
                 pb = m_pManager.LoadPlugin(path, className);
-                winList = pb.GetWindowsForms();
             }
             catch (Exception ex)
             {
@@ -365,59 +352,12 @@ namespace EcellLib.MainWindow
                     "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
+            // Set DockContent.
+            winList = pb.GetWindowsForms();
             if (winList != null && winList.Count > 0)
-            {
                 foreach (DockContent dock in winList)
-                {
-                    // Create DockContent
-                    if (dock.Text == strEntityList)
-                    {
-                        //Create EntityList
-                        SetDockContent(strEntityList, dock);
-                        dock.Show(this.dockPanel, DockState.DockLeft);
-                    }
-                    else if (dock.Text == strMessageWindow)
-                    {
-                        //Create MessageWindow
-                        SetDockContent(strMessageWindow, dock);
-                        dock.Show(this.dockPanel, DockState.DockBottom);
-                    }
-                    else if (dock.Text == strObjectList)
-                    {
-                        //Create ObjectList
-                        SetDockContent(strObjectList, dock);
-                        dock.Show(m_dockWindowDic[strEntityList].Pane, DockAlignment.Bottom, 0.5);
-                    }
-                    else if (dock.Text == strPathwayView)
-                    {
-                        SetDockContent(strPathwayView, dock);
-                        dock.Show(this.dockPanel, DockState.Document);
-                    }
-                    else if (dock.Text == strOverView)
-                    {
-                        SetDockContent(strOverView, dock);
-                        dock.Show(m_dockWindowDic[strMessageWindow].Pane, DockAlignment.Right, 0.3);
-                    }
-                    else if (dock.Text == strLayerView)
-                    {
-                        SetDockContent(strLayerView, dock);
-                        dock.Show(m_dockWindowDic[strOverView].Pane, null);
-                    }
-                    else if (dock.Text == strPropertyWindow)
-                    {
-                        //Create PropertyWindow
-                        SetDockContent(strPropertyWindow, dock);
-                        dock.Show(m_dockWindowDic[strOverView].Pane, DockAlignment.Top, 0.7);
-                    }
-                    else
-                    {
-                        SetDockContent(dock.Text, dock);
-                        dock.Show(this.dockPanel, DockState.Float);
-                    }
-                    
-                }
-            }
+                    SetDockContent(dock);
+            // Set Menu.
             menuList = pb.GetMenuStripItems();
             if (menuList != null)
             {
@@ -457,6 +397,7 @@ namespace EcellLib.MainWindow
                     }
                 }
             }
+            // Set ToolBar
             toolList = pb.GetToolBarMenuStripItems();
             if (toolList != null)
             {
@@ -470,26 +411,26 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// set DockContent
         /// </summary>
-        private void SetDockContent(string name, DockContent dock)
+        private void SetDockContent(DockContent content)
         {
-            Debug.WriteLine("create dock: " + name);
+            Debug.WriteLine("create dock: " + content.Text);
             //Create New DockContent
-            dock.Name = name;
-            dock.Text = name;
-            dock.Tag = name;
-            dock.Pane = null;
-            dock.PanelPane = null;
-            dock.FloatPane = null;
-            dock.DockHandler.DockPanel = this.dockPanel;
-            dock.IsHidden = false;
-            dock.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
+            content.Name = content.Text;
+            content.Tag = content.Text;
+            content.Pane = null;
+            content.PanelPane = null;
+            content.FloatPane = null;
+            content.DockHandler.DockPanel = this.dockPanel;
+            content.IsHidden = false;
+            content.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
 
             //Create DockWindow Menu
-            setDockMenu(name);
-            m_dockWindowDic.Add(name, dock);
+            setDockMenu(content.Text);
+            m_dockWindowDic.Add(content.Text, content);
+            content.Show(this.dockPanel, DockState.Document);
         }
         /// <summary>
-        /// set DockContent
+        /// set Window Menu
         /// </summary>
         private void setDockMenu(string name)
         {

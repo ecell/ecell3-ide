@@ -91,6 +91,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="Handler\CreateReactionMouseHandler.cs" />
     <Compile Include="CanvasView.cs" />
     <Compile Include="ComponentSetting.cs" />
@@ -129,7 +130,7 @@
     <Compile Include="UIComponent\PathwayCanvas.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PathwayView.cs" />
+    <Compile Include="PathwayControl.cs" />
     <Compile Include="PathwayWindow.cs" />
     <Compile Include="UIComponent\PDisplayedArea.cs" />
     <Compile Include="Nodes\PPathwayProcess.cs" />

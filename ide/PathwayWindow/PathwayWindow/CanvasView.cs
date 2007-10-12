@@ -76,6 +76,16 @@ namespace EcellLib.PathwayWindow
         protected static readonly int CAMERA_ANIM_DURATION = 700;
 
         /// <summary>
+        /// Minimum scale.
+        /// </summary>
+        public static readonly float MIN_SCALE = .1f;
+
+        /// <summary>
+        /// Maximum scale
+        /// </summary>
+        public static readonly float MAX_SCALE = 5;
+
+        /// <summary>
         /// used for painting the background of show button. For viewing objects under it, this
         /// color has alpha value
         /// </summary>
@@ -105,11 +115,6 @@ namespace EcellLib.PathwayWindow
         /// radius of a line handle
         /// </summary>
         private static readonly float LINE_HANDLE_RADIUS = 5;
-
-        /// <summary>
-        /// Used for setting node's offset to point (0,0)
-        /// </summary>
-        private static readonly PointF ZERO_POINT = new PointF(0, 0);
 
         /// <summary>
         /// Name of DataColumn for setting layer visibilities (check box)
@@ -247,7 +252,7 @@ namespace EcellLib.PathwayWindow
         /// The PathwayView, from which this class gets messages from the E-cell core and through which this class
         /// sends messages to the E-cell core.
         /// </summary>
-        protected PathwayView m_view;
+        protected PathwayControl m_view;
 
         /// <summary>
         /// The unique ID of this canvas.
@@ -262,17 +267,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// PCanvas for pathways.
         /// </summary>
-        protected PathwayCanvas m_pathwayCanvas;
-
-        /// <summary>
-        /// the canvas of overview.
-        /// </summary>
-        protected OverView m_overview;
-
-        /// <summary>
-        /// Display rectangles using overview.
-        /// </summary>
-        protected PDisplayedArea m_area;
+        protected PathwayCanvas m_pCanvas;
 
         /// <summary>
         /// DataTable for DataGridView displayed layer list.
@@ -380,11 +375,6 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         protected PointF m_lowerLeftPoint;
 
-        /// <summary>
-        /// Whether an overview should be refreshed or not
-        /// </summary>
-        protected bool m_isRefreshOverview = false;
-
         /////// To handle an edge to reconnect
         bool m_isReconnectMode = false;
 
@@ -418,7 +408,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Variable or Process.
         /// </summary>
-        ElementType m_reconnectNodeType;
+        ComponentType m_cType;
 
         /// <summary>
         /// Clicked PathwayObject.
@@ -441,7 +431,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_pathwayView.
         /// </summary>
-        public PathwayView PathwayView
+        public PathwayControl PathwayView
         {
             get { return m_view; }
             set { m_view = value; }
@@ -503,7 +493,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public PCanvas PathwayCanvas
         {
-            get { return m_pathwayCanvas; }
+            get { return m_pCanvas; }
         }
 
         /// <summary>
@@ -528,22 +518,6 @@ namespace EcellLib.PathwayWindow
         public string SelectedSystemName
         {
             get { return m_selectedSystemName; }
-        }
-
-        /// <summary>
-        /// Accessor for m_overviewCanvas.
-        /// </summary>
-        public OverView OverView
-        {
-            get { return m_overview; }
-        }
-
-        /// <summary>
-        /// Accessor for m_area.
-        /// </summary>
-        public PDisplayedArea DisplayedArea
-        {
-            get { return m_area; }
         }
 
         /// <summary>
@@ -614,18 +588,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_isRefreshOverview.
-        /// </summary>
-        public bool RefreshOverview
-        {
-            get { return m_isRefreshOverview; }
-            set
-            {
-                m_isRefreshOverview = value;
-            }
-        }
-
-        /// <summary>
         /// Accessor for m_cMenuDict.
         /// </summary>
         public Dictionary<string, ToolStripItem> ContextMenuDict
@@ -650,10 +612,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="name">canvas id.</param>
         /// <param name="overviewScale">scale of overview.</param>
         /// <param name="handler">EventHandler of PathwayView.</param>
-        public CanvasView(PathwayView view,
-            string modelID,
-            float overviewScale,
-            PInputEventHandler handler)
+        public CanvasView(PathwayControl view,
+            string modelID)
         {
             m_view = view;
             m_modelId = modelID;
@@ -663,32 +623,21 @@ namespace EcellLib.PathwayWindow
             m_pathwayTabPage.Name = modelID;
             m_pathwayTabPage.AutoScroll = true;
 
-            m_pathwayCanvas = new PathwayCanvas(this);
+            // Preparing PathwayCanvas
+            m_pCanvas = new PathwayCanvas(this);
+            m_pCanvas.RemoveInputEventListener(m_pCanvas.PanEventHandler);
+            m_pCanvas.RemoveInputEventListener(m_pCanvas.ZoomEventHandler);
+            m_pCanvas.AddInputEventListener(new DefaultMouseHandler(m_view));
+            m_pCanvas.Dock = DockStyle.Fill;
+            m_pCanvas.Name = modelID;
+            m_pCanvas.Camera.ScaleViewBy(0.7f);
+            m_pCanvas.Camera.RemoveLayer(m_pCanvas.Layer);
 
-            m_pathwayCanvas.RemoveInputEventListener(m_pathwayCanvas.PanEventHandler);
-            m_pathwayCanvas.RemoveInputEventListener(m_pathwayCanvas.ZoomEventHandler);
-            //m_pathwayCanvas.AddInputEventListener(new PPathwayZoomEventHandler(m_pathwayView));
-            m_pathwayCanvas.AddInputEventListener(new DefaultMouseHandler(m_view));
-            m_pathwayCanvas.Dock = DockStyle.Fill;
-            //m_pathwayCanvas.MouseDown += new MouseEventHandler(m_pathwayCanvas_MouseDown);
-            //m_pathwayCanvas.MouseMove += new MouseEventHandler(m_pathwayCanvas_MouseMove);
-            m_pathwayCanvas.Name = modelID;
-            //m_pathwayCanvas.Camera.Scale = DEFAULT_CAMERA_SCALE;
-            m_pathwayCanvas.Camera.ScaleViewBy(0.7f);
-
-            PScrollableControl scrolCtrl = new PScrollableControl(m_pathwayCanvas);
+            PScrollableControl scrolCtrl = new PScrollableControl(m_pCanvas);
             scrolCtrl.Layout += new LayoutEventHandler(scrolCtrl_Layout);
             scrolCtrl.Dock = DockStyle.Fill;
             m_pathwayTabPage.Controls.Add(scrolCtrl);
 
-            // Preparing overview
-            m_area = new PDisplayedArea();
-            m_overview = new OverView(overviewScale,
-                                      m_pathwayCanvas.Layer,
-                                      m_pathwayCanvas.Camera,
-                                      DisplayedArea);
-
-            m_pathwayCanvas.Camera.RemoveLayer(m_pathwayCanvas.Layer);
 
             // Preparing DataTable
             m_table = new DataTable(modelID);
@@ -707,8 +656,8 @@ namespace EcellLib.PathwayWindow
             //m_ctrlLayer.AddInputEventListener(new ResizeHandleDragHandler(this));
             m_ctrlLayer.AddInputEventListener(new NodeDragHandler(this, m_systems));
 
-            m_pathwayCanvas.Root.AddChild(m_ctrlLayer);
-            m_pathwayCanvas.Camera.AddLayer(m_ctrlLayer);
+            m_pCanvas.Root.AddChild(m_ctrlLayer);
+            m_pCanvas.Camera.AddLayer(m_ctrlLayer);
 
             // Preparing a context menu.
             m_nodeMenu = new ContextMenuStrip();
@@ -831,7 +780,7 @@ namespace EcellLib.PathwayWindow
             m_nodeMenu.Items.Add(debug);
             //m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
 #endif
-            m_pathwayCanvas.ContextMenuStrip = m_nodeMenu;
+            m_pCanvas.ContextMenuStrip = m_nodeMenu;
 
             // Preparing system handlers
             for (int m = 0; m < 8; m++)
@@ -847,56 +796,56 @@ namespace EcellLib.PathwayWindow
                 m_resizeHandles.Add(handle);
             }
 
-            m_resizeHandles[0].Tag = ResizeHandleDragHandler.MovingRestriction.NoRestriction;
+            m_resizeHandles[0].Tag = MovingRestriction.NoRestriction;
             m_resizeHandles[0].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNWSE);
             m_resizeHandles[0].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
             m_resizeHandles[0].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
             m_resizeHandles[0].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeNW);
             m_resizeHandles[0].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
 
-            m_resizeHandles[1].Tag = ResizeHandleDragHandler.MovingRestriction.Vertical;
+            m_resizeHandles[1].Tag = MovingRestriction.Vertical;
             m_resizeHandles[1].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNS);
             m_resizeHandles[1].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
             m_resizeHandles[1].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
             m_resizeHandles[1].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeN);
             m_resizeHandles[1].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
 
-            m_resizeHandles[2].Tag = ResizeHandleDragHandler.MovingRestriction.NoRestriction;
+            m_resizeHandles[2].Tag = MovingRestriction.NoRestriction;
             m_resizeHandles[2].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNESW);
             m_resizeHandles[2].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
             m_resizeHandles[2].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
             m_resizeHandles[2].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeNE);
             m_resizeHandles[2].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
 
-            m_resizeHandles[3].Tag = ResizeHandleDragHandler.MovingRestriction.Horizontal;
+            m_resizeHandles[3].Tag = MovingRestriction.Horizontal;
             m_resizeHandles[3].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeWE);
             m_resizeHandles[3].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
             m_resizeHandles[3].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
             m_resizeHandles[3].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeE);
             m_resizeHandles[3].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
 
-            m_resizeHandles[4].Tag = ResizeHandleDragHandler.MovingRestriction.NoRestriction;
+            m_resizeHandles[4].Tag = MovingRestriction.NoRestriction;
             m_resizeHandles[4].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNWSE);
             m_resizeHandles[4].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
             m_resizeHandles[4].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
             m_resizeHandles[4].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeSE);
             m_resizeHandles[4].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
 
-            m_resizeHandles[5].Tag = ResizeHandleDragHandler.MovingRestriction.Vertical;
+            m_resizeHandles[5].Tag = MovingRestriction.Vertical;
             m_resizeHandles[5].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNS);
             m_resizeHandles[5].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
             m_resizeHandles[5].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
             m_resizeHandles[5].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeS);
             m_resizeHandles[5].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
 
-            m_resizeHandles[6].Tag = ResizeHandleDragHandler.MovingRestriction.NoRestriction;
+            m_resizeHandles[6].Tag = MovingRestriction.NoRestriction;
             m_resizeHandles[6].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNESW);
             m_resizeHandles[6].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
             m_resizeHandles[6].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
             m_resizeHandles[6].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeSW);
             m_resizeHandles[6].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
 
-            m_resizeHandles[7].Tag = ResizeHandleDragHandler.MovingRestriction.Horizontal;
+            m_resizeHandles[7].Tag = MovingRestriction.Horizontal;
             m_resizeHandles[7].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeWE);
             m_resizeHandles[7].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
             m_resizeHandles[7].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
@@ -912,7 +861,7 @@ namespace EcellLib.PathwayWindow
                 0,
                 2 * LINE_HANDLE_RADIUS,
                 2 * LINE_HANDLE_RADIUS);
-            m_lineHandle4V.Tag = ElementType.Variable;
+            m_lineHandle4V.Tag = ComponentType.Variable;
             m_lineHandle4V.MouseDown += new PInputEventHandler(m_lineHandle_MouseDown);
             m_lineHandle4V.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
             m_lineHandle4V.MouseUp += new PInputEventHandler(m_lineHandle_MouseUp);
@@ -925,7 +874,7 @@ namespace EcellLib.PathwayWindow
                 0,
                 2 * LINE_HANDLE_RADIUS,
                 2 * LINE_HANDLE_RADIUS);
-            m_lineHandle4P.Tag = ElementType.Process;
+            m_lineHandle4P.Tag = ComponentType.Process;
             m_lineHandle4P.MouseDown += new PInputEventHandler(m_lineHandle_MouseDown);
             m_lineHandle4P.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
             m_lineHandle4P.MouseUp += new PInputEventHandler(m_lineHandle_MouseUp);
@@ -950,12 +899,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void m_lineHandle_MouseDown(object sender, PInputEventArgs e)
         {
-            m_reconnectNodeType = (ElementType)e.PickedNode.Tag;
-            if (m_reconnectNodeType == ElementType.Process && null != m_ctrlLayer)
+            m_cType = (ComponentType)e.PickedNode.Tag;
+            if (m_cType == ComponentType.Process && null != m_ctrlLayer)
             {
                 m_ctrlLayer.RemoveChild(m_lineHandle4P);
             }
-            else if (m_reconnectNodeType == ElementType.Variable && null != m_ctrlLayer)
+            else if (m_cType == ComponentType.Variable && null != m_ctrlLayer)
             {
                 m_ctrlLayer.RemoveChild(m_lineHandle4V);
             }
@@ -994,7 +943,7 @@ namespace EcellLib.PathwayWindow
             if (m_nodesUnderMouse.Count != 0 && null != m_selectedLine)
             {
                 EcellObject eo = m_nodesUnderMouse.Pop();
-                if (eo is EcellProcess && m_reconnectNodeType == ElementType.Process)
+                if (eo is EcellProcess && m_cType == ComponentType.Process)
                 {
                     m_view.NotifyVariableReferenceChanged(m_pOnLinesEnd, m_vOnLinesEnd, RefChangeType.Delete, 0);
                     if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
@@ -1024,7 +973,7 @@ namespace EcellLib.PathwayWindow
                     }
                     ResetSelectedLine();
                 }
-                else if (eo is EcellVariable && m_reconnectNodeType == ElementType.Variable)
+                else if (eo is EcellVariable && m_cType == ComponentType.Variable)
                 {
                     m_view.NotifyVariableReferenceChanged(m_pOnLinesEnd, m_vOnLinesEnd, RefChangeType.Delete, 0);
                     if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
@@ -1603,8 +1552,7 @@ namespace EcellLib.PathwayWindow
             PointF lP = new PointF(system.X + offsetToL.X, system.Y + offsetToL.Y);
             m_upperLeftPoint = lP;
             m_upperRightPoint = new PointF(m_upperLeftPoint.X + system.Width, m_upperLeftPoint.Y);
-            m_lowerRightPoint = new PointF(m_upperLeftPoint.X + system.Width,
-                                            m_upperLeftPoint.Y + system.Height);
+            m_lowerRightPoint = new PointF(m_upperLeftPoint.X + system.Width, m_upperLeftPoint.Y + system.Height);
             m_lowerLeftPoint = new PointF(m_upperLeftPoint.X, m_upperLeftPoint.Y + system.Height);
 
             m_systemChildrenBeforeDrag = new PNodeList();
@@ -2260,8 +2208,8 @@ namespace EcellLib.PathwayWindow
         {
             if (String.IsNullOrEmpty(systemName))
                 return;
-            string newKey;
             ResetSelectedObjects();
+            string newKey;
             if (systemName.Equals("/"))
                 newKey = systemName + PathUtil.RemovePath(oldKey);
             else
@@ -2369,185 +2317,58 @@ namespace EcellLib.PathwayWindow
             if (obj is PPathwayNode)
                 ((PPathwayNode)obj).ShowingID = this.m_showingId;
             RegisterObjToSet(obj);
-
+            // Set Root System
             if (systemName == null || systemName.Equals("") )
             {
                 obj.Layer = Layers[layer];
                 Layers[layer].AddChild(obj);
+                return;
             }
-            else
+
+            // Set Child object.
+            PPathwaySystem system = m_systems[systemName];
+            // If obj hasn't coordinate, it will be settled. 
+            if (!hasCoords)
             {
-                PPathwaySystem system = m_systems[systemName];
-
-                // If obj hasn't coordinate, it will be settled. 
-                if (!hasCoords)
+                if (obj is PPathwayNode)
+                    obj.PointF = GetVacantPoint(systemName);
+                else if(obj is PPathwaySystem)
                 {
-                    if (obj is PPathwayNode)
-                    {
-                        // Get a vacant point where an incoming node should be placed.
-                        PointF vacantPoint = GetVacantPoint(systemName);
-                        obj.X = vacantPoint.X - obj.Width;
-                        obj.Y = vacantPoint.Y - obj.Height;
-                    }
-                    else if(obj is PPathwaySystem)
-                    {
-                        float maxX = 0f;
-                        float maxY = 0f;
-                        float x = 0f;
-                        float y = 0f;
+                    float maxX = 0f;
+                    float maxY = 0f;
+                    float x = 0f;
+                    float y = 0f;
 
-                        foreach (PPathwayObject ppo in system.ChildObjectList)
+                    foreach (PNode ppo in system.ChildrenReference)
+                    {
+                        if (ppo is PPathwayObject)
                         {
-                            if (ppo is PPathwayObject)
-                            {
-                                x = ppo.X + ppo.OffsetX + ppo.Width;
-                                y = ppo.Y + ppo.OffsetY + ppo.Height;
-
-                            }
-                            if (maxX < x)
-                                maxX = x;
-                            if (maxY < y)
-                                maxY = y;
+                            x = ppo.X + ppo.OffsetX + ppo.Width;
+                            y = ppo.Y + ppo.OffsetY + ppo.Height;
                         }
-                        // Set obj's coordinate
-                        obj.X = system.X + system.Offset.X + maxX + PPathwaySystem.SYSTEM_MARGIN;
-                        obj.Y = system.Y + system.Offset.Y + PPathwaySystem.SYSTEM_MARGIN;
-                        obj.Width = PPathwaySystem.DEFAULT_WIDTH;
-                        obj.Height = PPathwaySystem.DEFAULT_HEIGHT;
-
-                        system.MakeSpace(obj);
+                        if (maxX < x)
+                            maxX = x;
+                        if (maxY < y)
+                            maxY = y;
                     }
-                }
+                    // Set obj's coordinate
+                    obj.X = system.X + system.Offset.X + maxX + PPathwaySystem.SYSTEM_MARGIN;
+                    obj.Y = system.Y + system.Offset.Y + PPathwaySystem.SYSTEM_MARGIN;
+                    obj.Width = PPathwaySystem.DEFAULT_WIDTH;
+                    obj.Height = PPathwaySystem.DEFAULT_HEIGHT;
 
-                // Set obj to appropriate layer.
-                if (system.Layer == Layers[layer])
-                {
-                    obj.Layer = Layers[layer];
-                    obj.RefreshText();
-
-                    system.AddChild(obj);
-                    obj.ParentObject = system;
+                    system.MakeSpace(obj);
                 }
-                if (obj is PPathwayProcess)
-                    ((PPathwayProcess)obj).CreateEdges();
             }
+            // Set to parent object.
+            system.AddChild(obj);
+            obj.ParentObject = system;
+            obj.RefreshText();
+
+            if (obj is PPathwayProcess)
+                ((PPathwayProcess)obj).CreateEdges();
             //this.m_view.NotifyDataChanged(obj.EcellObject.key, obj.EcellObject.key, obj, true);
 
-        }
-
-        /// <summary>
-        /// add child object to the selected layer.
-        /// </summary>
-        /// <param name="layer">selected layer.</param>
-        /// <param name="obj">add object.</param>
-        public void AddChildToSelectedLayer(string layer, PPathwayObject obj)
-        {
-            RegisterObjToSet(obj);
-            obj.Layer = Layers[layer];
-            Layers[layer].AddChild(obj);
-        }
-
-        /// <summary>
-        /// add the child object to the selected layer.
-        /// </summary>
-        /// <param name="layer">the selected layer.</param>
-        /// <param name="systemName">system name of the added object.</param>
-        /// <param name="obj">the added object.</param>
-        /// <value
-        public void AddChildToSelectedLayer(string layer, string systemName, PPathwayObject obj)
-        {
-            RegisterObjToSet(obj);
-            if (systemName == null)
-            {
-                obj.Layer = Layers[layer];
-                Layers[layer].AddChild(obj);
-            }
-            else
-            {
-                foreach (PPathwaySystem system in m_systems.Values)
-                {
-                    if (system.Layer == Layers[layer])
-                    {
-                        obj.Layer = Layers[layer];
-                        system.AddChild(obj);
-                        if (obj is PPathwayNode)
-                            obj.ParentObject = system;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// add the child object to the selected system.
-        /// </summary>
-        /// <param name="systemName">the name of selected system.</param>
-        /// <param name="obj">the added object.</param>
-        /// <param name="isCoordSet">position offset.</param>
-        public void AddChildToSelectedSystem(string systemName, PPathwayObject obj, bool isCoordSet)
-        {
-            RegisterObjToSet(obj);
-            if (obj.Layer == null)
-            {
-                PPathwaySystem system = m_systems[systemName];
-                obj.Layer = system.Layer;
-                if (!isCoordSet)
-                {
-                    obj.X = system.X + ((system.Width > 80) ? 80 : system.Width / 2) - obj.Width;
-                    obj.Y = system.Y + ((system.Height > 80) ? 80 : system.Height / 2) - obj.Height;
-                    if (obj is PPathwayNode)
-                    {
-                        obj.EcellObject.X = obj.X;
-                        obj.EcellObject.Y = obj.Y;
-                        ((PPathwayNode)obj).RefreshText();
-                    }
-                }
-
-                system.AddChild(obj);
-                if (obj is PPathwayNode)
-                    ((PPathwayNode)obj).ParentObject = system;
-            }
-            else
-            {
-                foreach (PPathwaySystem system in m_systems.Values)
-                {
-                    if (system.Layer == obj.Layer)
-                    {
-                        if (!isCoordSet)
-                        {
-                            obj.X = system.X + ((system.Width > 80) ? 80 : system.Width / 2) - obj.Width;
-                            obj.Y = system.Y + ((system.Height > 80) ? 80 : system.Height / 2) - obj.Height;
-                            obj.EcellObject.X = obj.X;
-                            obj.EcellObject.Y = obj.Y;
-                            if (obj is PPathwayNode)
-                                ((PPathwayNode)obj).RefreshText();
-
-                        }
-                        PointF offsetToL = system.Offset;
-                        obj.OffsetBy(-1 * offsetToL.X, -1 * offsetToL.Y);
-                        system.AddChild(obj);
-                        obj.ParentObject = system;
-                    }
-                }
-            }
-            if (obj is PPathwayNode)
-                ((PPathwayNode)obj).ShowingID = this.m_showingId;
-        }
-
-        /// <summary>
-        /// Add PPathwayObject to top visible layer.
-        /// </summary>
-        /// <param name="obj"></param>
-        public void AddChildToTopVisibleLayer(PPathwayObject obj)
-        {
-            RegisterObjToSet(obj);
-            foreach (DataRow row in m_table.Rows)
-            {
-                if ((bool)row[COLUMN_NAME4SHOW] == true)
-                {
-                    Layers[(string)row[COLUMN_NAME4NAME]].AddChild(obj);
-                    break;
-                }
-            }
         }
 
         /// <summary>
@@ -2585,15 +2406,13 @@ namespace EcellLib.PathwayWindow
             layer.AddInputEventListener(new NodeDragHandler(this, m_systems));
             layer.Visible = true;
 
-            m_pathwayCanvas.Root.AddChild(0, layer);
-            m_pathwayCanvas.Camera.AddLayer(0, layer);
+            m_pCanvas.Root.AddChild(0, layer);
+            m_pCanvas.Camera.AddLayer(0, layer);
 
             DataRow dr = m_table.NewRow();
             dr[COLUMN_NAME4SHOW] = true;
             dr[COLUMN_NAME4NAME] = name;
             m_table.Rows.Add(dr);
-
-            OverView.AddObservedLayer(layer);
 
             Layers.Add(name, layer);
             ControlLayer.MoveToFront();
@@ -2675,7 +2494,6 @@ namespace EcellLib.PathwayWindow
             EcellObject obj = GetSurroundingSystem(point, excludedSystem);
             if (obj == null)
                 return null;
-
             return obj.key;
         }
 
@@ -2900,9 +2718,9 @@ namespace EcellLib.PathwayWindow
         public void PanCanvas(Direction direction, int delta)
         {
             if (direction == Direction.Vertical)
-                m_pathwayCanvas.Camera.TranslateViewBy(0, delta);
+                m_pCanvas.Camera.TranslateViewBy(0, delta);
             else
-                m_pathwayCanvas.Camera.TranslateViewBy(delta, 0);
+                m_pCanvas.Camera.TranslateViewBy(delta, 0);
             this.UpdateOverview();
         }
 
@@ -2912,7 +2730,7 @@ namespace EcellLib.PathwayWindow
         /// <returns></returns>
         public Bitmap ToImage()
         {
-            return new Bitmap(m_pathwayCanvas.Layer[0].ToImage());
+            return new Bitmap(m_pCanvas.Layer[0].ToImage());
         }
 
         /// <summary>
@@ -2993,9 +2811,6 @@ namespace EcellLib.PathwayWindow
                     PPathwaySystem system = m_systems[key];
                     system.RemoveAllChildren();
                     system.Parent.RemoveChild(system);
-                    //int ind = m_ctrlLayer.IndexOfChild(system);
-                    //m_ctrlLayer.RemoveChild(ind);
-
                     if (m_selectedSystemName != null && key.Equals(m_selectedSystemName))
                     {
                         HideResizeHandles();
@@ -3043,7 +2858,7 @@ namespace EcellLib.PathwayWindow
                     PPathwaySystem focusSystem = m_systems[key];
                     if (null != focusSystem)
                     {
-                        m_pathwayCanvas.Camera.AnimateViewToCenterBounds(focusSystem.FullBounds,
+                        m_pCanvas.Camera.AnimateViewToCenterBounds(focusSystem.FullBounds,
                                                                              true,
                                                                              CAMERA_ANIM_DURATION);
 
@@ -3067,7 +2882,7 @@ namespace EcellLib.PathwayWindow
                         {
                             PPathwayNode focusNode = (PPathwayNode)m_variables[key];
                             this.AddSelectedNode(focusNode, false);
-                            m_pathwayCanvas.Camera.AnimateViewToCenterBounds(PathUtil.GetFocusBound(focusNode.FullBounds, LEAST_FOCUS_SIZE),
+                            m_pCanvas.Camera.AnimateViewToCenterBounds(PathUtil.GetFocusBound(focusNode.FullBounds, LEAST_FOCUS_SIZE),
                                                                              true,
                                                                              CAMERA_ANIM_DURATION);
                             UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
@@ -3089,7 +2904,7 @@ namespace EcellLib.PathwayWindow
                         this.ResetSelectedObjects();
                         PPathwayNode focusNode = (PPathwayNode)m_processes[key];
                         this.AddSelectedNode(focusNode, false);
-                        m_pathwayCanvas.Camera.AnimateViewToCenterBounds(PathUtil.GetFocusBound(focusNode.FullBounds, LEAST_FOCUS_SIZE),
+                        m_pCanvas.Camera.AnimateViewToCenterBounds(PathUtil.GetFocusBound(focusNode.FullBounds, LEAST_FOCUS_SIZE),
                                                                          true,
                                                                          CAMERA_ANIM_DURATION);
                         UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
@@ -3142,14 +2957,14 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void UpdateOverview()
         {
-            RectangleF localF = m_pathwayCanvas.Camera.Bounds;
-            RectangleF recf = m_pathwayCanvas.Camera.ViewBounds;
-            PMatrix matrix = m_pathwayCanvas.Camera.ViewMatrix;
-            DisplayedArea.Reset();
-            DisplayedArea.Offset = ZERO_POINT;
-            DisplayedArea.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
-            OverView.UpdateTransparent();
-            OverView.Canvas.Refresh();
+            RectangleF localF = m_pCanvas.Camera.Bounds;
+            RectangleF recf = m_pCanvas.Camera.ViewBounds;
+            PMatrix matrix = m_pCanvas.Camera.ViewMatrix;
+            m_view.OverView.DisplayedArea.Reset();
+            m_view.OverView.DisplayedArea.Offset = PointF.Empty;
+            m_view.OverView.DisplayedArea.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
+            m_view.OverView.UpdateTransparent();
+            m_view.OverView.Canvas.Refresh();
         }
 
         /// <summary>
@@ -3161,14 +2976,14 @@ namespace EcellLib.PathwayWindow
             float currentScale = this.PathwayCanvas.Camera.ViewScale;
             float newScale = currentScale * rate;
 
-            if (newScale < PPathwayZoomEventHandler.MIN_SCALE)
+            if (newScale < MIN_SCALE)
             {
-                rate = PPathwayZoomEventHandler.MIN_SCALE / currentScale;
+                rate = MIN_SCALE / currentScale;
             }
 
-            if (PPathwayZoomEventHandler.MAX_SCALE < newScale)
+            if (MAX_SCALE < newScale)
             {
-                rate = PPathwayZoomEventHandler.MAX_SCALE / currentScale;
+                rate = MAX_SCALE / currentScale;
             }
 
             float zoomX = this.PathwayCanvas.Camera.X + this.PathwayCanvas.Camera.OffsetX + (this.PathwayCanvas.Camera.Width / 2);
@@ -3185,11 +3000,8 @@ namespace EcellLib.PathwayWindow
             if (m_pathwayTabPage != null)
                 m_pathwayTabPage.Dispose();
 
-            if (m_pathwayCanvas != null)
-                m_pathwayCanvas.Dispose();
-
-            if (OverView != null)
-                OverView.Dispose();
+            if (m_pCanvas != null)
+                m_pCanvas.Dispose();
         }
 
         /// <summary>
@@ -3212,10 +3024,8 @@ namespace EcellLib.PathwayWindow
         {
             if (SelectedNodes.Count == 0)
                 return;
-
             foreach (EcellObject obj in SelectedNodes)
                 GetSelectedObject(obj.key, obj.type).IsHighLighted = false;
-
             lock (this)
                 SelectedNodes.Clear();
         }
@@ -3315,7 +3125,7 @@ namespace EcellLib.PathwayWindow
                 m_ctrlLayer.Visible = true;
             else
                 m_ctrlLayer.Visible = false;
-            m_pathwayCanvas.Refresh();
+            m_pCanvas.Refresh();
         }
 
         /// <summary>
@@ -3342,7 +3152,7 @@ namespace EcellLib.PathwayWindow
             foreach (PPathwaySystem sys in this.Systems.Values)
                 if (sys.EcellObject.key.Equals(sysKey) && sys.Rect.Contains(point) && sys.Rect.Contains(center))
                     sysContains = true;
-                else if (sys.EcellObject.key.StartsWith(sysKey) && sys.Rect.Contains(point) && sys.Rect.Contains(center))
+                else if (sys.EcellObject.key.StartsWith(sysKey) && (sys.Rect.Contains(point) || sys.Rect.Contains(center) ) )
                     childContains = true;
             return sysContains && !childContains;
         }
@@ -3356,7 +3166,7 @@ namespace EcellLib.PathwayWindow
         {
             EcellObject sys = Systems[sysKey].EcellObject;
             Random hRandom = new Random();
-            PointF basePos = new PointF(sys.X + (float)hRandom.Next((int)sys.Width), sys.Y + (float)hRandom.Next((int)sys.Height));
+            PointF basePos = new PointF((float)hRandom.Next((int)sys.X, (int)sys.Width), (float)hRandom.Next((int)sys.Y, (int)sys.Height));
             return GetVacantPoint(sysKey, basePos);
         }
 
@@ -3385,37 +3195,4 @@ namespace EcellLib.PathwayWindow
             return newPos;
         }
     }
-    #region Enums
-    /// <summary>
-    /// Type of element.
-    /// In constructor of subclasses, one of this type will be set to m_elementType.
-    /// </summary>
-    public enum ElementType
-    {
-        /// <summary>
-        /// type of pathway canvas
-        /// </summary>
-        Canvas,
-        /// <summary>
-        /// type of layer
-        /// </summary>
-        Layer,
-        /// <summary>
-        /// type of system
-        /// </summary>
-        System,
-        /// <summary>
-        /// type of variable
-        /// </summary>
-        Variable,
-        /// <summary>
-        /// type of process
-        /// </summary>
-        Process,
-        /// <summary>
-        /// type of attribute
-        /// </summary>
-        Attribute
-    };
-    #endregion
 }
