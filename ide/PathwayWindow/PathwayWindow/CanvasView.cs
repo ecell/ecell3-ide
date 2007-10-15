@@ -252,7 +252,7 @@ namespace EcellLib.PathwayWindow
         /// The PathwayView, from which this class gets messages from the E-cell core and through which this class
         /// sends messages to the E-cell core.
         /// </summary>
-        protected PathwayControl m_view;
+        protected PathwayControl m_con;
 
         /// <summary>
         /// The unique ID of this canvas.
@@ -431,10 +431,10 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_pathwayView.
         /// </summary>
-        public PathwayControl PathwayView
+        public PathwayControl Control
         {
-            get { return m_view; }
-            set { m_view = value; }
+            get { return m_con; }
+            set { m_con = value; }
         }
 
         /// <summary>
@@ -615,7 +615,7 @@ namespace EcellLib.PathwayWindow
         public CanvasView(PathwayControl view,
             string modelID)
         {
-            m_view = view;
+            m_con = view;
             m_modelId = modelID;
 
             // Preparing TabPage
@@ -627,7 +627,7 @@ namespace EcellLib.PathwayWindow
             m_pCanvas = new PathwayCanvas(this);
             m_pCanvas.RemoveInputEventListener(m_pCanvas.PanEventHandler);
             m_pCanvas.RemoveInputEventListener(m_pCanvas.ZoomEventHandler);
-            m_pCanvas.AddInputEventListener(new DefaultMouseHandler(m_view));
+            m_pCanvas.AddInputEventListener(new DefaultMouseHandler(m_con));
             m_pCanvas.Dock = DockStyle.Fill;
             m_pCanvas.Name = modelID;
             m_pCanvas.Camera.ScaleViewBy(0.7f);
@@ -673,12 +673,12 @@ namespace EcellLib.PathwayWindow
             m_cMenuDict.Add(CANVAS_MENU_SEPARATOR1, separator1);
 
             int count = 0;
-            foreach (ILayoutAlgorithm algorithm in m_view.Window.LayoutAlgorithm)
+            foreach (ILayoutAlgorithm algorithm in m_con.Window.LayoutAlgorithm)
             {
                 ToolStripMenuItem algoItem = new ToolStripMenuItem(algorithm.GetMenuText());
                 algoItem.Tag = count;
                 algoItem.ToolTipText = algorithm.GetToolTipText();
-                algoItem.Click += new EventHandler(m_view.Window.eachLayoutItem_Click);
+                algoItem.Click += new EventHandler(m_con.Window.eachLayoutItem_Click);
 
                 List<string> subCommands = algorithm.GetSubCommands();
                 if (subCommands != null && subCommands.Count != 0)
@@ -689,7 +689,7 @@ namespace EcellLib.PathwayWindow
                         ToolStripMenuItem layoutSubItem = new ToolStripMenuItem();
                         layoutSubItem.Text = subCommandName;
                         layoutSubItem.Tag = count + "," + subcount;
-                        layoutSubItem.Click += new EventHandler(m_view.Window.eachLayoutItem_Click);
+                        layoutSubItem.Click += new EventHandler(m_con.Window.eachLayoutItem_Click);
                         algoItem.DropDownItems.Add(layoutSubItem);
                         subcount++;
                     }
@@ -734,23 +734,23 @@ namespace EcellLib.PathwayWindow
             m_cMenuDict.Add(CANVAS_MENU_SEPARATOR3, separator3);
 
             ToolStripItem cut = new ToolStripMenuItem(m_resources.GetString("CutMenuText"));
-            cut.Click += new EventHandler(this.m_view.CutClick);
+            cut.Click += new EventHandler(this.m_con.CutClick);
             m_nodeMenu.Items.Add(cut);
             m_cMenuDict.Add(CANVAS_MENU_CUT, cut);
 
             ToolStripItem copy = new ToolStripMenuItem(m_resources.GetString("CopyMenuText"));
-            copy.Click += new EventHandler(this.m_view.CopyClick);
+            copy.Click += new EventHandler(this.m_con.CopyClick);
             m_nodeMenu.Items.Add(copy);
             m_cMenuDict.Add(CANVAS_MENU_COPY, copy);
 
             ToolStripItem paste = new ToolStripMenuItem(m_resources.GetString("PasteMenuText"));
-            paste.Click += new EventHandler(this.m_view.PasteClick);
+            paste.Click += new EventHandler(this.m_con.PasteClick);
             m_nodeMenu.Items.Add(paste);
             m_cMenuDict.Add(CANVAS_MENU_PASTE, paste);
 
             ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString("DeleteMenuText"));
             delete.Text = m_resources.GetString("DeleteMenuText");
-            delete.Click += new EventHandler(this.m_view.DeleteClick);
+            delete.Click += new EventHandler(this.m_con.DeleteClick);
             m_nodeMenu.Items.Add(delete);
             m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
 
@@ -945,10 +945,10 @@ namespace EcellLib.PathwayWindow
                 EcellObject eo = m_nodesUnderMouse.Pop();
                 if (eo is EcellProcess && m_cType == ComponentType.Process)
                 {
-                    m_view.NotifyVariableReferenceChanged(m_pOnLinesEnd, m_vOnLinesEnd, RefChangeType.Delete, 0);
+                    m_con.NotifyVariableReferenceChanged(m_pOnLinesEnd, m_vOnLinesEnd, RefChangeType.Delete, 0);
                     if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
                     {
-                        m_view.NotifyVariableReferenceChanged(eo.key, m_vOnLinesEnd, RefChangeType.BiDir, 0);
+                        m_con.NotifyVariableReferenceChanged(eo.key, m_vOnLinesEnd, RefChangeType.BiDir, 0);
                     }
                     else
                     {
@@ -965,7 +965,7 @@ namespace EcellLib.PathwayWindow
                                 coefficient = 1;
                                 break;
                         }
-                        m_view.NotifyVariableReferenceChanged(
+                        m_con.NotifyVariableReferenceChanged(
                             eo.key,
                             m_vOnLinesEnd,
                             RefChangeType.SingleDir,
@@ -975,10 +975,10 @@ namespace EcellLib.PathwayWindow
                 }
                 else if (eo is EcellVariable && m_cType == ComponentType.Variable)
                 {
-                    m_view.NotifyVariableReferenceChanged(m_pOnLinesEnd, m_vOnLinesEnd, RefChangeType.Delete, 0);
+                    m_con.NotifyVariableReferenceChanged(m_pOnLinesEnd, m_vOnLinesEnd, RefChangeType.Delete, 0);
                     if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
                     {
-                        m_view.NotifyVariableReferenceChanged(m_pOnLinesEnd, eo.key, RefChangeType.BiDir, 0);
+                        m_con.NotifyVariableReferenceChanged(m_pOnLinesEnd, eo.key, RefChangeType.BiDir, 0);
                     }
                     else
                     {
@@ -995,7 +995,7 @@ namespace EcellLib.PathwayWindow
                                 coefficient = 1;
                                 break;
                         }
-                        m_view.NotifyVariableReferenceChanged(
+                        m_con.NotifyVariableReferenceChanged(
                             m_pOnLinesEnd,
                             eo.key,
                             RefChangeType.SingleDir,
@@ -1059,7 +1059,7 @@ namespace EcellLib.PathwayWindow
                     coefficient = 0;
                 }
 
-                m_view.NotifyVariableReferenceChanged(
+                m_con.NotifyVariableReferenceChanged(
                     edgeInfo.ProcessKey,
                     edgeInfo.VariableKey,
                     changeType,
@@ -1104,7 +1104,7 @@ namespace EcellLib.PathwayWindow
 
                 try
                 {
-                    m_view.NotifyDataMerge(deleteSystem.EcellObject.key, ComponentType.System);
+                    m_con.NotifyDataMerge(deleteSystem.EcellObject.key, ComponentType.System);
                 }
                 catch (IgnoreException)
                 {
@@ -1146,7 +1146,7 @@ namespace EcellLib.PathwayWindow
                     }
                 }
                 // modify changes
-                m_view.NotifyDataChanged(ecellobj.key,ecellobj.key,ecellobj,true);
+                m_con.NotifyDataChanged(ecellobj.key,ecellobj.key,ecellobj,true);
             }
 
         }
@@ -1171,7 +1171,7 @@ namespace EcellLib.PathwayWindow
                     if (logger.Equals(d.M_name))
                         d.M_isLogger = false;
                 // modify changes
-                m_view.NotifyDataChanged(ecellobj.key, ecellobj.key, ecellobj, true);
+                m_con.NotifyDataChanged(ecellobj.key, ecellobj.key, ecellobj, true);
             }
         }
 
@@ -1526,7 +1526,7 @@ namespace EcellLib.PathwayWindow
                 // Fire DataChanged for child in system.!
                 m_systemChildrenBeforeDrag = null;
             }
-            m_view.NotifyDataChanged(
+            m_con.NotifyDataChanged(
                 system.EcellObject.key,
                 system.EcellObject.key,
                 system.EcellObject,
@@ -2046,8 +2046,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void NotifySelectChanged(string key, string type)
         {
-            if (m_view != null)
-                m_view.NotifySelectChanged(key, type);
+            if (m_con != null)
+                m_con.NotifySelectChanged(key, type);
         }
 
         /// <summary>
@@ -2118,7 +2118,7 @@ namespace EcellLib.PathwayWindow
             }
             if (toBeNotified)
             {
-                m_view.NotifyDataChanged(
+                m_con.NotifyDataChanged(
                     oldKey,
                     eo.key,
                     eo,
@@ -2173,7 +2173,7 @@ namespace EcellLib.PathwayWindow
                 m_variables.Add(var.EcellObject.key, var);
                 var.Refresh();
                 if (!oldKey.Equals(newKey))
-                    m_view.NotifyDataChanged(
+                    m_con.NotifyDataChanged(
                         oldKey,
                         newKey,
                         obj.EcellObject,
@@ -2189,7 +2189,7 @@ namespace EcellLib.PathwayWindow
                 m_processes.Add(pro.EcellObject.key, pro);
                 pro.Refresh();
                 if (!oldKey.Equals(newKey))
-                    m_view.NotifyDataChanged(
+                    m_con.NotifyDataChanged(
                         oldKey,
                         newKey,
                         obj.EcellObject,
@@ -2222,7 +2222,7 @@ namespace EcellLib.PathwayWindow
 
             if (isExternal)
             {
-                m_view.NotifyDataChanged(
+                m_con.NotifyDataChanged(
                     oldKey,
                     newKey,
                     system.EcellObject,
@@ -2414,6 +2414,7 @@ namespace EcellLib.PathwayWindow
             dr[COLUMN_NAME4NAME] = name;
             m_table.Rows.Add(dr);
 
+            m_con.OverView.AddLayer(layer);
             Layers.Add(name, layer);
             ControlLayer.MoveToFront();
 
@@ -2442,7 +2443,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>"TemporaryID"</returns> 
         public string GetTemporaryID(string type, string systemID)
         {
-            return this.PathwayView.Window.GetTemporaryID(type, systemID);
+            return this.Control.Window.GetTemporaryID(type, systemID);
         }
         /// <summary>
         /// Return a system which surrounds a given point.
@@ -2508,7 +2509,7 @@ namespace EcellLib.PathwayWindow
             SelectedNodes.Add(eo);
             obj.IsHighLighted = true;
             if (toBeNotified)
-                m_view.NotifySelectChanged(obj.EcellObject.key, obj.EcellObject.type);
+                m_con.NotifySelectChanged(obj.EcellObject.key, obj.EcellObject.type);
         }
 
         /// <summary>
@@ -2523,7 +2524,7 @@ namespace EcellLib.PathwayWindow
             ShowResizeHandles();
             UpdateResizeHandlePositions();
             string type = m_systems[systemName].EcellObject.type;
-            m_view.NotifySelectChanged(systemName, type);
+            m_con.NotifySelectChanged(systemName, type);
         }
 
         /// <summary>
@@ -2957,14 +2958,12 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void UpdateOverview()
         {
-            RectangleF localF = m_pCanvas.Camera.Bounds;
             RectangleF recf = m_pCanvas.Camera.ViewBounds;
-            PMatrix matrix = m_pCanvas.Camera.ViewMatrix;
-            m_view.OverView.DisplayedArea.Reset();
-            m_view.OverView.DisplayedArea.Offset = PointF.Empty;
-            m_view.OverView.DisplayedArea.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
-            m_view.OverView.UpdateTransparent();
-            m_view.OverView.Canvas.Refresh();
+            m_con.OverView.DisplayedArea.Reset();
+            m_con.OverView.DisplayedArea.Offset = PointF.Empty;
+            m_con.OverView.DisplayedArea.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
+            m_con.OverView.UpdateTransparent();
+            m_con.OverView.Canvas.Refresh();
         }
 
         /// <summary>

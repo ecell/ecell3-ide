@@ -62,11 +62,6 @@ namespace EcellLib.PathwayWindow
     {
         #region Static readonly fields
         /// <summary>
-        /// Width of "Show" column of layer DataGridView.
-        /// </summary>
-        private readonly int LAYER_SHOWCOLUMN_WIDTH = 50;
-
-        /// <summary>
         /// When E-Cell IDE classes(MainWindow, plugins) comminucates, Information of type of each E-Cell
         /// object is passed as string. Each E-cell objects are expressed as the following string.
         /// </summary>
@@ -136,20 +131,17 @@ namespace EcellLib.PathwayWindow
         ComponentSettingsManager m_csManager;
 
         /// <summary>
-        /// the canvas of overview.
+        /// OverView interface.
         /// </summary>
-        OverView m_overview = new OverView();
-
+        PathwayView m_pathwayView;
         /// <summary>
-        /// SplitContainer splits main pathway area and other area (overview, layer control)
+        /// OverView interface.
         /// </summary>
-        SplitContainer m_splitCon;
-
+        OverView m_overView;
         /// <summary>
-        /// Tshi tabcontrol contains tab pages which represent different type of networks, such as 
-        /// metabolic networks, genetic networks.
+        /// LayerView interface.
         /// </summary>
-        TabControl m_tabControl;
+        LayerView m_layerView;
 
         /// <summary>
         /// List of PPathwayNode for copied object.
@@ -167,21 +159,6 @@ namespace EcellLib.PathwayWindow
         PointF m_copyPos;
 
         /// <summary>
-        /// DataGridView for layer control panel.
-        /// </summary>
-        DataGridView m_dgv;
-
-        /// <summary>
-        /// DataSet for layers.
-        /// </summary>
-        DataSet m_layerDs;
-
-        /// <summary>
-        /// DataTable for showing layer information table on a layer control panel (DataGridView)
-        /// </summary>
-        DataTable m_layerDataTable;
-
-        /// <summary>
         /// Whether each node is showing it's ID or not;
         /// </summary>
         bool m_showingId = true;
@@ -190,13 +167,6 @@ namespace EcellLib.PathwayWindow
         /// Indicate which pathway-related toolbar button is selected.
         /// </summary>
         private Handle m_selectedHandle;
-
-        /// <summary>
-        /// Every time when m_dgv.CurrentCellDirtyStateChanged event occurs, 
-        /// m_dgv_CurrentCellDirtyStateChanged delegate will be called twice.
-        /// This flag is used for neglecting one of two delagate calling.
-        /// </summary>
-        private bool m_dirtyEventProcessed = false;
 
         /// <summary>
         /// Whether PathwayView is freezed or not.
@@ -235,9 +205,23 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_overviewCanvas.
         /// </summary>
+        public PathwayView PathwayView
+        {
+            get { return m_pathwayView; }
+        }
+        /// <summary>
+        /// Accessor for m_overView.
+        /// </summary>
         public OverView OverView
         {
-            get { return m_overview; }
+            get { return m_overView; }
+        }
+        /// <summary>
+        /// Accessor for m_layerView.
+        /// </summary>
+        public LayerView LayerView
+        {
+            get { return m_layerView; }
         }
         /// <summary>
         /// get/set the number of checked component.
@@ -263,14 +247,6 @@ namespace EcellLib.PathwayWindow
         {
             get { return this.m_csManager; }
             set { this.m_csManager = value; }
-        }
-
-        /// <summary>
-        /// get the control for split.
-        /// </summary>
-        public Control Control
-        {
-            get { return m_splitCon; }
         }
 
         /// <summary>
@@ -300,14 +276,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        ///  get TabControl related this object.
-        /// </summary>
-        public TabControl TabControl
-        {
-            get { return this.m_tabControl; }
-        }
-
-        /// <summary>
         /// get/set the number of checked component.
         /// </summary>
         public PointF MousePosition
@@ -333,75 +301,10 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public PathwayControl()
         {
-            // Preparing a pathway panel
-            m_tabControl = new TabControl();
-            m_tabControl.Dock = DockStyle.Fill;
-            m_tabControl.SelectedIndexChanged += new EventHandler(m_tabControl_SelectedIndexChanged);
-            m_tabControl.MouseEnter += new EventHandler(m_tabControl_OnMouseEnter);
-            m_tabControl.MouseWheel += new MouseEventHandler(m_tabControl_OnMouseWheel);
-
-            // Preparing a SplitController (planning to remove)
-            m_splitCon = new SplitContainer();
-            m_splitCon.Dock = DockStyle.Fill;
-            m_splitCon.Orientation = Orientation.Horizontal;
-            m_splitCon.BorderStyle = BorderStyle.Fixed3D;
-            m_splitCon.SplitterDistance = 300;
-            m_splitCon.SplitterMoved += new SplitterEventHandler(m_splitCon_SplitterMoved);
-            m_splitCon.Panel1.Controls.Add(m_tabControl);
-
-            SplitContainer lowerSplitCon = new SplitContainer();
-            lowerSplitCon.Dock = DockStyle.Fill;
-            lowerSplitCon.Orientation = Orientation.Vertical;
-            lowerSplitCon.BorderStyle = BorderStyle.Fixed3D;
-            lowerSplitCon.FixedPanel = FixedPanel.Panel1;
-            lowerSplitCon.SplitterDistance = 200;
-            lowerSplitCon.SplitterMoved += new SplitterEventHandler(m_splitCon_SplitterMoved);
-            m_splitCon.Panel2.Controls.Add(lowerSplitCon);
-
-            // Preparing a layer control panel (planning to move to LayerView(not created yet))
-            m_dgv = new DataGridView();
-            m_layerDataTable = new DataTable();
-            DataColumn showDc = new DataColumn("Show");
-            showDc.DataType = typeof(bool);
-            m_layerDataTable.Columns.Add(showDc);
-            DataColumn nameDc = new DataColumn("Name");
-            nameDc.DataType = typeof(string);
-            m_layerDataTable.Columns.Add(nameDc);
-            m_layerDs = new DataSet();
-            m_layerDs.Tables.Add(m_layerDataTable);
-            m_dgv.Dock = DockStyle.Fill;
-            m_dgv.DataSource = m_layerDs;
-            m_dgv.AllowUserToAddRows = false;
-            m_dgv.AllowUserToDeleteRows = false;
-            m_dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            m_dgv.MultiSelect = false;
-            m_dgv.RowHeadersVisible = false;
-            m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            m_dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            m_dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            m_dgv.AllowUserToResizeRows = false;
-            m_dgv.CurrentCellDirtyStateChanged += new EventHandler(m_dgv_CurrentCellDirtyStateChanged);
-            m_dgv.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(dgv_DataBindingComplete);            
-            m_dgv.VisibleChanged += new EventHandler(m_dgv_VisibleChanged);
-
-            GroupBox layerGB = new GroupBox();
-            layerGB.Dock = DockStyle.Fill;
-            layerGB.Text = "Layer";
-            layerGB.Controls.Add(m_dgv);
-
-            lowerSplitCon.Panel2.Controls.Add(layerGB);
-        }
-
-        void m_dgv_VisibleChanged(object sender, EventArgs e)
-        {
-            if (((DataGridView)sender).Columns.Contains("Show") && ((DataGridView)sender).Visible)
-            {
-                ((DataGridView)sender).Columns["Show"].Width = LAYER_SHOWCOLUMN_WIDTH;
-                ((DataGridView)sender).Columns["Show"].Resizable = DataGridViewTriState.False;
-                ((DataGridView)sender).Columns["Show"].Frozen = true;
-                ((DataGridView)sender).Columns["Name"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                ((DataGridView)sender).Columns["Name"].ReadOnly = true;
-            }
+            // Preparing Interfaces
+            m_pathwayView = new PathwayView(this);
+            m_overView = new OverView();
+            m_layerView = new LayerView(this);
         }
 
         #endregion
@@ -415,41 +318,19 @@ namespace EcellLib.PathwayWindow
             // Clear current canvas (TODO: Remove when support multiple canvas).
             m_canvasDict = new Dictionary<string, CanvasView>();
 
+            // Create canvas
             CanvasView canvas = new CanvasView(this, modelID);
             m_activeCanvasID = modelID;
             m_canvasDict.Add(modelID, canvas);
             canvas.AddLayer(this.m_defLayerId);
-            m_overview.SetCanvas(canvas);
 
-            m_tabControl.Controls.Add(canvas.TabPage);
-            m_layerDs.Tables.Clear();
-            m_layerDs.Tables.Add(canvas.LayerTable);
+            // Set Interfaces
+            m_overView.SetCanvas(canvas);
+            m_pathwayView.Clear();
+            m_pathwayView.TabControl.Controls.Add(canvas.TabPage);
+            //m_layerView.DataGridView.DataSource = new DataSet();
             canvas.UpdateOverview();
 
-        }
-        /// <summary>
-        /// event sequence of changing the check of layer showing.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void m_dgv_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-        {            
-            if (!m_dirtyEventProcessed)
-            {
-                string modelID = ((DataGridView)sender).DataMember;
-                bool show = !(bool)((DataGridView)sender).CurrentRow.Cells["Show"].Value;
-                string layerName = (string)((DataGridView)sender).CurrentRow.Cells["Name"].Value;             
-                m_canvasDict[modelID].Layers[layerName].Visible = show;
-                m_canvasDict[modelID].PathwayCanvas.Refresh();
-                m_canvasDict[modelID].RefreshVisibility();
-                m_overview.Canvas.Refresh();
-                m_dirtyEventProcessed = true;
-            }
-            else
-            {
-                m_dirtyEventProcessed = false;
-            }
-            ((DataGridView)sender).CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
 
         /// <summary>
@@ -579,82 +460,16 @@ namespace EcellLib.PathwayWindow
 
             if (SelectedHandle.Mode == Mode.Pan)
             {
-                m_splitCon.Cursor = new Cursor(new MemoryStream(Resource1.move));
+                m_pathwayView.Cursor = new Cursor(new MemoryStream(Resource1.move));
                 Freeze();
             }
             else
             {
-                m_splitCon.Cursor = Cursors.Arrow;
+                m_pathwayView.Cursor = Cursors.Arrow;
                 Unfreeze();
             }
         }
 
-        /// <summary>
-        /// When change the focused tab control,
-        /// system show the selected model in overview.
-        /// </summary>
-        /// <param name="sender">TabControl.</param>
-        /// <param name="e">EventArgs.</param>
-        void m_tabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (((TabControl)sender).TabCount != 0)
-            {
-                string modelID = ((TabControl)sender).TabPages[((TabControl)sender).SelectedIndex].Name;
-
-                m_dgv.DataMember = modelID;
-                m_overview.SetCanvas(m_canvasDict[modelID]);
-
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">TabControl.</param>
-        /// <param name="e">MouseEventArgs.</param>
-        void m_tabControl_OnMouseWheel(object sender, MouseEventArgs e)
-        {
-
-            if (Control.ModifierKeys == Keys.Shift)
-            {
-                this.PanCanvas(Direction.Horizontal, e.Delta);
-            }
-            else if (Control.ModifierKeys == Keys.Control || e.Button == MouseButtons.Right)
-            {
-                float zoom = (float)1.00 + (float)e.Delta / 1200;
-                this.ActiveCanvas.Zoom(zoom);
-            }
-            else
-            {
-                this.PanCanvas(Direction.Vertical, e.Delta);
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">TabControl.</param>
-        /// <param name="e">EventArgs.</param>
-        void m_tabControl_OnMouseEnter(object sender, EventArgs e)
-        {
-            this.m_tabControl.Focus();
-        }
-        
-        /// <summary>
-        /// When binding data in DataGridView,
-        /// ...
-        /// </summary>
-        /// <param name="sender">DataGridView.</param>
-        /// <param name="e">DataGridViewBindingComplete.</param>
-        void dgv_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            if (((DataGridView)sender).Columns.Contains("Show") && ((DataGridView)sender).Visible)
-            {
-                ((DataGridView)sender).Columns["Show"].Width = LAYER_SHOWCOLUMN_WIDTH;
-                ((DataGridView)sender).Columns["Show"].Resizable = DataGridViewTriState.False;
-                ((DataGridView)sender).Columns["Show"].Frozen = true;
-                ((DataGridView)sender).Columns["Name"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                ((DataGridView)sender).Columns["Name"].ReadOnly = true;
-            }
-        }
 
         /// <summary>
         /// When move the splitter, system redraw the overview.
@@ -1062,40 +877,19 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void Clear()
         {
-            m_overview.Clear();
-            m_tabControl.TabPages.Clear();
+            // Reset Interfaces
+            m_overView.Clear();
+            m_pathwayView.TabControl.TabPages.Clear();
+            m_layerView.DataGridView.DataSource = null;
 
+            // Clear Canvas dictionary.
             if(m_canvasDict != null)
-            {
                 foreach(CanvasView set in m_canvasDict.Values)
-                {
                     set.Dispose();
-                }
-            }
             m_canvasDict = null;
-            if(m_dgv.Visible)
-            {
-                m_layerDs.Tables.Clear();
-                m_layerDs.Dispose();
-                m_layerDs = new DataSet();
-                m_layerDs.Tables.Add(m_layerDataTable);
-                m_dgv.DataSource = m_layerDs;
-            }
         }
 
         #region EventHandler
-        /// <summary>
-        /// Called when UserControl is resized.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void SizeChanged(object sender, EventArgs e)
-        {
-            if(m_dgv != null && m_dgv.Columns.Contains("Show"))
-                m_dgv.Columns["Show"].Width = LAYER_SHOWCOLUMN_WIDTH;
-            UpdateOverview();
-        }
-
        /// <summary>
         /// the event sequence of selecting the PNode of system in PathwayEditor.
         /// </summary>

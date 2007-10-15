@@ -665,32 +665,10 @@ namespace EcellLib.PathwayWindow
         /// <returns>UserControl with pathway canvases, etc.</returns>
         public List<DockContent> GetWindowsForms()
         {
-            List<DockContent> list = GetWindowList(m_view.Control);
-            list.Add(m_view.OverView);
-            return list;
-        }
-        private List<DockContent> GetWindowList(Control con)
-        {
             List<DockContent> list = new List<DockContent>();
-            // recursive
-            foreach (Control subCon in con.Controls)
-            {
-                list.AddRange(GetWindowList(subCon));
-            }
-            if (con.GetType() == typeof(TabControl))
-            {
-                DockContent dock = new DockContent();
-                dock.Controls.Add(con);
-                dock.Text = "PathwayView";
-                list.Add(dock);
-            }
-            else if (con.GetType() == typeof(GroupBox) && con.Text == "Layer")
-            {
-                DockContent dock = new DockContent();
-                dock.Controls.Add(con);
-                dock.Text = "LayerView";
-                list.Add(dock);
-            }
+            list.Add(m_view.PathwayView);
+            list.Add(m_view.OverView);
+            list.Add(m_view.LayerView);
             return list;
         }
 

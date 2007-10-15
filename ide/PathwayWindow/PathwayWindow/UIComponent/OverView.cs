@@ -35,6 +35,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
+using System.Windows.Forms;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -58,7 +59,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         private PPath m_transparentNode;
         private PCanvas m_canvas;
-        private System.Windows.Forms.GroupBox groupBox;
+        private GroupBox groupBox;
 
         /// <summary>
         /// Display rectangles using overview.

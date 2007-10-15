@@ -95,7 +95,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                     
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CUT].Visible = false;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_COPY].Visible = false;
-                    if (this.m_cview.PathwayView.CopiedNodes.Count > 0)
+                    if (this.m_cview.Control.CopiedNodes.Count > 0)
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = true;
                     else
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = false;
@@ -127,7 +127,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                     
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_CUT].Visible = true;
                     m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_COPY].Visible = true;
-                    if (this.m_cview.PathwayView.CopiedNodes.Count > 0)
+                    if (this.m_cview.Control.CopiedNodes.Count > 0)
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = true;
                     else
                         m_cview.ContextMenuDict[CanvasView.CANVAS_MENU_PASTE].Visible = false;
