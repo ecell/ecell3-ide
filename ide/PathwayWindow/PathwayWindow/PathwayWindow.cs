@@ -79,7 +79,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// PathwayView, which contains and controls all GUI-related objects.
         /// </summary>
-        PathwayControl m_view;
+        PathwayControl m_con;
 
         /// <summary>
         /// ModelID of Ecell "Model" which is currently focused on.
@@ -298,10 +298,10 @@ namespace EcellLib.PathwayWindow
                 }
             }
 
-            m_view = new PathwayControl();
-            m_view.Window = this;
-            m_view.SetSettings(componentSettings);
-            m_view.ComponentSettingsManager = manager;
+            m_con = new PathwayControl();
+            m_con.Window = this;
+            m_con.SetSettings(componentSettings);
+            m_con.ComponentSettingsManager = manager;
 
             CheckLayoutAlgorithmDlls();
         }
@@ -342,11 +342,11 @@ namespace EcellLib.PathwayWindow
                 return;
             try
             {
-                m_dManager.DataChanged(m_modelId, oldKey, eo.type, eo, true, isAnchor);
+                m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, true, isAnchor);
             }
             catch (IgnoreException)
             {
-                this.DataChanged(m_modelId, newKey, eo.type, eo);
+                this.DataChanged(eo.modelID, newKey, eo.type, eo);
             }
         }
 
@@ -444,9 +444,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="key"></param>
         /// <param name="type"></param>
         /// <param name="isAnchor"></param>
-        public void NotifyDataDelete(string key, string type, bool isAnchor)
+        public void NotifyDataDelete(EcellObject eo, bool isAnchor)
         {
-            m_dManager.DataDelete(m_modelId, key, type, true, isAnchor);
+            m_dManager.DataDelete(eo.modelID, eo.key, eo.type, true, isAnchor);
         }
 
         /// <summary>
@@ -454,11 +454,11 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="key"></param>
         /// <param name="type"></param>
-        public void NotifyDataMerge(string key, string type)
+        public void NotifyDataMerge(EcellObject eo)
         {
             try
             {
-                m_dManager.SystemDeleteAndMove(m_modelId, key);
+                m_dManager.SystemDeleteAndMove(eo.modelID, eo.key);
             }
             catch (Exception ex)
             {
@@ -517,25 +517,25 @@ namespace EcellLib.PathwayWindow
             ToolStripMenuItem deleteMenu = new ToolStripMenuItem();
             deleteMenu.Text = m_resources.GetString("DeleteMenuText");
             deleteMenu.Name = "MenuItemPaste";
-            deleteMenu.Click += new EventHandler(m_view.DeleteClick);
+            deleteMenu.Click += new EventHandler(m_con.DeleteClick);
             deleteMenu.ShortcutKeys = Keys.Delete;
             deleteMenu.ShowShortcutKeys = true;
             ToolStripMenuItem cutMenu = new ToolStripMenuItem();
             cutMenu.Text = m_resources.GetString("CutMenuText");
             cutMenu.Name = "MenuItemCut";
-            cutMenu.Click += new EventHandler(m_view.CutClick);
+            cutMenu.Click += new EventHandler(m_con.CutClick);
             cutMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             cutMenu.ShowShortcutKeys = true;
             ToolStripMenuItem copyMenu = new ToolStripMenuItem();
             copyMenu.Text = m_resources.GetString("CopyMenuText");
             copyMenu.Name = "MenuItemCopy";
-            copyMenu.Click += new EventHandler(m_view.CopyClick);
+            copyMenu.Click += new EventHandler(m_con.CopyClick);
             copyMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             copyMenu.ShowShortcutKeys = true;
             ToolStripMenuItem pasteMenu = new ToolStripMenuItem();
             pasteMenu.Text = m_resources.GetString("PasteMenuText");
             pasteMenu.Name = "MenuItemPaste";
-            pasteMenu.Click += new EventHandler(m_view.PasteClick);
+            pasteMenu.Click += new EventHandler(m_con.PasteClick);
             pasteMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             pasteMenu.ShowShortcutKeys = true;
 
@@ -620,11 +620,11 @@ namespace EcellLib.PathwayWindow
         {
             // Check Selected nodes when the layout algorithm uses selected objects.
             if (algorithm.GetLayoutType() == LayoutType.Selected)
-                foreach (EcellObject node in this.m_view.ActiveCanvas.SelectedNodes)
+                foreach (EcellObject node in this.m_con.ActiveCanvas.SelectedNodes)
                     node.isFixed = EcellObject.Fixed;
 
-            List<EcellObject> systemList = m_view.ActiveCanvas.GetSystemList();
-            List<EcellObject> nodeList = m_view.ActiveCanvas.GetNodeList();
+            List<EcellObject> systemList = m_con.ActiveCanvas.GetSystemList();
+            List<EcellObject> nodeList = m_con.ActiveCanvas.GetNodeList();
 
             try
             {
@@ -638,14 +638,14 @@ namespace EcellLib.PathwayWindow
 
             // Set Layout.
             foreach (EcellObject system in systemList)
-                this.m_view.ActiveCanvas.Systems[system.key].EcellObject = (EcellSystem)system;
+                this.m_con.ActiveCanvas.Systems[system.key].EcellObject = (EcellSystem)system;
             foreach (EcellObject node in nodeList)
             {
                 node.isFixed = EcellObject.NotFixed;
                 if (node is EcellProcess)
-                    this.m_view.ActiveCanvas.Processes[node.key].EcellObject = (EcellProcess)node;
+                    this.m_con.ActiveCanvas.Processes[node.key].EcellObject = (EcellProcess)node;
                 else
-                    this.m_view.ActiveCanvas.Variables[node.key].EcellObject = (EcellVariable)node;
+                    this.m_con.ActiveCanvas.Variables[node.key].EcellObject = (EcellVariable)node;
             }
         }
         /// <summary>
@@ -654,7 +654,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of ToolBarMenu.</returns>
         public List<System.Windows.Forms.ToolStripItem> GetToolBarMenuStripItems()
         {
-            return m_view.GetToolBarMenuStripItems();
+            return m_con.GetToolBarMenuStripItems();
         }
 
         /// <summary>
@@ -666,9 +666,9 @@ namespace EcellLib.PathwayWindow
         public List<DockContent> GetWindowsForms()
         {
             List<DockContent> list = new List<DockContent>();
-            list.Add(m_view.PathwayView);
-            list.Add(m_view.OverView);
-            list.Add(m_view.LayerView);
+            list.Add(m_con.PathwayView);
+            list.Add(m_con.OverView);
+            list.Add(m_con.LayerView);
             return list;
         }
 
@@ -718,7 +718,7 @@ namespace EcellLib.PathwayWindow
             try
             {
                 m_modelId = "";
-                m_view.Clear();
+                m_con.Clear();
             }
             catch(Exception e)
             {
@@ -745,7 +745,7 @@ namespace EcellLib.PathwayWindow
                     if (obj.modelID != null && !m_modelId.Equals(obj.modelID))
                     {
                         isOtherModel = true;
-                        m_modelId = modelId;
+                        m_modelId = obj.modelID;
                         break;
                     }
                 }
@@ -761,12 +761,12 @@ namespace EcellLib.PathwayWindow
                     
                     if (File.Exists(fileName))
                     {
-                        this.m_view.CreateCanvas(modelId);
+                        this.m_con.CreateCanvas(modelId);
                         this.DataAddWithLeml(fileName, data);
                     }
                     else
                     {
-                        this.m_view.CreateCanvas(modelId);
+                        this.m_con.CreateCanvas(modelId);
                         this.NewDataAddToModel(data);
                         DoLayout(DefaultLayoutAlgorithm, 0, true);
                     }
@@ -798,7 +798,7 @@ namespace EcellLib.PathwayWindow
             if (type == null || String.IsNullOrEmpty(key) || data == null)
                 return;
             // Select Canvas
-            CanvasView canvas = this.m_view.CanvasDictionary[modelID];
+            CanvasView canvas = this.m_con.CanvasDictionary[modelID];
 
             // Change data.
             try
@@ -824,7 +824,7 @@ namespace EcellLib.PathwayWindow
                 return;
             if (type.Equals(PathwayControl.MODEL_STRING))
                 this.Clear();
-            CanvasView canvas = this.m_view.CanvasDictionary[modelID];
+            CanvasView canvas = this.m_con.CanvasDictionary[modelID];
             if (canvas != null)
                 canvas.DataDelete(key, ComponentSetting.ParseComponentKind(type) );
         }
@@ -885,8 +885,8 @@ namespace EcellLib.PathwayWindow
         /// <returns>The bitmap data of plugin.</returns>
         public Bitmap Print()
         {
-            if (m_view != null)
-                return m_view.Print();
+            if (m_con != null)
+                return m_con.Print();
             else
                 return new Bitmap(1,1);
         }
@@ -899,22 +899,21 @@ namespace EcellLib.PathwayWindow
         public void SaveModel(string modelID, string directory)
         {
             if(String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(directory))
-            {
                 return;
-            }
-            
-            if(ModelID.Equals(m_modelId))
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<EcellObject>));
-                List<EcellObject> objectList = this.m_view.ActiveCanvas.GetAllObjects();
-                string fileName = directory + "\\" + modelID + ".leml";
+            if (!modelID.Equals(m_modelId))
+                return;
 
-                using (XmlTextWriter writer = new XmlTextWriter(new FileStream(fileName, FileMode.Create), Encoding.UTF8))
-                {
-                    writer.Formatting = Formatting.Indented;
-                    writer.Indentation = 0;
-                    serializer.Serialize(writer, objectList);
-                }
+            XmlSerializer serializer = new XmlSerializer(typeof(EcellObject));
+            EcellObject model = new EcellObject();
+            model.M_instances = this.m_con.ActiveCanvas.GetAllObjects();
+
+            string fileName = directory + "\\" + modelID + ".leml";
+
+            using (XmlTextWriter writer = new XmlTextWriter(new FileStream(fileName, FileMode.Create), Encoding.UTF8))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 0;
+                serializer.Serialize(writer, model);
             }
         }
 
@@ -928,11 +927,10 @@ namespace EcellLib.PathwayWindow
         {
             if (type == null || type == "Model" || type == "Project")
                 return;
-            CanvasView canvas = this.m_view.CanvasDictionary[modelID];
+            CanvasView canvas = this.m_con.CanvasDictionary[modelID];
             ComponentType cType = ComponentSetting.ParseComponentKind(type);
             if (canvas != null)
                 canvas.SelectChanged(key, cType);
-
         }
 
         /// <summary>
@@ -945,7 +943,7 @@ namespace EcellLib.PathwayWindow
         {
             // not implement
             //PPathwayObject obj = m_view.ActiveCanvas.
-            this.m_view.ActiveCanvas.SelectChanged(key, ComponentSetting.ParseComponentKind(type));
+            this.m_con.ActiveCanvas.SelectChanged(key, ComponentSetting.ParseComponentKind(type));
         }
 
         /// <summary>
@@ -1016,7 +1014,7 @@ namespace EcellLib.PathwayWindow
             if (data == null)
                 return;
 
-            m_view.SetPosition(m_modelId, data);
+            m_con.SetPosition(data.modelID, data);
         }
         #endregion
 
@@ -1089,13 +1087,13 @@ namespace EcellLib.PathwayWindow
                     continue;
                 try
                 {
-                    m_view.AddNewObj(obj.modelID,
+                    m_con.AddNewObj(obj.modelID,
                                     obj.parentSystemID,
                                     obj,
                                     true);
                     if (obj is EcellSystem)
                         foreach (EcellObject node in obj.M_instances)
-                            m_view.AddNewObj(node.modelID,
+                            m_con.AddNewObj(node.modelID,
                                             node.parentSystemID,
                                             node,
                                             true);
@@ -1144,9 +1142,9 @@ namespace EcellLib.PathwayWindow
         void ShowIdClick(object sender, EventArgs e)
         {
             if (m_showIdItem.CheckState == CheckState.Checked)
-                m_view.ShowingID = true;
+                m_con.ShowingID = true;
             else
-                m_view.ShowingID = false;
+                m_con.ShowingID = false;
         }
         #endregion
     }

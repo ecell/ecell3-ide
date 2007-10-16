@@ -48,8 +48,6 @@ using UMD.HCIL.PiccoloX.Nodes;
 using UMD.HCIL.Piccolo.Util;
 using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Nodes;
-using PathwayWindow;
-using PathwayWindow.UIComponent;
 using System.IO;
 using System.ComponentModel;
 
@@ -305,6 +303,8 @@ namespace EcellLib.PathwayWindow
             m_pathwayView = new PathwayView(this);
             m_overView = new OverView();
             m_layerView = new LayerView(this);
+            // Create canvas.
+            m_canvasDict = new Dictionary<string, CanvasView>();
         }
 
         #endregion
@@ -411,13 +411,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="handler">added EventHandler.</param>
         public void AddInputEventListener(PBasicInputEventHandler handler)
         {
-            if(m_canvasDict != null)
-            {
-                foreach (CanvasView set in m_canvasDict.Values)
-                {
-                    set.PathwayCanvas.AddInputEventListener(handler);
-                }
-            }
+            // Exception condition 
+            if (m_canvasDict == null)
+                return;
+
+            foreach (CanvasView set in m_canvasDict.Values)
+                set.PathwayCanvas.AddInputEventListener(handler);
         }
 
         /// <summary>
@@ -426,13 +425,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="handler">deleted EventHandler.</param>
         public void RemoveInputEventListener(PBasicInputEventHandler handler)
         {
-            if(m_canvasDict != null)
-            {
-                foreach(CanvasView set in m_canvasDict.Values)
-                {
-                    set.PathwayCanvas.RemoveInputEventListener(handler);
-                }
-            }
+            // Exception condition 
+            if (m_canvasDict == null)
+                return;
+
+            foreach(CanvasView set in m_canvasDict.Values)
+                set.PathwayCanvas.RemoveInputEventListener(handler);
         }
 
         #region Event delegate
@@ -482,7 +480,7 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
         
-        #region Methods from controller (PathwayWindow) to view        
+        #region Methods from PathwayWindow(Interface) to Controller        
         /// <summary>
         /// Get a list of ToolStripItems.
         /// </summary>
@@ -757,23 +755,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="key">the key of deleted object.</param>
         /// <param name="type">the type of deleted object.</param>
         /// <param name="isAnchor">the type of deleted object.</param>
-        public void NotifyDataDelete(string key, ComponentType type, bool isAnchor)
+        public void NotifyDataDelete(EcellObject eo, bool isAnchor)
         {
-            switch(type)
-            {
-                case ComponentType.System:
-                    if (m_pathwayWindow != null)
-                        m_pathwayWindow.NotifyDataDelete(key, SYSTEM_STRING, isAnchor);
-                    break;
-                case ComponentType.Variable:
-                    if (m_pathwayWindow != null)
-                        m_pathwayWindow.NotifyDataDelete(key, VARIABLE_STRING, isAnchor);
-                    break;
-                case ComponentType.Process:
-                    if (m_pathwayWindow != null)
-                        m_pathwayWindow.NotifyDataDelete(key, PROCESS_STRING, isAnchor);
-                    break;
-            }            
+            m_pathwayWindow.NotifyDataDelete(eo, isAnchor);
         }
 
         /// <summary>
@@ -781,15 +765,11 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="key">the key of deleted object.</param>
         /// <param name="type">the type of deleted object.</param>
-        public void NotifyDataMerge(string key, ComponentType type)
+        public void NotifyDataMerge(EcellObject eo)
         {
-            switch (type)
-            {
-                case ComponentType.System:
-                    if (m_pathwayWindow != null)
-                        m_pathwayWindow.NotifyDataMerge(key, SYSTEM_STRING);
-                    break;
-            }
+            if (eo.type != EcellObject.SYSTEM)
+                return;
+            m_pathwayWindow.NotifyDataMerge(eo);
         }
 
 
@@ -1080,7 +1060,7 @@ namespace EcellLib.PathwayWindow
             {
                 i++;
                 isAnchor = (i == this.CopiedNodes.Count); 
-                this.NotifyDataDelete(eo.key, ComponentSetting.ParseComponentKind(eo.type), isAnchor);
+                this.NotifyDataDelete(eo, isAnchor);
             }
 
         }
@@ -1212,9 +1192,7 @@ namespace EcellLib.PathwayWindow
                     bool isAnchor = (i == slist.Count);
                     try
                     {
-                        NotifyDataDelete(deleteNode.key,
-                                         ComponentSetting.ParseComponentKind(deleteNode.type),
-                                         isAnchor);
+                        NotifyDataDelete(deleteNode, isAnchor);
                     }
                     catch (IgnoreException)
                     {
@@ -1240,7 +1218,7 @@ namespace EcellLib.PathwayWindow
                 // Delete sys.
                 try
                 {
-                    NotifyDataDelete(sys.EcellObject.key, ComponentType.System, true);
+                    NotifyDataDelete(sys.EcellObject, true);
                 }
                 catch (IgnoreException)
                 {

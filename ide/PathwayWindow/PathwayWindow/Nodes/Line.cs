@@ -7,7 +7,7 @@ using System.Drawing;
 using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Nodes;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace EcellLib.PathwayWindow.Nodes
 {
     /// <summary>
     /// Line

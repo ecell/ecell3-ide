@@ -45,8 +45,6 @@ using System.Windows.Forms;
 using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Handler;
-using PathwayWindow;
-using PathwayWindow.UIComponent;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.PiccoloX.Nodes;
@@ -1104,7 +1102,7 @@ namespace EcellLib.PathwayWindow
 
                 try
                 {
-                    m_con.NotifyDataMerge(deleteSystem.EcellObject.key, ComponentType.System);
+                    m_con.NotifyDataMerge(deleteSystem.EcellObject);
                 }
                 catch (IgnoreException)
                 {
@@ -2414,7 +2412,7 @@ namespace EcellLib.PathwayWindow
             dr[COLUMN_NAME4NAME] = name;
             m_table.Rows.Add(dr);
 
-            m_con.OverView.AddLayer(layer);
+            //m_con.OverView.AddLayer(layer);
             Layers.Add(name, layer);
             ControlLayer.MoveToFront();
 

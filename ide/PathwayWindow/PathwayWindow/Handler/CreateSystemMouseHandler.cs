@@ -32,7 +32,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Drawing;
-using PathwayWindow;
 using System.Windows.Forms;
 using System.Threading;
 using UMD.HCIL.Piccolo.Event;

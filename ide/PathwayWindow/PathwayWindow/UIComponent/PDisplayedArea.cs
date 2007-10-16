@@ -35,7 +35,6 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
 using EcellLib.PathwayWindow.Nodes;
-using PathwayWindow;
 using System.IO;
 
 namespace EcellLib.PathwayWindow.UIComponent

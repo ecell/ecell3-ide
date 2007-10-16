@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UMD.HCIL.Piccolo.Nodes;
 
-namespace PathwayWindow.UIComponent
+namespace EcellLib.PathwayWindow.Handler
 {
     /// <summary>
     /// Resize handle for resizing system size

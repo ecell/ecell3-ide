@@ -122,7 +122,7 @@
     <Compile Include="ProgressDialog.Designer.cs">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UIComponent\Line.cs" />
+    <Compile Include="Nodes\Line.cs" />
     <Compile Include="UIComponent\OverView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,7 +146,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
-    <Compile Include="UIComponent\ResizeHandle.cs" />
+    <Compile Include="Handler\ResizeHandle.cs" />
     <Compile Include="UIComponent\NamespaceDoc.cs" />
     <Compile Include="UIComponent\PathwayView.cs">
       <SubType>Form</SubType>
