@@ -150,7 +150,12 @@ namespace EcellLib.PathwayWindow.Nodes
         public new EcellSystem EcellObject
         {
             get { return (EcellSystem)base.m_ecellObj; }
-            set { base.EcellObject = value; }
+            set {
+                base.EcellObject = value;
+                this.Name = value.key;
+                this.Reset();
+                this.RefreshText();
+            }
         }
         /// <summary>
         /// Accessor for m_ecellobj.
@@ -659,6 +664,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void Refresh()
         {
             base.Refresh();
+            this.Reset();
             this.RefreshText();
             //this.SystemWidth = this.m_originalWidth;
             //this.SystemHeight = this.m_originalHeight;

@@ -71,6 +71,7 @@ namespace EcellLib.PathwayWindow.Nodes
             set
             {
                 base.EcellObject = value;
+                this.Name = value.name;
                 Refresh();
             }
         }

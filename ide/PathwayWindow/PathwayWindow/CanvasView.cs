@@ -651,8 +651,8 @@ namespace EcellLib.PathwayWindow
 
             // Preparing control layer
             m_ctrlLayer = new PLayer();
-            //m_ctrlLayer.AddInputEventListener(new ResizeHandleDragHandler(this));
-            m_ctrlLayer.AddInputEventListener(new NodeDragHandler(this, m_systems));
+            m_ctrlLayer.AddInputEventListener(new ResizeHandleDragHandler(this));
+            //m_ctrlLayer.AddInputEventListener(new NodeDragHandler(this, m_systems));
 
             m_pCanvas.Root.AddChild(m_ctrlLayer);
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
@@ -1246,292 +1246,121 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void PPathwaySystem_MouseUpNew(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            if (m_selectedSystemName == null)
-                return;
-            // Get selected system
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-
-            // If selected system overlaps another one, cancel change.
-            if (this.DoesSystemOverlaps(system.GlobalBounds, system.EcellObject.key))
-            {
-                system.ReturnToMemorizedPosition();
-                this.ValidateSystem(system);
-                system.Reset();
-                return;
-            }
-
-            // Change contained system
-
-            // Change uncontained system
-
-            // Check each node and change parent system
-
-        }
-
-        /// <summary>
-        /// Called when the mouse is up on one of resize handles for a system.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         void PPathwaySystem_MouseUp(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             if (m_selectedSystemName == null)
                 return;
             // Get selected system
-            PPathwaySystem system = m_systems[m_selectedSystemName];
+            string systemKey = m_selectedSystemName;
+            PPathwaySystem system = m_systems[systemKey];
 
             // If selected system overlaps another, reset system region.
-            if (this.DoesSystemOverlaps(system.GlobalBounds, system.EcellObject.key))
+            if (this.DoesSystemOverlaps(system.GlobalBounds, systemKey))
             {
-                system.ReturnToMemorizedPosition();
-                this.ValidateSystem(system);
-                system.Reset();
+                ResetSystemResize(system);
+                return;
             }
-            else
+
+            // Reset Object relation.
+            system.Reset();
+
+            // Select PathwayObjects being moved into current system.
+            List<EcellObject> objList = GetAllObjects();
+            Dictionary<string, EcellObject> currentDict = new Dictionary<string, EcellObject>();
+            foreach (EcellObject eo in objList)
             {
-                system.Reset();
-
-                PNodeList currentSystemChildren = new PNodeList();
-                List<PNode> tmpList = new List<PNode>();
-                foreach (PLayer layer in this.Layers.Values)
-                {
-                    PNodeList nodeList = new PNodeList();
-                    layer.FindIntersectingNodes(system.Rect, nodeList);
-                    foreach (PNode p in nodeList)
-                    {
-                        if (!currentSystemChildren.Contains(p))
-                            currentSystemChildren.Add(p);
-                        if (p is PPathwaySystem && p != system)
-                        {
-                            PNodeList tmpNodeList = new PNodeList();
-                            layer.FindIntersectingNodes(((PPathwaySystem)p).Rect, tmpNodeList);
-                            foreach (PNode pn in tmpNodeList)
-                            {
-                                if (pn != p && !tmpList.Contains(pn)) tmpList.Add(pn);
-                            }
-                        }
-                    }
-                }
-
-                Dictionary<string, PNode> currentDict = new Dictionary<string, PNode>();
-                foreach (PNode child in currentSystemChildren)
-                {
-                    if (tmpList.Contains(child)) continue;
-                    if (child is PPathwayNode)
-                    {
-                        currentDict.Add(((PPathwayNode)child).EcellObject.type + ":" + ((PPathwayNode)child).EcellObject.key, child);
-                    }
-                    else if (child is PPathwaySystem)
-                    {
-                        if (!m_selectedSystemName.Equals(((PPathwaySystem)child).EcellObject.key))
-                            currentDict.Add(((PPathwaySystem)child).EcellObject.type + ":" + ((PPathwaySystem)child).EcellObject.key, child);
-                    }
-                }
-
-                Dictionary<string, PNode> beforeDict = new Dictionary<string, PNode>();
-                foreach (PNode child in m_systemChildrenBeforeDrag)
-                {
-                    string key = "";
-                    if (child is PPathwayNode)
-                    {
-                        PPathwayNode childNode = ((PPathwayNode)child);
-                        key = childNode.EcellObject.key;
-                        beforeDict.Add(childNode.EcellObject.type + ":" + key, child);
-                    }
-                    else if (child is PPathwaySystem)
-                    {
-                        key = ((PPathwaySystem)child).EcellObject.key;
-                        beforeDict.Add(((PPathwaySystem)child).EcellObject.type + ":" + key, child);
-                    }
-                }
-
-                // If ID duplication could occurred, system resizing will be aborted
-                Dictionary<string, PPathwayNode> proNameDict = new Dictionary<string, PPathwayNode>();
-                Dictionary<string, PPathwayNode> varNameDict = new Dictionary<string, PPathwayNode>();
-                foreach (KeyValuePair<string, PNode> node in currentDict)
-                {
-                    string name = PathUtil.RemovePath(node.Key);
-
-                    if (node.Value is PPathwayVariable)
-                    {
-                        if (varNameDict.ContainsKey(name))
-                        {
-                            // Resizing is aborted
-                            system.ReturnToMemorizedPosition();
-                            this.ValidateSystem(system);
-                            system.RefreshText();
-                            system.Reset();
-
-                            UpdateResizeHandlePositions();
-                            ResetSelectedObjects();
-                            ClearSurroundState();
-                            MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        else
-                        {
-                            varNameDict.Add(name, null);
-                        }
-                    }
-                    else if (node.Value is PPathwayProcess)
-                    {
-                        if (proNameDict.ContainsKey(name))
-                        {
-                            // Resizing is aborted
-                            system.ReturnToMemorizedPosition();
-                            this.ValidateSystem(system);
-                            system.RefreshText();
-                            system.Reset();
-
-                            UpdateResizeHandlePositions();
-                            ResetSelectedObjects();
-                            ClearSurroundState();
-                            MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        else
-                        {
-                            proNameDict.Add(name, null);
-                        }
-                    }
-                }
-
-                foreach (string key in beforeDict.Keys)
-                {
-                    if (!currentDict.ContainsKey(key))
-                    {
-                        bool isDuplicate = false;
-                        String[] sp = key.Split(new char[] { ':' });
-                        if (key.StartsWith("System"))
-                        {
-                            String name = sp[1];
-                            sp = sp[1].Split(new char[] { '/' });
-                            PPathwayObject p = system.ParentObject;
-                            if (p == null)
-                                continue;
-                            String newkey = p.EcellObject.key + "/" + sp[sp.Length - 1];
-                            isDuplicate = Systems.ContainsKey(newkey);
-                        }
-                        else
-                        {
-                            String data = sp[1] + ":" + sp[2];
-                            PPathwayObject p = system.ParentObject;
-                            if (p == null)
-                                continue;
-                            String newkey = p.EcellObject.key + ":" + sp[2];
-                            ComponentType ct = ComponentSetting.ParseComponentKind(sp[0]);
-                            if (ct == ComponentType.Process)
-                                isDuplicate = Processes.ContainsKey(newkey);
-                            else
-                                isDuplicate = Variables.ContainsKey(newkey);
-                        }
-
-                        if (isDuplicate)
-                        {
-                            // Resizing is aborted
-                            system.ReturnToMemorizedPosition();
-                            this.ValidateSystem(system);
-                            system.RefreshText();
-                            system.Reset();
-
-                            UpdateResizeHandlePositions();
-                            ResetSelectedObjects();
-                            ClearSurroundState();
-                            MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                    }
-                }
-
-                foreach (String key in currentDict.Keys)
-                {
-                    if (beforeDict.ContainsKey(key)) continue;
-
-                    String[] sp = key.Split(new char[] { ':' });
-                    if (key.StartsWith("System"))
-                    {
-                        String prevkey = sp[1];
-                        sp = sp[1].Split(new char[] { '/' });
-                        PPathwayObject p = system.ParentObject;
-                        String newkey = m_selectedSystemName + "/" + sp[sp.Length - 1];
-                        EcellObject obj = Systems[prevkey].EcellObject;
-                        obj.key = newkey;
-
-                        String tmp = m_selectedSystemName;
-                        this.TransferSystemTo(m_selectedSystemName, prevkey, true);
-                        m_selectedSystemName = tmp;
-                    }
-                    else
-                    {
-                        string prevkey = sp[1] + ":" + sp[2];
-                        PPathwayObject obj;
-                        if (sp[0].Equals("Process"))
-                            obj = Processes[prevkey];
-                        else
-                            obj = Variables[prevkey];
-
-                        if (obj == null) continue;
-                        this.TransferNodeToByResize(m_selectedSystemName, obj, false);
-                    }
-                }
-
-                foreach (string key in beforeDict.Keys)
-                {
-                    if (currentDict.ContainsKey(key)) continue;
-
-                    if (m_selectedSystemName.Equals("/"))
-                    {
-                        system.ReturnToMemorizedPosition();
-                        this.ValidateSystem(system);
-                        system.RefreshText();
-                        system.Reset();
-                        UpdateResizeHandlePositions();
-                        ResetSelectedObjects();
-                        ClearSurroundState();
-
-                        return;
-                    }
-
-                    String[] sp = key.Split(new char[] { ':' });
-                    if (key.StartsWith("System"))
-                    {
-                        string prevkey = sp[1];
-                        sp = sp[1].Split(new char[] { '/' });
-                        PPathwayObject p = system.ParentObject;
-                        EcellObject obj = Systems[prevkey].EcellObject;
-
-                        String tmp = m_selectedSystemName;
-                        this.TransferSystemTo(p.EcellObject.key, prevkey, true);
-                        m_selectedSystemName = tmp;
-                    }
-                    else
-                    {
-                        String prevkey = sp[1] + ":" + sp[2];
-                        PPathwayObject p = system.ParentObject;
-
-                        PPathwayObject obj;
-                        if (sp[0].Equals("Process"))
-                            obj = Processes[prevkey];
-                        else
-                            obj = Variables[prevkey];
-
-                        if (obj == null) continue;
-                        this.TransferNodeToByResize(p.EcellObject.key, obj, false);
-                    }
-                }
-                // Fire DataChanged for child in system.!
-                m_systemChildrenBeforeDrag = null;
+                if (!system.Rect.Contains(eo.Rect))
+                    continue;
+                if (eo.parentSystemID.StartsWith(systemKey))
+                    continue;
+                currentDict.Add(eo.type + ":" + eo.key, eo);
             }
+            // Select PathwayObjects being moved to upper system.
+            Dictionary<string, EcellObject> beforeDict = new Dictionary<string, EcellObject>();
+            foreach (EcellObject eo in objList)
+            {
+                if (system.Rect.Contains(eo.Rect))
+                    continue;
+                if (!eo.parentSystemID.StartsWith(systemKey))
+                    continue;
+                beforeDict.Add(eo.type + ":" + eo.key, eo);
+            }
+
+            // If ID duplication could occurred, system resizing will be aborted
+            foreach (EcellObject eo in currentDict.Values)
+            {
+                // Check duplicated object.
+                if (eo is EcellSystem && !m_systems.ContainsKey(systemKey + "/" + eo.name))
+                    continue;
+                else if(eo is EcellProcess && !m_processes.ContainsKey(systemKey + ":" + eo.name))
+                    continue;
+                else if(eo is EcellVariable && !m_variables.ContainsKey(systemKey + ":" + eo.name))
+                    continue;
+                // If duplicated object exists.
+                ResetSystemResize(system);
+                MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string parentKey = system.EcellObject.parentSystemID;
+            foreach (EcellObject eo in beforeDict.Values)
+            {
+                // Check duplicated object.
+                if (eo is EcellSystem && !m_systems.ContainsKey(parentKey + "/" + eo.name))
+                    continue;
+                else if (eo is EcellProcess && !m_processes.ContainsKey(parentKey + ":" + eo.name))
+                    continue;
+                else if (eo is EcellVariable && !m_variables.ContainsKey(parentKey + ":" + eo.name))
+                    continue;
+                // If duplicated object exists.
+                ResetSystemResize(system);
+                MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Move objects.
+            foreach (EcellObject eo in currentDict.Values)
+            {
+                string oldKey = eo.key;
+                string newKey = null;
+                if (eo is EcellSystem)
+                    newKey = systemKey + "/" + eo.name;
+                else
+                    newKey = systemKey + ":" + eo.name;
+                eo.key = newKey;
+                this.m_con.NotifyDataChanged(oldKey, newKey, eo, true);
+            }
+            foreach (EcellObject eo in beforeDict.Values)
+            {
+                string oldKey = eo.key;
+                string newKey = null;
+                if (eo is EcellSystem)
+                    newKey = parentKey + "/" + eo.name;
+                else
+                    newKey = parentKey + ":" + eo.name;
+                eo.key = newKey;
+                this.m_con.NotifyDataChanged(oldKey, newKey, eo, true);
+            }
+
+            // Fire DataChanged for child in system.!
+            m_systemChildrenBeforeDrag = null;
+            UpdateResizeHandlePositions();
+            ResetSelectedObjects();
+            ClearSurroundState();
+
             m_con.NotifyDataChanged(
                 system.EcellObject.key,
                 system.EcellObject.key,
                 system.EcellObject,
                 true);
+        }
 
+        void ResetSystemResize(PPathwaySystem system)
+        {
+            // Resizing is aborted
+            system.ReturnToMemorizedPosition();
+            this.ValidateSystem(system);
             system.RefreshText();
-
+            system.Reset();
             UpdateResizeHandlePositions();
             ResetSelectedObjects();
             ClearSurroundState();
@@ -2758,13 +2587,7 @@ namespace EcellLib.PathwayWindow
                         m_systems.Add(data.key, system);
 
                     }
-
                     system.EcellObject = (EcellSystem)data;
-                    system.Name = data.key;
-                    system.Width = data.Width;
-                    system.Height = data.Height;
-                    system.Reset();
-
                     UpdateResizeHandlePositions();
                     break;
                 case ComponentType.Variable:
@@ -2772,8 +2595,6 @@ namespace EcellLib.PathwayWindow
                         return;
                     PPathwayVariable var = m_variables[key];
                     var.EcellObject = (EcellVariable)data;
-                    var.Name = PathUtil.RemovePath(data.key);
-                    var.Refresh();
 
                     m_variables.Remove(key);
                     m_variables.Add(data.key, var);
@@ -2783,11 +2604,8 @@ namespace EcellLib.PathwayWindow
                         return;
                     PPathwayProcess pro = m_processes[key];
                     pro.EcellObject = (EcellProcess)data;
-                    pro.RefreshEdges();
 
-                    // switch keys of dictionary
                     m_processes.Remove(key);
-                    pro.Name = PathUtil.RemovePath(data.key);
                     m_processes.Add(data.key, pro);
                     break;
             }
@@ -3163,7 +2981,9 @@ namespace EcellLib.PathwayWindow
         {
             EcellObject sys = Systems[sysKey].EcellObject;
             Random hRandom = new Random();
-            PointF basePos = new PointF((float)hRandom.Next((int)sys.X, (int)sys.Width), (float)hRandom.Next((int)sys.Y, (int)sys.Height));
+            PointF basePos = new PointF(
+                (float)hRandom.Next((int)sys.X, (int)(sys.X + sys.Width)),
+                (float)hRandom.Next((int)sys.Y, (int)(sys.Y + sys.Height)) );
             return GetVacantPoint(sysKey, basePos);
         }
 

@@ -724,23 +724,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Notify DataChanged event to outside (PathwayView -> PathwayWindow -> DataManager)
-        /// To notify position or size change.
-        /// </summary>
-        /// <param name="oldKey">the key before adding.</param>
-        /// <param name="newKey">the key after adding.</param>
-        /// <param name="obj">x coordinate of object.</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
-        public void NotifyDataChanged(
-            string oldKey,
-            string newKey,
-            PPathwayObject obj,
-            bool isAnchor)
-        {
-            m_pathwayWindow.NotifyDataChanged(oldKey, newKey, obj.EcellObject, isAnchor);
-        }
-
-        /// <summary>
         /// Inform the changing of EcellObject in PathwayEditor to DataManager.
         /// </summary>
         /// <param name="proKey">key of process</param>

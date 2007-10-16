@@ -84,7 +84,8 @@ namespace EcellLib.PathwayWindow.Nodes
             set
             {
                 base.EcellObject = value;
-                RefreshEdges();
+                this.Name = value.name;
+                Refresh();
             }
         }
         #endregion
