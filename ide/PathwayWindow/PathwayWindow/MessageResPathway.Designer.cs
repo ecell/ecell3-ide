@@ -232,6 +232,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Fail to load EcellObject position settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLoadLEML {
+            get {
+                return ResourceManager.GetString("ErrLoadLEML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can not merge the component to the upper system. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrMerge {
@@ -282,6 +291,15 @@ namespace EcellLib.PathwayWindow {
         internal static string ErrSameObj {
             get {
                 return ResourceManager.GetString("ErrSameObj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fail to save EcellObject position settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSaveLEML {
+            get {
+                return ResourceManager.GetString("ErrSaveLEML", resourceCulture);
             }
         }
         

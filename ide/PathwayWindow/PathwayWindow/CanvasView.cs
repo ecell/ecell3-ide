@@ -2441,7 +2441,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>"TemporaryID"</returns> 
         public string GetTemporaryID(string type, string systemID)
         {
-            return this.Control.Window.GetTemporaryID(type, systemID);
+            return this.Control.Window.GetTemporaryID(m_modelId, type, systemID);
         }
         /// <summary>
         /// Return a system which surrounds a given point.

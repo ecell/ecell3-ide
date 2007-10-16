@@ -49,7 +49,6 @@ namespace EcellLib
     /// <summary>
     /// The base class of E-CELL model editor.
     /// </summary>
-    [Serializable]
     public class EcellObject
     {
         #region Constant
@@ -132,10 +131,6 @@ namespace EcellLib
         /// </summary>
         protected EcellObject()
         {
-            //throw new Exception("Don't use the method or operation.");
-            // m_modelID = "Galakta";
-            // m_key = "/CELL/AHO";
-            // m_type = "bbbb";
         }
 
         /// <summary>
@@ -413,6 +408,10 @@ namespace EcellLib
             get
             {
                 if (this.X != 0 || this.Y != 0)
+                    return true;
+                if (this.Width != 0 || this.Y != Height)
+                    return true;
+                if (this.OffsetX != 0 || this.OffsetY != 0)
                     return true;
                 return false;
             }
@@ -1678,7 +1677,6 @@ namespace EcellLib
     /// <summary>
     /// Object class for System.
     /// </summary>
-    [Serializable]
     public class EcellSystem : EcellObject
     {
 
@@ -1697,6 +1695,13 @@ namespace EcellLib
         #endregion
 
         #region Constractors
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public EcellSystem()
+        {
+        }
+
         /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
@@ -1793,13 +1798,18 @@ namespace EcellLib
     /// <summary>
     /// Object class for Variable.
     /// </summary>
-    [Serializable]
     public class EcellVariable : EcellObject
     {
         #region Fields
         #endregion
 
         #region Constractors
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public EcellVariable()
+        {
+        }
         /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
@@ -1959,7 +1969,6 @@ namespace EcellLib
     /// <summary>
     /// Object class for Process.
     /// </summary>
-    [Serializable]
     public class EcellProcess : EcellObject
     {
         #region Constants
@@ -1997,6 +2006,12 @@ namespace EcellLib
         #endregion
         
         #region Constractors
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public EcellProcess()
+        {
+        }
         /// <summary>
         /// Constructor with initial parameter.
         /// </summary>

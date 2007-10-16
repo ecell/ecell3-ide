@@ -91,6 +91,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EcellSerializer.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Handler\CreateReactionMouseHandler.cs" />
     <Compile Include="CanvasView.cs" />

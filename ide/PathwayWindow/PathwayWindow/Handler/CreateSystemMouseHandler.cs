@@ -244,7 +244,7 @@ namespace EcellLib.PathwayWindow
                     return;
                 }
 
-                string modelID = this.m_set.Control.Window.ModelID;
+                string modelID = this.m_set.ModelID;
                 string tmpID = m_set.GetTemporaryID("System", m_surSystem);
 
                 Dictionary<string, EcellData> dict = DataManager.GetSystemProperty();

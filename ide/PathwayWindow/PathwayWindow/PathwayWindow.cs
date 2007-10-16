@@ -119,13 +119,6 @@ namespace EcellLib.PathwayWindow
 
         #region Accessors
         /// <summary>
-        /// Accessor for m_modelId.
-        /// </summary>
-        public string ModelID
-        {
-            get { return m_modelId; }
-        }
-        /// <summary>
         /// Accessor for layout algorithm.
         /// </summary>
         public List<ILayoutAlgorithm> LayoutAlgorithm
@@ -793,7 +786,7 @@ namespace EcellLib.PathwayWindow
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             // Null Check.
-            if(String.IsNullOrEmpty(ModelID))
+            if(String.IsNullOrEmpty(m_modelId))
                 return;
             if (type == null || String.IsNullOrEmpty(key) || data == null)
                 return;
@@ -900,21 +893,12 @@ namespace EcellLib.PathwayWindow
         {
             if(String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(directory))
                 return;
-            if (!modelID.Equals(m_modelId))
+            if (!this.m_con.CanvasDictionary.ContainsKey(modelID))
                 return;
 
-            XmlSerializer serializer = new XmlSerializer(typeof(EcellObject));
-            EcellObject model = new EcellObject();
-            model.M_instances = this.m_con.ActiveCanvas.GetAllObjects();
-
+            List<EcellObject> list = this.m_con.CanvasDictionary[modelID].GetAllObjects();
             string fileName = directory + "\\" + modelID + ".leml";
-
-            using (XmlTextWriter writer = new XmlTextWriter(new FileStream(fileName, FileMode.Create), Encoding.UTF8))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 0;
-                serializer.Serialize(writer, model);
-            }
+            EcellSerializer.SaveAsXML(list, fileName);
         }
 
         /// <summary>
@@ -990,9 +974,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">The data type of EcellObject.</param>
         /// <param name="key">The ID of parent system.</param>
         /// <returns>"TemporaryID"</returns> 
-        public string GetTemporaryID(string type, string systemID)
+        public string GetTemporaryID(string modelID, string type, string systemID)
         {
-            return m_dManager.GetTemporaryID(this.ModelID, type, systemID);
+            return m_dManager.GetTemporaryID(modelID, type, systemID);
         }
 
         /// <summary>
@@ -1114,21 +1098,28 @@ namespace EcellLib.PathwayWindow
         private void DataAddWithLeml(string fileName, List<EcellObject> data)
         {
             // Deserialize objects from a file
-            XmlSerializer serializer = new XmlSerializer(typeof(List<EcellObject>));
-            List<EcellObject> objList;
-            using (Stream reader = new FileStream(fileName, FileMode.Open))
-            {
-                objList = (List<EcellObject>)serializer.Deserialize(reader);
-            }
+            List<EcellObject> objList = EcellSerializer.LoadFromXML(fileName);
+
             // Create Object dictionary.
             Dictionary<string, EcellObject> objDict = new Dictionary<string, EcellObject>();
             foreach (EcellObject eo in objList)
                 objDict.Add(eo.type + ":" + eo.key, eo);
             // Set position.
+            string dictKey;
             foreach (EcellObject eo in data)
-                if (objDict.ContainsKey(eo.key))
-                    eo.SetPosition(objDict[eo.key]);
-
+            {
+                dictKey = eo.type + ":" + eo.key;
+                if (objDict.ContainsKey(dictKey))
+                    eo.SetPosition(objDict[dictKey]);
+                if (eo.M_instances == null)
+                    continue;
+                foreach(EcellObject child in eo.M_instances)
+                {
+                    dictKey = child.type + ":" + eo.key;
+                    if (objDict.ContainsKey(dictKey))
+                        child.SetPosition(objDict[dictKey]);
+                }
+            }
             this.NewDataAddToModel(data);
         }
         #endregion

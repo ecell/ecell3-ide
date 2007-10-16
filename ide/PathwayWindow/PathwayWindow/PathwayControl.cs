@@ -345,54 +345,57 @@ namespace EcellLib.PathwayWindow
         /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
         /// only the last action's isAnchor is true, the others' isAnchor is false</param>
         /// <param name="valueStr">String for System label.</param>
-        public void AddNewObj(string canvasName,
+        public void AddNewObj(string modelID,
             string systemName,
             EcellObject eo,
             bool isAnchor)
         {
-            ComponentType cType = ComponentSetting.ParseComponentKind(eo.type);
-            ComponentSetting cs = GetComponentSetting(cType);
             // Error check.
             if (eo == null)
                 throw new PathwayException(m_resources.GetString("ErrAddObjNot"));
-            if (eo.key.EndsWith(":SIZE"))
-                return;
             if (string.IsNullOrEmpty(eo.key))
                 throw new PathwayException(m_resources.GetString("ErrKeyNot"));
-            if (string.IsNullOrEmpty(canvasName) || !m_canvasDict.ContainsKey(canvasName))
+            if (string.IsNullOrEmpty(modelID) || !m_canvasDict.ContainsKey(modelID))
                 throw new PathwayException(m_resources.GetString("ErrNotSetCanvas") + eo.key);
+            // Set ProjectData
+            if (eo.key.EndsWith(":SIZE"))
+                return;
 
-            CanvasView canvas = m_canvasDict[canvasName];
+            CanvasView canvas = m_canvasDict[modelID];
             PLayer layer = ActiveCanvas.Layers[this.m_defLayerId];
 
+            // Create PathwayObject and set to canvas.
+            bool isPosSet = eo.IsPosSet;
+            ComponentSetting cs = GetComponentSetting(eo.type);
+            PPathwayObject obj = cs.CreateNewComponent(eo, this);
             if (eo is EcellSystem)
             {
-                PPathwaySystem system = (PPathwaySystem)cs.CreateNewComponent(eo, this);
+                PPathwaySystem system = (PPathwaySystem)obj;
                 system.Reset();
                 system.MouseDown += new PInputEventHandler(SystemSelected);
                 system.Layer = layer;
                 system.Name = eo.key;
-                canvas.AddNewObj(m_defLayerId, systemName, system, eo.IsPosSet, false);
             }
             else
             {
-                PPathwayNode node = (PPathwayNode)cs.CreateNewComponent(eo, this);
+                PPathwayNode node = (PPathwayNode)obj;
                 node.ShowingID = m_showingId;
                 node.Layer = layer;
                 node.MouseDown += new PInputEventHandler(NodeSelected);
                 node.MouseEnter += new PInputEventHandler(NodeEntered);
                 node.MouseLeave += new PInputEventHandler(NodeLeft);
                 node.Handler4Line = new PInputEventHandler(LineSelected);
-                canvas.AddNewObj(m_defLayerId, systemName, node, eo.IsPosSet, false);
             }
+            canvas.AddNewObj(m_defLayerId, systemName, obj, isPosSet, false);
         }
 
         /// <summary>
         /// Get ComponentSetting.
         /// </summary>
         /// <param name="cType">ComponentType</param>
-        private ComponentSetting GetComponentSetting(ComponentType cType)
+        private ComponentSetting GetComponentSetting(string type)
         {
+            ComponentType cType = ComponentSetting.ParseComponentKind(type);
             switch (cType)
             {
                 case ComponentType.Process:

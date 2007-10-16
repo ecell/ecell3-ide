@@ -105,55 +105,52 @@ namespace EcellLib.PathwayWindow
         {
             base.OnMouseDown(sender, e);
 
-            if (e.PickedNode is PCamera)
+            if (!(e.PickedNode is PCamera))
+                return;
+
+            m_set = m_view.CanvasDictionary[e.Canvas.Name];
+            m_downPos = e.Position;
+            m_surSystem = m_view.CanvasDictionary[e.Canvas.Name].GetSurroundingSystemKey(e.Position);
+
+            if (string.IsNullOrEmpty(m_surSystem))
             {
-                m_set = m_view.CanvasDictionary[e.Canvas.Name];
-                m_downPos = e.Position;
-                m_surSystem = m_view.CanvasDictionary[e.Canvas.Name].GetSurroundingSystemKey(e.Position);
-
-                if (string.IsNullOrEmpty(m_surSystem))
+                MessageBox.Show(m_resources.GetString("ErrOutRoot"),
+                                "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+            
+            DataManager dm = DataManager.GetDataManager();
+            if (m_view.ComponentSettings[m_view.SelectedHandle.CsID].ComponentKind == ComponentType.Process)
+            {
+                string tmpId = m_set.GetTemporaryID("Process", m_surSystem);
+                Dictionary<string, EcellData> dict = DataManager.GetProcessProperty(dm.CurrentProjectID, "ExpressionFluxProcess");
+                List<EcellData> list = new List<EcellData>();
+                foreach (EcellData d in dict.Values)
                 {
-                    MessageBox.Show(m_resources.GetString("ErrOutRoot"),
-                                    "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
-                    return;
+                    list.Add(d);
                 }
-
-                //List<EcellObject> tmpList = DataManager.GetDataManager().GetData(m_view.Window.ModelID, m_surSystem);
                 
-                DataManager dm = DataManager.GetDataManager();
+                EcellObject eo = EcellObject.CreateObject(m_set.ModelID, tmpId, "Process", "ExpressionFluxProcess", list);
+                eo.X = m_downPos.X;
+                eo.Y = m_downPos.Y;
 
-                if (m_view.ComponentSettings[m_view.SelectedHandle.CsID].ComponentKind == ComponentType.Process)
-                {
-                    string tmpId = m_set.GetTemporaryID("Process", m_surSystem);
-                    Dictionary<string, EcellData> dict = DataManager.GetProcessProperty(dm.CurrentProjectID, "ExpressionFluxProcess");
-                    List<EcellData> list = new List<EcellData>();
-                    foreach (EcellData d in dict.Values)
-                    {
-                        list.Add(d);
-                    }
-                    
-                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, tmpId, "Process", "ExpressionFluxProcess", list);
-                    eo.X = m_downPos.X;
-                    eo.Y = m_downPos.Y;
+                m_view.NotifyDataAdd(eo, true);
+            }
+            else
+            {
+                string tmpId = m_set.GetTemporaryID("Variable", m_surSystem);
+                Dictionary<string, EcellData> dict = DataManager.GetVariableProperty();
+                List<EcellData> list = new List<EcellData>();
+                foreach (EcellData d in dict.Values)
+                    list.Add(d);
 
-                    m_view.NotifyDataAdd(eo, true);
-                }
-                else
-                {
-                    string tmpId = dm.GetTemporaryID(m_view.Window.ModelID, "Variable", m_surSystem);
-                    Dictionary<string, EcellData> dict = DataManager.GetVariableProperty();
-                    List<EcellData> list = new List<EcellData>();
-                    foreach (EcellData d in dict.Values)
-                        list.Add(d);
+                EcellObject eo = EcellObject.CreateObject(m_set.ModelID, tmpId, "Variable", "Variable", list);
+                eo.X = m_downPos.X;
+                eo.Y = m_downPos.Y;
 
-                    EcellObject eo = EcellObject.CreateObject(m_view.Window.ModelID, tmpId, "Variable", "Variable", list);
-                    eo.X = m_downPos.X;
-                    eo.Y = m_downPos.Y;
-
-                    m_view.NotifyDataAdd(eo, true);
-                }
+                m_view.NotifyDataAdd(eo, true);
             }
         }
     }

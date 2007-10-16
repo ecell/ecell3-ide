@@ -50,7 +50,7 @@ namespace EcellLib.MainWindow {
     /// <summary>
     /// Class to serialize the object.
     /// </summary>
-    public partial class ECellSerializer
+    public partial class DockWindowSerializer
     {
 
         /// <summary>

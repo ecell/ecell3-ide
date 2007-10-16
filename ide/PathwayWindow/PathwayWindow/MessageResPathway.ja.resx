@@ -207,4 +207,10 @@
   <data name="CutMenuText" xml:space="preserve">
     <value>切り取り(&amp;T)</value>
   </data>
+  <data name="ErrLoadLEML" xml:space="preserve">
+    <value>オブジェクト位置情報の読み込みに失敗しました。</value>
+  </data>
+  <data name="ErrSaveLEML" xml:space="preserve">
+    <value>オブジェクト位置情報の保存に失敗しました。</value>
+  </data>
 </root>

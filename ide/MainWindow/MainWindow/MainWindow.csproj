@@ -103,7 +103,7 @@
     <Compile Include="DistributedEnvSetupWindow.Designer.cs">
       <DependentUpon>DistributedEnvSetupWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="ECellSerialize.cs">
+    <Compile Include="DockWindowSerializer.cs">
     </Compile>
     <Compile Include="MessageResMain.Designer.cs">
       <AutoGen>True</AutoGen>
