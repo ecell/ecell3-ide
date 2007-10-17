@@ -6143,7 +6143,7 @@ namespace EcellLib
                         WriteComponentProperty(l_fileName, enc, sysObj);
                     }
                 }
-                WriteSimulation(l_fileName, enc);
+                WriteSimulationForStep(l_fileName, 100, enc);
                 
             }
             catch (Exception l_ex)
@@ -7233,11 +7233,26 @@ namespace EcellLib
         /// Write the postfix information in script file.
         /// </summary>
         /// <param name="fileName">script file name.</param>
+        /// <param name="count">step count.</param>
         /// <param name="enc">encoding(SJIS)</param>
-        public void WriteSimulation(string fileName, Encoding enc)
+        public void WriteSimulationForStep(string fileName, int count, Encoding enc)
         {
             File.AppendAllText(fileName, "session.initialize()\n", enc);
-            File.AppendAllText(fileName, "session.step(count)\n", enc);
+            File.AppendAllText(fileName, "session.step(" + count + ")\n", enc);
+            File.AppendAllText(fileName, "while session.isActive():\n", enc);
+            File.AppendAllText(fileName, "    System.Threading.Thread.Sleep(1000)\n", enc);
+        }
+
+        /// <summary>
+        /// Write the postfix information in script file.
+        /// </summary>
+        /// <param name="fileName">script file name.</param>
+        /// <param name="time">simulation time.</param>
+        /// <param name="enc">encoding(SJIS)</param>
+        public void WriteSimulationForTime(string fileName, double time, Encoding enc)
+        {
+            File.AppendAllText(fileName, "session.initialize()\n", enc);
+            File.AppendAllText(fileName, "session.run(" + time + ")\n", enc);
             File.AppendAllText(fileName, "while session.isActive():\n", enc);
             File.AppendAllText(fileName, "    System.Threading.Thread.Sleep(1000)\n", enc);
         }

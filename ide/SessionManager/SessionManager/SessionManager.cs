@@ -721,6 +721,10 @@ namespace SessionManager
         private List<ParameterRange> m_paramList = new List<ParameterRange>();
         private List<SaveLoggerProperty> m_logList = new List<SaveLoggerProperty>();
 
+        /// <summary>
+        /// Set the logger data to judge the result, when execute RunSimParameterRange or RunSimParameterMatrix.
+        /// </summary>
+        /// <param name="sList">the list of logger data.</param>
         public void SetLoggerData(List<SaveLoggerProperty> sList)
         {
             m_logList.Clear();
@@ -731,6 +735,10 @@ namespace SessionManager
             }
         }
 
+        /// <summary>
+        /// Set the range of initial parameter, when execute RunSimParameterMatrix.
+        /// </summary>
+        /// <param name="pList">the list of range for initial parameters.</param>
         public void SetParameterRange(List<ParameterRange> pList)
         {
             m_paramList.Clear();
@@ -741,7 +749,16 @@ namespace SessionManager
             }
         }
 
-        public void RunSimParameterRange(string topDir, string modelName, int num)
+        /// <summary>
+        /// Run the simulation by using the initial parameter within the range of parameters.
+        /// The number of sample is set. SetLoggerData should be called, before this function use.
+        /// </summary>
+        /// <param name="topDir">top directory include the script file and result data.</param>
+        /// <param name="modelName">model name executed the simulation.</param>
+        /// <param name="num">the number of sample.</param>
+        /// <param name="count">simulation time or simulation step.</param>
+        /// <param name="isStep">the flag use simulation time or simulation step.</param>
+        public void RunSimParameterRange(string topDir, string modelName, int num, double count, bool isStep)
         {
             DataManager manager = DataManager.GetDataManager();
             List<EcellObject> sysList = manager.GetData(modelName, null);
@@ -767,6 +784,7 @@ namespace SessionManager
                 string dirName = topDir + "/" + num;
                 string fileName = topDir + "/" + num + ".ess";
                 Encoding enc = Encoding.GetEncoding(932);
+                SetLogTopDirectory(dirName);
 
                 manager.ClearScriptInfo();
                 File.WriteAllText(fileName, "", enc);
@@ -813,20 +831,70 @@ namespace SessionManager
                 {
                     sList.Add(s.FullPath);
                 }
-                manager.WriteLoggerProperty(fileName, enc, sList); 
-                manager.WriteSimulation(fileName, enc);
+                manager.WriteLoggerProperty(fileName, enc, sList);
+                if (isStep)
+                    manager.WriteSimulationForStep(fileName, (int)count, enc);
+                else
+                    manager.WriteSimulationForTime(fileName, count, enc);
                 manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
+                List<string> extFileList = ExtractExtFileList(m_logList);
+                RegisterJob(m_proxy.GetDefaultScript(), fileName, extFileList);
+            }
+            Run();
+        }
+
+        /// <summary>
+        /// Set the top directory because system change the output directory each simulation.
+        /// Only use RunSimParameterRange and RunSimParameterMatrix.
+        /// </summary>
+        /// <param name="topDir">the top directory set each simulation.</param>
+        private void SetLogTopDirectory(String topDir)
+        {
+            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+            foreach (SaveLoggerProperty s in m_logList)
+            {
+                s.DirName = topDir;
+                resList.Add(s);
+            }
+            m_logList.Clear();
+            foreach (SaveLoggerProperty s in resList)
+            {
+                m_logList.Add(s);
             }
         }
 
-        public void RunSimParameterMatrix(string topDir, string modelName)
+        /// <summary>
+        /// Extract the list of file from the information of logger.
+        /// </summary>
+        /// <param name="m_logList">the list of logger information.</param>
+        /// <returns>the list of file.</returns>
+        private List<string> ExtractExtFileList(List<SaveLoggerProperty> m_logList)
+        {
+            List<string> resList = new List<string>();
+            foreach (SaveLoggerProperty s in m_logList)
+            {
+                string outName = Util.GetOutputFileName(s.FullPath);
+                string fileName = s.DirName + "/" + outName;
+                resList.Add(fileName);
+            }
+            return resList;
+        }
+
+        /// <summary>
+        /// Run the simulation by using the initial parameter according with ParameterRange object.
+        /// SetLoggerData and SetParameterRange should be called, before this function use.
+        /// </summary>
+        /// <param name="topDir">top directory include the script file and result data.</param>
+        /// <param name="modelName">model name executed the simulation.</param>
+        /// <param name="count">simulation time or simulation step.</param>
+        /// <param name="isStep">the flag use simulation time or simulation step.</param>
+        public void RunSimParameterMatrix(string topDir, string modelName, double count, bool isStep)
         {
             DataManager manager = DataManager.GetDataManager();
             List<EcellObject> sysList = manager.GetData(modelName, null);
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             if (m_paramList.Count != 2)
             {
-                // not implement
                 MessageBox.Show("ERROR", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -842,6 +910,7 @@ namespace SessionManager
                     string dirName = topDir + "/" + i + "-" + j;
                     string fileName = topDir + "/" + i + "-" + j + ".ess";
                     Encoding enc = Encoding.GetEncoding(932);
+                    SetLogTopDirectory(dirName);
 
                     manager.ClearScriptInfo();
                     File.WriteAllText(fileName, "", enc);
@@ -895,8 +964,13 @@ namespace SessionManager
                         sList.Add(s.FullPath);
                     }
                     manager.WriteLoggerProperty(fileName, enc, sList);
-                    manager.WriteSimulation(fileName, enc);
+                    if (isStep)
+                        manager.WriteSimulationForStep(fileName, (int)count, enc);
+                    else
+                        manager.WriteSimulationForTime(fileName, count, enc);
                     manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
+                    List<string> extFileList = ExtractExtFileList(m_logList);
+                    RegisterJob(m_proxy.GetDefaultScript(), fileName, extFileList);
                     j++;
                 }
                 i++;

@@ -49,12 +49,38 @@ namespace EcellLib.Analysis
         /// </summary>
         private ToolStripMenuItem m_robustAnalysisItem;
 
+        private RobustAnalysis m_win = null;
         #endregion
 
 
+        /// <summary>
+        /// Window is null when window is closed.
+        /// </summary>
+        public void CloseRobustWindow()
+        {
+            m_win = null;
+        }
+
         void ShowRobustAnalysisWindow(object sender, EventArgs e)
         {
-            // not implement
+            if (m_win == null)
+            {
+                m_win = new RobustAnalysis();
+                m_win.Control = this;
+                DockPanel panel = PluginManager.GetPluginManager().DockPanel;
+                m_win.DockHandler.DockPanel = panel;
+                m_win.DockHandler.FloatPane = panel.DockPaneFactory.CreateDockPane(m_win, DockState.Float, true);
+                FloatWindow fw = panel.FloatWindowFactory.CreateFloatWindow(
+                                    panel,
+                                    m_win.FloatPane,
+                                    new Rectangle(m_win.Left, m_win.Top, m_win.Width, m_win.Height));
+                m_win.Pane.DockTo(fw);
+                m_win.Show();
+            }
+            else
+            {
+                m_win.Activate();
+            }
         }
 
         #region Inherited from PluginBase
@@ -68,21 +94,26 @@ namespace EcellLib.Analysis
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
             m_robustAnalysisItem = new ToolStripMenuItem();
-            //m_showIdItem.Text = resources.GetString("MenuItemAnalysis");
-            //m_showIdItem.ToolTipText = "Analysis";
-            //m_showIdItem.Click += new EventHandler(ShowAnalysisWindow);
             m_robustAnalysisItem.Text = resources.GetString("MenuItemRobustAnalysis");
             m_robustAnalysisItem.ToolTipText = "Robust Analysis";
+            m_robustAnalysisItem.Tag = 50;
             m_robustAnalysisItem.Click += new EventHandler(ShowRobustAnalysisWindow);
 
+            ToolStripMenuItem viewMenu = new ToolStripMenuItem();
+            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem });
+            viewMenu.Text = "View";
+            viewMenu.Name = "MenuItemView";
 
+            list.Add(viewMenu);
+
+/*
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem });
             analysisMenu.Text = "Analysis";
             analysisMenu.Name = "MenuItemAnalysis";
 
             list.Add(analysisMenu);
-
+*/
             return list;
         }
 
@@ -157,6 +188,8 @@ namespace EcellLib.Analysis
         /// <param name="data">Changed value of object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
+            if (m_win != null)
+                m_win.DataChanged(modelID, key, type, data);
         }
 
         /// <summary>
@@ -255,7 +288,6 @@ namespace EcellLib.Analysis
         /// <param name="type">Type of object added to selected objects.</param>
         public void AddSelect(string modelID, string key, string type)
         {
-            // not implement
         }
 
         /// <summary>
@@ -266,7 +298,6 @@ namespace EcellLib.Analysis
         /// <param name="type">Type of object removed from selected objects.</param>
         public void RemoveSelect(string modelID, string key, string type)
         {
-            // not implement
         }
 
         /// <summary>
@@ -274,7 +305,6 @@ namespace EcellLib.Analysis
         /// </summary>
         public void ResetSelect()
         {
-            // not implement
         }
 
         /// <summary>

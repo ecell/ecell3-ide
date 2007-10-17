@@ -143,6 +143,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResAnalysis.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="RobustAnalysis.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>RobustAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RobustAnalysis.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>RobustAnalysis.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AssemblyInfo.cs.tmpl" />

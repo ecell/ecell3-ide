@@ -777,5 +777,14 @@ namespace EcellLib
                 }
             }
         }
+
+        public static String GetOutputFileName(string key)
+        {
+            string fileName = key;
+            fileName.Replace(":", "_");
+            fileName.Replace("/", "_");
+
+            return fileName;
+        }
     }
 }

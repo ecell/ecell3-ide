@@ -61,6 +61,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   Do you want to close this window? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmClose {
+            get {
+                return ResourceManager.GetString("ConfirmClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Fail to execute the robust analysis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAnalysis {

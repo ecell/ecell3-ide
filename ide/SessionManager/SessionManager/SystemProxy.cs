@@ -133,5 +133,14 @@ namespace SessionManager
         {
             return false;
         }
+
+        /// <summary>
+        /// Get the default script name.
+        /// </summary>
+        /// <returns>the script file name.</returns>
+        public virtual string GetDefaultScript()
+        {
+            return "";
+        }
     }
 }

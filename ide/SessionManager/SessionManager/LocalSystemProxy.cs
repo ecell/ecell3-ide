@@ -63,6 +63,8 @@ namespace SessionManager
         /// <returns>LocalSessionProxy.</returns>
         public override SessionProxy CreateSessionProxy()
         {
+            SessionProxy s = new LocalSessionProxy();
+            
             return new LocalSessionProxy();
         }
 
@@ -127,6 +129,15 @@ namespace SessionManager
         public override Dictionary<string, object> GetProperty()
         {
             return m_optDic;
+        }
+
+        /// <summary>
+        /// Get the script file name.
+        /// </summary>
+        /// <returns>the script file name.</returns>
+        public override string GetDefaultScript()
+        {
+            return LocalSessionProxy.GetDefaultScript();
         }
 
     }

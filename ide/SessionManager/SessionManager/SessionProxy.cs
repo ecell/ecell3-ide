@@ -231,11 +231,11 @@ namespace SessionManager
         /// <summary>
         /// Get log data output the script.
         /// </summary>
-        /// <returns>log data.</returns>
-        public virtual string GetLogData()
+        /// <param name="key">entry name.</param>
+        /// <returns>log data list.</returns>
+        public virtual Dictionary<double, double> GetLogData(string key)
         {
-            // not implement.
-            return "";
+            return new Dictionary<double, double>();
         }
 
         /// <summary>

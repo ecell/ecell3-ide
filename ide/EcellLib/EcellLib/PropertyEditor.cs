@@ -206,6 +206,10 @@ namespace EcellLib
                     d.Step = Convert.ToDouble(t.Text);
                 }
             }
+            if (d.Max < d.Min)
+            {
+                throw new Exception("Invalid parameter(MAX < Min).");
+            }
         }
 
         /// <summary>

@@ -33,6 +33,8 @@ using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
 
+using EcellLib;
+
 namespace SessionManager
 {
     public class LocalSessionProxy : SessionProxy
@@ -157,6 +159,46 @@ namespace SessionManager
             base.PrepareProcess();
         }
 
+        /// <summary>
+        /// Get the log data of key.
+        /// </summary>
+        /// <param name="key">the key of logger.</param>
+        /// <returns>the list of log.</returns>
+        public override Dictionary<double, double> GetLogData(string key)
+        {
+            Dictionary<double, double> result = new Dictionary<double, double>();
+            if (key == null) return result;
+            string fileName = Util.GetOutputFileName(key);
+
+            foreach (string extFileName in ExtraFileList)
+            {
+                if (!extFileName.Contains(fileName)) continue;
+                System.IO.StreamReader hReader =
+                    new System.IO.StreamReader(extFileName, System.Text.Encoding.Default);
+                while (!hReader.EndOfStream)
+                {
+                    string line = hReader.ReadLine();
+                    if (line.StartsWith("#")) continue;
+                    string[] ele = line.Split(new char[] { '\t' });
+                    if (ele.Length >= 2)
+                    {
+                        double time = Convert.ToDouble(ele[0]);
+                        double value = Convert.ToDouble(ele[1]);
+                        result.Add(time, value);
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get the default script name.
+        /// </summary>
+        /// <returns>the script file name.</returns>
+        static public string GetDefaultScript()
+        {
+            return "ipy.exe";
+        }
 
         private string GetAnalysisDir()
         {
