@@ -292,7 +292,7 @@ namespace EcellLib.PathwayWindow.Handler
                 PPathwaySystem picked = (PPathwaySystem)e.PickedNode;
                 if (picked.Parent is PLayer)
                 {
-                    m_set.Control.NotifyDataChanged(
+                    m_set.PathwayControl.NotifyDataChanged(
                                     picked.EcellObject.key,
                                     picked.EcellObject.key,
                                     picked.EcellObject,
@@ -338,7 +338,7 @@ namespace EcellLib.PathwayWindow.Handler
                                 m_set.TransferSystemTo(surSys, oldSystemName, true);
                             else
                             {
-                                m_set.Control.NotifyDataChanged(
+                                m_set.PathwayControl.NotifyDataChanged(
                                     oldSystemName,
                                     oldSystemName,
                                     picked.EcellObject,

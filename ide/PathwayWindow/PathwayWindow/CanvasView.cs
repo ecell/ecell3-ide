@@ -123,126 +123,6 @@ namespace EcellLib.PathwayWindow
         /// Name of DataColumn for indicating layer names (string)
         /// </summary>
         private static readonly string COLUMN_NAME4NAME = "Name";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for delete
-        /// </summary>
-        public static readonly string CANVAS_MENU_DELETE = "Delete";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for copy
-        /// </summary>
-        public static readonly string CANVAS_MENU_COPY = "Copy";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for cut
-        /// </summary>
-        public static readonly string CANVAS_MENU_CUT = "Cut";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for paste
-        /// </summary>
-        public static readonly string CANVAS_MENU_PASTE = "Paste";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for delete
-        /// </summary>
-        public static readonly string CANVAS_MENU_DELETE_WITH = "deletewith";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for Create Logger
-        /// </summary>
-        public static readonly string CANVAS_MENU_CREATE_LOGGER = "Create Logger";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for delete Logger
-        /// </summary>
-        public static readonly string CANVAS_MENU_DELETE_LOGGER = "Delete Logger";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for Create Logger
-        /// </summary>
-        public static readonly string CANVAS_MENU_LOGGER_SIZE = "Size";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for Create Logger
-        /// </summary>
-        public static readonly string CANVAS_MENU_LOGGER_ACTIVITY = "Activity";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for Create Logger
-        /// </summary>
-        public static readonly string CANVAS_MENU_LOGGER_MOLAR_ACTIVITY = "Molar Activity";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for Create Logger
-        /// </summary>
-        public static readonly string CANVAS_MENU_LOGGER_DIF_COEFF = "Diffusion Coeff";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for Create Logger
-        /// </summary>
-        public static readonly string CANVAS_MENU_LOGGER_MOL_CONC = "Molar Conc";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for Create Logger
-        /// </summary>
-        public static readonly string CANVAS_MENU_LOGGER_NUM_CONC = "Number Conc";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for Create Logger
-        /// </summary>
-        public static readonly string CANVAS_MENU_LOGGER_VALUE = "Value";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for Create Logger
-        /// </summary>
-        public static readonly string CANVAS_MENU_LOGGER_VELOCITY = "Velocity";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator1
-        /// </summary>
-        public static readonly string CANVAS_MENU_SEPARATOR1 = "separator1";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator2
-        /// </summary>
-        public static readonly string CANVAS_MENU_SEPARATOR2 = "separator2";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator3
-        /// </summary>
-        public static readonly string CANVAS_MENU_SEPARATOR3 = "separator3";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator4
-        /// </summary>
-        public static readonly string CANVAS_MENU_SEPARATOR4 = "separator4";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for rightArrow
-        /// </summary>
-        public static readonly string CANVAS_MENU_RIGHT_ARROW = "rightArrow";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for leftArrow
-        /// </summary>
-        public static readonly string CANVAS_MENU_LEFT_ARROW = "leftArrow";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for bidirArrow
-        /// </summary>
-        public static readonly string CANVAS_MENU_BIDIR_ARROW = "bidirArrow";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for ID
-        /// </summary>
-        public static readonly string CANVAS_MENU_ID = "id";
-
-        /// <summary>
-        /// Key definition of m_cMenuDict for constantLine
-        /// </summary>
-        public static readonly string CANVAS_MENU_CONSTANT_LINE = "constantLine";
         #endregion
 
         #region Fields
@@ -319,11 +199,6 @@ namespace EcellLib.PathwayWindow
         Line m_selectedLine = null;
 
         /// <summary>
-        /// List of ToolStripMenuItems for ContextMenu
-        /// </summary>
-        Dictionary<string, ToolStripItem> m_cMenuDict = new Dictionary<string, ToolStripItem>();
-
-        /// <summary>
         /// The name of system currently selected on the canvas.
         /// </summary>
         string m_selectedSystemName;
@@ -332,11 +207,6 @@ namespace EcellLib.PathwayWindow
         /// PPathwayObject, which is to be connected.
         /// </summary>
         PPathwayNode m_nodeToBeConnected;
-
-        /// <summary>
-        /// List of PNodes which belong to a system before the system resizing started.
-        /// </summary>
-        PNodeList m_systemChildrenBeforeDrag = null;
 
         /// <summary>
         /// List of PNodes, which are currently surrounded by the system.
@@ -429,7 +299,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_pathwayView.
         /// </summary>
-        public PathwayControl Control
+        public PathwayControl PathwayControl
         {
             get { return m_con; }
             set { m_con = value; }
@@ -586,14 +456,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_cMenuDict.
-        /// </summary>
-        public Dictionary<string, ToolStripItem> ContextMenuDict
-        {
-            get { return m_cMenuDict; }
-        }
-
-        /// <summary>
         /// Accessor for m_line4reconnect.
         /// </summary>
         public PPath Line4Reconnect
@@ -656,129 +518,7 @@ namespace EcellLib.PathwayWindow
 
             m_pCanvas.Root.AddChild(m_ctrlLayer);
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
-
-            // Preparing a context menu.
-            m_nodeMenu = new ContextMenuStrip();
-            m_nodeMenu.Closed += new ToolStripDropDownClosedEventHandler(m_nodeMenu_Closed);
-
-            ToolStripItem idShow = new ToolStripMenuItem("tmp");
-            idShow.Name = CANVAS_MENU_ID;
-            m_nodeMenu.Items.Add(idShow);
-            m_cMenuDict.Add(CANVAS_MENU_ID, idShow);
-
-            ToolStripSeparator separator1 = new ToolStripSeparator();
-            m_nodeMenu.Items.Add(separator1);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR1, separator1);
-
-            int count = 0;
-            foreach (ILayoutAlgorithm algorithm in m_con.Window.LayoutAlgorithm)
-            {
-                ToolStripMenuItem algoItem = new ToolStripMenuItem(algorithm.GetMenuText());
-                algoItem.Tag = count;
-                algoItem.ToolTipText = algorithm.GetToolTipText();
-                algoItem.Click += new EventHandler(m_con.Window.eachLayoutItem_Click);
-
-                List<string> subCommands = algorithm.GetSubCommands();
-                if (subCommands != null && subCommands.Count != 0)
-                {
-                    int subcount = 0;
-                    foreach (string subCommandName in subCommands)
-                    {
-                        ToolStripMenuItem layoutSubItem = new ToolStripMenuItem();
-                        layoutSubItem.Text = subCommandName;
-                        layoutSubItem.Tag = count + "," + subcount;
-                        layoutSubItem.Click += new EventHandler(m_con.Window.eachLayoutItem_Click);
-                        algoItem.DropDownItems.Add(layoutSubItem);
-                        subcount++;
-                    }
-                }
-
-                m_nodeMenu.Items.Add(algoItem);
-
-                count++;
-            }
-
-            ToolStripSeparator separator2 = new ToolStripSeparator();
-            separator2.Tag = count;
-            m_nodeMenu.Items.Add(separator2);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR2, separator2);
-
-            ToolStripItem rightArrow = new ToolStripMenuItem("Process -> Variable", Resource1.arrow_long_right_w);
-            rightArrow.Name = CANVAS_MENU_RIGHT_ARROW;
-            rightArrow.Click += new EventHandler(ChangeLineClick);
-            m_nodeMenu.Items.Add(rightArrow);
-            m_cMenuDict.Add(CANVAS_MENU_RIGHT_ARROW, rightArrow);
-
-            ToolStripItem leftArrow = new ToolStripMenuItem("Process <- Variable", Resource1.arrow_long_left_w);
-            leftArrow.Name = CANVAS_MENU_LEFT_ARROW;
-            leftArrow.Click += new EventHandler(ChangeLineClick);
-            m_nodeMenu.Items.Add(leftArrow);
-            m_cMenuDict.Add(CANVAS_MENU_LEFT_ARROW, leftArrow);
-
-            ToolStripItem bidirArrow = new ToolStripMenuItem("Process <-> Variable", Resource1.arrow_long_bidir_w);
-            bidirArrow.Name = CANVAS_MENU_BIDIR_ARROW;
-            bidirArrow.Click += new EventHandler(ChangeLineClick);
-            m_nodeMenu.Items.Add(bidirArrow);
-            m_cMenuDict.Add(CANVAS_MENU_BIDIR_ARROW, bidirArrow);
-
-            ToolStripItem constant = new ToolStripMenuItem("Constant", Resource1.ten);
-            constant.Name = CANVAS_MENU_CONSTANT_LINE;
-            constant.Click += new EventHandler(ChangeLineClick);
-            m_nodeMenu.Items.Add(constant);
-            m_cMenuDict.Add(CANVAS_MENU_CONSTANT_LINE, constant);
-
-            ToolStripSeparator separator3 = new ToolStripSeparator();
-            m_nodeMenu.Items.Add(separator3);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR3, separator3);
-
-            ToolStripItem cut = new ToolStripMenuItem(m_resources.GetString("CutMenuText"));
-            cut.Click += new EventHandler(this.m_con.CutClick);
-            m_nodeMenu.Items.Add(cut);
-            m_cMenuDict.Add(CANVAS_MENU_CUT, cut);
-
-            ToolStripItem copy = new ToolStripMenuItem(m_resources.GetString("CopyMenuText"));
-            copy.Click += new EventHandler(this.m_con.CopyClick);
-            m_nodeMenu.Items.Add(copy);
-            m_cMenuDict.Add(CANVAS_MENU_COPY, copy);
-
-            ToolStripItem paste = new ToolStripMenuItem(m_resources.GetString("PasteMenuText"));
-            paste.Click += new EventHandler(this.m_con.PasteClick);
-            m_nodeMenu.Items.Add(paste);
-            m_cMenuDict.Add(CANVAS_MENU_PASTE, paste);
-
-            ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString("DeleteMenuText"));
-            delete.Text = m_resources.GetString("DeleteMenuText");
-            delete.Click += new EventHandler(this.m_con.DeleteClick);
-            m_nodeMenu.Items.Add(delete);
-            m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
-
-            ToolStripItem deleteWith = new ToolStripMenuItem(m_resources.GetString("MergeMenuText"));
-            deleteWith.Click += new EventHandler(MergeClick);
-            m_nodeMenu.Items.Add(deleteWith);
-            m_cMenuDict.Add(CANVAS_MENU_DELETE_WITH, deleteWith);
-
-            ToolStripSeparator separator4 = new ToolStripSeparator();
-            m_nodeMenu.Items.Add(separator4);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR4, separator4);
-
-            // Create Logger
-            ToolStripMenuItem createLogger = new ToolStripMenuItem(m_resources.GetString("CreateLogMenuText"));
-            m_nodeMenu.Items.Add(createLogger);
-            m_cMenuDict.Add(CANVAS_MENU_CREATE_LOGGER, createLogger);
-
-            // Delete Logger
-            ToolStripMenuItem deleteLogger = new ToolStripMenuItem(m_resources.GetString("DeleteLogMenuText"));
-            m_nodeMenu.Items.Add(deleteLogger);
-            m_cMenuDict.Add(CANVAS_MENU_DELETE_LOGGER, deleteLogger);
-
-
-#if DEBUG
-            ToolStripItem debug = new ToolStripMenuItem("Debug");
-            debug.Click += new EventHandler(DebugClick);
-            m_nodeMenu.Items.Add(debug);
-            //m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
-#endif
-            m_pCanvas.ContextMenuStrip = m_nodeMenu;
+            m_pCanvas.ContextMenuStrip = m_con.NodeMenu;
 
             // Preparing system handlers
             for (int m = 0; m < 8; m++)
@@ -1004,202 +744,7 @@ namespace EcellLib.PathwayWindow
             }
             ResetLinePosition();
         }
-
-        /// <summary>
-        /// Called when m_nodeMenu is closed.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void m_nodeMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            if (sender is ContextMenuStrip)
-            {
-                ((ContextMenuStrip)sender).Tag = null;
-            }
-        }
         #endregion
-
-        /// <summary>
-        /// Called when a change line menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ChangeLineClick(object sender, EventArgs e)
-        {
-            if (sender is ToolStripItem)
-            {
-                ToolStripItem item = (ToolStripItem)sender;
-
-                EdgeInfo edgeInfo = ((Line)item.Tag).Info;
-
-                RefChangeType changeType
-                    = RefChangeType.SingleDir;
-                int coefficient = 0;
-
-                if (item.Name == CANVAS_MENU_RIGHT_ARROW)
-                {
-                    changeType = RefChangeType.SingleDir;
-                    coefficient = 1;
-                }
-                else if (item.Name == CANVAS_MENU_LEFT_ARROW)
-                {
-                    changeType = RefChangeType.SingleDir;
-                    coefficient = -1;
-                }
-                else if (item.Name == CANVAS_MENU_BIDIR_ARROW)
-                {
-                    changeType = RefChangeType.BiDir;
-                    coefficient = 0;
-                }
-                else
-                {
-                    changeType = RefChangeType.SingleDir;
-                    coefficient = 0;
-                }
-
-                m_con.NotifyVariableReferenceChanged(
-                    edgeInfo.ProcessKey,
-                    edgeInfo.VariableKey,
-                    changeType,
-                    coefficient);
-            }
-        }
-
-        /// <summary>
-        /// Called when a delete menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void MergeClick(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
-                "Merge",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button2);
-
-            if (result == DialogResult.Cancel)
-                return;
-
-            /* 20070629 delete by sachiboo. 
-                        //PPathwayObject obj = (PPathwayObject)ClickedNode;
-            */
-
-            Object obj = ((ToolStripItem)sender).Tag;
-            if (obj is PPathwaySystem)
-            {
-                PPathwaySystem deleteSystem = (PPathwaySystem)obj;
-                if (string.IsNullOrEmpty(deleteSystem.Name))
-                    return;
-                if (deleteSystem.Name.Equals("/"))
-                {
-                    MessageBox.Show(m_resources.GetString("ErrDelRoot"),
-                                    "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
-                    return;
-                }
-
-                try
-                {
-                    m_con.NotifyDataMerge(deleteSystem.EcellObject);
-                }
-                catch (IgnoreException)
-                {
-                    return;
-                }
-                if (deleteSystem.IsHighLighted)
-                    ResetSelectedSystem();
-
-            }
-            ((ToolStripMenuItem)sender).Tag = null;
-        }
-
-        /// <summary>
-        /// Called when a create logger menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void CreateLoggerClick(object sender, EventArgs e)
-        {
-            string logger = ((ToolStripItem)sender).Text;
-
-            if (ClickedNode is PPathwayObject)
-            {
-                PPathwayObject obj = (PPathwayObject)ClickedNode;
-                EcellObject ecellobj = obj.EcellObject;
-                Debug.WriteLine("Create " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
-
-                // set logger
-                foreach (EcellData d in ecellobj.M_value)
-                {
-                    if (logger.Equals(d.M_name))
-                    {
-                        d.M_isLogger = true;
-                        PluginManager.GetPluginManager().LoggerAdd(
-                            ecellobj.modelID,
-                            ecellobj.key,
-                            ecellobj.type,
-                            d.M_entityPath);
-                    }
-                }
-                // modify changes
-                m_con.NotifyDataChanged(ecellobj.key,ecellobj.key,ecellobj,true);
-            }
-
-        }
-
-        /// <summary>
-        /// Called when a delete logger menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void DeleteLoggerClick(object sender, EventArgs e)
-        {
-            string logger = ((ToolStripItem)sender).Text;
-
-            if (ClickedNode is PPathwayObject)
-            {
-                PPathwayObject obj = (PPathwayObject)ClickedNode;
-                EcellObject ecellobj = obj.EcellObject;
-                Debug.WriteLine("Delete " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
-
-                // delete logger
-                foreach (EcellData d in ecellobj.M_value)
-                    if (logger.Equals(d.M_name))
-                        d.M_isLogger = false;
-                // modify changes
-                m_con.NotifyDataChanged(ecellobj.key, ecellobj.key, ecellobj, true);
-            }
-        }
-
-#if DEBUG
-        /// <summary>
-        /// Called when a debug menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void DebugClick(object sender, EventArgs e)
-        {
-            if (ClickedNode is PPathwayObject)
-            {
-                PPathwayObject obj = (PPathwayObject)ClickedNode;
-                MessageBox.Show("Name:" + obj.Name + "\nX:" + obj.X + "\nY:" + obj.Y
-                    + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY + "\nToString()"
-                    + obj.ToString());
-            }
-            else
-            {
-                ToolStripMenuItem item = (ToolStripMenuItem)sender;
-                PointF point = new PointF();
-                Debug.WriteLine(this.TabPage.Parent.ToString());
-                point.X = item.Owner.Left;
-                point.Y = item.Owner.Top;
-                MessageBox.Show("Left:" + point.X + "Top:" + point.Y);
-
-            }
-        }
-#endif
 
         #region Methods for System
         /// <summary>
@@ -1342,7 +887,6 @@ namespace EcellLib.PathwayWindow
             }
 
             // Fire DataChanged for child in system.!
-            m_systemChildrenBeforeDrag = null;
             UpdateResizeHandlePositions();
             ResetSelectedObjects();
             ClearSurroundState();
@@ -1381,9 +925,6 @@ namespace EcellLib.PathwayWindow
             m_upperRightPoint = new PointF(m_upperLeftPoint.X + system.Width, m_upperLeftPoint.Y);
             m_lowerRightPoint = new PointF(m_upperLeftPoint.X + system.Width, m_upperLeftPoint.Y + system.Height);
             m_lowerLeftPoint = new PointF(m_upperLeftPoint.X, m_upperLeftPoint.Y + system.Height);
-
-            m_systemChildrenBeforeDrag = new PNodeList();
-            m_systemChildrenBeforeDrag.AddRange(system.ChildrenReference);
         }
 
         /// <summary>
@@ -2270,7 +1811,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>"TemporaryID"</returns> 
         public string GetTemporaryID(string type, string systemID)
         {
-            return this.Control.Window.GetTemporaryID(m_modelId, type, systemID);
+            return this.PathwayControl.Window.GetTemporaryID(m_modelId, type, systemID);
         }
         /// <summary>
         /// Return a system which surrounds a given point.

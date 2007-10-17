@@ -291,8 +291,7 @@ namespace EcellLib.PathwayWindow
                 }
             }
 
-            m_con = new PathwayControl();
-            m_con.Window = this;
+            m_con = new PathwayControl(this);
             m_con.SetSettings(componentSettings);
             m_con.ComponentSettingsManager = manager;
 
