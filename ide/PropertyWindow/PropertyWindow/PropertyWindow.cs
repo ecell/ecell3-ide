@@ -106,18 +106,20 @@ namespace EcellLib.PropertyWindow
             m_dgv = new DataGridView();
             m_dgv.Dock = DockStyle.Fill;
             m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             m_dgv.AllowUserToAddRows = false;
             m_dgv.AllowUserToDeleteRows = false;
             m_dgv.RowHeadersVisible = true;
+            m_dgv.RowTemplate.Height = 21;
 
             DataGridViewTextBoxColumn textName = new DataGridViewTextBoxColumn();
             textName.HeaderText = "Name";
-            textName.Name = "Name";
+            textName.Name = "NameColumn";
             textName.ReadOnly = false;
 
             DataGridViewTextBoxColumn textValue = new DataGridViewTextBoxColumn();
             textValue.HeaderText = "Value";
-            textValue.Name = "Value";
+            textValue.Name = "ValueColumn";
             textValue.ReadOnly = true;
 
             m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
