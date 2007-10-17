@@ -334,6 +334,7 @@ namespace EcellLib.PathwayWindow
                 return;
             try
             {
+                eo.key = newKey;
                 m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, true, isAnchor);
             }
             catch (IgnoreException)

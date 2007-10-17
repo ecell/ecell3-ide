@@ -871,8 +871,10 @@ namespace EcellLib.PathwayWindow
                     newKey = systemKey + "/" + eo.name;
                 else
                     newKey = systemKey + ":" + eo.name;
-                eo.key = newKey;
+                // Set node change
+                Systems[eo.parentSystemID].EcellObject.RemoveChildObject(eo);
                 this.m_con.NotifyDataChanged(oldKey, newKey, eo, true);
+                system.EcellObject.AddChildObject(eo);
             }
             foreach (EcellObject eo in beforeDict.Values)
             {
@@ -882,8 +884,10 @@ namespace EcellLib.PathwayWindow
                     newKey = parentKey + "/" + eo.name;
                 else
                     newKey = parentKey + ":" + eo.name;
-                eo.key = newKey;
+                // Set node change
+                system.EcellObject.RemoveChildObject(eo);
                 this.m_con.NotifyDataChanged(oldKey, newKey, eo, true);
+                Systems[parentKey].EcellObject.AddChildObject(eo);
             }
 
             // Fire DataChanged for child in system.!

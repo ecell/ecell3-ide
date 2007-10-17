@@ -317,11 +317,6 @@ namespace EcellLib.PathwayWindow.Handler
                         string newSys = null;
                         if (surSys.Equals("/"))
                             newSys = "/" + PathUtil.RemovePath(oldSystemName);
-                        //else if (surSys.Equals(oldSystemName))
-                        //{
-                        //    surSys = PathUtil.GetParentSystemId(oldSystemName);
-                        //    newSys = oldSystemName;
-                        //}
                         else
                             newSys = surSys + "/" + PathUtil.RemovePath(oldSystemName);
                         if (!oldSystemName.Equals(newSys) && m_systems.ContainsKey(newSys))
