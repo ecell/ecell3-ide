@@ -1265,6 +1265,24 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             this.Pickable = m_isPickableBeforeFreeze;
         }
+
+        /// <summary>
+        /// Add Child object.
+        /// </summary>
+        public void AddChildObject(PPathwayObject child)
+        {
+            base.AddChild(child);
+            this.EcellObject.AddChildObject(child.EcellObject);
+        }
+
+        /// <summary>
+        /// Add Child object.
+        /// </summary>
+        public void RemoveChildObject(PPathwayObject child)
+        {
+            base.RemoveChild(child);
+            this.EcellObject.RemoveChildObject(child.EcellObject);
+        }
         #endregion
 
         #region Serialization

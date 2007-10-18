@@ -38,25 +38,7 @@ using UMD.HCIL.Piccolo.Util;
 
 namespace EcellLib.PathwayWindow
 {
-    #region Enums
     /// <summary>
-    /// Type of component.
-    /// </summary>
-    public enum ComponentType {
-        /// <summary>
-        /// type of system
-        /// </summary>
-        System,
-        /// <summary>
-        /// typs of variable
-        /// </summary>
-        Variable,
-        /// <summary>
-        /// type of process
-        /// </summary>
-        Process };
-    #endregion
-        /// <summary>
     /// ComponentSetting contains all information for creating one kind of a component of pathway.
     /// ex) Shape, color, etc.
     /// </summary>
@@ -147,7 +129,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_componentKind.
         /// </summary>
-        public ComponentType ComponentKind
+        public ComponentType ComponentType
         {
             get { return this.m_componentKind; }
             set { this.m_componentKind = value; }
@@ -252,38 +234,6 @@ namespace EcellLib.PathwayWindow
                 return null;
             else
                 return lackInfos;
-        }
-
-        /// <summary>
-        /// Parse a name of kind to ComponentType
-        /// </summary>
-        /// <param name="kind">a name of kind, to be parsed</param>
-        /// <returns></returns>
-        public static ComponentType ParseComponentKind(String kind)
-        {
-            if(kind == null || kind.Equals(""))
-            {
-                throw new NoSuchComponentKindException("Component kind \"" + kind + "\" doesn't"+
-                    " exist. One of System or Variable or Process must be set as a component kind.");
-            }
-            kind = kind.ToLower();
-            if(kind.Equals("system"))
-            {
-                return ComponentType.System;
-            }
-            else if(kind.Equals("variable"))
-            {
-                return ComponentType.Variable;
-            }
-            else if (kind.Equals("process"))
-            {
-                return ComponentType.Process;
-            }
-            else
-            {
-                throw new NoSuchComponentKindException("Component kind \"" + kind + "\" doesn't" +
-                    " exist. One of System or Variable or Process must be set as a component kind.");
-            }
         }
 
         /// <summary>

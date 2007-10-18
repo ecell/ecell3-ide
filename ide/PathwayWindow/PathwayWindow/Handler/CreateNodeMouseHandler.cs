@@ -122,7 +122,7 @@ namespace EcellLib.PathwayWindow
             }
             
             DataManager dm = DataManager.GetDataManager();
-            if (m_view.ComponentSettings[m_view.SelectedHandle.CsID].ComponentKind == ComponentType.Process)
+            if (m_view.SelectedHandle.CsID == ComponentType.Process)
             {
                 string tmpId = m_set.GetTemporaryID("Process", m_surSystem);
                 Dictionary<string, EcellData> dict = DataManager.GetProcessProperty(dm.CurrentProjectID, "ExpressionFluxProcess");

@@ -591,6 +591,42 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Add a child object to m_instance.
+        /// if same object already exists, replace it.
+        /// </summary>
+        /// <param name="d">EcellObject</param>
+        public void AddChildObject(EcellObject childObj)
+        {
+            //Check current list
+            EcellObject removeObj = null;
+            foreach (EcellObject eo in this.m_instances)
+                if (eo.name == childObj.name && eo.type == childObj.type)
+                    removeObj = eo;
+            if (removeObj != null)
+                this.m_instances.Remove(removeObj);
+            this.m_instances.Add(childObj);
+
+        }
+
+        /// <summary>
+        /// Remove a child object from m_instance.
+        /// </summary>
+        /// <param name="d">EcellObject</param>
+        public void RemoveChildObject(EcellObject childObj)
+        {
+            //Check current list
+            EcellObject removeObj = null;
+            foreach (EcellObject eo in this.m_instances)
+                if (eo.name == childObj.name && eo.type == childObj.type)
+                    removeObj = eo;
+            if (removeObj == null)
+                return;
+            this.m_instances.Remove(removeObj);
+
+        }
+        
+
+        /// <summary>
         /// Set value from the list of EcellData.
         /// </summary>
         /// <param name="list">the list of EcellData.</param>

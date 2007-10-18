@@ -109,8 +109,9 @@ namespace EcellLib.PathwayWindow.UIComponent
                 // Case PPathwayNode
                 else if (m_canvas.ClickedNode is PPathwayNode)
                 {
-                    PPathwayNode n = m_canvas.ClickedNode as PPathwayNode;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Text = n.EcellObject.key;
+                    PPathwayNode node = m_canvas.ClickedNode as PPathwayNode;
+                    m_con.SetMenuLogger(node);
+
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = true;
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = true;
 
@@ -137,9 +138,6 @@ namespace EcellLib.PathwayWindow.UIComponent
 
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = true;
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = true;
-
-                    setMenuLogger(n);
-
                 }
                 else if (m_canvas.ClickedNode is Line)
                 {
@@ -199,8 +197,9 @@ namespace EcellLib.PathwayWindow.UIComponent
                 }
                 else if (m_canvas.ClickedNode is PPathwaySystem)
                 {
-                    PPathwaySystem n = m_canvas.ClickedNode as PPathwaySystem;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Text = n.EcellObject.key;
+                    PPathwaySystem sys = m_canvas.ClickedNode as PPathwaySystem;
+                    m_con.SetMenuLogger(sys);
+
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = true;
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = true;
 
@@ -218,11 +217,11 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CUT].Visible = false;
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_COPY].Visible = false;
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = false;
-                    if (n.EcellObject.key != "/")
+                    if (sys.EcellObject.key != "/")
                     {
                         m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Visible = true;
                         m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = true;
-                        String superSys = n.EcellObject.key.Substring(0, n.EcellObject.key.LastIndexOf("/"));
+                        String superSys = sys.EcellObject.key.Substring(0, sys.EcellObject.key.LastIndexOf("/"));
                         if (superSys == "") superSys = "/";
                         m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Text =
                             m_resources.GetString("MergeMenuText") + "(" + superSys + ")";
@@ -237,8 +236,6 @@ namespace EcellLib.PathwayWindow.UIComponent
                     }
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = true;
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = true;
-
-                    setMenuLogger(n);
                 }
                 else
                 {
@@ -265,45 +262,6 @@ namespace EcellLib.PathwayWindow.UIComponent
 
                 }
             }
-        }
-
-        private void setMenuLogger(PPathwayObject obj)
-        {
-
-            ToolStripMenuItem createLogger = (ToolStripMenuItem)m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER];
-            ToolStripMenuItem deleteLogger = (ToolStripMenuItem)m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER];
-            createLogger.DropDown.Items.Clear();
-            deleteLogger.DropDown.Items.Clear();
-
-            if (obj.EcellObject == null || obj.EcellObject.modelID == null)
-                return;
-
-            EcellObject ecellobj = obj.EcellObject;
-            if (ecellobj == null)
-                return;
-            // set logger menu
-            foreach (EcellData d in ecellobj.M_value)
-            {
-                if (d.M_isLogable)
-                {
-                    ToolStripItem sysLogger = new ToolStripMenuItem(d.M_name);
-                    sysLogger.Text = d.M_name;
-                    if (d.M_isLogger)
-                    {
-                        sysLogger.Click += new EventHandler(m_con.DeleteLoggerClick);
-                        deleteLogger.DropDown.Items.Add(sysLogger);
-                    }
-                    else
-                    {
-                        sysLogger.Click += new EventHandler(m_con.CreateLoggerClick);
-                        createLogger.DropDown.Items.Add(sysLogger);
-                    }
-                }
-            }
-            // 
-            createLogger.Visible = !(createLogger.DropDown.Items.Count == 0);
-            deleteLogger.Visible = !(deleteLogger.DropDown.Items.Count == 0);
-
         }
     }
 }

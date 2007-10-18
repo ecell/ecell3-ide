@@ -809,26 +809,23 @@ namespace EcellLib.PathwayWindow
             // Reset Object relation.
             system.Reset();
 
-            // Select PathwayObjects being moved into current system.
             List<EcellObject> objList = GetAllObjects();
+            // Select PathwayObjects being moved into current system.
             Dictionary<string, EcellObject> currentDict = new Dictionary<string, EcellObject>();
-            foreach (EcellObject eo in objList)
-            {
-                if (!system.Rect.Contains(eo.Rect))
-                    continue;
-                if (eo.parentSystemID.StartsWith(systemKey))
-                    continue;
-                currentDict.Add(eo.type + ":" + eo.key, eo);
-            }
             // Select PathwayObjects being moved to upper system.
             Dictionary<string, EcellObject> beforeDict = new Dictionary<string, EcellObject>();
             foreach (EcellObject eo in objList)
             {
                 if (system.Rect.Contains(eo.Rect))
-                    continue;
-                if (!eo.parentSystemID.StartsWith(systemKey))
-                    continue;
-                beforeDict.Add(eo.type + ":" + eo.key, eo);
+                {
+                    if (!eo.parentSystemID.StartsWith(systemKey))
+                        currentDict.Add(eo.type + ":" + eo.key, eo);
+                }
+                else
+                {
+                    if (eo.parentSystemID.StartsWith(systemKey))
+                        beforeDict.Add(eo.type + ":" + eo.key, eo);
+                }
             }
 
             // If ID duplication could occurred, system resizing will be aborted
@@ -872,9 +869,7 @@ namespace EcellLib.PathwayWindow
                 else
                     newKey = systemKey + ":" + eo.name;
                 // Set node change
-                Systems[eo.parentSystemID].EcellObject.RemoveChildObject(eo);
                 this.m_con.NotifyDataChanged(oldKey, newKey, eo, true);
-                system.EcellObject.AddChildObject(eo);
             }
             foreach (EcellObject eo in beforeDict.Values)
             {
@@ -885,9 +880,7 @@ namespace EcellLib.PathwayWindow
                 else
                     newKey = parentKey + ":" + eo.name;
                 // Set node change
-                system.EcellObject.RemoveChildObject(eo);
                 this.m_con.NotifyDataChanged(oldKey, newKey, eo, true);
-                Systems[parentKey].EcellObject.AddChildObject(eo);
             }
 
             // Fire DataChanged for child in system.!
@@ -895,11 +888,17 @@ namespace EcellLib.PathwayWindow
             ResetSelectedObjects();
             ClearSurroundState();
 
+            // Update systems
             m_con.NotifyDataChanged(
                 system.EcellObject.key,
                 system.EcellObject.key,
                 system.EcellObject,
                 true);
+            m_con.NotifyDataChanged(
+                parentKey,
+                parentKey,
+                system.ParentObject.EcellObject,
+                false);
         }
 
         void ResetSystemResize(PPathwaySystem system)
@@ -1473,29 +1472,30 @@ namespace EcellLib.PathwayWindow
         public void TransferNodeTo(string systemName, EcellObject eo, bool toBeNotified, bool isAnchor)
         {
             // Set new system.
+            string oldSys = eo.parentSystemID;
             string oldKey = eo.key;
             eo.parentSystemID = systemName;
 
-            if (eo is EcellVariable)
-            {
-                PPathwayVariable var = Variables[oldKey];
-                m_variables.Remove(oldKey);
-                m_variables.Add(eo.key, var);
-            }
-            else if (eo is EcellProcess)
-            {
-                PPathwayProcess pro = Processes[oldKey];
-                m_processes.Remove(oldKey);
-                m_processes.Add(eo.key, pro);
-            }
-            if (toBeNotified)
-            {
-                m_con.NotifyDataChanged(
-                    oldKey,
-                    eo.key,
-                    eo,
-                    isAnchor);
-            }
+            if (!toBeNotified)
+                return;
+            // Update Node.
+            m_con.NotifyDataChanged(
+                oldKey,
+                eo.key,
+                eo,
+                isAnchor);
+            // Update Systems
+            m_con.NotifyDataChanged(
+                systemName,
+                systemName,
+                GetSelectedObject(systemName, EcellObject.SYSTEM).EcellObject,
+                false);
+            // Update Systems
+            m_con.NotifyDataChanged(
+                oldSys,
+                oldSys,
+                GetSelectedObject(oldSys, EcellObject.SYSTEM).EcellObject,
+                false);
 
         }
 
@@ -1515,7 +1515,7 @@ namespace EcellLib.PathwayWindow
             {
                 PPathwayObject po = (PPathwayObject)obj.Parent;
                 po.RemoveChild(po.IndexOfChild(obj));
-                system.AddChild(obj);
+                system.AddChildObject(obj);
                 if (system.IndexOfChild(po) < 0)
                 {
                     obj.OffsetX -= system.OffsetX;
@@ -1590,7 +1590,7 @@ namespace EcellLib.PathwayWindow
             PPathwaySystem system = m_systems[oldKey];
             PPathwaySystem parentSys = m_systems[systemName];
             system.Parent.RemoveChild(system);
-            parentSys.AddChild(system);
+            parentSys.AddChildObject(system);
 
             if (isExternal)
             {
@@ -1838,7 +1838,7 @@ namespace EcellLib.PathwayWindow
         {
             EcellObject obj = null;
 
-            foreach (PPathwaySystem sys in this.Systems.Values)
+            foreach (PPathwaySystem sys in this.m_systems.Values)
                 if (sys.Rect.Contains(point) && !sys.EcellObject.key.Equals(excludedSystem))
                     obj = sys.EcellObject;
             return obj;
@@ -1878,7 +1878,7 @@ namespace EcellLib.PathwayWindow
         public void AddSelectedNode(PPathwayNode obj, bool toBeNotified)
         {
             EcellObject eo = obj.EcellObject;
-            SelectedNodes.Add(eo);
+            m_selectedNodes.Add(eo);
             obj.IsHighLighted = true;
             if (toBeNotified)
                 m_con.NotifySelectChanged(obj.EcellObject.key, obj.EcellObject.type);
@@ -2036,11 +2036,11 @@ namespace EcellLib.PathwayWindow
         public PPathwayObject GetSelectedObject(string key, string type)
         {
             if (type.Equals(EcellObject.SYSTEM))
-                return Systems[key];
+                return m_systems[key];
             if (type.Equals(EcellObject.PROCESS))
-                return Processes[key];
+                return m_processes[key];
             if (type.Equals(EcellObject.VARIABLE))
-                return Variables[key];
+                return m_variables[key];
             return null;
         }
         /// <summary>
@@ -2062,7 +2062,7 @@ namespace EcellLib.PathwayWindow
         public List<EcellObject> GetSystemList()
         {
             List<EcellObject> returnList = new List<EcellObject>();
-            foreach (PPathwaySystem system in this.Systems.Values)
+            foreach (PPathwaySystem system in this.m_systems.Values)
                 returnList.Add(system.EcellObject);
 
             return returnList;
@@ -2074,9 +2074,9 @@ namespace EcellLib.PathwayWindow
         public List<EcellObject> GetNodeList()
         {
             List<EcellObject> returnList = new List<EcellObject>();
-            foreach (PPathwayVariable variable in this.Variables.Values)
+            foreach (PPathwayVariable variable in this.m_variables.Values)
                 returnList.Add(variable.EcellObject);
-            foreach (PPathwayProcess process in this.Processes.Values)
+            foreach (PPathwayProcess process in this.m_processes.Values)
                 returnList.Add(process.EcellObject);
 
             return returnList;
@@ -2123,37 +2123,55 @@ namespace EcellLib.PathwayWindow
                     if (!m_systems.ContainsKey(key))
                         return;
                     PPathwaySystem system = m_systems[key];
-                    //m_systems.Remove(key);
-
                     if (!key.Equals(data.key))
-                    {
-                        TransferSystemTo( data.parentSystemID, key, false);
-                        m_systems.Remove(key);
-                        m_systems.Add(data.key, system);
-
-                    }
-                    system.EcellObject = (EcellSystem)data;
+                        TransferObject(key, data, system);
+                    else
+                        system.EcellObject = (EcellSystem)data;
                     UpdateResizeHandlePositions();
                     break;
                 case ComponentType.Variable:
                     if (!m_variables.ContainsKey(key))
                         return;
                     PPathwayVariable var = m_variables[key];
-                    var.EcellObject = (EcellVariable)data;
-
-                    m_variables.Remove(key);
-                    m_variables.Add(data.key, var);
+                    if (!key.Equals(data.key))
+                        TransferObject(key, data, var);
+                    else
+                        var.EcellObject = (EcellVariable)data;
                     break;
                 case ComponentType.Process:
                     if (!m_processes.ContainsKey(key))
                         return;
                     PPathwayProcess pro = m_processes[key];
-                    pro.EcellObject = (EcellProcess)data;
-
-                    m_processes.Remove(key);
-                    m_processes.Add(data.key, pro);
+                    if (!key.Equals(data.key))
+                        TransferObject(key, data, pro);
+                    else
+                        pro.EcellObject = (EcellProcess)data;
                     break;
             }
+        }
+
+        private void TransferObject(string key, EcellObject eo, PPathwayObject obj)
+        {
+            if (obj is PPathwaySystem)
+            {
+                m_systems.Remove(key);
+                obj.ParentObject.RemoveChildObject(obj);
+                m_systems.Add(eo.key, (PPathwaySystem)obj);
+            }
+            else if (obj is PPathwayVariable)
+            {
+                m_variables.Remove(key);
+                obj.ParentObject.RemoveChildObject(obj);
+                m_variables.Add(eo.key, (PPathwayVariable)obj);
+            }
+            else if (obj is PPathwayProcess)
+            {
+                m_processes.Remove(key);
+                obj.ParentObject.RemoveChildObject(obj);
+                m_processes.Add(eo.key, (PPathwayProcess)obj);
+            }
+            obj.EcellObject = eo;
+            m_systems[eo.parentSystemID].AddChildObject(obj);
         }
 
         /// <summary>
@@ -2229,7 +2247,7 @@ namespace EcellLib.PathwayWindow
                     break;
                 case ComponentType.Variable:
                     bool isAlreadySelected = false;
-                    foreach (EcellObject selectNode in SelectedNodes)
+                    foreach (EcellObject selectNode in m_selectedNodes)
                     {
                         if (key.Equals(selectNode.key) && selectNode is EcellVariable)
                         {
@@ -2253,7 +2271,7 @@ namespace EcellLib.PathwayWindow
                     break;
                 case ComponentType.Process:
                     bool isProAlreadySelected = false;
-                    foreach (EcellObject selectNode in SelectedNodes)
+                    foreach (EcellObject selectNode in m_selectedNodes)
                     {
                         if (key.Equals(selectNode.key) && selectNode is EcellProcess)
                         {
@@ -2382,12 +2400,12 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void ResetSelectedNodes()
         {
-            if (SelectedNodes.Count == 0)
+            if (m_selectedNodes.Count == 0)
                 return;
-            foreach (EcellObject obj in SelectedNodes)
+            foreach (EcellObject obj in m_selectedNodes)
                 GetSelectedObject(obj.key, obj.type).IsHighLighted = false;
             lock (this)
-                SelectedNodes.Clear();
+                m_selectedNodes.Clear();
         }
 
         /// <summary>
@@ -2509,7 +2527,7 @@ namespace EcellLib.PathwayWindow
             PointF center = new PointF(point.X + PPathwayNode.DEFAULT_WIDTH / 2, point.Y + PPathwayNode.DEFAULT_HEIGHT / 2);
             bool sysContains = false;
             bool childContains = false;
-            foreach (PPathwaySystem sys in this.Systems.Values)
+            foreach (PPathwaySystem sys in this.m_systems.Values)
                 if (sys.EcellObject.key.Equals(sysKey) && sys.Rect.Contains(point) && sys.Rect.Contains(center))
                     sysContains = true;
                 else if (sys.EcellObject.key.StartsWith(sysKey) && (sys.Rect.Contains(point) || sys.Rect.Contains(center) ) )
@@ -2524,7 +2542,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="obj">EcellObject of moved node</param>
         public PointF GetVacantPoint(string sysKey)
         {
-            EcellObject sys = Systems[sysKey].EcellObject;
+            EcellObject sys = m_systems[sysKey].EcellObject;
             Random hRandom = new Random();
             PointF basePos = new PointF(
                 (float)hRandom.Next((int)sys.X, (int)(sys.X + sys.Width)),
@@ -2539,7 +2557,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="obj">EcellObject of moved node</param>
         public PointF GetVacantPoint(string sysKey, PointF pos)
         {
-            PPathwaySystem sys = Systems[sysKey];
+            PPathwaySystem sys = m_systems[sysKey];
             PointF newPos = new PointF(pos.X, pos.Y);
             double rad = Math.PI * 0.25f;
             float r = 0f;

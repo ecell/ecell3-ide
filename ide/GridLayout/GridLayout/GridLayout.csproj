@@ -62,10 +62,6 @@
     <DocumentationFile>bin\x86_64\Release\Formulator.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PathwayWindow, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5bcdc7f2279c386, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\plugin\PathwayWindow.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />

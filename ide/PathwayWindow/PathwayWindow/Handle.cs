@@ -22,7 +22,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// ID of component setting
         /// </summary>
-        private int m_csID;
+        private ComponentType m_csID;
 
         /// <summary>
         /// Accessor for mode of this handle.
@@ -43,7 +43,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for component setting's ID
         /// </summary>
-        public int CsID
+        public ComponentType CsID
         {
             get { return this.m_csID; }
         }
@@ -54,7 +54,18 @@ namespace EcellLib.PathwayWindow
         /// <param name="mode">Mode of this handle (select, pan, etc.)</param>
         /// <param name="handleID">ID of this handle</param>
         /// <param name="csID">ID of component setting</param>
-        public Handle(Mode mode, int handleID, int csID)
+        public Handle(Mode mode, int handleID)
+        {
+            this.m_mode = mode;
+            this.m_handleID = handleID;
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="mode">Mode of this handle (select, pan, etc.)</param>
+        /// <param name="handleID">ID of this handle</param>
+        /// <param name="csID">ID of component setting</param>
+        public Handle(Mode mode, int handleID, ComponentType csID)
         {
             this.m_mode = mode;
             this.m_handleID = handleID;

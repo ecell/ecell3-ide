@@ -94,7 +94,12 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// A list for menu of layout algorithm, which implement ILayoutAlgorithm.
         /// </summary>
-        private List<ToolStripMenuItem> m_menuList = new List<ToolStripMenuItem>();
+        private List<ToolStripMenuItem> m_menuList;
+
+        /// <summary>
+        /// A list for menu of layout algorithm, which implement ILayoutAlgorithm.
+        /// </summary>
+        private List<ToolStripMenuItem> m_menuLayoutList;
 
         /// <summary>
         /// Index for a default layout algorithm in m_layoutList
@@ -150,152 +155,11 @@ namespace EcellLib.PathwayWindow
         {
             m_dManager = DataManager.GetDataManager();
 
-            // Read component settings from ComopnentSettings.xml
-            // string settingFile = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
-            string settingFile = EcellLib.Util.GetPluginDir();
-            settingFile += "\\pathway\\ComponentSettings.xml";
-
-            List<ComponentSetting> componentSettings = new List<ComponentSetting>();
-
-            XmlDocument xmlD = new XmlDocument();
-            try
-            {
-                xmlD.Load(settingFile);
-            }
-            catch (FileNotFoundException)
-            {
-                MessageBox.Show(m_resources.GetString("ErrNotComXml"), "WARNING", MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
-                xmlD = null;
-            }
-
-            ComponentSettingsManager manager = new ComponentSettingsManager();
-            
-            if (xmlD != null)
-            {
-                // All ComponentSettings in the xml file are in valid format or not.
-                bool isAllValid = true;
-                // If any ComponentSettings in the xml file is invalid, these messages are shown.
-                List<string> lackMessages = new List<string>();
-                int csCount = 1;
-
-                // Read ComponentSettings information from xml file.
-                foreach (XmlNode componentNode in xmlD.ChildNodes[0].ChildNodes)
-                {
-                    ComponentSetting cs = new ComponentSetting();
-
-                    String componentKind = componentNode.Attributes["kind"].Value;
-
-                    bool isDefault = false;
-                    if (componentNode.Attributes["isDefault"] != null
-                     && componentNode.Attributes["isDefault"].ToString().ToLower().Equals("true"))
-                        isDefault = true;
-
-                    try
-                    {
-                        cs.ComponentKind = ComponentSetting.ParseComponentKind(componentKind);
-                    }
-                    catch (NoSuchComponentKindException e)
-                    {
-                        MessageBox.Show(m_resources.GetString("ErrCreateKind") + "\n\n" +  e.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        continue;
-                    }
-
-                    foreach (XmlNode parameterNode in componentNode.ChildNodes)
-                    {
-                        if ("Name".Equals(parameterNode.Name))
-                        {
-                            cs.Name = parameterNode.InnerText;
-                        }
-                        else if ("Color".Equals(parameterNode.Name))
-                        {
-                            Brush brush = PathUtil.GetBrushFromString(parameterNode.InnerText);
-                            if (brush != null)
-                            {
-                                cs.NormalBrush = brush;
-                            }
-                        }
-                        else if ("Drawings".Equals(parameterNode.Name))
-                        {
-                            foreach (XmlNode drawNode in parameterNode.ChildNodes)
-                            {
-                                if (drawNode.Attributes["type"] != null)
-                                    cs.AddFigure(drawNode.Attributes["type"].Value, drawNode.InnerText);
-                            }
-                        }
-                        else if ("Class".Equals(parameterNode.Name))
-                        {
-                            cs.AddComponentClass(parameterNode.InnerText);
-                        }
-                    }
-
-                    List<string> lackInfos = cs.Validate();
-
-                    if (lackInfos == null)
-                    {
-                        componentSettings.Add(cs);
-                        switch (cs.ComponentKind)
-                        {
-                            case ComponentType.System:
-                                manager.RegisterSystemSetting(cs.Name, cs, isDefault);
-                                break;
-                            case ComponentType.Process:
-                                manager.RegisterProcessSetting(cs.Name, cs, isDefault);
-                                break;
-                            case ComponentType.Variable:
-                                manager.RegisterVariableSetting(cs.Name, cs, isDefault);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        isAllValid = false;
-                        string nameForCs = null;
-                        if (cs.Name == null)
-                            nameForCs = "ComponentSetting No." + csCount;
-                        else
-                            nameForCs = cs.Name;
-                        foreach (string lackInfo in lackInfos)
-                            lackMessages.Add(nameForCs + " lacks " + lackInfo + "\n");
-                    }
-                    csCount++;
-                }
-
-                string warnMessage = "";
-
-                if (manager.DefaultSystemSetting == null)
-                    warnMessage += m_resources.GetString("ErrCompSystem") + "\n\n";                    
-                if (manager.DefaultVariableSetting == null)
-                    warnMessage += m_resources.GetString("ErrCompVariable") + "\n\n";
-                if (manager.DefaultProcessSetting == null)
-                    warnMessage += m_resources.GetString("ErrCompProcess") + "\n\n";
-                
-                if (!isAllValid)
-                {
-                    warnMessage += m_resources.GetString("ErrCompInvalid");
-                    if (lackMessages.Count != 1)
-                        warnMessage += "s";
-                    warnMessage += "\n";
-
-                    foreach (string msg in lackMessages)
-                    {
-                        warnMessage += "    " + msg;
-                    }
-
-                }
-
-                if(warnMessage != null && warnMessage.Length != 0)
-                {
-                    MessageBox.Show(warnMessage, "WARNING by PathwayWindow", MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-                }
-            }
-
             m_con = new PathwayControl(this);
-            m_con.SetSettings(componentSettings);
-            m_con.ComponentSettingsManager = manager;
+            m_con.ComponentManager = LoadComponentSettings();
 
             CheckLayoutAlgorithmDlls();
+            CreateMenu();
         }
         #endregion
 
@@ -340,94 +204,6 @@ namespace EcellLib.PathwayWindow
             catch (IgnoreException)
             {
                 this.DataChanged(eo.modelID, newKey, eo.type, eo);
-            }
-        }
-
-        /// <summary>
-        /// Inform the changing of EcellObject in PathwayEditor to DataManager.
-        /// </summary>
-        /// <param name="proKey">key of process</param>
-        /// <param name="varKey">key of variable</param>
-        /// <param name="changeType">type of change</param>
-        /// <param name="coefficient">coefficient of VariableReference</param>
-        public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient)
-        {
-            // Get EcellObject of identified process.
-            EcellProcess process = (EcellProcess)m_dManager.GetEcellObject(m_modelId, proKey, PathwayControl.PROCESS_STRING);
-            // End if obj is null.
-            if (null == process)
-                return;
-
-            // Get EcellReference List.
-            List<EcellReference> refList = process.ReferenceList;
-            List<EcellReference> newList = new List<EcellReference>();
-            EcellReference changedRef = null;
-
-            foreach (EcellReference v in refList)
-            {
-                if (v.fullID.EndsWith(varKey))
-                    changedRef = v;
-                else
-                    newList.Add(v);
-            }
-
-            if (changedRef != null && changeType != RefChangeType.Delete)
-            {
-                switch(changeType)
-                {
-                    case RefChangeType.SingleDir:
-                        changedRef.coefficient = coefficient;
-                        newList.Add(changedRef);
-                        break;
-                    case RefChangeType.BiDir:
-                        EcellReference copyRef = PathUtil.CopyEcellReference(changedRef);
-                        changedRef.coefficient = -1;
-                        changedRef.name = PathUtil.GetNewReferenceName(newList, -1);
-                        copyRef.coefficient = 1;
-                        copyRef.name = PathUtil.GetNewReferenceName(newList, 1);
-                        newList.Add(changedRef);
-                        newList.Add(copyRef);
-                        break;
-                }
-            }
-            else if(changedRef == null)
-            {
-                switch(changeType)
-                {
-                    case RefChangeType.SingleDir:
-                        EcellReference addRef = new EcellReference();
-                        addRef.coefficient = coefficient;
-                        addRef.fullID = varKey;
-                        addRef.name = PathUtil.GetNewReferenceName(newList, coefficient);
-                        addRef.isAccessor = 1;
-                        newList.Add(addRef);
-                        break;
-                    case RefChangeType.BiDir:
-                        EcellReference addSRef = new EcellReference();
-                        addSRef.coefficient = -1;
-                        addSRef.fullID = varKey;
-                        addSRef.name = PathUtil.GetNewReferenceName(newList, -1);
-                        addSRef.isAccessor = 1;
-                        newList.Add(addSRef);
-
-                        EcellReference addPRef = new EcellReference();
-                        addPRef.coefficient = 1;
-                        addPRef.fullID = varKey;
-                        addPRef.name = PathUtil.GetNewReferenceName(newList, 1);
-                        addPRef.isAccessor = 1;
-                        newList.Add(addPRef);
-                        break;
-                }
-            }
-            process.ReferenceList = newList;
-
-            try
-            {
-                m_dManager.DataChanged(m_modelId, proKey, PathwayControl.PROCESS_STRING, process);
-            }
-            catch(IgnoreException)
-            {
-                return;
             }
         }
 
@@ -482,96 +258,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of menu.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-            List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
-
-            // Setup menu
-            m_showIdItem = new ToolStripMenuItem();
-            m_showIdItem.CheckOnClick = true;
-            m_showIdItem.CheckState = CheckState.Checked;
-//            m_showIdItem.Text = "Show IDs(Pathway)";
-            m_showIdItem.ToolTipText = "Visibility of Node's name of each pathway object";
-            m_showIdItem.Text = m_resources.GetString( "MenuItemShowIDText");
-            m_showIdItem.Click += new EventHandler(ShowIdClick);
-
-            ToolStripMenuItem viewMenu = new ToolStripMenuItem();
-            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { m_showIdItem });
-            viewMenu.Text = "Setup";
-            viewMenu.Name = "MenuItemView";
-            
-            list.Add(viewMenu);
-
-            // Edit menu
-            ToolStripMenuItem editMenu = new ToolStripMenuItem();
-            editMenu.Text = "Edit";
-            editMenu.Name = "MenuItemEdit";
-
-            ToolStripSeparator separator = new ToolStripSeparator();
-            
-            ToolStripMenuItem deleteMenu = new ToolStripMenuItem();
-            deleteMenu.Text = m_resources.GetString("DeleteMenuText");
-            deleteMenu.Name = "MenuItemPaste";
-            deleteMenu.Click += new EventHandler(m_con.DeleteClick);
-            deleteMenu.ShortcutKeys = Keys.Delete;
-            deleteMenu.ShowShortcutKeys = true;
-            ToolStripMenuItem cutMenu = new ToolStripMenuItem();
-            cutMenu.Text = m_resources.GetString("CutMenuText");
-            cutMenu.Name = "MenuItemCut";
-            cutMenu.Click += new EventHandler(m_con.CutClick);
-            cutMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            cutMenu.ShowShortcutKeys = true;
-            ToolStripMenuItem copyMenu = new ToolStripMenuItem();
-            copyMenu.Text = m_resources.GetString("CopyMenuText");
-            copyMenu.Name = "MenuItemCopy";
-            copyMenu.Click += new EventHandler(m_con.CopyClick);
-            copyMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            copyMenu.ShowShortcutKeys = true;
-            ToolStripMenuItem pasteMenu = new ToolStripMenuItem();
-            pasteMenu.Text = m_resources.GetString("PasteMenuText");
-            pasteMenu.Name = "MenuItemPaste";
-            pasteMenu.Click += new EventHandler(m_con.PasteClick);
-            pasteMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            pasteMenu.ShowShortcutKeys = true;
-
-            editMenu.DropDownItems.AddRange(new ToolStripItem[] { cutMenu, copyMenu, pasteMenu, deleteMenu });
-            list.Add(editMenu);
-
-            // Layout menu
-            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
-            layoutMenu.Text = "Layout";
-            layoutMenu.Name = "MenuItemLayout";
-
-            int count = 0; // index for position in m_layoutList
-            foreach (ILayoutAlgorithm algo in m_layoutList)
-            {
-                ToolStripMenuItem eachLayoutItem = new ToolStripMenuItem();
-                eachLayoutItem.Text = algo.GetMenuText();
-                eachLayoutItem.Tag = count;
-                eachLayoutItem.ToolTipText = algo.GetToolTipText();
-                eachLayoutItem.Click += new EventHandler(eachLayoutItem_Click);
-
-                List<string> subCommands = algo.GetSubCommands();
-                if (subCommands != null && subCommands.Count != 0)
-                {
-                    int subCount = 0;
-                    foreach(string subCommandName in subCommands)
-                    {
-                        ToolStripMenuItem layoutSubItem = new ToolStripMenuItem();
-                        layoutSubItem.Text = subCommandName;
-                        layoutSubItem.Tag = count + "," + subCount;
-                        layoutSubItem.Click += new EventHandler(eachLayoutItem_Click);
-                        eachLayoutItem.DropDownItems.Add(layoutSubItem);
-                        subCount++;
-                    }
-                }
-
-                layoutMenu.DropDownItems.Add(eachLayoutItem);
-                m_menuList.Add(eachLayoutItem);
-                count += 1;
-            }
-
-            list.Add(layoutMenu);
-
-            return list;
+            return m_menuList;
         }
 
         /// <summary>
@@ -685,7 +372,7 @@ namespace EcellLib.PathwayWindow
                 isShow = true;
             }
 
-            foreach (ToolStripMenuItem t in m_menuList)
+            foreach (ToolStripMenuItem t in m_menuLayoutList)
             {
                 t.Enabled = isShow;
             }
@@ -796,7 +483,7 @@ namespace EcellLib.PathwayWindow
             // Change data.
             try
             {
-                ComponentType cType = ComponentSetting.ParseComponentKind(type);
+                ComponentType cType = ComponentManager.ParseComponentKind(type);
                 canvas.DataChanged(key, data, cType);
             }
             catch (Exception e)
@@ -819,7 +506,7 @@ namespace EcellLib.PathwayWindow
                 this.Clear();
             CanvasView canvas = this.m_con.CanvasDictionary[modelID];
             if (canvas != null)
-                canvas.DataDelete(key, ComponentSetting.ParseComponentKind(type) );
+                canvas.DataDelete(key, ComponentManager.ParseComponentKind(type));
         }
 
         /// <summary>
@@ -912,7 +599,7 @@ namespace EcellLib.PathwayWindow
             if (type == null || type == "Model" || type == "Project")
                 return;
             CanvasView canvas = this.m_con.CanvasDictionary[modelID];
-            ComponentType cType = ComponentSetting.ParseComponentKind(type);
+            ComponentType cType = ComponentManager.ParseComponentKind(type);
             if (canvas != null)
                 canvas.SelectChanged(key, cType);
         }
@@ -927,7 +614,7 @@ namespace EcellLib.PathwayWindow
         {
             // not implement
             //PPathwayObject obj = m_view.ActiveCanvas.
-            this.m_con.ActiveCanvas.SelectChanged(key, ComponentSetting.ParseComponentKind(type));
+            this.m_con.ActiveCanvas.SelectChanged(key, ComponentManager.ParseComponentKind(type));
         }
 
         /// <summary>
@@ -1003,6 +690,150 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         #region Internal use
+        /// <summary>
+        /// Load ComponentSettings from default setting file.
+        /// </summary>
+        private ComponentManager LoadComponentSettings()
+        {
+            // Read component settings from ComopnentSettings.xml
+            // string settingFile = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
+            string settingFile = EcellLib.Util.GetPluginDir();
+            settingFile += "\\pathway\\ComponentSettings.xml";
+
+            ComponentManager manager = new ComponentManager();
+
+            XmlDocument xmlD = new XmlDocument();
+            try
+            {
+                xmlD.Load(settingFile);
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show(m_resources.GetString("ErrNotComXml"), "WARNING", MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+                xmlD = null;
+            }
+
+            if (xmlD != null)
+            {
+                // All ComponentSettings in the xml file are in valid format or not.
+                bool isAllValid = true;
+                // If any ComponentSettings in the xml file is invalid, these messages are shown.
+                List<string> lackMessages = new List<string>();
+                int csCount = 1;
+
+                // Read ComponentSettings information from xml file.
+                foreach (XmlNode componentNode in xmlD.ChildNodes[0].ChildNodes)
+                {
+                    ComponentSetting cs = new ComponentSetting();
+
+                    String componentKind = componentNode.Attributes["kind"].Value;
+
+                    bool isDefault = false;
+                    if (componentNode.Attributes["isDefault"] != null
+                     && componentNode.Attributes["isDefault"].ToString().ToLower().Equals("true"))
+                        isDefault = true;
+
+                    try
+                    {
+                        cs.ComponentType = ComponentManager.ParseComponentKind(componentKind);
+                    }
+                    catch (NoSuchComponentKindException e)
+                    {
+                        MessageBox.Show(m_resources.GetString("ErrCreateKind") + "\n\n" + e.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        continue;
+                    }
+
+                    foreach (XmlNode parameterNode in componentNode.ChildNodes)
+                    {
+                        if ("Name".Equals(parameterNode.Name))
+                        {
+                            cs.Name = parameterNode.InnerText;
+                        }
+                        else if ("Color".Equals(parameterNode.Name))
+                        {
+                            Brush brush = PathUtil.GetBrushFromString(parameterNode.InnerText);
+                            if (brush != null)
+                            {
+                                cs.NormalBrush = brush;
+                            }
+                        }
+                        else if ("Drawings".Equals(parameterNode.Name))
+                        {
+                            foreach (XmlNode drawNode in parameterNode.ChildNodes)
+                            {
+                                if (drawNode.Attributes["type"] != null)
+                                    cs.AddFigure(drawNode.Attributes["type"].Value, drawNode.InnerText);
+                            }
+                        }
+                        else if ("Class".Equals(parameterNode.Name))
+                        {
+                            cs.AddComponentClass(parameterNode.InnerText);
+                        }
+                    }
+
+                    List<string> lackInfos = cs.Validate();
+
+                    if (lackInfos == null)
+                    {
+                        switch (cs.ComponentType)
+                        {
+                            case ComponentType.System:
+                                manager.RegisterSystemSetting(cs.Name, cs, isDefault);
+                                break;
+                            case ComponentType.Process:
+                                manager.RegisterProcessSetting(cs.Name, cs, isDefault);
+                                break;
+                            case ComponentType.Variable:
+                                manager.RegisterVariableSetting(cs.Name, cs, isDefault);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        isAllValid = false;
+                        string nameForCs = null;
+                        if (cs.Name == null)
+                            nameForCs = "ComponentSetting No." + csCount;
+                        else
+                            nameForCs = cs.Name;
+                        foreach (string lackInfo in lackInfos)
+                            lackMessages.Add(nameForCs + " lacks " + lackInfo + "\n");
+                    }
+                    csCount++;
+                }
+
+                string warnMessage = "";
+
+                if (manager.DefaultSystemSetting == null)
+                    warnMessage += m_resources.GetString("ErrCompSystem") + "\n\n";
+                if (manager.DefaultVariableSetting == null)
+                    warnMessage += m_resources.GetString("ErrCompVariable") + "\n\n";
+                if (manager.DefaultProcessSetting == null)
+                    warnMessage += m_resources.GetString("ErrCompProcess") + "\n\n";
+
+                if (!isAllValid)
+                {
+                    warnMessage += m_resources.GetString("ErrCompInvalid");
+                    if (lackMessages.Count != 1)
+                        warnMessage += "s";
+                    warnMessage += "\n";
+
+                    foreach (string msg in lackMessages)
+                    {
+                        warnMessage += "    " + msg;
+                    }
+
+                }
+
+                if (warnMessage != null && warnMessage.Length != 0)
+                {
+                    MessageBox.Show(warnMessage, "WARNING by PathwayWindow", MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                }
+            }
+            return manager;
+        }
 
         /// <summary>
         /// Check layout algorithm's dlls in a plugin\pathway directory and register them
@@ -1019,42 +850,132 @@ namespace EcellLib.PathwayWindow
             foreach(string pluginName in Directory.GetFiles(pathwayDir))
             {
                 // Only dlls will be loaded (NOT xml)!
-                if (!string.IsNullOrEmpty(pluginName) && pluginName.EndsWith(EcellLib.Util.s_dmFileExtension))
+                if (string.IsNullOrEmpty(pluginName) || !pluginName.EndsWith(EcellLib.Util.s_dmFileExtension))
+                    continue;
+                try
                 {
-                    try
+                    Assembly handle = Assembly.LoadFile(pluginName);
+                    string className = Path.GetFileName(pluginName).Replace(EcellLib.Util.s_dmFileExtension, "");
+                    
+                    foreach(Type type in handle.GetTypes())
                     {
-                        Assembly handle = Assembly.LoadFile(pluginName);
-
-                        string className = Path.GetFileName(pluginName).Replace(EcellLib.Util.s_dmFileExtension, "");
-                        
-                        foreach(Type type in handle.GetTypes())
+                        foreach (Type intType in type.GetInterfaces())
                         {
-                            foreach (Type intType in type.GetInterfaces())
-                            {
-                                if(intType.Name.Equals("ILayoutAlgorithm"))
-                                {
-                                    Object anAllocator = type.InvokeMember(
-                                        null,
-                                        BindingFlags.CreateInstance,
-                                        null,
-                                        null,
-                                        null
-                                    );
-                                    m_layoutList.Add((ILayoutAlgorithm)anAllocator);
-                                    
-                                    string name = ((ILayoutAlgorithm)anAllocator).GetName();
-                                    if (!string.IsNullOrEmpty(name) && m_defLayout.Equals(name))
-                                        m_defLayoutIdx = m_layoutList.Count - 1;
-                                }
-                            }
+                            if (!intType.Name.Equals("ILayoutAlgorithm"))
+                                continue;
+
+                            Object anAllocator = type.InvokeMember(
+                                null,
+                                BindingFlags.CreateInstance,
+                                null,
+                                null,
+                                null);
+                            m_layoutList.Add((ILayoutAlgorithm)anAllocator);
+                            
+                            string name = ((ILayoutAlgorithm)anAllocator).GetName();
+                            if (!string.IsNullOrEmpty(name) && m_defLayout.Equals(name))
+                                m_defLayoutIdx = m_layoutList.Count - 1;
                         }
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
                 }
             }
+        }
+
+        private void CreateMenu()
+        {
+            this.m_menuList = new List<ToolStripMenuItem>();
+            this.m_menuLayoutList = new List<ToolStripMenuItem>();
+
+            // Setup menu
+            m_showIdItem = new ToolStripMenuItem();
+            m_showIdItem.CheckOnClick = true;
+            m_showIdItem.CheckState = CheckState.Checked;
+            //            m_showIdItem.Text = "Show IDs(Pathway)";
+            m_showIdItem.ToolTipText = "Visibility of Node's name of each pathway object";
+            m_showIdItem.Text = m_resources.GetString("MenuItemShowIDText");
+            m_showIdItem.Click += new EventHandler(ShowIdClick);
+
+            ToolStripMenuItem viewMenu = new ToolStripMenuItem();
+            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { m_showIdItem });
+            viewMenu.Text = "Setup";
+            viewMenu.Name = "MenuItemView";
+
+            m_menuList.Add(viewMenu);
+
+            // Edit menu
+            ToolStripMenuItem editMenu = new ToolStripMenuItem();
+            editMenu.Text = "Edit";
+            editMenu.Name = "MenuItemEdit";
+
+            ToolStripSeparator separator = new ToolStripSeparator();
+
+            ToolStripMenuItem deleteMenu = new ToolStripMenuItem();
+            deleteMenu.Text = m_resources.GetString("DeleteMenuText");
+            deleteMenu.Name = "MenuItemPaste";
+            deleteMenu.Click += new EventHandler(m_con.DeleteClick);
+            deleteMenu.ShortcutKeys = Keys.Delete;
+            deleteMenu.ShowShortcutKeys = true;
+            ToolStripMenuItem cutMenu = new ToolStripMenuItem();
+            cutMenu.Text = m_resources.GetString("CutMenuText");
+            cutMenu.Name = "MenuItemCut";
+            cutMenu.Click += new EventHandler(m_con.CutClick);
+            cutMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            cutMenu.ShowShortcutKeys = true;
+            ToolStripMenuItem copyMenu = new ToolStripMenuItem();
+            copyMenu.Text = m_resources.GetString("CopyMenuText");
+            copyMenu.Name = "MenuItemCopy";
+            copyMenu.Click += new EventHandler(m_con.CopyClick);
+            copyMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            copyMenu.ShowShortcutKeys = true;
+            ToolStripMenuItem pasteMenu = new ToolStripMenuItem();
+            pasteMenu.Text = m_resources.GetString("PasteMenuText");
+            pasteMenu.Name = "MenuItemPaste";
+            pasteMenu.Click += new EventHandler(m_con.PasteClick);
+            pasteMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            pasteMenu.ShowShortcutKeys = true;
+
+            editMenu.DropDownItems.AddRange(new ToolStripItem[] { cutMenu, copyMenu, pasteMenu, deleteMenu });
+            m_menuList.Add(editMenu);
+
+            // Layout menu
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
+            layoutMenu.Text = "Layout";
+            layoutMenu.Name = "MenuItemLayout";
+
+            int count = 0; // index for position in m_layoutList
+            foreach (ILayoutAlgorithm algo in m_layoutList)
+            {
+                ToolStripMenuItem eachLayoutItem = new ToolStripMenuItem();
+                eachLayoutItem.Text = algo.GetMenuText();
+                eachLayoutItem.Tag = count;
+                eachLayoutItem.ToolTipText = algo.GetToolTipText();
+                eachLayoutItem.Click += new EventHandler(eachLayoutItem_Click);
+
+                List<string> subCommands = algo.GetSubCommands();
+                if (subCommands != null && subCommands.Count != 0)
+                {
+                    int subCount = 0;
+                    foreach (string subCommandName in subCommands)
+                    {
+                        ToolStripMenuItem layoutSubItem = new ToolStripMenuItem();
+                        layoutSubItem.Text = subCommandName;
+                        layoutSubItem.Tag = count + "," + subCount;
+                        layoutSubItem.Click += new EventHandler(eachLayoutItem_Click);
+                        eachLayoutItem.DropDownItems.Add(layoutSubItem);
+                        subCount++;
+                    }
+                }
+
+                layoutMenu.DropDownItems.Add(eachLayoutItem);
+                m_menuLayoutList.Add(eachLayoutItem);
+                count += 1;
+            }
+
+            m_menuList.Add(layoutMenu);
         }
 
         /// <summary>
@@ -1079,7 +1000,7 @@ namespace EcellLib.PathwayWindow
                         foreach (EcellObject node in obj.M_instances)
                             m_con.AddNewObj(node.modelID,
                                             node.parentSystemID,
-                                            node,
+                                            node.Copy(),
                                             true);
 
                 } catch (Exception ex)

@@ -41,6 +41,25 @@ using System.Text;
 namespace EcellLib.PathwayWindow
 {
     /// <summary>
+    /// Type of component.
+    /// </summary>
+    public enum ComponentType
+    {
+        /// <summary>
+        /// type of system
+        /// </summary>
+        System,
+        /// <summary>
+        /// typs of variable
+        /// </summary>
+        Variable,
+        /// <summary>
+        /// type of process
+        /// </summary>
+        Process
+    };
+
+    /// <summary>
     /// Type of change to one reference of VariableReference
     /// </summary>
     public enum RefChangeType

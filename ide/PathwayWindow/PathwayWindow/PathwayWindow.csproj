@@ -96,7 +96,7 @@
     <Compile Include="Handler\CreateReactionMouseHandler.cs" />
     <Compile Include="CanvasView.cs" />
     <Compile Include="ComponentSetting.cs" />
-    <Compile Include="ComponentSettingsManager.cs" />
+    <Compile Include="ComponentManager.cs" />
     <Compile Include="Handler\CreateNodeMouseHandler.cs" />
     <Compile Include="Handler\DefaultMouseHandler.cs" />
     <Compile Include="Figure\Ellilpse.cs" />

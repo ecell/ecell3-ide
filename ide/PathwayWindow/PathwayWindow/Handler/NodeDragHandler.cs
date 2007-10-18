@@ -370,7 +370,7 @@ namespace EcellLib.PathwayWindow.Handler
                 }
                 else if (node is PPathwayVariable)
                 {
-                    string nodeName = PathUtil.RemovePath(((PPathwayVariable)node).EcellObject.key);
+                    string nodeName = node.EcellObject.name;
                     if (m_set.Variables.ContainsKey(newSystem + ":" + nodeName))
                     {
                         node.ReturnToMemorizedPosition();

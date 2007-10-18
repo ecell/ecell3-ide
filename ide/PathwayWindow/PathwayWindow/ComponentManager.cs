@@ -37,7 +37,7 @@ namespace EcellLib.PathwayWindow
     /// <summary>
     /// A manager for ComponentSettings.
     /// </summary>
-    public class ComponentSettingsManager
+    public class ComponentManager
     {
         #region Constractor
         public const string DEFAULT_SYSTEM_NAME = "DefaultSystem";
@@ -100,17 +100,6 @@ namespace EcellLib.PathwayWindow
         public Dictionary<string, ComponentSetting> VariableSettings
         {
             get { return this.m_variableSettings; }
-        }
-
-        /// <summary>
-        /// A constructor.
-        /// </summary>
-        public ComponentSettingsManager()
-        {
-            m_systemSettings = new Dictionary<string, ComponentSetting>();
-            m_processSettings = new Dictionary<string, ComponentSetting>();
-            m_variableSettings = new Dictionary<string, ComponentSetting>();
-            SetDefaultSettings();
         }
 
         /// <summary>
@@ -187,9 +176,69 @@ namespace EcellLib.PathwayWindow
                     return null;
             }
         }
+
+        /// <summary>
+        /// Accessor for ComponentSettings.
+        /// </summary>
+        public List<ComponentSetting> ComponentSettings
+        {
+            get
+            {
+                List<ComponentSetting> list = new List<ComponentSetting>();
+                list.Add(DefaultSystemSetting);
+                list.Add(DefaultVariableSetting);
+                list.Add(DefaultProcessSetting);
+                return list;
+            }
+        }
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// A constructor.
+        /// </summary>
+        public ComponentManager()
+        {
+            m_systemSettings = new Dictionary<string, ComponentSetting>();
+            m_processSettings = new Dictionary<string, ComponentSetting>();
+            m_variableSettings = new Dictionary<string, ComponentSetting>();
+            SetDefaultSettings();
+        }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Parse a name of kind to ComponentType
+        /// </summary>
+        /// <param name="kind">a name of kind, to be parsed</param>
+        /// <returns></returns>
+        public static ComponentType ParseComponentKind(String kind)
+        {
+            if (kind == null || kind.Equals(""))
+            {
+                throw new NoSuchComponentKindException("Component kind \"" + kind + "\" doesn't" +
+                    " exist. One of System or Variable or Process must be set as a component kind.");
+            }
+            kind = kind.ToLower();
+            if (kind.Equals("system"))
+            {
+                return ComponentType.System;
+            }
+            else if (kind.Equals("variable"))
+            {
+                return ComponentType.Variable;
+            }
+            else if (kind.Equals("process"))
+            {
+                return ComponentType.Process;
+            }
+            else
+            {
+                throw new NoSuchComponentKindException("Component kind \"" + kind + "\" doesn't" +
+                    " exist. One of System or Variable or Process must be set as a component kind.");
+            }
+        }
+
         /// <summary>
         /// Register ComponentSetting of a system onto this manager
         /// </summary>
@@ -307,7 +356,7 @@ namespace EcellLib.PathwayWindow
         {
             // Set hard coded default system ComponentSettings
             ComponentSetting defSysCs = new ComponentSetting();
-            defSysCs.ComponentKind = ComponentType.System;
+            defSysCs.ComponentType = ComponentType.System;
             defSysCs.Name = DEFAULT_SYSTEM_NAME;
             defSysCs.NormalBrush = Brushes.Black;
             defSysCs.AddComponentClass("PEcellSystem");
@@ -315,7 +364,7 @@ namespace EcellLib.PathwayWindow
 
             // Set hard coded default variable ComponentSettings
             ComponentSetting defVarCs = new ComponentSetting();
-            defVarCs.ComponentKind = ComponentType.Variable;
+            defVarCs.ComponentType = ComponentType.Variable;
             defVarCs.Name = DEFAULT_VARIABLE_NAME;
             defVarCs.NormalBrush = Brushes.LightBlue;
             defVarCs.AddFigure("Ellipse", "-30,-20,60,40");
@@ -324,7 +373,7 @@ namespace EcellLib.PathwayWindow
 
             // Set hard coded default process ComponentSettings
             ComponentSetting defProCs = new ComponentSetting();
-            defProCs.ComponentKind = ComponentType.Process;
+            defProCs.ComponentType = ComponentType.Process;
             defProCs.Name = DEFAULT_PROCESS_NAME;
             defProCs.NormalBrush = Brushes.LightGreen;
             defProCs.AddFigure("Rectangle","-30,-20,60,40");

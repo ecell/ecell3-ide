@@ -191,11 +191,6 @@ namespace EcellLib.PathwayWindow
         PathwayWindow m_window;
 
         /// <summary>
-        /// A list of ComponentSettings.
-        /// </summary>
-        List<ComponentSetting> m_componentSettings;
-
-        /// <summary>
         /// Dictionary for Eventhandlers.
         /// </summary>
         Dictionary<int, PBasicInputEventHandler> m_handlerDict = new Dictionary<int, PBasicInputEventHandler>();
@@ -230,7 +225,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// ComponentSettingsManager for creating Systems and Nodes
         /// </summary>
-        ComponentSettingsManager m_csManager;
+        ComponentManager m_csManager;
 
         /// <summary>
         /// OverView interface.
@@ -340,17 +335,9 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// get the setting of component.
-        /// </summary>
-        public List<ComponentSetting> ComponentSettings
-        {
-            get { return m_componentSettings; }
-        }
-
-        /// <summary>
         /// get/set the CoponentSettingManager.
         /// </summary>
-        public ComponentSettingsManager ComponentSettingsManager
+        public ComponentManager ComponentManager
         {
             get { return this.m_csManager; }
             set { this.m_csManager = value; }
@@ -520,15 +507,15 @@ namespace EcellLib.PathwayWindow
         /// <param name="cType">ComponentType</param>
         private ComponentSetting GetComponentSetting(string type)
         {
-            ComponentType cType = ComponentSetting.ParseComponentKind(type);
+            ComponentType cType = ComponentManager.ParseComponentKind(type);
             switch (cType)
             {
                 case ComponentType.Process:
-                    return ComponentSettingsManager.DefaultProcessSetting;
+                    return m_csManager.DefaultProcessSetting;
                 case ComponentType.System:
-                    return ComponentSettingsManager.DefaultSystemSetting;
+                    return m_csManager.DefaultSystemSetting;
                 case ComponentType.Variable:
-                    return ComponentSettingsManager.DefaultVariableSetting;
+                    return m_csManager.DefaultVariableSetting;
             }
             return null;
         }
@@ -661,6 +648,47 @@ namespace EcellLib.PathwayWindow
             return nodeMenu;
         }
 
+        /// <summary>
+        /// Set logger menu items.
+        /// </summary>
+        /// <param name="obj">Selected PPathwayObject.</param>
+        public void SetMenuLogger(PPathwayObject obj)
+        {
+            ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Text = obj.EcellObject.key;
+
+            ToolStripMenuItem createLogger = (ToolStripMenuItem)ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER];
+            ToolStripMenuItem deleteLogger = (ToolStripMenuItem)ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER];
+            createLogger.DropDown.Items.Clear();
+            deleteLogger.DropDown.Items.Clear();
+
+            if (obj.EcellObject == null || obj.EcellObject.modelID == null)
+                return;
+
+            EcellObject ecellobj = obj.EcellObject;
+            if (ecellobj == null)
+                return;
+            // set logger menu
+            foreach (EcellData d in ecellobj.M_value)
+            {
+                if (!d.M_isLogable)
+                    return;
+                
+                ToolStripItem sysLogger = new ToolStripMenuItem(d.M_name);
+                sysLogger.Text = d.M_name;
+                if (d.M_isLogger)
+                {
+                    sysLogger.Click += new EventHandler(DeleteLoggerClick);
+                    deleteLogger.DropDown.Items.Add(sysLogger);
+                }
+                else
+                {
+                    sysLogger.Click += new EventHandler(CreateLoggerClick);
+                    createLogger.DropDown.Items.Add(sysLogger);
+                }
+            }
+            createLogger.Visible = (createLogger.DropDown.Items.Count != 0);
+            deleteLogger.Visible = (deleteLogger.DropDown.Items.Count != 0);
+        }
         /// <summary>
         /// Add the selected EventHandler to event listener.
         /// </summary>
@@ -884,21 +912,21 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">EventArgs.</param>
         public void ButtonStateChanged(object sender, EventArgs e)
         {
-            RemoveInputEventListener(m_handlerDict[SelectedHandle.HandleID]);
-                        
-            SelectedHandle = (Handle)((ToolStripButton)sender).Tag;
+            RemoveInputEventListener(m_handlerDict[m_selectedHandle.HandleID]);
+
+            m_selectedHandle = (Handle)((ToolStripButton)sender).Tag;
             
             foreach (ToolStripButton button in m_buttonList)
             {
-                if (button.Tag != SelectedHandle)
+                if (button.Tag != m_selectedHandle)
                 {
                     button.Checked = false;
                 }
             }
 
-            AddInputEventListener(m_handlerDict[SelectedHandle.HandleID]);
+            AddInputEventListener(m_handlerDict[m_selectedHandle.HandleID]);
 
-            if (SelectedHandle.Mode == Mode.Pan)
+            if (m_selectedHandle.Mode == Mode.Pan)
             {
                 m_pathwayView.Cursor = new Cursor(new MemoryStream(Resource1.move));
                 Freeze();
@@ -941,7 +969,7 @@ namespace EcellLib.PathwayWindow
             handButton.Text = "";
             handButton.CheckOnClick = true;
             handButton.ToolTipText = "MoveCanvas";
-            handButton.Tag = new Handle(Mode.Pan, handleCount, -1);
+            handButton.Tag = new Handle(Mode.Pan, handleCount);
             m_handlerDict.Add(handleCount++, new PPanEventHandler());
             handButton.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(handButton);
@@ -954,7 +982,7 @@ namespace EcellLib.PathwayWindow
             button0.Text = "";
             button0.CheckOnClick = true;
             button0.ToolTipText = "SelectMode";
-            button0.Tag = new Handle(Mode.Select, handleCount, -1);
+            button0.Tag = new Handle(Mode.Select, handleCount);
             m_handlerDict.Add(handleCount++, new DefaultMouseHandler(this));
             button0.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(button0);
@@ -971,7 +999,7 @@ namespace EcellLib.PathwayWindow
             arrowButton.Text = "";
             arrowButton.CheckOnClick = true;
             arrowButton.ToolTipText = "Add Mutual Reaction";
-            arrowButton.Tag = new Handle(Mode.CreateOneWayReaction, handleCount, -1);
+            arrowButton.Tag = new Handle(Mode.CreateOneWayReaction, handleCount);
             m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             arrowButton.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(arrowButton);
@@ -984,7 +1012,7 @@ namespace EcellLib.PathwayWindow
             bidirButton.Text = "";
             bidirButton.CheckOnClick = true;
             bidirButton.ToolTipText = "Add Oneway Reaction";
-            bidirButton.Tag = new Handle(Mode.CreateMutualReaction, handleCount, -1);
+            bidirButton.Tag = new Handle(Mode.CreateMutualReaction, handleCount);
             m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             bidirButton.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(bidirButton);
@@ -997,7 +1025,7 @@ namespace EcellLib.PathwayWindow
             constButton.Text = "";
             constButton.CheckOnClick = true;
             constButton.ToolTipText = "Add Constant";
-            constButton.Tag = new Handle(Mode.CreateConstant, handleCount, -1);
+            constButton.Tag = new Handle(Mode.CreateConstant, handleCount);
             m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             constButton.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(constButton);
@@ -1032,22 +1060,20 @@ namespace EcellLib.PathwayWindow
             CreateSystemMouseHandler csmh = new CreateSystemMouseHandler(this);
             CreateNodeMouseHandler cnmh = new CreateNodeMouseHandler(this);
 
-            int count = 0;
-
-            foreach (ComponentSetting cs in m_componentSettings)
+            foreach (ComponentSetting cs in m_csManager.ComponentSettings)
             {
                 ToolStripButton button = new ToolStripButton();
                 button.ImageTransparentColor = System.Drawing.Color.Magenta;
                 button.Name = cs.Name;
                 button.Image = new Bitmap(256, 256);
                 Graphics gra = Graphics.FromImage(button.Image);
-                if (cs.ComponentKind == ComponentType.System)
+                if (cs.ComponentType == ComponentType.System)
                 {
                     Rectangle rect = new Rectangle(3, 3, 240, 240);
                     gra.DrawRectangle(new Pen(Brushes.Black, 16), rect);
                     //m_objectHandlerList.Add(new CreateSystemMouseHandler(this));
                     m_handlerDict.Add(handleCount, csmh);
-                    button.Tag = new Handle(Mode.CreateSystem, handleCount++, count++);
+                    button.Tag = new Handle(Mode.CreateSystem, handleCount++, cs.ComponentType);
                 }
                 else
                 {
@@ -1056,7 +1082,7 @@ namespace EcellLib.PathwayWindow
                     gra.DrawPath(new Pen(Brushes.Black, 16), gp);
                     //m_objectHandlerList.Add(new CreateNodeMouseHandler(this));
                     m_handlerDict.Add(handleCount, cnmh);
-                    button.Tag = new Handle(Mode.CreateNode, handleCount++, count++);
+                    button.Tag = new Handle(Mode.CreateNode, handleCount++, cs.ComponentType);
                 }
                 button.Size = new System.Drawing.Size(256, 256);
                 button.Text = "";
@@ -1070,7 +1096,7 @@ namespace EcellLib.PathwayWindow
 
             // SelectMode is default.
             button0.Checked = true;
-            SelectedHandle = (Handle)button0.Tag;
+            m_selectedHandle = (Handle)button0.Tag;
 
             return list;
         }
@@ -1171,7 +1197,75 @@ namespace EcellLib.PathwayWindow
         /// <param name="coefficient">coefficient of VariableReference</param>
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient)
         {
-            m_window.NotifyVariableReferenceChanged( proKey, varKey, changeType, coefficient );
+            // Get EcellObject of identified process.
+            EcellProcess process = (EcellProcess)ActiveCanvas.GetSelectedObject(proKey, EcellObject.PROCESS).EcellObject;
+            // End if obj is null.
+            if (null == process)
+                return;
+
+            // Get EcellReference List.
+            List<EcellReference> refList = process.ReferenceList;
+            List<EcellReference> newList = new List<EcellReference>();
+            EcellReference changedRef = null;
+
+            foreach (EcellReference v in refList)
+            {
+                if (v.fullID.EndsWith(varKey))
+                    changedRef = v;
+                else
+                    newList.Add(v);
+            }
+
+            if (changedRef != null && changeType != RefChangeType.Delete)
+            {
+                switch(changeType)
+                {
+                    case RefChangeType.SingleDir:
+                        changedRef.coefficient = coefficient;
+                        newList.Add(changedRef);
+                        break;
+                    case RefChangeType.BiDir:
+                        EcellReference copyRef = PathUtil.CopyEcellReference(changedRef);
+                        changedRef.coefficient = -1;
+                        changedRef.name = PathUtil.GetNewReferenceName(newList, -1);
+                        copyRef.coefficient = 1;
+                        copyRef.name = PathUtil.GetNewReferenceName(newList, 1);
+                        newList.Add(changedRef);
+                        newList.Add(copyRef);
+                        break;
+                }
+            }
+            else if(changedRef == null)
+            {
+                switch(changeType)
+                {
+                    case RefChangeType.SingleDir:
+                        EcellReference addRef = new EcellReference();
+                        addRef.coefficient = coefficient;
+                        addRef.fullID = varKey;
+                        addRef.name = PathUtil.GetNewReferenceName(newList, coefficient);
+                        addRef.isAccessor = 1;
+                        newList.Add(addRef);
+                        break;
+                    case RefChangeType.BiDir:
+                        EcellReference addSRef = new EcellReference();
+                        addSRef.coefficient = -1;
+                        addSRef.fullID = varKey;
+                        addSRef.name = PathUtil.GetNewReferenceName(newList, -1);
+                        addSRef.isAccessor = 1;
+                        newList.Add(addSRef);
+
+                        EcellReference addPRef = new EcellReference();
+                        addPRef.coefficient = 1;
+                        addPRef.fullID = varKey;
+                        addPRef.name = PathUtil.GetNewReferenceName(newList, 1);
+                        addPRef.isAccessor = 1;
+                        newList.Add(addPRef);
+                        break;
+                }
+            }
+            process.ReferenceList = newList;
+            m_window.NotifyDataChanged(process.key, process.key, process, true);
         }
 
         /// <summary>
@@ -1254,15 +1348,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// set the list of ComponentSetting.
-        /// </summary>
-        /// <param name="list">list of ComponentSetting.</param>
-        public void SetSettings(List<ComponentSetting> list)
-        {
-            m_componentSettings = list;
-        }
-
-        /// <summary>
         /// Update the overview.
         /// </summary>
         public void UpdateOverview()
@@ -1329,9 +1414,9 @@ namespace EcellLib.PathwayWindow
         {
             PPathwayNode pnode = (PPathwayNode)e.PickedNode;
 
-            if (SelectedHandle.Mode == Mode.CreateOneWayReaction
-                || SelectedHandle.Mode == Mode.CreateMutualReaction
-                || SelectedHandle.Mode == Mode.CreateConstant)
+            if (m_selectedHandle.Mode == Mode.CreateOneWayReaction
+                || m_selectedHandle.Mode == Mode.CreateMutualReaction
+                || m_selectedHandle.Mode == Mode.CreateConstant)
             {
                 this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
                 this.CanvasDictionary[e.Canvas.Name].AddNodeToBeConnected((PPathwayNode)sender);
@@ -1368,9 +1453,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void NodeEntered(object sender, PInputEventArgs e)
         {
-            if (SelectedHandle.Mode == Mode.CreateOneWayReaction ||
-                SelectedHandle.Mode == Mode.CreateMutualReaction ||
-                SelectedHandle.Mode == Mode.CreateConstant)
+            if (m_selectedHandle.Mode == Mode.CreateOneWayReaction ||
+                m_selectedHandle.Mode == Mode.CreateMutualReaction ||
+                m_selectedHandle.Mode == Mode.CreateConstant)
             {
                 PPathwayNode startNode = m_canvasDict[e.Canvas.Name].NodeToBeReconnected;
                 if (null == startNode)
@@ -1393,9 +1478,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void NodeLeft(object sender, PInputEventArgs e)
         {
-            if (SelectedHandle.Mode == Mode.CreateOneWayReaction ||
-                SelectedHandle.Mode == Mode.CreateMutualReaction ||
-                SelectedHandle.Mode == Mode.CreateConstant)
+            if (m_selectedHandle.Mode == Mode.CreateOneWayReaction ||
+                m_selectedHandle.Mode == Mode.CreateMutualReaction ||
+                m_selectedHandle.Mode == Mode.CreateConstant)
             {
                 PPathwayNode endNode = e.PickedNode as PPathwayNode;
                 if (null != endNode)
