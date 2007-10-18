@@ -38,6 +38,7 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
 using ZedGraph;
+using SessionManager;
 
 namespace EcellLib.Analysis
 {
@@ -173,29 +174,65 @@ namespace EcellLib.Analysis
             }
         }
 
-        private void AssignParamPopupMenu(DataGridViewRow r)
+        /// <summary>
+        /// Get the list of property to set the initial value for analysis.
+        /// If there are any problems, this function return null.
+        /// </summary>
+        /// <returns>the list of parameter property.</returns>
+        public List<ParameterRange> GetParamPropList()
         {
-            ContextMenuStrip contextStrip = new ContextMenuStrip();
-            ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = "Delete ";
-            it.ShortcutKeys = Keys.Control | Keys.D;
-            it.Click += new EventHandler(DeleteParamItem);
-            it.Tag = r;
-            contextStrip.Items.AddRange(new ToolStripItem[] { it });
-            r.ContextMenuStrip = contextStrip;
+            List<ParameterRange> resList = new List<ParameterRange>();
+
+            for (int i = 0; i < RAParamGridView.Rows.Count; i++)
+            {
+                string path = RAParamGridView[0, i].Value.ToString();
+                double max = Convert.ToDouble(RAParamGridView[1, i].Value);
+                double min = Convert.ToDouble(RAParamGridView[2, i].Value);
+                double step = Convert.ToDouble(RAParamGridView[3, i].Value);
+
+                if (min > max) continue;
+                ParameterRange p = new ParameterRange(path, min, max, step);
+                resList.Add(p);
+            }
+
+            if (resList.Count < 2)
+            {
+                MessageBox.Show("test", "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            return resList;
         }
 
-        private void AssignObservPopupMenu(DataGridViewRow r)
+        /// <summary>
+        /// Get the list of observed property to judge for analysis.
+        /// If there are any problems, this function return null. 
+        /// </summary>
+        /// <returns>the list of observed property.</returns>
+        public List<SaveLoggerProperty> GetObservedPropList()
         {
-            ContextMenuStrip contextStrip = new ContextMenuStrip();
-            ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = "Delete ";
-            it.ShortcutKeys = Keys.Control | Keys.D;
-            it.Click += new EventHandler(DeleteObservItem);
-            it.Tag = r;
-            contextStrip.Items.AddRange(new ToolStripItem[] { it });
-            r.ContextMenuStrip = contextStrip;
+            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+
+            for (int i = 0; i < RAObservGridView.Rows.Count; i++)
+            {
+                String dir = manager.TmpDir;
+                string path = RAObservGridView[0, i].Value.ToString();
+                double start = 0.0;
+                double end = Convert.ToDouble(RASimTimeText.Text);
+                SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
+
+                resList.Add(p);
+            }
+
+            if (resList.Count < 1)
+            {
+                MessageBox.Show("test", "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            return resList;
         }
+
 
         /// <summary>
         /// Remove the entry of parameter value.
@@ -365,6 +402,30 @@ namespace EcellLib.Analysis
         private void XIndexChanged(object sender, EventArgs e)
         {
             AxisIndexChanged();
+        }
+
+        private void AssignParamPopupMenu(DataGridViewRow r)
+        {
+            ContextMenuStrip contextStrip = new ContextMenuStrip();
+            ToolStripMenuItem it = new ToolStripMenuItem();
+            it.Text = "Delete ";
+            it.ShortcutKeys = Keys.Control | Keys.D;
+            it.Click += new EventHandler(DeleteParamItem);
+            it.Tag = r;
+            contextStrip.Items.AddRange(new ToolStripItem[] { it });
+            r.ContextMenuStrip = contextStrip;
+        }
+
+        private void AssignObservPopupMenu(DataGridViewRow r)
+        {
+            ContextMenuStrip contextStrip = new ContextMenuStrip();
+            ToolStripMenuItem it = new ToolStripMenuItem();
+            it.Text = "Delete ";
+            it.ShortcutKeys = Keys.Control | Keys.D;
+            it.Click += new EventHandler(DeleteObservItem);
+            it.Tag = r;
+            contextStrip.Items.AddRange(new ToolStripItem[] { it });
+            r.ContextMenuStrip = contextStrip;
         }
 
         private void ParamDragDrop(object sender, DragEventArgs e)

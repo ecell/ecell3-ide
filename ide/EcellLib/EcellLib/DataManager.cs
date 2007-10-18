@@ -9167,6 +9167,76 @@ namespace EcellLib
     }
 
     /// <summary>
+    /// Manage the range of parameters to analysis the model.
+    /// </summary>
+    public class ParameterRange
+    {
+        private string m_fullPath = "";
+        private double m_min = 0.0;
+        private double m_max = 0.0;
+        private double m_step = 0.0;
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ParameterRange()
+        {
+        }
+
+        /// <summary>
+        /// Constructor with initial parameters.
+        /// </summary>
+        /// <param name="path">the path of this property.</param>
+        /// <param name="min">the minimum value of this property.</param>
+        /// <param name="max">the maximum value of this property.</param>
+        /// <param name="step">the step interval of this property.</param>
+        public ParameterRange(string path, double min, double max, double step)
+        {
+            m_fullPath = path;
+            m_min = min;
+            m_max = max;
+            m_step = step;
+        }
+
+        /// <summary>
+        /// get/set the path of this property.
+        /// </summary>
+        public string FullPath
+        {
+            get { return this.m_fullPath; }
+            set { this.m_fullPath = value; }
+        }
+
+        /// <summary>
+        /// get/set the maximum value of this property.
+        /// </summary>
+        public double Max
+        {
+            get { return this.m_max; }
+            set { this.m_max = value; }
+        }
+
+        /// <summary>
+        /// get/set the minimum value of this property.
+        /// </summary>
+        public double Min
+        {
+            get { return this.m_min; }
+            set { this.m_min = value; }
+        }
+
+        /// <summary>
+        /// get/set the step interval of this property.
+        /// If this valus is smaller than 0.0, this value is handled as randam parameter.
+        /// </summary>
+        public double Step
+        {
+            get { return this.m_step; }
+            set { this.m_step = value; }
+        }
+    }
+
+    /// <summary>
     /// Stores the simulation results.
     /// </summary>
     public class LogData

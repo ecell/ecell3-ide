@@ -36,6 +36,8 @@ using System.Windows.Forms;
 using System.Reflection;
 using WeifenLuo.WinFormsUI.Docking;
 
+using SessionManager;
+
 namespace EcellLib.Analysis
 {
     /// <summary>
@@ -47,9 +49,16 @@ namespace EcellLib.Analysis
         /// <summary>
         /// MenuItem to display the window for robust analysis.
         /// </summary>
+        private ToolStripMenuItem m_robustAnalysisWinItem;
+        /// <summary>
+        /// MenuItem to display the window for robust analysis.
+        /// </summary>
         private ToolStripMenuItem m_robustAnalysisItem;
-
+        /// <summary>
+        /// Window to analysis the robustness of model.
+        /// </summary>
         private RobustAnalysis m_win = null;
+        private SessionManager.SessionManager m_manager = SessionManager.SessionManager.GetManager();
         #endregion
 
 
@@ -59,9 +68,11 @@ namespace EcellLib.Analysis
         public void CloseRobustWindow()
         {
             m_win = null;
+            m_robustAnalysisItem.Enabled = false;
         }
 
-        void ShowRobustAnalysisWindow(object sender, EventArgs e)
+        #region Events
+        private void ShowRobustAnalysisWindow(object sender, EventArgs e)
         {
             if (m_win == null)
             {
@@ -81,7 +92,32 @@ namespace EcellLib.Analysis
             {
                 m_win.Activate();
             }
+            m_robustAnalysisItem.Enabled = true;
         }
+
+        private void ExecuteRobustAnalysis(object sender, EventArgs e)
+        {
+            String tmpDir = m_manager.TmpRootDir;
+            if (m_win == null) return;
+
+            int num = Convert.ToInt32(m_win.RASampleNumText.Text);
+            double simTime = Convert.ToDouble(m_win.RASimTimeText.Text);
+
+            string model = "";
+            List<string> modelList = DataManager.GetDataManager().GetModelList();
+            if (modelList.Count > 0) model = modelList[0];
+
+            List<ParameterRange> paramList = m_win.GetParamPropList();
+            List<SaveLoggerProperty> saveList = m_win.GetObservedPropList();
+            if (paramList == null) return;
+            if (saveList == null) return;
+
+            m_manager.SetParameterRange(paramList);
+            m_manager.SetLoggerData(saveList);
+            m_manager.RunSimParameterRange(tmpDir, model, num, simTime, false);  
+        }
+
+        #endregion
 
         #region Inherited from PluginBase
         /// <summary>
@@ -93,27 +129,33 @@ namespace EcellLib.Analysis
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResAnalysis));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
-            m_robustAnalysisItem = new ToolStripMenuItem();
-            m_robustAnalysisItem.Text = resources.GetString("MenuItemRobustAnalysis");
-            m_robustAnalysisItem.ToolTipText = "Robust Analysis";
-            m_robustAnalysisItem.Tag = 50;
-            m_robustAnalysisItem.Click += new EventHandler(ShowRobustAnalysisWindow);
+            m_robustAnalysisWinItem = new ToolStripMenuItem();
+            m_robustAnalysisWinItem.Text = resources.GetString("MenuItemRobustAnalysis");
+            m_robustAnalysisWinItem.ToolTipText = "Robust Analysis";
+            m_robustAnalysisWinItem.Tag = 50;
+            m_robustAnalysisWinItem.Click += new EventHandler(ShowRobustAnalysisWindow);
 
             ToolStripMenuItem viewMenu = new ToolStripMenuItem();
-            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem });
+            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisWinItem });
             viewMenu.Text = "View";
             viewMenu.Name = "MenuItemView";
 
             list.Add(viewMenu);
 
-/*
+            m_robustAnalysisItem = new ToolStripMenuItem();
+            m_robustAnalysisItem.Text = resources.GetString("MenuItemRobustAnalysis");
+            m_robustAnalysisItem.ToolTipText = "Robust Analysis";
+            m_robustAnalysisItem.Tag = 50;
+            m_robustAnalysisItem.Enabled = false;
+            m_robustAnalysisItem.Click += new EventHandler(ExecuteRobustAnalysis);
+
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem });
             analysisMenu.Text = "Analysis";
             analysisMenu.Name = "MenuItemAnalysis";
 
             list.Add(analysisMenu);
-*/
+
             return list;
         }
 
@@ -150,9 +192,9 @@ namespace EcellLib.Analysis
         public void ChangeStatus(int type)
         {
             if (Util.LOADED == type)
-                m_robustAnalysisItem.Enabled = true;
+                m_robustAnalysisWinItem.Enabled = true;
             else
-                m_robustAnalysisItem.Enabled = false;
+                m_robustAnalysisWinItem.Enabled = false;
         }
 
         /// <summary>

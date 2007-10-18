@@ -736,7 +736,8 @@ namespace SessionManager
         }
 
         /// <summary>
-        /// Set the range of initial parameter, when execute RunSimParameterMatrix.
+        /// Set the range of initial parameter, when execute RunSimParameterMatrix and RunSimParameterRange.
+        /// If you use RunSimParameterMatrix, the number of list must be 2.
         /// </summary>
         /// <param name="pList">the list of range for initial parameters.</param>
         public void SetParameterRange(List<ParameterRange> pList)
@@ -751,7 +752,7 @@ namespace SessionManager
 
         /// <summary>
         /// Run the simulation by using the initial parameter within the range of parameters.
-        /// The number of sample is set. SetLoggerData should be called, before this function use.
+        /// The number of sample is set. SetLoggerData and SetParameterRange should be called, before this function use.
         /// </summary>
         /// <param name="topDir">top directory include the script file and result data.</param>
         /// <param name="modelName">model name executed the simulation.</param>
@@ -978,51 +979,5 @@ namespace SessionManager
         }
     }
 
-    public class ParameterRange
-    {
-        private string m_fullPath = "";
-        private double m_min = 0.0;
-        private double m_max = 0.0;
-        private double m_step = 0.0;
 
-        public ParameterRange()
-        {
-        }
-
-        public ParameterRange(string path, double min, double max, double step)
-        {
-            m_fullPath = path;
-            m_min = min;
-            m_max = max;
-            m_step = step;
-        }
-
-        public string FullPath
-        {
-            get { return this.m_fullPath; }
-            set { this.m_fullPath = value; }
-        }
-
-        public double Max
-        {
-            get { return this.m_max; }
-            set { this.m_max = value; }
-        }
-
-        public double Min
-        {
-            get { return this.m_min; }
-            set { this.m_min = value; }
-        }
-
-        /// <summary>
-        /// get/set step interval of parameter.
-        /// If this valus is smaller than 0.0, this value is randam parameter.
-        /// </summary>
-        public double Step
-        {
-            get { return this.m_step; }
-            set { this.m_step = value; }
-        }
-    }
 }
