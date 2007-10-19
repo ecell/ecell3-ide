@@ -778,6 +778,11 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// Convert the file name that decide in E-Cell Core from entity key.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public static String GetOutputFileName(string key)
         {
             string fileName = key;

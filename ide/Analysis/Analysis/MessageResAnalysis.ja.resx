@@ -120,8 +120,14 @@
   <data name="ConfirmClose" xml:space="preserve">
     <value>このウインドウを閉じてもよろしいですか？</value>
   </data>
+  <data name="ConfirmStopAnalysis" xml:space="preserve">
+    <value>この解析を終了してよろしいですか？</value>
+  </data>
   <data name="ErrAnalysis" xml:space="preserve">
     <value>ロバスト解析に失敗しました。</value>
+  </data>
+  <data name="ErrFindErrorJob" xml:space="preserve">
+    <value>エラーの発生したパラメータがあります。結果を表示してよろしいですか？</value>
   </data>
   <data name="ErrInputReflect" xml:space="preserve">
     <value>実行パラメータの中に異常なパラメータが存在します。確認してください。</value>
@@ -132,11 +138,17 @@
   <data name="ErrNotCheckParam" xml:space="preserve">
     <value>チェックパラメータとして設定されたパラメータが存在しません。</value>
   </data>
+  <data name="ErrObservProp" xml:space="preserve">
+    <value>監視対象パラメータが設定されていません。１つの監視パラメータは設定してください。</value>
+  </data>
   <data name="ErrOutParam" xml:space="preserve">
     <value>異常なパラメータが存在します。Number of sample、Simulation Time、Check window sizeをチェックしてください。</value>
   </data>
   <data name="ErrOutParamFile" xml:space="preserve">
     <value>パラメータファイル出力中にエラーが発生しました。</value>
+  </data>
+  <data name="ErrParamProp" xml:space="preserve">
+    <value>解析対象のプロパティが設定されていません。少なくとも2つのプロパティを設定してください。</value>
   </data>
   <data name="ErrPosValue" xml:space="preserve">
     <value>Number of sample、Simulation Time、Check Window Sizeには整数を入力してください。</value>

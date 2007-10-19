@@ -167,13 +167,22 @@
         /// </summary>
         public System.Windows.Forms.Panel panel1;
         /// <summary>
-        /// Layouter of PropertyEditor.
+        /// Layouter of property in PropertyEditor.
         /// </summary>
         public System.Windows.Forms.TableLayoutPanel layoutPanel;
         private System.Windows.Forms.TabControl tabControl1;
+        /// <summary>
+        /// Tab page of property in PropertyEditor.
+        /// </summary>
         public System.Windows.Forms.TabPage PEPropTabPage;
+        /// <summary>
+        /// Tab page of commitment for property in PropertyEditor.
+        /// </summary>
         public System.Windows.Forms.TabPage PECommitTabPage;
         private System.Windows.Forms.Panel panel2;
+        /// <summary>
+        /// Layouter of commitment for property in PropertyEditor.
+        /// </summary>
         public System.Windows.Forms.TableLayoutPanel commitLayoutPanel;
     }
 }

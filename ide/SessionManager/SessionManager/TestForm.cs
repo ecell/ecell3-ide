@@ -11,6 +11,9 @@ namespace SessionManager
     public partial class TestForm : Form
     {
         private SessionManager m_manager;
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public TestForm()
         {
             InitializeComponent();

@@ -6129,7 +6129,7 @@ namespace EcellLib
                     String modelName = modelObj.modelID;
                     WriteModelEntry(l_fileName, enc, modelName);
                     WriteModelProperty(l_fileName, enc, modelName);
-                    File.WriteAllText(l_fileName, "\n# System\n", enc);
+                    File.AppendAllText(l_fileName, "\n# System\n", enc);
                     foreach (EcellObject sysObj in
                         m_systemDic[m_currentProjectID][modelName])
                     {
@@ -7309,35 +7309,34 @@ namespace EcellLib
         /// <param name="sysObj">written system object.</param>
         public void WriteSystemEntry(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
-
-                s_exportSystem.Add(sysObj.key, s_sysCount);
-                string prefix = "";
-                string data = "";
-                if (sysObj.key.Equals("/"))
+            s_exportSystem.Add(sysObj.key, s_sysCount);
+            string prefix = "";
+            string data = "";
+            if (sysObj.key.Equals("/"))
+            {
+                prefix = "";
+                data = "/";
+            }
+            else
+            {
+                string[] ele = sysObj.key.Split(new char[] { '/' });
+                if (ele.Length == 2)
                 {
-                    prefix = "";
-                    data = "/";
+                    prefix = "/";
+                    data = ele[ele.Length - 1];
                 }
                 else
                 {
-                    string[] ele = sysObj.key.Split(new char[] { '/' });
-                    if (ele.Length == 2)
+                    for (int i = 1; i < ele.Length - 1; i++)
                     {
-                        prefix = "/";
-                        data = ele[ele.Length - 1];
+                        prefix = prefix + "/" + ele[i];
                     }
-                    else
-                    {
-                        for (int i = 1; i < ele.Length - 1; i++)
-                        {
-                            prefix = prefix + "/" + ele[i];
-                        }
-                        data = ele[ele.Length - 1];
-                    }
+                    data = ele[ele.Length - 1];
                 }
-                File.AppendAllText(fileName, "systemStub" + s_sysCount + "= session.createEntityStub(\"System:" + prefix + ":" + data + "\")\n", enc);
-                File.AppendAllText(fileName, "systemStub" + s_sysCount + ".create(\"System\")\n", enc);
-                s_sysCount++;
+            }
+            File.AppendAllText(fileName, "systemStub" + s_sysCount + "= session.createEntityStub(\"System:" + prefix + ":" + data + "\")\n", enc);
+            File.AppendAllText(fileName, "systemStub" + s_sysCount + ".create(\"System\")\n", enc);
+            s_sysCount++;
         }
 
         /// <summary>
@@ -7349,13 +7348,14 @@ namespace EcellLib
         /// <param name="sysObj">written system object.</param>
         public void WriteSystemProperty(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
-                int count = s_exportSystem[sysObj.key];
-                foreach (EcellData d in sysObj.M_value)
-                {
-                    if (!d.M_isSettable) continue;
-                    File.AppendAllText(fileName,
-                        "systemStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString() + "\")\n", enc);
-                }
+            int count = s_exportSystem[sysObj.key];
+            if (sysObj.M_value == null) return;
+            foreach (EcellData d in sysObj.M_value)
+            {
+                if (!d.M_isSettable) continue;
+                File.AppendAllText(fileName,
+                    "systemStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString() + "\")\n", enc);
+            }
         }
 
         /// <summary>
@@ -7367,6 +7367,7 @@ namespace EcellLib
         public void WriteLoggerProperty(string fileName, Encoding enc, List<string> logList)
         {
             File.AppendAllText(fileName, "\n# Logger Policy\n");
+            if (logList == null) return;
             foreach (string path in logList)
             {
                 File.AppendAllText(fileName, 
@@ -7388,6 +7389,7 @@ namespace EcellLib
         public void WriteLoggerSaveEntry(string fileName, Encoding enc, List<SaveLoggerProperty> saveList)
         {
             File.AppendAllText(fileName, "\n# Save logging\n", enc);
+            if (saveList == null) return;
             foreach (SaveLoggerProperty s in saveList)
             {
                 File.AppendAllText(
@@ -7408,6 +7410,7 @@ namespace EcellLib
         public void WriteComponentEntry(string fileName, Encoding enc, EcellObject sysObj)
         {
             File.AppendAllText(fileName, "\n# Variable\n", enc);
+            if (sysObj.M_instances == null) return;
             foreach (EcellObject obj in sysObj.M_instances)
             {
                 if (!obj.type.Equals("Variable")) continue;
@@ -7449,6 +7452,7 @@ namespace EcellLib
         public void WriteComponentProperty(string fileName, Encoding enc, EcellObject sysObj)
         {
             File.AppendAllText(fileName, "\n# Variable\n", enc);
+            if (sysObj.M_instances == null) return;
             foreach (EcellObject obj in sysObj.M_instances)
             {
                 if (!obj.type.Equals("Variable")) continue;

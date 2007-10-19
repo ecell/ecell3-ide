@@ -70,11 +70,29 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   Do you want to stop the analysis? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmStopAnalysis {
+            get {
+                return ResourceManager.GetString("ConfirmStopAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Fail to execute the robust analysis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAnalysis {
             get {
                 return ResourceManager.GetString("ErrAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   There are any error job. Do you want to show the result? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrFindErrorJob {
+            get {
+                return ResourceManager.GetString("ErrFindErrorJob", resourceCulture);
             }
         }
         
@@ -106,6 +124,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   Can&apos;t get the observed parameter. Please set at least one property. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrObservProp {
+            get {
+                return ResourceManager.GetString("ErrObservProp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   There are invalid parameters. Please check Number of sample, Simulation Time or Check window size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrOutParam {
@@ -120,6 +147,15 @@ namespace EcellLib.Analysis {
         internal static string ErrOutParamFile {
             get {
                 return ResourceManager.GetString("ErrOutParamFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can&apos;t get the parameter of property. Please set at least two property. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrParamProp {
+            get {
+                return ResourceManager.GetString("ErrParamProp", resourceCulture);
             }
         }
         

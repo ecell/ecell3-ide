@@ -30,6 +30,7 @@
 
 using System;
 using System.Drawing;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
@@ -58,7 +59,13 @@ namespace EcellLib.Analysis
         /// Window to analysis the robustness of model.
         /// </summary>
         private RobustAnalysis m_win = null;
+
         private SessionManager.SessionManager m_manager = SessionManager.SessionManager.GetManager();
+        /// <summary>
+        /// ResourceManager for AnalysisTemplate.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
+
         #endregion
 
 
@@ -74,6 +81,7 @@ namespace EcellLib.Analysis
         #region Events
         private void ShowRobustAnalysisWindow(object sender, EventArgs e)
         {
+
             if (m_win == null)
             {
                 m_win = new RobustAnalysis();
@@ -97,26 +105,20 @@ namespace EcellLib.Analysis
 
         private void ExecuteRobustAnalysis(object sender, EventArgs e)
         {
-            String tmpDir = m_manager.TmpRootDir;
             if (m_win == null) return;
 
-            int num = Convert.ToInt32(m_win.RASampleNumText.Text);
-            double simTime = Convert.ToDouble(m_win.RASimTimeText.Text);
-
-            string model = "";
-            List<string> modelList = DataManager.GetDataManager().GetModelList();
-            if (modelList.Count > 0) model = modelList[0];
-
-            List<ParameterRange> paramList = m_win.GetParamPropList();
-            List<SaveLoggerProperty> saveList = m_win.GetObservedPropList();
-            if (paramList == null) return;
-            if (saveList == null) return;
-
-            m_manager.SetParameterRange(paramList);
-            m_manager.SetLoggerData(saveList);
-            m_manager.RunSimParameterRange(tmpDir, model, num, simTime, false);  
+            if (m_win.IsRunning)
+            {
+                string mes = m_resources.GetString("ConfirmStopAnalysis");
+                DialogResult res = MessageBox.Show(mes, "Question", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.OK)
+                {
+                    m_win.Stop();
+                }
+                return;
+            }           
+            m_win.Execute();
         }
-
         #endregion
 
         #region Inherited from PluginBase

@@ -38,11 +38,29 @@ namespace SessionManager
     /// </summary>
     public enum JobStatus
     {
+        /// <summary>
+        /// Initial status.
+        /// </summary>
         NONE,
+        /// <summary>
+        /// Regist the job, but not run the job.
+        /// </summary>
         QUEUED,
+        /// <summary>
+        /// Run the job.
+        /// </summary>
         RUNNING,
+        /// <summary>
+        /// Fail to execute the job.
+        /// </summary>
         ERROR,
+        /// <summary>
+        /// User stop the job.
+        /// </summary>
         STOPPED,
+        /// <summary>
+        /// Finish the job.
+        /// </summary>
         FINISHED
     }
 

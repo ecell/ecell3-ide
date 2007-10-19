@@ -44,14 +44,14 @@
             this.settingTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.RASimLabel = new System.Windows.Forms.Label();
             this.RASimTimeText = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.RASampleNumText = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.RASampleNumLabel = new System.Windows.Forms.Label();
+            this.RASampleNumText = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.RAWinSizeText = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.RAWinSizeLabel = new System.Windows.Forms.Label();
+            this.RAWinSizeText = new System.Windows.Forms.TextBox();
             this.RAParamGridView = new System.Windows.Forms.DataGridView();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MaxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -185,14 +185,14 @@
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.RASimLabel, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.RASimTimeText, 1, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
-            // label1
+            // RASimLabel
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(this.RASimLabel, "RASimLabel");
+            this.RASimLabel.Name = "RASimLabel";
             // 
             // RASimTimeText
             // 
@@ -202,36 +202,36 @@
             // tableLayoutPanel3
             // 
             resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.RASampleNumText, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.textBox2, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.RASampleNumLabel, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.RASampleNumText, 1, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            // 
+            // RASampleNumLabel
+            // 
+            resources.ApplyResources(this.RASampleNumLabel, "RASampleNumLabel");
+            this.RASampleNumLabel.Name = "RASampleNumLabel";
             // 
             // RASampleNumText
             // 
             resources.ApplyResources(this.RASampleNumText, "RASampleNumText");
             this.RASampleNumText.Name = "RASampleNumText";
             // 
-            // textBox2
-            // 
-            resources.ApplyResources(this.textBox2, "textBox2");
-            this.textBox2.Name = "textBox2";
-            // 
             // tableLayoutPanel4
             // 
             resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
-            this.tableLayoutPanel4.Controls.Add(this.RAWinSizeText, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.textBox3, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.RAWinSizeLabel, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.RAWinSizeText, 1, 0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            // 
+            // RAWinSizeLabel
+            // 
+            resources.ApplyResources(this.RAWinSizeLabel, "RAWinSizeLabel");
+            this.RAWinSizeLabel.Name = "RAWinSizeLabel";
             // 
             // RAWinSizeText
             // 
             resources.ApplyResources(this.RAWinSizeText, "RAWinSizeText");
             this.RAWinSizeText.Name = "RAWinSizeText";
-            // 
-            // textBox3
-            // 
-            resources.ApplyResources(this.textBox3, "textBox3");
-            this.textBox3.Name = "textBox3";
             // 
             // RAParamGridView
             // 
@@ -352,27 +352,50 @@
 
         #endregion
 
+        /// <summary>
+        /// TabControl on RobustAnalysis Window.
+        /// </summary>
         public System.Windows.Forms.TabControl robustTabControl;
+        /// <summary>
+        /// TabPage to display the result of robust analysis.
+        /// </summary>
         public System.Windows.Forms.TabPage AnalysisTab;
+        /// <summary>
+        /// TabPage to set the condition of robust analysis.
+        /// </summary>
         public System.Windows.Forms.TabPage settingTab;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label RASimLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.TextBox textBox3;
+        /// <summary>
+        /// TextBox to set the simulation time.
+        /// </summary>
         public System.Windows.Forms.TextBox RASimTimeText;
-        public System.Windows.Forms.Label RASampleNumText;
-        public System.Windows.Forms.Label RAWinSizeText;
+        /// <summary>
+        /// DataGridView to set the parameter property.
+        /// </summary>
         public System.Windows.Forms.DataGridView RAParamGridView;
+        /// <summary>
+        /// DataGridView to set the observed property.
+        /// </summary>
         public System.Windows.Forms.DataGridView RAObservGridView;
+        /// <summary>
+        /// DataGridView to display the property that become OK because of the judgement.
+        /// </summary>
         public System.Windows.Forms.DataGridView RAResultGridView;
-        public System.Windows.Forms.TableLayoutPanel RAAnalysisTableLayout;
+        private System.Windows.Forms.TableLayoutPanel RAAnalysisTableLayout;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        /// <summary>
+        /// ComboBox to set the property to X axis.
+        /// </summary>
         public System.Windows.Forms.ComboBox RAXComboBox;
+        /// <summary>
+        /// ComboBox to set the property to Y axis.
+        /// </summary>
         public System.Windows.Forms.ComboBox RAYComboBox;
         private System.Windows.Forms.DataGridViewCheckBoxColumn JudgeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn XColumn;
@@ -386,5 +409,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn OMinColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ODiffColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ORateColumn;
+        private System.Windows.Forms.Label RASampleNumLabel;
+        /// <summary>
+        /// TextBoxt to set the number of samples.
+        /// </summary>
+        public System.Windows.Forms.TextBox RASampleNumText;
+        private System.Windows.Forms.Label RAWinSizeLabel;
+        /// <summary>
+        /// TextBox to set the window size.
+        /// </summary>
+        public System.Windows.Forms.TextBox RAWinSizeText;
     }
 }

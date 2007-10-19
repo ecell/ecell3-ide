@@ -37,6 +37,9 @@ using EcellLib;
 
 namespace SessionManager
 {
+    /// <summary>
+    /// SessionProxy to execute the simulation in Local Environment.
+    /// </summary>
     public class LocalSessionProxy : SessionProxy
     {
         Process m_currentProcess = null;
@@ -69,16 +72,21 @@ namespace SessionManager
             psi.FileName = ScriptFile;
             psi.UseShellExecute = false;
             psi.CreateNoWindow = true;
-            psi.Arguments = Argument;
-            psi.WorkingDirectory = GetAnalysisDir();
+            psi.Arguments = @Argument;
+            psi.WorkingDirectory = Util.GetAnalysisDir();
             psi.CreateNoWindow = true;
             psi.RedirectStandardError = true;
             psi.RedirectStandardOutput = true;
             this.Status = JobStatus.RUNNING;
             m_currentProcess = Process.Start(psi);
             ProcessID = m_currentProcess.Id;
+/*
+            Process p = Process.Start("dir");
+            p.WaitForExit();
+*/
         }
 
+        /// <summary>
         /// Stop this session.
         /// </summary>
         public override void stop()
@@ -197,22 +205,8 @@ namespace SessionManager
         /// <returns>the script file name.</returns>
         static public string GetDefaultScript()
         {
-            return "ipy.exe";
+            return Util.GetAnalysisDir() + "/ipy.exe";
+//            return "ipy.exe";
         }
-
-        private string GetAnalysisDir()
-        {
-            string l_currentDir = null;
-            Microsoft.Win32.RegistryKey l_subkey = null;
-            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.LocalMachine;
-            l_subkey = l_key.OpenSubKey("software\\KeioUniv\\E-Cell IDE");
-            if (l_subkey != null)
-            {
-                l_currentDir = (string)l_subkey.GetValue("E-Cell IDE Analysis");
-            }
-            return l_currentDir;
-
-        }
-
     }
 }

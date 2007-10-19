@@ -72,6 +72,8 @@ namespace SessionManager
             p.Manager = this;
             m_proxyList.Add(p.GetEnvironment(), p);
             SetEnvironment(p.GetEnvironment());
+            m_tmpRootDir = Util.GetTmpDir();
+//            m_tmpRootDir = Util.GetAnalysisDir();
         }
 
 
@@ -96,6 +98,9 @@ namespace SessionManager
             p.Manager = this;
             m_proxyList.Add(p.GetEnvironment(), p);
             SetEnvironment(p.GetEnvironment());
+            m_tmpRootDir = Util.GetTmpDir();
+//            m_tmpRootDir = Util.GetAnalysisDir();
+
         }
 
         /// <summary>
@@ -232,6 +237,11 @@ namespace SessionManager
             return m_proxy.GetProperty();
         }
 
+        /// <summary>
+        /// Get the default property of environment.
+        /// </summary>
+        /// <param name="env">Environment name.</param>
+        /// <returns>Dictionary of default property.</returns>
         public Dictionary<string, object> GetDefaultEnvironmentProperty(string env)
         {
             if (m_proxyList.ContainsKey(env))
@@ -729,7 +739,7 @@ namespace SessionManager
         {
             m_logList.Clear();
 
-            foreach (SaveLoggerProperty p in m_logList)
+            foreach (SaveLoggerProperty p in sList)
             {
                 m_logList.Add(p);
             }
@@ -782,8 +792,8 @@ namespace SessionManager
                     }
                     paramDic.Add(p.FullPath, data);
                 }
-                string dirName = topDir + "/" + num;
-                string fileName = topDir + "/" + num + ".ess";
+                string dirName = topDir + "/" + i;
+                string fileName = topDir + "/" + i + ".ess";
                 Encoding enc = Encoding.GetEncoding(932);
                 SetLogTopDirectory(dirName);
 
@@ -792,7 +802,7 @@ namespace SessionManager
                 manager.WritePrefix(fileName, enc);
                 manager.WriteModelEntry(fileName, enc, modelName);
                 manager.WriteModelProperty(fileName, enc, modelName);
-                File.WriteAllText(fileName, "\n# System\n", enc);
+                File.AppendAllText(fileName, "\n# System\n", enc);
                 foreach (EcellObject sysObj in sysList)
                 {
                     foreach (string path in paramDic.Keys)
@@ -839,7 +849,7 @@ namespace SessionManager
                     manager.WriteSimulationForTime(fileName, count, enc);
                 manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
                 List<string> extFileList = ExtractExtFileList(m_logList);
-                RegisterJob(m_proxy.GetDefaultScript(), fileName, extFileList);
+                RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
             }
             Run();
         }
@@ -918,7 +928,7 @@ namespace SessionManager
                     manager.WritePrefix(fileName, enc);
                     manager.WriteModelEntry(fileName, enc, modelName);
                     manager.WriteModelProperty(fileName, enc, modelName);
-                    File.WriteAllText(fileName, "\n# System\n", enc);
+                    File.AppendAllText(fileName, "\n# System\n", enc);
                     foreach (EcellObject sysObj in sysList)
                     {
                         if (sysObj.M_value != null)
@@ -971,11 +981,12 @@ namespace SessionManager
                         manager.WriteSimulationForTime(fileName, count, enc);
                     manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
                     List<string> extFileList = ExtractExtFileList(m_logList);
-                    RegisterJob(m_proxy.GetDefaultScript(), fileName, extFileList);
+                    RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
                     j++;
                 }
                 i++;
             }
+            Run();
         }
     }
 

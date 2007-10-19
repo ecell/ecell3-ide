@@ -33,6 +33,9 @@ using System.Text;
 
 namespace SessionManager
 {
+    /// <summary>
+    /// SystemProxy to execute the simulation in Local Enviroment.
+    /// </summary>
     public class LocalSystemProxy : SystemProxy
     {
         private Dictionary<string, object> m_optDic = new Dictionary<string, object>();
@@ -68,6 +71,10 @@ namespace SessionManager
             return new LocalSessionProxy();
         }
 
+        /// <summary>
+        /// Get the environment name. This class return "Local".
+        /// </summary>
+        /// <returns>"Local".</returns>
         public override string GetEnvironment()
         {
             return "Local";

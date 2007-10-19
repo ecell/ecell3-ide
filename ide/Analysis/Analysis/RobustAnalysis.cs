@@ -51,14 +51,21 @@ namespace EcellLib.Analysis
         private Dictionary<string, EcellData> m_paramList = new Dictionary<string, EcellData>();
         private ZedGraphControl m_zCnt = null;
         private Analysis m_parent = null;
-        System.ComponentModel.ComponentResourceManager m_resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResAnalysis));
-
+        private bool m_isRunning = false;
+        private SessionManager.SessionManager m_manager;
+        private ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
+        private Timer m_timer;
         /// <summary>
         /// Constructor.
         /// </summary>
         public RobustAnalysis()
         {
             InitializeComponent();
+
+            m_timer = new Timer();
+            m_timer.Enabled = false;
+            m_timer.Interval = 5000;
+            m_timer.Tick += new EventHandler(UpdateTimeFire);
 
             m_zCnt = new ZedGraphControl();
             m_zCnt.Dock = DockStyle.Fill;
@@ -73,8 +80,11 @@ namespace EcellLib.Analysis
             RAAnalysisTableLayout.Controls.Add(m_zCnt, 0, 0);
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
+            m_manager = SessionManager.SessionManager.GetManager();
 
             InitializeData();
+            string d = Util.GetTmpDir();
+            d.ToString();
 
             this.FormClosed += new FormClosedEventHandler(RobustAnalysis_FormClosed);
         }
@@ -87,6 +97,15 @@ namespace EcellLib.Analysis
         {
             get { return this.m_parent; }
             set { this.m_parent = value; }
+        }
+
+        /// <summary>
+        /// get/set the status of robust analysis.
+        /// </summary>
+        public bool IsRunning
+        {
+            get { return this.m_isRunning; }
+            set { this.m_isRunning = value; }
         }
         #endregion
 
@@ -175,6 +194,146 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
+        /// Execute the robust analysis.
+        /// Robust analysis include the simulation execution of parameter and 
+        /// judgement of simulation results.
+        /// </summary>
+        public void Execute()
+        {
+            String tmpDir = m_manager.TmpRootDir;
+            int num = Convert.ToInt32(RASampleNumText.Text);
+            double simTime = Convert.ToDouble(RASimTimeText.Text);
+
+            string model = "";
+            List<string> modelList = DataManager.GetDataManager().GetModelList();
+            if (modelList.Count > 0) model = modelList[0];
+
+            List<ParameterRange> paramList = GetParamPropList();
+            if (paramList == null) return; 
+            List<SaveLoggerProperty> saveList = GetObservedPropList();
+            if (saveList == null) return;
+
+            m_manager.SetParameterRange(paramList);
+            m_manager.SetLoggerData(saveList);
+            m_manager.RunSimParameterRange(tmpDir, model, num, simTime, false);
+            m_isRunning = true;
+
+            m_timer.Enabled = true;
+            m_timer.Start();
+
+        }
+
+        /// <summary>
+        /// Update the status of session at intervals while program is running.
+        /// </summary>
+        /// <param name="sender">Timer.</param>
+        /// <param name="e">EventArgs.</param>
+        void UpdateTimeFire(object sender, EventArgs e)
+        {
+            if (!m_manager.IsFinished())
+            {
+                if (m_isRunning == false)
+                {
+                    m_manager.StopRunningJobs();
+                    m_timer.Enabled = false;
+                    m_timer.Stop();
+                }
+                return;
+            }
+            m_isRunning = false;
+            m_timer.Enabled = false;
+            m_timer.Stop();
+
+            if (m_manager.IsError())
+            {
+                String mes = m_resources.GetString("ErrFindErrorJob");
+                DialogResult res = MessageBox.Show(mes, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+            Judgement();
+        }
+
+        /// <summary>
+        /// Stop the robust analysis.
+        /// </summary>
+        public void Stop()
+        {
+            m_manager.StopRunningJobs();
+            m_isRunning = false;
+        }
+
+        /// <summary>
+        /// Judge the robustness from the simulation result.
+        /// </summary>
+        private void Judgement()
+        {
+            List<JudgementParam> judgeList = ExtractJudgement();
+            foreach (int jobid in m_manager.SessionList.Keys)
+            {
+                if (m_manager.SessionList[jobid].Status != JobStatus.FINISHED)
+                    continue;
+
+                foreach (JudgementParam p in judgeList)
+                {
+                    Dictionary<double, double> logList = 
+                        m_manager.SessionList[jobid].GetLogData(p.Path);
+
+                }
+            }
+        }
+
+        private bool JudgementRange(Dictionary<double, double> resDic, double max, double min, double diff)
+        {
+            bool isFirst = true;
+            double minValue = 0.0;
+            double maxValue = 0.0;
+            foreach (double time in resDic.Keys)
+            {
+                if (resDic[time] > max || resDic[time] < min) return false;
+                if (isFirst)
+                {
+                    isFirst = false;
+                    minValue = resDic[time];
+                    maxValue = resDic[time];
+                    continue;
+                }
+                if (minValue > resDic[time]) minValue = resDic[time];
+                if (maxValue < resDic[time]) maxValue = resDic[time];
+            }
+
+            if (maxValue - minValue > diff) return false;
+            return true;
+        }
+
+        private bool JudgementFFT(Dictionary<double, double> resDic, double rate, double winSize)
+        {
+            // not implement
+            return true;
+        }
+
+        private List<JudgementParam> ExtractJudgement()
+        {
+            List<JudgementParam> resList = new List<JudgementParam>();
+
+            for (int i = 0; i < RAObservGridView.Rows.Count; i++)
+            {
+                string path = RAObservGridView[0, i].Value.ToString();
+                double max = Convert.ToDouble(RAObservGridView[1, i].Value);
+                double min = Convert.ToDouble(RAObservGridView[2, i].Value);
+                double diff = Convert.ToDouble(RAObservGridView[3, i].Value);
+                double rate = Convert.ToDouble(RAObservGridView[4, i].Value);
+
+                JudgementParam p = new JudgementParam(path, max, min, diff, rate);
+                resList.Add(p);
+            }
+
+            return resList;
+        }
+
+        /// <summary>
         /// Get the list of property to set the initial value for analysis.
         /// If there are any problems, this function return null.
         /// </summary>
@@ -197,7 +356,8 @@ namespace EcellLib.Analysis
 
             if (resList.Count < 2)
             {
-                MessageBox.Show("test", "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                String mes = m_resources.GetString("ErrParamProp");
+                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
             return resList;
@@ -226,7 +386,8 @@ namespace EcellLib.Analysis
 
             if (resList.Count < 1)
             {
-                MessageBox.Show("test", "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                String mes = m_resources.GetString("ErrObservProp");
+                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
 
@@ -363,7 +524,7 @@ namespace EcellLib.Analysis
                 RAResultGridView.Rows.Add(new object[] { x, y });
 
                 line = m_zCnt.GraphPane.AddCurve(
-                    "Result", 
+                    "Result",
                     new PointPairList(),
                     Color.Blue,
                     SymbolType.TriangleDown);
@@ -541,5 +702,86 @@ namespace EcellLib.Analysis
 
             base.WndProc(ref m);
         }
-   }
+    }
+
+    /// <summary>
+    /// Parameter to judge the robustness.
+    /// </summary>
+    public class JudgementParam
+    {
+        private string m_path = "";
+        private double m_max = 0.0;
+        private double m_min = 0.0;
+        private double m_difference = 0.0;
+        private double m_rate = 0.0;
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public JudgementParam()
+        {
+        }
+
+        /// <summary>
+        /// Constructor with initial parameters.
+        /// </summary>
+        /// <param name="path">entry path to judge the logger data.</param>
+        /// <param name="max">the maximum value of logger data.</param>
+        /// <param name="min">the minimum value of logger data.</param>
+        /// <param name="diff">the difference value of logger data.</param>
+        /// <param name="rate">the rate of FFT.</param>
+        public JudgementParam(string path, double max, double min, double diff, double rate)
+        {
+            m_path = path;
+            m_max = max;
+            m_min = min;
+            m_difference = diff;
+            m_rate = rate;
+        }
+
+        /// <summary>
+        /// get/set the entry path to use by the judgement of robustness.
+        /// </summary>
+        public string Path
+        {
+            get { return this.m_path; }
+            set { this.m_path = value; }
+        }
+
+        /// <summary>
+        /// get/set the maximum value of logger data.
+        /// </summary>
+        public double Max
+        {
+            get { return this.m_max; }
+            set { this.m_max = value; }
+        }
+
+        /// <summary>
+        /// get/set the minimum value of logger data.
+        /// </summary>
+        public double Min
+        {
+            get { return this.m_min; }
+            set { this.m_min = value; }
+        }
+
+        /// <summary>
+        /// get/set the differnce value of logger data.
+        /// </summary>
+        public double Difference
+        {
+            get { return this.m_difference; }
+            set { this.m_difference = value; }
+        }
+
+        /// <summary>
+        /// get/set the rate of FFT.
+        /// </summary>
+        public double Rate
+        {
+            get { return this.m_rate; }
+            set { this.m_rate = value; }
+        }
+    }
 }
