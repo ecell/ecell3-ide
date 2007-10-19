@@ -191,7 +191,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// List of PPathwayNode for selected object.
         /// </summary>
-        List<EcellObject> m_selectedNodes = new List<EcellObject>();
+        List<PPathwayObject> m_selectedNodes = new List<PPathwayObject>();
 
         /// <summary>
         /// selected line
@@ -367,7 +367,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_selectedNodes.
         /// </summary>
-        public List<EcellObject> SelectedNodes
+        public List<PPathwayObject> SelectedNodes
         {
             get { return m_selectedNodes; }
         }
@@ -1454,7 +1454,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="systemName"></param>
         public void TransferSelectedTo(string systemName)
         {
-            foreach (EcellObject node in SelectedNodes)
+            foreach (PPathwayObject node in m_selectedNodes)
             {
                 TransferNodeTo(systemName, node, true, true);
             }
@@ -1469,9 +1469,10 @@ namespace EcellLib.PathwayWindow
         /// <param name="obj">transfered object</param>
         /// <param name="toBeNotified">Whether this needs to be notified or not</param>
         /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        public void TransferNodeTo(string systemName, EcellObject eo, bool toBeNotified, bool isAnchor)
+        public void TransferNodeTo(string systemName, PPathwayObject obj, bool toBeNotified, bool isAnchor)
         {
             // Set new system.
+            EcellObject eo = obj.EcellObject;
             string oldSys = eo.parentSystemID;
             string oldKey = eo.key;
             eo.parentSystemID = systemName;
@@ -1484,19 +1485,6 @@ namespace EcellLib.PathwayWindow
                 eo.key,
                 eo,
                 isAnchor);
-            // Update Systems
-            m_con.NotifyDataChanged(
-                systemName,
-                systemName,
-                GetSelectedObject(systemName, EcellObject.SYSTEM).EcellObject,
-                false);
-            // Update Systems
-            m_con.NotifyDataChanged(
-                oldSys,
-                oldSys,
-                GetSelectedObject(oldSys, EcellObject.SYSTEM).EcellObject,
-                false);
-
         }
 
 
@@ -1877,8 +1865,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="toBeNotified">Whether selection must be notified to Ecell-Core or not.</param>
         public void AddSelectedNode(PPathwayNode obj, bool toBeNotified)
         {
-            EcellObject eo = obj.EcellObject;
-            m_selectedNodes.Add(eo);
+            m_selectedNodes.Add(obj);
             obj.IsHighLighted = true;
             if (toBeNotified)
                 m_con.NotifySelectChanged(obj.EcellObject.key, obj.EcellObject.type);
@@ -2247,9 +2234,9 @@ namespace EcellLib.PathwayWindow
                     break;
                 case ComponentType.Variable:
                     bool isAlreadySelected = false;
-                    foreach (EcellObject selectNode in m_selectedNodes)
+                    foreach (PPathwayObject selectNode in m_selectedNodes)
                     {
-                        if (key.Equals(selectNode.key) && selectNode is EcellVariable)
+                        if (key.Equals(selectNode.EcellObject.key) && selectNode is PPathwayVariable)
                         {
                             isAlreadySelected = true;
                             break;
@@ -2271,9 +2258,9 @@ namespace EcellLib.PathwayWindow
                     break;
                 case ComponentType.Process:
                     bool isProAlreadySelected = false;
-                    foreach (EcellObject selectNode in m_selectedNodes)
+                    foreach (PPathwayObject selectNode in m_selectedNodes)
                     {
-                        if (key.Equals(selectNode.key) && selectNode is EcellProcess)
+                        if (key.Equals(selectNode.EcellObject.key) && selectNode is PPathwayProcess)
                         {
                             isProAlreadySelected = true;
                             break;
@@ -2402,8 +2389,8 @@ namespace EcellLib.PathwayWindow
         {
             if (m_selectedNodes.Count == 0)
                 return;
-            foreach (EcellObject obj in m_selectedNodes)
-                GetSelectedObject(obj.key, obj.type).IsHighLighted = false;
+            foreach (PPathwayObject obj in m_selectedNodes)
+                GetSelectedObject(obj.EcellObject.key, obj.EcellObject.type).IsHighLighted = false;
             lock (this)
                 m_selectedNodes.Clear();
         }

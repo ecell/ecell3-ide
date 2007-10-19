@@ -138,14 +138,13 @@ namespace EcellLib.PathwayWindow.Handler
                 m_downPosition = new PointF(e.Position.X, e.Position.Y);
                 m_composite = new PComposite();
                 m_set.ControlLayer.AddChild(m_composite);
-                foreach (EcellObject eo in m_set.SelectedNodes)
+                foreach (PPathwayObject node in m_set.SelectedNodes)
                 {
-                    if (eo == pnode.EcellObject)
+                    if (node == pnode)
                         continue;
 
-                    PPathwayNode obj = (PPathwayNode)m_set.GetSelectedObject(eo.key, eo.type);
-                    obj.MemorizeCurrentPosition();
-                    m_composite.AddChild(obj);
+                    node.MemorizeCurrentPosition();
+                    m_composite.AddChild(node);
                 }
             }
             else if (e.PickedNode is PPathwaySystem)
@@ -248,8 +247,8 @@ namespace EcellLib.PathwayWindow.Handler
                 if ((Math.Abs(m_movingDelta.Width) + Math.Abs(m_movingDelta.Height)) > m_refreshDistance)
                 {
                     m_movingDelta = new SizeF(0, 0);
-                    //foreach (EcellObject node in m_set.SelectedNodes)
-                    //    node.Refresh();
+                    foreach (PPathwayObject node in m_set.SelectedNodes)
+                        node.Refresh();
                 }
             }
         }
@@ -366,7 +365,7 @@ namespace EcellLib.PathwayWindow.Handler
 
                 if (newSystem.Equals(oldSystem))
                 {
-                    m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), node.EcellObject, toBeNotified, true);
+                    m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), node, toBeNotified, true);
                 }
                 else if (node is PPathwayVariable)
                 {
@@ -380,7 +379,7 @@ namespace EcellLib.PathwayWindow.Handler
                     }
                     else
                     {
-                        m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), node.EcellObject, toBeNotified, true);
+                        m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), node, toBeNotified, true);
                     }
                 }
                 else if (node is PPathwayProcess)
@@ -395,13 +394,13 @@ namespace EcellLib.PathwayWindow.Handler
                     }
                     else
                     {
-                        m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), node.EcellObject, toBeNotified, true);
+                        m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), node, toBeNotified, true);
                     }
                 }
             }
             else
             {
-                m_set.TransferNodeTo(oldSystem, node.EcellObject, toBeNotified, true);
+                m_set.TransferNodeTo(oldSystem, node, toBeNotified, true);
                 ((PPathwayNode)node).ReturnToMemorizedPosition();
             }
             node.RefreshText();

@@ -1276,7 +1276,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="isAnchor">the type of deleted object.</param>
         public void NotifyDataDelete(EcellObject eo, bool isAnchor)
         {
-            m_window.NotifyDataDelete(eo, isAnchor);
+            m_window.NotifyDataDelete(eo.modelID, eo.key, eo.type, isAnchor);
         }
 
         /// <summary>
@@ -1598,17 +1598,17 @@ namespace EcellLib.PathwayWindow
             }
         }
 
-        private List<EcellObject> SetCopyNodes(List<EcellObject> nodeList)
+        private List<EcellObject> SetCopyNodes(List<PPathwayObject> nodeList)
         {
             List<EcellObject> copyNodes = new List<EcellObject>();
             //Copy Variavles
-            foreach (EcellObject node in nodeList)
-                if (node is EcellVariable)
-                    copyNodes.Add(node.Copy());
+            foreach (PPathwayObject node in nodeList)
+                if (node is PPathwayVariable)
+                    copyNodes.Add(node.EcellObject.Copy());
             //Copy Processes
-            foreach (EcellObject node in nodeList)
-                if (node is EcellProcess)
-                    copyNodes.Add(node.Copy());
+            foreach (PPathwayObject node in nodeList)
+                if (node is PPathwayProcess)
+                    copyNodes.Add(node.EcellObject.Copy());
             return copyNodes;
         }
 
@@ -1692,8 +1692,8 @@ namespace EcellLib.PathwayWindow
             if (this.ActiveCanvas.SelectedNodes != null)
             {
                 List<EcellObject> slist = new List<EcellObject>();
-                foreach (EcellObject t in this.ActiveCanvas.SelectedNodes)
-                    slist.Add(t);
+                foreach (PPathwayObject node in this.ActiveCanvas.SelectedNodes)
+                    slist.Add(node.EcellObject);
 
                 int i = 0;
                 foreach (EcellObject deleteNode in slist)
@@ -1735,6 +1735,45 @@ namespace EcellLib.PathwayWindow
                     return;
                 }
                 ActiveCanvas.ResetSelectedSystem();
+            }
+        }
+
+        /// <summary>
+        /// Do object layout.
+        /// </summary>
+        /// <param name="algorithm">ILayoutAlgorithm</param>
+        /// <param name="subIdx">int</param>
+        /// <param name="IsSystemResize">bool</param>
+        public void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool IsSystemResize)
+        {
+            // Check Selected nodes when the layout algorithm uses selected objects.
+            if (algorithm.GetLayoutType() == LayoutType.Selected)
+                foreach (PPathwayObject node in this.ActiveCanvas.SelectedNodes)
+                    node.EcellObject.isFixed = EcellObject.Fixed;
+
+            List<EcellObject> systemList = this.ActiveCanvas.GetSystemList();
+            List<EcellObject> nodeList = this.ActiveCanvas.GetNodeList();
+
+            try
+            {
+                algorithm.DoLayout(subIdx, false, systemList, nodeList);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(m_resources.GetString("ErrLayout"));
+                return;
+            }
+
+            // Set Layout.
+            foreach (EcellObject system in systemList)
+                this.ActiveCanvas.Systems[system.key].EcellObject = (EcellSystem)system;
+            foreach (EcellObject node in nodeList)
+            {
+                node.isFixed = EcellObject.NotFixed;
+                if (node is EcellProcess)
+                    this.ActiveCanvas.Processes[node.key].EcellObject = (EcellProcess)node;
+                else
+                    this.ActiveCanvas.Variables[node.key].EcellObject = (EcellVariable)node;
             }
         }
         #endregion

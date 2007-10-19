@@ -210,12 +210,13 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Inform the deleting of EcellObject in PathwayEditor to DataManager.
         /// </summary>
+        /// <param name="modelID"></param>
         /// <param name="key"></param>
         /// <param name="type"></param>
         /// <param name="isAnchor"></param>
-        public void NotifyDataDelete(EcellObject eo, bool isAnchor)
+        public void NotifyDataDelete(string modelID, string key, string type, bool isAnchor)
         {
-            m_dManager.DataDelete(eo.modelID, eo.key, eo.type, true, isAnchor);
+            m_dManager.DataDelete(modelID, key, type, true, isAnchor);
         }
 
         /// <summary>
@@ -293,41 +294,9 @@ namespace EcellLib.PathwayWindow
             }
             ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
 
-            DoLayout(algorithm, subIdx, false);
+            m_con.DoLayout(algorithm, subIdx, false);
         }
 
-        private void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool IsSystemResize)
-        {
-            // Check Selected nodes when the layout algorithm uses selected objects.
-            if (algorithm.GetLayoutType() == LayoutType.Selected)
-                foreach (EcellObject node in this.m_con.ActiveCanvas.SelectedNodes)
-                    node.isFixed = EcellObject.Fixed;
-
-            List<EcellObject> systemList = m_con.ActiveCanvas.GetSystemList();
-            List<EcellObject> nodeList = m_con.ActiveCanvas.GetNodeList();
-
-            try
-            {
-                algorithm.DoLayout(subIdx, false, systemList, nodeList);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(m_resources.GetString("ErrLayout"));
-                return;
-            }
-
-            // Set Layout.
-            foreach (EcellObject system in systemList)
-                this.m_con.ActiveCanvas.Systems[system.key].EcellObject = (EcellSystem)system;
-            foreach (EcellObject node in nodeList)
-            {
-                node.isFixed = EcellObject.NotFixed;
-                if (node is EcellProcess)
-                    this.m_con.ActiveCanvas.Processes[node.key].EcellObject = (EcellProcess)node;
-                else
-                    this.m_con.ActiveCanvas.Variables[node.key].EcellObject = (EcellVariable)node;
-            }
-        }
         /// <summary>
         /// Get toolbar buttons for PathwayWindow plugin.
         /// </summary>
@@ -448,7 +417,7 @@ namespace EcellLib.PathwayWindow
                     {
                         this.m_con.CreateCanvas(modelId);
                         this.NewDataAddToModel(data);
-                        DoLayout(DefaultLayoutAlgorithm, 0, true);
+                        m_con.DoLayout(DefaultLayoutAlgorithm, 0, true);
                     }
                 }
                 else
