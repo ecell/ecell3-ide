@@ -301,7 +301,6 @@ namespace EcellLib.PathwayWindow.Nodes
                     base.Height = m_ecellObj.Height;
                     base.OffsetX = m_ecellObj.OffsetX;
                     base.OffsetY = m_ecellObj.OffsetY;
-                    RefreshText();
                 }
                 else
                 {
@@ -313,7 +312,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     m_ecellObj.OffsetY = base.OffsetY;
                 }
                 MemorizeCurrentPosition();
-                RefreshText();
+                Refresh();
             }
         }
         /// <summary>
@@ -1170,6 +1169,7 @@ namespace EcellLib.PathwayWindow.Nodes
             FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
             UpdateBoundsFromPath();
             InvalidatePaint();
+            RefreshText();
         }
 
         /// <summary>
@@ -1242,6 +1242,9 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void RefreshText()
         {
+            if (EcellObject == null)
+                return;
+
             this.m_pText.Text = this.EcellObject.Text;
             this.m_pText.CenterBoundsOnPoint(TextCenterX, TextCenterY);
             this.m_pText.MoveToFront();           
@@ -1278,24 +1281,6 @@ namespace EcellLib.PathwayWindow.Nodes
         public virtual void Unfreeze()
         {
             this.Pickable = m_isPickableBeforeFreeze;
-        }
-
-        /// <summary>
-        /// Add Child object.
-        /// </summary>
-        public void AddChildObject(PPathwayObject child)
-        {
-            base.AddChild(child);
-            this.EcellObject.AddChildObject(child.EcellObject);
-        }
-
-        /// <summary>
-        /// Add Child object.
-        /// </summary>
-        public void RemoveChildObject(PPathwayObject child)
-        {
-            base.RemoveChild(child);
-            this.EcellObject.RemoveChildObject(child.EcellObject);
         }
         #endregion
 

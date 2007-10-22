@@ -1531,9 +1531,8 @@ namespace EcellLib
             for (int i = 0; i < l_systemList.Count; i++)
             {
                 if (l_systemList[i].M_instances == null || l_systemList[i].M_instances.Count <= 0)
-                {
                     continue;
-                }
+
                 for (int j = 0; j < l_systemList[i].M_instances.Count; j++)
                 {
                     if (l_systemList[i].M_instances[j].modelID.Equals(l_modelID)

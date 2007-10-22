@@ -863,6 +863,7 @@ namespace EcellLib.PathwayWindow
             foreach (PPathwayObject obj in currentDict.Values)
             {
                 string oldKey = obj.EcellObject.key;
+                string oldSyskey = obj.EcellObject.parentSystemID;
                 string newKey = null;
                 if (obj is PPathwaySystem)
                     newKey = systemKey + "/" + obj.EcellObject.name;
@@ -1470,7 +1471,7 @@ namespace EcellLib.PathwayWindow
             {
                 PPathwayObject po = (PPathwayObject)obj.Parent;
                 po.RemoveChild(po.IndexOfChild(obj));
-                system.AddChildObject(obj);
+                system.AddChild(obj);
                 if (system.IndexOfChild(po) < 0)
                 {
                     obj.OffsetX -= system.OffsetX;
@@ -1543,7 +1544,7 @@ namespace EcellLib.PathwayWindow
             PPathwaySystem system = m_systems[oldKey];
             PPathwaySystem parentSys = m_systems[systemName];
             system.Parent.RemoveChild(system);
-            parentSys.AddChildObject(system);
+            parentSys.AddChild(system);
 
             if (isExternal)
             {
@@ -2011,10 +2012,10 @@ namespace EcellLib.PathwayWindow
         public List<PPathwayObject> GetNodeList()
         {
             List<PPathwayObject> returnList = new List<PPathwayObject>();
-            foreach (PPathwayVariable variable in this.m_variables.Values)
-                returnList.Add(variable);
             foreach (PPathwayProcess process in this.m_processes.Values)
                 returnList.Add(process);
+            foreach (PPathwayVariable variable in this.m_variables.Values)
+                returnList.Add(variable);
 
             return returnList;
         }
@@ -2043,72 +2044,34 @@ namespace EcellLib.PathwayWindow
             return new Bitmap(m_pCanvas.Layer[0].ToImage());
         }
 
-        /// <summary>
-        /// event sequence of changing the information of object.
-        /// </summary>
-        /// <param name="key">the key of object before chage.</param>
-        /// <param name="data">the type of object before change.</param>
-        /// <param name="type">the changed object.</param>
-        public void DataChanged(string key, EcellObject data, ComponentType type)
-        {
-            if (key == null || data.key == null)
-                return;
-
-            switch (type)
-            {
-                case ComponentType.System:
-                    if (!m_systems.ContainsKey(key))
-                        return;
-                    PPathwaySystem system = m_systems[key];
-                    if (!key.Equals(data.key))
-                        TransferObject(key, data, system);
-                    else
-                        system.EcellObject = (EcellSystem)data;
-                    UpdateResizeHandlePositions();
-                    break;
-                case ComponentType.Variable:
-                    if (!m_variables.ContainsKey(key))
-                        return;
-                    PPathwayVariable var = m_variables[key];
-                    if (!key.Equals(data.key))
-                        TransferObject(key, data, var);
-                    else
-                        var.EcellObject = (EcellVariable)data;
-                    break;
-                case ComponentType.Process:
-                    if (!m_processes.ContainsKey(key))
-                        return;
-                    PPathwayProcess pro = m_processes[key];
-                    if (!key.Equals(data.key))
-                        TransferObject(key, data, pro);
-                    else
-                        pro.EcellObject = (EcellProcess)data;
-                    break;
-            }
-        }
-
-        private void TransferObject(string key, EcellObject eo, PPathwayObject obj)
+        public void TransferObject(string oldkey, string newkey, PPathwayObject obj)
         {
             if (obj is PPathwaySystem)
             {
-                m_systems.Remove(key);
-                obj.ParentObject.RemoveChildObject(obj);
-                m_systems.Add(eo.key, (PPathwaySystem)obj);
+                if (!m_systems.ContainsKey(oldkey))
+                    return;
+                m_systems.Remove(oldkey);
+                m_systems.Add(newkey, (PPathwaySystem)obj);
             }
             else if (obj is PPathwayVariable)
             {
-                m_variables.Remove(key);
-                obj.ParentObject.RemoveChildObject(obj);
-                m_variables.Add(eo.key, (PPathwayVariable)obj);
+                if (!m_variables.ContainsKey(oldkey))
+                    return;
+                m_variables.Remove(oldkey);
+                m_variables.Add(newkey, (PPathwayVariable)obj);
             }
             else if (obj is PPathwayProcess)
             {
-                m_processes.Remove(key);
-                obj.ParentObject.RemoveChildObject(obj);
-                m_processes.Add(eo.key, (PPathwayProcess)obj);
+                if (!m_processes.ContainsKey(oldkey))
+                    return;
+                m_processes.Remove(oldkey);
+                m_processes.Add(newkey, (PPathwayProcess)obj);
             }
-            obj.EcellObject = eo;
-            m_systems[eo.parentSystemID].AddChildObject(obj);
+            string sysKey = PathUtil.GetParentSystemId(newkey);
+            obj.ParentObject.RemoveChild(obj);
+            obj.ParentObject = m_systems[sysKey];
+            obj.ParentObject.AddChild(obj);
+
         }
 
         /// <summary>
@@ -2126,8 +2089,7 @@ namespace EcellLib.PathwayWindow
                         break;
 
                     PPathwaySystem system = m_systems[key];
-                    system.RemoveAllChildren();
-                    system.Parent.RemoveChild(system);
+                    MoveChildren(system);
                     if (m_selectedSystemName != null && key.Equals(m_selectedSystemName))
                     {
                         HideResizeHandles();
@@ -2156,6 +2118,21 @@ namespace EcellLib.PathwayWindow
                     m_processes.Remove(key);
                     break;
             }
+        }
+
+        private void MoveChildren(PPathwaySystem system)
+        {
+            PNodeList childList = new PNodeList();
+            foreach (PNode obj in system.ChildrenReference)
+            {
+                if (obj is PPathwayObject)
+                    ((PPathwayObject)obj).ParentObject = (PPathwayObject)system.Parent;
+            }
+
+            childList.AddRange(system.ChildrenReference);
+            system.Parent.AddChildren(childList);
+            system.Parent.RemoveChild(system);
+            system.RemoveAllChildren();
         }
 
         /// <summary>

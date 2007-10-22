@@ -463,22 +463,17 @@ namespace EcellLib.PathwayWindow
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             // Null Check.
-            if(String.IsNullOrEmpty(m_modelId))
+            if (String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(key) || String.IsNullOrEmpty(type))
                 return;
-            if (type == null || String.IsNullOrEmpty(key) || data == null)
+            if (data == null)
                 return;
-            // Select Canvas
-            CanvasView canvas = this.m_con.CanvasDictionary[modelID];
-
-            // Change data.
             try
             {
-                ComponentType cType = ComponentManager.ParseComponentKind(type);
-                canvas.DataChanged(key, data, cType);
+                m_con.DataChanged(modelID, key, type, data);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e.StackTrace);
             }
         }
 

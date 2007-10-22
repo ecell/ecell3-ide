@@ -753,42 +753,53 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         void MergeClick(object sender, EventArgs e)
         {
+            // Check exception.
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            if (!(item.Tag is PPathwaySystem))
+                return;
+            PPathwaySystem system = (PPathwaySystem)item.Tag;
+            if (system.EcellObject.key.Equals("/"))
+            {
+                MessageBox.Show(m_resources.GetString("ErrDelRoot"),
+                                "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            // Confirm system merge.
             DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
                 "Merge",
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Question,
                 MessageBoxDefaultButton.Button2);
-
             if (result == DialogResult.Cancel)
                 return;
 
-            Object obj = ((ToolStripItem)sender).Tag;
-            if (obj is PPathwaySystem)
+            try
             {
-                PPathwaySystem deleteSystem = (PPathwaySystem)obj;
-                if (string.IsNullOrEmpty(deleteSystem.Name))
-                    return;
-                if (deleteSystem.Name.Equals("/"))
+                // Move systems and nodes under merged system.
+                string sysKey = system.EcellObject.key;
+                string newSyskey = system.EcellObject.parentSystemID;
+                string key;
+                foreach (PPathwayObject obj in ActiveCanvas.GetAllObjects())
                 {
-                    MessageBox.Show(m_resources.GetString("ErrDelRoot"),
-                                    "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
-                    return;
-                }
+                    key = obj.EcellObject.key;
+                    if (!key.StartsWith(sysKey) || key.Equals(sysKey))
+                        continue;
 
-                try
-                {
-                    NotifyDataMerge(deleteSystem.EcellObject);
+                    obj.EcellObject.key = key.Replace(sysKey, newSyskey);
+                    ActiveCanvas.TransferObject(key, obj.EcellObject.key, obj);
                 }
-                catch (IgnoreException)
-                {
-                    return;
-                }
-                if (deleteSystem.IsHighLighted)
-                    ActiveCanvas.ResetSelectedSystem();
-
+                m_window.NotifyDataMerge(system.EcellObject.modelID, system.EcellObject.key);
             }
+            catch (IgnoreException)
+            {
+                return;
+            }
+            if (system.IsHighLighted)
+                ActiveCanvas.ResetSelectedSystem();
+
             ((ToolStripMenuItem)sender).Tag = null;
         }
         /// <summary>
@@ -1187,6 +1198,8 @@ namespace EcellLib.PathwayWindow
             bool isAnchor)
         {
             EcellObject eo = m_window.GetEcellObject(obj.EcellObject.modelID, oldKey, obj.EcellObject.type);
+            if (eo == null)
+                throw new Exception();
             eo.key = newKey;
             eo.SetPosition(obj.EcellObject);
             m_window.NotifyDataChanged(oldKey, newKey, eo, isAnchor);
@@ -1281,18 +1294,6 @@ namespace EcellLib.PathwayWindow
         public void NotifyDataDelete(EcellObject eo, bool isAnchor)
         {
             m_window.NotifyDataDelete(eo.modelID, eo.key, eo.type, isAnchor);
-        }
-
-        /// <summary>
-        /// Notify DataDelete event to outsite.
-        /// </summary>
-        /// <param name="key">the key of deleted object.</param>
-        /// <param name="type">the type of deleted object.</param>
-        public void NotifyDataMerge(EcellObject eo)
-        {
-            if (eo.type != EcellObject.SYSTEM)
-                return;
-            m_window.NotifyDataMerge(eo.modelID, eo.key);
         }
         #endregion
 
@@ -1781,6 +1782,36 @@ namespace EcellLib.PathwayWindow
 
             return nodeList;
         }
+
+        /// <summary>
+        /// The event sequence on changing value of data at other plugin.
+        /// </summary>
+        /// <param name="modelID">The model ID before value change.</param>
+        /// <param name="key">The ID before value change.</param>
+        /// <param name="type">The data type before value change.</param>
+        /// <param name="data">Changed value of object.</param>
+        public void DataChanged(string modelID, string key, string type, EcellObject data)
+        {
+            // Select Canvas
+            CanvasView canvas = m_canvasDict[modelID];
+            ComponentType cType = ComponentManager.ParseComponentKind(type);
+
+            // Select changed object.
+            PPathwayObject obj = canvas.GetSelectedObject(key, type);
+            if (obj == null)
+                return;
+
+            // Change data.
+            obj.EcellObject = data;
+            if (!key.Equals(data.key))
+                canvas.TransferObject(key, data.key, obj);
+
+            //
+            if (obj is PPathwaySystem)
+                canvas.UpdateResizeHandlePositions();
+
+        }
+
         #endregion
     }
 }
