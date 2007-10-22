@@ -163,6 +163,27 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
+        #region Methods to get EcellObject data.
+        /// <summary>
+        /// Method to get current EcellObject Datas.
+        /// </summary>
+        public List<EcellObject> GetData(string modelID)
+        {
+            return m_dManager.GetData(modelID, "/");
+        }
+        /// <summary>
+        /// Method to get a EcellObject.
+        /// </summary>
+        /// <param name="modelID">the model of object.</param>
+        /// <param name="modelID">the key of object.</param>
+        /// <param name="modelID">the type of object.</param>
+        /// <returns>the list of EcellObject.</returns>
+        public EcellObject GetEcellObject(string modelID, string key, string type)
+        {
+            return m_dManager.GetEcellObject(modelID, key ,type);
+        }
+        #endregion
+
         #region Methods to notify from inside (pathway) to outside(ECell Core)
 
         /// <summary>
@@ -222,13 +243,13 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Inform the deleting of EcellObject in PathwayEditor to DataManager.
         /// </summary>
+        /// <param name="modelID"></param>
         /// <param name="key"></param>
-        /// <param name="type"></param>
-        public void NotifyDataMerge(EcellObject eo)
+        public void NotifyDataMerge(string modelID, string key)
         {
             try
             {
-                m_dManager.SystemDeleteAndMove(eo.modelID, eo.key);
+                m_dManager.SystemDeleteAndMove(modelID, key);
             }
             catch (Exception ex)
             {
@@ -243,12 +264,18 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Inform the selected EcellObject in PathwayEditor to PluginManager.
         /// </summary>
+        /// <param name="modelID">the modelID of selected object.</param>
         /// <param name="key">the key of selected object.</param>
         /// <param name="type">the type of selected object.</param>
-        public void NotifySelectChanged(string key, string type)
+        /// <param name="isSelected">Is object is selected or not</param>
+        public void NotifySelectChanged(string modelID, string key, string type, bool isSelected)
         {
             PluginManager pm = PluginManager.GetPluginManager();
-            pm.SelectChanged(m_modelId, key, type);
+            if(isSelected)
+                pm.AddSelect(modelID, key, type);
+            else
+                pm.RemoveSelect(modelID, key, type);
+
         }
         #endregion
 
@@ -389,42 +416,35 @@ namespace EcellLib.PathwayWindow
             foreach(EcellObject obj in data)
             {
                 modelId = obj.modelID;
-                if(obj is EcellSystem)
-                {
-                    if (obj.modelID != null && !m_modelId.Equals(obj.modelID))
-                    {
-                        isOtherModel = true;
-                        m_modelId = obj.modelID;
-                        break;
-                    }
-                }
+                if (!(obj is EcellSystem))
+                    continue;
+                if (obj.modelID == null || m_modelId.Equals(obj.modelID))
+                    continue;
+
+                isOtherModel = true;
+                m_modelId = obj.modelID;
+                break;
             }
 
-
+            bool layoutFlag = false;
             try
             {
                 if (isOtherModel)
                 {
+                    // Create new canvas
+                    this.m_con.CreateCanvas(modelId);
                     // New model will be added.
                     string fileName = m_dManager.GetDirPath(modelId) + "\\" + modelId + ".leml";
-                    
                     if (File.Exists(fileName))
-                    {
-                        this.m_con.CreateCanvas(modelId);
-                        this.DataAddWithLeml(fileName, data);
-                    }
+                        this.SetPositionFromLeml(fileName, data);
                     else
-                    {
-                        this.m_con.CreateCanvas(modelId);
-                        this.NewDataAddToModel(data);
-                        m_con.DoLayout(DefaultLayoutAlgorithm, 0, true);
-                    }
+                        layoutFlag = true;
                 }
-                else
-                {
-                    // New EcellObjects will be added to the currently selected model.
-                    this.NewDataAddToModel(data);
-                }
+                this.NewDataAddToModel(data);
+
+                if (layoutFlag)
+                    m_con.DoLayout(DefaultLayoutAlgorithm, 0, true);
+
             }
             catch (Exception e)
             {
@@ -552,7 +572,9 @@ namespace EcellLib.PathwayWindow
             if (!this.m_con.CanvasDictionary.ContainsKey(modelID))
                 return;
 
-            List<EcellObject> list = this.m_con.CanvasDictionary[modelID].GetAllObjects();
+            List<EcellObject> list = new List<EcellObject>();
+            list.AddRange(m_con.GetSystemList(modelID));
+            list.AddRange(m_con.GetNodeList(modelID));
             string fileName = directory + "\\" + modelID + ".leml";
             EcellSerializer.SaveAsXML(list, fileName);
         }
@@ -985,7 +1007,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="fileName">Leml file path</param>
         /// <param name="data">The same argument for DataAdd</param>
-        private void DataAddWithLeml(string fileName, List<EcellObject> data)
+        private void SetPositionFromLeml(string fileName, List<EcellObject> data)
         {
             // Deserialize objects from a file
             List<EcellObject> objList = EcellSerializer.LoadFromXML(fileName);
@@ -1010,7 +1032,6 @@ namespace EcellLib.PathwayWindow
                         child.SetPosition(objDict[dictKey]);
                 }
             }
-            this.NewDataAddToModel(data);
         }
         #endregion
 

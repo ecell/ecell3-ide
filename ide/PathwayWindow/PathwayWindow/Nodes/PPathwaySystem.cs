@@ -102,18 +102,6 @@ namespace EcellLib.PathwayWindow.Nodes
         protected Brush m_backBrush = Brushes.White;
 
         /// <summary>
-        /// For memorizing a width and a height before the start of a dragging.
-        /// When the dragging failed, this object will be set to this width
-        /// </summary>
-        protected float m_originalWidth = 0;
-
-        /// <summary>
-        /// For memorizing a width and a height before the start of a dragging.
-        /// When the dragging failed, this object will be set to this width
-        /// </summary>
-        protected float m_originalHeight = 0;
-
-        /// <summary>
         /// the flag whether this system is changed.
         /// </summary>
         protected bool m_isChanged = true;
@@ -492,6 +480,8 @@ namespace EcellLib.PathwayWindow.Nodes
             foreach(PPathwayObject child in this.ChildObjectList)
                 if (obj.Rect.Contains(child.Rect) || obj.Rect.IntersectsWith(child.Rect))
                     child.X += obj.Width;
+            m_control.NotifyDataChanged(this.EcellObject.key, this.EcellObject.key, this, false);
+
         }
 
         /// <summary>
@@ -625,36 +615,16 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// Memorize current position of the canvas.
-        /// </summary>
-        public override void MemorizeCurrentPosition()
-        {
-            base.m_originalX = base.X;
-            base.m_originalY = base.Y;
-            base.m_originalOffsetX = base.OffsetX;
-            base.m_originalOffsetY = base.OffsetY;
-            this.m_originalWidth = this.Width;//this.SystemWidth;
-            this.m_originalHeight = this.Height;// this.SystemHeight;
-        }
-
-        /// <summary>
         /// Return to memorized position.
         /// </summary>
-        public override void ReturnToMemorizedPosition()
+        public void ReturnToMemorizedPosition()
         {
             base.X = base.m_originalX;
             base.Y = base.m_originalY;
             base.OffsetX = base.m_originalOffsetX;
             base.OffsetY = base.m_originalOffsetY;
-            base.Width = this.m_originalWidth;
-            base.Height = this.m_originalHeight;
             //this.SystemWidth = this.m_originalWidth;
             //this.SystemHeight = this.m_originalHeight;
-            foreach (PPathwayObject obj in this.ChildObjectList)
-            {
-                if (obj is PPathwayVariable)
-                    ((PPathwayVariable)obj).Refresh();
-            }
         }
 
         /// <summary>
@@ -666,10 +636,11 @@ namespace EcellLib.PathwayWindow.Nodes
             base.Refresh();
             this.Reset();
             this.RefreshText();
-            //this.SystemWidth = this.m_originalWidth;
-            //this.SystemHeight = this.m_originalHeight;
-            //base.Width = this.m_originalWidth;
-            //base.Height = this.m_originalHeight;
+            foreach (PPathwayObject obj in this.ChildObjectList)
+            {
+                if (obj is PPathwayVariable)
+                    ((PPathwayVariable)obj).Refresh();
+            }
         }
         /// <summary>
         /// Refresh Text contents of this object.

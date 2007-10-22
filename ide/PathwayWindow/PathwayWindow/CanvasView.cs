@@ -287,7 +287,7 @@ namespace EcellLib.PathwayWindow
         /// Stack for nodes under the mouse.
         /// this will be used to reconnect edge.
         /// </summary>
-        Stack<EcellObject> m_nodesUnderMouse = new Stack<EcellObject>();
+        Stack<PPathwayObject> m_nodesUnderMouse = new Stack<PPathwayObject>();
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
@@ -680,13 +680,13 @@ namespace EcellLib.PathwayWindow
         {
             if (m_nodesUnderMouse.Count != 0 && null != m_selectedLine)
             {
-                EcellObject eo = m_nodesUnderMouse.Pop();
-                if (eo is EcellProcess && m_cType == ComponentType.Process)
+                PPathwayObject obj = m_nodesUnderMouse.Pop();
+                if (obj is PPathwayProcess && m_cType == ComponentType.Process)
                 {
                     m_con.NotifyVariableReferenceChanged(m_pOnLinesEnd, m_vOnLinesEnd, RefChangeType.Delete, 0);
                     if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
                     {
-                        m_con.NotifyVariableReferenceChanged(eo.key, m_vOnLinesEnd, RefChangeType.BiDir, 0);
+                        m_con.NotifyVariableReferenceChanged(obj.EcellObject.key, m_vOnLinesEnd, RefChangeType.BiDir, 0);
                     }
                     else
                     {
@@ -704,19 +704,19 @@ namespace EcellLib.PathwayWindow
                                 break;
                         }
                         m_con.NotifyVariableReferenceChanged(
-                            eo.key,
+                            obj.EcellObject.key,
                             m_vOnLinesEnd,
                             RefChangeType.SingleDir,
                             coefficient);
                     }
                     ResetSelectedLine();
                 }
-                else if (eo is EcellVariable && m_cType == ComponentType.Variable)
+                else if (obj is PPathwayVariable && m_cType == ComponentType.Variable)
                 {
                     m_con.NotifyVariableReferenceChanged(m_pOnLinesEnd, m_vOnLinesEnd, RefChangeType.Delete, 0);
                     if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
                     {
-                        m_con.NotifyVariableReferenceChanged(m_pOnLinesEnd, eo.key, RefChangeType.BiDir, 0);
+                        m_con.NotifyVariableReferenceChanged(m_pOnLinesEnd, obj.EcellObject.key, RefChangeType.BiDir, 0);
                     }
                     else
                     {
@@ -735,7 +735,7 @@ namespace EcellLib.PathwayWindow
                         }
                         m_con.NotifyVariableReferenceChanged(
                             m_pOnLinesEnd,
-                            eo.key,
+                            obj.EcellObject.key,
                             RefChangeType.SingleDir,
                             coefficient);
                     }
@@ -809,34 +809,34 @@ namespace EcellLib.PathwayWindow
             // Reset Object relation.
             system.Reset();
 
-            List<EcellObject> objList = GetAllObjects();
+            List<PPathwayObject> objList = GetAllObjects();
             // Select PathwayObjects being moved into current system.
-            Dictionary<string, EcellObject> currentDict = new Dictionary<string, EcellObject>();
+            Dictionary<string, PPathwayObject> currentDict = new Dictionary<string, PPathwayObject>();
             // Select PathwayObjects being moved to upper system.
-            Dictionary<string, EcellObject> beforeDict = new Dictionary<string, EcellObject>();
-            foreach (EcellObject eo in objList)
+            Dictionary<string, PPathwayObject> beforeDict = new Dictionary<string, PPathwayObject>();
+            foreach (PPathwayObject obj in objList)
             {
-                if (system.Rect.Contains(eo.Rect))
+                if (system.Rect.Contains(obj.Rect))
                 {
-                    if (!eo.parentSystemID.StartsWith(systemKey))
-                        currentDict.Add(eo.type + ":" + eo.key, eo);
+                    if (!obj.EcellObject.parentSystemID.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
+                        currentDict.Add(obj.EcellObject.type + ":" + obj.EcellObject.key, obj);
                 }
                 else
                 {
-                    if (eo.parentSystemID.StartsWith(systemKey))
-                        beforeDict.Add(eo.type + ":" + eo.key, eo);
+                    if (obj.EcellObject.parentSystemID.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
+                        beforeDict.Add(obj.EcellObject.type + ":" + obj.EcellObject.key, obj);
                 }
             }
 
             // If ID duplication could occurred, system resizing will be aborted
-            foreach (EcellObject eo in currentDict.Values)
+            foreach (PPathwayObject obj in currentDict.Values)
             {
                 // Check duplicated object.
-                if (eo is EcellSystem && !m_systems.ContainsKey(systemKey + "/" + eo.name))
+                if (obj is PPathwaySystem && !m_systems.ContainsKey(systemKey + "/" + obj.EcellObject.name))
                     continue;
-                else if(eo is EcellProcess && !m_processes.ContainsKey(systemKey + ":" + eo.name))
+                else if (obj is PPathwayProcess && !m_processes.ContainsKey(systemKey + ":" + obj.EcellObject.name))
                     continue;
-                else if(eo is EcellVariable && !m_variables.ContainsKey(systemKey + ":" + eo.name))
+                else if (obj is PPathwayVariable && !m_variables.ContainsKey(systemKey + ":" + obj.EcellObject.name))
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize(system);
@@ -844,14 +844,14 @@ namespace EcellLib.PathwayWindow
                 return;
             }
             string parentKey = system.EcellObject.parentSystemID;
-            foreach (EcellObject eo in beforeDict.Values)
+            foreach (PPathwayObject obj in beforeDict.Values)
             {
                 // Check duplicated object.
-                if (eo is EcellSystem && !m_systems.ContainsKey(parentKey + "/" + eo.name))
+                if (obj is PPathwaySystem && !m_systems.ContainsKey(parentKey + "/" + obj.EcellObject.name))
                     continue;
-                else if (eo is EcellProcess && !m_processes.ContainsKey(parentKey + ":" + eo.name))
+                else if (obj is PPathwayProcess && !m_processes.ContainsKey(parentKey + ":" + obj.EcellObject.name))
                     continue;
-                else if (eo is EcellVariable && !m_variables.ContainsKey(parentKey + ":" + eo.name))
+                else if (obj is PPathwayVariable && !m_variables.ContainsKey(parentKey + ":" + obj.EcellObject.name))
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize(system);
@@ -860,27 +860,27 @@ namespace EcellLib.PathwayWindow
             }
 
             // Move objects.
-            foreach (EcellObject eo in currentDict.Values)
+            foreach (PPathwayObject obj in currentDict.Values)
             {
-                string oldKey = eo.key;
+                string oldKey = obj.EcellObject.key;
                 string newKey = null;
-                if (eo is EcellSystem)
-                    newKey = systemKey + "/" + eo.name;
+                if (obj is PPathwaySystem)
+                    newKey = systemKey + "/" + obj.EcellObject.name;
                 else
-                    newKey = systemKey + ":" + eo.name;
+                    newKey = systemKey + ":" + obj.EcellObject.name;
                 // Set node change
-                this.m_con.NotifyDataChanged(oldKey, newKey, eo, true);
+                this.m_con.NotifyDataChanged(oldKey, newKey, obj, true);
             }
-            foreach (EcellObject eo in beforeDict.Values)
+            foreach (PPathwayObject obj in beforeDict.Values)
             {
-                string oldKey = eo.key;
+                string oldKey = obj.EcellObject.key;
                 string newKey = null;
-                if (eo is EcellSystem)
-                    newKey = parentKey + "/" + eo.name;
+                if (obj is PPathwaySystem)
+                    newKey = parentKey + "/" + obj.EcellObject.name;
                 else
-                    newKey = parentKey + ":" + eo.name;
+                    newKey = parentKey + ":" + obj.EcellObject.name;
                 // Set node change
-                this.m_con.NotifyDataChanged(oldKey, newKey, eo, true);
+                this.m_con.NotifyDataChanged(oldKey, newKey, obj, true);
             }
 
             // Fire DataChanged for child in system.!
@@ -892,19 +892,14 @@ namespace EcellLib.PathwayWindow
             m_con.NotifyDataChanged(
                 system.EcellObject.key,
                 system.EcellObject.key,
-                system.EcellObject,
+                system,
                 true);
-            m_con.NotifyDataChanged(
-                parentKey,
-                parentKey,
-                system.ParentObject.EcellObject,
-                false);
         }
 
         void ResetSystemResize(PPathwaySystem system)
         {
             // Resizing is aborted
-            system.ReturnToMemorizedPosition();
+            system.Refresh();
             this.ValidateSystem(system);
             system.RefreshText();
             system.Reset();
@@ -1415,20 +1410,20 @@ namespace EcellLib.PathwayWindow
         /// <param name="key">the key of selected object.</param>
         /// <param name="type">the type of selected object.</param>
         /// </summary>
-        public void NotifySelectChanged(string key, string type)
+        public void NotifySelectChanged(string key, string type, bool isSelect)
         {
             if (m_con != null)
-                m_con.NotifySelectChanged(key, type);
+                m_con.Window.NotifySelectChanged(this.m_modelId, key, type, isSelect);
         }
 
         /// <summary>
         /// Notify this canvas that the mouse is on it.
         /// </summary>
         /// <param name="element">mouse is on this node</param>
-        public void NotifyMouseEnter(EcellObject eo)
+        public void NotifyMouseEnter(PPathwayObject obj)
         {
             if (m_isReconnectMode)
-                m_nodesUnderMouse.Push(eo);
+                m_nodesUnderMouse.Push(obj);
         }
 
         /// <summary>
@@ -1472,18 +1467,16 @@ namespace EcellLib.PathwayWindow
         public void TransferNodeTo(string systemName, PPathwayObject obj, bool toBeNotified, bool isAnchor)
         {
             // Set new system.
-            EcellObject eo = obj.EcellObject;
-            string oldSys = eo.parentSystemID;
-            string oldKey = eo.key;
-            eo.parentSystemID = systemName;
+            string oldKey = obj.EcellObject.key;
+            string newKey = systemName + ":" + obj.EcellObject.name;
 
             if (!toBeNotified)
                 return;
             // Update Node.
             m_con.NotifyDataChanged(
                 oldKey,
-                eo.key,
-                eo,
+                newKey,
+                obj,
                 isAnchor);
         }
 
@@ -1526,33 +1519,31 @@ namespace EcellLib.PathwayWindow
             if (obj is PPathwayVariable)
             {
                 PPathwayVariable var = (PPathwayVariable)obj;
-                m_variables.Remove(var.EcellObject.key);
-                string newKey = systemName + ":" + PathUtil.RemovePath(var.EcellObject.key);
+                string newKey = systemName + ":" + var.EcellObject.name;
                 string oldKey = var.EcellObject.key;
-                var.EcellObject.key = newKey;
-                m_variables.Add(var.EcellObject.key, var);
+                m_variables.Remove(oldKey);
+                m_variables.Add(newKey, var);
                 var.Refresh();
                 if (!oldKey.Equals(newKey))
                     m_con.NotifyDataChanged(
                         oldKey,
                         newKey,
-                        obj.EcellObject,
+                        obj,
                         isAnchor);
             }
             else if (obj is PPathwayProcess)
             {
                 PPathwayProcess pro = (PPathwayProcess)obj;
-                m_processes.Remove(pro.EcellObject.key);
-                string newKey = systemName + ":" + PathUtil.RemovePath(pro.EcellObject.key);
+                string newKey = systemName + ":" + pro.EcellObject.name;
                 string oldKey = pro.EcellObject.key;
-                pro.EcellObject.key = newKey;
-                m_processes.Add(pro.EcellObject.key, pro);
+                m_processes.Remove(oldKey);
+                m_processes.Add(newKey, pro);
                 pro.Refresh();
                 if (!oldKey.Equals(newKey))
                     m_con.NotifyDataChanged(
                         oldKey,
                         newKey,
-                        obj.EcellObject,
+                        obj,
                         isAnchor);
             }
         }
@@ -1585,7 +1576,7 @@ namespace EcellLib.PathwayWindow
                 m_con.NotifyDataChanged(
                     oldKey,
                     newKey,
-                    system.EcellObject,
+                    system,
                     true);
             }
 
@@ -1727,8 +1718,6 @@ namespace EcellLib.PathwayWindow
 
             if (obj is PPathwayProcess)
                 ((PPathwayProcess)obj).CreateEdges();
-            //this.m_view.NotifyDataChanged(obj.EcellObject.key, obj.EcellObject.key, obj, true);
-
         }
 
         /// <summary>
@@ -1868,7 +1857,7 @@ namespace EcellLib.PathwayWindow
             m_selectedNodes.Add(obj);
             obj.IsHighLighted = true;
             if (toBeNotified)
-                m_con.NotifySelectChanged(obj.EcellObject.key, obj.EcellObject.type);
+                NotifySelectChanged(obj.EcellObject.key, obj.EcellObject.type, true);
         }
 
         /// <summary>
@@ -1883,7 +1872,7 @@ namespace EcellLib.PathwayWindow
             ShowResizeHandles();
             UpdateResizeHandlePositions();
             string type = m_systems[systemName].EcellObject.type;
-            m_con.NotifySelectChanged(systemName, type);
+            NotifySelectChanged(systemName, type, true);
         }
 
         /// <summary>
@@ -1929,16 +1918,13 @@ namespace EcellLib.PathwayWindow
         /// <param name="visible">visibility</param>
         public void SetLineVisibility(bool visible)
         {
-            if (null == m_line4reconnect)
+            if (m_line4reconnect == null)
                 return;
 
             if (visible)
                 m_ctrlLayer.AddChild(m_line4reconnect);
-            else
-            {
-                if (null != m_line4reconnect.Parent)
-                    m_ctrlLayer.RemoveChild(m_line4reconnect);
-            }
+            else if (m_line4reconnect.Parent != null)
+                m_ctrlLayer.RemoveChild(m_line4reconnect);
         }
 
         /// <summary>
@@ -2034,9 +2020,9 @@ namespace EcellLib.PathwayWindow
         /// Get all EcellObjects of this object.
         /// </summary>
         /// <returns>A list which contains all PathwayElements of this object</returns>
-        public List<EcellObject> GetAllObjects()
+        public List<PPathwayObject> GetAllObjects()
         {
-            List<EcellObject> returnList = new List<EcellObject>();
+            List<PPathwayObject> returnList = new List<PPathwayObject>();
             returnList.AddRange(GetSystemList());
             returnList.AddRange(GetNodeList());
 
@@ -2046,11 +2032,11 @@ namespace EcellLib.PathwayWindow
         /// Get all EcellSystems of this object.
         /// </summary>
         /// <returns>A list which contains all PathwayElements of this object</returns>
-        public List<EcellObject> GetSystemList()
+        public List<PPathwayObject> GetSystemList()
         {
-            List<EcellObject> returnList = new List<EcellObject>();
+            List<PPathwayObject> returnList = new List<PPathwayObject>();
             foreach (PPathwaySystem system in this.m_systems.Values)
-                returnList.Add(system.EcellObject);
+                returnList.Add(system);
 
             return returnList;
         }
@@ -2058,13 +2044,13 @@ namespace EcellLib.PathwayWindow
         /// Get all EcellProcesss of this object.
         /// </summary>
         /// <returns>A list which contains all PathwayElements of this object</returns>
-        public List<EcellObject> GetNodeList()
+        public List<PPathwayObject> GetNodeList()
         {
-            List<EcellObject> returnList = new List<EcellObject>();
+            List<PPathwayObject> returnList = new List<PPathwayObject>();
             foreach (PPathwayVariable variable in this.m_variables.Values)
-                returnList.Add(variable.EcellObject);
+                returnList.Add(variable);
             foreach (PPathwayProcess process in this.m_processes.Values)
-                returnList.Add(process.EcellObject);
+                returnList.Add(process);
 
             return returnList;
         }

@@ -499,6 +499,8 @@ namespace EcellLib.PathwayWindow
                 node.Handler4Line = new PInputEventHandler(LineSelected);
             }
             canvas.AddNewObj(m_defLayerId, systemName, obj, isPosSet, false);
+            if(!isPosSet)
+                NotifyDataChanged(eo.key, eo.key, obj, false);
         }
 
         /// <summary>
@@ -798,28 +800,28 @@ namespace EcellLib.PathwayWindow
         {
             string logger = ((ToolStripItem)sender).Text;
 
-            if (ActiveCanvas.ClickedNode is PPathwayObject)
-            {
-                PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
-                EcellObject ecellobj = obj.EcellObject;
-                Debug.WriteLine("Create " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
+            if (!(ActiveCanvas.ClickedNode is PPathwayObject))
+                return;
 
-                // set logger
-                foreach (EcellData d in ecellobj.M_value)
+            PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
+            EcellObject ecellobj = obj.EcellObject;
+            Debug.WriteLine("Create " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
+
+            // set logger
+            foreach (EcellData d in ecellobj.M_value)
+            {
+                if (logger.Equals(d.M_name))
                 {
-                    if (logger.Equals(d.M_name))
-                    {
-                        d.M_isLogger = true;
-                        PluginManager.GetPluginManager().LoggerAdd(
-                            ecellobj.modelID,
-                            ecellobj.key,
-                            ecellobj.type,
-                            d.M_entityPath);
-                    }
+                    d.M_isLogger = true;
+                    PluginManager.GetPluginManager().LoggerAdd(
+                        ecellobj.modelID,
+                        ecellobj.key,
+                        ecellobj.type,
+                        d.M_entityPath);
                 }
-                // modify changes
-                NotifyDataChanged(ecellobj.key, ecellobj.key, ecellobj, true);
             }
+            // modify changes
+            NotifyDataChanged(ecellobj.key, ecellobj.key, obj, true);
 
         }
 
@@ -832,19 +834,18 @@ namespace EcellLib.PathwayWindow
         {
             string logger = ((ToolStripItem)sender).Text;
 
-            if (ActiveCanvas.ClickedNode is PPathwayObject)
-            {
-                PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
-                EcellObject ecellobj = obj.EcellObject;
-                Debug.WriteLine("Delete " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
+            if (!(ActiveCanvas.ClickedNode is PPathwayObject))
+                return;
+            PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
+            EcellObject ecellobj = obj.EcellObject;
+            Debug.WriteLine("Delete " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
 
-                // delete logger
-                foreach (EcellData d in ecellobj.M_value)
-                    if (logger.Equals(d.M_name))
-                        d.M_isLogger = false;
-                // modify changes
-                NotifyDataChanged(ecellobj.key, ecellobj.key, ecellobj, true);
-            }
+            // delete logger
+            foreach (EcellData d in ecellobj.M_value)
+                if (logger.Equals(d.M_name))
+                    d.M_isLogger = false;
+            // modify changes
+            NotifyDataChanged(ecellobj.key, ecellobj.key, obj, true);
         }
 
         /// <summary>
@@ -1182,9 +1183,12 @@ namespace EcellLib.PathwayWindow
         public void NotifyDataChanged(
             string oldKey,
             string newKey,
-            EcellObject eo,
+            PPathwayObject obj,
             bool isAnchor)
         {
+            EcellObject eo = m_window.GetEcellObject(obj.EcellObject.modelID, oldKey, obj.EcellObject.type);
+            eo.key = newKey;
+            eo.SetPosition(obj.EcellObject);
             m_window.NotifyDataChanged(oldKey, newKey, eo, isAnchor);
         }
 
@@ -1288,19 +1292,7 @@ namespace EcellLib.PathwayWindow
         {
             if (eo.type != EcellObject.SYSTEM)
                 return;
-            m_window.NotifyDataMerge(eo);
-        }
-
-
-        /// <summary>
-        /// Notify SelectChanged event to outside.
-        /// </summary>
-        /// <param name="key">the key of selected object.</param>
-        /// <param name="type">the type of selected object.</param>
-        public void NotifySelectChanged(string key, string type)
-        {
-            if (m_window != null)
-                m_window.NotifySelectChanged(key, type);
+            m_window.NotifyDataMerge(eo.modelID, eo.key);
         }
         #endregion
 
@@ -1620,7 +1612,6 @@ namespace EcellLib.PathwayWindow
             PointF diff = GetDiff(this.MousePosition, this.m_copyPos);
             // Get parent System
             EcellObject sys = this.ActiveCanvas.GetSurroundingSystem(this.MousePosition);
-            DataManager m_dManager = DataManager.GetDataManager();
             // Set m_copiedNodes.
             if (nodeList != null)
             {
@@ -1629,8 +1620,8 @@ namespace EcellLib.PathwayWindow
                     EcellObject node = nodeList[i];
                     //Create new EcellObject
                     EcellObject eo = node.Copy();
-                    if (m_dManager.IsDataExists(eo.modelID, eo.key, eo.type))
-                        eo.key = m_dManager.GetTemporaryID(eo.modelID, eo.type, sys.key);
+                    if (ActiveCanvas.GetSelectedObject(eo.key, eo.type) == null)
+                        eo.key = m_window.GetTemporaryID(eo.modelID, eo.type, sys.key);
                     eo.SetPosition( eo.X + diff.X, eo.Y + diff.Y);
 
                     // Check Position
@@ -1751,8 +1742,8 @@ namespace EcellLib.PathwayWindow
                 foreach (PPathwayObject node in this.ActiveCanvas.SelectedNodes)
                     node.EcellObject.isFixed = EcellObject.Fixed;
 
-            List<EcellObject> systemList = this.ActiveCanvas.GetSystemList();
-            List<EcellObject> nodeList = this.ActiveCanvas.GetNodeList();
+            List<EcellObject> systemList = this.GetSystemList(ActiveCanvas.ModelID);
+            List<EcellObject> nodeList = this.GetNodeList(ActiveCanvas.ModelID);
 
             try
             {
@@ -1766,15 +1757,29 @@ namespace EcellLib.PathwayWindow
 
             // Set Layout.
             foreach (EcellObject system in systemList)
-                this.ActiveCanvas.Systems[system.key].EcellObject = (EcellSystem)system;
+                this.m_window.NotifyDataChanged(system.key, system.key, system, true);
             foreach (EcellObject node in nodeList)
             {
                 node.isFixed = EcellObject.NotFixed;
-                if (node is EcellProcess)
-                    this.ActiveCanvas.Processes[node.key].EcellObject = (EcellProcess)node;
-                else
-                    this.ActiveCanvas.Variables[node.key].EcellObject = (EcellVariable)node;
+                this.m_window.NotifyDataChanged(node.key, node.key, node, true);
             }
+        }
+
+        public List<EcellObject> GetSystemList(string modelID)
+        {
+            List<EcellObject> systemList = new List<EcellObject>();
+            foreach(PPathwayObject obj in m_canvasDict[modelID].GetSystemList())
+                systemList.Add(m_window.GetEcellObject(modelID, obj.EcellObject.key, obj.EcellObject.type));
+            return systemList;
+        }
+
+        public List<EcellObject> GetNodeList(string modelID)
+        {
+            List<EcellObject> nodeList = new List<EcellObject>();
+            foreach (PPathwayObject obj in m_canvasDict[modelID].GetNodeList())
+                nodeList.Add(m_window.GetEcellObject(modelID, obj.EcellObject.key, obj.EcellObject.type));
+
+            return nodeList;
         }
         #endregion
     }

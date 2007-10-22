@@ -251,6 +251,18 @@ namespace EcellLib.PathwayWindow.Nodes
         protected float m_originalOffsetY = 0;
 
         /// <summary>
+        /// For memorizing a width and a height before the start of a dragging.
+        /// When the dragging failed, this object will be set to this width
+        /// </summary>
+        protected float m_originalWidth = 0;
+
+        /// <summary>
+        /// For memorizing a width and a height before the start of a dragging.
+        /// When the dragging failed, this object will be set to this width
+        /// </summary>
+        protected float m_originalHeight = 0;
+
+        /// <summary>
         /// Whether this node is showing ID or not.
         /// </summary>
         protected bool m_showingId;
@@ -300,6 +312,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     m_ecellObj.OffsetX = base.OffsetX;
                     m_ecellObj.OffsetY = base.OffsetY;
                 }
+                MemorizeCurrentPosition();
                 RefreshText();
             }
         }
@@ -1202,13 +1215,12 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void MemorizeCurrentPosition()
         {
-        }
-
-        /// <summary>
-        /// Return to memorized position.
-        /// </summary>
-        public virtual void ReturnToMemorizedPosition()
-        {
+            this.m_originalX = base.X;
+            this.m_originalY = base.Y;
+            this.m_originalOffsetX = base.OffsetX;
+            this.m_originalOffsetY = base.OffsetY;
+            this.m_originalWidth = this.Width;
+            this.m_originalHeight = this.Height;
         }
 
         /// <summary>
@@ -1221,6 +1233,8 @@ namespace EcellLib.PathwayWindow.Nodes
             base.Y = this.m_originalY;
             base.OffsetX = this.m_originalOffsetX;
             base.OffsetY = this.m_originalOffsetY;
+            base.Width = this.m_originalWidth;
+            base.Height = this.m_originalHeight;
             RefreshText();
         }
         /// <summary>

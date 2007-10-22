@@ -289,34 +289,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             return new PPathwayNode();
         }
-        /// <summary>
-        /// Add related node.
-        /// </summary>
-        /// <param name="node"></param>
-        public virtual void AddRelatedNode(PPathwayNode node)
-        {
-        }
-        /// <summary>
-        /// Memorize current position of this node.
-        /// </summary>
-        public override void MemorizeCurrentPosition()
-        {
-            base.m_originalX = base.X;
-            base.m_originalY = base.Y;
-            base.m_originalOffsetX = base.OffsetX;
-            base.m_originalOffsetY = base.OffsetY;
-        }
-        /// <summary>
-        /// Return this node to a memorized position.
-        /// </summary>
-        public override void ReturnToMemorizedPosition()
-        {
-            base.X = base.m_originalX;
-            base.Y = base.m_originalY;
-            base.OffsetX = base.m_originalOffsetX;
-            base.OffsetY = base.m_originalOffsetY;
-            this.Refresh();
-        }
+
         /// <summary>
         /// Called when the mouse enters this object.
         /// </summary>
@@ -326,7 +299,7 @@ namespace EcellLib.PathwayWindow.Nodes
             base.OnMouseEnter(e);
             if(base.m_set != null)
             {
-                base.m_set.NotifyMouseEnter(this.EcellObject);
+                base.m_set.NotifyMouseEnter(this);
             }
         }
 
