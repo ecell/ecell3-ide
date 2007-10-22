@@ -388,8 +388,11 @@ namespace EcellLib.CircularLayout
                 {
                     foreach (EcellReference er in ((EcellProcess)node).ReferenceList)
                     {
-                        relationMatrix[count, varDict[er.Key]] = true;
-                        relationMatrix[varDict[er.Key], count] = true;
+                        if (varDict.ContainsKey(er.Key))
+                        {
+                            relationMatrix[count, varDict[er.Key]] = true;
+                            relationMatrix[varDict[er.Key], count] = true;
+                        }
                     }
                 }
                 count++;

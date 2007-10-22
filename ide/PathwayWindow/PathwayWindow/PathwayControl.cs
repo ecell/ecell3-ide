@@ -1611,7 +1611,7 @@ namespace EcellLib.PathwayWindow
             // Get position diff
             PointF diff = GetDiff(this.MousePosition, this.m_copyPos);
             // Get parent System
-            EcellObject sys = this.ActiveCanvas.GetSurroundingSystem(this.MousePosition);
+            string sysKey = this.ActiveCanvas.GetSurroundingSystemKey(this.MousePosition);
             // Set m_copiedNodes.
             if (nodeList != null)
             {
@@ -1621,12 +1621,12 @@ namespace EcellLib.PathwayWindow
                     //Create new EcellObject
                     EcellObject eo = node.Copy();
                     if (ActiveCanvas.GetSelectedObject(eo.key, eo.type) == null)
-                        eo.key = m_window.GetTemporaryID(eo.modelID, eo.type, sys.key);
+                        eo.key = m_window.GetTemporaryID(eo.modelID, eo.type, sysKey);
                     eo.SetPosition( eo.X + diff.X, eo.Y + diff.Y);
 
                     // Check Position
                     if (!ActiveCanvas.CheckNodePosition(eo) )
-                        eo.PointF = ActiveCanvas.GetVacantPoint(sys.key, eo.PointF);
+                        eo.PointF = ActiveCanvas.GetVacantPoint(sysKey, eo.PointF);
 
                     copiedNodes.Add(eo);
                     // Set Variable name.

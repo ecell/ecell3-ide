@@ -945,17 +945,12 @@ namespace EcellLib.PathwayWindow
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                eo.X = X;
-                eo.Y = Y;
-                eo.Width = width;
-                eo.Height = height;
+                system.X = X;
+                system.Y = Y;
+                system.Width = width;
+                system.Height = height;
                 system.RefreshText();
-                PointF offsetToL = system.Offset;
 
-                system.X = eo.X - offsetToL.X;
-                system.Y = eo.Y - offsetToL.Y;
-                system.Width = eo.Width;
-                system.Height = eo.Height;
                 this.ValidateSystem(system);
                 system.Reset();
                 UpdateResizeHandlePositions(e.PickedNode);
@@ -986,7 +981,6 @@ namespace EcellLib.PathwayWindow
                 return;
             RefreshSurroundState();
             PPathwaySystem system = m_systems[m_selectedSystemName];
-            EcellObject eo = system.EcellObject;
 
             float Y = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
             float height = m_lowerRightPoint.Y - Y;
@@ -994,12 +988,10 @@ namespace EcellLib.PathwayWindow
             if (height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                eo.Y = Y;
-                eo.Height = height;
                 system.RefreshText();
                 PointF offsetToL = system.Offset;
-                system.Y = eo.Y - offsetToL.Y;
-                system.Height = eo.Height;
+                system.Y = Y - offsetToL.Y;
+                system.Height = height;
                 this.ValidateSystem(system);
                 system.Reset();
                 UpdateResizeHandlePositions(e.PickedNode);
@@ -1021,24 +1013,20 @@ namespace EcellLib.PathwayWindow
                 return;
             RefreshSurroundState();
             PPathwaySystem system = m_systems[m_selectedSystemName];
-            EcellObject eo = system.EcellObject;
 
             float Y = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
             float width = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                               - eo.X - system.Offset.X;
+                               - system.X - system.Offset.X;
             float height = m_lowerLeftPoint.Y - Y;
 
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                eo.Y = Y;
-                eo.Width = width;
-                eo.Height = height;
                 system.RefreshText();
                 PointF offsetToL = system.Offset;
-                system.Y = eo.Y - offsetToL.Y;
-                system.Width = eo.Width;
-                system.Height = eo.Height;
+                system.Y = Y - offsetToL.Y;
+                system.Width = width;
+                system.Height = height;
                 this.ValidateSystem(system);
                 system.Reset();
                 UpdateResizeHandlePositions(e.PickedNode);
@@ -1070,16 +1058,14 @@ namespace EcellLib.PathwayWindow
                 return;
             RefreshSurroundState();
             PPathwaySystem system = m_systems[m_selectedSystemName];
-            EcellObject eo = system.EcellObject;
 
             float width = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                              - eo.X - system.Offset.X;
+                              - system.X - system.Offset.X;
             if (width > PPathwaySystem.MIN_X_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                eo.Width = width;
                 system.RefreshText();
-                system.Width = eo.Width;
+                system.Width = width;
                 this.ValidateSystem(system);
                 system.Reset();
                 UpdateResizeHandlePositions(e.PickedNode);
@@ -1101,22 +1087,19 @@ namespace EcellLib.PathwayWindow
                 return;
             RefreshSurroundState();
             PPathwaySystem system = m_systems[m_selectedSystemName];
-            EcellObject eo = system.EcellObject;
 
             float width = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                               - eo.X - system.Offset.X;
+                               - system.X - system.Offset.X;
             float height = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                                - eo.Y - system.Offset.Y;
+                                - system.Y - system.Offset.Y;
 
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                eo.Width = width;
-                eo.Height = height;
                 system.RefreshText();
                 PointF offsetToL = system.Offset;
-                system.Width = eo.Width;
-                system.Height = eo.Height;
+                system.Width = width;
+                system.Height = height;
                 this.ValidateSystem(system);
                 system.Reset();
                 UpdateResizeHandlePositions(e.PickedNode);
@@ -1148,18 +1131,16 @@ namespace EcellLib.PathwayWindow
                 return;
             RefreshSurroundState();
             PPathwaySystem system = m_systems[m_selectedSystemName];
-            EcellObject eo = system.EcellObject;
 
             float height = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                                 - eo.Y - system.Offset.Y;
+                                 - system.Y - system.Offset.Y;
 
             if (height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                eo.Height = height;
                 system.RefreshText();
 
-                system.Height = eo.Height;
+                system.Height = height;
                 this.ValidateSystem(system);
                 system.Reset();
                 UpdateResizeHandlePositions(e.PickedNode);
@@ -1181,24 +1162,20 @@ namespace EcellLib.PathwayWindow
                 return;
             RefreshSurroundState();
             PPathwaySystem system = m_systems[m_selectedSystemName];
-            EcellObject eo = system.EcellObject;
 
             float X = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
             float width = m_upperRightPoint.X - e.PickedNode.X - e.PickedNode.OffsetX - m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS;
             float height = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                               - eo.Y - system.Offset.Y;
+                               - system.Y - system.Offset.Y;
 
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                eo.X = X;
-                eo.Width = width;
-                eo.Height = height;
                 system.RefreshText();
                 PointF offsetToL = system.Offset;
-                system.X = eo.X - offsetToL.X;
-                system.Width = eo.Width;
-                system.Height = eo.Height;
+                system.X = X - offsetToL.X;
+                system.Width = width;
+                system.Height = height;
                 this.ValidateSystem(system);
                 system.Reset();
 
@@ -1231,7 +1208,6 @@ namespace EcellLib.PathwayWindow
                 return;
             RefreshSurroundState();
             PPathwaySystem system = m_systems[m_selectedSystemName];
-            EcellObject sysEle = system.EcellObject;
 
             float X = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
             float width = m_lowerRightPoint.X - X;
@@ -1239,12 +1215,10 @@ namespace EcellLib.PathwayWindow
             if (width > PPathwaySystem.MIN_X_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                sysEle.X = X;
-                sysEle.Width = width;
                 system.RefreshText();
                 PointF offsetToL = system.Offset;
-                system.X = sysEle.X - offsetToL.X;
-                system.Width = sysEle.Width;
+                system.X = X - offsetToL.X;
+                system.Width = width;
                 this.ValidateSystem(system);
                 system.Reset();
                 UpdateResizeHandlePositions(e.PickedNode);
@@ -1798,26 +1772,16 @@ namespace EcellLib.PathwayWindow
         /// Return a system which surrounds a given point.
         /// If more than one system surround a given point, smallest system will be returned.
         /// </summary>
-        /// <param name="point">PointF</param>
-        /// <returns>EcellObject</returns>
-        public EcellObject GetSurroundingSystem(PointF point)
-        {
-            return GetSurroundingSystem(point, null);
-        }
-        /// <summary>
-        /// Return a system which surrounds a given point.
-        /// If more than one system surround a given point, smallest system will be returned.
-        /// </summary>
         /// <param name="point">A system surrounds this point will be returned.</param>
         /// <param name="excludedSystem">If this parameter is set, this system is excluded from searching</param>
         /// <returns>Surrounding system name. Null will be returned if there is no surround system.</returns>
-        public EcellObject GetSurroundingSystem(PointF point, string excludedSystem)
+        public PPathwayObject GetSurroundingSystem(PointF point, string excludedSystem)
         {
-            EcellObject obj = null;
+            PPathwayObject obj = null;
 
             foreach (PPathwaySystem sys in this.m_systems.Values)
                 if (sys.Rect.Contains(point) && !sys.EcellObject.key.Equals(excludedSystem))
-                    obj = sys.EcellObject;
+                    obj = sys;
             return obj;
         }
 
@@ -1841,10 +1805,10 @@ namespace EcellLib.PathwayWindow
         /// <returns>Surrounding system name. Null will be returned if there is no surround system.</returns>
         public string GetSurroundingSystemKey(PointF point, string excludedSystem)
         {
-            EcellObject obj = GetSurroundingSystem(point, excludedSystem);
+            PPathwayObject obj = GetSurroundingSystem(point, excludedSystem);
             if (obj == null)
                 return null;
-            return obj.key;
+            return obj.EcellObject.key;
         }
 
         /// <summary>

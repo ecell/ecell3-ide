@@ -275,6 +275,7 @@ namespace EcellLib.PathwayWindow
                 pm.AddSelect(modelID, key, type);
             else
                 pm.RemoveSelect(modelID, key, type);
+            pm.SelectChanged(modelID, key, type);
 
         }
         #endregion
