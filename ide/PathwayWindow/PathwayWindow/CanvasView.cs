@@ -271,7 +271,7 @@ namespace EcellLib.PathwayWindow
         /// When a line owned by PEcellProcess is selected, this line will be hidden.
         /// Then m_line4reconnect will appear.
         /// </summary>
-        PPath m_line4reconnect = null;
+        Line m_line4reconnect = null;
 
         /// <summary>
         /// Variable or Process.
@@ -458,7 +458,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_line4reconnect.
         /// </summary>
-        public PPath Line4Reconnect
+        public Line Line4Reconnect
         {
             get { return m_line4reconnect; }
         }
@@ -617,7 +617,7 @@ namespace EcellLib.PathwayWindow
             m_lineHandle4P.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
             m_lineHandle4P.MouseUp += new PInputEventHandler(m_lineHandle_MouseUp);
 
-            m_line4reconnect = new PPath();
+            m_line4reconnect = new Line();
             m_line4reconnect.Brush = new SolidBrush(Color.FromArgb(200, Color.Orange));
             m_line4reconnect.Pen = LINE_THIN_PEN;
             m_line4reconnect.Pickable = false;
@@ -667,8 +667,9 @@ namespace EcellLib.PathwayWindow
             PointF vpoint = new PointF(
                 LINE_HANDLE_RADIUS + m_lineHandle4V.X + m_lineHandle4V.OffsetX,
                 LINE_HANDLE_RADIUS + m_lineHandle4V.Y + m_lineHandle4V.OffsetY);
-
-            m_selectedLine.DrawLine();
+            m_line4reconnect.ProPoint = ppoint;
+            m_line4reconnect.VarPoint = vpoint;
+            m_line4reconnect.DrawLine();
         }
 
         /// <summary>
@@ -690,19 +691,7 @@ namespace EcellLib.PathwayWindow
                     }
                     else
                     {
-                        int coefficient = 0;
-                        switch (m_selectedLine.Info.Direction)
-                        {
-                            case EdgeDirection.Inward:
-                                coefficient = -1;
-                                break;
-                            case EdgeDirection.None:
-                                coefficient = 0;
-                                break;
-                            case EdgeDirection.Outward:
-                                coefficient = 1;
-                                break;
-                        }
+                        int coefficient = m_selectedLine.Info.Coefficient;
                         m_con.NotifyVariableReferenceChanged(
                             obj.EcellObject.key,
                             m_vOnLinesEnd,
@@ -720,19 +709,7 @@ namespace EcellLib.PathwayWindow
                     }
                     else
                     {
-                        int coefficient = 0;
-                        switch (m_selectedLine.Info.Direction)
-                        {
-                            case EdgeDirection.Inward:
-                                coefficient = -1;
-                                break;
-                            case EdgeDirection.None:
-                                coefficient = 0;
-                                break;
-                            case EdgeDirection.Outward:
-                                coefficient = 1;
-                                break;
-                        }
+                        int coefficient = m_selectedLine.Info.Coefficient;
                         m_con.NotifyVariableReferenceChanged(
                             m_pOnLinesEnd,
                             obj.EcellObject.key,
@@ -1869,11 +1846,13 @@ namespace EcellLib.PathwayWindow
             m_ctrlLayer.AddChild(m_lineHandle4V);
             m_ctrlLayer.AddChild(m_lineHandle4P);
 
-            // Create line
+            // Create Reconnect line
             m_line4reconnect.Pen = LINE_THIN_PEN;
             m_line4reconnect.Reset();
+            m_line4reconnect.VarPoint = line.VarPoint;
+            m_line4reconnect.ProPoint = line.ProPoint;
+            m_line4reconnect.DrawLine();
 
-            line.DrawLine();
             SetLineVisibility(true);
         }
 
@@ -1887,9 +1866,15 @@ namespace EcellLib.PathwayWindow
                 return;
 
             if (visible)
+            {
                 m_ctrlLayer.AddChild(m_line4reconnect);
+                m_line4reconnect.Visible = true;
+            }
             else if (m_line4reconnect.Parent != null)
+            {
                 m_ctrlLayer.RemoveChild(m_line4reconnect);
+                m_line4reconnect.Visible = false;
+            }
         }
 
         /// <summary>
@@ -2089,6 +2074,7 @@ namespace EcellLib.PathwayWindow
                         break;
 
                     PPathwaySystem system = m_systems[key];
+                    system.Text.RemoveFromParent();
                     MoveChildren(system);
                     if (m_selectedSystemName != null && key.Equals(m_selectedSystemName))
                     {
@@ -2104,6 +2090,7 @@ namespace EcellLib.PathwayWindow
                     PPathwayVariable var = m_variables[key];
                     var.NotifyRemoveRelatedProcess();
                     var.Parent.RemoveChild(var);
+                    var.Text.RemoveFromParent();
                     var.Reset();
                     m_variables.Remove(key);
                     break;
@@ -2114,6 +2101,7 @@ namespace EcellLib.PathwayWindow
                     pro.NotifyRemoveRelatedVariable();
                     pro.DeleteEdges();
                     pro.Parent.RemoveChild(pro);
+                    pro.Text.RemoveFromParent();
                     pro.Reset();
                     m_processes.Remove(key);
                     break;
@@ -2367,23 +2355,21 @@ namespace EcellLib.PathwayWindow
 
             m_nodesUnderMouse.Clear();
 
-            if (null != m_selectedLine)
+            if (m_selectedLine != null)
             {
                 m_selectedLine.Visible = true;
+                m_selectedLine.DrawLine();
             }
 
             m_selectedLine = null;
             m_vOnLinesEnd = null;
             m_pOnLinesEnd = null;
 
-            if (null != m_lineHandle4V && null != m_lineHandle4V.Parent)
-            {
+            if (m_lineHandle4V != null && m_lineHandle4V.Parent != null)
                 m_ctrlLayer.RemoveChild(m_lineHandle4V);
-            }
-            if (null != m_lineHandle4P && null != m_lineHandle4P.Parent)
-            {
+            if (m_lineHandle4P != null && m_lineHandle4P.Parent != null)
                 m_ctrlLayer.RemoveChild(m_lineHandle4P);
-            }
+
             SetLineVisibility(false);
         }
 

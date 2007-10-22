@@ -74,6 +74,13 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Constructor
         /// </summary>
+        public Line()
+        {
+            m_edgeInfo = new EdgeInfo();
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
         /// <param name="edgeInfo"></param>
         public Line(EdgeInfo edgeInfo)
         {
@@ -117,7 +124,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public void DrawLine()
         {
             SetDirection();
-            switch (this.Info.TypeOfLine)
+            switch (this.m_edgeInfo.TypeOfLine)
             {
                 case LineType.Solid:
                     this.Pen = new Pen(Brushes.Black, 2);
@@ -139,7 +146,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="type">LineType</param>
         public void SetDirection()
         {
-            switch (this.Info.Direction)
+            switch (this.m_edgeInfo.Direction)
             {
                 case EdgeDirection.Bidirection:
                     this.AddPolygon( GetArrowPoints(this.ProPoint, this.VarPoint));

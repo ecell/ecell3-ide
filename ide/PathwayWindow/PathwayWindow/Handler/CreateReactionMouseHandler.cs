@@ -173,13 +173,13 @@ namespace EcellLib.PathwayWindow
             {
                 PointF contactP = m_current.GetContactPoint(e.Position);
                 
-                PPath line = m_view.CanvasDictionary[e.Canvas.Name].Line4Reconnect;
+                Line line = m_view.CanvasDictionary[e.Canvas.Name].Line4Reconnect;
                 line.Reset();
                 if (m_view.SelectedHandle.Mode != Mode.CreateConstant)
                 {
-                    line.AddLine(contactP.X, contactP.Y, e.Position.X, e.Position.Y);
-                    line.AddPolygon( Line.GetArrowPoints( e.Position, contactP));
-
+                    line.ProPoint = contactP;
+                    line.VarPoint = e.Position;
+                    line.DrawLine();
                     if (m_view.SelectedHandle.Mode == Mode.CreateMutualReaction)
                     {
                         line.AddPolygon( Line.GetArrowPoints( contactP, e.Position ));

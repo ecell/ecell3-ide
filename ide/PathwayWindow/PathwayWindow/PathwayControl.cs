@@ -1259,7 +1259,7 @@ namespace EcellLib.PathwayWindow
                     case RefChangeType.SingleDir:
                         EcellReference addRef = new EcellReference();
                         addRef.coefficient = coefficient;
-                        addRef.fullID = varKey;
+                        addRef.Key = varKey;
                         addRef.name = PathUtil.GetNewReferenceName(newList, coefficient);
                         addRef.isAccessor = 1;
                         newList.Add(addRef);
@@ -1267,14 +1267,14 @@ namespace EcellLib.PathwayWindow
                     case RefChangeType.BiDir:
                         EcellReference addSRef = new EcellReference();
                         addSRef.coefficient = -1;
-                        addSRef.fullID = varKey;
+                        addSRef.Key = varKey;
                         addSRef.name = PathUtil.GetNewReferenceName(newList, -1);
                         addSRef.isAccessor = 1;
                         newList.Add(addSRef);
 
                         EcellReference addPRef = new EcellReference();
                         addPRef.coefficient = 1;
-                        addPRef.fullID = varKey;
+                        addPRef.Key = varKey;
                         addPRef.name = PathUtil.GetNewReferenceName(newList, 1);
                         addPRef.isAccessor = 1;
                         newList.Add(addPRef);

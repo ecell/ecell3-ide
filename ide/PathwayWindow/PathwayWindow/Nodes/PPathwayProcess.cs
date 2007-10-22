@@ -600,6 +600,30 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return m_isFixed; }
             set { m_isFixed = value; }
         }
+        /// <summary>
+        /// Accessor for m_type.
+        /// </summary>
+        public int Coefficient
+        {
+            get
+            {
+                int coefficient = 0;
+                switch (this.m_direction)
+                {
+                    case EdgeDirection.Inward:
+                        coefficient = -1;
+                        break;
+                    case EdgeDirection.None:
+                        coefficient = 0;
+                        break;
+                    case EdgeDirection.Outward:
+                        coefficient = 1;
+                        break;
+                }
+                return coefficient;
+            }
+        }
+
         #endregion
     }
 }
