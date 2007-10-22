@@ -785,11 +785,8 @@ namespace EcellLib
         /// <returns></returns>
         public static String GetOutputFileName(string key)
         {
-            string fileName = key;
-            fileName.Replace(":", "_");
-            fileName.Replace("/", "_");
-
-            return fileName;
+            string fileName = key.Replace(":", "_"); ;
+            return fileName.Replace("/", "_") + ".csv";
         }
     }
 }

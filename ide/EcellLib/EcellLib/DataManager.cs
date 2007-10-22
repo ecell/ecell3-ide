@@ -7236,7 +7236,6 @@ namespace EcellLib
         /// <param name="enc">encoding(SJIS)</param>
         public void WriteSimulationForStep(string fileName, int count, Encoding enc)
         {
-            File.AppendAllText(fileName, "session.initialize()\n", enc);
             File.AppendAllText(fileName, "session.step(" + count + ")\n", enc);
             File.AppendAllText(fileName, "while session.isActive():\n", enc);
             File.AppendAllText(fileName, "    System.Threading.Thread.Sleep(1000)\n", enc);
@@ -7250,7 +7249,6 @@ namespace EcellLib
         /// <param name="enc">encoding(SJIS)</param>
         public void WriteSimulationForTime(string fileName, double time, Encoding enc)
         {
-            File.AppendAllText(fileName, "session.initialize()\n", enc);
             File.AppendAllText(fileName, "session.run(" + time + ")\n", enc);
             File.AppendAllText(fileName, "while session.isActive():\n", enc);
             File.AppendAllText(fileName, "    System.Threading.Thread.Sleep(1000)\n", enc);
@@ -7365,6 +7363,9 @@ namespace EcellLib
         /// <param name="logList">Logger list.</param>
         public void WriteLoggerProperty(string fileName, Encoding enc, List<string> logList)
         {
+            string curParam = GetCurrentSimulationParameterID();
+            if (curParam == null ) return;
+            LoggerPolicy l = GetLoggerPolicy(curParam);
             File.AppendAllText(fileName, "\n# Logger Policy\n");
             if (logList == null) return;
             foreach (string path in logList)
@@ -7375,8 +7376,15 @@ namespace EcellLib
                 File.AppendAllText(fileName,
                     "logger" + s_logCount + ".create()\n",
                     enc);
+                File.AppendAllText(fileName,
+                    "logger" + s_logCount + ".setLoggerPolicy(" +
+                    l.m_reloadStepCount + "," +
+                    l.m_reloadInterval + "," +
+                    l.m_diskFullAction + "," +
+                    l.m_maxDiskSpace + ")\n", enc);
                 s_logCount++;
             }
+               
         }
 
         /// <summary>

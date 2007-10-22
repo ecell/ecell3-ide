@@ -796,6 +796,10 @@ namespace SessionManager
                 string fileName = topDir + "/" + i + ".ess";
                 Encoding enc = Encoding.GetEncoding(932);
                 SetLogTopDirectory(dirName);
+                if (!Directory.Exists(dirName))
+                {
+                    Directory.CreateDirectory(dirName);
+                }
 
                 manager.ClearScriptInfo();
                 File.WriteAllText(fileName, "", enc);
@@ -837,6 +841,7 @@ namespace SessionManager
                     manager.WriteComponentEntry(fileName, enc, sysObj);
                     manager.WriteComponentProperty(fileName, enc, sysObj);
                 }
+                File.AppendAllText(fileName, "session.initialize()\n", enc);
                 List<string> sList = new List<string>();
                 foreach (SaveLoggerProperty s in m_logList)
                 {
@@ -849,7 +854,7 @@ namespace SessionManager
                     manager.WriteSimulationForTime(fileName, count, enc);
                 manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
                 List<string> extFileList = ExtractExtFileList(m_logList);
-                RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
+                int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList); 
             }
             Run();
         }
@@ -861,10 +866,11 @@ namespace SessionManager
         /// <param name="topDir">the top directory set each simulation.</param>
         private void SetLogTopDirectory(String topDir)
         {
+            string res = topDir.Replace("\\", "\\\\");
             List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
             foreach (SaveLoggerProperty s in m_logList)
             {
-                s.DirName = topDir;
+                s.DirName = res;
                 resList.Add(s);
             }
             m_logList.Clear();
@@ -969,6 +975,8 @@ namespace SessionManager
                         manager.WriteComponentEntry(fileName, enc, sysObj);
                         manager.WriteComponentProperty(fileName, enc, sysObj);
                     }
+                    File.AppendAllText(fileName, "session.initialize()\n", enc);
+
                     List<string> sList = new List<string>();
                     foreach (SaveLoggerProperty s in m_logList)
                     {

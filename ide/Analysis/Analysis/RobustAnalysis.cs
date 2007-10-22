@@ -254,6 +254,8 @@ namespace EcellLib.Analysis
                 }
             }
             Judgement();
+            String finMes = m_resources.GetString("FinishRAnalysis");
+            MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>

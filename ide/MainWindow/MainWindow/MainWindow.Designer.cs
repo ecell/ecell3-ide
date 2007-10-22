@@ -59,6 +59,8 @@ namespace EcellLib.MainWindow
             this.MenuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.modelEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.distributedEnvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,8 +74,7 @@ namespace EcellLib.MainWindow
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.distributedEnvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jobStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menustrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -284,6 +285,17 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.setIDEToolStripMenuItem, "setIDEToolStripMenuItem");
             this.setIDEToolStripMenuItem.Click += new System.EventHandler(this.SetupIDEMenuClick);
             // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            resources.ApplyResources(this.toolStripSeparator7, "toolStripSeparator7");
+            // 
+            // distributedEnvToolStripMenuItem
+            // 
+            this.distributedEnvToolStripMenuItem.Name = "distributedEnvToolStripMenuItem";
+            resources.ApplyResources(this.distributedEnvToolStripMenuItem, "distributedEnvToolStripMenuItem");
+            this.distributedEnvToolStripMenuItem.Click += new System.EventHandler(this.DistributedEnvMenuClick);
+            // 
             // MenuItemLayout
             // 
             this.MenuItemLayout.Name = "MenuItemLayout";
@@ -292,7 +304,8 @@ namespace EcellLib.MainWindow
             // MenuItemView
             // 
             this.MenuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showWindowToolStripMenuItem});
+            this.showWindowToolStripMenuItem,
+            this.jobStatusToolStripMenuItem});
             this.MenuItemView.Name = "MenuItemView";
             resources.ApplyResources(this.MenuItemView, "MenuItemView");
             // 
@@ -351,16 +364,11 @@ namespace EcellLib.MainWindow
             this.dockPanel.DocumentStyle = WeifenLuo.WinFormsUI.Docking.DocumentStyle.DockingWindow;
             this.dockPanel.Name = "dockPanel";
             // 
-            // toolStripSeparator7
+            // jobStatusToolStripMenuItem
             // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            resources.ApplyResources(this.toolStripSeparator7, "toolStripSeparator7");
-            // 
-            // distributedEnvToolStripMenuItem
-            // 
-            this.distributedEnvToolStripMenuItem.Name = "distributedEnvToolStripMenuItem";
-            resources.ApplyResources(this.distributedEnvToolStripMenuItem, "distributedEnvToolStripMenuItem");
-            this.distributedEnvToolStripMenuItem.Click += new System.EventHandler(this.DistributedEnvMenuClick);
+            this.jobStatusToolStripMenuItem.Name = "jobStatusToolStripMenuItem";
+            resources.ApplyResources(this.jobStatusToolStripMenuItem, "jobStatusToolStripMenuItem");
+            this.jobStatusToolStripMenuItem.Click += new System.EventHandler(this.jobStatusToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -472,6 +480,10 @@ namespace EcellLib.MainWindow
         /// MenuItem to display the setup dialog to set distributed environment.
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem distributedEnvToolStripMenuItem;
+        /// <summary>
+        /// MenuItem to display the list of jobs.
+        /// </summary>
+        public System.Windows.Forms.ToolStripMenuItem jobStatusToolStripMenuItem;
     }
 }
 

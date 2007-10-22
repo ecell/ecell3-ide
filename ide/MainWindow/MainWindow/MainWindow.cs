@@ -1743,6 +1743,13 @@ namespace EcellLib.MainWindow
             win.ShowDialog();
         }
 
+        private void jobStatusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DistributedEnvWindow win = new DistributedEnvWindow();
+
+            win.ShowDialog();
+        }
+
     }
 
     /// <summary>

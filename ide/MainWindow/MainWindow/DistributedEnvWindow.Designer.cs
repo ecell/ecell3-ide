@@ -89,6 +89,7 @@
             this.JobIDColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.JobIDColumn.HeaderText = "JobID";
             this.JobIDColumn.Name = "JobIDColumn";
+            this.JobIDColumn.ReadOnly = true;
             this.JobIDColumn.Width = 50;
             // 
             // StatusColumn
@@ -96,6 +97,7 @@
             this.StatusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.StatusColumn.HeaderText = "Status";
             this.StatusColumn.Name = "StatusColumn";
+            this.StatusColumn.ReadOnly = true;
             this.StatusColumn.Width = 80;
             // 
             // ScriptColumn
@@ -103,11 +105,13 @@
             this.ScriptColumn.FillWeight = 50F;
             this.ScriptColumn.HeaderText = "Script";
             this.ScriptColumn.Name = "ScriptColumn";
+            this.ScriptColumn.ReadOnly = true;
             // 
             // ArgumentColumn
             // 
             this.ArgumentColumn.HeaderText = "Arg";
             this.ArgumentColumn.Name = "ArgumentColumn";
+            this.ArgumentColumn.ReadOnly = true;
             // 
             // DistributedEnvWindow
             // 
@@ -117,6 +121,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DistributedEnvWindow";
             this.Text = "DistributedEnvWindow";
+            this.Shown += new System.EventHandler(this.WinShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.JobGridView)).EndInit();
             this.ResumeLayout(false);
@@ -127,6 +132,9 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button button1;
+        /// <summary>
+        /// DataGridView to display the list of jobs.
+        /// </summary>
         public System.Windows.Forms.DataGridView JobGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn JobIDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn StatusColumn;

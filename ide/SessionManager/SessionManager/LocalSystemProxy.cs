@@ -66,7 +66,6 @@ namespace SessionManager
         /// <returns>LocalSessionProxy.</returns>
         public override SessionProxy CreateSessionProxy()
         {
-            SessionProxy s = new LocalSessionProxy();
             
             return new LocalSessionProxy();
         }

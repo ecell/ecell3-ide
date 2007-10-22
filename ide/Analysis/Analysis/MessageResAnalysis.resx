@@ -162,6 +162,9 @@
   <data name="FinishRAnalysis" xml:space="preserve">
     <value>Finished to execute the robust analysis.</value>
   </data>
+  <data name="FinishRobust" xml:space="preserve">
+    <value>aa</value>
+  </data>
   <data name="MenuItemAnalysis" xml:space="preserve">
     <value>&amp;Analysis...</value>
   </data>

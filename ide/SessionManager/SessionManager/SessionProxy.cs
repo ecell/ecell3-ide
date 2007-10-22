@@ -76,6 +76,7 @@ namespace SessionManager
         private string m_jobDirectory;
         private List<String> m_extraFile;
         private JobStatus m_status;
+        private string m_stderr;
 
         static private String s_dmPath;
         static private int s_maxCount;
@@ -142,6 +143,12 @@ namespace SessionManager
         {
             get { return this.m_extraFile; }
             set { this.m_extraFile = value; }
+        }
+
+        public String StdErr
+        {
+            get { return this.m_stderr; }
+            set { this.m_stderr = value; }
         }
 
         /// <summary>

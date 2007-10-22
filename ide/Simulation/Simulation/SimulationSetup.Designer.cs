@@ -574,6 +574,7 @@
             // 
             // SSCloseButton
             // 
+            this.SSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.SSCloseButton, "SSCloseButton");
             this.SSCloseButton.Name = "SSCloseButton";
             this.SSCloseButton.UseVisualStyleBackColor = true;

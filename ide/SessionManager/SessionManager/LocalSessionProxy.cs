@@ -103,6 +103,7 @@ namespace SessionManager
                     ex.ToString();
                     m_currentProcess.Kill();
                 }
+                this.StdErr = m_currentProcess.StandardOutput.ReadToEnd();
                 m_currentProcess = null;
             }
             if (Status != JobStatus.QUEUED)
@@ -129,6 +130,7 @@ namespace SessionManager
                     {                       
                         this.Status = JobStatus.ERROR;
                     }
+                    this.StdErr = m_currentProcess.StandardOutput.ReadToEnd();
                     m_currentProcess = null;
                 }
             }
@@ -140,7 +142,7 @@ namespace SessionManager
         }
 
         /// <summary>
-        /// Get the stream of StrOut for this process.
+        /// Get the stream of StdOut for this process.
         /// </summary>
         /// <returns>StreamReader.</returns>
         public override System.IO.StreamReader GetStdOut()

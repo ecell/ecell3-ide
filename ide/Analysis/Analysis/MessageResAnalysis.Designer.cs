@@ -196,6 +196,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   aa に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string FinishRobust {
+            get {
+                return ResourceManager.GetString("FinishRobust", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   &amp;Analysis... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemAnalysis {
