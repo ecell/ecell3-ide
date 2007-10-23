@@ -1215,10 +1215,10 @@ namespace EcellLib.PathwayWindow
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient)
         {
             // Get EcellObject of identified process.
-            EcellProcess process = (EcellProcess)ActiveCanvas.GetSelectedObject(proKey, EcellObject.PROCESS).EcellObject;
+            EcellProcess process = (EcellProcess)m_window.GetEcellObject(ActiveCanvas.ModelID, proKey, EcellObject.PROCESS);
             // End if obj is null.
-            if (null == process)                return;
-
+            if (null == process)
+                return;
             // Get EcellReference List.
             List<EcellReference> refList = process.ReferenceList;
             List<EcellReference> newList = new List<EcellReference>();
