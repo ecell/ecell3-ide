@@ -272,7 +272,6 @@ namespace EcellLib.PathwayWindow
         public PPathwayObject CreateNewComponent(EcellObject eo, PathwayControl control)
         {
             PPathwayObject obj = m_createMethod();
-            obj.EcellObject = eo;
             obj.CsID = m_name;
             obj.Setting = this;
             if(m_componentKind == ComponentType.System)
@@ -281,15 +280,19 @@ namespace EcellLib.PathwayWindow
                 obj.Pen = null;
                 obj.IsHighLighted = false;
                 obj.Control = control;
+                obj.EcellObject = eo;
             }
             else
             {
                 obj.AddPath(m_gp,false);
                 obj.NormalBrush = m_normalBrush;
                 obj.HighLightBrush = m_highlightBrush;
+                obj.EcellObject = eo;
+                obj.Width = PPathwayNode.DEFAULT_WIDTH;
+                obj.Height = PPathwayNode.DEFAULT_HEIGHT;
             }
             obj.IsHighLighted = false;
-
+            obj.Refresh();
             return obj;
         }
 
