@@ -168,4 +168,7 @@
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
     <value>ロバスト解析(&amp;R)...</value>
   </data>
+  <data name="ReflectMenuText" xml:space="preserve">
+    <value>反映</value>
+  </data>
 </root>

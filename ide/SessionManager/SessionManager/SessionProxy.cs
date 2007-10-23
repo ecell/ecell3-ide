@@ -74,6 +74,7 @@ namespace SessionManager
         private string m_scriptFile;
         private string m_argument;
         private string m_jobDirectory;
+        private string m_machine;
         private List<String> m_extraFile;
         private JobStatus m_status;
         private string m_stderr;
@@ -137,6 +138,15 @@ namespace SessionManager
         }
 
         /// <summary>
+        /// get / set the machine name executed the job.
+        /// </summary>
+        public String Machine
+        {
+            get { return this.m_machine; }
+            set { this.m_machine = value; }
+        }
+
+        /// <summary>
         /// get / set the list of extra file.
         /// </summary>
         public List<String> ExtraFileList
@@ -145,6 +155,9 @@ namespace SessionManager
             set { this.m_extraFile = value; }
         }
 
+        /// <summary>
+        /// get / set the string of stderr.
+        /// </summary>
         public String StdErr
         {
             get { return this.m_stderr; }

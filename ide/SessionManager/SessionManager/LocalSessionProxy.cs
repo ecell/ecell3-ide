@@ -51,6 +51,7 @@ namespace SessionManager
             : base()
         {
             this.JobDirectory = "";
+            this.Machine = "Local";
         }
 
         /// <summary>

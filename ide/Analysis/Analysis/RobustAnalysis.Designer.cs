@@ -111,9 +111,11 @@
             this.XColumn,
             this.YColumn});
             resources.ApplyResources(this.RAResultGridView, "RAResultGridView");
+            this.RAResultGridView.MultiSelect = false;
             this.RAResultGridView.Name = "RAResultGridView";
             this.RAResultGridView.RowHeadersVisible = false;
             this.RAResultGridView.RowTemplate.Height = 21;
+            this.RAResultGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             // 
             // JudgeColumn
             // 
@@ -121,16 +123,19 @@
             this.JudgeColumn.Frozen = true;
             resources.ApplyResources(this.JudgeColumn, "JudgeColumn");
             this.JudgeColumn.Name = "JudgeColumn";
+            this.JudgeColumn.ReadOnly = true;
             // 
             // XColumn
             // 
             resources.ApplyResources(this.XColumn, "XColumn");
             this.XColumn.Name = "XColumn";
+            this.XColumn.ReadOnly = true;
             // 
             // YColumn
             // 
             resources.ApplyResources(this.YColumn, "YColumn");
             this.YColumn.Name = "YColumn";
+            this.YColumn.ReadOnly = true;
             // 
             // tableLayoutPanel5
             // 
@@ -397,9 +402,6 @@
         /// ComboBox to set the property to Y axis.
         /// </summary>
         public System.Windows.Forms.ComboBox RAYComboBox;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn JudgeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn XColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn YColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MaxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MinColumn;
@@ -419,5 +421,8 @@
         /// TextBox to set the window size.
         /// </summary>
         public System.Windows.Forms.TextBox RAWinSizeText;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn JudgeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn XColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn YColumn;
     }
 }

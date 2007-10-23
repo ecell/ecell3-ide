@@ -168,6 +168,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>DistributedEnvSetupWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DistributedEnvWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DistributedEnvWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DistributedEnvWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DistributedEnvWindow.cs</DependentUpon>

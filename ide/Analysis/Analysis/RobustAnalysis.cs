@@ -34,6 +34,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -50,19 +51,28 @@ namespace EcellLib.Analysis
         private Dictionary<string, EcellData> m_observList = new Dictionary<string, EcellData>();
         private Dictionary<string, EcellData> m_paramList = new Dictionary<string, EcellData>();
         private ZedGraphControl m_zCnt = null;
+        private ContextMenuStrip m_cntMenu = null;
         private Analysis m_parent = null;
         private bool m_isRunning = false;
         private SessionManager.SessionManager m_manager;
         private ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
-        private Timer m_timer;
+        private System.Windows.Forms.Timer m_timer;
+
+
         /// <summary>
         /// Constructor.
         /// </summary>
         public RobustAnalysis()
         {
             InitializeComponent();
+            m_cntMenu = new ContextMenuStrip();
+            ToolStripMenuItem it = new ToolStripMenuItem();
+            it.Text = m_resources.GetString("ReflectMenuText");
+            it.Click += new EventHandler(ReflectMenuClick);
+            m_cntMenu.Items.AddRange(new ToolStripItem[] { it });
+            RAResultGridView.ContextMenuStrip = m_cntMenu;
 
-            m_timer = new Timer();
+            m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
             m_timer.Interval = 5000;
             m_timer.Tick += new EventHandler(UpdateTimeFire);
@@ -166,6 +176,11 @@ namespace EcellLib.Analysis
             l.Clear();
         }
 
+        /// <summary>
+        /// Add the parameter entry into Parameter DataGridView.
+        /// If this parameter alrady exists, system don't insert the entry.
+        /// </summary>
+        /// <param name="obj">parameter object.</param>
         private void SearchAndAddEntry(EcellObject obj)
         {
             if (obj.M_value == null) return;
@@ -272,6 +287,40 @@ namespace EcellLib.Analysis
         /// </summary>
         private void Judgement()
         {
+            string xPath = "";
+            string yPath = "";
+            double xmax = 0.0;
+            double xmin = 0.0;
+            double ymax = 0.0;
+            double ymin = 0.0;
+            RAXComboBox.Items.Clear();
+            RAYComboBox.Items.Clear();
+            List<ParameterRange> pList = GetParamPropList();
+            int count = 0;
+            foreach (ParameterRange r in pList)
+            {
+                RAXComboBox.Items.Add(r.FullPath);
+                RAYComboBox.Items.Add(r.FullPath);
+                if (count == 0) {
+                    RAXComboBox.SelectedText = r.FullPath;
+                    xPath = r.FullPath;
+                    xmax = r.Max;
+                    xmin = r.Min;
+                }
+                if (count == 1) {
+                    RAYComboBox.SelectedText = r.FullPath;
+                    yPath = r.FullPath;
+                    ymax = r.Max;
+                    ymin = r.Min;
+                }
+                count++;
+            }
+            m_zCnt.GraphPane.XAxis.Scale.Max = xmax;
+            m_zCnt.GraphPane.XAxis.Scale.Min = xmin;
+            m_zCnt.GraphPane.YAxis.Scale.Max = ymax;
+            m_zCnt.GraphPane.YAxis.Scale.Min = ymin;
+           
+
             List<JudgementParam> judgeList = ExtractJudgement();
             foreach (int jobid in m_manager.SessionList.Keys)
             {
@@ -282,11 +331,28 @@ namespace EcellLib.Analysis
                 {
                     Dictionary<double, double> logList = 
                         m_manager.SessionList[jobid].GetLogData(p.Path);
+                    double x = m_manager.ParameterDic[jobid].GetParameter(xPath);
+                    double y = m_manager.ParameterDic[jobid].GetParameter(yPath);
 
+                    bool rJudge = JudgementRange(logList, p.Max, p.Min, p.Difference);
+                    if (rJudge == false)
+                    {
+                        AddJudgeData(jobid, x, y, false);
+                        continue;
+                    }
+                    AddJudgeData(jobid, x, y, true);
                 }
             }
         }
 
+        /// <summary>
+        /// Judgement the range of log data for target property.
+        /// </summary>
+        /// <param name="resDic">log data.</param>
+        /// <param name="max">the maximum data of log data.</param>
+        /// <param name="min">the minimum data of log data.</param>
+        /// <param name="diff">the difference of log data.</param>
+        /// <returns>if all condition is OK, return true.</returns>
         private bool JudgementRange(Dictionary<double, double> resDic, double max, double min, double diff)
         {
             bool isFirst = true;
@@ -310,12 +376,23 @@ namespace EcellLib.Analysis
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="resDic"></param>
+        /// <param name="rate"></param>
+        /// <param name="winSize"></param>
+        /// <returns></returns>
         private bool JudgementFFT(Dictionary<double, double> resDic, double rate, double winSize)
         {
             // not implement
             return true;
         }
 
+        /// <summary>
+        /// Extract the judgement condition from DataGridView.
+        /// </summary>
+        /// <returns>the list of judgement condition.</returns>
         private List<JudgementParam> ExtractJudgement()
         {
             List<JudgementParam> resList = new List<JudgementParam>();
@@ -503,27 +580,50 @@ namespace EcellLib.Analysis
         /// </summary>
         public void AxisIndexChanged()
         {
-            if (RAXComboBox.SelectedText == null || !RAXComboBox.SelectedText.Equals(RAYComboBox.SelectedText))
+            if (RAXComboBox.Text.Equals(RAYComboBox.Text))
                 return;
 
-            ClearResult();
+            string xPath = RAXComboBox.Text;
+            string yPath = RAYComboBox.Text;
 
+            foreach (DataGridViewRow r in RAResultGridView.Rows)
+            {
+                if (r.Tag == null) continue;
+                int jobid = (int)r.Tag;
 
-            // not implement
+                r.Cells[1].Value = m_manager.ParameterDic[jobid].ParamDic[xPath];
+                r.Cells[2].Value = m_manager.ParameterDic[jobid].ParamDic[yPath];
+            }
         }
 
         /// <summary>
         /// Add the judgement data into GridView.
         /// </summary>
+        /// <param name="jobid">the jobidof this parameters.</param>
         /// <param name="x">the value of parameter.</param>
         /// <param name="y">the value of parameter.</param>
-        /// <param name="isOK"></param>
-        public void AddJudgeData(double x, double y, bool isOK)
+        /// <param name="isOK">the flag whether this parameter is robustness.</param>
+        public void AddJudgeData(int jobid, double x, double y, bool isOK)
         {
             LineItem line = null;
             if (isOK)
             {
-                RAResultGridView.Rows.Add(new object[] { x, y });
+                DataGridViewRow r = new DataGridViewRow();
+                DataGridViewCheckBoxCell c0 = new DataGridViewCheckBoxCell();
+                c0.Value = true;
+                r.Cells.Add(c0);
+
+                DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+                c1.Value = Convert.ToString(x);
+                r.Cells.Add(c1);
+
+                DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+                c2.Value = Convert.ToString(y);
+                r.Cells.Add(c2);
+
+                r.Tag = jobid;
+                RAResultGridView.Rows.Add(r);
+
 
                 line = m_zCnt.GraphPane.AddCurve(
                     "Result",
@@ -533,6 +633,25 @@ namespace EcellLib.Analysis
             }
             else
             {
+                DataGridViewRow r = new DataGridViewRow();
+                DataGridViewCheckBoxCell c0 = new DataGridViewCheckBoxCell();
+                c0.Value = false;
+                r.Cells.Add(c0);
+
+                DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+                c1.Value = Convert.ToString(x);
+                c1.Style.BackColor = Color.Silver;
+                r.Cells.Add(c1);
+
+                DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+                c2.Value = Convert.ToString(y);
+                c2.Style.BackColor = Color.Silver;
+                r.Cells.Add(c2);
+
+                r.Tag = jobid;
+                RAResultGridView.Rows.Add(r);
+
+
                 line = m_zCnt.GraphPane.AddCurve(
                     "Result",
                     new PointPairList(),
@@ -548,6 +667,11 @@ namespace EcellLib.Analysis
 
 
         #region Events
+        /// <summary>
+        /// Event to close this window.
+        /// </summary>
+        /// <param name="sender">This form.</param>
+        /// <param name="e">FormClosedEventArgs</param>
         void RobustAnalysis_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (m_parent != null)
@@ -557,16 +681,64 @@ namespace EcellLib.Analysis
             m_parent = null;
         }
 
+        /// <summary>
+        /// Event to change the Y axis.
+        /// </summary>
+        /// <param name="sender">ComboBox.</param>
+        /// <param name="e">EventArgs.</param>
         private void YIndexChanged(object sender, EventArgs e)
         {
             AxisIndexChanged();
         }
 
+        /// <summary>
+        /// Event to change the X axis.
+        /// </summary>
+        /// <param name="sender">ComboBox.</param>
+        /// <param name="e">EventArgs.</param>
         private void XIndexChanged(object sender, EventArgs e)
         {
             AxisIndexChanged();
         }
 
+        /// <summary>
+        /// Reflect the parameter condition to the model property.
+        /// </summary>
+        /// <param name="sender">MenuItem.</param>
+        /// <param name="e">EventArgs.</param>
+        private void ReflectMenuClick(object sender, EventArgs e)
+        {
+            DataManager manager = DataManager.GetDataManager();
+            foreach (DataGridViewRow r in RAResultGridView.SelectedRows)
+            {
+                if (r.Tag == null) continue;
+                int jobid = (int)r.Tag;
+                foreach (string path in m_manager.ParameterDic[jobid].ParamDic.Keys)
+                {
+                    double param = m_manager.ParameterDic[jobid].ParamDic[path];
+                    String[] ele = path.Split(new char[] { ':' });
+                    String objId = ele[1] + ":" + ele[2];
+                    List<string> modelList = manager.GetModelList();
+                    EcellObject obj = manager.GetEcellObject(modelList[0], objId, ele[0]);
+                    if (obj == null) continue;
+                    foreach (EcellData d in obj.M_value)
+                    {
+                        if (d.M_entityPath.Equals(path))
+                        {
+                            d.M_value = new EcellValue(param);
+                            break;
+                        }
+                    }
+                    manager.DataChanged(modelList[0], objId, ele[0], obj);
+                }
+                break;
+            }
+        }
+
+        /// <summary>
+        /// Show the popup menu on the parameter DataGridView.
+        /// </summary>
+        /// <param name="r">The row of popup menu.</param>
         private void AssignParamPopupMenu(DataGridViewRow r)
         {
             ContextMenuStrip contextStrip = new ContextMenuStrip();
@@ -579,6 +751,10 @@ namespace EcellLib.Analysis
             r.ContextMenuStrip = contextStrip;
         }
 
+        /// <summary>
+        /// Show the popup menu on the observe DataGridView.
+        /// </summary>
+        /// <param name="r">The row of popup menu.</param>
         private void AssignObservPopupMenu(DataGridViewRow r)
         {
             ContextMenuStrip contextStrip = new ContextMenuStrip();
@@ -591,6 +767,11 @@ namespace EcellLib.Analysis
             r.ContextMenuStrip = contextStrip;
         }
 
+        /// <summary>
+        /// Event to drop the object on the parameter DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DragEventArgs</param>
         private void ParamDragDrop(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
@@ -603,6 +784,11 @@ namespace EcellLib.Analysis
             {
                 if (d.M_entityPath.Equals(dobj.Path))
                 {
+                    if (d.Max == 0.0 && d.Min == 0.0)
+                    {
+                        d.Max = Convert.ToDouble(d.M_value.ToString()) * 1.5;
+                        d.Min = Convert.ToDouble(d.M_value.ToString()) * 0.5;
+                    }
                     d.M_isCommit = false;
                     break;
                 }
@@ -610,6 +796,11 @@ namespace EcellLib.Analysis
             dManager.DataChanged(t.modelID, t.key, t.type, t);
         }
 
+        /// <summary>
+        /// Event to enter in the parameter DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DragEventArgs</param>
         private void ParamDragEnter(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
@@ -619,6 +810,11 @@ namespace EcellLib.Analysis
                 e.Effect = DragDropEffects.None;
         }
 
+        /// <summary>
+        /// Event to drop the object on the observe DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DragEventArgs</param>
         private void ObservDragDrop(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
@@ -636,13 +832,34 @@ namespace EcellLib.Analysis
                     c1.Value = d.M_entityPath;
                     r.Cells.Add(c1);
                     DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                    c2.Value = d.Max;
+                    if (d.Max == 0.0)
+                    {
+                        c2.Value = Convert.ToDouble(d.M_value.ToString()) * 1.5;
+                    }
+                    else
+                    {
+                        c2.Value = d.Max;
+                    }
                     r.Cells.Add(c2);
                     DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-                    c3.Value = d.Min;
+                    if (d.Min == 0.0)
+                    {
+                        c3.Value = Convert.ToDouble(d.M_value.ToString()) * 0.5;
+                    }
+                    else
+                    {
+                        c3.Value = d.Min;
+                    }
                     r.Cells.Add(c3);
                     DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
-                    c4.Value = d.Max - d.Min;
+                    if (d.Max == 0.0 && d.Min == 0.0)
+                    {
+                        c4.Value = Convert.ToDouble(d.M_value.ToString());
+                    }
+                    else
+                    {
+                        c4.Value = d.Max - d.Min;
+                    }
                     r.Cells.Add(c4);
                     DataGridViewTextBoxCell c5 = new DataGridViewTextBoxCell();
                     c5.Value = 0.0;
@@ -655,6 +872,11 @@ namespace EcellLib.Analysis
             }
         }
 
+        /// <summary>
+        /// Event to enter in the observe DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DragEventArgs</param>
         private void ObservDragEnter(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
@@ -664,6 +886,11 @@ namespace EcellLib.Analysis
                 e.Effect = DragDropEffects.None;
         }
 
+        /// <summary>
+        /// Event to delete the item on the observe DataGridView.
+        /// </summary>
+        /// <param name="sender">MenuItem.</param>
+        /// <param name="e">EventArgs</param>
         private void DeleteObservItem(object sender, EventArgs e)
         {
             DataGridViewRow r = ((ToolStripMenuItem)sender).Tag as DataGridViewRow;
@@ -673,6 +900,11 @@ namespace EcellLib.Analysis
             RemoveObservEntry(key);
         }
 
+        /// <summary>
+        /// Event to delete the item on the parameter DataGridView.
+        /// </summary>
+        /// <param name="sender">MenuItem.</param>
+        /// <param name="e">EventArgs.</param>
         private void DeleteParamItem(object sender, EventArgs e)
         {
             DataGridViewRow r = ((ToolStripMenuItem)sender).Tag as DataGridViewRow;

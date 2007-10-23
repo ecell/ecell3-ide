@@ -53,6 +53,7 @@ namespace SessionManager
         private SystemProxy m_proxy;
         private Dictionary<string, SystemProxy> m_proxyList = new Dictionary<string, SystemProxy>();
         private Dictionary<int, SessionProxy> m_sessionList = new Dictionary<int, SessionProxy>();
+        private Dictionary<int, ExecuteParameter> m_paramerDic = new Dictionary<int, ExecuteParameter>();
 
         private Timer m_timer;
 
@@ -180,6 +181,15 @@ namespace SessionManager
         public Dictionary<int, SessionProxy> SessionList
         {
             get { return this.m_sessionList; }
+        }
+
+        /// <summary>
+        /// get/set the list of parameters.
+        /// </summary>
+        public Dictionary<int, ExecuteParameter> ParameterDic
+        {
+            get { return this.m_paramerDic; }
+            set { this.m_paramerDic = value; }
         }
 
         /// <summary>
@@ -771,6 +781,7 @@ namespace SessionManager
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
         public void RunSimParameterRange(string topDir, string modelName, int num, double count, bool isStep)
         {
+            m_paramerDic.Clear();
             DataManager manager = DataManager.GetDataManager();
             List<EcellObject> sysList = manager.GetData(modelName, null);
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
@@ -784,7 +795,7 @@ namespace SessionManager
                     if (p.Step <= 0.0)
                     {
                         double d = hRandom.NextDouble();
-                        data = (d - p.Min) / (p.Max - p.Min) + p.Min;
+                        data = d  * (p.Max - p.Min) + p.Min;
                     }
                     else
                     {
@@ -822,6 +833,7 @@ namespace SessionManager
                     manager.WriteSystemEntry(fileName, enc, modelName, sysObj);
                     manager.WriteSystemProperty(fileName, enc, modelName, sysObj);
                 }
+                Application.DoEvents();
                 foreach (EcellObject sysObj in sysList)
                 {
                     foreach (string path in paramDic.Keys)
@@ -841,6 +853,7 @@ namespace SessionManager
                     manager.WriteComponentEntry(fileName, enc, sysObj);
                     manager.WriteComponentProperty(fileName, enc, sysObj);
                 }
+                Application.DoEvents();
                 File.AppendAllText(fileName, "session.initialize()\n", enc);
                 List<string> sList = new List<string>();
                 foreach (SaveLoggerProperty s in m_logList)
@@ -854,7 +867,9 @@ namespace SessionManager
                     manager.WriteSimulationForTime(fileName, count, enc);
                 manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
                 List<string> extFileList = ExtractExtFileList(m_logList);
-                int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList); 
+                int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
+                m_paramerDic.Add(job, new ExecuteParameter(paramDic));
+                Application.DoEvents();
             }
             Run();
         }
@@ -907,6 +922,7 @@ namespace SessionManager
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
         public void RunSimParameterMatrix(string topDir, string modelName, double count, bool isStep)
         {
+            m_paramerDic.Clear();
             DataManager manager = DataManager.GetDataManager();
             List<EcellObject> sysList = manager.GetData(modelName, null);
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
@@ -998,5 +1014,73 @@ namespace SessionManager
         }
     }
 
+    /// <summary>
+    /// Manage the execution parameter to analysis.
+    /// </summary>
+    public class ExecuteParameter
+    {
+        private Dictionary<string, double> m_paramDic = new Dictionary<string,double>();
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ExecuteParameter()
+        {
+        }
+
+        /// <summary>
+        /// Constructor with the initial parameter.
+        /// </summary>
+        /// <param name="data">the list of parameter.</param>
+        public ExecuteParameter(Dictionary<string, double> data)
+        {
+            foreach (string d in data.Keys)
+            {
+                m_paramDic.Add(d, data[d]);
+            }
+        }
+
+        /// <summary>
+        /// get / set the list of execution parameter.
+        /// </summary>
+        public Dictionary<string, double> ParamDic
+        {
+            get { return this.m_paramDic; }
+            set { this.m_paramDic = value; }
+        }
+
+        /// <summary>
+        /// Add the execution parameter.
+        /// </summary>
+        /// <param name="path">path.</param>
+        /// <param name="value">execution parameter.</param>
+        public void AddParameter(string path, double value)
+        {
+            m_paramDic.Add(path, value);
+        }
+
+        /// <summary>
+        /// Get the execution parameter of target path.
+        /// </summary>
+        /// <param name="path">path.</param>
+        /// <returns>execution parameter.</returns>
+        public double GetParameter(string path)
+        {
+            if (m_paramDic.ContainsKey(path))
+            {
+                return m_paramDic[path];
+            }
+            return 0.0;
+        }
+
+        /// <summary>
+        /// Remove the execution paramter from list.
+        /// </summary>
+        /// <param name="path">path.</param>
+        public void RemoveParameter(string path)
+        {
+            m_paramDic.Remove(path);
+        }
+    
+    }
 }

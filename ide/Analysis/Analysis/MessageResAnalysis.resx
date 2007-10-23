@@ -171,4 +171,7 @@
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
     <value>&amp;Robust Analysis...</value>
   </data>
+  <data name="ReflectMenuText" xml:space="preserve">
+    <value>Reflect</value>
+  </data>
 </root>

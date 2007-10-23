@@ -59,6 +59,7 @@
     <DocumentationFile>bin\x86_64\Release\Formulator.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EcellCoreLibCLR, Version=1.0.2736.21094, Culture=neutral, PublicKeyToken=1f43c6bc1b2ace5d, processorArchitecture=x86" />
     <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7d5574583093e55f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\bin\EcellLib.dll</HintPath>

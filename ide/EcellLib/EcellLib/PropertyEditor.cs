@@ -167,6 +167,10 @@ namespace EcellLib
             m_type = type;
         }
 
+        /// <summary>
+        /// Get the commit information of this data.
+        /// </summary>
+        /// <param name="d">data object.</param>
         private void GetCommitInfo(EcellData d)
         {
             IEnumerator iter = commitLayoutPanel.Controls.GetEnumerator();
@@ -231,6 +235,9 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// Layout the commit information of model data.
+        /// </summary>
         private void LayoutModelCommit()
         {
             m_propDict.Clear();
@@ -244,6 +251,9 @@ namespace EcellLib
             commitLayoutPanel.ResumeLayout(false);
         }
 
+        /// <summary>
+        /// Layout the commit infomation of node data.
+        /// </summary>
         private void LayoutNodeCommit()
         {
             int i = 0;
@@ -318,26 +328,51 @@ namespace EcellLib
                 commitLayoutPanel.Controls.Add(l, 1, i);
 
                 TextBox t1 = new TextBox();
-                t1.Text = m_propDict[key].Max.ToString();
+
                 t1.Dock = DockStyle.Fill;
                 t1.Tag = key;
                 if (!m_propDict[key].M_isSettable ||
                     m_propDict[key].M_value.M_type != typeof(double))
                 {
                     t1.ReadOnly = true;
+                    t1.Text = m_propDict[key].Max.ToString();
+                }
+                else
+                {
+                    if (m_propDict[key].Max == 0.0)
+                    {
+                        t1.Text = Convert.ToString(m_propDict[key].M_value.CastToDouble() * 1.5);
+                    }
+                    else
+                    {
+                        t1.Text = m_propDict[key].Max.ToString();
+                    }
                 }
                 //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 commitLayoutPanel.Controls.Add(t1, 2, i);
 
                 TextBox t2 = new TextBox();
-                t2.Text = m_propDict[key].Min.ToString();
                 t2.Dock = DockStyle.Fill;
                 t2.Tag = key;
                 if (!m_propDict[key].M_isSettable ||
                     m_propDict[key].M_value.M_type != typeof(double))
                 {
                     t2.ReadOnly = true;
+                    t2.Text = m_propDict[key].Min.ToString();
                 }
+                else
+                {
+                    if (m_propDict[key].Min == 0.0)
+                    {
+                        t2.Text = Convert.ToString(m_propDict[key].M_value.CastToDouble() * 0.5);
+                    }
+                    else
+                    {
+                        t2.Text = m_propDict[key].Min.ToString();
+                    }
+                }
+
+
                 //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 commitLayoutPanel.Controls.Add(t2, 3, i);
 

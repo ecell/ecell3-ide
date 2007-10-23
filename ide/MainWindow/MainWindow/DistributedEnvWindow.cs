@@ -44,7 +44,7 @@ namespace EcellLib.MainWindow
         {
             foreach (SessionProxy s in m_manager.SessionList.Values)
             {
-                JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.ScriptFile, s.Argument });
+                JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
         }
     }
