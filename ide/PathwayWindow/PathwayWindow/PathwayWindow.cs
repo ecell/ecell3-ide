@@ -489,9 +489,7 @@ namespace EcellLib.PathwayWindow
                 return;
             if (type.Equals(PathwayControl.MODEL_STRING))
                 this.Clear();
-            CanvasView canvas = this.m_con.CanvasDictionary[modelID];
-            if (canvas != null)
-                canvas.DataDelete(key, ComponentManager.ParseComponentKind(type));
+            m_con.DataDelete(modelID, key, type);
         }
 
         /// <summary>

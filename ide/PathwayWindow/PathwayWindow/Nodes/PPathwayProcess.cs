@@ -338,6 +338,15 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// delete all related process from list.
+        /// </summary>
+        public override void Delete()
+        {
+            NotifyRemoveRelatedVariable();
+            DeleteEdges();
+        }
+
+        /// <summary>
         /// delete the specified related variable from list.
         /// </summary>
         /// <param name="p">the specified variable.</param>

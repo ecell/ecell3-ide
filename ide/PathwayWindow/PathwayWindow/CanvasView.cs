@@ -1958,11 +1958,11 @@ namespace EcellLib.PathwayWindow
         /// <returns>A list which contains all PathwayElements of this object</returns>
         public PPathwayObject GetSelectedObject(string key, string type)
         {
-            if (type.Equals(EcellObject.SYSTEM))
+            if (type.Equals(EcellObject.SYSTEM) && m_systems.ContainsKey(key))
                 return m_systems[key];
-            if (type.Equals(EcellObject.PROCESS))
+            if (type.Equals(EcellObject.PROCESS) && m_processes.ContainsKey(key))
                 return m_processes[key];
-            if (type.Equals(EcellObject.VARIABLE))
+            if (type.Equals(EcellObject.VARIABLE) && m_variables.ContainsKey(key))
                 return m_variables[key];
             return null;
         }
@@ -2064,63 +2064,40 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="key">the key of deleted object.</param>
         /// <param name="type">the type of deleted object.</param>
-        public void DataDelete(string key, ComponentType type)
+        public void DataDelete(string key, string type)
         {
+            PPathwayObject obj = GetSelectedObject(key, type);
+            if (obj == null)
+                return;
+
             ResetSelectedObjects();
-            switch (type)
+
+            if (obj is PPathwaySystem)
             {
-                case ComponentType.System:
-                    if (!m_systems.ContainsKey(key))
-                        break;
-
-                    PPathwaySystem system = m_systems[key];
-                    system.Text.RemoveFromParent();
-                    MoveChildren(system);
-                    if (m_selectedSystemName != null && key.Equals(m_selectedSystemName))
-                    {
-                        HideResizeHandles();
-                        m_selectedSystemName = null;
-                    }
-                    m_systems.Remove(key);
-
-                    break;
-                case ComponentType.Variable:
-                    if (!m_variables.ContainsKey(key))
-                        break;
-                    PPathwayVariable var = m_variables[key];
-                    var.NotifyRemoveRelatedProcess();
-                    var.Parent.RemoveChild(var);
-                    var.Text.RemoveFromParent();
-                    var.Reset();
-                    m_variables.Remove(key);
-                    break;
-                case ComponentType.Process:
-                    if (!m_processes.ContainsKey(key))
-                        break;
-                    PPathwayProcess pro = m_processes[key];
-                    pro.NotifyRemoveRelatedVariable();
-                    pro.DeleteEdges();
-                    pro.Parent.RemoveChild(pro);
-                    pro.Text.RemoveFromParent();
-                    pro.Reset();
-                    m_processes.Remove(key);
-                    break;
+                m_systems.Remove(key);
             }
+            else if (obj is PPathwayProcess)
+            {
+                ((PPathwayProcess)obj).Delete();
+                m_processes.Remove(key);
+            }
+            else if (obj is PPathwayVariable)
+            {
+                ((PPathwayVariable)obj).NotifyRemoveRelatedProcess();
+                m_variables.Remove(key);
+            }
+            RemoveObject(obj);
         }
 
-        private void MoveChildren(PPathwaySystem system)
+        private void RemoveObject(PPathwayObject obj)
         {
-            PNodeList childList = new PNodeList();
-            foreach (PNode obj in system.ChildrenReference)
-            {
-                if (obj is PPathwayObject)
-                    ((PPathwayObject)obj).ParentObject = (PPathwayObject)system.Parent;
-            }
+            if (obj == null)
+                return;
 
-            childList.AddRange(system.ChildrenReference);
-            system.Parent.AddChildren(childList);
-            system.Parent.RemoveChild(system);
-            system.RemoveAllChildren();
+            obj.Text.RemoveFromParent();
+            obj.Parent.RemoveChild(obj);
+            obj.Reset();
+
         }
 
         /// <summary>

@@ -174,9 +174,8 @@ namespace EcellLib.PathwayWindow.Nodes
 
             foreach (PPathwayProcess p in list)
             {
-                p.DeleteEdges();
                 p.NotifyRemoveRelatedVariable(this.EcellObject.key);
-                p.CreateEdges();
+                p.Refresh();
             }
         }
 

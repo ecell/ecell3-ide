@@ -1217,8 +1217,7 @@ namespace EcellLib.PathwayWindow
             // Get EcellObject of identified process.
             EcellProcess process = (EcellProcess)ActiveCanvas.GetSelectedObject(proKey, EcellObject.PROCESS).EcellObject;
             // End if obj is null.
-            if (null == process)
-                return;
+            if (null == process)                return;
 
             // Get EcellReference List.
             List<EcellReference> refList = process.ReferenceList;
@@ -1794,7 +1793,6 @@ namespace EcellLib.PathwayWindow
         {
             // Select Canvas
             CanvasView canvas = m_canvasDict[modelID];
-            ComponentType cType = ComponentManager.ParseComponentKind(type);
 
             // Select changed object.
             PPathwayObject obj = canvas.GetSelectedObject(key, type);
@@ -1809,6 +1807,20 @@ namespace EcellLib.PathwayWindow
             //
             if (obj is PPathwaySystem)
                 canvas.UpdateResizeHandlePositions();
+
+        }
+
+        /// <summary>
+        /// The event sequence on deleting the object at other plugin.
+        /// </summary>
+        /// <param name="modelID">The model ID of deleted object.</param>
+        /// <param name="key">The ID of deleted object.</param>
+        /// <param name="type">The object type of deleted object.</param>
+        public void DataDelete(string modelID, string key, string type)
+        {
+            CanvasView canvas = this.m_canvasDict[modelID];
+            if (canvas != null)
+                canvas.DataDelete(key, type);
 
         }
 
