@@ -1201,7 +1201,13 @@ namespace EcellLib.PathwayWindow
             if (eo == null)
                 throw new Exception();
             eo.key = newKey;
-            eo.SetPosition(obj.EcellObject);
+            eo.X = obj.X;
+            eo.Y = obj.Y;
+            eo.Width = obj.Width;
+            eo.Height = obj.Height;
+            eo.OffsetX = obj.OffsetX;
+            eo.OffsetY = obj.OffsetY;
+
             m_window.NotifyDataChanged(oldKey, newKey, eo, isAnchor);
         }
 

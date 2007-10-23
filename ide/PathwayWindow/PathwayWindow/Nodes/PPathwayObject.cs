@@ -290,14 +290,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public EcellObject EcellObject
         {
             get {
-                EcellObject eo = this.m_ecellObj;
-                eo.X = base.X;
-                eo.Y = base.Y;
-                eo.Width = base.Width;
-                eo.Height = base.Height;
-                eo.OffsetX = base.OffsetX;
-                eo.OffsetY = base.OffsetY;
-                return eo;
+                return this.m_ecellObj;
             }
             set
             {
