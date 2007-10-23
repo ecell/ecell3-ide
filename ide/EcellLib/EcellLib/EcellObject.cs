@@ -1769,7 +1769,7 @@ namespace EcellLib
                 if (IsEcellValueExists(SIZE))
                     return GetEcellValue(SIZE).CastToDouble();
                 else
-                    return 0;
+                    return 0.1d;
                 }
             set {
                 if (IsEcellValueExists(SIZE))
@@ -1806,7 +1806,7 @@ namespace EcellLib
             get
             {
                 string text = base.Text;
-                if (IsEcellValueExists(SIZE))
+                if (size != 0.1d)
                     text += " (SIZE:" + GetEcellValue(SIZE).ToString() +")";
                 return text;
             }

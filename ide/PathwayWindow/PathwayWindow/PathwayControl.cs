@@ -1789,10 +1789,16 @@ namespace EcellLib.PathwayWindow
         /// <param name="key">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
         /// <param name="data">Changed value of object.</param>
-        public void DataChanged(string modelID, string key, string type, EcellObject data)
+        public void DataChanged(string modelID, string key, string type, EcellObject eo)
         {
             // Select Canvas
             CanvasView canvas = m_canvasDict[modelID];
+            // If case SystemSize
+            if( key.EndsWith(":SIZE") )
+            {
+                ChangeSystemSize(modelID, eo.parentSystemID, eo.GetEcellValue("Value").CastToDouble());
+                return;
+            }
 
             // Select changed object.
             PPathwayObject obj = canvas.GetSelectedObject(key, type);
@@ -1800,14 +1806,21 @@ namespace EcellLib.PathwayWindow
                 return;
 
             // Change data.
-            obj.EcellObject = data;
-            if (!key.Equals(data.key))
-                canvas.TransferObject(key, data.key, obj);
+            obj.EcellObject = eo;
+            if (!key.Equals(eo.key))
+                canvas.TransferObject(key, eo.key, obj);
 
             //
             if (obj is PPathwaySystem)
                 canvas.UpdateResizeHandlePositions();
 
+        }
+
+        private void ChangeSystemSize(string modelID, string sysKey, double size)
+        {
+            EcellObject eo = m_window.GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
+            eo.GetEcellValue(EcellSystem.SIZE).M_value = size;
+            DataChanged(modelID, eo.key, eo.type, eo);
         }
 
         /// <summary>
@@ -1819,8 +1832,17 @@ namespace EcellLib.PathwayWindow
         public void DataDelete(string modelID, string key, string type)
         {
             CanvasView canvas = this.m_canvasDict[modelID];
-            if (canvas != null)
-                canvas.DataDelete(key, type);
+            if (canvas == null)
+                return;
+            // If case SystemSize
+            if (key.EndsWith(":SIZE"))
+            {
+                ChangeSystemSize(modelID, PathUtil.GetParentSystemId(key), 0.1d);
+                return;
+            }
+
+            // Delete object.
+            canvas.DataDelete(key, type);
 
         }
 
