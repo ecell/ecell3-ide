@@ -2074,6 +2074,7 @@ namespace EcellLib.PathwayWindow
 
             if (obj is PPathwaySystem)
             {
+                RemoveObjectUnder(key);
                 m_systems.Remove(key);
             }
             else if (obj is PPathwayProcess)
@@ -2098,6 +2099,13 @@ namespace EcellLib.PathwayWindow
             obj.Parent.RemoveChild(obj);
             obj.Reset();
 
+        }
+
+        private void RemoveObjectUnder(string sysKey)
+        {
+            foreach (PPathwayObject obj in GetAllObjects())
+                if (obj.EcellObject.key.StartsWith(sysKey) && !obj.EcellObject.key.Equals(sysKey) )
+                    DataDelete(obj.EcellObject.key, obj.EcellObject.type);
         }
 
         /// <summary>

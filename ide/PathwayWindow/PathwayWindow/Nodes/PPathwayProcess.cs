@@ -199,9 +199,9 @@ namespace EcellLib.PathwayWindow.Nodes
             if (CheckReferenceListContainsEntity(list, variableKey, coefficient))
             {
                 MessageBox.Show(m_resources.GetString("ErrAlrConnect"),
-                 "Notice",
-                 MessageBoxButtons.OK,
-                 MessageBoxIcon.Exclamation);
+                    "Notice",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
                 return;
             }
             string name;
