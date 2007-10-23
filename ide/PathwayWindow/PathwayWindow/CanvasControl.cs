@@ -59,7 +59,7 @@ namespace EcellLib.PathwayWindow
     /// This class manages resources related to one canvas.
     ///  ex) PathwayCanvas, Layer, etc.
     /// </summary>
-    public class CanvasView : IDisposable
+    public class CanvasControl : IDisposable
     {
         #region Static readonly fields
         /// <summary>
@@ -472,7 +472,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="name">canvas id.</param>
         /// <param name="overviewScale">scale of overview.</param>
         /// <param name="handler">EventHandler of PathwayView.</param>
-        public CanvasView(PathwayControl view,
+        public CanvasControl(PathwayControl view,
             string modelID)
         {
             m_con = view;

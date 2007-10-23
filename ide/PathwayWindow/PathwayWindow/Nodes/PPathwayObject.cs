@@ -78,7 +78,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// On this CanvasViewComponentSet this PPathwayObject is drawn.
         /// </summary>
-        protected CanvasView m_set;
+        protected CanvasControl m_set;
         /// <summary>
         /// EcellObject for this object.
         /// </summary>
@@ -289,7 +289,16 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public EcellObject EcellObject
         {
-            get { return this.m_ecellObj; }
+            get {
+                EcellObject eo = this.m_ecellObj;
+                eo.X = base.X;
+                eo.Y = base.Y;
+                eo.Width = base.Width;
+                eo.Height = base.Height;
+                eo.OffsetX = base.OffsetX;
+                eo.OffsetY = base.OffsetY;
+                return eo;
+            }
             set
             {
                 this.m_ecellObj = value;
@@ -302,15 +311,6 @@ namespace EcellLib.PathwayWindow.Nodes
                     base.OffsetX = m_ecellObj.OffsetX;
                     base.OffsetY = m_ecellObj.OffsetY;
                 }
-                else
-                {
-                    m_ecellObj.X = base.X;
-                    m_ecellObj.Y = base.Y;
-                    m_ecellObj.Width = base.Width;
-                    m_ecellObj.Height = base.Height;
-                    m_ecellObj.OffsetX = base.OffsetX;
-                    m_ecellObj.OffsetY = base.OffsetY;
-                }
                 MemorizeCurrentPosition();
                 Refresh();
             }
@@ -320,89 +320,11 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public PointF PointF
         {
-            get { return new PointF(this.X, this.Y); }
+            get { return new PointF(base.X, base.Y); }
             set
             {
-                this.X = value.X;
-                this.Y = value.Y;
-            }
-        }
-        /// <summary>
-        /// Accessor for X coordinate.
-        /// </summary>
-        public override float X
-        {
-            get { return base.X; }
-            set
-            {
-                base.X = value;
-                if (EcellObject != null)
-                    EcellObject.X = value;
-            }
-        }
-        /// <summary>
-        /// Accessor for Y coordinate.
-        /// </summary>
-        public override float Y
-        {
-            get { return base.Y; }
-            set
-            {
-                base.Y = value;
-                if (EcellObject != null)
-                    EcellObject.Y = value;
-            }
-        }
-        /// <summary>
-        /// Accessor for OffsetX coordinate.
-        /// </summary>
-        public override float OffsetX
-        {
-            get { return base.OffsetX; }
-            set
-            {
-                base.OffsetX = value;
-                if (EcellObject != null)
-                    EcellObject.OffsetX = value;
-            }
-        }
-        /// <summary>
-        /// Accessor for OffsetY coordinate.
-        /// </summary>
-        public override float OffsetY
-        {
-            get { return base.OffsetY; }
-            set
-            {
-                base.OffsetY = value;
-                if (EcellObject != null)
-                    EcellObject.OffsetY = value;
-            }
-        }
-        /// <summary>
-        /// Accessor for OffsetY coordinate.
-        /// </summary>
-        public override float Width
-        {
-            get { return base.Width; }
-            set
-            {
-                base.Width = value;
-                if (EcellObject != null)
-                    EcellObject.Width = value;
-            }
-        }
-        /// <summary>
-        /// Accessor for OffsetY coordinate.
-        /// </summary>
-        public override float Height
-        {
-            get { return base.Height; }
-            set
-            {
-                base.Height = value;
-                if (EcellObject != null)
-                    EcellObject.Height = value;
+                base.X = value.X;
+                base.Y = value.Y;
             }
         }
 
@@ -422,7 +344,7 @@ namespace EcellLib.PathwayWindow.Nodes
             get
             {
                 PNode dummyParent = null;
-                PointF canPos = new PointF(this.X, this.Y);
+                PointF canPos = new PointF(base.X, base.Y);
                 do
                 {
                     if (dummyParent == null)
@@ -530,7 +452,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
         /// </summary>
-        public virtual CanvasView CanvasView
+        public virtual CanvasControl CanvasView
         {
             get { return m_set; }
             set { m_set = value; }
@@ -543,29 +465,6 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return m_parentObject; }
             set { m_parentObject = value; }
         }
-
-        /// <summary>
-        /// get the position of center for the text.
-        /// </summary>
-        public float TextCenterX
-        {
-            get
-            {
-                return this.EcellObject.CenterX;
-            }
-        }
-
-        /// <summary>
-        /// get the position of center for the text.
-        /// </summary>
-        public float TextCenterY
-        {
-            get
-            {
-                return this.EcellObject.CenterY;
-            }
-        }
-
         #endregion
 
         #region Constructor
@@ -1242,11 +1141,11 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void RefreshText()
         {
-            if (EcellObject == null)
+            if (this.m_ecellObj == null)
                 return;
 
-            this.m_pText.Text = this.EcellObject.Text;
-            this.m_pText.CenterBoundsOnPoint(TextCenterX, TextCenterY);
+            this.m_pText.Text = this.m_ecellObj.Text;
+            this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
             this.m_pText.MoveToFront();           
         }
         

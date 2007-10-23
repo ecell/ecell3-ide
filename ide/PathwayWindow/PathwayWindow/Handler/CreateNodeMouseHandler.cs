@@ -60,7 +60,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// CanvasViewComponentSet, on which a new object will be created.
         /// </summary>
-        protected CanvasView m_set;
+        protected CanvasControl m_set;
 
         /// <summary>
         /// Where mouse was pressed down on pathwaycanvas.

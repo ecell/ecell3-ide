@@ -55,7 +55,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// the related CanvasViewCompomnetSet.
         /// </summary>
-        private CanvasView m_set;
+        private CanvasControl m_set;
 
         /// <summary>
         /// PComposite to move selected nodes together.
@@ -100,7 +100,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         /// <param name="set">component set.</param>
         /// <param name="dict">dictionary of system.</param>
-        public NodeDragHandler(CanvasView set, Dictionary<string, PPathwaySystem> dict)
+        public NodeDragHandler(CanvasControl set, Dictionary<string, PPathwaySystem> dict)
         {
             m_set = set;
             m_systems = dict;

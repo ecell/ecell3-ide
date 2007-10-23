@@ -95,7 +95,7 @@ namespace EcellLib.PathwayWindow
         {
             base.OnMouseDown(sender, e);
 
-            CanvasView canvas = m_view.CanvasDictionary[e.Canvas.Name];
+            CanvasControl canvas = m_view.CanvasDictionary[e.Canvas.Name];
 
             PPathwayNode newNode = e.PickedNode as PPathwayNode;
 
@@ -208,7 +208,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="canvas">CanvasView to which node belongs</param>
         /// <param name="node">current node</param>
-        private void SetCurrent(CanvasView canvas, PPathwayNode node)
+        private void SetCurrent(CanvasControl canvas, PPathwayNode node)
         {
             m_current = node;
             if (null != node)

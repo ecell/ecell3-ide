@@ -295,29 +295,6 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return m_backBrush; }
             set { m_backBrush = value; }
         }
-
-        /// <summary>
-        /// get the position of center for the text.
-        /// </summary>
-        public new float TextCenterX
-        {
-            get
-            {
-                //return this.X + this.OffsetToLayer.X + Width / 2f;
-                return this.X + Width / 2f;
-            }
-        }
-
-        /// <summary>
-        /// get the position of center for the text.
-        /// </summary>
-        public new float TextCenterY
-        {
-            get
-            {
-                return this.Y + this.Height - TEXT_LOWER_MARGIN;
-            }
-        }
         #endregion
 
         #region Constructor
@@ -648,7 +625,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void RefreshText()
         {
             base.m_pText.Text = this.EcellObject.Text;
-            base.m_pText.CenterBoundsOnPoint(TextCenterX, TextCenterY);
+            base.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height - TEXT_LOWER_MARGIN);
             base.m_pText.MoveToFront();
         }
 

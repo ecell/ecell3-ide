@@ -53,7 +53,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <summary>
         /// CanvasView to which this PathwayCanvas belongs
         /// </summary>
-        protected CanvasView m_canvas = null;
+        protected CanvasControl m_canvas = null;
         protected PathwayControl m_con = null;
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
 
@@ -61,7 +61,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Constructor
         /// </summary>
         /// <param name="cview"></param>
-        public PathwayCanvas(CanvasView cview)
+        public PathwayCanvas(CanvasControl cview)
         {
             m_canvas = cview;
             m_con = cview.PathwayControl;

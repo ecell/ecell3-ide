@@ -283,37 +283,6 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// PointF
-        /// </summary>
-        public PointF Center
-        {
-            get { return new PointF(CenterX, CenterY); }
-            set
-            {
-                CenterX = value.X;
-                CenterY = value.Y;
-            }
-        }
-
-        /// <summary>
-        /// X center
-        /// </summary>
-        public float CenterX
-        {
-            get { return m_x + m_width / 2; }
-            set { m_x = value - m_width / 2; }
-        }
-
-        /// <summary>
-        /// Y center
-        /// </summary>
-        public float CenterY
-        {
-            get { return m_y + m_height / 2; }
-            set { m_y = value - m_height / 2; }
-        }
-
-        /// <summary>
         /// X offset
         /// </summary>
         public float OffsetX
@@ -589,42 +558,6 @@ namespace EcellLib
         {
             this.m_ecellDatas.Add(d);
         }
-
-        /// <summary>
-        /// Add a child object to m_instance.
-        /// if same object already exists, replace it.
-        /// </summary>
-        /// <param name="d">EcellObject</param>
-        public void AddChildObject(EcellObject childObj)
-        {
-            //Check current list
-            EcellObject removeObj = null;
-            foreach (EcellObject eo in this.m_instances)
-                if (eo.name == childObj.name && eo.type == childObj.type)
-                    removeObj = eo;
-            if (removeObj != null)
-                this.m_instances.Remove(removeObj);
-            this.m_instances.Add(childObj);
-
-        }
-
-        /// <summary>
-        /// Remove a child object from m_instance.
-        /// </summary>
-        /// <param name="d">EcellObject</param>
-        public void RemoveChildObject(EcellObject childObj)
-        {
-            //Check current list
-            EcellObject removeObj = null;
-            foreach (EcellObject eo in this.m_instances)
-                if (eo.name == childObj.name && eo.type == childObj.type)
-                    removeObj = eo;
-            if (removeObj == null)
-                return;
-            this.m_instances.Remove(removeObj);
-
-        }
-        
 
         /// <summary>
         /// Set value from the list of EcellData.
@@ -1810,22 +1743,6 @@ namespace EcellLib
                     text += " (SIZE:" + GetEcellValue(SIZE).ToString() +")";
                 return text;
             }
-        }
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Check whether this object contain the input object.
-        /// </summary>
-        /// <param name="l_obj">check object.</param>
-        /// <returns>if contains, return true.</returns>
-        public bool IsContaining(EcellObject l_obj)
-        {
-            if (l_obj.X < this.X || l_obj.Y < this.Y)
-                return false;
-            if (l_obj.CenterX > this.X + this.Width || CenterY > this.Y + this.Height)
-                return false;
-            return true;
         }
         #endregion
     }

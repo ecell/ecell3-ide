@@ -54,7 +54,7 @@ namespace EcellLib.PathwayWindow
         #region Fields
         protected PathwayControl m_view;
 
-        protected CanvasView m_set;
+        protected CanvasControl m_set;
 
         /// <summary>
         /// PropertyEditor. By using this, parameters for new object will be input.

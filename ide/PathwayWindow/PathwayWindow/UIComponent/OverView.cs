@@ -111,7 +111,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="reductionScale"></param>
         /// <param name="observedLayer"></param>
-        public void SetCanvas(CanvasView canvas)
+        public void SetCanvas(CanvasControl canvas)
         {
             // m_transparentNode
             m_transparentNode = PPath.CreateRectangle(-500, -500, 1300, 1300);
