@@ -1021,7 +1021,7 @@ namespace EcellLib.PathwayWindow
                     continue;
                 foreach(EcellObject child in eo.M_instances)
                 {
-                    dictKey = child.type + ":" + eo.key;
+                    dictKey = child.type + ":" + child.key;
                     if (objDict.ContainsKey(dictKey))
                         child.SetPosition(objDict[dictKey]);
                 }
