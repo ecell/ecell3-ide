@@ -5052,8 +5052,9 @@ namespace EcellLib
         /// <summary>
         /// Loads the project.
         /// </summary>
-        /// <param name="l_prjID">The project ID</param>
-        public void LoadProject(string l_prjID)
+        /// <param name="l_prjID">The load project ID</param>
+        /// <param name="l_prjFile">The load project file.</param>
+        public void LoadProject(string l_prjID, string l_prjFile)
         {
             List<EcellObject> l_passList = new List<EcellObject>();
             Project l_prj = null;
@@ -5069,96 +5070,83 @@ namespace EcellLib
                 {
                     throw new Exception(m_resources.GetString("ErrNullData"));
                 }
-                this.SetDefaultDir();
-                if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
-                {
-                    throw new Exception(m_resources.GetString("ErrBaseDir"));
-                }
-                //
-                // Loads the project.
-                //
-                string[] l_dirs = Directory.GetDirectories(this.m_defaultDir);
-                if (l_dirs == null || l_dirs.Length <= 0)
-                {
-                    throw new Exception(m_resources.GetString("ErrPrjDir"));
-                }
-                foreach (string l_dir in l_dirs)
-                {
-                    List<EcellData> l_ecellDataList = new List<EcellData>();
-                    if (!Path.GetFileName(l_dir).Equals(l_prjID))
-                    {
-                        continue;
-                    }
-                    if (Directory.Exists(l_dir + "\\dm"))
-                    {
 
-                    }
-                    string l_prjFile = l_dir + Util.s_delimiterPath + Util.s_fileProject;
-                    StreamReader l_reader = null;
-                    try
+                List<EcellData> l_ecellDataList = new List<EcellData>();
+                StreamReader l_reader = null;
+                try
+                {
+                    l_reader = new StreamReader(l_prjFile);
+                    string l_line = "";
+                    string l_comment = "";
+                    string l_parameter = null;
+                    while ((l_line = l_reader.ReadLine()) != null)
                     {
-                        l_reader = new StreamReader(l_prjFile);
-                        string l_line = null;
-                        string l_comment = null;
-                        string l_parameter = null;
-                        while ((l_line = l_reader.ReadLine()) != null)
+                        if (l_line.IndexOf(Util.s_textComment) == 0)
                         {
-                            if (l_line.IndexOf(Util.s_textComment) == 0)
+                            if (l_line.IndexOf(Util.s_delimiterEqual) != -1)
                             {
-                                if (l_line.IndexOf(Util.s_delimiterEqual) != -1)
-                                {
-                                    l_comment = l_line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
-                                }
-                                else
-                                {
-                                    l_comment = l_line.Substring(l_line.IndexOf(Util.s_textComment));
-                                }
+                                l_comment = l_line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
                             }
-                            else if (l_line.IndexOf(Util.s_textParameter) == 0)
+                            else
                             {
-                                if (l_line.IndexOf(Util.s_delimiterEqual) != -1)
-                                {
-                                    l_parameter = l_line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
-                                }
-                                else
-                                {
-                                    l_parameter = l_line.Substring(l_line.IndexOf(Util.s_textParameter));
-                                }
-                            }
-                            if (l_comment != null && l_parameter != null)
-                            {
-                                break;
+                                l_comment = l_line.Substring(l_line.IndexOf(Util.s_textComment));
                             }
                         }
-                        l_prj = new Project(l_prjID, l_comment, File.GetLastWriteTime(l_prjFile).ToString());
-                        this.m_projectList.Add(l_prj);
-                        l_ecellDataList.Add(new EcellData(Util.s_textComment, new EcellValue(l_comment), null));
-                        l_passList.Add(EcellObject.CreateObject(l_prjID, "", Util.s_xpathProject, "", l_ecellDataList));
-                        //
-                        // Initializes.
-                        //
-                        this.m_currentProjectID = l_prjID;
-                        this.m_currentParameterID = l_parameter;
-                        this.m_simulatorDic[l_prjID] = new WrappedSimulator(Util.GetDMDir(l_prjID));
-                        this.m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
-                        this.m_projectList.Add(new Project(l_prjID, l_comment, DateTime.Now.ToString()));
-                        this.m_loggerPolicyDic[l_prjID] = new Dictionary<string, LoggerPolicy>();
-                        this.m_stepperDic[l_prjID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
-                        this.m_systemDic[l_prjID] = new Dictionary<string, List<EcellObject>>();
-                        this.m_modelDic[l_prjID] = new List<EcellObject>();
-                        this.m_initialCondition[l_prjID]
-                            = new Dictionary<string, 
-                                Dictionary<string, Dictionary<string,Dictionary<string, double>>>>();
-                    }
-                    finally
-                    {
-                        if (l_reader != null)
+                        else if (l_line.IndexOf(Util.s_textParameter) == 0)
                         {
-                            l_reader.Close();
+                            if (l_line.IndexOf(Util.s_delimiterEqual) != -1)
+                            {
+                                l_parameter = l_line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
+                            }
+                            else
+                            {
+                                l_parameter = l_line.Substring(l_line.IndexOf(Util.s_textParameter));
+                            }
+                        }
+                        else if (!l_comment.Equals(""))
+                        {
+                            l_comment = l_comment + "\n" + l_line;
+                        }
+                        else if (l_line.IndexOf(Util.s_xpathProject) == 0)
+                        {
+                            if (l_line.IndexOf(Util.s_delimiterEqual) != -1)
+                            {
+                                l_prjID = l_line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
+                            }
+                            else
+                            {
+                                l_prjID = l_line.Substring(l_line.IndexOf(Util.s_textComment));
+                            }
                         }
                     }
-                    break;
+                    l_prj = new Project(l_prjID, l_comment, File.GetLastWriteTime(l_prjFile).ToString());
+                    this.m_projectList.Add(l_prj);
+                    l_ecellDataList.Add(new EcellData(Util.s_textComment, new EcellValue(l_comment), null));
+                    l_passList.Add(EcellObject.CreateObject(l_prjID, "", Util.s_xpathProject, "", l_ecellDataList));
+                    //
+                    // Initializes.
+                    //
+                    this.m_currentProjectID = l_prjID;
+                    this.m_currentParameterID = l_parameter;
+                    this.m_simulatorDic[l_prjID] = new WrappedSimulator(Util.GetDMDir(l_prjID));
+                    this.m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
+                    this.m_projectList.Add(new Project(l_prjID, l_comment, DateTime.Now.ToString()));
+                    this.m_loggerPolicyDic[l_prjID] = new Dictionary<string, LoggerPolicy>();
+                    this.m_stepperDic[l_prjID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
+                    this.m_systemDic[l_prjID] = new Dictionary<string, List<EcellObject>>();
+                    this.m_modelDic[l_prjID] = new List<EcellObject>();
+                    this.m_initialCondition[l_prjID]
+                        = new Dictionary<string,
+                            Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
                 }
+                finally
+                {
+                    if (l_reader != null)
+                    {
+                        l_reader.Close();
+                    }
+                }
+
                 if (l_prj == null)
                 {
                     throw new Exception(m_resources.GetString("ErrFindPrjFile") + " [" + Util.s_fileProject + "]");
@@ -5167,7 +5155,7 @@ namespace EcellLib
                 // Loads the model.
                 //
                 string l_modelDirName =
-                    this.m_defaultDir + Util.s_delimiterPath + l_prjID + Util.s_delimiterPath + Util.s_xpathModel;
+                    Path.GetDirectoryName(l_prjFile) + Util.s_delimiterPath + Util.s_xpathModel;
                 if (Directory.Exists(l_modelDirName))
                 {
                     string[] l_models = Directory.GetFileSystemEntries(
@@ -5203,8 +5191,8 @@ namespace EcellLib
                 // Loads the simulation parameter.
                 //
                 string l_simulationDirName =
-                    this.m_defaultDir + Util.s_delimiterPath +
-                    l_prjID + Util.s_delimiterPath + Util.s_xpathSimulation;
+                    Path.GetDirectoryName(l_prjFile) + Util.s_delimiterPath + Util.s_xpathSimulation;
+
                 if (Directory.Exists(l_simulationDirName))
                 {
                     string[] l_parameters = Directory.GetFileSystemEntries(
@@ -5279,7 +5267,7 @@ namespace EcellLib
                 {
                     this.m_pManager.DataAdd(l_passList);
                 }
-                m_aManager.AddAction(new LoadProjectAction(l_prjID));
+                m_aManager.AddAction(new LoadProjectAction(l_prjID, l_prjFile));
                 m_loadingProject = null;
             }
         }
@@ -6066,6 +6054,9 @@ namespace EcellLib
                 try
                 {
                     l_writer = new StreamWriter(l_prjFile);
+                    l_writer.WriteLine(
+                        Util.s_xpathProject + Util.s_delimiterSpace + Util.s_delimiterEqual + Util.s_delimiterSpace
+                        + l_thisPrj.M_prjName);
                     l_writer.WriteLine(
                         Util.s_textComment + Util.s_delimiterSpace + Util.s_delimiterEqual + Util.s_delimiterSpace
                             + l_thisPrj.M_comment);

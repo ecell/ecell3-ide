@@ -899,6 +899,10 @@ namespace EcellLib
         /// The load project ID.
         /// </summary>
         private string m_prjID;
+        /// <summary>
+        /// The load project file.
+        /// </summary>
+        private string m_prjFile;
         #endregion
 
         /// <summary>
@@ -912,9 +916,11 @@ namespace EcellLib
         /// The constructor for LoadProjectAction with initial parameters.
         /// </summary>
         /// <param name="prjID">The load project ID.</param>
-        public LoadProjectAction(string prjID)
+        /// <param name="prjFile">The load project file.</param>
+        public LoadProjectAction(string prjID, string prjFile)
         {
             m_prjID = prjID;
+            m_prjFile = prjFile;
             m_isUndoable = false;
         }
         /// <summary>
@@ -937,13 +943,16 @@ namespace EcellLib
             XmlNode child = node.Attributes.GetNamedItem("prjID");
             if (child == null) return;
             m_prjID = child.InnerText;
+            child = node.Attributes.GetNamedItem("prjID");
+            if (child == null) return;
+            m_prjFile = child.InnerText;
         }
         /// <summary>
         /// Execute to load the project using the information.
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().LoadProject(m_prjID);
+            DataManager.GetDataManager().LoadProject(m_prjID, m_prjFile);
             PluginManager.GetPluginManager().ChangeStatus(Util.LOADED);
         }
         /// <summary>

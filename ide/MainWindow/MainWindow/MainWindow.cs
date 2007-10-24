@@ -1015,15 +1015,7 @@ namespace EcellLib.MainWindow
 
             try
             {
-                List<Project> list = m_dManager.GetProjects(m_currentDir);
-                if (list != null)
-                {
-                    foreach (Project p in list)
-                    {
-                        string[] s = new string[] { p.M_prjName, p.M_updateTime, p.M_comment };
-                        m_openPrjDialog.dataGridView1.Rows.Add(s);
-                    }
-                }
+                m_openPrjDialog.CreateProjectTreeView(null, m_currentDir, false);
                 m_openPrjDialog.ShowDialog();
             }
             catch (Exception ex)
@@ -1057,6 +1049,36 @@ namespace EcellLib.MainWindow
         {
             try
             {
+                String prjID = m_openPrjDialog.OPPrjIDText.Text;
+                String comment = m_openPrjDialog.OPCommentText.Text;
+                String fileName = m_openPrjDialog.FileName;
+                if (fileName.EndsWith("eml"))
+                {
+                    m_dManager.NewProject(prjID, comment);
+                    m_project = prjID;
+                    m_isLoadProject = true;
+                    m_pManager.ChangeStatus(1);
+                    m_editCount = 0;
+                    LoadModel(fileName);
+
+                    m_openPrjDialog.Close();
+                    m_openPrjDialog.Dispose();
+                    m_openPrjDialog = null;
+                    return;
+                }
+                if (!!m_openPrjDialog.PrjID.Equals(prjID)
+                    ||!m_openPrjDialog.Comment.Equals(comment))
+                {
+                    File.WriteAllText(fileName, "Project = " + prjID + "\n", Encoding.Default);
+                    File.AppendAllText(fileName, "Comment = " + comment + "\n", Encoding.Default);
+                    File.AppendAllText(fileName, m_openPrjDialog.SimulationParam, Encoding.Default);
+                }
+                m_dManager.LoadProject(prjID, fileName);
+                m_isLoadProject = true;
+                m_project = prjID;
+                m_pManager.ChangeStatus(Util.LOADED);
+                m_editCount = 0;
+                /*
                 if (m_openPrjDialog.dataGridView1.SelectedRows.Count <= 0)
                 {
                     String mes = m_resources.GetString("ErrNoSelectPrj");
@@ -1069,6 +1091,7 @@ namespace EcellLib.MainWindow
                 m_project = (string)m_openPrjDialog.dataGridView1.CurrentRow.Cells["PrjName"].Value;
                 m_pManager.ChangeStatus(1);
                 m_editCount = 0;
+                 */
             }
             catch (Exception ex)
             {

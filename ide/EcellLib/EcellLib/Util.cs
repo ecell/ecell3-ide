@@ -189,7 +189,7 @@ namespace EcellLib
         /// <summary>
         /// Reserved XML path name for comment.
         /// </summary>
-        public const string s_textComment = "Commnet";
+        public const string s_textComment = "Comment";
         /// <summary>
         /// Reserved XML path name for default stepper.
         /// </summary>

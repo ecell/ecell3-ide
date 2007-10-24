@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -42,12 +43,228 @@ namespace EcellLib.MainWindow
     /// </summary>
     public partial class OpenProjectDialog : Form
     {
+        private string m_prjID = "";
+        private string m_fileName = "";
+        private string m_simName = "";
+        private string m_comment = "";
         /// <summary>
         /// Constructor.
         /// </summary>
         public OpenProjectDialog()
         {
             InitializeComponent();
+            OPOpenButton.Enabled = false;
+        }
+
+        /// <summary>
+        /// get the project ID.
+        /// </summary>
+        public string PrjID
+        {
+            get { return this.m_prjID; }
+        }
+
+        /// <summary>
+        /// get the project file name.
+        /// </summary>
+        public string FileName
+        {
+            get { return this.m_fileName; }
+        }
+
+        /// <summary>
+        /// get the simulation parameter for this project.
+        /// </summary>
+        public string SimulationParam
+        {
+            get { return this.m_simName; }
+        }
+
+        /// <summary>
+        /// get the comment of this project.
+        /// </summary>
+        public string Comment
+        {
+            get { return this.m_comment; }
+        }
+
+        /// <summary>
+        /// Create the project tree.
+        /// Add the project file and directory on path to node TreeNode.
+        /// </summary>
+        /// <param name="node">The current TreeNode.</param>
+        /// <param name="path">The current path.</param>
+        public void CreateProjectTreeView(TreeNode node, string path, bool isProject)
+        {
+            if (node == null)
+            {
+                node = new TreeNode(path);
+                node.Tag = null;
+                node.ImageIndex = 0;
+                node.SelectedImageIndex = node.ImageIndex;
+                OPPrjTreeView.Nodes.Add(node);
+            }
+
+            string prjInfo = path + Util.s_delimiterPath + "project.info";
+            if (File.Exists(prjInfo))
+            {
+                Project prj = GetProject(prjInfo);
+                TreeNode p = new TreeNode(prj.M_prjName);
+                p.Tag = prjInfo;
+                p.ImageIndex = 1;
+                p.SelectedImageIndex = p.ImageIndex;
+                node.Nodes.Add(p);
+                isProject = true;
+            }
+
+            if (isProject == false)
+            {
+                string[] files = Directory.GetFiles(path, "*.eml");
+                foreach (string file in files)
+                {
+                    string modelName = Path.GetFileNameWithoutExtension(file);
+                    TreeNode p = new TreeNode(modelName);
+                    p.Tag = file;
+                    p.ImageIndex = 2;
+                    p.SelectedImageIndex = p.ImageIndex;
+                    node.Nodes.Add(p);
+                }
+            }
+
+            string[] dirs = Directory.GetDirectories(path);
+            foreach (string dir in dirs)
+            {
+                string name = Path.GetFileNameWithoutExtension(dir);
+                if (name.Equals("Model") || name.Equals("Simulation")) continue; 
+                TreeNode p = new TreeNode(name);
+                p.Tag = null;
+                p.ImageIndex = 0;
+                p.SelectedImageIndex = p.ImageIndex;
+                node.Nodes.Add(p);
+
+                CreateProjectTreeView(p, dir, isProject);
+            }
+        }
+
+        /// <summary>
+        /// Event to click the node by mouse.
+        /// </summary>
+        /// <param name="sender">TreeView.</param>
+        /// <param name="e">TreeNodeMouseClickEventArgs.</param>
+        private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            DataManager manager = DataManager.GetDataManager();
+            TreeView t = (TreeView)sender;
+            if (t == null) return;
+            TreeNode node = t.GetNodeAt(e.X, e.Y);
+            if (node == null) return;
+            if (node.Tag == null)
+            {
+                OPPrjIDText.Text = "";
+                OPDateText.Text = "";
+                OPCommentText.Text = "";
+
+                OPPrjIDText.BackColor = Color.Silver;
+                OPDateText.BackColor = Color.Silver;
+                OPCommentText.BackColor = Color.Silver;
+
+                OPOpenButton.Enabled = false;
+                OPCommentText.ReadOnly = true;
+                OPPrjIDText.ReadOnly = true;
+                m_fileName = "";
+                return;
+            }
+
+            String filename = node.Tag as String;
+            if (filename == null) return;
+
+            if (filename.EndsWith("eml"))
+            {
+                m_fileName = filename;
+                OPPrjIDText.Text = "project";
+                OPDateText.Text = "";
+                OPCommentText.Text = "";
+
+                OPPrjIDText.BackColor = Color.White;
+                OPDateText.BackColor = Color.Silver;
+                OPCommentText.BackColor = Color.White;
+
+                OPOpenButton.Enabled = true;
+                OPCommentText.ReadOnly = false;
+                OPPrjIDText.ReadOnly = false;
+            }
+            else
+            {
+                Project prj = GetProject(filename);
+                m_fileName = filename;
+                OPPrjIDText.Text = prj.M_prjName;
+                OPDateText.Text = prj.M_updateTime;
+                OPCommentText.Text = prj.M_comment;
+
+                OPPrjIDText.BackColor = Color.White;
+                OPDateText.BackColor = Color.White;
+                OPCommentText.BackColor = Color.White;
+
+                OPOpenButton.Enabled = true;
+                OPCommentText.ReadOnly = false;
+                OPPrjIDText.ReadOnly = false;
+            }
+        }
+
+        /// <summary>
+        /// Get the project information from the project file.
+        /// </summary>
+        /// <param name="fileName">the project file name.</param>
+        /// <returns>project information.</returns>
+        private Project GetProject(string fileName)
+        {
+            if (!File.Exists(fileName))
+            {
+                return null;
+            }
+            string line = "";
+            string comment = "";
+
+            string dirPathName = Path.GetDirectoryName(fileName);
+            string prjName = Path.GetFileName(dirPathName);
+            StreamReader l_reader = new StreamReader(fileName);
+            while ((line = l_reader.ReadLine()) != null)
+            {
+                if (line.IndexOf(Util.s_textComment) == 0)
+                {
+                    if (line.IndexOf(Util.s_delimiterEqual) != -1)
+                    {
+                        comment = line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
+                    }
+                    else
+                    {
+                        comment = line.Substring(line.IndexOf(Util.s_textComment));
+                    }
+                }
+                else if (line.IndexOf(Util.s_textParameter) == 0)
+                {
+                    m_simName = line;
+                }
+                else if (!comment.Equals(""))
+                {
+                    comment = comment + "\n" + line;
+                }
+                else if (line.IndexOf(Util.s_xpathProject) == 0)
+                {
+                    if (line.IndexOf(Util.s_delimiterEqual) != -1)
+                    {
+                        prjName = line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
+                    }
+                    else
+                    {
+                        prjName = line.Substring(line.IndexOf(Util.s_textComment));
+                    }
+                }
+            }
+            l_reader.Close();
+            m_comment = comment;
+            m_prjID = prjName;
+            return new Project(prjName, comment, File.GetLastWriteTime(fileName).ToString());
         }
     }
 }

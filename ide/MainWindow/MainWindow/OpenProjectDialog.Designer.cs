@@ -57,25 +57,33 @@ namespace EcellLib.MainWindow
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OpenProjectDialog));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.OPOpenButton = new System.Windows.Forms.Button();
             this.OPCancelButton = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.PrjName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.OPPrjTreeView = new System.Windows.Forms.TreeView();
+            this.OPImageList = new System.Windows.Forms.ImageList(this.components);
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.OPPrjIDText = new System.Windows.Forms.TextBox();
+            this.OPDateText = new System.Windows.Forms.TextBox();
+            this.OPCommentText = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.dataGridView1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // tableLayoutPanel2
@@ -98,41 +106,71 @@ namespace EcellLib.MainWindow
             this.OPCancelButton.Name = "OPCancelButton";
             this.OPCancelButton.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // tableLayoutPanel3
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            resources.ApplyResources(this.dataGridView1, "dataGridView1");
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PrjName,
-            this.Date,
-            this.Comment});
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.Controls.Add(this.OPPrjTreeView, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 1, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             // 
-            // PrjName
+            // OPPrjTreeView
             // 
-            resources.ApplyResources(this.PrjName, "PrjName");
-            this.PrjName.Name = "PrjName";
-            this.PrjName.ReadOnly = true;
+            resources.ApplyResources(this.OPPrjTreeView, "OPPrjTreeView");
+            this.OPPrjTreeView.ImageList = this.OPImageList;
+            this.OPPrjTreeView.Name = "OPPrjTreeView";
+            this.OPPrjTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             // 
-            // Date
+            // OPImageList
             // 
-            resources.ApplyResources(this.Date, "Date");
-            this.Date.Name = "Date";
-            this.Date.ReadOnly = true;
+            this.OPImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("OPImageList.ImageStream")));
+            this.OPImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.OPImageList.Images.SetKeyName(0, "folder.png");
+            this.OPImageList.Images.SetKeyName(1, "nav_up_right_blue.png");
+            this.OPImageList.Images.SetKeyName(2, "nav_up_right_green.png");
             // 
-            // Comment
+            // tableLayoutPanel4
             // 
-            resources.ApplyResources(this.Comment, "Comment");
-            this.Comment.Name = "Comment";
-            this.Comment.ReadOnly = true;
+            resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
+            this.tableLayoutPanel4.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.label2, 0, 3);
+            this.tableLayoutPanel4.Controls.Add(this.label3, 0, 6);
+            this.tableLayoutPanel4.Controls.Add(this.OPPrjIDText, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.OPDateText, 0, 4);
+            this.tableLayoutPanel4.Controls.Add(this.OPCommentText, 0, 7);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // OPPrjIDText
+            // 
+            resources.ApplyResources(this.OPPrjIDText, "OPPrjIDText");
+            this.OPPrjIDText.Name = "OPPrjIDText";
+            this.OPPrjIDText.ReadOnly = true;
+            // 
+            // OPDateText
+            // 
+            resources.ApplyResources(this.OPDateText, "OPDateText");
+            this.OPDateText.Name = "OPDateText";
+            this.OPDateText.ReadOnly = true;
+            // 
+            // OPCommentText
+            // 
+            resources.ApplyResources(this.OPCommentText, "OPCommentText");
+            this.OPCommentText.Name = "OPCommentText";
+            this.OPCommentText.ReadOnly = true;
             // 
             // OpenProjectDialog
             // 
@@ -144,7 +182,9 @@ namespace EcellLib.MainWindow
             this.Name = "OpenProjectDialog";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -161,12 +201,30 @@ namespace EcellLib.MainWindow
         /// Button to close this window.
         /// </summary>
         public System.Windows.Forms.Button OPCancelButton;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
         /// <summary>
-        /// DataGridView to display the project list.
+        /// TreeView of project.
         /// </summary>
-        public System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PrjName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
+        public System.Windows.Forms.TreeView OPPrjTreeView;
+        /// <summary>
+        /// ImageList of OPPrjTreeView.
+        /// </summary>
+        public System.Windows.Forms.ImageList OPImageList;
+        /// <summary>
+        /// TextBox to input the comment of project.
+        /// </summary>
+        public System.Windows.Forms.TextBox OPCommentText;
+        /// <summary>
+        /// TextBox to input the update date.
+        /// </summary>
+        public System.Windows.Forms.TextBox OPDateText;
+        /// <summary>
+        /// TextBox to input the project id.
+        /// </summary>
+        public System.Windows.Forms.TextBox OPPrjIDText;
     }
 }
