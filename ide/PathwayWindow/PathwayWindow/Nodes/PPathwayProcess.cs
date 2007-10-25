@@ -535,7 +535,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="value">EcellValue</param>
+        /// <param name="processKey">The key of process.</param>
+        /// <param name="er">The reference of EcellObject.</param>
         public EdgeInfo(string processKey, EcellReference er)
         {
             m_proKey = processKey;

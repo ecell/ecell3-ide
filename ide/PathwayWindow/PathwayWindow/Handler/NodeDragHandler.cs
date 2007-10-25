@@ -48,7 +48,9 @@ using UMD.HCIL.Piccolo.Util;
 
 namespace EcellLib.PathwayWindow.Handler
 {
-
+    /// <summary>
+    /// EcventHandler when the node object is dragged.
+    /// </summary>
     public class NodeDragHandler : PDragEventHandler
     {
         #region Fields

@@ -82,7 +82,7 @@
       <HintPath>$(IRONPYTHONHOME)\IronPython.dll</HintPath>
     </Reference>
     <Reference Include="EcellLib" />
-    <Reference Include="SessionManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
+    <Reference Include="SessionManager" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />

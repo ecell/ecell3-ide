@@ -134,6 +134,10 @@ namespace EcellLib.DistributeLayout
             return LayoutType.Selected;
         }
 
+        /// <summary>
+        /// Get the menu text of this layout.
+        /// </summary>
+        /// <returns></returns>
         public string GetMenuText()
         {
             ComponentResourceManager crm = new ComponentResourceManager(typeof(DistributeLayout));

@@ -94,6 +94,7 @@ namespace EcellLib.MainWindow
         /// </summary>
         /// <param name="node">The current TreeNode.</param>
         /// <param name="path">The current path.</param>
+        /// <param name="isProject">The flag whether the current path is in the project directory.</param>
         public void CreateProjectTreeView(TreeNode node, string path, bool isProject)
         {
             if (node == null)

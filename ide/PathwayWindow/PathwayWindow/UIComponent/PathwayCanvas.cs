@@ -54,6 +54,9 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// CanvasView to which this PathwayCanvas belongs
         /// </summary>
         protected CanvasControl m_canvas = null;
+        /// <summary>
+        /// PathwayControl to control the PathwayView.
+        /// </summary>
         protected PathwayControl m_con = null;
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
 

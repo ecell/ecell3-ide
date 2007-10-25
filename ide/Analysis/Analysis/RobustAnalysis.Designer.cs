@@ -63,6 +63,12 @@
             this.OMinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ODiffColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ORateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.RAMaxFreqText = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.RAMinFreqText = new System.Windows.Forms.TextBox();
             this.robustTabControl.SuspendLayout();
             this.AnalysisTab.SuspendLayout();
             this.RAAnalysisTableLayout.SuspendLayout();
@@ -75,6 +81,8 @@
             this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RAParamGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RAObservGridView)).BeginInit();
+            this.tableLayoutPanel6.SuspendLayout();
+            this.tableLayoutPanel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // robustTabControl
@@ -183,8 +191,10 @@
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.RAParamGridView, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.RAObservGridView, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.RAParamGridView, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.RAObservGridView, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel6, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel7, 0, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // tableLayoutPanel2
@@ -329,6 +339,40 @@
             resources.ApplyResources(this.ORateColumn, "ORateColumn");
             this.ORateColumn.Name = "ORateColumn";
             // 
+            // tableLayoutPanel6
+            // 
+            resources.ApplyResources(this.tableLayoutPanel6, "tableLayoutPanel6");
+            this.tableLayoutPanel6.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.RAMaxFreqText, 1, 0);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // RAMaxFreqText
+            // 
+            resources.ApplyResources(this.RAMaxFreqText, "RAMaxFreqText");
+            this.RAMaxFreqText.Name = "RAMaxFreqText";
+            // 
+            // tableLayoutPanel7
+            // 
+            resources.ApplyResources(this.tableLayoutPanel7, "tableLayoutPanel7");
+            this.tableLayoutPanel7.Controls.Add(this.label4, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.RAMinFreqText, 1, 0);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // RAMinFreqText
+            // 
+            resources.ApplyResources(this.RAMinFreqText, "RAMinFreqText");
+            this.RAMinFreqText.Name = "RAMinFreqText";
+            // 
             // RobustAnalysis
             // 
             resources.ApplyResources(this, "$this");
@@ -351,6 +395,10 @@
             this.tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RAParamGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RAObservGridView)).EndInit();
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
+            this.tableLayoutPanel7.ResumeLayout(false);
+            this.tableLayoutPanel7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -424,5 +472,17 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn JudgeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn XColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn YColumn;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.Label label1;
+        /// <summary>
+        /// TextBox to set the max frequency for FFT.
+        /// </summary>
+        public System.Windows.Forms.TextBox RAMaxFreqText;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        private System.Windows.Forms.Label label4;
+        /// <summary>
+        /// TextBox to set the min frequency for FFT.
+        /// </summary>
+        public System.Windows.Forms.TextBox RAMinFreqText;
     }
 }

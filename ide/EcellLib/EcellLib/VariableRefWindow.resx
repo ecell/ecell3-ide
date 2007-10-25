@@ -127,6 +127,9 @@
   <data name="name.HeaderText" xml:space="preserve">
     <value>name</value>
   </data>
+  <data name="name.Width" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
   <metadata name="FullID.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -139,11 +142,17 @@
   <data name="Coeff.HeaderText" xml:space="preserve">
     <value>Coefficient</value>
   </data>
+  <data name="Coeff.Width" type="System.Int32, mscorlib">
+    <value>70</value>
+  </data>
   <metadata name="isAccessor.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="isAccessor.HeaderText" xml:space="preserve">
     <value>Accessor</value>
+  </data>
+  <data name="isAccessor.Width" type="System.Int32, mscorlib">
+    <value>70</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="dgv.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">

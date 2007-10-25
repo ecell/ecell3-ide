@@ -433,7 +433,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Make space for child rectangle.
         /// Extend current space to contain given rectangle.
         /// </summary>
-        /// <param name="rect"></param>
+        /// <param name="obj">The child object.</param>
         public void MakeSpace(PPathwayObject obj)
         {
             // Offset position of given object.
@@ -676,34 +676,76 @@ namespace EcellLib.PathwayWindow.Nodes
         #endregion
 
         #region nouse
+        /// <summary>
+        /// Delete this object.
+        /// </summary>
         public override void Delete()
         {
         }
+
+        /// <summary>
+        /// Change whether this object is high light.
+        /// </summary>
+        /// <param name="highlight">the flag whether this object is high light.</param>
+        /// <returns></returns>
         public override bool HighLighted(bool highlight)
         {
             return true;
         }
+
+        /// <summary>
+        /// Initialize this object.
+        /// </summary>
         public override void Initialize()
         {
         }
+
+        /// <summary>
+        /// The properties of this object is changed.
+        /// </summary>
+        /// <param name="ecellObj"></param>
         public override void DataChanged(EcellObject ecellObj)
         {
         }
+
+        /// <summary>
+        /// This object is deleted.
+        /// </summary>
         public override void DataDeleted()
         {
         }
+
+        /// <summary>
+        /// This object is selected.
+        /// </summary>
         public override void SelectChanged()
         {
         }
+
+        /// <summary>
+        /// The simulation start.
+        /// </summary>
         public override void Start()
         {
         }
+
+        /// <summary>
+        /// The property of this object is changed.
+        /// </summary>
         public override void Change()
         {
         }
+
+        /// <summary>
+        /// The simulation stop.
+        /// </summary>
         public override void Stop()
         {
         }
+
+        /// <summary>
+        /// End to edit this object.
+        /// </summary>
         public override void End()
         {
         }

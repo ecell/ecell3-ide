@@ -175,8 +175,8 @@ namespace EcellLib.PathwayWindow
         /// Method to get a EcellObject.
         /// </summary>
         /// <param name="modelID">the model of object.</param>
-        /// <param name="modelID">the key of object.</param>
-        /// <param name="modelID">the type of object.</param>
+        /// <param name="key">the key of object.</param>
+        /// <param name="type">the type of object.</param>
         /// <returns>the list of EcellObject.</returns>
         public EcellObject GetEcellObject(string modelID, string key, string type)
         {
@@ -217,13 +217,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="oldKey">the key of object before edit.</param>
         /// <param name="newKey">the key of object after edit.</param>
-        /// <param name="type">the type of object.</param>
-        /// <param name="x">x coordinate of object.</param>
-        /// <param name="y">y coordinate of object.</param>
-        /// <param name="offsetx">x offset of object.</param>
-        /// <param name="offsety">y offset of object.</param>
-        /// <param name="width">width of object.</param>
-        /// <param name="height">height of object.</param>
+        /// <param name="eo">The EcellObject changed the property.</param>
         /// <param name="isAnchor">Whether this action is an anchor or not.</param>
         public void NotifyDataChanged(
             string oldKey,
@@ -659,8 +653,9 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Get a temporary key of EcellObject.
         /// </summary>
-        /// <param name="type">The data type of EcellObject.</param>
-        /// <param name="key">The ID of parent system.</param>
+        /// <param name="modelID">The mode ID of EcellObject.</param>
+        /// <param name="type">The ID of parent system.</param>
+        /// <param name="systemID">The system ID include this object.</param>
         /// <returns>"TemporaryID"</returns> 
         public string GetTemporaryID(string modelID, string type, string systemID)
         {

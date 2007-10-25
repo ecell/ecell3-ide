@@ -120,7 +120,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Draw Line.
         /// </summary>
-        /// <param name="type">LineType</param>
         public void DrawLine()
         {
             SetDirection();
@@ -143,7 +142,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Draw Line.
         /// </summary>
-        /// <param name="type">LineType</param>
         public void SetDirection()
         {
             switch (this.m_edgeInfo.Direction)
@@ -203,9 +201,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         /// <param name="arrowApex">an apex of an arrow</param>
         /// <param name="guidePoint">an arrow line goes direction from arrowApex to guidePoint</param>
-        /// <param name="arrowRadianA">angle of skirt of an arrow head</param>
-        /// <param name="arrowRadianB">angle of skirt of an arrow head</param>
-        /// <param name="arrowLength">length of an arrow head</param>
         /// <returns></returns>
         public static PointF[] GetArrowPoints(PointF arrowApex,
                                               PointF guidePoint)

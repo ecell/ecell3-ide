@@ -39,6 +39,9 @@ using UMD.HCIL.Piccolo.Event;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// UserControl class to display the list of layer.
+    /// </summary>
     public class LayerView: DockContent
     {
         /// <summary>

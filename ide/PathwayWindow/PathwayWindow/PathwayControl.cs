@@ -423,8 +423,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Create pathway canvas.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="modelID">the model ID.</param>
         public void CreateCanvas(string modelID)
         {
             // Clear current canvas (TODO: Remove when support multiple canvas).
@@ -448,15 +447,11 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Add new object to this canvas.
         /// </summary>
-        /// <param name="canvasName">name of canvas</param>
+        /// <param name="modelID">name of model</param>
         /// <param name="systemName">name of system</param>
-        /// <param name="cType">type of component</param>
-        /// <param name="cs">ComponentSetting</param>
         /// <param name="eo">EcellObject</param>
-        /// <param name="needToNotify">whether notification is needed or not</param>
         /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
         /// only the last action's isAnchor is true, the others' isAnchor is false</param>
-        /// <param name="valueStr">String for System label.</param>
         public void AddNewObj(string modelID,
             string systemName,
             EcellObject eo,
@@ -506,7 +501,8 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Get ComponentSetting.
         /// </summary>
-        /// <param name="cType">ComponentType</param>
+        /// <param name="type">ComponentType</param>
+        /// <returns>ComponentSetting.</returns>
         private ComponentSetting GetComponentSetting(string type)
         {
             ComponentType cType = ComponentManager.ParseComponentKind(type);
@@ -524,7 +520,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Get Popup Menus.
         /// </summary>
-        /// <param name="cType">ComponentType</param>
+        ///<returns>ContextMenu.</returns>
         public ContextMenuStrip GetPopUpMenues()
         {
             // Preparing a context menu.
@@ -1151,8 +1147,8 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Set position of EcellObject.
         /// </summary>
-        /// <param name="canvas"></param>
-        /// <param name="eo"></param>
+        /// <param name="modelID">The model ID.</param>
+        /// <param name="eo">The EcellObject set in canvas.</param>
         public void SetPosition(string modelID, EcellObject eo)
         {
             if(SYSTEM_STRING.Equals(eo.type))
@@ -1298,8 +1294,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Notify DataDelete event to outsite.
         /// </summary>
-        /// <param name="key">the key of deleted object.</param>
-        /// <param name="type">the type of deleted object.</param>
+        /// <param name="eo">the deleted object.</param>
         /// <param name="isAnchor">the type of deleted object.</param>
         public void NotifyDataDelete(EcellObject eo, bool isAnchor)
         {
@@ -1778,6 +1773,11 @@ namespace EcellLib.PathwayWindow
             }
         }
 
+        /// <summary>
+        /// Get the list of system in the target mode.
+        /// </summary>
+        /// <param name="modelID">The model ID.</param>
+        /// <returns>The list of system.</returns>
         public List<EcellObject> GetSystemList(string modelID)
         {
             List<EcellObject> systemList = new List<EcellObject>();
@@ -1786,6 +1786,11 @@ namespace EcellLib.PathwayWindow
             return systemList;
         }
 
+        /// <summary>
+        /// Get the list of EcellObject in the target model.
+        /// </summary>
+        /// <param name="modelID">the model ID.</param>
+        /// <returns>the list of EcellObject.</returns>
         public List<EcellObject> GetNodeList(string modelID)
         {
             List<EcellObject> nodeList = new List<EcellObject>();
@@ -1801,7 +1806,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="modelID">The model ID before value change.</param>
         /// <param name="key">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
-        /// <param name="data">Changed value of object.</param>
+        /// <param name="eo">Changed value of object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject eo)
         {
             // Select Canvas

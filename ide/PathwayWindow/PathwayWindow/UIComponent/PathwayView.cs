@@ -39,6 +39,9 @@ using UMD.HCIL.Piccolo.Event;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// Control class to display pathway.
+    /// </summary>
     public class PathwayView: DockContent
     {
         #region Fields
@@ -78,6 +81,9 @@ namespace EcellLib.PathwayWindow.UIComponent
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Clear the information managed by this object.
+        /// </summary>
         public void Clear()
         {
             m_tabControl.TabPages.Clear();

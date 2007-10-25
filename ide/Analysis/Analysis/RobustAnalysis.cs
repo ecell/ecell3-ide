@@ -36,10 +36,13 @@ using System.Drawing;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 
-using ZedGraph;
 using SessionManager;
+
+using WeifenLuo.WinFormsUI.Docking;
+using ZedGraph;
+using MathNet.Numerics;
+using MathNet.Numerics.Transformations;
 
 namespace EcellLib.Analysis
 {
@@ -326,27 +329,33 @@ namespace EcellLib.Analysis
             {
                 if (m_manager.SessionList[jobid].Status != JobStatus.FINISHED)
                     continue;
-
+                double x = m_manager.ParameterDic[jobid].GetParameter(xPath);
+                double y = m_manager.ParameterDic[jobid].GetParameter(yPath);
+                bool isOK = true;
                 foreach (JudgementParam p in judgeList)
                 {
                     Dictionary<double, double> logList = 
                         m_manager.SessionList[jobid].GetLogData(p.Path);
-                    double x = m_manager.ParameterDic[jobid].GetParameter(xPath);
-                    double y = m_manager.ParameterDic[jobid].GetParameter(yPath);
 
                     bool rJudge = JudgementRange(logList, p.Max, p.Min, p.Difference);
                     if (rJudge == false)
                     {
-                        AddJudgeData(jobid, x, y, false);
-                        continue;
+                        isOK = false;
+                        break;
                     }
-                    AddJudgeData(jobid, x, y, true);
+                    bool pJudge = JudgementFFT(logList, p.Rate);
+                    if (pJudge == false)
+                    {
+                        isOK = false;
+                        break;
+                    }                
                 }
+                AddJudgeData(jobid, x, y, isOK);
             }
         }
 
         /// <summary>
-        /// Judgement the range of log data for target property.
+        /// Judge the range of log data for target property.
         /// </summary>
         /// <param name="resDic">log data.</param>
         /// <param name="max">the maximum data of log data.</param>
@@ -377,16 +386,44 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// 
+        /// judge the FFT result for log data.
         /// </summary>
-        /// <param name="resDic"></param>
-        /// <param name="rate"></param>
-        /// <param name="winSize"></param>
-        /// <returns></returns>
-        private bool JudgementFFT(Dictionary<double, double> resDic, double rate, double winSize)
+        /// <param name="resDic">log data.</param>
+        /// <param name="rate">FFT rate.</param>
+        /// <returns>if all judgement is ok, return true.</returns>
+        private bool JudgementFFT(Dictionary<double, double> resDic, double rate)
         {
-            // not implement
-            return true;
+            double maxFreq = Convert.ToDouble(RAMaxFreqText.Text);
+            double minFreq = Convert.ToDouble(RAMinFreqText.Text);
+            ComplexFourierTransformation cft = new ComplexFourierTransformation();
+            int size = 4;
+            while (true)
+            {
+                if (resDic.Count <= size) break;
+                size = size * 2;
+            }
+            double[] data = new double[size * 2];
+            int i = 0;
+            foreach(double d in resDic.Keys)
+            {
+                data[i*2] = resDic[d];
+                data[i*2 + 1] = 0.0;
+                i++;
+            }
+
+            cft.Convention = TransformationConvention.Matlab; // so we can check MATLAB consistency
+            cft.TransformForward(data);
+
+            int count = 0;
+            for (int j = 0; j < size; j++)
+            {
+                double d = Math.Sqrt(data[j * 2] * data[j * 2] + data[j * 2 + 1] * data[j * 2 + 1]);
+                if (maxFreq > d && minFreq < d) count++;
+            }
+            if ((double)count / (double)resDic.Count > rate)
+                return true;
+
+            return false;
         }
 
         /// <summary>
@@ -862,7 +899,7 @@ namespace EcellLib.Analysis
                     }
                     r.Cells.Add(c4);
                     DataGridViewTextBoxCell c5 = new DataGridViewTextBoxCell();
-                    c5.Value = 0.0;
+                    c5.Value = 0.5;
                     r.Cells.Add(c5);
                     r.Tag = t;
                     AssignObservPopupMenu(r);
@@ -936,6 +973,7 @@ namespace EcellLib.Analysis
 
             base.WndProc(ref m);
         }
+
     }
 
     /// <summary>

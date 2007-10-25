@@ -49,9 +49,12 @@ namespace EcellLib.PathwayWindow.Nodes
     {
         #region Fields(readonly)
         /// <summary>
-        /// Font size for text.
+        /// The default width of object.
         /// </summary>
         public static readonly float DEFAULT_WIDTH = 60;
+        /// <summary>
+        /// The default height of object.
+        /// </summary>
         public static readonly float DEFAULT_HEIGHT = 40;
         #endregion
 

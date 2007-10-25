@@ -64,7 +64,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\bin\EcellLib.dll</HintPath>
     </Reference>
-    <Reference Include="SessionManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86" />
+    <Reference Include="MathNet.Iridium, Version=2007.3.8.35795, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\MathNet.Iridium.dll</HintPath>
+    </Reference>
+    <Reference Include="SessionManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\bin\SessionManager.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />

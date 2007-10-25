@@ -162,7 +162,7 @@ namespace EcellLib.AlignLayout
         /// <summary>
         /// Get aligned value.
         /// </summary>
-        /// <param name="nodeList">List</param>
+        /// <param name="rect">List</param>
         /// <param name="align">Alignment</param>
         /// <returns>float</returns>
         private float GetAlignValue(RectangleF rect, Alignment align)

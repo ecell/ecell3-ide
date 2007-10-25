@@ -87,39 +87,6 @@ namespace EcellLib.PathwayWindow.Handler
             get { return m_view; }
             set { m_view = value; }
         }
-		/// <summary>
-		/// Gets or sets the minimum view magnification factor that this event handler is
-		/// bound by.
-		/// </summary>
-		/// <value>The minimum view magnification factor.</value>
-		/// <remarks>
-		/// When this property is set the camera is left at its current scale evem if the
-		/// value is larger than the current scale.
-		/// <para>
-		/// The value must be greater than 0.
-		/// </para>
-		/// </remarks>
-		/*public virtual float MinScale {
-			get { return m_minScale; }
-			set {m_minScale = value; }
-		}*/
-
-		/// <summary>
-		/// Gets or sets the maximum view magnification factor that this event handler is
-		/// bound by.
-		/// </summary>
-		/// <value>The maximum view magnification factor.</value>
-		/// <remarks>
-		/// When this property is set the camera is left at its current scale even if
-		/// the value is smaller than the current scale.
-		/// <para>
-		/// The value must be greater than 0.
-		/// </para>
-		/// </remarks>
-		/*public virtual float MaxScale {
-			get { return m_maxScale; }
-			set {m_maxScale = value; }
-		}*/
         #endregion
 	    
         /// <summary>
@@ -180,6 +147,11 @@ namespace EcellLib.PathwayWindow.Handler
 			camera.ScaleViewBy(scaleDelta, m_viewZoomPoint.X, m_viewZoomPoint.Y);
 		}
 
+        /// <summary>
+        /// Event to drag the node with Zoom mode.
+        /// </summary>
+        /// <param name="sender">PathwayCanvas.</param>
+        /// <param name="e">PInputEventArgs.</param>
         protected override void OnDrag(object sender, PInputEventArgs e)
         {
             base.OnDrag(sender, e);

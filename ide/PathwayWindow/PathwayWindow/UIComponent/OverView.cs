@@ -39,6 +39,9 @@ using System.Windows.Forms;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// Control class to display the overview of pathway.
+    /// </summary>
     public class OverView: DockContent
     {
         #region Fields
@@ -71,10 +74,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="reductionScale"></param>
-        /// <param name="observedLayer"></param>
-        /// <param name="mainCamera"></param>
-        /// <param name="area"></param>
         public OverView()
         {
             InitializeComponent();
@@ -109,8 +108,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <summary>
         /// Set PathwayCanvas.
         /// </summary>
-        /// <param name="reductionScale"></param>
-        /// <param name="observedLayer"></param>
+        /// <param name="canvas">The display canvas.</param>
         public void SetCanvas(CanvasControl canvas)
         {
             // m_transparentNode

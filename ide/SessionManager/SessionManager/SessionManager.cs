@@ -781,7 +781,6 @@ namespace SessionManager
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
         public void RunSimParameterRange(string topDir, string modelName, int num, double count, bool isStep)
         {
-            m_paramerDic.Clear();
             DataManager manager = DataManager.GetDataManager();
             List<EcellObject> sysList = manager.GetData(modelName, null);
             Dictionary<string, double> paramDic = new Dictionary<string, double>();

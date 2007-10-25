@@ -53,7 +53,6 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="mode">Mode of this handle (select, pan, etc.)</param>
         /// <param name="handleID">ID of this handle</param>
-        /// <param name="csID">ID of component setting</param>
         public Handle(Mode mode, int handleID)
         {
             this.m_mode = mode;

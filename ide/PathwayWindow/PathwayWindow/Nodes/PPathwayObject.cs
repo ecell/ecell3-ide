@@ -70,6 +70,9 @@ namespace EcellLib.PathwayWindow.Nodes
         #endregion
 
         #region Fields
+        /// <summary>
+        /// Font size of node object.
+        /// </summary>
         protected static readonly int m_nodeTextFontSize = 10;
         /// <summary>
         /// From this ComponentSetting, this object was created.
@@ -683,7 +686,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <para>
         /// <b>Performance Note</b>:  For some paths, this method can be very slow.  This is due
         /// to the implementation of IsVisible.  The problem usually occurs when many lines are
-        /// joined at very steep angles.  See <see cref="PEcellProcess">PProcess Overview</see> for workarounds.
+        /// joined at very steep angles.  
         /// </para>
         /// </remarks>
         /// <param name="bounds">The rectangle to check for intersection.</param>
@@ -724,7 +727,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <para>
         /// <b>Performance Note</b>:  For some paths, this method can be very slow.  This is due
         /// to the implementation of IsVisible.  The problem usually occurs when many lines are
-        /// joined at very steep angles.  See <see cref="PEcellProcess">PProcess Overview</see> for workarounds.
+        /// joined at very steep angles.  
         /// </para>
         /// </remarks>
         /// <param name="bounds">The rectangle to check for intersection.</param>

@@ -40,8 +40,17 @@ namespace EcellLib.PathwayWindow
     public class ComponentManager
     {
         #region Constractor
+        /// <summary>
+        /// The default name of system.
+        /// </summary>
         public const string DEFAULT_SYSTEM_NAME = "DefaultSystem";
+        /// <summary>
+        /// The default name of process.
+        /// </summary>
         public const string DEFAULT_PROCESS_NAME = "DefaultProcess";
+        /// <summary>
+        /// The default name of variable.
+        /// </summary>
         public const string DEFAULT_VARIABLE_NAME = "DefaultVariable";
         #endregion
         #region Fields

@@ -42,10 +42,6 @@ namespace EcellLib.GridLayout
         /// </summary>
         private static float m_naturalLength = 4;
 
-        /// <summary>
-        /// margin for a system. a node can't be put within this length from system's bound
-        /// </summary>
-        private static float m_defSystemMargin = 70;
 
         /// <summary>
         /// initial temperature (for simulated annealing)
@@ -183,7 +179,7 @@ namespace EcellLib.GridLayout
         ///     This matrix contains node relation.
         ///     If relationMatrix[1,3] is true, nodeElements[1] and nodeElements[3] are connected in a pathway. 
         /// <param name="nodeIndex">A node of nodeElements at nodeIndex position, will be moved</param>
-        /// <param name="nodeElements">An array of all nodes</param>
+        /// <param name="nodeList">An array of all nodes</param>
         /// <returns></returns>
         private float CalculateEnergy(int[,] relationMatrix, int nodeIndex, List<EcellObject> nodeList)
         {
@@ -213,7 +209,7 @@ namespace EcellLib.GridLayout
         /// If two nodes have totally no relation (if start from one node, never arrive another node), relationMatrix[i,j] = -1
         /// relationMatrix[i,i] = 0 means that length between a node and the same node is zero, off course
         /// </summary>
-        /// <param name="nodeElements">relation of these nodes will be checked</param>
+        /// <param name="nodeList">relation of these nodes will be checked</param>
         /// <returns>relationMatrix, described above</returns>
         private int[,] CreateRelationMatrix(List<EcellObject> nodeList)
         {
@@ -325,8 +321,8 @@ namespace EcellLib.GridLayout
         /// <summary>
         /// Layout systems
         /// </summary>
-        /// <param name="systemElements">systems, which will be layouted</param>
-        /// <param name="nodeElements">nodes</param>
+        /// <param name="systemList">systems, which will be layouted</param>
+        /// <param name="nodeList">nodes</param>
         private void DoSystemLayout(List<EcellObject> systemList, List<EcellObject> nodeList)
         {
             if (systemList == null || nodeList == null)
@@ -366,9 +362,9 @@ namespace EcellLib.GridLayout
         /// <summary>
         /// Layout nodes within the system
         /// </summary>
-        /// <param name="sysElement">nodes must be within this sytem</param>
+        /// <param name="sys">nodes must be within this sytem</param>
         /// <param name="childSystems">child systems of this system</param>
-        /// <param name="nodeElements">nodes, to be layouted</param>
+        /// <param name="nodeList">nodes, to be layouted</param>
         /// <param name="dialog">a progress bar</param>
         /// <param name="isFromScratch">Whether layouting will be done from scratch or from current positions</param>
         private void DoNodeLayout(
@@ -487,7 +483,7 @@ namespace EcellLib.GridLayout
         ///     If relationMatrix[1,3] is true, nodeElements[1] and nodeElements[3] are connected in a pathway. 
         /// </param>
         /// <param name="nodeIndex">a node of nodeElements at nodeIndex position, will be moved</param>
-        /// <param name="nodeElements">an array of all nodes</param>
+        /// <param name="nodeList">an array of all nodes</param>
         /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
         /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
         /// <param name="posMatrix">a matrix of positions in grid coordinate system</param>
@@ -640,7 +636,7 @@ namespace EcellLib.GridLayout
         /// <summary>
         /// Move the position of a node to the direction.
         /// </summary>
-        /// <param name="nodeElement">a node, to be moved.</param>
+        /// <param name="node">a node, to be moved.</param>
         /// <param name="direction">direction, to be moved to.</param>
         /// <param name="posMatrix">a matrix of position in grid coordinate system</param>
         private void MoveNode(EcellObject node, GridLayout.Direction direction, bool[,] posMatrix)
@@ -687,7 +683,7 @@ namespace EcellLib.GridLayout
         /// </summary>
         /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
         /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
-        /// <param name="nodeElements">nodes, which will be layouted</param>
+        /// <param name="nodeList">nodes, which will be layouted</param>
         /// <param name="posMatrix">matrix of position in grid coordinate system</param>
         /// <returns>false, if no enough space for nodes. otherwise, return true.</returns>
         private bool RandomizeLayout(int maxX, int maxY, List<EcellObject> nodeList, bool[,] posMatrix)
@@ -795,8 +791,8 @@ namespace EcellLib.GridLayout
         /// </summary>
         /// <param name="maxX">node will be put between 0 &lt;= x &lt;= maxX</param>
         /// <param name="maxY">node will be put between 0 &lt;= y &lt;= maxY</param>
-        /// <param name="sysElement">nodes, which will be layouted</param>
-        /// <param name="nodeElements">nodes, which will be layouted</param>
+        /// <param name="sys">nodes, which will be layouted</param>
+        /// <param name="nodeList">nodes, which will be layouted</param>
         /// <param name="posMatrix">matrix of position in grid coordinate system</param>
         /// <param name="gridDistance">distance between neighboring grid point in piccolo coordinate system</param>
         /// <param name="systemMargin">nodes must not be placed within margin from system bounds</param>

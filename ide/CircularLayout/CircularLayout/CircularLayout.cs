@@ -110,7 +110,7 @@ namespace EcellLib.CircularLayout
         /// Calculate the coordinates of the points which are equally spaced on a circle.
         /// </summary>
         /// <param name="rect">the region of circle</param>
-        /// <param name="num">the number of points on a circles</param>
+        /// <param name="nodeNum">the number of points on a circles</param>
         /// <returns>circle points</returns>
         private PointF[] GetCirclePoints(RectangleF rect, int nodeNum)
         {
@@ -321,7 +321,7 @@ namespace EcellLib.CircularLayout
         /// matrix float[m,n] will be returned.
         /// </summary>
         /// <param name="circlePoints">Coordinates of the circle points</param>
-        /// <param name="nodeElements">NodeElement of points</param>
+        /// <param name="nodeList">NodeElement of points</param>
         /// <returns></returns>
         private float[,] GetBetweenDistanceMatrix(PointF[] circlePoints, List<EcellObject> nodeList)
         {
@@ -365,7 +365,7 @@ namespace EcellLib.CircularLayout
         /// Get relation matrix between the nodes.
         /// return[m,n] means whether connection exists between m'th node and n'th node of relatedNodes
         /// </summary>
-        /// <param name="relatedNodes">Relation between these nodes will be searched.</param>
+        /// <param name="nodeList">Relation between these nodes will be searched.</param>
         /// <returns>relation matrix. true if two nodes connected, false if not.</returns>
         private bool[,] GetRelationMatrix(List<EcellObject> nodeList)
         {
@@ -431,7 +431,7 @@ namespace EcellLib.CircularLayout
         /// When the number of nodes is m, first m'th elements of return list contains nodes on the circle.
         /// And the rest of the list contains nodes which are connected with nodes on the circle.
         /// </summary>
-        /// <param name="nodeElements"></param>
+        /// <param name="nodeList"></param>
         /// <returns></returns>
         private List<EcellObject> GetRelatedNodes(List<EcellObject> nodeList)
         {

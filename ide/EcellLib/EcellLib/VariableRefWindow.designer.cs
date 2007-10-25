@@ -32,17 +32,18 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableRefWindow));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FullID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Coeff = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isAccessor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.DeleteVarButton = new System.Windows.Forms.Button();
             this.VRCloseButton = new System.Windows.Forms.Button();
             this.VRApplyButton = new System.Windows.Forms.Button();
             this.AddVarButton = new System.Windows.Forms.Button();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FullID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Coeff = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isAccessor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -70,29 +71,6 @@
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersVisible = false;
             this.dgv.RowTemplate.Height = 21;
-            // 
-            // name
-            // 
-            resources.ApplyResources(this.name, "name");
-            this.name.Name = "name";
-            // 
-            // FullID
-            // 
-            resources.ApplyResources(this.FullID, "FullID");
-            this.FullID.Name = "FullID";
-            // 
-            // Coeff
-            // 
-            resources.ApplyResources(this.Coeff, "Coeff");
-            this.Coeff.Name = "Coeff";
-            // 
-            // isAccessor
-            // 
-            resources.ApplyResources(this.isAccessor, "isAccessor");
-            this.isAccessor.Name = "isAccessor";
-            this.isAccessor.ReadOnly = true;
-            this.isAccessor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.isAccessor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // tableLayoutPanel2
             // 
@@ -127,6 +105,34 @@
             resources.ApplyResources(this.AddVarButton, "AddVarButton");
             this.AddVarButton.Name = "AddVarButton";
             this.AddVarButton.UseVisualStyleBackColor = true;
+            // 
+            // name
+            // 
+            this.name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            resources.ApplyResources(this.name, "name");
+            this.name.Name = "name";
+            // 
+            // FullID
+            // 
+            resources.ApplyResources(this.FullID, "FullID");
+            this.FullID.Name = "FullID";
+            // 
+            // Coeff
+            // 
+            this.Coeff.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.Coeff.DefaultCellStyle = dataGridViewCellStyle1;
+            resources.ApplyResources(this.Coeff, "Coeff");
+            this.Coeff.Name = "Coeff";
+            // 
+            // isAccessor
+            // 
+            this.isAccessor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            resources.ApplyResources(this.isAccessor, "isAccessor");
+            this.isAccessor.Name = "isAccessor";
+            this.isAccessor.ReadOnly = true;
+            this.isAccessor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.isAccessor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // VariableRefWindow
             // 
@@ -163,13 +169,13 @@
         /// Button to update the list of VariableReferenceList.
         /// </summary>
         public System.Windows.Forms.Button VRApplyButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FullID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Coeff;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn isAccessor;
         /// <summary>
         /// Button to add the variable to VariableReferenceList.
         /// </summary>
         public System.Windows.Forms.Button AddVarButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FullID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Coeff;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isAccessor;
     }
 }

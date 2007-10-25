@@ -469,9 +469,7 @@ namespace EcellLib.PathwayWindow
         /// the constructor with initial parameters.
         /// </summary>
         /// <param name="view">PathwayView.</param>
-        /// <param name="name">canvas id.</param>
-        /// <param name="overviewScale">scale of overview.</param>
-        /// <param name="handler">EventHandler of PathwayView.</param>
+        /// <param name="modelID">Model id.</param>
         public CanvasControl(PathwayControl view,
             string modelID)
         {
@@ -1361,6 +1359,7 @@ namespace EcellLib.PathwayWindow
         /// Notify SelectChanged event to outside.
         /// <param name="key">the key of selected object.</param>
         /// <param name="type">the type of selected object.</param>
+        /// <param name="isSelect">the flag whether this object is selected.</param>
         /// </summary>
         public void NotifySelectChanged(string key, string type, bool isSelect)
         {
@@ -1371,7 +1370,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Notify this canvas that the mouse is on it.
         /// </summary>
-        /// <param name="element">mouse is on this node</param>
+        /// <param name="obj">mouse is on this node</param>
         public void NotifyMouseEnter(PPathwayObject obj)
         {
             if (m_isReconnectMode)
@@ -1740,7 +1739,7 @@ namespace EcellLib.PathwayWindow
         /// Get a temporary key of EcellObject.
         /// </summary>
         /// <param name="type">The data type of EcellObject.</param>
-        /// <param name="key">The ID of parent system.</param>
+        /// <param name="systemID">The ID of parent system.</param>
         /// <returns>"TemporaryID"</returns> 
         public string GetTemporaryID(string type, string systemID)
         {
@@ -1768,7 +1767,6 @@ namespace EcellLib.PathwayWindow
         /// If more than one system surround a given point, smallest system will be returned.
         /// </summary>
         /// <param name="point">A system surrounds this point will be returned.</param>
-        /// <param name="excludedSystem">If this parameter is set, this system is excluded from searching</param>
         /// <returns>Surrounding system name. Null will be returned if there is no surround system.</returns>
         public string GetSurroundingSystemKey(PointF point)
         {
@@ -1953,8 +1951,8 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Get all EcellObjects of this object.
         /// </summary>
-        /// <param name="systemKey"></param>
-        /// <param name="systemKey"></param>
+        /// <param name="key">The key of selected object.</param>
+        /// <param name="type">The type of selected object.</param>
         /// <returns>A list which contains all PathwayElements of this object</returns>
         public PPathwayObject GetSelectedObject(string key, string type)
         {
@@ -2029,6 +2027,12 @@ namespace EcellLib.PathwayWindow
             return new Bitmap(m_pCanvas.Layer[0].ToImage());
         }
 
+        /// <summary>
+        /// Transfer the EcellObject from the old key to the new key.
+        /// </summary>
+        /// <param name="oldkey">The old key.</param>
+        /// <param name="newkey">The new key.</param>
+        /// <param name="obj">The transfered EcellObject.</param>
         public void TransferObject(string oldkey, string newkey, PPathwayObject obj)
         {
             if (obj is PPathwaySystem)
@@ -2394,8 +2398,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Return true if EcellSystem contains a point.
         /// </summary>
-        /// <param name="sysKey">string</param>
-        /// <param name="point">PointF</param>
+        /// <param name="eo">EcellSystem object.</param>
         /// <returns>bool</returns>
         public bool CheckNodePosition(EcellObject eo)
         {
@@ -2423,8 +2426,8 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Return nearest vacant point of EcellSystem.
         /// </summary>
-        /// <param name="sys">EcellObject of parent system.</param>
-        /// <param name="obj">EcellObject of moved node</param>
+        /// <param name="sysKey">Key of system.</param>
+        ///<returns>Point.</returns>
         public PointF GetVacantPoint(string sysKey)
         {
             EcellObject sys = m_systems[sysKey].EcellObject;
@@ -2438,8 +2441,9 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Return nearest vacant point of EcellSystem.
         /// </summary>
-        /// <param name="sys">EcellObject of parent system.</param>
-        /// <param name="obj">EcellObject of moved node</param>
+        /// <param name="sysKey">The key of system.</param>
+        /// <param name="pos">Target position.</param>
+        /// <returns>Point.</returns>
         public PointF GetVacantPoint(string sysKey, PointF pos)
         {
             PPathwaySystem sys = m_systems[sysKey];

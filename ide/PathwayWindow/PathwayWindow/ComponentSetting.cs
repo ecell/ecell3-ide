@@ -267,7 +267,7 @@ namespace EcellLib.PathwayWindow
         /// This method create a new component with information in this class.
         /// </summary>
         /// <param name="eo">EcellObject</param>
-        /// <param name="view">PathwayView instance</param>
+        /// <param name="control">PathwayView instance</param>
         /// <returns>Created component</returns>
         public PPathwayObject CreateNewComponent(EcellObject eo, PathwayControl control)
         {
