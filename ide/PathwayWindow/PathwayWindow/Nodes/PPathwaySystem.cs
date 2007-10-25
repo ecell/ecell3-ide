@@ -390,6 +390,30 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// Refresh graphical contents of this object.
+        /// ex) Edges of a process can be refreshed by using this.
+        /// </summary>
+        public override void Refresh()
+        {
+            base.Refresh();
+            this.Reset();
+            foreach (PPathwayObject obj in this.ChildObjectList)
+            {
+                if (obj is PPathwayVariable)
+                    ((PPathwayVariable)obj).Refresh();
+            }
+        }
+        /// <summary>
+        /// Refresh Text contents of this object.
+        /// </summary>
+        public override void RefreshText()
+        {
+            base.m_pText.Text = this.EcellObject.Text;
+            base.m_pText.CenterBoundsOnPoint(this.X + this.Width / 2, this.Y + this.Height - TEXT_LOWER_MARGIN);
+            base.m_pText.MoveToFront();
+        }
+
+        /// <summary>
         /// reset the view object of system in canvas.
         /// </summary>
         public override void Reset()
@@ -427,6 +451,7 @@ namespace EcellLib.PathwayWindow.Nodes
             Y = prevY;
 
             SetGraphicsPath();
+            RefreshText();
         }
 
         /// <summary>
@@ -457,8 +482,8 @@ namespace EcellLib.PathwayWindow.Nodes
             foreach(PPathwayObject child in this.ChildObjectList)
                 if (obj.Rect.Contains(child.Rect) || obj.Rect.IntersectsWith(child.Rect))
                     child.X += obj.Width;
-            m_control.NotifyDataChanged(this.EcellObject.key, this.EcellObject.key, this, false);
-
+            m_control.NotifyDataChanged(this.EcellObject.key, this.EcellObject.key, this, false, false);
+            this.Refresh();
         }
 
         /// <summary>
@@ -602,31 +627,6 @@ namespace EcellLib.PathwayWindow.Nodes
             base.OffsetY = base.m_originalOffsetY;
             //this.SystemWidth = this.m_originalWidth;
             //this.SystemHeight = this.m_originalHeight;
-        }
-
-        /// <summary>
-        /// Refresh graphical contents of this object.
-        /// ex) Edges of a process can be refreshed by using this.
-        /// </summary>
-        public override void Refresh()
-        {
-            base.Refresh();
-            this.Reset();
-            this.RefreshText();
-            foreach (PPathwayObject obj in this.ChildObjectList)
-            {
-                if (obj is PPathwayVariable)
-                    ((PPathwayVariable)obj).Refresh();
-            }
-        }
-        /// <summary>
-        /// Refresh Text contents of this object.
-        /// </summary>
-        public override void RefreshText()
-        {
-            base.m_pText.Text = this.EcellObject.Text;
-            base.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height - TEXT_LOWER_MARGIN);
-            base.m_pText.MoveToFront();
         }
 
         /// <summary>

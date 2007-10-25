@@ -223,6 +223,7 @@ namespace EcellLib.PathwayWindow
             string oldKey,
             string newKey,
             EcellObject eo,
+            bool isRecorded,
             bool isAnchor)
         {
             if(oldKey == null || newKey == null || eo.type == null)
@@ -230,7 +231,7 @@ namespace EcellLib.PathwayWindow
             try
             {
                 eo.key = newKey;
-                m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, true, isAnchor);
+                m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, isRecorded, isAnchor);
             }
             catch (IgnoreException)
             {
@@ -332,7 +333,7 @@ namespace EcellLib.PathwayWindow
             }
             ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
 
-            m_con.DoLayout(algorithm, subIdx, false);
+            m_con.DoLayout(algorithm, subIdx, true);
         }
 
         /// <summary>
@@ -454,7 +455,7 @@ namespace EcellLib.PathwayWindow
                 this.NewDataAddToModel(data);
 
                 if (layoutFlag)
-                    m_con.DoLayout(DefaultLayoutAlgorithm, 0, true);
+                    m_con.DoLayout(DefaultLayoutAlgorithm, 0, false);
 
             }
             catch (Exception e)

@@ -297,6 +297,7 @@ namespace EcellLib.PathwayWindow.Handler
                                     picked.EcellObject.key,
                                     picked.EcellObject.key,
                                     picked,
+                                    true,
                                     true);
                 }
                 else
@@ -338,6 +339,7 @@ namespace EcellLib.PathwayWindow.Handler
                                     oldSystemName,
                                     oldSystemName,
                                     picked,
+                                    true,
                                     true);
                             }
 

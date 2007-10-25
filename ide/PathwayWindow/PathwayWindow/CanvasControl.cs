@@ -845,7 +845,7 @@ namespace EcellLib.PathwayWindow
                 else
                     newKey = systemKey + ":" + obj.EcellObject.name;
                 // Set node change
-                this.m_con.NotifyDataChanged(oldKey, newKey, obj, true);
+                this.m_con.NotifyDataChanged(oldKey, newKey, obj, true, true);
             }
             foreach (PPathwayObject obj in beforeDict.Values)
             {
@@ -856,7 +856,7 @@ namespace EcellLib.PathwayWindow
                 else
                     newKey = parentKey + ":" + obj.EcellObject.name;
                 // Set node change
-                this.m_con.NotifyDataChanged(oldKey, newKey, obj, true);
+                this.m_con.NotifyDataChanged(oldKey, newKey, obj, true, true);
             }
 
             // Fire DataChanged for child in system.!
@@ -869,6 +869,7 @@ namespace EcellLib.PathwayWindow
                 system.EcellObject.key,
                 system.EcellObject.key,
                 system,
+                true,
                 true);
         }
 
@@ -877,8 +878,6 @@ namespace EcellLib.PathwayWindow
             // Resizing is aborted
             system.Refresh();
             this.ValidateSystem(system);
-            system.RefreshText();
-            system.Reset();
             UpdateResizeHandlePositions();
             ResetSelectedObjects();
             ClearSurroundState();
@@ -925,10 +924,9 @@ namespace EcellLib.PathwayWindow
                 system.Y = Y;
                 system.Width = width;
                 system.Height = height;
-                system.RefreshText();
 
                 this.ValidateSystem(system);
-                system.Reset();
+                system.Refresh();
                 UpdateResizeHandlePositions(e.PickedNode);
             }
             else
@@ -964,7 +962,6 @@ namespace EcellLib.PathwayWindow
             if (height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                system.RefreshText();
                 PointF offsetToL = system.Offset;
                 system.Y = Y - offsetToL.Y;
                 system.Height = height;
@@ -998,7 +995,6 @@ namespace EcellLib.PathwayWindow
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                system.RefreshText();
                 PointF offsetToL = system.Offset;
                 system.Y = Y - offsetToL.Y;
                 system.Width = width;
@@ -1040,7 +1036,6 @@ namespace EcellLib.PathwayWindow
             if (width > PPathwaySystem.MIN_X_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                system.RefreshText();
                 system.Width = width;
                 this.ValidateSystem(system);
                 system.Reset();
@@ -1072,7 +1067,6 @@ namespace EcellLib.PathwayWindow
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                system.RefreshText();
                 PointF offsetToL = system.Offset;
                 system.Width = width;
                 system.Height = height;
@@ -1114,8 +1108,6 @@ namespace EcellLib.PathwayWindow
             if (height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                system.RefreshText();
-
                 system.Height = height;
                 this.ValidateSystem(system);
                 system.Reset();
@@ -1147,7 +1139,6 @@ namespace EcellLib.PathwayWindow
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                system.RefreshText();
                 PointF offsetToL = system.Offset;
                 system.X = X - offsetToL.X;
                 system.Width = width;
@@ -1191,7 +1182,6 @@ namespace EcellLib.PathwayWindow
             if (width > PPathwaySystem.MIN_X_LENGTH)
             {
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                system.RefreshText();
                 PointF offsetToL = system.Offset;
                 system.X = X - offsetToL.X;
                 system.Width = width;
@@ -1428,6 +1418,7 @@ namespace EcellLib.PathwayWindow
                 oldKey,
                 newKey,
                 obj,
+                true,
                 isAnchor);
         }
 
@@ -1480,6 +1471,7 @@ namespace EcellLib.PathwayWindow
                         oldKey,
                         newKey,
                         obj,
+                        true,
                         isAnchor);
             }
             else if (obj is PPathwayProcess)
@@ -1495,6 +1487,7 @@ namespace EcellLib.PathwayWindow
                         oldKey,
                         newKey,
                         obj,
+                        true,
                         isAnchor);
             }
         }
@@ -1528,6 +1521,7 @@ namespace EcellLib.PathwayWindow
                     oldKey,
                     newKey,
                     system,
+                    true,
                     true);
             }
 

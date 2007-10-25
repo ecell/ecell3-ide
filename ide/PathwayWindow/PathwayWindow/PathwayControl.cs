@@ -495,7 +495,7 @@ namespace EcellLib.PathwayWindow
             }
             canvas.AddNewObj(m_defLayerId, systemName, obj, isPosSet, false);
             if(!isPosSet)
-                NotifyDataChanged(eo.key, eo.key, obj, false);
+                NotifyDataChanged(eo.key, eo.key, obj, false, false);
         }
 
         /// <summary>
@@ -858,7 +858,7 @@ namespace EcellLib.PathwayWindow
                     eo.type,
                     d.M_entityPath);
             }
-            m_window.NotifyDataChanged(eo.key, eo.key, eo, true);
+            m_window.NotifyDataChanged(eo.key, eo.key, eo, true, true);
         }
 
         /// <summary>
@@ -1197,6 +1197,7 @@ namespace EcellLib.PathwayWindow
             string oldKey,
             string newKey,
             PPathwayObject obj,
+            bool isRecorded,
             bool isAnchor)
         {
             EcellObject eo = m_window.GetEcellObject(obj.EcellObject.modelID, oldKey, obj.EcellObject.type);
@@ -1210,7 +1211,7 @@ namespace EcellLib.PathwayWindow
             eo.OffsetX = obj.OffsetX;
             eo.OffsetY = obj.OffsetY;
 
-            m_window.NotifyDataChanged(oldKey, newKey, eo, isAnchor);
+            m_window.NotifyDataChanged(oldKey, newKey, eo, isRecorded, isAnchor);
         }
 
         /// <summary>
@@ -1289,7 +1290,7 @@ namespace EcellLib.PathwayWindow
                 }
             }
             process.ReferenceList = newList;
-            m_window.NotifyDataChanged(process.key, process.key, process, true);
+            m_window.NotifyDataChanged(process.key, process.key, process, true, true);
         }
 
         /// <summary>
@@ -1744,7 +1745,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="algorithm">ILayoutAlgorithm</param>
         /// <param name="subIdx">int</param>
         /// <param name="IsSystemResize">bool</param>
-        public void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool IsSystemResize)
+        public void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool isRecorded)
         {
             // Check Selected nodes when the layout algorithm uses selected objects.
             if (algorithm.GetLayoutType() == LayoutType.Selected)
@@ -1766,11 +1767,16 @@ namespace EcellLib.PathwayWindow
 
             // Set Layout.
             foreach (EcellObject system in systemList)
-                this.m_window.NotifyDataChanged(system.key, system.key, system, true);
+                this.m_window.NotifyDataChanged(system.key, system.key, system, isRecorded, false);
+            int i = 0;
             foreach (EcellObject node in nodeList)
             {
                 node.isFixed = EcellObject.NotFixed;
-                this.m_window.NotifyDataChanged(node.key, node.key, node, true);
+                if(i != nodeList.Count)
+                    this.m_window.NotifyDataChanged(node.key, node.key, node, isRecorded, false);
+                else
+                    this.m_window.NotifyDataChanged(node.key, node.key, node, isRecorded, true);
+                i++;
             }
         }
 
