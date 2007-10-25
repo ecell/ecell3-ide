@@ -452,4 +452,7 @@
   <data name="distributedEnvToolStripMenuItem.Text" xml:space="preserve">
     <value>分散環境設定</value>
   </data>
+  <data name="jobStatusToolStripMenuItem.Text" xml:space="preserve">
+    <value>スクリプトの状態表示 ...</value>
+  </data>
 </root>

@@ -6319,7 +6319,7 @@ namespace EcellLib
                 //
                 // 4 Project
                 //
-                this.SaveProject(this.m_currentProjectID);
+                //this.SaveProject(this.m_currentProjectID);
             }
             catch (Exception l_ex)
             {
