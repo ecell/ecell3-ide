@@ -197,6 +197,22 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Inform the adding of logger in PathwayEditor to PluginManager.
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        /// <param name="entityPath"></param>
+        public void NotifyLoggerAdd(string modelID, string key, string type, string entityPath)
+        {
+            PluginManager.GetPluginManager().LoggerAdd(
+                modelID,
+                key,
+                type,
+                entityPath);
+        }
+
+        /// <summary>
         /// Inform the changing of EcellObject in PathwayEditor to DataManager.
         /// </summary>
         /// <param name="oldKey">the key of object before edit.</param>

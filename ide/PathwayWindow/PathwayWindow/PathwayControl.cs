@@ -673,7 +673,7 @@ namespace EcellLib.PathwayWindow
             foreach (EcellData d in ecellobj.M_value)
             {
                 if (!d.M_isLogable)
-                    return;
+                    continue;
                 
                 ToolStripItem sysLogger = new ToolStripMenuItem(d.M_name);
                 sysLogger.Text = d.M_name;
@@ -809,33 +809,15 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void CreateLoggerClick(object sender, EventArgs e)
         {
-            string logger = ((ToolStripItem)sender).Text;
-
             if (!(ActiveCanvas.ClickedNode is PPathwayObject))
                 return;
+            string logger = ((ToolStripItem)sender).Text;
 
             PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
-            EcellObject ecellobj = obj.EcellObject;
             Debug.WriteLine("Create " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
-
             // set logger
-            foreach (EcellData d in ecellobj.M_value)
-            {
-                if (logger.Equals(d.M_name))
-                {
-                    d.M_isLogger = true;
-                    PluginManager.GetPluginManager().LoggerAdd(
-                        ecellobj.modelID,
-                        ecellobj.key,
-                        ecellobj.type,
-                        d.M_entityPath);
-                }
-            }
-            // modify changes
-            NotifyDataChanged(ecellobj.key, ecellobj.key, obj, true);
-
+            NotifyLoggerChanged(obj, logger, true);
         }
-
         /// <summary>
         /// Called when a delete logger menu of the context menu is clicked.
         /// </summary>
@@ -843,20 +825,43 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void DeleteLoggerClick(object sender, EventArgs e)
         {
-            string logger = ((ToolStripItem)sender).Text;
-
             if (!(ActiveCanvas.ClickedNode is PPathwayObject))
                 return;
-            PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
-            EcellObject ecellobj = obj.EcellObject;
-            Debug.WriteLine("Delete " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
+            string logger = ((ToolStripItem)sender).Text;
 
+            PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
+            Debug.WriteLine("Delete " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
             // delete logger
-            foreach (EcellData d in ecellobj.M_value)
-                if (logger.Equals(d.M_name))
-                    d.M_isLogger = false;
-            // modify changes
-            NotifyDataChanged(ecellobj.key, ecellobj.key, obj, true);
+            NotifyLoggerChanged(obj, logger, false);
+        }
+
+        /// <summary>
+        /// Notify logger change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NotifyLoggerChanged(PPathwayObject obj, string logger, bool isLogger)
+        {
+            EcellObject eo = m_window.GetEcellObject(obj.EcellObject.modelID, obj.EcellObject.key, obj.EcellObject.type);
+
+            // set logger
+            foreach (EcellData d in eo.M_value)
+            {
+                if (!logger.Equals(d.M_name))
+                    continue;
+                // Set isLogger
+                d.M_isLogger = isLogger;
+
+                // If isLogger, 
+                if (!isLogger)
+                    continue;
+                m_window.NotifyLoggerAdd(
+                    eo.modelID,
+                    eo.key,
+                    eo.type,
+                    d.M_entityPath);
+            }
+            m_window.NotifyDataChanged(eo.key, eo.key, eo, true);
         }
 
         /// <summary>
