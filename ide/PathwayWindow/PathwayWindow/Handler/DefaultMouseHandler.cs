@@ -54,7 +54,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The PathwayView instance.
         /// </summary>
-        private PathwayControl m_view;
+        private PathwayControl m_con;
 
         /// <summary>
         /// The drag start point
@@ -75,9 +75,9 @@ namespace EcellLib.PathwayWindow
         /// constructor
         /// </summary>
         /// <param name="view"></param>
-        public DefaultMouseHandler(PathwayControl view)
+        public DefaultMouseHandler(PathwayControl control)
         {
-            this.m_view = view;
+            this.m_con = control;
         }
         
         /// <summary>
@@ -90,13 +90,13 @@ namespace EcellLib.PathwayWindow
             base.OnMouseDown(sender, e);
             // set mouse position
             m_startPoint = e.Position;
-            m_view.MousePosition = e.Position;
+            m_con.MousePosition = e.Position;
             if (!(e.PickedNode is PPathwayObject))
-                m_view.CanvasDictionary[e.Canvas.Name].ClickedNode = null;
+                m_con.CanvasDictionary[e.Canvas.Name].ClickedNode = null;
 
             if (e.Button == MouseButtons.Left)
             {
-                m_view.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
+                m_con.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
                 m_selectedPath = new PPath();
                 e.Canvas.Layer.AddChild(m_selectedPath);
             }
@@ -131,10 +131,10 @@ namespace EcellLib.PathwayWindow
                 RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
                 m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
 
-                m_view.CanvasDictionary[((PCamera)sender).Canvas.Name].ResetSelectedObjects();
+                m_con.CanvasDictionary[((PCamera)sender).Canvas.Name].ResetSelectedObjects();
                 PNodeList newlySelectedList = new PNodeList();
 
-                foreach (PLayer layer in m_view.CanvasDictionary[e.Canvas.Name].Layers.Values)
+                foreach (PLayer layer in m_con.CanvasDictionary[e.Canvas.Name].Layers.Values)
                 {
                     PNodeList list = new PNodeList();
                     layer.FindIntersectingNodes(rect, list);
@@ -148,7 +148,7 @@ namespace EcellLib.PathwayWindow
                 {
                     if (node is PPathwayNode)
                     {
-                        m_view.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)node, false);
+                        m_con.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)node, false);
                         PPathwayObject pObj = (PPathwayObject)node;
                         lastNode = (PPathwayNode)pObj;
                     }
@@ -158,7 +158,7 @@ namespace EcellLib.PathwayWindow
 
                 if (!isAlreadySelected && lastNode != null)
                 {
-                    m_view.CanvasDictionary[e.Canvas.Name].NotifySelectChanged(lastNode.EcellObject.key, lastNode.EcellObject.type, true);
+                    m_con.CanvasDictionary[e.Canvas.Name].NotifySelectChanged(lastNode.EcellObject.key, lastNode.EcellObject.type, true);
                     m_lastSelectedObj = lastNode;
                 }
             }

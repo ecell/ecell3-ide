@@ -13,14 +13,14 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The PathwayView instance
         /// </summary>
-        private PathwayControl m_view;
+        private PathwayControl m_con;
 
         /// <summary>
         /// The contructor
         /// </summary>
-        public MouseDownHandler(PathwayControl pview)
+        public MouseDownHandler(PathwayControl control)
         {
-            m_view = pview;
+            m_con = control;
         }
 
         /// <summary>
@@ -31,9 +31,9 @@ namespace EcellLib.PathwayWindow
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {
             base.OnMouseDown(sender, e);
-            if(e.Button == System.Windows.Forms.MouseButtons.Left && m_view != null)
+            if(e.Button == System.Windows.Forms.MouseButtons.Left && m_con != null)
             {
-                m_view.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
+                m_con.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
             }
         }
     }

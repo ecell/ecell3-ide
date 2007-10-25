@@ -300,9 +300,9 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void OnMouseEnter(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseEnter(e);
-            if(base.m_set != null)
+            if(base.m_canvas != null)
             {
-                base.m_set.NotifyMouseEnter(this);
+                base.m_canvas.NotifyMouseEnter(this);
             }
         }
 
@@ -313,9 +313,9 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void OnMouseLeave(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseLeave(e);
-            if (null != base.m_set)
+            if (null != base.m_canvas)
             {
-                base.m_set.NotifyMouseLeave();
+                base.m_canvas.NotifyMouseLeave();
             }
         }
         #endregion

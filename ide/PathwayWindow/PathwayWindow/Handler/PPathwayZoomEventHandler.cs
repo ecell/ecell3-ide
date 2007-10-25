@@ -60,12 +60,12 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// The PathwayView instance
         /// </summary>
-        protected PathwayControl m_view;
+        protected PathwayControl m_con;
         
         /// <summary>
         /// The point where the mouse is down.
         /// </summary>
-		private PointF m_viewZoomPoint;
+		private PointF m_zoomPoint;
 		#endregion
 
 		#region Constructors
@@ -74,20 +74,9 @@ namespace EcellLib.PathwayWindow.Handler
 		/// </summary>
 		public PPathwayZoomEventHandler(PathwayControl view) {
 			this.AcceptsEvent = new AcceptsEventDelegate(PPathwayZoomEventHandlerAcceptsEvent);
-            m_view = view;
+            m_con = view;
 		}
 		#endregion
-
-		#region Accessors
-        /// <summary>
-        /// Accessor for PathwayView, which this handler controls
-        /// </summary>
-        public PathwayControl View
-        {
-            get { return m_view; }
-            set { m_view = value; }
-        }
-        #endregion
 	    
         /// <summary>
         /// Return true if this handler handle an event.
@@ -115,7 +104,7 @@ namespace EcellLib.PathwayWindow.Handler
 		/// PDragSequenceEventHandler.OnDragActivityFirstStep</see>.
 		/// </summary>
 		protected override void OnDragActivityFirstStep(object sender, PInputEventArgs e) {
-			m_viewZoomPoint = e.Position;
+			m_zoomPoint = e.Position;
 			base.OnDragActivityFirstStep(sender, e);
         }
 
@@ -144,7 +133,7 @@ namespace EcellLib.PathwayWindow.Handler
                 scaleDelta = MAX_SCALE / currentScale;
 			}
 
-			camera.ScaleViewBy(scaleDelta, m_viewZoomPoint.X, m_viewZoomPoint.Y);
+			camera.ScaleViewBy(scaleDelta, m_zoomPoint.X, m_zoomPoint.Y);
 		}
 
         /// <summary>
@@ -155,7 +144,7 @@ namespace EcellLib.PathwayWindow.Handler
         protected override void OnDrag(object sender, PInputEventArgs e)
         {
             base.OnDrag(sender, e);
-            m_view.CanvasDictionary[e.Canvas.Name].PathwayCanvas.ContextMenuStrip = null;
+            m_con.CanvasDictionary[e.Canvas.Name].PathwayCanvas.ContextMenuStrip = null;
         }
 
         /// <summary>
@@ -166,9 +155,9 @@ namespace EcellLib.PathwayWindow.Handler
         protected override void OnEndDrag(object sender, PInputEventArgs e)
         {
             base.OnEndDrag(sender,e);
-            if (m_view != null)
+            if (m_con != null)
             {                
-                m_view.UpdateOverview();
+                m_con.UpdateOverview();
             }
         }
 		#endregion

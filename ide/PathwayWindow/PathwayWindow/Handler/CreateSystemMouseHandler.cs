@@ -52,9 +52,9 @@ namespace EcellLib.PathwayWindow
     class CreateSystemMouseHandler : PBasicInputEventHandler
     {
         #region Fields
-        protected PathwayControl m_view;
+        protected PathwayControl m_con;
 
-        protected CanvasControl m_set;
+        protected CanvasControl m_canvas;
 
         /// <summary>
         /// PropertyEditor. By using this, parameters for new object will be input.
@@ -113,9 +113,9 @@ namespace EcellLib.PathwayWindow
         /// Constructor
         /// </summary>
         /// <param name="view"></param>
-        public CreateSystemMouseHandler(PathwayControl view)
+        public CreateSystemMouseHandler(PathwayControl control)
         {
-            this.m_view = view;
+            this.m_con = control;
         }
 
         public override bool DoesAcceptEvent(PInputEventArgs e)
@@ -135,7 +135,7 @@ namespace EcellLib.PathwayWindow
 
             if (e.PickedNode is PCamera)
             {
-                m_surSystem = m_view.CanvasDictionary[e.Canvas.Name].GetSurroundingSystemKey(e.Position);
+                m_surSystem = m_con.CanvasDictionary[e.Canvas.Name].GetSurroundingSystemKey(e.Position);
 
                 if (string.IsNullOrEmpty(m_surSystem))
                 {
@@ -149,9 +149,9 @@ namespace EcellLib.PathwayWindow
                 m_startPoint = e.Position;
                 m_selectedPath = new PPath();
                 e.Canvas.Layer.AddChild(m_selectedPath);
-                m_set = m_view.CanvasDictionary[e.Canvas.Name];
-                if (m_set != null)
-                    m_set.ResetSelectedObjects();
+                m_canvas = m_con.CanvasDictionary[e.Canvas.Name];
+                if (m_canvas != null)
+                    m_canvas.ResetSelectedObjects();
                 m_isNode = false;
             }
             else
@@ -182,7 +182,7 @@ namespace EcellLib.PathwayWindow
                 // When mouse surrounding region is smaller than minimum.
                 m_selectedPath.Pen = m_invalidPen;
             }
-            else if (m_view.CanvasDictionary[e.Canvas.Name].DoesSystemOverlaps(rect))
+            else if (m_con.CanvasDictionary[e.Canvas.Name].DoesSystemOverlaps(rect))
             {
                 // When mouse surrounding region overlaps other system
                 m_selectedPath.Pen = m_overlapPen;
@@ -198,8 +198,8 @@ namespace EcellLib.PathwayWindow
             }
             
             PNodeList newlySelectedList = new PNodeList();
-            m_view.CanvasDictionary[((PCamera)sender).Canvas.Name].ResetSelectedObjects();
-            foreach(PLayer layer in m_view.CanvasDictionary[e.Canvas.Name].Layers.Values)
+            m_con.CanvasDictionary[((PCamera)sender).Canvas.Name].ResetSelectedObjects();
+            foreach(PLayer layer in m_con.CanvasDictionary[e.Canvas.Name].Layers.Values)
             {
                 PNodeList list = new PNodeList();
                 layer.FindIntersectingNodes(rect, list);
@@ -210,7 +210,7 @@ namespace EcellLib.PathwayWindow
             {
                 if(node is PPathwayNode)
                 {
-                    m_view.CanvasDictionary[((PCamera)sender).Canvas.Name].AddSelectedNode((PPathwayNode)node, false);
+                    m_con.CanvasDictionary[((PCamera)sender).Canvas.Name].AddSelectedNode((PPathwayNode)node, false);
                 }
             }
         }
@@ -235,7 +235,7 @@ namespace EcellLib.PathwayWindow
 
             if (m_rect.Width >= 40 && m_rect.Height >= 40)
             {
-                if (m_view.CanvasDictionary[e.Canvas.Name].DoesSystemOverlaps(m_rect))
+                if (m_con.CanvasDictionary[e.Canvas.Name].DoesSystemOverlaps(m_rect))
                 {
                     MessageBox.Show(m_resources.GetString("ErrOverSystem"),
                                     "Error",
@@ -244,8 +244,8 @@ namespace EcellLib.PathwayWindow
                     return;
                 }
 
-                string modelID = this.m_set.ModelID;
-                string tmpID = m_set.GetTemporaryID("System", m_surSystem);
+                string modelID = this.m_canvas.ModelID;
+                string tmpID = m_canvas.GetTemporaryID("System", m_surSystem);
 
                 Dictionary<string, EcellData> dict = DataManager.GetSystemProperty();
                 List<EcellData> dataList = new List<EcellData>();
@@ -256,7 +256,7 @@ namespace EcellLib.PathwayWindow
 
                 List<PPathwayObject> newlySelectedList = new List<PPathwayObject>();
 
-                foreach (PLayer layer in m_set.Layers.Values)
+                foreach (PLayer layer in m_canvas.Layers.Values)
                 {
                     PNodeList list = new PNodeList();
                     layer.FindIntersectingNodes(m_rect, list);
@@ -272,16 +272,16 @@ namespace EcellLib.PathwayWindow
                 eo.Width = m_rect.Width;
                 eo.Height = m_rect.Height;
 
-                m_view.NotifyDataAdd(eo, true);
+                m_con.NotifyDataAdd(eo, true);
                 
                 foreach (PPathwayObject node in newlySelectedList)
                 {
-                    m_set.TransferNodeToByResize(eo.key, node, true);
+                    m_canvas.TransferNodeToByResize(eo.key, node, true);
                 }                
             }
             else
             {
-                m_set.ResetSelectedObjects();
+                m_canvas.ResetSelectedObjects();
             }
             m_startPoint = PointF.Empty;
         }

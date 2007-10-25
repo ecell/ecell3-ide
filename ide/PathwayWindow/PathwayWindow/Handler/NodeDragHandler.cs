@@ -57,7 +57,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// the related CanvasViewCompomnetSet.
         /// </summary>
-        private CanvasControl m_set;
+        private CanvasControl m_canvas;
 
         /// <summary>
         /// PComposite to move selected nodes together.
@@ -102,9 +102,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         /// <param name="set">component set.</param>
         /// <param name="dict">dictionary of system.</param>
-        public NodeDragHandler(CanvasControl set, Dictionary<string, PPathwaySystem> dict)
+        public NodeDragHandler(CanvasControl canvas, Dictionary<string, PPathwaySystem> dict)
         {
-            m_set = set;
+            m_canvas = canvas;
             m_systems = dict;
         }
 
@@ -135,12 +135,12 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 PPathwayNode pnode = (PPathwayNode)e.PickedNode;
                 pnode.MemorizeCurrentPosition();
-                m_set.ControlLayer.AddChild(pnode);
+                m_canvas.ControlLayer.AddChild(pnode);
 
                 m_downPosition = new PointF(e.Position.X, e.Position.Y);
                 m_composite = new PComposite();
-                m_set.ControlLayer.AddChild(m_composite);
-                foreach (PPathwayObject node in m_set.SelectedNodes)
+                m_canvas.ControlLayer.AddChild(m_composite);
+                foreach (PPathwayObject node in m_canvas.SelectedNodes)
                 {
                     if (node == pnode)
                         continue;
@@ -152,11 +152,11 @@ namespace EcellLib.PathwayWindow.Handler
             else if (e.PickedNode is PPathwaySystem)
                 ((PPathwaySystem)e.PickedNode).MemorizeCurrentPosition();
             else
-                m_set.ClickedNode = null;
+                m_canvas.ClickedNode = null;
 
             e.Canvas.BackColor = Color.Silver;
             SetBackToDefault();
-            SetShadeWithoutSystem(m_set.GetSurroundingSystemKey(e.Position));
+            SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(e.Position));
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace EcellLib.PathwayWindow.Handler
             foreach (PPathwaySystem system in m_systems.Values)
                 system.BackgroundBrush = null;
 
-            m_set.PathwayCanvas.BackColor = Color.White;
+            m_canvas.PathwayCanvas.BackColor = Color.White;
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace EcellLib.PathwayWindow.Handler
         {
             if (systemName != null && m_systems.ContainsKey(systemName))
             {
-                m_set.PathwayCanvas.BackColor = Color.Silver;
+                m_canvas.PathwayCanvas.BackColor = Color.Silver;
                 m_systems[systemName].BackgroundBrush = Brushes.White;
 
                 foreach (PPathwaySystem system in m_systems.Values)
@@ -187,7 +187,7 @@ namespace EcellLib.PathwayWindow.Handler
             }
             else
             {
-                m_set.PathwayCanvas.BackColor = Color.White;
+                m_canvas.PathwayCanvas.BackColor = Color.White;
                 foreach (PPathwaySystem system in m_systems.Values)
                     system.BackgroundBrush = Brushes.Silver;
             }
@@ -223,19 +223,19 @@ namespace EcellLib.PathwayWindow.Handler
             m_isMoved = true;
             e.Canvas.BackColor = Color.Silver;
             SetBackToDefault();
-            SetShadeWithoutSystem(m_set.GetSurroundingSystemKey(e.Position));
+            SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(e.Position));
             if (e.PickedNode is PPathwaySystem)
             {
                 PPathwaySystem picked = (PPathwaySystem)e.PickedNode;
                 picked.Refresh();
                 // Change color if the system overlaps other system
                 RectangleF rectF = picked.Rect;
-                if (m_set.DoesSystemOverlaps(picked.GlobalBounds, picked.EcellObject.key)
-                    || !m_set.IsInsideRoot(rectF))
+                if (m_canvas.DoesSystemOverlaps(picked.GlobalBounds, picked.EcellObject.key)
+                    || !m_canvas.IsInsideRoot(rectF))
                     picked.IsInvalid = true;
                 else
                     picked.IsInvalid = false;
-                m_set.UpdateResizeHandlePositions();
+                m_canvas.UpdateResizeHandlePositions();
 
                 picked.MoveStart();
             }
@@ -249,7 +249,7 @@ namespace EcellLib.PathwayWindow.Handler
                 if ((Math.Abs(m_movingDelta.Width) + Math.Abs(m_movingDelta.Height)) > m_refreshDistance)
                 {
                     m_movingDelta = new SizeF(0, 0);
-                    foreach (PPathwayObject node in m_set.SelectedNodes)
+                    foreach (PPathwayObject node in m_canvas.SelectedNodes)
                         node.Refresh();
                 }
             }
@@ -281,9 +281,9 @@ namespace EcellLib.PathwayWindow.Handler
                                    new PointF(ptogether.X + m_composite.OffsetX, ptogether.Y + m_composite.OffsetY),
                                    m_isMoved);
                 }
-                if (m_set.ControlLayer.ChildrenReference.Contains(m_composite))
+                if (m_canvas.ControlLayer.ChildrenReference.Contains(m_composite))
                 {
-                    m_set.ControlLayer.RemoveChild(m_composite);
+                    m_canvas.ControlLayer.RemoveChild(m_composite);
                     m_composite = null;
                 }
                 
@@ -293,7 +293,7 @@ namespace EcellLib.PathwayWindow.Handler
                 PPathwaySystem picked = (PPathwaySystem)e.PickedNode;
                 if (picked.Parent is PLayer)
                 {
-                    m_set.PathwayControl.NotifyDataChanged(
+                    m_canvas.PathwayControl.NotifyDataChanged(
                                     picked.EcellObject.key,
                                     picked.EcellObject.key,
                                     picked,
@@ -303,18 +303,18 @@ namespace EcellLib.PathwayWindow.Handler
                 {
                     RectangleF rectF = picked.Rect;
 
-                    if (m_set.DoesSystemOverlaps(picked.GlobalBounds, picked.EcellObject.key)
-                        || !m_set.IsInsideRoot(rectF))
+                    if (m_canvas.DoesSystemOverlaps(picked.GlobalBounds, picked.EcellObject.key)
+                        || !m_canvas.IsInsideRoot(rectF))
                     {
                         picked.Refresh();
                         m_systems[picked.Name].Refresh();
-                        m_set.UpdateResizeHandlePositions();
+                        m_canvas.UpdateResizeHandlePositions();
                         picked.IsInvalid = false;
                     }
                     else
                     {
                         string oldSystemName = ((PPathwaySystem)e.PickedNode).Name;
-                        string surSys = m_set.GetSurroundingSystemKey(e.Position, oldSystemName);
+                        string surSys = m_canvas.GetSurroundingSystemKey(e.Position, oldSystemName);
                         string newSys = null;
                         if (surSys.Equals("/"))
                             newSys = "/" + PathUtil.RemovePath(oldSystemName);
@@ -325,16 +325,16 @@ namespace EcellLib.PathwayWindow.Handler
                             MessageBox.Show(newSys + m_resources.GetString("ErrAlrExist"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             picked.Refresh();
                             m_systems[picked.Name].Refresh();
-                            m_set.UpdateResizeHandlePositions();
+                            m_canvas.UpdateResizeHandlePositions();
                             picked.IsInvalid = false;
                         }
                         else
                         {
                             if (surSys == null || !surSys.Equals(PathUtil.GetParentSystemId(oldSystemName)))
-                                m_set.TransferSystemTo(surSys, oldSystemName, true);
+                                m_canvas.TransferSystemTo(surSys, oldSystemName, true);
                             else
                             {
-                                m_set.PathwayControl.NotifyDataChanged(
+                                m_canvas.PathwayControl.NotifyDataChanged(
                                     oldSystemName,
                                     oldSystemName,
                                     picked,
@@ -346,7 +346,7 @@ namespace EcellLib.PathwayWindow.Handler
                 }
             }
             SetBackToDefault();
-            m_set.UpdateOverview();
+            m_canvas.UpdateOverview();
             if (e.PickedNode is PPathwaySystem)
             {
                 PPathwaySystem picked = (PPathwaySystem)e.PickedNode;
@@ -358,7 +358,7 @@ namespace EcellLib.PathwayWindow.Handler
         {
             node.ParentObject.AddChild(node);
             string oldSystem = node.EcellObject.parentSystemID;
-            string newSystem = m_set.GetSurroundingSystemKey(newPosition);
+            string newSystem = m_canvas.GetSurroundingSystemKey(newPosition);
 
             if (newSystem != null)
             {
@@ -367,12 +367,12 @@ namespace EcellLib.PathwayWindow.Handler
 
                 if (newSystem.Equals(oldSystem))
                 {
-                    m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), node, toBeNotified, true);
+                    m_canvas.TransferNodeTo(m_canvas.GetSurroundingSystemKey(newPosition), node, toBeNotified, true);
                 }
                 else if (node is PPathwayVariable)
                 {
                     string nodeName = node.EcellObject.name;
-                    if (m_set.Variables.ContainsKey(newSystem + ":" + nodeName))
+                    if (m_canvas.Variables.ContainsKey(newSystem + ":" + nodeName))
                     {
                         node.Refresh();
                         MessageBox.Show(nodeName + m_resources.GetString("ErrAlrExist"),
@@ -381,13 +381,13 @@ namespace EcellLib.PathwayWindow.Handler
                     }
                     else
                     {
-                        m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), node, toBeNotified, true);
+                        m_canvas.TransferNodeTo(m_canvas.GetSurroundingSystemKey(newPosition), node, toBeNotified, true);
                     }
                 }
                 else if (node is PPathwayProcess)
                 {
                     string nodeName = node.EcellObject.name;
-                    if (m_set.Processes.ContainsKey(newSystem + ":" + nodeName))
+                    if (m_canvas.Processes.ContainsKey(newSystem + ":" + nodeName))
                     {
                         node.Refresh();
                         MessageBox.Show(nodeName + m_resources.GetString("ErrAlrExist"),
@@ -396,13 +396,13 @@ namespace EcellLib.PathwayWindow.Handler
                     }
                     else
                     {
-                        m_set.TransferNodeTo(m_set.GetSurroundingSystemKey(newPosition), node, toBeNotified, true);
+                        m_canvas.TransferNodeTo(m_canvas.GetSurroundingSystemKey(newPosition), node, toBeNotified, true);
                     }
                 }
             }
             else
             {
-                m_set.TransferNodeTo(oldSystem, node, toBeNotified, true);
+                m_canvas.TransferNodeTo(oldSystem, node, toBeNotified, true);
                 node.Refresh();
             }
             node.RefreshText();

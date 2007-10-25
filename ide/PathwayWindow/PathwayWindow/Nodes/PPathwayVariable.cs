@@ -134,7 +134,7 @@ namespace EcellLib.PathwayWindow.Nodes
             List<PPathwayProcess> newProcesses = new List<PPathwayProcess>();
             foreach (PPathwayProcess process in m_relatedProcesses)
             {
-                if (base.m_set.Processes.ContainsKey(process.EcellObject.key))
+                if (base.m_canvas.Processes.ContainsKey(process.EcellObject.key))
                     newProcesses.Add(process);
             }
             m_relatedProcesses = newProcesses;

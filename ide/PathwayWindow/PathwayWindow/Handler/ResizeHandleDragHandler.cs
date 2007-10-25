@@ -49,16 +49,16 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// CanvasView, to which this handler belongs.
         /// </summary>
-        private CanvasControl m_set;
+        private CanvasControl m_canvas;
         #endregion
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="set"></param>
-        public ResizeHandleDragHandler(CanvasControl set)
+        public ResizeHandleDragHandler(CanvasControl canvas)
         {
-            m_set = set;
+            m_canvas = canvas;
         }
 
         /// <summary>

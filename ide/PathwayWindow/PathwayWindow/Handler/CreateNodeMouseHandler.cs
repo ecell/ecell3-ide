@@ -50,7 +50,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// PathwayView
         /// </summary>
-        protected PathwayControl m_view;
+        protected PathwayControl m_con;
 
         /// <summary>
         /// PropertyEditor. By using this, parameters for new object will be input.
@@ -60,7 +60,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// CanvasViewComponentSet, on which a new object will be created.
         /// </summary>
-        protected CanvasControl m_set;
+        protected CanvasControl m_canvas;
 
         /// <summary>
         /// Where mouse was pressed down on pathwaycanvas.
@@ -81,9 +81,9 @@ namespace EcellLib.PathwayWindow
         /// Constructor
         /// </summary>
         /// <param name="view"></param>
-        public CreateNodeMouseHandler(PathwayControl view)
+        public CreateNodeMouseHandler(PathwayControl control)
         {
-            this.m_view = view;
+            this.m_con = control;
         }
 
         /// <summary>
@@ -108,9 +108,9 @@ namespace EcellLib.PathwayWindow
             if (!(e.PickedNode is PCamera))
                 return;
 
-            m_set = m_view.CanvasDictionary[e.Canvas.Name];
+            m_canvas = m_con.CanvasDictionary[e.Canvas.Name];
             m_downPos = e.Position;
-            m_surSystem = m_view.CanvasDictionary[e.Canvas.Name].GetSurroundingSystemKey(e.Position);
+            m_surSystem = m_con.CanvasDictionary[e.Canvas.Name].GetSurroundingSystemKey(e.Position);
 
             if (string.IsNullOrEmpty(m_surSystem))
             {
@@ -122,9 +122,9 @@ namespace EcellLib.PathwayWindow
             }
             
             DataManager dm = DataManager.GetDataManager();
-            if (m_view.SelectedHandle.CsID == ComponentType.Process)
+            if (m_con.SelectedHandle.CsID == ComponentType.Process)
             {
-                string tmpId = m_set.GetTemporaryID("Process", m_surSystem);
+                string tmpId = m_canvas.GetTemporaryID("Process", m_surSystem);
                 Dictionary<string, EcellData> dict = DataManager.GetProcessProperty(dm.CurrentProjectID, "ExpressionFluxProcess");
                 List<EcellData> list = new List<EcellData>();
                 foreach (EcellData d in dict.Values)
@@ -132,25 +132,25 @@ namespace EcellLib.PathwayWindow
                     list.Add(d);
                 }
                 
-                EcellObject eo = EcellObject.CreateObject(m_set.ModelID, tmpId, "Process", "ExpressionFluxProcess", list);
+                EcellObject eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, "Process", "ExpressionFluxProcess", list);
                 eo.X = m_downPos.X;
                 eo.Y = m_downPos.Y;
 
-                m_view.NotifyDataAdd(eo, true);
+                m_con.NotifyDataAdd(eo, true);
             }
             else
             {
-                string tmpId = m_set.GetTemporaryID("Variable", m_surSystem);
+                string tmpId = m_canvas.GetTemporaryID("Variable", m_surSystem);
                 Dictionary<string, EcellData> dict = DataManager.GetVariableProperty();
                 List<EcellData> list = new List<EcellData>();
                 foreach (EcellData d in dict.Values)
                     list.Add(d);
 
-                EcellObject eo = EcellObject.CreateObject(m_set.ModelID, tmpId, "Variable", "Variable", list);
+                EcellObject eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, "Variable", "Variable", list);
                 eo.X = m_downPos.X;
                 eo.Y = m_downPos.Y;
 
-                m_view.NotifyDataAdd(eo, true);
+                m_con.NotifyDataAdd(eo, true);
             }
         }
     }

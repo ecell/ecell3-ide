@@ -284,10 +284,10 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 foreach (EcellReference er in EcellObject.ReferenceList)
                 {
-                    if (!base.m_set.Variables.ContainsKey(er.Key))
+                    if (!base.m_canvas.Variables.ContainsKey(er.Key))
                         continue;
 
-                    PPathwayVariable var = base.m_set.Variables[er.Key];
+                    PPathwayVariable var = base.m_canvas.Variables[er.Key];
                     EdgeInfo edge = new EdgeInfo(this.EcellObject.key, er);
                     Line path = new Line(edge);
                     
@@ -313,7 +313,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void RefreshEdges()
         {
-            if (base.m_set == null || this.EcellObject == null)
+            if (base.m_canvas == null || this.EcellObject == null)
                 return;
             DeleteEdges();
             CreateEdges();

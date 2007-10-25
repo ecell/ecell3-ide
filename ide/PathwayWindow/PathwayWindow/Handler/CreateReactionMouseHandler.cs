@@ -54,7 +54,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// PathwayView
         /// </summary>
-        protected PathwayControl m_view;
+        protected PathwayControl m_con;
 
         /// <summary>
         /// Currently selected node.
@@ -76,9 +76,9 @@ namespace EcellLib.PathwayWindow
         /// Constructor with PathwayView.
         /// </summary>
         /// <param name="view"></param>
-        public CreateReactionMouseHandler(PathwayControl view)
+        public CreateReactionMouseHandler(PathwayControl control)
         {
-            this.m_view = view;
+            this.m_con = control;
         }
 
         public override bool DoesAcceptEvent(PInputEventArgs e)
@@ -95,7 +95,7 @@ namespace EcellLib.PathwayWindow
         {
             base.OnMouseDown(sender, e);
 
-            CanvasControl canvas = m_view.CanvasDictionary[e.Canvas.Name];
+            CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
 
             PPathwayNode newNode = e.PickedNode as PPathwayNode;
 
@@ -113,15 +113,15 @@ namespace EcellLib.PathwayWindow
             {
                 if (newNode is PPathwayProcess)
                 {
-                    if (m_view.SelectedHandle.Mode == Mode.CreateConstant)
+                    if (m_con.SelectedHandle.Mode == Mode.CreateConstant)
                     {
                         this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, 0);
                     }
-                    else if (m_view.SelectedHandle.Mode == Mode.CreateOneWayReaction)
+                    else if (m_con.SelectedHandle.Mode == Mode.CreateOneWayReaction)
                     {
                         this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, -1);
                     }
-                    else if (m_view.SelectedHandle.Mode == Mode.CreateMutualReaction)
+                    else if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
                     {
                         this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, -1);
                         this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, 1);
@@ -138,15 +138,15 @@ namespace EcellLib.PathwayWindow
             {
                 if (newNode is PPathwayVariable)
                 {
-                    if (m_view.SelectedHandle.Mode == Mode.CreateConstant)
+                    if (m_con.SelectedHandle.Mode == Mode.CreateConstant)
                     {
                         this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, 0);
                     }
-                    else if (m_view.SelectedHandle.Mode == Mode.CreateOneWayReaction)
+                    else if (m_con.SelectedHandle.Mode == Mode.CreateOneWayReaction)
                     {
                         this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, 1);
                     }
-                    else if (m_view.SelectedHandle.Mode == Mode.CreateMutualReaction)
+                    else if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
                     {
                         this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, 1);
                         this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, -1);
@@ -173,14 +173,14 @@ namespace EcellLib.PathwayWindow
             {
                 PointF contactP = m_current.GetContactPoint(e.Position);
                 
-                Line line = m_view.CanvasDictionary[e.Canvas.Name].Line4Reconnect;
+                Line line = m_con.CanvasDictionary[e.Canvas.Name].Line4Reconnect;
                 line.Reset();
-                if (m_view.SelectedHandle.Mode != Mode.CreateConstant)
+                if (m_con.SelectedHandle.Mode != Mode.CreateConstant)
                 {
                     line.ProPoint = contactP;
                     line.VarPoint = e.Position;
                     line.DrawLine();
-                    if (m_view.SelectedHandle.Mode == Mode.CreateMutualReaction)
+                    if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
                     {
                         line.AddPolygon( Line.GetArrowPoints( contactP, e.Position ));
                     }

@@ -1692,8 +1692,8 @@ namespace EcellLib.PathwayWindow
                 PPathwayProcess node = (PPathwayProcess)obj;
                 m_processes.Add(node.EcellObject.key, node);
             }
-            if (obj.CanvasView == null)
-                obj.CanvasView = this;
+            if (obj.CanvasControl == null)
+                obj.CanvasControl = this;
         }
 
         /// <summary>

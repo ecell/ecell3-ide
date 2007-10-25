@@ -608,7 +608,7 @@ namespace EcellLib.PathwayWindow
         public void AddSelect(string modelID, string key, string type)
         {
             // not implement
-            //PPathwayObject obj = m_view.ActiveCanvas.
+            //PPathwayObject obj = m_con.ActiveCanvas.
             this.m_con.ActiveCanvas.SelectChanged(key, ComponentManager.ParseComponentKind(type));
         }
 

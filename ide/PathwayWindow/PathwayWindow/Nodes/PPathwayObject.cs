@@ -81,7 +81,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// On this CanvasViewComponentSet this PPathwayObject is drawn.
         /// </summary>
-        protected CanvasControl m_set;
+        protected CanvasControl m_canvas;
         /// <summary>
         /// EcellObject for this object.
         /// </summary>
@@ -448,10 +448,10 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
         /// </summary>
-        public virtual CanvasControl CanvasView
+        public virtual CanvasControl CanvasControl
         {
-            get { return m_set; }
-            set { m_set = value; }
+            get { return m_canvas; }
+            set { m_canvas = value; }
         }
         /// <summary>
         /// Accessor for m_parentObject.
