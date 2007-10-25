@@ -91,10 +91,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         protected PText m_pText;
         /// <summary>
-        /// The name of this instance;
-        /// </summary>
-        protected string m_name;
-        /// <summary>
         /// The ID of ComponentSetting from which this object was created
         /// </summary>
         protected string m_csId;
@@ -362,14 +358,6 @@ namespace EcellLib.PathwayWindow.Nodes
             set { this.m_setting = value; }
         }
 
-        /// <summary>
-        /// Accessor for m_name.
-        /// </summary>
-        public string Name
-        {
-            get { return this.m_name; }
-            set { this.m_name = value; }
-        }
         /// <summary>
         /// Accessor for Text.
         /// </summary>

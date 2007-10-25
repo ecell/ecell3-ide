@@ -84,7 +84,6 @@ namespace EcellLib.PathwayWindow.Nodes
             set
             {
                 base.EcellObject = value;
-                this.Name = value.name;
                 Refresh();
             }
         }
@@ -315,7 +314,6 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             if (base.m_canvas == null || this.EcellObject == null)
                 return;
-            DeleteEdges();
             CreateEdges();
         }
 
@@ -383,17 +381,17 @@ namespace EcellLib.PathwayWindow.Nodes
         public void NotifyRemoveRelatedVariable(string key)
         {
             List<PPathwayVariable> rList = new List<PPathwayVariable>();
-            foreach (PPathwayVariable p in m_relatedVariables.Keys)
+            foreach (PPathwayVariable var in m_relatedVariables.Keys)
             {
-                if (p.EcellObject.key.StartsWith(key))
+                if (var.EcellObject.key.StartsWith(key))
                 {
-                    rList.Add(p);
+                    rList.Add(var);
                 }
             }
 
-            foreach (PPathwayVariable p in rList)
+            foreach (PPathwayVariable var in rList)
             {
-                m_relatedVariables.Remove(p);
+                m_relatedVariables.Remove(var);
             }
             rList.Clear();
         }

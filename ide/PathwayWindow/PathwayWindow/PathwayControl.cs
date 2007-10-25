@@ -481,7 +481,6 @@ namespace EcellLib.PathwayWindow
                 system.Reset();
                 system.MouseDown += new PInputEventHandler(SystemSelected);
                 system.Layer = layer;
-                system.Name = eo.key;
             }
             else
             {
@@ -668,24 +667,24 @@ namespace EcellLib.PathwayWindow
             // set logger menu
             foreach (EcellData d in ecellobj.M_value)
             {
+                // Create "Create Logger" menu.
                 if (!d.M_isLogable)
                     continue;
-                
-                ToolStripItem sysLogger = new ToolStripMenuItem(d.M_name);
-                sysLogger.Text = d.M_name;
-                if (d.M_isLogger)
-                {
-                    sysLogger.Click += new EventHandler(DeleteLoggerClick);
-                    deleteLogger.DropDown.Items.Add(sysLogger);
-                }
-                else
-                {
-                    sysLogger.Click += new EventHandler(CreateLoggerClick);
-                    createLogger.DropDown.Items.Add(sysLogger);
-                }
+                ToolStripItem createItem = new ToolStripMenuItem(d.M_name);
+                createItem.Text = d.M_name;
+                createItem.Click += new EventHandler(CreateLoggerClick);
+                createLogger.DropDown.Items.Add(createItem);
+
+                // create "Delete Logger" menu.
+                if (!d.M_isLogger)
+                    continue;
+                ToolStripItem deleteItem = new ToolStripMenuItem(d.M_name);
+                deleteItem.Text = d.M_name;
+                deleteItem.Click += new EventHandler(DeleteLoggerClick);
+                deleteLogger.DropDown.Items.Add(deleteItem);
             }
-            createLogger.Visible = (createLogger.DropDown.Items.Count != 0);
-            deleteLogger.Visible = (deleteLogger.DropDown.Items.Count != 0);
+            createLogger.Enabled = (createLogger.DropDown.Items.Count != 0);
+            deleteLogger.Enabled = (deleteLogger.DropDown.Items.Count != 0);
         }
         /// <summary>
         /// Add the selected EventHandler to event listener.
@@ -727,7 +726,7 @@ namespace EcellLib.PathwayWindow
             if (ActiveCanvas.ClickedNode is PPathwayObject)
             {
                 PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
-                MessageBox.Show("Name:" + obj.Name + "\nX:" + obj.X + "\nY:" + obj.Y
+                MessageBox.Show("Name:" + obj.EcellObject.key + "\nX:" + obj.X + "\nY:" + obj.Y
                     + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY + "\nToString()"
                     + obj.ToString());
             }
@@ -1390,7 +1389,7 @@ namespace EcellLib.PathwayWindow
             if (e.Button == MouseButtons.Left && e.PickedNode == sender)
             {
                 this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
-                this.CanvasDictionary[e.Canvas.Name].AddSelectedSystem(((PPathwayObject)sender).Name);
+                this.CanvasDictionary[e.Canvas.Name].AddSelectedSystem( ((PPathwayObject)sender).EcellObject.key );
             }
             else
             {
@@ -1701,24 +1700,17 @@ namespace EcellLib.PathwayWindow
                 {
                     i++;
                     bool isAnchor = (i == slist.Count);
-                    try
-                    {
-                        NotifyDataDelete(deleteNode, isAnchor);
-                    }
-                    catch (IgnoreException)
-                    {
-                        return;
-                    }
+                    NotifyDataDelete(deleteNode, isAnchor);
                 }
             }
             // Delete Selected System
             if (ActiveCanvas.SelectedSystemName != null)
             {
-                PPathwaySystem sys = ActiveCanvas.Systems[ActiveCanvas.SelectedSystemName];
-                // Return if sys is null or root sys.
-                if (string.IsNullOrEmpty(sys.Name))
+                PPathwaySystem system = ActiveCanvas.Systems[ActiveCanvas.SelectedSystemName];
+                // Return if system is null or root.
+                if (string.IsNullOrEmpty(system.EcellObject.key))
                     return;
-                if (sys.Name.Equals("/"))
+                if (system.EcellObject.key.Equals("/"))
                 {
                     MessageBox.Show(m_resources.GetString("ErrDelRoot"),
                                     "Error",
@@ -1727,16 +1719,18 @@ namespace EcellLib.PathwayWindow
                     return;
                 }
                 // Delete sys.
-                try
-                {
-                    NotifyDataDelete(sys.EcellObject, true);
-                }
-                catch (IgnoreException)
-                {
-                    return;
-                }
+                NotifyDataDelete(system.EcellObject, true);
                 ActiveCanvas.ResetSelectedSystem();
             }
+        }
+
+        private void DeleteSystemUnder(PPathwaySystem system)
+        {
+            foreach (PNode obj in system.ChildrenReference)
+                if (obj is PPathwaySystem)
+                    DeleteSystemUnder((PPathwaySystem)obj);
+
+            NotifyDataDelete(system.EcellObject, true);
         }
 
         /// <summary>
@@ -1814,26 +1808,26 @@ namespace EcellLib.PathwayWindow
         /// <param name="key">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
         /// <param name="eo">Changed value of object.</param>
-        public void DataChanged(string modelID, string key, string type, EcellObject eo)
+        public void DataChanged(string modelID, string oldKey, string type, EcellObject eo)
         {
             // Select Canvas
             CanvasControl canvas = m_canvasDict[modelID];
             // If case SystemSize
-            if( key.EndsWith(":SIZE") )
+            if( oldKey.EndsWith(":SIZE") )
             {
                 ChangeSystemSize(modelID, eo.parentSystemID, eo.GetEcellValue("Value").CastToDouble());
                 return;
             }
 
             // Select changed object.
-            PPathwayObject obj = canvas.GetSelectedObject(key, type);
+            PPathwayObject obj = canvas.GetSelectedObject(oldKey, type);
             if (obj == null)
                 return;
 
             // Change data.
             obj.EcellObject = eo;
-            if (!key.Equals(eo.key))
-                canvas.TransferObject(key, eo.key, obj);
+            if (!oldKey.Equals(eo.key))
+                canvas.TransferObject(oldKey, eo.key, obj);
 
             //
             if (obj is PPathwaySystem)

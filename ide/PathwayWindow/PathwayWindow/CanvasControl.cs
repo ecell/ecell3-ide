@@ -1252,7 +1252,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="system">PEcellSystem to be validated</param>
         protected void ValidateSystem(PPathwaySystem system)
         {
-            if (this.DoesSystemOverlaps(system.Rect, system.Name))
+            if (this.DoesSystemOverlaps(system.Rect, system.EcellObject.key))
                 system.Valid = false;
             else
                 system.Valid = true;
@@ -1526,37 +1526,32 @@ namespace EcellLib.PathwayWindow
             }
 
             system.EcellObject.key = newKey;
-            system.Name = system.Name.Replace(oldKey, newKey);
-
             m_systems.Add(newKey, system);
             m_systems.Remove(oldKey);
 
-            foreach (string key in this.GetAllSystemUnder(oldKey))
+            foreach (PPathwaySystem obj in this.GetAllSystemUnder(oldKey))
             {
-                PPathwaySystem childSys = m_systems[key];
+                string key = obj.EcellObject.key;
                 m_systems.Remove(key);
                 string newSysKey = key.Replace(oldKey, newKey);
-                childSys.Name = newSysKey;
-                childSys.EcellObject.key = newSysKey;
-                m_systems.Add(newSysKey, childSys);
+                obj.EcellObject.key = newSysKey;
+                m_systems.Add(newSysKey, obj);
             }
 
-            foreach (string key in this.GetAllVariableUnder(oldKey))
+            foreach (PPathwayVariable obj in this.GetAllVariableUnder(oldKey))
             {
-                PPathwayVariable pev = m_variables[key];
+                string key = obj.EcellObject.key;
                 m_variables.Remove(key);
                 string newVarKey = key.Replace(oldKey, newKey);
-                pev.Name = newVarKey;
-                m_variables.Add(newVarKey, pev);
+                m_variables.Add(newVarKey, obj);
             }
 
-            foreach (string key in this.GetAllProcessUnder(oldKey))
+            foreach (PPathwayProcess obj in this.GetAllProcessUnder(oldKey))
             {
-                PPathwayProcess pep = m_processes[key];
+                string key = obj.EcellObject.key;
                 m_processes.Remove(key);
                 string newProKey = key.Replace(oldKey, newKey);
-                pep.Name = newProKey;
-                m_processes.Add(newProKey, pep);
+                m_processes.Add(newProKey, obj);
             }
         }
 
@@ -1585,11 +1580,11 @@ namespace EcellLib.PathwayWindow
         /// <param name="rect">RectangleF to be checked</param>
         /// <param name="excludeName">The system with this name will NOT be taken into account</param>
         /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
-        public bool DoesSystemOverlaps(RectangleF rect, string excludeName)
+        public bool DoesSystemOverlaps(RectangleF rect, string excludeSystem)
         {
             bool isOverlaping = false;
             foreach (PPathwaySystem system in m_systems.Values)
-                if (system.Overlaps(rect) && !system.EcellObject.key.Equals(excludeName))
+                if (system.Overlaps(rect) && !system.EcellObject.key.Equals(excludeSystem))
                     isOverlaping = true;
 
             return isOverlaping;
@@ -1899,13 +1894,13 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="systemKey"></param>
         /// <returns>list of Ecell key of systems</returns>
-        public List<string> GetAllSystemUnder(string systemKey)
+        public List<PPathwaySystem> GetAllSystemUnder(string systemKey)
         {
-            List<string> returnList = new List<string>();
-            foreach (string key in m_systems.Keys)
+            List<PPathwaySystem> returnList = new List<PPathwaySystem>();
+            foreach (PPathwaySystem obj in m_systems.Values)
             {
-                if (key.StartsWith(systemKey + "/") && !key.Equals(systemKey))
-                    returnList.Add(key);
+                if (obj.EcellObject.key.StartsWith(systemKey + "/"))
+                    returnList.Add(obj);
             }
             return returnList;
         }
@@ -1915,13 +1910,13 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="systemKey"></param>
         /// <returns>list of Ecell key of variables</returns>
-        public List<string> GetAllVariableUnder(string systemKey)
+        public List<PPathwayVariable> GetAllVariableUnder(string systemKey)
         {
-            List<string> returnList = new List<string>();
-            foreach (string key in m_variables.Keys)
+            List<PPathwayVariable> returnList = new List<PPathwayVariable>();
+            foreach (PPathwayVariable obj in m_variables.Values)
             {
-                if (key.StartsWith(systemKey) && !key.Equals(systemKey))
-                    returnList.Add(key);
+                if (obj.EcellObject.key.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
+                    returnList.Add(obj);
             }
             return returnList;
         }
@@ -1931,13 +1926,13 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="systemKey"></param>
         /// <returns>list of Ecell key of processes</returns>
-        public List<String> GetAllProcessUnder(string systemKey)
+        public List<PPathwayProcess> GetAllProcessUnder(string systemKey)
         {
-            List<string> returnList = new List<string>();
-            foreach (string key in m_processes.Keys)
+            List<PPathwayProcess> returnList = new List<PPathwayProcess>();
+            foreach (PPathwayProcess obj in m_processes.Values)
             {
-                if (key.StartsWith(systemKey) && !key.Equals(systemKey))
-                    returnList.Add(key);
+                if (obj.EcellObject.key.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
+                    returnList.Add(obj);
             }
             return returnList;
         }
@@ -2035,6 +2030,7 @@ namespace EcellLib.PathwayWindow
                     return;
                 m_systems.Remove(oldkey);
                 m_systems.Add(newkey, (PPathwaySystem)obj);
+                m_systems[newkey].Refresh();
             }
             else if (obj is PPathwayVariable)
             {
@@ -2042,6 +2038,7 @@ namespace EcellLib.PathwayWindow
                     return;
                 m_variables.Remove(oldkey);
                 m_variables.Add(newkey, (PPathwayVariable)obj);
+                m_variables[newkey].Refresh();
             }
             else if (obj is PPathwayProcess)
             {
@@ -2049,6 +2046,7 @@ namespace EcellLib.PathwayWindow
                     return;
                 m_processes.Remove(oldkey);
                 m_processes.Add(newkey, (PPathwayProcess)obj);
+                m_processes[newkey].Refresh();
             }
             string sysKey = PathUtil.GetParentSystemId(newkey);
             obj.ParentObject.RemoveChild(obj);
@@ -2072,7 +2070,7 @@ namespace EcellLib.PathwayWindow
 
             if (obj is PPathwaySystem)
             {
-                RemoveObjectUnder(key);
+                RemoveNodeUnder(key);
                 m_systems.Remove(key);
             }
             else if (obj is PPathwayProcess)
@@ -2099,9 +2097,9 @@ namespace EcellLib.PathwayWindow
 
         }
 
-        private void RemoveObjectUnder(string sysKey)
+        private void RemoveNodeUnder(string sysKey)
         {
-            foreach (PPathwayObject obj in GetAllObjects())
+            foreach (PPathwayObject obj in GetNodeList())
                 if (obj.EcellObject.key.StartsWith(sysKey) && !obj.EcellObject.key.Equals(sysKey) )
                     DataDelete(obj.EcellObject.key, obj.EcellObject.type);
         }

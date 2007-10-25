@@ -140,7 +140,6 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return (EcellSystem)base.m_ecellObj; }
             set {
                 base.EcellObject = value;
-                this.Name = value.key;
                 this.Reset();
                 this.RefreshText();
             }

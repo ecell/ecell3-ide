@@ -290,31 +290,31 @@ namespace EcellLib.PathwayWindow.Handler
             }
             else if (e.PickedNode is PPathwaySystem)
             {
-                PPathwaySystem picked = (PPathwaySystem)e.PickedNode;
-                if (picked.Parent is PLayer)
+                PPathwaySystem system = (PPathwaySystem)e.PickedNode;
+                if (system.Parent is PLayer)
                 {
                     m_canvas.PathwayControl.NotifyDataChanged(
-                                    picked.EcellObject.key,
-                                    picked.EcellObject.key,
-                                    picked,
+                                    system.EcellObject.key,
+                                    system.EcellObject.key,
+                                    system,
                                     true,
                                     true);
                 }
                 else
                 {
-                    RectangleF rectF = picked.Rect;
+                    RectangleF rectF = system.Rect;
 
-                    if (m_canvas.DoesSystemOverlaps(picked.GlobalBounds, picked.EcellObject.key)
+                    if (m_canvas.DoesSystemOverlaps(system.GlobalBounds, system.EcellObject.key)
                         || !m_canvas.IsInsideRoot(rectF))
                     {
-                        picked.Refresh();
-                        m_systems[picked.Name].Refresh();
+                        system.Refresh();
+                        m_systems[system.EcellObject.key].Refresh();
                         m_canvas.UpdateResizeHandlePositions();
-                        picked.IsInvalid = false;
+                        system.IsInvalid = false;
                     }
                     else
                     {
-                        string oldSystemName = ((PPathwaySystem)e.PickedNode).Name;
+                        string oldSystemName = ((PPathwaySystem)e.PickedNode).EcellObject.key;
                         string surSys = m_canvas.GetSurroundingSystemKey(e.Position, oldSystemName);
                         string newSys = null;
                         if (surSys.Equals("/"))
@@ -324,10 +324,10 @@ namespace EcellLib.PathwayWindow.Handler
                         if (!oldSystemName.Equals(newSys) && m_systems.ContainsKey(newSys))
                         {
                             MessageBox.Show(newSys + m_resources.GetString("ErrAlrExist"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            picked.Refresh();
-                            m_systems[picked.Name].Refresh();
+                            system.Refresh();
+                            m_systems[system.EcellObject.key].Refresh();
                             m_canvas.UpdateResizeHandlePositions();
-                            picked.IsInvalid = false;
+                            system.IsInvalid = false;
                         }
                         else
                         {
@@ -338,7 +338,7 @@ namespace EcellLib.PathwayWindow.Handler
                                 m_canvas.PathwayControl.NotifyDataChanged(
                                     oldSystemName,
                                     oldSystemName,
-                                    picked,
+                                    system,
                                     true,
                                     true);
                             }
