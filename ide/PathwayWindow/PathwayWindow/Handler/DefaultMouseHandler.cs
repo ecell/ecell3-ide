@@ -74,7 +74,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="view"></param>
+        /// <param name="control">The control of PathwayView.</param>
         public DefaultMouseHandler(PathwayControl control)
         {
             this.m_con = control;

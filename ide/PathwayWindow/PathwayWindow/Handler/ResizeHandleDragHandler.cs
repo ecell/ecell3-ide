@@ -55,7 +55,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="set"></param>
+        /// <param name="canvas">default canves,</param>
         public ResizeHandleDragHandler(CanvasControl canvas)
         {
             m_canvas = canvas;

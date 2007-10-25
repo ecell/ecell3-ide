@@ -80,7 +80,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="view"></param>
+        /// <param name="control">Control to diaplay the Matir2 .</param>
         public CreateNodeMouseHandler(PathwayControl control)
         {
             this.m_con = control;

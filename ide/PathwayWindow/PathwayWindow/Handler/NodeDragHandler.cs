@@ -100,7 +100,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// constructor with initial parameters.
         /// </summary>
-        /// <param name="set">component set.</param>
+        /// <param name="canvas">canvas control.</param>
         /// <param name="dict">dictionary of system.</param>
         public NodeDragHandler(CanvasControl canvas, Dictionary<string, PPathwaySystem> dict)
         {

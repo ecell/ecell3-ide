@@ -75,12 +75,17 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Constructor with PathwayView.
         /// </summary>
-        /// <param name="view"></param>
+        /// <param name="control">The control of PathwayView.</param>
         public CreateReactionMouseHandler(PathwayControl control)
         {
             this.m_con = control;
         }
 
+        /// <summary>
+        /// Get the flag whether system accept this events.
+        /// </summary>
+        /// <param name="e">Target events.</param>
+        /// <returns>The judgement whether this event is accepted.</returns>
         public override bool DoesAcceptEvent(PInputEventArgs e)
         {
             return e.Button != MouseButtons.Right;
@@ -89,8 +94,8 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Called when the mouse is down on the canvas.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">UserControl.</param>
+        /// <param name="e">PInputEventArgs</param>
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {
             base.OnMouseDown(sender, e);

@@ -112,12 +112,17 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="view"></param>
+        /// <param name="control"></param>
         public CreateSystemMouseHandler(PathwayControl control)
         {
             this.m_con = control;
         }
 
+        /// <summary>
+        /// Get the flag whether system accept this action.
+        /// </summary>
+        /// <param name="e">PInputEventArgs</param>
+        /// <returns>The judgement whether this action is acceped.</returns>
         public override bool DoesAcceptEvent(PInputEventArgs e)
         {
             return e.Button != MouseButtons.Right;
