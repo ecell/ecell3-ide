@@ -834,8 +834,9 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Notify logger change.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="obj">The object to change the logger property.</param>
+        /// <param name="logger">The logger entity.</param>
+        /// <param name="isLogger">The flag whether the entity is logged.</param>
         private void NotifyLoggerChanged(PPathwayObject obj, string logger, bool isLogger)
         {
             EcellObject eo = m_window.GetEcellObject(obj.EcellObject.modelID, obj.EcellObject.key, obj.EcellObject.type);
