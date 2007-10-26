@@ -478,7 +478,7 @@ namespace EcellLib.PathwayWindow
             if (eo is EcellSystem)
             {
                 PPathwaySystem system = (PPathwaySystem)obj;
-                system.Reset();
+                system.Refresh();
                 system.MouseDown += new PInputEventHandler(SystemSelected);
                 system.Layer = layer;
             }

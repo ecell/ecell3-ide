@@ -324,7 +324,6 @@ namespace EcellLib.PathwayWindow.Handler
                         {
                             MessageBox.Show(newSys + m_resources.GetString("ErrAlrExist"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             system.Refresh();
-                            m_systems[system.EcellObject.key].Refresh();
                             m_canvas.UpdateResizeHandlePositions();
                             system.IsInvalid = false;
                         }

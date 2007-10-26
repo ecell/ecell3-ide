@@ -1125,12 +1125,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void Refresh()
         {
-            base.X = this.m_originalX;
-            base.Y = this.m_originalY;
-            base.OffsetX = this.m_originalOffsetX;
-            base.OffsetY = this.m_originalOffsetY;
-            base.Width = this.m_originalWidth;
-            base.Height = this.m_originalHeight;
             RefreshText();
         }
         /// <summary>

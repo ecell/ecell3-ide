@@ -140,8 +140,7 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return (EcellSystem)base.m_ecellObj; }
             set {
                 base.EcellObject = value;
-                this.Reset();
-                this.RefreshText();
+                this.Refresh();
             }
         }
         /// <summary>
@@ -370,22 +369,6 @@ namespace EcellLib.PathwayWindow.Nodes
                 systemPos.Y += dummyParent.OffsetY;
             } while (!(dummyParent.Parent is PLayer));
             return systemPos;
-        }
-
-        /// <summary>
-        /// set the rectangle of system at canvas.
-        /// </summary>
-        /// <param name="x">the position of system.</param>
-        /// <param name="y">the position of system.</param>
-        /// <param name="width">the width of system.</param>
-        /// <param name="height">the height of system.</param>
-        public void SetRect(float x, float y, float width, float height)
-        {
-            base.X = x;
-            base.Y = y;
-            base.Width = width;
-            base.Height = height;
-            Reset();
         }
 
         /// <summary>

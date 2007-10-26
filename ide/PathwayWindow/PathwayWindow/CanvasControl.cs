@@ -780,9 +780,7 @@ namespace EcellLib.PathwayWindow
                 ResetSystemResize(system);
                 return;
             }
-
-            // Reset Object relation.
-            system.Reset();
+            system.Refresh();
 
             List<PPathwayObject> objList = GetAllObjects();
             // Select PathwayObjects being moved into current system.
@@ -876,6 +874,7 @@ namespace EcellLib.PathwayWindow
         void ResetSystemResize(PPathwaySystem system)
         {
             // Resizing is aborted
+            system.ResetPosition();
             system.Refresh();
             this.ValidateSystem(system);
             UpdateResizeHandlePositions();
@@ -965,7 +964,7 @@ namespace EcellLib.PathwayWindow
                 system.Y = Y - offsetToL.Y;
                 system.Height = height;
                 this.ValidateSystem(system);
-                system.Reset();
+                system.Refresh();
                 UpdateResizeHandlePositions(e.PickedNode);
             }
             else
@@ -999,7 +998,7 @@ namespace EcellLib.PathwayWindow
                 system.Width = width;
                 system.Height = height;
                 this.ValidateSystem(system);
-                system.Reset();
+                system.Refresh();
                 UpdateResizeHandlePositions(e.PickedNode);
             }
             else
@@ -1037,7 +1036,7 @@ namespace EcellLib.PathwayWindow
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 system.Width = width;
                 this.ValidateSystem(system);
-                system.Reset();
+                system.Refresh();
                 UpdateResizeHandlePositions(e.PickedNode);
             }
             else
@@ -1070,7 +1069,7 @@ namespace EcellLib.PathwayWindow
                 system.Width = width;
                 system.Height = height;
                 this.ValidateSystem(system);
-                system.Reset();
+                system.Refresh();
                 UpdateResizeHandlePositions(e.PickedNode);
             }
             else
@@ -1109,7 +1108,7 @@ namespace EcellLib.PathwayWindow
                 ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 system.Height = height;
                 this.ValidateSystem(system);
-                system.Reset();
+                system.Refresh();
                 UpdateResizeHandlePositions(e.PickedNode);
             }
             else
@@ -1143,7 +1142,7 @@ namespace EcellLib.PathwayWindow
                 system.Width = width;
                 system.Height = height;
                 this.ValidateSystem(system);
-                system.Reset();
+                system.Refresh();
 
                 UpdateResizeHandlePositions(e.PickedNode);
             }
@@ -1185,7 +1184,7 @@ namespace EcellLib.PathwayWindow
                 system.X = X - offsetToL.X;
                 system.Width = width;
                 this.ValidateSystem(system);
-                system.Reset();
+                system.Refresh();
                 UpdateResizeHandlePositions(e.PickedNode);
             }
             else
@@ -1462,9 +1461,6 @@ namespace EcellLib.PathwayWindow
                 PPathwayVariable var = (PPathwayVariable)obj;
                 string newKey = systemName + ":" + var.EcellObject.name;
                 string oldKey = var.EcellObject.key;
-                m_variables.Remove(oldKey);
-                m_variables.Add(newKey, var);
-                var.Refresh();
                 if (!oldKey.Equals(newKey))
                     m_con.NotifyDataChanged(
                         oldKey,
@@ -1478,9 +1474,6 @@ namespace EcellLib.PathwayWindow
                 PPathwayProcess pro = (PPathwayProcess)obj;
                 string newKey = systemName + ":" + pro.EcellObject.name;
                 string oldKey = pro.EcellObject.key;
-                m_processes.Remove(oldKey);
-                m_processes.Add(newKey, pro);
-                pro.Refresh();
                 if (!oldKey.Equals(newKey))
                     m_con.NotifyDataChanged(
                         oldKey,
