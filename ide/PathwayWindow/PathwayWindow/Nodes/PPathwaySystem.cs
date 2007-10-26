@@ -394,7 +394,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void Refresh()
         {
-            base.Refresh();
+            base.ResetPosition();
             this.Reset();
             foreach (PPathwayObject obj in this.ChildObjectList)
             {

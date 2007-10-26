@@ -297,7 +297,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     
                     path.MouseDown += this.m_handler4Line;
                     path.Brush = Brushes.Black;
-                    path.VarPoint = var.GetContactPoint(base.CenterPointToCanvas);
+                    path.VarPoint = var.GetContactPoint(base.CenterPoint);
                     path.ProPoint = base.GetContactPoint(path.VarPoint);
                     path.DrawLine();
                     path.Pickable = true;

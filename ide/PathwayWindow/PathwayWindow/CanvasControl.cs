@@ -1523,10 +1523,9 @@ namespace EcellLib.PathwayWindow
                     true,
                     true);
             }
-
-            system.EcellObject.key = newKey;
-            m_systems.Add(newKey, system);
-            m_systems.Remove(oldKey);
+            //system.EcellObject.key = newKey;
+            //m_systems.Add(newKey, system);
+            //m_systems.Remove(oldKey);
 
             foreach (PPathwaySystem obj in this.GetAllSystemUnder(oldKey))
             {
@@ -2092,8 +2091,6 @@ namespace EcellLib.PathwayWindow
 
             obj.Text.RemoveFromParent();
             obj.Parent.RemoveChild(obj);
-            obj.Reset();
-
         }
 
         private void RemoveNodeUnder(string sysKey)
@@ -2220,7 +2217,6 @@ namespace EcellLib.PathwayWindow
         public void UpdateOverview()
         {
             RectangleF recf = m_pCanvas.Camera.ViewBounds;
-            m_con.OverView.DisplayedArea.Reset();
             m_con.OverView.DisplayedArea.Offset = PointF.Empty;
             m_con.OverView.DisplayedArea.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
             m_con.OverView.UpdateTransparent();
