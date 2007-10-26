@@ -891,7 +891,7 @@ namespace EcellLib.PathwayWindow
         void PPathwaySystem_MouseDown(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             PPathwaySystem system = m_systems[m_selectedSystemName];
-            system.MemorizeCurrentPosition();
+            system.MemorizePosition();
             PointF offsetToL = system.Offset;
             PointF lP = new PointF(system.X + offsetToL.X, system.Y + offsetToL.Y);
             m_upperLeftPoint = lP;
@@ -911,7 +911,6 @@ namespace EcellLib.PathwayWindow
                 return;
             RefreshSurroundState();
             PPathwaySystem system = m_systems[m_selectedSystemName];
-            EcellObject eo = system.EcellObject;
 
             float X = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
             float Y = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
@@ -1657,7 +1656,7 @@ namespace EcellLib.PathwayWindow
             obj.RefreshText();
 
             if (obj is PPathwayProcess)
-                ((PPathwayProcess)obj).CreateEdges();
+                ((PPathwayProcess)obj).RefreshEdges();
         }
 
         /// <summary>
@@ -2080,7 +2079,7 @@ namespace EcellLib.PathwayWindow
             }
             else if (obj is PPathwayVariable)
             {
-                ((PPathwayVariable)obj).NotifyRemoveRelatedProcess();
+                ((PPathwayVariable)obj).NotifyRemoveToRelatedProcess();
                 m_variables.Remove(key);
             }
             RemoveObject(obj);

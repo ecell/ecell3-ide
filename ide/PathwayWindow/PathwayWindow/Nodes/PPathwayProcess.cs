@@ -59,9 +59,13 @@ namespace EcellLib.PathwayWindow.Nodes
 
         #region Fields
         /// <summary>
-        /// dictionary of Line for variable. key is PPEcellVariable.
+        /// dictionary of Line. Key is node.EcellObject.key.
         /// </summary>
-        protected Dictionary<PPathwayVariable,List<Line>> m_relatedVariables = new Dictionary<PPathwayVariable,List<Line>>();
+        protected Dictionary<string, List<Line>> m_lines = new Dictionary<string, List<Line>>();
+        /// <summary>
+        /// dictionary of related PPathwayVariable. Key is node.EcellObject.key.
+        /// </summary>
+        protected Dictionary<string, PPathwayVariable> m_relatedVariables = new Dictionary<string, PPathwayVariable>();
 
         /// <summary>
         /// delta of moving this node.
@@ -107,7 +111,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void Freeze()
         {
             base.Freeze();
-            foreach (List<Line> list in m_relatedVariables.Values)
+            foreach (List<Line> list in m_lines.Values)
                 foreach (Line line in list)
                     line.Pickable = false;
         }
@@ -118,7 +122,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void Unfreeze()
         {
             base.Unfreeze();
-            foreach (List<Line> list in m_relatedVariables.Values)
+            foreach (List<Line> list in m_lines.Values)
                 foreach (Line line in list)
                     line.Pickable = true;
         }
@@ -172,15 +176,17 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="path">PPath of the related variable.</param>
         private void AddRelatedVariable(PPathwayVariable var, Line path)
         {
-            if (m_relatedVariables.ContainsKey(var))
+            string key = var.EcellObject.key;
+            if (m_lines.ContainsKey(key))
             {
-                m_relatedVariables[var].Add(path);
+                m_lines[key].Add(path);
             }
             else
             {
+                m_relatedVariables.Add(key, var);
                 List<Line> ppaths = new List<Line>();
                 ppaths.Add(path);
-                m_relatedVariables.Add(var, ppaths);
+                m_lines.Add(key, ppaths);
             }
         }
         /// <summary>
@@ -275,7 +281,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void CreateEdges()
         {
-            DeleteEdges();
             if (this.EcellObject == null || this.EcellObject.ReferenceList == null)
                 return;
 
@@ -314,25 +319,8 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             if (base.m_canvas == null || this.EcellObject == null)
                 return;
+            DeleteEdges();
             CreateEdges();
-        }
-
-        /// <summary>
-        /// delete all related process from list.
-        /// </summary>
-        public void DeleteEdges()
-        {
-            foreach(List<Line> pathList in m_relatedVariables.Values)
-            {
-                foreach(Line path in pathList)
-                {
-                    if(path.Parent != null)
-                    {
-                        path.Parent.RemoveChild(path);
-                    }
-                }
-            }
-            m_relatedVariables = new Dictionary<PPathwayVariable, List<Line>>();
         }
 
         /// <summary>
@@ -340,7 +328,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void Delete()
         {
-            NotifyRemoveRelatedVariable();
+            NotifyRemoveToRelatedVariable();
             DeleteEdges();
         }
 
@@ -348,21 +336,40 @@ namespace EcellLib.PathwayWindow.Nodes
         /// delete the specified related variable from list.
         /// </summary>
         /// <param name="p">the specified variable.</param>
-        public void DeleteEdge(PPathwayVariable p)
+        public void DeleteEdge(string key)
         {
-            if (!m_relatedVariables.ContainsKey(p)) return;
-            List<Line> pathList = m_relatedVariables[p];
+            if (!m_lines.ContainsKey(key))
+                return;
+            List<Line> pathList = m_lines[key];
+
+            foreach (PPath path in pathList)
             {
-                foreach (PPath path in pathList)
+                if (path.Parent != null)
                 {
-                    if (path.Parent != null)
-                    {
-                        path.Parent.RemoveChild(path);
-                    }
+                    path.Parent.RemoveChild(path);
                 }
             }
+            m_lines.Remove(key);
+            m_relatedVariables.Remove(key);
+        }
 
-            m_relatedVariables.Remove(p);
+        /// <summary>
+        /// delete all related process from list.
+        /// </summary>
+        public void DeleteEdges()
+        {
+            foreach (List<Line> pathList in m_lines.Values)
+            {
+                foreach (Line path in pathList)
+                {
+                    if (path.Parent != null)
+                        path.Parent.RemoveChild(path);
+                    else
+                        path.CloseAllFigures();
+                }
+            }
+            m_lines.Clear();
+            m_relatedVariables.Clear();
         }
 
         /// <summary>
@@ -375,38 +382,14 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// notify to remove the related variable from list.
-        /// </summary>
-        /// <param name="key"></param>
-        public void NotifyRemoveRelatedVariable(string key)
-        {
-            List<PPathwayVariable> rList = new List<PPathwayVariable>();
-            foreach (PPathwayVariable var in m_relatedVariables.Keys)
-            {
-                if (var.EcellObject.key.StartsWith(key))
-                {
-                    rList.Add(var);
-                }
-            }
-
-            foreach (PPathwayVariable var in rList)
-            {
-                m_relatedVariables.Remove(var);
-            }
-            rList.Clear();
-        }
-
-        /// <summary>
         /// notify to remove all related process from list.
         /// </summary>
-        public void NotifyRemoveRelatedVariable()
+        public void NotifyRemoveToRelatedVariable()
         {
-            foreach (PPathwayVariable p in m_relatedVariables.Keys)
+            foreach (PPathwayVariable var in m_relatedVariables.Values)
             {
-                p.NotifyRemoveRelatedProcess(this.EcellObject.key);
+                var.RemoveRelatedProcess(this.EcellObject.key);
             }
-            DeleteEdges();
-            RefreshEdges();
         }
 
         /// <summary>
@@ -423,7 +406,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void MoveStart()
         {
-            DeleteEdges();
+            RefreshEdges();
         }
 
         /// <summary>
@@ -431,7 +414,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void MoveEnd()
         {
-            CreateEdges();
+            RefreshEdges();
         }
         #endregion
     }

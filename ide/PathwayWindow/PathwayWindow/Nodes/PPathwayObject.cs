@@ -303,7 +303,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     base.OffsetX = m_ecellObj.OffsetX;
                     base.OffsetY = m_ecellObj.OffsetY;
                 }
-                MemorizeCurrentPosition();
+                MemorizePosition();
                 Refresh();
             }
         }
@@ -1096,7 +1096,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Memorize a current position for returning to this position in the future in neccessary.
         /// </summary>
-        public virtual void MemorizeCurrentPosition()
+        public virtual void MemorizePosition()
         {
             this.m_originalX = base.X;
             this.m_originalY = base.Y;
@@ -1104,6 +1104,19 @@ namespace EcellLib.PathwayWindow.Nodes
             this.m_originalOffsetY = base.OffsetY;
             this.m_originalWidth = this.Width;
             this.m_originalHeight = this.Height;
+        }
+        /// <summary>
+        /// Reset a current position.
+        /// </summary>
+        public virtual void ResetPosition()
+        {
+            base.X = this.m_originalX;
+            base.Y = this.m_originalY;
+            base.OffsetX = this.m_originalOffsetX;
+            base.OffsetY = this.m_originalOffsetY;
+            base.Width = this.m_originalWidth;
+            base.Height = this.m_originalHeight;
+            RefreshText();
         }
 
         /// <summary>
