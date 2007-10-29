@@ -1678,6 +1678,7 @@ namespace EcellLib.PathwayWindow
         public void DeleteClick(object sender, EventArgs e)
         {
             // Delete Selected Line
+            if (ActiveCanvas == null) return;
             Line line = (Line)ActiveCanvas.SelectedLine;
             if (line != null)
             {

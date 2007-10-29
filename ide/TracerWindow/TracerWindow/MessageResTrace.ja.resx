@@ -123,6 +123,9 @@
   <data name="ErrColorDlg" xml:space="preserve">
     <value>カラー選択ダイアログを表示できませんでした。</value>
   </data>
+  <data name="ErrInputData" xml:space="preserve">
+    <value>数値以外のデータが格納されています。</value>
+  </data>
   <data name="ErrNotFind" xml:space="preserve">
     <value>選択したオブジェクトが見つかりません。</value>
   </data>

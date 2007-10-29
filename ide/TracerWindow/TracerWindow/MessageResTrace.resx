@@ -123,6 +123,9 @@
   <data name="ErrColorDlg" xml:space="preserve">
     <value>Can't find color or style of line.</value>
   </data>
+  <data name="ErrInputData" xml:space="preserve">
+    <value>There are no numerical data.</value>
+  </data>
   <data name="ErrNotFind" xml:space="preserve">
     <value>Can't fine the object with input search condition.</value>
   </data>

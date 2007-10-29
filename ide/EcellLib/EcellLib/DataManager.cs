@@ -5713,7 +5713,10 @@ namespace EcellLib
                 }
                 foreach (string l_entityPath in l_processPropertyDic.Keys)
                 {
-                    l_simulator.LoadEntityProperty(l_entityPath, l_processPropertyDic[l_entityPath]);
+                    if (!l_entityPath.EndsWith("Fixed"))
+                    {
+                        l_simulator.LoadEntityProperty(l_entityPath, l_processPropertyDic[l_entityPath]);
+                    }
                 }
             }
             if (!l_existSystem)

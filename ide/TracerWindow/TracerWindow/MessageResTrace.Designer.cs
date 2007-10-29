@@ -79,6 +79,15 @@ namespace EcellLib.TracerWindow {
         }
         
         /// <summary>
+        ///   There are no numerical data. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrInputData {
+            get {
+                return ResourceManager.GetString("ErrInputData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can&apos;t fine the object with input search condition. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNotFind {

@@ -38,6 +38,7 @@ using System.Windows.Forms.Design;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 using WeifenLuo.WinFormsUI.Docking;
+using System.ComponentModel;
 
 namespace EcellLib.TracerWindow
 {
@@ -137,6 +138,11 @@ namespace EcellLib.TracerWindow
         int m_timespan = 100;
         bool isStep = false;
         bool isLogAdding = false;
+        /// <summary>
+        /// ResourceManager for TraceWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResTrace));
+
         #endregion
 
         /// <summary>
@@ -433,9 +439,19 @@ namespace EcellLib.TracerWindow
         /// <param name="e">EventArgs</param>
         private void SetupTraceWindowClick(object sender, EventArgs e)
         {
-            m_count = Convert.ToInt32(m_setup.numberTextBox.Text);
-            m_timespan = Convert.ToInt32(Convert.ToDouble(m_setup.intervalTextBox.Text) * 1000.0);
-            DataManager.GetDataManager().StepCount = Convert.ToInt32(m_setup.stepCountTextBox.Text);
+            try
+            {
+                m_count = Convert.ToInt32(m_setup.numberTextBox.Text);
+                m_timespan = Convert.ToInt32(Convert.ToDouble(m_setup.intervalTextBox.Text) * 1000.0);
+                DataManager.GetDataManager().StepCount = Convert.ToInt32(m_setup.stepCountTextBox.Text);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                m_resources.GetString("ErrInputData");
+                m_setup.Dispose();
+                return;
+            }
 
             m_setup.Dispose();
         }
