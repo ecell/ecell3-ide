@@ -1066,6 +1066,28 @@ namespace EcellLib.MainWindow
                 String prjID = m_openPrjDialog.OPPrjIDText.Text;
                 String comment = m_openPrjDialog.OPCommentText.Text;
                 String fileName = m_openPrjDialog.FileName;
+                if (prjID == "")
+                {
+                    String errmes = m_resources.GetString("ErrPrjIdNull");
+                    MessageBox.Show(errmes,
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (Util.IsNGforID(prjID))
+                {
+                    String errmes = m_resources.GetString("ErrPrjIdNG");
+                    MessageBox.Show(errmes,
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (prjID.Length > 200)
+                {
+                    String errmes = m_resources.GetString("ErrPrjIdNG");
+                    MessageBox.Show(errmes,
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
                 if (fileName.EndsWith("eml"))
                 {
                     m_dManager.NewProject(prjID, comment);
