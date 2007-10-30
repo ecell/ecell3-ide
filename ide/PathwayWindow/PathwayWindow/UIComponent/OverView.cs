@@ -127,7 +127,7 @@ namespace EcellLib.PathwayWindow.UIComponent
 
             // Set new Layer.
             m_canvas.Camera.AddInputEventListener(new AreaDragHandler(canvas.PathwayCanvas.Camera));
-            m_canvas.Camera.ScaleViewBy(OverView.REDUCTION_SCALE);
+            m_canvas.Camera.ScaleViewBy(REDUCTION_SCALE);
             m_canvas.Camera.TranslateViewBy(500, 500);
             m_canvas.Layer.AddChild(m_transparentNode);
             m_canvas.Layer.AddChild(m_area);

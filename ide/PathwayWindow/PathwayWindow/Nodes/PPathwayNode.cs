@@ -365,7 +365,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 return PointF.Empty;
 
             PointF originalPoint = new PointF(0f,0f);
-            PointF centerPoint = this.CenterPointToCanvas;
+            PointF centerPoint = this.CenterPoint;
             
             refPoint.X -= centerPoint.X;
             refPoint.Y -= centerPoint.Y;

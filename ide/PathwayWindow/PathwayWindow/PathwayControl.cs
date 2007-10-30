@@ -188,57 +188,57 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// PathwayWindow.
         /// </summary>
-        PathwayWindow m_window;
+        private PathwayWindow m_window;
 
         /// <summary>
         /// Dictionary for Eventhandlers.
         /// </summary>
-        Dictionary<int, PBasicInputEventHandler> m_handlerDict = new Dictionary<int, PBasicInputEventHandler>();
+        private Dictionary<int, PBasicInputEventHandler> m_handlerDict = new Dictionary<int, PBasicInputEventHandler>();
 
         /// <summary>
         /// A list of toolbox buttons.
         /// </summary>
-        List<ToolStripButton> m_buttonList = new List<ToolStripButton>();
+        private List<ToolStripButton> m_buttonList = new List<ToolStripButton>();
 
         /// <summary>
         /// List of ToolStripMenuItems for ContextMenu
         /// </summary>
-        Dictionary<string, ToolStripItem> m_cMenuDict = new Dictionary<string, ToolStripItem>();
+        private Dictionary<string, ToolStripItem> m_cMenuDict = new Dictionary<string, ToolStripItem>();
 
         /// <summary>
         /// Dictionary for canvases.
         ///  key: canvas ID
         ///  value: CanvasViewComponentSet
         /// </summary>
-        Dictionary<string, CanvasControl> m_canvasDict;
+        private Dictionary<string, CanvasControl> m_canvasDict;
 
         /// <summary>
         /// The CanvasID of currently active canvas.
         /// </summary>
-        string m_activeCanvasID;
+        private string m_activeCanvasID;
 
         /// <summary>
         /// Default LayerID
         /// </summary>
-        string m_defLayerId = "first";
+        private string m_defLayerId = "first";
 
         /// <summary>
         /// ComponentSettingsManager for creating Systems and Nodes
         /// </summary>
-        ComponentManager m_csManager;
+        private ComponentManager m_csManager;
 
         /// <summary>
         /// OverView interface.
         /// </summary>
-        PathwayView m_pathwayView;
+        private PathwayView m_pathwayView;
         /// <summary>
         /// OverView interface.
         /// </summary>
-        OverView m_overView;
+        private OverView m_overView;
         /// <summary>
         /// LayerView interface.
         /// </summary>
-        LayerView m_layerView;
+        private LayerView m_layerView;
 
         /// <summary>
         /// ContextMenuStrip for PPathwayNode
@@ -248,22 +248,22 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// List of PPathwayNode for copied object.
         /// </summary>
-        List<EcellObject> m_copiedNodes = new List<EcellObject>();
+        private List<EcellObject> m_copiedNodes = new List<EcellObject>();
 
         /// <summary>
         /// Point of mouse cursor.
         /// </summary>
-        PointF m_mousePos;
+        private PointF m_mousePos;
 
         /// <summary>
         /// Point of mouse cursor.
         /// </summary>
-        PointF m_copyPos;
+        private PointF m_copyPos;
 
         /// <summary>
         /// Whether each node is showing it's ID or not;
         /// </summary>
-        bool m_showingId = true;
+        private bool m_showingId = true;
 
         /// <summary>
         /// Indicate which pathway-related toolbar button is selected.

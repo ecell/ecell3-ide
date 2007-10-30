@@ -130,14 +130,14 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e">EventArgs.</param>
         void m_tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (((TabControl)sender).TabCount != 0)
-            {
-                string modelID = ((TabControl)sender).TabPages[((TabControl)sender).SelectedIndex].Text;
-                m_con.OverView.SetCanvas(m_con.CanvasDictionary[modelID]);
-                // TODO LayerView Setting
-                //m_dgv.DataMember = modelID;
+            if (((TabControl)sender).TabCount == 0)
+                return;
 
-            }
+            string modelID = ((TabControl)sender).TabPages[((TabControl)sender).SelectedIndex].Text;
+            CanvasControl canvas = m_con.CanvasDictionary[modelID];
+            m_con.OverView.SetCanvas(canvas);
+            // TODO LayerView Setting
+            //m_dgv.DataMember = modelID;
         }
 
         /// <summary>
