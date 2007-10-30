@@ -266,11 +266,8 @@ namespace EcellLib.PathwayWindow.Nodes
 
             foreach (EcellReference reference in list)
             {
-                if (reference.fullID.EndsWith(key))
-                {
-                    if (reference.coefficient * coefficient >= 0)
-                        contains = true;
-                }
+                if (reference.fullID.EndsWith(key) && reference.coefficient == coefficient)
+                    contains = true;
             }
 
             return contains;

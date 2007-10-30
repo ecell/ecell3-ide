@@ -308,7 +308,6 @@ namespace EcellLib.PathwayWindow.Handler
                         || !m_canvas.IsInsideRoot(rectF))
                     {
                         system.ResetPosition();
-                        system.Refresh();
                         m_canvas.UpdateResizeHandlePositions();
                         system.IsInvalid = false;
                     }
@@ -323,7 +322,6 @@ namespace EcellLib.PathwayWindow.Handler
                         if (!oldSystemName.Equals(newSys) && m_systems.ContainsKey(newSys))
                         {
                             MessageBox.Show(newSys + m_resources.GetString("ErrAlrExist"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            system.Refresh();
                             m_canvas.UpdateResizeHandlePositions();
                             system.IsInvalid = false;
                         }
@@ -343,6 +341,7 @@ namespace EcellLib.PathwayWindow.Handler
 
                         }
                     }
+                    system.Refresh();
                 }
             }
             SetBackToDefault();

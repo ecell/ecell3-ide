@@ -505,7 +505,6 @@ namespace EcellLib.PathwayWindow
             DataColumn dc2 = new DataColumn(COLUMN_NAME4NAME);
             dc2.DataType = typeof(string);
             m_table.Columns.Add(dc2);
-
             // Preparing layer list
             m_layers = new Dictionary<string, PLayer>();
 
@@ -1694,7 +1693,7 @@ namespace EcellLib.PathwayWindow
             dr[COLUMN_NAME4NAME] = name;
             m_table.Rows.Add(dr);
 
-            //m_con.OverView.AddLayer(layer);
+            m_con.OverView.AddLayer(layer);
             Layers.Add(name, layer);
             ControlLayer.MoveToFront();
 
@@ -1801,34 +1800,37 @@ namespace EcellLib.PathwayWindow
         /// <param name="line"></param>
         public void AddSelectedLine(Line line)
         {
-            m_isReconnectMode = true;
-
-            m_nodesUnderMouse.Clear();
-
-            line.Visible = false;
+            if (line == null)
+                return;
 
             m_selectedLine = line;
-            m_vOnLinesEnd = line.Info.VariableKey;
-            m_pOnLinesEnd = line.Info.ProcessKey;
+
+            m_nodesUnderMouse.Clear();
+            m_isReconnectMode = true;
+
+            m_vOnLinesEnd = m_selectedLine.Info.VariableKey;
+            m_pOnLinesEnd = m_selectedLine.Info.ProcessKey;
 
             // Prepare line handles
             m_lineHandle4V.Offset = PointF.Empty;
             m_lineHandle4P.Offset = PointF.Empty;
 
-            m_lineHandle4V.X = line.VarPoint.X - LINE_HANDLE_RADIUS;
-            m_lineHandle4V.Y = line.VarPoint.Y - LINE_HANDLE_RADIUS;
+            m_lineHandle4V.X = m_selectedLine.VarPoint.X - LINE_HANDLE_RADIUS;
+            m_lineHandle4V.Y = m_selectedLine.VarPoint.Y - LINE_HANDLE_RADIUS;
 
-            m_lineHandle4P.X = line.ProPoint.X - LINE_HANDLE_RADIUS;
-            m_lineHandle4P.Y = line.ProPoint.Y - LINE_HANDLE_RADIUS;
+            m_lineHandle4P.X = m_selectedLine.ProPoint.X - LINE_HANDLE_RADIUS;
+            m_lineHandle4P.Y = m_selectedLine.ProPoint.Y - LINE_HANDLE_RADIUS;
 
             m_ctrlLayer.AddChild(m_lineHandle4V);
             m_ctrlLayer.AddChild(m_lineHandle4P);
 
             // Create Reconnect line
-            m_line4reconnect.Pen = LINE_THIN_PEN;
             m_line4reconnect.Reset();
-            m_line4reconnect.VarPoint = line.VarPoint;
-            m_line4reconnect.ProPoint = line.ProPoint;
+            m_line4reconnect.Pen = LINE_THIN_PEN;
+            m_line4reconnect.Info.Direction = m_selectedLine.Info.Direction;
+            m_line4reconnect.Info.TypeOfLine = m_selectedLine.Info.TypeOfLine;
+            m_line4reconnect.VarPoint = m_selectedLine.VarPoint;
+            m_line4reconnect.ProPoint = m_selectedLine.ProPoint;
             m_line4reconnect.DrawLine();
 
             SetLineVisibility(true);
@@ -1852,6 +1854,7 @@ namespace EcellLib.PathwayWindow
             {
                 m_ctrlLayer.RemoveChild(m_line4reconnect);
                 m_line4reconnect.Visible = false;
+                m_line4reconnect.Reset();
             }
         }
 
@@ -2210,6 +2213,7 @@ namespace EcellLib.PathwayWindow
         public void UpdateOverview()
         {
             RectangleF recf = m_pCanvas.Camera.ViewBounds;
+            m_con.OverView.DisplayedArea.Reset();
             m_con.OverView.DisplayedArea.Offset = PointF.Empty;
             m_con.OverView.DisplayedArea.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
             m_con.OverView.UpdateTransparent();
@@ -2312,7 +2316,7 @@ namespace EcellLib.PathwayWindow
 
             // Create line
             m_line4reconnect.Reset();
-            m_selectedLine.DrawLine();
+            m_processes[m_selectedLine.Info.ProcessKey].Refresh();
         }
 
         /// <summary>
@@ -2320,17 +2324,18 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void ResetSelectedLine()
         {
-            m_isReconnectMode = false;
+            if (m_selectedLine == null)
+                return;
 
+            m_isReconnectMode = false;
             m_nodesUnderMouse.Clear();
 
             if (m_selectedLine != null)
             {
-                m_selectedLine.Visible = true;
-                m_selectedLine.DrawLine();
+                m_processes[m_selectedLine.Info.ProcessKey].Refresh();
+                m_selectedLine = null;
             }
 
-            m_selectedLine = null;
             m_vOnLinesEnd = null;
             m_pOnLinesEnd = null;
 

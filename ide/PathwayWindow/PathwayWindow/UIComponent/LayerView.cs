@@ -63,8 +63,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         private bool m_dirtyEventProcessed = false;
 
         private DataGridView m_dgv;
-        private DataGridViewCheckBoxColumn showDc;
-        private DataGridViewTextBoxColumn nameDc;
         #region Fields
         /// <summary>
         /// PPath to show main pathway area in the overview.
@@ -126,8 +124,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.m_dgv = new System.Windows.Forms.DataGridView();
-            this.showDc = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.nameDc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).BeginInit();
             this.SuspendLayout();
@@ -148,9 +144,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.m_dgv.AllowUserToAddRows = false;
             this.m_dgv.AllowUserToDeleteRows = false;
             this.m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.showDc,
-            this.nameDc});
             this.m_dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.m_dgv.Location = new System.Drawing.Point(3, 15);
             this.m_dgv.MultiSelect = false;
@@ -159,23 +152,9 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.m_dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.m_dgv.Size = new System.Drawing.Size(269, 178);
             this.m_dgv.TabIndex = 0;
-            this.m_dgv.CurrentCellDirtyStateChanged += new EventHandler(m_dgv_CurrentCellDirtyStateChanged);
-            this.m_dgv.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(dgv_DataBindingComplete);
-            this.m_dgv.VisibleChanged += new EventHandler(m_dgv_VisibleChanged);
-            // 
-            // showDc
-            // 
-            this.showDc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.showDc.HeaderText = "Show";
-            this.showDc.Name = "showDc";
-            this.showDc.Width = 40;
-            // 
-            // nameDc
-            // 
-            this.nameDc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.nameDc.HeaderText = "Name";
-            this.nameDc.Name = "nameDc";
-            this.nameDc.ReadOnly = true;
+            this.m_dgv.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
+            this.m_dgv.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
+            this.m_dgv.VisibleChanged += new System.EventHandler(this.m_dgv_VisibleChanged);
             // 
             // LayerView
             // 
@@ -190,6 +169,8 @@ namespace EcellLib.PathwayWindow.UIComponent
 
         }
         #endregion
+
+        #region Event sequences
         /// <summary>
         /// event sequence of changing the check of layer showing.
         /// </summary>
@@ -199,12 +180,12 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             if (!m_dirtyEventProcessed)
             {
-                string modelID = ((DataGridView)sender).DataMember;
+                CanvasControl canvas = m_con.ActiveCanvas;
                 bool show = !(bool)((DataGridView)sender).CurrentRow.Cells["Show"].Value;
                 string layerName = (string)((DataGridView)sender).CurrentRow.Cells["Name"].Value;
-                m_con.CanvasDictionary[modelID].Layers[layerName].Visible = show;
-                m_con.CanvasDictionary[modelID].PathwayCanvas.Refresh();
-                m_con.CanvasDictionary[modelID].RefreshVisibility();
+                canvas.Layers[layerName].Visible = show;
+                canvas.PathwayCanvas.Refresh();
+                canvas.RefreshVisibility();
                 m_con.OverView.Canvas.Refresh();
                 m_dirtyEventProcessed = true;
             }
@@ -249,6 +230,6 @@ namespace EcellLib.PathwayWindow.UIComponent
                 ((DataGridView)sender).Columns["Name"].ReadOnly = true;
             }
         }
-
+        #endregion
     }
 }

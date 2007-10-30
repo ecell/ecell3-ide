@@ -80,190 +80,190 @@ namespace EcellLib.PathwayWindow.UIComponent
 
             if (m_con == null)
                 return;
-            if (e.Button == MouseButtons.Right)
-            {
-                // Case null
-                if (m_canvas.ClickedNode == null)
-                {
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = false;
+            if (e.Button != MouseButtons.Right)
+                return;
 
+            // Case null
+            if (m_canvas.ClickedNode == null)
+            {
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = false;
+
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = false;
+
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR3].Visible = false;
+
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CUT].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_COPY].Visible = false;
+                if (this.m_con.CopiedNodes.Count > 0)
+                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = true;
+                else
+                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = false;
+
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = false;
+            }
+            // Case PPathwayNode
+            else if (m_canvas.ClickedNode is PPathwayNode)
+            {
+                PPathwayNode node = m_canvas.ClickedNode as PPathwayNode;
+                m_con.SetMenuLogger(node);
+
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = true;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = true;
+
+                if ((int)m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Tag > 0)
+                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = true;
+                else
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = false;
 
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR3].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR3].Visible = false;
 
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CUT].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_COPY].Visible = false;
-                    if (this.m_con.CopiedNodes.Count > 0)
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = true;
-                    else
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CUT].Visible = true;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_COPY].Visible = true;
+                if (this.m_con.CopiedNodes.Count > 0)
+                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = true;
+                else
+                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Visible = true;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = true;
 
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = false;
-                }
-                // Case PPathwayNode
-                else if (m_canvas.ClickedNode is PPathwayNode)
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = true;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = true;
+            }
+            else if (m_canvas.ClickedNode is Line)
+            {
+                EdgeInfo info = ((Line)m_canvas.ClickedNode).Info;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = false;
+
+                if ((int)m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Tag > 0)
+                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = true;
+                else
+                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = false;
+
+                switch (info.Direction)
                 {
-                    PPathwayNode node = m_canvas.ClickedNode as PPathwayNode;
-                    m_con.SetMenuLogger(node);
+                    case EdgeDirection.Inward:
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = true;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = false;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = true;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = true;
+                        break;
+                    case EdgeDirection.Outward:
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = false;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = true;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = true;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = true;
+                        break;
+                    case EdgeDirection.Bidirection:
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = true;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = true;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = false;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = true;
+                        break;
+                    case EdgeDirection.None:
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = true;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = true;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = true;
+                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = false;
+                        break;
+                }
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Tag = m_canvas.ClickedNode;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Tag = m_canvas.ClickedNode;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Tag = m_canvas.ClickedNode;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Tag = m_canvas.ClickedNode;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR3].Visible = true;
 
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = true;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = true;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CUT].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_COPY].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Visible = true;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Tag = m_canvas.ClickedNode;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = false;
 
-                    if ((int)m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Tag > 0)
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = true;
-                    else
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = false;
 
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR3].Visible = false;
+            }
+            else if (m_canvas.ClickedNode is PPathwaySystem)
+            {
+                PPathwaySystem sys = m_canvas.ClickedNode as PPathwaySystem;
+                m_con.SetMenuLogger(sys);
 
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CUT].Visible = true;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_COPY].Visible = true;
-                    if (this.m_con.CopiedNodes.Count > 0)
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = true;
-                    else
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = true;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = true;
+
+                if ((int)m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Tag > 0)
+                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = true;
+                else
+                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = false;
+
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR3].Visible = false;
+
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CUT].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_COPY].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = false;
+                if (sys.EcellObject.key != "/")
+                {
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Visible = true;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
+                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = true;
+                    String superSys = sys.EcellObject.key.Substring(0, sys.EcellObject.key.LastIndexOf("/"));
+                    if (superSys == "") superSys = "/";
+                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Text =
+                        m_resources.GetString("MergeMenuText") + "(" + superSys + ")";
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = true;
-
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = true;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = true;
-                }
-                else if (m_canvas.ClickedNode is Line)
-                {
-                    EdgeInfo info = ((Line)m_canvas.ClickedNode).Info;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = false;
-
-                    if ((int)m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Tag > 0)
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = true;
-                    else
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = false;
-
-                    switch (info.Direction)
-                    {
-                        case EdgeDirection.Inward:
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = true;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = false;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = true;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = true;
-                            break;
-                        case EdgeDirection.Outward:
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = false;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = true;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = true;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = true;
-                            break;
-                        case EdgeDirection.Bidirection:
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = true;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = true;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = false;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = true;
-                            break;
-                        case EdgeDirection.None:
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = true;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = true;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = true;
-                            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = false;
-                            break;
-                    }
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Tag = m_canvas.ClickedNode;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Tag = m_canvas.ClickedNode;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Tag = m_canvas.ClickedNode;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Tag = m_canvas.ClickedNode;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR3].Visible = true;
-
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CUT].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_COPY].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Visible = true;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Tag = m_canvas.ClickedNode;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = false;
-
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = false;
-
-                }
-                else if (m_canvas.ClickedNode is PPathwaySystem)
-                {
-                    PPathwaySystem sys = m_canvas.ClickedNode as PPathwaySystem;
-                    m_con.SetMenuLogger(sys);
-
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = true;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = true;
-
-                    if ((int)m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Tag > 0)
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = true;
-                    else
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = false;
-
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR3].Visible = false;
-
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CUT].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_COPY].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = false;
-                    if (sys.EcellObject.key != "/")
-                    {
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Visible = true;
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = true;
-                        String superSys = sys.EcellObject.key.Substring(0, sys.EcellObject.key.LastIndexOf("/"));
-                        if (superSys == "") superSys = "/";
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Text =
-                            m_resources.GetString("MergeMenuText") + "(" + superSys + ")";
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = true;
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Tag = m_canvas.ClickedNode;
-                    }
-                    else
-                    {
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Visible = false;
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
-                        m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = false;
-                    }
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = true;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = true;
                 }
                 else
                 {
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = false;
-
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = false;
-
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR3].Visible = false;
-
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CUT].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_COPY].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = false;
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Visible = false;
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = false;
-
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = false;
-                    m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = false;
-
                 }
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = true;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = true;
+            }
+            else
+            {
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR1].Visible = false;
+
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR2].Visible = false;
+
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_RIGHT_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_LEFT_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_BIDIR_ARROW].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CONSTANT_LINE].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR3].Visible = false;
+
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CUT].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_COPY].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_PASTE].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = false;
+
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = false;
+
             }
         }
     }

@@ -131,10 +131,10 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void ValidateEdges()
         {
             Dictionary<string, PPathwayProcess> newProcesses = new Dictionary<string, PPathwayProcess>();
-            foreach (PPathwayProcess process in m_relatedProcesses.Values)
+            foreach (KeyValuePair<string, PPathwayProcess> process in m_relatedProcesses)
             {
-                if (base.m_canvas.Processes.ContainsKey(process.EcellObject.key))
-                    newProcesses.Add(process.EcellObject.key, process);
+                if (base.m_canvas.Processes.ContainsKey(process.Key))
+                    newProcesses.Add(process.Key, process.Value);
             }
             m_relatedProcesses = newProcesses;
         }

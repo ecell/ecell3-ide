@@ -134,7 +134,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_canvas.Camera.AddLayer(m_canvas.Layer);
             m_canvas.Camera.ChildrenPickable = false;
             m_canvas.Camera.BoundsChanged += new PPropertyEventHandler(Camera_BoundsChanged);
-
         }
         /// <summary>
         /// Set PathwayCanvas.

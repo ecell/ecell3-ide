@@ -126,14 +126,15 @@ namespace EcellLib.PathwayWindow.Nodes
             switch (this.m_edgeInfo.TypeOfLine)
             {
                 case LineType.Solid:
-                    this.Pen = new Pen(Brushes.Black, 2);
+                    this.Pen = new Pen(this.Brush, 2);
                     this.AddLine(this.ProPoint.X, this.ProPoint.Y, this.VarPoint.X, this.VarPoint.Y);
                     break;
                 case LineType.Dashed:
-                    this.Pen = new Pen(Brushes.Black, 3);
+                    this.Pen = new Pen(this.Brush, 3);
                     AddDashedLine(this, this.ProPoint.X, this.ProPoint.Y, this.VarPoint.X, this.VarPoint.Y);
                     break;
                 case LineType.Unknown:
+                    this.Pen = new Pen(this.Brush, 3);
                     this.AddLine(this.ProPoint.X, this.ProPoint.Y, this.VarPoint.X, this.VarPoint.Y);
                     break;
             }

@@ -101,68 +101,57 @@ namespace EcellLib.PathwayWindow
             base.OnMouseDown(sender, e);
 
             CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
-
             PPathwayNode newNode = e.PickedNode as PPathwayNode;
-
-            if (newNode == null)
+            // Reset node.
+            if (newNode == null || newNode is PPathwaySystem)
             {
                 SetCurrent(canvas, null);
                 return;
             }
-
-            if (m_current == null)
+            else if(m_current == null)
             {
                 SetCurrent(canvas, newNode);
+                return;
             }
-            else if(m_current is PPathwayVariable)
+            if ((m_current is PPathwayVariable && newNode is PPathwayVariable)
+                || (m_current is PPathwayProcess && newNode is PPathwayProcess))
             {
-                if (newNode is PPathwayProcess)
-                {
-                    if (m_con.SelectedHandle.Mode == Mode.CreateConstant)
-                    {
-                        this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, 0);
-                    }
-                    else if (m_con.SelectedHandle.Mode == Mode.CreateOneWayReaction)
-                    {
-                        this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, -1);
-                    }
-                    else if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
-                    {
-                        this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, -1);
-                        this.CreateEdge((PPathwayProcess)newNode, (PPathwayVariable)m_current, 1);
-                    }
+                SetCurrent(canvas, newNode);
+                return;
+            }
 
-                    SetCurrent(canvas, null);
-                }
-                else if(newNode is PPathwayVariable)
-                {
-                    SetCurrent(canvas, newNode);
-                }
-            }
-            else if(m_current is PPathwayProcess)
+            // Set object.
+            int coef = 0;
+            PPathwayProcess process;
+            PPathwayVariable variable;
+            if (newNode is PPathwayProcess)
             {
-                if (newNode is PPathwayVariable)
-                {
-                    if (m_con.SelectedHandle.Mode == Mode.CreateConstant)
-                    {
-                        this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, 0);
-                    }
-                    else if (m_con.SelectedHandle.Mode == Mode.CreateOneWayReaction)
-                    {
-                        this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, 1);
-                    }
-                    else if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
-                    {
-                        this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, 1);
-                        this.CreateEdge((PPathwayProcess)m_current, (PPathwayVariable)newNode, -1);
-                    }
-                    SetCurrent(canvas, null);
-                }
-                else if(newNode is PPathwayProcess)
-                {
-                    SetCurrent(canvas, newNode);
-                }
+                process = (PPathwayProcess)newNode;
+                variable = (PPathwayVariable)m_current;
+                coef = -1;
             }
+            else
+            {
+                process = (PPathwayProcess)m_current;
+                variable = (PPathwayVariable)newNode;
+                coef = 1;
+            }
+
+            // Create Edge.
+            if (m_con.SelectedHandle.Mode == Mode.CreateConstant)
+            {
+                this.CreateEdge(process, variable, 0);
+            }
+            else if (m_con.SelectedHandle.Mode == Mode.CreateOneWayReaction)
+            {
+                this.CreateEdge(process, variable, coef);
+            }
+            else if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
+            {
+                this.CreateEdge(process, variable, -1);
+                this.CreateEdge(process, variable, 1);
+            }
+            SetCurrent(canvas, null);
         }
 
         /// <summary>
@@ -172,29 +161,32 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public override void OnMouseMove(object sender, PInputEventArgs e)
         {
-            base.OnMouseMove(sender, e);
+            if (m_current == null)
+                return;
 
-            if(null != m_current)
-            {
-                PointF contactP = m_current.GetContactPoint(e.Position);
-                
-                Line line = m_con.CanvasDictionary[e.Canvas.Name].Line4Reconnect;
-                line.Reset();
-                if (m_con.SelectedHandle.Mode != Mode.CreateConstant)
-                {
-                    line.ProPoint = contactP;
-                    line.VarPoint = e.Position;
-                    line.DrawLine();
-                    if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
-                    {
-                        line.AddPolygon( Line.GetArrowPoints( contactP, e.Position ));
-                    }
-                }
-                else
-                {
-                    Line.AddDashedLine(line, contactP.X, contactP.Y, e.Position.X, e.Position.Y);
-                }
-            }
+            base.OnMouseMove(sender, e);
+            PointF contactP = m_current.GetContactPoint(e.Position);
+
+            Line line = m_con.CanvasDictionary[e.Canvas.Name].Line4Reconnect;
+            line.Reset();
+
+            // Set Line Type
+            if (m_con.SelectedHandle.Mode == Mode.CreateConstant)
+                line.Info.TypeOfLine = LineType.Dashed;
+            else
+                line.Info.TypeOfLine = LineType.Solid;
+
+            // Set Line Direction
+            if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
+                line.Info.Direction = EdgeDirection.Bidirection;
+            else if (m_con.SelectedHandle.Mode == Mode.CreateOneWayReaction)
+                line.Info.Direction = EdgeDirection.Outward;
+            else 
+                line.Info.Direction = EdgeDirection.None;
+
+            line.ProPoint = contactP;
+            line.VarPoint = e.Position;
+            line.DrawLine();
         }
 
         /// <summary>
@@ -205,7 +197,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="coefficient">coefficient of VariableReferenceList of process</param>
         private void CreateEdge(PPathwayProcess process, PPathwayVariable variable, int coefficient)
         {
-            process.CreateEdge(variable, coefficient);
+            m_con.NotifyVariableReferenceChanged(process.EcellObject.key, variable.EcellObject.key, RefChangeType.SingleDir, coefficient);
+            //process.CreateEdge(variable, coefficient);
         }
 
         /// <summary>
