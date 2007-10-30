@@ -91,7 +91,7 @@ namespace EcellLib.PathwayWindow
             // set mouse position
             m_startPoint = e.Position;
             m_con.MousePosition = e.Position;
-            if (!(e.PickedNode is PPathwayObject))
+            if (e.PickedNode is PCamera)
                 m_con.CanvasDictionary[e.Canvas.Name].ClickedNode = null;
 
             if (e.Button == MouseButtons.Left)

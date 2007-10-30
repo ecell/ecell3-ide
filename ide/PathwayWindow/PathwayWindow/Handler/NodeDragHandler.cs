@@ -151,8 +151,6 @@ namespace EcellLib.PathwayWindow.Handler
             }
             else if (e.PickedNode is PPathwaySystem)
                 ((PPathwaySystem)e.PickedNode).MemorizePosition();
-            else
-                m_canvas.ClickedNode = null;
 
             e.Canvas.BackColor = Color.Silver;
             SetBackToDefault();

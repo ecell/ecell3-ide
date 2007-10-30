@@ -433,15 +433,15 @@ namespace EcellLib.PathwayWindow
             CanvasControl canvas = new CanvasControl(this, modelID);
             m_activeCanvasID = modelID;
             m_canvasDict.Add(modelID, canvas);
-            canvas.AddLayer(this.m_defLayerId);
-
-            // Set Interfaces
+            // Set Overview
             m_overView.SetCanvas(canvas);
+            canvas.UpdateOverview();
+            // Set Layerview
+            m_layerView.DataGridView.DataSource = canvas.LayerTable;
+            canvas.AddLayer(this.m_defLayerId);
+            // Set Pathwayview
             m_pathwayView.Clear();
             m_pathwayView.TabControl.Controls.Add(canvas.TabPage);
-            //m_layerView.DataGridView.DataSource = new DataSet();
-            canvas.UpdateOverview();
-
         }
 
         /// <summary>
@@ -1011,7 +1011,7 @@ namespace EcellLib.PathwayWindow
             arrowButton.Image = Resource1.arrow_long_right_w;
             arrowButton.Text = "";
             arrowButton.CheckOnClick = true;
-            arrowButton.ToolTipText = "Add Mutual Reaction";
+            arrowButton.ToolTipText = "Add Oneway Reaction";
             arrowButton.Tag = new Handle(Mode.CreateOneWayReaction, handleCount);
             m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             arrowButton.Click += new EventHandler(this.ButtonStateChanged);
@@ -1024,7 +1024,7 @@ namespace EcellLib.PathwayWindow
             bidirButton.Image = Resource1.arrow_long_bidir_w;
             bidirButton.Text = "";
             bidirButton.CheckOnClick = true;
-            bidirButton.ToolTipText = "Add Oneway Reaction";
+            bidirButton.ToolTipText = "Add Mutual Reaction";
             bidirButton.Tag = new Handle(Mode.CreateMutualReaction, handleCount);
             m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             bidirButton.Click += new EventHandler(this.ButtonStateChanged);
@@ -1223,12 +1223,12 @@ namespace EcellLib.PathwayWindow
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient)
         {
             // Get EcellObject of identified process.
-            EcellProcess process = (EcellProcess)m_window.GetEcellObject(ActiveCanvas.ModelID, proKey, EcellObject.PROCESS);
+            EcellProcess ep = (EcellProcess)m_window.GetEcellObject(ActiveCanvas.ModelID, proKey, EcellObject.PROCESS);
             // End if obj is null.
-            if (null == process)
+            if (null == ep)
                 return;
             // Get EcellReference List.
-            List<EcellReference> refList = process.ReferenceList;
+            List<EcellReference> refList = ep.ReferenceList;
             List<EcellReference> newList = new List<EcellReference>();
             EcellReference changedRef = null;
 
@@ -1288,8 +1288,8 @@ namespace EcellLib.PathwayWindow
                         break;
                 }
             }
-            process.ReferenceList = newList;
-            m_window.NotifyDataChanged(process.key, process.key, process, true, true);
+            ep.ReferenceList = newList;
+            m_window.NotifyDataChanged(ep.key, ep.key, ep, true, true);
         }
 
         /// <summary>
@@ -1497,15 +1497,14 @@ namespace EcellLib.PathwayWindow
             if (!(e.PickedNode is Line))
                 return;
 
+            CanvasControl canvas = this.CanvasDictionary[e.Canvas.Name];
             Line line = (Line)e.PickedNode;
 
-            if (e.Button == MouseButtons.Right)
-            {
-                this.CanvasDictionary[e.Canvas.Name].ClickedNode = e.PickedNode;
-            }
+            canvas.ResetSelectedObjects();
+            canvas.AddSelectedLine(line);
 
-            this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
-            this.CanvasDictionary[e.Canvas.Name].AddSelectedLine(line);
+            if (e.Button == MouseButtons.Right)
+                canvas.ClickedNode = line;
         }
 
         /// <summary>
