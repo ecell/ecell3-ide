@@ -135,7 +135,7 @@ namespace EcellLib.PathwayWindow.UIComponent
 
             string modelID = ((TabControl)sender).TabPages[((TabControl)sender).SelectedIndex].Text;
             CanvasControl canvas = m_con.CanvasDictionary[modelID];
-            m_con.OverView.SetCanvas(canvas);
+            m_con.OverView.SetCanvas(canvas.OverviewCanvas);
             // TODO LayerView Setting
             //m_dgv.DataMember = modelID;
         }

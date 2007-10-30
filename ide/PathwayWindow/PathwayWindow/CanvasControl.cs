@@ -148,6 +148,11 @@ namespace EcellLib.PathwayWindow
         protected PathwayCanvas m_pCanvas;
 
         /// <summary>
+        /// the canvas of overview.
+        /// </summary>
+        protected OverviewCanvas m_overviewCanvas;
+
+        /// <summary>
         /// DataTable for DataGridView displayed layer list.
         /// </summary>
         protected DataTable m_table;
@@ -365,6 +370,14 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Accessor for m_overviewCanvas.
+        /// </summary>
+        public PCanvas OverviewCanvas
+        {
+            get { return m_overviewCanvas; }
+        }
+
+        /// <summary>
         /// Accessor for m_selectedNodes.
         /// </summary>
         public List<PPathwayObject> SelectedNodes
@@ -489,13 +502,16 @@ namespace EcellLib.PathwayWindow
             m_pCanvas.Dock = DockStyle.Fill;
             m_pCanvas.Name = modelID;
             m_pCanvas.Camera.ScaleViewBy(0.7f);
-            m_pCanvas.Camera.RemoveLayer(m_pCanvas.Layer);
 
             PScrollableControl scrolCtrl = new PScrollableControl(m_pCanvas);
             scrolCtrl.Layout += new LayoutEventHandler(scrolCtrl_Layout);
             scrolCtrl.Dock = DockStyle.Fill;
             m_pathwayTabPage.Controls.Add(scrolCtrl);
 
+            // Preparing overview
+            m_overviewCanvas = new OverviewCanvas(m_pCanvas.Layer,
+                                                  m_pCanvas.Camera);
+            m_pCanvas.Camera.RemoveLayer(m_pCanvas.Layer);
 
             // Preparing DataTable
             m_table = new DataTable(modelID);
@@ -511,10 +527,10 @@ namespace EcellLib.PathwayWindow
             // Preparing control layer
             m_ctrlLayer = new PLayer();
             m_ctrlLayer.AddInputEventListener(new ResizeHandleDragHandler(this));
-            //m_ctrlLayer.AddInputEventListener(new NodeDragHandler(this, m_systems));
-
             m_pCanvas.Root.AddChild(m_ctrlLayer);
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
+
+            // Preparing context menus.
             m_pCanvas.ContextMenuStrip = m_con.NodeMenu;
 
             // Preparing system handlers
@@ -1693,7 +1709,9 @@ namespace EcellLib.PathwayWindow
             dr[COLUMN_NAME4NAME] = name;
             m_table.Rows.Add(dr);
 
-            m_con.OverView.AddLayer(layer);
+            //m_con.OverView.AddLayer(layer);
+            m_overviewCanvas.AddObservedLayer(layer);
+
             Layers.Add(name, layer);
             ControlLayer.MoveToFront();
 
@@ -2212,12 +2230,13 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void UpdateOverview()
         {
-            RectangleF recf = m_pCanvas.Camera.ViewBounds;
-            m_con.OverView.DisplayedArea.Reset();
-            m_con.OverView.DisplayedArea.Offset = PointF.Empty;
-            m_con.OverView.DisplayedArea.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
-            m_con.OverView.UpdateTransparent();
-            m_con.OverView.Canvas.Refresh();
+            RectangleF rect = m_pCanvas.Camera.ViewBounds;
+            m_overviewCanvas.UpdateOverview(rect);
+            //m_con.OverView.DisplayedArea.Reset();
+            //m_con.OverView.DisplayedArea.Offset = PointF.Empty;
+            //m_con.OverView.DisplayedArea.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
+            //m_con.OverView.UpdateTransparent();
+            //m_con.OverView.Canvas.Refresh();
         }
 
         /// <summary>
@@ -2255,6 +2274,9 @@ namespace EcellLib.PathwayWindow
 
             if (m_pCanvas != null)
                 m_pCanvas.Dispose();
+
+            if (m_overviewCanvas != null)
+                m_overviewCanvas.Dispose();
         }
 
         /// <summary>

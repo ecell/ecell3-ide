@@ -109,31 +109,32 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Set PathwayCanvas.
         /// </summary>
         /// <param name="canvas">The display canvas.</param>
-        public void SetCanvas(CanvasControl canvas)
+        public void SetCanvas(PCanvas canvas)
         {
-            // m_transparentNode
-            m_transparentNode = PPath.CreateRectangle(-500, -500, 1300, 1300);
-            m_transparentNode.Brush = m_transparentBrush;
-            m_transparentNode.Pickable = true;
-            // Preparing overview
-            m_area = new PDisplayedArea();
+            this.m_canvas = canvas;
+            //// m_transparentNode
+            //m_transparentNode = PPath.CreateRectangle(-500, -500, 1300, 1300);
+            //m_transparentNode.Brush = m_transparentBrush;
+            //m_transparentNode.Pickable = true;
+            //// Preparing overview
+            //m_area = new PDisplayedArea();
 
-            InitializeComponent();
-            // Set Layer and remove event handler
-            //m_canvas.Text = canvas.ModelID;
-            m_canvas.Camera.AddLayer(canvas.PathwayCanvas.Layer);
-            m_canvas.RemoveInputEventListener(m_canvas.PanEventHandler);
-            m_canvas.RemoveInputEventListener(m_canvas.ZoomEventHandler);
+            //InitializeComponent();
+            //// Set Layer and remove event handler
+            ////m_canvas.Text = canvas.ModelID;
+            //m_canvas.Camera.AddLayer(canvas.PathwayCanvas.Layer);
+            //m_canvas.RemoveInputEventListener(m_canvas.PanEventHandler);
+            //m_canvas.RemoveInputEventListener(m_canvas.ZoomEventHandler);
 
-            // Set new Layer.
-            m_canvas.Camera.AddInputEventListener(new AreaDragHandler(canvas.PathwayCanvas.Camera));
-            m_canvas.Camera.ScaleViewBy(REDUCTION_SCALE);
-            m_canvas.Camera.TranslateViewBy(500, 500);
-            m_canvas.Layer.AddChild(m_transparentNode);
-            m_canvas.Layer.AddChild(m_area);
-            m_canvas.Camera.AddLayer(m_canvas.Layer);
-            m_canvas.Camera.ChildrenPickable = false;
-            m_canvas.Camera.BoundsChanged += new PPropertyEventHandler(Camera_BoundsChanged);
+            //// Set new Layer.
+            //m_canvas.Camera.AddInputEventListener(new AreaDragHandler(canvas.PathwayCanvas.Camera));
+            //m_canvas.Camera.ScaleViewBy(REDUCTION_SCALE);
+            //m_canvas.Camera.TranslateViewBy(500, 500);
+            //m_canvas.Layer.AddChild(m_transparentNode);
+            //m_canvas.Layer.AddChild(m_area);
+            //m_canvas.Camera.AddLayer(m_canvas.Layer);
+            //m_canvas.Camera.ChildrenPickable = false;
+            //m_canvas.Camera.BoundsChanged += new PPropertyEventHandler(Camera_BoundsChanged);
         }
         /// <summary>
         /// Set PathwayCanvas.

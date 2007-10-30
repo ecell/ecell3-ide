@@ -434,7 +434,7 @@ namespace EcellLib.PathwayWindow
             m_activeCanvasID = modelID;
             m_canvasDict.Add(modelID, canvas);
             // Set Overview
-            m_overView.SetCanvas(canvas);
+            m_overView.SetCanvas(canvas.OverviewCanvas);
             canvas.UpdateOverview();
             // Set Layerview
             m_layerView.DataGridView.DataSource = canvas.LayerTable;

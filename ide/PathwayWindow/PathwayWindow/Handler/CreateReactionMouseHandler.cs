@@ -103,7 +103,7 @@ namespace EcellLib.PathwayWindow
             CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
             PPathwayNode newNode = e.PickedNode as PPathwayNode;
             // Reset node.
-            if (newNode == null || newNode is PPathwaySystem)
+            if (newNode == null)
             {
                 SetCurrent(canvas, null);
                 return;
