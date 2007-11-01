@@ -1398,19 +1398,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Transfer selected objects from one PEcellSystem/Layer to PEcellSystem/Layer.
-        /// </summary>
-        /// <param name="systemName"></param>
-        public void TransferSelectedTo(string systemName)
-        {
-            foreach (PPathwayObject node in m_selectedNodes)
-            {
-                TransferNodeTo(systemName, node, true, true);
-            }
-            ResetSelectedObjects();
-        }
-
-        /// <summary>
         /// Transfer an object from one PEcellSystem/Layer to PEcellSystem/Layer.
         /// </summary>
         /// <param name="systemName">The name of the system to which object is transfered. If null, obj is
@@ -1496,68 +1483,6 @@ namespace EcellLib.PathwayWindow
                         obj,
                         true,
                         isAnchor);
-            }
-        }
-
-        /// <summary>
-        /// Transfer an system from one PEcellSystem/Layer to PEcellSystem/Layer.
-        /// </summary>
-        /// <param name="systemName">The name of the system to which a system will be transfered. If null, obj is
-        /// transfered to layer itself</param>
-        /// <param name="oldKey">old key of a system to be transfered</param>
-        /// <param name="isExternal">Whether the change will go outside</param>
-        public void TransferSystemTo(string systemName, string oldKey, bool isExternal)
-        {
-            if (String.IsNullOrEmpty(systemName))
-                return;
-            ResetSelectedObjects();
-            string newKey;
-            if (systemName.Equals("/"))
-                newKey = systemName + PathUtil.RemovePath(oldKey);
-            else
-                newKey = systemName + "/" + PathUtil.RemovePath(oldKey);
-
-            PPathwaySystem system = m_systems[oldKey];
-            PPathwaySystem parentSys = m_systems[systemName];
-            system.Parent.RemoveChild(system);
-            parentSys.AddChild(system);
-
-            if (isExternal)
-            {
-                m_con.NotifyDataChanged(
-                    oldKey,
-                    newKey,
-                    system,
-                    true,
-                    true);
-            }
-            //system.EcellObject.key = newKey;
-            //m_systems.Add(newKey, system);
-            //m_systems.Remove(oldKey);
-
-            foreach (PPathwaySystem obj in this.GetAllSystemUnder(oldKey))
-            {
-                string key = obj.EcellObject.key;
-                m_systems.Remove(key);
-                string newSysKey = key.Replace(oldKey, newKey);
-                obj.EcellObject.key = newSysKey;
-                m_systems.Add(newSysKey, obj);
-            }
-
-            foreach (PPathwayVariable obj in this.GetAllVariableUnder(oldKey))
-            {
-                string key = obj.EcellObject.key;
-                m_variables.Remove(key);
-                string newVarKey = key.Replace(oldKey, newKey);
-                m_variables.Add(newVarKey, obj);
-            }
-
-            foreach (PPathwayProcess obj in this.GetAllProcessUnder(oldKey))
-            {
-                string key = obj.EcellObject.key;
-                m_processes.Remove(key);
-                string newProKey = key.Replace(oldKey, newKey);
-                m_processes.Add(newProKey, obj);
             }
         }
 
@@ -1899,6 +1824,22 @@ namespace EcellLib.PathwayWindow
                 var.Freeze();
             foreach (PPathwayProcess pro in m_processes.Values)
                 pro.Freeze();
+        }
+
+        /// <summary>
+        /// Get a key list of systems under a given system.
+        /// </summary>
+        /// <param name="systemKey"></param>
+        /// <returns>list of Ecell key of systems</returns>
+        public List<PPathwayObject> GetAllObjectUnder(string systemKey)
+        {
+            List<PPathwayObject> returnList = new List<PPathwayObject>();
+            foreach (PPathwayObject obj in this.GetAllObjects())
+            {
+                if (obj.EcellObject.key.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
+                    returnList.Add(obj);
+            }
+            return returnList;
         }
 
         /// <summary>

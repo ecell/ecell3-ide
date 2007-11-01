@@ -146,6 +146,7 @@ namespace EcellLib.PathwayWindow.Handler
                         continue;
 
                     node.MemorizePosition();
+
                     m_composite.AddChild(node);
                 }
             }
@@ -326,7 +327,7 @@ namespace EcellLib.PathwayWindow.Handler
                         else
                         {
                             if (surSys == null || !surSys.Equals(system.EcellObject.parentSystemID))
-                                m_canvas.TransferSystemTo(surSys, oldSystemName, true);
+                                TransferSystemTo(surSys, oldSystemName);
                             else
                             {
                                 m_canvas.PathwayControl.NotifyDataChanged(
@@ -401,6 +402,55 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 m_canvas.TransferNodeTo(oldSystem, node, toBeNotified, true);
             }
+        }
+
+        /// <summary>
+        /// Transfer an system from one PEcellSystem/Layer to PEcellSystem/Layer.
+        /// </summary>
+        /// <param name="systemName">The name of the system to which a system will be transfered. If null, obj is
+        /// transfered to layer itself</param>
+        /// <param name="oldKey">old key of a system to be transfered</param>
+        private void TransferSystemTo(string systemName, string oldKey)
+        {
+            if (String.IsNullOrEmpty(systemName))
+                return;
+            m_canvas.ResetSelectedObjects();
+            string newKey;
+            if (systemName.Equals("/"))
+                newKey = systemName + PathUtil.RemovePath(oldKey);
+            else
+                newKey = systemName + "/" + PathUtil.RemovePath(oldKey);
+
+            PPathwaySystem system = m_canvas.Systems[oldKey];
+            PPathwaySystem parentSys = m_canvas.Systems[systemName];
+            system.Parent.RemoveChild(system);
+            parentSys.AddChild(system);
+            PointF offset = system.Offset;
+
+            // Move objects under this system.
+            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(oldKey))
+            {
+                obj.X = obj.X + offset.X;
+                obj.Y = obj.Y + offset.Y;
+                obj.Offset = PointF.Empty;
+                m_canvas.PathwayControl.NotifyDataChanged(
+                    obj.EcellObject.key,
+                    obj.EcellObject.key,
+                    obj,
+                    true,
+                    false);
+            }
+
+            // Move system.
+            system.X = system.X + offset.X;
+            system.Y = system.Y + offset.Y;
+            system.Offset = PointF.Empty;
+            m_canvas.PathwayControl.NotifyDataChanged(
+                oldKey,
+                newKey,
+                system,
+                true,
+                true);
         }
     }
 }
