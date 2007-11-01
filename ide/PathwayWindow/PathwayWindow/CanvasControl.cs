@@ -1643,21 +1643,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Whether given rectangle is inside the root system or not.
-        /// </summary>
-        /// <param name="rectF">a rectangle to be checked.</param>
-        /// <returns>True, if the given rectangle is inside the root system.
-        ///          False, if the given rectangle is outside the root system.
-        /// </returns>
-        public bool IsInsideRoot(RectangleF rectF)
-        {
-            RectangleF rootRect = m_systems["/"].Rect;
-            if (rootRect.IntersectsWith(rectF) || rootRect.Contains(rectF))
-                return true;
-            else
-                return false;
-        }
-        /// <summary>
         /// Get a temporary key of EcellObject.
         /// </summary>
         /// <param name="type">The data type of EcellObject.</param>
@@ -1835,54 +1820,6 @@ namespace EcellLib.PathwayWindow
         {
             List<PPathwayObject> returnList = new List<PPathwayObject>();
             foreach (PPathwayObject obj in this.GetAllObjects())
-            {
-                if (obj.EcellObject.key.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
-                    returnList.Add(obj);
-            }
-            return returnList;
-        }
-
-        /// <summary>
-        /// Get a key list of systems under a given system.
-        /// </summary>
-        /// <param name="systemKey"></param>
-        /// <returns>list of Ecell key of systems</returns>
-        public List<PPathwaySystem> GetAllSystemUnder(string systemKey)
-        {
-            List<PPathwaySystem> returnList = new List<PPathwaySystem>();
-            foreach (PPathwaySystem obj in m_systems.Values)
-            {
-                if (obj.EcellObject.key.StartsWith(systemKey + "/"))
-                    returnList.Add(obj);
-            }
-            return returnList;
-        }
-
-        /// <summary>
-        /// Get a key list of variables under a given system.
-        /// </summary>
-        /// <param name="systemKey"></param>
-        /// <returns>list of Ecell key of variables</returns>
-        public List<PPathwayVariable> GetAllVariableUnder(string systemKey)
-        {
-            List<PPathwayVariable> returnList = new List<PPathwayVariable>();
-            foreach (PPathwayVariable obj in m_variables.Values)
-            {
-                if (obj.EcellObject.key.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
-                    returnList.Add(obj);
-            }
-            return returnList;
-        }
-
-        /// <summary>
-        /// Get a key list of processes under a given system.
-        /// </summary>
-        /// <param name="systemKey"></param>
-        /// <returns>list of Ecell key of processes</returns>
-        public List<PPathwayProcess> GetAllProcessUnder(string systemKey)
-        {
-            List<PPathwayProcess> returnList = new List<PPathwayProcess>();
-            foreach (PPathwayProcess obj in m_processes.Values)
             {
                 if (obj.EcellObject.key.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
                     returnList.Add(obj);
@@ -2378,7 +2315,7 @@ namespace EcellLib.PathwayWindow
         ///<returns>Point.</returns>
         public PointF GetVacantPoint(string sysKey)
         {
-            EcellObject sys = m_systems[sysKey].EcellObject;
+            PPathwaySystem sys = m_systems[sysKey];
             Random hRandom = new Random();
             PointF basePos = new PointF(
                 (float)hRandom.Next((int)sys.X, (int)(sys.X + sys.Width)),

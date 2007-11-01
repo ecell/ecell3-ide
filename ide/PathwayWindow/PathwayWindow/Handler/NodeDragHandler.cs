@@ -229,7 +229,7 @@ namespace EcellLib.PathwayWindow.Handler
                 system.Refresh();
                 // Change color if the system overlaps other system
                 if (m_canvas.DoesSystemOverlaps(system.GlobalBounds, system.EcellObject.key)
-                    || !m_canvas.IsInsideRoot(system.Rect))
+                    || !IsInsideRoot(system.Rect))
                     system.IsInvalid = true;
                 else
                     system.IsInvalid = false;
@@ -253,6 +253,21 @@ namespace EcellLib.PathwayWindow.Handler
             }
         }
 
+        /// <summary>
+        /// Whether given rectangle is inside the root system or not.
+        /// </summary>
+        /// <param name="rectF">a rectangle to be checked.</param>
+        /// <returns>True, if the given rectangle is inside the root system.
+        ///          False, if the given rectangle is outside the root system.
+        /// </returns>
+        private bool IsInsideRoot(RectangleF rectF)
+        {
+            RectangleF rootRect = m_systems["/"].Rect;
+            if (rootRect.Contains(rectF))
+                return true;
+            else
+                return false;
+        }
         /// <summary>
         /// event on end to drag PNode in PathwayView.
         /// </summary>
@@ -289,59 +304,36 @@ namespace EcellLib.PathwayWindow.Handler
             else if (e.PickedNode is PPathwaySystem)
             {
                 PPathwaySystem system = (PPathwaySystem)e.PickedNode;
-                string oldSystemName = system.EcellObject.key;
-                if (system.Parent is PLayer)
+                string oldSysKey = system.EcellObject.key;
+                string parentSysKey = m_canvas.GetSurroundingSystemKey(e.Position, oldSysKey);
+                string newSysKey = null;
+                if (parentSysKey == null)
+                    newSysKey = "/";
+                else if (parentSysKey.Equals("/"))
+                    newSysKey = "/" + system.EcellObject.name;
+                else
+                    newSysKey = parentSysKey + "/" + system.EcellObject.name;
+
+                // Reset system movement when the system is overlapping other system or out of root.
+                if (m_canvas.DoesSystemOverlaps(system.GlobalBounds, oldSysKey) || !IsInsideRoot(system.Rect))
                 {
-                    m_canvas.PathwayControl.NotifyDataChanged(
-                                    oldSystemName,
-                                    oldSystemName,
-                                    system,
-                                    true,
-                                    true);
+                    system.ResetPosition();
+                    system.IsInvalid = false;
+                    m_canvas.UpdateResizeHandlePositions();
                 }
+                else if (!oldSysKey.Equals(newSysKey) && m_systems.ContainsKey(newSysKey))
+                {
+                    MessageBox.Show(newSysKey + m_resources.GetString("ErrAlrExist"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    system.ResetPosition();
+                    system.IsInvalid = false;
+                    m_canvas.UpdateResizeHandlePositions();
+                }
+                // Transfer system.
                 else
                 {
-                    RectangleF rectF = system.Rect;
-
-                    if (m_canvas.DoesSystemOverlaps(system.GlobalBounds, oldSystemName)
-                        || !m_canvas.IsInsideRoot(rectF))
-                    {
-                        system.ResetPosition();
-                        m_canvas.UpdateResizeHandlePositions();
-                        system.IsInvalid = false;
-                    }
-                    else
-                    {
-                        string surSys = m_canvas.GetSurroundingSystemKey(e.Position, oldSystemName);
-                        string newSys = null;
-                        if (surSys.Equals("/"))
-                            newSys = "/" + system.EcellObject.name;
-                        else
-                            newSys = surSys + "/" + system.EcellObject.name;
-                        if (!oldSystemName.Equals(newSys) && m_systems.ContainsKey(newSys))
-                        {
-                            MessageBox.Show(newSys + m_resources.GetString("ErrAlrExist"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            m_canvas.UpdateResizeHandlePositions();
-                            system.IsInvalid = false;
-                        }
-                        else
-                        {
-                            if (surSys == null || !surSys.Equals(system.EcellObject.parentSystemID))
-                                TransferSystemTo(surSys, oldSystemName);
-                            else
-                            {
-                                m_canvas.PathwayControl.NotifyDataChanged(
-                                    oldSystemName,
-                                    oldSystemName,
-                                    system,
-                                    true,
-                                    true);
-                            }
-
-                        }
-                    }
-                    system.Refresh();
+                    TransferSystemTo(newSysKey, oldSysKey, system);
                 }
+                system.Refresh();
             }
             SetBackToDefault();
             m_canvas.UpdateOverview();
@@ -352,6 +344,13 @@ namespace EcellLib.PathwayWindow.Handler
             }
         }
 
+        /// <summary>
+        /// Transfer an system from one PEcellSystem/Layer to PEcellSystem/Layer.
+        /// </summary>
+        /// <param name="node">transfered node</param>
+        /// <param name="oldPosition">new key of a system to be transfered</param>
+        /// <param name="newPosition">old key of a system to be transfered</param>
+        /// <param name="toBeNotified">old key of a system to be transfered</param>
         private void ReturnToSystem(PPathwayNode node, PointF oldPosition, PointF newPosition, bool toBeNotified)
         {
             node.ParentObject.AddChild(node);
@@ -407,27 +406,18 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Transfer an system from one PEcellSystem/Layer to PEcellSystem/Layer.
         /// </summary>
-        /// <param name="systemName">The name of the system to which a system will be transfered. If null, obj is
-        /// transfered to layer itself</param>
+        /// <param name="newKey">new key of a system to be transfered</param>
         /// <param name="oldKey">old key of a system to be transfered</param>
-        private void TransferSystemTo(string systemName, string oldKey)
+        /// <param name="system">transfered system</param>
+        private void TransferSystemTo(string newKey, string oldKey, PPathwaySystem system)
         {
-            if (String.IsNullOrEmpty(systemName))
-                return;
             m_canvas.ResetSelectedObjects();
-            string newKey;
-            if (systemName.Equals("/"))
-                newKey = systemName + PathUtil.RemovePath(oldKey);
-            else
-                newKey = systemName + "/" + PathUtil.RemovePath(oldKey);
-
-            PPathwaySystem system = m_canvas.Systems[oldKey];
-            PPathwaySystem parentSys = m_canvas.Systems[systemName];
-            system.Parent.RemoveChild(system);
-            parentSys.AddChild(system);
             PointF offset = system.Offset;
+            if (offset.X == 0 && offset.Y == 0)
+                return;
 
             // Move objects under this system.
+            // TODO: This process should be implemented in EcellLib.DataChanged().
             foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(oldKey))
             {
                 obj.X = obj.X + offset.X;
