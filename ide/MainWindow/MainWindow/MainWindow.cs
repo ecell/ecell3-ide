@@ -1806,7 +1806,7 @@ namespace EcellLib.MainWindow
         {
             DistributedEnvWindow win = new DistributedEnvWindow();
 
-            win.ShowDialog();
+            win.Show();
         }
 
     }
