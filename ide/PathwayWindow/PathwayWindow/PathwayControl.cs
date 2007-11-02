@@ -1246,6 +1246,7 @@ namespace EcellLib.PathwayWindow
                 {
                     case RefChangeType.SingleDir:
                         changedRef.coefficient = coefficient;
+                        changedRef.name = PathUtil.GetNewReferenceName(newList, coefficient);
                         newList.Add(changedRef);
                         break;
                     case RefChangeType.BiDir:

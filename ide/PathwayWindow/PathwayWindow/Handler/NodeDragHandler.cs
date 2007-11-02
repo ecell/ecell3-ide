@@ -213,7 +213,6 @@ namespace EcellLib.PathwayWindow.Handler
                 else
                     system.IsInvalid = false;
                 m_canvas.UpdateResizeHandlePositions();
-
                 system.MoveStart();
             }
             else if (e.PickedNode is PPathwayNode)
@@ -262,7 +261,7 @@ namespace EcellLib.PathwayWindow.Handler
                 {
                     if (m_canvas.ControlLayer.ChildrenReference.Contains(node))
                         m_canvas.ControlLayer.RemoveChild(node);
-                    ReturnToSystem((PPathwayNode)node, m_isMoved);
+                    TransferNode((PPathwayNode)node, m_isMoved);
                 }
             }
             else if (e.PickedNode is PPathwaySystem)
@@ -285,6 +284,7 @@ namespace EcellLib.PathwayWindow.Handler
                     m_canvas.UpdateResizeHandlePositions();
                     system.IsInvalid = false;
                 }
+                // Reset if system is duplicated.
                 else if (!oldSysKey.Equals(newSysKey) && m_systems.ContainsKey(newSysKey))
                 {
                     MessageBox.Show(newSysKey + m_resources.GetString("ErrAlrExist"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -311,7 +311,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="oldPosition">new key of a system to be transfered</param>
         /// <param name="newPosition">old key of a system to be transfered</param>
         /// <param name="toBeNotified">old key of a system to be transfered</param>
-        private void ReturnToSystem(PPathwayObject node, bool toBeNotified)
+        private void TransferNode(PPathwayObject node, bool toBeNotified)
         {
             node.ParentObject.AddChild(node);
             PointF newPosition = new PointF(node.X + node.OffsetX, node.Y + node.OffsetY);
@@ -337,19 +337,18 @@ namespace EcellLib.PathwayWindow.Handler
             }
             else
             {
-                node.X += node.OffsetX;
-                node.Y += node.OffsetY;
+                node.PointF = newPosition;
                 node.Offset = PointF.Empty;
 
                 if (!toBeNotified)
                     return;
                 // Update Node.
                 m_canvas.PathwayControl.NotifyDataChanged(
-                    obj.EcellObject.key,
+                    node.EcellObject.key,
                     newKey,
-                    obj,
+                    node,
                     true,
-                    isAnchor);
+                    true);
 
             }
         }

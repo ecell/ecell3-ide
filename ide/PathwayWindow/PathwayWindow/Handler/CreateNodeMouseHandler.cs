@@ -122,6 +122,7 @@ namespace EcellLib.PathwayWindow
             }
             
             DataManager dm = DataManager.GetDataManager();
+            EcellObject eo = null;
             if (m_con.SelectedHandle.CsID == ComponentType.Process)
             {
                 string tmpId = m_canvas.GetTemporaryID("Process", m_surSystem);
@@ -131,12 +132,7 @@ namespace EcellLib.PathwayWindow
                 {
                     list.Add(d);
                 }
-                
-                EcellObject eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, "Process", "ExpressionFluxProcess", list);
-                eo.X = m_downPos.X;
-                eo.Y = m_downPos.Y;
-
-                m_con.NotifyDataAdd(eo, true);
+                eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, "Process", "ExpressionFluxProcess", list);
             }
             else
             {
@@ -145,13 +141,14 @@ namespace EcellLib.PathwayWindow
                 List<EcellData> list = new List<EcellData>();
                 foreach (EcellData d in dict.Values)
                     list.Add(d);
-
-                EcellObject eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, "Variable", "Variable", list);
-                eo.X = m_downPos.X;
-                eo.Y = m_downPos.Y;
-
-                m_con.NotifyDataAdd(eo, true);
+                eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, "Variable", "Variable", list);
             }
+            eo.X = m_downPos.X;
+            eo.Y = m_downPos.Y;
+            eo.Width = PPathwayNode.DEFAULT_WIDTH;
+            eo.Height = PPathwayNode.DEFAULT_HEIGHT;
+
+            m_con.NotifyDataAdd(eo, true);
         }
     }
 }
