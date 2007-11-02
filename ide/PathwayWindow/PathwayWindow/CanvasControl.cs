@@ -1403,32 +1403,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="systemName">The name of the system to which object is transfered. If null, obj is
         /// transfered to layer itself</param>
         /// <param name="obj">transfered object</param>
-        /// <param name="toBeNotified">Whether this needs to be notified or not</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        public void TransferNodeTo(string systemName, PPathwayObject obj, bool toBeNotified, bool isAnchor)
-        {
-            // Set new system.
-            string oldKey = obj.EcellObject.key;
-            string newKey = systemName + ":" + obj.EcellObject.name;
-
-            if (!toBeNotified)
-                return;
-            // Update Node.
-            m_con.NotifyDataChanged(
-                oldKey,
-                newKey,
-                obj,
-                true,
-                isAnchor);
-        }
-
-
-        /// <summary>
-        /// Transfer an object from one PEcellSystem/Layer to PEcellSystem/Layer.
-        /// </summary>
-        /// <param name="systemName">The name of the system to which object is transfered. If null, obj is
-        /// transfered to layer itself</param>
-        /// <param name="obj">transfered object</param>
         /// <param name="isAnchor">Whether this action is an anchor or not.</param>
         public void TransferNodeToByResize(string systemName, PPathwayObject obj, bool isAnchor)
         {
