@@ -74,6 +74,8 @@ Source: "..\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check
 Source: "..\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 Source: "..\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 Source: "..\bin\ZedGraph.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "..\bin\SessionManager.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "..\bin\MathNet.Iridium.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 
 Source: "..\64bit\bin\EcellCoreLibCLR.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 Source: "..\64bit\bin\EcellLib.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
@@ -90,6 +92,8 @@ Source: "..\64bit\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Flags: 64Bit;
 Source: "..\64bit\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 Source: "..\64bit\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 Source: "..\64bit\bin\ZedGraph.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "..\64bit\bin\SessionManager.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "..\64bit\bin\MathNet.Iridium.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 
 
 ; ======================================================
@@ -364,6 +368,8 @@ Root: HKCR; Subkey: ".eml"; ValueType: string; ValueName: ""; ValueData: "E-Cell
 Root: HKCR; Subkey: "E-CellProgramFile"; ValueType: string; ValueName: ""; ValueData: "My Program File"; Flags: uninsdeletekey
 Root: HKCR; Subkey: "E^Ce;;ProgramFile\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\bin\MainWindow.exe,0"
 Root: HKCR; Subkey: "E-CellProgramFile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\bin\MainWindow.exe"" ""%1"""
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{userdocs}\My E-Cell Projects";
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{userdocs}\My E-Cell Projects";
 
 [Icons]
 Name: "{group}\E-Cell IDE"; Filename: "{app}\bin\MainWindow.exe"; IconIndex: 0;
