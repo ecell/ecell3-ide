@@ -237,6 +237,8 @@ namespace EcellLib.MainWindow {
                 DockContent content = (DockContent)dockPanel.Contents[i];
                 if (content.Text.Contains("Tracer") || content.Text.Contains("ƒgƒŒ[ƒT"))
                     content.Close();
+                if (content.Text.Contains("Analysis") || content.Text.Contains("‰ğÍ"))
+                    content.Close();
             }
             dockPanel.Refresh();
         }
