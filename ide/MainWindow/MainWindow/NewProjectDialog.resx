@@ -189,6 +189,9 @@
   <data name="textName.Location" type="System.Drawing.Point, System.Drawing">
     <value>93, 3</value>
   </data>
+  <data name="textName.MaxLength" type="System.Int32, mscorlib">
+    <value>64</value>
+  </data>
   <data name="textName.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 19</value>
   </data>
@@ -266,6 +269,9 @@
   </data>
   <data name="textModelName.Location" type="System.Drawing.Point, System.Drawing">
     <value>93, 63</value>
+  </data>
+  <data name="textModelName.MaxLength" type="System.Int32, mscorlib">
+    <value>64</value>
   </data>
   <data name="textModelName.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 19</value>

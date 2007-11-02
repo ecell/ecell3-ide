@@ -925,7 +925,7 @@ namespace EcellLib.MainWindow
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (m_newPrjDialog.textName.Text.Length > 200)
+                if (m_newPrjDialog.textName.Text.Length > 64)
                 {
                     String errmes = m_resources.GetString("ErrPrjIdNG");
                     MessageBox.Show(errmes,
@@ -939,7 +939,7 @@ namespace EcellLib.MainWindow
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (m_newPrjDialog.textModelName.Text.Length > 200)
+                if (m_newPrjDialog.textModelName.Text.Length > 64)
                 {
                     String errmes = m_resources.GetString("ErrModelNG");
                     MessageBox.Show(errmes,
@@ -1080,7 +1080,7 @@ namespace EcellLib.MainWindow
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (prjID.Length > 200)
+                if (prjID.Length > 64)
                 {
                     String errmes = m_resources.GetString("ErrPrjIdNG");
                     MessageBox.Show(errmes,
