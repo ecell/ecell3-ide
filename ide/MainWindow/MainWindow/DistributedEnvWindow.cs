@@ -93,5 +93,38 @@ namespace EcellLib.MainWindow
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
         }
+
+        private void DEWStopButton_Click(object sender, EventArgs e)
+        {
+            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+
+            if (JobGridView.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow r in JobGridView.SelectedRows)
+                {
+                    int jobid = Convert.ToInt32(r.Cells[0].Value);
+                    manager.Stop(jobid);
+                }
+                return;
+            }
+
+            manager.Stop(0);            
+        }
+
+        private void DEWStartButton_Click(object sender, EventArgs e)
+        {
+            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+
+            if (JobGridView.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow r in JobGridView.SelectedRows)
+                {
+                    int jobid = Convert.ToInt32(r.Cells[0].Value);
+                    manager.SessionList[jobid].Status = JobStatus.QUEUED;
+                }
+                manager.Run();
+                return;
+            }
+        }
     }
 }

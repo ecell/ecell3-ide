@@ -92,7 +92,7 @@ namespace SessionManager
         /// </summary>
         public override void stop()
         {
-            if (this.Status != JobStatus.RUNNING || this.Status != JobStatus.QUEUED)
+            if (this.Status != JobStatus.RUNNING && this.Status != JobStatus.QUEUED)
                 return;
             if (m_currentProcess != null)
             {
@@ -107,7 +107,7 @@ namespace SessionManager
                 this.StdErr = m_currentProcess.StandardOutput.ReadToEnd();
                 m_currentProcess = null;
             }
-            if (Status != JobStatus.QUEUED)
+            if (Status == JobStatus.QUEUED || Status == JobStatus.RUNNING)
             {
                 Status = JobStatus.STOPPED;
             }
