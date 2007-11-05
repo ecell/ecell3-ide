@@ -257,12 +257,7 @@ namespace EcellLib.PathwayWindow.Handler
             base.OnEndDrag(sender, e);
             if (e.PickedNode is PPathwayNode)
             {
-                foreach (PPathwayObject node in m_canvas.SelectedNodes)
-                {
-                    if (m_canvas.ControlLayer.ChildrenReference.Contains(node))
-                        m_canvas.ControlLayer.RemoveChild(node);
-                    TransferNode((PPathwayNode)node, m_isMoved);
-                }
+                TransferNodes(m_canvas.SelectedNodes);
             }
             else if (e.PickedNode is PPathwaySystem)
             {
@@ -308,49 +303,69 @@ namespace EcellLib.PathwayWindow.Handler
         /// Transfer an system from one PEcellSystem/Layer to PEcellSystem/Layer.
         /// </summary>
         /// <param name="node">transfered node</param>
-        /// <param name="oldPosition">new key of a system to be transfered</param>
-        /// <param name="newPosition">old key of a system to be transfered</param>
-        /// <param name="toBeNotified">old key of a system to be transfered</param>
-        private void TransferNode(PPathwayObject node, bool toBeNotified)
+        private void TransferNodes(List<PPathwayObject> nodeList)
         {
-            node.ParentObject.AddChild(node);
-            PointF newPosition = new PointF(node.X + node.OffsetX, node.Y + node.OffsetY);
-            string oldSystem = node.EcellObject.parentSystemID;
-            string newSystem = m_canvas.GetSurroundingSystemKey(newPosition);
-            string newKey = newSystem + ":" + node.EcellObject.name;
+            PointF newPosition;
+            string newSystem;
+            string newKey;
+            bool isError = false;
 
-            // When node is out of root.
-            if (newSystem == null)
+            foreach (PPathwayObject node in nodeList)
             {
-                node.ResetPosition();
-                node.Refresh();
-                return;
+                node.ParentObject.AddChild(node);
+                newPosition = new PointF(node.X + node.OffsetX, node.Y + node.OffsetY);
+                newSystem = m_canvas.GetSurroundingSystemKey(newPosition);
+                newKey = newSystem + ":" + node.EcellObject.name;
+
+                // When node is out of root.
+                if (newSystem == null)
+                {
+                    MessageBox.Show(node.EcellObject.name + ":" + m_resources.GetString("ErrOutRoot"),
+                                    "Error", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    isError = true;
+                    continue;
+                }
+                // When node is duplicated.
+                else if (!newSystem.Equals(node.EcellObject.parentSystemID)
+                    && m_canvas.GetSelectedObject(newKey, node.EcellObject.type) != null)
+                {
+                    MessageBox.Show(node.EcellObject.name + ":" + m_resources.GetString("ErrAlrExist"),
+                                    "Error", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    isError = true;
+                    continue;
+                }
+                // No error.
+                else
+                {
+                    node.PointF = newPosition;
+                    node.Offset = PointF.Empty;
+                }
             }
-            // When node is duplicated.
-            else if (!newSystem.Equals(oldSystem)
-                && m_canvas.GetSelectedObject(newKey, node.EcellObject.type) != null)
+
+            // If error, reset node position.
+            if (isError)
             {
-                node.ResetPosition();
-                node.Refresh();
-                MessageBox.Show(node.EcellObject.name + m_resources.GetString("ErrAlrExist"),
-                                "Error", MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                foreach (PPathwayObject node in nodeList)
+                {
+                    node.ResetPosition();
+                    node.Refresh();
+                }
             }
             else
             {
-                node.PointF = newPosition;
-                node.Offset = PointF.Empty;
-
-                if (!toBeNotified)
-                    return;
-                // Update Node.
-                m_canvas.PathwayControl.NotifyDataChanged(
-                    node.EcellObject.key,
-                    newKey,
-                    node,
-                    true,
-                    true);
-
+                foreach (PPathwayObject node in nodeList)
+                {
+                    newSystem = m_canvas.GetSurroundingSystemKey(node.PointF);
+                    newKey = newSystem + ":" + node.EcellObject.name;
+                    m_canvas.PathwayControl.NotifyDataChanged(
+                        node.EcellObject.key,
+                        newKey,
+                        node,
+                        true,
+                        true);
+                }
             }
         }
 
