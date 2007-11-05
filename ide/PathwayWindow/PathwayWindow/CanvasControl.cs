@@ -1530,25 +1530,20 @@ namespace EcellLib.PathwayWindow
                     obj.PointF = GetVacantPoint(systemName);
                 else if(obj is PPathwaySystem)
                 {
-                    float maxX = 0f;
-                    float maxY = 0f;
+                    float maxX = system.X + system.OffsetX;
                     float x = 0f;
-                    float y = 0f;
 
                     foreach (PNode ppo in system.ChildrenReference)
                     {
                         if (ppo is PPathwayObject)
                         {
                             x = ppo.X + ppo.OffsetX + ppo.Width;
-                            y = ppo.Y + ppo.OffsetY + ppo.Height;
                         }
                         if (maxX < x)
                             maxX = x;
-                        if (maxY < y)
-                            maxY = y;
                     }
                     // Set obj's coordinate
-                    obj.X = system.X + system.Offset.X + maxX + PPathwaySystem.SYSTEM_MARGIN;
+                    obj.X = maxX + PPathwaySystem.SYSTEM_MARGIN;
                     obj.Y = system.Y + system.Offset.Y + PPathwaySystem.SYSTEM_MARGIN;
                     obj.Width = PPathwaySystem.DEFAULT_WIDTH;
                     obj.Height = PPathwaySystem.DEFAULT_HEIGHT;

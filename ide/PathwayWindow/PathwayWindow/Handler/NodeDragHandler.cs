@@ -331,6 +331,7 @@ namespace EcellLib.PathwayWindow.Handler
                 && m_canvas.GetSelectedObject(newKey, node.EcellObject.type) != null)
             {
                 node.ResetPosition();
+                node.Refresh();
                 MessageBox.Show(node.EcellObject.name + m_resources.GetString("ErrAlrExist"),
                                 "Error", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
