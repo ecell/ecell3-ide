@@ -926,7 +926,6 @@ namespace EcellLib.PathwayWindow
         public void ButtonStateChanged(object sender, EventArgs e)
         {
             RemoveInputEventListener(m_handlerDict[m_selectedHandle.HandleID]);
-
             m_selectedHandle = (Handle)((ToolStripButton)sender).Tag;
             
             foreach (ToolStripButton button in m_buttonList)
@@ -949,6 +948,8 @@ namespace EcellLib.PathwayWindow
                 m_pathwayView.Cursor = Cursors.Arrow;
                 Unfreeze();
             }
+            ActiveCanvas.ResetNodeToBeConnected();
+            ActiveCanvas.SetLineVisibility(false);
         }
 
 

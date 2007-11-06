@@ -1747,9 +1747,10 @@ namespace EcellLib.PathwayWindow
                 m_ctrlLayer.AddChild(m_line4reconnect);
                 m_line4reconnect.Visible = true;
             }
-            else if (m_line4reconnect.Parent != null)
+            else
             {
-                m_ctrlLayer.RemoveChild(m_line4reconnect);
+                if (m_line4reconnect.Parent != null)
+                    m_ctrlLayer.RemoveChild(m_line4reconnect);
                 m_line4reconnect.Visible = false;
                 m_line4reconnect.Reset();
             }
