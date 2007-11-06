@@ -255,6 +255,9 @@ namespace EcellLib.PathwayWindow.Handler
         protected override void OnEndDrag(object sender, PInputEventArgs e)
         {
             base.OnEndDrag(sender, e);
+            if(!m_isMoved)
+                return;
+
             if (e.PickedNode is PPathwayNode)
             {
                 TransferNodes(m_canvas.SelectedNodes);
@@ -377,12 +380,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="system">transfered system</param>
         private void TransferSystemTo(string newKey, string oldKey, PPathwaySystem system)
         {
-            PointF offset = system.Offset;
-            if (offset.X == 0 && offset.Y == 0)
-                return;
-
             // Move objects under this system.
             // TODO: This process should be implemented in EcellLib.DataChanged().
+            PointF offset = system.Offset;
             foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(oldKey))
             {
                 obj.X = obj.X + offset.X;

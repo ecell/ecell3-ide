@@ -1942,72 +1942,40 @@ namespace EcellLib
         private void DataDelete4VariableReferenceList(List<EcellObject> l_delList, bool l_isRecorded, bool l_isAnchor)
         {
             if (l_delList == null || l_delList.Count <= 0)
-            {
                 return;
-            }
+
             foreach (EcellObject l_del in l_delList)
             {
-                if (!l_del.type.Equals(Util.s_xpathVariable))
-                {
+                if (!l_del.type.Equals(EcellObject.VARIABLE))
                     continue;
-                }
-                string l_systemPath = l_del.parentSystemID;
-                string l_variableName = l_del.key.Split(Util.s_delimiterColon.ToCharArray())[1];
-                foreach (EcellObject l_system in this.GetData(l_del.modelID, l_systemPath))
+
+                string l_variableKey = l_del.key;
+                foreach (EcellObject l_system in this.m_systemDic[this.m_currentProjectID][l_del.modelID])
                 {
+                    List<EcellObject> changeList = new List<EcellObject>();
                     foreach (EcellObject l_child in l_system.M_instances)
                     {
                         bool l_changedFlag = false;
-                        if (!l_child.type.Equals(Util.s_xpathProcess))
-                        {
+                        if (!l_child.type.Equals(EcellObject.PROCESS))
                             continue;
-                        }
-                        EcellObject l_process = l_child.Copy();
-                        foreach (EcellData l_data in l_process.M_value)
+
+                        EcellProcess l_process = (EcellProcess)l_child.Copy();
+                        List<EcellReference> l_er =new List<EcellReference>();
+                        foreach (EcellReference er in l_process.ReferenceList)
                         {
-                            if (l_data.M_name.Equals(Util.s_xpathVRL))
-                            {
-                                List<EcellValue> l_delValueList = new List<EcellValue>();
-                                foreach (EcellValue l_list in l_data.M_value.CastToList())
-                                {
-                                    string l_vrlSystemPath
-                                            = (l_list.CastToList())[1].CastToString().Split(
-                                                    Util.s_delimiterColon.ToCharArray())[1];
-                                    string l_vrlVariableName
-                                            = (l_list.CastToList())[1].CastToString().Split(
-                                                    Util.s_delimiterColon.ToCharArray())[2];
-                                    if (l_systemPath.Equals(l_vrlSystemPath)
-                                            && l_variableName.Equals(l_vrlVariableName))
-                                    {
-                                        l_delValueList.Add(l_list);
-                                    }
-                                }
-                                foreach (EcellValue l_delValue in l_delValueList)
-                                {
-                                    List<EcellValue> l_deletedList = new List<EcellValue>();
-                                    l_deletedList.AddRange(l_data.M_value.CastToList());
-                                    l_deletedList.Remove(l_delValue);
-                                    l_data.M_value = new EcellValue(l_deletedList);
-                                    /*
-                                    List<EcellValue> l_deletedList = new List<EcellValue>();
-                                    foreach (EcellValue l_storedValue in l_data.M_value.CastToList())
-                                    {
-                                        if (!l_storedValue.Equals(l_delValue))
-                                        {
-                                            l_deletedList.Add(l_storedValue);
-                                        }
-                                    }
-                                    l_data.M_value = new EcellValue(l_deletedList);
-                                     */
-                                    // l_data.M_value.CastToList().Remove(l_delValue);
-                                    l_changedFlag = true;
-                                }
-                            }
+                            if (er.Key.Equals(l_variableKey))
+                                l_changedFlag = true;
+                            else
+                                l_er.Add(er);
                         }
+                        l_process.ReferenceList = l_er;
+
                         if (l_changedFlag)
-                        {
-                            this.DataChanged(l_child.modelID, l_child.key, l_child.type, l_process, l_isRecorded, l_isAnchor);
-                        }
+                            changeList.Add(l_process);
+                    }
+                    foreach (EcellObject l_change in changeList)
+                    {
+                        this.DataChanged(l_change.modelID, l_change.key, l_change.type, l_change, l_isRecorded, l_isAnchor);
                     }
                 }
             }
