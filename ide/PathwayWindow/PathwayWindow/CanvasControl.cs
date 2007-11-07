@@ -503,15 +503,15 @@ namespace EcellLib.PathwayWindow
             m_pCanvas.Name = modelID;
             m_pCanvas.Camera.ScaleViewBy(0.7f);
 
-            PScrollableControl scrolCtrl = new PScrollableControl(m_pCanvas);
-            scrolCtrl.Layout += new LayoutEventHandler(scrolCtrl_Layout);
-            scrolCtrl.Dock = DockStyle.Fill;
-            m_pathwayTabPage.Controls.Add(scrolCtrl);
-
             // Preparing overview
             m_overviewCanvas = new OverviewCanvas(m_pCanvas.Layer,
                                                   m_pCanvas.Camera);
             m_pCanvas.Camera.RemoveLayer(m_pCanvas.Layer);
+
+            PScrollableControl scrolCtrl = new PScrollableControl(m_pCanvas);
+            scrolCtrl.Layout += new LayoutEventHandler(scrolCtrl_Layout);
+            scrolCtrl.Dock = DockStyle.Fill;
+            m_pathwayTabPage.Controls.Add(scrolCtrl);
 
             // Preparing DataTable
             m_table = new DataTable(modelID);
@@ -2080,11 +2080,6 @@ namespace EcellLib.PathwayWindow
         {
             RectangleF rect = m_pCanvas.Camera.ViewBounds;
             m_overviewCanvas.UpdateOverview(rect);
-            //m_con.OverView.DisplayedArea.Reset();
-            //m_con.OverView.DisplayedArea.Offset = PointF.Empty;
-            //m_con.OverView.DisplayedArea.AddRectangle(recf.X, recf.Y, recf.Width, recf.Height);
-            //m_con.OverView.UpdateTransparent();
-            //m_con.OverView.Canvas.Refresh();
         }
 
         /// <summary>

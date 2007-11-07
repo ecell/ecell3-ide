@@ -951,17 +951,6 @@ namespace EcellLib.PathwayWindow
             ActiveCanvas.ResetNodeToBeConnected();
             ActiveCanvas.SetLineVisibility(false);
         }
-
-
-        /// <summary>
-        /// When move the splitter, system redraw the overview.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e">SplitterEventArgs.</param>
-        void m_splitCon_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-            UpdateOverview();
-        }
         #endregion
         
         #region Methods from PathwayWindow(Interface) to Controller        
@@ -1345,20 +1334,6 @@ namespace EcellLib.PathwayWindow
             foreach (CanvasControl set in m_canvasDict.Values)
             {
                 set.PanCanvas(direction, delta);
-            }
-        }
-
-        /// <summary>
-        /// Update the overview.
-        /// </summary>
-        public void UpdateOverview()
-        {
-            if(m_canvasDict != null)
-            {
-                foreach(CanvasControl set in m_canvasDict.Values)
-                {
-                    set.UpdateOverview();
-                }
             }
         }
 

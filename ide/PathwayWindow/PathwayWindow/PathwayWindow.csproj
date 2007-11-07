@@ -105,14 +105,12 @@
     <Compile Include="GridLayout.cs" />
     <Compile Include="Handler\NamespaceDoc.cs" />
     <Compile Include="Handler\NodeDragHandler.cs" />
-    <Compile Include="Handler\PPathwayZoomEventHandler.cs" />
     <Compile Include="Handle.cs" />
     <Compile Include="MessageResPathway.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResPathway.resx</DependentUpon>
     </Compile>
-    <Compile Include="Handler\MouseDownHandler.cs" />
     <Compile Include="Nodes\NamespaceDoc.cs" />
     <Compile Include="NoSuchComponentClassException.cs" />
     <Compile Include="NoSuchComponentKindException.cs" />

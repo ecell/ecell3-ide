@@ -69,6 +69,13 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_canvas = cview;
             m_con = cview.PathwayControl;
         }
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            if (m_canvas == null)
+                return;
+            m_canvas.UpdateOverview();
+        }
         /// <summary>
         /// </summary>
         /// <param name="e">MouseEventArgs.</param>
