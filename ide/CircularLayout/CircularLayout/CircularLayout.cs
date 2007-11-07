@@ -441,7 +441,7 @@ namespace EcellLib.CircularLayout
             Dictionary<string, EcellObject> outDict = new Dictionary<string, EcellObject>();
 
             foreach (EcellObject node in nodeList)
-                if (node.isFixed != EcellObject.Fixed)
+                if (node.isFixed)
                 {
                     returnNodes.Add(node);
                     if (node is EcellVariable)
@@ -458,7 +458,7 @@ namespace EcellLib.CircularLayout
                 {
                     EcellProcess pro = (EcellProcess)node;
 
-                    if (pro.isFixed != EcellObject.Fixed)
+                    if (pro.isFixed)
                     {
                         foreach (EcellReference er in pro.ReferenceList)
                         {

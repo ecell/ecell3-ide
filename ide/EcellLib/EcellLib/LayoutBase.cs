@@ -48,7 +48,7 @@ namespace EcellLib
         {
             List<EcellObject> returnList = new List<EcellObject>();
             foreach (EcellObject eo in objList)
-                if (eo.isFixed == EcellObject.Fixed)
+                if (eo.isFixed)
                     returnList.Add(eo);
 
             return returnList;
@@ -62,7 +62,7 @@ namespace EcellLib
         {
             List<EcellObject> returnList = new List<EcellObject>();
             foreach (EcellObject eo in objList)
-                if (eo.isFixed == EcellObject.Fixed)
+                if (eo.isFixed)
                     returnList.Add(eo);
 
             return returnList;

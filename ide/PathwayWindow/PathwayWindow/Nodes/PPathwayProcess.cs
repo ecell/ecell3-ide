@@ -403,11 +403,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Type of a line of this edge.
         /// </summary>
         protected LineType m_type = LineType.Unknown;
-
-        /// <summary>
-        /// Type of a line of this edge.
-        /// </summary>
-        protected int m_isFixed = 0;
         #endregion
 
         #region Constructor
@@ -453,7 +448,6 @@ namespace EcellLib.PathwayWindow.Nodes
                 m_type = LineType.Solid;
             }
             m_varKey = er.Key;
-            m_isFixed = er.isAccessor;
         }
         #endregion
 
@@ -496,14 +490,6 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             get { return m_type; }
             set { m_type = value; }
-        }
-        /// <summary>
-        /// Accessor for m_type.
-        /// </summary>
-        public int IsFixed
-        {
-            get { return m_isFixed; }
-            set { m_isFixed = value; }
         }
         /// <summary>
         /// Accessor for m_type.

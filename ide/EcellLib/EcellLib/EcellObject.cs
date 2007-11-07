@@ -123,6 +123,10 @@ namespace EcellLib
         /// The children of this
         /// </summary>
         private List<EcellObject> m_instances;
+        /// <summary>
+        /// Fixed flag.
+        /// </summary>
+        private bool m_isFixed = false;
         #endregion
 
         #region Constractor
@@ -389,22 +393,10 @@ namespace EcellLib
         /// <summary>
         /// get / set whether this parameter is fix.
         /// </summary>
-        public int isFixed
+        public bool isFixed
         {
-            get
-            {
-                if (IsEcellValueExists("Fixed"))
-                    return GetEcellValue("Fixed").CastToInt();
-                else
-                    return 0;
-            }
-            set
-            {
-                if (IsEcellValueExists("Fixed"))
-                    GetEcellValue("Fixed").M_value = value;
-                else
-                    AddEcellValue("Fixed", new EcellValue(value));
-            }
+            get { return m_isFixed; }
+            set { this.m_isFixed = value; }
         }
         #endregion
 
