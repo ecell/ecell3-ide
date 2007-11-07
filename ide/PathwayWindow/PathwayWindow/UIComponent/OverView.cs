@@ -111,30 +111,9 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="canvas">The display canvas.</param>
         public void SetCanvas(PCanvas canvas)
         {
+            this.groupBox.Controls.Clear();
+            this.groupBox.Controls.Add(canvas);
             this.m_canvas = canvas;
-            //// m_transparentNode
-            //m_transparentNode = PPath.CreateRectangle(-500, -500, 1300, 1300);
-            //m_transparentNode.Brush = m_transparentBrush;
-            //m_transparentNode.Pickable = true;
-            //// Preparing overview
-            //m_area = new PDisplayedArea();
-
-            //InitializeComponent();
-            //// Set Layer and remove event handler
-            ////m_canvas.Text = canvas.ModelID;
-            //m_canvas.Camera.AddLayer(canvas.PathwayCanvas.Layer);
-            //m_canvas.RemoveInputEventListener(m_canvas.PanEventHandler);
-            //m_canvas.RemoveInputEventListener(m_canvas.ZoomEventHandler);
-
-            //// Set new Layer.
-            //m_canvas.Camera.AddInputEventListener(new AreaDragHandler(canvas.PathwayCanvas.Camera));
-            //m_canvas.Camera.ScaleViewBy(REDUCTION_SCALE);
-            //m_canvas.Camera.TranslateViewBy(500, 500);
-            //m_canvas.Layer.AddChild(m_transparentNode);
-            //m_canvas.Layer.AddChild(m_area);
-            //m_canvas.Camera.AddLayer(m_canvas.Layer);
-            //m_canvas.Camera.ChildrenPickable = false;
-            //m_canvas.Camera.BoundsChanged += new PPropertyEventHandler(Camera_BoundsChanged);
         }
         /// <summary>
         /// Set PathwayCanvas.
@@ -145,58 +124,16 @@ namespace EcellLib.PathwayWindow.UIComponent
         }
 
         /// <summary>
-        /// Set layer which will be overviewed on this overview canvas.
-        /// </summary>
-        /// <param name="layer"></param>
-        public void AddLayer(PLayer layer)
-        {
-            this.m_canvas.Camera.AddLayer(0, layer);
-        }
-
-        /// <summary>
-        /// Stop to observe a layer.
-        /// </summary>
-        /// <param name="layer">a layer</param>
-        public void RemoveObservedLayer(PLayer layer)
-        {
-            this.m_canvas.Camera.RemoveLayer(layer);
-        }
-
-        /// <summary>
-        /// Update position of transparent node
-        /// </summary>
-        public void UpdateTransparent()
-        {
-            RectangleF rect = this.m_canvas.Camera.ViewBounds;
-            m_transparentNode.SetBounds(rect.X, rect.Y, rect.Width, rect.Height);
-        }
-
-        /// <summary>
         /// Initializer for PCanvas
         /// </summary>
         void InitializeComponent()
         {
-            this.m_canvas = new UMD.HCIL.Piccolo.PCanvas();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
-            // m_canvas
-            // 
-            this.m_canvas.AllowDrop = true;
-            this.m_canvas.BackColor = System.Drawing.Color.White;
-            this.m_canvas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_canvas.GridFitText = false;
-            this.m_canvas.Location = new System.Drawing.Point(3, 15);
-            this.m_canvas.Name = "m_canvas";
-            this.m_canvas.RegionManagement = true;
-            this.m_canvas.Size = new System.Drawing.Size(286, 255);
-            this.m_canvas.TabIndex = 0;
-            this.m_canvas.Text = "OverView";
-            // 
             // groupBox
             // 
-            this.groupBox.Controls.Add(this.m_canvas);
             this.groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox.Location = new System.Drawing.Point(0, 0);
             this.groupBox.Name = "groupBox";
@@ -216,12 +153,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.ResumeLayout(false);
 
         }
-
-        private void Camera_BoundsChanged(object sender, PPropertyEventArgs e)
-        {
-            UpdateTransparent();
-        }
-
         #endregion
 
         #region Inner Class

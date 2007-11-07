@@ -69,7 +69,34 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_canvas = cview;
             m_con = cview.PathwayControl;
         }
-
+        /// <summary>
+        /// </summary>
+        /// <param name="e">MouseEventArgs.</param>
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            if (Control.ModifierKeys == Keys.Shift)
+            {
+                this.m_con.PanCanvas(Direction.Horizontal, e.Delta);
+            }
+            else if (Control.ModifierKeys == Keys.Control || e.Button == MouseButtons.Right)
+            {
+                float zoom = (float)1.00 + (float)e.Delta / 1200;
+                this.m_con.ActiveCanvas.Zoom(zoom);
+            }
+            else
+            {
+                this.m_con.PanCanvas(Direction.Vertical, e.Delta);
+            }
+        }
+        /// <summary>
+        /// </summary>
+        /// <param name="e">EventArgs.</param>
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            this.Focus();
+        }
         /// <summary>
         /// Called when the mouse is on this canvas.
         /// </summary>

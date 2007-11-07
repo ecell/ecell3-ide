@@ -108,8 +108,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.m_tabControl.Size = new System.Drawing.Size(292, 273);
             this.m_tabControl.TabIndex = 0;
             this.m_tabControl.SelectedIndexChanged += new EventHandler(m_tabControl_SelectedIndexChanged);
-            this.m_tabControl.MouseEnter += new EventHandler(m_tabControl_OnMouseEnter);
-            this.m_tabControl.MouseWheel += new MouseEventHandler(m_tabControl_OnMouseWheel);
 
             // 
             // PathwayView
@@ -138,36 +136,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_con.OverView.SetCanvas(canvas.OverviewCanvas);
             // TODO LayerView Setting
             //m_dgv.DataMember = modelID;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">TabControl.</param>
-        /// <param name="e">MouseEventArgs.</param>
-        void m_tabControl_OnMouseWheel(object sender, MouseEventArgs e)
-        {
-
-            if (Control.ModifierKeys == Keys.Shift)
-            {
-                this.m_con.PanCanvas(Direction.Horizontal, e.Delta);
-            }
-            else if (Control.ModifierKeys == Keys.Control || e.Button == MouseButtons.Right)
-            {
-                float zoom = (float)1.00 + (float)e.Delta / 1200;
-                this.m_con.ActiveCanvas.Zoom(zoom);
-            }
-            else
-            {
-                this.m_con.PanCanvas(Direction.Vertical, e.Delta);
-            }
-        }
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">TabControl.</param>
-        /// <param name="e">EventArgs.</param>
-        void m_tabControl_OnMouseEnter(object sender, EventArgs e)
-        {
-            this.m_tabControl.Focus();
         }
         #endregion
 

@@ -220,7 +220,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Default LayerID
         /// </summary>
-        private string m_defLayerId = "first";
+        private string m_defLayerId = "Layer0";
 
         /// <summary>
         /// ComponentSettingsManager for creating Systems and Nodes
@@ -433,15 +433,15 @@ namespace EcellLib.PathwayWindow
             CanvasControl canvas = new CanvasControl(this, modelID);
             m_activeCanvasID = modelID;
             m_canvasDict.Add(modelID, canvas);
+            // Set Pathwayview
+            m_pathwayView.Clear();
+            m_pathwayView.TabControl.Controls.Add(canvas.TabPage);
             // Set Overview
             m_overView.SetCanvas(canvas.OverviewCanvas);
             canvas.UpdateOverview();
             // Set Layerview
             m_layerView.DataGridView.DataSource = canvas.LayerTable;
             canvas.AddLayer(this.m_defLayerId);
-            // Set Pathwayview
-            m_pathwayView.Clear();
-            m_pathwayView.TabControl.Controls.Add(canvas.TabPage);
         }
 
         /// <summary>

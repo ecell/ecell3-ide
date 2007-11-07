@@ -122,6 +122,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.m_dgv = new System.Windows.Forms.DataGridView();
             this.groupBox.SuspendLayout();
@@ -143,11 +144,21 @@ namespace EcellLib.PathwayWindow.UIComponent
             // 
             this.m_dgv.AllowUserToAddRows = false;
             this.m_dgv.AllowUserToDeleteRows = false;
-            this.m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.m_dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.m_dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.m_dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.m_dgv.Location = new System.Drawing.Point(3, 15);
             this.m_dgv.MultiSelect = false;
             this.m_dgv.Name = "m_dgv";
+            this.m_dgv.RowHeadersVisible = false;
             this.m_dgv.RowTemplate.Height = 21;
             this.m_dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.m_dgv.Size = new System.Drawing.Size(269, 178);
