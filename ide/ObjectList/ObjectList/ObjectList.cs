@@ -169,6 +169,7 @@ namespace EcellLib.ObjectList
                 page.Controls.Add(dgr);
 
                 dataSet = new DataSet();
+                dataSet.CaseSensitive = true;
                 dgr.DataSource = dataSet;
                 dgr.DataMember = type;
                 dataTable = new DataTable(type);
@@ -373,6 +374,7 @@ namespace EcellLib.ObjectList
             tabPage.Controls.Add(dataGridView);
 
             DataSet dataSet = new DataSet();
+            dataSet.CaseSensitive = true;
             dataGridView.DataSource = dataSet;
             dataGridView.DataMember = "objectList";
 
