@@ -1486,6 +1486,7 @@ namespace EcellLib.EntityListWindow
                     }
                     m_form.treeView1.Sort();
                 }
+                m_form.treeView1.SelectedNode = target;
             }
         }
 
