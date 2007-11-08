@@ -337,6 +337,25 @@ namespace EcellLib.Analysis
                     Dictionary<double, double> logList = 
                         m_manager.SessionList[jobid].GetLogData(p.Path);
 
+
+                    double simTime = Convert.ToDouble(RASimTimeText.Text);
+                    double winSize = Convert.ToDouble(RAWinSizeText.Text);
+                    if (simTime > winSize)
+                    {
+                        Dictionary<double, double> tmpList = new Dictionary<double, double>();
+                        foreach (double t in logList.Keys)
+                        {
+                            if (simTime - winSize > t) continue;
+                            tmpList.Add(t, logList[t]);
+                        }
+                        logList.Clear();
+
+                        foreach (double t in tmpList.Keys)
+                        {
+                            logList.Add(t, tmpList[t]);
+                        }
+                    }
+
                     bool rJudge = JudgementRange(logList, p.Max, p.Min, p.Difference);
                     if (rJudge == false)
                     {
