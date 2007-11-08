@@ -1718,13 +1718,14 @@ namespace EcellLib.PathwayWindow
         /// <param name="IsSystemResize">bool</param>
         public void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool isRecorded)
         {
-            // Check Selected nodes when the layout algorithm uses selected objects.
-            if (algorithm.GetLayoutType() == LayoutType.Selected)
-                foreach (PPathwayObject node in this.ActiveCanvas.SelectedNodes)
-                    node.EcellObject.isFixed = true;
 
             List<EcellObject> systemList = this.GetSystemList(ActiveCanvas.ModelID);
             List<EcellObject> nodeList = this.GetNodeList(ActiveCanvas.ModelID);
+
+            // Check Selected nodes when the layout algorithm uses selected objects.
+            if (algorithm.GetLayoutType() == LayoutType.Selected)
+                foreach (EcellObject node in nodeList)
+                    node.isFixed = this.ActiveCanvas.GetSelectedObject(node.key, node.type).IsHighLighted;
 
             try
             {
