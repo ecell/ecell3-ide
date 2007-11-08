@@ -7231,7 +7231,6 @@ namespace EcellLib
             {
                 File.AppendAllText(fileName, "stepperStub" + s_stepperCount + "=session.createStepperStub(\"" + stepObj.key + "\")\n", enc);
                 File.AppendAllText(fileName, "stepperStub" + s_stepperCount + ".create(\"" + stepObj.classname + "\")\n", enc);
-                File.AppendAllText(fileName, "session.deleteDefaultStepperStub()\n", enc);
                 s_exportStepper.Add(stepObj.key, s_stepperCount);
                 s_stepperCount++;
             }
@@ -7253,8 +7252,12 @@ namespace EcellLib
                 foreach (EcellData d in stepObj.M_value)
                 {
                     if (!d.M_isSettable) continue;
-                    File.AppendAllText(fileName, 
-                        "stepperStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString() + "\")\n" , enc);
+                    if (d.M_value.ToString().Equals("+Åá"))
+                        File.AppendAllText(fileName,
+                            "stepperStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + "1.79769313486231E+308" + "\")\n", enc);
+                    else                         
+                        File.AppendAllText(fileName, 
+                            "stepperStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + Convert.ToDouble(d.M_value.ToString()) + "\")\n" , enc);
                 }
             }
         }
@@ -7268,6 +7271,7 @@ namespace EcellLib
         /// <param name="sysObj">written system object.</param>
         public void WriteSystemEntry(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
+            if (sysObj == null) return;
             s_exportSystem.Add(sysObj.key, s_sysCount);
             string prefix = "";
             string data = "";
@@ -7307,6 +7311,7 @@ namespace EcellLib
         /// <param name="sysObj">written system object.</param>
         public void WriteSystemProperty(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
+            if (sysObj == null) return;
             int count = s_exportSystem[sysObj.key];
             if (sysObj.M_value == null) return;
             foreach (EcellData d in sysObj.M_value)
