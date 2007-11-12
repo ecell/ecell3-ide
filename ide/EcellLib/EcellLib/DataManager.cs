@@ -4831,6 +4831,8 @@ namespace EcellLib
                         // if (l_ecellData.M_entityPath.EndsWith(Util.s_xpathVRL))
                         if (l_ecellData.M_entityPath.StartsWith(Util.s_xpathProcess))
                         {
+                            if (l_ecellData.M_value.IsList() && 
+                                !l_ecellData.M_entityPath.EndsWith(Util.s_xpathVRL)) continue;
                             l_processPropertyDic[l_ecellData.M_entityPath]
                                 = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.M_value);
                         }
@@ -5681,6 +5683,8 @@ namespace EcellLib
                 }
                 foreach (string l_entityPath in l_processPropertyDic.Keys)
                 {
+                    //if (!l_entityPath.EndsWith("Fixed") && 
+                    //    !l_entityPath.EndsWith("FluxDistributionList"))
                     if (!l_entityPath.EndsWith("Fixed"))
                     {
                         l_simulator.LoadEntityProperty(l_entityPath, l_processPropertyDic[l_entityPath]);
