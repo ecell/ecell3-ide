@@ -1604,6 +1604,8 @@ namespace EcellLib.PathwayWindow
                     // Check parent system
                     eo.SetPosition(eo.X + diff.X, eo.Y + diff.Y);
                     sysKey = this.ActiveCanvas.GetSurroundingSystemKey(eo.PointF);
+                    if( sysKey == null )
+                        sysKey = this.ActiveCanvas.GetSurroundingSystemKey(this.MousePosition);
                     if (eo.parentSystemID != sysKey)
                         eo.parentSystemID = sysKey;
                     // Check Position

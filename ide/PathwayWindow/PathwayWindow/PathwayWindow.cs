@@ -155,10 +155,9 @@ namespace EcellLib.PathwayWindow
         {
             m_dManager = DataManager.GetDataManager();
 
+            CheckLayoutAlgorithmDlls();
             m_con = new PathwayControl(this);
             m_con.ComponentManager = LoadComponentSettings();
-
-            CheckLayoutAlgorithmDlls();
             CreateMenu();
         }
         #endregion
@@ -1047,15 +1046,21 @@ namespace EcellLib.PathwayWindow
             foreach (EcellObject eo in data)
             {
                 dictKey = eo.type + ":" + eo.key;
-                if (objDict.ContainsKey(dictKey))
-                    eo.SetPosition(objDict[dictKey]);
+                if (!objDict.ContainsKey(dictKey))
+                    continue;
+
+                eo.SetPosition(objDict[dictKey]);
+                this.NotifyDataChanged(eo.key, eo.key, eo, false, false);
                 if (eo.M_instances == null)
                     continue;
                 foreach(EcellObject child in eo.M_instances)
                 {
                     dictKey = child.type + ":" + child.key;
-                    if (objDict.ContainsKey(dictKey))
-                        child.SetPosition(objDict[dictKey]);
+                    if (!objDict.ContainsKey(dictKey))
+                        continue;
+
+                    child.SetPosition(objDict[dictKey]);
+                    this.NotifyDataChanged(child.key, child.key, child, false, false);
                 }
             }
         }
