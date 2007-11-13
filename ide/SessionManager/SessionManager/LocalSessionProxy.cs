@@ -198,6 +198,7 @@ namespace SessionManager
                         result.Add(time, value);
                     }
                 }
+                hReader.Close();
             }
             return result;
         }
