@@ -299,6 +299,32 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// The event sequence when the parameter is added.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="paramID">The added model ID.</param>
+        public void ParameterAdd(string projectID, string paramID)
+        {
+            foreach (PluginBase p in m_pluginList.Values)
+            {
+                p.ParameterAdd(projectID, paramID);
+            }  
+        }
+
+        /// <summary>
+        /// The event sequence when the parameter is deleted.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="paramID">The deleted model ID.</param>
+        public void ParameterDelete(string projectID, string paramID)
+        {
+            foreach (PluginBase p in m_pluginList.Values)
+            {
+                p.ParameterDelete(projectID, paramID);
+            }
+        }
+
+        /// <summary>
         /// event sequence on generating warning data at other plugin.
         /// </summary>
         /// <param name="modelID">the model ID generating warning data</param>
@@ -319,7 +345,13 @@ namespace EcellLib
         /// <param name="modelID"></param>
         public void LoadData(string modelID)
         {
-            DataAdd(DataManager.GetDataManager().GetData(modelID, null));
+            DataManager manager = DataManager.GetDataManager();
+            DataAdd(manager.GetData(modelID, null));
+            string prjID = manager.CurrentProjectID;
+            foreach (string paramID in manager.GetSimulationParameterID())
+            {
+                this.ParameterAdd(prjID, paramID);
+            }
         }
 
         /// <summary>
@@ -418,7 +450,6 @@ namespace EcellLib
                     p.Message(type, message);
                 }
             }
-
         }
 
         /// <summary>

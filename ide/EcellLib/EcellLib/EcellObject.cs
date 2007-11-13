@@ -88,9 +88,13 @@ namespace EcellLib
         /// </summary>
         private string m_key;
         /// <summary>
-        /// The type
+        /// The type of object.
         /// </summary>
         private string m_type;
+        /// <summary>
+        /// The layer include this object.
+        /// </summary>
+        private string m_layer = "";
         /// <summary>
         /// X coordinate
         /// </summary>
@@ -241,6 +245,15 @@ namespace EcellLib
         {
             get { return m_class; }
             set { this.m_class = value; }
+        }
+
+        /// <summary>
+        /// get/set the layer property.
+        /// </summary>
+        public string Layer
+        {
+            get { return this.m_layer; }
+            set { this.m_layer = value; }
         }
 
         /// <summary>
@@ -417,6 +430,7 @@ namespace EcellLib
                 l_newEcellObject.OffsetY = this.m_offsetY;
                 l_newEcellObject.Width = this.m_width;
                 l_newEcellObject.Height = this.m_height;
+                l_newEcellObject.Layer = this.Layer;
                 l_newEcellObject.M_instances = this.CopyInstancesList();
                 return l_newEcellObject;
             }

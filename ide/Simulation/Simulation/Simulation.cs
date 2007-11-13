@@ -301,7 +301,134 @@ namespace EcellLib.Simulation
         /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
-            // nothing
+            if (type == "Parameter" && key != "Parameter")
+            {
+                int i = 0;
+                m_win = new SimulationSetup();
+
+                List<string> stepList = m_dManager.GetStepperList(m_dManager.CurrentProjectID);
+                foreach (string step in stepList)
+                {
+                    m_win.stepCombo.Items.Add(step);
+                }
+
+                string currentParam = key;
+                List<string> paramList = m_dManager.GetSimulationParameterID();
+                foreach (string param in paramList)
+                {
+                    m_win.paramCombo.Items.Add(param);
+                    if (param == currentParam || (currentParam == null && i == 0))
+                    {
+                        m_win.paramCombo.SelectedIndex = i;
+                        m_win.ChangePameterID(param);
+                        m_win.ChangeModelID(m_win.modelCombo.Text);
+                    }
+                    i++;
+                }
+
+                LoggerPolicy log = m_dManager.GetLoggerPolicy(m_win.paramCombo.Text);
+                if (log.m_reloadStepCount > 0)
+                {
+                    m_win.freqByStepRadio.Checked = true;
+                    m_win.freqByStepTextBox.Text = log.m_reloadStepCount.ToString();
+                }
+                else if (log.m_reloadInterval > 0.0)
+                {
+                    m_win.freqBySecRadio.Checked = true;
+                    m_win.freqBySecTextBox.Text = log.m_reloadInterval.ToString();
+                }
+                if (log.m_diskFullAction == 0)
+                {
+                    m_win.exceptionRadio.Checked = true;
+                }
+                else
+                {
+                    m_win.overrideRadio.Checked = true;
+                }
+                if (log.m_maxDiskSpace == 0)
+                {
+                    m_win.noLimitRadio.Checked = true;
+                }
+                else
+                {
+                    m_win.maxSizeRadio.Checked = true;
+                    m_win.maxKbTextBox.Text = log.m_maxDiskSpace.ToString();
+                }
+
+                int j = 0;
+                string selectModelName = "";
+
+                m_win.iModelCombo.Items.Clear();
+                List<string> modelList = m_dManager.GetModelList();
+                foreach (String modelName in modelList)
+                {
+                    m_win.iModelCombo.Items.Add(modelName);
+                    if (j == 0)
+                    {
+                        m_win.iModelCombo.SelectedIndex = 0;
+                        selectModelName = modelName;
+
+                        m_win.InitProDGV.Rows.Clear();
+                        m_win.InitVarDGV.Rows.Clear();
+
+                        Dictionary<string, double> initList;
+                        initList = m_dManager.GetInitialCondition(currentParam,
+                            selectModelName, "Process");
+                        foreach (string v in initList.Keys)
+                        {
+                            DataGridViewRow row = new DataGridViewRow();
+
+                            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+                            c1.Value = v;
+                            row.Cells.Add(c1);
+                            c1.ReadOnly = true;
+
+                            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+                            c2.Value = initList[v];
+                            row.Cells.Add(c2);
+
+                            row.Tag = initList[v];
+                            m_win.InitProDGV.Rows.Add(row);
+                        }
+
+                        initList = m_dManager.GetInitialCondition(currentParam,
+                            selectModelName, "Variable");
+                        foreach (string v in initList.Keys)
+                        {
+                            DataGridViewRow row = new DataGridViewRow();
+
+                            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+                            c1.Value = v;
+                            row.Cells.Add(c1);
+                            c1.ReadOnly = true;
+
+                            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+                            c2.Value = initList[v];
+                            row.Cells.Add(c2);
+
+                            row.Tag = initList[v];
+                            m_win.InitVarDGV.Rows.Add(row);
+                        }
+                    }
+                    j++;
+                }
+                m_win.paramCombo.SelectedIndexChanged += new EventHandler(m_win.SelectedIndexChangedParam);
+                m_win.stepperListBox.SelectedIndexChanged += new EventHandler(m_win.StepperListBoxSelectedIndexChanged);
+                m_win.stepCombo.SelectedIndexChanged += new EventHandler(m_win.StepComboSelectedIndexChanged);
+                m_win.modelCombo.SelectedIndexChanged += new EventHandler(m_win.ModelComboSelectedIndexChanged);
+                m_win.SSCreateButton.Click += new EventHandler(m_win.NewButtonClick);
+                m_win.SSDeleteButton.Click += new EventHandler(m_win.DeleteButtonClick);
+                m_win.SSCloseButton.Click += new EventHandler(m_win.CloseButtonClick);
+                m_win.SSApplyButton.Click += new EventHandler(m_win.UpdateButtonClick);
+                m_win.iModelCombo.SelectedIndexChanged += new EventHandler(m_win.InitModelComboSelectedIndexChanged);
+
+                m_win.SSSetButton.Click += new EventHandler(m_win.SetButtonClick);
+                m_win.SSAddStepperButton.Click += new EventHandler(m_win.AddStepperClick);
+                m_win.SSDeleteStepperButton.Click += new EventHandler(m_win.DeleteStepperClick);
+
+                m_win.ShowDialog();
+
+            }
         }
 
         /// <summary>
@@ -374,6 +501,26 @@ namespace EcellLib.Simulation
         /// <param name="key">The ID of deleted object.</param>
         /// <param name="type">The object type of deleted object.</param>
         public void DataDelete(string modelID, string key, string type)
+        {
+            // nothing
+        }
+
+        /// <summary>
+        /// The event sequence when the simulation parameter is added.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The added parameter ID.</param>
+        public void ParameterAdd(string projectID, string parameterID)
+        {
+            // nothing
+        }
+
+        /// <summary>
+        /// The event sequence when the simulation parameter is deleted.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The deleted parameter ID.</param>
+        public void ParameterDelete(string projectID, string parameterID)
         {
             // nothing
         }

@@ -114,6 +114,21 @@ namespace EcellLib
         void DataDelete(string modelID, string key, string type);
 
         /// <summary>
+        /// The event sequence when the user add the simulation parameter.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The added parameter ID/</param>
+        void ParameterAdd(string projectID, string parameterID);
+
+        /// <summary>
+        /// The event sequence when the user delete the simulation parameter.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The deleted parameter ID.</param>
+        void ParameterDelete(string projectID, string parameterID);
+     
+
+        /// <summary>
         /// The event sequence on changing value with the simulation.
         /// </summary>
         /// <param name="modelID">The model ID of object changed value.</param>

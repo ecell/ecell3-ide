@@ -61,6 +61,8 @@ namespace EcellLib.EntityListWindow
         /// m_dManager (DataManager)
         /// </summary>
         private DataManager m_dManager;
+        private Dictionary<string, TreeNode> m_modelNodeDic = new Dictionary<string, TreeNode>();
+        private Dictionary<string, TreeNode> m_paramNodeDic = new Dictionary<string, TreeNode>();
         /// <summary>
         /// m_prjMenu (popup menu for tree node of project)
         /// </summary>
@@ -519,22 +521,18 @@ namespace EcellLib.EntityListWindow
         /// <returns>TreeNode</returns>
         public TreeNode GetTargetModel(string modelID)
         {
-            IEnumerator nodeEnumerator = m_form.treeView1.Nodes.GetEnumerator();
-            while (nodeEnumerator.MoveNext())
+            string currentPrj = m_dManager.CurrentProjectID;
+            if (m_modelNodeDic.ContainsKey(currentPrj))
             {
-                TreeNode project = (TreeNode)nodeEnumerator.Current;
-                IEnumerator models = project.Nodes.GetEnumerator();
-                if (models == null) continue;
-                while (models.MoveNext())
+                TreeNode modelsNode = m_modelNodeDic[currentPrj];
+                foreach (TreeNode t in modelsNode.Nodes)
                 {
-                    TreeNode current = (TreeNode)models.Current;
-                    TagData tag = (TagData)current.Tag;
-                    if (tag.m_type == "Model" && current.Text == modelID)
-                    {
-                        return current;
-                    }
+                    TagData tag = t.Tag as TagData;
+                    if (tag.m_type == "Model" && t.Text == modelID)
+                        return t;
                 }
             }
+
             return null;
         }
 
@@ -930,6 +928,12 @@ namespace EcellLib.EntityListWindow
             TagData tag = (TagData)node.Tag;
             if (tag == null) return;
             if (tag.m_modelID == null) return;
+            if (tag.m_type == "Parameter")
+            {
+                m_pManager.SelectChanged("", node.Text, tag.m_type);
+                return;
+            }
+
             m_targetNode = node;
 
             if (m_type != Util.NOTLOAD && m_type != Util.LOADED) return;
@@ -993,6 +997,7 @@ namespace EcellLib.EntityListWindow
             if (node == null) return;
             TagData tag = (TagData)node.Tag;
             if (tag == null) return;
+            if (tag.m_type == "Parameter") return;
             if (e.Button == MouseButtons.Right)
             {
                 if (m_type != Util.LOADED && m_type != Util.STEP)
@@ -1232,6 +1237,14 @@ namespace EcellLib.EntityListWindow
                     m_prjNode = new TreeNode(obj.modelID);
                     m_prjNode.Tag = new TagData("", "", "Project");
                     m_form.treeView1.Nodes.Add(m_prjNode);
+                    TreeNode modelNode = new TreeNode("Models");
+                    modelNode.Tag = null;
+                    TreeNode paramNode = new TreeNode("Parameters");
+                    paramNode.Tag = null;
+                    m_prjNode.Nodes.Add(modelNode);
+                    m_prjNode.Nodes.Add(paramNode);
+                    m_modelNodeDic.Add(obj.modelID, modelNode);
+                    m_paramNodeDic.Add(obj.modelID, paramNode);
                     continue;
                 }
                 else if (obj.type == "Model")
@@ -1241,7 +1254,10 @@ namespace EcellLib.EntityListWindow
                     node.ImageIndex = m_pManager.GetImageIndex(obj.type);
                     node.SelectedImageIndex = node.ImageIndex;
                     node.Tag = new TagData(obj.modelID, "", "Model");
-                    m_prjNode.Nodes.Add(node);
+                    string currentPrj = m_dManager.CurrentProjectID;
+                    if (m_modelNodeDic.ContainsKey(currentPrj))
+                        m_modelNodeDic[currentPrj].Nodes.Add(node);
+//                    m_prjNode.Nodes.Add(node);
                     continue;
                 }
                 else if (obj.type == "Process" || obj.type == "Variable")
@@ -1539,6 +1555,60 @@ namespace EcellLib.EntityListWindow
         }
 
         /// <summary>
+        /// The event sequence when the simulation parameter is added.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The added parameter ID.</param>
+        public void ParameterAdd(string projectID, string parameterID)
+        {
+            TreeNode paramsNode = null;
+            if (m_paramNodeDic.ContainsKey(projectID))
+            {
+                paramsNode = m_paramNodeDic[projectID];
+            }
+            else
+            {
+                IEnumerator nodeEnumerator = m_form.treeView1.Nodes.GetEnumerator();
+                while (nodeEnumerator.MoveNext())
+                {
+                    TreeNode project = (TreeNode)nodeEnumerator.Current;
+                    if (project.Text.Equals(projectID))
+                    {
+                        paramsNode = new TreeNode("Parameters");
+                        paramsNode.Tag = null;
+                        project.Nodes.Add(paramsNode);
+                        m_paramNodeDic.Add(projectID, paramsNode);
+                        break;
+                    }
+                }
+                if (paramsNode == null)
+                {
+                    return;
+                }
+            }
+
+            foreach (TreeNode t in paramsNode.Nodes)
+            {
+                if (t.Text == parameterID) return;
+            }
+            TreeNode paramNode = new TreeNode(parameterID);
+            paramNode.Tag = new TagData("", "", "Parameter");
+            paramsNode.Nodes.Add(paramNode);
+
+            return;
+        }
+
+        /// <summary>
+        /// The event sequence when the simulation parameter is deleted.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The deleted parameter ID.</param>
+        public void ParameterDelete(string projectID, string parameterID)
+        {
+            // nothing
+        }
+
+        /// <summary>
         /// The event sequence on changing value with the simulation.
         /// </summary>
         /// <param name="modelID">The model ID of object changed value.</param>
@@ -1563,6 +1633,8 @@ namespace EcellLib.EntityListWindow
                 if (project != null)
                     project.Remove();
             }
+            m_modelNodeDic.Clear();
+            m_paramNodeDic.Clear();
         }
 
         /// <summary>
@@ -1776,6 +1848,9 @@ namespace EcellLib.EntityListWindow
             TagData tagx = tx.Tag as TagData;
             TagData tagy = ty.Tag as TagData;
 
+            if (tagx == null && tagy == null) return string.Compare(tx.Text, ty.Text);
+            if (tagx == null) return 1;
+            if (tagy == null) return -1;
             if (tagx.m_type == tagy.m_type)
             {
                 return string.Compare(tx.Text, ty.Text);

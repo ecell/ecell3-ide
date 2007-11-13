@@ -244,6 +244,27 @@ namespace EcellLib.Analysis
         /// <param name="type">The object type of deleted object.</param>
         public void DataDelete(string modelID, string key, string type)
         {
+            // nothing
+        }
+
+        /// <summary>
+        /// The event sequence when the simulation parameter is added.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The added parameter ID.</param>
+        public void ParameterAdd(string projectID, string parameterID)
+        {
+            // nothing
+        }
+
+        /// <summary>
+        /// The event sequence when the simulation parameter is deleted.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The deleted parameter ID.</param>
+        public void ParameterDelete(string projectID, string parameterID)
+        {
+            // nothing
         }
 
         /// <summary>

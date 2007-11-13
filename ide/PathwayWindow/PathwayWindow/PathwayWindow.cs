@@ -504,6 +504,26 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// The event sequence when the simulation parameter is added.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The added parameter ID.</param>
+        public void ParameterAdd(string projectID, string parameterID)
+        {
+            // nothing
+        }
+
+        /// <summary>
+        /// The event sequence when the simulation parameter is deleted.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The deleted parameter ID.</param>
+        public void ParameterDelete(string projectID, string parameterID)
+        {
+            // nothing
+        }
+
+        /// <summary>
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true.</returns>
@@ -592,7 +612,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
-            if (type == null || type == "Model" || type == "Project")
+            if (type == null || type == "Model" || type == "Project" || type == "Parameter")
                 return;
             CanvasControl canvas = this.m_con.CanvasDictionary[modelID];
             ComponentType cType = ComponentManager.ParseComponentKind(type);

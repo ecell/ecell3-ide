@@ -2957,6 +2957,7 @@ namespace EcellLib
                         File.Delete(l_simulationFileName);
                     }
                     this.m_loggerPolicyDic[m_currentProjectID].Remove(l_parameterID);
+                    m_pManager.ParameterDelete(m_currentProjectID, l_parameterID);
                     this.m_pManager.Message(
                         Util.s_xpathSimulation.ToLower(),
                         "Delete Simulation Parameter: " + l_message + System.Environment.NewLine
@@ -5027,6 +5028,7 @@ namespace EcellLib
         public void LoadProject(string l_prjID, string l_prjFile)
         {
             List<EcellObject> l_passList = new List<EcellObject>();
+            string[] l_parameters = new string[0];
             Project l_prj = null;
             string l_message = null;
             try
@@ -5165,7 +5167,7 @@ namespace EcellLib
 
                 if (Directory.Exists(l_simulationDirName))
                 {
-                    string[] l_parameters = Directory.GetFileSystemEntries(
+                    l_parameters = Directory.GetFileSystemEntries(
                         l_simulationDirName,
                         Util.s_delimiterWildcard + Util.s_delimiterPeriod + Util.s_xpathXml
                         );
@@ -5236,6 +5238,10 @@ namespace EcellLib
                 if (l_passList != null && l_passList.Count > 0)
                 {
                     this.m_pManager.DataAdd(l_passList);
+                }
+                foreach (string paramID in this.GetSimulationParameterID())
+                {
+                    this.m_pManager.ParameterAdd(l_prjID, paramID);
                 }
                 m_aManager.AddAction(new LoadProjectAction(l_prjID, l_prjFile));
                 m_loadingProject = null;
@@ -5878,6 +5884,7 @@ namespace EcellLib
                     = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
                 this.Copy4InitialCondition(l_srcInitialCondition, l_dstInitialCondition);
                 this.m_initialCondition[this.m_currentProjectID][l_parameterID] = l_dstInitialCondition;
+                m_pManager.ParameterAdd(m_currentProjectID, l_parameterID);
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     "Create Simulation Parameter: " + l_message + System.Environment.NewLine);

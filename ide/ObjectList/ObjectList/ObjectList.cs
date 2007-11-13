@@ -891,6 +891,26 @@ namespace EcellLib.ObjectList
         }
 
         /// <summary>
+        /// The event sequence when the simulation parameter is added.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The added parameter ID.</param>
+        public void ParameterAdd(string projectID, string parameterID)
+        {
+            // nothing
+        }
+
+        /// <summary>
+        /// The event sequence when the simulation parameter is deleted.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The deleted parameter ID.</param>
+        public void ParameterDelete(string projectID, string parameterID)
+        {
+            // nothing
+        }
+
+        /// <summary>
         /// The event sequence on changing value with the simulation.
         /// </summary>
         /// <param name="modelID">The model ID of object changed value.</param>
@@ -1101,39 +1121,4 @@ namespace EcellLib.ObjectList
         }
         #endregion
     }
-
-    public class CustomComparer : IComparer
-    {
-        private int sortOrder;
-        private Comparer comparer;
-
-        public CustomComparer(SortOrder order)
-        {
-            this.sortOrder = (order == SortOrder.Descending ? -1 : 1);
-            this.comparer = new Comparer(
-                System.Globalization.CultureInfo.CurrentCulture);
-        }
-
-        //並び替え方を定義する
-        public int Compare(object x, object y)
-        {
-            int result = 0;
-
-            DataGridViewRow rowx = (DataGridViewRow)x;
-            DataGridViewRow rowy = (DataGridViewRow)y;
-
-            //はじめの列のセルの値を比較し、同じならば次の列を比較する
-            for (int i = 0; i < rowx.Cells.Count; i++)
-            {
-                result = this.comparer.Compare(
-                    rowx.Cells[i].Value, rowy.Cells[i].Value);
-                if (result != 0)
-                    break;
-            }
-
-            //結果を返す
-            return result * this.sortOrder;
-        }
-    }
-
 }
