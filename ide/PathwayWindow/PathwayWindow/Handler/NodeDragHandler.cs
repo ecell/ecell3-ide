@@ -391,6 +391,41 @@ namespace EcellLib.PathwayWindow.Handler
                     false);
             }
 
+            // Inport Nodes
+            string systemName = system.EcellObject.key;
+            string newNodeKey = null;
+            foreach (PPathwayObject obj in m_canvas.GetSystemList())
+            {
+                if (obj == system || !system.Rect.Contains(obj.Rect))
+                    continue;
+                if (obj.EcellObject.parentSystemID.StartsWith(systemName))
+                    continue;
+
+                if (obj.EcellObject.parentSystemID.Equals("/"))
+                    newNodeKey = systemName + obj.EcellObject.key;
+                else
+                    newNodeKey = obj.EcellObject.key.Replace(system.EcellObject.parentSystemID, systemName);
+                m_canvas.PathwayControl.NotifyDataChanged(
+                    obj.EcellObject.key,
+                    newNodeKey,
+                    obj,
+                    true,
+                    false);
+            }
+            foreach (PPathwayObject obj in m_canvas.GetNodeList())
+            {
+                if (obj.EcellObject.parentSystemID.StartsWith(systemName) || !system.Rect.Contains(obj.Rect))
+                    continue;
+
+                newNodeKey = obj.EcellObject.key.Replace(system.EcellObject.parentSystemID, systemName);
+                m_canvas.PathwayControl.NotifyDataChanged(
+                    obj.EcellObject.key,
+                    newNodeKey,
+                    obj,
+                    true,
+                    false);
+            }
+
             // Move system.
             system.X = system.X + offset.X;
             system.Y = system.Y + offset.Y;

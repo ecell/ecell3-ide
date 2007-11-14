@@ -322,10 +322,7 @@ namespace EcellLib.PathwayWindow
                 if (obj.EcellObject.parentSystemID.StartsWith(systemName) || !system.Rect.Contains(obj.Rect))
                     continue;
 
-                if (obj.EcellObject.parentSystemID.Equals("/"))
-                    newKey = systemName + obj.EcellObject.key;
-                else
-                    newKey = obj.EcellObject.key.Replace(system.EcellObject.parentSystemID, systemName);
+                newKey = obj.EcellObject.key.Replace(system.EcellObject.parentSystemID, systemName);
                 m_con.NotifyDataChanged(
                     obj.EcellObject.key,
                     newKey,

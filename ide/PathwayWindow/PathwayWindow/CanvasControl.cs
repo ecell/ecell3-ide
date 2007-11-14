@@ -1398,69 +1398,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Transfer an object from one PEcellSystem/Layer to PEcellSystem/Layer.
-        /// </summary>
-        /// <param name="systemName">The name of the system to which object is transfered. If null, obj is
-        /// transfered to layer itself</param>
-        /// <param name="obj">transfered object</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
-        public void TransferNodeToByResize(string systemName, PPathwayObject obj, bool isAnchor)
-        {
-            // The case that obj is transfered to PEcellSystem.
-            PPathwaySystem system = m_systems[systemName];
-            if (system.Layer == obj.Layer && system != obj)
-            {
-                PPathwayObject po = (PPathwayObject)obj.Parent;
-                po.RemoveChild(po.IndexOfChild(obj));
-                system.AddChild(obj);
-                if (system.IndexOfChild(po) < 0)
-                {
-                    obj.OffsetX -= system.OffsetX;
-                    obj.OffsetY -= system.OffsetY;
-                }
-                else
-                {
-                    obj.OffsetX += po.OffsetX;
-                    obj.OffsetY += po.OffsetY;
-                }
-                obj.X += obj.OffsetX;
-                obj.Y += obj.OffsetY;
-                obj.OffsetX = 0;
-                obj.OffsetY = 0;
-                if (obj is PPathwayNode)
-                {
-                    ((PPathwayNode)obj).ParentObject = system;
-                }
-            }
-            if (obj is PPathwayVariable)
-            {
-                PPathwayVariable var = (PPathwayVariable)obj;
-                string newKey = systemName + ":" + var.EcellObject.name;
-                string oldKey = var.EcellObject.key;
-                if (!oldKey.Equals(newKey))
-                    m_con.NotifyDataChanged(
-                        oldKey,
-                        newKey,
-                        obj,
-                        true,
-                        isAnchor);
-            }
-            else if (obj is PPathwayProcess)
-            {
-                PPathwayProcess pro = (PPathwayProcess)obj;
-                string newKey = systemName + ":" + pro.EcellObject.name;
-                string oldKey = pro.EcellObject.key;
-                if (!oldKey.Equals(newKey))
-                    m_con.NotifyDataChanged(
-                        oldKey,
-                        newKey,
-                        obj,
-                        true,
-                        isAnchor);
-            }
-        }
-
-        /// <summary>
         /// Hide resize handles for resizing system.
         /// </summary>
         protected void HideResizeHandles()
