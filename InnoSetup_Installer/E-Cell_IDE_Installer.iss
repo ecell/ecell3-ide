@@ -185,7 +185,7 @@ Source: "{%ECELL_STAGING_HOME|..}\64bit\plugin\TracerWindow.dll"; DestDir: "{app
 ; ======================================================
 ; plugin/pathway/*
 ; ======================================================
-Source: "{%ECELL_STAGING_HOME|..}\plugin\pathway\ComponentSettings.xml"; DestDir: "{app}\plugin\pathway";
+Source: "{%ECELL_STAGING_HOME|..}\plugin\pathway\ComponentSettings.xml"; DestDir: "{app}\plugin\pathway"; Flags: external;
 
 Source: "{%ECELL_STAGING_HOME|..}\plugin\pathway\AlignLayout.dll"; DestDir: "{app}\plugin\pathway"; Flags: external 32Bit; Check: not IsWin64();
 Source: "{%ECELL_STAGING_HOME|..}\plugin\pathway\CircularLayout.dll"; DestDir: "{app}\plugin\pathway"; Flags: external 32Bit; Check: not IsWin64();
