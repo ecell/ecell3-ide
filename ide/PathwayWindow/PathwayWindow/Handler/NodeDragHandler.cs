@@ -60,11 +60,6 @@ namespace EcellLib.PathwayWindow.Handler
         private CanvasControl m_canvas;
 
         /// <summary>
-        /// dictionary of system container that key is name.
-        /// </summary>
-        private Dictionary<string, PPathwaySystem> m_systems;
-
-        /// <summary>
         /// Edges will be refreshed every time when this process has moved by this distance.
         /// </summary>
         private static readonly float m_refreshDistance = 4;
@@ -92,10 +87,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         /// <param name="canvas">canvas control.</param>
         /// <param name="dict">dictionary of system.</param>
-        public NodeDragHandler(CanvasControl canvas, Dictionary<string, PPathwaySystem> dict)
+        public NodeDragHandler(CanvasControl canvas)
         {
             m_canvas = canvas;
-            m_systems = dict;
         }
 
         /// <summary>
@@ -143,7 +137,7 @@ namespace EcellLib.PathwayWindow.Handler
         private void SetBackToDefault()
         {
             m_canvas.PathwayCanvas.BackColor = Color.White;
-            foreach (PPathwaySystem system in m_systems.Values)
+            foreach (PPathwaySystem system in m_canvas.Systems.Values)
                 system.BackgroundBrush = null;
         }
 
@@ -153,19 +147,19 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="systemName">Only this system's color remain default state.</param>
         private void SetShadeWithoutSystem(string systemName)
         {
-            if (systemName != null && m_systems.ContainsKey(systemName))
+            if (systemName != null && m_canvas.Systems.ContainsKey(systemName))
             {
                 m_canvas.PathwayCanvas.BackColor = Color.Silver;
-                m_systems[systemName].BackgroundBrush = Brushes.White;
+                m_canvas.Systems[systemName].BackgroundBrush = Brushes.White;
 
-                foreach (PPathwaySystem system in m_systems.Values)
+                foreach (PPathwaySystem system in m_canvas.Systems.Values)
                     if (!system.EcellObject.key.Equals(systemName))
                         system.BackgroundBrush = Brushes.Silver;
             }
             else
             {
                 m_canvas.PathwayCanvas.BackColor = Color.White;
-                foreach (PPathwaySystem system in m_systems.Values)
+                foreach (PPathwaySystem system in m_canvas.Systems.Values)
                     system.BackgroundBrush = Brushes.Silver;
             }
         }
@@ -240,7 +234,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// </returns>
         private bool IsInsideRoot(RectangleF rectF)
         {
-            RectangleF rootRect = m_systems["/"].Rect;
+            RectangleF rootRect = m_canvas.Systems["/"].Rect;
             if (rootRect.Contains(rectF))
                 return true;
             else
@@ -280,7 +274,7 @@ namespace EcellLib.PathwayWindow.Handler
                     system.IsInvalid = false;
                 }
                 // Reset if system is duplicated.
-                else if (!oldSysKey.Equals(newSysKey) && m_systems.ContainsKey(newSysKey))
+                else if (!oldSysKey.Equals(newSysKey) && m_canvas.Systems.ContainsKey(newSysKey))
                 {
                     MessageBox.Show(newSysKey + m_resources.GetString("ErrAlrExist"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     system.ResetPosition();

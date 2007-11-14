@@ -165,17 +165,17 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The dictionary for all systems on this canvas.
         /// </summary>
-        protected Dictionary<string, PPathwaySystem> m_systems = new Dictionary<string, PPathwaySystem>();
+        protected SortedDictionary<string, PPathwaySystem> m_systems = new SortedDictionary<string, PPathwaySystem>();
 
         /// <summary>
         /// The dictionary for all variables on this canvas.
         /// </summary>
-        protected Dictionary<string, PPathwayVariable> m_variables = new Dictionary<string, PPathwayVariable>();
+        protected SortedDictionary<string, PPathwayVariable> m_variables = new SortedDictionary<string, PPathwayVariable>();
 
         /// <summary>
         /// The dictionary for all processes on this canvas.
         /// </summary>
-        protected Dictionary<string, PPathwayProcess> m_processes = new Dictionary<string, PPathwayProcess>();
+        protected SortedDictionary<string, PPathwayProcess> m_processes = new SortedDictionary<string, PPathwayProcess>();
 
         /// <summary>
         /// PLayer for control use.
@@ -420,7 +420,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_systems.
         /// </summary>
-        public Dictionary<string, PPathwaySystem> Systems
+        public SortedDictionary<string, PPathwaySystem> Systems
         {
             get { return m_systems; }
         }
@@ -428,7 +428,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_variables.
         /// </summary>
-        public Dictionary<string, PPathwayVariable> Variables
+        public SortedDictionary<string, PPathwayVariable> Variables
         {
             get { return m_variables; }
         }
@@ -436,7 +436,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_processes.
         /// </summary>
-        public Dictionary<string, PPathwayProcess> Processes
+        public SortedDictionary<string, PPathwayProcess> Processes
         {
             get { return m_processes; }
         }
@@ -1592,7 +1592,7 @@ namespace EcellLib.PathwayWindow
         public void AddLayer(string name)
         {
             PLayer layer = new PLayer();
-            layer.AddInputEventListener(new NodeDragHandler(this, m_systems));
+            layer.AddInputEventListener(new NodeDragHandler(this));
             layer.Visible = true;
 
             m_pCanvas.Root.AddChild(0, layer);

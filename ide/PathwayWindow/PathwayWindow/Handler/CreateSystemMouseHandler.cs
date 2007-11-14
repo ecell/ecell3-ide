@@ -277,12 +277,8 @@ namespace EcellLib.PathwayWindow
                 eo.Width = m_rect.Width;
                 eo.Height = m_rect.Height;
 
-                m_con.NotifyDataAdd(eo, true);
-                
-                foreach (PPathwayObject node in newlySelectedList)
-                {
-                    m_canvas.TransferNodeToByResize(eo.key, node, true);
-                }                
+                m_con.NotifyDataAdd(eo, false);
+                TransferNodeToByCreate(eo.key);
             }
             else
             {
@@ -291,6 +287,54 @@ namespace EcellLib.PathwayWindow
             m_startPoint = PointF.Empty;
         }
 
-    }
+        /// <summary>
+        /// Transfer an object from one PEcellSystem/Layer to PEcellSystem/Layer.
+        /// </summary>
+        /// <param name="systemName">The name of the system to which object is transfered. If null, obj is
+        /// transfered to layer itself</param>
+        /// <param name="obj">transfered object</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
+        public void TransferNodeToByCreate(string systemName)
+        {
+            // The case that obj is transfered to PEcellSystem.
+            PPathwaySystem system = m_canvas.Systems[systemName];
+            string newKey = null;
+            foreach (PPathwayObject obj in m_canvas.GetSystemList())
+            {
+                if (obj == system || !system.Rect.Contains(obj.Rect))
+                    continue;
+                if (obj.EcellObject.parentSystemID.StartsWith(systemName))
+                    continue;
 
+                if (obj.EcellObject.parentSystemID.Equals("/") )
+                    newKey = systemName + obj.EcellObject.key;
+                else
+                    newKey = obj.EcellObject.key.Replace(system.EcellObject.parentSystemID, systemName);
+                m_con.NotifyDataChanged(
+                    obj.EcellObject.key,
+                    newKey,
+                    obj,
+                    true,
+                    false);
+            }
+            foreach (PPathwayObject obj in m_canvas.GetNodeList())
+            {
+                if (obj.EcellObject.parentSystemID.StartsWith(systemName) || !system.Rect.Contains(obj.Rect))
+                    continue;
+
+                if (obj.EcellObject.parentSystemID.Equals("/"))
+                    newKey = systemName + obj.EcellObject.key;
+                else
+                    newKey = obj.EcellObject.key.Replace(system.EcellObject.parentSystemID, systemName);
+                m_con.NotifyDataChanged(
+                    obj.EcellObject.key,
+                    newKey,
+                    obj,
+                    true,
+                    false);
+            }
+            m_con.NotifyDataChanged(systemName, systemName, system, true, true);
+
+        }
+    }
 }
