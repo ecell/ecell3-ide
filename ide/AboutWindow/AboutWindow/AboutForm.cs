@@ -58,7 +58,7 @@ namespace EcellLib.AboutWindow
             this.ecellLink.Links[0].LinkData = "www.e-cell.org";
 
             this.manualLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
-            this.manualLink.Links[0].LinkData = path + "\\docs\\usermanual.pdf";
+            this.manualLink.Links[0].LinkData = "http://chaperone.e-cell.org/downloads/usermanual_j.pdf";
 
             
         }
