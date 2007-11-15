@@ -948,6 +948,8 @@ namespace EcellLib.PathwayWindow
                 m_pathwayView.Cursor = Cursors.Arrow;
                 Unfreeze();
             }
+            if (ActiveCanvas == null)
+                return;
             ActiveCanvas.ResetNodeToBeConnected();
             ActiveCanvas.SetLineVisibility(false);
         }

@@ -36,6 +36,7 @@ using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using System.IO;
 
 
 namespace EcellLib
@@ -578,6 +579,53 @@ namespace EcellLib
                     return p;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Get layout plugins.
+        /// </summary>
+        /// <param name="name">name of plugin</param>
+        /// <returns>the plugin. if not find the plugin, return null.</returns>
+        public List<ILayoutAlgorithm> GetLayoutPlugins()
+        {
+            // Read component settings from ComopnentSettings.xml
+            // string pathwayDir = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
+            string pathwayDir = EcellLib.Util.GetPluginDir();
+            pathwayDir += "\\pathway";
+
+            List<ILayoutAlgorithm> layoutList = new List<ILayoutAlgorithm>();
+
+            foreach (string pluginName in Directory.GetFiles(pathwayDir))
+            {
+                // Only dlls will be loaded (NOT xml)!
+                if (string.IsNullOrEmpty(pluginName) || !pluginName.EndsWith(Util.s_dmFileExtension))
+                    continue;
+                try
+                {
+                    Assembly handle = Assembly.LoadFile(pluginName);
+                    foreach (Type type in handle.GetTypes())
+                    {
+                        foreach (Type intType in type.GetInterfaces())
+                        {
+                            if (!intType.Name.Equals("ILayoutAlgorithm"))
+                                continue;
+
+                            Object anAllocator = type.InvokeMember(
+                                null,
+                                BindingFlags.CreateInstance,
+                                null,
+                                null,
+                                null);
+                            layoutList.Add((ILayoutAlgorithm)anAllocator);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+            return layoutList;
         }
 
         /// <summary>
