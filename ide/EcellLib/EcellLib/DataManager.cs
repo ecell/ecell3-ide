@@ -4835,16 +4835,16 @@ namespace EcellLib
                     }
                     if (l_ecellData.M_isSavable)
                     {
-//                        if (l_ecellData.M_entityPath.EndsWith(Util.s_xpathVRL))
-                        if (l_ecellData.M_entityPath.StartsWith(Util.s_xpathProcess) &&
-                            l_ecellData.M_value.IsList())
+                        if (l_ecellData.M_entityPath.EndsWith(Util.s_xpathVRL))
+//                        if (l_ecellData.M_entityPath.StartsWith(Util.s_xpathProcess) &&
+//                            l_ecellData.M_value.IsList())
                         {
-                            if (l_ecellData.M_entityPath.EndsWith("FluxDistributionList")) continue;
                             l_processPropertyDic[l_ecellData.M_entityPath]
                                 = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.M_value);
                         }
                         else
                         {
+                            if (l_ecellData.M_entityPath.EndsWith("FluxDistributionList")) continue;
                             if (l_ecellData.M_value.IsDouble()
                                 &&
                                 (Double.IsInfinity(l_ecellData.M_value.CastToDouble())
