@@ -584,7 +584,6 @@ namespace EcellLib
         /// <summary>
         /// Get layout plugins.
         /// </summary>
-        /// <param name="name">name of plugin</param>
         /// <returns>the plugin. if not find the plugin, return null.</returns>
         public List<ILayoutAlgorithm> GetLayoutPlugins()
         {

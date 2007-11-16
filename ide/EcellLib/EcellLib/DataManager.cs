@@ -3367,6 +3367,8 @@ namespace EcellLib
             return null;
         }
 
+        
+
         /// <summary>
         /// Returns the singleton of this.
         /// </summary>
@@ -4271,10 +4273,10 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// 
+        /// Get the list of system in model.
         /// </summary>
-        /// <param name="l_modelID"></param>
-        /// <returns></returns>
+        /// <param name="l_modelID">model ID.</param>
+        /// <returns>the list of system.</returns>
         public List<string> GetSystemList(string l_modelID)
         {
             try
@@ -4291,6 +4293,27 @@ namespace EcellLib
                 throw new Exception(m_resources.GetString("ErrGetSysList") + " [" + l_modelID + "] {"
                         + l_ex.ToString() + "}");
             }
+        }
+
+        /// <summary>
+        /// Get the list of system under the input key on model.
+        /// </summary>
+        /// <param name="modelID">modelID.</param>
+        /// <param name="key">system key.</param>
+        /// <returns>the list of system.</returns>
+        public List<EcellObject> GetSystemList(string modelID, string key)
+        {
+            List<EcellObject> list = new List<EcellObject>();
+
+            foreach (EcellObject l_system in this.m_systemDic[this.m_currentProjectID][modelID])
+            {
+                if (l_system.key.StartsWith(key))
+                {
+                    list.Add(l_system);
+                }
+            }
+
+            return list;
         }
 
         /// <summary>
@@ -4829,11 +4852,11 @@ namespace EcellLib
                     }
                     if (l_ecellData.M_isSavable)
                     {
-                        // if (l_ecellData.M_entityPath.EndsWith(Util.s_xpathVRL))
-                        if (l_ecellData.M_entityPath.StartsWith(Util.s_xpathProcess))
+//                        if (l_ecellData.M_entityPath.EndsWith(Util.s_xpathVRL))
+                        if (l_ecellData.M_entityPath.StartsWith(Util.s_xpathProcess) &&
+                            l_ecellData.M_value.IsList())
                         {
-                            if (l_ecellData.M_value.IsList() && 
-                                !l_ecellData.M_entityPath.EndsWith(Util.s_xpathVRL)) continue;
+                            if (l_ecellData.M_entityPath.EndsWith("FluxDistributionList")) continue;
                             l_processPropertyDic[l_ecellData.M_entityPath]
                                 = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.M_value);
                         }
