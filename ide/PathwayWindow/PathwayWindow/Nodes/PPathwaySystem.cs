@@ -594,6 +594,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// (doesn't contain whole rectangle)</returns>
         public virtual bool Overlaps(RectangleF rect)
         {
+            if (this.Rect.Contains(rect) && rect.Contains(this.Rect))
+                return true;
             return this.Rect.IntersectsWith(rect) && !(this.Rect.Contains(rect) || rect.Contains(this.Rect));
         }
 

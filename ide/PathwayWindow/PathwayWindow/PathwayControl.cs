@@ -761,6 +761,24 @@ namespace EcellLib.PathwayWindow
                                 MessageBoxIcon.Error);
                 return;
             }
+            // Check Object duplication.
+            bool isDuplicate = false;
+            string sysKey = system.EcellObject.key;
+            string parentSysKey = system.EcellObject.parentSystemID;
+            foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
+            {
+                string newKey = obj.EcellObject.key.Replace(sysKey,parentSysKey);
+                if (ActiveCanvas.GetSelectedObject(newKey, obj.EcellObject.type) != null)
+                {
+                    isDuplicate = true;
+                    MessageBox.Show(newKey + m_resources.GetString("ErrAlrExist"),
+                                    "Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                }
+            }
+            if (isDuplicate)
+                return;
 
             // Confirm system merge.
             DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
@@ -774,17 +792,10 @@ namespace EcellLib.PathwayWindow
             try
             {
                 // Move systems and nodes under merged system.
-                string sysKey = system.EcellObject.key;
-                string newSyskey = system.EcellObject.parentSystemID;
-                string key;
-                foreach (PPathwayObject obj in ActiveCanvas.GetAllObjects())
+                foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
                 {
-                    key = obj.EcellObject.key;
-                    if (!key.StartsWith(sysKey) || key.Equals(sysKey))
-                        continue;
-
-                    obj.EcellObject.key = key.Replace(sysKey, newSyskey);
-                    ActiveCanvas.TransferObject(key, obj.EcellObject.key, obj);
+                    string newKey = obj.EcellObject.key.Replace(sysKey, parentSysKey);
+                    ActiveCanvas.TransferObject(newKey, obj.EcellObject.key, obj);
                 }
                 m_window.NotifyDataMerge(system.EcellObject.modelID, system.EcellObject.key);
             }
