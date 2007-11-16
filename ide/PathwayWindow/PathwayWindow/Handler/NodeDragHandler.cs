@@ -111,11 +111,13 @@ namespace EcellLib.PathwayWindow.Handler
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {
             base.OnMouseDown(sender, e);
+            if (!(e.PickedNode is PPathwayObject))
+                return;
+            PPathwayObject obj = e.PickedNode as PPathwayObject;
+            if (obj is PPathwayProcess)
+                ((PPathwayProcess)obj).RefreshEdges();
 
-            if (e.PickedNode is PPathwayProcess)
-                ((PPathwayProcess)e.PickedNode).RefreshEdges();
-
-            if (e.PickedNode is PPathwayNode)
+            if (obj is PPathwayNode)
             {
                 foreach (PPathwayObject node in m_canvas.SelectedNodes)
                 {
@@ -123,12 +125,12 @@ namespace EcellLib.PathwayWindow.Handler
                     m_canvas.ControlLayer.AddChild(node);
                 }
             }
-            else if (e.PickedNode is PPathwaySystem)
-                ((PPathwaySystem)e.PickedNode).MemorizePosition();
+            else if (obj is PPathwaySystem)
+                obj.MemorizePosition();
 
             e.Canvas.BackColor = Color.Silver;
             SetBackToDefault();
-            SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(e.Position));
+            SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(obj.PointF));
         }
 
         /// <summary>
@@ -194,10 +196,14 @@ namespace EcellLib.PathwayWindow.Handler
             m_isMoved = true;
             e.Canvas.BackColor = Color.Silver;
             SetBackToDefault();
-            SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(e.Position));
-            if (e.PickedNode is PPathwaySystem)
+
+            if (!(e.PickedNode is PPathwayObject))
+                return;
+            PPathwayObject obj = e.PickedNode as PPathwayObject;
+            SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(obj.PointF));
+            if (obj is PPathwaySystem)
             {
-                PPathwaySystem system = (PPathwaySystem)e.PickedNode;
+                PPathwaySystem system = (PPathwaySystem)obj;
                 system.Refresh();
                 // Change color if the system overlaps other system
                 if (m_canvas.DoesSystemOverlaps(system.GlobalBounds, system.EcellObject.key)
@@ -208,9 +214,9 @@ namespace EcellLib.PathwayWindow.Handler
                 m_canvas.UpdateResizeHandlePositions();
                 system.MoveStart();
             }
-            else if (e.PickedNode is PPathwayNode)
+            else if (obj is PPathwayNode)
             {
-                PointF offset = e.PickedNode.Offset;
+                PointF offset = obj.Offset;
                 m_movingDelta += e.CanvasDelta;
 
                 if ((Math.Abs(m_movingDelta.Width) + Math.Abs(m_movingDelta.Height)) > m_refreshDistance)
@@ -249,15 +255,18 @@ namespace EcellLib.PathwayWindow.Handler
         {
             base.OnEndDrag(sender, e);
 
-            if (e.PickedNode is PPathwayNode)
+            if (!(e.PickedNode is PPathwayObject))
+                return;
+            PPathwayObject obj = e.PickedNode as PPathwayObject;
+            if (obj is PPathwayNode)
             {
                 TransferNodes(m_canvas.SelectedNodes);
             }
-            else if (e.PickedNode is PPathwaySystem)
+            else if (obj is PPathwaySystem)
             {
-                PPathwaySystem system = (PPathwaySystem)e.PickedNode;
+                PPathwaySystem system = (PPathwaySystem)obj;
                 string oldSysKey = system.EcellObject.key;
-                string parentSysKey = m_canvas.GetSurroundingSystemKey(e.Position, oldSysKey);
+                string parentSysKey = m_canvas.GetSurroundingSystemKey(obj.PointF, oldSysKey);
                 string newSysKey = null;
                 if (parentSysKey == null)
                     newSysKey = "/";
@@ -350,8 +359,10 @@ namespace EcellLib.PathwayWindow.Handler
             }
             else
             {
+                int i = 0;
                 foreach (PPathwayObject node in nodeList)
                 {
+                    i++;
                     newSystem = m_canvas.GetSurroundingSystemKey(node.PointF);
                     newKey = newSystem + ":" + node.EcellObject.name;
                     m_canvas.PathwayControl.NotifyDataChanged(
@@ -359,7 +370,7 @@ namespace EcellLib.PathwayWindow.Handler
                         newKey,
                         node,
                         true,
-                        true);
+                        (i == nodeList.Count));
                 }
             }
         }

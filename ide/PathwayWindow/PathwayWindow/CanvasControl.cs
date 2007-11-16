@@ -1316,7 +1316,7 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Reset reside handles' positions except one fixedHandle
+        /// Reset resize handles' positions except one fixedHandle
         /// </summary>
         /// <param name="fixedHandle">this ResizeHandle must not be updated</param>
         public void UpdateResizeHandlePositions(PNode fixedHandle)

@@ -312,7 +312,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public PointF PointF
         {
-            get { return new PointF(base.X, base.Y); }
+            get { return new PointF(base.X + base.OffsetX, base.Y + base.OffsetY); }
             set
             {
                 base.X = value.X;
