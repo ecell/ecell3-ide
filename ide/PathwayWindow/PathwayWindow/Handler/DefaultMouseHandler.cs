@@ -92,8 +92,10 @@ namespace EcellLib.PathwayWindow
             m_startPoint = e.Position;
             m_con.MousePosition = e.Position;
             if (e.PickedNode is PCamera)
+            {
                 m_con.CanvasDictionary[e.Canvas.Name].ClickedNode = null;
-
+                m_con.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
+            }
             if (e.Button == MouseButtons.Left)
             {
                 m_con.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();

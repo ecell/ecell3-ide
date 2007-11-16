@@ -1376,14 +1376,18 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">PInputEventArgs</param>
         public void SystemSelected(object sender, PInputEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && e.PickedNode == sender)
+            CanvasControl canvas = this.CanvasDictionary[e.Canvas.Name];
+            if (canvas == null)
+                return;
+
+            if (e.PickedNode == sender)
             {
-                this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
-                this.CanvasDictionary[e.Canvas.Name].AddSelectedSystem( ((PPathwayObject)sender).EcellObject.key );
+                canvas.ResetSelectedObjects();
+                canvas.AddSelectedSystem(((PPathwayObject)sender).EcellObject.key);
             }
             else
             {
-                this.CanvasDictionary[e.Canvas.Name].ClickedNode = e.PickedNode;
+                canvas.ClickedNode = e.PickedNode;
                 foreach (String iName in ContextMenuDict.Keys)
                 {
                     if (iName.StartsWith("delete"))
