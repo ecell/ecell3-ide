@@ -278,14 +278,26 @@ namespace EcellLib.PathwayWindow
         /// <param name="key">the key of selected object.</param>
         /// <param name="type">the type of selected object.</param>
         /// <param name="isSelected">Is object is selected or not</param>
-        public void NotifySelectChanged(string modelID, string key, string type, bool isSelected)
+        public void NotifySelectChanged(string modelID, string key, string type)
         {
             PluginManager pm = PluginManager.GetPluginManager();
-            if(isSelected)
+            pm.SelectChanged(modelID, key, type);
+
+        }
+        /// <summary>
+        /// Inform the selected EcellObject in PathwayEditor to PluginManager.
+        /// </summary>
+        /// <param name="modelID">the modelID of selected object.</param>
+        /// <param name="key">the key of selected object.</param>
+        /// <param name="type">the type of selected object.</param>
+        /// <param name="isSelected">Is object is selected or not</param>
+        public void NotifyAddSelect(string modelID, string key, string type, bool isSelected)
+        {
+            PluginManager pm = PluginManager.GetPluginManager();
+            if (isSelected)
                 pm.AddSelect(modelID, key, type);
             else
                 pm.RemoveSelect(modelID, key, type);
-            pm.SelectChanged(modelID, key, type);
 
         }
         #endregion
@@ -628,8 +640,9 @@ namespace EcellLib.PathwayWindow
         public void AddSelect(string modelID, string key, string type)
         {
             // not implement
-            //PPathwayObject obj = m_con.ActiveCanvas.
-            this.m_con.ActiveCanvas.SelectChanged(key, ComponentManager.ParseComponentKind(type));
+            CanvasControl canvas = this.m_con.CanvasDictionary[modelID];
+            if (canvas != null)
+                canvas.AddSelect(key, type);
         }
 
         /// <summary>

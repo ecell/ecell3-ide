@@ -1405,14 +1405,14 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">PInputEventArgs.</param>
         public void NodeSelected(object sender, PInputEventArgs e)
         {
-            PPathwayNode pnode = (PPathwayNode)e.PickedNode;
+            PPathwayNode pnode = (PPathwayNode)sender;
 
             if (m_selectedHandle.Mode == Mode.CreateOneWayReaction
                 || m_selectedHandle.Mode == Mode.CreateMutualReaction
                 || m_selectedHandle.Mode == Mode.CreateConstant)
             {
                 this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
-                this.CanvasDictionary[e.Canvas.Name].AddNodeToBeConnected((PPathwayNode)sender);
+                this.CanvasDictionary[e.Canvas.Name].AddNodeToBeConnected(pnode);
             }
             else
             {
@@ -1420,21 +1420,21 @@ namespace EcellLib.PathwayWindow
                 {
                     if (e.Modifiers == Keys.Shift)
                     {
-                        this.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)sender, true);
+                        this.CanvasDictionary[e.Canvas.Name].AddSelectedNode(pnode, true);
                     }
                     else
                     {
                         this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
-                        this.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)sender, true);
+                        this.CanvasDictionary[e.Canvas.Name].NotifySelectChanged(pnode.EcellObject.key, pnode.EcellObject.type);
                     }
                 }
             }
-            this.CanvasDictionary[e.Canvas.Name].ClickedNode = e.PickedNode;
+            this.CanvasDictionary[e.Canvas.Name].ClickedNode = pnode;
             foreach (String iName in ContextMenuDict.Keys)
             {
                 if (iName.StartsWith("delete"))
                 {
-                    ContextMenuDict[iName].Tag = e.PickedNode;
+                    ContextMenuDict[iName].Tag = pnode;
                 }
             }
         }

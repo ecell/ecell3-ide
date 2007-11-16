@@ -1364,10 +1364,22 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">the type of selected object.</param>
         /// <param name="isSelect">the flag whether this object is selected.</param>
         /// </summary>
-        public void NotifySelectChanged(string key, string type, bool isSelect)
+        public void NotifySelectChanged(string key, string type)
         {
             if (m_con != null)
-                m_con.Window.NotifySelectChanged(this.m_modelId, key, type, isSelect);
+                m_con.Window.NotifySelectChanged(this.m_modelId, key, type);
+        }
+
+        /// <summary>
+        /// Notify SelectChanged event to outside.
+        /// <param name="key">the key of selected object.</param>
+        /// <param name="type">the type of selected object.</param>
+        /// <param name="isSelect">the flag whether this object is selected.</param>
+        /// </summary>
+        public void NotifyAddSelect(string key, string type, bool isSelect)
+        {
+            if (m_con != null)
+                m_con.Window.NotifyAddSelect(this.m_modelId, key, type, isSelect);
         }
 
         /// <summary>
@@ -1610,7 +1622,7 @@ namespace EcellLib.PathwayWindow
             m_selectedNodes.Add(obj);
             obj.IsHighLighted = true;
             if (toBeNotified)
-                NotifySelectChanged(obj.EcellObject.key, obj.EcellObject.type, true);
+                NotifyAddSelect(obj.EcellObject.key, obj.EcellObject.type, true);
         }
 
         /// <summary>
@@ -1625,7 +1637,7 @@ namespace EcellLib.PathwayWindow
             ShowResizeHandles();
             UpdateResizeHandlePositions();
             string type = m_systems[systemName].EcellObject.type;
-            NotifySelectChanged(systemName, type, true);
+            NotifySelectChanged(systemName, type);
         }
 
         /// <summary>
@@ -1894,11 +1906,32 @@ namespace EcellLib.PathwayWindow
 
         private void RemoveNodeUnder(string sysKey)
         {
-            foreach (PPathwayObject obj in GetNodeList())
-                if (obj.EcellObject.key.StartsWith(sysKey) && !obj.EcellObject.key.Equals(sysKey) )
-                    DataDelete(obj.EcellObject.key, obj.EcellObject.type);
+            foreach (PPathwayObject obj in GetAllObjectUnder(sysKey))
+                DataDelete(obj.EcellObject.key, obj.EcellObject.type);
         }
 
+        /// <summary>
+        /// event sequence of changing the information of object.
+        /// </summary>
+        /// <param name="key">the key of selected object.</param>
+        /// <param name="type">the type of selected object.</param>
+        public void AddSelect(string key, string type)
+        {
+            PPathwayObject obj = GetSelectedObject(key, type);
+            if (obj == null)
+                return;
+
+            if (type.Equals(EcellObject.SYSTEM))
+            {
+                this.ResetSelectedObjects();
+                this.AddSelectedSystem(key);
+            }
+            if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE))
+            {
+                PPathwayNode focusNode = (PPathwayNode)obj;
+                this.AddSelectedNode(focusNode, false);
+            }
+        }
         /// <summary>
         /// event sequence of changing the information of object.
         /// </summary>

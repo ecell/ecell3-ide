@@ -150,7 +150,7 @@ namespace EcellLib.PathwayWindow
                 {
                     if (node is PPathwayNode)
                     {
-                        m_con.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)node, false);
+                        m_con.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)node, true);
                         PPathwayObject pObj = (PPathwayObject)node;
                         lastNode = (PPathwayNode)pObj;
                     }
@@ -160,7 +160,7 @@ namespace EcellLib.PathwayWindow
 
                 if (!isAlreadySelected && lastNode != null)
                 {
-                    m_con.CanvasDictionary[e.Canvas.Name].NotifySelectChanged(lastNode.EcellObject.key, lastNode.EcellObject.type, true);
+                    m_con.CanvasDictionary[e.Canvas.Name].NotifySelectChanged(lastNode.EcellObject.key, lastNode.EcellObject.type);
                     m_lastSelectedObj = lastNode;
                 }
             }

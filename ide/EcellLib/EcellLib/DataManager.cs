@@ -2258,26 +2258,9 @@ namespace EcellLib
                         }
                     }
                 }
-                /*
-                if (l_obj.M_value != null && l_obj.M_value.Count > 0)
-                {
-                    foreach (EcellData l_data in l_obj.M_value)
-                    {
-                        if (l_data.M_isSettable)
-                        {
-                            foreach (string l_keyParameterID
-                                    in this.m_initialCondition[this.m_currentProjectID].Keys)
-                            {
-                                if (this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                        [l_obj.modelID][l_obj.type].ContainsKey(l_data.M_entityPath))
-                                {
-                                    this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                            [l_obj.modelID][l_obj.type].Remove(l_data.M_entityPath);
-                                }
-                            }
-                        }
-                    }
-                }*/
+                // Record deletion of child system. 
+                if(!l_obj.key.Equals(l_key))
+                    m_aManager.AddAction(new DataDeleteAction(l_obj.modelID, l_obj.key, l_obj.type, l_obj, false));
                 if (l_messageFlag)
                 {
                     this.m_pManager.Message(
