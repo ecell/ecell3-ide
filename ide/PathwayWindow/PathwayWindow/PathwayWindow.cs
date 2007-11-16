@@ -102,11 +102,6 @@ namespace EcellLib.PathwayWindow
         private List<ToolStripMenuItem> m_menuLayoutList;
 
         /// <summary>
-        /// Index for a default layout algorithm in m_layoutList
-        /// </summary>
-        private int m_defLayoutIdx = -1;
-
-        /// <summary>
         /// ToolStripMenuItem for switching visibility of IDs on each PPathwayNode
         /// </summary>
         private ToolStripMenuItem m_showIdItem;
@@ -119,6 +114,11 @@ namespace EcellLib.PathwayWindow
         /// m_dManager (DataManager)
         /// </summary>
         private DataManager m_dManager;
+
+        /// <summary>
+        /// m_dManager (DataManager)
+        /// </summary>
+        private PluginManager m_pManager;
 
         #endregion
 
@@ -135,15 +135,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public ILayoutAlgorithm DefaultLayoutAlgorithm
         {
-            get
-            {
-                if (m_defLayoutIdx == -1)
-                    return new GridLayout();
-                else if (m_defLayoutIdx < m_layoutList.Count)
-                    return m_layoutList[m_defLayoutIdx];
-                else
-                    return null;
-            }
+            get { return new GridLayout(); }
         }
         #endregion
 
@@ -154,8 +146,9 @@ namespace EcellLib.PathwayWindow
         public PathwayWindow()
         {
             m_dManager = DataManager.GetDataManager();
+            m_pManager = PluginManager.GetPluginManager();
 
-            CheckLayoutAlgorithmDlls();
+            SetLayoutAlgorithmDlls();
             m_con = new PathwayControl(this);
             m_con.ComponentManager = LoadComponentSettings();
             CreateMenu();
@@ -204,7 +197,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="entityPath"></param>
         public void NotifyLoggerAdd(string modelID, string key, string type, string entityPath)
         {
-            PluginManager.GetPluginManager().LoggerAdd(
+            m_pManager.LoggerAdd(
                 modelID,
                 key,
                 type,
@@ -280,8 +273,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="isSelected">Is object is selected or not</param>
         public void NotifySelectChanged(string modelID, string key, string type)
         {
-            PluginManager pm = PluginManager.GetPluginManager();
-            pm.SelectChanged(modelID, key, type);
+            m_pManager.SelectChanged(modelID, key, type);
 
         }
         /// <summary>
@@ -293,11 +285,10 @@ namespace EcellLib.PathwayWindow
         /// <param name="isSelected">Is object is selected or not</param>
         public void NotifyAddSelect(string modelID, string key, string type, bool isSelected)
         {
-            PluginManager pm = PluginManager.GetPluginManager();
             if (isSelected)
-                pm.AddSelect(modelID, key, type);
+                m_pManager.AddSelect(modelID, key, type);
             else
-                pm.RemoveSelect(modelID, key, type);
+                m_pManager.RemoveSelect(modelID, key, type);
 
         }
         #endregion
@@ -868,50 +859,9 @@ namespace EcellLib.PathwayWindow
         /// Check layout algorithm's dlls in a plugin\pathway directory and register them
         /// to m_layoutList
         /// </summary>
-        private void CheckLayoutAlgorithmDlls()
+        private void SetLayoutAlgorithmDlls()
         {
-            // Read component settings from ComopnentSettings.xml
-            // string pathwayDir = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
-            string pathwayDir = EcellLib.Util.GetPluginDir();
-
-            pathwayDir += "\\pathway";
-            
-            foreach(string pluginName in Directory.GetFiles(pathwayDir))
-            {
-                // Only dlls will be loaded (NOT xml)!
-                if (string.IsNullOrEmpty(pluginName) || !pluginName.EndsWith(EcellLib.Util.s_dmFileExtension))
-                    continue;
-                try
-                {
-                    Assembly handle = Assembly.LoadFile(pluginName);
-                    string className = Path.GetFileName(pluginName).Replace(EcellLib.Util.s_dmFileExtension, "");
-                    
-                    foreach(Type type in handle.GetTypes())
-                    {
-                        foreach (Type intType in type.GetInterfaces())
-                        {
-                            if (!intType.Name.Equals("ILayoutAlgorithm"))
-                                continue;
-
-                            Object anAllocator = type.InvokeMember(
-                                null,
-                                BindingFlags.CreateInstance,
-                                null,
-                                null,
-                                null);
-                            m_layoutList.Add((ILayoutAlgorithm)anAllocator);
-                            
-                            string name = ((ILayoutAlgorithm)anAllocator).GetName();
-                            if (!string.IsNullOrEmpty(name) && m_defLayout.Equals(name))
-                                m_defLayoutIdx = m_layoutList.Count - 1;
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-            }
+            m_layoutList = m_pManager.GetLayoutPlugins();
         }
 
         private void CreateMenu()

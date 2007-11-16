@@ -1473,32 +1473,29 @@ namespace EcellLib.PathwayWindow
             // Set Child object.
             PPathwaySystem system = m_systems[systemName];
             // If obj hasn't coordinate, it will be settled. 
-            if (!hasCoords)
+            if (obj is PPathwayNode && !system.Rect.Contains(obj.PointF))
+                obj.PointF = GetVacantPoint(systemName);
+            if (obj is PPathwaySystem && !hasCoords)
             {
-                if (obj is PPathwayNode)
-                    obj.PointF = GetVacantPoint(systemName);
-                else if(obj is PPathwaySystem)
+                float maxX = system.X + system.OffsetX;
+                float x = 0f;
+
+                foreach (PNode ppo in system.ChildrenReference)
                 {
-                    float maxX = system.X + system.OffsetX;
-                    float x = 0f;
-
-                    foreach (PNode ppo in system.ChildrenReference)
+                    if (ppo is PPathwayObject)
                     {
-                        if (ppo is PPathwayObject)
-                        {
-                            x = ppo.X + ppo.OffsetX + ppo.Width;
-                        }
-                        if (maxX < x)
-                            maxX = x;
+                        x = ppo.X + ppo.OffsetX + ppo.Width;
                     }
-                    // Set obj's coordinate
-                    obj.X = maxX + PPathwaySystem.SYSTEM_MARGIN;
-                    obj.Y = system.Y + system.Offset.Y + PPathwaySystem.SYSTEM_MARGIN;
-                    obj.Width = PPathwaySystem.DEFAULT_WIDTH;
-                    obj.Height = PPathwaySystem.DEFAULT_HEIGHT;
-
-                    system.MakeSpace(obj);
+                    if (maxX < x)
+                        maxX = x;
                 }
+                // Set obj's coordinate
+                obj.X = maxX + PPathwaySystem.SYSTEM_MARGIN;
+                obj.Y = system.Y + system.Offset.Y + PPathwaySystem.SYSTEM_MARGIN;
+                obj.Width = PPathwaySystem.DEFAULT_WIDTH;
+                obj.Height = PPathwaySystem.DEFAULT_HEIGHT;
+
+                system.MakeSpace(obj);
             }
             // Set to parent object.
             system.AddChild(obj);
