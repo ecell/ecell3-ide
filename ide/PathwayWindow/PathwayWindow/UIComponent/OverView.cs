@@ -46,11 +46,6 @@ namespace EcellLib.PathwayWindow.UIComponent
     {
         #region Fields
         /// <summary>
-        /// Graphical content of m_canvas is scaled by m_reductionScale in overview canvas (m_overCanvas)
-        /// </summary>
-        private static readonly float REDUCTION_SCALE = 0.05f;
-
-        /// <summary>
         /// Brush for m_transparentNode
         /// </summary>
         private static readonly SolidBrush m_transparentBrush

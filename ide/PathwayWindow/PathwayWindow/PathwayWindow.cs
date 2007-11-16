@@ -68,13 +68,6 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class PathwayWindow : PluginBase
     {
-        #region Static fields
-        /// <summary>
-        /// The name of default layout algorithm
-        /// </summary>
-        static string m_defLayout = "Grid";
-        #endregion
-
         #region Fields
         /// <summary>
         /// PathwayView, which contains and controls all GUI-related objects.

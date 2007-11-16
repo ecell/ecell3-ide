@@ -1465,6 +1465,7 @@ namespace EcellLib.PathwayWindow
             // Set Root System
             if (systemName == null || systemName.Equals("") )
             {
+                SetSystemSize(obj);
                 obj.Layer = Layers[layer];
                 Layers[layer].AddChild(obj);
                 return;
@@ -1492,9 +1493,7 @@ namespace EcellLib.PathwayWindow
                 // Set obj's coordinate
                 obj.X = maxX + PPathwaySystem.SYSTEM_MARGIN;
                 obj.Y = system.Y + system.Offset.Y + PPathwaySystem.SYSTEM_MARGIN;
-                obj.Width = PPathwaySystem.DEFAULT_WIDTH;
-                obj.Height = PPathwaySystem.DEFAULT_HEIGHT;
-
+                SetSystemSize(obj);
                 system.MakeSpace(obj);
             }
             // Set to parent object.
@@ -1506,6 +1505,25 @@ namespace EcellLib.PathwayWindow
                 ((PPathwayProcess)obj).RefreshEdges();
         }
 
+        /// <summary>
+        /// Set default system size.
+        /// </summary>
+        /// <param name="obj">the registered object.</param>
+        private void SetSystemSize(PPathwayObject system)
+        {
+            int length = 200 * (int)Math.Sqrt(system.EcellObject.M_instances.Count);
+            if (length > PPathwaySystem.DEFAULT_WIDTH)
+            {
+                system.Width = length;
+                system.Height = length;
+            }
+            else
+            {
+                system.Width = PPathwaySystem.DEFAULT_WIDTH;
+                system.Height = PPathwaySystem.DEFAULT_HEIGHT;
+            }
+
+        }
         /// <summary>
         /// register the object to this set.
         /// </summary>
