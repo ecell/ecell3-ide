@@ -4910,6 +4910,10 @@ namespace EcellLib
                 {
                     String dirName = Path.GetDirectoryName(l_filename);
                     m_dmDir = m_dmDir + ";" + dirName + "\\..\\dms;" + dirName + "\\dms";
+                    if (dirName == "" || dirName == null)
+                    {
+                        m_dmDir = m_dmDir + ";..\\dms";
+                    }
                 }
                 this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(m_dmDir);
                 l_eml.Parse(l_filename, this.m_simulatorDic[this.m_currentProjectID], l_ecellObjectList, ref l_modelID);
