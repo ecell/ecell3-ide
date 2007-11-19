@@ -126,6 +126,10 @@ namespace EcellCoreLib {
 		{
 			throw gcnew WrappedLibecsException(e);
 		}
+		catch (const std::exception& e)
+		{
+			throw gcnew WrappedStdException(e);
+		}
     }
 
     void WrappedSimulator::DeleteEntity(String^ l_fullIDString)
