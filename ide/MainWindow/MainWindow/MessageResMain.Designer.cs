@@ -115,7 +115,7 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
-        ///   Fail to load the plugin {0}. に類似しているローカライズされた文字列を検索します。
+        ///   Fail to load the plugin {0} (location: {1}). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadPlugin {
             get {

@@ -41,18 +41,48 @@ namespace EcellLib.MainWindow
 {
     class Program
     {
+        enum OptionKind
+        {
+            PluginDirectory
+        };
+
+        /// <summary>
+        /// Parses the argument list, configures the application and
+        /// returns the non-parameter portion of it.
+        /// </summary>
+        /// <param name="args">list of arguments passed to Main() function.</param>
+        /// <returns></returns>
+        private static string[] parseArguments(string[] args)
+        {
+            List<string> nonParamArgs = new List<string>();
+            foreach (string arg in args)
+            {
+                if (arg[0] == '/')
+                {
+                    if (arg.StartsWith("/PLUGINDIR:"))
+                    {
+                        Util.AddPluginDir(Path.GetFullPath(arg.Substring("/PLUGINDIR:".Length)));
+                    }
+                    else if (arg == "/NODEFAULTS")
+                    {
+                        Util.OmitDefaultPluginPaths();
+                    }
+                }
+                else
+                {
+                    nonParamArgs.Add(arg);
+                }
+            }
+            return nonParamArgs.ToArray();
+        }
+
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
         [STAThread]
         static void Main(string[] args)
         {
-            List<string> fileList = new List<string>();
-            for (int i = 0; i < args.Length; i++)
-            {
-                if (File.Exists(args[i]))
-                    fileList.Add(args[i]);
-            }
+            string[] fileList = parseArguments(args);
 
             Util.InitialLanguage();
             Application.EnableVisualStyles();

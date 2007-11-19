@@ -47,9 +47,13 @@ namespace EcellLib
         /// </summary>
         public const string s_defaultDMPath = "dm";
         /// <summary>
-        /// Reserved extension for library.
+        /// Reserved extension for DM's.
         /// </summary>
         public const string s_dmFileExtension = ".dll";
+        /// <summary>
+        /// Reserved extension for plugins.
+        /// </summary>
+        public const string s_pluginFileExtension = ".dll";
         /// <summary>
         /// Reserved char for colon.
         /// </summary>
@@ -394,6 +398,17 @@ namespace EcellLib
         public const int ANALYSIS_DONE = 2;
 
         /// <summary>
+        /// Additional plugin directories to be searched on startup.
+        /// XXX: this should not be in Util class.
+        /// </summary>
+        private static List<string> extraPluginDirs = new List<string>();
+
+        /// <summary>
+        /// Whether to include default plugin paths.
+        /// </summary>
+        private static bool noDefaultPluginPaths;
+
+        /// <summary>
         /// Get the analysis directory from register.
         /// </summary>
         /// <returns></returns>
@@ -491,9 +506,61 @@ namespace EcellLib
         /// Get the plugin directory from register.
         /// </summary>
         /// <returns>plugin directory.</returns>
-        static public string GetPluginDir()
+        static public string[] GetPluginDirs()
         {
-            return GetRegistryValue(s_registryPluginDirKey);
+            List<string> pluginDirs = new List<string>();
+
+            {
+                foreach (string pluginDir in extraPluginDirs)
+                {
+                    if (Directory.Exists(pluginDir))
+                        pluginDirs.Add(pluginDir);
+                }
+            }
+
+            if (!noDefaultPluginPaths)
+            {
+
+                {
+                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
+                    {
+                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Util.s_registryEnvKey);
+                        if (subkey != null)
+                        {
+                            string pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
+                            if (pluginDir != null && Directory.Exists(pluginDir))
+                                pluginDirs.Add(pluginDir);
+                            subkey.Close();
+                        }
+                    }
+                    {
+                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Util.s_registrySWKey);
+                        if (subkey != null)
+                        {
+                            string pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
+                            if (pluginDir != null && Directory.Exists(pluginDir))
+                                pluginDirs.Add(pluginDir);
+                            subkey.Close();
+                        }
+                    }
+                }
+
+                {
+                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.LocalMachine;
+                    {
+                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Util.s_registrySWKey);
+                        if (subkey != null)
+                        {
+                            string pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
+                            if (pluginDir != null && Directory.Exists(pluginDir))
+                                pluginDirs.Add(pluginDir);
+                            subkey.Close();
+                        }
+                    }
+                }
+            }
+
+            return pluginDirs.ToArray();
         }
 
         /// <summary>
@@ -787,6 +854,23 @@ namespace EcellLib
         {
             string fileName = key.Replace(":", "_"); ;
             return fileName.Replace("/", "_") + ".csv";
+        }
+
+        /// <summary>
+        /// Add the specified directory to the plug-in search path list returned by GetPluginDirs()
+        /// </summary>
+        /// <param name="pluginDir">the plugin directory to include</param>
+        public static void AddPluginDir(string pluginDir)
+        {
+            extraPluginDirs.Add(pluginDir);
+        }
+
+        /// <summary>
+        /// Call this method to prevent PluginManage from loading plugins from default locations.
+        /// </summary>
+        public static void OmitDefaultPluginPaths()
+        {
+            noDefaultPluginPaths = true;
         }
     }
 }

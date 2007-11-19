@@ -501,8 +501,8 @@ namespace EcellLib
         /// <param name="className">class name.</param>
         public PluginBase LoadPlugin(string path, string className)
         {
-            Assembly m_theHandle = Assembly.LoadFile(path);
-            Type aType = m_theHandle.GetType(className);
+            Assembly handle = Assembly.LoadFile(path);
+            Type aType = handle.GetType(className);
             try
             {
                 Object anAllocator = aType.InvokeMember(
@@ -594,41 +594,52 @@ namespace EcellLib
         /// <returns>the plugin. if not find the plugin, return null.</returns>
         public List<ILayoutAlgorithm> GetLayoutPlugins()
         {
-            // Read component settings from ComponentSettings.xml
-            // string pathwayDir = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
-            string pathwayDir = EcellLib.Util.GetPluginDir();
-            pathwayDir += "\\pathway";
-
             List<ILayoutAlgorithm> layoutList = new List<ILayoutAlgorithm>();
 
-            foreach (string pluginName in Directory.GetFiles(pathwayDir))
+            // Read component settings from ComponentSettings.xml
+            // string pathwayDir = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
+            string[] pluginDirs = EcellLib.Util.GetPluginDirs();
+            foreach (string pluginDir in pluginDirs)
             {
-                // Only dlls will be loaded (NOT xml)!
-                if (string.IsNullOrEmpty(pluginName) || !pluginName.EndsWith(Util.s_dmFileExtension))
-                    continue;
-                try
-                {
-                    Assembly handle = Assembly.LoadFile(pluginName);
-                    foreach (Type type in handle.GetTypes())
-                    {
-                        foreach (Type intType in type.GetInterfaces())
-                        {
-                            if (!intType.Name.Equals("ILayoutAlgorithm"))
-                                continue;
+                string pathwayPluginDir = pluginDir + "\\pathway";
 
-                            Object anAllocator = type.InvokeMember(
-                                null,
-                                BindingFlags.CreateInstance,
-                                null,
-                                null,
-                                null);
-                            layoutList.Add((ILayoutAlgorithm)anAllocator);
+
+                foreach (string pluginName in Directory.GetFiles(pathwayPluginDir))
+                {
+                    // Only dlls will be loaded (NOT xml)!
+                    if (string.IsNullOrEmpty(pluginName) || !pluginName.EndsWith(Util.s_pluginFileExtension))
+                        continue;
+                    try
+                    {
+                        Assembly handle = Assembly.LoadFile(pluginName);
+                        foreach (Type type in handle.GetTypes())
+                        {
+                            foreach (Type intType in type.GetInterfaces())
+                            {
+                                if (!intType.Name.Equals("ILayoutAlgorithm"))
+                                    continue;
+
+                                try
+                                {
+                                    Object anAllocator = type.InvokeMember(
+                                        null,
+                                        BindingFlags.CreateInstance,
+                                        null,
+                                        null,
+                                        null);
+                                    layoutList.Add((ILayoutAlgorithm)anAllocator);
+                                }
+                                catch (TargetInvocationException e)
+                                {
+                                    throw e.InnerException;
+                                }
+                            }
                         }
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
                 }
             }
             return layoutList;

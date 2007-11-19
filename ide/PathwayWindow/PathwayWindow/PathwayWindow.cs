@@ -704,14 +704,27 @@ namespace EcellLib.PathwayWindow
 
         #region Internal use
         /// <summary>
+        /// Find component settings file
+        /// </summary>
+        private string FindComponentSettingsFile()
+        {
+            string[] pluginDirs = EcellLib.Util.GetPluginDirs();
+            foreach (string pluginDir in pluginDirs)
+            {
+                string settingFile = pluginDir + "\\pathway\\ComponentSettings.xml";
+                if (File.Exists(settingFile))
+                    return settingFile;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Load ComponentSettings from default setting file.
         /// </summary>
         private ComponentManager LoadComponentSettings()
         {
             // Read component settings from ComopnentSettings.xml
-            // string settingFile = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
-            string settingFile = EcellLib.Util.GetPluginDir();
-            settingFile += "\\pathway\\ComponentSettings.xml";
+            string settingFile = FindComponentSettingsFile();
 
             ComponentManager manager = new ComponentManager();
 

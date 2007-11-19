@@ -136,7 +136,7 @@
     <value>Fail to export the model.</value>
   </data>
   <data name="ErrLoadPlugin" xml:space="preserve">
-    <value>Fail to load the plugin {0}.</value>
+    <value>Fail to load the plugin {0} (location: {1}).</value>
   </data>
   <data name="ErrLoadWindowSettings" xml:space="preserve">
     <value>Fail to load window settings.</value>

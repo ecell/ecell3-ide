@@ -109,10 +109,6 @@ namespace EcellLib.MainWindow
         /// </summary>
         private string m_currentDir;
         /// <summary>
-        /// base directory of plugin.
-        /// </summary>
-        private string m_pluginDir;
-        /// <summary>
         /// loading project.
         /// </summary>
         private string m_project = null;
@@ -261,12 +257,20 @@ namespace EcellLib.MainWindow
             m_pManager = PluginManager.GetPluginManager();
             m_pManager.AddPlugin(this);
             m_pManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            m_pManager.CopyRight = global::EcellLib.MainWindow.Properties.Resources.CopyrightNotice; ;
-
+            m_pManager.CopyRight = global::EcellLib.MainWindow.Properties.Resources.CopyrightNotice;
 
             m_pluginList = new List<string>();
             m_isLoadProject = false;
-            LoadAllPlugin();
+
+            m_currentDir = Util.GetBaseDir();
+            if (m_currentDir == null)
+            {
+                m_currentDir =
+                    System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+                m_currentDir = m_currentDir + "\\e-cell\\project";
+            }
+            
+            LoadAllPlugins();
             m_pManager.ChangeStatus(0);
 
             foreach (ToolStripItem tool in menustrip.Items)
@@ -348,7 +352,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString("ErrLoadPlugin");
-                MessageBox.Show(String.Format(errmes, new object[] { pName } ) + "\n"
+                MessageBox.Show(String.Format(errmes, new object[] { pName, path } ) + "\n"
                         + ex.GetType().Name + ": " + ex.Message + "\n" + ex.StackTrace.ToString(),
                     "", MessageBoxButtons.OK, MessageBoxIcon.Warning, 0,
                     MessageBoxOptions.DefaultDesktopOnly);
@@ -483,72 +487,19 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// set base plugin data and load plugin.
         /// </summary>
-        void LoadAllPlugin()
+        void LoadAllPlugins()
         {
             List<string> pluginList = new List<string>();
 
-            Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Util.s_registryEnvKey);
-            m_pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
-            if (m_pluginDir != null)
+            foreach (string pluginDir in Util.GetPluginDirs())
             {
-                if (Directory.Exists(m_pluginDir))
+                string[] files = Directory.GetFiles(
+                    pluginDir,
+                    Util.s_delimiterWildcard + Util.s_pluginFileExtension);
+                foreach (string fileName in files)
                 {
-                    foreach (string fileName in Directory.GetFiles(
-                        m_pluginDir, Util.s_delimiterWildcard + Util.s_dmFileExtension))
-                    {
-                        pluginList.Add(fileName);
-                    }
+                    pluginList.Add(fileName);
                 }
-            }
-            subkey.Close();
-            key.Close();
-
-            subkey = key.OpenSubKey(Util.s_registrySWKey);
-            if (subkey != null)
-            {
-                m_pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
-                if (m_pluginDir != null)
-                {
-                    if (Directory.Exists(m_pluginDir))
-                    {
-                        foreach (string fileName in Directory.GetFiles(
-                            m_pluginDir, Util.s_delimiterWildcard + Util.s_dmFileExtension))
-                        {
-                            pluginList.Add(fileName);
-                        }
-                    }
-                }
-                subkey.Close();
-            }
-            key.Close();
-
-            key = Microsoft.Win32.Registry.LocalMachine;
-            subkey = key.OpenSubKey(Util.s_registrySWKey);
-            if (subkey != null)
-            {
-                m_pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
-                if (m_pluginDir != null)
-                {
-                    if (Directory.Exists(m_pluginDir))
-                    {
-                        foreach (string fileName in Directory.GetFiles(
-                            m_pluginDir, Util.s_delimiterWildcard + Util.s_dmFileExtension))
-                        {
-                            pluginList.Add(fileName);
-                        }
-                    }
-                }
-                subkey.Close();
-            }
-            key.Close();
-
-            m_currentDir = Util.GetBaseDir();
-            if (m_currentDir == null)
-            {
-                m_currentDir =
-                    System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-                m_currentDir = m_currentDir + "/e-cell/project";
             }
 
             foreach (string pName in pluginList)
