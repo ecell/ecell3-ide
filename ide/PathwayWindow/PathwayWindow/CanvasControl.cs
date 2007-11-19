@@ -1465,7 +1465,8 @@ namespace EcellLib.PathwayWindow
             // Set Root System
             if (systemName == null || systemName.Equals("") )
             {
-                SetSystemSize(obj);
+                if (!hasCoords)
+                    SetSystemSize(obj);
                 obj.Layer = Layers[layer];
                 Layers[layer].AddChild(obj);
                 return;
