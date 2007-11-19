@@ -245,7 +245,7 @@
     <value>57, 20</value>
   </data>
   <data name="MenuItemAnalysis.Text" xml:space="preserve">
-    <value>分析(&amp;A)</value>
+    <value>解析(&amp;A)</value>
   </data>
   <data name="MenuItemDebug.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 20</value>
