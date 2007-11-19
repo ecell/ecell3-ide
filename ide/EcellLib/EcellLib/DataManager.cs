@@ -1514,7 +1514,10 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrUpdate") + l_message + " " + l_ecellObject.type;
+                l_message = String.Format(
+                    m_resources.GetString("ErrUpdate"),
+                    new object[] { l_ecellObject.type }
+                ) + l_message + " " + l_ecellObject.type;
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
@@ -4167,22 +4170,17 @@ namespace EcellLib
         /// Returns the list of the parameter ID with the model ID.
         /// </summary>
         /// <returns>The list of parameter ID</returns>
-        public List<string> GetSimulationParameterID()
+        public List<string> GetSimulationParameterIDs()
         {
-            List<string> l_list = new List<string>();
             try
             {
-                if (!m_stepperDic.ContainsKey(this.m_currentProjectID)) return l_list;
-                foreach (string l_parameterID in this.m_stepperDic[this.m_currentProjectID].Keys)
-                {
-                    l_list.Add(l_parameterID);
-                }
-                return l_list;
+                return this.m_stepperDic.ContainsKey(this.m_currentProjectID) ?
+                    new List<string>(this.m_stepperDic[this.m_currentProjectID].Keys) :
+                    new List<string>();
             }
             catch (Exception l_ex)
             {
-                l_list = null;
-                throw new Exception(m_resources.GetString("ErrGetSimParam") + " {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString("ErrGetSimParams") + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -5260,7 +5258,7 @@ namespace EcellLib
                 {
                     this.m_pManager.DataAdd(l_passList);
                 }
-                foreach (string paramID in this.GetSimulationParameterID())
+                foreach (string paramID in this.GetSimulationParameterIDs())
                 {
                     this.m_pManager.ParameterAdd(l_prjID, paramID);
                 }

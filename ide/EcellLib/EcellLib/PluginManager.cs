@@ -349,7 +349,7 @@ namespace EcellLib
             DataManager manager = DataManager.GetDataManager();
             DataAdd(manager.GetData(modelID, null));
             string prjID = manager.CurrentProjectID;
-            foreach (string paramID in manager.GetSimulationParameterID())
+            foreach (string paramID in manager.GetSimulationParameterIDs())
             {
                 this.ParameterAdd(prjID, paramID);
             }

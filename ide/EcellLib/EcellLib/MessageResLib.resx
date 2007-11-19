@@ -216,6 +216,9 @@
   <data name="ErrGetProp" xml:space="preserve">
     <value>Can not get the properties.</value>
   </data>
+  <data name="ErrGetSimParams" xml:space="preserve">
+    <value>Could not retrieve simulation parameters.</value>
+  </data>
   <data name="ErrGetStep" xml:space="preserve">
     <value>Can not find the simulation parameter in model.</value>
   </data>
@@ -316,7 +319,7 @@
     <value>Can not suspend the simulation.</value>
   </data>
   <data name="ErrUpdate" xml:space="preserve">
-    <value>Can't update.</value>
+    <value>Could not update {0}.</value>
   </data>
   <data name="ErrUpdateLogPol" xml:space="preserve">
     <value>Can not set the policy of logger.</value>

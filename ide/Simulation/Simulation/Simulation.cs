@@ -313,7 +313,7 @@ namespace EcellLib.Simulation
                 }
 
                 string currentParam = key;
-                List<string> paramList = m_dManager.GetSimulationParameterID();
+                List<string> paramList = m_dManager.GetSimulationParameterIDs();
                 foreach (string param in paramList)
                 {
                     m_win.paramCombo.Items.Add(param);
@@ -734,7 +734,7 @@ namespace EcellLib.Simulation
             }
 
             string currentParam = m_dManager.GetCurrentSimulationParameterID();
-            List<string> paramList = m_dManager.GetSimulationParameterID();
+            List<string> paramList = m_dManager.GetSimulationParameterIDs();
             foreach (string param in paramList)
             {
                 m_win.paramCombo.Items.Add(param);

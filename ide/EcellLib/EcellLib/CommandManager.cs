@@ -721,7 +721,7 @@ namespace EcellLib
         {
             try
             {
-                return DataManager.GetDataManager().GetSimulationParameterID();
+                return DataManager.GetDataManager().GetSimulationParameterIDs();
             }
             catch (Exception l_ex)
             {
@@ -2019,7 +2019,7 @@ namespace EcellLib
             {
                 try
                 {
-                    foreach (string l_parameterID in DataManager.GetDataManager().GetSimulationParameterID())
+                    foreach (string l_parameterID in DataManager.GetDataManager().GetSimulationParameterIDs())
                     {
                         if (l_parameterID.Equals(this.m_parameterID))
                         {

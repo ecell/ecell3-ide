@@ -216,6 +216,9 @@
   <data name="ErrGetProp" xml:space="preserve">
     <value>指定のオブジェクトのプロパティを取得できませんでした。</value>
   </data>
+  <data name="ErrGetSimParams" xml:space="preserve">
+    <value>シミュレーションパラメータの取得に失敗しました。</value>
+  </data>
   <data name="ErrGetStep" xml:space="preserve">
     <value>モデルの中に指定のシミュレーションパラメータが見つかりませんでした。</value>
   </data>
@@ -316,7 +319,7 @@
     <value>シミュレーションを一時停止できませんでした。</value>
   </data>
   <data name="ErrUpdate" xml:space="preserve">
-    <value>更新に失敗しました。</value>
+    <value>{0}の更新に失敗しました。</value>
   </data>
   <data name="ErrUpdateLogPol" xml:space="preserve">
     <value>ロガーポリシーの設定に失敗しました。</value>
