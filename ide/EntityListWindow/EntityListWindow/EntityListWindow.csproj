@@ -97,6 +97,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResEntList.resx</DependentUpon>
     </Compile>
+    <Compile Include="MultiSelectTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EntityList.resx">
       <SubType>Designer</SubType>

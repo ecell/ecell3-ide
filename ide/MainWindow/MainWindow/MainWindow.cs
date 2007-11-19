@@ -952,21 +952,7 @@ namespace EcellLib.MainWindow
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (Util.IsNGforID(m_newPrjDialog.textName.Text))
-                {
-                    String errmes = m_resources.GetString("ErrPrjIdNG");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
                 if (m_newPrjDialog.textModelName.Text.Length > 64)
-                {
-                    String errmes = m_resources.GetString("ErrModelNG");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (Util.IsNGforID(m_newPrjDialog.textModelName.Text))
                 {
                     String errmes = m_resources.GetString("ErrModelNG");
                     MessageBox.Show(errmes,
@@ -1089,13 +1075,6 @@ namespace EcellLib.MainWindow
                 if (prjID == "")
                 {
                     String errmes = m_resources.GetString("ErrPrjIdNull");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (Util.IsNGforID(prjID))
-                {
-                    String errmes = m_resources.GetString("ErrPrjIdNG");
                     MessageBox.Show(errmes,
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;

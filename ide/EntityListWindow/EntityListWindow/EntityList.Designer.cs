@@ -34,7 +34,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityList));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.treeView1 = new System.Windows.Forms.TreeView();
+//            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.treeView1 = new EcellLib.EntityListWindow.MultiSelectTreeView();
             this.SuspendLayout();
             // 
             // imageList1
