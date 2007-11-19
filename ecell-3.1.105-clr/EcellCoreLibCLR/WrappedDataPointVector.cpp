@@ -4,92 +4,53 @@ using namespace System;
 
 namespace EcellCoreLib
 {
-    WrappedDataPointVector::WrappedDataPointVector(boost::shared_ptr<libecs::DataPointVector> * l_boostDataPointVector)
+	WrappedDataPointVector::WrappedDataPointVector(const libecs::DataPointVectorSharedPtr& dataPointVector)
+		: m_dataPointVector(new libecs::DataPointVectorSharedPtr(dataPointVector))
     {
-        libecs::DataPointVector * l_dataPointVector = l_boostDataPointVector -> get();
-        WrappedDataPointVector::m_arraySize = l_dataPointVector -> end();
-        if(l_dataPointVector -> getPointSize() == 2 )
-        {
-            WrappedDataPointVector::m_dataPoint = new libecs::DataPoint[WrappedDataPointVector::m_arraySize];
-            for(int i = 0; i < WrappedDataPointVector::m_arraySize; i++)
-            {
-                WrappedDataPointVector::m_dataPoint[i] = l_dataPointVector -> asShort(i);
-            }
-            WrappedDataPointVector::m_longFlag = false;
-        }
-        else
-        {
-            WrappedDataPointVector::m_longDataPoint = new libecs::LongDataPoint[WrappedDataPointVector::m_arraySize];
-            for(int i = 0; i < WrappedDataPointVector::m_arraySize; i++)
-            {
-                WrappedDataPointVector::m_longDataPoint[i] = l_dataPointVector -> asLong(i);
-            }
-            WrappedDataPointVector::m_longFlag = true;
-        }
     }
+
+	WrappedDataPointVector::~WrappedDataPointVector()
+	{
+		delete m_dataPointVector;
+	}
 
     int WrappedDataPointVector::GetArraySize()
     {
-        return WrappedDataPointVector::m_arraySize;
+		return m_dataPointVector->get()->getSize();
     }
 
     double WrappedDataPointVector::GetTime(int l_point)
     {
-        if(WrappedDataPointVector::m_longFlag)
-        {
-            return WrappedDataPointVector::m_longDataPoint[l_point].getTime();
-        }
-        else
-        {
-            return WrappedDataPointVector::m_dataPoint[l_point].getTime();
-        }
+		return m_dataPointVector->get()->getElementSize() == sizeof(libecs::DataPoint) ?
+			m_dataPointVector->get()->asShort(l_point).getTime():
+			m_dataPointVector->get()->asLong(l_point).getTime();
     }
 
     double WrappedDataPointVector::GetValue(int l_point)
     {
-        if(WrappedDataPointVector::m_longFlag)
-        {
-            return WrappedDataPointVector::m_longDataPoint[l_point].getValue();
-        }
-        else
-        {
-            return WrappedDataPointVector::m_dataPoint[l_point].getValue();
-        }
+		return m_dataPointVector->get()->getElementSize() == sizeof(libecs::DataPoint) ?
+			m_dataPointVector->get()->asShort(l_point).getValue():
+			m_dataPointVector->get()->asLong(l_point).getValue();
     }
 
     double WrappedDataPointVector::GetAvg(int l_point)
     {
-        if(WrappedDataPointVector::m_longFlag)
-        {
-            return WrappedDataPointVector::m_longDataPoint[l_point].getAvg();
-        }
-        else
-        {
-            return Double::NaN;
-        }
+		return m_dataPointVector->get()->getElementSize() == sizeof(libecs::DataPoint) ?
+			m_dataPointVector->get()->asShort(l_point).getAvg():
+			m_dataPointVector->get()->asLong(l_point).getAvg();
     }
 
     double WrappedDataPointVector::GetMin(int l_point)
     {
-        if(WrappedDataPointVector::m_longFlag)
-        {
-            return WrappedDataPointVector::m_longDataPoint[l_point].getMin();
-        }
-        else
-        {
-            return Double::NaN;
-        }
+		return m_dataPointVector->get()->getElementSize() == sizeof(libecs::DataPoint) ?
+			m_dataPointVector->get()->asShort(l_point).getMin():
+			m_dataPointVector->get()->asLong(l_point).getMin();
     }
 
     double WrappedDataPointVector::GetMax(int l_point)
     {
-        if(WrappedDataPointVector::m_longFlag)
-        {
-            return WrappedDataPointVector::m_longDataPoint[l_point].getMax();
-        }
-        else
-        {
-            return Double::NaN;
-        }
+		return m_dataPointVector->get()->getElementSize() == sizeof(libecs::DataPoint) ?
+			m_dataPointVector->get()->asShort(l_point).getMax():
+			m_dataPointVector->get()->asLong(l_point).getMax();
     }
 }

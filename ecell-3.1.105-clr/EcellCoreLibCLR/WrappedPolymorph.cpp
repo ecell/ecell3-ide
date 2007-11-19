@@ -1,68 +1,59 @@
 #include "WrappedPolymorph.hpp"
 
-using namespace System;
-using namespace System::Collections;
-using namespace System::Collections::Generic;
-using namespace System::Runtime::InteropServices;
-
 
 namespace EcellCoreLib
 {
+	using namespace System;
+	using namespace System::Collections::Generic;
+	using namespace System::Runtime::InteropServices;
+
     WrappedPolymorph::WrappedPolymorph(double aValue)
-    {
-        WrappedPolymorph::thePolymorph = new libecs::Polymorph((libecs::Real)aValue);
+		: thePolymorph(new libecs::Polymorph((libecs::Real)aValue))
+	{
     }
 
     WrappedPolymorph::WrappedPolymorph(int aValue)
-    {
-        WrappedPolymorph::thePolymorph = new libecs::Polymorph((libecs::Integer)aValue);
+		: thePolymorph(new libecs::Polymorph((libecs::Integer)aValue))
+	{
     }
 
-    WrappedPolymorph::WrappedPolymorph(String ^ aValue)
+    WrappedPolymorph::WrappedPolymorph(String^ aValue)
     {
-        WrappedPolymorph::thePolymorph = new libecs::Polymorph((char*)(void *)Marshal::StringToHGlobalAnsi(aValue));
+		char* str = reinterpret_cast<char*>((void *)Marshal::StringToHGlobalAnsi(aValue));
+		try
+		{
+	        thePolymorph = new libecs::Polymorph(str);
+		}
+		finally
+		{
+			Marshal::FreeHGlobal((IntPtr)str);
+		}
     }
 
-    WrappedPolymorph::WrappedPolymorph(List<WrappedPolymorph ^> ^ aWrappedPolymorphList)
+    WrappedPolymorph::WrappedPolymorph(List<WrappedPolymorph^>^ aWrappedPolymorphList)
+		: thePolymorph(WrappedPolymorph::CastToPolymorph(aWrappedPolymorphList))
     {
-        std::vector<libecs::Polymorph> * aPolymorphVector = new std::vector<libecs::Polymorph>();
-        for(int i=0; i<aWrappedPolymorphList->Count; i++)
-        {
-            if(aWrappedPolymorphList[i]->IsDouble())
-            {
-                aPolymorphVector->push_back(* (new libecs::Polymorph((libecs::Real)aWrappedPolymorphList[i]->CastToDouble())));
-            }
-            else if(aWrappedPolymorphList[i]->IsInt())
-            {
-                aPolymorphVector->push_back(* (new libecs::Polymorph((libecs::Integer)aWrappedPolymorphList[i]->CastToInt())));
-            }
-            else if(aWrappedPolymorphList[i]->IsString())
-            {
-                std::string aValue = (char*)(void *)Marshal::StringToHGlobalAnsi(aWrappedPolymorphList[i]->CastToString());
-                aPolymorphVector->push_back(* (new libecs::Polymorph(aValue)));
-            }
-            else
-            {
-                aPolymorphVector->push_back(CastToPolymorph(aWrappedPolymorphList[i]->CastToList()));
-            }
-        }
-        WrappedPolymorph::thePolymorph = new libecs::Polymorph(* aPolymorphVector);
     }
 
-    WrappedPolymorph::WrappedPolymorph( libecs::Polymorph * aPolymorph )
+    WrappedPolymorph::WrappedPolymorph(const libecs::Polymorph& aPolymorph)
+		: thePolymorph(new libecs::Polymorph(aPolymorph))
     {
-        WrappedPolymorph::thePolymorph = new libecs::Polymorph();
-        * WrappedPolymorph::thePolymorph = * aPolymorph;
     }
+
+	WrappedPolymorph::~WrappedPolymorph()
+	{
+		delete thePolymorph;
+	}
 
     double WrappedPolymorph::CastToDouble()
     {
         if(this->IsDouble())
         {
-            return WrappedPolymorph::thePolymorph->asReal();
+            return thePolymorph->asReal();
         }
         else
         {
+			// XXX: this is not valid
             return 0.0;
         }
     }
@@ -71,23 +62,27 @@ namespace EcellCoreLib
     {
         if(this->IsInt())
         {
-            return WrappedPolymorph::thePolymorph->asInteger();
+            return thePolymorph->asInteger();
         }
         else
         {
+			// XXX: this is not valid
             return 0;
         }
     }
 
-    List<WrappedPolymorph ^> ^ WrappedPolymorph::CastToList()
+    List<WrappedPolymorph^>^ WrappedPolymorph::CastToList()
     {
-        if(this->IsList())
+        if (this->IsList())
         {
-            List<WrappedPolymorph ^> ^ l_list = gcnew List<WrappedPolymorph ^>();
-            for(unsigned int i=0; i<((std::vector<libecs::Polymorph>)*WrappedPolymorph::thePolymorph).size(); i++)
-            {
-                l_list->Add(gcnew WrappedPolymorph(&(libecs::Polymorph)(((std::vector<libecs::Polymorph>)*WrappedPolymorph::thePolymorph)[i])));
-            }
+			libecs::PolymorphVector v(*thePolymorph);
+            List<WrappedPolymorph^>^ l_list = gcnew List<WrappedPolymorph^>();
+
+			for (libecs::PolymorphVector::const_iterator i = v.begin(); i < v.end(); ++i)
+			{
+				l_list->Add(gcnew WrappedPolymorph(*i));
+			}
+				
             return l_list;
         }
         else
@@ -96,37 +91,52 @@ namespace EcellCoreLib
         }
     }
 
-    libecs::Polymorph WrappedPolymorph::CastToPolymorph(List<WrappedPolymorph ^> ^ aWrappedPolymorphList)
+	libecs::Polymorph* WrappedPolymorph::CastToPolymorph(IEnumerable<WrappedPolymorph^>^ aWrappedPolymorphList)
     {
-        std::vector<libecs::Polymorph> * aPolymorphVector = new std::vector<libecs::Polymorph>();
-        for(int i=0; i<aWrappedPolymorphList->Count; i++)
+		libecs::PolymorphVector aPolymorphVector;
+
+		for (IEnumerator<WrappedPolymorph^>^ i = aWrappedPolymorphList->GetEnumerator();
+				i->MoveNext(); )
         {
-            if(aWrappedPolymorphList[i]->IsDouble())
+			WrappedPolymorph^ aWrappedPolymorph = i->Current;
+
+            if(aWrappedPolymorph->IsDouble())
             {
-                aPolymorphVector->push_back(* (new libecs::Polymorph((libecs::Real)aWrappedPolymorphList[i]->CastToDouble())));
+                aPolymorphVector.push_back(libecs::Polymorph((libecs::Real)aWrappedPolymorph->CastToDouble()));
             }
-            else if(aWrappedPolymorphList[i]->IsInt())
+            else if(aWrappedPolymorph->IsInt())
             {
-                aPolymorphVector->push_back(* (new libecs::Polymorph((libecs::Integer)aWrappedPolymorphList[i]->CastToInt())));
+                aPolymorphVector.push_back(libecs::Polymorph((libecs::Integer)aWrappedPolymorph->CastToInt()));
             }
-            else if(aWrappedPolymorphList[i]->IsString())
+            else if(aWrappedPolymorph->IsString())
             {
-                std::string aValue = (char*)(void *)Marshal::StringToHGlobalAnsi(aWrappedPolymorphList[i]->CastToString());
-                aPolymorphVector->push_back(* (new libecs::Polymorph(aValue)));
+                char* aValue = reinterpret_cast<char*>(
+						(void *)Marshal::StringToHGlobalAnsi(
+							aWrappedPolymorph->CastToString()));
+				try
+				{
+	                aPolymorphVector.push_back(libecs::Polymorph(aValue));
+				}
+				finally
+				{
+					Marshal::FreeHGlobal((IntPtr)aValue);
+				}
             }
             else
             {
-                aPolymorphVector->push_back(CastToPolymorph(aWrappedPolymorphList[i]->CastToList()));
+				libecs::Polymorph* m = CastToPolymorph(aWrappedPolymorph->CastToList());
+                aPolymorphVector.push_back(*m);
+				delete m;
             }
         }
-        return * (new libecs::Polymorph(* aPolymorphVector));
+        return new libecs::Polymorph(aPolymorphVector);
     }
 
-    String ^ WrappedPolymorph::CastToString()
+    String^ WrappedPolymorph::CastToString()
     {
         if(this->IsString())
         {
-            return gcnew String((WrappedPolymorph::thePolymorph->asString()).c_str());
+            return gcnew String((thePolymorph->asString()).c_str());
         }
         else
         {
@@ -134,80 +144,28 @@ namespace EcellCoreLib
         }
     }
 
-    libecs::Polymorph * WrappedPolymorph::GetPolymorph()
+    const libecs::Polymorph& WrappedPolymorph::GetPolymorph()
     {
-        return WrappedPolymorph::thePolymorph;
+        return *thePolymorph;
     }
 
     bool WrappedPolymorph::IsDouble()
     {
-        if(WrappedPolymorph::thePolymorph->getType() == libecs::Polymorph::REAL)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return thePolymorph->getType() == libecs::Polymorph::REAL;
     }
 
     bool WrappedPolymorph::IsInt()
     {
-        if(WrappedPolymorph::thePolymorph->getType() == libecs::Polymorph::INTEGER)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return thePolymorph->getType() == libecs::Polymorph::INTEGER;
     }
 
     bool WrappedPolymorph::IsList()
     {
-        if(WrappedPolymorph::thePolymorph->getType() == libecs::Polymorph::POLYMORPH_VECTOR)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return thePolymorph->getType() == libecs::Polymorph::POLYMORPH_VECTOR;
     }
 
     bool WrappedPolymorph::IsString()
     {
-        if(WrappedPolymorph::thePolymorph->getType() == libecs::Polymorph::STRING)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return thePolymorph->getType() == libecs::Polymorph::STRING;
     }
-
-    /*
-    int WrappedPolymorph::AsInteger() {
-        return WrappedPolymorph::thePolymorph -> asInteger();
-    }
-
-    double WrappedPolymorph::AsReal() {
-        return WrappedPolymorph::thePolymorph -> asReal();
-    }
-
-    String ^ WrappedPolymorph::AsString() {
-        return gcnew String( ( WrappedPolymorph::thePolymorph -> asString() ).c_str() );
-    }
-
-    int WrappedPolymorph::Size() {
-        if( IsList() ) {
-//            std::vector<libecs::Polymorph> aVector = ( std::vector<libecs::Polymorph> )( * WrappedPolymorph::thePolymorph );
-//            int i = aVector.size();
-            return ( ( std::vector<libecs::Polymorph> )( * WrappedPolymorph::thePolymorph ) ).size();
-        } else {
-            return 0;
-        }
-    }
-     */
 }

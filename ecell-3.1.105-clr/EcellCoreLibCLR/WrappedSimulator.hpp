@@ -1,14 +1,16 @@
+#include "libecs/libecs.hpp"
 #include "WrappedPolymorph.hpp"
 #include "WrappedDataPointVector.hpp"
-
-using namespace System;
-using namespace System::Collections::Generic;
-using namespace System::Windows::Forms;
 
 #undef GetCurrentTime
 
 namespace EcellCoreLib
 {
+	using namespace System;
+	using namespace System::Collections::Generic;
+	using namespace System::Windows::Forms;
+	using namespace System::Runtime::InteropServices;
+
     class EventChecker : public libemc::EventChecker
     {
     private:
@@ -49,18 +51,85 @@ namespace EcellCoreLib
         }
     };
 
+	public ref class WrappedLibecsException: public ApplicationException
+	{
+	private:
+		String^ m_className;
+		String^ m_message;
+	public:
+		WrappedLibecsException(const libecs::Exception& msg)
+			: m_className(Marshal::PtrToStringAnsi((IntPtr)const_cast<char*>((msg.getClassName())))),
+  			  m_message(Marshal::PtrToStringAnsi((IntPtr)const_cast<char*>(msg.message().c_str())))
+		{
+		}
+
+		property String^ Message
+		{
+		public:
+			virtual String^ get() new
+			{
+				return m_message;
+			}
+		}
+
+		property String^ Source
+		{
+		public:
+			virtual String^ get() new
+			{
+				return m_className;
+			}
+		}
+	};
+
+	public ref class WrappedStdException: public ApplicationException
+	{
+	private:
+		String^ m_message;
+		String^ m_className;
+
+	public:
+		WrappedStdException(const std::exception& e)
+			: m_message(Marshal::PtrToStringAnsi((IntPtr)const_cast<char*>(e.what()))),
+  			  m_className(Marshal::PtrToStringAnsi((IntPtr)const_cast<char*>(typeid(e).name())))
+		{
+		}
+
+
+		property String^ Message
+		{
+		public:
+			virtual String^ get() new
+			{
+				return m_message;
+			}
+		}
+
+		property String^ Source
+		{
+		public:
+			virtual String^ get() new
+			{
+				return m_className;
+			}
+		}
+	};
+
     public ref class WrappedSimulator
     {
     private:
-        libemc::Simulator * m_simulator;
-        std::vector<libecs::Polymorph> ExchangeType(ArrayList ^ l_arrayList);
-        EventChecker * m_eventChecker;
-    public:
+        libemc::Simulator* m_simulator;
+		libemc::EventCheckerSharedPtr* m_eventChecker;
+		libemc::EventHandlerSharedPtr* m_eventHandler;
+
+	private:
+		std::vector<libecs::Polymorph> ExchangeType(System::Collections::IEnumerable^ l_list);
+
+	public:
         static int s_flagSettable = 0;
         static int s_flagGettable = 1;
         static int s_flagLoadable = 2;
         static int s_flagSavable = 3;
-        WrappedSimulator();
         WrappedSimulator(array<String^> ^ l_dmPath);
         ~WrappedSimulator();
         void CreateEntity(String ^ l_classname, String ^ l_fullIDString);
@@ -91,30 +160,19 @@ namespace EcellCoreLib
         List<bool> ^ GetStepperPropertyAttributes(String ^ l_stepperID, String ^ l_propertyName);
         WrappedPolymorph ^ GetStepperPropertyList(String ^ aStepperID);
         void Initialize();
-        void LoadEntityProperty(String ^ l_fullPNString, ArrayList ^ l_arrayList);
-        void LoadEntityProperty(String ^ l_fullPNString, WrappedPolymorph ^ l_wrappedPolymorph);
-        void LoadStepperProperty(String ^ l_stepperID, String ^ l_propertyName, ArrayList ^ l_arrayList);
-        void LoadStepperProperty(String ^ l_stepperID, String ^ l_propertyName, WrappedPolymorph ^ l_wrappedPolymorph);
+		void LoadEntityProperty(String ^ l_fullPNString, System::Collections::IEnumerable^ l_list);
+		void LoadEntityProperty(String ^ l_fullPNString, WrappedPolymorph^ l_wrappedPolymorph);
+		void LoadStepperProperty(String ^ l_stepperID, String ^ l_propertyName, System::Collections::IEnumerable^ l_list);
+        void LoadStepperProperty(String ^ l_stepperID, String ^ l_propertyName, WrappedPolymorph^ l_wrappedPolymorph);
         void Run();
         void Run(Double aDuration);
-        void SetEntityProperty(String ^ l_fullPNString, ArrayList ^ l_arrayList);
-        void SetEntityProperty(String ^ l_fullPNString, WrappedPolymorph ^ l_value);
-        void SetStepperProperty(String ^ l_stepperID, String ^ l_propertyName, ArrayList ^ l_arrayList);
-        void SetStepperProperty(String ^ aStepperID, String ^ aPropertyName, WrappedPolymorph ^ aValue);
+		void SetEntityProperty(String ^ l_fullPNString, System::Collections::IEnumerable^ l_list);
+        void SetEntityProperty(String ^ l_fullPNString, WrappedPolymorph^ l_value);
+		void SetStepperProperty(String ^ l_stepperID, String ^ l_propertyName, System::Collections::IEnumerable^ l_list);
+        void SetStepperProperty(String ^ aStepperID, String ^ aPropertyName, WrappedPolymorph^ aValue);
         void Step(Int32 aNumSteps);
         void Stop();
         void Suspend();
-        /*
-        WrappedPolymorph ^ saveStepperProperty( String ^ aStepperID, String ^ aPropertyName );
-        String ^ getEntityClassName( String ^ aFullIDString );
-        Boolean isEntityExist( String ^ aFullIDString );
-        WrappedPolymorph ^ saveEntityProperty( String ^ aFullPNString );
-        WrappedPolymorph ^ getLoggerPolicy( String ^ aFullPNString );
-        void setLoggerMinimumInterval( String ^ aFullPNString, Double anInterval );
-        void setLoggerPolicy( String ^ aFullPNString, WrappedPolymorph ^ aParamList );
-        void setEventChecker( WrappedEventChecker ^ aEventChecker );
-        void setEventHandler( WrappedEventHandler ^ anEventHandler );
-         */
     };
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

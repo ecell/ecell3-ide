@@ -1,3 +1,5 @@
+#include "boost/shared_array.hpp"
+
 #include "libemc/Simulator.hpp"
 #include "WrappedSimulator.hpp"
 
@@ -10,20 +12,36 @@ using namespace System::Runtime::InteropServices;
 
 
 namespace EcellCoreLib {
-    WrappedSimulator::WrappedSimulator()
-    {
-        try
-        {
-            libecs::initialize();
-        }
-        catch(libecs::Exception l_ex)
-        {
-            throw gcnew Exception("Failed to initilaize \"libecs\".");
-        }
-        m_simulator = new libemc::Simulator();
-    }
+	static void freeHGlobalBuffer(void *ptr)
+	{
+		Marshal::FreeHGlobal((IntPtr)ptr);
+	}
+
+	class WrappedCString: public boost::shared_array<char>
+	{
+	public:
+		inline WrappedCString(const WrappedCString& that)
+			: boost::shared_array<char>(that)
+		{
+		}
+
+		inline WrappedCString(String^ str)
+			: boost::shared_array<char>(
+				reinterpret_cast<char*>(
+					(void*)Marshal::StringToHGlobalAnsi(str)),
+				reinterpret_cast<void(*)(char*)>(&freeHGlobalBuffer))
+		{
+		}
+
+		inline operator std::string() const
+		{
+			return std::string(get());
+		}
+	};
 
     WrappedSimulator::WrappedSimulator(array<String^>^ l_dmPaths)
+		: m_eventHandler(new libemc::EventHandlerSharedPtr(new EventHandler())),
+	      m_eventChecker(new libemc::EventCheckerSharedPtr(new EventChecker()))
     {
         try
         {
@@ -33,140 +51,133 @@ namespace EcellCoreLib {
         {
             throw gcnew Exception("Failed to initilaize \"libecs\".");
         }
-		char* concatenatedPath = reinterpret_cast<char*>(
-			(void*)Marshal::StringToHGlobalAnsi(
-					String::Join(
+		if (l_dmPaths != nullptr)
+		{
+			libecs::setDMSearchPath(
+				WrappedCString(String::Join(
 						Path::PathSeparator.ToString(), l_dmPaths)));
-        libecs::setDMSearchPath(concatenatedPath);
-		Marshal::FreeHGlobal((System::IntPtr)concatenatedPath);
+		}
         m_simulator = new libemc::Simulator();
+		m_simulator->setEventHandler(libemc::EventHandlerSharedPtr(new EventHandler()));
+		m_simulator->setEventChecker(libemc::EventCheckerSharedPtr(new EventChecker()));
     }
 
     WrappedSimulator::~WrappedSimulator()
     {
+		delete m_simulator;
+		delete m_eventHandler;
+		delete m_eventChecker;
         libecs::finalize();
     }
 
-    void WrappedSimulator::CreateEntity(String ^ l_className, String ^ l_fullIDString)
+    void WrappedSimulator::CreateEntity(String^ l_className, String^ l_fullIDString)
     {
-        try
-        {
-            std::string l_stdClassName = (char *)(void *)Marshal::StringToHGlobalAnsi(l_className);
-            std::string l_stdFullIDString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullIDString);
-            WrappedSimulator::m_simulator -> createEntity(l_stdClassName, l_stdFullIDString);
+		try
+		{
+            m_simulator->createEntity(
+				WrappedCString(l_className),
+				WrappedCString(l_fullIDString));
+		}
+		catch (const libecs::Exception& l_ex)
+		{
+			throw gcnew WrappedLibecsException(l_ex);
         }
-        catch(libecs::Exception l_ex)
-        {
-            throw gcnew Exception(
-                "Can't create the \"" + l_fullIDString + "\" entity of the \"" + l_className + "\" class. [" +
-                gcnew String(l_ex.message().c_str()) + "]");
-        }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't create the \"" + l_fullIDString + "\" entity of the \"" + l_className + "\" class. [" +
-                l_ex -> ToString() + "]");
-        }
+		catch (const std::exception& e)
+		{
+			throw gcnew WrappedStdException(e);
+		}
     }
 
-    void WrappedSimulator::CreateLogger(String ^ l_fullPNString)
+    void WrappedSimulator::CreateLogger(String^ l_fullPNString)
     {
         try
         {
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            WrappedSimulator::m_simulator -> createLogger(l_stdFullPNString);
+            m_simulator->createLogger(WrappedCString(l_fullPNString));
         }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't create the \"" + l_fullPNString + "\" logger. [" + l_ex -> ToString() + "]");
-        }
+		catch (const libecs::Exception& l_ex)
+		{
+			throw gcnew WrappedLibecsException(l_ex);
+		}
     }
 
-    void WrappedSimulator::CreateLogger(String ^ l_fullPNString, WrappedPolymorph ^ l_paramList)
+    void WrappedSimulator::CreateLogger(String^ l_fullPNString, WrappedPolymorph^ l_paramList)
     {
         try
         {
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            libecs::Polymorph * l_polymorph = l_paramList -> GetPolymorph();
-            WrappedSimulator::m_simulator -> createLogger(l_stdFullPNString, * l_polymorph);
+            m_simulator->createLogger(
+					WrappedCString(l_fullPNString),
+					l_paramList->GetPolymorph());
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& l_ex)
         {
-            throw gcnew Exception(
-                "Can't create the \"" + l_fullPNString + "\" logger. [" + l_ex -> ToString() + "]");
+			throw gcnew WrappedLibecsException(l_ex);
         }
     }
 
     void WrappedSimulator::CreateStepper(String ^ l_className, String ^ l_ID)
     {
-        try
-        {
-            std::string l_stdClassName = (char *)(void *)Marshal::StringToHGlobalAnsi(l_className);
-            std::string l_stdID = (char *)(void *)Marshal::StringToHGlobalAnsi(l_ID);
-            WrappedSimulator::m_simulator -> createStepper(l_stdClassName, l_stdID);
-        }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't create the \"" + l_ID + "\" stepper of the \"" + l_className + "\" class. [" +
-                l_ex -> ToString() + "]");
-        }
+		try
+		{
+            m_simulator->createStepper(
+					WrappedCString(l_className),
+					WrappedCString(l_ID));
+		}
+		catch (const libecs::Exception& e)
+		{
+			throw gcnew WrappedLibecsException(e);
+		}
     }
 
-    void WrappedSimulator::DeleteEntity(String ^ l_fullIDString)
+    void WrappedSimulator::DeleteEntity(String^ l_fullIDString)
     {
         try
         {
-            std::string l_stdFullIDString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullIDString);
-            WrappedSimulator::m_simulator -> deleteEntity(l_stdFullIDString);
+            m_simulator->deleteEntity(WrappedCString(l_fullIDString));
         }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't delete the \"" + l_fullIDString + "\" entity. [" + l_ex -> ToString() + "]");
+		catch (const libecs::Exception& e)
+		{
+			throw gcnew WrappedLibecsException(e);
         }
     }
 
-    void WrappedSimulator::DeleteStepper(String ^ l_ID)
+    void WrappedSimulator::DeleteStepper(String^ l_ID)
     {
         try
         {
-            std::string l_stdID = (char *)(void *)Marshal::StringToHGlobalAnsi(l_ID);
-            WrappedSimulator::m_simulator -> deleteStepper(l_stdID);
+            m_simulator->deleteStepper(WrappedCString(l_ID));
         }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't delete the \"" + l_ID + "\" stepper. [" + l_ex -> ToString() + "]");
+		catch (const libecs::Exception& e)
+		{
+			throw gcnew WrappedLibecsException(e);
         }
-    }
+	}
 
-    std::vector<libecs::Polymorph> WrappedSimulator::ExchangeType(ArrayList ^ l_arrayList)
+	libecs::PolymorphVector WrappedSimulator::ExchangeType(System::Collections::IEnumerable^ l_list)
     {
         try
         {
-            std::vector<libecs::Polymorph> l_vector;
-            for(int i = 0; i < l_arrayList -> Count; i++)
+			libecs::PolymorphVector l_vector;
+			for (System::Collections::IEnumerator^ i = l_list->GetEnumerator(); i->MoveNext(); delete i)
             {
-                if((l_arrayList[i] -> GetType()) -> Equals(ArrayList::typeid))
+				System::Object^ elem = i->Current;
+				if (System::Collections::IEnumerable::typeid->IsInstanceOfType(elem))
                 {
-                    std::vector<libecs::Polymorph> l_subVector
-                            = WrappedSimulator::ExchangeType((ArrayList ^)l_arrayList[i]);
-                    l_vector.push_back(libecs::Polymorph(l_subVector));
+                    l_vector.push_back(
+							libecs::Polymorph(
+								WrappedSimulator::ExchangeType(
+									(System::Collections::IEnumerable^)elem)));
                 }
                 else
                 {
-                    std::string l_value = (char *)(void *)Marshal::StringToHGlobalAnsi((String ^)l_arrayList[i]);
-                    l_vector.push_back(libecs::Polymorph(l_value));
+                    l_vector.push_back(libecs::Polymorph(WrappedCString(elem->ToString())));
                 }
-            }
+			}
             return l_vector;
-        }
-        catch(Exception ^ l_ex)
+		}
+		catch (Exception ^ l_ex)
         {
             throw gcnew Exception(
-                "Can't exchange the \"Arraylist\" for the \"PolymorphVector\". [" + l_ex -> ToString() + "]");
+                "Can't exchange the \"System::Collections::IEnumerable\" for the \"PolymorphVector\". [" + l_ex->ToString() + "]");
         }
     }
 
@@ -174,163 +185,143 @@ namespace EcellCoreLib {
     {
         try
         {
-            return WrappedSimulator::m_simulator -> getCurrentTime();
+            return m_simulator->getCurrentTime();
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception(
-                "Can't obtain the current simulation time. [" + l_ex -> ToString() + "]");
-        }
+            throw gcnew WrappedLibecsException(e);
+		}
     }
 
-    WrappedPolymorph ^ WrappedSimulator::GetDMInfo()
+    WrappedPolymorph^ WrappedSimulator::GetDMInfo()
     {
         try
         {
-            libecs::Polymorph libecsPolymorph = WrappedSimulator::m_simulator -> getDMInfo();
-            return gcnew WrappedPolymorph( & libecsPolymorph );
+            return gcnew WrappedPolymorph(m_simulator->getDMInfo());
         }
-        catch(Exception ^ l_ex)
+		catch (const libecs::Exception& e)
         {
-            throw gcnew Exception(
-                "Can't obtain the DB information. [" + l_ex -> ToString() + "]");
+			throw gcnew WrappedLibecsException(e);
         }
     }
 
-    WrappedPolymorph ^ WrappedSimulator::GetEntityList(String ^ l_entityTypeString, String ^ l_systemPathString)
+    WrappedPolymorph^ WrappedSimulator::GetEntityList(String^ l_entityTypeString, String^ l_systemPathString)
     {
         try
         {
-            std::string l_stdEntityTypeString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_entityTypeString);
-            std::string l_stdSystemPathString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_systemPathString);
-            libecs::Polymorph l_polymorph
-                    = WrappedSimulator::m_simulator -> getEntityList(l_stdEntityTypeString, l_stdSystemPathString);
-            return gcnew WrappedPolymorph(& l_polymorph);
+            return gcnew WrappedPolymorph(
+					m_simulator->getEntityList(
+						WrappedCString(l_entityTypeString),
+						WrappedCString(l_systemPathString)));
         }
-        catch(Exception ^ l_ex)
+		catch (const libecs::Exception& e)
         {
-            throw gcnew Exception(
-                "Can't obtain the \"" + l_entityTypeString + "\" entity list of the \"" +
-                l_systemPathString + "\" system. [" +
-                l_ex -> ToString() + "]");
+            throw gcnew WrappedLibecsException(e);
         }
     }
 
-    WrappedPolymorph ^ WrappedSimulator::GetEntityProperty(String ^ l_fullPNString)
+    WrappedPolymorph^ WrappedSimulator::GetEntityProperty(String^ l_fullPNString)
     {
         try
         {
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            libecs::Polymorph l_polymorph = WrappedSimulator::m_simulator -> getEntityProperty(l_stdFullPNString);
-            return gcnew WrappedPolymorph(& l_polymorph);
+            return gcnew WrappedPolymorph(
+					m_simulator->getEntityProperty(WrappedCString(l_fullPNString)));
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception(
-                "Can't obtain the \"" + l_fullPNString + "\" entity property. [" + l_ex -> ToString() + "]");
+			throw gcnew WrappedLibecsException(e);
         }
     }
 
-    List<bool> ^ WrappedSimulator::GetEntityPropertyAttributes(String ^ l_fullPNString)
+    List<bool>^ WrappedSimulator::GetEntityPropertyAttributes(String^ l_fullPNString)
     {
         try
         {
             List<bool> ^ l_list = gcnew List<bool>();
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            std::vector<libecs::Polymorph> l_vector
-                    = (std::vector<libecs::Polymorph>)
-                            (WrappedSimulator::m_simulator -> getEntityPropertyAttributes(l_stdFullPNString));
+            libecs::PolymorphVector l_vector(
+					m_simulator->getEntityPropertyAttributes(
+						WrappedCString(l_fullPNString)));
             if(l_vector[WrappedSimulator::s_flagSettable].asInteger() == 0)
             {
-                l_list -> Add(false);
+                l_list->Add(false);
             }
             else
             {
-                l_list -> Add(true);
+                l_list->Add(true);
             }
             if(l_vector[WrappedSimulator::s_flagGettable].asInteger() == 0)
             {
-                l_list -> Add(false);
+                l_list->Add(false);
             }
             else
             {
-                l_list -> Add(true);
+                l_list->Add(true);
             }
             if(l_vector[WrappedSimulator::s_flagLoadable].asInteger() == 0)
             {
-                l_list -> Add(false);
+                l_list->Add(false);
             }
             else
             {
-                l_list -> Add(true);
+                l_list->Add(true);
             }
             if(l_vector[WrappedSimulator::s_flagSavable].asInteger() == 0)
             {
-                l_list -> Add(false);
+                l_list->Add(false);
             }
             else
             {
-                l_list -> Add(true);
+                l_list->Add(true);
             }
             return l_list;
         }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't obtain the attributes of the \"" + l_fullPNString + "\" entity property. [" +
-                l_ex -> ToString() + "]");
+		catch(const libecs::Exception e)
+		{
+			throw gcnew WrappedLibecsException(e);
         }
     }
 
-    WrappedPolymorph ^ WrappedSimulator::GetEntityPropertyList(String ^ l_fullIDString)
+    WrappedPolymorph^ WrappedSimulator::GetEntityPropertyList(String ^ l_fullIDString)
     {
         try
         {
-            std::string l_stdFullIDString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullIDString);
-            libecs::Polymorph l_polymorph = WrappedSimulator::m_simulator -> getEntityPropertyList(l_stdFullIDString);
-            return gcnew WrappedPolymorph(& l_polymorph);
+            return gcnew WrappedPolymorph(
+					 m_simulator->getEntityPropertyList(WrappedCString(l_fullIDString)));
         }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't obtain the \"" + l_fullIDString + "\" entity property list. [" + l_ex -> ToString() + "]");
+		catch(const libecs::Exception e)
+		{
+			throw gcnew WrappedLibecsException(e);
         }
-    }
+	}
 
-    WrappedDataPointVector ^ WrappedSimulator::GetLoggerData(String ^ l_fullPNString)
+    WrappedDataPointVector^ WrappedSimulator::GetLoggerData(String ^ l_fullPNString)
     {
         try
         {
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            boost::shared_ptr<libecs::DataPointVector> l_dataPointVector
-                    = WrappedSimulator::m_simulator -> getLoggerData(l_stdFullPNString);
-            return gcnew WrappedDataPointVector(& l_dataPointVector);
+            return gcnew WrappedDataPointVector(
+					m_simulator->getLoggerData(WrappedCString(l_fullPNString)));
         }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't obtain the \"" + l_fullPNString + "\" logger data. [" + l_ex -> ToString() + "]");
+		catch(const libecs::Exception e)
+		{
+			throw gcnew WrappedLibecsException(e);
         }
-    }
+	}
 
-    WrappedDataPointVector ^ WrappedSimulator::GetLoggerData(
+    WrappedDataPointVector^ WrappedSimulator::GetLoggerData(
             String ^ l_fullPNString,
             Double l_startTime,
             Double l_endTime)
     {
         try
         {
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            boost::shared_ptr<libecs::DataPointVector> l_dataPointVector
-                    = WrappedSimulator::m_simulator -> getLoggerData(l_stdFullPNString, l_startTime, l_endTime);
-            return gcnew WrappedDataPointVector(& l_dataPointVector);
+            return gcnew WrappedDataPointVector(m_simulator->getLoggerData(
+					WrappedCString(l_fullPNString), l_startTime, l_endTime));
         }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't obtain the \"" + l_fullPNString + "\" logger data. [" + l_ex -> ToString() + "]");
+		catch(const libecs::Exception e)
+		{
+			throw gcnew WrappedLibecsException(e);
         }
-    }
+	}
 
     WrappedDataPointVector ^ WrappedSimulator::GetLoggerData(
             String ^ l_fullPNString,
@@ -340,29 +331,28 @@ namespace EcellCoreLib {
     {
         try
         {
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            boost::shared_ptr<libecs::DataPointVector> l_dataPointVector
-                    = WrappedSimulator::m_simulator -> getLoggerData(l_stdFullPNString, l_startTime, l_endTime, l_interval);
-            return gcnew WrappedDataPointVector(& l_dataPointVector);
+            return gcnew WrappedDataPointVector(
+					m_simulator->getLoggerData(
+						WrappedCString(l_fullPNString),
+						l_startTime, l_endTime, l_interval));
         }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't obtain the \"" + l_fullPNString + "\" logger data. [" + l_ex -> ToString() + "]");
+		catch(const libecs::Exception e)
+		{
+			throw gcnew WrappedLibecsException(e);
         }
-    }
+	}
 
     Double WrappedSimulator::GetLoggerEndTime(String ^ l_fullPNString)
     {
         try
         {
             std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            return WrappedSimulator::m_simulator -> getLoggerEndTime(l_stdFullPNString);
+            return m_simulator->getLoggerEndTime(l_stdFullPNString);
         }
         catch(Exception ^ l_ex)
         {
             throw gcnew Exception(
-                "Can't obtain the end time of the \"" + l_fullPNString + "\" logger. [" + l_ex -> ToString() + "]");
+                "Can't obtain the end time of the \"" + l_fullPNString + "\" logger. [" + l_ex->ToString() + "]");
         }
     }
 
@@ -370,13 +360,12 @@ namespace EcellCoreLib {
     {
         try
         {
-            libecs::Polymorph l_polymorph = WrappedSimulator::m_simulator -> getLoggerList();
-            return gcnew WrappedPolymorph(& l_polymorph);
+            return gcnew WrappedPolymorph(m_simulator->getLoggerList());
         }
         catch(Exception ^ l_ex)
         {
             throw gcnew Exception(
-                "Can't obtain the logger list. [" + l_ex -> ToString() + "]");
+                "Can't obtain the logger list. [" + l_ex->ToString() + "]");
         }
     }
 
@@ -385,13 +374,13 @@ namespace EcellCoreLib {
         try
         {
             std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            return WrappedSimulator::m_simulator -> getLoggerMinimumInterval(l_stdFullPNString);
+            return m_simulator->getLoggerMinimumInterval(l_stdFullPNString);
         }
         catch(Exception ^ l_ex)
         {
             throw gcnew Exception(
                 "Can't obtain the minimum interval of the \"" + l_fullPNString + "\" logger. [" +
-                l_ex -> ToString() + "]");
+                l_ex->ToString() + "]");
         }
     }
 
@@ -400,28 +389,23 @@ namespace EcellCoreLib {
         try
         {
             std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            return WrappedSimulator::m_simulator -> getLoggerSize(l_stdFullPNString);
+            return m_simulator->getLoggerSize(l_stdFullPNString);
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception(
-                "Can't obtain the size of the \"" + l_fullPNString + "\" logger. [" +
-                l_ex -> ToString() + "]");
+            throw gcnew WrappedLibecsException(e);
         }
     }
 
     Double WrappedSimulator::GetLoggerStartTime(String ^ l_fullPNString)
     {
         try
-        {
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            return WrappedSimulator::m_simulator -> getLoggerStartTime(l_stdFullPNString);
+		{
+            return m_simulator->getLoggerStartTime(WrappedCString(l_fullPNString));
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception(
-                "Can't obtain the start time of the \"" + l_fullPNString + "\" logger. [" +
-                l_ex -> ToString() + "]");
+            throw gcnew WrappedLibecsException(e);
         }
     }
 
@@ -429,12 +413,11 @@ namespace EcellCoreLib {
     {
         try
         {
-            libecs::Polymorph l_polymorph = WrappedSimulator::m_simulator -> getNextEvent();
-            return gcnew WrappedPolymorph(& l_polymorph);
+            return gcnew WrappedPolymorph(m_simulator->getNextEvent());
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception("Can't obtain a next event. [" + l_ex -> ToString() + "]");
+            throw gcnew WrappedLibecsException(e);
         }
     }
 
@@ -442,29 +425,26 @@ namespace EcellCoreLib {
     {
         try
         {
-            std::string l_stdStepperID = (char *)(void *)Marshal::StringToHGlobalAnsi(l_stepperID);
-            std::string l_stdClassName = WrappedSimulator::m_simulator -> getStepperClassName(l_stdStepperID);
-            return gcnew String(l_stdClassName.c_str());
+			return Marshal::PtrToStringAnsi(
+					(IntPtr)const_cast<char*>(
+						m_simulator->getStepperClassName(
+							WrappedCString(l_stepperID)).c_str()));
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception(
-                "Can't obtain the name of the \"" + l_stepperID + "\" stepper. [" +
-                l_ex -> ToString() + "]");
+            throw gcnew WrappedLibecsException(e);
         }
-    }
+	}
 
     WrappedPolymorph ^ WrappedSimulator::GetStepperList()
     {
         try
         {
-            libecs::Polymorph l_polymorph = WrappedSimulator::m_simulator -> getStepperList();
-            return gcnew WrappedPolymorph(& l_polymorph);
+            return gcnew WrappedPolymorph(m_simulator->getStepperList());
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception(
-                "Can't obtain the stepper list. [" + l_ex -> ToString() + "]");
+            throw gcnew WrappedLibecsException(e);
         }
     }
 
@@ -472,16 +452,14 @@ namespace EcellCoreLib {
     {
         try
         {
-            std::string l_stdStepperID = (char *)(void *)Marshal::StringToHGlobalAnsi(l_stepperID);
-            std::string l_stdPropertyName = (char *)(void *)Marshal::StringToHGlobalAnsi(l_propertyName);
-            libecs::Polymorph l_polymorph = WrappedSimulator::m_simulator -> getStepperProperty(l_stdStepperID, l_stdPropertyName);
-            return gcnew WrappedPolymorph(& l_polymorph);
+            return gcnew WrappedPolymorph(
+					m_simulator->getStepperProperty(
+						WrappedCString(l_stepperID),
+						WrappedCString(l_propertyName)));
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception(
-                "Can't obtain the \"" + l_propertyName + "\" property of the \"" + l_stepperID + "\" stepper. [" +
-                l_ex -> ToString() + "]");
+            throw gcnew WrappedLibecsException(e);
         }
     }
 
@@ -490,65 +468,60 @@ namespace EcellCoreLib {
         try
         {
             List<bool> ^ l_list = gcnew List<bool>();
-            std::string l_stdStepperID = (char *)(void *)Marshal::StringToHGlobalAnsi(l_stepperID);
-            std::string l_stdPropertyName = (char *)(void *)Marshal::StringToHGlobalAnsi(l_propertyName);
-            std::vector<libecs::Polymorph> l_vector = (std::vector<libecs::Polymorph>)(WrappedSimulator::m_simulator -> getStepperPropertyAttributes(l_stdStepperID, l_stdPropertyName));
+            libecs::PolymorphVector l_vector = m_simulator->getStepperPropertyAttributes(
+					WrappedCString(l_stepperID),
+					WrappedCString(l_propertyName));
             if(l_vector[WrappedSimulator::s_flagSettable].asInteger() == 0)
             {
-                l_list -> Add(false);
+                l_list->Add(false);
             }
             else
             {
-                l_list -> Add(true);
+                l_list->Add(true);
             }
             if(l_vector[WrappedSimulator::s_flagGettable].asInteger() == 0)
             {
-                l_list -> Add(false);
+                l_list->Add(false);
             }
             else
             {
-                l_list -> Add(true);
+                l_list->Add(true);
             }
             if(l_vector[WrappedSimulator::s_flagLoadable].asInteger() == 0)
             {
-                l_list -> Add(false);
+                l_list->Add(false);
             }
             else
             {
-                l_list -> Add(true);
+                l_list->Add(true);
             }
             if(l_vector[WrappedSimulator::s_flagSavable].asInteger() == 0)
             {
-                l_list -> Add(false);
+                l_list->Add(false);
             }
             else
             {
-                l_list -> Add(true);
+                l_list->Add(true);
             }
             return l_list;
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& l_ex)
         {
-            throw gcnew Exception(
-                "Can't obtain the \"" + l_propertyName + "\" attribute of the \"" + l_stepperID + "\" stepper. [" +
-                l_ex -> ToString() + "]");
+			throw gcnew WrappedLibecsException(l_ex);
         }
     }
 
-    WrappedPolymorph ^ WrappedSimulator::GetStepperPropertyList(String ^ l_stepperID)
+    WrappedPolymorph^ WrappedSimulator::GetStepperPropertyList(String ^ l_stepperID)
     {
         try
         {
-            std::string l_stdStepperID = (char *)(void *)Marshal::StringToHGlobalAnsi(l_stepperID);
-            libecs::Polymorph l_libecsPolymorph =
-                WrappedSimulator::m_simulator -> getStepperPropertyList(l_stdStepperID);
-            return gcnew WrappedPolymorph(& l_libecsPolymorph);
+            return gcnew WrappedPolymorph(
+					m_simulator->getStepperPropertyList(
+						WrappedCString(l_stepperID)));
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& l_ex)
         {
-            throw gcnew Exception(
-                "Can't obtain the property list of the \"" + l_stepperID + "\" stepper. [" +
-                l_ex -> ToString() + "]");
+            throw gcnew WrappedLibecsException(l_ex);
         }
     }
 
@@ -556,9 +529,9 @@ namespace EcellCoreLib {
     {
         try
         {
-            // WrappedSimulator::m_simulator -> initialize();
-            // WrappedSimulator::m_simulator -> getEntityProperty("System::/:Size");
-            WrappedSimulator::m_simulator -> saveEntityProperty("System::/:Name");
+            // m_simulator->initialize();
+            // m_simulator->getEntityProperty("System::/:Size");
+            m_simulator->saveEntityProperty("System::/:Name");
         }
         catch (libecs::Exception l_ex)
         {
@@ -566,88 +539,50 @@ namespace EcellCoreLib {
         }
         catch (Exception ^ l_ex)
         {
-            throw gcnew Exception ("Can't initialize the simulator. [" + l_ex -> ToString() + "]");
+            throw gcnew Exception ("Can't initialize the simulator. [" + l_ex->ToString() + "]");
         }
     }
 
-    void WrappedSimulator::LoadEntityProperty(String ^ l_fullPNString, ArrayList ^ l_arrayList)
+    void WrappedSimulator::LoadEntityProperty(String ^ l_fullPNString, System::Collections::IEnumerable ^ l_list)
     {
         try
         {
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            std::vector<libecs::Polymorph> l_vector = WrappedSimulator::ExchangeType(l_arrayList);
-            WrappedSimulator::m_simulator -> loadEntityProperty(l_stdFullPNString, l_vector);
+            m_simulator->loadEntityProperty(
+					WrappedCString(l_fullPNString),
+					WrappedSimulator::ExchangeType(l_list));
         }
-        catch(boost::bad_lexical_cast l_ex)
+        catch(const libecs::Exception& l_ex)
         {
-            throw gcnew Exception(
-                "Can't load the \"" + l_fullPNString + "\" entity property. [" +
-                gcnew String(l_ex.what()) + "]");
-        }
-        catch(libecs::Exception l_ex)
-        {
-            throw gcnew Exception(
-                "Can't load the \"" + l_fullPNString + "\" entity property. [" +
-                gcnew String(l_ex.message().c_str()) + "]");
-        }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't load the \"" + l_fullPNString + "\" entity property. [" +
-                l_ex -> ToString() + "]");
+			throw gcnew WrappedLibecsException(l_ex);
         }
     }
 
-    void WrappedSimulator::LoadEntityProperty(String ^ l_fullPNString, WrappedPolymorph ^ l_wrappedPolymorph)
+    void WrappedSimulator::LoadEntityProperty(String^ l_fullPNString, WrappedPolymorph^ l_wrappedPolymorph)
     {
         try
         {
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            WrappedSimulator::m_simulator ->
-                    loadEntityProperty(l_stdFullPNString, * (l_wrappedPolymorph -> GetPolymorph()));
+            m_simulator->loadEntityProperty(
+					WrappedCString(l_fullPNString),
+					l_wrappedPolymorph->GetPolymorph());
         }
-        catch(boost::bad_lexical_cast l_ex)
+        catch(const libecs::Exception& l_ex)
         {
-            throw gcnew Exception(
-                "Can't load the \"" + l_fullPNString + "\" entity property. [" +
-                gcnew String(l_ex.what()) + "]");
-        }
-        catch(libecs::Exception l_ex)
-        {
-            throw gcnew Exception(
-                "Can't load the \"" + l_fullPNString + "\" entity property. [" +
-                gcnew String(l_ex.message().c_str()) + "]");
-        }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception(
-                "Can't load the \"" + l_fullPNString + "\" entity property. [" + l_ex->ToString() + "]");
+			throw gcnew WrappedLibecsException(l_ex);
         }
     }
 
-    void WrappedSimulator::LoadStepperProperty(String ^ l_stepperID, String ^ l_propertyName, ArrayList ^ l_arrayList)
+    void WrappedSimulator::LoadStepperProperty(String ^ l_stepperID, String ^ l_propertyName, System::Collections::IEnumerable^ l_list)
     {
         try
         {
-            std::string l_stdStepperID = (char *)(void *)Marshal::StringToHGlobalAnsi(l_stepperID);
-            std::string l_stdPropertyName = (char *)(void *)Marshal::StringToHGlobalAnsi(l_propertyName);
-            std::vector<libecs::Polymorph> l_vector = WrappedSimulator::ExchangeType(l_arrayList);
-            WrappedSimulator::m_simulator -> loadStepperProperty(l_stdStepperID, l_stdPropertyName, l_vector);
+            m_simulator->loadStepperProperty(
+					WrappedCString(l_stepperID),
+					WrappedCString(l_propertyName),
+					WrappedSimulator::ExchangeType(l_list));
         }
-        catch(boost::bad_lexical_cast l_ex)
+        catch (const libecs::Exception& l_ex)
         {
-            throw gcnew Exception("Can't load the \"" + l_propertyName + "\" stepper property of the \"" +
-                l_stepperID + "\" stepper. [" + gcnew String(l_ex.what()) + "]");
-        }
-        catch(libecs::Exception l_ex)
-        {
-            throw gcnew Exception("Can't load the \"" + l_propertyName + "\" stepper property of the \"" +
-                l_stepperID + "\" stepper. [" + gcnew String(l_ex.message().c_str()) + "]");
-        }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception("Can't load the \"" + l_propertyName + "\" stepper property of the \"" +
-                l_stepperID + "\" stepper. [" + l_ex->ToString() + "]");
+            throw gcnew WrappedLibecsException(l_ex);
         }
     }
 
@@ -656,25 +591,14 @@ namespace EcellCoreLib {
     {
         try
         {
-            std::string l_stdStepperID = (char *)(void *)Marshal::StringToHGlobalAnsi(l_stepperID);
-            std::string l_stdPropertyName = (char *)(void *)Marshal::StringToHGlobalAnsi(l_propertyName);
-            WrappedSimulator::m_simulator ->
-                loadStepperProperty(l_stdStepperID, l_stdPropertyName, * (l_wrappedPolymorph -> GetPolymorph()));
+            m_simulator->loadStepperProperty(
+					WrappedCString(l_stepperID),
+					WrappedCString(l_propertyName),
+					l_wrappedPolymorph->GetPolymorph());
         }
-        catch(boost::bad_lexical_cast l_ex)
+        catch(const libecs::Exception& l_ex)
         {
-            throw gcnew Exception("Can't load the \"" + l_propertyName + "\" stepper property of the \"" +
-                l_stepperID + "\" stepper. [" + gcnew String(l_ex.what()) + "]");
-        }
-        catch(libecs::Exception l_ex)
-        {
-            throw gcnew Exception("Can't load the \"" + l_propertyName + "\" stepper property of the \"" +
-                l_stepperID + "\" stepper. [" + gcnew String(l_ex.message().c_str()) + "]");
-        }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception("Can't load the \"" + l_propertyName + "\" stepper property of the \"" +
-                l_stepperID + "\" stepper. [" + l_ex->ToString() + "]");
+			throw gcnew WrappedLibecsException(l_ex);
         }
     }
 
@@ -682,19 +606,11 @@ namespace EcellCoreLib {
     {
         try
         {
-            this -> m_eventChecker = new EventChecker();
-            WrappedSimulator::m_simulator -> setEventChecker(libemc::EventCheckerSharedPtr(this -> m_eventChecker));
-            WrappedSimulator::m_simulator -> setEventHandler(libemc::EventHandlerSharedPtr(new EventHandler()));
-            WrappedSimulator::m_simulator -> run();
+            m_simulator->run();
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& l_ex)
         {
-            throw gcnew Exception("Can't execute the simulator. [" + l_ex->ToString() + "]");
-        }
-        catch(std::exception& l_ex)
-        {
-            throw gcnew Exception(
-                "Can't execute the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
+            throw gcnew WrappedLibecsException(l_ex);
         }
     }
 
@@ -702,41 +618,32 @@ namespace EcellCoreLib {
     {
         try
         {
-            if (this -> m_eventChecker != nullptr && this -> m_eventChecker -> GetSuspendFlag())
+            if (reinterpret_cast<EventChecker*>(m_eventChecker->get())->GetSuspendFlag())
             {
-                this -> m_eventChecker -> SetSuspendFlag(false);
+                reinterpret_cast<EventChecker*>(m_eventChecker->get())->SetSuspendFlag(false);
             }
             else
             {
-                this -> m_eventChecker = new EventChecker();
-                WrappedSimulator::m_simulator -> setEventChecker(libemc::EventCheckerSharedPtr(this -> m_eventChecker));
-                WrappedSimulator::m_simulator -> setEventHandler(libemc::EventHandlerSharedPtr(new EventHandler()));
-                WrappedSimulator::m_simulator -> run(aDuration);
+                m_simulator->run(aDuration);
             }
         }
-        catch(std::exception& l_ex)
+		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception(
-                "Can't execute the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception("Can't execute the simulator. [" + l_ex->ToString() + "]");
+            throw gcnew WrappedLibecsException(e);
         }
     }
 
-    void WrappedSimulator::SetEntityProperty(String ^ l_fullPNString, ArrayList ^ l_arrayList)
+    void WrappedSimulator::SetEntityProperty(String ^ l_fullPNString, System::Collections::IEnumerable ^ l_list)
     {
         try
         {
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            std::vector<libecs::Polymorph> l_vector = WrappedSimulator::ExchangeType(l_arrayList);
-            WrappedSimulator::m_simulator -> setEntityProperty(l_stdFullPNString, l_vector );
+            m_simulator->setEntityProperty(
+					WrappedCString(l_fullPNString),
+					WrappedSimulator::ExchangeType(l_list));
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception("Can't set the \"" + l_fullPNString + "\" entity property. [" +
-                l_ex->ToString() + "]");
+            throw gcnew WrappedLibecsException(e);
         }
     }
 
@@ -744,49 +651,44 @@ namespace EcellCoreLib {
     {
         try
         {
-            std::string l_stdFullPNString = (char *)(void *)Marshal::StringToHGlobalAnsi(l_fullPNString);
-            libecs::Polymorph * l_polymorph = l_value -> GetPolymorph();
-            WrappedSimulator::m_simulator -> setEntityProperty(l_stdFullPNString, * l_polymorph);
+            m_simulator->setEntityProperty(WrappedCString(l_fullPNString), l_value->GetPolymorph());
         }
-        catch(Exception ^ l_ex)
+		catch (const libecs::Exception& e)
         {
-            throw gcnew Exception("Can't set the \"" + l_fullPNString + "\" entity property. [" +
-                l_ex->ToString() + "]");
+			throw gcnew WrappedLibecsException(e);
         }
     }
 
-    void WrappedSimulator::SetStepperProperty(String ^ l_stepperID, String ^ l_propertyName, ArrayList ^ l_arrayList )
+    void WrappedSimulator::SetStepperProperty(String ^ l_stepperID, String ^ l_propertyName, System::Collections::IEnumerable ^ l_list )
     {
         try
         {
-            std::string l_stdStepperID = (char *)(void *)Marshal::StringToHGlobalAnsi(l_stepperID);
-            std::string l_stdPropertyName = (char *)(void *)Marshal::StringToHGlobalAnsi(l_propertyName);
-            std::vector<libecs::Polymorph> l_vector = WrappedSimulator::ExchangeType(l_arrayList);
-            WrappedSimulator::m_simulator -> setStepperProperty(l_stdStepperID, l_stdPropertyName, l_vector);
+            m_simulator->setStepperProperty(
+					WrappedCString(l_stepperID),
+					WrappedCString(l_propertyName),
+					WrappedSimulator::ExchangeType(l_list));
         }
-        catch(Exception ^ l_ex)
+		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception("Can't set the \"" + l_propertyName + "\" stepper property of the \"" +
-                l_stepperID + "\" stepper. [" + l_ex->ToString() + "]");
+			throw gcnew WrappedLibecsException(e);
         }
     }
 
     void WrappedSimulator::SetStepperProperty(
-            String ^ l_stepperID,
-            String ^ l_propertyName,
-            WrappedPolymorph ^ l_value )
+            String^ l_stepperID,
+            String^ l_propertyName,
+            WrappedPolymorph^ l_value )
     {
         try
         {
-            std::string l_stdStepperID = (char *)(void *)Marshal::StringToHGlobalAnsi(l_stepperID);
-            std::string l_stdPropertyName = (char *)(void *)Marshal::StringToHGlobalAnsi(l_propertyName);
-            libecs::Polymorph * l_libecsPolymorph = l_value -> GetPolymorph();
-            WrappedSimulator::m_simulator -> setStepperProperty(l_stdStepperID, l_stdPropertyName, * l_libecsPolymorph );
+            m_simulator->setStepperProperty(
+					WrappedCString(l_stepperID),
+					WrappedCString(l_propertyName),
+					l_value->GetPolymorph());
         }
-        catch(Exception ^ l_ex)
+ 		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception("Can't set the \"" + l_propertyName + "\" stepper property of the \"" +
-                l_stepperID + "\" stepper. [" + l_ex->ToString() + "]");
+			throw gcnew WrappedLibecsException(e);
         }
     }
 
@@ -794,16 +696,11 @@ namespace EcellCoreLib {
     {
         try
         {
-            WrappedSimulator::m_simulator -> step(l_numSteps);
+            m_simulator->step(l_numSteps);
         }
-        catch(std::exception l_ex)
+ 		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception(
-                "Can't step the simulator. [" + (gcnew String(l_ex.what()))->Replace("\n", "") + "]");
-        }
-        catch(Exception ^ l_ex)
-        {
-            throw gcnew Exception("Can't step the simulator. [" + l_ex->ToString() + "]");
+			throw gcnew WrappedLibecsException(e);
         }
     }
 
@@ -811,91 +708,17 @@ namespace EcellCoreLib {
     {
         try
         {
-            WrappedSimulator::m_simulator -> stop();
+            m_simulator->stop();
         }
-        catch(Exception ^ l_ex)
+ 		catch(const libecs::Exception& e)
         {
-            throw gcnew Exception("Can't stop the simulator. [" + l_ex->ToString() + "]");
+			throw gcnew WrappedLibecsException(e);
         }
     }
 
     void WrappedSimulator::Suspend()
     {
-        if (WrappedSimulator::m_eventChecker == nullptr)
-        {
-            return;
-        }
-        WrappedSimulator::m_eventChecker -> SetSuspendFlag(true);
-        /*
-        if (WrappedSimulator::m_eventChecker -> GetSuspendFlag())
-        {
-            WrappedSimulator::m_eventChecker -> SetSuspendFlag(false);
-        }
-        else
-        {
-            WrappedSimulator::m_eventChecker -> SetSuspendFlag(true);
-        }
-         */
+        reinterpret_cast<EventChecker*>(m_eventChecker->get())->SetSuspendFlag(true);
     }
-
-    /*
-    WrappedPolymorph ^ WrappedSimulator::saveStepperProperty( String ^ aStepperID, String ^ aPropertyName ) {
-        std::string stdStepperID = ( char* )( void * )Marshal::StringToHGlobalAnsi( aStepperID );
-        std::string stdPropertyName = ( char* )( void * )Marshal::StringToHGlobalAnsi( aPropertyName );
-        libecs::Polymorph aPolymorph = WrappedSimulator::m_simulator -> saveStepperProperty( stdStepperID, stdPropertyName );
-        return gcnew WrappedPolymorph( & aPolymorph );
-    }
-
-    String ^ WrappedSimulator::getEntityClassName( String ^ aFullIDString ) {
-        std::string stdFullIDString = ( char* )( void * )Marshal::StringToHGlobalAnsi( aFullIDString );
-        std::string stdClassName = WrappedSimulator::m_simulator -> getEntityClassName( stdFullIDString );
-        return gcnew String( stdClassName.c_str() );
-    }
-
-    Boolean WrappedSimulator::isEntityExist( String ^ aFullIDString ) {
-        std::string stdFullIDString = ( char* )( void * )Marshal::StringToHGlobalAnsi( aFullIDString );
-        return WrappedSimulator::m_simulator -> isEntityExist( stdFullIDString );
-    }
-
-    WrappedPolymorph ^ WrappedSimulator::saveEntityProperty( String ^ aFullPNString ) {
-        std::string stdFullPNString = ( char* )( void * )Marshal::StringToHGlobalAnsi( aFullPNString );
-        libecs::Polymorph libecsPolymorph = WrappedSimulator::m_simulator -> saveEntityProperty( stdFullPNString );
-        return gcnew WrappedPolymorph( & libecsPolymorph );
-    }
-
-    WrappedPolymorph ^ WrappedSimulator::getLoggerPolicy( String ^ aFullPNString ) {
-        std::string stdFullPNString = ( char* )( void * )Marshal::StringToHGlobalAnsi( aFullPNString );
-        libecs::Polymorph libecsPolymorph = WrappedSimulator::m_simulator -> getLoggerPolicy( stdFullPNString );
-        return gcnew WrappedPolymorph( & libecsPolymorph );
-    }
-
-    void WrappedSimulator::setLoggerMinimumInterval( String ^ aFullPNString, Double anInterval ) {
-        std::string stdFullPNString = ( char* )( void * )Marshal::StringToHGlobalAnsi( aFullPNString );
-        WrappedSimulator::m_simulator -> setLoggerMinimumInterval( stdFullPNString, anInterval );
-    }
-
-    void WrappedSimulator::setLoggerPolicy( String ^ aFullPNString, WrappedPolymorph ^ aParamList ) {
-        std::string stdFullPNString = ( char* )( void * )Marshal::StringToHGlobalAnsi( aFullPNString );
-        libecs::Polymorph * aPolymorph = aParamList -> GetPolymorph();
-        WrappedSimulator::m_simulator -> setLoggerPolicy( stdFullPNString, * aPolymorph );
-    }
-
-
-    WrappedPolymorph ^ WrappedSimulator::getNextEvent() {
-        libecs::Polymorph libecsPolymorph = WrappedSimulator::m_simulator -> getNextEvent();
-        return gcnew WrappedPolymorph( & libecsPolymorph );
-    }
-
-    void WrappedSimulator::setEventChecker( WrappedEventChecker ^  aEventChecker ) {
-        boost::shared_ptr< libemc::EventChecker > * libemcEventChecker = aEventChecker ->getLibemcEventChecker();
-        WrappedSimulator::m_simulator -> setEventChecker( * libemcEventChecker );
-    }
-
-    void WrappedSimulator::setEventHandler( WrappedEventHandler ^ anEventHandler ) {
-        boost::shared_ptr< libemc::EventHandler > * libemcEventHandler = anEventHandler ->getLibemcEventHandler();
-        WrappedSimulator::m_simulator -> setEventHandler( * libemcEventHandler );
-    }
-
-     */
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
