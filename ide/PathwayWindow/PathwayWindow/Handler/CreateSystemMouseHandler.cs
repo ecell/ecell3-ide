@@ -106,15 +106,21 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
 
+        /// <summary>
+        /// DataManager instance associated to this object.
+        /// </summary>
+        private DataManager m_dManager;
 
         #endregion
 
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="dManager">A DataManager instance to associate</param>
         /// <param name="control"></param>
-        public CreateSystemMouseHandler(PathwayControl control)
+        public CreateSystemMouseHandler(DataManager dManager, PathwayControl control)
         {
+            this.m_dManager = dManager;
             this.m_con = control;
         }
 
@@ -252,7 +258,7 @@ namespace EcellLib.PathwayWindow
                 string modelID = this.m_canvas.ModelID;
                 string tmpID = m_canvas.GetTemporaryID("System", m_surSystem);
 
-                Dictionary<string, EcellData> dict = DataManager.GetSystemProperty();
+                Dictionary<string, EcellData> dict = this.m_dManager.GetSystemProperty();
                 List<EcellData> dataList = new List<EcellData>();
                 foreach (EcellData d in dict.Values)
                 {
@@ -292,8 +298,6 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="systemName">The name of the system to which object is transfered. If null, obj is
         /// transfered to layer itself</param>
-        /// <param name="obj">transfered object</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
         public void TransferNodeToByCreate(string systemName)
         {
             // The case that obj is transfered to PEcellSystem.

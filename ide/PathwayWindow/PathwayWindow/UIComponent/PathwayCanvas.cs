@@ -69,6 +69,11 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_canvas = cview;
             m_con = cview.PathwayControl;
         }
+
+        /// <summary>
+        /// Called when the canvas has been resized.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);

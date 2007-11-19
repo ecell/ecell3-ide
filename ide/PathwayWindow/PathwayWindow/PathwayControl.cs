@@ -1073,8 +1073,8 @@ namespace EcellLib.PathwayWindow
             list.Add(zoomoutButton);
             m_buttonList.Add(zoomoutButton);
 
-            CreateSystemMouseHandler csmh = new CreateSystemMouseHandler(this);
-            CreateNodeMouseHandler cnmh = new CreateNodeMouseHandler(this);
+            CreateSystemMouseHandler csmh = new CreateSystemMouseHandler(m_window.DataManager, this);
+            CreateNodeMouseHandler cnmh = new CreateNodeMouseHandler(m_window.DataManager, this);
 
             foreach (ComponentSetting cs in m_csManager.ComponentSettings)
             {
@@ -1194,6 +1194,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="oldKey">the key before adding.</param>
         /// <param name="newKey">the key after adding.</param>
         /// <param name="obj">x coordinate of object.</param>
+        /// <param name="isRecorded">Whether to record this change.</param>
         /// <param name="isAnchor">Whether this action is an anchor or not.</param>
         public void NotifyDataChanged(
             string oldKey,
@@ -1734,7 +1735,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="algorithm">ILayoutAlgorithm</param>
         /// <param name="subIdx">int</param>
-        /// <param name="IsSystemResize">bool</param>
+        /// <param name="isRecorded">Whether to record this change.</param>
         public void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool isRecorded)
         {
 
@@ -1802,7 +1803,7 @@ namespace EcellLib.PathwayWindow
         /// The event sequence on changing value of data at other plugin.
         /// </summary>
         /// <param name="modelID">The model ID before value change.</param>
-        /// <param name="key">The ID before value change.</param>
+        /// <param name="oldKey">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
         /// <param name="eo">Changed value of object.</param>
         public void DataChanged(string modelID, string oldKey, string type, EcellObject eo)

@@ -162,7 +162,6 @@ namespace EcellLib
         private Dictionary<string, string> m_loadDirList;
 
         private string m_loadingProject = null;
-        private string m_dmDir = "";
         private int m_processNumbering = 0;
         private int m_systemNumbering = 0;
         private int m_variableNumbering = 0;
@@ -191,10 +190,8 @@ namespace EcellLib
             this.m_simulatorExeFlagDic = new Dictionary<string, int>();
             this.m_stepperDic = new Dictionary<string, Dictionary<string, Dictionary<string, List<EcellObject>>>>();
             this.m_systemDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
-            this.SetDMList(null);
             this.m_loadDirList = new Dictionary<string, string>();
             m_aManager = ActionManager.GetActionManager();
-            m_dmDir = Util.GetDMDir();
         }
 
         /// <summary>
@@ -886,7 +883,7 @@ namespace EcellLib
         /// <param name="l_simulator">The dummy simulator</param>
         /// <param name="l_defaultProcess">The dm name of "Process"</param>
         /// <param name="l_defaultStepper">The dm name of "Stepper"</param>
-        private static void CreateDefaultSimulator(
+        private void CreateDefaultSimulator(
                 WrappedSimulator l_simulator, string l_defaultProcess, string l_defaultStepper)
         {
             try
@@ -906,12 +903,7 @@ namespace EcellLib
                     //
                     // Searches the DM paths
                     //
-                    string[] l_dmPathArray
-                            = (Util.GetDMDir()).Split(Util.s_delimiterSemiColon.ToCharArray());
-                    if (l_dmPathArray.Length < 1)
-                    {
-                        l_dmPathArray[0] = Util.s_defaultDMPath;
-                    }
+                    string[] l_dmPathArray = Util.GetDMDirs(m_currentProjectPath);
                     //
                     // 4 Process
                     //
@@ -928,47 +920,6 @@ namespace EcellLib
                         l_defaultStepper = s_defaultStepperName;
                         l_stepperFlag = true;
                     }
-                    /*
-                    foreach (string l_dmPath in l_dmPathArray)
-                    {
-                        if (!Directory.Exists(l_dmPath))
-                        {
-                            continue;
-                        }
-                        // 4 Process
-                        if (!l_processFlag)
-                        {
-                            string[] l_processDMArray = Directory.GetFiles(
-                                    l_dmPath,
-                                    Util.s_delimiterWildcard
-                                            + Util.s_xpathProcess + Util.s_dmFileExtension);
-                            if (l_processDMArray != null && l_processDMArray.Length > 0)
-                            {
-                                l_defaultProcess
-                                        = Path.GetFileNameWithoutExtension(l_processDMArray[0]);
-                                l_processFlag = true;
-                            }
-                        }
-                        // 4 Stepper
-                        if (!l_stepperFlag)
-                        {
-                            string[] l_stepperDMArray = Directory.GetFiles(
-                                    l_dmPath,
-                                    Util.s_delimiterWildcard
-                                            + Util.s_xpathStepper + Util.s_dmFileExtension);
-                            if (l_stepperDMArray != null && l_stepperDMArray.Length > 0)
-                            {
-                                l_defaultStepper
-                                        = Path.GetFileNameWithoutExtension(l_stepperDMArray[0]);
-                                l_stepperFlag = true;
-                            }
-                        }
-                        if (l_processFlag && l_stepperFlag)
-                        {
-                            break;
-                        }
-                    }
-                     */
                 }
                 l_simulator.CreateStepper(l_defaultStepper, Util.s_textKey);
                 l_simulator.CreateEntity(
@@ -984,17 +935,6 @@ namespace EcellLib
                     Util.s_xpathSize.ToUpper()
                     );
                 ArrayList l_list = new ArrayList();
-                /*
-                l_list.Clear();
-                l_list.Add("");
-                l_simulator.LoadEntityProperty(
-                    Util.s_xpathSystem + Util.s_delimiterColon +
-                    Util.s_delimiterColon +
-                    Util.s_delimiterPath + Util.s_delimiterColon +
-                    Util.s_xpathName,
-                    l_list
-                    );
-                 */
                 l_list.Clear();
                 l_list.Add(Util.s_textKey);
                 l_simulator.LoadEntityProperty(
@@ -3383,7 +3323,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_modelID">The model ID</param>
         /// <returns>The dictionary of the default "System" and the "Stepper"</returns>
-        private static Dictionary<string, EcellObject> GetDefaultSystem(string l_modelID)
+        private Dictionary<string, EcellObject> GetDefaultSystem(string l_modelID)
         {
             Dictionary<string, EcellObject> l_dic = new Dictionary<string, EcellObject>();
             WrappedSimulator l_simulator = null;
@@ -3391,7 +3331,7 @@ namespace EcellLib
             EcellObject l_stepperEcellObject = null;
             try
             {
-                l_simulator = new WrappedSimulator(Util.GetDMDir());
+                l_simulator = CreateSimulatorInstance();
                 CreateDefaultSimulator(l_simulator, null, null);
                 l_systemEcellObject
                         = EcellObject.CreateObject(
@@ -3857,35 +3797,25 @@ namespace EcellLib
         /// <summary>
         /// Returns the list of the "Process" DM.
         /// </summary>
-        /// <returns>The list of the "Process" DM</returns>
-        public List<string> GetProcessList(String prjID)
+        public List<string> GetProcessList()
         {
-            SetDMList(prjID);
+            SetDMList();
+            Util.GetDMDirs(null);
             return this.m_dmDic[Util.s_xpathProcess];
         }
 
         /// <summary>
         /// Check whether this dm is able to add the property.
         /// </summary>
-        /// <param name="prjID">project ID.</param>
         /// <param name="l_dmName">dm Name.</param>
         /// <returns>if this dm is enable to add property, return true.</returns>
-        public static bool IsEnableAddProperty(String prjID, string l_dmName)
+        public bool IsEnableAddProperty(string l_dmName)
         {
-            WrappedSimulator l_simulator = null;
             bool isEnable = true;
             try
             {
-                if (prjID == null)
-                {
-                    l_simulator = new WrappedSimulator(Util.GetDMDir());
-                }
-                else
-                {
-                    l_simulator = new WrappedSimulator(Util.GetDMDir(DataManager.GetDataManager().m_currentProjectPath));
-                }
-                // CreateDefaultSimulator(l_simulator, l_dmName, null);
-                l_simulator.CreateEntity(
+                WrappedSimulator sim = CreateSimulatorInstance();
+                sim.CreateEntity(
                     l_dmName,
                     Util.s_xpathProcess + Util.s_delimiterColon +
                     Util.s_delimiterPath + Util.s_delimiterColon +
@@ -3896,7 +3826,7 @@ namespace EcellLib
                     Util.s_delimiterPath + Util.s_delimiterColon +
                     Util.s_xpathSize.ToUpper() + Util.s_delimiterColon + "CheckProperty";
                     WrappedPolymorph l_newValue = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(0.01));
-                    l_simulator.SetEntityProperty(fullPath, l_newValue);
+                    sim.SetEntityProperty(fullPath, l_newValue);
                 }
                 catch (Exception ex)
                 {
@@ -3910,58 +3840,38 @@ namespace EcellLib
                     s_resources.GetString("ErrGetProp") +
                     "[" + l_dmName + "] {" + l_ex.ToString() + "}");
             }
-            finally
-            {
-                l_simulator = null;
-            }
             return isEnable;
         }
 
         /// <summary>
         /// Returns the list of the "Process" property. 
         /// </summary>
-        /// <param name="prjID">project ID</param>
         /// <param name="l_dmName">The DM name</param>
         /// <returns>The dictionary of the "Process" property</returns>
-        public static Dictionary<string, EcellData> GetProcessProperty(String prjID, string l_dmName)
+        public Dictionary<string, EcellData> GetProcessProperty(string l_dmName)
         {
             Dictionary<string, EcellData> l_dic = new Dictionary<string, EcellData>();
-            WrappedSimulator l_simulator = null;
-            EcellObject l_dummyEcellObject = null;
             try
             {
-                if (prjID == null)
-                {
-                    l_simulator = new WrappedSimulator(Util.GetDMDir());
-                }
-                else
-                {
-                    l_simulator = new WrappedSimulator(DataManager.GetDataManager().m_currentProjectPath);
-                }
-                // CreateDefaultSimulator(l_simulator, l_dmName, null);
-                l_simulator.CreateEntity(
+                WrappedSimulator sim = CreateSimulatorInstance();
+                sim.CreateEntity(
                     l_dmName,
                     Util.s_xpathProcess + Util.s_delimiterColon +
                     Util.s_delimiterPath + Util.s_delimiterColon +
                     Util.s_xpathSize.ToUpper());
                 string l_key = Util.s_delimiterPath + Util.s_delimiterColon + Util.s_xpathSize.ToUpper();
-                l_dummyEcellObject = EcellObject.CreateObject("", l_key, "", "", null);
+                EcellObject dummyEcellObject = EcellObject.CreateObject("", l_key, "", "", null);
                 DataStored4Process(
-                        l_simulator,
-                        l_dummyEcellObject,
+                        sim,
+                        dummyEcellObject,
                         new Dictionary<string, double>());
-                SetPropertyList(l_dummyEcellObject, l_dic);
+                SetPropertyList(dummyEcellObject, l_dic);
             }
             catch (Exception l_ex)
             {
                 throw new Exception(
                     s_resources.GetString("ErrGetProp") +
                     "[" + l_dmName + "] {" + l_ex.ToString() + "}");
-            }
-            finally
-            {
-                l_simulator = null;
-                l_dummyEcellObject = null;
             }
             return l_dic;
         }
@@ -4129,23 +4039,6 @@ namespace EcellLib
                 }
                 foreach (string l_intendedParameterID in l_parameterList)
                 {
-                    /*
-                    WrappedSimulator l_simulator = new WrappedSimulator();
-                    List<string> l_loggerList = new List<string>();
-                    if (!this.m_stepperDic[this.m_currentProjectID][l_intendedParameterID].ContainsKey(l_modelID))
-                    {
-                        continue;
-                    }
-                    else if (!this.m_systemDic[this.m_currentProjectID].ContainsKey(l_modelID))
-                    {
-                        continue;
-                    }
-                    this.LoadStepper(
-                        l_simulator, this.m_stepperDic[this.m_currentProjectID][l_intendedParameterID][l_modelID]);
-                    this.LoadSystem(
-                        l_simulator, this.m_systemDic[this.m_currentProjectID][l_modelID], l_loggerList);
-                    l_simulator.Initialize();
-                     */
                     for (int i = 0;
                         i < this.m_stepperDic[this.m_currentProjectID][l_intendedParameterID][l_modelID].Count; i++)
                     {
@@ -4188,19 +4081,11 @@ namespace EcellLib
         /// Returns the list of the "Stepper" DM.
         /// </summary>
         /// <returns>The list of the "Stepper" DM</returns>
-        public List<string> GetStepperList(String prjID)
+        public List<string> GetStepperList()
         {
             List<string> l_stepperList = new List<string>();
-            string p = "";
-            if (prjID == null)
-            {
-                p = Util.GetDMDir();
-            }
-            else
-            {
-                p = Util.GetDMDir(m_currentProjectPath);
-            }
-            foreach (WrappedPolymorph l_polymorph in new WrappedSimulator(p).GetDMInfo().CastToList())
+            WrappedSimulator sim = CreateSimulatorInstance();
+            foreach (WrappedPolymorph l_polymorph in sim.GetDMInfo().CastToList())
             {
                 List<WrappedPolymorph> l_dmInfoList = l_polymorph.CastToList();
                 if (l_dmInfoList[0].CastToString().Equals(Util.s_xpathStepper))
@@ -4216,41 +4101,23 @@ namespace EcellLib
         /// <summary>
         /// Returns the list of the "Stepper" property. 
         /// </summary>
-        /// <param name="prjID">project ID</param>
         /// <param name="l_dmName">The DM name</param>
         /// <returns>The dictionary of the "Stepper" property</returns>
-        public static Dictionary<string, EcellData> GetStepperProperty(String prjID, string l_dmName)
+        public Dictionary<string, EcellData> GetStepperProperty(string l_dmName)
         {
             Dictionary<string, EcellData> l_dic = new Dictionary<string, EcellData>();
-            WrappedSimulator l_simulator = null;
-            EcellObject l_dummyEcellObject = null;
+            EcellObject dummyEcellObject = null;
             try
             {
-                if (prjID == null)
-                {
-                    l_simulator = new WrappedSimulator(Util.GetDMDir());
-                }
-                else
-                {
-                    l_simulator = new WrappedSimulator(Util.GetDMDir(prjID));
-                }
-                // CreateDefaultSimulator(l_simulator, null, l_dmName);
-                l_simulator.CreateStepper(l_dmName, Util.s_textKey);
-                l_dummyEcellObject = EcellObject.CreateObject("", Util.s_textKey, "", "", null);
-                DataStored4Stepper(l_simulator, l_dummyEcellObject);
-                SetPropertyList(l_dummyEcellObject, l_dic);
+                WrappedSimulator sim = CreateSimulatorInstance();
+                sim.CreateStepper(l_dmName, Util.s_textKey);
+                dummyEcellObject = EcellObject.CreateObject("", Util.s_textKey, "", "", null);
+                DataStored4Stepper(sim, dummyEcellObject);
+                SetPropertyList(dummyEcellObject, l_dic);
             }
-            /*
-            catch (Exception l_ex)
-            {
-                throw new Exception(
-                    "Can't obtain the property of the \"" + l_dmName + "\" \"Stepper\". {" + l_ex.ToString() + "}");
-            }
-             */
             finally
             {
-                l_simulator = null;
-                l_dummyEcellObject = null;
+                dummyEcellObject = null;
             }
             return l_dic;
         }
@@ -4312,50 +4179,32 @@ namespace EcellLib
         /// Returns the list of the "System" property. 
         /// </summary>
         /// <returns>The dictionary of the "System" property</returns>
-        public static Dictionary<string, EcellData> GetSystemProperty()
+        public Dictionary<string, EcellData> GetSystemProperty()
         {
             Dictionary<string, EcellData> l_dic = new Dictionary<string, EcellData>();
-            WrappedSimulator l_simulator = null;
-            EcellObject l_dummyEcellObject = null;
-            try
-            {
-                l_simulator = l_simulator = new WrappedSimulator(Util.GetDMDir());
-                CreateDefaultSimulator(l_simulator, null, null);
-                ArrayList l_list = new ArrayList();
-                l_list.Clear();
-                l_list.Add("");
-                l_simulator.LoadEntityProperty(
-                    Util.s_xpathSystem + Util.s_delimiterColon +
-                    Util.s_delimiterColon +
-                    Util.s_delimiterPath + Util.s_delimiterColon +
-                    Util.s_xpathName,
-                    l_list
-                    );
-                l_dummyEcellObject
-                        = EcellObject.CreateObject(
-                            "",
-                            Util.s_delimiterPath,
-                            "",
-                            "",
-                            null);
-                DataStored4System(
-                        l_simulator,
-                        l_dummyEcellObject,
-                        new Dictionary<string, double>());
-                SetPropertyList(l_dummyEcellObject, l_dic);
-            }
-            /*
-            catch (Exception l_ex)
-            {
-                throw new Exception("Can't obtain the property of the \"System\". {"
-                        + l_ex.ToString() + "}");
-            }
-             */
-            finally
-            {
-                l_simulator = null;
-                l_dummyEcellObject = null;
-            }
+            WrappedSimulator sim = CreateSimulatorInstance();
+            CreateDefaultSimulator(sim, null, null);
+            ArrayList l_list = new ArrayList();
+            l_list.Clear();
+            l_list.Add("");
+            sim.LoadEntityProperty(
+                Util.s_xpathSystem + Util.s_delimiterColon +
+                Util.s_delimiterColon +
+                Util.s_delimiterPath + Util.s_delimiterColon +
+                Util.s_xpathName,
+                l_list
+                );
+            EcellObject dummyEcellObject = EcellObject.CreateObject(
+                "",
+                Util.s_delimiterPath,
+                "",
+                "",
+                null);
+            DataStored4System(
+                sim,
+                dummyEcellObject,
+                new Dictionary<string, double>());
+            SetPropertyList(dummyEcellObject, l_dic);
             return l_dic;
         }
 
@@ -4438,16 +4287,16 @@ namespace EcellLib
         /// Returns the list of the "Variable" property. 
         /// </summary>
         /// <returns>The dictionary of the "Variable" property</returns>
-        public static Dictionary<string, EcellData> GetVariableProperty()
+        public Dictionary<string, EcellData> GetVariableProperty()
         {
             Dictionary<string, EcellData> l_dic = new Dictionary<string, EcellData>();
             WrappedSimulator l_simulator = null;
-            EcellObject l_dummyEcellObject = null;
+            EcellObject dummyEcellObject = null;
             try
             {
-                l_simulator = new WrappedSimulator(Util.GetDMDir());
+                l_simulator = CreateSimulatorInstance();
                 CreateDefaultSimulator(l_simulator, null, null);
-                l_dummyEcellObject = EcellObject.CreateObject(
+                dummyEcellObject = EcellObject.CreateObject(
                     "",
                     Util.s_delimiterPath + Util.s_delimiterColon + Util.s_xpathSize.ToUpper(),
                     "",
@@ -4456,9 +4305,9 @@ namespace EcellLib
                     );
                 DataStored4Variable(
                         l_simulator,
-                        l_dummyEcellObject,
+                        dummyEcellObject,
                         new Dictionary<string, double>());
-                SetPropertyList(l_dummyEcellObject, l_dic);
+                SetPropertyList(dummyEcellObject, l_dic);
             }
             /*
             catch (Exception l_ex)
@@ -4470,7 +4319,7 @@ namespace EcellLib
             finally
             {
                 l_simulator = null;
-                l_dummyEcellObject = null;
+                dummyEcellObject = null;
             }
             return l_dic;
         }
@@ -4519,8 +4368,7 @@ namespace EcellLib
         {
             try
             {
-//                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(Util.GetDMDir());
-                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(m_dmDir);
+                this.m_simulatorDic[this.m_currentProjectID] = CreateSimulatorInstance();
                 //
                 // Loads steppers on the simulator.
                 //
@@ -4900,22 +4748,11 @@ namespace EcellLib
                 Eml l_eml = new Eml();
                 string l_modelID = null;
                 List<EcellObject> l_ecellObjectList = new List<EcellObject>();
-                // WrappedSimulator l_simulator = new WrappedSimulator();
-                m_dmDir = Util.GetDMDir();
-                if (m_loadingProject != null && Util.GetProjectDMDir(m_currentProjectPath) != null)
+                if (m_currentProjectPath == null)
                 {
-                    m_dmDir = Util.GetDMDir(m_currentProjectPath);
+                    m_currentProjectPath = Path.GetDirectoryName(l_filename);
                 }
-                else
-                {
-                    String dirName = Path.GetDirectoryName(l_filename);
-                    m_dmDir = m_dmDir + ";" + dirName + "\\..\\dms;" + dirName + "\\dms";
-                    if (dirName == "" || dirName == null)
-                    {
-                        m_dmDir = m_dmDir + ";..\\dms";
-                    }
-                }
-                this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(m_dmDir);
+                this.m_simulatorDic[this.m_currentProjectID] = CreateSimulatorInstance();
                 l_eml.Parse(l_filename, this.m_simulatorDic[this.m_currentProjectID], l_ecellObjectList, ref l_modelID);
 
                 //
@@ -5122,7 +4959,7 @@ namespace EcellLib
                     this.m_currentProjectID = l_prjID;
                     this.m_currentProjectPath = Path.GetDirectoryName(l_prjFile);
                     this.m_currentParameterID = l_parameter;
-                    this.m_simulatorDic[l_prjID] = new WrappedSimulator(Util.GetDMDir(m_currentProjectPath));
+                    this.m_simulatorDic[l_prjID] = CreateSimulatorInstance();
                     this.m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
                     this.m_projectList.Add(new Project(l_prjID, l_comment, DateTime.Now.ToString()));
                     this.m_loggerPolicyDic[l_prjID] = new Dictionary<string, LoggerPolicy>();
@@ -5749,7 +5586,7 @@ namespace EcellLib
                 // Initialize
                 //
                 this.m_currentProjectID = l_prjID;
-                this.m_simulatorDic[l_prjID] = new WrappedSimulator(Util.GetDMDir(m_currentProjectPath));
+                this.m_simulatorDic[l_prjID] = CreateSimulatorInstance();
                 this.m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
                 l_prj = new Project(l_prjID, l_comment, DateTime.Now.ToString());
                 this.m_projectList.Add(l_prj);
@@ -6350,7 +6187,7 @@ namespace EcellLib
                 {
                     return;
                 }
-                foreach (string l_baseDir in l_baseDirs.Split(Util.s_delimiterSemiColon.ToCharArray()))
+                foreach (string l_baseDir in l_baseDirs.Split(Path.PathSeparator))
                 {
                     if (Directory.Exists(l_baseDir))
                     {
@@ -6364,7 +6201,7 @@ namespace EcellLib
         /// <summary>
         /// Sets the list of the DM.
         /// </summary>
-        private void SetDMList(String prjID)
+        private void SetDMList()
         {
             //
             // Initialize
@@ -6385,22 +6222,20 @@ namespace EcellLib
             //
             // Searches the DM paths
             //
-            String dmDirName = Util.GetDMDir();
-            if (prjID != null) dmDirName = Util.GetDMDir(m_currentProjectPath);
-            if (dmDirName == null)
+            string[] l_dmPathArray = Util.GetDMDirs(m_currentProjectPath);
+            if (l_dmPathArray == null)
             {
                 throw new Exception(m_resources.GetString("ErrFindDmDir"));
             }
-            string[] l_dmPathArray = dmDirName.Split(Util.s_delimiterSemiColon.ToCharArray());
-            foreach (string l_dmPath in l_dmPathArray)
+            foreach (string dmPath in l_dmPathArray)
             {
-                if (!Directory.Exists(l_dmPath))
+                if (!Directory.Exists(dmPath))
                 {
                     continue;
                 }
                 // 4 Process
                 string[] l_processDMArray = Directory.GetFiles(
-                    l_dmPath,
+                    dmPath,
                     Util.s_delimiterWildcard + Util.s_xpathProcess + Util.s_dmFileExtension
                     );
                 foreach (string l_processDM in l_processDMArray)
@@ -6409,7 +6244,7 @@ namespace EcellLib
                 }
                 // 4 Stepper
                 string[] l_stepperDMArray = Directory.GetFiles(
-                    l_dmPath,
+                    dmPath,
                     Util.s_delimiterWildcard + Util.s_xpathStepper + Util.s_dmFileExtension
                     );
                 foreach (string l_stepperDM in l_stepperDMArray)
@@ -6418,7 +6253,7 @@ namespace EcellLib
                 }
                 // 4 System
                 string[] l_systemDMArray = Directory.GetFiles(
-                    l_dmPath,
+                    dmPath,
                     Util.s_delimiterWildcard + Util.s_xpathSystem + Util.s_dmFileExtension
                     );
                 foreach (string l_systemDM in l_systemDMArray)
@@ -6427,7 +6262,7 @@ namespace EcellLib
                 }
                 // 4 Variable
                 string[] l_variableDMArray = Directory.GetFiles(
-                    l_dmPath,
+                    dmPath,
                     Util.s_delimiterWildcard + Util.s_xpathVariable + Util.s_dmFileExtension
                     );
                 foreach (string l_variableDM in l_variableDMArray)
@@ -7492,6 +7327,14 @@ namespace EcellLib
                         "processStub" + count + name + ".setProperty(\"" + d.M_name + "\",\"" + d.M_value.ToString().Replace("\"", "\\\"") + "\")\n", enc);
                 }
             }
+        }
+
+        /// <summary>
+        /// Create a new WrappedSimulator instance.
+        /// </summary>
+        protected WrappedSimulator CreateSimulatorInstance()
+        {
+            return new WrappedSimulator(Util.GetDMDirs(m_currentProjectPath));
         }
 
     }

@@ -346,18 +346,18 @@ namespace EcellLib.PropertyWindow
                 }
                 else
                 {
-                    List<string> procList = m_dManager.GetProcessList(m_dManager.CurrentProjectID);
+                    List<string> procList = m_dManager.GetProcessList();
                     foreach (string pName in procList)
                     {
                         ((DataGridViewComboBoxCell)c2).Items.Add(pName);
                     }
                     
                     c2.Value = d.M_value.ToString();
-                    if (DataManager.IsEnableAddProperty(m_dManager.CurrentProjectID, d.M_value.ToString()))
+                    if (m_dManager.IsEnableAddProperty(d.M_value.ToString()))
                     {
                         m_dgv.AllowUserToAddRows = true;
                         m_dgv.AllowUserToDeleteRows = true;
-                        m_propDic = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, d.M_value.ToString());
+                        m_propDic = m_dManager.GetProcessProperty(d.M_value.ToString());
                     }
                     else
                     {
@@ -1184,7 +1184,7 @@ namespace EcellLib.PropertyWindow
                     }
                     if (isHit == false)
                     {
-                        Dictionary<string, EcellData> plist = DataManager.GetVariableProperty();
+                        Dictionary<string, EcellData> plist = m_dManager.GetVariableProperty();
                         List<EcellData> dlist = new List<EcellData>();
                         foreach (string pname in plist.Keys)
                         {
@@ -1273,7 +1273,7 @@ namespace EcellLib.PropertyWindow
             if (cname.Equals(m_current.classname)) return;
 
             List<EcellData> propList = new List<EcellData>();
-            Dictionary<String, EcellData> propDict = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, cname);
+            Dictionary<String, EcellData> propDict = m_dManager.GetProcessProperty(cname);
             foreach (EcellData d in m_current.M_value)
             {
                 if (!propDict.ContainsKey(d.M_name))
@@ -1306,7 +1306,7 @@ namespace EcellLib.PropertyWindow
                     m_current.type,
                     obj);
                 m_isChanging = false;
-                if (DataManager.IsEnableAddProperty(m_dManager.CurrentProjectID, cname))
+                if (m_dManager.IsEnableAddProperty(cname))
                 {
                     m_dgv.AllowUserToAddRows = true;
                 }

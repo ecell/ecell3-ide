@@ -78,15 +78,12 @@ namespace EcellLib.PathwayWindow.Handler
         /// ResourceManager for PathwayWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
-
-
         #endregion
 
         /// <summary>
         /// constructor with initial parameters.
         /// </summary>
         /// <param name="canvas">canvas control.</param>
-        /// <param name="dict">dictionary of system.</param>
         public NodeDragHandler(CanvasControl canvas)
         {
             m_canvas = canvas;
@@ -306,7 +303,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Transfer an system from one PEcellSystem/Layer to PEcellSystem/Layer.
         /// </summary>
-        /// <param name="node">transfered node</param>
+        /// <param name="nodeList">Transfered nodes</param>
         private void TransferNodes(List<PPathwayObject> nodeList)
         {
             PointF newPosition;

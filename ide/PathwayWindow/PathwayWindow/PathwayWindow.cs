@@ -130,6 +130,14 @@ namespace EcellLib.PathwayWindow
         {
             get { return new GridLayout(); }
         }
+
+        /// <summary>
+        /// Returns the DataManager instance associated to this plugin.
+        /// </summary>
+        public DataManager DataManager
+        {
+            get { return m_dManager; }
+        }
         #endregion
 
         #region Constructor
@@ -203,6 +211,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="oldKey">the key of object before edit.</param>
         /// <param name="newKey">the key of object after edit.</param>
         /// <param name="eo">The EcellObject changed the property.</param>
+        /// <param name="isRecorded">Whether to record this change.</param>
         /// <param name="isAnchor">Whether this action is an anchor or not.</param>
         public void NotifyDataChanged(
             string oldKey,
@@ -263,7 +272,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="modelID">the modelID of selected object.</param>
         /// <param name="key">the key of selected object.</param>
         /// <param name="type">the type of selected object.</param>
-        /// <param name="isSelected">Is object is selected or not</param>
         public void NotifySelectChanged(string modelID, string key, string type)
         {
             m_pManager.SelectChanged(modelID, key, type);

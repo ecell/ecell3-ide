@@ -76,13 +76,19 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
 
+        /// <summary>
+        /// DataManage instance associated to this object.
+        /// </summary>
+        DataManager m_dManager;
 
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="dManager">A DataManager instance to associate.</param>
         /// <param name="control">Control to diaplay the Matir2 .</param>
-        public CreateNodeMouseHandler(PathwayControl control)
+        public CreateNodeMouseHandler(DataManager dManager, PathwayControl control)
         {
+            this.m_dManager = dManager;
             this.m_con = control;
         }
 
@@ -121,12 +127,11 @@ namespace EcellLib.PathwayWindow
                 return;
             }
             
-            DataManager dm = DataManager.GetDataManager();
             EcellObject eo = null;
             if (m_con.SelectedHandle.CsID == ComponentType.Process)
             {
                 string tmpId = m_canvas.GetTemporaryID("Process", m_surSystem);
-                Dictionary<string, EcellData> dict = DataManager.GetProcessProperty(dm.CurrentProjectID, "ExpressionFluxProcess");
+                Dictionary<string, EcellData> dict = m_dManager.GetProcessProperty("ExpressionFluxProcess");
                 List<EcellData> list = new List<EcellData>();
                 foreach (EcellData d in dict.Values)
                 {
@@ -137,7 +142,7 @@ namespace EcellLib.PathwayWindow
             else
             {
                 string tmpId = m_canvas.GetTemporaryID("Variable", m_surSystem);
-                Dictionary<string, EcellData> dict = DataManager.GetVariableProperty();
+                Dictionary<string, EcellData> dict = m_dManager.GetVariableProperty();
                 List<EcellData> list = new List<EcellData>();
                 foreach (EcellData d in dict.Values)
                     list.Add(d);

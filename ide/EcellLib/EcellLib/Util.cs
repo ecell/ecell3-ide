@@ -43,9 +43,9 @@ namespace EcellLib
     public class Util
     {
         /// <summary>
-        /// Reserved extension for DM path.
+        /// DM directory name
         /// </summary>
-        public const string s_defaultDMPath = "dm";
+        public const string s_DMDirName = "DMs";
         /// <summary>
         /// Reserved extension for DM's.
         /// </summary>
@@ -436,38 +436,24 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// Get the DM directory for DM from register.
+        /// Get the DM direcory from register.
         /// </summary>
-        /// <param name="prjPath">project ID.</param>
-        /// <returns>the DM directory.</returns>
-        static public string GetProjectDMDir(string prjPath)
+        /// <returns>DM directory.</returns>
+        static public string[] GetDMDirs(String currentProjectPath)
         {
-            string baseDir = GetBaseDir();
-            if (Directory.Exists(prjPath + "\\dms"))
+            List<string> dmDirs = new List<string>();
+            string[] candidates = new string[] {
+                GetRegistryValue(s_registryDMDirKey),
+                currentProjectPath != null ?
+                    currentProjectPath + Path.DirectorySeparatorChar + s_DMDirName:
+                    null
+            };
+            foreach (string dmDir in candidates)
             {
-                return prjPath + "\\dms";
+                if (Directory.Exists(dmDir))
+                    dmDirs.Add(dmDir);
             }
-            return null;
-        }
-
-        /// <summary>
-        /// Get the DM direcory from register.
-        /// </summary>
-        /// <param name="m_currentProjectPath">loading project.</param>
-        /// <returns>DM directory.</returns>
-        static public string GetDMDir(string m_currentProjectPath)
-        {
-            return GetDMDir() + ";" + Util.GetProjectDMDir(m_currentProjectPath);
-        }
-
-        /// <summary>
-        /// Get the DM direcory from register.
-        /// </summary>
-        /// <returns>DM directory.</returns>
-        static public string GetDMDir()
-        {
-//            return GetRegistryValue(s_registryDMDirKey) + ";" + Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\My E-Cell Projects\\sample\\dm";
-            return GetRegistryValue(s_registryDMDirKey);
+            return dmDirs.ToArray();
         }
 
         /// <summary>

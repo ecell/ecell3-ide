@@ -249,7 +249,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// delete the specified related variable from list.
         /// </summary>
-        /// <param name="p">the specified variable.</param>
+        /// <param name="key">key that specifies the variable.</param>
         public void DeleteEdge(string key)
         {
             if (!m_lines.ContainsKey(key))

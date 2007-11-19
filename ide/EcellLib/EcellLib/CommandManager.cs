@@ -62,12 +62,15 @@ namespace EcellLib
         /// The model ID
         /// </summary>
         private static string s_modelID = null;
-        
+
+        private DataManager m_dManager;
+
         /// <summary>
         /// Creates the new "CommandManager" instance with no argument.
         /// </summary>
         private CommandManager()
         {
+            m_dManager = DataManager.GetDataManager();
         }
 
         /// <summary>
@@ -77,7 +80,7 @@ namespace EcellLib
         /// <returns>the created entity</returns>
         public EntityStub CreateEntityStub(string l_fullID)
         {
-            return new EntityStub(l_fullID);
+            return new EntityStub(m_dManager, l_fullID);
         }
 
         /// <summary>
@@ -284,7 +287,7 @@ namespace EcellLib
         /// <returns>the created stepper stub</returns>
         public StepperStub CreateStepperStub(string l_ID)
         {
-            return new StepperStub(l_ID);
+            return new StepperStub(m_dManager, l_ID);
         }
 
         /// <summary>
@@ -1121,6 +1124,11 @@ namespace EcellLib
             private string m_fullID = null;
 
             /// <summary>
+            /// DataManager instance associated to this object.
+            /// </summary>
+            private DataManager m_dManager = null;
+
+            /// <summary>
             /// Creates the new "EntityStub" instance with no argument.
             /// </summary>
             private EntityStub()
@@ -1130,9 +1138,11 @@ namespace EcellLib
             /// <summary>
             /// Creates the new "EntityStub" instance with the full ID.
             /// </summary>
+            /// <param name="dManager">DataManager instance to associate</param>
             /// <param name="l_fullID">the full ID</param>
-            public EntityStub(string l_fullID)
+            public EntityStub(DataManager dManager, string l_fullID)
             {
+                this.m_dManager = dManager;
                 this.m_fullID = l_fullID;
             }
 
@@ -1228,7 +1238,7 @@ namespace EcellLib
                 }
                 else if (l_type.Equals(Util.s_xpathProcess))
                 {
-                    l_entityList = DataManager.GetDataManager().GetProcessList(null);
+                    l_entityList = DataManager.GetDataManager().GetProcessList();
                 }
                 else if (l_type.Equals(Util.s_xpathVariable))
                 {
@@ -1248,8 +1258,8 @@ namespace EcellLib
                             if (l_type.Equals(Util.s_xpathSystem))
                             {
                                 Dictionary<string, EcellData> l_propertyDic
-                                        = DataManager.GetSystemProperty();
-                                foreach (string l_property in DataManager.GetSystemProperty().Keys)
+                                        = m_dManager.GetSystemProperty();
+                                foreach (string l_property in m_dManager.GetSystemProperty().Keys)
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
                                     l_ecellData.M_entityPath
@@ -1261,7 +1271,7 @@ namespace EcellLib
                             else if (l_type.Equals(Util.s_xpathProcess))
                             {
                                 Dictionary<string, EcellData> l_propertyDic
-                                        = DataManager.GetProcessProperty(null, l_className);
+                                        = m_dManager.GetProcessProperty(l_className);
                                 foreach (string l_property in l_propertyDic.Keys)
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
@@ -1274,8 +1284,8 @@ namespace EcellLib
                             else
                             {
                                 Dictionary<string, EcellData> l_propertyDic
-                                        = DataManager.GetVariableProperty();
-                                foreach (string l_property in DataManager.GetVariableProperty().Keys)
+                                        = m_dManager.GetVariableProperty();
+                                foreach (string l_property in m_dManager.GetVariableProperty().Keys)
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
                                     l_ecellData.M_entityPath
@@ -2153,6 +2163,11 @@ namespace EcellLib
             private string m_parameterID = null;
 
             /// <summary>
+            /// DataManager instance associated to this object.
+            /// </summary>
+            private DataManager m_dManager = null;
+
+            /// <summary>
             /// Creates the stepper stub with no argument.
             /// </summary>
             private StepperStub()
@@ -2162,8 +2177,9 @@ namespace EcellLib
             /// <summary>
             /// Creates the stepper stub with the current simulation parameter and the stepper ID.
             /// </summary>
-            public StepperStub(string l_ID)
+            public StepperStub(DataManager dManager, string l_ID)
             {
+                this.m_dManager = dManager;
                 this.m_ID = l_ID;
             }
 
@@ -2262,7 +2278,7 @@ namespace EcellLib
             /// <param name="l_className">the class name</param>
             private void Create(string l_key, string l_className)
             {
-                List<string> l_entityList = DataManager.GetDataManager().GetStepperList(null);
+                List<string> l_entityList = m_dManager.GetStepperList();
                 if (l_entityList != null && l_entityList.Count > 0)
                 {
                     foreach (string l_entity in l_entityList)
@@ -2270,9 +2286,9 @@ namespace EcellLib
                         if (l_className.Equals(l_entity))
                         {
                             List<EcellData> l_propertyList = new List<EcellData>();
-                            foreach (string l_property in DataManager.GetStepperProperty(null, l_className).Keys)
+                            foreach (string l_property in m_dManager.GetStepperProperty(l_className).Keys)
                             {
-                                l_propertyList.Add(DataManager.GetStepperProperty(null, l_className)[l_property]);
+                                l_propertyList.Add(m_dManager.GetStepperProperty(l_className)[l_property]);
                             }
                             this.m_stepper = EcellObject.CreateObject(
                                     CommandManager.s_modelID,

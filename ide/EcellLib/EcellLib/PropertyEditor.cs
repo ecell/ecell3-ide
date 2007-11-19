@@ -531,11 +531,11 @@ namespace EcellLib
             if (m_currentObj == null)
             {
                 if (m_type.Equals(EcellObject.PROCESS))
-                    m_propDict = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, m_propName);
+                    m_propDict = m_dManager.GetProcessProperty(m_propName);
                 else if (m_type.Equals(EcellObject.SYSTEM))
-                    m_propDict = DataManager.GetSystemProperty();
+                    m_propDict = m_dManager.GetSystemProperty();
                 else if (m_type.Equals(EcellObject.VARIABLE))
-                    m_propDict = DataManager.GetVariableProperty();
+                    m_propDict = m_dManager.GetVariableProperty();
             }
             else
             {
@@ -547,7 +547,7 @@ namespace EcellLib
                 }
                 if (m_propName != null && m_propName.StartsWith("Expression"))
                 {
-                    tmpProcDict = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, m_currentObj.classname);
+                    tmpProcDict = m_dManager.GetProcessProperty(m_currentObj.classname);
                 }
                 this.Text = m_title + "  - " + m_currentObj.key;
             }
@@ -647,7 +647,7 @@ namespace EcellLib
                 int j = 0;
                 if (m_type.Equals(EcellObject.PROCESS))
                 {
-                    List<string> list = m_dManager.GetProcessList(m_dManager.CurrentProjectID);
+                    List<string> list = m_dManager.GetProcessList();
                     foreach (string str in list)
                     {
                         combo.Items.AddRange(new object[] { str });
@@ -797,7 +797,7 @@ namespace EcellLib
                     i++;
                 }
                 if (m_type.Equals(EcellObject.PROCESS) && 
-                    DataManager.IsEnableAddProperty(m_dManager.CurrentProjectID, m_propName))
+                    this.m_dManager.IsEnableAddProperty(m_propName))
                 {
                     Button b = new Button();
                     b.Text = "Add Property";
@@ -1053,7 +1053,7 @@ namespace EcellLib
             m_propName = propName;
             if (m_type.Equals(EcellObject.PROCESS))
             {
-                m_propDict = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, m_propName);
+                m_propDict = m_dManager.GetProcessProperty(m_propName);
             }
 
             LayoutPropertyEditor();
@@ -1196,7 +1196,7 @@ namespace EcellLib
                     {
                         if (c.Text == "") continue;
                         List<EcellData> dList = new List<EcellData>();
-                        Dictionary<string, EcellData> sList = DataManager.GetVariableProperty();
+                        Dictionary<string, EcellData> sList = m_dManager.GetVariableProperty();
                         foreach (string p in sList.Keys)
                         {
                             EcellData d = sList[p];
@@ -1312,7 +1312,7 @@ namespace EcellLib
                     {
                         if (c.Text == "") continue;
                         List<EcellData> dList = new List<EcellData>();
-                        Dictionary<string, EcellData> sList = DataManager.GetVariableProperty();
+                        Dictionary<string, EcellData> sList = m_dManager.GetVariableProperty();
                         foreach (string p in sList.Keys)
                         {
                             EcellData d = sList[p];
@@ -1705,7 +1705,7 @@ namespace EcellLib
                             if (c.Text != "")
                             {
 
-                                Dictionary<string, EcellData> plist = DataManager.GetVariableProperty();
+                                Dictionary<string, EcellData> plist = m_dManager.GetVariableProperty();
                                 List<EcellData> dlist = new List<EcellData>();
                                 foreach (string pname in plist.Keys)
                                 {

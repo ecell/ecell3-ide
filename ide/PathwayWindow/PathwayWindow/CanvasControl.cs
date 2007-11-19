@@ -1362,7 +1362,6 @@ namespace EcellLib.PathwayWindow
         /// Notify SelectChanged event to outside.
         /// <param name="key">the key of selected object.</param>
         /// <param name="type">the type of selected object.</param>
-        /// <param name="isSelect">the flag whether this object is selected.</param>
         /// </summary>
         public void NotifySelectChanged(string key, string type)
         {
@@ -1432,8 +1431,8 @@ namespace EcellLib.PathwayWindow
         /// Check if any system of this canvas (exclude specified system) overlaps given rectangle.
         /// </summary>
         /// <param name="rect">RectangleF to be checked</param>
-        /// <param name="excludeName">The system with this name will NOT be taken into account</param>
-        /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
+        /// <param name="excludeSystem">The name of the system to ignore in the check.</param>
+        /// <returns>True if there is a system which overlaps rectangle of argument, false otherwise</returns>
         public bool DoesSystemOverlaps(RectangleF rect, string excludeSystem)
         {
             bool isOverlaping = false;
@@ -1507,9 +1506,9 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Set default system size.
+        /// Set the system size.
         /// </summary>
-        /// <param name="obj">the registered object.</param>
+        /// <param name="system">The system object.</param>
         private void SetSystemSize(PPathwayObject system)
         {
             int length = 200 * (int)Math.Sqrt(system.EcellObject.M_instances.Count);

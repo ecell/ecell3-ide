@@ -306,7 +306,7 @@ namespace EcellLib.Simulation
                 int i = 0;
                 m_win = new SimulationSetup();
 
-                List<string> stepList = m_dManager.GetStepperList(m_dManager.CurrentProjectID);
+                List<string> stepList = m_dManager.GetStepperList();
                 foreach (string step in stepList)
                 {
                     m_win.stepCombo.Items.Add(step);
@@ -727,7 +727,7 @@ namespace EcellLib.Simulation
             int i = 0;
             m_win = new SimulationSetup();
 
-            List<string> stepList = m_dManager.GetStepperList(m_dManager.CurrentProjectID);
+            List<string> stepList = m_dManager.GetStepperList();
             foreach (string step in stepList)
             {
                 m_win.stepCombo.Items.Add(step);

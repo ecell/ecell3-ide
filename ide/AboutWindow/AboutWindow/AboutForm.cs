@@ -47,10 +47,6 @@ namespace EcellLib.AboutWindow
         {
             InitializeComponent();
 
-            String path = Util.GetDMDir();
-            int ind = path.LastIndexOf("dm");
-            path = path.Substring(0, ind);
-
             this.gnuLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
             this.gnuLink.Links[0].LinkData = "www.gnu.org/copyleft/gpl.html";
 

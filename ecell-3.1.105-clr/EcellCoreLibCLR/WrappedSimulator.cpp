@@ -2,6 +2,7 @@
 #include "WrappedSimulator.hpp"
 
 using namespace System;
+using namespace System::IO;
 using namespace System::Collections;
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
@@ -22,7 +23,7 @@ namespace EcellCoreLib {
         m_simulator = new libemc::Simulator();
     }
 
-    WrappedSimulator::WrappedSimulator(String ^ l_dmPath)
+    WrappedSimulator::WrappedSimulator(array<String^>^ l_dmPaths)
     {
         try
         {
@@ -32,9 +33,13 @@ namespace EcellCoreLib {
         {
             throw gcnew Exception("Failed to initilaize \"libecs\".");
         }
+		char* concatenatedPath = reinterpret_cast<char*>(
+			(void*)Marshal::StringToHGlobalAnsi(
+					String::Join(
+						Path::PathSeparator.ToString(), l_dmPaths)));
+        libecs::setDMSearchPath(concatenatedPath);
+		Marshal::FreeHGlobal((System::IntPtr)concatenatedPath);
         m_simulator = new libemc::Simulator();
-        std::string l_dmPathName = (char *)(void *)Marshal::StringToHGlobalAnsi(l_dmPath);
-        libecs::setDMSearchPath(l_dmPathName);
     }
 
     WrappedSimulator::~WrappedSimulator()

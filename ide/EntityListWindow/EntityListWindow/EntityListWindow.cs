@@ -686,7 +686,7 @@ namespace EcellLib.EntityListWindow
                 String tmpID = m_dManager.GetTemporaryID(m_currentObj.modelID,
                     "System", m_currentObj.key);
 
-                Dictionary<string, EcellData> list = DataManager.GetSystemProperty();
+                Dictionary<string, EcellData> list = m_dManager.GetSystemProperty();
                 List<EcellData> data = new List<EcellData>();
                 foreach (EcellData d in list.Values)
                 {
@@ -722,7 +722,7 @@ namespace EcellLib.EntityListWindow
                 String tmpID = m_dManager.GetTemporaryID(m_currentObj.modelID,
                     "Variable", m_currentObj.key);
 
-                Dictionary<string, EcellData> list = DataManager.GetVariableProperty();
+                Dictionary<string, EcellData> list = m_dManager.GetVariableProperty();
                 List<EcellData> data = new List<EcellData>();
                 foreach (EcellData d in list.Values)
                 {
@@ -758,7 +758,7 @@ namespace EcellLib.EntityListWindow
                 String tmpID = m_dManager.GetTemporaryID(m_currentObj.modelID,
                     "Process", m_currentObj.key);
 
-                Dictionary<string, EcellData> list = DataManager.GetProcessProperty(m_dManager.CurrentProjectID, "ExpressionFluxProcess");
+                Dictionary<string, EcellData> list = m_dManager.GetProcessProperty("ExpressionFluxProcess");
                 List<EcellData> data = new List<EcellData>();
                 foreach (EcellData d in list.Values)
                 {
