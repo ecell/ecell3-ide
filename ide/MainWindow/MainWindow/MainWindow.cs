@@ -905,13 +905,6 @@ namespace EcellLib.MainWindow
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (Util.IsNGforID(m_newPrjDialog.textName.Text))
-                {
-                    String errmes = m_resources.GetString("ErrPrjIdNG");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
                 if (m_newPrjDialog.textModelName.Text.Length > 64)
                 {
                     String errmes = m_resources.GetString("ErrModelNG");
@@ -919,7 +912,14 @@ namespace EcellLib.MainWindow
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (Util.IsNGforID(m_newPrjDialog.textModelName.Text))
+                if (Util.IsNGforIDonWindows(m_newPrjDialog.textName.Text))
+                {
+                    String errmes = m_resources.GetString("ErrPrjIdNG");
+                    MessageBox.Show(errmes,
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (Util.IsNGforIDonWindows(m_newPrjDialog.textModelName.Text))
                 {
                     String errmes = m_resources.GetString("ErrModelNG");
                     MessageBox.Show(errmes,
@@ -995,6 +995,13 @@ namespace EcellLib.MainWindow
                     return;
                 }
             }
+            if (m_project != null)
+            {
+                m_isLoadProject = false;
+                m_pManager.ChangeStatus(Util.NOTLOAD);
+                m_dManager.CloseProject(m_project);
+                m_project = null;
+            }
 
             m_openPrjDialog = new OpenProjectDialog();
             m_openPrjDialog.OPOpenButton.Click += new System.EventHandler(this.OpenProject);
@@ -1046,13 +1053,14 @@ namespace EcellLib.MainWindow
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (Util.IsNGforID(prjID))
+                if (Util.IsNGforIDonWindows(prjID))
                 {
                     String errmes = m_resources.GetString("ErrPrjIdNG");
                     MessageBox.Show(errmes,
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
                 if (prjID.Length > 64)
                 {
                     String errmes = m_resources.GetString("ErrPrjIdNG");

@@ -325,7 +325,7 @@ namespace EcellLib
         /// <summary>
         /// Reserved XML path name for Simulation.
         /// </summary>
-        public const string s_xpathSimulation = "Simulation";
+        public const string s_xpathSimulation = "Parameters";
         /// <summary>
         /// Reserved XML path name for Space.
         /// </summary>
@@ -438,14 +438,14 @@ namespace EcellLib
         /// <summary>
         /// Get the DM directory for DM from register.
         /// </summary>
-        /// <param name="prjID">project ID.</param>
+        /// <param name="prjPath">project ID.</param>
         /// <returns>the DM directory.</returns>
-        static public string GetProjectDMDir(string prjID)
+        static public string GetProjectDMDir(string prjPath)
         {
             string baseDir = GetBaseDir();
-            if (Directory.Exists(baseDir + "\\" + prjID + "\\dm"))
+            if (Directory.Exists(prjPath + "\\dms"))
             {
-                return baseDir + "\\" + prjID + "\\dm";
+                return prjPath + "\\dms";
             }
             return null;
         }
@@ -453,11 +453,11 @@ namespace EcellLib
         /// <summary>
         /// Get the DM direcory from register.
         /// </summary>
-        /// <param name="m_currentProjectID">loading project.</param>
+        /// <param name="m_currentProjectPath">loading project.</param>
         /// <returns>DM directory.</returns>
-        static public string GetDMDir(string m_currentProjectID)
+        static public string GetDMDir(string m_currentProjectPath)
         {
-            return GetDMDir() + ";" + Util.GetProjectDMDir(m_currentProjectID);
+            return GetDMDir() + ";" + Util.GetProjectDMDir(m_currentProjectPath);
         }
 
         /// <summary>
@@ -467,7 +467,7 @@ namespace EcellLib
         static public string GetDMDir()
         {
 //            return GetRegistryValue(s_registryDMDirKey) + ";" + Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\My E-Cell Projects\\sample\\dm";
-            return GetRegistryValue(s_registryDMDirKey) + ";" + GetCommonDocumentDir() + "\\My E-Cell Projects\\sample\\dm";
+            return GetRegistryValue(s_registryDMDirKey);
         }
 
         /// <summary>
@@ -574,6 +574,24 @@ namespace EcellLib
             {
                 if (Char.IsLetterOrDigit(l_key[i]) ||
                     l_key[i] == '_') continue;
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Check whether id contains the string except for '\', '/', '$', '~' or '%'.
+        /// </summary>
+        /// <param name="l_key">id</param>
+        /// <returns>if contain, return true.</returns>
+        static public bool IsNGforIDonWindows(string l_key)
+        {
+            for (int i = 0; i < l_key.Length; i++)
+            {
+                if (l_key[i] == '\\' || l_key[i] == '/' 
+                    || l_key[i] == '%' || l_key[i] == '$'
+                    || l_key[i] == '~' || l_key[i] == '*'
+                    || l_key[i] == '?')
                 return true;
             }
             return false;

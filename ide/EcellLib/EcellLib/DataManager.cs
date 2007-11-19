@@ -95,6 +95,7 @@ namespace EcellLib
         /// The list of "Project" with the project ID
         /// </summary>
         private List<Project> m_projectList = null;
+        private String m_currentProjectPath = null;
         /// <summary>
         /// The step limit of the simulation
         /// </summary>
@@ -211,6 +212,14 @@ namespace EcellLib
         public string CurrentProjectID
         {
             get { return this.m_currentProjectID; }
+        }
+
+        /// <summary>
+        /// get CurrentProjectPath
+        /// </summary>
+        public string CurrentProjectPath
+        {
+            get { return this.m_currentProjectPath; }
         }
 
         /// <summary>
@@ -775,6 +784,7 @@ namespace EcellLib
                     }
                     if (this.m_simulatorDic.ContainsKey(l_str))
                     {
+                        this.m_simulatorDic[l_str].Dispose();
                         this.m_simulatorDic.Remove(l_str);
                     }
                     if (this.m_initialCondition.ContainsKey(l_str))
@@ -3869,7 +3879,7 @@ namespace EcellLib
                 }
                 else
                 {
-                    l_simulator = new WrappedSimulator(Util.GetDMDir(prjID));
+                    l_simulator = new WrappedSimulator(Util.GetDMDir(DataManager.GetDataManager().m_currentProjectPath));
                 }
                 // CreateDefaultSimulator(l_simulator, l_dmName, null);
                 l_simulator.CreateEntity(
@@ -3923,7 +3933,7 @@ namespace EcellLib
                 }
                 else
                 {
-                    l_simulator = new WrappedSimulator(Util.GetDMDir(prjID));
+                    l_simulator = new WrappedSimulator(DataManager.GetDataManager().m_currentProjectPath);
                 }
                 // CreateDefaultSimulator(l_simulator, l_dmName, null);
                 l_simulator.CreateEntity(
@@ -4162,6 +4172,7 @@ namespace EcellLib
             List<string> l_list = new List<string>();
             try
             {
+                if (!m_stepperDic.ContainsKey(this.m_currentProjectID)) return l_list;
                 foreach (string l_parameterID in this.m_stepperDic[this.m_currentProjectID].Keys)
                 {
                     l_list.Add(l_parameterID);
@@ -4189,7 +4200,7 @@ namespace EcellLib
             }
             else
             {
-                p = Util.GetDMDir(prjID);
+                p = Util.GetDMDir(m_currentProjectPath);
             }
             foreach (WrappedPolymorph l_polymorph in new WrappedSimulator(p).GetDMInfo().CastToList())
             {
@@ -4893,17 +4904,18 @@ namespace EcellLib
                 List<EcellObject> l_ecellObjectList = new List<EcellObject>();
                 // WrappedSimulator l_simulator = new WrappedSimulator();
                 m_dmDir = Util.GetDMDir();
-                if (m_loadingProject != null && Util.GetProjectDMDir(m_loadingProject) != null)
+                if (m_loadingProject != null && Util.GetProjectDMDir(m_currentProjectPath) != null)
                 {
-                    m_dmDir = Util.GetDMDir(m_currentProjectID);
+                    m_dmDir = Util.GetDMDir(m_currentProjectPath);
                 }
-                if (m_loadingProject == null)
+                else
                 {
                     String dirName = Path.GetDirectoryName(l_filename);
-                    m_dmDir = m_dmDir + ";" + dirName + "\\\\dm";
+                    m_dmDir = m_dmDir + ";" + dirName + "\\..\\dms;" + dirName + "\\dms";
                 }
                 this.m_simulatorDic[this.m_currentProjectID] = new WrappedSimulator(m_dmDir);
                 l_eml.Parse(l_filename, this.m_simulatorDic[this.m_currentProjectID], l_ecellObjectList, ref l_modelID);
+
                 //
                 // Checks the old model ID
                 //
@@ -5039,6 +5051,7 @@ namespace EcellLib
             string l_message = null;
             try
             {
+                m_currentProjectID = l_prjID;
                 m_loadingProject = l_prjID;
                 l_message = "[" + l_prjID + "]";
                 //
@@ -5105,12 +5118,14 @@ namespace EcellLib
                     // Initializes.
                     //
                     this.m_currentProjectID = l_prjID;
+                    this.m_currentProjectPath = Path.GetDirectoryName(l_prjFile);
                     this.m_currentParameterID = l_parameter;
-                    this.m_simulatorDic[l_prjID] = new WrappedSimulator(Util.GetDMDir(l_prjID));
+                    this.m_simulatorDic[l_prjID] = new WrappedSimulator(Util.GetDMDir(m_currentProjectPath));
                     this.m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
                     this.m_projectList.Add(new Project(l_prjID, l_comment, DateTime.Now.ToString()));
                     this.m_loggerPolicyDic[l_prjID] = new Dictionary<string, LoggerPolicy>();
-                    this.m_stepperDic[l_prjID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
+                    //this.m_stepperDic[l_prjID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
+                    m_stepperDic.Add(l_prjID, new Dictionary<string, Dictionary<string, List<EcellObject>>>());
                     this.m_systemDic[l_prjID] = new Dictionary<string, List<EcellObject>>();
                     this.m_modelDic[l_prjID] = new List<EcellObject>();
                     this.m_initialCondition[l_prjID]
@@ -5732,12 +5747,13 @@ namespace EcellLib
                 // Initialize
                 //
                 this.m_currentProjectID = l_prjID;
-                this.m_simulatorDic[l_prjID] = new WrappedSimulator(Util.GetDMDir(l_prjID));
+                this.m_simulatorDic[l_prjID] = new WrappedSimulator(Util.GetDMDir(m_currentProjectPath));
                 this.m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
                 l_prj = new Project(l_prjID, l_comment, DateTime.Now.ToString());
                 this.m_projectList.Add(l_prj);
                 this.m_loggerPolicyDic[l_prjID] = new Dictionary<string, LoggerPolicy>();
-                this.m_stepperDic[l_prjID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
+                // this.m_stepperDic[l_prjID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
+                m_stepperDic.Add(l_prjID, new Dictionary<string, Dictionary<string, List<EcellObject>>>());
                 this.m_systemDic[l_prjID] = new Dictionary<string, List<EcellObject>>();
                 this.m_modelDic[l_prjID] = new List<EcellObject>();
                 //
@@ -6368,7 +6384,7 @@ namespace EcellLib
             // Searches the DM paths
             //
             String dmDirName = Util.GetDMDir();
-            if (prjID != null) dmDirName = Util.GetDMDir(prjID);
+            if (prjID != null) dmDirName = Util.GetDMDir(m_currentProjectPath);
             if (dmDirName == null)
             {
                 throw new Exception(m_resources.GetString("ErrFindDmDir"));

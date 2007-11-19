@@ -136,7 +136,8 @@ namespace EcellLib.MainWindow
             foreach (string dir in dirs)
             {
                 string name = Path.GetFileNameWithoutExtension(dir);
-                if (name.Equals("Model") || name.Equals("Simulation")) continue; 
+                if (name.Equals("Model") || name.Equals("Simulation") || 
+                    name.Equals("Parameters") || name.Equals("dms")) continue; 
                 TreeNode p = new TreeNode(name);
                 p.Tag = null;
                 p.ImageIndex = 0;
