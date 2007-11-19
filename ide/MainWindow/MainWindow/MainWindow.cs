@@ -348,10 +348,9 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString("ErrLoadPlugin");
-                MessageBox.Show(
-                    errmes + "(" + className + ")\n\n" + ex.Message + "\n"
-                           + ex.StackTrace.ToString(),
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, 0,
+                MessageBox.Show(String.Format(errmes, new object[] { pName } ) + "\n"
+                        + ex.GetType().Name + ": " + ex.Message + "\n" + ex.StackTrace.ToString(),
+                    "", MessageBoxButtons.OK, MessageBoxIcon.Warning, 0,
                     MessageBoxOptions.DefaultDesktopOnly);
                 return;
             }
@@ -955,7 +954,21 @@ namespace EcellLib.MainWindow
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+                if (Util.IsNGforID(m_newPrjDialog.textName.Text))
+                {
+                    String errmes = m_resources.GetString("ErrPrjIdNG");
+                    MessageBox.Show(errmes,
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 if (m_newPrjDialog.textModelName.Text.Length > 64)
+                {
+                    String errmes = m_resources.GetString("ErrModelNG");
+                    MessageBox.Show(errmes,
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (Util.IsNGforID(m_newPrjDialog.textModelName.Text))
                 {
                     String errmes = m_resources.GetString("ErrModelNG");
                     MessageBox.Show(errmes,
@@ -1078,6 +1091,13 @@ namespace EcellLib.MainWindow
                 if (prjID == "")
                 {
                     String errmes = m_resources.GetString("ErrPrjIdNull");
+                    MessageBox.Show(errmes,
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (Util.IsNGforID(prjID))
+                {
+                    String errmes = m_resources.GetString("ErrPrjIdNG");
                     MessageBox.Show(errmes,
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;

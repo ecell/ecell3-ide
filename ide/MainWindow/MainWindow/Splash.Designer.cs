@@ -30,18 +30,15 @@
         {
             System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Splash));
-            System.Windows.Forms.PictureBox pictureBox1;
             this.CopyrightNotice = new System.Windows.Forms.Label();
             this.VersionNumber = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
-            pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             resources.ApplyResources(label1, "label1");
-            label1.BackColor = System.Drawing.SystemColors.Window;
+            label1.BackColor = System.Drawing.Color.Transparent;
             label1.CausesValidation = false;
             label1.Name = "label1";
             label1.UseMnemonic = false;
@@ -49,41 +46,35 @@
             // CopyrightNotice
             // 
             resources.ApplyResources(this.CopyrightNotice, "CopyrightNotice");
-            this.CopyrightNotice.BackColor = System.Drawing.SystemColors.Window;
+            this.CopyrightNotice.BackColor = System.Drawing.Color.Transparent;
             this.CopyrightNotice.CausesValidation = false;
             this.CopyrightNotice.Name = "CopyrightNotice";
             this.CopyrightNotice.UseMnemonic = false;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = global::EcellLib.MainWindow.Properties.Resources.splash;
-            resources.ApplyResources(pictureBox1, "pictureBox1");
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.TabStop = false;
-            // 
             // VersionNumber
             // 
             resources.ApplyResources(this.VersionNumber, "VersionNumber");
-            this.VersionNumber.BackColor = System.Drawing.SystemColors.Window;
+            this.VersionNumber.BackColor = System.Drawing.Color.Transparent;
             this.VersionNumber.Name = "VersionNumber";
             // 
             // Splash
             // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackgroundImage = global::EcellLib.MainWindow.Properties.Resources.splash;
             this.ControlBox = false;
             this.Controls.Add(this.VersionNumber);
             this.Controls.Add(this.CopyrightNotice);
             this.Controls.Add(label1);
-            this.Controls.Add(pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Splash";
+            this.Size = this.BackgroundImage.Size;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.TopMost = true;
-            ((System.ComponentModel.ISupportInitialize)(pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,7 +84,5 @@
 
         private System.Windows.Forms.Label VersionNumber;
         private System.Windows.Forms.Label CopyrightNotice;
-
-
     }
 }

@@ -136,7 +136,7 @@
     <value>モデルのロードに失敗しました。再度実行してください。</value>
   </data>
   <data name="ErrLoadPlugin" xml:space="preserve">
-    <value>プラグインのロードに失敗しました。</value>
+    <value>プラグイン {0} のロードに失敗しました。</value>
   </data>
   <data name="ErrLoadWindowSettings" xml:space="preserve">
     <value>ウィンドウ設定の読込に失敗しました。</value>
