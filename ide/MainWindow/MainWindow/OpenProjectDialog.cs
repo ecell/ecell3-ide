@@ -47,6 +47,13 @@ namespace EcellLib.MainWindow
         private string m_fileName = "";
         private string m_simName = "";
         private string m_comment = "";
+        private static string[] ignoredDirList = {
+            "Model",
+            "Simulation",
+            "Parameters",
+            Util.s_DMDirName
+        };
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -136,8 +143,18 @@ namespace EcellLib.MainWindow
             foreach (string dir in dirs)
             {
                 string name = Path.GetFileNameWithoutExtension(dir);
-                if (name.Equals("Model") || name.Equals("Simulation") || 
-                    name.Equals("Parameters") || name.Equals("dms")) continue; 
+                bool ignored = false;
+                foreach (string ignoredDir in ignoredDirList)
+                {
+                    if (ignoredDir.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        ignored = true;
+                        break;
+                    }
+                }
+                if (ignored)
+                    continue;
+
                 TreeNode p = new TreeNode(name);
                 p.Tag = null;
                 p.ImageIndex = 0;
