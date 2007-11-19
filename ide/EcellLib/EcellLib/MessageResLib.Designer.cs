@@ -205,7 +205,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   is already exists in this VariableReferenceList. に類似しているローカライズされた文字列を検索します。
+        ///   {0} already exists in this VariableReferenceList. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrExistID {
             get {
@@ -214,7 +214,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///    is already exists in project. に類似しているローカライズされた文字列を検索します。
+        ///   {0} already exists in project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrExistObj {
             get {
@@ -223,7 +223,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///    is already exists in project. に類似しているローカライズされた文字列を検索します。
+        ///   {0} already exists in project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrExistSimParam {
             get {
@@ -232,7 +232,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///    is already exists in project. に類似しているローカライズされた文字列を検索します。
+        ///   {0} already exists in project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrExistStepper {
             get {
@@ -241,7 +241,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not export to the file. に類似しているローカライズされた文字列を検索します。
+        ///   Could not export to the file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrExportFile {
             get {
@@ -250,7 +250,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not find the directory of dm.  に類似しているローカライズされた文字列を検索します。
+        ///   Could not find the DM directory に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindDmDir {
             get {
@@ -259,7 +259,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not find the model. に類似しているローカライズされた文字列を検索します。
+        ///   Could not find the model. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindModel {
             get {
@@ -268,7 +268,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not find the project. に類似しているローカライズされた文字列を検索します。
+        ///   Could not find the project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindPrj {
             get {
@@ -277,7 +277,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not find the project file. に類似しているローカライズされた文字列を検索します。
+        ///   Could not find the project file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindPrjFile {
             get {
@@ -286,7 +286,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not find the running simulation. に類似しているローカライズされた文字列を検索します。
+        ///   Could not find the running simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindRunSim {
             get {
@@ -295,7 +295,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not find the simulation parameter. に類似しているローカライズされた文字列を検索します。
+        ///   Could not find the simulation parameter. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindSimParam {
             get {
@@ -304,7 +304,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not find stepper. に類似しているローカライズされた文字列を検索します。
+        ///   Could not find stepper. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindStepper {
             get {
@@ -313,7 +313,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can&apos;t find the super system. に類似しているローカライズされた文字列を検索します。
+        ///   Could find the super system. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindSuper {
             get {
@@ -322,7 +322,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can&apos;t find the system. に類似しているローカライズされた文字列を検索します。
+        ///   Could find the system. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindSystem {
             get {
@@ -331,7 +331,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not get the log data. に類似しているローカライズされた文字列を検索します。
+        ///   Could not retrieve the log data. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrGetData {
             get {
@@ -340,7 +340,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not find entities in model. に類似しているローカライズされた文字列を検索します。
+        ///   Could not find entities in the model. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrGetEnt {
             get {
@@ -349,7 +349,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not get the properties. に類似しているローカライズされた文字列を検索します。
+        ///   Could not obtain properties. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrGetProp {
             get {
@@ -367,7 +367,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not find the simulation parameter in model. に類似しているローカライズされた文字列を検索します。
+        ///   Could not find the simulation parameter in model. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrGetStep {
             get {
@@ -376,7 +376,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not get the list of system. に類似しているローカライズされた文字列を検索します。
+        ///   Could not get the list of system. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrGetSysList {
             get {
@@ -385,16 +385,16 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   This ID is unformed. に類似しているローカライズされた文字列を検索します。
+        ///   This ID is malformed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrIDUnform {
+        internal static string ErrIDMalformed {
             get {
-                return ResourceManager.GetString("ErrIDUnform", resourceCulture);
+                return ResourceManager.GetString("ErrIDMalformed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Can not get the initial parameters. に類似しているローカライズされた文字列を検索します。
+        ///   Could not obtain the initial parameters. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInitParam {
             get {
@@ -403,7 +403,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not initialize the simulator. に類似しているローカライズされた文字列を検索します。
+        ///   Could not initialize the simulator. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInitSim {
             get {

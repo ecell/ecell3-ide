@@ -404,9 +404,15 @@ namespace EcellLib
         private static List<string> extraPluginDirs = new List<string>();
 
         /// <summary>
-        /// Whether to include default plugin paths.
+        /// Additional DM directories to be searched on startup.
+        /// XXX: this should not be in Util class.
         /// </summary>
-        private static bool noDefaultPluginPaths;
+        private static List<string> extraDMDirs = new List<string>();
+
+        /// <summary>
+        /// Whether to include default plugin / DM paths.
+        /// </summary>
+        private static bool noDefaultPaths;
 
         /// <summary>
         /// Get the analysis directory from register.
@@ -442,12 +448,12 @@ namespace EcellLib
         static public string[] GetDMDirs(String currentProjectPath)
         {
             List<string> dmDirs = new List<string>();
-            string[] candidates = new string[] {
-                GetRegistryValue(s_registryDMDirKey),
-                currentProjectPath != null ?
-                    currentProjectPath + Path.DirectorySeparatorChar + s_DMDirName:
-                    null
-            };
+            List<string> candidates = new List<string>();
+            if (currentProjectPath != null)
+                candidates.Add(currentProjectPath + Path.DirectorySeparatorChar + s_DMDirName);
+            candidates.AddRange(extraDMDirs);
+            if (!noDefaultPaths)
+                candidates.Add(GetRegistryValue(s_registryDMDirKey));
             foreach (string dmDir in candidates)
             {
                 if (Directory.Exists(dmDir))
@@ -504,7 +510,7 @@ namespace EcellLib
                 }
             }
 
-            if (!noDefaultPluginPaths)
+            if (!noDefaultPaths)
             {
 
                 {
@@ -870,11 +876,20 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Add the specified directory to the DM search path list returned by GetDMDirs()
+        /// </summary>
+        /// <param name="pluginDir">the plugin directory to include</param>
+        public static void AddDMDir(string dmDir)
+        {
+            extraDMDirs.Add(dmDir);
+        }
+
+        /// <summary>
         /// Call this method to prevent PluginManage from loading plugins from default locations.
         /// </summary>
-        public static void OmitDefaultPluginPaths()
+        public static void OmitDefaultPaths()
         {
-            noDefaultPluginPaths = true;
+            noDefaultPaths = true;
         }
     }
 }

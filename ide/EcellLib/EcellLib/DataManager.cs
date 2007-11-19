@@ -35,6 +35,7 @@
 //
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.ComponentModel;
 using System.Collections;
@@ -284,7 +285,12 @@ namespace EcellLib
                         {
                             if (l_stepper.key.Equals(l_storedStepper.key))
                             {
-                                throw new Exception(l_message + m_resources.GetString("ErrExistStepper"));
+                                throw new Exception(
+                                    String.Format(
+                                        m_resources.GetString("ErrExistStepper"),
+                                        new object[] { l_message }
+                                    )
+                                );
                             }
                         }
                         this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.modelID]
@@ -883,7 +889,7 @@ namespace EcellLib
         /// <param name="l_simulator">The dummy simulator</param>
         /// <param name="l_defaultProcess">The dm name of "Process"</param>
         /// <param name="l_defaultStepper">The dm name of "Stepper"</param>
-        private void CreateDefaultSimulator(
+        private void BuildDefaultSimulator(
                 WrappedSimulator l_simulator, string l_defaultProcess, string l_defaultStepper)
         {
             try
@@ -957,10 +963,9 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_ex.ToString();
                 throw new Exception(
-                    s_resources.GetString("ErrCombiStepProc") + 
-                    "[" + l_defaultStepper + ", " + l_defaultProcess + "]");
+                    s_resources.GetString("ErrCombiStepProc") +
+                    "[" + l_defaultStepper + ", " + l_defaultProcess + "]", l_ex);
             }
         }
 
@@ -1110,7 +1115,14 @@ namespace EcellLib
                             if (l_child.key.Equals(l_ecellObject.key) && l_child.type.Equals(l_ecellObject.type))
                             {
                                 throw new Exception(
-                                    l_message + " " + l_ecellObject.type.ToLower() + m_resources.GetString("ErrExistObj"));
+                                    String.Format(
+                                        m_resources.GetString("ErrExistObj"),
+                                        new object[] {
+                                            l_message + " " + l_ecellObject.type.ToLower()
+                                        }
+                                    )
+                                );
+;
                             }
                         }
                         this.CheckEntityPath(l_ecellObject);
@@ -1181,7 +1193,12 @@ namespace EcellLib
             {
                 if (l_model.modelID.Equals(l_ecellObject.modelID))
                 {
-                    throw new Exception(l_message + m_resources.GetString("ErrExistObj"));
+                    throw new Exception(
+                        String.Format(
+                            m_resources.GetString("ErrExistObj"),
+                            new object[] { l_message }
+                        )
+                    );
                 }
             }
             //
@@ -1205,6 +1222,7 @@ namespace EcellLib
                 this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID] = new List<EcellObject>();
             }
             Dictionary<string, EcellObject> l_dic = GetDefaultSystem(l_ecellObject.modelID);
+            Debug.Assert(l_dic != null);
             this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID].Add(l_dic[Util.s_xpathSystem]);
             l_usableList.Add(l_dic[Util.s_xpathSystem]);
             //
@@ -3326,47 +3344,32 @@ namespace EcellLib
         private Dictionary<string, EcellObject> GetDefaultSystem(string l_modelID)
         {
             Dictionary<string, EcellObject> l_dic = new Dictionary<string, EcellObject>();
-            WrappedSimulator l_simulator = null;
             EcellObject l_systemEcellObject = null;
             EcellObject l_stepperEcellObject = null;
-            try
-            {
-                l_simulator = CreateSimulatorInstance();
-                CreateDefaultSimulator(l_simulator, null, null);
-                l_systemEcellObject
-                        = EcellObject.CreateObject(
-                            l_modelID,
-                            Util.s_delimiterPath,
-                            Util.s_xpathSystem,
-                            Util.s_xpathSystem,
-                            null);
-                DataStored4System(
-                        l_simulator,
-                        l_systemEcellObject,
-                        new Dictionary<string, double>());
-                l_stepperEcellObject
-                        = EcellObject.CreateObject(
-                            l_modelID,
-                            Util.s_textKey,
-                            Util.s_xpathStepper,
-                            "",
-                            null);
-                DataStored4Stepper(l_simulator, l_stepperEcellObject);
-                l_dic[Util.s_xpathSystem] = l_systemEcellObject;
-                l_dic[Util.s_xpathStepper] = l_stepperEcellObject;
-            }
-            catch (Exception l_ex)
-            {
-                l_ex.ToString();
-                l_dic = null;
-                l_systemEcellObject = null;
-                l_stepperEcellObject = null;
-                return null;
-            }
-            finally
-            {
-                l_simulator = null;
-            }
+
+            WrappedSimulator l_simulator = m_simulatorDic[m_currentProjectID];
+            BuildDefaultSimulator(l_simulator, null, null);
+            l_systemEcellObject
+                    = EcellObject.CreateObject(
+                        l_modelID,
+                        Util.s_delimiterPath,
+                        Util.s_xpathSystem,
+                        Util.s_xpathSystem,
+                        null);
+            DataStored4System(
+                    l_simulator,
+                    l_systemEcellObject,
+                    new Dictionary<string, double>());
+            l_stepperEcellObject
+                    = EcellObject.CreateObject(
+                        l_modelID,
+                        Util.s_textKey,
+                        Util.s_xpathStepper,
+                        "",
+                        null);
+            DataStored4Stepper(l_simulator, l_stepperEcellObject);
+            l_dic[Util.s_xpathSystem] = l_systemEcellObject;
+            l_dic[Util.s_xpathStepper] = l_stepperEcellObject;
             return l_dic;
         }
 
@@ -4183,7 +4186,7 @@ namespace EcellLib
         {
             Dictionary<string, EcellData> l_dic = new Dictionary<string, EcellData>();
             WrappedSimulator sim = CreateSimulatorInstance();
-            CreateDefaultSimulator(sim, null, null);
+            BuildDefaultSimulator(sim, null, null);
             ArrayList l_list = new ArrayList();
             l_list.Clear();
             l_list.Add("");
@@ -4295,7 +4298,7 @@ namespace EcellLib
             try
             {
                 l_simulator = CreateSimulatorInstance();
-                CreateDefaultSimulator(l_simulator, null, null);
+                BuildDefaultSimulator(l_simulator, null, null);
                 dummyEcellObject = EcellObject.CreateObject(
                     "",
                     Util.s_delimiterPath + Util.s_delimiterColon + Util.s_xpathSize.ToUpper(),
@@ -4753,6 +4756,7 @@ namespace EcellLib
                     m_currentProjectPath = Path.GetDirectoryName(l_filename);
                 }
                 this.m_simulatorDic[this.m_currentProjectID] = CreateSimulatorInstance();
+                this.SetDMList();
                 l_eml.Parse(l_filename, this.m_simulatorDic[this.m_currentProjectID], l_ecellObjectList, ref l_modelID);
 
                 //
@@ -4762,7 +4766,12 @@ namespace EcellLib
                 {
                     if (l_model.modelID.Equals(l_modelID))
                     {
-                        throw new Exception(l_message + m_resources.GetString("ErrExistObj") + "[Model]");
+                        throw new Exception(
+                            String.Format(
+                                m_resources.GetString("ErrExistObj"),
+                                new object[] { l_message + "[Model]"}
+                            )
+                        );
                     }
                 }
                 //
@@ -5585,16 +5594,17 @@ namespace EcellLib
                 //
                 // Initialize
                 //
-                this.m_currentProjectID = l_prjID;
-                this.m_simulatorDic[l_prjID] = CreateSimulatorInstance();
-                this.m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
+                m_currentProjectID = l_prjID;
+                m_simulatorDic[l_prjID] = CreateSimulatorInstance();
+                SetDMList();
+                m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
                 l_prj = new Project(l_prjID, l_comment, DateTime.Now.ToString());
-                this.m_projectList.Add(l_prj);
-                this.m_loggerPolicyDic[l_prjID] = new Dictionary<string, LoggerPolicy>();
+                m_projectList.Add(l_prj);
+                m_loggerPolicyDic[l_prjID] = new Dictionary<string, LoggerPolicy>();
                 // this.m_stepperDic[l_prjID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 m_stepperDic.Add(l_prjID, new Dictionary<string, Dictionary<string, List<EcellObject>>>());
-                this.m_systemDic[l_prjID] = new Dictionary<string, List<EcellObject>>();
-                this.m_modelDic[l_prjID] = new List<EcellObject>();
+                m_systemDic[l_prjID] = new Dictionary<string, List<EcellObject>>();
+                m_modelDic[l_prjID] = new List<EcellObject>();
                 //
                 // 4 PluginManager
                 //
@@ -5604,8 +5614,8 @@ namespace EcellLib
                         = EcellObject.CreateObject(l_prjID, "", Util.s_xpathProject, "", l_ecellDataList);
                 List<EcellObject> l_ecellObjectList = new List<EcellObject>();
                 l_ecellObjectList.Add(l_ecellObject);
-                this.m_pManager.DataAdd(l_ecellObjectList);
-                this.m_pManager.Message(
+                m_pManager.DataAdd(l_ecellObjectList);
+                m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     "Create Project: " + l_message + System.Environment.NewLine);
                 m_aManager.AddAction(new NewProjectAction(l_prjID, l_comment));
@@ -5723,7 +5733,12 @@ namespace EcellLib
                 }
                 else
                 {
-                    throw new Exception( l_message + m_resources.GetString("ErrExistSimParam"));
+                    throw new Exception(
+                        String.Format(
+                            m_resources.GetString("ErrExistSimParam"),
+                            new object[] { l_message }
+                        )
+                    );
                 }
                 //
                 // 4 LoggerPolicy
@@ -8622,7 +8637,19 @@ namespace EcellLib
             //
             if (l_simulator != null)
             {
-                l_simulator.CreateStepper(l_stepperClass.InnerText, l_stepperID.InnerText);
+                try
+                {
+                    l_simulator.CreateStepper(l_stepperClass.InnerText, l_stepperID.InnerText);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(
+                        String.Format(
+                            "Could not create {0}",
+                            new object[] { l_stepperClass.InnerText }),
+                        e
+                    );
+                }
             }
             //
             // 4 children

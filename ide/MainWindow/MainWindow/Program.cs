@@ -63,9 +63,13 @@ namespace EcellLib.MainWindow
                     {
                         Util.AddPluginDir(Path.GetFullPath(arg.Substring("/PLUGINDIR:".Length)));
                     }
+                    else if (arg.StartsWith("/DMDIR:"))
+                    {
+                        Util.AddDMDir(Path.GetFullPath(arg.Substring("/DMDIR:".Length)));
+                    }
                     else if (arg == "/NODEFAULTS")
                     {
-                        Util.OmitDefaultPluginPaths();
+                        Util.OmitDefaultPaths();
                     }
                 }
                 else

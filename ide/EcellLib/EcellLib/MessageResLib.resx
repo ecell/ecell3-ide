@@ -166,73 +166,73 @@
     <value>Can not delete the simulation parameter.</value>
   </data>
   <data name="ErrExistID" xml:space="preserve">
-    <value>is already exists in this VariableReferenceList.</value>
+    <value>{0} already exists in this VariableReferenceList.</value>
   </data>
   <data name="ErrExistObj" xml:space="preserve">
-    <value> is already exists in project.</value>
+    <value>{0} already exists in project.</value>
   </data>
   <data name="ErrExistSimParam" xml:space="preserve">
-    <value> is already exists in project.</value>
+    <value>{0} already exists in project.</value>
   </data>
   <data name="ErrExistStepper" xml:space="preserve">
-    <value> is already exists in project.</value>
+    <value>{0} already exists in project.</value>
   </data>
   <data name="ErrExportFile" xml:space="preserve">
-    <value>Can not export to the file.</value>
+    <value>Could not export to the file.</value>
   </data>
   <data name="ErrFindDmDir" xml:space="preserve">
-    <value>Can not find the directory of dm. </value>
+    <value>Could not find the DM directory</value>
   </data>
   <data name="ErrFindModel" xml:space="preserve">
-    <value>Can not find the model.</value>
+    <value>Could not find the model.</value>
   </data>
   <data name="ErrFindPrj" xml:space="preserve">
-    <value>Can not find the project.</value>
+    <value>Could not find the project.</value>
   </data>
   <data name="ErrFindPrjFile" xml:space="preserve">
-    <value>Can not find the project file.</value>
+    <value>Could not find the project file.</value>
   </data>
   <data name="ErrFindRunSim" xml:space="preserve">
-    <value>Can not find the running simulation.</value>
+    <value>Could not find the running simulation.</value>
   </data>
   <data name="ErrFindSimParam" xml:space="preserve">
-    <value>Can not find the simulation parameter.</value>
+    <value>Could not find the simulation parameter.</value>
   </data>
   <data name="ErrFindStepper" xml:space="preserve">
-    <value>Can not find stepper.</value>
+    <value>Could not find stepper.</value>
   </data>
   <data name="ErrFindSuper" xml:space="preserve">
-    <value>Can't find the super system.</value>
+    <value>Could find the super system.</value>
   </data>
   <data name="ErrFindSystem" xml:space="preserve">
-    <value>Can't find the system.</value>
+    <value>Could find the system.</value>
   </data>
   <data name="ErrGetData" xml:space="preserve">
-    <value>Can not get the log data.</value>
+    <value>Could not retrieve the log data.</value>
   </data>
   <data name="ErrGetEnt" xml:space="preserve">
-    <value>Can not find entities in model.</value>
+    <value>Could not find entities in the model.</value>
   </data>
   <data name="ErrGetProp" xml:space="preserve">
-    <value>Can not get the properties.</value>
+    <value>Could not obtain properties.</value>
   </data>
   <data name="ErrGetSimParams" xml:space="preserve">
     <value>Could not retrieve simulation parameters.</value>
   </data>
   <data name="ErrGetStep" xml:space="preserve">
-    <value>Can not find the simulation parameter in model.</value>
+    <value>Could not find the simulation parameter in model.</value>
   </data>
   <data name="ErrGetSysList" xml:space="preserve">
-    <value>Can not get the list of system.</value>
+    <value>Could not get the list of system.</value>
   </data>
-  <data name="ErrIDUnform" xml:space="preserve">
-    <value>This ID is unformed.</value>
+  <data name="ErrIDMalformed" xml:space="preserve">
+    <value>This ID is malformed.</value>
   </data>
   <data name="ErrInitParam" xml:space="preserve">
-    <value>Can not get the initial parameters.</value>
+    <value>Could not obtain the initial parameters.</value>
   </data>
   <data name="ErrInitSim" xml:space="preserve">
-    <value>Can not initialize the simulator.</value>
+    <value>Could not initialize the simulator.</value>
   </data>
   <data name="ErrInvalidID" xml:space="preserve">
     <value>There are invalid characters in ID.</value>

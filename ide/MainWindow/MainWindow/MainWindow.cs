@@ -926,11 +926,10 @@ namespace EcellLib.MainWindow
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
                 try
                 {
                     m_dManager.NewProject(m_newPrjDialog.textName.Text,
-                        m_newPrjDialog.textComment.Text);
+                            m_newPrjDialog.textComment.Text);
                     List<EcellObject> list = new List<EcellObject>();
                     list.Add(EcellObject.CreateObject(m_newPrjDialog.textModelName.Text, null, "Model", null, null));
                     m_dManager.DataAdd(list);
@@ -945,7 +944,6 @@ namespace EcellLib.MainWindow
                     MessageBox.Show(errmes + "\n\n" + ex.Message,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
             m_newPrjDialog.Close();
             m_newPrjDialog.Dispose();
             m_newPrjDialog = null;
@@ -1760,6 +1758,7 @@ namespace EcellLib.MainWindow
             else
             {
                 //Show EntityList
+                Debug.Assert(m_dockWindowDic[item.Text].Pane != null);
                 m_dockWindowDic[item.Text].Show();
                 item.Checked = true;
             }

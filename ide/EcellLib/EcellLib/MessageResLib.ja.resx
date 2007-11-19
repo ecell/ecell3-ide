@@ -166,16 +166,16 @@
     <value>シミュレーションパラメータを削除できませんでした。</value>
   </data>
   <data name="ErrExistID" xml:space="preserve">
-    <value>はVariableReferenceListに存在します。</value>
+    <value>{0} はVariableReferenceListに存在します。</value>
   </data>
   <data name="ErrExistObj" xml:space="preserve">
-    <value> は既に存在します。</value>
+    <value>{0} は既に存在します。</value>
   </data>
   <data name="ErrExistSimParam" xml:space="preserve">
-    <value>は存在するシミュレーションパラメータです。</value>
+    <value>{0} は存在するシミュレーションパラメータです。</value>
   </data>
   <data name="ErrExistStepper" xml:space="preserve">
-    <value> は既に存在するStepperです。</value>
+    <value>{0} は既に存在するStepperです。</value>
   </data>
   <data name="ErrExportFile" xml:space="preserve">
     <value>ファイルに出力できませんでした。</value>
@@ -225,7 +225,7 @@
   <data name="ErrGetSysList" xml:space="preserve">
     <value>システムリストを取得するのに失敗しました。</value>
   </data>
-  <data name="ErrIDUnform" xml:space="preserve">
+  <data name="ErrIDMalformed" xml:space="preserve">
     <value>このIDの形式は異常です。</value>
   </data>
   <data name="ErrInitParam" xml:space="preserve">
