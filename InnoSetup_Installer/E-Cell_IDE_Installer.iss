@@ -313,7 +313,7 @@ Source: "..\64bit\dm\FixedODE1Stepper.dll"; DestDir: "{app}\modules"; Flags: 64B
 Source: "..\64bit\dm\FluxDistributionStepper.dll"; DestDir: "{app}\modules"; Flags: 64Bit; Check: IsWin64();
 Source: "..\64bit\dm\GillespieProcess.dll"; DestDir: "{app}\modules"; Flags: 64Bit; Check: IsWin64();
 Source: "..\64bit\dm\GMAProcess.dll"; DestDir: "{app}\modules"; Flags: 64Bit; Check: IsWin64();
-Source: "..\64bit\dm\MassActionFluxProcess.dll"; DestDir: "{app}\dm"; Flags: 64Bit; Check: IsWin64();
+Source: "..\64bit\dm\MassActionFluxProcess.dll"; DestDir: "{app}\modules"; Flags: 64Bit; Check: IsWin64();
 Source: "..\64bit\dm\MichaelisUniUniFluxProcess.dll"; DestDir: "{app}\modules"; Flags: 64Bit; Check: IsWin64();
 Source: "..\64bit\dm\ODE23Stepper.dll"; DestDir: "{app}\modules"; Flags: 64Bit; Check: IsWin64();
 Source: "..\64bit\dm\ODE45Stepper.dll"; DestDir: "{app}\modules"; Flags: 64Bit; Check: IsWin64();
@@ -492,15 +492,15 @@ Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName
 [Icons]
 Name: "{group}\E-Cell IDE"; Filename: "{app}\bin\MainWindow.exe"; IconIndex: 0;
 Name: "{userdesktop}\E-Cell IDE"; Filename: "{app}\bin\MainWindow.exe"; IconIndex: 0;
-Name: "{group}\samples\BrabchG"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "branchG.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\sample\";
-Name: "{group}\samples\Cascade"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "cascade.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\sample\";
-Name: "{group}\samples\Drosophila"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "Drosophila.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\sample\";
-Name: "{group}\samples\heatshock"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "heatshock.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\sample\";
-Name: "{group}\samples\LTD"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "LTD.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\sample\";
-Name: "{group}\samples\Pendulum"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "Penduluma.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\sample\";
-Name: "{group}\samples\Simplea"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "Simple.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\sample\";
-Name: "{group}\samples\tauleap"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "tauleap.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\sample\";
-Name: "{group}\samples\Toy_Hybrid"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "Toy_Hybrid.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\sample\";
+Name: "{group}\samples\BrabchG"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "branchG.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\samples\branchG\Model\";
+Name: "{group}\samples\Cascade"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "cascade.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\samples\cascade\Model\";
+Name: "{group}\samples\Drosophila"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "Drosophila.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\samples\Drosophila\Model\";
+Name: "{group}\samples\heatshock"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "heatshock.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\samples\heatshock\Model\";
+Name: "{group}\samples\LTD"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "LTD.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\samples\LTD\Model\";
+Name: "{group}\samples\Pendulum"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "Pendulum.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\Model\";
+Name: "{group}\samples\Simple"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "simple.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\samples\simple\Model\";
+Name: "{group}\samples\tauleap"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "tauleap.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\samples\tauleap\Model\";
+Name: "{group}\samples\Toy_Hybrid"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "Toy_Hybrid.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\samples\Toy_Hybrid\Model\";
 
 [Run]
 Filename: "{app}\bin\test.bat"; Flags: runhidden; WorkingDir: "{app}\bin";
