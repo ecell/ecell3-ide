@@ -503,21 +503,28 @@ namespace EcellLib
         {
             Assembly m_theHandle = Assembly.LoadFile(path);
             Type aType = m_theHandle.GetType(className);
-            Object anAllocator = aType.InvokeMember(
-                null,
-                BindingFlags.CreateInstance,
-                null,
-                null,
-                null
-            );
-
-            PluginBase p = (PluginBase)anAllocator;
-            if (!m_pluginList.ContainsKey(p.GetPluginName()))
+            try
             {
-                m_pluginList.Add(p.GetPluginName(), p);
-            }
+                Object anAllocator = aType.InvokeMember(
+                    null,
+                    BindingFlags.CreateInstance,
+                    null,
+                    null,
+                    null
+                );
 
-            return p;
+                PluginBase p = (PluginBase)anAllocator;
+                if (!m_pluginList.ContainsKey(p.GetPluginName()))
+                {
+                    m_pluginList.Add(p.GetPluginName(), p);
+                }
+
+                return p;
+            }
+            catch (TargetInvocationException e)
+            {
+                throw e.InnerException;
+            }
         }
 
         /// <summary>
@@ -587,7 +594,7 @@ namespace EcellLib
         /// <returns>the plugin. if not find the plugin, return null.</returns>
         public List<ILayoutAlgorithm> GetLayoutPlugins()
         {
-            // Read component settings from ComopnentSettings.xml
+            // Read component settings from ComponentSettings.xml
             // string pathwayDir = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
             string pathwayDir = EcellLib.Util.GetPluginDir();
             pathwayDir += "\\pathway";
