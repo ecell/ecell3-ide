@@ -191,8 +191,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\src\MainWindow\MainWindow\bin\$(ConfigurationName)"
-XCOPY /Y $(TargetPath) "$(ECELL_STAGING_HOME)\plugin"
+    <PostBuildEvent>IF NOT EXIST "$(ECELL_STAGING_HOME)\plugin" MKDIR "$(ECELL_STAGING_HOME)\plugin"
+XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\src\MainWindow\MainWindow\bin\$(ConfigurationName)"
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\plugin"
 XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\bin"
 FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\bin\%25%25D"
 FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\bin\%25%25D"</PostBuildEvent>
