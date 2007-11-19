@@ -348,8 +348,11 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString("ErrLoadPlugin");
-                MessageBox.Show(errmes + "(" + className + ")\n\n" + ex.Message,
-                    "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    errmes + "(" + className + ")\n\n" + ex.Message + "\n"
+                           + ex.StackTrace.ToString(),
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, 0,
+                    MessageBoxOptions.DefaultDesktopOnly);
                 return;
             }
             // Set DockContent.
