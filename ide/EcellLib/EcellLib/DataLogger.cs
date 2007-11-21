@@ -431,7 +431,7 @@ namespace EcellLib
         /// <summary>
         /// The value of the data
         /// </summary>
-        private double m_value = double.NaN;
+        private double Value = double.NaN;
 
         /// <summary>
         /// Creates the new "LogValue" instance without any parameter.
@@ -457,7 +457,7 @@ namespace EcellLib
             )
         {
             this.m_time = l_time;
-            this.m_value = l_value;
+            this.Value = l_value;
             this.m_avg = l_avg;
             this.m_min = l_min;
             this.m_max = l_max;
@@ -473,12 +473,12 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// get/set m_value
+        /// get/set Value
         /// </summary>
         public double value
         {
-            get { return this.m_value; }
-            //set { this.m_value = value; }
+            get { return this.Value; }
+            //set { this.Value = value; }
         }
 
         /// <summary>

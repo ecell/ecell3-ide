@@ -802,27 +802,27 @@ namespace EcellLib.Analysis
                     }
                     parentNode.Nodes.Add(sysNode);
 
-                    foreach (EcellObject child in obj.M_instances)
+                    foreach (EcellObject child in obj.Children)
                     {
                         string[] keydata = child.key.Split(new char[] { ':' });
                         TreeNode childNode = new TreeNode(keydata[keydata.Length - 1]);
                         childNode.Tag = null;
                         sysNode.Nodes.Add(childNode);
 
-                        foreach (EcellData data in child.M_value)
+                        foreach (EcellData data in child.Value)
                         {
-                            if (data.M_isSettable && data.M_value.M_type == typeof(double))
+                            if (data.Settable && data.Value.Type == typeof(double))
                             {
-                                TreeNode propNode = new TreeNode(data.M_name);
-                                propNode.Tag = data.M_entityPath;
+                                TreeNode propNode = new TreeNode(data.Name);
+                                propNode.Tag = data.EntityPath;
                                 childNode.Nodes.Add(propNode);
-                                double d = data.M_value.CastToDouble();
+                                double d = data.Value.CastToDouble();
                                 RandomCard r = new RandomCard(d + d * 0.3, d - d * 0.3,
                                     50.0, 30.0);
-                                m_randomDict.Add(data.M_entityPath, r);
+                                m_randomDict.Add(data.EntityPath, r);
                                 JudgeCard j = new JudgeCard(d + d * 0.3, 
                                     d - d * 0.3, d * 0.6, 0.5);
-                                m_judgeDict.Add(data.M_entityPath, j);
+                                m_judgeDict.Add(data.EntityPath, j);
                             }
                         }
                     }

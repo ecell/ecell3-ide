@@ -111,13 +111,13 @@ namespace EcellLib.Simulation
             List<EcellData> list = new List<EcellData>();
             foreach (string key in propDict.Keys)
             {
-                if (propDict[key].M_name == "ProcessList" || propDict[key].M_name == "SystemList" ||
-                    propDict[key].M_name == "ReadVariableList" ||
-                    propDict[key].M_name == "WriteVariableList")
+                if (propDict[key].Name == "ProcessList" || propDict[key].Name == "SystemList" ||
+                    propDict[key].Name == "ReadVariableList" ||
+                    propDict[key].Name == "WriteVariableList")
                 {
                     EcellData d = propDict[key];
                     List<EcellValue> nulllist = new List<EcellValue>();
-                    d.M_value = new EcellValue(nulllist);
+                    d.Value = new EcellValue(nulllist);
                     list.Add(d);
                 }
                 else

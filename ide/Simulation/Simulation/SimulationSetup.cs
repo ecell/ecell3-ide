@@ -99,10 +99,10 @@
                 m_steppList = m_dManager.GetStepper(param, modelID);
                 foreach (EcellObject obj in m_steppList)
                 {
-                    if (obj.M_value == null) continue;
+                    if (obj.Value == null) continue;
                     stepperListBox.Items.Add(obj.key);
                     if (j != 0) continue;
-                    ChangeDataGrid(obj.M_value);
+                    ChangeDataGrid(obj.Value);
                     int ind = stepCombo.Items.IndexOf(obj.classname);
                     stepCombo.SelectedIndex = ind;
 
@@ -126,22 +126,22 @@
                 style.BackColor = Color.LightGray;
                 foreach (EcellData d in values)
                 {
-                    if (d.M_name == "ClassName") continue;
-                    string name = d.M_name;
-                    string value = d.M_value.ToString();
+                    if (d.Name == "ClassName") continue;
+                    string name = d.Name;
+                    string value = d.Value.ToString();
                     string get = "+";
                     string set = "+";
-                    if (!d.M_isGettable) get = "-";
-                    if (!d.M_isSettable) set = "-";
+                    if (!d.Gettable) get = "-";
+                    if (!d.Settable) set = "-";
 
-                    if (d.M_value.IsDouble()) m_propDict.Add(d.M_name, "double");
-                    else if (d.M_value.IsString()) m_propDict.Add(d.M_name, "string");
-                    else if (d.M_value.IsInt()) m_propDict.Add(d.M_name, "int");
-                    else if (d.M_value.IsList()) m_propDict.Add(d.M_name, "list");
+                    if (d.Value.IsDouble()) m_propDict.Add(d.Name, "double");
+                    else if (d.Value.IsString()) m_propDict.Add(d.Name, "string");
+                    else if (d.Value.IsInt()) m_propDict.Add(d.Name, "int");
+                    else if (d.Value.IsList()) m_propDict.Add(d.Name, "list");
 
                     dgv.Rows.Add(new object[] { name, value, get, set });
                     int ind = dgv.Rows.GetLastRow(DataGridViewElementStates.None);
-                    if (!d.M_isSettable)
+                    if (!d.Settable)
                     {
                         dgv.Rows[ind].ReadOnly = true;
                         dgv.Rows[ind].DefaultCellStyle = style;
@@ -300,7 +300,7 @@
                 string selectID = stepperListBox.SelectedItem.ToString();
                 foreach (EcellObject obj in m_steppList)
                 {
-                    if (obj.M_value == null) continue;
+                    if (obj.Value == null) continue;
                     if (obj.key != selectID) continue;
 
                     for (int i = 0; i < stepCombo.Items.Count; i++)
@@ -312,7 +312,7 @@
                         }
                     }
 
-                    ChangeDataGrid(obj.M_value);
+                    ChangeDataGrid(obj.Value);
                     break;
                 }
             }
@@ -436,21 +436,21 @@
                         {
                             foreach (EcellData tmp in m_selectValue)
                             {
-                                if (tmp.M_name == name)
+                                if (tmp.Name == name)
                                 {
-                                    if (tmp.M_value.IsInt())
-                                        tmp.M_value = new EcellValue(Convert.ToInt32(value));
-                                    else if (tmp.M_value.IsDouble())
+                                    if (tmp.Value.IsInt())
+                                        tmp.Value = new EcellValue(Convert.ToInt32(value));
+                                    else if (tmp.Value.IsDouble())
                                     {
                                         if (value == "1.79769313486232E+308")
-                                            tmp.M_value = new EcellValue(Double.MaxValue);
+                                            tmp.Value = new EcellValue(Double.MaxValue);
                                         else
-                                            tmp.M_value = new EcellValue(System.Double.Parse(value));
+                                            tmp.Value = new EcellValue(System.Double.Parse(value));
                                     }
-                                    else if (tmp.M_value.IsList())
-                                        tmp.M_value = EcellValue.ToList(value);
+                                    else if (tmp.Value.IsList())
+                                        tmp.Value = EcellValue.ToList(value);
                                     else
-                                        tmp.M_value = new EcellValue(value);
+                                        tmp.Value = new EcellValue(value);
                                 }
                             }
                         }
@@ -469,7 +469,7 @@
                     m_dManager.UpdateStepperID(paramID, list);
                     foreach (EcellObject tmp in m_steppList)
                     {
-                        if (tmp.M_value == null) continue;
+                        if (tmp.Value == null) continue;
                         if (tmp.key != stepperID) continue;
 
                         m_steppList.Remove(tmp);

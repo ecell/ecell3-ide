@@ -139,9 +139,9 @@ namespace EcellLib.Analysis
                 foreach (EcellObject sObj in oList)
                 {
                     SearchAndAddEntry(sObj);
-                    if (sObj.M_instances != null)
+                    if (sObj.Children != null)
                     {
-                        foreach (EcellObject obj in sObj.M_instances)
+                        foreach (EcellObject obj in sObj.Children)
                         {
                             SearchAndAddEntry(obj);
                         }
@@ -188,14 +188,14 @@ namespace EcellLib.Analysis
         /// <param name="obj">parameter object.</param>
         private void SearchAndAddEntry(EcellObject obj)
         {
-            if (obj.M_value == null) return;
-            foreach (EcellData d in obj.M_value)
+            if (obj.Value == null) return;
+            foreach (EcellData d in obj.Value)
             {
-                if (d.M_isCommit) continue;
-                if (m_paramList.ContainsKey(d.M_entityPath)) continue;
+                if (d.Committed) continue;
+                if (m_paramList.ContainsKey(d.EntityPath)) continue;
                 DataGridViewRow r = new DataGridViewRow();
                 DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                c1.Value = d.M_entityPath;
+                c1.Value = d.EntityPath;
                 r.Cells.Add(c1);
                 DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
                 c2.Value = d.Max;
@@ -209,7 +209,7 @@ namespace EcellLib.Analysis
                 r.Tag = obj;
                 AssignParamPopupMenu(r);
                 RAParamGridView.Rows.Add(r);
-                m_paramList.Add(d.M_entityPath, d);
+                m_paramList.Add(d.EntityPath, d);
             }
         }
 
@@ -558,11 +558,11 @@ namespace EcellLib.Analysis
                     RAParamGridView.Rows.RemoveAt(i);
                     m_paramList.Remove(key);
 
-                    foreach (EcellData d in obj.M_value)
+                    foreach (EcellData d in obj.Value)
                     {
-                        if (key.Equals(d.M_entityPath))
+                        if (key.Equals(d.EntityPath))
                         {
-                            d.M_isCommit = true;
+                            d.Committed = true;
                         }
                         break;
                     }
@@ -603,27 +603,27 @@ namespace EcellLib.Analysis
         /// <param name="obj">Changed value of object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject obj)
         {
-            if (obj.M_value == null) return;
-            foreach (EcellData d in obj.M_value)
+            if (obj.Value == null) return;
+            foreach (EcellData d in obj.Value)
             {
-                if (m_paramList.ContainsKey(d.M_entityPath))
+                if (m_paramList.ContainsKey(d.EntityPath))
                 {
-                    if (!d.M_isCommit) continue;
-                    m_paramList.Remove(d.M_entityPath);
+                    if (!d.Committed) continue;
+                    m_paramList.Remove(d.EntityPath);
                     for (int i = 0; i < RAParamGridView.Rows.Count; i++)
                     {
                         String pData = RAParamGridView[0, i].Value.ToString();
-                        if (pData.Equals(d.M_entityPath))
+                        if (pData.Equals(d.EntityPath))
                         {
                             RAParamGridView.Rows.RemoveAt(i);
                             break;
                         }
                     }
                 }
-                if (d.M_isCommit) continue;
+                if (d.Committed) continue;
                 DataGridViewRow r = new DataGridViewRow();
                 DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                c1.Value = d.M_entityPath;
+                c1.Value = d.EntityPath;
                 r.Cells.Add(c1);
                 DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
                 c2.Value = d.Max;
@@ -636,7 +636,7 @@ namespace EcellLib.Analysis
                 r.Cells.Add(c4);
                 r.Tag = obj;
                 AssignParamPopupMenu(r);
-                RAParamGridView.Rows.Add(r); m_paramList.Add(d.M_entityPath, d);
+                RAParamGridView.Rows.Add(r); m_paramList.Add(d.EntityPath, d);
             }
         }
 
@@ -786,11 +786,11 @@ namespace EcellLib.Analysis
                     List<string> modelList = manager.GetModelList();
                     EcellObject obj = manager.GetEcellObject(modelList[0], objId, ele[0]);
                     if (obj == null) continue;
-                    foreach (EcellData d in obj.M_value)
+                    foreach (EcellData d in obj.Value)
                     {
-                        if (d.M_entityPath.Equals(path))
+                        if (d.EntityPath.Equals(path))
                         {
-                            d.M_value = new EcellValue(param);
+                            d.Value = new EcellValue(param);
                             break;
                         }
                     }
@@ -845,16 +845,16 @@ namespace EcellLib.Analysis
 
             DataManager dManager = DataManager.GetDataManager();
             EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
-            foreach (EcellData d in t.M_value)
+            foreach (EcellData d in t.Value)
             {
-                if (d.M_entityPath.Equals(dobj.Path))
+                if (d.EntityPath.Equals(dobj.Path))
                 {
                     if (d.Max == 0.0 && d.Min == 0.0)
                     {
-                        d.Max = Convert.ToDouble(d.M_value.ToString()) * 1.5;
-                        d.Min = Convert.ToDouble(d.M_value.ToString()) * 0.5;
+                        d.Max = Convert.ToDouble(d.Value.ToString()) * 1.5;
+                        d.Min = Convert.ToDouble(d.Value.ToString()) * 0.5;
                     }
-                    d.M_isCommit = false;
+                    d.Committed = false;
                     break;
                 }
             }
@@ -888,18 +888,18 @@ namespace EcellLib.Analysis
 
             DataManager dManager = DataManager.GetDataManager();
             EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
-            foreach (EcellData d in t.M_value)
+            foreach (EcellData d in t.Value)
             {
-                if (d.M_entityPath.Equals(dobj.Path))
+                if (d.EntityPath.Equals(dobj.Path))
                 {
                     DataGridViewRow r = new DataGridViewRow();
                     DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                    c1.Value = d.M_entityPath;
+                    c1.Value = d.EntityPath;
                     r.Cells.Add(c1);
                     DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
                     if (d.Max == 0.0)
                     {
-                        c2.Value = Convert.ToDouble(d.M_value.ToString()) * 1.5;
+                        c2.Value = Convert.ToDouble(d.Value.ToString()) * 1.5;
                     }
                     else
                     {
@@ -909,7 +909,7 @@ namespace EcellLib.Analysis
                     DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
                     if (d.Min == 0.0)
                     {
-                        c3.Value = Convert.ToDouble(d.M_value.ToString()) * 0.5;
+                        c3.Value = Convert.ToDouble(d.Value.ToString()) * 0.5;
                     }
                     else
                     {
@@ -919,7 +919,7 @@ namespace EcellLib.Analysis
                     DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
                     if (d.Max == 0.0 && d.Min == 0.0)
                     {
-                        c4.Value = Convert.ToDouble(d.M_value.ToString());
+                        c4.Value = Convert.ToDouble(d.Value.ToString());
                     }
                     else
                     {
@@ -932,7 +932,7 @@ namespace EcellLib.Analysis
                     r.Tag = t;
                     AssignObservPopupMenu(r);
                     RAObservGridView.Rows.Add(r);
-                    m_observList.Add(d.M_entityPath, d);
+                    m_observList.Add(d.EntityPath, d);
                 }
             }
         }

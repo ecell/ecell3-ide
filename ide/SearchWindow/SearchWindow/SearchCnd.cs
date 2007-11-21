@@ -129,8 +129,8 @@ namespace EcellLib.SearchWindow
                             dgv.Rows.Add(new Object[] { obj.key, value.ToString(), model, obj.type });
                     }
 
-                    if (obj.M_instances == null) continue;
-                    foreach (EcellObject ins in obj.M_instances)
+                    if (obj.Children == null) continue;
+                    foreach (EcellObject ins in obj.Children)
                     {
                         if (ins.key.Contains(searchId)) {
                             String name = "";
@@ -190,7 +190,7 @@ namespace EcellLib.SearchWindow
                 }
                 for (int i = 0; i < list.Count; i++)
                 {
-                    List<EcellObject> insList = list[i].M_instances;
+                    List<EcellObject> insList = list[i].Children;
                     if (insList == null || insList.Count == 0) continue;
                     for (int j = 0; j < insList.Count; j++)
                     {

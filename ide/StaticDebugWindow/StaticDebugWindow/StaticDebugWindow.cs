@@ -698,15 +698,15 @@ namespace EcellLib.StaticDebugWindow
             string minEntityPath = null;
             foreach (EcellData ecellData in ecellDataList)
             {
-                if (ecellData.M_name.Equals(Util.s_headerMaximum + Util.s_xpathStepInterval))
+                if (ecellData.Name.Equals(Util.s_headerMaximum + Util.s_xpathStepInterval))
                 {
-                    maxStepInterval = ecellData.M_value.CastToDouble();
-                    maxEntityPath = ecellData.M_entityPath;
+                    maxStepInterval = ecellData.Value.CastToDouble();
+                    maxEntityPath = ecellData.EntityPath;
                 }
-                else if (ecellData.M_name.Equals(Util.s_headerMinimum + Util.s_xpathStepInterval))
+                else if (ecellData.Name.Equals(Util.s_headerMinimum + Util.s_xpathStepInterval))
                 {
-                    minStepInterval = ecellData.M_value.CastToDouble();
-                    minEntityPath = ecellData.M_entityPath;
+                    minStepInterval = ecellData.Value.CastToDouble();
+                    minEntityPath = ecellData.EntityPath;
                 }
             }
             if (maxStepInterval < minStepInterval)
@@ -734,7 +734,7 @@ namespace EcellLib.StaticDebugWindow
             bool existedFlag = false;
             foreach (EcellObject stepper in this.m_dManager.GetStepper(null, modelID))
             {
-                if (stepper.key.Equals(ecellData.M_value.CastToString()))
+                if (stepper.key.Equals(ecellData.Value.CastToString()))
                 {
                     existedFlag = true;
                     break;
@@ -742,8 +742,8 @@ namespace EcellLib.StaticDebugWindow
             }
             if (!existedFlag)
             {
-                string message= "Can't find the stepper with the key[" + ecellData.M_value.CastToString() + "].";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                string message= "Can't find the stepper with the key[" + ecellData.Value.CastToString() + "].";
+                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
             }
         }
 
@@ -762,7 +762,7 @@ namespace EcellLib.StaticDebugWindow
                 {
                     return;
                 }
-                foreach (EcellValue vr in ecellData.M_value.CastToList())
+                foreach (EcellValue vr in ecellData.Value.CastToList())
                 {
                     List<EcellValue> vrInfoList = vr.CastToList();
                     //
@@ -772,7 +772,7 @@ namespace EcellLib.StaticDebugWindow
                     string systemPath = variableInfos[1];
                     if (systemPath.Equals(Util.s_delimiterPeriod))
                     {
-                        systemPath = ecellData.M_entityPath.Split(Util.s_delimiterColon.ToCharArray())[1];
+                        systemPath = ecellData.EntityPath.Split(Util.s_delimiterColon.ToCharArray())[1];
                     }
                     string variableKey = systemPath + Util.s_delimiterColon + variableInfos[2];
                     bool existFlag = false;
@@ -783,9 +783,9 @@ namespace EcellLib.StaticDebugWindow
                             existFlag = true;
                             break;
                         }
-                        if (ecellObject.M_instances != null && ecellObject.M_instances.Count > 0)
+                        if (ecellObject.Children != null && ecellObject.Children.Count > 0)
                         {
-                            foreach (EcellObject childEcellObject in ecellObject.M_instances)
+                            foreach (EcellObject childEcellObject in ecellObject.Children)
                             {
                                 if (childEcellObject.type.Equals(Util.s_xpathVariable)
                                         && childEcellObject.key.Equals(variableKey))
@@ -800,7 +800,7 @@ namespace EcellLib.StaticDebugWindow
                     {
                         string message
                             = "The \"VariableReference[" + vr.ToString() + "]\" has no available \"Variable\".";
-                        this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                        this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
                     }
                     //
                     // Validates the direction.
@@ -812,9 +812,9 @@ namespace EcellLib.StaticDebugWindow
                             string message
                                 = "The \"VariableReference["
                                 + vr.ToString() + "]\" has the duplicated \"Coefficient\" and \"Variable\""
-                                + "in this \"VariableReferenceList[" + ecellData.M_value.ToString() + "]\".";
+                                + "in this \"VariableReferenceList[" + ecellData.Value.ToString() + "]\".";
                             this.m_errorMessageList.Add(
-                                new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                                new ErrorMessage(modelID, type, ecellData.EntityPath, message));
                         }
                         else
                         {
@@ -834,9 +834,9 @@ namespace EcellLib.StaticDebugWindow
                 {
                     string message
                         = "The \"VariableReferenceList["
-                        + ecellData.M_value.ToString() + "]\" has only the 0 \"Coefficient\".";
+                        + ecellData.Value.ToString() + "]\" has only the 0 \"Coefficient\".";
                     this.m_errorMessageList.Add(
-                        new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                        new ErrorMessage(modelID, type, ecellData.EntityPath, message));
                 }
             }
             catch (Exception ex)
@@ -846,8 +846,8 @@ namespace EcellLib.StaticDebugWindow
                 MessageBox.Show(errmes, "ERROR",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 // string message
-                //     = "The [" + ecellData.M_value.CastToString() + "] is out of order. [" + ex.ToString() + "]";
-                // this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                //     = "The [" + ecellData.Value.CastToString() + "] is out of order. [" + ex.ToString() + "]";
+                // this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
             }
             finally
             {
@@ -874,21 +874,21 @@ namespace EcellLib.StaticDebugWindow
             List<string> nameList = new List<string>();
             foreach (EcellData ecellData in ecellDataList)
             {
-                if (ecellData.M_name.Equals(Util.s_xpathExpression))
+                if (ecellData.Name.Equals(Util.s_xpathExpression))
                 {
                     expression = ecellData.Copy();
                 }
-                else if (ecellData.M_name.Equals(Util.s_xpathVRL))
+                else if (ecellData.Name.Equals(Util.s_xpathVRL))
                 {
                     variableReferenceList = ecellData.Copy();
-                    foreach (EcellValue parent in variableReferenceList.M_value.CastToList())
+                    foreach (EcellValue parent in variableReferenceList.Value.CastToList())
                     {
                         variableList.Add((parent.CastToList())[0].CastToString());
                     }
                 }
                 else
                 {
-                    nameList.Add(ecellData.M_name);
+                    nameList.Add(ecellData.Name);
                 }
             }
             if (expression == null || variableReferenceList == null)
@@ -898,7 +898,7 @@ namespace EcellLib.StaticDebugWindow
             Regex regVariable
                 = new Regex("[\\(\\)+\\-\\*/ ]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             string message = " in this expression   \"";
-            string[] elements = regVariable.Split(expression.M_value.CastToString());
+            string[] elements = regVariable.Split(expression.Value.CastToString());
             foreach (string element in elements)
             {
                 if (element.Length <= 0)
@@ -920,10 +920,10 @@ namespace EcellLib.StaticDebugWindow
                         catch (Exception)
                         {
                             message
-                                = "The [" + element + "] in this expression [" + expression.M_value.CastToString() + "]"
+                                = "The [" + element + "] in this expression [" + expression.Value.CastToString() + "]"
                                 + " isn't a property of the process.";
                             this.m_errorMessageList.Add(
-                                new ErrorMessage(modelID, type, expression.M_entityPath, message));
+                                new ErrorMessage(modelID, type, expression.EntityPath, message));
                         }
                     }
                 }
@@ -932,11 +932,11 @@ namespace EcellLib.StaticDebugWindow
                     string alias = element.Split(Util.s_delimiterPeriod.ToCharArray())[0];
                     if (alias != null && alias.Length > 0 && !variableList.Contains(alias))
                     {
-//                        message = "The [" + alias + "] in this expression [" + expression.M_value.CastToString() + "]"
+//                        message = "The [" + alias + "] in this expression [" + expression.Value.CastToString() + "]"
 //                            + " isn't a element of this \"VariableReferenceList\" [" 
-//                            + variableReferenceList.M_value.ToString() + "].";
+//                            + variableReferenceList.Value.ToString() + "].";
                         message = "Can't not find the variable[" + alias + "] in this expression from VariableReferemce+List";  
-                        this.m_errorMessageList.Add(new ErrorMessage(modelID, type, expression.M_entityPath, message));
+                        this.m_errorMessageList.Add(new ErrorMessage(modelID, type, expression.EntityPath, message));
                     }
                 }
             }
@@ -955,16 +955,16 @@ namespace EcellLib.StaticDebugWindow
                 return;
             }
             string message = " has the invalid character \"";
-            string value = ecellData.M_value.CastToString();
+            string value = ecellData.Value.CastToString();
             if (value.IndexOf(Util.s_delimiterPath) >= 0)
             {
-                message = "The \"" + ecellData.M_name + "[" + value + "]\"" + message + Util.s_delimiterPath + "\".";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                message = "The \"" + ecellData.Name + "[" + value + "]\"" + message + Util.s_delimiterPath + "\".";
+                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
             }
             else if (value.IndexOf(Util.s_delimiterColon) >= 0)
             {
-                message = "The \"" + ecellData.M_name + "[" + value + "]\"" + message + Util.s_delimiterColon + "\".";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                message = "The \"" + ecellData.Name + "[" + value + "]\"" + message + Util.s_delimiterColon + "\".";
+                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
             }
         }
 
@@ -980,11 +980,11 @@ namespace EcellLib.StaticDebugWindow
             {
                 return;
             }
-            if (ecellData.M_value.CastToInt() != 0 && ecellData.M_value.CastToInt() != 1)
+            if (ecellData.Value.CastToInt() != 0 && ecellData.Value.CastToInt() != 1)
             {
-                string message = "The \"" + ecellData.M_name + "[" + ecellData.M_value.CastToInt() 
+                string message = "The \"" + ecellData.Name + "[" + ecellData.Value.CastToInt() 
                     + "]\" cannot be converted into \"Bool\". ";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
             }
         }
 
@@ -1000,11 +1000,11 @@ namespace EcellLib.StaticDebugWindow
             {
                 return;
             }
-            if (ecellData.M_value.CastToDouble() <= 0.0)
+            if (ecellData.Value.CastToDouble() <= 0.0)
             {
-                string message = "The \"" + ecellData.M_name + "[" + ecellData.M_value.CastToDouble()
+                string message = "The \"" + ecellData.Name + "[" + ecellData.Value.CastToDouble()
                     + "]\" isn't a positive number. ";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
             }
         }
 
@@ -1020,11 +1020,11 @@ namespace EcellLib.StaticDebugWindow
             {
                 return;
             }
-            if (ecellData.M_value.CastToDouble() < 0.0)
+            if (ecellData.Value.CastToDouble() < 0.0)
             {
-                string message = "The \"" + ecellData.M_name + "[" + ecellData.M_value.CastToDouble() 
+                string message = "The \"" + ecellData.Name + "[" + ecellData.Value.CastToDouble() 
                     + "] isn't 0 or a positive number. ";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
             }
         }
 
@@ -1052,15 +1052,15 @@ namespace EcellLib.StaticDebugWindow
                     //
                     // 4 System, Variable and Process
                     //
-                    foreach (EcellData ecellData in ecellObject.M_value)
+                    foreach (EcellData ecellData in ecellObject.Value)
                     {
-                        if (this.m_uniValidateNetworkDic[ecellObject.type].ContainsKey(ecellData.M_name))
+                        if (this.m_uniValidateNetworkDic[ecellObject.type].ContainsKey(ecellData.Name))
                         {
-                            if (this.m_uniValidateNetworkDic[ecellObject.type][ecellData.M_name].ContainsKey(
-                                ecellData.M_value.M_type))
+                            if (this.m_uniValidateNetworkDic[ecellObject.type][ecellData.Name].ContainsKey(
+                                ecellData.Value.Type))
                             {
-                                this.m_uniValidateNetworkDic[ecellObject.type][ecellData.M_name]
-                                    [ecellData.M_value.M_type](ecellObject.modelID, ecellObject.type, ecellData);
+                                this.m_uniValidateNetworkDic[ecellObject.type][ecellData.Name]
+                                    [ecellData.Value.Type](ecellObject.modelID, ecellObject.type, ecellData);
                             }
                         }
                     }
@@ -1071,16 +1071,16 @@ namespace EcellLib.StaticDebugWindow
                     //
                     // 4 System, Variable and Process
                     //
-                    foreach (EcellData ecellData in ecellObject.M_value)
+                    foreach (EcellData ecellData in ecellObject.Value)
                     {
-                        if (this.m_multiValidateNetworkDic[ecellObject.type].ContainsKey(ecellData.M_name))
+                        if (this.m_multiValidateNetworkDic[ecellObject.type].ContainsKey(ecellData.Name))
                         {
-                            if (this.m_multiValidateNetworkDic[ecellObject.type][ecellData.M_name].ContainsKey(
-                                ecellData.M_value.M_type))
+                            if (this.m_multiValidateNetworkDic[ecellObject.type][ecellData.Name].ContainsKey(
+                                ecellData.Value.Type))
                             {
-                                this.m_multiValidateNetworkDic[ecellObject.type][ecellData.M_name]
-                                    [ecellData.M_value.M_type](
-                                        ecellObject.modelID, ecellObject.type, ecellObject.M_value);
+                                this.m_multiValidateNetworkDic[ecellObject.type][ecellData.Name]
+                                    [ecellData.Value.Type](
+                                        ecellObject.modelID, ecellObject.type, ecellObject.Value);
                             }
                         }
                     }
@@ -1090,9 +1090,9 @@ namespace EcellLib.StaticDebugWindow
                 {
                     this.m_existVariableList.Add(ecellObject.key);
                 }
-                if (ecellObject.M_instances != null && ecellObject.M_instances.Count > 0)
+                if (ecellObject.Children != null && ecellObject.Children.Count > 0)
                 {
-                    this.ValidateNetwork(ecellObject.M_instances);
+                    this.ValidateNetwork(ecellObject.Children);
                 }
             }
             if (ecellObjectList.Count > 0 && !ecellObjectList[0].type.Equals(Util.s_xpathStepper))
@@ -1166,15 +1166,15 @@ namespace EcellLib.StaticDebugWindow
                     //
                     // 4 System, Variable and Process
                     //
-                    foreach (EcellData ecellData in ecellObject.M_value)
+                    foreach (EcellData ecellData in ecellObject.Value)
                     {
-                        if (this.m_uniValidateModelDic[ecellObject.type].ContainsKey(ecellData.M_name))
+                        if (this.m_uniValidateModelDic[ecellObject.type].ContainsKey(ecellData.Name))
                         {
-                            if (this.m_uniValidateModelDic[ecellObject.type][ecellData.M_name].ContainsKey(
-                                ecellData.M_value.M_type))
+                            if (this.m_uniValidateModelDic[ecellObject.type][ecellData.Name].ContainsKey(
+                                ecellData.Value.Type))
                             {
-                                this.m_uniValidateModelDic[ecellObject.type][ecellData.M_name]
-                                    [ecellData.M_value.M_type](ecellObject.modelID, ecellObject.type, ecellData);
+                                this.m_uniValidateModelDic[ecellObject.type][ecellData.Name]
+                                    [ecellData.Value.Type](ecellObject.modelID, ecellObject.type, ecellData);
                             }
                         }
                     }
@@ -1184,23 +1184,23 @@ namespace EcellLib.StaticDebugWindow
                     //
                     // 4 System, Variable and Process
                     //
-                    foreach (EcellData ecellData in ecellObject.M_value)
+                    foreach (EcellData ecellData in ecellObject.Value)
                     {
-                        if (this.m_multiValidateModelDic[ecellObject.type].ContainsKey(ecellData.M_name))
+                        if (this.m_multiValidateModelDic[ecellObject.type].ContainsKey(ecellData.Name))
                         {
-                            if (this.m_multiValidateModelDic[ecellObject.type][ecellData.M_name].ContainsKey(
-                                ecellData.M_value.M_type))
+                            if (this.m_multiValidateModelDic[ecellObject.type][ecellData.Name].ContainsKey(
+                                ecellData.Value.Type))
                             {
-                                this.m_multiValidateModelDic[ecellObject.type][ecellData.M_name]
-                                    [ecellData.M_value.M_type](
-                                        ecellObject.modelID, ecellObject.type, ecellObject.M_value);
+                                this.m_multiValidateModelDic[ecellObject.type][ecellData.Name]
+                                    [ecellData.Value.Type](
+                                        ecellObject.modelID, ecellObject.type, ecellObject.Value);
                             }
                         }
                     }
                 }
-                if (ecellObject.M_instances != null && ecellObject.M_instances.Count > 0)
+                if (ecellObject.Children != null && ecellObject.Children.Count > 0)
                 {
-                    this.ValidateModel(ecellObject.M_instances);
+                    this.ValidateModel(ecellObject.Children);
                 }
             }
         }
@@ -1237,10 +1237,10 @@ namespace EcellLib.StaticDebugWindow
             Match matchParenthesis = null;
             int leftParenthesisCount = 0;
             int rightParenthesisCount = 0;
-            for (matchParenthesis = regParenthesis.Match(ecellData.M_value.CastToString());
+            for (matchParenthesis = regParenthesis.Match(ecellData.Value.CastToString());
                 matchParenthesis.Success; matchParenthesis = matchParenthesis.NextMatch())
             {
-                if (ecellData.M_value.CastToString()[matchParenthesis.Groups[0].Index] == '(')
+                if (ecellData.Value.CastToString()[matchParenthesis.Groups[0].Index] == '(')
                 {
                     leftParenthesisCount++;
                 }
@@ -1253,8 +1253,8 @@ namespace EcellLib.StaticDebugWindow
             {
                 string message = "The number of left parenthesis isn't equal to the number of right ones"
                     + " in this expression.";
-                //                    + " in this expression [" + ecellData.M_value.CastToString() + "].";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                //                    + " in this expression [" + ecellData.Value.CastToString() + "].";
+                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
             }
         }
 
@@ -1270,10 +1270,10 @@ namespace EcellLib.StaticDebugWindow
             {
                 return;
             }
-            if (ecellData.M_value.CastToList().Count <= 0)
+            if (ecellData.Value.CastToList().Count <= 0)
             {
                 string message = "The \"VariableReferenceList\" is \"null\".";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.M_entityPath, message));
+                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
             }
         }
 
@@ -1308,7 +1308,7 @@ namespace EcellLib.StaticDebugWindow
             {
                 return;
             }
-            foreach (EcellValue vr in ecellData.M_value.CastToList())
+            foreach (EcellValue vr in ecellData.Value.CastToList())
             {
                 this.m_usedVariableList.Add(vr.CastToList()[1].ToString());
             }

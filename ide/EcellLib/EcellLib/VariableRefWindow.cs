@@ -184,8 +184,8 @@ namespace EcellLib
                     }
                     if (node != null)
                     {
-                        if (obj.M_instances == null) continue;
-                        foreach (EcellObject eo in obj.M_instances)
+                        if (obj.Children == null) continue;
+                        foreach (EcellObject eo in obj.Children)
                         {
                             if (eo.type != "Variable") continue;
                             string[] names = eo.key.Split(new char[] { ':' });

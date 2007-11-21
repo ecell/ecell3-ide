@@ -337,10 +337,10 @@ namespace EcellLib.GridLayout
             {
                 SystemContainer container = new SystemContainer();
                 container.Self = sys;
-                if (sys.M_instances.Count == 0)
+                if (sys.Children.Count == 0)
                     continue;
                 SystemContainer childDummyContainer = new SystemContainer();
-                childDummyContainer.ChildNodeNum = sys.M_instances.Count;
+                childDummyContainer.ChildNodeNum = sys.Children.Count;
                 childDummyContainer.IsDummyContainer = true;
                 container.AddChildContainer(childDummyContainer);
 

@@ -665,21 +665,21 @@ namespace EcellLib.PathwayWindow
             if (ecellobj == null)
                 return;
             // set logger menu
-            foreach (EcellData d in ecellobj.M_value)
+            foreach (EcellData d in ecellobj.Value)
             {
                 // Create "Create Logger" menu.
-                if (!d.M_isLogable)
+                if (!d.Logable)
                     continue;
-                ToolStripItem createItem = new ToolStripMenuItem(d.M_name);
-                createItem.Text = d.M_name;
+                ToolStripItem createItem = new ToolStripMenuItem(d.Name);
+                createItem.Text = d.Name;
                 createItem.Click += new EventHandler(CreateLoggerClick);
                 createLogger.DropDown.Items.Add(createItem);
 
                 // create "Delete Logger" menu.
-                if (!d.M_isLogger)
+                if (!d.Logged)
                     continue;
-                ToolStripItem deleteItem = new ToolStripMenuItem(d.M_name);
-                deleteItem.Text = d.M_name;
+                ToolStripItem deleteItem = new ToolStripMenuItem(d.Name);
+                deleteItem.Text = d.Name;
                 deleteItem.Click += new EventHandler(DeleteLoggerClick);
                 deleteLogger.DropDown.Items.Add(deleteItem);
             }
@@ -852,12 +852,12 @@ namespace EcellLib.PathwayWindow
             EcellObject eo = m_window.GetEcellObject(obj.EcellObject.modelID, obj.EcellObject.key, obj.EcellObject.type);
 
             // set logger
-            foreach (EcellData d in eo.M_value)
+            foreach (EcellData d in eo.Value)
             {
-                if (!logger.Equals(d.M_name))
+                if (!logger.Equals(d.Name))
                     continue;
                 // Set isLogger
-                d.M_isLogger = isLogger;
+                d.Logged = isLogger;
 
                 // If isLogger, 
                 if (!isLogger)
@@ -866,7 +866,7 @@ namespace EcellLib.PathwayWindow
                     eo.modelID,
                     eo.key,
                     eo.type,
-                    d.M_entityPath);
+                    d.EntityPath);
             }
             m_window.NotifyDataChanged(eo.key, eo.key, eo, true, true);
         }
@@ -1166,9 +1166,9 @@ namespace EcellLib.PathwayWindow
                 if(m_canvasDict[modelID].Processes.ContainsKey(eo.key))
                     m_canvasDict[modelID].Processes[eo.key].EcellObject = (EcellProcess)eo;
 
-            if (eo.M_instances == null || eo.M_instances.Count == 0)
+            if (eo.Children == null || eo.Children.Count == 0)
                 return;
-            foreach (EcellObject child in eo.M_instances)
+            foreach (EcellObject child in eo.Children)
                 SetPosition(modelID, child);
         }
         #endregion
@@ -1643,12 +1643,12 @@ namespace EcellLib.PathwayWindow
             {
                 if (eo.type == "Process")
                 {
-                    eo.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).Copy();
+                    eo.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value = eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).Copy();
                     foreach (EcellValue edge in eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).CastToList())
                     {
                         foreach (EcellValue val in edge.CastToList())
                             if (varKeys.ContainsKey(val.ToString()))
-                                val.M_value = varKeys[val.ToString()];
+                                val.Value = varKeys[val.ToString()];
                     }
                 }
             }
@@ -1836,7 +1836,7 @@ namespace EcellLib.PathwayWindow
         private void ChangeSystemSize(string modelID, string sysKey, double size)
         {
             EcellObject eo = m_window.GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
-            eo.GetEcellValue(EcellSystem.SIZE).M_value = size;
+            eo.GetEcellValue(EcellSystem.SIZE).Value = size;
             DataChanged(modelID, eo.key, eo.type, eo);
         }
 

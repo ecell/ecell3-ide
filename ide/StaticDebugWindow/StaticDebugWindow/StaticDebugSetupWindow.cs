@@ -210,7 +210,7 @@ namespace EcellLib.StaticDebugWindow
                     obj = objList[i];
                 else
                 {
-                    IEnumerator iter = objList[i].M_instances.GetEnumerator();
+                    IEnumerator iter = objList[i].Children.GetEnumerator();
                     while (iter.MoveNext())
                     {
                         EcellObject tmp = (EcellObject)iter.Current;

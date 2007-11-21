@@ -121,15 +121,15 @@ namespace EcellLib
                     {
                         if (l_systemObject.key.Equals(l_fullIDs[2]))
                         {
-                            if (l_systemObject.M_value == null || l_systemObject.M_value.Count <= 0)
+                            if (l_systemObject.Value == null || l_systemObject.Value.Count <= 0)
                             {
                                 continue;
                             }
-                            foreach (EcellData l_systemData in l_systemObject.M_value)
+                            foreach (EcellData l_systemData in l_systemObject.Value)
                             {
-                                if (l_systemData.M_isLogable && l_systemData.M_name.Equals(l_fullIDs[3]))
+                                if (l_systemData.Logable && l_systemData.Name.Equals(l_fullIDs[3]))
                                 {
-                                    l_systemData.M_isLogger = true;
+                                    l_systemData.Logged = true;
                                     l_changedKey = l_fullIDs[2];
                                     l_changedType = l_fullIDs[0];
                                     l_changedObject = l_systemObject;
@@ -140,24 +140,24 @@ namespace EcellLib
                     }
                     else if (l_fullIDs[0].Equals(Util.s_xpathProcess) || l_fullIDs[0].Equals(Util.s_xpathVariable))
                     {
-                        if (l_systemObject.M_instances == null || l_systemObject.M_instances.Count <= 0)
+                        if (l_systemObject.Children == null || l_systemObject.Children.Count <= 0)
                         {
                             continue;
                         }
-                        foreach (EcellObject l_childObject in l_systemObject.M_instances)
+                        foreach (EcellObject l_childObject in l_systemObject.Children)
                         {
                             if (l_childObject.type.Equals(l_fullIDs[0])
                                     && l_childObject.key.Equals(l_fullIDs[1] + Util.s_delimiterColon + l_fullIDs[2]))
                             {
-                                if (l_childObject.M_value == null || l_childObject.M_value.Count <= 0)
+                                if (l_childObject.Value == null || l_childObject.Value.Count <= 0)
                                 {
                                     continue;
                                 }
-                                foreach (EcellData l_childData in l_childObject.M_value)
+                                foreach (EcellData l_childData in l_childObject.Value)
                                 {
-                                    if (l_childData.M_isLogable && l_childData.M_name.Equals(l_fullIDs[3]))
+                                    if (l_childData.Logable && l_childData.Name.Equals(l_fullIDs[3]))
                                     {
-                                        l_childData.M_isLogger = true;
+                                        l_childData.Logged = true;
                                         l_changedKey = l_fullIDs[1]
                                                 + Util.s_delimiterColon + l_fullIDs[2];
                                         l_changedType = l_fullIDs[0];
@@ -357,15 +357,15 @@ namespace EcellLib
                     {
                         if (l_systemObject.key.Equals(l_fullPNDivs[2]))
                         {
-                            if (l_systemObject.M_value == null || l_systemObject.M_value.Count <= 0)
+                            if (l_systemObject.Value == null || l_systemObject.Value.Count <= 0)
                             {
                                 continue;
                             }
-                            foreach (EcellData l_systemValue in l_systemObject.M_value)
+                            foreach (EcellData l_systemValue in l_systemObject.Value)
                             {
-                                if (l_systemValue.M_isLogable && l_systemValue.M_name.Equals(l_fullPNDivs[3]))
+                                if (l_systemValue.Logable && l_systemValue.Name.Equals(l_fullPNDivs[3]))
                                 {
-                                    l_systemValue.M_isLogger = false;
+                                    l_systemValue.Logged = false;
                                     l_changedKey = l_fullPNDivs[2];
                                     l_changedType = l_fullPNDivs[0];
                                     l_changedObject = l_systemObject;
@@ -377,25 +377,25 @@ namespace EcellLib
                     else if (l_fullPNDivs[0].Equals(Util.s_xpathProcess)
                             || l_fullPNDivs[0].Equals(Util.s_xpathVariable))
                     {
-                        if (l_systemObject.M_instances == null || l_systemObject.M_instances.Count <= 0)
+                        if (l_systemObject.Children == null || l_systemObject.Children.Count <= 0)
                         {
                             continue;
                         }
-                        foreach (EcellObject l_childObject in l_systemObject.M_instances)
+                        foreach (EcellObject l_childObject in l_systemObject.Children)
                         {
                             if (l_childObject.type.Equals(l_fullPNDivs[0])
                                     && l_childObject.key.Equals(l_fullPNDivs[1]
                                     + Util.s_delimiterColon + l_fullPNDivs[2]))
                             {
-                                if (l_childObject.M_value == null || l_childObject.M_value.Count <= 0)
+                                if (l_childObject.Value == null || l_childObject.Value.Count <= 0)
                                 {
                                     continue;
                                 }
-                                foreach (EcellData l_childValue in l_childObject.M_value)
+                                foreach (EcellData l_childValue in l_childObject.Value)
                                 {
-                                    if (l_childValue.M_isLogable && l_childValue.M_name.Equals(l_fullPNDivs[3]))
+                                    if (l_childValue.Logable && l_childValue.Name.Equals(l_fullPNDivs[3]))
                                     {
-                                        l_childValue.M_isLogger = false;
+                                        l_childValue.Logged = false;
                                         l_changedKey = l_fullPNDivs[1]
                                                 + Util.s_delimiterColon + l_fullPNDivs[2];
                                         l_changedType = l_fullPNDivs[0];
@@ -549,11 +549,11 @@ namespace EcellLib
                     List<string> l_list = new List<string>();
                     foreach (EcellObject l_parent in DataManager.GetDataManager().GetData(s_modelID, l_systemPath))
                     {
-                        if (l_parent.M_instances == null || l_parent.M_instances.Count <= 0)
+                        if (l_parent.Children == null || l_parent.Children.Count <= 0)
                         {
                             continue;
                         }
-                        foreach (EcellObject l_child in l_parent.M_instances)
+                        foreach (EcellObject l_child in l_parent.Children)
                         {
                             if (l_child.type.Equals(l_entityName))
                             {
@@ -617,11 +617,11 @@ namespace EcellLib
                 EcellObject l_system
                     = (DataManager.GetDataManager().GetData(
                         s_modelID, pathElements[1] + Util.s_delimiterColon + pathElements[2]))[0];
-                foreach (EcellData l_systemProperty in l_system.M_value)
+                foreach (EcellData l_systemProperty in l_system.Value)
                 {
-                    if (l_systemProperty.M_name.Equals(pathElements[3]))
+                    if (l_systemProperty.Name.Equals(pathElements[3]))
                     {
-                        return l_systemProperty.M_value;
+                        return l_systemProperty.Value;
                     }
                 }
             }
@@ -630,16 +630,16 @@ namespace EcellLib
                 EcellObject l_system
                     = (DataManager.GetDataManager().GetData(
                         s_modelID, pathElements[1]))[0];
-                foreach (EcellObject l_entity in l_system.M_instances)
+                foreach (EcellObject l_entity in l_system.Children)
                 {
                     if (l_entity.type.Equals(pathElements[0])
                         && l_entity.key.Equals(pathElements[1] + Util.s_delimiterColon + pathElements[2]))
                     {
-                        foreach (EcellData l_entityProperty in l_entity.M_value)
+                        foreach (EcellData l_entityProperty in l_entity.Value)
                         {
-                            if (l_entityProperty.M_name.Equals(pathElements[3]))
+                            if (l_entityProperty.Name.Equals(pathElements[3]))
                             {
-                                return l_entityProperty.M_value;
+                                return l_entityProperty.Value;
                             }
                         }
                     }
@@ -671,27 +671,27 @@ namespace EcellLib
                 {
                     foreach (EcellObject l_system in DataManager.GetDataManager().GetData(s_modelID, l_systemPath))
                     {
-                        if (l_system.M_value != null && l_system.M_value.Count > 0)
+                        if (l_system.Value != null && l_system.Value.Count > 0)
                         {
-                            foreach (EcellData l_data in l_system.M_value)
+                            foreach (EcellData l_data in l_system.Value)
                             {
-                                if (l_data.M_isLogger)
+                                if (l_data.Logged)
                                 {
-                                    l_list.Add(l_data.M_entityPath);
+                                    l_list.Add(l_data.EntityPath);
                                 }
                             }
                         }
-                        if (l_system.M_instances != null && l_system.M_instances.Count > 0)
+                        if (l_system.Children != null && l_system.Children.Count > 0)
                         {
-                            foreach (EcellObject l_entity in l_system.M_instances)
+                            foreach (EcellObject l_entity in l_system.Children)
                             {
-                                if (l_entity.M_value != null && l_entity.M_value.Count > 0)
+                                if (l_entity.Value != null && l_entity.Value.Count > 0)
                                 {
-                                    foreach (EcellData l_data in l_entity.M_value)
+                                    foreach (EcellData l_data in l_entity.Value)
                                     {
-                                        if (l_data.M_isLogger)
+                                        if (l_data.Logged)
                                         {
-                                            l_list.Add(l_data.M_entityPath);
+                                            l_list.Add(l_data.EntityPath);
                                         }
                                     }
                                 }
@@ -1185,9 +1185,9 @@ namespace EcellLib
                         }
                         else
                         {
-                            if (l_system.M_instances != null && l_system.M_instances.Count > 0)
+                            if (l_system.Children != null && l_system.Children.Count > 0)
                             {
-                                foreach (EcellObject l_entity in l_system.M_instances)
+                                foreach (EcellObject l_entity in l_system.Children)
                                 {
                                     if (l_entity.type.Equals(l_type) && l_entity.key.Equals(l_key))
                                     {
@@ -1262,7 +1262,7 @@ namespace EcellLib
                                 foreach (string l_property in m_dManager.GetSystemProperty().Keys)
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
-                                    l_ecellData.M_entityPath
+                                    l_ecellData.EntityPath
                                             = l_type + Util.s_delimiterColon
                                             + l_key + Util.s_delimiterColon + l_property;
                                     l_propertyList.Add(l_ecellData);
@@ -1275,7 +1275,7 @@ namespace EcellLib
                                 foreach (string l_property in l_propertyDic.Keys)
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
-                                    l_ecellData.M_entityPath
+                                    l_ecellData.EntityPath
                                             = l_type + Util.s_delimiterColon
                                             + l_key + Util.s_delimiterColon + l_property;
                                     l_propertyList.Add(l_ecellData);
@@ -1288,7 +1288,7 @@ namespace EcellLib
                                 foreach (string l_property in m_dManager.GetVariableProperty().Keys)
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
-                                    l_ecellData.M_entityPath
+                                    l_ecellData.EntityPath
                                             = l_type + Util.s_delimiterColon
                                             + l_key + Util.s_delimiterColon + l_property;
                                     l_propertyList.Add(l_ecellData);
@@ -1385,13 +1385,13 @@ namespace EcellLib
                 {
                     if (this.m_ecellObject != null)
                     {
-                        if (this.m_ecellObject.M_value != null && this.m_ecellObject.M_value.Count > 0)
+                        if (this.m_ecellObject.Value != null && this.m_ecellObject.Value.Count > 0)
                         {
-                            foreach (EcellData l_data in this.m_ecellObject.M_value)
+                            foreach (EcellData l_data in this.m_ecellObject.Value)
                             {
-                                if (l_data.M_name.Equals(l_propertyName))
+                                if (l_data.Name.Equals(l_propertyName))
                                 {
-                                    return l_data.M_value.ToString();
+                                    return l_data.Value.ToString();
                                 }
                             }
                         }
@@ -1416,17 +1416,17 @@ namespace EcellLib
                 {
                     if (this.m_ecellObject != null)
                     {
-                        if (this.m_ecellObject.M_value != null && this.m_ecellObject.M_value.Count > 0)
+                        if (this.m_ecellObject.Value != null && this.m_ecellObject.Value.Count > 0)
                         {
-                            foreach (EcellData l_data in this.m_ecellObject.M_value)
+                            foreach (EcellData l_data in this.m_ecellObject.Value)
                             {
-                                if (l_data.M_name.Equals(l_propertyName))
+                                if (l_data.Name.Equals(l_propertyName))
                                 {
                                     List<bool> l_list = new List<bool>();
-                                    l_list.Add(l_data.M_isSettable);
-                                    l_list.Add(l_data.M_isGettable);
-                                    l_list.Add(l_data.M_isLoadable);
-                                    l_list.Add(l_data.M_isSavable);
+                                    l_list.Add(l_data.Settable);
+                                    l_list.Add(l_data.Gettable);
+                                    l_list.Add(l_data.Loadable);
+                                    l_list.Add(l_data.Saveable);
                                     return l_list;
                                 }
                             }
@@ -1451,12 +1451,12 @@ namespace EcellLib
                 {
                     if (this.m_ecellObject != null)
                     {
-                        if (this.m_ecellObject.M_value != null && this.m_ecellObject.M_value.Count > 0)
+                        if (this.m_ecellObject.Value != null && this.m_ecellObject.Value.Count > 0)
                         {
                             List<string> l_list = new List<string>();
-                            foreach (EcellData l_data in this.m_ecellObject.M_value)
+                            foreach (EcellData l_data in this.m_ecellObject.Value)
                             {
-                                l_list.Add(l_data.M_name);
+                                l_list.Add(l_data.Name);
                             }
                             l_list.Sort();
                             return l_list;
@@ -1496,9 +1496,9 @@ namespace EcellLib
                     }
                     else
                     {
-                        if (l_system.M_instances != null && l_system.M_instances.Count > 0)
+                        if (l_system.Children != null && l_system.Children.Count > 0)
                         {
-                            foreach (EcellObject l_entity in l_system.M_instances)
+                            foreach (EcellObject l_entity in l_system.Children)
                             {
                                 if (l_entity.type.Equals(l_type) && l_entity.key.Equals(l_key))
                                 {
@@ -1567,15 +1567,15 @@ namespace EcellLib
                     //
                     if (this.m_ecellObject != null)
                     {
-                        if (this.m_ecellObject.M_value != null && this.m_ecellObject.M_value.Count > 0)
+                        if (this.m_ecellObject.Value != null && this.m_ecellObject.Value.Count > 0)
                         {
                             bool l_findFlag = false;
-                            for (int i = 0; i < this.m_ecellObject.M_value.Count; i++)
+                            for (int i = 0; i < this.m_ecellObject.Value.Count; i++)
                             {
-                                EcellData l_data = this.m_ecellObject.M_value[i];
-                                if (l_data.M_name.Equals(l_propertyName))
+                                EcellData l_data = this.m_ecellObject.Value[i];
+                                if (l_data.Name.Equals(l_propertyName))
                                 {
-                                    if (!l_data.M_isSettable)
+                                    if (!l_data.Settable)
                                     {
                                         throw new Exception("The property named [" + l_propertyName + "]"
                                                 + "isn't settable.");
@@ -1584,15 +1584,15 @@ namespace EcellLib
                                     {
                                         try
                                         {
-                                            l_data.M_value = EcellValue.ToVariableReferenceList(l_value);
+                                            l_data.Value = EcellValue.ToVariableReferenceList(l_value);
                                             //
                                             // Exchange ":.:" for ":[path]:".
                                             //
                                             string l_path = this.m_fullID.Split(Util.s_delimiterColon.ToCharArray())[1];
-                                            for (int j = 0; j < l_data.M_value.CastToList().Count; j++)
+                                            for (int j = 0; j < l_data.Value.CastToList().Count; j++)
                                             {
                                                 string[] l_IDs
-                                                    = l_data.M_value.CastToList()[j].CastToList()[1].CastToString()
+                                                    = l_data.Value.CastToList()[j].CastToList()[1].CastToString()
                                                         .Split(Util.s_delimiterColon.ToCharArray());
                                                 if (l_IDs[1].Equals(Util.s_delimiterPeriod))
                                                 {
@@ -1603,7 +1603,7 @@ namespace EcellLib
                                                 {
                                                     l_ID = l_ID + Util.s_delimiterColon + l_IDElement;
                                                 }
-                                                l_data.M_value.CastToList()[j].CastToList()[1]
+                                                l_data.Value.CastToList()[j].CastToList()[1]
                                                     = new EcellValue(l_ID.Substring(1));
                                             }
                                             l_findFlag = true;
@@ -1615,11 +1615,11 @@ namespace EcellLib
                                                     + l_ex.ToString() + "}");
                                         }
                                     }
-                                    else if (l_data.M_value.IsDouble())
+                                    else if (l_data.Value.IsDouble())
                                     {
                                         try
                                         {
-                                            l_data.M_value = new EcellValue(XmlConvert.ToDouble(l_value));
+                                            l_data.Value = new EcellValue(XmlConvert.ToDouble(l_value));
                                             l_findFlag = true;
                                         }
                                         catch (Exception l_ex)
@@ -1628,11 +1628,11 @@ namespace EcellLib
                                                     + l_ex.ToString() + "}");
                                         }
                                     }
-                                    else if (l_data.M_value.IsInt())
+                                    else if (l_data.Value.IsInt())
                                     {
                                         try
                                         {
-                                            l_data.M_value = new EcellValue(Convert.ToInt32(l_value));
+                                            l_data.Value = new EcellValue(Convert.ToInt32(l_value));
                                             l_findFlag = true;
                                         }
                                         catch (Exception l_ex)
@@ -1641,11 +1641,11 @@ namespace EcellLib
                                                     + l_ex.ToString() + "}");
                                         }
                                     }
-                                    else if (l_data.M_value.IsString())
+                                    else if (l_data.Value.IsString())
                                     {
                                         try
                                         {
-                                            l_data.M_value = new EcellValue(l_value);
+                                            l_data.Value = new EcellValue(l_value);
                                             l_findFlag = true;
                                         }
                                         catch (Exception l_ex)
@@ -1663,8 +1663,8 @@ namespace EcellLib
                                         l_propertyName,
                                         new EcellValue(Convert.ToDouble(l_value)),
                                         this.m_fullID + Util.s_delimiterColon + l_propertyName);
-                                l_new.M_isLogable = true;
-                                this.m_ecellObject.M_value.Add(l_new);
+                                l_new.Logable = true;
+                                this.m_ecellObject.Value.Add(l_new);
                                 // throw new Exception("The property named [" + l_propertyName + "]" + "isn't found.");
                             }
                             DataManager.GetDataManager().DataChanged(
@@ -2404,13 +2404,13 @@ namespace EcellLib
                 {
                     if (this.m_stepper != null)
                     {
-                        if (this.m_stepper.M_value != null && this.m_stepper.M_value.Count > 0)
+                        if (this.m_stepper.Value != null && this.m_stepper.Value.Count > 0)
                         {
-                            foreach (EcellData l_data in this.m_stepper.M_value)
+                            foreach (EcellData l_data in this.m_stepper.Value)
                             {
-                                if (l_data.M_name.Equals(l_propertyName))
+                                if (l_data.Name.Equals(l_propertyName))
                                 {
-                                    return l_data.M_value.ToString();
+                                    return l_data.Value.ToString();
                                 }
                             }
                         }
@@ -2435,17 +2435,17 @@ namespace EcellLib
                 {
                     if (this.m_stepper != null)
                     {
-                        if (this.m_stepper.M_value != null && this.m_stepper.M_value.Count > 0)
+                        if (this.m_stepper.Value != null && this.m_stepper.Value.Count > 0)
                         {
-                            foreach (EcellData l_data in this.m_stepper.M_value)
+                            foreach (EcellData l_data in this.m_stepper.Value)
                             {
-                                if (l_data.M_name.Equals(l_propertyName))
+                                if (l_data.Name.Equals(l_propertyName))
                                 {
                                     List<bool> l_list = new List<bool>();
-                                    l_list.Add(l_data.M_isSettable);
-                                    l_list.Add(l_data.M_isGettable);
-                                    l_list.Add(l_data.M_isLoadable);
-                                    l_list.Add(l_data.M_isSavable);
+                                    l_list.Add(l_data.Settable);
+                                    l_list.Add(l_data.Gettable);
+                                    l_list.Add(l_data.Loadable);
+                                    l_list.Add(l_data.Saveable);
                                     return l_list;
                                 }
                             }
@@ -2470,12 +2470,12 @@ namespace EcellLib
                 {
                     if (this.m_stepper != null)
                     {
-                        if (this.m_stepper.M_value != null && this.m_stepper.M_value.Count > 0)
+                        if (this.m_stepper.Value != null && this.m_stepper.Value.Count > 0)
                         {
                             List<string> l_list = new List<string>();
-                            foreach (EcellData l_data in this.m_stepper.M_value)
+                            foreach (EcellData l_data in this.m_stepper.Value)
                             {
-                                l_list.Add(l_data.M_name);
+                                l_list.Add(l_data.Name);
                             }
                             l_list.Sort();
                             return l_list;
@@ -2500,23 +2500,23 @@ namespace EcellLib
                 {
                     if (this.m_stepper != null)
                     {
-                        if (this.m_stepper.M_value != null && this.m_stepper.M_value.Count > 0)
+                        if (this.m_stepper.Value != null && this.m_stepper.Value.Count > 0)
                         {
                             bool l_findFlag = false;
-                            for (int i = 0; i < this.m_stepper.M_value.Count; i++)
+                            for (int i = 0; i < this.m_stepper.Value.Count; i++)
                             {
-                                EcellData l_data = this.m_stepper.M_value[i];
-                                if (l_data.M_name.Equals(l_propertyName))
+                                EcellData l_data = this.m_stepper.Value[i];
+                                if (l_data.Name.Equals(l_propertyName))
                                 {
-                                    if (!l_data.M_isSettable)
+                                    if (!l_data.Settable)
                                     {
                                         throw new Exception("The [" + l_propertyName + "]" + "isn't settable.");
                                     }
-                                    else if (l_data.M_value.IsDouble())
+                                    else if (l_data.Value.IsDouble())
                                     {
                                         try
                                         {
-                                            l_data.M_value = new EcellValue(XmlConvert.ToDouble(l_value));
+                                            l_data.Value = new EcellValue(XmlConvert.ToDouble(l_value));
                                             l_findFlag = true;
                                         }
                                         catch (Exception l_ex)
@@ -2525,11 +2525,11 @@ namespace EcellLib
                                                     + l_ex.ToString() + "}");
                                         }
                                     }
-                                    else if (l_data.M_value.IsInt())
+                                    else if (l_data.Value.IsInt())
                                     {
                                         try
                                         {
-                                            l_data.M_value = new EcellValue(Convert.ToInt32(l_value));
+                                            l_data.Value = new EcellValue(Convert.ToInt32(l_value));
                                             l_findFlag = true;
                                         }
                                         catch (Exception l_ex)
@@ -2538,11 +2538,11 @@ namespace EcellLib
                                                     + l_ex.ToString() + "}");
                                         }
                                     }
-                                    else if (l_data.M_value.IsString())
+                                    else if (l_data.Value.IsString())
                                     {
                                         try
                                         {
-                                            l_data.M_value = new EcellValue(l_value);
+                                            l_data.Value = new EcellValue(l_value);
                                             l_findFlag = true;
                                         }
                                         catch (Exception l_ex)

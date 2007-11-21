@@ -821,11 +821,11 @@ namespace SessionManager
                 {
                     foreach (string path in paramDic.Keys)
                     {
-                        if (sysObj.M_value == null) continue;
-                        foreach (EcellData v in sysObj.M_value)
+                        if (sysObj.Value == null) continue;
+                        foreach (EcellData v in sysObj.Value)
                         {
-                            if (!path.Equals(v.M_entityPath)) continue;
-                            v.M_value.M_value = paramDic[path];
+                            if (!path.Equals(v.EntityPath)) continue;
+                            v.Value.Value = paramDic[path];
                             break;
                         }
                     }
@@ -837,14 +837,13 @@ namespace SessionManager
                 {
                     foreach (string path in paramDic.Keys)
                     {
-                        if (sysObj.M_instances == null) continue;
-                        foreach (EcellObject obj in sysObj.M_instances)
+                        foreach (EcellObject obj in sysObj.Children)
                         {
-                            if (obj.M_value == null) continue;
-                            foreach (EcellData v in obj.M_value)
+                            if (obj.Value == null) continue;
+                            foreach (EcellData v in obj.Value)
                             {
-                                if (!path.Equals(v.M_entityPath)) continue;
-                                v.M_value.M_value = paramDic[path];
+                                if (!path.Equals(v.EntityPath)) continue;
+                                v.Value.Value = paramDic[path];
                                 break;
                             }
                         }
@@ -952,17 +951,17 @@ namespace SessionManager
                     File.AppendAllText(fileName, "\n# System\n", enc);
                     foreach (EcellObject sysObj in sysList)
                     {
-                        if (sysObj.M_value != null)
+                        if (sysObj.Value != null)
                         {
-                            foreach (EcellData d in sysObj.M_value)
+                            foreach (EcellData d in sysObj.Value)
                             {
-                                if (d.M_entityPath.Equals(x.FullPath))
+                                if (d.EntityPath.Equals(x.FullPath))
                                 {
-                                    d.M_value.M_value = xd * x.Step + x.Min;
+                                    d.Value.Value = xd * x.Step + x.Min;
                                 }
-                                else if (d.M_entityPath.Equals(y.FullPath))
+                                else if (d.EntityPath.Equals(y.FullPath))
                                 {
-                                    d.M_value.M_value = yd * y.Step + y.Min;
+                                    d.Value.Value = yd * y.Step + y.Min;
                                 }
                             }
                         }
@@ -971,19 +970,18 @@ namespace SessionManager
                     }
                     foreach (EcellObject sysObj in sysList)
                     {
-                        if (sysObj.M_instances == null) continue;
-                        foreach (EcellObject obj in sysObj.M_instances)
+                        foreach (EcellObject obj in sysObj.Children)
                         {
-                            if (obj.M_value == null) continue;
-                            foreach (EcellData d in obj.M_value)
+                            if (obj.Value == null) continue;
+                            foreach (EcellData d in obj.Value)
                             {
-                                if (d.M_entityPath.Equals(x.FullPath))
+                                if (d.EntityPath.Equals(x.FullPath))
                                 {
-                                    d.M_value.M_value = xd * x.Step + x.Min;
+                                    d.Value.Value = xd * x.Step + x.Min;
                                 }
-                                else if (d.M_entityPath.Equals(y.FullPath))
+                                else if (d.EntityPath.Equals(y.FullPath))
                                 {
-                                    d.M_value.M_value = yd * y.Step + y.Min;
+                                    d.Value.Value = yd * y.Step + y.Min;
                                 }
                             }
                         }

@@ -35,6 +35,7 @@
 //
 
 using System;
+using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections;
 using System.Collections.Generic;
@@ -126,7 +127,7 @@ namespace EcellLib
         /// <summary>
         /// The children of this
         /// </summary>
-        private List<EcellObject> m_instances;
+        private List<EcellObject> m_children;
         /// <summary>
         /// Fixed flag.
         /// </summary>
@@ -139,6 +140,7 @@ namespace EcellLib
         /// </summary>
         protected EcellObject()
         {
+            m_children = new List<EcellObject>();
         }
 
         /// <summary>
@@ -150,7 +152,7 @@ namespace EcellLib
         /// <param name="l_class">The class</param>
         /// <param name="l_data">The data</param>
         protected EcellObject(string l_modelID, string l_key,
-            string l_type, string l_class, List<EcellData> l_data)
+            string l_type, string l_class, List<EcellData> l_data): this()
         {
             this.m_modelID = l_modelID;
             this.m_key = l_key;
@@ -231,7 +233,7 @@ namespace EcellLib
             get
             {
                 string text = this.name;
-                if (IsLogger)
+                if (Logged)
                     text += " *";
 
                 return text;
@@ -342,15 +344,15 @@ namespace EcellLib
         /// <summary>
         /// get isLogger.
         /// </summary>
-        public bool IsLogger
+        public bool Logged
         {
             get
             {
                 //return true if any Logger exists.
-                if (M_value != null)
+                if (Value != null)
                 {
-                    foreach (EcellData d in M_value)
-                        if ( d.M_isLogable && d.M_isLogger)
+                    foreach (EcellData d in Value)
+                        if ( d.Logable && d.Logged)
                             return true;
                 }
                 return false;
@@ -367,23 +369,30 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// get/set m_value.
+        /// get/set Value.
         /// </summary>
         [Browsable(false)]
-        public List<EcellData> M_value
+        public List<EcellData> Value
         {
             get { return m_ecellDatas; }
-            // set { this.m_value = value; }
+            // set { this.Value = value; }
         }
 
         /// <summary>
-        /// get/set m_instances.
+        /// get/set Children.
         /// </summary>
         [Browsable(false)]
-        public List<EcellObject> M_instances
+        public List<EcellObject> Children
         {
-            get { return m_instances; }
-            set { this.m_instances = value; }
+            get
+            {
+                return m_children;
+            }
+            set
+            {
+                Debug.Assert(value != null);
+                this.m_children = value;
+            }
         }
 
         /// <summary>
@@ -431,12 +440,12 @@ namespace EcellLib
                 l_newEcellObject.Width = this.m_width;
                 l_newEcellObject.Height = this.m_height;
                 l_newEcellObject.Layer = this.Layer;
-                l_newEcellObject.M_instances = this.CopyInstancesList();
+                l_newEcellObject.Children = this.CopyChildren();
                 return l_newEcellObject;
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't copy the \"EcellObject\". {" + l_ex.ToString() + "}");
+                throw new Exception("Can't make a copy of an EcellObject", l_ex);
             }
         }
 
@@ -456,21 +465,14 @@ namespace EcellLib
             }
             return l_copyValueList;
         }
-        private List<EcellObject> CopyInstancesList()
+        private List<EcellObject> CopyChildren()
         {
-            List<EcellObject> l_copyInstancesList = null;
-            if (this.m_instances != null)
+            List<EcellObject> l_list = new List<EcellObject>();
+            foreach (EcellObject l_ecellObject in this.m_children)
             {
-                l_copyInstancesList = new List<EcellObject>();
-                if (this.m_instances.Count > 0)
-                {
-                    foreach (EcellObject l_ecellObject in this.m_instances)
-                    {
-                        l_copyInstancesList.Add(l_ecellObject.Copy());
-                    }
-                }
+                l_list.Add(l_ecellObject.Copy());
             }
-            return l_copyInstancesList;
+            return l_list;
         }
         /// <summary>
         /// Set object coordinates.
@@ -557,7 +559,7 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// add the data to m_value.
+        /// add the data to Value.
         /// </summary>
         /// <param name="d">EcellData.</param>
         public void AddValue(EcellData d)
@@ -581,12 +583,12 @@ namespace EcellLib
         public EcellData GetEcellData(string name)
         {
             // Check List.
-            if (M_value == null)
+            if (Value == null)
                 return null;
             //return EcellData if EcellValue exists.
-            foreach (EcellData data in M_value)
+            foreach (EcellData data in Value)
             {
-                if (data.M_name == name)
+                if (data.Name == name)
                     return data;
             }
             return null;
@@ -598,13 +600,13 @@ namespace EcellLib
         public EcellValue GetEcellValue(string name)
         {
             // Check List.
-            if (M_value == null)
+            if (Value == null)
                 return null;
             //return EcellValue if EcellValue exists.
-            foreach (EcellData data in M_value)
+            foreach (EcellData data in Value)
             {
-                if (data.M_name == name)
-                    return data.M_value;
+                if (data.Name == name)
+                    return data.Value;
             }
             return null;
         }
@@ -615,11 +617,11 @@ namespace EcellLib
         public bool IsEcellValueExists(string name)
         {
             // Check List.
-            if (M_value == null)
+            if (Value == null)
                 return false;
             //return true if EcellValue exists.
-            foreach (EcellData d in M_value)
-                if (d.M_name == name)
+            foreach (EcellData d in Value)
+                if (d.Name == name)
                     return true;
             return false;
         }
@@ -632,6 +634,29 @@ namespace EcellLib
             string entytyPath = this.type + ":" + this.key + ":" + name;
             EcellData data = new EcellData(name, value, entytyPath);
             AddValue(data);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(type);
+            sb.Append("(name=" + name + ")");
+            if (Children.Count > 0)
+            {
+                sb.Append("{");
+                for (int i = 0; i < Children.Count; ++i)
+                {
+                    if (i > 0)
+                        sb.Append(", ");
+                    EcellObject child = Children[i];
+                    if (child != null)
+                        sb.Append(child.ToString());
+                    else
+                        sb.Append("*null*");
+                }
+                sb.Append("}");
+            }
+            return sb.ToString();
         }
 
         #endregion
@@ -706,7 +731,7 @@ namespace EcellLib
         public EcellData()
         {
             this.m_name = null;
-            this.m_value = null;
+            this.Value = null;
             this.m_entityPath = null;
             this.m_isGettable = true;
             this.m_isSettable = true;
@@ -729,7 +754,7 @@ namespace EcellLib
         public EcellData(string l_name, EcellValue l_data, string l_entityPath)
         {
             this.m_name = l_name;
-            this.m_value = l_data;
+            this.Value = l_data;
             this.m_entityPath = l_entityPath;
             this.m_isGettable = true;
             this.m_isSettable = true;
@@ -746,18 +771,18 @@ namespace EcellLib
 
         #region Accessors
         /// <summary>
-        /// get/set m_name.
+        /// get/set name.
         /// </summary>
-        public string M_name
+        public string Name
         {
             get { return m_name; }
             set { this.m_name = value; }
         }
 
         /// <summary>
-        /// get/set m_value
+        /// get/set value
         /// </summary>
-        public EcellValue M_value
+        public EcellValue Value
         {
             get { return m_value; }
             set { this.m_value = value; }
@@ -766,7 +791,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_entityPath
         /// </summary>
-        public string M_entityPath
+        public string EntityPath
         {
             get { return m_entityPath; }
             set { this.m_entityPath = value; }
@@ -775,7 +800,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_isGettable
         /// </summary>
-        public bool M_isGettable
+        public bool Gettable
         {
             get { return m_isGettable; }
             set { this.m_isGettable = value; }
@@ -784,7 +809,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_isLoadable
         /// </summary>
-        public bool M_isLoadable
+        public bool Loadable
         {
             get { return m_isLoadable; }
             set { this.m_isLoadable = value; }
@@ -793,7 +818,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_isLogable
         /// </summary>
-        public bool M_isLogable
+        public bool Logable
         {
             get { return this.m_isLogable; }
             set { this.m_isLogable = value; }
@@ -802,7 +827,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_isLogger
         /// </summary>
-        public bool M_isLogger
+        public bool Logged
         {
             get { return this.m_isLogger; }
             set { this.m_isLogger = value; }
@@ -811,7 +836,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_isSavable
         /// </summary>
-        public bool M_isSavable
+        public bool Saveable
         {
             get { return m_isSavable; }
             set { this.m_isSavable = value; }
@@ -820,7 +845,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_isSettable
         /// </summary>
-        public bool M_isSettable
+        public bool Settable
         {
             get { return m_isSettable; }
             set { this.m_isSettable = value; }
@@ -829,7 +854,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_isCommit
         /// </summary>
-        public bool M_isCommit
+        public bool Committed
         {
             get { return m_isCommit; }
             set { this.m_isCommit = value; }
@@ -872,14 +897,14 @@ namespace EcellLib
         {
             try
             {
-                EcellData l_newData = new EcellData(this.m_name, this.m_value, this.m_entityPath);
-                l_newData.M_isGettable = this.m_isGettable;
-                l_newData.M_isLoadable = this.m_isLoadable;
-                l_newData.M_isLogable = this.m_isLogable;
-                l_newData.M_isLogger = this.m_isLogger;
-                l_newData.M_isSavable = this.m_isSavable;
-                l_newData.M_isSettable = this.m_isSettable;
-                l_newData.M_isCommit = this.m_isCommit;
+                EcellData l_newData = new EcellData(this.m_name, this.Value, this.m_entityPath);
+                l_newData.Gettable = this.m_isGettable;
+                l_newData.Loadable = this.m_isLoadable;
+                l_newData.Logable = this.m_isLogable;
+                l_newData.Logged = this.m_isLogger;
+                l_newData.Saveable = this.m_isSavable;
+                l_newData.Settable = this.m_isSettable;
+                l_newData.Committed = this.m_isCommit;
                 l_newData.Max = this.m_max;
                 l_newData.Min = this.m_min;
                 l_newData.Step = this.m_step;
@@ -898,7 +923,7 @@ namespace EcellLib
         /// <returns>if equal, return true</returns>
         public bool Equals(EcellData l_obj)
         {
-            if (this.m_name == l_obj.m_name && this.m_value == l_obj.m_value)
+            if (this.m_name == l_obj.m_name && this.Value == l_obj.Value)
             {
                 return true;
             }
@@ -915,7 +940,7 @@ namespace EcellLib
             {
                 return false;
             }
-            if (this.m_value == null || (!this.m_value.IsInt() && !this.m_value.IsDouble()))
+            if (this.Value == null || (!this.Value.IsInt() && !this.Value.IsDouble()))
             {
                 return false;
             }
@@ -956,7 +981,7 @@ namespace EcellLib
         /// <param name="l_value">The "int" value</param>
         public EcellValue(int l_value)
         {
-            m_value = l_value;
+            Value = l_value;
             m_type = typeof(int);
         }
 
@@ -967,7 +992,7 @@ namespace EcellLib
         /// <param name="l_value">The "double" value</param>
         public EcellValue(double l_value)
         {
-            m_value = l_value;
+            Value = l_value;
             m_type = typeof(double);
         }
 
@@ -977,7 +1002,7 @@ namespace EcellLib
         /// <param name="l_value">The "string" value</param>
         public EcellValue(string l_value)
         {
-            m_value = l_value;
+            Value = l_value;
             m_type = typeof(string);
         }
 
@@ -989,7 +1014,7 @@ namespace EcellLib
         {
             List<EcellValue> l_list = new List<EcellValue>();
             l_list.AddRange(l_value);
-            m_value = l_list;
+            Value = l_list;
             m_type = typeof(List<EcellValue>);
         }
 
@@ -1009,7 +1034,7 @@ namespace EcellLib
             l_list.Add(value3);
             l_list.Add(value4);
 
-            m_value = l_list;
+            Value = l_list;
             m_type = typeof(List<EcellValue>);
         }
 
@@ -1021,29 +1046,29 @@ namespace EcellLib
         {
             if (l_value == null)
             {
-                m_value = "";
+                Value = "";
                 m_type = typeof(string);
             }
             else
             {
                 if (l_value.IsDouble())
                 {
-                    m_value = l_value.CastToDouble();
+                    Value = l_value.CastToDouble();
                     m_type = typeof(double);
                 }
                 else if (l_value.IsInt())
                 {
-                    m_value = l_value.CastToInt();
+                    Value = l_value.CastToInt();
                     m_type = typeof(int);
                 }
                 else if (l_value.IsList())
                 {
-                    m_value = this.CastToEcellValue4WrappedPolymorph(l_value.CastToList());
+                    Value = this.CastToEcellValue4WrappedPolymorph(l_value.CastToList());
                     m_type = typeof(List<EcellValue>);
                 }
                 else
                 {
-                    m_value = l_value.CastToString();
+                    Value = l_value.CastToString();
                     m_type = typeof(string);
                 }
             }
@@ -1054,21 +1079,20 @@ namespace EcellLib
         /// <summary>
         /// The property of the type of the stored value.
         /// </summary>
-        public Type M_type
+        public Type Type
         {
             get { return this.m_type; }
-            // set { this.m_type = value; }
         }
 
         /// <summary>
         /// The property of the stored value.
         /// </summary>
-        public Object M_value
+        public Object Value
         {
             get { return this.m_value; }
             set {
                 this.m_value = value;
-                m_type = this.m_value.GetType();
+                m_type = this.Value.GetType();
             }
         }
         #endregion
@@ -1148,7 +1172,7 @@ namespace EcellLib
         {
             if (this.IsDouble())
             {
-                return Convert.ToDouble(this.m_value);
+                return Convert.ToDouble(this.Value);
             }
             else
             {
@@ -1194,7 +1218,7 @@ namespace EcellLib
         {
             if (this.IsInt())
             {
-                return (int)this.m_value;
+                return (int)this.Value;
             }
             else
             {
@@ -1210,7 +1234,7 @@ namespace EcellLib
         {
             if (this.IsList())
             {
-                return this.m_value as List<EcellValue>;
+                return this.Value as List<EcellValue>;
             }
             else
             {
@@ -1226,7 +1250,7 @@ namespace EcellLib
         {
             if (this.IsString())
             {
-                return this.m_value as string;
+                return this.Value as string;
             }
             else
             {
@@ -1270,17 +1294,17 @@ namespace EcellLib
         /// <returns>The "string" value</returns>
         public override string ToString()
         {
-            if (this.m_value == null)
+            if (this.Value == null)
             {
                 return null;
             }
             if (this.IsList())
             {
-                return this.ToString4List((List<EcellValue>)this.m_value);
+                return this.ToString4List((List<EcellValue>)this.Value);
             }
             else
             {
-                return this.m_value.ToString();
+                return this.Value.ToString();
             }
         }
 
@@ -1693,7 +1717,7 @@ namespace EcellLib
             this.type = l_type;
             this.classname = l_class;
             this.SetEcellDatas(l_data);
-            this.M_instances = new List<EcellObject>();
+            this.Children = new List<EcellObject>();
         }
         #endregion
 
@@ -1712,7 +1736,7 @@ namespace EcellLib
                 }
             set {
                 if (IsEcellValueExists(SIZE))
-                    GetEcellValue(SIZE).M_value = value;
+                    GetEcellValue(SIZE).Value = value;
                 else
                     AddEcellValue(SIZE, new EcellValue(value));
             }
@@ -1731,7 +1755,7 @@ namespace EcellLib
                 }
             set {
                 if (IsEcellValueExists("StepperID"))
-                    GetEcellValue("StepperID").M_value = value;
+                    GetEcellValue("StepperID").Value = value;
                 else
                     AddEcellValue("StepperID", new EcellValue(value) );
             }
@@ -1802,7 +1826,7 @@ namespace EcellLib
                 }
             set {
                 if (IsEcellValueExists("MolarConc"))
-                    GetEcellValue("MolarConc").M_value = value;
+                    GetEcellValue("MolarConc").Value = value;
                 else
                     AddEcellValue("MolarConc", new EcellValue(value));
             }
@@ -1823,7 +1847,7 @@ namespace EcellLib
             set
             {
                 if (IsEcellValueExists("NumberConc"))
-                    GetEcellValue("NumberConc").M_value = value;
+                    GetEcellValue("NumberConc").Value = value;
                 else
                     AddEcellValue("NumberConc", new EcellValue(value));
             }
@@ -1844,7 +1868,7 @@ namespace EcellLib
             set
             {
                 if (IsEcellValueExists("TotalVelocity"))
-                    GetEcellValue("TotalVelocity").M_value = value;
+                    GetEcellValue("TotalVelocity").Value = value;
                 else
                     AddEcellValue("TotalVelocity", new EcellValue(value));
             }
@@ -1865,7 +1889,7 @@ namespace EcellLib
             set
             {
                 if (IsEcellValueExists("Value"))
-                    GetEcellValue("Value").M_value = value;
+                    GetEcellValue("Value").Value = value;
                 else
                     AddEcellValue("Value", new EcellValue(value));
             }
@@ -1886,7 +1910,7 @@ namespace EcellLib
             set
             {
                 if (IsEcellValueExists("Velocity"))
-                    GetEcellValue("Velocity").M_value = value;
+                    GetEcellValue("Velocity").Value = value;
                 else
                     AddEcellValue("Velocity", new EcellValue(value));
             }
@@ -2006,7 +2030,7 @@ namespace EcellLib
             set
             {
                 if (IsEcellValueExists(ACTIVITY))
-                    GetEcellValue(ACTIVITY).M_value = value;
+                    GetEcellValue(ACTIVITY).Value = value;
                 else
                     AddEcellValue(ACTIVITY, new EcellValue(value));
             }
@@ -2025,7 +2049,7 @@ namespace EcellLib
                 }
             set {
                 if (IsEcellValueExists(EXPRESSION))
-                    GetEcellValue(EXPRESSION).M_value = value;
+                    GetEcellValue(EXPRESSION).Value = value;
                 else
                     AddEcellValue(EXPRESSION, new EcellValue(value) );
             }
@@ -2046,7 +2070,7 @@ namespace EcellLib
             set
             {
                 if (IsEcellValueExists(ISCONTINUOUS))
-                    GetEcellValue(ISCONTINUOUS).M_value = value;
+                    GetEcellValue(ISCONTINUOUS).Value = value;
                 else
                     AddEcellValue(ISCONTINUOUS, new EcellValue(value));
             }
@@ -2067,7 +2091,7 @@ namespace EcellLib
             set
             {
                 if (IsEcellValueExists(PRIORITY))
-                    GetEcellValue(PRIORITY).M_value = value;
+                    GetEcellValue(PRIORITY).Value = value;
                 else
                     AddEcellValue(PRIORITY, new EcellValue(value));
             }
@@ -2088,7 +2112,7 @@ namespace EcellLib
             set
             {
                 if (IsEcellValueExists(STEPPERID))
-                    GetEcellValue(STEPPERID).M_value = value;
+                    GetEcellValue(STEPPERID).Value = value;
                 else
                     AddEcellValue(STEPPERID, new EcellValue(value));
             }
@@ -2102,7 +2126,7 @@ namespace EcellLib
             get { return EcellReference.ConvertFromVarRefList(this.GetEcellValue(VARIABLEREFERENCELIST)); }
             set {
                 EcellValue varRef = EcellReference.ConvertToVarRefList(value);
-                this.GetEcellData(VARIABLEREFERENCELIST).M_value = varRef;
+                this.GetEcellData(VARIABLEREFERENCELIST).Value = varRef;
             }
         }
         #endregion

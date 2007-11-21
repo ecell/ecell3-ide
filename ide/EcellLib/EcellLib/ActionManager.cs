@@ -340,33 +340,33 @@ namespace EcellLib
             {
                 EcellData d = new EcellData();
                 tmp = data.Attributes.GetNamedItem("name");
-                d.M_name = tmp.InnerText;
+                d.Name = tmp.InnerText;
                 tmp = data.Attributes.GetNamedItem("path");
-                d.M_entityPath = tmp.InnerText;
+                d.EntityPath = tmp.InnerText;
 
                 tmp = data.Attributes.GetNamedItem("isGetable");
-                if (tmp.InnerText == "true") d.M_isGettable = true;
-                else d.M_isGettable = false;
+                if (tmp.InnerText == "true") d.Gettable = true;
+                else d.Gettable = false;
 
                 tmp = data.Attributes.GetNamedItem("isLoadable");
-                if (tmp.InnerText == "true") d.M_isLoadable = true;
-                else d.M_isLoadable = false;
+                if (tmp.InnerText == "true") d.Loadable = true;
+                else d.Loadable = false;
 
                 tmp = data.Attributes.GetNamedItem("isLogable");
-                if (tmp.InnerText == "true") d.M_isLogable = true;
-                else d.M_isLogable = false;
+                if (tmp.InnerText == "true") d.Logable = true;
+                else d.Logable = false;
 
                 tmp = data.Attributes.GetNamedItem("isLogger");
-                if (tmp.InnerText == "true") d.M_isLogger = true;
-                else d.M_isLogger = false;
+                if (tmp.InnerText == "true") d.Logged = true;
+                else d.Logged = false;
 
                 tmp = data.Attributes.GetNamedItem("isSavable");
-                if (tmp.InnerText == "true") d.M_isSavable = true;
-                else d.M_isSavable = false;
+                if (tmp.InnerText == "true") d.Saveable = true;
+                else d.Saveable = false;
 
                 tmp = data.Attributes.GetNamedItem("isSetable");
-                if (tmp.InnerText == "true") d.M_isSettable = true;
-                else d.M_isSettable = false;
+                if (tmp.InnerText == "true") d.Settable = true;
+                else d.Settable = false;
 
                 XmlNodeList valueList = data.SelectNodes("Value");
                 foreach (XmlNode value in valueList)
@@ -386,7 +386,7 @@ namespace EcellLib
                     }
                     else if (vtype.Equals(typeof(int).ToString())) v = new EcellValue(Convert.ToInt32(valueData));
                     else v = EcellValue.ToVariableReferenceList(valueData);
-                    d.M_value = v;
+                    d.Value = v;
                 }
 
                 list.Add(d);
@@ -399,7 +399,7 @@ namespace EcellLib
             obj.Width = width;
             obj.Height = height;
 
-            obj.M_instances = new List<EcellObject>();
+            obj.Children = new List<EcellObject>();
 
             return obj;
         }
@@ -421,30 +421,30 @@ namespace EcellLib
             writer.WriteAttributeString("width", null, Convert.ToString(m_obj.Width));
             writer.WriteAttributeString("height", null, Convert.ToString(m_obj.Height));
 
-            if (m_obj.M_value != null)
+            if (m_obj.Value != null)
             {
-                foreach (EcellData d in m_obj.M_value)
+                foreach (EcellData d in m_obj.Value)
                 {
                     writer.WriteStartElement("Data");
-                    writer.WriteAttributeString("name", null, d.M_name);
-                    writer.WriteAttributeString("path", null, d.M_entityPath);
-                    if (d.M_isGettable == true) writer.WriteAttributeString("isGetable", null, "true");
+                    writer.WriteAttributeString("name", null, d.Name);
+                    writer.WriteAttributeString("path", null, d.EntityPath);
+                    if (d.Gettable == true) writer.WriteAttributeString("isGetable", null, "true");
                     else writer.WriteAttributeString("isGetable", null, "false");
-                    if (d.M_isLoadable == true) writer.WriteAttributeString("isLoadable", null, "true");
+                    if (d.Loadable == true) writer.WriteAttributeString("isLoadable", null, "true");
                     else writer.WriteAttributeString("isLoadable", null, "false");
-                    if (d.M_isLogable == true) writer.WriteAttributeString("isLogable", null, "true");
+                    if (d.Logable == true) writer.WriteAttributeString("isLogable", null, "true");
                     else writer.WriteAttributeString("isLogable", null, "false");
-                    if (d.M_isLogger == true) writer.WriteAttributeString("isLogger", null, "true");
+                    if (d.Logged == true) writer.WriteAttributeString("isLogger", null, "true");
                     else writer.WriteAttributeString("isLogger", null, "false");
-                    if (d.M_isSavable == true) writer.WriteAttributeString("isSavable", null, "true");
+                    if (d.Saveable == true) writer.WriteAttributeString("isSavable", null, "true");
                     else writer.WriteAttributeString("isSavable", null, "false");
-                    if (d.M_isSettable == true) writer.WriteAttributeString("isSetable", null, "true");
+                    if (d.Settable == true) writer.WriteAttributeString("isSetable", null, "true");
                     else writer.WriteAttributeString("isSetable", null, "false");
                     writer.WriteStartElement("Value");
-                    if (d.M_value != null)
+                    if (d.Value != null)
                     {
-                        writer.WriteAttributeString("value_type", null, d.M_value.M_type.ToString());
-                        writer.WriteAttributeString("value", null, d.M_value.M_value.ToString());
+                        writer.WriteAttributeString("value_type", null, d.Value.Type.ToString());
+                        writer.WriteAttributeString("value", null, d.Value.Value.ToString());
                     }
                     writer.WriteEndElement();
                     writer.WriteEndElement();

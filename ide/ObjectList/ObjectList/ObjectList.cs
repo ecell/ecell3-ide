@@ -60,11 +60,11 @@ namespace EcellLib.ObjectList
         /// </summary>
         private TabControl m_tabControl;
         /// <summary>
-        /// key is EcellObject.M_type, value is ObjectListOfType which has type-related resources.
+        /// key is EcellObject.Type, value is ObjectListOfType which has type-related resources.
         /// </summary>
         private Dictionary<string, ObjectListOfType> m_dict;
         /// <summary>
-        /// key is EcellObject.M_type, value is column header list.
+        /// key is EcellObject.Type, value is column header list.
         /// </summary>
         private Dictionary<string, List<string>> m_columnDict;
         /// <summary>
@@ -221,9 +221,9 @@ namespace EcellLib.ObjectList
             foreach (EcellObject eo in list)
             {
                 if (eo.type != "System") continue;
-                if (eo.M_instances != null)
+                if (eo.Children != null)
                 {
-                    foreach (EcellObject child in eo.M_instances)
+                    foreach (EcellObject child in eo.Children)
                     {
                         if (child.key.EndsWith(":SIZE")) continue;
                         // When eo has a new type
@@ -353,7 +353,7 @@ namespace EcellLib.ObjectList
         /// Create a new ObjectListOfType instance, An ObjectListOfType contains a TabPage
         /// and data.
         /// </summary>
-        /// <param name="type">EcellObject.M_type</param>
+        /// <param name="type">EcellObject.Type</param>
         /// <param name="columnList">these columns will be displayed in DataGridView of this tabPage</param>
         /// <returns>ObjectListOfType</returns>
         internal ObjectListOfType CreateNewPage(string type, List<string> columnList)
@@ -451,17 +451,17 @@ namespace EcellLib.ObjectList
                     List<EcellObject> list = m_dManager.GetData(model, key);
                     foreach (EcellObject obj in list)
                     {
-                        foreach (EcellData d in obj.M_value)
+                        foreach (EcellData d in obj.Value)
                         {
-                            if ((type == "System" && d.M_name == "Size"))
+                            if ((type == "System" && d.Name == "Size"))
                             {
                                 PluginManager.GetPluginManager().LoggerAdd(
                                     obj.modelID,
                                     obj.key,
                                     obj.type,
-                                    d.M_entityPath);
-                                if (d.M_isLogger == true) break;
-                                d.M_isLogger = true;
+                                    d.EntityPath);
+                                if (d.Logged == true) break;
+                                d.Logged = true;
                                 break;
                             }
                         }
@@ -486,23 +486,23 @@ namespace EcellLib.ObjectList
                 List<EcellObject> list = m_dManager.GetData(model, key);
                 foreach (EcellObject top in list)
                 {
-                    if (top.M_instances == null) continue;
-                    foreach (EcellObject obj in top.M_instances)
+                    if (top.Children == null) continue;
+                    foreach (EcellObject obj in top.Children)
                     {
                         if (obj.type != type || !sysDic[key].Contains(obj.key))
                             continue;
-                        foreach (EcellData d in obj.M_value)
+                        foreach (EcellData d in obj.Value)
                         {
-                            if ((type == "Process" && d.M_name == "Activity") ||
-                                (type == "Variable" && d.M_name == "Value"))
+                            if ((type == "Process" && d.Name == "Activity") ||
+                                (type == "Variable" && d.Name == "Value"))
                             {
                                 PluginManager.GetPluginManager().LoggerAdd(
                                     obj.modelID,
                                     obj.key,
                                     obj.type,
-                                    d.M_entityPath);
-                                if (d.M_isLogger == true) break;
-                                d.M_isLogger = true;
+                                    d.EntityPath);
+                                if (d.Logged == true) break;
+                                d.Logged = true;
                                 break;
                             }
                         }
@@ -609,9 +609,9 @@ namespace EcellLib.ObjectList
                     foreach (EcellObject eo in list)
                     {
                         if (eo.type != "System") continue;
-                        if (eo.M_instances != null)
+                        if (eo.Children != null)
                         {
-                            foreach (EcellObject child in eo.M_instances)
+                            foreach (EcellObject child in eo.Children)
                             {
                                 if (child.key.EndsWith(":SIZE")) continue;
                                 // When eo has a new type
@@ -673,9 +673,9 @@ namespace EcellLib.ObjectList
                     foreach (EcellObject eo in list)
                     {
                         if (eo.type != "System") continue;
-                        if (eo.M_instances != null)
+                        if (eo.Children != null)
                         {
-                            foreach (EcellObject child in eo.M_instances)
+                            foreach (EcellObject child in eo.Children)
                             {
                                 if (child.key.EndsWith(":SIZE")) continue;
                                 // When eo has a new type
@@ -737,9 +737,9 @@ namespace EcellLib.ObjectList
                     foreach (EcellObject eo in list)
                     {
                         if (eo.type != "System") continue;
-                        if (eo.M_instances != null)
+                        if (eo.Children != null)
                         {
-                            foreach (EcellObject child in eo.M_instances)
+                            foreach (EcellObject child in eo.Children)
                             {
                                 if (child.key.EndsWith(":SIZE")) continue;
                                 // When eo has a new type
@@ -810,8 +810,8 @@ namespace EcellLib.ObjectList
                     if (m_dict.ContainsKey(eo.type))
                     {
                         m_dict[eo.type].AddObject(eo);
-                        if (eo.M_instances == null) continue;
-                        foreach (EcellObject obj in eo.M_instances)
+                        if (eo.Children == null) continue;
+                        foreach (EcellObject obj in eo.Children)
                         {
                             m_dict[obj.type].AddObject(obj);
                         }

@@ -1511,7 +1511,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="system">The system object.</param>
         private void SetSystemSize(PPathwayObject system)
         {
-            int length = 200 * (int)Math.Sqrt(system.EcellObject.M_instances.Count);
+            int length = 200 * (int)Math.Sqrt(system.EcellObject.Children.Count);
             if (length > PPathwaySystem.DEFAULT_WIDTH)
             {
                 system.Width = length;

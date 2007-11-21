@@ -119,14 +119,14 @@ namespace EcellLib.ObjectList
             if (column.Contains("ID")) dataRow["ID"] = eo.key;
             if (column.Contains("classname")) dataRow["classname"] = eo.classname;
 
-            if (eo.M_value != null)
+            if (eo.Value != null)
             {
-                foreach (EcellData data in eo.M_value)
+                foreach (EcellData data in eo.Value)
                 {
-                    if (data.M_name != null && column.Contains(data.M_name))
+                    if (data.Name != null && column.Contains(data.Name))
                     {
-                        string cellStr = data.M_value.ToString();
-                        dataRow[data.M_name] = cellStr;
+                        string cellStr = data.Value.ToString();
+                        dataRow[data.Name] = cellStr;
                     }
                 }
             }

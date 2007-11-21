@@ -458,7 +458,7 @@ namespace EcellLib.EntityListWindow
             }
             for (int i = 0; i < list.Count; i++)
             {
-                List<EcellObject> insList = list[i].M_instances;
+                List<EcellObject> insList = list[i].Children;
                 if (insList == null || insList.Count == 0) continue;
                 for (int j = 0; j < insList.Count; j++)
                 {
@@ -600,16 +600,16 @@ namespace EcellLib.EntityListWindow
                 m_currentObj.type);
 
             // set logger
-            foreach (EcellData d in obj.M_value)
+            foreach (EcellData d in obj.Value)
             {
-                if (prop.Equals(d.M_name))
+                if (prop.Equals(d.Name))
                 {
                     PluginManager.GetPluginManager().LoggerAdd(
                         m_currentObj.modelID,
                         m_currentObj.key,
                         m_currentObj.type,
-                        d.M_entityPath);
-                    d.M_isLogger = true;
+                        d.EntityPath);
+                    d.Logged = true;
                 }
             }
             // modify changes
@@ -635,11 +635,11 @@ namespace EcellLib.EntityListWindow
                 m_currentObj.type);
 
             // delete logger
-            foreach (EcellData d in obj.M_value)
+            foreach (EcellData d in obj.Value)
             {
-                if (prop.Equals(d.M_name))
+                if (prop.Equals(d.Name))
                 {
-                    d.M_isLogger = false;
+                    d.Logged = false;
                 }
             }
             // modify changes
@@ -953,7 +953,7 @@ namespace EcellLib.EntityListWindow
                     }
                     for (int i = 0; i < list.Count; i++)
                     {
-                        List<EcellObject> insList = list[i].M_instances;
+                        List<EcellObject> insList = list[i].Children;
                         if (insList == null || insList.Count == 0) continue;
                         for (int j = 0; j < insList.Count; j++)
                         {
@@ -1029,20 +1029,20 @@ namespace EcellLib.EntityListWindow
                     m_delSysLogger.MenuItems.Clear();
                     m_creTopSysLogger.MenuItems.Clear();
                     m_delTopSysLogger.MenuItems.Clear();
-                    foreach (EcellData d in obj.M_value)
+                    foreach (EcellData d in obj.Value)
                     {
-                        //                        if (d.M_isLogable && !d.M_isLogger)
+                        //                        if (d.Logable && !d.Logged)
                         //                        {
-                        if (d.M_isLogable)
+                        if (d.Logable)
                         {
-                            MenuItem citem = new MenuItem(d.M_name);
+                            MenuItem citem = new MenuItem(d.Name);
                             citem.Click += new EventHandler(TreeViewCreLogger);
                             m_creSysLogger.MenuItems.Add(citem.CloneMenu());
                             m_creTopSysLogger.MenuItems.Add(citem.CloneMenu());
                         }
-                        if (d.M_isLogable && d.M_isLogger)
+                        if (d.Logable && d.Logged)
                         {
-                            MenuItem item = new MenuItem(d.M_name);
+                            MenuItem item = new MenuItem(d.Name);
                             item.Click += new EventHandler(TreeViewDelLogger);
                             m_delSysLogger.MenuItems.Add(item.CloneMenu());
                             m_delTopSysLogger.MenuItems.Add(item.CloneMenu());
@@ -1067,19 +1067,19 @@ namespace EcellLib.EntityListWindow
                     EcellObject obj = GetObjectFromNode(node);
                     m_creVarLogger.MenuItems.Clear();
                     m_delVarLogger.MenuItems.Clear();
-                    foreach (EcellData d in obj.M_value)
+                    foreach (EcellData d in obj.Value)
                     {
-//                        if (d.M_isLogable && !d.M_isLogger)
+//                        if (d.Logable && !d.Logged)
 //                        {
-                        if (d.M_isLogable)
+                        if (d.Logable)
                         {
-                            MenuItem citem = new MenuItem(d.M_name);
+                            MenuItem citem = new MenuItem(d.Name);
                             citem.Click += new EventHandler(TreeViewCreLogger);
                             m_creVarLogger.MenuItems.Add(citem.CloneMenu());
                         }
-                        if (d.M_isLogable && d.M_isLogger)
+                        if (d.Logable && d.Logged)
                         {
-                            MenuItem item = new MenuItem(d.M_name);
+                            MenuItem item = new MenuItem(d.Name);
                             item.Click += new EventHandler(TreeViewDelLogger);
                             m_delVarLogger.MenuItems.Add(item.CloneMenu());
                         }
@@ -1093,18 +1093,18 @@ namespace EcellLib.EntityListWindow
                     EcellObject obj = GetObjectFromNode(node);
                     m_creProcLogger.MenuItems.Clear();
                     m_delProcLogger.MenuItems.Clear();
-                    foreach (EcellData d in obj.M_value)
+                    foreach (EcellData d in obj.Value)
                     {
-//                        if (d.M_isLogable && !d.M_isLogger)
-                        if (d.M_isLogable)
+//                        if (d.Logable && !d.Logged)
+                        if (d.Logable)
                         {
-                            MenuItem citem = new MenuItem(d.M_name);
+                            MenuItem citem = new MenuItem(d.Name);
                             citem.Click += new EventHandler(TreeViewCreLogger);
                             m_creProcLogger.MenuItems.Add(citem.CloneMenu());
                         }
-                        if (d.M_isLogable && d.M_isLogger)
+                        if (d.Logable && d.Logged)
                         {
-                            MenuItem item = new MenuItem(d.M_name);
+                            MenuItem item = new MenuItem(d.Name);
                             item.Click += new EventHandler(TreeViewDelLogger);
                             m_delProcLogger.MenuItems.Add(item.CloneMenu());
                         }
@@ -1273,9 +1273,9 @@ namespace EcellLib.EntityListWindow
                         node = GetTargetTreeNode(current, path, null);
 
                         bool isLog = false;
-                        foreach (EcellData d in obj.M_value)
+                        foreach (EcellData d in obj.Value)
                         {
-                            if (d.M_isLogger)
+                            if (d.Logged)
                             {
                                 isLog = true;
                                 break;
@@ -1302,9 +1302,9 @@ namespace EcellLib.EntityListWindow
                         if (obj.key == "/")
                         {
                             bool isLog = false;
-                            foreach (EcellData d in obj.M_value)
+                            foreach (EcellData d in obj.Value)
                             {
-                                if (d.M_isLogger)
+                                if (d.Logged)
                                 {
                                     isLog = true;
                                     break;
@@ -1355,9 +1355,9 @@ namespace EcellLib.EntityListWindow
                             if (target != null)
                             {
                                 bool isLog = false;
-                                foreach (EcellData d in obj.M_value)
+                                foreach (EcellData d in obj.Value)
                                 {
-                                    if (d.M_isLogger)
+                                    if (d.Logged)
                                     {
                                         isLog = true;
                                         break;
@@ -1377,8 +1377,8 @@ namespace EcellLib.EntityListWindow
                     }
                     if (node != null)
                     {
-                        if (obj.M_instances == null) continue;
-                        foreach (EcellObject eo in obj.M_instances)
+                        if (obj.Children == null) continue;
+                        foreach (EcellObject eo in obj.Children)
                         {
                             if (eo.type != "Variable" && eo.type != "Process") continue;
                             if (eo.key.EndsWith("SIZE")) continue;
@@ -1399,9 +1399,9 @@ namespace EcellLib.EntityListWindow
                             if (isHit == true) continue;
 
                             bool isLog = false;
-                            foreach (EcellData d in eo.M_value)
+                            foreach (EcellData d in eo.Value)
                             {
-                                if (d.M_isLogger)
+                                if (d.Logged)
                                 {
                                     isLog = true;
                                     break;
@@ -1474,9 +1474,9 @@ namespace EcellLib.EntityListWindow
                     target.Text = targetText;
                 }
                 bool isLog = false;
-                foreach (EcellData d in data.M_value)
+                foreach (EcellData d in data.Value)
                 {
-                    if (d.M_isLogger)
+                    if (d.Logged)
                     {
                         isLog = true;
                         break;

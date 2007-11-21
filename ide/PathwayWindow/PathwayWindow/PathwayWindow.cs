@@ -990,7 +990,7 @@ namespace EcellLib.PathwayWindow
                                     obj,
                                     true);
                     if (obj is EcellSystem)
-                        foreach (EcellObject node in obj.M_instances)
+                        foreach (EcellObject node in obj.Children)
                             m_con.AddNewObj(node.modelID,
                                             node.parentSystemID,
                                             node.Copy(),
@@ -1028,9 +1028,9 @@ namespace EcellLib.PathwayWindow
 
                 eo.SetPosition(objDict[dictKey]);
                 this.NotifyDataChanged(eo.key, eo.key, eo, false, false);
-                if (eo.M_instances == null)
+                if (eo.Children == null)
                     continue;
-                foreach(EcellObject child in eo.M_instances)
+                foreach(EcellObject child in eo.Children)
                 {
                     dictKey = child.type + ":" + child.key;
                     if (!objDict.ContainsKey(dictKey))

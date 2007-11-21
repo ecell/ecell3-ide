@@ -203,6 +203,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EcellXml.cs" />
+    <Compile Include="SimulationParameter.cs" />
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />
     <None Include="ecelllib.snk" />

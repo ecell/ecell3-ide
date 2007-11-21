@@ -153,15 +153,15 @@ namespace EcellLib.PropertyWindow
                 if (hti.RowIndex <= 0) return;
                 string s = v[0, hti.RowIndex].Value as string;
                 if (s == null) return;
-                foreach (EcellData d in m_current.M_value)
+                foreach (EcellData d in m_current.Value)
                 {
-                    if (d.M_name.Equals(s))
+                    if (d.Name.Equals(s))
                     {
-                        if (!d.M_isLogable) break;
+                        if (!d.Logable) break;
                         EcellDragObject dobj = new EcellDragObject(m_current.modelID,
                             m_current.key,
                             m_current.type,
-                            d.M_entityPath);
+                            d.EntityPath);
                         
                         v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
                         return;
@@ -206,18 +206,18 @@ namespace EcellLib.PropertyWindow
         private void ResetProperty()
         {
             if (m_current == null) return;
-            foreach (EcellData d in m_current.M_value)
+            foreach (EcellData d in m_current.Value)
             {
-                if (!d.M_value.IsDouble() &&
-                    !d.M_value.IsInt())
+                if (!d.Value.IsDouble() &&
+                    !d.Value.IsInt())
                     continue;
                 for (int i = 0; i < m_dgv.Rows.Count; i++)
                 {
                     if (m_dgv.Rows[i].IsNewRow) continue;
                     if (m_dgv[0, i].Value == null) continue;
-                    if (d.M_name.Equals(m_dgv[0, i].Value.ToString()))
+                    if (d.Name.Equals(m_dgv[0, i].Value.ToString()))
                     {
-                        m_dgv[1, i].Value = d.M_value.ToString();
+                        m_dgv[1, i].Value = d.Value.ToString();
                     }
                 }
             }
@@ -227,15 +227,15 @@ namespace EcellLib.PropertyWindow
         {
             double l_time = m_dManager.GetCurrentSimulationTime();
             if (l_time == 0.0) return;
-            if (m_current == null || m_current.M_value == null) return;
-            foreach (EcellData d in m_current.M_value)
+            if (m_current == null || m_current.Value == null) return;
+            foreach (EcellData d in m_current.Value)
             {
-                if (d.M_isGettable && (d.M_value.IsDouble()))
+                if (d.Gettable && (d.Value.IsDouble()))
                 {
-                    EcellValue e = m_dManager.GetEntityProperty(d.M_entityPath);
+                    EcellValue e = m_dManager.GetEntityProperty(d.EntityPath);
                     foreach (DataGridViewRow r in m_dgv.Rows)
                     {
-                        if (r.Cells[0].Value.Equals(d.M_name))
+                        if (r.Cells[0].Value.Equals(d.Name))
                         {
                             r.Cells[1].Value = e.ToString();
                             break;
@@ -257,11 +257,11 @@ namespace EcellLib.PropertyWindow
             }
             else {
                 EcellObject p = m_current.Copy();
-                foreach (EcellData d in p.M_value)
+                foreach (EcellData d in p.Value)
                 {
-                    if (d.M_name.Equals(name))
+                    if (d.Name.Equals(name))
                     {
-                        p.M_value.Remove(d);
+                        p.Value.Remove(d);
                         break;
                     }
                 }
@@ -299,7 +299,7 @@ namespace EcellLib.PropertyWindow
             if (list == null || list.Count == 0) return null;
             for (int i = 0; i < list.Count; i++)
             {
-                List<EcellObject> insList = list[i].M_instances;
+                List<EcellObject> insList = list[i].Children;
                 if (insList == null || insList.Count == 0) continue;
                 for (int j = 0; j < insList.Count; j++)
                 {
@@ -323,11 +323,11 @@ namespace EcellLib.PropertyWindow
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
             DataGridViewCell c2;
-            c1.Value = d.M_name;
+            c1.Value = d.Name;
             r.Cells.Add(c1);
 
-            if (d.M_value == null) return null;
-            if (d.M_name.Equals("ClassName"))
+            if (d.Value == null) return null;
+            if (d.Name.Equals("ClassName"))
             {
                 c2 = new DataGridViewComboBoxCell();
                 if (type.Equals("System"))
@@ -352,12 +352,12 @@ namespace EcellLib.PropertyWindow
                         ((DataGridViewComboBoxCell)c2).Items.Add(pName);
                     }
                     
-                    c2.Value = d.M_value.ToString();
-                    if (m_dManager.IsEnableAddProperty(d.M_value.ToString()))
+                    c2.Value = d.Value.ToString();
+                    if (m_dManager.IsEnableAddProperty(d.Value.ToString()))
                     {
                         m_dgv.AllowUserToAddRows = true;
                         m_dgv.AllowUserToDeleteRows = true;
-                        m_propDic = m_dManager.GetProcessProperty(d.M_value.ToString());
+                        m_propDic = m_dManager.GetProcessProperty(d.Value.ToString());
                     }
                     else
                     {
@@ -366,12 +366,12 @@ namespace EcellLib.PropertyWindow
                     }
                 }
             }
-            else if (d.M_name.Equals("Expression"))
+            else if (d.Name.Equals("Expression"))
             {
                 c2 = new DataGridViewButtonCell();
                 c2.Value = "...";
             }
-            else if (d.M_name.Equals(EcellProcess.VARIABLEREFERENCELIST))
+            else if (d.Name.Equals(EcellProcess.VARIABLEREFERENCELIST))
             {
                 c2 = new DataGridViewButtonCell();
                 c2.Value = "Edit Variable Reference ...";
@@ -379,13 +379,13 @@ namespace EcellLib.PropertyWindow
             else
             {
                 c2 = new DataGridViewTextBoxCell();
-                c2.Value = d.M_value.ToString();
+                c2.Value = d.Value.ToString();
             }
             r.Cells.Add(c2);
             m_dgv.Rows.Add(r);
 
             c1.ReadOnly = true;
-            if (d.M_isSettable)
+            if (d.Settable)
             {
                 c2.ReadOnly = false;
             }
@@ -453,51 +453,51 @@ namespace EcellLib.PropertyWindow
             EcellObject obj = GetData(modelID, key, type);
             if (obj == null) return;
             EcellData dModelID = new EcellData();
-            dModelID.M_name = "ModelID";
-            dModelID.M_value = new EcellValue(modelID);
-            dModelID.M_isSettable = false;
+            dModelID.Name = "ModelID";
+            dModelID.Value = new EcellValue(modelID);
+            dModelID.Settable = false;
             PropertyAdd(dModelID, type);
 
             EcellData dKey = new EcellData();
-            dKey.M_name = "ID";
-            dKey.M_value = new EcellValue(key);
-            dKey.M_isSettable = true;
+            dKey.Name = "ID";
+            dKey.Value = new EcellValue(key);
+            dKey.Settable = true;
             PropertyAdd(dKey, type);
 
             EcellData dClass = new EcellData();
-            dClass.M_name = "ClassName";
-            dClass.M_value = new EcellValue(obj.classname);
-            dClass.M_isSettable = true;
+            dClass.Name = "ClassName";
+            dClass.Value = new EcellValue(obj.classname);
+            dClass.Settable = true;
             PropertyAdd(dClass, type);
             
-            foreach (EcellData d in obj.M_value)
+            foreach (EcellData d in obj.Value)
             {
-                if (d.M_name.Equals("Size"))
+                if (d.Name.Equals("Size"))
                     continue;
 
                 PropertyAdd(d, type);
-                if (d.M_name.Equals(EcellProcess.VARIABLEREFERENCELIST))
-                    m_refStr = d.M_value.ToString();
-                if (d.M_name.Equals(EcellProcess.EXPRESSION))
-                    m_expression = d.M_value.ToString();
+                if (d.Name.Equals(EcellProcess.VARIABLEREFERENCELIST))
+                    m_refStr = d.Value.ToString();
+                if (d.Name.Equals(EcellProcess.EXPRESSION))
+                    m_expression = d.Value.ToString();
             }
             if (type.Equals("System"))
             {
                 EcellData dSize = new EcellData();
-                dSize.M_name = "Size";
-                dSize.M_isSettable = true;
-                dSize.M_value = new EcellValue("");
-                if (obj.M_instances != null)
+                dSize.Name = "Size";
+                dSize.Settable = true;
+                dSize.Value = new EcellValue("");
+                if (obj.Children != null)
                 {
-                    foreach (EcellObject o in obj.M_instances)
+                    foreach (EcellObject o in obj.Children)
                     {
                         if (o.key.EndsWith(":SIZE"))
                         {
-                            foreach (EcellData d in o.M_value)
+                            foreach (EcellData d in o.Value)
                             {
-                                if (d.M_entityPath.EndsWith(":Value"))
+                                if (d.EntityPath.EndsWith(":Value"))
                                 {
-                                    dSize.M_value = new EcellValue(d.M_value.CastToDouble());
+                                    dSize.Value = new EcellValue(d.Value.CastToDouble());
                                 }
                             }
                         }
@@ -667,15 +667,15 @@ namespace EcellLib.PropertyWindow
         public void AdvancedTime(double time)
         {
             //if (time == 0.0) return;
-            //if (m_current == null || m_current.M_value == null) return;
-            //foreach (EcellData d in m_current.M_value)
+            //if (m_current == null || m_current.Value == null) return;
+            //foreach (EcellData d in m_current.Value)
             //{
-            //    if (d.M_isGettable && (d.M_value.IsDouble()))
+            //    if (d.Gettable && (d.Value.IsDouble()))
             //    {
-            //        EcellValue e = m_dManager.GetEntityProperty(d.M_entityPath);
+            //        EcellValue e = m_dManager.GetEntityProperty(d.EntityPath);
             //        foreach (DataGridViewRow r in m_dgv.Rows)
             //        {
-            //            if (r.Cells[0].Value.Equals(d.M_name))
+            //            if (r.Cells[0].Value.Equals(d.Name))
             //            {
             //                r.Cells[1].Value = e.ToString();
             //                break;
@@ -836,7 +836,7 @@ namespace EcellLib.PropertyWindow
                 return;
 
             EcellObject obj = m_current.Copy();
-            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).M_value = new EcellValue(refStr);
+            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value = new EcellValue(refStr);
 
             m_win.Close();
             try
@@ -872,9 +872,9 @@ namespace EcellLib.PropertyWindow
 
             List<string> list = new List<string>();
             list.Add("self.getSuperSystem().SizeN_A");
-            foreach (EcellData d in m_current.M_value)
+            foreach (EcellData d in m_current.Value)
             {
-                String str = d.M_name;
+                String str = d.Name;
                 if (str != "modelID" && str != "key" && str != "type" &&
                     str != "classname" && str != EcellProcess.ACTIVITY &&
                     str != EcellProcess.EXPRESSION && str != EcellProcess.NAME &&
@@ -910,11 +910,11 @@ namespace EcellLib.PropertyWindow
         {
             string tmp = m_cnt.ExportFormulate();
             EcellObject p = m_current.Copy();
-            foreach (EcellData d in p.M_value)
+            foreach (EcellData d in p.Value)
             {
-                if (d.M_name.Equals("Expression"))
+                if (d.Name.Equals("Expression"))
                 {
-                    d.M_value = new EcellValue(tmp);
+                    d.Value = new EcellValue(tmp);
                 }
             }
             try
@@ -1027,13 +1027,13 @@ namespace EcellLib.PropertyWindow
                     EcellObject p = m_current.Copy();
                     EcellData data = new EcellData(name, new EcellValue(0.0),
                             "Process:" + m_current.key + ":" + name);
-                    data.M_isGettable = true;
-                    data.M_isLoadable = true;
-                    data.M_isLogable = true;
-                    data.M_isLogger = false;
-                    data.M_isSavable = true;
-                    data.M_isSettable = true;
-                    p.M_value.Add(data);
+                    data.Gettable = true;
+                    data.Loadable = true;
+                    data.Logable = true;
+                    data.Logged = false;
+                    data.Saveable = true;
+                    data.Settable = true;
+                    p.Value.Add(data);
                     m_dgv.Rows[e.RowIndex].Cells[1].Tag = data;
                     try
                     {
@@ -1072,7 +1072,7 @@ namespace EcellLib.PropertyWindow
                 }
                 return;
             }
-            if (tag.M_name.Equals("ID"))
+            if (tag.Name.Equals("ID"))
             {
                 String tmpID = editCell.Value.ToString();
                 if (m_current.type.Equals("System"))
@@ -1120,7 +1120,7 @@ namespace EcellLib.PropertyWindow
                     return;
                 }
             }
-            else if (tag.M_name.Equals("ClassName"))
+            else if (tag.Name.Equals("ClassName"))
             {
                 //SelectedIndexChangedイベントハンドラを削除
                 if (this.m_ComboControl != null)
@@ -1130,19 +1130,19 @@ namespace EcellLib.PropertyWindow
                     this.m_ComboControl = null;
                 }
             }
-            else if (tag.M_name.Equals("Size"))
+            else if (tag.Name.Equals("Size"))
             {
                 String data = "";
                 if (editCell.Value != null) data = editCell.Value.ToString();
                 if (data.Equals(""))
                 {
-                    if (m_current.M_instances != null)
+                    if (m_current.Children != null)
                     {
-                        foreach (EcellObject o in m_current.M_instances)
+                        foreach (EcellObject o in m_current.Children)
                         {
                             if (o.key.EndsWith(":SIZE"))
                             {
-                                m_current.M_instances.Remove(o);
+                                m_current.Children.Remove(o);
                                 m_dManager.DataDelete(o.modelID, o.key, o.type);
                                 break;
                             }
@@ -1152,21 +1152,21 @@ namespace EcellLib.PropertyWindow
                 else
                 {
                     bool isHit = false;
-                    if (m_current.M_instances != null)
+                    if (m_current.Children != null)
                     {
-                        foreach (EcellObject o in m_current.M_instances)
+                        foreach (EcellObject o in m_current.Children)
                         {
                             if (o.key.EndsWith(":SIZE"))
                             {
-                                foreach (EcellData d in o.M_value)
+                                foreach (EcellData d in o.Value)
                                 {
-                                    if (d.M_name.EndsWith("Value"))
+                                    if (d.Name.EndsWith("Value"))
                                     {
-                                        if (data.Equals(d.M_value.ToString())) break;
+                                        if (data.Equals(d.Value.ToString())) break;
                                         EcellData p = d.Copy();
-                                        p.M_value = new EcellValue(Convert.ToDouble(data));
-                                        o.M_value.Remove(d);
-                                        o.M_value.Add(p);
+                                        p.Value = new EcellValue(Convert.ToDouble(data));
+                                        o.Value.Remove(d);
+                                        o.Value.Add(p);
                                         m_isChanging = true;
                                         m_dManager.DataChanged(
                                             o.modelID,
@@ -1191,7 +1191,7 @@ namespace EcellLib.PropertyWindow
                             if (pname.Equals("Value"))
                             {
                                 EcellData d = plist[pname];
-                                d.M_value = new EcellValue(Convert.ToDouble(data));
+                                d.Value = new EcellValue(Convert.ToDouble(data));
                                 dlist.Add(d);
                             }
                             else
@@ -1204,9 +1204,9 @@ namespace EcellLib.PropertyWindow
                         List<EcellObject> rList = new List<EcellObject>();
                         rList.Add(obj);
                         m_dManager.DataAdd(rList);
-                        if (m_current.M_instances == null)
-                            m_current.M_instances = new List<EcellObject>();
-                        m_current.M_instances.Add(obj);
+                        if (m_current.Children == null)
+                            m_current.Children = new List<EcellObject>();
+                        m_current.Children.Add(obj);
                     }
                 }
             }
@@ -1215,18 +1215,18 @@ namespace EcellLib.PropertyWindow
                 if (editCell.Value == null) return;
                 String data = editCell.Value.ToString();
                 EcellObject p = m_current.Copy();
-                foreach (EcellData d in p.M_value)
+                foreach (EcellData d in p.Value)
                 {
-                    if (d.M_name.Equals(tag.M_name))
+                    if (d.Name.Equals(tag.Name))
                     {
                         try
                         {
-                            if (d.M_value.IsInt())
-                                d.M_value = new EcellValue(Convert.ToInt32(data));
-                            else if (d.M_value.IsDouble())
-                                d.M_value = new EcellValue(Convert.ToDouble(data));
+                            if (d.Value.IsInt())
+                                d.Value = new EcellValue(Convert.ToInt32(data));
+                            else if (d.Value.IsDouble())
+                                d.Value = new EcellValue(Convert.ToDouble(data));
                             else
-                                d.M_value = new EcellValue(data);
+                                d.Value = new EcellValue(data);
                         }
                         catch (Exception ex)
                         {
@@ -1274,13 +1274,13 @@ namespace EcellLib.PropertyWindow
 
             List<EcellData> propList = new List<EcellData>();
             Dictionary<String, EcellData> propDict = m_dManager.GetProcessProperty(cname);
-            foreach (EcellData d in m_current.M_value)
+            foreach (EcellData d in m_current.Value)
             {
-                if (!propDict.ContainsKey(d.M_name))
+                if (!propDict.ContainsKey(d.Name))
                 {
                     continue;
                 }
-                propDict[d.M_name].M_value = d.M_value;
+                propDict[d.Name].Value = d.Value;
             }
             foreach (EcellData d in propDict.Values)
             {

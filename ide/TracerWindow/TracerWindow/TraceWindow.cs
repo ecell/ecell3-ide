@@ -160,11 +160,11 @@ namespace EcellLib.TracerWindow
             m_control.CurrentWin = tWin;
             DataManager dManager = DataManager.GetDataManager();
             EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
-            foreach (EcellData d in t.M_value)
+            foreach (EcellData d in t.Value)
             {
-                if (d.M_entityPath.Equals(dobj.Path))
+                if (d.EntityPath.Equals(dobj.Path))
                 {
-                    d.M_isLogger = true;
+                    d.Logged = true;
                     break;
                 }
             }
@@ -250,7 +250,7 @@ namespace EcellLib.TracerWindow
             DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
             c4.Value = tag.M_path;
             r.Cells.Add(c4);
-            r.Tag = new TagData(tag.M_modelID, tag.M_key, tag.M_type, tag.M_path);
+            r.Tag = new TagData(tag.M_modelID, tag.M_key, tag.Type, tag.M_path);
 
             ContextMenuStrip contextStrip = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
@@ -284,7 +284,7 @@ namespace EcellLib.TracerWindow
             {
                 TagData t = (TagData)r.Tag;
                 if (t.M_modelID == tag.M_modelID && t.M_key == tag.M_key &&
-                    t.M_type == tag.M_type && t.M_path == tag.M_path)
+                    t.Type == tag.Type && t.M_path == tag.M_path)
                 {
                     dgv.Rows.Remove(r);
                     break;
@@ -759,7 +759,7 @@ namespace EcellLib.TracerWindow
         public void DeleteTraceEntry(TagData tag)
         {
             DataManager m_dManager = DataManager.GetDataManager();
-            EcellObject m_currentObj = m_dManager.GetEcellObject(tag.M_modelID, tag.M_key, tag.M_type);
+            EcellObject m_currentObj = m_dManager.GetEcellObject(tag.M_modelID, tag.M_key, tag.Type);
 
             if (m_currentObj == null)
             {
@@ -769,11 +769,11 @@ namespace EcellLib.TracerWindow
                 return;
             }
 
-            foreach (EcellData d in m_currentObj.M_value)
+            foreach (EcellData d in m_currentObj.Value)
             {
-                if (d.M_entityPath == tag.M_path)
+                if (d.EntityPath == tag.M_path)
                 {
-                    d.M_isLogger = false;
+                    d.Logged = false;
                 }
             }
 

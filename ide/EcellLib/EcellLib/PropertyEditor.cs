@@ -179,14 +179,14 @@ namespace EcellLib
                 Control c = (Control)iter.Current;
                 if (c == null) continue;
                 if (c.Tag == null) continue;
-                if (!c.Tag.ToString().Equals(d.M_name)) continue;
+                if (!c.Tag.ToString().Equals(d.Name)) continue;
                 TableLayoutPanelCellPosition pos =
                     layoutPanel.GetPositionFromControl(c);
                 if (pos.Column == 0) // IsCommit
                 {
                     CheckBox c1 = c as CheckBox;
                     if (c1 == null) continue;
-                    d.M_isCommit = c1.Checked;
+                    d.Committed = c1.Checked;
                 }
                 else if (pos.Column == 2) // Max
                 {
@@ -297,11 +297,11 @@ namespace EcellLib
                 }
 
                 commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                if (m_propDict[key].M_isSettable &&
-                    m_propDict[key].M_value.M_type == typeof(double))
+                if (m_propDict[key].Settable &&
+                    m_propDict[key].Value.Type == typeof(double))
                 {
                     CheckBox c = new CheckBox();
-                    if (m_propDict[key].M_isCommit) c.Checked = true;
+                    if (m_propDict[key].Committed) c.Checked = true;
                     else c.Checked = false;
                     c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                     c.Text = "";
@@ -331,8 +331,8 @@ namespace EcellLib
 
                 t1.Dock = DockStyle.Fill;
                 t1.Tag = key;
-                if (!m_propDict[key].M_isSettable ||
-                    m_propDict[key].M_value.M_type != typeof(double))
+                if (!m_propDict[key].Settable ||
+                    m_propDict[key].Value.Type != typeof(double))
                 {
                     t1.ReadOnly = true;
                     t1.Text = m_propDict[key].Max.ToString();
@@ -341,7 +341,7 @@ namespace EcellLib
                 {
                     if (m_propDict[key].Max == 0.0)
                     {
-                        t1.Text = Convert.ToString(m_propDict[key].M_value.CastToDouble() * 1.5);
+                        t1.Text = Convert.ToString(m_propDict[key].Value.CastToDouble() * 1.5);
                     }
                     else
                     {
@@ -354,8 +354,8 @@ namespace EcellLib
                 TextBox t2 = new TextBox();
                 t2.Dock = DockStyle.Fill;
                 t2.Tag = key;
-                if (!m_propDict[key].M_isSettable ||
-                    m_propDict[key].M_value.M_type != typeof(double))
+                if (!m_propDict[key].Settable ||
+                    m_propDict[key].Value.Type != typeof(double))
                 {
                     t2.ReadOnly = true;
                     t2.Text = m_propDict[key].Min.ToString();
@@ -364,7 +364,7 @@ namespace EcellLib
                 {
                     if (m_propDict[key].Min == 0.0)
                     {
-                        t2.Text = Convert.ToString(m_propDict[key].M_value.CastToDouble() * 0.5);
+                        t2.Text = Convert.ToString(m_propDict[key].Value.CastToDouble() * 0.5);
                     }
                     else
                     {
@@ -380,8 +380,8 @@ namespace EcellLib
                 t3.Text = m_propDict[key].Step.ToString();
                 t3.Dock = DockStyle.Fill;
                 t3.Tag = key;
-                if (!m_propDict[key].M_isSettable ||
-                    m_propDict[key].M_value.M_type != typeof(double))
+                if (!m_propDict[key].Settable ||
+                    m_propDict[key].Value.Type != typeof(double))
                 {
                     t3.ReadOnly = true;
                 }
@@ -466,15 +466,15 @@ namespace EcellLib
                 t3.Tag = "Size";
                 commitLayoutPanel.Controls.Add(t3, 4, i);
 
-                if (m_currentObj.M_instances != null)
+                if (m_currentObj.Children != null)
                 {
-                    foreach (EcellObject o in m_currentObj.M_instances)
+                    foreach (EcellObject o in m_currentObj.Children)
                     {
                         if (o.key.EndsWith(":SIZE"))
                         {
-                            foreach (EcellData d in o.M_value)
+                            foreach (EcellData d in o.Value)
                             {
-                                if (d.M_entityPath.EndsWith(":Value"))
+                                if (d.EntityPath.EndsWith(":Value"))
                                 {
                                     t1.Text = d.Max.ToString();
                                     t2.Text = d.Min.ToString();
@@ -542,8 +542,8 @@ namespace EcellLib
                 if (m_propDict.Count == 0)
                 {
                     m_propDict.Clear();
-                    foreach (EcellData d in m_currentObj.M_value)
-                        m_propDict.Add(d.M_name, d);
+                    foreach (EcellData d in m_currentObj.Value)
+                        m_propDict.Add(d.Name, d);
                 }
                 if (m_propName != null && m_propName.StartsWith("Expression"))
                 {
@@ -695,10 +695,10 @@ namespace EcellLib
                     }
 
                     layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                    if (m_propDict[key].M_isLogable)
+                    if (m_propDict[key].Logable)
                     {
                         CheckBox c = new CheckBox();
-                        if (m_propDict[key].M_isLogger)
+                        if (m_propDict[key].Logged)
                         {
                             c.Checked = true;
                         }
@@ -753,7 +753,7 @@ namespace EcellLib
                         }
                         else
                         {
-                            t.Text = m_propDict[key].M_value.ToString();
+                            t.Text = m_propDict[key].Value.ToString();
                         }
                         t.Tag = key;
                         t.Dock = DockStyle.Fill;
@@ -766,8 +766,8 @@ namespace EcellLib
                         t.Text = "";
                         t.Tag = key;
                         t.Dock = DockStyle.Fill;
-                        t.Text = m_propDict[key].M_value.ToString();
-                        if (!m_propDict[key].M_isSettable)
+                        t.Text = m_propDict[key].Value.ToString();
+                        if (!m_propDict[key].Settable)
                         {
                             t.ReadOnly = true;
                         }
@@ -838,17 +838,17 @@ namespace EcellLib
                     t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                     layoutPanel.Controls.Add(t, 2, i);
 
-                    if (m_currentObj.M_instances != null)
+                    if (m_currentObj.Children != null)
                     {
-                        foreach (EcellObject o in m_currentObj.M_instances)
+                        foreach (EcellObject o in m_currentObj.Children)
                         {
                             if (o.key.EndsWith(":SIZE"))
                             {
-                                foreach (EcellData d in o.M_value)
+                                foreach (EcellData d in o.Value)
                                 {
-                                    if (d.M_entityPath.EndsWith(":Value"))
+                                    if (d.EntityPath.EndsWith(":Value"))
                                     {
-                                        t.Text = d.M_value.ToString();
+                                        t.Text = d.Value.ToString();
                                     }
                                 }
                             }
@@ -896,12 +896,12 @@ namespace EcellLib
                 data = new EcellData(name, new EcellValue(0.0),
                     "Process:/dummy:" + name);
 
-            data.M_isGettable = true;
-            data.M_isLoadable = true;
-            data.M_isLogable = true;
-            data.M_isLogger = false;
-            data.M_isSavable = true;
-            data.M_isSettable = true;
+            data.Gettable = true;
+            data.Loadable = true;
+            data.Logable = true;
+            data.Logged = false;
+            data.Saveable = true;
+            data.Settable = true;
             
             m_propDict.Add(name, data);
 
@@ -1179,16 +1179,16 @@ namespace EcellLib
                     else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
                     {
                         EcellData data = new EcellData();
-                        data.M_name = (string)c.Tag;
-                        data.M_value = EcellValue.ToVariableReferenceList(m_refStr);
-                        data.M_entityPath = type + ":" + m_parentObj.key +
+                        data.Name = (string)c.Tag;
+                        data.Value = EcellValue.ToVariableReferenceList(m_refStr);
+                        data.EntityPath = type + ":" + m_parentObj.key +
                             ":" + id + ":" + (string)c.Tag;
-                        data.M_isSettable = m_propDict[data.M_name].M_isSettable;
-                        data.M_isSavable = m_propDict[data.M_name].M_isSavable;
-                        data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
-                        data.M_isGettable = m_propDict[data.M_name].M_isGettable;
-                        data.M_isLogable = m_propDict[data.M_name].M_isLogable;
-                        data.M_isLogger = m_propDict[data.M_name].M_isLogger;
+                        data.Settable = m_propDict[data.Name].Settable;
+                        data.Saveable = m_propDict[data.Name].Saveable;
+                        data.Loadable = m_propDict[data.Name].Loadable;
+                        data.Gettable = m_propDict[data.Name].Gettable;
+                        data.Logable = m_propDict[data.Name].Logable;
+                        data.Logged = m_propDict[data.Name].Logged;
 
                         list.Add(data);
                     }
@@ -1202,7 +1202,7 @@ namespace EcellLib
                             EcellData d = sList[p];
                             if (p == "Value")
                             {
-                                d.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                                d.Value = new EcellValue(Convert.ToDouble(c.Text));
                             }
                             dList.Add(d);
                         }
@@ -1213,29 +1213,29 @@ namespace EcellLib
                         EcellData data = new EcellData();
                         try
                         {
-                            data.M_name = (string)c.Tag;
-                            if (m_propDict[data.M_name].M_value.M_type == typeof(int))
-                                data.M_value = new EcellValue(Convert.ToInt32(c.Text));
-                            else if (m_propDict[data.M_name].M_value.M_type == typeof(double))
+                            data.Name = (string)c.Tag;
+                            if (m_propDict[data.Name].Value.Type == typeof(int))
+                                data.Value = new EcellValue(Convert.ToInt32(c.Text));
+                            else if (m_propDict[data.Name].Value.Type == typeof(double))
                             {
                                 if (c.Text == "1.79769313486232E+308")
-                                    data.M_value = new EcellValue(Double.MaxValue);
+                                    data.Value = new EcellValue(Double.MaxValue);
                                 else
-                                    data.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                                    data.Value = new EcellValue(Convert.ToDouble(c.Text));
                             }
-                            else if (m_propDict[data.M_name].M_value.M_type == typeof(List<EcellValue>))
-                                data.M_value = EcellValue.ToList(c.Text);
+                            else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
+                                data.Value = EcellValue.ToList(c.Text);
                             else
-                                data.M_value = new EcellValue(c.Text);
-                            data.M_entityPath = type + ":" + m_parentObj.key +
+                                data.Value = new EcellValue(c.Text);
+                            data.EntityPath = type + ":" + m_parentObj.key +
                                 ":" + id + ":" + (string)c.Tag;
-                            data.M_isSettable = m_propDict[data.M_name].M_isSettable;
-                            data.M_isSavable = m_propDict[data.M_name].M_isSavable;
-                            data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
-                            data.M_isGettable = m_propDict[data.M_name].M_isGettable;
-                            data.M_isLogable = m_propDict[data.M_name].M_isLogable;
-//                            data.M_isLogger = m_propDict[data.M_name].M_isLogger;
-                            data.M_isLogger = isLogger;
+                            data.Settable = m_propDict[data.Name].Settable;
+                            data.Saveable = m_propDict[data.Name].Saveable;
+                            data.Loadable = m_propDict[data.Name].Loadable;
+                            data.Gettable = m_propDict[data.Name].Gettable;
+                            data.Logable = m_propDict[data.Name].Logable;
+//                            data.Logged = m_propDict[data.Name].Logged;
+                            data.Logged = isLogger;
                         }
                         catch (Exception)
                         {
@@ -1246,8 +1246,8 @@ namespace EcellLib
                 }
 
                 EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
-                obj.M_instances = new List<EcellObject>();
-                if (sizeObj != null) obj.M_instances.Add(sizeObj);
+                obj.Children = new List<EcellObject>();
+                if (sizeObj != null) obj.Children.Add(sizeObj);
 
                 return obj;
             }
@@ -1318,7 +1318,7 @@ namespace EcellLib
                             EcellData d = sList[p];
                             if (p == "Value")
                             {
-                                d.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                                d.Value = new EcellValue(Convert.ToDouble(c.Text));
                             }
                             dList.Add(d);
                         }
@@ -1329,29 +1329,29 @@ namespace EcellLib
                         EcellData data = new EcellData();
                         try
                         {
-                            data.M_name = (string)c.Tag;
-                            if (m_propDict[data.M_name].M_value.M_type == typeof(int))
-                                data.M_value = new EcellValue(Convert.ToInt32(c.Text));
-                            else if (m_propDict[data.M_name].M_value.M_type == typeof(double))
+                            data.Name = (string)c.Tag;
+                            if (m_propDict[data.Name].Value.Type == typeof(int))
+                                data.Value = new EcellValue(Convert.ToInt32(c.Text));
+                            else if (m_propDict[data.Name].Value.Type == typeof(double))
                             {
                                 if (c.Text == "1.79769313486232E+308")
-                                    data.M_value = new EcellValue(Double.MaxValue);
+                                    data.Value = new EcellValue(Double.MaxValue);
                                 else
-                                    data.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                                    data.Value = new EcellValue(Convert.ToDouble(c.Text));
                             }
-                            else if (m_propDict[data.M_name].M_value.M_type == typeof(List<EcellValue>))
-                                data.M_value = EcellValue.ToList(c.Text);
+                            else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
+                                data.Value = EcellValue.ToList(c.Text);
                             else
-                                data.M_value = new EcellValue(c.Text);
+                                data.Value = new EcellValue(c.Text);
 
-                            data.M_isSettable = m_propDict[data.M_name].M_isSettable;
-                            data.M_isSavable = m_propDict[data.M_name].M_isSavable;
-                            data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
-                            data.M_isGettable = m_propDict[data.M_name].M_isGettable;
-                            data.M_isLogable = m_propDict[data.M_name].M_isLogable;
-                            data.M_isLogger = m_propDict[data.M_name].M_isLogger;
+                            data.Settable = m_propDict[data.Name].Settable;
+                            data.Saveable = m_propDict[data.Name].Saveable;
+                            data.Loadable = m_propDict[data.Name].Loadable;
+                            data.Gettable = m_propDict[data.Name].Gettable;
+                            data.Logable = m_propDict[data.Name].Logable;
+                            data.Logged = m_propDict[data.Name].Logged;
 
-                            data.M_entityPath = type + ":" + m_parentObj.key +
+                            data.EntityPath = type + ":" + m_parentObj.key +
                                 ":" + id + ":" + (string)c.Tag;
                         }
                         catch (Exception ex)
@@ -1366,7 +1366,7 @@ namespace EcellLib
                     }
                 }
                 EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
-                obj.M_instances = new List<EcellObject>();
+                obj.Children = new List<EcellObject>();
                 List<EcellObject> objList = new List<EcellObject>();
                 objList.Add(obj);
                 if (sizeObj != null) objList.Add(sizeObj);
@@ -1427,7 +1427,7 @@ namespace EcellLib
                 }
 
                 EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
-                obj.M_instances = new List<EcellObject>();
+                obj.Children = new List<EcellObject>();
                 List<EcellObject> objList = new List<EcellObject>();
                 objList.Add(obj);
                 m_dManager.DataAdd(objList);
@@ -1504,16 +1504,16 @@ namespace EcellLib
                     else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
                     {
                         EcellData data = new EcellData();
-                        data.M_name = (string)c.Tag;
-                        data.M_value = EcellValue.ToVariableReferenceList(m_refStr);
-                        data.M_entityPath = type + ":" + m_parentObj.key +
+                        data.Name = (string)c.Tag;
+                        data.Value = EcellValue.ToVariableReferenceList(m_refStr);
+                        data.EntityPath = type + ":" + m_parentObj.key +
                             ":" + id + ":" + (string)c.Tag;
-                        data.M_isSettable = m_propDict[data.M_name].M_isSettable;
-                        data.M_isSavable = m_propDict[data.M_name].M_isSavable;
-                        data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
-                        data.M_isGettable = m_propDict[data.M_name].M_isGettable;
-                        data.M_isLogable = m_propDict[data.M_name].M_isLogable;
-                        data.M_isLogger = m_propDict[data.M_name].M_isLogger;
+                        data.Settable = m_propDict[data.Name].Settable;
+                        data.Saveable = m_propDict[data.Name].Saveable;
+                        data.Loadable = m_propDict[data.Name].Loadable;
+                        data.Gettable = m_propDict[data.Name].Gettable;
+                        data.Logable = m_propDict[data.Name].Logable;
+                        data.Logged = m_propDict[data.Name].Logged;
 
                         list.Add(data);
                     }
@@ -1522,28 +1522,28 @@ namespace EcellLib
                         EcellData data = new EcellData();
                         try
                         {
-                            data.M_name = (string)c.Tag;
-                            if (m_propDict[data.M_name].M_value.M_type == typeof(int))
-                                data.M_value = new EcellValue(Convert.ToInt32(c.Text));
-                            else if (m_propDict[data.M_name].M_value.M_type == typeof(double))
+                            data.Name = (string)c.Tag;
+                            if (m_propDict[data.Name].Value.Type == typeof(int))
+                                data.Value = new EcellValue(Convert.ToInt32(c.Text));
+                            else if (m_propDict[data.Name].Value.Type == typeof(double))
                             {
                                 if (c.Text == "1.79769313486232E+308")
-                                    data.M_value = new EcellValue(Double.MaxValue);
+                                    data.Value = new EcellValue(Double.MaxValue);
                                 else
-                                    data.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                                    data.Value = new EcellValue(Convert.ToDouble(c.Text));
                             }
-                            else if (m_propDict[data.M_name].M_value.M_type == typeof(List<EcellValue>))
-                                data.M_value = EcellValue.ToList(c.Text);
+                            else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
+                                data.Value = EcellValue.ToList(c.Text);
                             else
-                                data.M_value = new EcellValue(c.Text);
-                            data.M_entityPath = type + ":" + m_parentObj.key +
+                                data.Value = new EcellValue(c.Text);
+                            data.EntityPath = type + ":" + m_parentObj.key +
                                 ":" + id + ":" + (string)c.Tag;
-                            data.M_isSettable = m_propDict[data.M_name].M_isSettable;
-                            data.M_isSavable = m_propDict[data.M_name].M_isSavable;
-                            data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
-                            data.M_isGettable = m_propDict[data.M_name].M_isGettable;
-                            data.M_isLogable = m_propDict[data.M_name].M_isLogable;
-                            data.M_isLogger = m_propDict[data.M_name].M_isLogger;
+                            data.Settable = m_propDict[data.Name].Settable;
+                            data.Saveable = m_propDict[data.Name].Saveable;
+                            data.Loadable = m_propDict[data.Name].Loadable;
+                            data.Gettable = m_propDict[data.Name].Gettable;
+                            data.Logable = m_propDict[data.Name].Logable;
+                            data.Logged = m_propDict[data.Name].Logged;
                         }
                         catch (Exception ex)
                         {
@@ -1557,7 +1557,7 @@ namespace EcellLib
                 }
 
                 EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
-                obj.M_instances = new List<EcellObject>();
+                obj.Children = new List<EcellObject>();
 
                 List<EcellObject> objList = new List<EcellObject>();
                 objList.Add(obj);
@@ -1659,25 +1659,25 @@ namespace EcellLib
                     else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
                     {
                         EcellData data = new EcellData();
-                        data.M_name = (string)c.Tag;
-                        data.M_value = EcellValue.ToVariableReferenceList(m_refStr);
+                        data.Name = (string)c.Tag;
+                        data.Value = EcellValue.ToVariableReferenceList(m_refStr);
                         if (key.Contains(":"))
                         {
                             int ind = key.LastIndexOf(":");
-                            data.M_entityPath = type + ":" + key.Substring(0, ind) +
+                            data.EntityPath = type + ":" + key.Substring(0, ind) +
                                 ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
                         }
                         else
                         {
                             if (key == "/")
                             {
-                                data.M_entityPath = type + ":" + "" +
+                                data.EntityPath = type + ":" + "" +
                                     ":" + "/" + ":" + (string)c.Tag;
                             }
                             else
                             {
                                 int ind = key.LastIndexOf("/");
-                                data.M_entityPath = type + ":" + key.Substring(0, ind) +
+                                data.EntityPath = type + ":" + key.Substring(0, ind) +
                                     ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
                             }
                         }
@@ -1688,9 +1688,9 @@ namespace EcellLib
                     {
                         EcellObject target = null;
                         Double sizeData = 0.1;
-                        if (m_currentObj.M_instances != null)
+                        if (m_currentObj.Children != null)
                         {
-                            foreach (EcellObject o in m_currentObj.M_instances)
+                            foreach (EcellObject o in m_currentObj.Children)
                             {
                                 if (o.key.EndsWith(":SIZE"))
                                 {
@@ -1712,7 +1712,7 @@ namespace EcellLib
                                     if (pname.Equals("Value"))
                                     {
                                         EcellData d = plist[pname];
-                                        d.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                                        d.Value = new EcellValue(Convert.ToDouble(c.Text));
                                         dlist.Add(d);
                                     }
                                     else
@@ -1725,9 +1725,9 @@ namespace EcellLib
                                 List<EcellObject> rList = new List<EcellObject>();
                                 rList.Add(obj);
                                 m_dManager.DataAdd(rList);
-                                if (m_currentObj.M_instances == null)
-                                    m_currentObj.M_instances = new List<EcellObject>();
-                                m_currentObj.M_instances.Add(obj);
+                                if (m_currentObj.Children == null)
+                                    m_currentObj.Children = new List<EcellObject>();
+                                m_currentObj.Children.Add(obj);
                                 sizeData = Convert.ToDouble(c.Text);
                             }
                         }
@@ -1736,24 +1736,24 @@ namespace EcellLib
                             if (c.Text == "")
                             {
                                 m_dManager.DataDelete(target.modelID, target.key, target.type);
-                                m_currentObj.M_instances.Remove(target);
+                                m_currentObj.Children.Remove(target);
                             }
                             else
                             {
                                 bool isChange = false;
-                                foreach (EcellData d in target.M_value)
+                                foreach (EcellData d in target.Value)
                                 {
-                                    if (d.M_entityPath.EndsWith(":Value"))
+                                    if (d.EntityPath.EndsWith(":Value"))
                                     {
-                                        if (d.M_value.CastToDouble() == Convert.ToDouble(c.Text))
+                                        if (d.Value.CastToDouble() == Convert.ToDouble(c.Text))
                                         {
                                         }
                                         else
                                         {
                                             isChange = true;
-                                            target.M_value.Remove(d);
-                                            d.M_value = new EcellValue(Convert.ToDouble(c.Text));
-                                            target.M_value.Add(d);
+                                            target.Value.Remove(d);
+                                            d.Value = new EcellValue(Convert.ToDouble(c.Text));
+                                            target.Value.Add(d);
                                         }
                                         break;
                                     }
@@ -1762,21 +1762,21 @@ namespace EcellLib
                                 {
                                     m_dManager.DataChanged(target.modelID, target.key, target.type, target);
                                 }
-                                m_currentObj.M_instances.Remove(target);
-                                m_currentObj.M_instances.Add(target);
+                                m_currentObj.Children.Remove(target);
+                                m_currentObj.Children.Add(target);
                                 sizeData = Convert.ToDouble(c.Text);
                             }
                         }
                         EcellData data = new EcellData();
-                        data.M_name = "Size";
-                        data.M_value = new EcellValue(sizeData);
-                        data.M_entityPath = m_propDict[data.M_name].M_entityPath;
-                        data.M_isSettable = m_propDict[data.M_name].M_isSettable;
-                        data.M_isSavable = m_propDict[data.M_name].M_isSavable;
-                        data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
-                        data.M_isGettable = m_propDict[data.M_name].M_isGettable;
-                        data.M_isLogable = m_propDict[data.M_name].M_isLogable;
-                        data.M_isLogger = m_propDict[data.M_name].M_isLogger;
+                        data.Name = "Size";
+                        data.Value = new EcellValue(sizeData);
+                        data.EntityPath = m_propDict[data.Name].EntityPath;
+                        data.Settable = m_propDict[data.Name].Settable;
+                        data.Saveable = m_propDict[data.Name].Saveable;
+                        data.Loadable = m_propDict[data.Name].Loadable;
+                        data.Gettable = m_propDict[data.Name].Gettable;
+                        data.Logable = m_propDict[data.Name].Logable;
+                        data.Logged = m_propDict[data.Name].Logged;
                         GetCommitInfo(data);
 
                         list.Add(data);
@@ -1784,63 +1784,63 @@ namespace EcellLib
                     else
                     {
                         EcellData data = new EcellData();
-                        data.M_name = (string)c.Tag;
-                        if (m_propDict[data.M_name].M_value.M_type == typeof(int))
-                            data.M_value = new EcellValue(Convert.ToInt32(c.Text));
-                        else if (m_propDict[data.M_name].M_value.M_type == typeof(double))
+                        data.Name = (string)c.Tag;
+                        if (m_propDict[data.Name].Value.Type == typeof(int))
+                            data.Value = new EcellValue(Convert.ToInt32(c.Text));
+                        else if (m_propDict[data.Name].Value.Type == typeof(double))
                         {
                             if (c.Text == "1.79769313486232E+308")
-                                data.M_value = new EcellValue(Double.MaxValue);
+                                data.Value = new EcellValue(Double.MaxValue);
                             else
-                                data.M_value = new EcellValue(Convert.ToDouble(c.Text));
+                                data.Value = new EcellValue(Convert.ToDouble(c.Text));
                         }
-                        else if (m_propDict[data.M_name].M_value.M_type == typeof(List<EcellValue>))
-                            data.M_value = EcellValue.ToList(c.Text);
+                        else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
+                            data.Value = EcellValue.ToList(c.Text);
                         else
-                            data.M_value = new EcellValue(c.Text);
+                            data.Value = new EcellValue(c.Text);
 
                         if (key.Contains(":"))
                         {
                             int ind = key.LastIndexOf(":");
-                            data.M_entityPath = type + ":" + key.Substring(0, ind) +
+                            data.EntityPath = type + ":" + key.Substring(0, ind) +
                                 ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
                         }
                         else
                         {
                             if (key == "/")
                             {
-                                data.M_entityPath = type + ":" + "" +
+                                data.EntityPath = type + ":" + "" +
                                     ":" + "/" + ":" + (string)c.Tag;
                             }
                             else
                             {
                                 int ind = key.LastIndexOf("/");
-                                data.M_entityPath = type + ":" + key.Substring(0, ind) +
+                                data.EntityPath = type + ":" + key.Substring(0, ind) +
                                     ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
                             }
                         }
 
-                        data.M_isSettable = m_propDict[data.M_name].M_isSettable;
-                        data.M_isSavable = m_propDict[data.M_name].M_isSavable;
-                        data.M_isLoadable = m_propDict[data.M_name].M_isLoadable;
-                        data.M_isGettable = m_propDict[data.M_name].M_isGettable;
-                        data.M_isLogable = m_propDict[data.M_name].M_isLogable;
+                        data.Settable = m_propDict[data.Name].Settable;
+                        data.Saveable = m_propDict[data.Name].Saveable;
+                        data.Loadable = m_propDict[data.Name].Loadable;
+                        data.Gettable = m_propDict[data.Name].Gettable;
+                        data.Logable = m_propDict[data.Name].Logable;
                         GetCommitInfo(data);
 
-                        if (m_propDict[data.M_name].M_isLogger != isLogger)
+                        if (m_propDict[data.Name].Logged != isLogger)
                         {
                             PluginManager pManager = PluginManager.GetPluginManager();
-                            if (m_propDict[data.M_name].M_isLogger)
+                            if (m_propDict[data.Name].Logged)
                             {
                                 // nothing
                             }
                             else
                             {
                                 pManager.LoggerAdd(modelID, key, type,
-                                    m_propDict[data.M_name].M_entityPath);
+                                    m_propDict[data.Name].EntityPath);
                             }
                         }
-                        data.M_isLogger = isLogger;
+                        data.Logged = isLogger;
 
                         list.Add(data);
                     }
@@ -1857,7 +1857,7 @@ namespace EcellLib
             try
             {
                 EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
-                obj.M_instances = m_currentObj.M_instances;
+                obj.Children = m_currentObj.Children;
                 obj.X = m_currentObj.X;
                 obj.Y = m_currentObj.Y;
                 obj.OffsetX = m_currentObj.OffsetX;

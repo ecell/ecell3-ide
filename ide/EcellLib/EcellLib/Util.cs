@@ -891,5 +891,29 @@ namespace EcellLib
         {
             noDefaultPaths = true;
         }
+
+        public static string BuildFullID(string type, string systemPath, string localID)
+        {
+            return type + s_delimiterColon + systemPath + s_delimiterColon + localID;
+        }
+
+        public static string StripWhitespaces(string val)
+        {
+            int startIdx = 0, len = val.Length, endIdx = len;
+
+            for (; startIdx < len; ++startIdx)
+            {
+                if (!Char.IsWhiteSpace(val[startIdx]))
+                    break;
+            }
+
+            while (--endIdx >= 0)
+            {
+                if (!Char.IsWhiteSpace(val[endIdx]))
+                    break;
+            }
+
+            return val.Substring(startIdx, endIdx - startIdx + 1);
+        }
     }
 }

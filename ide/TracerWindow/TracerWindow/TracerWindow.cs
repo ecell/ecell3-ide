@@ -676,12 +676,12 @@ namespace EcellLib.TracerWindow
         {
             foreach (EcellObject obj in data)
             {
-                if (obj.M_value == null) continue;
-                foreach (EcellData d in obj.M_value)
+                if (obj.Value == null) continue;
+                foreach (EcellData d in obj.Value)
                 {
-                    if (d.M_isLogger)
+                    if (d.Logged)
                     {
-                        AddToEntry(new TagData(obj.modelID, obj.key, obj.type, d.M_entityPath));
+                        AddToEntry(new TagData(obj.modelID, obj.key, obj.type, d.EntityPath));
                     }
                 }
             }
@@ -696,23 +696,23 @@ namespace EcellLib.TracerWindow
         /// <param name="data">Changed value of object.</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
-            if (data.M_value == null) return;
+            if (data.Value == null) return;
 
             List<TagData> tagList = new List<TagData>();
             foreach (TagData t in m_entry.Keys)
             {
                 if (t.M_modelID != modelID ||
                     t.M_key != key ||
-                    t.M_type != type) continue;
+                    t.Type != type) continue;
 
                 bool isHit = false;
-                foreach (EcellData d in data.M_value)
+                foreach (EcellData d in data.Value)
                 {
-                    if (!d.M_isLogable) continue;
-                    if (t.M_path == d.M_entityPath)
+                    if (!d.Logable) continue;
+                    if (t.M_path == d.EntityPath)
                     {
                         isHit = true;
-                        if (!d.M_isLogger)
+                        if (!d.Logged)
                         {
                             tagList.Add(t);
                         }
@@ -730,9 +730,9 @@ namespace EcellLib.TracerWindow
                 RemoveFromEntry(t);
             }
 
-            //foreach (EcellData d in data.M_value)
+            //foreach (EcellData d in data.Value)
             //{
-            //    if (!d.M_isLogable) continue;
+            //    if (!d.Logable) continue;
             //    //                bool isHit = false;
 
             //    // If the data changed from logging to no logging.
@@ -740,9 +740,9 @@ namespace EcellLib.TracerWindow
             //    foreach (TagData t in m_entry.Keys)
             //    {
             //        if (t.M_modelID == modelID && t.M_key == key &&
-            //            t.M_type == type && t.M_path == d.M_entityPath)
+            //            t.Type == type && t.M_path == d.EntityPath)
             //        {
-            //            if (!d.M_isLogger)
+            //            if (!d.Logged)
             //            {
             //                tag = t; ;
             //                RemoveFromEntry(tag);
@@ -1078,7 +1078,7 @@ namespace EcellLib.TracerWindow
         /// <summary>
         /// get / set type of tag data.
         /// </summary>
-        public string M_type
+        public string Type
         {
             get { return this.m_type; }
             set { this.m_type = value; }
@@ -1149,7 +1149,7 @@ namespace EcellLib.TracerWindow
             if (t == null) return false;
 
             if (t.M_modelID == m_modelID && t.M_key == m_key &&
-                t.M_type == m_type && t.M_path == m_path)
+                t.Type == m_type && t.M_path == m_path)
                 return true;
 
             return base.Equals(obj);
@@ -1165,7 +1165,7 @@ namespace EcellLib.TracerWindow
             if (t == null) return false;
 
             if (t.M_modelID == m_modelID && t.M_key == m_key &&
-                t.M_type == m_type && t.M_path == m_path)
+                t.Type == m_type && t.M_path == m_path)
                 return true;
             return false;
         }
