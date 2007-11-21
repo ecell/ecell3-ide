@@ -57,7 +57,7 @@ namespace EcellCoreLib
 		property String^ Message
 		{
 		public:
-			virtual String^ get() new
+			virtual String^ get() override
 			{
 				return m_message;
 			}
