@@ -13,7 +13,7 @@ namespace EcellCoreLib {
         WrappedPolymorph(double aValue);
         WrappedPolymorph(int aValue);
         WrappedPolymorph(String ^ aValue);
-        WrappedPolymorph(List<WrappedPolymorph^>^ aWrappedPolymorphList);
+        WrappedPolymorph(IEnumerable<WrappedPolymorph^>^ aWrappedPolymorphList);
         WrappedPolymorph(const libecs::Polymorph& aPolymorph);
 		virtual ~WrappedPolymorph();
         const libecs::Polymorph& GetPolymorph();

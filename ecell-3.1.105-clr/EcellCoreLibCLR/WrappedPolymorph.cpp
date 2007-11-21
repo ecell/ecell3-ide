@@ -30,7 +30,7 @@ namespace EcellCoreLib
 		}
     }
 
-    WrappedPolymorph::WrappedPolymorph(List<WrappedPolymorph^>^ aWrappedPolymorphList)
+    WrappedPolymorph::WrappedPolymorph(IEnumerable<WrappedPolymorph^>^ aWrappedPolymorphList)
 		: thePolymorph(WrappedPolymorph::CastToPolymorph(aWrappedPolymorphList))
     {
     }
@@ -135,7 +135,8 @@ namespace EcellCoreLib
     {
         if(this->IsString())
         {
-            return gcnew String((thePolymorph->asString()).c_str());
+			return Marshal::PtrToStringAnsi(
+					(IntPtr)const_cast<char*>(thePolymorph->asString().c_str()));
         }
         else
         {

@@ -164,16 +164,16 @@ namespace EcellCoreLib {
 			for (System::Collections::IEnumerator^ i = l_list->GetEnumerator(); i->MoveNext(); delete i)
             {
 				System::Object^ elem = i->Current;
-				if (System::Collections::IEnumerable::typeid->IsInstanceOfType(elem))
+				if (String::typeid->IsInstanceOfType(elem))
+                {
+                    l_vector.push_back(libecs::Polymorph(WrappedCString(elem->ToString())));
+                }
+				else if (System::Collections::IEnumerable::typeid->IsInstanceOfType(elem))
                 {
                     l_vector.push_back(
 							libecs::Polymorph(
 								WrappedSimulator::ExchangeType(
 									(System::Collections::IEnumerable^)elem)));
-                }
-                else
-                {
-                    l_vector.push_back(libecs::Polymorph(WrappedCString(elem->ToString())));
                 }
 			}
             return l_vector;
