@@ -301,7 +301,7 @@ namespace EcellLib
                             );
                     }
                 }
-                if(l_isRecorded)
+                if (l_isRecorded)
                     m_aManager.AddAction(new AddStepperAction(l_parameterID, l_stepper));
             }
             catch (Exception l_ex)
@@ -334,7 +334,7 @@ namespace EcellLib
             {
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
-                    "Update Data: " + l_message + "[" + Util.s_xpathClassName + "]" 
+                    "Update Data: " + l_message + "[" + Util.s_xpathClassName + "]"
                         + System.Environment.NewLine
                         + "\t[" + l_src.classname + "]->[" + l_dest.classname + "]"
                         + System.Environment.NewLine);
@@ -636,7 +636,7 @@ namespace EcellLib
             bool l_changedFlag = false;
             l_dest = l_src.Copy();
             EcellValue l_varList = l_dest.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST);
-            if( l_varList == null || l_varList.ToString().Length <= 0)
+            if (l_varList == null || l_varList.ToString().Length <= 0)
                 return l_changedFlag;
 
             List<EcellValue> l_changedValue = new List<EcellValue>();
@@ -1056,14 +1056,14 @@ namespace EcellLib
                 if (l_usableList != null && l_usableList.Count > 0)
                 {
                     m_pManager.DataAdd(l_usableList);
-                    foreach(EcellObject obj in l_usableList)
+                    foreach (EcellObject obj in l_usableList)
                     {
                         m_pManager.SetPosition(obj);
-                        if(l_isRecorded)
+                        if (l_isRecorded)
                             m_aManager.AddAction(new DataAddAction(obj, l_isUndoable, l_isAnchor));
                     }
-//                    if (lastObj != null)
-//                        m_pManager.SelectChanged(lastObj.modelID, lastObj.key, lastObj.type);
+                    //                    if (lastObj != null)
+                    //                        m_pManager.SelectChanged(lastObj.modelID, lastObj.key, lastObj.type);
                 }
             }
         }
@@ -1122,7 +1122,7 @@ namespace EcellLib
                                         }
                                     )
                                 );
-;
+                                ;
                             }
                         }
                         this.CheckEntityPath(l_ecellObject);
@@ -1404,7 +1404,7 @@ namespace EcellLib
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK)
                 {
-                    throw new IgnoreException("Can't change the object.");                    
+                    throw new IgnoreException("Can't change the object.");
                 }
                 SimulationStop();
                 m_pManager.ChangeStatus(Util.LOADED);
@@ -1430,7 +1430,7 @@ namespace EcellLib
                 EcellObject l_oldObj = GetEcellObject(l_modelID, l_key, l_type);
                 //if (!l_oldObj.IsPosSet)
                 //    m_pManager.SetPosition(l_oldObj);
-                if(l_isRecorded)
+                if (l_isRecorded)
                     this.m_aManager.AddAction(new DataChangeAction(l_modelID, l_type, l_oldObj, l_ecellObject.Copy(), l_isAnchor));
 
                 //
@@ -1438,7 +1438,7 @@ namespace EcellLib
                 //
                 List<EcellObject> l_systemList = this.m_systemDic[this.m_currentProjectID][l_modelID];
                 if (l_systemList == null || l_systemList.Count <= 0)
-                    throw new Exception(m_resources.GetString("ErrFindSystem") +  l_message);
+                    throw new Exception(m_resources.GetString("ErrFindSystem") + l_message);
                 //
                 // Checks the EcellObject
                 //
@@ -1524,7 +1524,7 @@ namespace EcellLib
                             // Adds the new object.
                             //
                             this.DataAdd4Entity(l_ecellObject.Copy(), false);
-                            this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);                            
+                            this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
                             //
                             // Deletes the old object.
                             //
@@ -1782,7 +1782,7 @@ namespace EcellLib
             finally
             {
                 m_pManager.DataDelete(l_modelID, l_key, l_type);
-                if(l_isRecorded)
+                if (l_isRecorded)
                     m_aManager.AddAction(new DataDeleteAction(l_modelID, l_key, l_type, deleteObj, l_isAnchor));
             }
         }
@@ -1809,7 +1809,7 @@ namespace EcellLib
             }
             if (!l_isDelete)
             {
-                throw new Exception(m_resources.GetString("ErrFindModel") +  l_message);
+                throw new Exception(m_resources.GetString("ErrFindModel") + l_message);
             }
             //
             // Deletes "System"s.
@@ -1931,7 +1931,7 @@ namespace EcellLib
                             continue;
 
                         EcellProcess l_process = (EcellProcess)l_child.Copy();
-                        List<EcellReference> l_er =new List<EcellReference>();
+                        List<EcellReference> l_er = new List<EcellReference>();
                         foreach (EcellReference er in l_process.ReferenceList)
                         {
                             if (er.Key.Equals(l_variableKey))
@@ -2035,7 +2035,7 @@ namespace EcellLib
                     }
                 }
             }
-                        
+
             DataDelete(modelID, key, "System", false, false);
             string[] el = key.Split(new char[] { '/' });
             int delPoint = el.Length - 1;
@@ -2074,8 +2074,8 @@ namespace EcellLib
                 }
                 obj.key = newKey;
                 obj.M_instances = new List<EcellObject>();
-//                obj.M_instances = new List<EcellObject>();
-//                DataChanged(modelID, orgKey, obj.type, obj);
+                //                obj.M_instances = new List<EcellObject>();
+                //                DataChanged(modelID, orgKey, obj.type, obj);
                 CheckEntityPath(obj);
                 list.Add(obj);
                 foreach (EcellObject p in tmpList)
@@ -2092,7 +2092,7 @@ namespace EcellLib
                     if (j == delPoint)
                     {
                         if (j == 1) iNewKey = "/";
-                        iNewKey = iNewKey +iel[j].Substring(iel[j].LastIndexOf(":"));
+                        iNewKey = iNewKey + iel[j].Substring(iel[j].LastIndexOf(":"));
                     }
                     else if (iel[j] == "") iNewKey = "";
                     else iNewKey = iNewKey + "/" + iel[j];
@@ -2117,11 +2117,11 @@ namespace EcellLib
 
             // Add action
             if (isRecorded)
-                m_aManager.AddAction(new SystemMergeAction(modelID, toBeDeleted, saveSysList, saveObjList, isAnchor));  
+                m_aManager.AddAction(new SystemMergeAction(modelID, toBeDeleted, saveSysList, saveObjList, isAnchor));
 
-                      
+
         }
-        
+
         /// <summary>
         /// Used only to undo SystemDeleteAndMove. So, this method should be used only by ActionManager
         /// </summary>
@@ -2135,7 +2135,7 @@ namespace EcellLib
             List<EcellObject> l_objList)
         {
             // Temporary delete objects to be moved into a new system.
-            foreach(EcellObject sys in l_sysList)
+            foreach (EcellObject sys in l_sysList)
                 DataDelete(l_modelID, sys.key, "System", false, false);
 
             string[] el = l_obj.key.Split(new char[] { '/' });
@@ -2170,19 +2170,19 @@ namespace EcellLib
                 }
                 DataDelete(l_modelID, iNewKey, obj.type, false, false);
             }
-            
+
             // Add a system.
             List<EcellObject> l_list = new List<EcellObject>();
             l_list.Add(l_obj);
-            
-            foreach(EcellObject l_sys in l_sysList)
+
+            foreach (EcellObject l_sys in l_sysList)
                 l_list.Add(l_sys);
-            
+
             foreach (EcellObject l_object in l_objList)
                 l_list.Add(l_object);
 
             DataAdd(l_list);
-            
+
         }
 
         /// <summary>
@@ -2230,7 +2230,7 @@ namespace EcellLib
                     }
                 }
                 // Record deletion of child system. 
-                if(!l_obj.key.Equals(l_key))
+                if (!l_obj.key.Equals(l_key))
                     m_aManager.AddAction(new DataDeleteAction(l_obj.modelID, l_obj.key, l_obj.type, l_obj, false));
                 if (l_messageFlag)
                 {
@@ -2921,8 +2921,8 @@ namespace EcellLib
                 {
                     throw new Exception(m_resources.GetString("ErrFindSimParam") + l_message);
                 }
-                
-                if(l_isRecorded)
+
+                if (l_isRecorded)
                     m_aManager.AddAction(new DeleteSimParamAction(l_parameterID, l_isAnchor));
             }
             catch (Exception l_ex)
@@ -2977,7 +2977,7 @@ namespace EcellLib
                         "Delete Stepper: " + l_message + System.Environment.NewLine
                         );
                 }
-                if(l_isRecorded)
+                if (l_isRecorded)
                     m_aManager.AddAction(new DeleteStepperAction(l_parameterID, l_stepper));
             }
             catch (Exception l_ex)
@@ -3321,7 +3321,7 @@ namespace EcellLib
             return null;
         }
 
-        
+
 
         /// <summary>
         /// Returns the singleton of this.
@@ -3745,7 +3745,7 @@ namespace EcellLib
             {
                 l_entityList.Clear();
                 l_entityList = null;
-                throw new Exception(m_resources.GetString("ErrFindEnt") + 
+                throw new Exception(m_resources.GetString("ErrFindEnt") +
                     " [" + l_entityName + "][" + l_modelID + "]. {"
                     + l_ex.ToString() + "}");
             }
@@ -3772,7 +3772,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrGetProp") + 
+                throw new Exception(m_resources.GetString("ErrGetProp") +
                     l_message + " {" + l_ex.ToString() + "}");
             }
         }
@@ -3831,9 +3831,8 @@ namespace EcellLib
                     WrappedPolymorph l_newValue = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(0.01));
                     sim.SetEntityProperty(fullPath, l_newValue);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    ex.ToString();
                     isEnable = false;
                 }
             }
@@ -3841,7 +3840,7 @@ namespace EcellLib
             {
                 throw new Exception(
                     s_resources.GetString("ErrGetProp") +
-                    "[" + l_dmName + "] {" + l_ex.ToString() + "}");
+                    "[" + l_dmName + "] {" + l_ex.ToString() + "}", l_ex);
             }
             return isEnable;
         }
@@ -3874,7 +3873,7 @@ namespace EcellLib
             {
                 throw new Exception(
                     s_resources.GetString("ErrGetProp") +
-                    "[" + l_dmName + "] {" + l_ex.ToString() + "}");
+                    "[" + l_dmName + "] {" + l_ex.ToString() + "}", l_ex);
             }
             return l_dic;
         }
@@ -3998,7 +3997,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrSimParam") + 
+                throw new Exception(m_resources.GetString("ErrSimParam") +
                     " {" + l_ex.ToString() + "}");
             }
         }
@@ -4393,7 +4392,7 @@ namespace EcellLib
                 List<EcellObject> l_systemList = new List<EcellObject>();
                 this.m_logableEntityPathDic = new Dictionary<string, Dictionary<string, string>>();
                 this.m_logableEntityPathDic[this.m_currentProjectID] = new Dictionary<string, string>();
-                Dictionary<string, WrappedPolymorph> l_setSystemPropertyDic 
+                Dictionary<string, WrappedPolymorph> l_setSystemPropertyDic
                     = new Dictionary<string, WrappedPolymorph>();
                 foreach (string l_modelID in l_modelIDList)
                 {
@@ -4470,14 +4469,14 @@ namespace EcellLib
                 //
                 foreach (string l_modelID in l_modelIDList)
                 {
-                    foreach (string l_type 
+                    foreach (string l_type
                         in this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID][l_modelID].Keys)
                     {
                         foreach (string l_fullPN
                             in this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID][l_modelID]
                                 [l_type].Keys)
                         {
-                            EcellValue l_storedValue 
+                            EcellValue l_storedValue
                                 = new EcellValue(
                                     this.m_simulatorDic[this.m_currentProjectID].GetEntityProperty(l_fullPN));
                             double l_initialValue
@@ -4617,7 +4616,7 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// Loads the "Process" and the "Variable" 2 the "EcellCoreLib".
+        /// Loads the "Process" and the "Variable" to the "EcellCoreLib".
         /// </summary>
         /// <param name="l_entityList">The list of the "Process" and the "Variable"</param>
         /// <param name="l_simulator">The simulator</param>
@@ -4637,99 +4636,72 @@ namespace EcellLib
             {
                 return;
             }
-            foreach (EcellObject l_entity in l_entityList)
+            try
             {
-                l_simulator.CreateEntity(
-                    l_entity.classname,
-                    l_entity.type + Util.s_delimiterColon + l_entity.key);
-                if (l_entity.M_value == null || l_entity.M_value.Count <= 0)
+                foreach (EcellObject l_entity in l_entityList)
                 {
-                    continue;
-                }
-                foreach (EcellData l_ecellData in l_entity.M_value)
-                {
-                    if (l_ecellData.M_name == null
-                        || l_ecellData.M_name.Length <= 0
-                        || l_ecellData.M_value == null)
+                    l_simulator.CreateEntity(
+                        l_entity.classname,
+                        l_entity.type + Util.s_delimiterColon + l_entity.key);
+                    if (l_entity.M_value == null || l_entity.M_value.Count <= 0)
                     {
                         continue;
                     }
-                    else if (l_ecellData.M_value.IsString() && l_ecellData.M_value.CastToString().Length == 0)
+                    foreach (EcellData l_ecellData in l_entity.M_value)
                     {
-                        continue;
-                    }
-                    /*
-                     * Suspension
-                     * 
-                    if (!l_ecellData.M_value.IsDouble() && !l_ecellData.M_value.IsInt())
-                    {
-                        goto EDGE;
-                    }
-                    if (l_initialCondition == null || l_initialCondition.Count <= 0)
-                    {
-                        continue;
-                    }
-                    if (l_initialCondition[l_entity.type].ContainsKey(l_ecellData.M_entityPath))
-                    {
-                        double l_initialValue = l_initialCondition[l_entity.type][l_ecellData.M_entityPath];
-                        if (l_ecellData.M_value.IsDouble())
+                        if (l_ecellData.M_name == null
+                                || l_ecellData.M_name.Length <= 0
+                                || l_ecellData.M_value == null
+                                || (l_ecellData.M_value.IsString() &&
+                                    l_ecellData.M_value.CastToString().Length == 0))
                         {
-                            if (!l_ecellData.M_value.CastToDouble().Equals(l_initialValue))
+                            continue;
+                        }
+
+                        if (l_ecellData.M_isLogger)
+                        {
+                            l_loggerList.Add(l_ecellData.M_entityPath);
+                        }
+
+                        if (l_ecellData.M_isSavable)
+                        {
+                            if (l_ecellData.M_entityPath.EndsWith(Util.s_xpathVRL))
                             {
-                                l_ecellData.M_value = new EcellValue(l_initialValue);
+                                l_processPropertyDic[l_ecellData.M_entityPath]
+                                    = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.M_value);
+                            }
+                            else
+                            {
+                                if (l_ecellData.M_entityPath.EndsWith("FluxDistributionList")) continue;
+                                if (l_ecellData.M_value.IsDouble()
+                                    &&
+                                    (Double.IsInfinity(l_ecellData.M_value.CastToDouble())
+                                        || Double.IsNaN(l_ecellData.M_value.CastToDouble())))
+                                {
+                                    continue;
+                                }
+                                l_simulator.LoadEntityProperty(
+                                    l_ecellData.M_entityPath,
+                                    EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.M_value));
                             }
                         }
-                        else if (l_ecellData.M_value.IsInt())
+                        else if (l_ecellData.M_isSettable)
                         {
-                            if (!l_ecellData.M_value.CastToInt().Equals(Convert.ToInt32(l_initialValue)))
-                            {
-                                l_ecellData.M_value = new EcellValue(Convert.ToInt32(l_initialValue));
-                            }
-                        }
-                    }
-                EDGE:
-                     */
-                    if (l_ecellData.M_isLogger)
-                    {
-                        l_loggerList.Add(l_ecellData.M_entityPath);
-                    }
-                    if (l_ecellData.M_isSavable)
-                    {
-                        if (l_ecellData.M_entityPath.EndsWith(Util.s_xpathVRL))
-//                        if (l_ecellData.M_entityPath.StartsWith(Util.s_xpathProcess) &&
-//                            l_ecellData.M_value.IsList())
-                        {
-                            l_processPropertyDic[l_ecellData.M_entityPath]
-                                = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.M_value);
-                        }
-                        else
-                        {
-                            if (l_ecellData.M_entityPath.EndsWith("FluxDistributionList")) continue;
-                            if (l_ecellData.M_value.IsDouble()
-                                &&
-                                (Double.IsInfinity(l_ecellData.M_value.CastToDouble())
+                            if (l_ecellData.M_value.IsDouble() &&
+                                    (Double.IsInfinity(l_ecellData.M_value.CastToDouble())
                                     || Double.IsNaN(l_ecellData.M_value.CastToDouble())))
                             {
                                 continue;
                             }
-                            l_simulator.LoadEntityProperty(
-                                l_ecellData.M_entityPath, 
-                                EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.M_value));
+                            l_setPropertyDic[l_ecellData.M_entityPath]
+                                = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.M_value);
                         }
-                    }
-                    else if (l_ecellData.M_isSettable)
-                    {
-                        if (l_ecellData.M_value.IsDouble() 
-                            &&
-                            (Double.IsInfinity(l_ecellData.M_value.CastToDouble())
-                                || Double.IsNaN(l_ecellData.M_value.CastToDouble())))
-                        {
-                            continue;
-                        }
-                        l_setPropertyDic[l_ecellData.M_entityPath]
-                            = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.M_value);
                     }
                 }
+            }
+            catch (WrappedException e)
+            {
+                throw new Exception("Failed to create entity", e);
             }
         }
 
@@ -4769,7 +4741,7 @@ namespace EcellLib
                         throw new Exception(
                             String.Format(
                                 m_resources.GetString("ErrExistObj"),
-                                new object[] { l_message + "[Model]"}
+                                new object[] { l_message + "[Model]" }
                             )
                         );
                     }
@@ -5207,7 +5179,7 @@ namespace EcellLib
                     {
                         goto EDGE;
                     }
-                    for (int i = 0; i < l_stepperList.Count; i++ )
+                    for (int i = 0; i < l_stepperList.Count; i++)
                     {
                         EcellObject l_stepper = l_stepperList[i];
                         bool l_matchFlag = false;
@@ -5286,10 +5258,10 @@ namespace EcellLib
                                 }
                                 this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.modelID][j]
                                     = EcellObject.CreateObject(
-                                        l_stepper.modelID, 
-                                        l_stepper.key, 
+                                        l_stepper.modelID,
+                                        l_stepper.key,
                                         l_stepper.type,
-                                        l_stepper.classname, 
+                                        l_stepper.classname,
                                         l_newDataList);
                                 l_matchFlag = true;
                                 break;
@@ -5327,9 +5299,9 @@ namespace EcellLib
         /// <param name="l_stepperList">The list of the "Stepper"</param>
         /// <param name="l_setStepperDic"></param>
         private void LoadStepper(
-            WrappedSimulator l_simulator, 
+            WrappedSimulator l_simulator,
             List<EcellObject> l_stepperList,
-            Dictionary<string,Dictionary<string, WrappedPolymorph>> l_setStepperDic)
+            Dictionary<string, Dictionary<string, WrappedPolymorph>> l_setStepperDic)
         {
             if (l_stepperList == null || l_stepperList.Count <= 0)
             {
@@ -5441,134 +5413,109 @@ namespace EcellLib
             }
             bool l_existSystem = false;
             Dictionary<string, WrappedPolymorph> l_processPropertyDic = new Dictionary<string, WrappedPolymorph>();
-            foreach (EcellObject l_system in l_systemList)
+            try
             {
-                if (l_system == null)
+                foreach (EcellObject l_system in l_systemList)
                 {
-                    continue;
-                }
-                l_existSystem = true;
-                string l_parentPath = l_system.key.Substring(0, l_system.key.LastIndexOf(Util.s_delimiterPath));
-                string l_childPath = l_system.key.Substring(l_system.key.LastIndexOf(Util.s_delimiterPath) + 1);
-                if (l_system.key.Equals(Util.s_delimiterPath))
-                {
-                    if (l_childPath.Length == 0)
-                    {
-                        l_childPath = Util.s_delimiterPath;
-                    }
-                }
-                else
-                {
-                    if (l_parentPath.Length == 0)
-                    {
-                        l_parentPath = Util.s_delimiterPath;
-                    }
-                    l_simulator.CreateEntity(
-                        l_system.classname,
-                        l_system.classname + Util.s_delimiterColon
-                            + l_parentPath + Util.s_delimiterColon + l_childPath);
-                }
-                //
-                // 4 property
-                //
-                if (l_system.M_value == null || l_system.M_value.Count <= 0)
-                {
-                    continue;
-                }
-                foreach (EcellData l_ecellData in l_system.M_value)
-                {
-                    if (l_ecellData.M_name == null || l_ecellData.M_name.Length <= 0
-                        || l_ecellData.M_value == null)
+                    if (l_system == null)
                     {
                         continue;
                     }
-                    EcellValue l_value = l_ecellData.M_value;
-                    /*
-                     * Suspension
-                     * 
-                    if (l_initialCondition == null || l_initialCondition.Count <= 0)
+                    l_existSystem = true;
+                    string l_parentPath = l_system.key.Substring(0, l_system.key.LastIndexOf(Util.s_delimiterPath));
+                    string l_childPath = l_system.key.Substring(l_system.key.LastIndexOf(Util.s_delimiterPath) + 1);
+                    if (l_system.key.Equals(Util.s_delimiterPath))
                     {
-                        goto EDGE;
-                    }
-                    if (l_initialCondition[l_system.type].ContainsKey(l_ecellData.M_entityPath))
-                    {
-                        if (l_value.IsDouble())
+                        if (l_childPath.Length == 0)
                         {
-                            if (!l_value.CastToDouble().Equals(
-                                l_initialCondition[l_system.type][l_ecellData.M_entityPath]))
-                            {
-                                l_value = new EcellValue(
-                                        l_initialCondition[l_system.type][l_ecellData.M_entityPath]);
-                            }
-                        }
-                        else if (l_value.IsInt())
-                        {
-                            int l_initialValue
-                                = Convert.ToInt32(l_initialCondition[l_system.type][l_ecellData.M_entityPath]);
-                            if (!l_value.CastToInt().Equals(l_initialValue))
-                            {
-                                l_value = new EcellValue(l_initialValue);
-                            }
+                            l_childPath = Util.s_delimiterPath;
                         }
                     }
-                EDGE:
-                     */
-                    if (l_ecellData.M_isSavable)
+                    else
                     {
-                        l_simulator.LoadEntityProperty(
-                            l_ecellData.M_entityPath,
-                            EcellValue.CastToWrappedPolymorph4EcellValue(l_value));
+                        if (l_parentPath.Length == 0)
+                        {
+                            l_parentPath = Util.s_delimiterPath;
+                        }
+                        l_simulator.CreateEntity(
+                            l_system.classname,
+                            l_system.classname + Util.s_delimiterColon
+                                + l_parentPath + Util.s_delimiterColon + l_childPath);
                     }
-                    else if (l_ecellData.M_isSettable)
+                    //
+                    // 4 property
+                    //
+                    if (l_system.M_value == null || l_system.M_value.Count <= 0)
                     {
-                        l_setPropertyDic[l_ecellData.M_entityPath]
-                            = EcellValue.CastToWrappedPolymorph4EcellValue(l_value);
+                        continue;
                     }
-                    if (l_ecellData.M_isLogger)
+                    foreach (EcellData l_ecellData in l_system.M_value)
                     {
-                        l_loggerList.Add(l_ecellData.M_entityPath);
+                        if (l_ecellData.M_name == null || l_ecellData.M_name.Length <= 0
+                            || l_ecellData.M_value == null)
+                        {
+                            continue;
+                        }
+                        EcellValue l_value = l_ecellData.M_value;
+                        if (l_ecellData.M_isSavable)
+                        {
+                            l_simulator.LoadEntityProperty(
+                                l_ecellData.M_entityPath,
+                                EcellValue.CastToWrappedPolymorph4EcellValue(l_value));
+                        }
+                        else if (l_ecellData.M_isSettable)
+                        {
+                            l_setPropertyDic[l_ecellData.M_entityPath]
+                                = EcellValue.CastToWrappedPolymorph4EcellValue(l_value);
+                        }
+                        if (l_ecellData.M_isLogger)
+                        {
+                            l_loggerList.Add(l_ecellData.M_entityPath);
+                        }
+                    }
+                    //
+                    // 4 children
+                    //
+                    if (l_system.M_instances != null && l_system.M_instances.Count > 0)
+                    {
+                        this.LoadEntity(
+                            l_simulator,
+                            l_system.M_instances,
+                            l_loggerList,
+                            l_processPropertyDic,
+                            l_initialCondition,
+                            l_setPropertyDic);
                     }
                 }
-                //
-                // 4 children
-                //
-                if (l_system.M_instances != null && l_system.M_instances.Count > 0)
+                if (l_processPropertyDic.Count > 0)
                 {
-                    this.LoadEntity(
-                        l_simulator,
-                        l_system.M_instances,
-                        l_loggerList,
-                        l_processPropertyDic,
-                        l_initialCondition,
-                        l_setPropertyDic);
+                    // The "VariableReferenceList" is previously loaded. 
+                    string[] l_keys = null;
+                    l_processPropertyDic.Keys.CopyTo(l_keys = new string[l_processPropertyDic.Keys.Count], 0);
+                    foreach (string l_entityPath in l_keys)
+                    {
+                        if (l_entityPath.EndsWith(Util.s_xpathVRL))
+                        {
+                            l_simulator.LoadEntityProperty(l_entityPath, l_processPropertyDic[l_entityPath]);
+                            l_processPropertyDic.Remove(l_entityPath);
+                        }
+                    }
+                    foreach (string l_entityPath in l_processPropertyDic.Keys)
+                    {
+                        if (!l_entityPath.EndsWith("Fixed"))
+                        {
+                            l_simulator.LoadEntityProperty(l_entityPath, l_processPropertyDic[l_entityPath]);
+                        }
+                    }
+                }
+                if (!l_existSystem)
+                {
+                    throw new Exception(m_resources.GetString("ErrFindSystem"));
                 }
             }
-            if (l_processPropertyDic.Count > 0)
+            catch (WrappedException e)
             {
-                // The "VariableReferenceList" is previously loaded. 
-                string[] l_keys = null;
-                l_processPropertyDic.Keys.CopyTo(l_keys = new string[l_processPropertyDic.Keys.Count], 0);
-                foreach (string l_entityPath in l_keys)
-                {
-                    if (l_entityPath.EndsWith(Util.s_xpathVRL))
-                    {
-                        l_simulator.LoadEntityProperty(l_entityPath, l_processPropertyDic[l_entityPath]);
-                        l_processPropertyDic.Remove(l_entityPath);
-                    }
-                }
-                foreach (string l_entityPath in l_processPropertyDic.Keys)
-                {
-                    //if (!l_entityPath.EndsWith("Fixed") && 
-                    //    !l_entityPath.EndsWith("FluxDistributionList"))
-                    if (!l_entityPath.EndsWith("Fixed"))
-                    {
-                        l_simulator.LoadEntityProperty(l_entityPath, l_processPropertyDic[l_entityPath]);
-                    }
-                }
-            }
-            if (!l_existSystem)
-            {
-                throw new Exception(m_resources.GetString("ErrFindSystem"));
+                throw new Exception("Failed to create System", e);
             }
         }
 
@@ -5764,7 +5711,7 @@ namespace EcellLib
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     "Create Simulation Parameter: " + l_message + System.Environment.NewLine);
-                if(l_isRecorded)
+                if (l_isRecorded)
                     m_aManager.AddAction(new NewSimParamAction(l_parameterID, l_isAnchor));
             }
             catch (Exception l_ex)
@@ -5992,7 +5939,7 @@ namespace EcellLib
                     }
                 }
                 WriteSimulationForStep(l_fileName, 100, enc);
-                
+
             }
             catch (Exception l_ex)
             {
@@ -6332,7 +6279,7 @@ namespace EcellLib
                 throw new Exception(m_resources.GetString("ErrSetProp") + l_message + " {" + l_ex.ToString() + "}");
             }
         }
-        
+
         /// <summary>
         /// Sets the "LoggerPolicy".
         /// </summary>
@@ -6384,7 +6331,7 @@ namespace EcellLib
         /// <param name="l_modelID">Model ID</param>
         public void SetPositions(string l_modelID)
         {
-            if(null != l_modelID && m_systemDic[this.m_currentProjectID].ContainsKey(l_modelID))
+            if (null != l_modelID && m_systemDic[this.m_currentProjectID].ContainsKey(l_modelID))
             {
                 foreach (EcellObject eo in m_systemDic[m_currentProjectID][l_modelID])
                     m_pManager.SetPosition(eo);
@@ -6413,8 +6360,8 @@ namespace EcellLib
                 l_message = "[" + l_parameterID + "]";
                 string l_oldParameterID = this.m_currentParameterID;
                 if (this.m_currentParameterID != l_parameterID)
-                {                    
-                    foreach (string l_modelID 
+                {
+                    foreach (string l_modelID
                         in this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID].Keys)
                     {
                         if (!this.m_stepperDic[this.m_currentProjectID][l_parameterID].ContainsKey(l_modelID))
@@ -6456,7 +6403,7 @@ namespace EcellLib
                     foreach (string l_modelID
                         in this.m_stepperDic[this.m_currentProjectID][l_oldParameterID].Keys)
                     {
-                        foreach (EcellObject l_old 
+                        foreach (EcellObject l_old
                             in this.m_stepperDic[this.m_currentProjectID][l_oldParameterID][l_modelID])
                         {
                             List<EcellData> l_delList = new List<EcellData>();
@@ -6480,7 +6427,7 @@ namespace EcellLib
                 this.m_pManager.Message(
                     Util.s_xpathSimulation.ToLower(),
                     "Set Simulation Parameter: " + l_message + System.Environment.NewLine);
-                if(l_isRecorded)
+                if (l_isRecorded)
                     m_aManager.AddAction(new SetSimParamAction(l_parameterID, l_oldParameterID, l_isAnchor));
             }
             catch (Exception l_ex)
@@ -7072,7 +7019,7 @@ namespace EcellLib
 
             File.AppendAllText(fileName, "count = 1000\n", enc);
             File.AppendAllText(fileName, "session=Session()\n", enc);
-            File.AppendAllText(fileName, "session.createProject(\"" + m_currentProjectID + "\",\"" + timeStr +"\")\n\n", enc);
+            File.AppendAllText(fileName, "session.createProject(\"" + m_currentProjectID + "\",\"" + timeStr + "\")\n\n", enc);
         }
 
         /// <summary>
@@ -7140,9 +7087,9 @@ namespace EcellLib
                     if (d.M_value.ToString().Equals("+Åá"))
                         File.AppendAllText(fileName,
                             "stepperStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + "1.79769313486231E+308" + "\")\n", enc);
-                    else                         
-                        File.AppendAllText(fileName, 
-                            "stepperStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + Convert.ToDouble(d.M_value.ToString()) + "\")\n" , enc);
+                    else
+                        File.AppendAllText(fileName,
+                            "stepperStub" + count + ".setProperty(\"" + d.M_name + "\",\"" + Convert.ToDouble(d.M_value.ToString()) + "\")\n", enc);
                 }
             }
         }
@@ -7216,14 +7163,14 @@ namespace EcellLib
         public void WriteLoggerProperty(string fileName, Encoding enc, List<string> logList)
         {
             string curParam = GetCurrentSimulationParameterID();
-            if (curParam == null ) return;
+            if (curParam == null) return;
             LoggerPolicy l = GetLoggerPolicy(curParam);
             File.AppendAllText(fileName, "\n# Logger Policy\n");
             if (logList == null) return;
             foreach (string path in logList)
             {
-                File.AppendAllText(fileName, 
-                    "logger" + s_logCount + "=session.createLoggerStub(\"" + path + "\")\n", 
+                File.AppendAllText(fileName,
+                    "logger" + s_logCount + "=session.createLoggerStub(\"" + path + "\")\n",
                     enc);
                 File.AppendAllText(fileName,
                     "logger" + s_logCount + ".create()\n",
@@ -7236,7 +7183,7 @@ namespace EcellLib
                     l.m_maxDiskSpace + ")\n", enc);
                 s_logCount++;
             }
-               
+
         }
 
         /// <summary>
@@ -7276,8 +7223,8 @@ namespace EcellLib
                 string[] names = obj.key.Split(new char[] { ':' });
                 string name = names[names.Length - 1];
 
-                File.AppendAllText(fileName, 
-                    "variableStub" + s_varCount + name + "= session.createEntityStub(\"Variable:" + obj.key + "\")\n", 
+                File.AppendAllText(fileName,
+                    "variableStub" + s_varCount + name + "= session.createEntityStub(\"Variable:" + obj.key + "\")\n",
                     enc);
                 File.AppendAllText(fileName,
                     "variableStub" + s_varCount + name + ".create(\"Variable\")\n", enc);
@@ -7353,2133 +7300,4 @@ namespace EcellLib
         }
 
     }
-
-
-    /// <summary>
-    /// Treats the "ecd" formatted file.
-    /// </summary>
-    internal class Ecd
-    {
-        /// <summary>
-        /// ResourceManager for PropertyEditor.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
-
-        /// <summary>
-        /// Creates a new "Ecd" instance with no argument.
-        /// </summary>
-        public Ecd()
-        {
-        }
-
-        /// <summary>
-        /// Creates the "ecd" formatted file.
-        /// </summary>
-        /// <param name="l_savedDirName">The saved directory name.</param>
-        /// <param name="l_logData">The list of the "LogData"</param>
-        /// <param name="l_saveType">The type of saved file.</param>
-        public void Create(string l_savedDirName, LogData l_logData, String l_saveType)
-        {
-            try
-            {
-                //
-                // Initializes.
-                //
-                if (l_savedDirName == null || l_savedDirName.Length <= 0)
-                {
-                    return;
-                }
-                else if (l_logData == null)
-                {
-                    return;
-                }
-
-                //
-                // Sets the file name.
-                //
-                string l_fileName =
-                    l_logData.type + Util.s_delimiterUnderbar +
-                    l_logData.key + Util.s_delimiterUnderbar +
-                    l_logData.propName;
-                l_fileName = l_fileName.Replace(Util.s_delimiterPath, Util.s_delimiterUnderbar);
-                l_fileName = l_fileName.Replace(Util.s_delimiterColon, Util.s_delimiterUnderbar);
-                l_fileName = l_savedDirName + Util.s_delimiterPath +
-                    l_fileName + Util.s_delimiterPeriod + l_saveType;
-                //
-                // Checks the old model file.
-                //
-                if (File.Exists(l_fileName))
-                {
-                    string l_date
-                        = File.GetLastAccessTime(l_fileName).ToString().Replace(
-                            Util.s_delimiterColon, Util.s_delimiterUnderbar);
-                    l_date = l_date.Replace(Util.s_delimiterPath, Util.s_delimiterUnderbar);
-                    l_date = l_date.Replace(Util.s_delimiterSpace, Util.s_delimiterUnderbar);
-                    string l_destFileName
-                        = Path.GetDirectoryName(l_fileName) + Util.s_delimiterPath
-                        + Util.s_delimiterUnderbar + l_date + Util.s_delimiterUnderbar + Path.GetFileName(l_fileName);
-                    File.Move(l_fileName, l_destFileName);
-                }
-                //
-                // Saves the "LogData".
-                //
-                StreamWriter l_writer = null;
-                try
-                {
-                    l_writer = new StreamWriter(
-                            new FileStream(l_fileName, FileMode.CreateNew), System.Text.Encoding.UTF8);
-                    //
-                    // Writes the header.
-                    //
-                    l_writer.WriteLine(
-                        Util.s_delimiterSharp + Util.s_headerData + Util.s_delimiterColon + Util.s_delimiterSpace +
-                        l_logData.type + Util.s_delimiterColon +
-                        l_logData.key + Util.s_delimiterColon +
-                        l_logData.propName
-                        );
-                    int l_headerColumn = 0;
-                    if (Double.IsNaN(l_logData.logValueList[0].avg) &&
-                        Double.IsNaN(l_logData.logValueList[0].min) &&
-                        Double.IsNaN(l_logData.logValueList[0].max)
-                        )
-                    {
-                        l_headerColumn = 2;
-                    }
-                    else
-                    {
-                        l_headerColumn = 5;
-                    }
-                    l_writer.WriteLine(
-                        Util.s_delimiterSharp + Util.s_headerSize + Util.s_delimiterColon + Util.s_delimiterSpace +
-                        l_headerColumn + Util.s_delimiterSpace +
-                        l_logData.logValueList.Count
-                        );
-                    l_writer.WriteLine(
-                        Util.s_delimiterSharp + Util.s_headerLabel + Util.s_delimiterColon + Util.s_delimiterSpace +
-                        Util.s_headerTime + Util.s_delimiterTab +
-                        Util.s_headerValue + Util.s_delimiterTab +
-                        Util.s_headerAverage + Util.s_delimiterTab +
-                        Util.s_headerMinimum.ToLower() + Util.s_delimiterTab +
-                        Util.s_headerMaximum.ToLower()
-                        );
-                    l_writer.WriteLine(
-                        Util.s_delimiterSharp + Util.s_headerNote + Util.s_delimiterColon + Util.s_delimiterSpace
-                        );
-                    l_writer.WriteLine(
-                        Util.s_delimiterSharp
-                        );
-                    string l_separator = "";
-                    for (int i = 0; i < 22; i++)
-                    {
-                        l_separator += Util.s_delimiterHyphen;
-                    }
-                    l_writer.WriteLine(
-                        Util.s_delimiterSharp + l_separator
-                        );
-                    l_writer.Flush();
-                    //
-                    // Writes the "LogData".
-                    //
-                    double l_oldTime = -1.0;
-                    foreach (LogValue l_logValue in l_logData.logValueList)
-                    {
-                        if (l_oldTime == l_logValue.time)
-                        {
-                            continue;
-                        }
-                        if (Double.IsNaN(l_logValue.avg) &&
-                            Double.IsNaN(l_logValue.min) &&
-                            Double.IsNaN(l_logValue.max)
-                            )
-                        {
-                            l_writer.WriteLine(
-                                l_logValue.time + Util.s_delimiterTab +
-                                l_logValue.value
-                                );
-                        }
-                        else
-                        {
-                            l_writer.WriteLine(
-                                l_logValue.time + Util.s_delimiterTab +
-                                l_logValue.value + Util.s_delimiterTab +
-                                l_logValue.avg + Util.s_delimiterTab +
-                                l_logValue.min + Util.s_delimiterTab +
-                                l_logValue.max
-                                );
-                        }
-                        l_oldTime = l_logValue.time;
-                    }
-                }
-                finally
-                {
-                    if (l_writer != null)
-                    {
-                        l_writer.Close();
-                    }
-                }
-            }
-            catch (Exception l_ex)
-            {
-                throw new Exception(
-                    m_resources.GetString("ErrCreEcd") + "[" + l_logData.model + "] {" + l_ex.ToString() + "}");
-            }
-        }
-    }
-
-
-    /// <summary>
-    ///  Treats the "eml" formatted file.
-    /// </summary>
-    internal class Eml
-    {
-        /// <summary>
-        /// ResourceManager for PropertyEditor.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
-
-        /// <summary>
-        /// Creates a new "Eml" instance with no argument.
-        /// </summary>
-        public Eml()
-        {
-            ; // do nothing
-        }
-
-        /// <summary>
-        /// Appneds new "EcellObject" to the existing "EcellObject" list.
-        /// </summary>
-        /// <param name="l_srcObjectList">The existing "EcellObject" list</param>
-        /// <param name="l_dstObject">New "EcellObject"</param>
-        private void AppendEcellObject(List<EcellObject> l_srcObjectList, EcellObject l_dstObject)
-        {
-            bool l_appendFlag = false;
-            foreach (EcellObject l_srcObject in l_srcObjectList)
-            {
-                if (l_srcObject.modelID.Equals(l_dstObject.modelID)
-                    && l_srcObject.key.Equals(l_dstObject.key)
-                    && l_srcObject.type.Equals(l_dstObject.type)
-                    && l_srcObject.classname.Equals(l_dstObject.classname))
-                {
-                    l_appendFlag = true;
-                    //
-                    // 4 Value
-                    //
-                    foreach (EcellData l_dstData in l_dstObject.M_value)
-                    {
-                        List<EcellData> l_deleteSrcDataList = new List<EcellData>();
-                        foreach (EcellData l_srcData in l_srcObject.M_value)
-                        {
-                            if (l_dstData.M_name.Equals(l_srcData.M_name)
-                                && l_dstData.M_entityPath.Equals(l_srcData.M_entityPath))
-                            {
-                                l_deleteSrcDataList.Add(l_srcData);
-                            }
-                        }
-                        foreach (EcellData l_deleteEcellData in l_deleteSrcDataList)
-                        {
-                            l_srcObject.M_value.Remove(l_deleteEcellData);
-                        }
-                        l_deleteSrcDataList.Clear();
-                        l_deleteSrcDataList = null;
-                        l_srcObject.M_value.Add(l_dstData);
-                    }
-                    //
-                    // 4 Child
-                    //
-                    foreach (EcellObject l_dstChildObject in l_dstObject.M_instances)
-                    {
-                        this.AppendEcellObject(l_srcObject.M_instances, l_dstChildObject);
-                    }
-                }
-            }
-            if (!l_appendFlag)
-            {
-                l_srcObjectList.Add(l_dstObject);
-            }
-        }
-        
-        
-        /// <summary>
-        /// Creates the parameter file.
-        /// </summary>
-        /// <param name="l_fileName">The parameter file name</param>
-        /// <param name="l_stepperList">The list of the "Stepper"</param>
-        /// <param name="l_loggerPolicy">The "LoggerPolicy"</param>
-        /// <param name="l_initialCondition">The initial condition.</param>
-        public void Create(
-                string l_fileName,
-                List<EcellObject> l_stepperList,
-                LoggerPolicy l_loggerPolicy,
-                Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_initialCondition)
-        {
-            try
-            {
-                //
-                // Initializes
-                //
-                if (l_fileName == null || l_fileName.Length <= 0)
-                {
-                    throw new Exception(m_resources.GetString("ErrSaveNull"));
-                }
-                if (l_stepperList == null || l_stepperList.Count <= 0)
-                {
-                    throw new Exception(m_resources.GetString("ErrSaveNull"));
-                }
-                //
-                // Checks the old model file.
-                //
-                if (File.Exists(l_fileName))
-                {
-                    string l_date
-                        = File.GetLastAccessTime(l_fileName).ToString().Replace(
-                            Util.s_delimiterColon, Util.s_delimiterUnderbar);
-                    l_date = l_date.Replace(Util.s_delimiterPath, Util.s_delimiterUnderbar);
-                    l_date = l_date.Replace(Util.s_delimiterSpace, Util.s_delimiterUnderbar);
-                    string l_destFileName
-                        = Path.GetDirectoryName(l_fileName) + Util.s_delimiterPath
-                        + Util.s_delimiterUnderbar + l_date + Util.s_delimiterUnderbar + Path.GetFileName(l_fileName);
-                    File.Move(l_fileName, l_destFileName);
-                }
-                //
-                // Saves the model
-                //
-                XmlTextWriter l_writer = null;
-                try
-                {
-                    l_writer = new XmlTextWriter(l_fileName, System.Text.Encoding.UTF8);
-                    l_writer.Formatting = Formatting.Indented;
-                    l_writer.Indentation = 0;
-                    l_writer.WriteStartDocument(true);
-                    l_writer.WriteStartElement(Util.s_xpathPrm.ToLower());
-                    //
-                    // Divides.
-                    //
-                    Dictionary<string, List<EcellObject>> l_dic = new Dictionary<string, List<EcellObject>>();
-                    foreach (EcellObject l_stepper in l_stepperList)
-                    {
-                        if (l_stepper.type.Equals(Util.s_xpathStepper))
-                        {
-                            if (!l_dic.ContainsKey(l_stepper.modelID))
-                            {
-                                l_dic[l_stepper.modelID] = new List<EcellObject>();
-                            }
-                            l_dic[l_stepper.modelID].Add(l_stepper);
-                        }
-                    }
-                    foreach (string l_modelID in l_dic.Keys)
-                    {
-                        l_writer.WriteStartElement(Util.s_xpathModel.ToLower());
-                        l_writer.WriteAttributeString(Util.s_xpathID.ToLower(), null, l_modelID);
-                        foreach (EcellObject l_stepper in l_dic[l_modelID])
-                        {
-                            this.CreateStepperElements(l_writer, l_stepper, false);
-                        }
-                        this.CreateInitialConditionElement(l_writer, l_initialCondition[l_modelID]);
-                        l_writer.WriteEndElement();
-                    }
-                    this.CreateLoggerPolicyElement(l_writer, l_loggerPolicy);
-                    l_writer.WriteEndElement();
-                    l_writer.WriteEndDocument();
-                }
-                finally
-                {
-                    if (l_writer != null)
-                    {
-                        l_writer.Close();
-                    }
-                }
-            }
-            catch (Exception l_ex)
-            {
-                throw new Exception(m_resources.GetString("ErrCreXml") + "[" + l_fileName + "] {" + l_ex.ToString() + "}");
-            }
-        }
-
-        /// <summary>
-        /// Creates the eml formatted file.
-        /// </summary>
-        /// <param name="l_fileName">The eml formatted file name</param>
-        /// <param name="l_storedList">The list of the stored "EcellObject"</param>
-        public void Create(string l_fileName, List<EcellObject> l_storedList)
-        {
-            try
-            {
-                //
-                // Initializes
-                //
-                if (l_fileName == null || l_fileName.Length <= 0)
-                {
-                    throw new Exception(m_resources.GetString("ErrSaveNull"));
-                }
-                if (l_storedList == null || l_storedList.Count <= 0)
-                {
-                    throw new Exception(m_resources.GetString("ErrSaveNull"));
-                }
-                //
-                // Checks the old model file.
-                //
-                if (File.Exists(l_fileName))
-                {
-                    string l_date
-                        = File.GetLastAccessTime(l_fileName).ToString().Replace(
-                            Util.s_delimiterColon, Util.s_delimiterUnderbar);
-                    l_date = l_date.Replace(Util.s_delimiterPath, Util.s_delimiterUnderbar);
-                    l_date = l_date.Replace(Util.s_delimiterSpace, Util.s_delimiterUnderbar);
-                    string l_destFileName
-                        = Path.GetDirectoryName(l_fileName) + Util.s_delimiterPath
-                        + Util.s_delimiterUnderbar + l_date + Util.s_delimiterUnderbar + Path.GetFileName(l_fileName);
-                    File.Move(l_fileName, l_destFileName);
-                }
-                //
-                // Saves the model
-                //
-                XmlTextWriter l_writer = null;
-                try
-                {
-                    l_writer = new XmlTextWriter(l_fileName, System.Text.Encoding.UTF8);
-                    l_writer.Formatting = Formatting.Indented;
-                    l_writer.Indentation = 0;
-                    l_writer.WriteStartDocument(true);
-                    l_writer.WriteStartElement(Util.s_xpathEml);
-                    foreach (EcellObject l_ecellObject in l_storedList)
-                    {
-                        if (l_ecellObject.type.Equals(Util.s_xpathStepper))
-                        {
-                            this.CreateStepperElements(l_writer, l_ecellObject, true);
-                        }
-                        else if (l_ecellObject.type.Equals(Util.s_xpathSystem))
-                        {
-                            this.CreateSystemElements(l_writer, l_ecellObject);
-                        }
-                    }
-                    l_writer.WriteEndElement();
-                    l_writer.WriteEndDocument();
-                }
-                finally
-                {
-                    if (l_writer != null)
-                    {
-                        l_writer.Close();
-                    }
-                }
-            }
-            catch (Exception l_ex)
-            {
-                throw new Exception(m_resources.GetString("ErrCreEml") + "[" + l_fileName + "] {" + l_ex.ToString() + "}");
-            }
-        }
-
-        /// <summary>
-        /// Creates the "Process" or "Variable" elements.
-        /// </summary>
-        /// <param name="l_writer">The xml writer</param>
-        /// <param name="l_ecellObject">The "EcellObject"</param>
-        /// <param name="l_entityName">The name of "Process" or "Variable"</param>
-        private void CreateEntityElements(XmlTextWriter l_writer, EcellObject l_ecellObject, string l_entityName)
-        {
-            l_writer.WriteStartElement(l_entityName.ToLower());
-            l_writer.WriteAttributeString(Util.s_xpathClass, null, l_ecellObject.classname);
-            l_writer.WriteAttributeString(
-                Util.s_xpathID.ToLower(),
-                null,
-                l_ecellObject.key.Substring(l_ecellObject.key.IndexOf(Util.s_delimiterColon) + 1));
-            if (l_ecellObject.M_value != null && l_ecellObject.M_value.Count > 0)
-            {
-                foreach (EcellData l_ecellData in l_ecellObject.M_value)
-                {
-                    if (l_ecellData == null || !l_ecellData.M_isSavable)
-                    {
-                        continue;
-                    }
-                    if (l_ecellData.M_value == null
-                        || (l_ecellData.M_value.IsString() && l_ecellData.M_value.CastToString().Length <= 0))
-                    {
-                        continue;
-                    }
-                    l_writer.WriteStartElement(Util.s_xpathProperty.ToLower());
-                    l_writer.WriteAttributeString(Util.s_xpathName.ToLower(), null, l_ecellData.M_name);
-                    this.CreateValueElements(l_writer, l_ecellData.M_value, false);
-                    l_writer.WriteEndElement();
-                }
-            }
-            l_writer.WriteEndElement();
-            l_writer.Flush();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="l_writer"></param>
-        /// <param name="l_initialCondition"></param>
-        private void CreateInitialConditionElement(
-                XmlTextWriter l_writer, Dictionary<string, Dictionary<string, double>> l_initialCondition)
-        {
-            l_writer.WriteStartElement(Util.s_xpathInitialCondition.ToLower());
-            //
-            // Creates the "System" part.
-            //
-            l_writer.WriteStartElement(Util.s_xpathSystem.ToLower());
-            foreach (string l_key in l_initialCondition[Util.s_xpathSystem].Keys)
-            {
-                l_writer.WriteStartElement(Util.s_xpathID.ToLower());
-                l_writer.WriteAttributeString(Util.s_xpathName.ToLower(), null, l_key);
-                this.CreateValueElements(
-                        l_writer, new EcellValue(l_initialCondition[Util.s_xpathSystem][l_key]), false);
-                l_writer.WriteEndElement();
-            }
-            l_writer.WriteEndElement();
-            //
-            // Creates the "Process" part.
-            //
-            l_writer.WriteStartElement(Util.s_xpathProcess.ToLower());
-            foreach (string l_key in l_initialCondition[Util.s_xpathProcess].Keys)
-            {
-                l_writer.WriteStartElement(Util.s_xpathID.ToLower());
-                l_writer.WriteAttributeString(Util.s_xpathName.ToLower(), null, l_key);
-                this.CreateValueElements(
-                        l_writer, new EcellValue(l_initialCondition[Util.s_xpathProcess][l_key]), false);
-                l_writer.WriteEndElement();
-            }
-            l_writer.WriteEndElement();
-            //
-            // Creates the "Variable part.
-            //
-            l_writer.WriteStartElement(Util.s_xpathVariable.ToLower());
-            foreach (string l_key in l_initialCondition[Util.s_xpathVariable].Keys)
-            {
-                l_writer.WriteStartElement(Util.s_xpathID.ToLower());
-                l_writer.WriteAttributeString(Util.s_xpathName.ToLower(), null, l_key);
-                this.CreateValueElements(
-                        l_writer, new EcellValue(l_initialCondition[Util.s_xpathVariable][l_key]), false);
-                l_writer.WriteEndElement();
-            }
-            l_writer.WriteEndElement();
-            //
-            // Closes
-            //
-            l_writer.WriteEndElement();
-            l_writer.Flush();
-        }
-
-        /// <summary>
-        /// Creates the "LoggerPolicy" elements.
-        /// </summary>
-        /// <param name="l_writer">The xml writer</param>
-        /// <param name="l_loggerPolicy">The "LoggerPolicy"</param>
-        private void CreateLoggerPolicyElement(XmlTextWriter l_writer, LoggerPolicy l_loggerPolicy)
-        {
-            l_writer.WriteStartElement(Util.s_xpathLoggerPolicy.ToLower());
-            l_writer.WriteElementString(
-                Util.s_xpathStep.ToLower(),
-                null,
-                System.Environment.NewLine + l_loggerPolicy.m_reloadStepCount + System.Environment.NewLine
-                );
-            l_writer.WriteElementString(
-                Util.s_xpathInterval.ToLower(),
-                null,
-                System.Environment.NewLine + l_loggerPolicy.m_reloadInterval + System.Environment.NewLine
-                );
-            l_writer.WriteElementString(
-                Util.s_xpathAction.ToLower(),
-                null,
-                System.Environment.NewLine + l_loggerPolicy.m_diskFullAction + System.Environment.NewLine
-                );
-            l_writer.WriteElementString(
-                Util.s_xpathSpace.ToLower(),
-                null,
-                System.Environment.NewLine + l_loggerPolicy.m_maxDiskSpace + System.Environment.NewLine
-                );
-            l_writer.WriteEndElement();
-            l_writer.Flush();
-        }
-
-        /// <summary>
-        /// Creates the "Stepper" elements.
-        /// </summary>
-        /// <param name="l_writer">The xml writer</param>
-        /// <param name="l_ecellObject">The "EcellObject"</param>
-        /// <param name="l_emlFlag">The flag of "eml"</param>
-        private void CreateStepperElements(XmlTextWriter l_writer, EcellObject l_ecellObject, bool l_emlFlag)
-        {
-            l_writer.WriteStartElement(Util.s_xpathStepper.ToLower());
-            l_writer.WriteAttributeString(Util.s_xpathClass, null, l_ecellObject.classname);
-            l_writer.WriteAttributeString(Util.s_xpathID.ToLower(), null, l_ecellObject.key);
-            if (l_ecellObject.M_value != null && l_ecellObject.M_value.Count > 0)
-            {
-                foreach (EcellData l_ecellData in l_ecellObject.M_value)
-                {
-                    if (l_ecellData == null)
-                    {
-                        continue;
-                    }
-                    if (l_emlFlag)
-                    {
-                        if (!l_ecellData.M_isSavable)
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        if (!l_ecellData.M_isSettable)
-                        {
-                            continue;
-                        }
-                    }
-                    if (l_ecellData.M_value == null
-                        || (l_ecellData.M_value.IsString() && l_ecellData.M_value.CastToString().Length <= 0))
-                    {
-                        continue;
-                    }
-                    /*
-                    if (l_ecellData.M_value.IsDouble())
-                    {
-                        if (l_emlFlag)
-                        {
-                            if (l_ecellData.M_value.CastToDouble() == Double.MaxValue)
-                            {
-                                continue;
-                            }
-                            else if (Double.IsInfinity(l_ecellData.M_value.CastToDouble()))
-                            {
-                                continue;
-                            }
-                            /*
-                            else if (l_ecellData.M_value.CastToDouble() <= Double.Epsilon)
-                            {
-                                continue;
-                            }
-                        }
-                    }
-                     */
-                    l_writer.WriteStartElement(Util.s_xpathProperty.ToLower());
-                    l_writer.WriteAttributeString(Util.s_xpathName.ToLower(), null, l_ecellData.M_name);
-                    this.CreateValueElements(l_writer, l_ecellData.M_value, false);
-                    l_writer.WriteEndElement();
-                }
-            }
-            l_writer.WriteEndElement();
-            l_writer.Flush();
-        }
-
-        /// <summary>
-        /// Creates the "System" elements.
-        /// </summary>
-        /// <param name="l_writer">The xml writer</param>
-        /// <param name="l_ecellObject">The "EcellObject"</param>
-        private void CreateSystemElements(XmlTextWriter l_writer, EcellObject l_ecellObject)
-        {
-            l_writer.WriteStartElement(Util.s_xpathSystem.ToLower());
-            l_writer.WriteAttributeString(Util.s_xpathClass, null, l_ecellObject.classname);
-            l_writer.WriteAttributeString(Util.s_xpathID.ToLower(), null, l_ecellObject.key);
-            if (l_ecellObject.M_value != null && l_ecellObject.M_value.Count > 0)
-            {
-                foreach (EcellData l_ecellData in l_ecellObject.M_value)
-                {
-                    if (l_ecellData == null || !l_ecellData.M_isSavable)
-                    {
-                        continue;
-                    }
-                    if (l_ecellData.M_value == null
-                        || (l_ecellData.M_value.IsString() && l_ecellData.M_value.CastToString().Length <= 0))
-                    {
-                        continue;
-                    }
-                    l_writer.WriteStartElement(Util.s_xpathProperty.ToLower());
-                    l_writer.WriteAttributeString(Util.s_xpathName.ToLower(), null, l_ecellData.M_name);
-                    this.CreateValueElements(l_writer, l_ecellData.M_value, false);
-                    l_writer.WriteEndElement();
-                }
-                //
-                // 4 children
-                //
-                if (l_ecellObject.M_instances != null && l_ecellObject.M_instances.Count > 0)
-                {
-                    List<EcellObject> l_processList = new List<EcellObject>();
-                    List<EcellObject> l_variableList = new List<EcellObject>();
-                    foreach (EcellObject l_childEcellObject in l_ecellObject.M_instances)
-                    {
-                        if (l_childEcellObject.type.Equals(Util.s_xpathProcess))
-                        {
-                            l_processList.Add(l_childEcellObject);
-                        }
-                        else if (l_childEcellObject.type.Equals(Util.s_xpathVariable))
-                        {
-                            l_variableList.Add(l_childEcellObject);
-                        }
-                    }
-                    foreach (EcellObject l_variableEcellObject in l_variableList)
-                    {
-                        this.CreateEntityElements(l_writer, l_variableEcellObject, Util.s_xpathVariable);
-                    }
-                    foreach (EcellObject l_processEcellObject in l_processList)
-                    {
-                        this.CreateEntityElements(l_writer, l_processEcellObject, Util.s_xpathProcess);
-                    }
-                }
-            }
-            l_writer.WriteEndElement();
-            l_writer.Flush();
-        }
-
-        /// <summary>
-        /// Creates the "value" elements.
-        /// </summary>
-        /// <param name="l_writer">The xml writer</param>
-        /// <param name="l_ecellValue">The "EcellValue"</param>
-        /// <param name="l_isElement">The flag whether the "Value" element add</param>
-        private void CreateValueElements(XmlTextWriter l_writer, EcellValue l_ecellValue, bool l_isElement)
-        {
-            if (l_ecellValue == null)
-            {
-                return;
-            }
-            else if (l_ecellValue.IsDouble())
-            {
-                if (Double.IsInfinity(l_ecellValue.CastToDouble()))
-                {
-                    l_writer.WriteElementString(
-                        Util.s_xpathValue.ToLower(),
-                        null,
-                        System.Environment.NewLine + XmlConvert.ToString(Double.PositiveInfinity)
-                            + System.Environment.NewLine);
-                }
-                else if(l_ecellValue.CastToDouble() == Double.MaxValue)
-                {
-                    l_writer.WriteElementString(
-                        Util.s_xpathValue.ToLower(),
-                        null,
-                        System.Environment.NewLine + XmlConvert.ToString(Double.MaxValue)
-                            + System.Environment.NewLine);
-                }
-                else
-                {
-                    l_writer.WriteElementString(
-                        Util.s_xpathValue.ToLower(),
-                        null,
-                        System.Environment.NewLine + l_ecellValue.CastToDouble().ToString()
-                            + System.Environment.NewLine);
-                }
-            }
-            else if (l_ecellValue.IsInt())
-            {
-                l_writer.WriteElementString(
-                    Util.s_xpathValue.ToLower(),
-                    null,
-                    System.Environment.NewLine + l_ecellValue.CastToInt().ToString() + System.Environment.NewLine);
-            }
-            else if (l_ecellValue.IsList())
-            {
-                if (l_ecellValue.CastToList() == null || l_ecellValue.CastToList().Count <= 0)
-                {
-                    return;
-                }
-                if (l_isElement)
-                {
-                    l_writer.WriteStartElement(Util.s_xpathValue.ToLower());
-                    foreach (EcellValue l_childEcellValue in l_ecellValue.CastToList())
-                    {
-                        this.CreateValueElements(l_writer, l_childEcellValue, true);
-                    }
-                    l_writer.WriteEndElement();
-                }
-                else
-                {
-                    foreach (EcellValue l_childEcellValue in l_ecellValue.CastToList())
-                    {
-                        this.CreateValueElements(l_writer, l_childEcellValue, true);
-                    }
-                }
-            }
-            else
-            {
-                l_writer.WriteElementString(
-                    Util.s_xpathValue.ToLower(),
-                    null,
-                    System.Environment.NewLine + l_ecellValue.CastToString() + System.Environment.NewLine);
-            }
-        }
-
-        /// <summary>
-        /// Loads nested "value" elements.
-        /// </summary>
-        /// <param name="l_node">The "property" element that is parent element of "value" elements</param>
-        /// <param name="l_depth">The depth of sub-directories</param>
-        /// <param name="l_count">The count of data</param>
-        /// <returns>The "EcellValue"</returns>
-        private EcellValue GetValueList(XmlNode l_node, ref int l_depth, ref int l_count)
-        {
-            bool l_depthFlag = true;
-            List<EcellValue> l_ecellValueList = new List<EcellValue>();
-            XmlNodeList l_childrenNode = l_node.ChildNodes;
-            foreach (XmlNode l_childNode in l_childrenNode)
-            {
-                if (!this.IsValidNode(l_childNode))
-                {
-                    continue;
-                }
-                if (l_childNode.Name.Equals(Util.s_xpathValue.ToLower()))
-                {
-                    XmlNodeList l_grandChildrenNode = l_childNode.ChildNodes;
-                    foreach (XmlNode l_grandChildNode in l_grandChildrenNode)
-                    {
-                        if (l_grandChildNode.GetType() == typeof(XmlText))
-                        {
-                            string l_value = l_grandChildNode.Value.Replace(System.Environment.NewLine, "");
-                            l_value = l_value.Replace("\r", "");
-                            l_value = l_value.Replace("\n", "");
-                            if (l_value.Equals(XmlConvert.ToString(Double.PositiveInfinity)))
-                            {
-                                l_ecellValueList.Add(new EcellValue(Double.PositiveInfinity));
-                            }
-                            else
-                            {
-                                l_ecellValueList.Add(new EcellValue(l_value));
-                            }
-                            if (l_depthFlag)
-                            {
-                                l_depth++;
-                                l_depthFlag = false;
-                            }
-                            l_count++;
-                        }
-                    }
-                    EcellValue l_childEcellValue = this.GetValueList(l_childNode, ref l_depth, ref l_count);
-                    if (l_childEcellValue != null)
-                    {
-                        l_ecellValueList.Add(l_childEcellValue);
-                    }
-                }
-            }
-            if (l_ecellValueList.Count <= 0)
-            {
-                return null;
-            }
-            else
-            {
-                return new EcellValue(l_ecellValueList);
-            }
-        }
-
-        /// <summary>
-        /// Tests whether the element is null or empty.
-        /// </summary>
-        /// <param name="l_node">The checked element</param>
-        /// <returns>false if the element is null or empty; true otherise</returns>
-        private bool IsValidNode(XmlNode l_node)
-        {
-            if (l_node == null || l_node.InnerText == null || l_node.InnerText.Length < 1)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Parses the simulation parameter file.
-        /// </summary>
-        /// <param name="l_fileName">The simulation parameter file name</param>
-        /// <param name="l_simulator">The simulator</param>
-        /// <param name="l_stepperList">The list of the "Stepper"</param>
-        /// <param name="l_initialCondition">The initial condition.</param>
-        /// <param name="l_loggerPolicy">The "LoggerPolicy"</param>
-        /// <param name="l_parameterID">The parameter ID</param>
-        public void Parse(
-            string l_fileName,
-            WrappedSimulator l_simulator,
-            List<EcellObject> l_stepperList,
-            Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_initialCondition,
-            ref LoggerPolicy l_loggerPolicy,
-            ref string l_parameterID
-            )
-        {
-            XmlDocument l_doc = new XmlDocument();
-            try
-            {
-                l_doc.Load(l_fileName);
-                //
-                // Parses the "Stepper".
-                //
-                l_parameterID = Path.GetFileNameWithoutExtension(l_fileName);
-                XmlNodeList l_modelList = l_doc.SelectNodes(
-                        Util.s_delimiterPath + Util.s_delimiterPath + Util.s_xpathModel.ToLower());
-                foreach (XmlNode l_model in l_modelList)
-                {
-                    XmlNode l_modelID = l_model.Attributes.GetNamedItem(Util.s_xpathID.ToLower());
-                    if (!this.IsValidNode(l_modelID))
-                    {
-                        continue;
-                    }
-                    foreach (XmlNode l_child in l_model.ChildNodes)
-                    {
-                        if (l_child.Name.Equals(Util.s_xpathStepper.ToLower()))
-                        {
-                            this.ParseStepper(l_modelID.InnerText, l_child, l_simulator, l_stepperList);
-                        }
-                        else if (l_child.Name.Equals(Util.s_xpathInitialCondition.ToLower()))
-                        {
-                            this.ParseInitialCondition(l_modelID.InnerText, l_child, l_initialCondition);
-                        }
-                    }
-                }
-                //
-                // Parses the "LoggerPolicy"
-                //
-                this.ParseLoggerPolicy(
-                        l_doc.SelectSingleNode(
-                                Util.s_delimiterPath + Util.s_delimiterPath + Util.s_xpathLoggerPolicy.ToLower()),
-                        ref l_loggerPolicy);
-            }
-            catch (Exception l_ex)
-            {
-                l_simulator = null;
-                l_parameterID = null;
-                l_stepperList = null;
-                throw new Exception(m_resources.GetString("ErrParseEml") + "[" + l_fileName + "] {" + l_ex.ToString() + "}");
-            }
-            finally
-            {
-                l_doc = null;
-            }
-        }
-
-        /// <summary>
-        /// Parses the "eml" formatted file.
-        /// </summary>
-        /// <param name="l_fileName">The "eml" formatted file</param>
-        /// <param name="l_simulator">The simulator</param>
-        /// <param name="l_ecellObjectList">The list of "EcellObject"</param>
-        /// <param name="l_modelID">The model ID</param>
-        public void Parse(
-            string l_fileName,
-            WrappedSimulator l_simulator,
-            List<EcellObject> l_ecellObjectList,
-            ref string l_modelID
-            )
-        {
-            XmlDocument l_doc = new XmlDocument();
-            try
-            {
-                l_doc.Load(l_fileName);
-                //
-                // 4 EcellObject( "Model" )
-                //
-                l_modelID = Path.GetFileNameWithoutExtension(l_fileName);
-                EcellObject l_modelObject = EcellObject.CreateObject(l_modelID, "", Util.s_xpathModel, "", null);
-                l_ecellObjectList.Add(l_modelObject);
-                //
-                // Parse
-                //
-                this.ParseStepper(l_modelID, l_doc, l_simulator, l_ecellObjectList);
-                Dictionary<string, WrappedPolymorph> l_processPropertyDic = new Dictionary<string, WrappedPolymorph>();
-                this.ParseSystem(l_modelID, l_doc, l_simulator, l_ecellObjectList, l_processPropertyDic);
-                if (l_processPropertyDic.Count > 0)
-                {
-                    // The "VariableReferenceList" is previously loaded. 
-                    string[] l_keys = null;
-                    l_processPropertyDic.Keys.CopyTo(l_keys = new string[l_processPropertyDic.Keys.Count], 0);
-                    foreach (string l_entityPath in l_keys)
-                    {
-                        if (l_entityPath.EndsWith(Util.s_xpathVRL))
-                        {
-                            l_simulator.LoadEntityProperty(l_entityPath, l_processPropertyDic[l_entityPath]);
-                            l_processPropertyDic.Remove(l_entityPath);
-                        }
-                    }
-                    foreach (string l_entityPath in l_processPropertyDic.Keys)
-                    {
-                        l_simulator.LoadEntityProperty(l_entityPath, l_processPropertyDic[l_entityPath]);
-                    }
-                }
-            }
-            catch (Exception l_ex)
-            {
-                l_simulator = null;
-                l_modelID = null;
-                l_ecellObjectList = null;
-                throw new Exception(m_resources.GetString("ErrParseEml") + "[" + l_fileName + "] {" + l_ex.ToString() + "}");
-            }
-            finally
-            {
-                l_doc = null;
-            }
-        }
-
-        /// <summary>
-        /// Parses the "eml" formatted file.
-        /// </summary>
-        /// <param name="l_fileName">The "eml" formatted file</param>
-        /// <param name="l_simulator">The simulator</param>
-        public void Parse(string l_fileName, WrappedSimulator l_simulator)
-        {
-            XmlDocument l_doc = new XmlDocument();
-            try
-            {
-                l_doc.Load(l_fileName);
-                this.ParseStepper(l_doc, l_simulator);
-                this.ParseSystem(l_doc, l_simulator);
-            }
-            catch (Exception l_ex)
-            {
-                l_simulator = null;
-                throw new Exception(m_resources.GetString("ErrParseEml") + "[" + l_fileName + "] {" + l_ex.ToString() + "}");
-            }
-            finally
-            {
-                l_doc = null;
-            }
-        }
-
-        /// <summary>
-        /// Loads the "process" or "variable" element.
-        /// </summary>
-        /// <param name="l_modelID">The model ID</param>
-        /// <param name="l_node">The "process" or "variable" element</param>
-        /// <param name="l_systemID">The system ID of the parent "System" element</param>
-        /// <param name="l_flag">"Process" if this element is "Process" element; "Variable" otherwise</param>
-        /// <param name="l_simulator">The simulator</param>
-        /// <param name="l_childEcellObjectList">The list of a "EcellObject"</param>
-        /// <param name="l_processPropertyDic">The dictionary of a process property</param>
-        private void ParseEntity(
-            string l_modelID,
-            XmlNode l_node,
-            string l_systemID,
-            string l_flag,
-            WrappedSimulator l_simulator,
-            List<EcellObject> l_childEcellObjectList,
-            Dictionary<string, WrappedPolymorph> l_processPropertyDic)
-        {
-            XmlNode l_nodeClass = l_node.Attributes.GetNamedItem(Util.s_xpathClass);
-            XmlNode l_nodeID = l_node.Attributes.GetNamedItem(Util.s_xpathID.ToLower());
-            if (!this.IsValidNode(l_nodeClass) || !this.IsValidNode(l_nodeID))
-            {
-                return;
-            }
-            //
-            // 4 "EcellCoreLib"
-            //
-            l_simulator.CreateEntity(
-                l_nodeClass.InnerText,
-                l_flag + Util.s_delimiterColon + l_systemID + Util.s_delimiterColon + l_nodeID.InnerText);
-            //
-            // 4 children
-            //
-            List<EcellData> l_ecellDataList = new List<EcellData>();
-            XmlNodeList l_nodePropertyList = l_node.ChildNodes;
-            foreach (XmlNode l_nodeProperty in l_nodePropertyList)
-            {
-                if (!l_nodeProperty.Name.Equals(Util.s_xpathProperty))
-                {
-                    continue;
-                }
-                XmlNode l_nodePropertyName = l_nodeProperty.Attributes.GetNamedItem(Util.s_xpathName.ToLower());
-                if (!this.IsValidNode(l_nodePropertyName))
-                {
-                    continue;
-                }
-                int l_depth = 0;
-                int l_count = 0;
-                EcellValue l_ecellValue = this.GetValueList(l_nodeProperty, ref l_depth, ref l_count);
-                if (l_ecellValue != null)
-                {
-                    //
-                    // 4 "EcellCoreLib"
-                    //
-                    string l_entityPath =
-                        l_flag + Util.s_delimiterColon +
-                        l_systemID + Util.s_delimiterColon +
-                        l_nodeID.InnerText + Util.s_delimiterColon +
-                        l_nodePropertyName.InnerText;
-                    WrappedPolymorph l_polymorph = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellValue);
-                    if (l_flag.Equals(Util.s_xpathVariable))
-                    {
-                        l_simulator.LoadEntityProperty(l_entityPath, l_polymorph);
-                    }
-                    else
-                    {
-                        l_processPropertyDic[l_entityPath] = l_polymorph;
-                    }
-                    EcellData l_ecellData = new EcellData(l_nodePropertyName.InnerText, l_ecellValue, l_entityPath);
-                    l_ecellDataList.Add(l_ecellData);
-                }
-            }
-            //
-            // 4 "EcellLib"
-            //
-            l_childEcellObjectList.Add(
-                EcellObject.CreateObject(
-                    l_modelID,
-                    l_systemID + Util.s_delimiterColon + l_nodeID.InnerText,
-                    l_flag,
-                    l_nodeClass.InnerText,
-                    l_ecellDataList));
-        }
-
-        /// <summary>
-        /// Parses the "process" or "variable" element.
-        /// </summary>
-        /// <param name="l_node">The "process" or "variable" element</param>
-        /// <param name="l_systemID">The system ID of the parent "System" element</param>
-        /// <param name="l_flag">"Process" if this element is "Process" element; "Variable" otherwise</param>
-        /// <param name="l_simulator">The simulator</param>
-        private void ParseEntity(
-            XmlNode l_node,
-            string l_systemID,
-            string l_flag,
-            WrappedSimulator l_simulator)
-        {
-            XmlNode l_nodeClass = l_node.Attributes.GetNamedItem(Util.s_xpathClass);
-            XmlNode l_nodeID = l_node.Attributes.GetNamedItem(Util.s_xpathID.ToLower());
-            if (!this.IsValidNode(l_nodeClass) || !this.IsValidNode(l_nodeID))
-            {
-                return;
-            }
-            //
-            // 4 "EcellCoreLib"
-            //
-            l_simulator.CreateEntity(
-                l_nodeClass.InnerText,
-                l_flag + Util.s_delimiterColon + l_systemID + Util.s_delimiterColon + l_nodeID.InnerText
-                );
-            //
-            // 4 children
-            //
-            XmlNodeList l_nodePropertyList = l_node.ChildNodes;
-            foreach (XmlNode l_nodeProperty in l_nodePropertyList)
-            {
-                if (!l_nodeProperty.Name.Equals(Util.s_xpathProperty))
-                {
-                    continue;
-                }
-                XmlNode l_nodePropertyName = l_nodeProperty.Attributes.GetNamedItem(Util.s_xpathName.ToLower());
-                if (!this.IsValidNode(l_nodePropertyName))
-                {
-                    continue;
-                }
-                int l_depth = 0;
-                int l_count = 0;
-                EcellValue l_ecellValue = this.GetValueList(l_nodeProperty, ref l_depth, ref l_count);
-                if (l_ecellValue != null)
-                {
-                    //
-                    // 4 "EcellCoreLib"
-                    //
-                    string l_entityPath =
-                        l_flag + Util.s_delimiterColon +
-                        l_systemID + Util.s_delimiterColon +
-                        l_nodeID.InnerText + Util.s_delimiterColon +
-                        l_nodePropertyName.InnerText;
-                    l_simulator.LoadEntityProperty(
-                        l_entityPath,
-                        EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellValue)
-                        );
-                }
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="l_modelID"></param>
-        /// <param name="l_node"></param>
-        /// <param name="l_initialCondition"></param>
-        private void ParseInitialCondition(
-                string l_modelID,
-                XmlNode l_node,
-                Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_initialCondition)
-        {
-            l_initialCondition[l_modelID] = new Dictionary<string, Dictionary<string, double>>();
-            foreach (XmlNode l_nodeType in l_node.ChildNodes)
-            {
-                if (!this.IsValidNode(l_nodeType))
-                {
-                    continue;
-                }
-                string l_type = null;
-                if (l_nodeType.Name.Equals(Util.s_xpathSystem.ToLower()))
-                {
-                    l_type = Util.s_xpathSystem;
-                }
-                else if (l_nodeType.Name.Equals(Util.s_xpathProcess.ToLower()))
-                {
-                    l_type = Util.s_xpathProcess;
-                }
-                else if (l_nodeType.Name.Equals(Util.s_xpathVariable.ToLower()))
-                {
-                    l_type = Util.s_xpathVariable;
-                }
-                else
-                {
-                    continue;
-                }
-                l_initialCondition[l_modelID][l_type] = new Dictionary<string, double>();
-                foreach (XmlNode l_nodeID in l_nodeType.ChildNodes)
-                {
-                    if (!this.IsValidNode(l_nodeID))
-                    {
-                        continue;
-                    }
-                    XmlNode l_nodeName = l_nodeID.Attributes.GetNamedItem(Util.s_xpathName.ToLower());
-                    if (!this.IsValidNode(l_nodeName))
-                    {
-                        continue;
-                    }
-                    try
-                    {
-                        l_initialCondition[l_modelID][l_type][l_nodeName.InnerText] 
-                            = XmlConvert.ToDouble(l_nodeID.InnerText);
-                    }
-                    catch (Exception)
-                    {
-                        // do nothing
-                    }
-                }
-            }
-            if (!l_initialCondition[l_modelID].ContainsKey(Util.s_xpathSystem))
-            {
-                l_initialCondition[l_modelID][Util.s_xpathSystem] = new Dictionary<string, double>();
-            }
-            if (!l_initialCondition[l_modelID].ContainsKey(Util.s_xpathProcess))
-            {
-                l_initialCondition[l_modelID][Util.s_xpathProcess] = new Dictionary<string, double>();
-            }
-            if (!l_initialCondition[l_modelID].ContainsKey(Util.s_xpathVariable))
-            {
-                l_initialCondition[l_modelID][Util.s_xpathVariable] = new Dictionary<string, double>();
-            }
-        }
-
-        /// <summary>
-        /// Parses the "LoggerPolicy" node.
-        /// </summary>
-        /// <param name="l_node">The "LoggerPolicy" node</param>
-        /// <param name="l_loggerPolicy">The stored "LoggerPolicy"</param>
-        private void ParseLoggerPolicy(
-            XmlNode l_node,
-            ref LoggerPolicy l_loggerPolicy
-            )
-        {
-            int l_step = -1;
-            double l_interval = -1.0;
-            int l_action = -1;
-            int l_diskSpace = -1;
-            foreach (XmlNode l_childNode in l_node.ChildNodes)
-            {
-                if (l_childNode.Name.Equals(Util.s_xpathStep.ToLower()))
-                {
-                    l_step = XmlConvert.ToInt32(l_childNode.InnerText);
-                }
-                else if (l_childNode.Name.Equals(Util.s_xpathInterval.ToLower()))
-                {
-                    l_interval = XmlConvert.ToDouble(l_childNode.InnerText);
-                }
-                else if (l_childNode.Name.Equals(Util.s_xpathAction.ToLower()))
-                {
-                    l_action = XmlConvert.ToInt32(l_childNode.InnerText);
-                }
-                else if (l_childNode.Name.Equals(Util.s_xpathSpace.ToLower()))
-                {
-                    l_diskSpace = XmlConvert.ToInt32(l_childNode.InnerText);
-                }
-            }
-            if (l_step >= 0 && l_interval >= 0.0
-                    && (l_action == 0 || l_action == 1)
-                    && l_diskSpace >= 0)
-            {
-                l_loggerPolicy = new LoggerPolicy(l_step, l_interval, l_action, l_diskSpace);
-            }
-        }
-
-        /// <summary>
-        /// Loads the "Stepper" elements.
-        /// </summary>
-        /// <param name="l_modelID">The model ID</param>
-        /// <param name="l_doc">The "eml" "XmlObject"</param>
-        /// <param name="l_ecellObjectList">The list of "EcellObject"</param>
-        /// <param name="l_simulator">The simulator</param>
-        private void ParseStepper(
-            string l_modelID,
-            XmlDocument l_doc,
-            WrappedSimulator l_simulator,
-            List<EcellObject> l_ecellObjectList
-            )
-        {
-            XmlNodeList l_stepperList = l_doc.SelectNodes(
-                Util.s_delimiterPath + Util.s_xpathEml + Util.s_delimiterPath + Util.s_xpathStepper.ToLower());
-            foreach (XmlNode l_stepper in l_stepperList)
-            {
-                this.ParseStepper(l_modelID, l_stepper, l_simulator, l_ecellObjectList);
-            }
-        }
-
-        /// <summary>
-        /// Parses the "Stepper" node.
-        /// </summary>
-        /// <param name="l_modelID">The model ID</param>
-        /// <param name="l_stepper">The "Stepper" node</param>
-        /// <param name="l_simulator">The simulator</param>
-        /// <param name="l_ecellObjectList">The stored list of the "EcellObject"</param>
-        private void ParseStepper(
-            string l_modelID,
-            XmlNode l_stepper,
-            WrappedSimulator l_simulator,
-            List<EcellObject> l_ecellObjectList
-            )
-        {
-            XmlNode l_stepperClass = l_stepper.Attributes.GetNamedItem(Util.s_xpathClass);
-            XmlNode l_stepperID = l_stepper.Attributes.GetNamedItem(Util.s_xpathID.ToLower());
-            if (!this.IsValidNode(l_stepperClass) || !this.IsValidNode(l_stepperID))
-            {
-                return;
-            }
-            //
-            // 4 "EcellCoreLib"
-            //
-            if (l_simulator != null)
-            {
-                try
-                {
-                    l_simulator.CreateStepper(l_stepperClass.InnerText, l_stepperID.InnerText);
-                }
-                catch (Exception e)
-                {
-                    throw new Exception(
-                        String.Format(
-                            "Could not create {0}",
-                            new object[] { l_stepperClass.InnerText }),
-                        e
-                    );
-                }
-            }
-            //
-            // 4 children
-            //
-            List<EcellData> l_ecellDataList = new List<EcellData>();
-            XmlNodeList l_stepperPropertyList = l_stepper.ChildNodes;
-            foreach (XmlNode l_stepperProperty in l_stepperPropertyList)
-            {
-                if (!l_stepperProperty.Name.Equals(Util.s_xpathProperty))
-                {
-                    continue;
-                }
-                XmlNode l_stepperPropertyName = l_stepperProperty.Attributes.GetNamedItem(Util.s_xpathName.ToLower());
-                if (!this.IsValidNode(l_stepperPropertyName))
-                {
-                    continue;
-                }
-                int l_depth = 0;
-                int l_count = 0;
-                EcellValue l_ecellValue = this.GetValueList(l_stepperProperty, ref l_depth, ref l_count);
-                if (l_ecellValue != null)
-                {
-                    //
-                    // 4 "EcellCoreLib"
-                    //
-                    if (l_simulator != null)
-                    {
-                        l_simulator.LoadStepperProperty(
-                            l_stepperID.InnerText,
-                            l_stepperPropertyName.InnerText,
-                            EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellValue));
-                    }
-                    EcellData l_ecellData = new EcellData(
-                            l_stepperPropertyName.InnerText, l_ecellValue, l_stepperPropertyName.InnerText);
-                    l_ecellData.M_isGettable = true;
-                    l_ecellData.M_isLoadable = false;
-                    l_ecellData.M_isSavable = false;
-                    l_ecellData.M_isSettable = true;
-                    l_ecellDataList.Add(l_ecellData);
-                }
-            }
-            //
-            // 4 "EcellLib"
-            //
-            EcellObject l_ecellObject = EcellObject.CreateObject(
-                l_modelID,
-                l_stepperID.InnerText,
-                Util.s_xpathStepper,
-                l_stepperClass.InnerText,
-                l_ecellDataList
-                );
-            l_ecellObjectList.Add(l_ecellObject);
-        }
-
-        /// <summary>
-        /// Parses the "Stepper" elements.
-        /// </summary>
-        /// <param name="l_doc">The "eml" "XmlObject"</param>
-        /// <param name="l_simulator">The simulator</param>
-        private void ParseStepper(XmlDocument l_doc, WrappedSimulator l_simulator)
-        {
-            XmlNodeList l_stepperList = l_doc.SelectNodes(
-                    Util.s_delimiterPath + Util.s_xpathEml + Util.s_delimiterPath + Util.s_xpathStepper.ToLower());
-            foreach (XmlNode l_stepper in l_stepperList)
-            {
-                XmlNode l_stepperClass = l_stepper.Attributes.GetNamedItem(Util.s_xpathClass);
-                XmlNode l_stepperID = l_stepper.Attributes.GetNamedItem(Util.s_xpathID.ToLower());
-                if (!this.IsValidNode(l_stepperClass) || !this.IsValidNode(l_stepperID))
-                {
-                    return;
-                }
-                l_simulator.CreateStepper(l_stepperClass.InnerText, l_stepperID.InnerText);
-                XmlNodeList l_stepperPropertyList = l_stepper.ChildNodes;
-                foreach (XmlNode l_stepperProperty in l_stepperPropertyList)
-                {
-                    if (!l_stepperProperty.Name.Equals(Util.s_xpathProperty))
-                    {
-                        continue;
-                    }
-                    XmlNode l_stepperPropertyName
-                            = l_stepperProperty.Attributes.GetNamedItem(Util.s_xpathName.ToLower());
-                    if (!this.IsValidNode(l_stepperPropertyName))
-                    {
-                        continue;
-                    }
-                    int l_depth = 0;
-                    int l_count = 0;
-                    EcellValue l_ecellValue = this.GetValueList(l_stepperProperty, ref l_depth, ref l_count);
-                    if (l_ecellValue != null)
-                    {
-                        l_simulator.LoadStepperProperty(
-                            l_stepperID.InnerText,
-                            l_stepperPropertyName.InnerText,
-                            EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellValue)
-                            );
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Loads the "System" elements.
-        /// </summary>
-        /// <param name="l_modelID">The model ID</param>
-        /// <param name="l_doc">The "eml" "XmlObject"</param>
-        /// <param name="l_ecellObjectList">The list of "EcellObject"</param>
-        /// <param name="l_simulator">The simulator</param>
-        /// <param name="l_processPropertyDic">The dictionary of a process property</param>
-        private void ParseSystem(
-            string l_modelID,
-            XmlDocument l_doc,
-            WrappedSimulator l_simulator,
-            List<EcellObject> l_ecellObjectList,
-            Dictionary<string, WrappedPolymorph> l_processPropertyDic)
-        {
-            XmlNodeList l_systemList = l_doc.SelectNodes(
-                Util.s_delimiterPath + Util.s_xpathEml + Util.s_delimiterPath + Util.s_xpathSystem.ToLower());
-            foreach (XmlNode l_system in l_systemList)
-            {
-                XmlNode l_systemClass = l_system.Attributes.GetNamedItem(Util.s_xpathClass);
-                XmlNode l_systemID = l_system.Attributes.GetNamedItem(Util.s_xpathID.ToLower());
-                if (!this.IsValidNode(l_systemClass) || !this.IsValidNode(l_systemID))
-                {
-                    continue;
-                }
-                if (l_systemID.InnerText.IndexOf(Util.s_delimiterPath) != 0)
-                {
-                    continue;
-                }
-                //
-                // 4 "EcellCoreLib"
-                //
-                string l_parentPath
-                        = l_systemID.InnerText.Substring(0, l_systemID.InnerText.LastIndexOf(Util.s_delimiterPath));
-                string l_childPath
-                        = l_systemID.InnerText.Substring(l_systemID.InnerText.LastIndexOf(Util.s_delimiterPath) + 1);
-                if (l_systemID.InnerText.Equals(Util.s_delimiterPath))
-                {
-                    if (l_childPath.Length == 0)
-                    {
-                        l_childPath = Util.s_delimiterPath;
-                    }
-                }
-                else
-                {
-                    if (l_parentPath.Length == 0)
-                    {
-                        l_parentPath = Util.s_delimiterPath;
-                    }
-                    l_simulator.CreateEntity(
-                            l_systemClass.InnerText,
-                            l_systemClass.InnerText + Util.s_delimiterColon + l_parentPath
-                                    + Util.s_delimiterColon + l_childPath);
-                }
-                //
-                // 4 children
-                //
-                List<EcellData> l_ecellDataList = new List<EcellData>();
-                List<EcellObject> l_childEcellObjectList = new List<EcellObject>();
-                XmlNodeList l_systemPropertyList = l_system.ChildNodes;
-                foreach (XmlNode l_systemProperty in l_systemPropertyList)
-                {
-                    if (l_systemProperty.Name.Equals(Util.s_xpathVariable.ToLower()))
-                    {
-                        this.ParseEntity(
-                            l_modelID,
-                            l_systemProperty,
-                            l_systemID.InnerText,
-                            Util.s_xpathVariable,
-                            l_simulator,
-                            l_childEcellObjectList,
-                            l_processPropertyDic);
-                        continue;
-                    }
-                    else if (l_systemProperty.Name.Equals(Util.s_xpathProcess.ToLower()))
-                    {
-                        this.ParseEntity(
-                            l_modelID,
-                            l_systemProperty,
-                            l_systemID.InnerText,
-                            Util.s_xpathProcess,
-                            l_simulator,
-                            l_childEcellObjectList,
-                            l_processPropertyDic);
-                        continue;
-                    }
-                    else if (!l_systemProperty.Name.Equals(Util.s_xpathProperty))
-                    {
-                        continue;
-                    }
-                    XmlNode l_systemPropertyName = l_systemProperty.Attributes.GetNamedItem(Util.s_xpathName.ToLower());
-                    if (!this.IsValidNode(l_systemPropertyName))
-                    {
-                        continue;
-                    }
-                    int l_depth = 0;
-                    int l_count = 0;
-                    EcellValue l_ecellValue = this.GetValueList(l_systemProperty, ref l_depth, ref l_count);
-                    //
-                    // 4 "EcellCoreLib"
-                    //
-                    if (l_ecellValue != null)
-                    {
-                        string l_entityPath =
-                            Util.s_xpathSystem + Util.s_delimiterColon +
-                            l_parentPath + Util.s_delimiterColon +
-                            l_childPath + Util.s_delimiterColon +
-                            l_systemPropertyName.InnerText;
-                        l_simulator.LoadEntityProperty(
-                            l_entityPath,
-                            EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellValue));
-                        EcellData l_ecellData
-                                = new EcellData(l_systemPropertyName.InnerText, l_ecellValue, l_entityPath);
-                        l_ecellDataList.Add(l_ecellData);
-                    }
-                }
-                //
-                // 4 EcellLib
-                //
-                EcellObject l_ecellObject = EcellObject.CreateObject(
-                    l_modelID, l_systemID.InnerText, Util.s_xpathSystem, l_systemClass.InnerText,
-                    l_ecellDataList);
-                l_ecellObject.M_instances = l_childEcellObjectList;
-                this.AppendEcellObject(l_ecellObjectList, l_ecellObject);
-            }
-        }
-
-        /// <summary>
-        /// Parses the "System" elements.
-        /// </summary>
-        /// <param name="l_doc">The "eml" "XmlObject"</param>
-        /// <param name="l_simulator">The simulator</param>
-        private void ParseSystem(XmlDocument l_doc, WrappedSimulator l_simulator)
-        {
-            XmlNodeList l_systemList = l_doc.SelectNodes(
-                Util.s_delimiterPath + Util.s_xpathEml + Util.s_delimiterPath + Util.s_xpathSystem.ToLower());
-            foreach (XmlNode l_system in l_systemList)
-            {
-                XmlNode l_systemClass = l_system.Attributes.GetNamedItem(Util.s_xpathClass);
-                XmlNode l_systemID = l_system.Attributes.GetNamedItem(Util.s_xpathID.ToLower());
-                if (!this.IsValidNode(l_systemClass) || !this.IsValidNode(l_systemID))
-                {
-                    continue;
-                }
-                if (l_systemID.InnerText.IndexOf(Util.s_delimiterPath) != 0)
-                {
-                    continue;
-                }
-                //
-                // 4 "EcellCoreLib"
-                //
-                string l_parentPath = l_systemID.InnerText.Substring(
-                        0, l_systemID.InnerText.LastIndexOf(Util.s_delimiterPath));
-                string l_childPath = l_systemID.InnerText.Substring(
-                        l_systemID.InnerText.LastIndexOf(Util.s_delimiterPath) + 1);
-                if (l_systemID.InnerText.Equals(Util.s_delimiterPath))
-                {
-                    if (l_childPath.Length == 0)
-                    {
-                        l_childPath = Util.s_delimiterPath;
-                    }
-                }
-                else
-                {
-                    if (l_parentPath.Length == 0)
-                    {
-                        l_parentPath = Util.s_delimiterPath;
-                    }
-                    l_simulator.CreateEntity(
-                         l_systemClass.InnerText,
-                         l_systemClass.InnerText + Util.s_delimiterColon
-                                + l_parentPath + Util.s_delimiterColon + l_childPath);
-                }
-                //
-                // 4 children
-                //
-                XmlNodeList l_systemPropertyList = l_system.ChildNodes;
-                foreach (XmlNode l_systemProperty in l_systemPropertyList)
-                {
-                    if (l_systemProperty.Name.Equals(Util.s_xpathVariable.ToLower()))
-                    {
-                        this.ParseEntity(
-                                l_systemProperty,
-                                l_systemID.InnerText,
-                                Util.s_xpathVariable,
-                                l_simulator);
-                        continue;
-                    }
-                    else if (l_systemProperty.Name.Equals(Util.s_xpathProcess.ToLower()))
-                    {
-                        this.ParseEntity(
-                                l_systemProperty,
-                                l_systemID.InnerText,
-                                Util.s_xpathProcess,
-                                l_simulator);
-                        continue;
-                    }
-                    else if (!l_systemProperty.Name.Equals(Util.s_xpathProperty))
-                    {
-                        continue;
-                    }
-                    XmlNode l_systemPropertyName
-                            = l_systemProperty.Attributes.GetNamedItem(Util.s_xpathName.ToLower());
-                    if (!this.IsValidNode(l_systemPropertyName))
-                    {
-                        continue;
-                    }
-                    int l_depth = 0;
-                    int l_count = 0;
-                    EcellValue l_ecellValue = this.GetValueList(l_systemProperty, ref l_depth, ref l_count);
-                    //
-                    // 4 "EcellCoreLib"
-                    //
-                    if (l_ecellValue != null)
-                    {
-                        string l_entityPath =
-                            Util.s_xpathSystem + Util.s_delimiterColon +
-                            l_parentPath + Util.s_delimiterColon +
-                            l_childPath + Util.s_delimiterColon +
-                            l_systemPropertyName.InnerText;
-                        l_simulator.LoadEntityProperty(
-                            l_entityPath,
-                            EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellValue)
-                            );
-                    }
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Property object to manage the information of saved logger.
-    /// </summary>
-    public class SaveLoggerProperty
-    {
-        private string m_fullPath = "";
-        private double m_start = 0.0;
-        private double m_end = 0.0;
-        private string m_dirName = "";
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public SaveLoggerProperty()
-        {
-        }
-
-        /// <summary>
-        /// Constructor with initial parameters.
-        /// </summary>
-        /// <param name="path">the full path.</param>
-        /// <param name="start">start time.</param>
-        /// <param name="end">end time.</param>
-        /// <param name="dir">output directory name.</param>
-        public SaveLoggerProperty(string path, double start, double end, string dir)
-        {
-            m_fullPath = path;
-            m_start = start;
-            m_end = end;
-            m_dirName = dir;
-        }
-
-        /// <summary>
-        /// get/set the full path of logger.
-        /// </summary>
-        public string FullPath
-        {
-            get { return this.m_fullPath; }
-            set { this.m_fullPath = value; }
-        }
-
-        /// <summary>
-        /// get/set the start time of logger.
-        /// </summary>
-        public double Start
-        {
-            get { return this.m_start; }
-            set { this.m_start = value; }
-        }
-
-        /// <summary>
-        /// get/set the end time of logger.
-        /// </summary>
-        public double End 
-        {
-            get { return this.m_end; }
-            set { this.m_end = value; }
-        }
-
-        /// <summary>
-        /// get/set the output directory name of logger.
-        /// </summary>
-        public string DirName
-        {
-            get { return this.m_dirName; }
-            set { this.m_dirName = value; }
-        }
-    }
-
-    /// <summary>
-    /// Manage the range of parameters to analysis the model.
-    /// </summary>
-    public class ParameterRange
-    {
-        private string m_fullPath = "";
-        private double m_min = 0.0;
-        private double m_max = 0.0;
-        private double m_step = 0.0;
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public ParameterRange()
-        {
-        }
-
-        /// <summary>
-        /// Constructor with initial parameters.
-        /// </summary>
-        /// <param name="path">the path of this property.</param>
-        /// <param name="min">the minimum value of this property.</param>
-        /// <param name="max">the maximum value of this property.</param>
-        /// <param name="step">the step interval of this property.</param>
-        public ParameterRange(string path, double min, double max, double step)
-        {
-            m_fullPath = path;
-            m_min = min;
-            m_max = max;
-            m_step = step;
-        }
-
-        /// <summary>
-        /// get/set the path of this property.
-        /// </summary>
-        public string FullPath
-        {
-            get { return this.m_fullPath; }
-            set { this.m_fullPath = value; }
-        }
-
-        /// <summary>
-        /// get/set the maximum value of this property.
-        /// </summary>
-        public double Max
-        {
-            get { return this.m_max; }
-            set { this.m_max = value; }
-        }
-
-        /// <summary>
-        /// get/set the minimum value of this property.
-        /// </summary>
-        public double Min
-        {
-            get { return this.m_min; }
-            set { this.m_min = value; }
-        }
-
-        /// <summary>
-        /// get/set the step interval of this property.
-        /// If this valus is smaller than 0.0, this value is handled as randam parameter.
-        /// </summary>
-        public double Step
-        {
-            get { return this.m_step; }
-            set { this.m_step = value; }
-        }
-    }
-
-    /// <summary>
-    /// Stores the simulation results.
-    /// </summary>
-    public class LogData
-    {
-        /// <summary>
-        /// The model ID
-        /// </summary>
-        private string m_modelID = null;
-        /// <summary>
-        /// The key of the "EcellObject"
-        /// </summary>
-        private string m_key = null;
-        /// <summary>
-        /// The type of the "EcellObject"
-        /// </summary>
-        private string m_type = null;
-        /// <summary>
-        /// The property name of the "EcellObject"
-        /// </summary>
-        private string m_propName = null;
-        /// <summary>
-        /// The list of the "LogValue" of the property name
-        /// </summary>
-        private List<LogValue> m_logValueList = null;
-
-        /// <summary>
-        /// Creates the new "LogData" instance without any parameter.
-        /// </summary>
-        private LogData()
-        {
-        }
-
-        /// <summary>
-        /// Creates the new "LogValue" instance with some parameters.
-        /// </summary>
-        /// <param name="l_modelID">The model ID</param>
-        /// <param name="l_key">The key of the "EcellObject"</param>
-        /// <param name="l_type">The type of the "EcellObject"</param>
-        /// <param name="l_propName">The property name of the "EcellObject"</param>
-        /// <param name="l_logValueList">The list of the "LogValue" of the property name</param>
-        public LogData(
-            string l_modelID,
-            string l_key,
-            string l_type,
-            string l_propName,
-            List<LogValue> l_logValueList
-            )
-        {
-            this.m_modelID = l_modelID;
-            this.m_key = l_key;
-            this.m_type = l_type;
-            this.m_propName = l_propName;
-            this.m_logValueList = l_logValueList;
-        }
-
-        /// <summary>
-        /// get/set m_model
-        /// </summary>
-        public string model
-        {
-            get { return this.m_modelID; }
-            // set { this.m_modelID = value; }
-        }
-
-        /// <summary>
-        /// get/set m_key
-        /// </summary>
-        public string key
-        {
-            get { return this.m_key; }
-            // set { this.m_key = value; }
-        }
-
-        /// <summary>
-        /// get/set m_type
-        /// </summary>
-        public string type
-        {
-            get { return this.m_type; }
-            // set { this.m_type = value; }
-        }
-
-        /// <summary>
-        /// get/set m_propName
-        /// </summary>
-        public string propName
-        {
-            get { return this.m_propName; }
-            // set { this.m_propName = value; }
-        }
-
-        /// <summary>
-        /// get/set m_logValueList
-        /// </summary>
-        public List<LogValue> logValueList
-        {
-            get { return this.m_logValueList; }
-            // set { this.m_logValueList = value; }
-        }
-    }
-
-
-    /// <summary>
-    /// Stores the logger policy.
-    /// </summary>
-    public struct LoggerPolicy
-    {
-        /// <summary>
-        /// The action when the HDD is full
-        /// </summary>
-        public int m_diskFullAction;
-        /// <summary>
-        /// The maximum HDD space
-        /// </summary>
-        public int m_maxDiskSpace;
-        /// <summary>
-        /// The reload interval
-        /// </summary>
-        public double m_reloadInterval;
-        /// <summary>
-        /// The reload step count
-        /// </summary>
-        public int m_reloadStepCount;
-        /// <summary>
-        /// The default action when the HDD is full
-        /// </summary>
-        public const int s_diskFullAction = 0;
-        /// <summary>
-        /// The default maximum HDD space
-        /// </summary>
-        public const int s_maxDiskSpace = 0;
-        /// <summary>
-        /// The default reload interval
-        /// </summary>
-        public const double s_reloadInterval = 0.0;
-        /// <summary>
-        /// The default reload step count
-        /// </summary>
-        public const int s_reloadStepCount = 1;
-
-        /// <summary>
-        /// Creates the new "LoggerPolicy" instance with some parameters.
-        /// </summary>
-        /// <param name="l_reloadStepCount">The reload step count</param>
-        /// <param name="l_reloadInterval">The reload interval</param>
-        /// <param name="l_diskFullAction">The action when the HDD is full</param>
-        /// <param name="l_maxDiskSpace">The maximum HDD space</param>
-        public LoggerPolicy(
-            int l_reloadStepCount,
-            double l_reloadInterval,
-            int l_diskFullAction,
-            int l_maxDiskSpace
-            )
-        {
-            if (l_reloadStepCount < 0)
-            {
-                l_reloadStepCount = s_reloadStepCount;
-            }
-            this.m_reloadStepCount = l_reloadStepCount;
-            if (l_reloadInterval < 0.0)
-            {
-                l_reloadInterval = s_reloadInterval;
-            }
-            this.m_reloadInterval = l_reloadInterval;
-            //
-            // Puts the reload step count ahead of the reload interval.
-            //
-            if (l_reloadStepCount == 0 && l_reloadInterval == 0.0)
-            {
-                l_reloadStepCount = s_reloadStepCount;
-            }
-            switch (l_diskFullAction)
-            {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                default:
-                    l_diskFullAction = s_diskFullAction;
-                    break;
-            }
-            this.m_diskFullAction = l_diskFullAction;
-            if (l_maxDiskSpace < 0)
-            {
-                l_maxDiskSpace = s_maxDiskSpace;
-            }
-            this.m_maxDiskSpace = l_maxDiskSpace;
-        }
-    }
-
-    /// <summary>
-    /// Stores the log of the simulation.
-    /// </summary>
-    public class LogValue
-    {
-        /// <summary>
-        /// The average value
-        /// </summary>
-        private double m_avg = double.NaN;
-        /// <summary>
-        /// The maximun value
-        /// </summary>
-        private double m_max = double.NaN;
-        /// <summary>
-        /// The minimum value
-        /// </summary>
-        private double m_min = double.NaN;
-        /// <summary>
-        /// The simulation time
-        /// </summary>
-        private double m_time = double.NaN;
-        /// <summary>
-        /// The value of the data
-        /// </summary>
-        private double m_value = double.NaN;
-
-        /// <summary>
-        /// Creates the new "LogValue" instance without any parameter.
-        /// </summary>
-        private LogValue()
-        {
-        }
-
-        /// <summary>
-        /// Creates the new "LogValue" instance with some parameters.
-        /// </summary>
-        /// <param name="l_time">The simulation time</param>
-        /// <param name="l_value">The value of the data</param>
-        /// <param name="l_avg">The average value</param>
-        /// <param name="l_min">The minimum value</param>
-        /// <param name="l_max">The maximun value</param>
-        public LogValue(
-            double l_time,
-            double l_value,
-            double l_avg,
-            double l_min,
-            double l_max
-            )
-        {
-            this.m_time = l_time;
-            this.m_value = l_value;
-            this.m_avg = l_avg;
-            this.m_min = l_min;
-            this.m_max = l_max;
-        }
-
-        /// <summary>
-        /// get/set m_time
-        /// </summary>
-        public double time
-        {
-            get { return this.m_time; }
-            // set { this.m_time = value; }
-        }
-
-        /// <summary>
-        /// get/set m_value
-        /// </summary>
-        public double value
-        {
-            get { return this.m_value; }
-            //set { this.m_value = value; }
-        }
-
-        /// <summary>
-        /// get/set m_avg
-        /// </summary>
-        public double avg
-        {
-            get { return this.m_avg; }
-            // set { this.m_avg = value; }
-        }
-
-        /// <summary>
-        /// get/set m_min
-        /// </summary>
-        public double min
-        {
-            get { return this.m_min; }
-            // set { this.m_min = value; }
-        }
-
-        /// <summary>
-        /// get/set m_max
-        /// </summary>
-        public double max
-        {
-            get { return this.m_max; }
-            // set { this.m_max = value; }
-        }
-    }
-
-
-    /// <summary>
-    /// Stores the project information.
-    /// </summary>
-    public class Project
-    {
-        /// <summary>
-        /// The comment
-        /// </summary>
-        private string m_comment;
-        /// <summary>
-        /// The project name
-        /// </summary>
-        private string m_prjName;
-        /// <summary>
-        /// The update time
-        /// </summary>
-        private string m_updateTime;
-
-        /// <summary>
-        /// Creates the new "Project" instance with no argument.
-        /// </summary>
-        public Project()
-        {
-            this.m_prjName = "";
-            this.m_comment = "";
-            this.m_updateTime = "";
-        }
-
-        /// <summary>
-        /// Creates the new "Project" instance with initialized arguments.
-        /// </summary>
-        /// <param name="l_prjName">The project name</param>
-        /// <param name="l_comment">The comment</param>
-        /// <param name="l_time">The update time</param>
-        public Project(string l_prjName, string l_comment, string l_time)
-        {
-            this.m_prjName = l_prjName;
-            this.m_comment = l_comment;
-            this.m_updateTime = l_time;
-        }
-
-        /// <summary>
-        /// get/set the project name
-        /// </summary>
-        public string M_prjName
-        {
-            get { return m_prjName; }
-            set { this.m_prjName = value; }
-        }
-
-        /// <summary>
-        /// get/set the comment
-        /// </summary>
-        public string M_comment
-        {
-            get { return m_comment; }
-            set { this.m_comment = value; }
-        }
-
-        /// <summary>
-        /// get/set the update time
-        /// </summary>
-        public string M_updateTime
-        {
-            get { return m_updateTime; }
-            set { this.m_updateTime = value; }
-        }
-    }
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

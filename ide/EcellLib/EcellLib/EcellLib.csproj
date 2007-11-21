@@ -203,6 +203,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataLogger.cs" />
+    <Compile Include="Eml.cs" />
     <None Include="ecelllib.snk" />
   </ItemGroup>
   <ItemGroup>
