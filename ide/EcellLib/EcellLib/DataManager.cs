@@ -7231,7 +7231,6 @@ namespace EcellLib
         /// </summary>
         protected WrappedSimulator CreateSimulatorInstance()
         {
-            System.Windows.Forms.MessageBox.Show(String.Join(",", Util.GetDMDirs(m_currentProjectPath)));
             return new WrappedSimulator(Util.GetDMDirs(m_currentProjectPath));
         }
 
