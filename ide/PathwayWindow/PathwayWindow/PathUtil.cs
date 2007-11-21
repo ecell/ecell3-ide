@@ -98,12 +98,12 @@ namespace EcellLib.PathwayWindow
                 return null;
 
             Microsoft.Win32.RegistryKey regkey = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey subkey = regkey.OpenSubKey(EcellLib.Util.s_registryEnvKey);
+            Microsoft.Win32.RegistryKey subkey = regkey.OpenSubKey(Constants.registryEnvKey);
             string dirName = (string)subkey.GetValue(key);            
             if (string.IsNullOrEmpty(dirName) || !Directory.Exists(dirName))
             {
                 subkey.Close();
-                subkey = regkey.OpenSubKey(EcellLib.Util.s_registrySWKey);
+                subkey = regkey.OpenSubKey(EcellLib.Constants.registrySWKey);
                 dirName = (string)subkey.GetValue(key);
             }
             subkey.Close();

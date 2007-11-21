@@ -138,9 +138,9 @@ namespace EcellLib.StaticDebugWindow
         ///  When the system status is changed, the menu is changed to enable/disable.
         /// </summary>
         /// <param name="type">the status type</param>
-        public void ChangeStatus(int type)
+        public void ChangeStatus(ProjectStatus type)
         {
-            if (type == Util.LOADED) m_staticDebug.Enabled = true;
+            if (type == ProjectStatus.Loaded) m_staticDebug.Enabled = true;
             else m_staticDebug.Enabled = false;
         }
 
@@ -434,134 +434,134 @@ namespace EcellLib.StaticDebugWindow
             //
             // 4 System
             //
-            this.m_uniValidateModelDic[Util.s_xpathSystem]
+            this.m_uniValidateModelDic[Constants.xpathSystem]
                 = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
             //
-            this.m_uniValidateModelDic[Util.s_xpathSystem][Util.s_xpathID] = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathSystem][Util.s_xpathID][typeof(string)]
+            this.m_uniValidateModelDic[Constants.xpathSystem][Constants.xpathID] = new Dictionary<Type, UniValidateMethod>();
+            this.m_uniValidateModelDic[Constants.xpathSystem][Constants.xpathID][typeof(string)]
                 = new UniValidateMethod(this.ValidateInvalidCharacters);
             //
-            this.m_uniValidateNetworkDic[Util.s_xpathSystem]
+            this.m_uniValidateNetworkDic[Constants.xpathSystem]
                 = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
             //
-            this.m_uniValidateNetworkDic[Util.s_xpathSystem][Util.s_xpathStepper + Util.s_xpathID]
+            this.m_uniValidateNetworkDic[Constants.xpathSystem][Constants.xpathStepper + Constants.xpathID]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateNetworkDic[Util.s_xpathSystem][Util.s_xpathStepper + Util.s_xpathID][typeof(string)]
+            this.m_uniValidateNetworkDic[Constants.xpathSystem][Constants.xpathStepper + Constants.xpathID][typeof(string)]
                 = new UniValidateMethod(this.ValidateExistStepperID);
             //
             // 4 Variable
             //
-            this.m_uniValidateModelDic[Util.s_xpathVariable]
+            this.m_uniValidateModelDic[Constants.xpathVariable]
                 = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
             //
-            this.m_uniValidateModelDic[Util.s_xpathVariable][Util.s_xpathID]
+            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathID]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathVariable][Util.s_xpathID][typeof(string)]
+            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathID][typeof(string)]
                 = new UniValidateMethod(this.ValidateInvalidCharacters);
             //
-            this.m_uniValidateModelDic[Util.s_xpathVariable][Util.s_xpathFixed]
+            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathFixed]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathVariable][Util.s_xpathFixed][typeof(int)]
+            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathFixed][typeof(int)]
                 = new UniValidateMethod(this.ValidateIsBool);
             //
-            this.m_uniValidateModelDic[Util.s_xpathVariable][Util.s_xpathMolarConc]
+            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathMolarConc]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathVariable][Util.s_xpathMolarConc][typeof(double)]
+            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathMolarConc][typeof(double)]
                 = new UniValidateMethod(this.ValidateIsPositiveNumberWithZero);
             //
-            this.m_uniValidateModelDic[Util.s_xpathVariable][Util.s_xpathNumberConc]
+            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathNumberConc]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathVariable][Util.s_xpathNumberConc][typeof(double)]
+            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathNumberConc][typeof(double)]
                 = new UniValidateMethod(this.ValidateIsPositiveNumberWithZero);
             //
             /*
-            this.m_uniValidateNetworkDic[Util.s_xpathVariable][Util.s_xpathStepper + Util.s_xpathID]
+            this.m_uniValidateNetworkDic[Constants.xpathVariable][Constants.xpathStepper + Constants.xpathID]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateNetworkDic[Util.s_xpathVariable][Util.s_xpathStepper + Util.s_xpathID][typeof(string)]
+            this.m_uniValidateNetworkDic[Constants.xpathVariable][Constants.xpathStepper + Constants.xpathID][typeof(string)]
                 = new UniValidateMethod(this.ValidateExistStepperID);
              */
             //
             // 4 Process
             //
-            this.m_uniValidateModelDic[Util.s_xpathProcess]
+            this.m_uniValidateModelDic[Constants.xpathProcess]
                 = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
             //
-            this.m_uniValidateModelDic[Util.s_xpathProcess][Util.s_xpathID] = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathProcess][Util.s_xpathID][typeof(string)]
+            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathID] = new Dictionary<Type, UniValidateMethod>();
+            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathID][typeof(string)]
                 = new UniValidateMethod(this.ValidateInvalidCharacters);
             //
-            this.m_uniValidateModelDic[Util.s_xpathProcess][Util.s_xpathExpression]
+            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathExpression]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathProcess][Util.s_xpathExpression][typeof(string)]
+            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathExpression][typeof(string)]
                 = new UniValidateMethod(this.ValidateParenthesisInExpression);
             //
-            this.m_uniValidateModelDic[Util.s_xpathProcess][Util.s_xpathFireMethod]
+            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathFireMethod]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathProcess][Util.s_xpathFireMethod][typeof(string)]
+            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathFireMethod][typeof(string)]
                 = new UniValidateMethod(this.ValidateParenthesisInExpression);
             //
-            this.m_multiValidateModelDic[Util.s_xpathProcess]
+            this.m_multiValidateModelDic[Constants.xpathProcess]
                 = new Dictionary<string, Dictionary<Type, MultiValidateMethod>>();
             //
-            this.m_multiValidateModelDic[Util.s_xpathProcess][Util.s_xpathExpression]
+            this.m_multiValidateModelDic[Constants.xpathProcess][Constants.xpathExpression]
                 = new Dictionary<Type, MultiValidateMethod>();
-            this.m_multiValidateModelDic[Util.s_xpathProcess][Util.s_xpathExpression][typeof(string)]
+            this.m_multiValidateModelDic[Constants.xpathProcess][Constants.xpathExpression][typeof(string)]
                 = new MultiValidateMethod(this.ValidateExistVariableInExpression);
             //
-            this.m_multiValidateModelDic[Util.s_xpathProcess][Util.s_xpathFireMethod]
+            this.m_multiValidateModelDic[Constants.xpathProcess][Constants.xpathFireMethod]
                 = new Dictionary<Type, MultiValidateMethod>();
-            this.m_multiValidateModelDic[Util.s_xpathProcess][Util.s_xpathFireMethod][typeof(string)]
+            this.m_multiValidateModelDic[Constants.xpathProcess][Constants.xpathFireMethod][typeof(string)]
                 = new MultiValidateMethod(this.ValidateExistVariableInExpression);
             //
-            this.m_uniValidateNetworkDic[Util.s_xpathProcess]
+            this.m_uniValidateNetworkDic[Constants.xpathProcess]
                 = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
             //
-            this.m_uniValidateNetworkDic[Util.s_xpathProcess][Util.s_xpathStepper + Util.s_xpathID]
+            this.m_uniValidateNetworkDic[Constants.xpathProcess][Constants.xpathStepper + Constants.xpathID]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateNetworkDic[Util.s_xpathProcess][Util.s_xpathStepper + Util.s_xpathID][typeof(string)]
+            this.m_uniValidateNetworkDic[Constants.xpathProcess][Constants.xpathStepper + Constants.xpathID][typeof(string)]
                 = new UniValidateMethod(this.ValidateExistStepperID);
             //
-            this.m_uniValidateNetworkDic[Util.s_xpathProcess][Util.s_xpathVRL]
+            this.m_uniValidateNetworkDic[Constants.xpathProcess][Constants.xpathVRL]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateNetworkDic[Util.s_xpathProcess][Util.s_xpathVRL][typeof(List<EcellValue>)]
+            this.m_uniValidateNetworkDic[Constants.xpathProcess][Constants.xpathVRL][typeof(List<EcellValue>)]
                 = new UniValidateMethod(this.ValidateVariableList);
             //
             // 4 Stepper
             //
-            this.m_uniValidateModelDic[Util.s_xpathStepper] 
+            this.m_uniValidateModelDic[Constants.xpathStepper] 
                 = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
             //
-            this.m_uniValidateModelDic[Util.s_xpathStepper][Util.s_headerMaximum + Util.s_xpathStepInterval]
+            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerMaximum + Constants.xpathStepInterval]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathStepper][Util.s_headerMaximum + Util.s_xpathStepInterval]
+            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerMaximum + Constants.xpathStepInterval]
                 [typeof(double)] = new UniValidateMethod(this.ValidateIsPositiveNumber);
             //
-            this.m_uniValidateModelDic[Util.s_xpathStepper][Util.s_headerMinimum + Util.s_xpathStepInterval]
+            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerMinimum + Constants.xpathStepInterval]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathStepper][Util.s_headerMinimum + Util.s_xpathStepInterval]
+            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerMinimum + Constants.xpathStepInterval]
                 [typeof(double)] = new UniValidateMethod(this.ValidateIsPositiveNumberWithZero);
             //
-            this.m_uniValidateModelDic[Util.s_xpathStepper][Util.s_xpathStepInterval]
+            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.xpathStepInterval]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathStepper][Util.s_xpathStepInterval]
+            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.xpathStepInterval]
                 [typeof(double)] = new UniValidateMethod(this.ValidateIsPositiveNumber);
             //
-            this.m_uniValidateModelDic[Util.s_xpathStepper][Util.s_headerTolerable + Util.s_xpathStepInterval]
+            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerTolerable + Constants.xpathStepInterval]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathStepper][Util.s_headerTolerable + Util.s_xpathStepInterval]
+            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerTolerable + Constants.xpathStepInterval]
                 [typeof(double)] = new UniValidateMethod(this.ValidateIsPositiveNumber);
             //
-            this.m_uniValidateModelDic[Util.s_xpathStepper][Util.s_xpathIsEpsilonChecked]
+            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.xpathIsEpsilonChecked]
                 = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Util.s_xpathStepper][Util.s_xpathIsEpsilonChecked][typeof(int)]
+            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.xpathIsEpsilonChecked][typeof(int)]
                 = new UniValidateMethod(this.ValidateIsBool);
             //
-            this.m_multiValidateModelDic[Util.s_xpathStepper]
+            this.m_multiValidateModelDic[Constants.xpathStepper]
                 = new Dictionary<string, Dictionary<Type, MultiValidateMethod>>();
             //
-            this.m_multiValidateModelDic[Util.s_xpathStepper][Util.s_headerMaximum + Util.s_xpathStepInterval]
+            this.m_multiValidateModelDic[Constants.xpathStepper][Constants.headerMaximum + Constants.xpathStepInterval]
                 = new Dictionary<Type, MultiValidateMethod>();
-            this.m_multiValidateModelDic[Util.s_xpathStepper][Util.s_headerMaximum + Util.s_xpathStepInterval]
+            this.m_multiValidateModelDic[Constants.xpathStepper][Constants.headerMaximum + Constants.xpathStepInterval]
                 [typeof(double)] = new MultiValidateMethod(this.ValidateCompareStepInterval);
             //
             // 4 Network
@@ -572,14 +572,14 @@ namespace EcellLib.StaticDebugWindow
             try
             {
                 Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
-                Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Util.s_registrySWKey);
-                string m_pluginDir = (string)subkey.GetValue(Util.s_registryStaticDebugDirKey);
+                Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
+                string m_pluginDir = (string)subkey.GetValue(Constants.registryStaticDebugDirKey);
                 if (m_pluginDir != null)
                 {
                     if (Directory.Exists(m_pluginDir))
                     {
                         foreach (string fileName in
-                            Directory.GetFiles(m_pluginDir, Util.s_delimiterWildcard + Util.s_dmFileExtension))
+                            Directory.GetFiles(m_pluginDir, Constants.delimiterWildcard + Constants.dmFileExtension))
                         {
                             // StaticDebugPlugin p = LoadPlugin(fileName);
                             // if (p != null)
@@ -698,12 +698,12 @@ namespace EcellLib.StaticDebugWindow
             string minEntityPath = null;
             foreach (EcellData ecellData in ecellDataList)
             {
-                if (ecellData.Name.Equals(Util.s_headerMaximum + Util.s_xpathStepInterval))
+                if (ecellData.Name.Equals(Constants.headerMaximum + Constants.xpathStepInterval))
                 {
                     maxStepInterval = ecellData.Value.CastToDouble();
                     maxEntityPath = ecellData.EntityPath;
                 }
-                else if (ecellData.Name.Equals(Util.s_headerMinimum + Util.s_xpathStepInterval))
+                else if (ecellData.Name.Equals(Constants.headerMinimum + Constants.xpathStepInterval))
                 {
                     minStepInterval = ecellData.Value.CastToDouble();
                     minEntityPath = ecellData.EntityPath;
@@ -768,17 +768,17 @@ namespace EcellLib.StaticDebugWindow
                     //
                     // Searchs the "Variable"
                     //
-                    string[] variableInfos = vrInfoList[1].CastToString().Split(Util.s_delimiterColon.ToCharArray());
+                    string[] variableInfos = vrInfoList[1].CastToString().Split(Constants.delimiterColon.ToCharArray());
                     string systemPath = variableInfos[1];
-                    if (systemPath.Equals(Util.s_delimiterPeriod))
+                    if (systemPath.Equals(Constants.delimiterPeriod))
                     {
-                        systemPath = ecellData.EntityPath.Split(Util.s_delimiterColon.ToCharArray())[1];
+                        systemPath = ecellData.EntityPath.Split(Constants.delimiterColon.ToCharArray())[1];
                     }
-                    string variableKey = systemPath + Util.s_delimiterColon + variableInfos[2];
+                    string variableKey = systemPath + Constants.delimiterColon + variableInfos[2];
                     bool existFlag = false;
                     foreach (EcellObject ecellObject in this.m_dManager.GetData(modelID, systemPath))
                     {
-                        if (ecellObject.type.Equals(Util.s_xpathVariable) && ecellObject.key.Equals(variableKey))
+                        if (ecellObject.type.Equals(Constants.xpathVariable) && ecellObject.key.Equals(variableKey))
                         {
                             existFlag = true;
                             break;
@@ -787,7 +787,7 @@ namespace EcellLib.StaticDebugWindow
                         {
                             foreach (EcellObject childEcellObject in ecellObject.Children)
                             {
-                                if (childEcellObject.type.Equals(Util.s_xpathVariable)
+                                if (childEcellObject.type.Equals(Constants.xpathVariable)
                                         && childEcellObject.key.Equals(variableKey))
                                 {
                                     existFlag = true;
@@ -874,11 +874,11 @@ namespace EcellLib.StaticDebugWindow
             List<string> nameList = new List<string>();
             foreach (EcellData ecellData in ecellDataList)
             {
-                if (ecellData.Name.Equals(Util.s_xpathExpression))
+                if (ecellData.Name.Equals(Constants.xpathExpression))
                 {
                     expression = ecellData.Copy();
                 }
-                else if (ecellData.Name.Equals(Util.s_xpathVRL))
+                else if (ecellData.Name.Equals(Constants.xpathVRL))
                 {
                     variableReferenceList = ecellData.Copy();
                     foreach (EcellValue parent in variableReferenceList.Value.CastToList())
@@ -909,7 +909,7 @@ namespace EcellLib.StaticDebugWindow
                 {
                     continue;
                 }
-                else if (element.IndexOf(Util.s_delimiterPeriod) < 0)
+                else if (element.IndexOf(Constants.delimiterPeriod) < 0)
                 {
                     if (!nameList.Contains(element))
                     {
@@ -929,7 +929,7 @@ namespace EcellLib.StaticDebugWindow
                 }
                 else
                 {
-                    string alias = element.Split(Util.s_delimiterPeriod.ToCharArray())[0];
+                    string alias = element.Split(Constants.delimiterPeriod.ToCharArray())[0];
                     if (alias != null && alias.Length > 0 && !variableList.Contains(alias))
                     {
 //                        message = "The [" + alias + "] in this expression [" + expression.Value.CastToString() + "]"
@@ -956,14 +956,14 @@ namespace EcellLib.StaticDebugWindow
             }
             string message = " has the invalid character \"";
             string value = ecellData.Value.CastToString();
-            if (value.IndexOf(Util.s_delimiterPath) >= 0)
+            if (value.IndexOf(Constants.delimiterPath) >= 0)
             {
-                message = "The \"" + ecellData.Name + "[" + value + "]\"" + message + Util.s_delimiterPath + "\".";
+                message = "The \"" + ecellData.Name + "[" + value + "]\"" + message + Constants.delimiterPath + "\".";
                 this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
             }
-            else if (value.IndexOf(Util.s_delimiterColon) >= 0)
+            else if (value.IndexOf(Constants.delimiterColon) >= 0)
             {
-                message = "The \"" + ecellData.Name + "[" + value + "]\"" + message + Util.s_delimiterColon + "\".";
+                message = "The \"" + ecellData.Name + "[" + value + "]\"" + message + Constants.delimiterColon + "\".";
                 this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
             }
         }
@@ -1040,7 +1040,7 @@ namespace EcellLib.StaticDebugWindow
             }
             foreach (EcellObject ecellObject in ecellObjectList)
             {
-                if (ecellObject.type.Equals(Util.s_xpathModel))
+                if (ecellObject.type.Equals(Constants.xpathModel))
                 {
                     //
                     // 4 Stepper
@@ -1086,7 +1086,7 @@ namespace EcellLib.StaticDebugWindow
                     }
                 }
                  */
-                if (ecellObject.type.Equals(Util.s_xpathVariable))
+                if (ecellObject.type.Equals(Constants.xpathVariable))
                 {
                     this.m_existVariableList.Add(ecellObject.key);
                 }
@@ -1095,7 +1095,7 @@ namespace EcellLib.StaticDebugWindow
                     this.ValidateNetwork(ecellObject.Children);
                 }
             }
-            if (ecellObjectList.Count > 0 && !ecellObjectList[0].type.Equals(Util.s_xpathStepper))
+            if (ecellObjectList.Count > 0 && !ecellObjectList[0].type.Equals(Constants.xpathStepper))
             {
                 this.ValidateReferToVariable(ecellObjectList[0].modelID);
             }
@@ -1154,7 +1154,7 @@ namespace EcellLib.StaticDebugWindow
             }
             foreach (EcellObject ecellObject in ecellObjectList)
             {
-                if (ecellObject.type.Equals(Util.s_xpathModel))
+                if (ecellObject.type.Equals(Constants.xpathModel))
                 {
                     //
                     // 4 Stepper
@@ -1285,11 +1285,11 @@ namespace EcellLib.StaticDebugWindow
         {
             foreach (string variableKey in this.m_existVariableList)
             {
-                if (!this.m_usedVariableList.Contains(Util.s_delimiterColon + variableKey)
-                    && !variableKey.EndsWith(Util.s_xpathSize.ToUpper()))
+                if (!this.m_usedVariableList.Contains(Constants.delimiterColon + variableKey)
+                    && !variableKey.EndsWith(Constants.xpathSize.ToUpper()))
                 {
                     string message = "The \"Variable\" is referred to nowhere.";
-                    this.m_errorMessageList.Add(new ErrorMessage(modelID, Util.s_xpathVariable, variableKey, message));
+                    this.m_errorMessageList.Add(new ErrorMessage(modelID, Constants.xpathVariable, variableKey, message));
                 }
             }
             this.m_existVariableList.Clear();

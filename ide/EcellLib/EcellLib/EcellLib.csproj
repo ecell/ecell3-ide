@@ -203,6 +203,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="EcellXml.cs" />
     <Compile Include="SimulationParameter.cs" />
     <Compile Include="DataLogger.cs" />

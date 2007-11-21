@@ -87,7 +87,7 @@ namespace EcellLib.Simulation
         /// <summary>
         /// system status.
         /// </summary>
-        private int m_type;
+        private ProjectStatus m_type;
         /// <summary>
         /// ResourceManager for NewParameterWindow.
         /// </summary>
@@ -574,7 +574,7 @@ namespace EcellLib.Simulation
         /// <param name="time">The current simulation time.</param>
         public void AdvancedTime(double time)
         {
-            if (m_type == Util.RUNNING || m_type == Util.SUSPEND || m_type == Util.STEP)
+            if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping)
             m_text.Text = time.ToString();
         }
 
@@ -582,16 +582,16 @@ namespace EcellLib.Simulation
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(int type)
+        public void ChangeStatus(ProjectStatus type)
         {
-            if (type == Util.NOTLOAD)
+            if (type == ProjectStatus.Uninitialized)
             {
                 m_runSim.Enabled = false;
                 m_stopSim.Enabled = false;
                 m_suspendSim.Enabled = false;
                 m_setupSim.Enabled = false;
             }
-            else if (type == Util.LOADED)
+            else if (type == ProjectStatus.Loaded)
             {
                 m_runSim.Enabled = true;
                 m_stopSim.Enabled = false;
@@ -600,14 +600,14 @@ namespace EcellLib.Simulation
                 m_text.Text = "0";
                 m_text.ForeColor = Color.Black;
             }
-            else if (type == Util.STEP)
+            else if (type == ProjectStatus.Stepping)
             {
                 m_runSim.Enabled = true;
                 m_stopSim.Enabled = false;
                 m_suspendSim.Enabled = false;
                 m_setupSim.Enabled = true;
             }
-            else if (type == Util.RUNNING)
+            else if (type == ProjectStatus.Running)
             {
                 m_runSim.Enabled = false;
                 m_stopSim.Enabled = true;
@@ -616,7 +616,7 @@ namespace EcellLib.Simulation
                 m_text.ForeColor = Color.Black;
                 m_text.BackColor = m_text.BackColor;
             }
-            else if (type == Util.SUSPEND)
+            else if (type == ProjectStatus.Suspended)
             {
                 m_runSim.Enabled = true;
                 m_stopSim.Enabled = true;
@@ -715,7 +715,7 @@ namespace EcellLib.Simulation
         /// <param name="e">EventArgs</param>
         public void SetupSimulation(object sender, EventArgs e)
         {
-            if (m_type == Util.SUSPEND || m_type == Util.RUNNING)
+            if (m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Running)
             {
                 String mes = m_resources.GetString("ConfirmSetup");
                 DialogResult r = MessageBox.Show(mes,
@@ -881,9 +881,9 @@ namespace EcellLib.Simulation
         /// <param name="e">EventArgs</param>
         public void RunSimulation(object sender, EventArgs e)
         {
-            if (m_type == Util.RUNNING || m_type == Util.NOTLOAD) return;
-            int preType = m_type;
-            PluginManager.GetPluginManager().ChangeStatus(Util.RUNNING);
+            if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Uninitialized) return;
+            ProjectStatus preType = m_type;
+            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Running);
             try
             {
                 m_dManager.SimulationStart(0.0, 0);
@@ -906,9 +906,10 @@ namespace EcellLib.Simulation
         /// <param name="e">EventArgs</param>
         public void SuspendSimulation(object sender, EventArgs e)
         {
-            if (m_type != Util.RUNNING && m_type != Util.STEP) return;
-            int preType = m_type;
-            PluginManager.GetPluginManager().ChangeStatus(Util.SUSPEND);
+            if (m_type != ProjectStatus.Running && m_type != ProjectStatus.Stepping)
+                return;
+            ProjectStatus preType = m_type;
+            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Suspended);
             try
             {
                 m_dManager.SimulationSuspend();
@@ -930,10 +931,10 @@ namespace EcellLib.Simulation
         /// <param name="e">EventArgs</param>
         public void Step(object sender, EventArgs e)
         {
-            if (m_type == Util.RUNNING) return;
-            if (m_type == Util.NOTLOAD) return;
-            int preType = m_type;
-            m_type = Util.RUNNING;
+            if (m_type == ProjectStatus.Running) return;
+            if (m_type == ProjectStatus.Uninitialized) return;
+            ProjectStatus preType = m_type;
+            m_type = ProjectStatus.Running;
             try
             {
                 if (m_combo1.Text == "Step")
@@ -941,16 +942,16 @@ namespace EcellLib.Simulation
                     int stepCount = Convert.ToInt32(m_text1.Text);
                     if (stepCount < 0) return;
                     m_dManager.SimulationStartKeepSetting(stepCount); // m_dManager.SimulationStart(stepCount);
-                    PluginManager.GetPluginManager().ChangeStatus(Util.STEP);
+                    PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Stepping);
                 }
                 else
                 {
                     double timeCount = Convert.ToDouble(m_text1.Text);
                     if (timeCount < 0) return;
                     m_dManager.SimulationStartKeepSetting(timeCount); // m_dManager.SimulationStart(timeCount);
-                    PluginManager.GetPluginManager().ChangeStatus(Util.STEP);
+                    PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Stepping);
                 }
-//                PluginManager.GetPluginManager().ChangeStatus(Util.STEP);
+//                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Stepping);
             }
             catch (Exception ex)
             {
@@ -970,9 +971,12 @@ namespace EcellLib.Simulation
         /// <param name="e">EventArgs</param>
         public void ResetSimulation(object sender, EventArgs e)
         {
-            if (m_type != Util.RUNNING && m_type != Util.SUSPEND && m_type != Util.STEP) return;
-            int preType = m_type;
-            PluginManager.GetPluginManager().ChangeStatus(Util.LOADED);
+            if (m_type != ProjectStatus.Running &&
+                    m_type != ProjectStatus.Suspended &&
+                    m_type != ProjectStatus.Stepping)
+                return;
+            ProjectStatus preType = m_type;
+            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
             try
             {
                 m_dManager.SimulationStop();

@@ -191,9 +191,9 @@ namespace EcellLib.Analysis
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(int type)
+        public void ChangeStatus(ProjectStatus type)
         {
-            if (Util.LOADED == type)
+            if (ProjectStatus.Loaded == type)
                 m_robustAnalysisWinItem.Enabled = true;
             else
                 m_robustAnalysisWinItem.Enabled = false;

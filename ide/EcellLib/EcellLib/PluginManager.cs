@@ -553,7 +553,7 @@ namespace EcellLib
         /// when change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">system type</param>
-        public void ChangeStatus(int type)
+        public void ChangeStatus(ProjectStatus type)
         {
             foreach (PluginBase p in m_pluginList.Values)
             {
@@ -607,7 +607,7 @@ namespace EcellLib
                 foreach (string pluginName in Directory.GetFiles(pathwayPluginDir))
                 {
                     // Only dlls will be loaded (NOT xml)!
-                    if (string.IsNullOrEmpty(pluginName) || !pluginName.EndsWith(Util.s_pluginFileExtension))
+                    if (string.IsNullOrEmpty(pluginName) || !pluginName.EndsWith(Constants.pluginFileExtension))
                         continue;
                     try
                     {

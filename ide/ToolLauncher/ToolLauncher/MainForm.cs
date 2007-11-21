@@ -32,8 +32,7 @@ namespace ToolLauncher
         {
             this.util = Util.GetInstance();
             this.defaultDir
-                = Path.GetDirectoryName(Environment.GetEnvironmentVariable(Util.s_ironPythonDir)) + Util.s_toolPath;
-            // this.defaultDir = Directory.GetCurrentDirectory() + Util.s_toolPath;
+                = Path.GetDirectoryName(Environment.GetEnvironmentVariable(Constants.ironPythonDir)) + Constants.toolPath;
         }
 
         #region Convert to Dll
@@ -74,13 +73,13 @@ namespace ToolLauncher
         {
             if (this.textBoxConvert.Text == null || this.textBoxConvert.Text.Length <= 0)
             {
-                this.AddText2MessageBox(Util.s_FlagError + "The file name is \"null\".");
+                this.AddText2MessageBox(Constants.FlagError + "The file name is \"null\".");
             }
             if (this.isFolderConvert)
             {
                 if (Directory.Exists(this.textBoxConvert.Text))
                 {
-                    foreach (string fileName in Directory.GetFiles(this.textBoxConvert.Text, Util.s_FilePattern))
+                    foreach (string fileName in Directory.GetFiles(this.textBoxConvert.Text, Constants.FilePattern))
                     {
                         ThreadPool.QueueUserWorkItem(new WaitCallback(this.Convert), fileName);
                         Application.DoEvents();
@@ -89,7 +88,7 @@ namespace ToolLauncher
                 else
                 {
                     this.AddText2MessageBox(
-                            Util.s_FlagError + "Can't find the directory named [" + this.textBoxConvert.Text + "].");
+                            Constants.FlagError + "Can't find the directory named [" + this.textBoxConvert.Text + "].");
                 }
             }
             else
@@ -101,7 +100,7 @@ namespace ToolLauncher
                 else
                 {
                     this.AddText2MessageBox(
-                            Util.s_FlagError + "Can't find the file named [" + this.textBoxConvert.Text + "].");
+                            Constants.FlagError + "Can't find the file named [" + this.textBoxConvert.Text + "].");
                 }
             }
         }
@@ -109,25 +108,25 @@ namespace ToolLauncher
         private void Convert(object fileName)
         {
             string args
-                    = Util.s_signHyphen + Util.s_defaultKeyBoost + Util.s_signSpace
-                            + Util.s_signDQ + this.util.RootPathBoost + Util.s_signDQ + Util.s_signSpace
-                    + Util.s_signHyphen + Util.s_defaultKeyEcell + Util.s_signSpace
-                            + Util.s_signDQ + this.util.RootPathEcell + Util.s_signDQ + Util.s_signSpace
-                    + Util.s_signHyphen + Util.s_defaultKeyGSL + Util.s_signSpace
-                            + Util.s_signDQ + this.util.RootPathGSL + Util.s_signDQ + Util.s_signSpace
-                    + Util.s_signHyphen + Util.s_defaultKeyVC + Util.s_signSpace
-                            + Util.s_signDQ + this.util.RootPathVC + Util.s_signDQ + Util.s_signSpace
-                    + Util.s_signHyphen + Util.s_defaultKeyCD + Util.s_signSpace
-                            + Util.s_signDQ + Directory.GetCurrentDirectory() + Util.s_signDQ + Util.s_signSpace
-                    + Util.s_signHyphen + Util.s_defaultKeyDebug
-                    + Util.s_signSpace + Util.s_signDQ + fileName + Util.s_signDQ;
+                    = Constants.signHyphen + Constants.defaultKeyBoost + Constants.signSpace
+                            + Constants.signDQ + this.util.RootPathBoost + Constants.signDQ + Constants.signSpace
+                    + Constants.signHyphen + Constants.defaultKeyEcell + Constants.signSpace
+                            + Constants.signDQ + this.util.RootPathEcell + Constants.signDQ + Constants.signSpace
+                    + Constants.signHyphen + Constants.defaultKeyGSL + Constants.signSpace
+                            + Constants.signDQ + this.util.RootPathGSL + Constants.signDQ + Constants.signSpace
+                    + Constants.signHyphen + Constants.defaultKeyVC + Constants.signSpace
+                            + Constants.signDQ + this.util.RootPathVC + Constants.signDQ + Constants.signSpace
+                    + Constants.signHyphen + Constants.defaultKeyCD + Constants.signSpace
+                            + Constants.signDQ + Directory.GetCurrentDirectory() + Constants.signDQ + Constants.signSpace
+                    + Constants.signHyphen + Constants.defaultKeyDebug
+                    + Constants.signSpace + Constants.signDQ + fileName + Constants.signDQ;
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.FileName = Environment.GetEnvironmentVariable("ComSpec"); // cmd.exe
             psi.RedirectStandardInput = false;
             psi.RedirectStandardOutput = true;
             psi.UseShellExecute = false;
             psi.CreateNoWindow = true;
-            psi.Arguments = @"/c " + this.defaultDir + "\\" + Util.s_convertBat + Util.s_signSpace + args;
+            psi.Arguments = @"/c " + this.defaultDir + "\\" + Constants.convertBat + Constants.signSpace + args;
             Process p = Process.Start(psi);
             this.AddText2MessageBox(p.StandardOutput.ReadToEnd());
             p.WaitForExit();

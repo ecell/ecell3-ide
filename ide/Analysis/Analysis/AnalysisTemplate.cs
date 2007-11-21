@@ -777,7 +777,7 @@ namespace EcellLib.Analysis
                 List<EcellObject> objList = m_manager.GetData(model, "");
                 foreach (EcellObject obj in objList)
                 {
-                    if (obj.type == Util.s_xpathModel) continue;
+                    if (obj.type == Constants.xpathModel) continue;
                     TreeNode parentNode;
                     TreeNode sysNode;
                     if (obj.key.Equals("/"))

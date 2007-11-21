@@ -509,7 +509,7 @@ namespace EcellLib
         {
             string modelID = DataManager.GetDataManager().LoadModel(m_fileName, true);
             PluginManager.GetPluginManager().DataAdd(DataManager.GetDataManager().GetData(modelID, null));
-            PluginManager.GetPluginManager().ChangeStatus(Util.LOADED);
+            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>
         /// Do nothing
@@ -585,7 +585,7 @@ namespace EcellLib
         public override void Execute()
         {
             DataManager.GetDataManager().NewProject(m_prjName, m_comment);
-            PluginManager.GetPluginManager().ChangeStatus(Util.LOADED);
+            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>
         /// Do nothing.
@@ -953,7 +953,7 @@ namespace EcellLib
         public override void Execute()
         {
             DataManager.GetDataManager().LoadProject(m_prjID, m_prjFile);
-            PluginManager.GetPluginManager().ChangeStatus(Util.LOADED);
+            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>
         /// Unexecute this action.

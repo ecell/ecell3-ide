@@ -77,43 +77,43 @@ namespace EcellLib
         private void WriteInitialConditionElement(
                 Dictionary<string, Dictionary<string, double>> l_initialCondition)
         {
-            m_tx.WriteStartElement(Util.s_xpathInitialCondition.ToLower());
+            m_tx.WriteStartElement(Constants.xpathInitialCondition.ToLower());
             //
             // Creates the "System" part.
             //
-            m_tx.WriteStartElement(Util.s_xpathSystem.ToLower());
-            foreach (string l_key in l_initialCondition[Util.s_xpathSystem].Keys)
+            m_tx.WriteStartElement(Constants.xpathSystem.ToLower());
+            foreach (string l_key in l_initialCondition[Constants.xpathSystem].Keys)
             {
-                m_tx.WriteStartElement(Util.s_xpathID.ToLower());
-                m_tx.WriteAttributeString(Util.s_xpathName.ToLower(), null, l_key);
+                m_tx.WriteStartElement(Constants.xpathID.ToLower());
+                m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, l_key);
                 this.WriteValueElements(
-                    new EcellValue(l_initialCondition[Util.s_xpathSystem][l_key]), false);
+                    new EcellValue(l_initialCondition[Constants.xpathSystem][l_key]), false);
                 m_tx.WriteEndElement();
             }
             m_tx.WriteEndElement();
             //
             // Creates the "Process" part.
             //
-            m_tx.WriteStartElement(Util.s_xpathProcess.ToLower());
-            foreach (string l_key in l_initialCondition[Util.s_xpathProcess].Keys)
+            m_tx.WriteStartElement(Constants.xpathProcess.ToLower());
+            foreach (string l_key in l_initialCondition[Constants.xpathProcess].Keys)
             {
-                m_tx.WriteStartElement(Util.s_xpathID.ToLower());
-                m_tx.WriteAttributeString(Util.s_xpathName.ToLower(), null, l_key);
+                m_tx.WriteStartElement(Constants.xpathID.ToLower());
+                m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, l_key);
                 this.WriteValueElements(
-                    new EcellValue(l_initialCondition[Util.s_xpathProcess][l_key]), false);
+                    new EcellValue(l_initialCondition[Constants.xpathProcess][l_key]), false);
                 m_tx.WriteEndElement();
             }
             m_tx.WriteEndElement();
             //
             // Creates the "Variable part.
             //
-            m_tx.WriteStartElement(Util.s_xpathVariable.ToLower());
-            foreach (string l_key in l_initialCondition[Util.s_xpathVariable].Keys)
+            m_tx.WriteStartElement(Constants.xpathVariable.ToLower());
+            foreach (string l_key in l_initialCondition[Constants.xpathVariable].Keys)
             {
-                m_tx.WriteStartElement(Util.s_xpathID.ToLower());
-                m_tx.WriteAttributeString(Util.s_xpathName.ToLower(), null, l_key);
+                m_tx.WriteStartElement(Constants.xpathID.ToLower());
+                m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, l_key);
                 this.WriteValueElements(
-                        new EcellValue(l_initialCondition[Util.s_xpathVariable][l_key]), false);
+                        new EcellValue(l_initialCondition[Constants.xpathVariable][l_key]), false);
                 m_tx.WriteEndElement();
             }
             m_tx.WriteEndElement();
@@ -130,9 +130,9 @@ namespace EcellLib
         /// <param name="l_emlFlag">The flag of "eml"</param>
         private void WriteStepperElements(EcellObject l_ecellObject)
         {
-            m_tx.WriteStartElement(Util.s_xpathStepper.ToLower());
-            m_tx.WriteAttributeString(Util.s_xpathClass, null, l_ecellObject.classname);
-            m_tx.WriteAttributeString(Util.s_xpathID.ToLower(), null, l_ecellObject.key);
+            m_tx.WriteStartElement(Constants.xpathStepper.ToLower());
+            m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.classname);
+            m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_ecellObject.key);
 
             if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
             {
@@ -144,8 +144,8 @@ namespace EcellLib
                         || (l_ecellData.Value.IsString() &&
                             l_ecellData.Value.CastToString().Length <= 0))
                         continue;
-                    m_tx.WriteStartElement(Util.s_xpathProperty.ToLower());
-                    m_tx.WriteAttributeString(Util.s_xpathName.ToLower(), null, l_ecellData.Name);
+                    m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
+                    m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, l_ecellData.Name);
                     WriteValueElements(l_ecellData.Value, false);
                     m_tx.WriteEndElement();
                 }
@@ -159,24 +159,24 @@ namespace EcellLib
         /// <param name="l_loggerPolicy">The "LoggerPolicy"</param>
         private void WriteLoggerPolicyElement(LoggerPolicy l_loggerPolicy)
         {
-            m_tx.WriteStartElement(Util.s_xpathLoggerPolicy.ToLower());
+            m_tx.WriteStartElement(Constants.xpathLoggerPolicy.ToLower());
             m_tx.WriteElementString(
-                Util.s_xpathStep.ToLower(),
+                Constants.xpathStep.ToLower(),
                 null,
                 System.Environment.NewLine + l_loggerPolicy.m_reloadStepCount + System.Environment.NewLine
                 );
             m_tx.WriteElementString(
-                Util.s_xpathInterval.ToLower(),
+                Constants.xpathInterval.ToLower(),
                 null,
                 System.Environment.NewLine + l_loggerPolicy.m_reloadInterval + System.Environment.NewLine
                 );
             m_tx.WriteElementString(
-                Util.s_xpathAction.ToLower(),
+                Constants.xpathAction.ToLower(),
                 null,
                 System.Environment.NewLine + l_loggerPolicy.m_diskFullAction + System.Environment.NewLine
                 );
             m_tx.WriteElementString(
-                Util.s_xpathSpace.ToLower(),
+                Constants.xpathSpace.ToLower(),
                 null,
                 System.Environment.NewLine + l_loggerPolicy.m_maxDiskSpace + System.Environment.NewLine
                 );
@@ -187,8 +187,8 @@ namespace EcellLib
                 List<EcellObject> l_stepperList,
                 Dictionary<string, Dictionary<string, double>> l_initialCondition)
         {
-            m_tx.WriteStartElement(Util.s_xpathModel.ToLower());
-            m_tx.WriteAttributeString(Util.s_xpathID.ToLower(), null, l_modelID);
+            m_tx.WriteStartElement(Constants.xpathModel.ToLower());
+            m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_modelID);
             foreach (EcellObject l_stepper in l_stepperList)
             {
                 WriteStepperElements(l_stepper);
@@ -200,7 +200,7 @@ namespace EcellLib
         public void WriteStartDocument()
         {
             m_tx.WriteStartDocument(true);
-            m_tx.WriteStartElement(Util.s_xpathPrm.ToLower());
+            m_tx.WriteStartElement(Constants.xpathPrm.ToLower());
         }
 
         public void WriteEndDocument()
@@ -228,12 +228,12 @@ namespace EcellLib
             {
                 string l_date
                     = File.GetLastAccessTime(l_fileName).ToString().Replace(
-                        Util.s_delimiterColon, Util.s_delimiterUnderbar);
-                l_date = l_date.Replace(Util.s_delimiterPath, Util.s_delimiterUnderbar);
-                l_date = l_date.Replace(Util.s_delimiterSpace, Util.s_delimiterUnderbar);
+                        Constants.delimiterColon, Constants.delimiterUnderbar);
+                l_date = l_date.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
+                l_date = l_date.Replace(Constants.delimiterSpace, Constants.delimiterUnderbar);
                 string l_destFileName
-                    = Path.GetDirectoryName(l_fileName) + Util.s_delimiterPath
-                    + Util.s_delimiterUnderbar + l_date + Util.s_delimiterUnderbar + Path.GetFileName(l_fileName);
+                    = Path.GetDirectoryName(l_fileName) + Constants.delimiterPath
+                    + Constants.delimiterUnderbar + l_date + Constants.delimiterUnderbar + Path.GetFileName(l_fileName);
                 File.Move(l_fileName, l_destFileName);
             }
             //
@@ -252,7 +252,7 @@ namespace EcellLib
                 Dictionary<string, List<EcellObject>> l_dic = new Dictionary<string, List<EcellObject>>();
                 foreach (EcellObject l_stepper in sp.Steppers)
                 {
-                    if (l_stepper.type.Equals(Util.s_xpathStepper))
+                    if (l_stepper.type.Equals(Constants.xpathStepper))
                     {
                         if (!l_dic.ContainsKey(l_stepper.modelID))
                         {
@@ -307,17 +307,17 @@ namespace EcellLib
                     continue;
                 }
                 string l_type = null;
-                if (l_nodeType.Name.Equals(Util.s_xpathSystem.ToLower()))
+                if (l_nodeType.Name.Equals(Constants.xpathSystem.ToLower()))
                 {
-                    l_type = Util.s_xpathSystem;
+                    l_type = Constants.xpathSystem;
                 }
-                else if (l_nodeType.Name.Equals(Util.s_xpathProcess.ToLower()))
+                else if (l_nodeType.Name.Equals(Constants.xpathProcess.ToLower()))
                 {
-                    l_type = Util.s_xpathProcess;
+                    l_type = Constants.xpathProcess;
                 }
-                else if (l_nodeType.Name.Equals(Util.s_xpathVariable.ToLower()))
+                else if (l_nodeType.Name.Equals(Constants.xpathVariable.ToLower()))
                 {
-                    l_type = Util.s_xpathVariable;
+                    l_type = Constants.xpathVariable;
                 }
                 else
                 {
@@ -330,7 +330,7 @@ namespace EcellLib
                     {
                         continue;
                     }
-                    XmlNode l_nodeName = l_nodeID.Attributes.GetNamedItem(Util.s_xpathName.ToLower());
+                    XmlNode l_nodeName = l_nodeID.Attributes.GetNamedItem(Constants.xpathName.ToLower());
                     if (!this.IsValidNode(l_nodeName))
                     {
                         continue;
@@ -346,17 +346,17 @@ namespace EcellLib
                     }
                 }
             }
-            if (!l_initialCondition.ContainsKey(Util.s_xpathSystem))
+            if (!l_initialCondition.ContainsKey(Constants.xpathSystem))
             {
-                l_initialCondition[Util.s_xpathSystem] = new Dictionary<string, double>();
+                l_initialCondition[Constants.xpathSystem] = new Dictionary<string, double>();
             }
-            if (!l_initialCondition.ContainsKey(Util.s_xpathProcess))
+            if (!l_initialCondition.ContainsKey(Constants.xpathProcess))
             {
-                l_initialCondition[Util.s_xpathProcess] = new Dictionary<string, double>();
+                l_initialCondition[Constants.xpathProcess] = new Dictionary<string, double>();
             }
-            if (!l_initialCondition.ContainsKey(Util.s_xpathVariable))
+            if (!l_initialCondition.ContainsKey(Constants.xpathVariable))
             {
-                l_initialCondition[Util.s_xpathVariable] = new Dictionary<string, double>();
+                l_initialCondition[Constants.xpathVariable] = new Dictionary<string, double>();
             }
             return l_initialCondition;
         }
@@ -374,19 +374,19 @@ namespace EcellLib
             int l_diskSpace = -1;
             foreach (XmlNode l_childNode in l_node.ChildNodes)
             {
-                if (l_childNode.Name.Equals(Util.s_xpathStep.ToLower()))
+                if (l_childNode.Name.Equals(Constants.xpathStep.ToLower()))
                 {
                     l_step = XmlConvert.ToInt32(l_childNode.InnerText);
                 }
-                else if (l_childNode.Name.Equals(Util.s_xpathInterval.ToLower()))
+                else if (l_childNode.Name.Equals(Constants.xpathInterval.ToLower()))
                 {
                     l_interval = XmlConvert.ToDouble(l_childNode.InnerText);
                 }
-                else if (l_childNode.Name.Equals(Util.s_xpathAction.ToLower()))
+                else if (l_childNode.Name.Equals(Constants.xpathAction.ToLower()))
                 {
                     l_action = XmlConvert.ToInt32(l_childNode.InnerText);
                 }
-                else if (l_childNode.Name.Equals(Util.s_xpathSpace.ToLower()))
+                else if (l_childNode.Name.Equals(Constants.xpathSpace.ToLower()))
                 {
                     l_diskSpace = XmlConvert.ToInt32(l_childNode.InnerText);
                 }
@@ -424,8 +424,8 @@ namespace EcellLib
         /// <param name="l_ecellObjectList">The stored list of the "EcellObject"</param>
         private EcellObject ParseStepper(string l_modelID, XmlNode l_stepper)
         {
-            XmlNode l_stepperClass = l_stepper.Attributes.GetNamedItem(Util.s_xpathClass);
-            XmlNode l_stepperID = l_stepper.Attributes.GetNamedItem(Util.s_xpathID.ToLower());
+            XmlNode l_stepperClass = l_stepper.Attributes.GetNamedItem(Constants.xpathClass);
+            XmlNode l_stepperID = l_stepper.Attributes.GetNamedItem(Constants.xpathID.ToLower());
             if (!this.IsValidNode(l_stepperClass) || !this.IsValidNode(l_stepperID))
             {
                 throw new SimulationParameterParseException("Invalid stepper node found");
@@ -449,11 +449,11 @@ namespace EcellLib
             XmlNodeList l_stepperPropertyList = l_stepper.ChildNodes;
             foreach (XmlNode l_stepperProperty in l_stepperPropertyList)
             {
-                if (!l_stepperProperty.Name.Equals(Util.s_xpathProperty))
+                if (!l_stepperProperty.Name.Equals(Constants.xpathProperty))
                 {
                     continue;
                 }
-                XmlNode l_stepperPropertyName = l_stepperProperty.Attributes.GetNamedItem(Util.s_xpathName.ToLower());
+                XmlNode l_stepperPropertyName = l_stepperProperty.Attributes.GetNamedItem(Constants.xpathName.ToLower());
                 if (!this.IsValidNode(l_stepperPropertyName))
                 {
                     continue;
@@ -484,7 +484,7 @@ namespace EcellLib
             return EcellObject.CreateObject(
                 l_modelID,
                 l_stepperID.InnerText,
-                Util.s_xpathStepper,
+                Constants.xpathStepper,
                 l_stepperClass.InnerText,
                 l_ecellDataList);
         }
@@ -497,20 +497,20 @@ namespace EcellLib
             //
             // Parses the "Stepper".
             //
-            XmlNodeList l_modelList = m_doc.SelectNodes("/" + Util.s_xpathPrm + "/" + Util.s_xpathModel.ToLower());
+            XmlNodeList l_modelList = m_doc.SelectNodes("/" + Constants.xpathPrm + "/" + Constants.xpathModel.ToLower());
             foreach (XmlNode l_model in l_modelList)
             {
-                XmlNode l_modelID = l_model.Attributes.GetNamedItem(Util.s_xpathID.ToLower());
+                XmlNode l_modelID = l_model.Attributes.GetNamedItem(Constants.xpathID.ToLower());
                 if (!this.IsValidNode(l_modelID))
                     throw new SimulationParameterParseException("Invalid model node found");
 
                 foreach (XmlNode l_child in l_model.ChildNodes)
                 {
-                    if (l_child.Name.Equals(Util.s_xpathStepper.ToLower()))
+                    if (l_child.Name.Equals(Constants.xpathStepper.ToLower()))
                     {
                         l_stepperList.Add(ParseStepper(l_modelID.InnerText, l_child));
                     }
-                    else if (l_child.Name.Equals(Util.s_xpathInitialCondition.ToLower()))
+                    else if (l_child.Name.Equals(Constants.xpathInitialCondition.ToLower()))
                     {
                         l_initialConditions[l_modelID.InnerText] = ParseInitialCondition(
                                 l_modelID.InnerText, l_child);
@@ -522,7 +522,7 @@ namespace EcellLib
             // Parses the "LoggerPolicy"
             //
             LoggerPolicy l_loggerPolicy = ParseLoggerPolicy(
-                    m_doc.SelectSingleNode("/" + Util.s_xpathPrm + "/" + Util.s_xpathLoggerPolicy.ToLower()));
+                    m_doc.SelectSingleNode("/" + Constants.xpathPrm + "/" + Constants.xpathLoggerPolicy.ToLower()));
 
             return new SimulationParameter(
                 l_stepperList,

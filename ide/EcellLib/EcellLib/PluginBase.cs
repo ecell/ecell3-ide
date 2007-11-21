@@ -173,7 +173,7 @@ namespace EcellLib
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        void ChangeStatus(int type); // 0:initial 1:load 2:run 3:suspend
+        void ChangeStatus(ProjectStatus type); // 0:initial 1:load 2:run 3:suspend
 
         /// <summary>
         /// Change availability of undo/redo function.

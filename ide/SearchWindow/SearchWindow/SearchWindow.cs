@@ -332,9 +332,9 @@ namespace EcellLib.SearchWindow
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(int type)
+        public void ChangeStatus(ProjectStatus type)
         {
-            if (type == Util.NOTLOAD) m_searchMenu.Enabled = false;
+            if (type == ProjectStatus.Uninitialized) m_searchMenu.Enabled = false;
             else m_searchMenu.Enabled = true;
         }
 

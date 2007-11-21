@@ -127,7 +127,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// System status.
         /// </summary>
-        private int m_type = 0;
+        private ProjectStatus m_type = ProjectStatus.Uninitialized;
         /// <summary>
         /// The number of edit after project is opened.
         /// </summary>
@@ -271,7 +271,7 @@ namespace EcellLib.MainWindow
             }
             
             LoadAllPlugins();
-            m_pManager.ChangeStatus(0);
+            m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
 
             foreach (ToolStripItem tool in menustrip.Items)
             {
@@ -313,7 +313,7 @@ namespace EcellLib.MainWindow
         {
             if (m_prjID == null) return;
             m_isLoadProject = false;
-            m_pManager.ChangeStatus(Util.NOTLOAD);
+            m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
             m_dManager.CloseProject(m_prjID);
             m_project = null;
         }
@@ -495,7 +495,7 @@ namespace EcellLib.MainWindow
             {
                 string[] files = Directory.GetFiles(
                     pluginDir,
-                    Util.s_delimiterWildcard + Util.s_pluginFileExtension);
+                    Constants.delimiterWildcard + Constants.pluginFileExtension);
                 foreach (string fileName in files)
                 {
                     pluginList.Add(fileName);
@@ -698,9 +698,9 @@ namespace EcellLib.MainWindow
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(int type)
+        public void ChangeStatus(ProjectStatus type)
         {
-            if (type == Util.NOTLOAD)
+            if (type == ProjectStatus.Uninitialized)
             {
                 newProjectToolStripMenuItem.Enabled = true;
                 openProjectToolStripMenuItem.Enabled = true;
@@ -713,7 +713,7 @@ namespace EcellLib.MainWindow
                 printToolStripMenuItem.Enabled = false;
                 exitToolStripMenuItem.Enabled = true;
             }
-            else if (type == Util.LOADED || type == Util.STEP)
+            else if (type == ProjectStatus.Loaded || type == ProjectStatus.Stepping)
             {
                 newProjectToolStripMenuItem.Enabled = true;
                 openProjectToolStripMenuItem.Enabled = true;
@@ -935,7 +935,7 @@ namespace EcellLib.MainWindow
                     m_dManager.DataAdd(list);
                     m_isLoadProject = true;
                     m_project = m_newPrjDialog.textName.Text;
-                    m_pManager.ChangeStatus(1);
+                    m_pManager.ChangeStatus(ProjectStatus.Loaded);
                     m_editCount = 0;
                 }
                 catch (Exception ex)
@@ -996,7 +996,7 @@ namespace EcellLib.MainWindow
             if (m_project != null)
             {
                 m_isLoadProject = false;
-                m_pManager.ChangeStatus(Util.NOTLOAD);
+                m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
                 m_dManager.CloseProject(m_project);
                 m_project = null;
             }
@@ -1072,7 +1072,7 @@ namespace EcellLib.MainWindow
                     m_dManager.NewProject(prjID, comment);
                     m_project = prjID;
                     m_isLoadProject = true;
-                    m_pManager.ChangeStatus(1);
+                    m_pManager.ChangeStatus(ProjectStatus.Loaded);
                     m_editCount = 0;
                     LoadModel(fileName);
 
@@ -1091,7 +1091,7 @@ namespace EcellLib.MainWindow
                 m_dManager.LoadProject(prjID, fileName);
                 m_isLoadProject = true;
                 m_project = prjID;
-                m_pManager.ChangeStatus(Util.LOADED);
+                m_pManager.ChangeStatus(ProjectStatus.Loaded);
                 m_editCount = 0;
                 /*
                 if (m_openPrjDialog.dataGridView1.SelectedRows.Count <= 0)
@@ -1278,7 +1278,7 @@ namespace EcellLib.MainWindow
                 else if (res == DialogResult.No)
                 {
                     m_isLoadProject = false;
-                    m_pManager.ChangeStatus(Util.NOTLOAD);
+                    m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
                     m_dManager.CloseProject(m_project);
                     m_editCount = 0;
                     m_project = null;
@@ -1319,7 +1319,7 @@ namespace EcellLib.MainWindow
                 else if (res == DialogResult.No)
                 {
                     m_isLoadProject = false;
-                    m_pManager.ChangeStatus(Util.NOTLOAD);
+                    m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
                     m_dManager.CloseProject(m_project);
                     m_project = null;
                     m_editCount = 0;
@@ -1332,7 +1332,7 @@ namespace EcellLib.MainWindow
             if (m_project != null)
             {
                 m_isLoadProject = false;
-                m_pManager.ChangeStatus(Util.NOTLOAD);
+                m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
                 m_dManager.CloseProject(m_project);
                 m_project = null;
             }
@@ -1347,7 +1347,7 @@ namespace EcellLib.MainWindow
                     m_dManager.NewProject("project", "comment");
                     m_project = "project";
                     m_isLoadProject = true;
-                    m_pManager.ChangeStatus(1);
+                    m_pManager.ChangeStatus(ProjectStatus.Loaded);
                     m_editCount = 0;
                 }
                 
@@ -1367,7 +1367,7 @@ namespace EcellLib.MainWindow
                 m_dManager.NewProject("project", "comment");
                 m_project = "project";
                 m_isLoadProject = true;
-                m_pManager.ChangeStatus(1);
+                m_pManager.ChangeStatus(ProjectStatus.Loaded);
                 m_editCount = 0;
             }
             openFileDialog.FileName = path;
@@ -1498,7 +1498,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void ExitMenuClick(object sender, EventArgs e)
         {
-            if (m_type != Util.NOTLOAD)
+            if (m_type != ProjectStatus.Uninitialized)
             {
                 if (m_editCount > 0)
                 {
@@ -1614,7 +1614,7 @@ namespace EcellLib.MainWindow
                     if (this.m_dManager.GetCurrentSimulationTime() > 0.0)
                     {
                         this.m_dManager.SimulationSuspend();
-                        this.m_pManager.ChangeStatus(3);
+                        this.m_pManager.ChangeStatus(ProjectStatus.Suspended);
                     }
                 }
             }

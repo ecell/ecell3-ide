@@ -296,7 +296,7 @@ namespace EcellLib
                         this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.modelID]
                                 .Add(l_stepper);
                         this.m_pManager.Message(
-                            Util.s_xpathSimulation.ToLower(),
+                            Constants.xpathSimulation.ToLower(),
                             "Create Stepper: " + l_message + System.Environment.NewLine
                             );
                     }
@@ -308,7 +308,7 @@ namespace EcellLib
             {
                 l_message = l_message + m_resources.GetString("ErrNotCreStepper");
                 this.m_pManager.Message(
-                        Util.s_xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                        Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
         }
@@ -333,8 +333,8 @@ namespace EcellLib
             if (!l_src.classname.Equals(l_dest.classname))
             {
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
-                    "Update Data: " + l_message + "[" + Util.s_xpathClassName + "]"
+                    Constants.xpathSimulation.ToLower(),
+                    "Update Data: " + l_message + "[" + Constants.xpathClassName + "]"
                         + System.Environment.NewLine
                         + "\t[" + l_src.classname + "]->[" + l_dest.classname + "]"
                         + System.Environment.NewLine);
@@ -342,8 +342,8 @@ namespace EcellLib
             if (!l_src.key.Equals(l_dest.key))
             {
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
-                    "Update Data: " + l_message + "[" + Util.s_xpathKey + "]"
+                    Constants.xpathSimulation.ToLower(),
+                    "Update Data: " + l_message + "[" + Constants.xpathKey + "]"
                         + System.Environment.NewLine
                         + "\t[" + l_src.key + "]->[" + l_dest.key + "]"
                         + System.Environment.NewLine);
@@ -361,16 +361,16 @@ namespace EcellLib
                     if (l_srcEcellData.Logged)
                     {
                         this.m_pManager.Message(
-                            Util.s_xpathSimulation.ToLower(),
+                            Constants.xpathSimulation.ToLower(),
                             "Delete Logger: " + l_message + "[" + l_srcEcellData.Name + "]"
                                 + System.Environment.NewLine);
                     }
                     //
                     // Changes the initial parameter.
                     //
-                    if (l_src.type.Equals(Util.s_xpathSystem)
-                        || l_src.type.Equals(Util.s_xpathProcess)
-                        || l_src.type.Equals(Util.s_xpathVariable))
+                    if (l_src.type.Equals(Constants.xpathSystem)
+                        || l_src.type.Equals(Constants.xpathProcess)
+                        || l_src.type.Equals(Constants.xpathVariable))
                     {
                         if (l_srcEcellData.IsInitialized())
                         {
@@ -404,9 +404,9 @@ namespace EcellLib
                     //
                     // Changes the initial parameter.
                     //
-                    if (l_dest.type.Equals(Util.s_xpathSystem)
-                        || l_dest.type.Equals(Util.s_xpathProcess)
-                        || l_dest.type.Equals(Util.s_xpathVariable))
+                    if (l_dest.type.Equals(Constants.xpathSystem)
+                        || l_dest.type.Equals(Constants.xpathProcess)
+                        || l_dest.type.Equals(Constants.xpathVariable))
                     {
                         if (l_destEcellData.IsInitialized())
                         {
@@ -464,14 +464,14 @@ namespace EcellLib
                             if (!l_srcEcellData.Logged && l_destEcellData.Logged)
                             {
                                 this.m_pManager.Message(
-                                    Util.s_xpathSimulation.ToLower(),
+                                    Constants.xpathSimulation.ToLower(),
                                     "Create Logger: " + l_message + "[" + l_srcEcellData.Name + "]"
                                         + System.Environment.NewLine);
                             }
                             else if (l_srcEcellData.Logged && !l_destEcellData.Logged)
                             {
                                 this.m_pManager.Message(
-                                    Util.s_xpathSimulation.ToLower(),
+                                    Constants.xpathSimulation.ToLower(),
                                     "Delete Logger: " + l_message + "[" + l_srcEcellData.Name + "]"
                                         + System.Environment.NewLine);
                             }
@@ -479,7 +479,7 @@ namespace EcellLib
                                     .Equals(l_destEcellData.Value.ToString()))
                             {
                                 this.m_pManager.Message(
-                                    Util.s_xpathSimulation.ToLower(),
+                                    Constants.xpathSimulation.ToLower(),
                                     "Update Data: " + l_message
                                         + "[" + l_srcEcellData.Name + "]"
                                         + System.Environment.NewLine
@@ -490,9 +490,9 @@ namespace EcellLib
                             //
                             // Changes the initial parameter.
                             //
-                            if (l_src.type.Equals(Util.s_xpathSystem)
-                                || l_src.type.Equals(Util.s_xpathProcess)
-                                || l_src.type.Equals(Util.s_xpathVariable))
+                            if (l_src.type.Equals(Constants.xpathSystem)
+                                || l_src.type.Equals(Constants.xpathProcess)
+                                || l_src.type.Equals(Constants.xpathVariable))
                             {
                                 if (!l_srcEcellData.Value.Equals(l_destEcellData.Value)
                                     && l_srcEcellData.IsInitialized())
@@ -559,30 +559,30 @@ namespace EcellLib
             {
                 return;
             }
-            if (l_ecellObject.type.Equals(Util.s_xpathSystem))
+            if (l_ecellObject.type.Equals(Constants.xpathSystem))
             {
                 string l_entityPath = null;
                 string l_parentPath
-                    = l_ecellObject.key.Substring(0, l_ecellObject.key.LastIndexOf(Util.s_delimiterPath));
+                    = l_ecellObject.key.Substring(0, l_ecellObject.key.LastIndexOf(Constants.delimiterPath));
                 string l_childPath
-                    = l_ecellObject.key.Substring(l_ecellObject.key.LastIndexOf(Util.s_delimiterPath) + 1);
-                if (l_ecellObject.key.Equals(Util.s_delimiterPath))
+                    = l_ecellObject.key.Substring(l_ecellObject.key.LastIndexOf(Constants.delimiterPath) + 1);
+                if (l_ecellObject.key.Equals(Constants.delimiterPath))
                 {
                     if (l_childPath.Length == 0)
                     {
-                        l_childPath = Util.s_delimiterPath;
+                        l_childPath = Constants.delimiterPath;
                     }
                 }
                 else
                 {
                     if (l_parentPath.Length == 0)
                     {
-                        l_parentPath = Util.s_delimiterPath;
+                        l_parentPath = Constants.delimiterPath;
                     }
                 }
-                l_entityPath = l_ecellObject.type + Util.s_delimiterColon
-                    + l_parentPath + Util.s_delimiterColon
-                    + l_childPath + Util.s_delimiterColon;
+                l_entityPath = l_ecellObject.type + Constants.delimiterColon
+                    + l_parentPath + Constants.delimiterColon
+                    + l_childPath + Constants.delimiterColon;
                 if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
                 {
                     for (int i = 0; i < l_ecellObject.Value.Count; i++)
@@ -603,11 +603,11 @@ namespace EcellLib
                     }
                 }
             }
-            else if (l_ecellObject.type.Equals(Util.s_xpathProcess) || l_ecellObject.type.Equals(Util.s_xpathVariable))
+            else if (l_ecellObject.type.Equals(Constants.xpathProcess) || l_ecellObject.type.Equals(Constants.xpathVariable))
             {
                 string l_entityPath
-                    = l_ecellObject.type + Util.s_delimiterColon
-                    + l_ecellObject.key + Util.s_delimiterColon;
+                    = l_ecellObject.type + Constants.delimiterColon
+                    + l_ecellObject.key + Constants.delimiterColon;
                 if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
                 {
                     for (int i = 0; i < l_ecellObject.Value.Count; i++)
@@ -646,13 +646,13 @@ namespace EcellLib
                 foreach (EcellValue l_element in l_ecellValue.CastToList())
                 {
                     if (l_element.IsString()
-                        && l_element.CastToString().StartsWith(Util.s_delimiterColon))
+                        && l_element.CastToString().StartsWith(Constants.delimiterColon))
                     {
                         string l_oldKey = l_element.CastToString().Substring(1);
                         if (l_variableDic.ContainsKey(l_oldKey))
                         {
                             l_changedElements.Add(
-                                new EcellValue(Util.s_delimiterColon + l_variableDic[l_oldKey]));
+                                new EcellValue(Constants.delimiterColon + l_variableDic[l_oldKey]));
                             l_changedFlag = true;
                         }
                         else
@@ -691,7 +691,7 @@ namespace EcellLib
                 foreach (EcellObject l_instance in l_system.Children)
                 {
                     EcellObject l_entity = l_instance.Copy();
-                    if (!l_entity.type.Equals(Util.s_xpathProcess))
+                    if (!l_entity.type.Equals(Constants.xpathProcess))
                     {
                         continue;
                     }
@@ -702,7 +702,7 @@ namespace EcellLib
                     bool l_changedFlag = false;
                     foreach (EcellData l_ecellData in l_entity.Value)
                     {
-                        if (l_ecellData.Name.Equals(Util.s_xpathVRL))
+                        if (l_ecellData.Name.Equals(Constants.xpathVRL))
                         {
                             List<EcellValue> l_changedValue = new List<EcellValue>();
                             if (l_ecellData.Value == null) continue;
@@ -713,10 +713,10 @@ namespace EcellLib
                                 foreach (EcellValue l_element in l_ecellValue.CastToList())
                                 {
                                     if (l_element.IsString()
-                                        && l_element.CastToString().Equals(Util.s_delimiterColon + l_oldKey))
+                                        && l_element.CastToString().Equals(Constants.delimiterColon + l_oldKey))
                                     {
                                         l_changedElements.Add(
-                                            new EcellValue(Util.s_delimiterColon + l_newKey));
+                                            new EcellValue(Constants.delimiterColon + l_newKey));
                                         l_changedFlag = true;
                                     }
                                     else
@@ -810,7 +810,7 @@ namespace EcellLib
                 this.m_pManager.AdvancedTime(0);
                 this.m_pManager.Clear();
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Close Project: " + l_message + System.Environment.NewLine + System.Environment.NewLine
                     );
                 m_aManager.Clear();
@@ -820,7 +820,7 @@ namespace EcellLib
             {
                 l_message = l_message + m_resources.GetString("ErrClosePrj");
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -853,7 +853,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrFindModel") + l_message;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -906,11 +906,6 @@ namespace EcellLib
                 }
                 if (!l_processFlag || !l_stepperFlag)
                 {
-                    //
-                    // Searches the DM paths
-                    //
-                    string[] l_dmPathArray = Util.GetDMDirs(m_currentProjectPath);
-                    //
                     // 4 Process
                     //
                     if (!l_processFlag)
@@ -927,38 +922,37 @@ namespace EcellLib
                         l_stepperFlag = true;
                     }
                 }
-                l_simulator.CreateStepper(l_defaultStepper, Util.s_textKey);
+                l_simulator.CreateStepper(l_defaultStepper, Constants.textKey);
                 l_simulator.CreateEntity(
-                    Util.s_xpathVariable,
-                    Util.s_xpathVariable + Util.s_delimiterColon +
-                    Util.s_delimiterPath + Util.s_delimiterColon +
-                    Util.s_xpathSize.ToUpper()
+                    Constants.xpathVariable,
+                    Constants.xpathVariable + Constants.delimiterColon +
+                    Constants.delimiterPath + Constants.delimiterColon +
+                    Constants.xpathSize.ToUpper()
                     );
                 l_simulator.CreateEntity(
                     l_defaultProcess,
-                    Util.s_xpathProcess + Util.s_delimiterColon +
-                    Util.s_delimiterPath + Util.s_delimiterColon +
-                    Util.s_xpathSize.ToUpper()
-                    );
-                ArrayList l_list = new ArrayList();
-                l_list.Clear();
-                l_list.Add(Util.s_textKey);
+                    Constants.xpathProcess + Constants.delimiterColon +
+                    Constants.delimiterPath + Constants.delimiterColon +
+                    Constants.xpathSize.ToUpper()
+                );
                 l_simulator.LoadEntityProperty(
-                    Util.s_xpathSystem + Util.s_delimiterColon +
-                    Util.s_delimiterColon +
-                    Util.s_delimiterPath + Util.s_delimiterColon +
-                    Util.s_xpathStepper + Util.s_xpathID,
-                    l_list
-                    );
-                l_list.Clear();
-                l_list.Add("0.1");
+                    Util.BuildFullPN(
+                        Constants.xpathSystem,
+                        "",
+                        Constants.delimiterPath,
+                        Constants.xpathStepperID
+                    ),
+                    new string[] { Constants.textKey }
+                );
                 l_simulator.LoadEntityProperty(
-                    Util.s_xpathVariable + Util.s_delimiterColon +
-                    Util.s_delimiterPath + Util.s_delimiterColon +
-                    Util.s_xpathSize.ToUpper() + Util.s_delimiterColon +
-                    Util.s_xpathValue,
-                    l_list
-                    );
+                    Util.BuildFullPN(
+                        Constants.xpathVariable,
+                        Constants.delimiterPath,
+                        Constants.xpathSize.ToUpper(),
+                        Constants.xpathValue
+                    ),
+                    new string[] { "0.1" }
+                );
                 l_simulator.Initialize();
             }
             catch (Exception l_ex)
@@ -997,7 +991,7 @@ namespace EcellLib
                     throw new IgnoreException("Can't delete the object.");
                 }
                 SimulationStop();
-                m_pManager.ChangeStatus(Util.LOADED);
+                m_pManager.ChangeStatus(ProjectStatus.Loaded);
             }
 
             List<EcellObject> l_usableList = new List<EcellObject>();
@@ -1012,29 +1006,29 @@ namespace EcellLib
                     {
                         continue;
                     }
-                    if (l_ecellObject.type.Equals(Util.s_xpathProcess))
+                    if (l_ecellObject.type.Equals(Constants.xpathProcess))
                     {
                         this.DataAdd4Entity(l_ecellObject, true);
                         l_usableList.Add(l_ecellObject);
                     }
-                    else if (l_ecellObject.type.Equals(Util.s_xpathStepper))
+                    else if (l_ecellObject.type.Equals(Constants.xpathStepper))
                     {
                         // this.DataAdd4Stepper(l_ecellObject);
                         // l_usableList.Add(l_ecellObject);
                     }
-                    else if (l_ecellObject.type.Equals(Util.s_xpathSystem))
+                    else if (l_ecellObject.type.Equals(Constants.xpathSystem))
                     {
                         this.DataAdd4System(l_ecellObject, true);
                         if ("/".Equals(l_ecellObject.key))
                             l_isUndoable = false;
                         l_usableList.Add(l_ecellObject);
                     }
-                    else if (l_ecellObject.type.Equals(Util.s_xpathVariable))
+                    else if (l_ecellObject.type.Equals(Constants.xpathVariable))
                     {
                         this.DataAdd4Entity(l_ecellObject, true);
                         l_usableList.Add(l_ecellObject);
                     }
-                    else if (l_ecellObject.type.Equals(Util.s_xpathModel))
+                    else if (l_ecellObject.type.Equals(Constants.xpathModel))
                     {
                         l_isUndoable = false;
                         this.DataAdd4Model(l_ecellObject, l_usableList);
@@ -1046,7 +1040,7 @@ namespace EcellLib
                 l_usableList = null;
                 l_message = l_message + m_resources.GetString("ErrAddObj");
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -1062,8 +1056,6 @@ namespace EcellLib
                         if (l_isRecorded)
                             m_aManager.AddAction(new DataAddAction(obj, l_isUndoable, l_isAnchor));
                     }
-                    //                    if (lastObj != null)
-                    //                        m_pManager.SelectChanged(lastObj.modelID, lastObj.key, lastObj.type);
                 }
             }
         }
@@ -1085,10 +1077,10 @@ namespace EcellLib
             }
 
             bool l_findFlag = false;
-            string l_systemKey = Util.s_delimiterPath;
-            if (l_ecellObject.key.IndexOf(Util.s_delimiterColon) > 0)
+            string l_systemKey = Constants.delimiterPath;
+            if (l_ecellObject.key.IndexOf(Constants.delimiterColon) > 0)
             {
-                l_systemKey = l_ecellObject.key.Substring(0, l_ecellObject.key.IndexOf(Util.s_delimiterColon));
+                l_systemKey = l_ecellObject.key.Substring(0, l_ecellObject.key.IndexOf(Constants.delimiterColon));
             }
             foreach (EcellObject l_parentSystem in this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID])
             {
@@ -1103,7 +1095,7 @@ namespace EcellLib
                         if (l_messageFlag)
                         {
                             this.m_pManager.Message(
-                                Util.s_xpathSimulation.ToLower(),
+                                Constants.xpathSimulation.ToLower(),
                                 "Create " + l_ecellObject.type + ": " + l_message + System.Environment.NewLine);
                         }
                         break;
@@ -1131,7 +1123,7 @@ namespace EcellLib
                         if (l_messageFlag)
                         {
                             this.m_pManager.Message(
-                            Util.s_xpathSimulation.ToLower(),
+                            Constants.xpathSimulation.ToLower(),
                             "Create " + l_ecellObject.type + ": " + l_message + System.Environment.NewLine);
                         }
                     }
@@ -1143,7 +1135,7 @@ namespace EcellLib
                 if (l_messageFlag)
                 {
                     this.m_pManager.Message(
-                        Util.s_xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                        Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
                 }
                 throw new Exception(l_message);
             }
@@ -1223,14 +1215,14 @@ namespace EcellLib
             }
             Dictionary<string, EcellObject> l_dic = GetDefaultSystem(l_ecellObject.modelID);
             Debug.Assert(l_dic != null);
-            this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID].Add(l_dic[Util.s_xpathSystem]);
-            l_usableList.Add(l_dic[Util.s_xpathSystem]);
+            this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID].Add(l_dic[Constants.xpathSystem]);
+            l_usableList.Add(l_dic[Constants.xpathSystem]);
             //
             // Sets the default parameter.
             //
             if (this.m_currentParameterID == null || this.m_currentParameterID.Length <= 0)
             {
-                this.m_currentParameterID = Util.s_parameterKey;
+                this.m_currentParameterID = Constants.parameterKey;
                 this.m_stepperDic[this.m_currentProjectID]
                     = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID]
@@ -1238,7 +1230,7 @@ namespace EcellLib
                 this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID][l_ecellObject.modelID]
                     = new List<EcellObject>();
                 this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID][l_ecellObject.modelID]
-                    .Add(l_dic[Util.s_xpathStepper]);
+                    .Add(l_dic[Constants.xpathStepper]);
                 this.m_loggerPolicyDic[this.m_currentProjectID] = new Dictionary<string, LoggerPolicy>();
                 this.m_loggerPolicyDic[this.m_currentProjectID][this.m_currentParameterID]
                     = new LoggerPolicy(
@@ -1258,21 +1250,21 @@ namespace EcellLib
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
                         [l_ecellObject.modelID] = new Dictionary<string, Dictionary<string, double>>();
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_ecellObject.modelID][Util.s_xpathSystem] = new Dictionary<string, double>();
+                        [l_ecellObject.modelID][Constants.xpathSystem] = new Dictionary<string, double>();
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_ecellObject.modelID][Util.s_xpathProcess] = new Dictionary<string, double>();
+                        [l_ecellObject.modelID][Constants.xpathProcess] = new Dictionary<string, double>();
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_ecellObject.modelID][Util.s_xpathVariable] = new Dictionary<string, double>();
+                        [l_ecellObject.modelID][Constants.xpathVariable] = new Dictionary<string, double>();
             }
             //
             // Messages
             //
             this.m_pManager.Message(
-                Util.s_xpathSimulation.ToLower(),
+                Constants.xpathSimulation.ToLower(),
                 "Create Model: " + l_message + System.Environment.NewLine
                 );
             this.m_pManager.Message(
-                Util.s_xpathSimulation.ToLower(),
+                Constants.xpathSimulation.ToLower(),
                 "Create System: " + l_message + "[/]" + System.Environment.NewLine
                 );
         }
@@ -1342,7 +1334,7 @@ namespace EcellLib
             if (l_messageFlag)
             {
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Create System: " + l_message + System.Environment.NewLine);
             }
         }
@@ -1407,7 +1399,7 @@ namespace EcellLib
                     throw new IgnoreException("Can't change the object.");
                 }
                 SimulationStop();
-                m_pManager.ChangeStatus(Util.LOADED);
+                m_pManager.ChangeStatus(ProjectStatus.Loaded);
             }
             string l_message = null;
             try
@@ -1446,15 +1438,15 @@ namespace EcellLib
                 //
                 // 4 System & Entity
                 //
-                if (l_ecellObject.type.Equals(Util.s_xpathSystem))
+                if (l_ecellObject.type.Equals(Constants.xpathSystem))
                 {
                     this.DataChanged4System(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                 }
-                else if (l_ecellObject.type.Equals(Util.s_xpathProcess))
+                else if (l_ecellObject.type.Equals(Constants.xpathProcess))
                 {
                     this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                 }
-                else if (l_ecellObject.type.Equals(Util.s_xpathVariable))
+                else if (l_ecellObject.type.Equals(Constants.xpathVariable))
                 {
                     this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                     if (!l_modelID.Equals(l_ecellObject.modelID) || !l_key.Equals(l_ecellObject.key))
@@ -1477,7 +1469,7 @@ namespace EcellLib
                     new object[] { l_ecellObject.type }
                 ) + l_message + " " + l_ecellObject.type;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -1585,7 +1577,7 @@ namespace EcellLib
                     bool l_deletedFlag = false;
                     if (l_systemList[i].modelID.Equals(l_modelID)
                         && (l_systemList[i].key.Equals(l_key)
-                            || l_systemList[i].key.StartsWith(l_key + Util.s_delimiterPath)))
+                            || l_systemList[i].key.StartsWith(l_key + Constants.delimiterPath)))
                     {
                         //
                         // Adds the new "System" object.
@@ -1624,17 +1616,17 @@ namespace EcellLib
                             {
                                 EcellObject l_copy = l_childObject.Copy();
                                 string l_childKey = l_copy.key;
-                                string l_keyName = l_childKey.Split(Util.s_delimiterColon.ToCharArray())[1];
+                                string l_keyName = l_childKey.Split(Constants.delimiterColon.ToCharArray())[1];
                                 if ((l_systemList[i].key.Equals(l_key)))
                                 {
-                                    l_copy.key = l_ecellObject.key + Util.s_delimiterColon + l_keyName;
+                                    l_copy.key = l_ecellObject.key + Constants.delimiterColon + l_keyName;
                                 }
                                 else
                                 {
                                     l_copy.key = l_ecellObject.key + l_copy.key.Substring(l_key.Length);
                                 }
                                 this.CheckEntityPath(l_copy);
-                                if (l_copy.type.Equals(Util.s_xpathVariable))
+                                if (l_copy.type.Equals(Constants.xpathVariable))
                                 {
                                     l_variableKeyDic[l_childKey] = l_copy.key;
                                     this.DataChanged4Entity(l_copy.modelID, l_childKey, l_copy.type, l_copy, l_isRecorded, l_isAnchor);
@@ -1672,7 +1664,7 @@ namespace EcellLib
                     l_instanceList.AddRange(l_systemList[i].Children);
                     foreach (EcellObject l_childObject in l_instanceList)
                     {
-                        if (!l_childObject.type.Equals(Util.s_xpathProcess))
+                        if (!l_childObject.type.Equals(Constants.xpathProcess))
                         {
                             continue;
                         }
@@ -1689,7 +1681,7 @@ namespace EcellLib
                         // 4 key
                         //
                         string l_oldKey = l_dest.key;
-                        string l_keyName = l_oldKey.Split(Util.s_delimiterColon.ToCharArray())[1];
+                        string l_keyName = l_oldKey.Split(Constants.delimiterColon.ToCharArray())[1];
                         if (l_processKeyDic.ContainsKey(l_oldKey))
                         {
                             l_dest.key = l_processKeyDic[l_oldKey];
@@ -1744,7 +1736,7 @@ namespace EcellLib
                     throw new IgnoreException("Can't delete the object.");
                 }
                 SimulationStop();
-                m_pManager.ChangeStatus(Util.LOADED);
+                m_pManager.ChangeStatus(ProjectStatus.Loaded);
 
             }
 
@@ -1774,7 +1766,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrDelete") + l_message + " " + l_type;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -1829,7 +1821,7 @@ namespace EcellLib
                 }
             }
             this.m_pManager.Message(
-                Util.s_xpathSimulation.ToLower(),
+                Constants.xpathSimulation.ToLower(),
                 "Delete Model: " + l_message + System.Environment.NewLine
                 );
         }
@@ -1853,7 +1845,7 @@ namespace EcellLib
         {
             string l_message = "[" + l_model + "][" + l_key + "]";
             int i = -1;
-            string[] keys = l_key.Split(Util.s_delimiterColon.ToCharArray());
+            string[] keys = l_key.Split(Constants.delimiterColon.ToCharArray());
             List<EcellObject> l_delList = new List<EcellObject>();
             if (m_systemDic[m_currentProjectID].ContainsKey(l_model))
             {
@@ -1891,7 +1883,7 @@ namespace EcellLib
                         if (l_messageFlag)
                         {
                             this.m_pManager.Message(
-                                Util.s_xpathSimulation.ToLower(),
+                                Constants.xpathSimulation.ToLower(),
                                 "Delete " + l_type + ": " + l_message + System.Environment.NewLine);
                         }
                     }
@@ -2235,7 +2227,7 @@ namespace EcellLib
                 if (l_messageFlag)
                 {
                     this.m_pManager.Message(
-                        Util.s_xpathSimulation.ToLower(),
+                        Constants.xpathSimulation.ToLower(),
                         "Delete System: " + l_message + System.Environment.NewLine);
                 }
             }
@@ -2252,40 +2244,40 @@ namespace EcellLib
                 EcellObject l_ecellObject,
                 Dictionary<string, Dictionary<string, double>> l_initialCondition)
         {
-            if (l_ecellObject.type.Equals(Util.s_xpathStepper))
+            if (l_ecellObject.type.Equals(Constants.xpathStepper))
             {
                 DataStored4Stepper(l_simulator, l_ecellObject);
             }
-            else if (l_ecellObject.type.Equals(Util.s_xpathSystem))
+            else if (l_ecellObject.type.Equals(Constants.xpathSystem))
             {
                 Dictionary<string, double> l_childInitialCondition = null;
                 if (l_initialCondition != null)
                 {
-                    l_childInitialCondition = l_initialCondition[Util.s_xpathSystem];
+                    l_childInitialCondition = l_initialCondition[Constants.xpathSystem];
                 }
                 DataStored4System(
                         l_simulator,
                         l_ecellObject,
                         l_childInitialCondition);
             }
-            else if (l_ecellObject.type.Equals(Util.s_xpathProcess))
+            else if (l_ecellObject.type.Equals(Constants.xpathProcess))
             {
                 Dictionary<string, double> l_childInitialCondition = null;
                 if (l_initialCondition != null)
                 {
-                    l_childInitialCondition = l_initialCondition[Util.s_xpathProcess];
+                    l_childInitialCondition = l_initialCondition[Constants.xpathProcess];
                 }
                 DataStored4Process(
                         l_simulator,
                         l_ecellObject,
                         l_childInitialCondition);
             }
-            else if (l_ecellObject.type.Equals(Util.s_xpathVariable))
+            else if (l_ecellObject.type.Equals(Constants.xpathVariable))
             {
                 Dictionary<string, double> l_childInitialCondition = null;
                 if (l_initialCondition != null)
                 {
-                    l_childInitialCondition = l_initialCondition[Util.s_xpathVariable];
+                    l_childInitialCondition = l_initialCondition[Constants.xpathVariable];
                 }
                 DataStored4Variable(
                         l_simulator,
@@ -2316,7 +2308,7 @@ namespace EcellLib
                 EcellObject l_ecellObject,
                 Dictionary<string, double> l_initialCondition)
         {
-            string l_key = Util.s_xpathProcess + Util.s_delimiterColon + l_ecellObject.key;
+            string l_key = Constants.xpathProcess + Constants.delimiterColon + l_ecellObject.key;
             WrappedPolymorph l_wrappedPolymorph = l_simulator.GetEntityPropertyList(l_key);
             if (!l_wrappedPolymorph.IsList())
             {
@@ -2363,7 +2355,7 @@ namespace EcellLib
                 }
                 string l_name = (l_processAllPropertyList[i]).CastToString();
                 List<bool> l_flag = l_simulator.GetEntityPropertyAttributes(
-                        l_key + Util.s_delimiterColon + l_name);
+                        l_key + Constants.delimiterColon + l_name);
                 if (!l_flag[WrappedSimulator.s_flagGettable])
                 {
                     continue;
@@ -2372,7 +2364,7 @@ namespace EcellLib
                 try
                 {
                     WrappedPolymorph l_property = l_simulator.GetEntityProperty(
-                            l_key + Util.s_delimiterColon + l_name);
+                            l_key + Constants.delimiterColon + l_name);
                     l_value = new EcellValue(l_property);
                 }
                 catch (Exception)
@@ -2382,7 +2374,7 @@ namespace EcellLib
                         if (l_storedEcellDataDic[l_name].Value.CastToList()[0].IsList())
                         {
                             l_value = l_storedEcellDataDic[l_name].Value;
-                            if (l_name.Equals(Util.s_xpathVRL))
+                            if (l_name.Equals(Constants.xpathVRL))
                             {
                                 foreach (EcellValue l_vr in l_value.CastToList())
                                 {
@@ -2398,7 +2390,7 @@ namespace EcellLib
                             l_value = l_storedEcellDataDic[l_name].Value.CastToList()[0];
                         }
                     }
-                    else if (l_name.Equals(Util.s_xpathActivity))
+                    else if (l_name.Equals(Constants.xpathActivity))
                     {
                         l_value = new EcellValue(0.0);
                     }
@@ -2408,7 +2400,7 @@ namespace EcellLib
                     }
                 }
                 EcellData l_ecellData = new EcellData(
-                        l_name, l_value, l_key + Util.s_delimiterColon + l_name);
+                        l_name, l_value, l_key + Constants.delimiterColon + l_name);
                 l_ecellData.Settable = l_flag[WrappedSimulator.s_flagSettable];
                 l_ecellData.Gettable = l_flag[WrappedSimulator.s_flagGettable];
                 l_ecellData.Loadable = l_flag[WrappedSimulator.s_flagLoadable];
@@ -2484,8 +2476,8 @@ namespace EcellLib
                 //
                 /* 20060315
                 EcellData l_classNameData = new EcellData(
-                    Util.s_xpathClassName,
-                    new EcellValue(l_simulator.GetStepperClassName(l_ecellObject.key)), Util.s_xpathClassName
+                    Constants.xpathClassName,
+                    new EcellValue(l_simulator.GetStepperClassName(l_ecellObject.key)), Constants.xpathClassName
                     );
                 l_classNameData.Settable = false;
                 l_classNameData.Saveable = false;
@@ -2555,13 +2547,13 @@ namespace EcellLib
             //
             /*
             List<EcellData> l_notNullPropertyList = new List<EcellData>();
-            EcellData l_ecellDataSize = new EcellData(Util.s_xpathSize, new EcellValue(0.0), "");
+            EcellData l_ecellDataSize = new EcellData(Constants.xpathSize, new EcellValue(0.0), "");
             l_ecellDataSize.Settable = false;
             l_ecellDataSize.Gettable = true;
             l_ecellDataSize.Loadable = false;
             l_ecellDataSize.Saveable = false;
             l_notNullPropertyList.Add(l_ecellDataSize);
-            EcellData l_ecellDataSID = new EcellData(Util.s_xpathStepper + Util.s_xpathID, new EcellValue(""), "");
+            EcellData l_ecellDataSID = new EcellData(Constants.xpathStepper + Constants.xpathID, new EcellValue(""), "");
             l_ecellDataSID.Settable = true;
             l_ecellDataSID.Gettable = true;
             l_ecellDataSID.Loadable = true;
@@ -2572,29 +2564,29 @@ namespace EcellLib
             // Creates an entityPath.
             //
             string l_parentPath = l_ecellObject.key.Substring(0, l_ecellObject.key.LastIndexOf(
-                    Util.s_delimiterPath));
+                    Constants.delimiterPath));
             string l_childPath = l_ecellObject.key.Substring(l_ecellObject.key.LastIndexOf(
-                    Util.s_delimiterPath) + 1);
+                    Constants.delimiterPath) + 1);
             string l_key = null;
             if (l_parentPath.Length == 0)
             {
                 if (l_childPath.Length == 0)
                 {
-                    l_key = Util.s_xpathSystem + Util.s_delimiterColon +
-                        l_parentPath + Util.s_delimiterColon +
-                        Util.s_delimiterPath;
+                    l_key = Constants.xpathSystem + Constants.delimiterColon +
+                        l_parentPath + Constants.delimiterColon +
+                        Constants.delimiterPath;
                 }
                 else
                 {
-                    l_key = Util.s_xpathSystem + Util.s_delimiterColon +
-                        Util.s_delimiterPath + Util.s_delimiterColon +
+                    l_key = Constants.xpathSystem + Constants.delimiterColon +
+                        Constants.delimiterPath + Constants.delimiterColon +
                         l_childPath;
                 }
             }
             else
             {
-                l_key = Util.s_xpathSystem + Util.s_delimiterColon +
-                    l_parentPath + Util.s_delimiterColon +
+                l_key = Constants.xpathSystem + Constants.delimiterColon +
+                    l_parentPath + Constants.delimiterColon +
                     l_childPath;
             }
             //
@@ -2643,7 +2635,7 @@ namespace EcellLib
                 }
                 string l_name = (l_systemAllPropertyList[i]).CastToString();
                 List<bool> l_flag = l_simulator.GetEntityPropertyAttributes(
-                        l_key + Util.s_delimiterColon + l_name);
+                        l_key + Constants.delimiterColon + l_name);
                 if (!l_flag[WrappedSimulator.s_flagGettable])
                 {
                     continue;
@@ -2661,7 +2653,7 @@ namespace EcellLib
                 EcellValue l_value = null;
                 try
                 {
-                    WrappedPolymorph l_property = l_simulator.GetEntityProperty(l_key + Util.s_delimiterColon + l_name);
+                    WrappedPolymorph l_property = l_simulator.GetEntityProperty(l_key + Constants.delimiterColon + l_name);
                     l_value = new EcellValue(l_property);
                 }
                 catch (Exception)
@@ -2677,7 +2669,7 @@ namespace EcellLib
                             l_value = l_storedEcellDataDic[l_name].Value.CastToList()[0];
                         }
                     }
-                    else if (l_name.Equals(Util.s_xpathSize))
+                    else if (l_name.Equals(Constants.xpathSize))
                     {
                         l_value = new EcellValue(0.0);
                     }
@@ -2687,7 +2679,7 @@ namespace EcellLib
                     }
                 }
                 EcellData l_ecellData
-                        = new EcellData(l_name, l_value, l_key + Util.s_delimiterColon + l_name);
+                        = new EcellData(l_name, l_value, l_key + Constants.delimiterColon + l_name);
                 l_ecellData.Settable = l_flag[WrappedSimulator.s_flagSettable];
                 l_ecellData.Gettable = l_flag[WrappedSimulator.s_flagGettable];
                 l_ecellData.Loadable = l_flag[WrappedSimulator.s_flagLoadable];
@@ -2723,7 +2715,7 @@ namespace EcellLib
                 if (l_ecellData.Value != null)
                 {
                     EcellData l_newEcelldata = new EcellData(
-                        l_ecellData.Name, l_ecellData.Value, l_key + Util.s_delimiterColon + l_ecellData.Name);
+                        l_ecellData.Name, l_ecellData.Value, l_key + Constants.delimiterColon + l_ecellData.Name);
                     l_newEcelldata.Settable = l_ecellData.Settable;
                     l_newEcelldata.Gettable = l_ecellData.Gettable;
                     l_newEcelldata.Loadable = l_ecellData.Loadable;
@@ -2746,7 +2738,7 @@ namespace EcellLib
                 EcellObject l_ecellObject,
                 Dictionary<string, double> l_initialCondition)
         {
-            string l_key = Util.s_xpathVariable + Util.s_delimiterColon + l_ecellObject.key;
+            string l_key = Constants.xpathVariable + Constants.delimiterColon + l_ecellObject.key;
             WrappedPolymorph l_wrappedPolymorph = l_simulator.GetEntityPropertyList(l_key);
             if (!l_wrappedPolymorph.IsList())
             {
@@ -2790,7 +2782,7 @@ namespace EcellLib
                 }
                 string l_name = (l_variableAllPropertyList[i]).CastToString();
                 List<bool> l_flag = l_simulator.GetEntityPropertyAttributes(
-                        l_key + Util.s_delimiterColon + l_name);
+                        l_key + Constants.delimiterColon + l_name);
                 if (!l_flag[WrappedSimulator.s_flagGettable])
                 {
                     continue;
@@ -2799,7 +2791,7 @@ namespace EcellLib
                 try
                 {
                     WrappedPolymorph l_property = l_simulator.GetEntityProperty(
-                            l_key + Util.s_delimiterColon + l_name);
+                            l_key + Constants.delimiterColon + l_name);
                     l_value = new EcellValue(l_property);
                 }
                 catch (Exception)
@@ -2815,7 +2807,7 @@ namespace EcellLib
                             l_value = l_storedEcellDataDic[l_name].Value.CastToList()[0];
                         }
                     }
-                    else if (l_name.Equals(Util.s_xpathMolarConc) || l_name.Equals(Util.s_xpathNumberConc))
+                    else if (l_name.Equals(Constants.xpathMolarConc) || l_name.Equals(Constants.xpathNumberConc))
                     {
                         l_value = new EcellValue(0.0);
                     }
@@ -2825,7 +2817,7 @@ namespace EcellLib
                     }
                 }
                 EcellData l_ecellData = new EcellData(
-                        l_name, l_value, l_key + Util.s_delimiterColon + l_name);
+                        l_name, l_value, l_key + Constants.delimiterColon + l_name);
                 l_ecellData.Settable = l_flag[WrappedSimulator.s_flagSettable];
                 l_ecellData.Gettable = l_flag[WrappedSimulator.s_flagGettable];
                 l_ecellData.Loadable = l_flag[WrappedSimulator.s_flagLoadable];
@@ -2895,10 +2887,10 @@ namespace EcellLib
                 {
                     this.m_stepperDic[this.m_currentProjectID].Remove(l_parameterID);
                     string l_simulationDirName
-                            = this.m_defaultDir + Util.s_delimiterPath
-                            + this.m_currentProjectID + Util.s_delimiterPath + Util.s_xpathSimulation;
+                            = this.m_defaultDir + Constants.delimiterPath
+                            + this.m_currentProjectID + Constants.delimiterPath + Constants.xpathSimulation;
                     string l_pattern
-                            = "_????_??_??_??_??_??_" + l_parameterID + Util.s_delimiterPeriod + Util.s_xpathXml;
+                            = "_????_??_??_??_??_??_" + l_parameterID + Constants.delimiterPeriod + Constants.xpathXml;
                     if (Directory.Exists(l_simulationDirName))
                     {
                         foreach (string l_fileName in Directory.GetFiles(l_simulationDirName, l_pattern))
@@ -2906,14 +2898,14 @@ namespace EcellLib
                             File.Delete(l_fileName);
                         }
                         string l_simulationFileName
-                                = l_simulationDirName + Util.s_delimiterPath + l_parameterID + Util.s_delimiterPeriod
-                                + Util.s_xpathXml;
+                                = l_simulationDirName + Constants.delimiterPath + l_parameterID + Constants.delimiterPeriod
+                                + Constants.xpathXml;
                         File.Delete(l_simulationFileName);
                     }
                     this.m_loggerPolicyDic[m_currentProjectID].Remove(l_parameterID);
                     m_pManager.ParameterDelete(m_currentProjectID, l_parameterID);
                     this.m_pManager.Message(
-                        Util.s_xpathSimulation.ToLower(),
+                        Constants.xpathSimulation.ToLower(),
                         "Delete Simulation Parameter: " + l_message + System.Environment.NewLine
                         );
                 }
@@ -2929,7 +2921,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrDeleteSimParam") + l_message;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -2973,7 +2965,7 @@ namespace EcellLib
                 {
                     l_storedStepperList.RemoveAt(l_point);
                     this.m_pManager.Message(
-                        Util.s_xpathSimulation.ToLower(),
+                        Constants.xpathSimulation.ToLower(),
                         "Delete Stepper: " + l_message + System.Environment.NewLine
                         );
                 }
@@ -2984,7 +2976,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrDelete") + l_message;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -3003,25 +2995,25 @@ namespace EcellLib
             try
             {
                 l_message = "[" + l_modelID + "][" + l_fullID + "]";
-                string[] l_infos = l_fullID.Split(Util.s_delimiterColon.ToCharArray());
+                string[] l_infos = l_fullID.Split(Constants.delimiterColon.ToCharArray());
                 if (l_infos.Length != 3)
                 {
                     throw new Exception(m_resources.GetString("ErrIDUnform") + l_message);
                 }
-                else if (!l_infos[0].Equals(Util.s_xpathSystem)
-                        && !l_infos[0].Equals(Util.s_xpathProcess)
-                        && !l_infos[0].Equals(Util.s_xpathVariable))
+                else if (!l_infos[0].Equals(Constants.xpathSystem)
+                        && !l_infos[0].Equals(Constants.xpathProcess)
+                        && !l_infos[0].Equals(Constants.xpathVariable))
                 {
                     throw new Exception(m_resources.GetString("ErrIDUnform") + l_message);
                 }
                 string l_key = null;
-                if (l_infos[1].Equals("") && l_infos[2].Equals(Util.s_delimiterPath))
+                if (l_infos[1].Equals("") && l_infos[2].Equals(Constants.delimiterPath))
                 {
                     l_key = l_infos[2];
                 }
                 else
                 {
-                    l_key = l_infos[1] + Util.s_delimiterColon + l_infos[2];
+                    l_key = l_infos[1] + Constants.delimiterColon + l_infos[2];
                 }
                 //
                 // Checks the full ID.
@@ -3033,7 +3025,7 @@ namespace EcellLib
                 }
                 foreach (EcellObject l_system in this.m_systemDic[this.m_currentProjectID][l_modelID])
                 {
-                    if (l_infos[0].Equals(Util.s_xpathSystem))
+                    if (l_infos[0].Equals(Constants.xpathSystem))
                     {
                         if (l_system.type.Equals(l_infos[0]) && l_system.key.Equals(l_key))
                         {
@@ -3122,7 +3114,7 @@ namespace EcellLib
                 l_storedStepperList.AddRange(l_storedSystemList);
                 EmlWriter.Create(l_fileName, l_storedStepperList);
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Export Model: " + l_message + System.Environment.NewLine
                     );
             }
@@ -3345,15 +3337,14 @@ namespace EcellLib
             Dictionary<string, EcellObject> l_dic = new Dictionary<string, EcellObject>();
             EcellObject l_systemEcellObject = null;
             EcellObject l_stepperEcellObject = null;
-
             WrappedSimulator l_simulator = m_simulatorDic[m_currentProjectID];
             BuildDefaultSimulator(l_simulator, null, null);
             l_systemEcellObject
                     = EcellObject.CreateObject(
                         l_modelID,
-                        Util.s_delimiterPath,
-                        Util.s_xpathSystem,
-                        Util.s_xpathSystem,
+                        Constants.delimiterPath,
+                        Constants.xpathSystem,
+                        Constants.xpathSystem,
                         null);
             DataStored4System(
                     l_simulator,
@@ -3362,13 +3353,13 @@ namespace EcellLib
             l_stepperEcellObject
                     = EcellObject.CreateObject(
                         l_modelID,
-                        Util.s_textKey,
-                        Util.s_xpathStepper,
+                        Constants.textKey,
+                        Constants.xpathStepper,
                         "",
                         null);
             DataStored4Stepper(l_simulator, l_stepperEcellObject);
-            l_dic[Util.s_xpathSystem] = l_systemEcellObject;
-            l_dic[Util.s_xpathStepper] = l_stepperEcellObject;
+            l_dic[Constants.xpathSystem] = l_systemEcellObject;
+            l_dic[Constants.xpathStepper] = l_stepperEcellObject;
             return l_dic;
         }
 
@@ -3701,27 +3692,27 @@ namespace EcellLib
             {
                 foreach (EcellObject l_system in this.m_systemDic[this.m_currentProjectID][l_modelID])
                 {
-                    if (l_entityName.Equals(Util.s_xpathSystem))
+                    if (l_entityName.Equals(Constants.xpathSystem))
                     {
-                        string l_parentPath = l_system.key.Substring(0, l_system.key.LastIndexOf(Util.s_delimiterPath));
-                        string l_childPath = l_system.key.Substring(l_system.key.LastIndexOf(Util.s_delimiterPath) + 1);
-                        if (l_system.key.Equals(Util.s_delimiterPath))
+                        string l_parentPath = l_system.key.Substring(0, l_system.key.LastIndexOf(Constants.delimiterPath));
+                        string l_childPath = l_system.key.Substring(l_system.key.LastIndexOf(Constants.delimiterPath) + 1);
+                        if (l_system.key.Equals(Constants.delimiterPath))
                         {
                             if (l_childPath.Length == 0)
                             {
-                                l_childPath = Util.s_delimiterPath;
+                                l_childPath = Constants.delimiterPath;
                             }
                         }
                         else
                         {
                             if (l_parentPath.Length == 0)
                             {
-                                l_parentPath = Util.s_delimiterPath;
+                                l_parentPath = Constants.delimiterPath;
                             }
                         }
                         l_entityList.Add(
-                            Util.s_xpathSystem + Util.s_delimiterColon
-                            + l_parentPath + Util.s_delimiterColon + l_childPath);
+                            Constants.xpathSystem + Constants.delimiterColon
+                            + l_parentPath + Constants.delimiterColon + l_childPath);
                     }
                     else
                     {
@@ -3733,7 +3724,7 @@ namespace EcellLib
                         {
                             if (l_entity.type.Equals(l_entityName))
                             {
-                                l_entityList.Add(l_entity.type + Util.s_delimiterColon + l_entity.key);
+                                l_entityList.Add(l_entity.type + Constants.delimiterColon + l_entity.key);
                             }
                         }
                     }
@@ -3803,7 +3794,7 @@ namespace EcellLib
         {
             SetDMList();
             Util.GetDMDirs(null);
-            return this.m_dmDic[Util.s_xpathProcess];
+            return this.m_dmDic[Constants.xpathProcess];
         }
 
         /// <summary>
@@ -3819,14 +3810,14 @@ namespace EcellLib
                 WrappedSimulator sim = CreateSimulatorInstance();
                 sim.CreateEntity(
                     l_dmName,
-                    Util.s_xpathProcess + Util.s_delimiterColon +
-                    Util.s_delimiterPath + Util.s_delimiterColon +
-                    Util.s_xpathSize.ToUpper());
+                    Constants.xpathProcess + Constants.delimiterColon +
+                    Constants.delimiterPath + Constants.delimiterColon +
+                    Constants.xpathSize.ToUpper());
                 try
                 {
-                    string fullPath = Util.s_xpathProcess + Util.s_delimiterColon +
-                    Util.s_delimiterPath + Util.s_delimiterColon +
-                    Util.s_xpathSize.ToUpper() + Util.s_delimiterColon + "CheckProperty";
+                    string fullPath = Constants.xpathProcess + Constants.delimiterColon +
+                    Constants.delimiterPath + Constants.delimiterColon +
+                    Constants.xpathSize.ToUpper() + Constants.delimiterColon + "CheckProperty";
                     WrappedPolymorph l_newValue = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(0.01));
                     sim.SetEntityProperty(fullPath, l_newValue);
                 }
@@ -3857,10 +3848,10 @@ namespace EcellLib
                 WrappedSimulator sim = CreateSimulatorInstance();
                 sim.CreateEntity(
                     l_dmName,
-                    Util.s_xpathProcess + Util.s_delimiterColon +
-                    Util.s_delimiterPath + Util.s_delimiterColon +
-                    Util.s_xpathSize.ToUpper());
-                string l_key = Util.s_delimiterPath + Util.s_delimiterColon + Util.s_xpathSize.ToUpper();
+                    Constants.xpathProcess + Constants.delimiterColon +
+                    Constants.delimiterPath + Constants.delimiterColon +
+                    Constants.xpathSize.ToUpper());
+                string l_key = Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper();
                 EcellObject dummyEcellObject = EcellObject.CreateObject("", l_key, "", "", null);
                 DataStored4Process(
                         sim,
@@ -3896,7 +3887,7 @@ namespace EcellLib
             }
             for (int i = 0; i < l_dirList.Length; i++)
             {
-                string l_prjFile = l_dirList[i] + Util.s_delimiterPath + Util.s_fileProject;
+                string l_prjFile = l_dirList[i] + Constants.delimiterPath + Constants.fileProject;
                 if (File.Exists(l_prjFile))
                 {
                     StreamReader l_reader = null;
@@ -4007,7 +3998,7 @@ namespace EcellLib
         /// <returns>The savable simulation result</returns>
         public string GetSavableSimulationResult()
         {
-            return Util.s_xpathSimulation + Util.s_xpathResult;
+            return Constants.xpathSimulation + Constants.xpathResult;
         }
 
         /// <summary>
@@ -4089,12 +4080,12 @@ namespace EcellLib
             foreach (WrappedPolymorph l_polymorph in sim.GetDMInfo().CastToList())
             {
                 List<WrappedPolymorph> l_dmInfoList = l_polymorph.CastToList();
-                if (l_dmInfoList[0].CastToString().Equals(Util.s_xpathStepper))
+                if (l_dmInfoList[0].CastToString().Equals(Constants.xpathStepper))
                 {
                     l_stepperList.Add(l_dmInfoList[1].CastToString());
                 }
             }
-            l_stepperList.AddRange(this.m_dmDic[Util.s_xpathStepper]);
+            l_stepperList.AddRange(this.m_dmDic[Constants.xpathStepper]);
             l_stepperList.Sort();
             return l_stepperList;
         }
@@ -4111,8 +4102,8 @@ namespace EcellLib
             try
             {
                 WrappedSimulator sim = CreateSimulatorInstance();
-                sim.CreateStepper(l_dmName, Util.s_textKey);
-                dummyEcellObject = EcellObject.CreateObject("", Util.s_textKey, "", "", null);
+                sim.CreateStepper(l_dmName, Constants.textKey);
+                dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, "", "", null);
                 DataStored4Stepper(sim, dummyEcellObject);
                 SetPropertyList(dummyEcellObject, l_dic);
             }
@@ -4129,7 +4120,7 @@ namespace EcellLib
         /// <returns>The list of the "System" DM</returns>
         public List<string> GetSystemList()
         {
-            return this.m_dmDic[Util.s_xpathSystem];
+            return this.m_dmDic[Constants.xpathSystem];
         }
 
         /// <summary>
@@ -4189,15 +4180,15 @@ namespace EcellLib
             l_list.Clear();
             l_list.Add("");
             sim.LoadEntityProperty(
-                Util.s_xpathSystem + Util.s_delimiterColon +
-                Util.s_delimiterColon +
-                Util.s_delimiterPath + Util.s_delimiterColon +
-                Util.s_xpathName,
+                Constants.xpathSystem + Constants.delimiterColon +
+                Constants.delimiterColon +
+                Constants.delimiterPath + Constants.delimiterColon +
+                Constants.xpathName,
                 l_list
                 );
             EcellObject dummyEcellObject = EcellObject.CreateObject(
                 "",
-                Util.s_delimiterPath,
+                Constants.delimiterPath,
                 "",
                 "",
                 null);
@@ -4215,7 +4206,7 @@ namespace EcellLib
         /// <returns>The list of the "Variable" DM</returns>
         public List<string> GetVariableList()
         {
-            return this.m_dmDic[Util.s_xpathVariable];
+            return this.m_dmDic[Constants.xpathVariable];
         }
 
         /// <summary>
@@ -4299,7 +4290,7 @@ namespace EcellLib
                 BuildDefaultSimulator(l_simulator, null, null);
                 dummyEcellObject = EcellObject.CreateObject(
                     "",
-                    Util.s_delimiterPath + Util.s_delimiterColon + Util.s_xpathSize.ToUpper(),
+                    Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper(),
                     "",
                     "",
                     null
@@ -4348,7 +4339,7 @@ namespace EcellLib
             //
             // 4 "Process", "Stepper", "System" and "Variable"
             //
-            if (!l_ecellObject.type.Equals(Util.s_xpathProject) && !l_ecellObject.type.Equals(Util.s_xpathModel))
+            if (!l_ecellObject.type.Equals(Constants.xpathProject) && !l_ecellObject.type.Equals(Constants.xpathModel))
             {
                 if (l_ecellObject.key == null || l_ecellObject.key.Length < 0)
                 {
@@ -4522,7 +4513,7 @@ namespace EcellLib
                 // Messages
                 //
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Initialize the simulator:" + System.Environment.NewLine);
             }
             catch (Exception l_ex)
@@ -4603,7 +4594,7 @@ namespace EcellLib
                 {
                     l_simulator.CreateEntity(
                         l_entity.classname,
-                        l_entity.type + Util.s_delimiterColon + l_entity.key);
+                        l_entity.type + Constants.delimiterColon + l_entity.key);
                     if (l_entity.Value == null || l_entity.Value.Count <= 0)
                     {
                         continue;
@@ -4626,7 +4617,7 @@ namespace EcellLib
 
                         if (l_ecellData.Saveable)
                         {
-                            if (l_ecellData.EntityPath.EndsWith(Util.s_xpathVRL))
+                            if (l_ecellData.EntityPath.EndsWith(Constants.xpathVRL))
                             {
                                 l_processPropertyDic[l_ecellData.EntityPath]
                                     = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.Value);
@@ -4675,11 +4666,11 @@ namespace EcellLib
             //
             // Sets the "EcellObject".
             //
-            if (l_ecellObject.type.Equals(Util.s_xpathModel))
+            if (l_ecellObject.type.Equals(Constants.xpathModel))
             {
                 this.m_modelDic[this.m_currentProjectID].Add(l_ecellObject);
             }
-            else if (l_ecellObject.type.Equals(Util.s_xpathSystem))
+            else if (l_ecellObject.type.Equals(Constants.xpathSystem))
             {
                 if (!this.m_systemDic[this.m_currentProjectID].ContainsKey(l_ecellObject.modelID))
                 {
@@ -4688,7 +4679,7 @@ namespace EcellLib
                 }
                 this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID].Add(l_ecellObject);
             }
-            else if (l_ecellObject.type.Equals(Util.s_xpathStepper))
+            else if (l_ecellObject.type.Equals(Constants.xpathStepper))
             {
                 if (!this.m_stepperDic[this.m_currentProjectID]
                         .ContainsKey(this.m_currentParameterID))
@@ -4768,7 +4759,7 @@ namespace EcellLib
                 //
                 if (this.m_currentParameterID == null || this.m_currentParameterID.Length <= 0)
                 {
-                    this.m_currentParameterID = Util.s_parameterKey;
+                    this.m_currentParameterID = Constants.parameterKey;
                 }
                 //
                 // Sets initial conditions.
@@ -4781,11 +4772,11 @@ namespace EcellLib
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
                         [l_modelID] = new Dictionary<string, Dictionary<string, double>>();
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_modelID][Util.s_xpathSystem] = new Dictionary<string, double>();
+                        [l_modelID][Constants.xpathSystem] = new Dictionary<string, double>();
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_modelID][Util.s_xpathProcess] = new Dictionary<string, double>();
+                        [l_modelID][Constants.xpathProcess] = new Dictionary<string, double>();
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_modelID][Util.s_xpathVariable] = new Dictionary<string, double>();
+                        [l_modelID][Constants.xpathVariable] = new Dictionary<string, double>();
                 InitializeModel(l_modelObj);
                 //
                 // Stores the "LoggerPolicy"
@@ -4802,7 +4793,7 @@ namespace EcellLib
                             );
                 }
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Load Model: " + l_message + System.Environment.NewLine
                     );
                 if (isLogging)
@@ -4816,7 +4807,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrLoadModel") + "[" + l_message + "]";
                 this.m_pManager.Message(
-                        Util.s_xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                        Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
                 throw new Exception(l_message, l_ex);
             }
         }
@@ -4855,48 +4846,48 @@ namespace EcellLib
                     string l_parameter = null;
                     while ((l_line = l_reader.ReadLine()) != null)
                     {
-                        if (l_line.IndexOf(Util.s_textComment) == 0)
+                        if (l_line.IndexOf(Constants.textComment) == 0)
                         {
-                            if (l_line.IndexOf(Util.s_delimiterEqual) != -1)
+                            if (l_line.IndexOf(Constants.delimiterEqual) != -1)
                             {
-                                l_comment = l_line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
+                                l_comment = l_line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
                             }
                             else
                             {
-                                l_comment = l_line.Substring(l_line.IndexOf(Util.s_textComment));
+                                l_comment = l_line.Substring(l_line.IndexOf(Constants.textComment));
                             }
                         }
-                        else if (l_line.IndexOf(Util.s_textParameter) == 0)
+                        else if (l_line.IndexOf(Constants.textParameter) == 0)
                         {
-                            if (l_line.IndexOf(Util.s_delimiterEqual) != -1)
+                            if (l_line.IndexOf(Constants.delimiterEqual) != -1)
                             {
-                                l_parameter = l_line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
+                                l_parameter = l_line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
                             }
                             else
                             {
-                                l_parameter = l_line.Substring(l_line.IndexOf(Util.s_textParameter));
+                                l_parameter = l_line.Substring(l_line.IndexOf(Constants.textParameter));
                             }
                         }
                         else if (!l_comment.Equals(""))
                         {
                             l_comment = l_comment + "\n" + l_line;
                         }
-                        else if (l_line.IndexOf(Util.s_xpathProject) == 0)
+                        else if (l_line.IndexOf(Constants.xpathProject) == 0)
                         {
-                            if (l_line.IndexOf(Util.s_delimiterEqual) != -1)
+                            if (l_line.IndexOf(Constants.delimiterEqual) != -1)
                             {
-                                l_prjID = l_line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
+                                l_prjID = l_line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
                             }
                             else
                             {
-                                l_prjID = l_line.Substring(l_line.IndexOf(Util.s_textComment));
+                                l_prjID = l_line.Substring(l_line.IndexOf(Constants.textComment));
                             }
                         }
                     }
                     l_prj = new Project(l_prjID, l_comment, File.GetLastWriteTime(l_prjFile).ToString());
                     this.m_projectList.Add(l_prj);
-                    l_ecellDataList.Add(new EcellData(Util.s_textComment, new EcellValue(l_comment), null));
-                    l_passList.Add(EcellObject.CreateObject(l_prjID, "", Util.s_xpathProject, "", l_ecellDataList));
+                    l_ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(l_comment), null));
+                    l_passList.Add(EcellObject.CreateObject(l_prjID, "", Constants.xpathProject, "", l_ecellDataList));
                     //
                     // Initializes.
                     //
@@ -4925,25 +4916,25 @@ namespace EcellLib
 
                 if (l_prj == null)
                 {
-                    throw new Exception(m_resources.GetString("ErrFindPrjFile") + " [" + Util.s_fileProject + "]");
+                    throw new Exception(m_resources.GetString("ErrFindPrjFile") + " [" + Constants.fileProject + "]");
                 }
                 //
                 // Loads the model.
                 //
                 string l_modelDirName =
-                    Path.GetDirectoryName(l_prjFile) + Util.s_delimiterPath + Util.s_xpathModel;
+                    Path.GetDirectoryName(l_prjFile) + Constants.delimiterPath + Constants.xpathModel;
                 if (Directory.Exists(l_modelDirName))
                 {
                     string[] l_models = Directory.GetFileSystemEntries(
                         l_modelDirName,
-                        Util.s_delimiterWildcard + Util.s_delimiterPeriod + Util.s_xpathEml
+                        Constants.delimiterWildcard + Constants.delimiterPeriod + Constants.xpathEml
                         );
                     if (l_models != null && l_models.Length > 0)
                     {
                         foreach (string l_model in l_models)
                         {
                             string l_fileName = Path.GetFileName(l_model);
-                            if (l_fileName.IndexOf(Util.s_delimiterUnderbar) != 0)
+                            if (l_fileName.IndexOf(Constants.delimiterUnderbar) != 0)
                             {
                                 this.LoadModel(l_model, false);
                             }
@@ -4967,20 +4958,20 @@ namespace EcellLib
                 // Loads the simulation parameter.
                 //
                 string l_simulationDirName =
-                    Path.GetDirectoryName(l_prjFile) + Util.s_delimiterPath + Util.s_xpathSimulation;
+                    Path.GetDirectoryName(l_prjFile) + Constants.delimiterPath + Constants.xpathSimulation;
 
                 if (Directory.Exists(l_simulationDirName))
                 {
                     l_parameters = Directory.GetFileSystemEntries(
                         l_simulationDirName,
-                        Util.s_delimiterWildcard + Util.s_delimiterPeriod + Util.s_xpathXml
+                        Constants.delimiterWildcard + Constants.delimiterPeriod + Constants.xpathXml
                         );
                     if (l_parameters != null && l_parameters.Length > 0)
                     {
                         foreach (string l_parameter in l_parameters)
                         {
                             string l_fileName = Path.GetFileName(l_parameter);
-                            if (l_fileName.IndexOf(Util.s_delimiterUnderbar) != 0)
+                            if (l_fileName.IndexOf(Constants.delimiterUnderbar) != 0)
                             {
                                 this.LoadSimulationParameter(l_parameter);
                             }
@@ -4988,7 +4979,7 @@ namespace EcellLib
                     }
                 }
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Load Project: " + l_message + System.Environment.NewLine);
             }
             catch (Exception l_ex)
@@ -5033,7 +5024,7 @@ namespace EcellLib
                 }
                 l_message = m_resources.GetString("ErrLoadPrj") + "[" + l_message + "]";
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5222,13 +5213,13 @@ namespace EcellLib
                 this.m_loggerPolicyDic[this.m_currentProjectID][simParam.ID] = simParam.LoggerPolicy;
                 this.m_initialCondition[this.m_currentProjectID][simParam.ID] = simParam.InitialConditions;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Load Simulation Parameter: " + l_message + System.Environment.NewLine);
             }
             catch (Exception l_ex)
             {
                 l_message = m_resources.GetString("ErrLoadSimParam") + "[" + l_message + "]";
-                this.m_pManager.Message(Util.s_xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                this.m_pManager.Message(Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
         }
@@ -5363,25 +5354,25 @@ namespace EcellLib
                         continue;
                     }
                     l_existSystem = true;
-                    string l_parentPath = l_system.key.Substring(0, l_system.key.LastIndexOf(Util.s_delimiterPath));
-                    string l_childPath = l_system.key.Substring(l_system.key.LastIndexOf(Util.s_delimiterPath) + 1);
-                    if (l_system.key.Equals(Util.s_delimiterPath))
+                    string l_parentPath = l_system.key.Substring(0, l_system.key.LastIndexOf(Constants.delimiterPath));
+                    string l_childPath = l_system.key.Substring(l_system.key.LastIndexOf(Constants.delimiterPath) + 1);
+                    if (l_system.key.Equals(Constants.delimiterPath))
                     {
                         if (l_childPath.Length == 0)
                         {
-                            l_childPath = Util.s_delimiterPath;
+                            l_childPath = Constants.delimiterPath;
                         }
                     }
                     else
                     {
                         if (l_parentPath.Length == 0)
                         {
-                            l_parentPath = Util.s_delimiterPath;
+                            l_parentPath = Constants.delimiterPath;
                         }
                         l_simulator.CreateEntity(
                             l_system.classname,
-                            l_system.classname + Util.s_delimiterColon
-                                + l_parentPath + Util.s_delimiterColon + l_childPath);
+                            l_system.classname + Constants.delimiterColon
+                                + l_parentPath + Constants.delimiterColon + l_childPath);
                     }
                     //
                     // 4 property
@@ -5435,7 +5426,7 @@ namespace EcellLib
                     l_processPropertyDic.Keys.CopyTo(l_keys = new string[l_processPropertyDic.Keys.Count], 0);
                     foreach (string l_entityPath in l_keys)
                     {
-                        if (l_entityPath.EndsWith(Util.s_xpathVRL))
+                        if (l_entityPath.EndsWith(Constants.xpathVRL))
                         {
                             l_simulator.LoadEntityProperty(l_entityPath, l_processPropertyDic[l_entityPath]);
                             l_processPropertyDic.Remove(l_entityPath);
@@ -5468,10 +5459,8 @@ namespace EcellLib
         public void NewProject(string l_prjID, string l_comment)
         {
             Project l_prj = null;
-            string l_message = null;
             try
             {
-                l_message = "[" + l_prjID + "]";
                 //
                 // Closes the current project.
                 //
@@ -5497,15 +5486,15 @@ namespace EcellLib
                 // 4 PluginManager
                 //
                 List<EcellData> l_ecellDataList = new List<EcellData>();
-                l_ecellDataList.Add(new EcellData(Util.s_textComment, new EcellValue(l_comment), null));
+                l_ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(l_comment), null));
                 EcellObject l_ecellObject
-                        = EcellObject.CreateObject(l_prjID, "", Util.s_xpathProject, "", l_ecellDataList);
+                        = EcellObject.CreateObject(l_prjID, "", Constants.xpathProject, "", l_ecellDataList);
                 List<EcellObject> l_ecellObjectList = new List<EcellObject>();
                 l_ecellObjectList.Add(l_ecellObject);
                 m_pManager.DataAdd(l_ecellObjectList);
                 m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
-                    "Create Project: " + l_message + System.Environment.NewLine);
+                    Constants.xpathSimulation.ToLower(),
+                    "Create Project: [" + l_prjID + "]" + System.Environment.NewLine);
                 m_aManager.AddAction(new NewProjectAction(l_prjID, l_comment));
             }
             catch (Exception l_ex)
@@ -5542,9 +5531,11 @@ namespace EcellLib
                 {
                     this.m_modelDic.Remove(l_prjID);
                 }
-                l_message = m_resources.GetString("ErrCrePrj") + "[" + l_message + "]";
-                m_pManager.Message(Util.s_xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
-                throw new Exception(l_message + " {" + l_ex.ToString() + "}");
+                string l_message = String.Format(
+                        m_resources.GetString("ErrCrePrj"),
+                        new object[] { l_prjID });
+                m_pManager.Message(Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                throw new Exception(l_message, l_ex);
             }
         }
 
@@ -5650,7 +5641,7 @@ namespace EcellLib
                 this.m_initialCondition[this.m_currentProjectID][l_parameterID] = l_dstInitialCondition;
                 m_pManager.ParameterAdd(m_currentProjectID, l_parameterID);
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Create Simulation Parameter: " + l_message + System.Environment.NewLine);
                 if (l_isRecorded)
                     m_aManager.AddAction(new NewSimParamAction(l_parameterID, l_isAnchor));
@@ -5659,7 +5650,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrCreSimParam") + l_message;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5688,19 +5679,19 @@ namespace EcellLib
                 {
                     throw new Exception(m_resources.GetString("ErrBaseDir"));
                 }
-                if (!Directory.Exists(this.m_defaultDir + Util.s_delimiterPath + this.m_currentProjectID))
+                if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + this.m_currentProjectID))
                 {
                     this.SaveProject(this.m_currentProjectID);
                 }
                 string l_modelDirName
-                    = this.m_defaultDir + Util.s_delimiterPath +
-                    this.m_currentProjectID + Util.s_delimiterPath + Util.s_xpathModel;
+                    = this.m_defaultDir + Constants.delimiterPath +
+                    this.m_currentProjectID + Constants.delimiterPath + Constants.xpathModel;
                 if (!Directory.Exists(l_modelDirName))
                 {
                     Directory.CreateDirectory(l_modelDirName);
                 }
                 string l_modelFileName
-                    = l_modelDirName + Util.s_delimiterPath + l_modelID + Util.s_delimiterPeriod + Util.s_xpathEml;
+                    = l_modelDirName + Constants.delimiterPath + l_modelID + Constants.delimiterPeriod + Constants.xpathEml;
                 //
                 // Picks the "Stepper" up.
                 //
@@ -5725,7 +5716,7 @@ namespace EcellLib
                 //
                 EmlWriter.Create(l_modelFileName, l_storedList);
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Save Model: " + l_message + System.Environment.NewLine);
                 //
                 // 4 Project
@@ -5738,7 +5729,7 @@ namespace EcellLib
                 l_storedList = null;
                 l_message = m_resources.GetString("ErrSaveModel") + l_message;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5789,24 +5780,24 @@ namespace EcellLib
                 //
                 // Saves the project.
                 //
-                if (!Directory.Exists(this.m_defaultDir + Util.s_delimiterPath + l_prjID))
+                if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + l_prjID))
                 {
-                    Directory.CreateDirectory(this.m_defaultDir + Util.s_delimiterPath + l_prjID);
+                    Directory.CreateDirectory(this.m_defaultDir + Constants.delimiterPath + l_prjID);
                 }
-                string l_prjFile = this.m_defaultDir + Util.s_delimiterPath +
-                    l_prjID + Util.s_delimiterPath + Util.s_fileProject;
+                string l_prjFile = this.m_defaultDir + Constants.delimiterPath +
+                    l_prjID + Constants.delimiterPath + Constants.fileProject;
                 StreamWriter l_writer = null;
                 try
                 {
                     l_writer = new StreamWriter(l_prjFile);
                     l_writer.WriteLine(
-                        Util.s_xpathProject + Util.s_delimiterSpace + Util.s_delimiterEqual + Util.s_delimiterSpace
+                        Constants.xpathProject + Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace
                         + l_thisPrj.M_prjName);
                     l_writer.WriteLine(
-                        Util.s_textComment + Util.s_delimiterSpace + Util.s_delimiterEqual + Util.s_delimiterSpace
+                        Constants.textComment + Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace
                             + l_thisPrj.M_comment);
                     l_writer.WriteLine(
-                        Util.s_textParameter + Util.s_delimiterSpace + Util.s_delimiterEqual + Util.s_delimiterSpace
+                        Constants.textParameter + Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace
                             + this.m_currentParameterID);
                 }
                 finally
@@ -5818,14 +5809,14 @@ namespace EcellLib
                 }
                 l_thisPrj.M_updateTime = File.GetLastAccessTime(l_prjFile).ToString();
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Save Project: " + l_message + System.Environment.NewLine);
             }
             catch (Exception l_ex)
             {
                 l_message = m_resources.GetString("ErrSavePrj") + l_message;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5918,19 +5909,19 @@ namespace EcellLib
                 {
                     throw new Exception(m_resources.GetString("ErrBaseDir"));
                 }
-                if (!Directory.Exists(this.m_defaultDir + Util.s_delimiterPath + this.m_currentProjectID))
+                if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + this.m_currentProjectID))
                 {
                     this.SaveProject(this.m_currentProjectID);
                 }
                 string l_simulationDirName =
-                    this.m_defaultDir + Util.s_delimiterPath +
-                    this.m_currentProjectID + Util.s_delimiterPath + Util.s_xpathSimulation;
+                    this.m_defaultDir + Constants.delimiterPath +
+                    this.m_currentProjectID + Constants.delimiterPath + Constants.xpathSimulation;
                 if (!Directory.Exists(l_simulationDirName))
                 {
                     Directory.CreateDirectory(l_simulationDirName);
                 }
                 string l_simulationFileName
-                    = l_simulationDirName + Util.s_delimiterPath + l_paramID + Util.s_delimiterPeriod + Util.s_xpathXml;
+                    = l_simulationDirName + Constants.delimiterPath + l_paramID + Constants.delimiterPeriod + Constants.xpathXml;
                 //
                 // Picks the "Stepper" up.
                 //
@@ -5962,7 +5953,7 @@ namespace EcellLib
                         l_loggerPolicy,
                         l_paramID));
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Save Simulation Parameter: " + l_message + System.Environment.NewLine);
                 //
                 // 4 Project
@@ -5973,7 +5964,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrSaveSim") + l_message;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -6020,13 +6011,13 @@ namespace EcellLib
                     {
                         throw new Exception(m_resources.GetString("ErrBaseDir"));
                     }
-                    if (!Directory.Exists(this.m_defaultDir + Util.s_delimiterPath + this.m_currentProjectID))
+                    if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + this.m_currentProjectID))
                     {
                         this.SaveProject(this.m_currentProjectID);
                     }
                     l_simulationDirName =
-                        this.m_defaultDir + Util.s_delimiterPath +
-                        this.m_currentProjectID + Util.s_delimiterPath + Util.s_xpathSimulation;
+                        this.m_defaultDir + Constants.delimiterPath +
+                        this.m_currentProjectID + Constants.delimiterPath + Constants.xpathSimulation;
                 }
                 if (!Directory.Exists(l_simulationDirName))
                 {
@@ -6047,19 +6038,19 @@ namespace EcellLib
                 foreach (LogData l_logData in l_logDataList)
                 {
                     string l_fullID =
-                        l_logData.type + Util.s_delimiterColon +
-                        l_logData.key + Util.s_delimiterColon +
+                        l_logData.type + Constants.delimiterColon +
+                        l_logData.key + Constants.delimiterColon +
                         l_logData.propName;
                     if (l_fullIDList.Contains(l_fullID))
                     {
-                        if (l_savedType == null || l_savedType.Equals(Util.s_xpathCsv) ||
-                            l_savedType.Equals(Util.s_xpathEcd))
+                        if (l_savedType == null || l_savedType.Equals(Constants.xpathCsv) ||
+                            l_savedType.Equals(Constants.xpathEcd))
                         {
                             Ecd l_ecd = new Ecd();
                             l_ecd.Create(l_simulationDirName, l_logData, l_savedType);
                             l_message = "[" + l_fullID + "]";
                             this.m_pManager.Message(
-                                Util.s_xpathSimulation.ToLower(),
+                                Constants.xpathSimulation.ToLower(),
                                 "Save Simulation Result: " + l_message + System.Environment.NewLine
                                 );
                         }
@@ -6074,7 +6065,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrSaveSim") + l_message;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -6114,17 +6105,17 @@ namespace EcellLib
             //
             this.m_dmDic = new Dictionary<string, List<string>>();
             // 4 Process
-            this.m_dmDic.Add(Util.s_xpathProcess, new List<string>());
+            this.m_dmDic.Add(Constants.xpathProcess, new List<string>());
             // 4 Stepper
-            this.m_dmDic.Add(Util.s_xpathStepper, new List<string>());
+            this.m_dmDic.Add(Constants.xpathStepper, new List<string>());
             // 4 System
             List<string> l_systemList = new List<string>();
-            l_systemList.Add(Util.s_xpathSystem);
-            this.m_dmDic.Add(Util.s_xpathSystem, l_systemList);
+            l_systemList.Add(Constants.xpathSystem);
+            this.m_dmDic.Add(Constants.xpathSystem, l_systemList);
             // 4 Variable
             List<string> l_variableList = new List<string>();
-            l_variableList.Add(Util.s_xpathVariable);
-            this.m_dmDic.Add(Util.s_xpathVariable, l_variableList);
+            l_variableList.Add(Constants.xpathVariable);
+            this.m_dmDic.Add(Constants.xpathVariable, l_variableList);
             //
             // Searches the DM paths
             //
@@ -6142,38 +6133,38 @@ namespace EcellLib
                 // 4 Process
                 string[] l_processDMArray = Directory.GetFiles(
                     dmPath,
-                    Util.s_delimiterWildcard + Util.s_xpathProcess + Util.s_dmFileExtension
+                    Constants.delimiterWildcard + Constants.xpathProcess + Constants.dmFileExtension
                     );
                 foreach (string l_processDM in l_processDMArray)
                 {
-                    this.m_dmDic[Util.s_xpathProcess].Add(Path.GetFileNameWithoutExtension(l_processDM));
+                    this.m_dmDic[Constants.xpathProcess].Add(Path.GetFileNameWithoutExtension(l_processDM));
                 }
                 // 4 Stepper
                 string[] l_stepperDMArray = Directory.GetFiles(
                     dmPath,
-                    Util.s_delimiterWildcard + Util.s_xpathStepper + Util.s_dmFileExtension
+                    Constants.delimiterWildcard + Constants.xpathStepper + Constants.dmFileExtension
                     );
                 foreach (string l_stepperDM in l_stepperDMArray)
                 {
-                    this.m_dmDic[Util.s_xpathStepper].Add(Path.GetFileNameWithoutExtension(l_stepperDM));
+                    this.m_dmDic[Constants.xpathStepper].Add(Path.GetFileNameWithoutExtension(l_stepperDM));
                 }
                 // 4 System
                 string[] l_systemDMArray = Directory.GetFiles(
                     dmPath,
-                    Util.s_delimiterWildcard + Util.s_xpathSystem + Util.s_dmFileExtension
+                    Constants.delimiterWildcard + Constants.xpathSystem + Constants.dmFileExtension
                     );
                 foreach (string l_systemDM in l_systemDMArray)
                 {
-                    this.m_dmDic[Util.s_xpathSystem].Add(Path.GetFileNameWithoutExtension(l_systemDM));
+                    this.m_dmDic[Constants.xpathSystem].Add(Path.GetFileNameWithoutExtension(l_systemDM));
                 }
                 // 4 Variable
                 string[] l_variableDMArray = Directory.GetFiles(
                     dmPath,
-                    Util.s_delimiterWildcard + Util.s_xpathVariable + Util.s_dmFileExtension
+                    Constants.delimiterWildcard + Constants.xpathVariable + Constants.dmFileExtension
                     );
                 foreach (string l_variableDM in l_variableDMArray)
                 {
-                    this.m_dmDic[Util.s_xpathVariable].Add(Path.GetFileNameWithoutExtension(l_variableDM));
+                    this.m_dmDic[Constants.xpathVariable].Add(Path.GetFileNameWithoutExtension(l_variableDM));
                 }
             }
         }
@@ -6237,13 +6228,13 @@ namespace EcellLib
                 l_message = "[" + l_parameterID + "]";
                 this.m_loggerPolicyDic[this.m_currentProjectID][l_parameterID] = l_loggerPolicy;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Update Logger Policy: " + l_message + System.Environment.NewLine);
             }
             catch (Exception l_ex)
             {
                 l_message = m_resources.GetString("ErrUpdateLogPol") + l_message;
-                this.m_pManager.Message(Util.s_xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                this.m_pManager.Message(Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
         }
@@ -6369,7 +6360,7 @@ namespace EcellLib
                     }
                 }
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Set Simulation Parameter: " + l_message + System.Environment.NewLine);
                 if (l_isRecorded)
                     m_aManager.AddAction(new SetSimParamAction(l_parameterID, l_oldParameterID, l_isAnchor));
@@ -6378,7 +6369,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrSetSimParam") + l_message;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -6402,7 +6393,7 @@ namespace EcellLib
                     this.Initialize(true);
                     this.m_simulationStepLimit = l_stepLimit;
                     this.m_pManager.Message(
-                        Util.s_xpathSimulation.ToLower(),
+                        Constants.xpathSimulation.ToLower(),
                         "Start Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                             + System.Environment.NewLine
                         );
@@ -6414,7 +6405,7 @@ namespace EcellLib
                         this.m_simulationStepLimit = l_stepLimit;
                     }
                     this.m_pManager.Message(
-                        Util.s_xpathSimulation.ToLower(),
+                        Constants.xpathSimulation.ToLower(),
                         "Restart Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                             + System.Environment.NewLine
                         );
@@ -6499,7 +6490,7 @@ namespace EcellLib
                     this.m_simulationTimeLimit = l_timeLimit;
                     this.m_simulationStartTime = 0.0;
                     this.m_pManager.Message(
-                        Util.s_xpathSimulation.ToLower(),
+                        Constants.xpathSimulation.ToLower(),
                         "Start Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                             + System.Environment.NewLine
                         );
@@ -6512,7 +6503,7 @@ namespace EcellLib
                         this.m_simulationStartTime = this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime();
                     }
                     this.m_pManager.Message(
-                        Util.s_xpathSimulation.ToLower(),
+                        Constants.xpathSimulation.ToLower(),
                         "Restart Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                             + System.Environment.NewLine
                         );
@@ -6583,7 +6574,7 @@ namespace EcellLib
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] = s_simulationWait;
                 string l_message = m_resources.GetString("ErrRunSim");
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -6675,7 +6666,7 @@ namespace EcellLib
                     this.m_simulatorDic[this.m_currentProjectID].Stop();
                 }
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Reset Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                         + System.Environment.NewLine
                     );
@@ -6684,7 +6675,7 @@ namespace EcellLib
             {
                 string l_message = m_resources.GetString("ErrResetSim");
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + "{" + l_ex.ToString() + "}");
@@ -6705,7 +6696,7 @@ namespace EcellLib
                 this.m_simulatorDic[this.m_currentProjectID].Suspend();
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] = s_simulationSuspend;
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     "Suspend Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                         + System.Environment.NewLine
                     );
@@ -6714,7 +6705,7 @@ namespace EcellLib
             {
                 string l_message = m_resources.GetString("ErrSuspendSim");
                 this.m_pManager.Message(
-                    Util.s_xpathSimulation.ToLower(),
+                    Constants.xpathSimulation.ToLower(),
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -6751,12 +6742,12 @@ namespace EcellLib
         /// <param name="l_entityPath"></param>
         private void Split4EntityPath(ref string l_key, ref string l_type, ref string l_propName, string l_entityPath)
         {
-            string[] l_data = l_entityPath.Split(Util.s_delimiterColon.ToCharArray());
+            string[] l_data = l_entityPath.Split(Constants.delimiterColon.ToCharArray());
             if (l_data.Length < 4)
             {
                 return;
             }
-            l_key = l_data[1] + Util.s_delimiterColon + l_data[2];
+            l_key = l_data[1] + Constants.delimiterColon + l_data[2];
             l_type = l_data[0];
             l_propName = l_data[3];
         }
@@ -6793,7 +6784,7 @@ namespace EcellLib
                                 = l_initialList[l_key];
                     }
                     this.m_pManager.Message(
-                        Util.s_xpathSimulation.ToLower(),
+                        Constants.xpathSimulation.ToLower(),
                         "Update Initial Condition: " + l_message + System.Environment.NewLine
                         );
                 }
@@ -6865,42 +6856,42 @@ namespace EcellLib
         void LookIntoSimulator(WrappedSimulator l_simulator)
         {
             List<string> entityList = new List<string>();
-            entityList.Add(Util.s_xpathProcess);
-            entityList.Add(Util.s_xpathVariable);
+            entityList.Add(Constants.xpathProcess);
+            entityList.Add(Constants.xpathVariable);
             foreach (string entityName in entityList)
             {
                 foreach (WrappedPolymorph wpFullID in
                     this.m_simulatorDic[this.m_currentProjectID].GetEntityList(
-                        entityName, Util.s_delimiterPath).CastToList())
+                        entityName, Constants.delimiterPath).CastToList())
                 {
                     EcellValue fullID = new EcellValue(wpFullID);
                     Console.WriteLine(entityName + ": " + fullID);
                     foreach (WrappedPolymorph wpEntityProperty in
                         this.m_simulatorDic[this.m_currentProjectID].GetEntityPropertyList(
-                            entityName + Util.s_delimiterColon + Util.s_delimiterPath + Util.s_delimiterColon +
+                            entityName + Constants.delimiterColon + Constants.delimiterPath + Constants.delimiterColon +
                             fullID).CastToList())
                     {
                         string entityProperty = (new EcellValue(wpEntityProperty)).CastToString();
                         List<bool> wpAttrList
                             = this.m_simulatorDic[this.m_currentProjectID].GetEntityPropertyAttributes(
-                                entityName + Util.s_delimiterColon + Util.s_delimiterPath + Util.s_delimiterColon +
-                                fullID + Util.s_delimiterColon + entityProperty);
+                                entityName + Constants.delimiterColon + Constants.delimiterPath + Constants.delimiterColon +
+                                fullID + Constants.delimiterColon + entityProperty);
                         if (wpAttrList[1])
                         {
                             WrappedPolymorph wp
                                 = this.m_simulatorDic[this.m_currentProjectID].GetEntityProperty(
-                                    entityName + Util.s_delimiterColon + Util.s_delimiterPath + Util.s_delimiterColon +
-                                    fullID + Util.s_delimiterColon + entityProperty);
+                                    entityName + Constants.delimiterColon + Constants.delimiterPath + Constants.delimiterColon +
+                                    fullID + Constants.delimiterColon + entityProperty);
                             EcellValue wpv = new EcellValue(wp);
                             Console.WriteLine(
-                                entityName + Util.s_delimiterColon + Util.s_delimiterPath + Util.s_delimiterColon +
-                                fullID + Util.s_delimiterColon + entityProperty + ", " + wpv);
+                                entityName + Constants.delimiterColon + Constants.delimiterPath + Constants.delimiterColon +
+                                fullID + Constants.delimiterColon + entityProperty + ", " + wpv);
                         }
                         else
                         {
                             Console.WriteLine(
-                                entityName + Util.s_delimiterColon + Util.s_delimiterPath + Util.s_delimiterColon +
-                                fullID + Util.s_delimiterColon + entityProperty + ", " + "Not Get");
+                                entityName + Constants.delimiterColon + Constants.delimiterPath + Constants.delimiterColon +
+                                fullID + Constants.delimiterColon + entityProperty + ", " + "Not Get");
                         }
                     }
                 }
@@ -6909,7 +6900,7 @@ namespace EcellLib
                 this.m_simulatorDic[this.m_currentProjectID].GetStepperList().CastToList())
             {
                 string stepperID = (new EcellValue(wpStepperID)).CastToString();
-                Console.WriteLine(Util.s_xpathStepper + " " + stepperID);
+                Console.WriteLine(Constants.xpathStepper + " " + stepperID);
                 foreach (WrappedPolymorph wpStepperProperty in
                     this.m_simulatorDic[this.m_currentProjectID].GetStepperPropertyList(stepperID).CastToList())
                 {
@@ -7240,6 +7231,7 @@ namespace EcellLib
         /// </summary>
         protected WrappedSimulator CreateSimulatorInstance()
         {
+            System.Windows.Forms.MessageBox.Show(String.Join(",", Util.GetDMDirs(m_currentProjectPath)));
             return new WrappedSimulator(Util.GetDMDirs(m_currentProjectPath));
         }
 

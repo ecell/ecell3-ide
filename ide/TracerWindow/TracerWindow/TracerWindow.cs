@@ -99,7 +99,7 @@ namespace EcellLib.TracerWindow
         /// <summary>
         /// The current system status.
         /// </summary>
-        int m_type;
+        ProjectStatus m_type;
         /// <summary>
         /// The list of logger with TracerWindow.
         /// </summary>
@@ -886,23 +886,23 @@ namespace EcellLib.TracerWindow
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(int type)
+        public void ChangeStatus(ProjectStatus type)
         {
-            if (type == Util.NOTLOAD)
+            if (type == ProjectStatus.Uninitialized)
             {
                 isStep = false;
                 m_showWin.Enabled = false;
                 m_showSaveWin.Enabled = false;
                 m_setupWin.Enabled = true;
             }
-            else if (type == Util.LOADED)
+            else if (type == ProjectStatus.Loaded)
             {
                 isStep = false;
                 m_showWin.Enabled = true;
                 m_showSaveWin.Enabled = true;
                 m_setupWin.Enabled = true;
             }
-            else if (type == Util.RUNNING)
+            else if (type == ProjectStatus.Running)
             {
                 m_currentMax = 1.0;
                 isStep = false;
@@ -910,9 +910,9 @@ namespace EcellLib.TracerWindow
                 m_showSaveWin.Enabled = false;
                 m_setupWin.Enabled = false;
             }
-            else if (type == Util.STEP)
+            else if (type == ProjectStatus.Stepping)
             {
-                if (isStep == false && m_type != Util.SUSPEND)
+                if (isStep == false && m_type != ProjectStatus.Suspended)
                 {
                     m_current = 0.0;
                     m_currentMax = 1.0;
@@ -933,28 +933,28 @@ namespace EcellLib.TracerWindow
                 m_setupWin.Enabled = false;
             }
 
-            if (type == Util.RUNNING)
+            if (type == ProjectStatus.Running)
             {
                 this.StartSimulation();
             }
-            else if ((m_type == Util.RUNNING || m_type == Util.SUSPEND || m_type == Util.STEP) &&
-                type == Util.LOADED)
+            else if ((m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping) &&
+                type == ProjectStatus.Loaded)
             {
                 UpdateGraphDelegate(); // vomit the remainder log.
                 this.StopSimulation();
             }
-            else if (type == Util.SUSPEND)
+            else if (type == ProjectStatus.Suspended)
             {
                 UpdateGraphDelegate(); // vomit the remainder log.
                 this.SuspendSimulation();
             }
-            else if (type == Util.STEP)
+            else if (type == ProjectStatus.Stepping)
             {
-                if (m_type == Util.STEP)
+                if (m_type == ProjectStatus.Stepping)
                 {
                     UpdateGraphDelegate(); // vomit the remainder log.
                     this.SuspendSimulation();
-                    type = Util.SUSPEND;
+                    type = ProjectStatus.Suspended;
                 }
                 else
                 {

@@ -80,7 +80,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         System.Windows.Forms.Timer m_time;
         System.Windows.Forms.Timer m_deletetime;
-        private int m_type = Util.NOTLOAD;
+        private ProjectStatus m_type = ProjectStatus.Uninitialized;
         /// <summary>
         /// Expression.
         /// </summary>
@@ -506,7 +506,7 @@ namespace EcellLib.PropertyWindow
                 PropertyAdd(dSize, type);
             }
             m_current = obj;
-            if (m_type == Util.SUSPEND)
+            if (m_type == ProjectStatus.Suspended)
             {
                 UpdatePropForSimulation();
             }
@@ -689,27 +689,27 @@ namespace EcellLib.PropertyWindow
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(int type)
+        public void ChangeStatus(ProjectStatus type)
         {
-            if (type == Util.RUNNING)
+            if (type == ProjectStatus.Running)
             {
                 m_time.Enabled = true;
                 m_time.Start();
             }
-            else if (type == Util.SUSPEND)
+            else if (type == ProjectStatus.Suspended)
             {
                 m_time.Enabled = false;
                 m_time.Stop();
                 UpdatePropForSimulation();
             }
-            else if ((m_type == Util.RUNNING || m_type == Util.SUSPEND || m_type == Util.STEP) &&
-                type == Util.LOADED)
+            else if ((m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping) &&
+                type == ProjectStatus.Loaded)
             {
                 m_time.Enabled = false;
                 m_time.Stop();
                 ResetProperty();
             }
-            else if (type == Util.STEP)
+            else if (type == ProjectStatus.Stepping)
             {
                 UpdatePropForSimulation();
             }

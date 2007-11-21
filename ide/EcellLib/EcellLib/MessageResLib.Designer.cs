@@ -151,7 +151,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not create the project. に類似しているローカライズされた文字列を検索します。
+        ///   Failed to create project {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrCrePrj {
             get {

@@ -255,7 +255,7 @@ namespace EcellLib.AboutWindow
         /// <summary>
         ///  When change system status, change menu enable/disable.
         /// </summary>
-        public void ChangeStatus(int type)
+        public void ChangeStatus(ProjectStatus type)
         {
         }
 

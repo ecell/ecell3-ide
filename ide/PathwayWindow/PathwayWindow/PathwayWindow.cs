@@ -375,10 +375,10 @@ namespace EcellLib.PathwayWindow
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(int type)
+        public void ChangeStatus(ProjectStatus type)
         {
             bool isShow = false;
-            if (type == Util.LOADED)
+            if (type == ProjectStatus.Loaded)
             {
                 isShow = true;
             }

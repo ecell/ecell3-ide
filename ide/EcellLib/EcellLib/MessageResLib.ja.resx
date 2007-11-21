@@ -148,7 +148,7 @@
     <value>EMLファイルを作成するのに失敗しました。</value>
   </data>
   <data name="ErrCrePrj" xml:space="preserve">
-    <value>プロジェクトを新規作成するのに失敗しました。</value>
+    <value>プロジェクト {0} を作成できませんでした。</value>
   </data>
   <data name="ErrCreSimParam" xml:space="preserve">
     <value>シミュレーションパラメータの作成に失敗しました。</value>

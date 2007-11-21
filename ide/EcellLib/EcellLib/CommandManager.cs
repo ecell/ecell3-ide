@@ -91,7 +91,7 @@ namespace EcellLib
         {
             try
             {
-                string[] l_fullIDs = l_fullPN.Split(Util.s_delimiterColon.ToCharArray());
+                string[] l_fullIDs = l_fullPN.Split(Constants.delimiterColon.ToCharArray());
                 if (l_fullIDs.Length != 4)
                 {
                     throw new Exception("The format of this [" + l_fullPN + "] is wrong.");
@@ -101,8 +101,8 @@ namespace EcellLib
                 if (l_systemObjectList == null || l_systemObjectList.Count <= 0)
                 {
                     throw new Exception("The entity of this ["
-                            + l_fullIDs[0] + Util.s_delimiterColon
-                            + l_fullIDs[1] + Util.s_delimiterColon
+                            + l_fullIDs[0] + Constants.delimiterColon
+                            + l_fullIDs[1] + Constants.delimiterColon
                             + l_fullIDs[2] + "] is nothing.");
                 }
                 //
@@ -113,11 +113,11 @@ namespace EcellLib
                 EcellObject l_changedObject = null;
                 foreach (EcellObject l_systemObject in l_systemObjectList)
                 {
-                    if (!l_systemObject.type.Equals(Util.s_xpathSystem))
+                    if (!l_systemObject.type.Equals(Constants.xpathSystem))
                     {
                         continue;
                     }
-                    if (l_fullIDs[0].Equals(Util.s_xpathSystem))
+                    if (l_fullIDs[0].Equals(Constants.xpathSystem))
                     {
                         if (l_systemObject.key.Equals(l_fullIDs[2]))
                         {
@@ -138,7 +138,7 @@ namespace EcellLib
                             }
                         }
                     }
-                    else if (l_fullIDs[0].Equals(Util.s_xpathProcess) || l_fullIDs[0].Equals(Util.s_xpathVariable))
+                    else if (l_fullIDs[0].Equals(Constants.xpathProcess) || l_fullIDs[0].Equals(Constants.xpathVariable))
                     {
                         if (l_systemObject.Children == null || l_systemObject.Children.Count <= 0)
                         {
@@ -147,7 +147,7 @@ namespace EcellLib
                         foreach (EcellObject l_childObject in l_systemObject.Children)
                         {
                             if (l_childObject.type.Equals(l_fullIDs[0])
-                                    && l_childObject.key.Equals(l_fullIDs[1] + Util.s_delimiterColon + l_fullIDs[2]))
+                                    && l_childObject.key.Equals(l_fullIDs[1] + Constants.delimiterColon + l_fullIDs[2]))
                             {
                                 if (l_childObject.Value == null || l_childObject.Value.Count <= 0)
                                 {
@@ -159,7 +159,7 @@ namespace EcellLib
                                     {
                                         l_childData.Logged = true;
                                         l_changedKey = l_fullIDs[1]
-                                                + Util.s_delimiterColon + l_fullIDs[2];
+                                                + Constants.delimiterColon + l_fullIDs[2];
                                         l_changedType = l_fullIDs[0];
                                         l_changedObject = l_childObject;
                                         break;
@@ -241,9 +241,9 @@ namespace EcellLib
             try
             {
                 List<EcellObject> l_list = new List<EcellObject>();
-                l_list.Add(EcellObject.CreateObject(l_modelID, null, Util.s_xpathModel, null, null));
+                l_list.Add(EcellObject.CreateObject(l_modelID, null, Constants.xpathModel, null, null));
                 DataManager.GetDataManager().DataAdd(l_list);
-                PluginManager.GetPluginManager().ChangeStatus(1);
+                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
                 s_modelID = l_modelID;
             }
             catch (Exception l_ex)
@@ -327,7 +327,7 @@ namespace EcellLib
         {
             try
             {
-                string[] l_fullPNDivs = l_fullPN.Split(Util.s_delimiterColon.ToCharArray());
+                string[] l_fullPNDivs = l_fullPN.Split(Constants.delimiterColon.ToCharArray());
                 if (l_fullPNDivs.Length != 4)
                 {
                     throw new Exception("The format of this [" + l_fullPN + "] is wrong.");
@@ -337,8 +337,8 @@ namespace EcellLib
                 if (l_systemObjectList == null || l_systemObjectList.Count <= 0)
                 {
                     throw new Exception("The entity of this ["
-                            + l_fullPNDivs[0] + Util.s_delimiterColon
-                            + l_fullPNDivs[1] + Util.s_delimiterColon
+                            + l_fullPNDivs[0] + Constants.delimiterColon
+                            + l_fullPNDivs[1] + Constants.delimiterColon
                             + l_fullPNDivs[2] + "] is nothing.");
                 }
                 //
@@ -349,11 +349,11 @@ namespace EcellLib
                 EcellObject l_changedObject = null;
                 foreach (EcellObject l_systemObject in l_systemObjectList)
                 {
-                    if (!l_systemObject.type.Equals(Util.s_xpathSystem))
+                    if (!l_systemObject.type.Equals(Constants.xpathSystem))
                     {
                         continue;
                     }
-                    if (l_fullPNDivs[0].Equals(Util.s_xpathSystem))
+                    if (l_fullPNDivs[0].Equals(Constants.xpathSystem))
                     {
                         if (l_systemObject.key.Equals(l_fullPNDivs[2]))
                         {
@@ -374,8 +374,8 @@ namespace EcellLib
                             }
                         }
                     }
-                    else if (l_fullPNDivs[0].Equals(Util.s_xpathProcess)
-                            || l_fullPNDivs[0].Equals(Util.s_xpathVariable))
+                    else if (l_fullPNDivs[0].Equals(Constants.xpathProcess)
+                            || l_fullPNDivs[0].Equals(Constants.xpathVariable))
                     {
                         if (l_systemObject.Children == null || l_systemObject.Children.Count <= 0)
                         {
@@ -385,7 +385,7 @@ namespace EcellLib
                         {
                             if (l_childObject.type.Equals(l_fullPNDivs[0])
                                     && l_childObject.key.Equals(l_fullPNDivs[1]
-                                    + Util.s_delimiterColon + l_fullPNDivs[2]))
+                                    + Constants.delimiterColon + l_fullPNDivs[2]))
                             {
                                 if (l_childObject.Value == null || l_childObject.Value.Count <= 0)
                                 {
@@ -397,7 +397,7 @@ namespace EcellLib
                                     {
                                         l_childValue.Logged = false;
                                         l_changedKey = l_fullPNDivs[1]
-                                                + Util.s_delimiterColon + l_fullPNDivs[2];
+                                                + Constants.delimiterColon + l_fullPNDivs[2];
                                         l_changedType = l_fullPNDivs[0];
                                         l_changedObject = l_childObject;
                                         break;
@@ -510,11 +510,11 @@ namespace EcellLib
                 {
                     return null;
                 }
-                if (l_entityName.Equals(Util.s_xpathSystem))
+                if (l_entityName.Equals(Constants.xpathSystem))
                 {
                     List<string> l_list = new List<string>();
-                    int depth = l_systemPath.Split(Util.s_delimiterPath.ToCharArray()).Length;
-                    if (l_systemPath.Equals(Util.s_delimiterPath))
+                    int depth = l_systemPath.Split(Constants.delimiterPath.ToCharArray()).Length;
+                    if (l_systemPath.Equals(Constants.delimiterPath))
                     {
                         foreach (string l_system in DataManager.GetDataManager().GetSystemList(s_modelID))
                         {
@@ -522,9 +522,9 @@ namespace EcellLib
                             {
                                 continue;
                             }
-                            else if (depth == l_system.Split(Util.s_delimiterPath.ToCharArray()).Length)
+                            else if (depth == l_system.Split(Constants.delimiterPath.ToCharArray()).Length)
                             {
-                                l_list.Add(l_system.Replace(Util.s_delimiterPath, ""));
+                                l_list.Add(l_system.Replace(Constants.delimiterPath, ""));
                             }
                         }
                     }
@@ -536,15 +536,15 @@ namespace EcellLib
                             {
                                 continue;
                             }
-                            else if ((depth + 1) == l_system.Split(Util.s_delimiterPath.ToCharArray()).Length)
+                            else if ((depth + 1) == l_system.Split(Constants.delimiterPath.ToCharArray()).Length)
                             {
-                                l_list.Add(l_system.Replace(l_systemPath, "").Replace(Util.s_delimiterPath, ""));
+                                l_list.Add(l_system.Replace(l_systemPath, "").Replace(Constants.delimiterPath, ""));
                             }
                         }
                     }
                     return l_list;
                 }
-                else if(l_entityName.Equals(Util.s_xpathProcess) || l_entityName.Equals(Util.s_xpathVariable))
+                else if(l_entityName.Equals(Constants.xpathProcess) || l_entityName.Equals(Constants.xpathVariable))
                 {
                     List<string> l_list = new List<string>();
                     foreach (EcellObject l_parent in DataManager.GetDataManager().GetData(s_modelID, l_systemPath))
@@ -557,7 +557,7 @@ namespace EcellLib
                         {
                             if (l_child.type.Equals(l_entityName))
                             {
-                                l_list.Add(l_child.key.Split(Util.s_delimiterColon.ToCharArray())[1]);
+                                l_list.Add(l_child.key.Split(Constants.delimiterColon.ToCharArray())[1]);
                             }
                         }
                     }
@@ -607,16 +607,16 @@ namespace EcellLib
         /// <returns>The entity property of the full PN</returns>
         private EcellValue GetEntityPropertyFromDic(string l_fullPN)
         {
-            if (l_fullPN.IndexOf(Util.s_delimiterColon) < 0)
+            if (l_fullPN.IndexOf(Constants.delimiterColon) < 0)
             {
                 return null;
             }
-            string[] pathElements = l_fullPN.Split(Util.s_delimiterColon.ToCharArray());
-            if (pathElements[0].Equals(Util.s_xpathSystem))
+            string[] pathElements = l_fullPN.Split(Constants.delimiterColon.ToCharArray());
+            if (pathElements[0].Equals(Constants.xpathSystem))
             {
                 EcellObject l_system
                     = (DataManager.GetDataManager().GetData(
-                        s_modelID, pathElements[1] + Util.s_delimiterColon + pathElements[2]))[0];
+                        s_modelID, pathElements[1] + Constants.delimiterColon + pathElements[2]))[0];
                 foreach (EcellData l_systemProperty in l_system.Value)
                 {
                     if (l_systemProperty.Name.Equals(pathElements[3]))
@@ -633,7 +633,7 @@ namespace EcellLib
                 foreach (EcellObject l_entity in l_system.Children)
                 {
                     if (l_entity.type.Equals(pathElements[0])
-                        && l_entity.key.Equals(pathElements[1] + Util.s_delimiterColon + pathElements[2]))
+                        && l_entity.key.Equals(pathElements[1] + Constants.delimiterColon + pathElements[2]))
                     {
                         foreach (EcellData l_entityProperty in l_entity.Value)
                         {
@@ -713,7 +713,7 @@ namespace EcellLib
         /// <returns>The process list</returns>
         public List<string> GetProcessList()
         {
-            return DataManager.GetDataManager().GetEntityList(s_modelID, Util.s_xpathProcess);
+            return DataManager.GetDataManager().GetEntityList(s_modelID, Constants.xpathProcess);
         }
 
         /// <summary>
@@ -839,7 +839,7 @@ namespace EcellLib
         /// <returns>The variable list</returns>
         public List<string> GetVariableList()
         {
-            return DataManager.GetDataManager().GetEntityList(s_modelID, Util.s_xpathVariable);
+            return DataManager.GetDataManager().GetEntityList(s_modelID, Constants.xpathVariable);
         }
 
         /// <summary>
@@ -897,7 +897,7 @@ namespace EcellLib
                 }
                 s_modelID = DataManager.GetDataManager().LoadModel(l_fileName, false);
                 PluginManager.GetPluginManager().LoadData(s_modelID);                
-                PluginManager.GetPluginManager().ChangeStatus(1);
+                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
             }
             catch (Exception l_ex)
             {
@@ -913,7 +913,7 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().Message(Util.s_xpathSimulation.ToLower(), l_message);
+                PluginManager.GetPluginManager().Message(Constants.xpathSimulation.ToLower(), l_message);
             }
             catch (Exception l_ex)
             {
@@ -937,7 +937,7 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(2);
+                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Running);
                 DataManager.GetDataManager().SimulationStartKeepSetting(l_interval);
             }
             catch (Exception l_ex)
@@ -954,7 +954,7 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(2);
+                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Running);
                 DataManager.GetDataManager().SimulationStart(l_interval, 0);
             }
             catch (Exception l_ex)
@@ -977,7 +977,7 @@ namespace EcellLib
                 List<string> l_fullIDList = new List<string>();
                 l_fullIDList.Add(l_fullID);
                 DataManager.GetDataManager()
-                        .SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, Util.s_xpathCsv, l_fullIDList);
+                        .SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, Constants.xpathCsv, l_fullIDList);
             }
             catch (Exception l_ex)
             {
@@ -1028,7 +1028,7 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(2);
+                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Running);
                 DataManager.GetDataManager().SimulationStartKeepSetting(l_count);
             }
             catch (Exception l_ex)
@@ -1045,7 +1045,7 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(2);
+                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Running);
                 DataManager.GetDataManager().SimulationStart(l_count, 0);
             }
             catch (Exception l_ex)
@@ -1061,7 +1061,7 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(1);
+                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
                 DataManager.GetDataManager().SimulationStop();
             }
             catch (Exception l_ex)
@@ -1077,7 +1077,7 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(3);
+                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Suspended);
                 DataManager.GetDataManager().SimulationSuspend();
             }
             catch (Exception l_ex)
@@ -1178,7 +1178,7 @@ namespace EcellLib
                     foreach(EcellObject l_system
                             in DataManager.GetDataManager().GetData(CommandManager.s_modelID, l_systemKey))
                     {
-                        if (l_type.Equals(Util.s_xpathSystem))
+                        if (l_type.Equals(Constants.xpathSystem))
                         {
                             this.m_ecellObject = l_system;
                             return;
@@ -1232,15 +1232,15 @@ namespace EcellLib
             private void Create(string l_key, string l_type, string l_className)
             {
                 List<string> l_entityList = null;
-                if (l_type.Equals(Util.s_xpathSystem))
+                if (l_type.Equals(Constants.xpathSystem))
                 {
                     l_entityList = DataManager.GetDataManager().GetSystemList();
                 }
-                else if (l_type.Equals(Util.s_xpathProcess))
+                else if (l_type.Equals(Constants.xpathProcess))
                 {
                     l_entityList = DataManager.GetDataManager().GetProcessList();
                 }
-                else if (l_type.Equals(Util.s_xpathVariable))
+                else if (l_type.Equals(Constants.xpathVariable))
                 {
                     l_entityList = DataManager.GetDataManager().GetVariableList();
                 }
@@ -1255,7 +1255,7 @@ namespace EcellLib
                         if (l_className.Equals(l_entity))
                         {
                             List<EcellData> l_propertyList = new List<EcellData>();
-                            if (l_type.Equals(Util.s_xpathSystem))
+                            if (l_type.Equals(Constants.xpathSystem))
                             {
                                 Dictionary<string, EcellData> l_propertyDic
                                         = m_dManager.GetSystemProperty();
@@ -1263,12 +1263,12 @@ namespace EcellLib
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
                                     l_ecellData.EntityPath
-                                            = l_type + Util.s_delimiterColon
-                                            + l_key + Util.s_delimiterColon + l_property;
+                                            = l_type + Constants.delimiterColon
+                                            + l_key + Constants.delimiterColon + l_property;
                                     l_propertyList.Add(l_ecellData);
                                 }
                             }
-                            else if (l_type.Equals(Util.s_xpathProcess))
+                            else if (l_type.Equals(Constants.xpathProcess))
                             {
                                 Dictionary<string, EcellData> l_propertyDic
                                         = m_dManager.GetProcessProperty(l_className);
@@ -1276,8 +1276,8 @@ namespace EcellLib
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
                                     l_ecellData.EntityPath
-                                            = l_type + Util.s_delimiterColon
-                                            + l_key + Util.s_delimiterColon + l_property;
+                                            = l_type + Constants.delimiterColon
+                                            + l_key + Constants.delimiterColon + l_property;
                                     l_propertyList.Add(l_ecellData);
                                 }
                             }
@@ -1289,8 +1289,8 @@ namespace EcellLib
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
                                     l_ecellData.EntityPath
-                                            = l_type + Util.s_delimiterColon
-                                            + l_key + Util.s_delimiterColon + l_property;
+                                            = l_type + Constants.delimiterColon
+                                            + l_key + Constants.delimiterColon + l_property;
                                     l_propertyList.Add(l_ecellData);
                                 }
                             }
@@ -1489,7 +1489,7 @@ namespace EcellLib
                 foreach (EcellObject l_system
                         in DataManager.GetDataManager().GetData(CommandManager.s_modelID, l_systemKey))
                 {
-                    if (l_type.Equals(Util.s_xpathSystem))
+                    if (l_type.Equals(Constants.xpathSystem))
                     {
                         this.m_ecellObject = l_system;
                         return;
@@ -1519,7 +1519,7 @@ namespace EcellLib
             /// <param name="l_systemKey">the system path of the entity</param>
             private void RefinedFullID(ref string l_key, ref string l_type, ref string l_systemKey)
             {
-                string[] l_infos = this.m_fullID.Split(Util.s_delimiterColon.ToCharArray());
+                string[] l_infos = this.m_fullID.Split(Constants.delimiterColon.ToCharArray());
                 if (l_infos.Length != 3)
                 {
                     throw new Exception("The [" + this.m_fullID + "] isn't up to standard.");
@@ -1527,25 +1527,25 @@ namespace EcellLib
                 l_key = null;
                 l_type = l_infos[0];
                 l_systemKey = null;
-                if (l_infos[1].Equals("") && l_infos[2].Equals(Util.s_delimiterPath))
+                if (l_infos[1].Equals("") && l_infos[2].Equals(Constants.delimiterPath))
                 {
-                    l_key = Util.s_delimiterPath;
-                    l_systemKey = Util.s_delimiterPath;
+                    l_key = Constants.delimiterPath;
+                    l_systemKey = Constants.delimiterPath;
                 }
                 else
                 {
-                    if (l_infos[0].Equals(Util.s_xpathSystem))
+                    if (l_infos[0].Equals(Constants.xpathSystem))
                     {
-                        l_key = l_infos[1] + Util.s_delimiterPath + l_infos[2];
-                        l_systemKey = l_infos[1] + Util.s_delimiterPath + l_infos[2];
+                        l_key = l_infos[1] + Constants.delimiterPath + l_infos[2];
+                        l_systemKey = l_infos[1] + Constants.delimiterPath + l_infos[2];
                     }
                     else
                     {
-                        l_key = l_infos[1] + Util.s_delimiterColon + l_infos[2];
+                        l_key = l_infos[1] + Constants.delimiterColon + l_infos[2];
                         l_systemKey = l_infos[1];
                     }
-                    l_key = l_key.Replace(Util.s_delimiterPath + Util.s_delimiterPath, Util.s_delimiterPath);
-                    l_systemKey = l_systemKey.Replace(Util.s_delimiterPath + Util.s_delimiterPath, Util.s_delimiterPath);
+                    l_key = l_key.Replace(Constants.delimiterPath + Constants.delimiterPath, Constants.delimiterPath);
+                    l_systemKey = l_systemKey.Replace(Constants.delimiterPath + Constants.delimiterPath, Constants.delimiterPath);
                 }
             }
 
@@ -1580,7 +1580,7 @@ namespace EcellLib
                                         throw new Exception("The property named [" + l_propertyName + "]"
                                                 + "isn't settable.");
                                     }
-                                    else if (l_propertyName.Equals(Util.s_xpathVRL))
+                                    else if (l_propertyName.Equals(Constants.xpathVRL))
                                     {
                                         try
                                         {
@@ -1588,20 +1588,20 @@ namespace EcellLib
                                             //
                                             // Exchange ":.:" for ":[path]:".
                                             //
-                                            string l_path = this.m_fullID.Split(Util.s_delimiterColon.ToCharArray())[1];
+                                            string l_path = this.m_fullID.Split(Constants.delimiterColon.ToCharArray())[1];
                                             for (int j = 0; j < l_data.Value.CastToList().Count; j++)
                                             {
                                                 string[] l_IDs
                                                     = l_data.Value.CastToList()[j].CastToList()[1].CastToString()
-                                                        .Split(Util.s_delimiterColon.ToCharArray());
-                                                if (l_IDs[1].Equals(Util.s_delimiterPeriod))
+                                                        .Split(Constants.delimiterColon.ToCharArray());
+                                                if (l_IDs[1].Equals(Constants.delimiterPeriod))
                                                 {
                                                     l_IDs[1] = l_path;
                                                 }
                                                 string l_ID = null;
                                                 foreach (string l_IDElement in l_IDs)
                                                 {
-                                                    l_ID = l_ID + Util.s_delimiterColon + l_IDElement;
+                                                    l_ID = l_ID + Constants.delimiterColon + l_IDElement;
                                                 }
                                                 l_data.Value.CastToList()[j].CastToList()[1]
                                                     = new EcellValue(l_ID.Substring(1));
@@ -1662,7 +1662,7 @@ namespace EcellLib
                                     = new EcellData(
                                         l_propertyName,
                                         new EcellValue(Convert.ToDouble(l_value)),
-                                        this.m_fullID + Util.s_delimiterColon + l_propertyName);
+                                        this.m_fullID + Constants.delimiterColon + l_propertyName);
                                 l_new.Logable = true;
                                 this.m_ecellObject.Value.Add(l_new);
                                 // throw new Exception("The property named [" + l_propertyName + "]" + "isn't found.");
@@ -2063,17 +2063,17 @@ namespace EcellLib
             {
                 try
                 {
-                    if (l_type.Equals(Util.s_xpathSystem))
+                    if (l_type.Equals(Constants.xpathSystem))
                     {
-                        return this.m_initialCondition[Util.s_xpathSystem];
+                        return this.m_initialCondition[Constants.xpathSystem];
                     }
-                    else if (l_type.Equals(Util.s_xpathProcess))
+                    else if (l_type.Equals(Constants.xpathProcess))
                     {
-                        return this.m_initialCondition[Util.s_xpathProcess];
+                        return this.m_initialCondition[Constants.xpathProcess];
                     }
-                    else if (l_type.Equals(Util.s_xpathVariable))
+                    else if (l_type.Equals(Constants.xpathVariable))
                     {
-                        return this.m_initialCondition[Util.s_xpathVariable];
+                        return this.m_initialCondition[Constants.xpathVariable];
                     }
                     else
                     {
@@ -2293,7 +2293,7 @@ namespace EcellLib
                             this.m_stepper = EcellObject.CreateObject(
                                     CommandManager.s_modelID,
                                     l_key,
-                                    Util.s_xpathStepper,
+                                    Constants.xpathStepper,
                                     l_className,
                                     l_propertyList);
                             return;

@@ -36,21 +36,21 @@ namespace EcellLib
                 if (Double.IsInfinity(l_ecellValue.CastToDouble()))
                 {
                     m_tx.WriteElementString(
-                        Util.s_xpathValue.ToLower(),
+                        Constants.xpathValue.ToLower(),
                         null,
                         XmlConvert.ToString(Double.PositiveInfinity));
                 }
                 else if (l_ecellValue.CastToDouble() == Double.MaxValue)
                 {
                     m_tx.WriteElementString(
-                        Util.s_xpathValue.ToLower(),
+                        Constants.xpathValue.ToLower(),
                         null,
                         XmlConvert.ToString(Double.MaxValue));
                 }
                 else
                 {
                     m_tx.WriteElementString(
-                        Util.s_xpathValue.ToLower(),
+                        Constants.xpathValue.ToLower(),
                         null,
                         l_ecellValue.CastToDouble().ToString());
                 }
@@ -58,7 +58,7 @@ namespace EcellLib
             else if (l_ecellValue.IsInt())
             {
                 m_tx.WriteElementString(
-                    Util.s_xpathValue.ToLower(),
+                    Constants.xpathValue.ToLower(),
                     null,
                     l_ecellValue.CastToInt().ToString());
             }
@@ -70,7 +70,7 @@ namespace EcellLib
                 }
                 if (l_isElement)
                 {
-                    m_tx.WriteStartElement(Util.s_xpathValue.ToLower());
+                    m_tx.WriteStartElement(Constants.xpathValue.ToLower());
                     foreach (EcellValue l_childEcellValue in l_ecellValue.CastToList())
                     {
                         this.WriteValueElements(l_childEcellValue, true);
@@ -88,7 +88,7 @@ namespace EcellLib
             else
             {
                 m_tx.WriteElementString(
-                    Util.s_xpathValue.ToLower(),
+                    Constants.xpathValue.ToLower(),
                     null,
                     l_ecellValue.CastToString());
             }
@@ -147,12 +147,12 @@ namespace EcellLib
                     }
                     break;
                 case XmlNodeType.Element:
-                    if (!l_childNode.Name.Equals(Util.s_xpathValue.ToLower()))
+                    if (!l_childNode.Name.Equals(Constants.xpathValue.ToLower()))
                     {
                         throw new EcellXmlReaderException(
                             String.Format(
                                 "Element {0} found where {1} is expceted",
-                                new object[] { l_childNode.Name, Util.s_xpathValue.ToLower() }
+                                new object[] { l_childNode.Name, Constants.xpathValue.ToLower() }
                             )
                         );
                     }

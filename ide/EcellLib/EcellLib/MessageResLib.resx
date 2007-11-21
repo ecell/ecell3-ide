@@ -148,7 +148,7 @@
     <value>Can not create the eml file.</value>
   </data>
   <data name="ErrCrePrj" xml:space="preserve">
-    <value>Can not create the project.</value>
+    <value>Failed to create project {0}.</value>
   </data>
   <data name="ErrCreSimParam" xml:space="preserve">
     <value>Can not create the simulation parameter.</value>

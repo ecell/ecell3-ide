@@ -552,13 +552,13 @@ namespace EcellLib
                 // Sets the file name.
                 //
                 string l_fileName =
-                    l_logData.type + Util.s_delimiterUnderbar +
-                    l_logData.key + Util.s_delimiterUnderbar +
+                    l_logData.type + Constants.delimiterUnderbar +
+                    l_logData.key + Constants.delimiterUnderbar +
                     l_logData.propName;
-                l_fileName = l_fileName.Replace(Util.s_delimiterPath, Util.s_delimiterUnderbar);
-                l_fileName = l_fileName.Replace(Util.s_delimiterColon, Util.s_delimiterUnderbar);
-                l_fileName = l_savedDirName + Util.s_delimiterPath +
-                    l_fileName + Util.s_delimiterPeriod + l_saveType;
+                l_fileName = l_fileName.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
+                l_fileName = l_fileName.Replace(Constants.delimiterColon, Constants.delimiterUnderbar);
+                l_fileName = l_savedDirName + Constants.delimiterPath +
+                    l_fileName + Constants.delimiterPeriod + l_saveType;
                 //
                 // Checks the old model file.
                 //
@@ -566,12 +566,12 @@ namespace EcellLib
                 {
                     string l_date
                         = File.GetLastAccessTime(l_fileName).ToString().Replace(
-                            Util.s_delimiterColon, Util.s_delimiterUnderbar);
-                    l_date = l_date.Replace(Util.s_delimiterPath, Util.s_delimiterUnderbar);
-                    l_date = l_date.Replace(Util.s_delimiterSpace, Util.s_delimiterUnderbar);
+                            Constants.delimiterColon, Constants.delimiterUnderbar);
+                    l_date = l_date.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
+                    l_date = l_date.Replace(Constants.delimiterSpace, Constants.delimiterUnderbar);
                     string l_destFileName
-                        = Path.GetDirectoryName(l_fileName) + Util.s_delimiterPath
-                        + Util.s_delimiterUnderbar + l_date + Util.s_delimiterUnderbar + Path.GetFileName(l_fileName);
+                        = Path.GetDirectoryName(l_fileName) + Constants.delimiterPath
+                        + Constants.delimiterUnderbar + l_date + Constants.delimiterUnderbar + Path.GetFileName(l_fileName);
                     File.Move(l_fileName, l_destFileName);
                 }
                 //
@@ -586,9 +586,9 @@ namespace EcellLib
                     // Writes the header.
                     //
                     l_writer.WriteLine(
-                        Util.s_delimiterSharp + Util.s_headerData + Util.s_delimiterColon + Util.s_delimiterSpace +
-                        l_logData.type + Util.s_delimiterColon +
-                        l_logData.key + Util.s_delimiterColon +
+                        Constants.delimiterSharp + Constants.headerData + Constants.delimiterColon + Constants.delimiterSpace +
+                        l_logData.type + Constants.delimiterColon +
+                        l_logData.key + Constants.delimiterColon +
                         l_logData.propName
                         );
                     int l_headerColumn = 0;
@@ -604,31 +604,31 @@ namespace EcellLib
                         l_headerColumn = 5;
                     }
                     l_writer.WriteLine(
-                        Util.s_delimiterSharp + Util.s_headerSize + Util.s_delimiterColon + Util.s_delimiterSpace +
-                        l_headerColumn + Util.s_delimiterSpace +
+                        Constants.delimiterSharp + Constants.headerSize + Constants.delimiterColon + Constants.delimiterSpace +
+                        l_headerColumn + Constants.delimiterSpace +
                         l_logData.logValueList.Count
                         );
                     l_writer.WriteLine(
-                        Util.s_delimiterSharp + Util.s_headerLabel + Util.s_delimiterColon + Util.s_delimiterSpace +
-                        Util.s_headerTime + Util.s_delimiterTab +
-                        Util.s_headerValue + Util.s_delimiterTab +
-                        Util.s_headerAverage + Util.s_delimiterTab +
-                        Util.s_headerMinimum.ToLower() + Util.s_delimiterTab +
-                        Util.s_headerMaximum.ToLower()
+                        Constants.delimiterSharp + Constants.headerLabel + Constants.delimiterColon + Constants.delimiterSpace +
+                        Constants.headerTime + Constants.delimiterTab +
+                        Constants.headerValue + Constants.delimiterTab +
+                        Constants.headerAverage + Constants.delimiterTab +
+                        Constants.headerMinimum.ToLower() + Constants.delimiterTab +
+                        Constants.headerMaximum.ToLower()
                         );
                     l_writer.WriteLine(
-                        Util.s_delimiterSharp + Util.s_headerNote + Util.s_delimiterColon + Util.s_delimiterSpace
+                        Constants.delimiterSharp + Constants.headerNote + Constants.delimiterColon + Constants.delimiterSpace
                         );
                     l_writer.WriteLine(
-                        Util.s_delimiterSharp
+                        Constants.delimiterSharp
                         );
                     string l_separator = "";
                     for (int i = 0; i < 22; i++)
                     {
-                        l_separator += Util.s_delimiterHyphen;
+                        l_separator += Constants.delimiterHyphen;
                     }
                     l_writer.WriteLine(
-                        Util.s_delimiterSharp + l_separator
+                        Constants.delimiterSharp + l_separator
                         );
                     l_writer.Flush();
                     //
@@ -647,17 +647,17 @@ namespace EcellLib
                             )
                         {
                             l_writer.WriteLine(
-                                l_logValue.time + Util.s_delimiterTab +
+                                l_logValue.time + Constants.delimiterTab +
                                 l_logValue.value
                                 );
                         }
                         else
                         {
                             l_writer.WriteLine(
-                                l_logValue.time + Util.s_delimiterTab +
-                                l_logValue.value + Util.s_delimiterTab +
-                                l_logValue.avg + Util.s_delimiterTab +
-                                l_logValue.min + Util.s_delimiterTab +
+                                l_logValue.time + Constants.delimiterTab +
+                                l_logValue.value + Constants.delimiterTab +
+                                l_logValue.avg + Constants.delimiterTab +
+                                l_logValue.min + Constants.delimiterTab +
                                 l_logValue.max
                                 );
                         }

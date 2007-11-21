@@ -43,361 +43,6 @@ namespace EcellLib
     public class Util
     {
         /// <summary>
-        /// DM directory name
-        /// </summary>
-        public const string s_DMDirName = "DMs";
-        /// <summary>
-        /// Reserved extension for DM's.
-        /// </summary>
-        public const string s_dmFileExtension = ".dll";
-        /// <summary>
-        /// Reserved extension for plugins.
-        /// </summary>
-        public const string s_pluginFileExtension = ".dll";
-        /// <summary>
-        /// Reserved char for colon.
-        /// </summary>
-        public const string s_delimiterColon = ":";
-        /// <summary>
-        /// Reserved char for equal.
-        /// </summary>
-        public const string s_delimiterEqual = "=";
-        /// <summary>
-        /// Reserved char for Hyphen.
-        /// </summary>
-        public const string s_delimiterHyphen = "-";
-        /// <summary>
-        /// Reserved char for Path.
-        /// </summary>
-        public const string s_delimiterPath = "/";
-        /// <summary>
-        /// Reserved char for period.
-        /// </summary>
-        public const string s_delimiterPeriod = ".";
-        /// <summary>
-        /// Reserved char for semi colon.
-        /// </summary>
-        public const string s_delimiterSemiColon = ";";
-        /// <summary>
-        /// Reserved char for sharp.
-        /// </summary>
-        public const string s_delimiterSharp = "#";
-        /// <summary>
-        /// Reserved char for space.
-        /// </summary>
-        public const string s_delimiterSpace = " ";
-        /// <summary>
-        /// Reserved char for delimiter.
-        /// </summary>
-        public const string s_delimiterTab = "\t";
-        /// <summary>
-        /// Reserved char for ubderbar,
-        /// </summary>
-        public const string s_delimiterUnderbar = "_";
-        /// <summary>
-        /// Reserved char for wild card.
-        /// </summary>
-        public const string s_delimiterWildcard = "*";
-        /// <summary>
-        /// Reserved the name of file..
-        /// </summary>
-        public const string s_fileProject = "project.info";
-        /// <summary>
-        /// Reserved the header of average.
-        /// </summary>
-        public const string s_headerAverage = "avg";
-        /// <summary>
-        /// Reserved the number of header.
-        /// </summary>
-        public const string s_headerColumn = "5";
-        /// <summary>
-        /// Reserved the header of data.
-        /// </summary>
-        public const string s_headerData = "DATA";
-        /// <summary>
-        /// Reserved the header of label.
-        /// </summary>
-        public const string s_headerLabel = "LABEL";
-        /// <summary>
-        /// Reserved the header of  max.
-        /// </summary>
-        public const string s_headerMaximum = "Max";
-        /// <summary>
-        /// Reserved the header of min.
-        /// </summary>
-        public const string s_headerMinimum = "Min";
-        /// <summary>
-        /// Reserved the header of note.
-        /// </summary>
-        public const string s_headerNote = "NOTE";
-        /// <summary>
-        /// Reserved the header of Size.
-        /// </summary>
-        public const string s_headerSize = "SIZE";
-        /// <summary>
-        /// Reserved the header of Time.
-        /// </summary>
-        public const string s_headerTime = "t";
-        /// <summary>
-        /// Reserved the header of tolerable.
-        /// </summary>
-        public const string s_headerTolerable = "Tolerable";
-        /// <summary>
-        /// Reserved the header of value.
-        /// </summary>
-        public const string s_headerValue = "value";
-        /// <summary>
-        /// Reserved XML path name for DefalutParameter.
-        /// </summary>
-        public const string s_parameterKey = "DefaultParameter";
-        /// <summary>
-        /// Reserved XML path name for name of "E-CELL IDE ANALYSIS".
-        /// </summary>
-        public const string s_registryAnalysisDirKey = "E-CELL IDE ANALYSIS";
-        /// <summary>
-        /// Reserved XML path name for name of "E-CELL IDE BASE".
-        /// </summary>
-        public const string s_registryBaseDirKey = "E-CELL IDE BASE";
-        /// <summary>
-        /// Reserved XML path name for name of "E-CELL IDE DM".
-        /// </summary>
-        public const string s_registryDMDirKey = "E-CELL IDE DM";
-        /// <summary>
-        /// Reserved XML path name for name of "E-CELL IDE PLUGIN".
-        /// </summary>
-        public const string s_registryPluginDirKey = "E-CELL IDE PLUGIN";
-        /// <summary>
-        /// Reserved XML path name for name of "E-CELL IDE LANG".
-        /// </summary>
-        public const string s_registryLang = "E-CELL IDE LANG";
-        /// <summary>
-        /// Reserved XML path name for name of "E-CELL IDE STATICDEBUG PLUGIN".
-        /// </summary>
-        public const string s_registryStaticDebugDirKey = "E-CELL IDE STATICDEBUG PLUGIN";
-        /// <summary>
-        /// Reserved XML path name for name of "E-CELL IDE TMP".
-        /// </summary>
-        public const string s_registryTmpDirKey = "E-CELL IDE TMP";
-        /// <summary>
-        /// Reserved XML path name for key of environment.
-        /// </summary>
-        public const string s_registryEnvKey = "Environment";
-        /// <summary>
-        /// Reserved XML path name for key of Software.
-        /// </summary>
-        public const string s_registrySWKey = "software\\KeioUniv\\E-Cell IDE";
-        /// <summary>
-        /// Reserved XML path name for key of Software.
-        /// </summary>
-        public const string s_registrySW2Key = "software\\KeioUniv";
-        /// <summary>
-        /// Reserved XML path name for comment.
-        /// </summary>
-        public const string s_textComment = "Comment";
-        /// <summary>
-        /// Reserved XML path name for default stepper.
-        /// </summary>
-        public const string s_textKey = "DefaultStepper";
-        /// <summary>
-        /// Reserved XML path name for parameter of simulation.
-        /// </summary>
-        public const string s_textParameter = "SimulationParameter";
-        /// <summary>
-        /// Reserved XML path name for the type of double.
-        /// </summary>
-        public const string s_typeDouble = "double";
-        /// <summary>
-        /// Reserved XML path name for the type of int.
-        /// </summary>
-        public const string s_typeInt = "int";
-        /// <summary>
-        /// Reserved XML path name for the type of list.
-        /// </summary>
-        public const string s_typeList = "list";
-        /// <summary>
-        /// Reserved XML path name for string.
-        /// </summary>
-        public const string s_typeString = "string";
-        /// <summary>
-        /// Reserved XML path name for action.
-        /// </summary>
-        public const string s_xpathAction = "Action";
-        /// <summary>
-        /// Reserved XML path name for activity.
-        /// </summary>
-        public const string s_xpathActivity = "Activity";
-        /// <summary>
-        /// Reserved XML path name for class.
-        /// </summary>
-        public const string s_xpathClass = "class";
-        /// <summary>
-        /// Reserved XML path name for class name.
-        /// </summary>
-        public const string s_xpathClassName = "ClassName";
-        /// <summary>
-        /// Reserved XML path name for ECD.
-        /// </summary>
-        public const string s_xpathEcd = "ecd";
-        /// <summary>
-        /// Reserved XML path name for CSV.
-        /// </summary>
-        public const string s_xpathCsv = "csv";
-        /// <summary>
-        /// Reserved XML path name for EML.
-        /// </summary>
-        public const string s_xpathEml = "eml";
-        /// <summary>
-        /// Reserved XML path name for Expression.
-        /// </summary>
-        public const string s_xpathExpression = "Expression";
-        /// <summary>
-        /// Reserved XML path name for FireMethod.
-        /// </summary>
-        public const string s_xpathFireMethod = "FireMethod";
-        /// <summary>
-        /// Reserved XML path name for Fixed.
-        /// </summary>
-        public const string s_xpathFixed = "Fixed";
-        /// <summary>
-        /// Reserved XML path name for ID.
-        /// </summary>
-        public const string s_xpathID = "ID";
-        /// <summary>
-        /// Reserved XML path name for initial condition.
-        /// </summary>
-        public const string s_xpathInitialCondition = "InitialCondition";
-        /// <summary>
-        /// Reserved XML path name for Interval.
-        /// </summary>
-        public const string s_xpathInterval = "Interval";
-        /// <summary>
-        /// Reserved XML path name for IsEpsilonChecked.
-        /// </summary>
-        public const string s_xpathIsEpsilonChecked = "IsEpsilonChecked";
-        /// <summary>
-        /// Reserved XML path name for key.
-        /// </summary>
-        public const string s_xpathKey = "Key";
-        /// <summary>
-        /// Reserved XML path name for LoggerPolicy.
-        /// </summary>
-        public const string s_xpathLoggerPolicy = "LoggerPolicy";
-        /// <summary>
-        /// Reserved XML path name for Model.
-        /// </summary>
-        public const string s_xpathModel = "Model";
-        /// <summary>
-        /// Reserved XML path name for MolarConc.
-        /// </summary>
-        public const string s_xpathMolarConc = "MolarConc";
-        /// <summary>
-        /// Reserved XML path name for Name.
-        /// </summary>
-        public const string s_xpathName = "Name";
-        /// <summary>
-        /// Reserved XML path name for NumberConc.
-        /// </summary>
-        public const string s_xpathNumberConc = "NumberConc";
-        /// <summary>
-        /// Reserved XML path name for Prm.
-        /// </summary>
-        public const string s_xpathPrm = "Prm";
-        /// <summary>
-        /// Reserved XML path name for Process.
-        /// </summary>
-        public const string s_xpathProcess = "Process";
-        /// <summary>
-        /// Reserved XML path name for Project.
-        /// </summary>
-        public const string s_xpathProject = "Project";
-        /// <summary>
-        /// Reserved XML path name for Property.
-        /// </summary>
-        public const string s_xpathProperty = "property";
-        /// <summary>
-        /// Reserved XML path name for Result.
-        /// </summary>
-        public const string s_xpathResult = "Result";
-        /// <summary>
-        /// Reserved XML path name for Size.
-        /// </summary>
-        public const string s_xpathSize = "Size";
-        /// <summary>
-        /// Reserved XML path name for Simulation.
-        /// </summary>
-        public const string s_xpathSimulation = "Parameters";
-        /// <summary>
-        /// Reserved XML path name for Space.
-        /// </summary>
-        public const string s_xpathSpace = "Space";
-        /// <summary>
-        /// Reserved XML path name for Step.
-        /// </summary>
-        public const string s_xpathStep = "Step";
-        /// <summary>
-        /// Reserved XML path name for StepInterval.
-        /// </summary>
-        public const string s_xpathStepInterval = "StepInterval";
-        /// <summary>
-        /// Reserved XML path name for Stepper.
-        /// </summary>
-        public const string s_xpathStepper = "Stepper";
-        /// <summary>
-        /// Reserved XML path name for System.
-        /// </summary>
-        public const string s_xpathSystem = "System";
-        /// <summary>
-        /// Reserved XML path name for Value.
-        /// </summary>
-        public const string s_xpathValue = "Value";
-        /// <summary>
-        /// Reserved XML path name for Variable.
-        /// </summary>
-        public const string s_xpathVariable = "Variable";
-        /// <summary>
-        /// Reserved XML path name for VariableReferenceList.
-        /// </summary>
-        public const string s_xpathVRL = EcellProcess.VARIABLEREFERENCELIST;
-        /// <summary>
-        /// Reserved XML path name for xml.
-        /// </summary>
-        public const string s_xpathXml = "xml";
-        
-        /// <summary>
-        /// Project status (this program is loaded no yet,)
-        /// </summary>
-        public const int NOTLOAD = 0;
-        /// <summary>
-        /// Projct status (this projgram is loaded).
-        /// </summary>
-        public const int LOADED = 1;
-        /// <summary>
-        /// Project status (this project is running).
-        /// </summary>
-        public const int RUNNING = 2;
-        /// <summary>
-        /// Project status (this project is suspend).
-        /// </summary>
-        public const int SUSPEND = 3;
-        /// <summary>
-        /// Project status (this project is in step).
-        /// </summary>
-        public const int STEP = 4;
-
-        /// <summary>
-        /// Analysis status (this analysis is run no yet.
-        /// </summary>
-        public const int ANALYSIS_YET = 0;
-        /// <summary>
-        /// Analysis status (this analysis is running).
-        /// </summary>
-        public const int ANALYSIS_DO = 1;
-        /// <summary>
-        /// Analysis status (this analysis is already done).
-        /// </summary>
-        public const int ANALYSIS_DONE = 2;
-
-        /// <summary>
         /// Additional plugin directories to be searched on startup.
         /// XXX: this should not be in Util class.
         /// </summary>
@@ -420,7 +65,7 @@ namespace EcellLib
         /// <returns></returns>
         static public string GetAnalysisDir()
         {
-            return GetRegistryValue(s_registryAnalysisDirKey);
+            return GetRegistryValue(Constants.registryAnalysisDirKey);
         }
 
         /// <summary>
@@ -429,7 +74,7 @@ namespace EcellLib
         /// <returns></returns>
         static public string GetLang()
         {
-            return GetRegistryValue(s_registryLang);
+            return GetRegistryValue(Constants.registryLang);
         }
 
         /// <summary>
@@ -438,7 +83,7 @@ namespace EcellLib
         /// <returns>the working directory.</returns>
         static public string GetBaseDir()
         {
-            return GetRegistryValue(s_registryBaseDirKey);
+            return GetRegistryValue(Constants.registryBaseDirKey);
         }
 
         /// <summary>
@@ -450,10 +95,10 @@ namespace EcellLib
             List<string> dmDirs = new List<string>();
             List<string> candidates = new List<string>();
             if (currentProjectPath != null)
-                candidates.Add(currentProjectPath + Path.DirectorySeparatorChar + s_DMDirName);
+                candidates.Add(currentProjectPath + Path.DirectorySeparatorChar + Constants.DMDirName);
             candidates.AddRange(extraDMDirs);
             if (!noDefaultPaths)
-                candidates.Add(GetRegistryValue(s_registryDMDirKey));
+                candidates.Add(GetRegistryValue(Constants.registryDMDirKey));
             foreach (string dmDir in candidates)
             {
                 if (Directory.Exists(dmDir))
@@ -516,20 +161,20 @@ namespace EcellLib
                 {
                     Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
                     {
-                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Util.s_registryEnvKey);
+                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registryEnvKey);
                         if (subkey != null)
                         {
-                            string pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
+                            string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
                             if (pluginDir != null && Directory.Exists(pluginDir))
                                 pluginDirs.Add(pluginDir);
                             subkey.Close();
                         }
                     }
                     {
-                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Util.s_registrySWKey);
+                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
                         if (subkey != null)
                         {
-                            string pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
+                            string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
                             if (pluginDir != null && Directory.Exists(pluginDir))
                                 pluginDirs.Add(pluginDir);
                             subkey.Close();
@@ -540,10 +185,10 @@ namespace EcellLib
                 {
                     Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.LocalMachine;
                     {
-                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Util.s_registrySWKey);
+                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
                         if (subkey != null)
                         {
-                            string pluginDir = (string)subkey.GetValue(Util.s_registryPluginDirKey);
+                            string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
                             if (pluginDir != null && Directory.Exists(pluginDir))
                                 pluginDirs.Add(pluginDir);
                             subkey.Close();
@@ -662,7 +307,7 @@ namespace EcellLib
                 Directory.CreateDirectory(topDir);
             }
             return topDir;
-//            return GetRegistryValue(s_registryTmpDirKey);
+//            return GetRegistryValue(Constants.registryTmpDirKey);
         }
 
         /// <summary>
@@ -677,7 +322,7 @@ namespace EcellLib
             Microsoft.Win32.RegistryKey l_subkey = null;
             try
             {
-                l_subkey = l_key.OpenSubKey(s_registryEnvKey);
+                l_subkey = l_key.OpenSubKey(Constants.registryEnvKey);
                 l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
                 if (l_currentDir != null)
                     return l_currentDir;
@@ -691,7 +336,7 @@ namespace EcellLib
             }
             try
             {
-                l_subkey = l_key.OpenSubKey(s_registrySWKey);
+                l_subkey = l_key.OpenSubKey(Constants.registrySWKey);
                 if (l_subkey != null)
                 {
                     l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
@@ -713,7 +358,7 @@ namespace EcellLib
             try
             {
                 l_key = Microsoft.Win32.Registry.LocalMachine;
-                l_subkey = l_key.OpenSubKey(s_registrySWKey);
+                l_subkey = l_key.OpenSubKey(Constants.registrySWKey);
                 if (l_subkey != null)
                 {
                     l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
@@ -763,16 +408,16 @@ namespace EcellLib
             Microsoft.Win32.RegistryKey l_subkey = null;
             try
             {
-                l_subkey = l_key.OpenSubKey(s_registrySWKey, true);
+                l_subkey = l_key.OpenSubKey(Constants.registrySWKey, true);
                 /*
-                l_currentDir = (string)l_subkey.GetValue(s_registryBaseDirKey);
+                l_currentDir = (string)l_subkey.GetValue(Constants.registryBaseDirKey);
                 if (l_currentDir == null)
                 {
                     RegistrySecurity s = l_subkey.GetAccessControl();
                     
-                    l_subkey.CreateSubKey(s_registryBaseDirKey);
+                    l_subkey.CreateSubKey(Constants.registryBaseDirKey);
                 }*/
-                l_subkey.SetValue(s_registryLang, l_lang);
+                l_subkey.SetValue(Constants.registryLang, l_lang);
             }
             finally
             {
@@ -831,16 +476,16 @@ namespace EcellLib
             Microsoft.Win32.RegistryKey l_subkey = null;
             try
             {
-                l_subkey = l_key.OpenSubKey(s_registryEnvKey, true);
+                l_subkey = l_key.OpenSubKey(Constants.registryEnvKey, true);
                 /*
-                l_currentDir = (string)l_subkey.GetValue(s_registryBaseDirKey);
+                l_currentDir = (string)l_subkey.GetValue(Constants.registryBaseDirKey);
                 if (l_currentDir == null)
                 {
                     RegistrySecurity s = l_subkey.GetAccessControl();
                     
-                    l_subkey.CreateSubKey(s_registryBaseDirKey);
+                    l_subkey.CreateSubKey(Constants.registryBaseDirKey);
                 }*/
-                l_subkey.SetValue(s_registryBaseDirKey, l_basedir);
+                l_subkey.SetValue(Constants.registryBaseDirKey, l_basedir);
             }
             finally
             {
@@ -894,7 +539,12 @@ namespace EcellLib
 
         public static string BuildFullID(string type, string systemPath, string localID)
         {
-            return type + s_delimiterColon + systemPath + s_delimiterColon + localID;
+            return type + Constants.delimiterColon + systemPath + Constants.delimiterColon + localID;
+        }
+
+        public static string BuildFullPN(string type, string systemPath, string localID, string propName)
+        {
+            return BuildFullID(type, systemPath, localID) + Constants.delimiterColon + propName;
         }
 
         public static string StripWhitespaces(string val)

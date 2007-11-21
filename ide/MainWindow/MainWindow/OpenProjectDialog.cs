@@ -51,7 +51,7 @@ namespace EcellLib.MainWindow
             "Model",
             "Simulation",
             "Parameters",
-            Util.s_DMDirName
+            Constants.DMDirName
         };
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace EcellLib.MainWindow
                 OPPrjTreeView.Nodes.Add(node);
             }
 
-            string prjInfo = path + Util.s_delimiterPath + "project.info";
+            string prjInfo = path + Constants.delimiterPath + "project.info";
             if (File.Exists(prjInfo))
             {
                 Project prj = GetProject(prjInfo);
@@ -249,18 +249,18 @@ namespace EcellLib.MainWindow
             StreamReader l_reader = new StreamReader(fileName);
             while ((line = l_reader.ReadLine()) != null)
             {
-                if (line.IndexOf(Util.s_textComment) == 0)
+                if (line.IndexOf(Constants.textComment) == 0)
                 {
-                    if (line.IndexOf(Util.s_delimiterEqual) != -1)
+                    if (line.IndexOf(Constants.delimiterEqual) != -1)
                     {
-                        comment = line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
+                        comment = line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
                     }
                     else
                     {
-                        comment = line.Substring(line.IndexOf(Util.s_textComment));
+                        comment = line.Substring(line.IndexOf(Constants.textComment));
                     }
                 }
-                else if (line.IndexOf(Util.s_textParameter) == 0)
+                else if (line.IndexOf(Constants.textParameter) == 0)
                 {
                     m_simName = line;
                 }
@@ -268,15 +268,15 @@ namespace EcellLib.MainWindow
                 {
                     comment = comment + "\n" + line;
                 }
-                else if (line.IndexOf(Util.s_xpathProject) == 0)
+                else if (line.IndexOf(Constants.xpathProject) == 0)
                 {
-                    if (line.IndexOf(Util.s_delimiterEqual) != -1)
+                    if (line.IndexOf(Constants.delimiterEqual) != -1)
                     {
-                        prjName = line.Split(Util.s_delimiterEqual.ToCharArray())[1].Trim();
+                        prjName = line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
                     }
                     else
                     {
-                        prjName = line.Substring(line.IndexOf(Util.s_textComment));
+                        prjName = line.Substring(line.IndexOf(Constants.textComment));
                     }
                 }
             }

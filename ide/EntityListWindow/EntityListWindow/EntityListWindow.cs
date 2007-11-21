@@ -118,7 +118,7 @@ namespace EcellLib.EntityListWindow
         /// <summary>
         /// System status.
         /// </summary>
-        private int m_type = 0;
+        private ProjectStatus m_type = ProjectStatus.Uninitialized;
         /// <summary>
         /// Cotext menu for create logger of process on popup menu.
         /// </summary>
@@ -936,7 +936,9 @@ namespace EcellLib.EntityListWindow
 
             m_targetNode = node;
 
-            if (m_type != Util.NOTLOAD && m_type != Util.LOADED) return;
+            if (m_type != ProjectStatus.Uninitialized &&
+                    m_type != ProjectStatus.Loaded)
+                return;
             try
             {
                 if (tag.m_key.Contains(":"))
@@ -1000,7 +1002,7 @@ namespace EcellLib.EntityListWindow
             if (tag.m_type == "Parameter") return;
             if (e.Button == MouseButtons.Right)
             {
-                if (m_type != Util.LOADED && m_type != Util.STEP)
+                if (m_type != ProjectStatus.Loaded && m_type != ProjectStatus.Stepping)
                 {
                     m_form.treeView1.ContextMenu = null;
                     return;
@@ -1009,7 +1011,7 @@ namespace EcellLib.EntityListWindow
                 if (tag.m_type == "Project")
                 {
                     m_targetNode = node;
-                    if (m_type == Util.NOTLOAD)
+                    if (m_type == ProjectStatus.Uninitialized)
                         m_form.treeView1.ContextMenu = m_prjMenu;
                     else
                         m_form.treeView1.ContextMenu = m_prjLoadMenu;
@@ -1672,7 +1674,7 @@ namespace EcellLib.EntityListWindow
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(int type)
+        public void ChangeStatus(ProjectStatus type)
         {
             m_type = type;
         }
