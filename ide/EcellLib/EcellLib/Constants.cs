@@ -330,40 +330,44 @@ namespace EcellLib
         /// Reserved XML path name for xml.
         /// </summary>
         public const string xpathXml = "xml";
+    }
+
+    public enum AnalysisStatus
+    {
         /// <summary>
-        /// Analysis status (this analysis is run no yet.
+        /// Analysis status (analysis is not running)
         /// </summary>
-        public const int ANALYSIS_YET = 0;
+        Initialized = 0,
         /// <summary>
         /// Analysis status (this analysis is running).
         /// </summary>
-        public const int ANALYSIS_DO = 1;
+        Running = 1,
         /// <summary>
         /// Analysis status (this analysis is already done).
         /// </summary>
-        public const int ANALYSIS_DONE = 2;
+        Completed = 2
     }
 
     public enum ProjectStatus
     {
         /// <summary>
-        /// Project status (this program is loaded no yet,)
+        /// Project status (no project has been loaded yet,)
         /// </summary>
         Uninitialized = 0,
         /// <summary>
-        /// Projct status (this projgram is loaded).
+        /// Projct status (project is loaded with the simulation stopped)
         /// </summary>
         Loaded = 1,
         /// <summary>
-        /// Project status (this project is running).
+        /// Project status (simulation is running).
         /// </summary>
         Running = 2,
         /// <summary>
-        /// Project status (this project is suspend).
+        /// Project status (simulation is suspend).
         /// </summary>
         Suspended = 3,
         /// <summary>
-        /// Project status (this project is in step).
+        /// Project status (simulation is running in step mode).
         /// </summary>
         Stepping = 4
     }
