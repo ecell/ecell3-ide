@@ -51,7 +51,9 @@ namespace EcellCoreLib
         }
     };
 
-	public ref class WrappedLibecsException: public ApplicationException
+	public ref class WrappedException: public ApplicationException {};
+
+	public ref class WrappedLibecsException: public WrappedException
 	{
 	private:
 		String^ m_className;
@@ -82,7 +84,7 @@ namespace EcellCoreLib
 		}
 	};
 
-	public ref class WrappedStdException: public ApplicationException
+	public ref class WrappedStdException: public WrappedException
 	{
 	private:
 		String^ m_message;
