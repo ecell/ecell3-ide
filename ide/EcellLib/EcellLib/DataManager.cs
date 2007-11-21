@@ -4722,8 +4722,11 @@ namespace EcellLib
                 {
                     m_currentProjectPath = Path.GetDirectoryName(l_filename);
                 }
-                this.m_simulatorDic[this.m_currentProjectID] = CreateSimulatorInstance();
-                this.SetDMList();
+                if (!m_simulatorDic.ContainsKey(m_currentProjectID))
+                {
+                    this.m_simulatorDic[this.m_currentProjectID] = CreateSimulatorInstance();
+                    this.SetDMList();
+                }
                 EcellObject l_modelObj = EmlReader.Parse(l_filename,
                         m_simulatorDic[m_currentProjectID]);
                 l_modelID = l_modelObj.modelID;
@@ -5063,7 +5066,6 @@ namespace EcellLib
                 //
                 // Parses the simulation parameter.
                 //
-                // WrappedSimulator l_simulator = new WrappedSimulator();
                 SimulationParameter simParam = SimulationParameterReader.Parse(
                         l_fileName, m_simulatorDic[m_currentProjectID]);
 
@@ -7226,7 +7228,7 @@ namespace EcellLib
             }
         }
 
-        /// <summary>
+        /// <summar
         /// Create a new WrappedSimulator instance.
         /// </summary>
         protected WrappedSimulator CreateSimulatorInstance()
