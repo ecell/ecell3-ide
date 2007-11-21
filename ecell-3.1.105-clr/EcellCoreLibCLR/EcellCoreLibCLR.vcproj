@@ -406,6 +406,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\WrappedException.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\WrappedLibemc.hpp"
 				>
 			</File>

@@ -82,7 +82,6 @@ namespace EcellCoreLib
 			{
 				l_list->Add(gcnew WrappedPolymorph(*i));
 			}
-				
             return l_list;
         }
         else

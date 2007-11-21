@@ -537,13 +537,13 @@ namespace EcellCoreLib {
             // m_simulator->getEntityProperty("System::/:Size");
             m_simulator->saveEntityProperty("System::/:Name");
         }
-        catch (libecs::Exception l_ex)
+        catch (const libecs::Exception& l_ex)
         {
-            throw gcnew Exception ("Can't initialize the simulator. [" + gcnew String(l_ex.message().c_str()) + "]");
+            throw gcnew WrappedLibecsException(l_ex);
         }
-        catch (Exception ^ l_ex)
+		catch (const std::exception& l_ex)
         {
-            throw gcnew Exception ("Can't initialize the simulator. [" + l_ex->ToString() + "]");
+            throw gcnew WrappedStdException(l_ex);
         }
     }
 
