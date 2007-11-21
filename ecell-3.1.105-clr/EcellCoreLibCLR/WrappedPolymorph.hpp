@@ -26,5 +26,6 @@ namespace EcellCoreLib {
         bool IsInt();
         bool IsString();
         bool IsList();
+		virtual String^ ToString() new;
     };
 }

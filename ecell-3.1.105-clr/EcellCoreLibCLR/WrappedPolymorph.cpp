@@ -168,4 +168,10 @@ namespace EcellCoreLib
     {
         return thePolymorph->getType() == libecs::Polymorph::STRING;
     }
+
+	String^ WrappedPolymorph::ToString()
+	{
+		return Marshal::PtrToStringAnsi(
+				(IntPtr)const_cast<char *>(thePolymorph->asString().c_str()));
+	}
 }
