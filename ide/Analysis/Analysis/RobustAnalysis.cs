@@ -74,6 +74,8 @@ namespace EcellLib.Analysis
             it.Click += new EventHandler(ReflectMenuClick);
             m_cntMenu.Items.AddRange(new ToolStripItem[] { it });
             RAResultGridView.ContextMenuStrip = m_cntMenu;
+            RARandomCheck.Checked = true;
+            RAMatrixCheck.Checked = false;
 
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
@@ -233,7 +235,14 @@ namespace EcellLib.Analysis
 
             m_manager.SetParameterRange(paramList);
             m_manager.SetLoggerData(saveList);
-            m_manager.RunSimParameterRange(tmpDir, model, num, simTime, false);
+            if (RARandomCheck.Checked == true)
+            {
+                m_manager.RunSimParameterRange(tmpDir, model, num, simTime, false);
+            }
+            else
+            {
+                m_manager.RunSimParameterMatrix(tmpDir, model, simTime, false);
+            }
             m_isRunning = true;
 
             m_timer.Enabled = true;
@@ -991,6 +1000,46 @@ namespace EcellLib.Analysis
             }
 
             base.WndProc(ref m);
+        }
+
+        private void RARandomCheckChanged(object sender, EventArgs e)
+        {
+            if (RARandomCheck.Checked == true)
+            {
+                if (RAMatrixCheck.Checked == true)
+                {
+                    RAMatrixCheck.Checked = false;
+                    RASampleNumText.ReadOnly = false;
+                }
+            }
+            else
+            {
+                if (RAMatrixCheck.Checked == false)
+                {
+                    RAMatrixCheck.Checked = true;
+                    RASampleNumText.ReadOnly = true;
+                }
+            }
+        }
+
+        private void RAMatrixCheckedChanged(object sender, EventArgs e)
+        {
+            if (RAMatrixCheck.Checked == true)
+            {
+                if (RARandomCheck.Checked == true)
+                {
+                    RARandomCheck.Checked = false;
+                    RASampleNumText.ReadOnly = true;
+                }
+            }
+            else
+            {
+                if (RARandomCheck.Checked == false)
+                {
+                    RARandomCheck.Checked = true;
+                    RASampleNumText.ReadOnly = false;
+                }
+            }
         }
 
     }

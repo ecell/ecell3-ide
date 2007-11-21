@@ -1005,6 +1005,7 @@ namespace SessionManager
                     manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
                     List<string> extFileList = ExtractExtFileList(m_logList);
                     RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
+                    Application.DoEvents();
                     j++;
                 }
                 i++;

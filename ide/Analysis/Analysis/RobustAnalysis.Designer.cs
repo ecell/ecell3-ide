@@ -69,6 +69,10 @@
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.RAMinFreqText = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.RAMatrixCheck = new System.Windows.Forms.CheckBox();
+            this.RARandomCheck = new System.Windows.Forms.CheckBox();
             this.robustTabControl.SuspendLayout();
             this.AnalysisTab.SuspendLayout();
             this.RAAnalysisTableLayout.SuspendLayout();
@@ -83,6 +87,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.RAObservGridView)).BeginInit();
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
+            this.tableLayoutPanel8.SuspendLayout();
             this.SuspendLayout();
             // 
             // robustTabControl
@@ -189,12 +194,13 @@
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.RAParamGridView, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.RAObservGridView, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel6, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel7, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.RAParamGridView, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.RAObservGridView, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel6, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel7, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel8, 0, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // tableLayoutPanel2
@@ -373,6 +379,33 @@
             resources.ApplyResources(this.RAMinFreqText, "RAMinFreqText");
             this.RAMinFreqText.Name = "RAMinFreqText";
             // 
+            // tableLayoutPanel8
+            // 
+            resources.ApplyResources(this.tableLayoutPanel8, "tableLayoutPanel8");
+            this.tableLayoutPanel8.Controls.Add(this.label5, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this.RAMatrixCheck, 1, 0);
+            this.tableLayoutPanel8.Controls.Add(this.RARandomCheck, 2, 0);
+            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // RAMatrixCheck
+            // 
+            resources.ApplyResources(this.RAMatrixCheck, "RAMatrixCheck");
+            this.RAMatrixCheck.Name = "RAMatrixCheck";
+            this.RAMatrixCheck.UseVisualStyleBackColor = true;
+            this.RAMatrixCheck.CheckedChanged += new System.EventHandler(this.RAMatrixCheckedChanged);
+            // 
+            // RARandomCheck
+            // 
+            resources.ApplyResources(this.RARandomCheck, "RARandomCheck");
+            this.RARandomCheck.Name = "RARandomCheck";
+            this.RARandomCheck.UseVisualStyleBackColor = true;
+            this.RARandomCheck.CheckedChanged += new System.EventHandler(this.RARandomCheckChanged);
+            // 
             // RobustAnalysis
             // 
             resources.ApplyResources(this, "$this");
@@ -399,6 +432,8 @@
             this.tableLayoutPanel6.PerformLayout();
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
+            this.tableLayoutPanel8.ResumeLayout(false);
+            this.tableLayoutPanel8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -484,5 +519,9 @@
         /// TextBox to set the min frequency for FFT.
         /// </summary>
         public System.Windows.Forms.TextBox RAMinFreqText;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
+        private System.Windows.Forms.Label label5;
+        public System.Windows.Forms.CheckBox RAMatrixCheck;
+        public System.Windows.Forms.CheckBox RARandomCheck;
     }
 }
