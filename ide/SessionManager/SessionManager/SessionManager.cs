@@ -932,10 +932,10 @@ namespace SessionManager
             ParameterRange x = m_paramList[0];
             ParameterRange y = m_paramList[1];
             int i = 0;
-            for (double xd = x.Min ; xd < x.Max; xd += x.Step)
+            for (double xd = x.Min ; xd <= x.Max; xd += x.Step)
             {
                 int j = 0;
-                for (double yd = y.Min; yd < y.Max; yd += y.Step)
+                for (double yd = y.Min; yd <= y.Max; yd += y.Step)
                 {
                     paramDic.Clear();
                     string dirName = topDir + "/" + i + "-" + j;
@@ -958,10 +958,12 @@ namespace SessionManager
                                 if (d.EntityPath.Equals(x.FullPath))
                                 {
                                     d.Value.Value = xd * x.Step + x.Min;
+                                    paramDic.Add(x.FullPath, xd * x.Step + x.Min);
                                 }
                                 else if (d.EntityPath.Equals(y.FullPath))
                                 {
                                     d.Value.Value = yd * y.Step + y.Min;
+                                    paramDic.Add(y.FullPath, yd * y.Step + y.Min);
                                 }
                             }
                         }
@@ -978,10 +980,12 @@ namespace SessionManager
                                 if (d.EntityPath.Equals(x.FullPath))
                                 {
                                     d.Value.Value = xd * x.Step + x.Min;
+                                    paramDic.Add(x.FullPath, xd * x.Step + x.Min);
                                 }
                                 else if (d.EntityPath.Equals(y.FullPath))
                                 {
                                     d.Value.Value = yd * y.Step + y.Min;
+                                    paramDic.Add(y.FullPath, yd * y.Step + y.Min);
                                 }
                             }
                         }
@@ -1002,7 +1006,8 @@ namespace SessionManager
                         manager.WriteSimulationForTime(fileName, count, enc);
                     manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
                     List<string> extFileList = ExtractExtFileList(m_logList);
-                    RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
+                    int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
+                    m_paramerDic.Add(job, new ExecuteParameter(paramDic));
                     Application.DoEvents();
                     j++;
                 }
