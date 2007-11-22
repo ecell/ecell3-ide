@@ -125,11 +125,12 @@ Source: "..\lib\ironpython\*"; DestDir: "{app}\lib\ironpython";
 Source: "..\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 Source: "..\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 Source: "..\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "..\bin\MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 
 Source: "..\64bit\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 Source: "..\64bit\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 Source: "..\64bit\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-
+Source: "..\64bit\bin\MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 
 ; ======================================================
 ; bin/*.dll
