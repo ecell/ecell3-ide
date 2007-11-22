@@ -929,7 +929,7 @@ namespace EcellLib.MainWindow
                 try
                 {
                     m_dManager.NewProject(m_newPrjDialog.textName.Text,
-                            m_newPrjDialog.textComment.Text);
+                            m_newPrjDialog.textComment.Text, null);
                     List<EcellObject> list = new List<EcellObject>();
                     list.Add(EcellObject.CreateObject(m_newPrjDialog.textModelName.Text, null, "Model", null, null));
                     m_dManager.DataAdd(list);
@@ -1069,7 +1069,12 @@ namespace EcellLib.MainWindow
                 
                 if (fileName.EndsWith("eml"))
                 {
-                    m_dManager.NewProject(prjID, comment);
+                    String modelDir = Path.GetDirectoryName(fileName);
+                    if (modelDir.EndsWith(Constants.xpathModel))
+                    {
+                        modelDir = modelDir.Substring(0, modelDir.Length - 5);
+                    }
+                    m_dManager.NewProject(prjID, comment, modelDir);
                     m_project = prjID;
                     m_isLoadProject = true;
                     m_pManager.ChangeStatus(ProjectStatus.Loaded);
@@ -1344,7 +1349,13 @@ namespace EcellLib.MainWindow
             {
                 if (m_isLoadProject == false)
                 {
-                    m_dManager.NewProject("project", "comment");
+                    String fName = openFileDialog.FileName;
+                    string modelDir = Path.GetDirectoryName(fName);
+                    if (modelDir.EndsWith(Constants.xpathModel))
+                    {
+                        modelDir = modelDir.Substring(0, modelDir.Length - 5);
+                    }
+                    m_dManager.NewProject("project", "comment", modelDir);
                     m_project = "project";
                     m_isLoadProject = true;
                     m_pManager.ChangeStatus(ProjectStatus.Loaded);
@@ -1364,7 +1375,12 @@ namespace EcellLib.MainWindow
         {
             if (m_isLoadProject == false)
             {
-                m_dManager.NewProject("project", "comment");
+                string modelDir = Path.GetDirectoryName(path);
+                if (modelDir.EndsWith(Constants.xpathModel))
+                {
+                    modelDir = modelDir.Substring(0, modelDir.Length - 5);
+                }
+                m_dManager.NewProject("project", "comment", modelDir);
                 m_project = "project";
                 m_isLoadProject = true;
                 m_pManager.ChangeStatus(ProjectStatus.Loaded);

@@ -534,6 +534,7 @@ namespace EcellLib
         /// The comment of created project.
         /// </summary>
         private string m_comment;
+        private string m_prjPath;
         #endregion
 
         /// <summary>
@@ -548,10 +549,11 @@ namespace EcellLib
         /// </summary>
         /// <param name="prjName"></param>
         /// <param name="comment"></param>
-        public NewProjectAction(string prjName, string comment)
+        public NewProjectAction(string prjName, string comment, string path)
         {
             m_prjName = prjName;
             m_comment = comment;
+            m_prjPath = path;
             m_isUndoable = false;
         }
         /// <summary>
@@ -564,6 +566,10 @@ namespace EcellLib
             writer.WriteAttributeString("command", null, "NewProject");
             writer.WriteAttributeString("project", null, m_prjName);
             writer.WriteAttributeString("comment", null, m_comment);
+            if (m_prjPath != null)
+            {
+                writer.WriteAttributeString("path", null, m_prjPath);
+            }
             writer.WriteEndElement();
         }
         /// <summary>
@@ -578,13 +584,17 @@ namespace EcellLib
             child = node.Attributes.GetNamedItem("comment");
             if (child == null) return;
             m_comment = child.InnerText;
+
+            child = node.Attributes.GetNamedItem("path");
+            if (child == null) return;
+            m_comment = child.InnerText;
         }
         /// <summary>
         /// Execute to create the project using the information.
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().NewProject(m_prjName, m_comment);
+            DataManager.GetDataManager().NewProject(m_prjName, m_comment, m_prjPath);
             PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>

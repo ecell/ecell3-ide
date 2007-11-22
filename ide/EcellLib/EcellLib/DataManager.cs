@@ -5458,7 +5458,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_prjID">The "Project" ID</param>
         /// <param name="l_comment">The comment</param>
-        public void NewProject(string l_prjID, string l_comment)
+        public void NewProject(string l_prjID, string l_comment, string l_projectPath)
         {
             Project l_prj = null;
             try
@@ -5474,6 +5474,7 @@ namespace EcellLib
                 // Initialize
                 //
                 m_currentProjectID = l_prjID;
+                m_currentProjectPath = l_projectPath;
                 m_simulatorDic[l_prjID] = CreateSimulatorInstance();
                 SetDMList();
                 m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
@@ -5497,7 +5498,7 @@ namespace EcellLib
                 m_pManager.Message(
                     Constants.xpathSimulation.ToLower(),
                     "Create Project: [" + l_prjID + "]" + System.Environment.NewLine);
-                m_aManager.AddAction(new NewProjectAction(l_prjID, l_comment));
+                m_aManager.AddAction(new NewProjectAction(l_prjID, l_comment, l_projectPath));
             }
             catch (Exception l_ex)
             {

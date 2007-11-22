@@ -261,7 +261,7 @@ namespace EcellLib
         {
             try
             {
-                DataManager.GetDataManager().NewProject(l_projectID, l_comment);
+                DataManager.GetDataManager().NewProject(l_projectID, l_comment, null);
             }
             catch (Exception l_ex)
             {
@@ -893,7 +893,12 @@ namespace EcellLib
             {
                 if (DataManager.GetDataManager().CurrentProjectID == null)
                 {
-                    DataManager.GetDataManager().NewProject("project", DateTime.Now.ToString());
+                    String modelDir = Path.GetDirectoryName(l_fileName);
+                    if (modelDir.EndsWith(Constants.xpathModel))
+                    {
+                        modelDir = modelDir.Substring(0, modelDir.Length - 5);
+                    }
+                    DataManager.GetDataManager().NewProject("project", DateTime.Now.ToString(), modelDir);
                 }
                 s_modelID = DataManager.GetDataManager().LoadModel(l_fileName, false);
                 PluginManager.GetPluginManager().LoadData(s_modelID);                
