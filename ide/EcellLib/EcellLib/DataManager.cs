@@ -5458,6 +5458,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_prjID">The "Project" ID</param>
         /// <param name="l_comment">The comment</param>
+        /// <param name="l_projectPath">The project directory path to load the dm of this project.</param>
         public void NewProject(string l_prjID, string l_comment, string l_projectPath)
         {
             Project l_prj = null;
@@ -7229,7 +7230,7 @@ namespace EcellLib
             }
         }
 
-        /// <summar
+        /// <summary>
         /// Create a new WrappedSimulator instance.
         /// </summary>
         protected WrappedSimulator CreateSimulatorInstance()

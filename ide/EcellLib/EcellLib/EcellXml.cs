@@ -120,8 +120,6 @@ namespace EcellLib
         /// Loads nested "value" elements.
         /// </summary>
         /// <param name="l_node">The "property" element that is parent element of "value" elements</param>
-        /// <param name="l_depth">The depth of sub-directories</param>
-        /// <param name="l_count">The count of data</param>
         /// <returns>The "EcellValue"</returns>
         protected EcellValue GetValueList(XmlNode l_node)
         {

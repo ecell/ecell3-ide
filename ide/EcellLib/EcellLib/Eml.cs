@@ -63,7 +63,6 @@ namespace EcellLib
         /// Creates the "Stepper" elements.
         /// </summary>
         /// <param name="l_ecellObject">The "EcellObject"</param>
-        /// <param name="l_emlFlag">The flag of "eml"</param>
         private void WriteStepperElements(EcellObject l_ecellObject)
         {
             m_tx.WriteStartElement(Constants.xpathStepper.ToLower());
@@ -253,7 +252,6 @@ namespace EcellLib
         /// <summary>
         /// Loads the "process" or "variable" element.
         /// </summary>
-        /// <param name="l_modelID">The model ID</param>
         /// <param name="l_node">The "process" or "variable" element</param>
         /// <param name="l_systemID">The system ID of the parent "System" element</param>
         /// <param name="l_flag">"Process" if this element is "Process" element; "Variable" otherwise</param>

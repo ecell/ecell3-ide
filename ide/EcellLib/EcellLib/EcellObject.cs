@@ -636,6 +636,11 @@ namespace EcellLib
             AddValue(data);
         }
 
+        /// <summary>
+        /// Convert from this object to the object string.
+        /// (Override function). 
+        /// </summary>
+        /// <returns>the object string.</returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();

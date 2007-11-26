@@ -523,7 +523,7 @@ namespace EcellLib
         /// <summary>
         /// Add the specified directory to the DM search path list returned by GetDMDirs()
         /// </summary>
-        /// <param name="pluginDir">the plugin directory to include</param>
+        /// <param name="dmDir">the dm directory to include</param>
         public static void AddDMDir(string dmDir)
         {
             extraDMDirs.Add(dmDir);
@@ -537,16 +537,36 @@ namespace EcellLib
             noDefaultPaths = true;
         }
 
+        /// <summary>
+        /// Build the full path from the information of components.
+        /// </summary>
+        /// <param name="type">the data type.</param>
+        /// <param name="systemPath">the system directory path.</param>
+        /// <param name="localID">the local ID.</param>
+        /// <returns>The full ID.</returns>
         public static string BuildFullID(string type, string systemPath, string localID)
         {
             return type + Constants.delimiterColon + systemPath + Constants.delimiterColon + localID;
         }
 
+        /// <summary>
+        /// Build the full PN from the information of components.
+        /// </summary>
+        /// <param name="type">the data type.</param>
+        /// <param name="systemPath">the system directory path.</param>
+        /// <param name="localID">the local ID.</param>
+        /// <param name="propName">the property name.</param>
+        /// <returns>the full PN.</returns>
         public static string BuildFullPN(string type, string systemPath, string localID, string propName)
         {
             return BuildFullID(type, systemPath, localID) + Constants.delimiterColon + propName;
         }
 
+        /// <summary>
+        /// Strip the string with white spaces.
+        /// </summary>
+        /// <param name="val">the string data before split.</param>
+        /// <returns>the string data after split.</returns>
         public static string StripWhitespaces(string val)
         {
             int startIdx = 0, len = val.Length, endIdx = len;

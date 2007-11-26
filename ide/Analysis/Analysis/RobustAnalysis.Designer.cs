@@ -521,7 +521,15 @@
         public System.Windows.Forms.TextBox RAMinFreqText;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         private System.Windows.Forms.Label label5;
+        /// <summary>
+        /// CheckBox to set whether RobustAnalysis use the Matrix parameters or
+        /// the random parameters.
+        /// </summary>
         public System.Windows.Forms.CheckBox RAMatrixCheck;
+        /// <summary>
+        /// CheckBox to set whether RobustAnalysis use the Matrix parameters or
+        /// the random parameters.
+        /// </summary>
         public System.Windows.Forms.CheckBox RARandomCheck;
     }
 }

@@ -7,6 +7,9 @@ using EcellCoreLib;
 
 namespace EcellLib
 {
+    /// <summary>
+    /// Managed class for the simulation parameters.
+    /// </summary>
     public class SimulationParameter
     {
         List<EcellObject> m_steppers;
@@ -14,6 +17,9 @@ namespace EcellLib
         LoggerPolicy m_loggerPolicy;
         string m_id;
 
+        /// <summary>
+        /// get the list of steppers.
+        /// </summary>
         public List<EcellObject> Steppers
         {
             get
@@ -22,6 +28,9 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// get the dictionary of initial parameters.
+        /// </summary>
         public Dictionary<string, Dictionary<string, Dictionary<string, double>>> InitialConditions
         {
             get
@@ -31,6 +40,9 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// get the logging policy.
+        /// </summary>
         public LoggerPolicy LoggerPolicy
         {
             get
@@ -39,6 +51,9 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// get the simulation parameter ID.
+        /// </summary>
         public string ID
         {
             get
@@ -47,6 +62,13 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// Constructor for the parameters of simulation.
+        /// </summary>
+        /// <param name="steppers">the list of stepper.</param>
+        /// <param name="initialConditions">the dictionary of the initial parameters.</param>
+        /// <param name="loggerPolicy">the logging policy.</param>
+        /// <param name="id">the simulation ID.</param>
         public SimulationParameter(List<EcellObject> steppers,
                 Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialConditions,
                 LoggerPolicy loggerPolicy,
@@ -59,21 +81,30 @@ namespace EcellLib
         }
     }
 
-
+    /// <summary>
+    /// Internal exception class for SimulationParameter.
+    /// </summary>
     internal class SimulationParameterParseException : EcellXmlReaderException
     {
+        /// <summary>
+        /// Constructor with message.
+        /// </summary>
+        /// <param name="msg">the error message.</param>
         public SimulationParameterParseException(string msg)
             : base(msg)
         {
         }
     }
 
+    /// <summary>
+    /// Internal I/O class to read/write the simulation parameter file.
+    /// </summary>
     internal class SimulationParameterWriter : EcellXmlWriter
     {
         /// <summary>
-        /// 
+        /// Write the initial parameters.
         /// </summary>
-        /// <param name="l_initialCondition"></param>
+        /// <param name="l_initialCondition">the list of initial condition.</param>
         private void WriteInitialConditionElement(
                 Dictionary<string, Dictionary<string, double>> l_initialCondition)
         {
@@ -127,7 +158,6 @@ namespace EcellLib
         /// Creates the "Stepper" elements.
         /// </summary>
         /// <param name="l_ecellObject">The "EcellObject"</param>
-        /// <param name="l_emlFlag">The flag of "eml"</param>
         private void WriteStepperElements(EcellObject l_ecellObject)
         {
             m_tx.WriteStartElement(Constants.xpathStepper.ToLower());
@@ -183,6 +213,12 @@ namespace EcellLib
             m_tx.WriteEndElement();
         }
 
+        /// <summary>
+        /// Write the property of stepper.
+        /// </summary>
+        /// <param name="l_modelID">the model ID.</param>
+        /// <param name="l_stepperList">the list of stepper.</param>
+        /// <param name="l_initialCondition">the dictionary of initial parameters.</param>
         public void WriteSteppers(string l_modelID,
                 List<EcellObject> l_stepperList,
                 Dictionary<string, Dictionary<string, double>> l_initialCondition)
@@ -197,18 +233,28 @@ namespace EcellLib
             m_tx.WriteEndElement();
         }
 
+        /// <summary>
+        /// Write the key to start to write the simulation parameters.
+        /// </summary>
         public void WriteStartDocument()
         {
             m_tx.WriteStartDocument(true);
             m_tx.WriteStartElement(Constants.xpathPrm.ToLower());
         }
 
+        /// <summary>
+        /// Write the key to end to write the simulation parameters.
+        /// </summary>
         public void WriteEndDocument()
         {
             m_tx.WriteEndElement();
             m_tx.WriteEndDocument();
         }
 
+        /// <summary>
+        /// Constructor with the initial parameters.
+        /// </summary>
+        /// <param name="tx"></param>
         public SimulationParameterWriter(XmlTextWriter tx)
             : base(tx)
         {
@@ -276,6 +322,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Internal class to read the simulation parameter.
+    /// </summary>
     internal class SimulationParameterReader : EcellXmlReader
     {
         private XmlDocument m_doc;
@@ -284,6 +333,12 @@ namespace EcellLib
 
         private string m_parameterID;
 
+        /// <summary>
+        /// Constructor with the initial parameters.
+        /// </summary>
+        /// <param name="doc">document object.</param>
+        /// <param name="sim">simulation engine.</param>
+        /// <param name="parameterID">simulation parameters,</param>
         public SimulationParameterReader(XmlDocument doc, WrappedSimulator sim, string parameterID)
         {
             m_doc = doc;
@@ -292,10 +347,10 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// 
+        /// Parse the simulation parameter file to extract the initial parameters.
         /// </summary>
-        /// <param name="l_modelID"></param>
-        /// <param name="l_node"></param>
+        /// <param name="l_modelID">model ID.</param>
+        /// <param name="l_node">XML node.</param>
         private Dictionary<string, Dictionary<string, double>> ParseInitialCondition(
                 string l_modelID, XmlNode l_node)
         {
@@ -365,7 +420,6 @@ namespace EcellLib
         /// Parses the "LoggerPolicy" node.
         /// </summary>
         /// <param name="l_node">The "LoggerPolicy" node</param>
-        /// <param name="l_loggerPolicy">The stored "LoggerPolicy"</param>
         private LoggerPolicy ParseLoggerPolicy(XmlNode l_node)
         {
             int l_step = -1;
@@ -421,7 +475,6 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_modelID">The model ID</param>
         /// <param name="l_stepper">The "Stepper" node</param>
-        /// <param name="l_ecellObjectList">The stored list of the "EcellObject"</param>
         private EcellObject ParseStepper(string l_modelID, XmlNode l_stepper)
         {
             XmlNode l_stepperClass = l_stepper.Attributes.GetNamedItem(Constants.xpathClass);
@@ -489,6 +542,10 @@ namespace EcellLib
                 l_ecellDataList);
         }
 
+        /// <summary>
+        /// Parse the initial parameters that this object is managed.
+        /// </summary>
+        /// <returns></returns>
         public SimulationParameter Parse()
         {
             Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_initialConditions = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
@@ -535,6 +592,7 @@ namespace EcellLib
         /// Parses the simulation parameter file.
         /// </summary>
         /// <param name="l_fileName">The simulation parameter file name</param>
+        /// <param name="sim">The simulator.</param>
         public static SimulationParameter Parse(string l_fileName, WrappedSimulator sim)
         {
             XmlDocument l_doc = new XmlDocument();

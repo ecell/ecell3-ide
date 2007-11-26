@@ -4,6 +4,9 @@ using System.Text;
 
 namespace EcellLib
 {
+    /// <summary>
+    /// Class to manage the constant value.
+    /// </summary>
     public class Constants
     {
         /// <summary>
@@ -332,6 +335,9 @@ namespace EcellLib
         public const string xpathXml = "xml";
     }
 
+    /// <summary>
+    /// Class to manage the status of analysis.
+    /// </summary>
     public enum AnalysisStatus
     {
         /// <summary>
@@ -348,6 +354,9 @@ namespace EcellLib
         Completed = 2
     }
 
+    /// <summary>
+    /// Class to manage the status of project.
+    /// </summary>
     public enum ProjectStatus
     {
         /// <summary>

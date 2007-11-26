@@ -547,8 +547,9 @@ namespace EcellLib
         /// <summary>
         /// The constructor for NewProjectAction with initial parameters.
         /// </summary>
-        /// <param name="prjName"></param>
-        /// <param name="comment"></param>
+        /// <param name="prjName">the projectID.</param>
+        /// <param name="comment">the project comment.</param>
+        /// <param name="path">the path of this project.</param>
         public NewProjectAction(string prjName, string comment, string path)
         {
             m_prjName = prjName;
