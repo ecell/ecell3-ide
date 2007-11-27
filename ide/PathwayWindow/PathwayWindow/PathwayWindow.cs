@@ -151,7 +151,6 @@ namespace EcellLib.PathwayWindow
 
             SetLayoutAlgorithmDlls();
             m_con = new PathwayControl(this);
-            m_con.ComponentManager = LoadComponentSettings();
             CreateMenu();
         }
         #endregion
@@ -408,7 +407,6 @@ namespace EcellLib.PathwayWindow
 
             try
             {
-                m_modelId = "";
                 m_con.Clear();
             }
             catch(Exception e)
@@ -425,41 +423,28 @@ namespace EcellLib.PathwayWindow
         {
             if (data == null || data.Count == 0)
                 return;
-
-            bool isOtherModel = false;  // Whether this model is the same as currently displayed model or not.
+            // Check Model.
             string modelId = null;
-            foreach(EcellObject obj in data)
+            foreach (EcellObject eo in data)
             {
-                modelId = obj.modelID;
-                if (!(obj is EcellSystem))
-                    continue;
-                if (obj.modelID == null || m_modelId.Equals(obj.modelID))
-                    continue;
-
-                isOtherModel = true;
-                m_modelId = obj.modelID;
-                break;
+                if (eo.type.Equals(EcellObject.MODEL))
+                {
+                    modelId = eo.modelID;
+                    break;
+                }
             }
-
-            bool layoutFlag = false;
+            // Load Model.
             try
             {
-                if (isOtherModel)
+                this.NewDataAddToModel(data);
+                if (modelId != null)
                 {
-                    // Create new canvas
-                    this.m_con.CreateCanvas(modelId);
-                    // New model will be added.
                     string fileName = m_dManager.GetDirPath(modelId) + "\\" + modelId + ".leml";
                     if (File.Exists(fileName))
                         this.SetPositionFromLeml(fileName, data);
                     else
-                        layoutFlag = true;
+                        m_con.DoLayout(DefaultLayoutAlgorithm, 0, false);
                 }
-                this.NewDataAddToModel(data);
-
-                if (layoutFlag)
-                    m_con.DoLayout(DefaultLayoutAlgorithm, 0, false);
-
             }
             catch (Exception e)
             {
@@ -501,7 +486,7 @@ namespace EcellLib.PathwayWindow
         {
             if (type == null)
                 return;
-            if (type.Equals(PathwayControl.MODEL_STRING))
+            if (type.Equals(EcellObject.MODEL))
                 this.Clear();
             m_con.DataDelete(modelID, key, type);
         }
@@ -712,164 +697,6 @@ namespace EcellLib.PathwayWindow
 
         #region Internal use
         /// <summary>
-        /// Find component settings file
-        /// </summary>
-        private string FindComponentSettingsFile()
-        {
-            string[] pluginDirs = EcellLib.Util.GetPluginDirs();
-            foreach (string pluginDir in pluginDirs)
-            {
-                string settingFile = pluginDir + "\\pathway\\ComponentSettings.xml";
-                if (File.Exists(settingFile))
-                    return settingFile;
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Load ComponentSettings from default setting file.
-        /// </summary>
-        private ComponentManager LoadComponentSettings()
-        {
-            // Read component settings from ComopnentSettings.xml
-            string settingFile = FindComponentSettingsFile();
-
-            ComponentManager manager = new ComponentManager();
-
-            XmlDocument xmlD = new XmlDocument();
-            try
-            {
-                xmlD.Load(settingFile);
-            }
-            catch (FileNotFoundException)
-            {
-                MessageBox.Show(m_resources.GetString("ErrNotComXml"), "WARNING", MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
-                xmlD = null;
-            }
-
-            if (xmlD != null)
-            {
-                // All ComponentSettings in the xml file are in valid format or not.
-                bool isAllValid = true;
-                // If any ComponentSettings in the xml file is invalid, these messages are shown.
-                List<string> lackMessages = new List<string>();
-                int csCount = 1;
-
-                // Read ComponentSettings information from xml file.
-                foreach (XmlNode componentNode in xmlD.ChildNodes[0].ChildNodes)
-                {
-                    ComponentSetting cs = new ComponentSetting();
-
-                    String componentKind = componentNode.Attributes["kind"].Value;
-
-                    bool isDefault = false;
-                    if (componentNode.Attributes["isDefault"] != null
-                     && componentNode.Attributes["isDefault"].ToString().ToLower().Equals("true"))
-                        isDefault = true;
-
-                    try
-                    {
-                        cs.ComponentType = ComponentManager.ParseComponentKind(componentKind);
-                    }
-                    catch (NoSuchComponentKindException e)
-                    {
-                        MessageBox.Show(m_resources.GetString("ErrCreateKind") + "\n\n" + e.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        continue;
-                    }
-
-                    foreach (XmlNode parameterNode in componentNode.ChildNodes)
-                    {
-                        if ("Name".Equals(parameterNode.Name))
-                        {
-                            cs.Name = parameterNode.InnerText;
-                        }
-                        else if ("Color".Equals(parameterNode.Name))
-                        {
-                            Brush brush = PathUtil.GetBrushFromString(parameterNode.InnerText);
-                            if (brush != null)
-                            {
-                                cs.NormalBrush = brush;
-                            }
-                        }
-                        else if ("Drawings".Equals(parameterNode.Name))
-                        {
-                            foreach (XmlNode drawNode in parameterNode.ChildNodes)
-                            {
-                                if (drawNode.Attributes["type"] != null)
-                                    cs.AddFigure(drawNode.Attributes["type"].Value, drawNode.InnerText);
-                            }
-                        }
-                        else if ("Class".Equals(parameterNode.Name))
-                        {
-                            cs.AddComponentClass(parameterNode.InnerText);
-                        }
-                    }
-
-                    List<string> lackInfos = cs.Validate();
-
-                    if (lackInfos == null)
-                    {
-                        switch (cs.ComponentType)
-                        {
-                            case ComponentType.System:
-                                manager.RegisterSystemSetting(cs.Name, cs, isDefault);
-                                break;
-                            case ComponentType.Process:
-                                manager.RegisterProcessSetting(cs.Name, cs, isDefault);
-                                break;
-                            case ComponentType.Variable:
-                                manager.RegisterVariableSetting(cs.Name, cs, isDefault);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        isAllValid = false;
-                        string nameForCs = null;
-                        if (cs.Name == null)
-                            nameForCs = "ComponentSetting No." + csCount;
-                        else
-                            nameForCs = cs.Name;
-                        foreach (string lackInfo in lackInfos)
-                            lackMessages.Add(nameForCs + " lacks " + lackInfo + "\n");
-                    }
-                    csCount++;
-                }
-
-                string warnMessage = "";
-
-                if (manager.DefaultSystemSetting == null)
-                    warnMessage += m_resources.GetString("ErrCompSystem") + "\n\n";
-                if (manager.DefaultVariableSetting == null)
-                    warnMessage += m_resources.GetString("ErrCompVariable") + "\n\n";
-                if (manager.DefaultProcessSetting == null)
-                    warnMessage += m_resources.GetString("ErrCompProcess") + "\n\n";
-
-                if (!isAllValid)
-                {
-                    warnMessage += m_resources.GetString("ErrCompInvalid");
-                    if (lackMessages.Count != 1)
-                        warnMessage += "s";
-                    warnMessage += "\n";
-
-                    foreach (string msg in lackMessages)
-                    {
-                        warnMessage += "    " + msg;
-                    }
-
-                }
-
-                if (warnMessage != null && warnMessage.Length != 0)
-                {
-                    MessageBox.Show(warnMessage, "WARNING by PathwayWindow", MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-                }
-            }
-            return manager;
-        }
-
-        /// <summary>
         /// Check layout algorithm's dlls in a plugin\pathway directory and register them
         /// to m_layoutList
         /// </summary>
@@ -981,17 +808,15 @@ namespace EcellLib.PathwayWindow
             // These new EcellObjects will be loaded onto the Model currently displayed
             foreach (EcellObject obj in data)
             {
-                if (!(obj is EcellSystem || obj is EcellProcess || obj is EcellVariable))
-                    continue;
                 try
                 {
-                    m_con.AddNewObj(obj.modelID,
+                    m_con.DataAdd(obj.modelID,
                                     obj.parentSystemID,
                                     obj,
                                     true);
                     if (obj is EcellSystem)
                         foreach (EcellObject node in obj.Children)
-                            m_con.AddNewObj(node.modelID,
+                            m_con.DataAdd(node.modelID,
                                             node.parentSystemID,
                                             node.Copy(),
                                             true);

@@ -59,30 +59,6 @@ namespace EcellLib.PathwayWindow
     public class PathwayControl
     {
         #region Static readonly fields
-        /// <summary>
-        /// When E-Cell IDE classes(MainWindow, plugins) comminucates, Information of type of each E-Cell
-        /// object is passed as string. Each E-cell objects are expressed as the following string.
-        /// </summary>
-        public static readonly string MODEL_STRING = "Model";
-
-        /// <summary>
-        /// When E-Cell IDE classes(MainWindow, plugins) comminucates, Information of type of each E-Cell
-        /// object is passed as string. Each E-cell objects are expressed as the following string.
-        /// </summary>
-        public static readonly string SYSTEM_STRING = "System";
-
-        /// <summary>
-        /// When E-Cell IDE classes(MainWindow, plugins) comminucates, Information of type of each E-Cell
-        /// object is passed as string. Each E-cell objects are expressed as the following string.
-        /// </summary>
-        public static readonly string VARIABLE_STRING = "Variable";
-
-        /// <summary>
-        /// When E-Cell IDE classes(MainWindow, plugins) comminucates, Information of type of each E-Cell
-        /// object is passed as string. Each E-cell objects are expressed as the following string.
-        /// </summary>
-        public static readonly string PROCESS_STRING = "Process";
-
         #endregion
 
         #region Canvas Menu
@@ -417,6 +393,7 @@ namespace EcellLib.PathwayWindow
             // Create canvas.
             m_canvasDict = new Dictionary<string, CanvasControl>();
             m_nodeMenu = GetPopUpMenues();
+            m_csManager = ComponentManager.LoadComponentSettings();
         }
 
         #endregion
@@ -452,14 +429,27 @@ namespace EcellLib.PathwayWindow
         /// <param name="eo">EcellObject</param>
         /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
         /// only the last action's isAnchor is true, the others' isAnchor is false</param>
-        public void AddNewObj(string modelID,
+        public void DataAdd(string modelID,
             string systemName,
             EcellObject eo,
             bool isAnchor)
         {
-            // Error check.
+            // Null check.
             if (eo == null)
                 throw new PathwayException(m_resources.GetString("ErrAddObjNot"));
+            // Load new project
+            if (eo.type.Equals(EcellObject.PROJECT))
+            {
+                this.Clear();
+                return;
+            }
+            // create new canvas
+            if (eo.type.Equals(EcellObject.MODEL))
+            {
+                this.CreateCanvas(eo.modelID);
+                return;
+            }
+            // Error check.
             if (string.IsNullOrEmpty(eo.key))
                 throw new PathwayException(m_resources.GetString("ErrKeyNot"));
             if (string.IsNullOrEmpty(modelID) || !m_canvasDict.ContainsKey(modelID))
@@ -1162,15 +1152,15 @@ namespace EcellLib.PathwayWindow
         /// <param name="eo">The EcellObject set in canvas.</param>
         public void SetPosition(string modelID, EcellObject eo)
         {
-            if(SYSTEM_STRING.Equals(eo.type))
+            if(EcellObject.SYSTEM.Equals(eo.type))
                 if (m_canvasDict[modelID].Systems.ContainsKey(eo.key))
                     m_canvasDict[modelID].Systems[eo.key].EcellObject = (EcellSystem)eo;
 
-            else if(VARIABLE_STRING.Equals(eo.type))
+            else if(EcellObject.VARIABLE.Equals(eo.type))
                 if (m_canvasDict[modelID].Variables.ContainsKey(eo.key))
                     m_canvasDict[modelID].Variables[eo.key].EcellObject = (EcellVariable)eo;
 
-            else if(PROCESS_STRING.Equals(eo.type))
+            else if(EcellObject.PROCESS.Equals(eo.type))
                 if(m_canvasDict[modelID].Processes.ContainsKey(eo.key))
                     m_canvasDict[modelID].Processes[eo.key].EcellObject = (EcellProcess)eo;
 

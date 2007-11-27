@@ -31,6 +31,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Xml;
+using System.Windows.Forms;
+using System.IO;
+using System.ComponentModel;
 
 namespace EcellLib.PathwayWindow
 {
@@ -39,7 +43,7 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class ComponentManager
     {
-        #region Constractor
+        #region Constants
         /// <summary>
         /// The default name of system.
         /// </summary>
@@ -53,6 +57,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public const string DEFAULT_VARIABLE_NAME = "DefaultVariable";
         #endregion
+
         #region Fields
         /// <summary>
         /// Dictionary of ComponentSettings for creating PEcellSystems.
@@ -83,6 +88,11 @@ namespace EcellLib.PathwayWindow
         /// The name of default ComponentSetting for Variable.
         /// </summary>
         protected string m_defaultVariableName;
+
+        /// <summary>
+        /// ResourceManager for PathwayWindow.
+        /// </summary>
+        protected static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
 
         #endregion
 
@@ -216,6 +226,148 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Load ComponentSettings from default setting file.
+        /// </summary>
+        public static ComponentManager LoadComponentSettings()
+        {
+            // Read component settings from ComopnentSettings.xml
+            string settingFile = FindComponentSettingsFile();
+
+            ComponentManager manager = new ComponentManager();
+
+            XmlDocument xmlD = new XmlDocument();
+            try
+            {
+                xmlD.Load(settingFile);
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show(m_resources.GetString("ErrNotComXml"), "WARNING", MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+                xmlD = null;
+            }
+
+            if (xmlD != null)
+            {
+                // All ComponentSettings in the xml file are in valid format or not.
+                bool isAllValid = true;
+                // If any ComponentSettings in the xml file is invalid, these messages are shown.
+                List<string> lackMessages = new List<string>();
+                int csCount = 1;
+
+                // Read ComponentSettings information from xml file.
+                foreach (XmlNode componentNode in xmlD.ChildNodes[0].ChildNodes)
+                {
+                    ComponentSetting cs = new ComponentSetting();
+
+                    String componentKind = componentNode.Attributes["kind"].Value;
+
+                    bool isDefault = false;
+                    if (componentNode.Attributes["isDefault"] != null
+                     && componentNode.Attributes["isDefault"].ToString().ToLower().Equals("true"))
+                        isDefault = true;
+
+                    try
+                    {
+                        cs.ComponentType = ComponentManager.ParseComponentKind(componentKind);
+                    }
+                    catch (NoSuchComponentKindException e)
+                    {
+                        MessageBox.Show(m_resources.GetString("ErrCreateKind") + "\n\n" + e.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        continue;
+                    }
+
+                    foreach (XmlNode parameterNode in componentNode.ChildNodes)
+                    {
+                        if ("Name".Equals(parameterNode.Name))
+                        {
+                            cs.Name = parameterNode.InnerText;
+                        }
+                        else if ("Color".Equals(parameterNode.Name))
+                        {
+                            Brush brush = PathUtil.GetBrushFromString(parameterNode.InnerText);
+                            if (brush != null)
+                            {
+                                cs.NormalBrush = brush;
+                            }
+                        }
+                        else if ("Drawings".Equals(parameterNode.Name))
+                        {
+                            foreach (XmlNode drawNode in parameterNode.ChildNodes)
+                            {
+                                if (drawNode.Attributes["type"] != null)
+                                    cs.AddFigure(drawNode.Attributes["type"].Value, drawNode.InnerText);
+                            }
+                        }
+                        else if ("Class".Equals(parameterNode.Name))
+                        {
+                            cs.AddComponentClass(parameterNode.InnerText);
+                        }
+                    }
+
+                    List<string> lackInfos = cs.Validate();
+
+                    if (lackInfos == null)
+                    {
+                        switch (cs.ComponentType)
+                        {
+                            case ComponentType.System:
+                                manager.RegisterSystemSetting(cs.Name, cs, isDefault);
+                                break;
+                            case ComponentType.Process:
+                                manager.RegisterProcessSetting(cs.Name, cs, isDefault);
+                                break;
+                            case ComponentType.Variable:
+                                manager.RegisterVariableSetting(cs.Name, cs, isDefault);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        isAllValid = false;
+                        string nameForCs = null;
+                        if (cs.Name == null)
+                            nameForCs = "ComponentSetting No." + csCount;
+                        else
+                            nameForCs = cs.Name;
+                        foreach (string lackInfo in lackInfos)
+                            lackMessages.Add(nameForCs + " lacks " + lackInfo + "\n");
+                    }
+                    csCount++;
+                }
+
+                string warnMessage = "";
+
+                if (manager.DefaultSystemSetting == null)
+                    warnMessage += m_resources.GetString("ErrCompSystem") + "\n\n";
+                if (manager.DefaultVariableSetting == null)
+                    warnMessage += m_resources.GetString("ErrCompVariable") + "\n\n";
+                if (manager.DefaultProcessSetting == null)
+                    warnMessage += m_resources.GetString("ErrCompProcess") + "\n\n";
+
+                if (!isAllValid)
+                {
+                    warnMessage += m_resources.GetString("ErrCompInvalid");
+                    if (lackMessages.Count != 1)
+                        warnMessage += "s";
+                    warnMessage += "\n";
+
+                    foreach (string msg in lackMessages)
+                    {
+                        warnMessage += "    " + msg;
+                    }
+                }
+
+                if (warnMessage != null && warnMessage.Length != 0)
+                {
+                    MessageBox.Show(warnMessage, "WARNING by PathwayWindow", MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                }
+            }
+            return manager;
+        }
+
         /// <summary>
         /// Parse a name of kind to ComponentType
         /// </summary>
@@ -388,6 +540,21 @@ namespace EcellLib.PathwayWindow
             defProCs.AddFigure("Rectangle","-30,-20,60,40");
             defProCs.AddComponentClass("PEcellProcess");
             RegisterProcessSetting(defProCs.Name, defProCs, true);
+        }
+
+        /// <summary>
+        /// Find component settings file
+        /// </summary>
+        private static string FindComponentSettingsFile()
+        {
+            string[] pluginDirs = EcellLib.Util.GetPluginDirs();
+            foreach (string pluginDir in pluginDirs)
+            {
+                string settingFile = pluginDir + "\\pathway\\ComponentSettings.xml";
+                if (File.Exists(settingFile))
+                    return settingFile;
+            }
+            return null;
         }
         #endregion
     }

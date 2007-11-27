@@ -54,6 +54,14 @@ namespace EcellLib
     {
         #region Constant
         /// <summary>
+        /// Type string of "Project".
+        /// </summary>
+        public const string PROJECT = "Project";
+        /// <summary>
+        /// Type string of "Model".
+        /// </summary>
+        public const string MODEL = "Model";
+        /// <summary>
         /// Type string of "Process".
         /// </summary>
         public const string PROCESS = "Process";
