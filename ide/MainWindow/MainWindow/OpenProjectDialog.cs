@@ -200,9 +200,9 @@ namespace EcellLib.MainWindow
             if (filename.EndsWith("eml"))
             {
                 m_fileName = filename;
-                OPPrjIDText.Text = "project";
+                OPPrjIDText.Text = Constants.defaultPrjID;
                 OPDateText.Text = "";
-                OPCommentText.Text = "";
+                OPCommentText.Text = Constants.defaultComment;
 
                 OPPrjIDText.BackColor = Color.White;
                 OPDateText.BackColor = Color.Silver;

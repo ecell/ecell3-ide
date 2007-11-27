@@ -138,7 +138,7 @@ namespace EcellLib
         void CopyTreeView()
         {
             Dictionary<string, TreeNode> dict = new Dictionary<string, TreeNode>();
-            TreeNode m_prjNode = new TreeNode("project");
+            TreeNode m_prjNode = new TreeNode(Constants.defaultPrjID);
             m_selectWindow.selectTree.Nodes.Add(m_prjNode);
             List<EcellObject> objList = m_dManager.GetData(null, null);
             foreach (EcellObject obj in objList)

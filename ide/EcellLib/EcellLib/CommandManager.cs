@@ -898,7 +898,7 @@ namespace EcellLib
                     {
                         modelDir = modelDir.Substring(0, modelDir.Length - 5);
                     }
-                    DataManager.GetDataManager().NewProject("project", DateTime.Now.ToString(), modelDir);
+                    DataManager.GetDataManager().NewProject(Constants.defaultPrjID, DateTime.Now.ToString(), modelDir);
                 }
                 s_modelID = DataManager.GetDataManager().LoadModel(l_fileName, false);
                 PluginManager.GetPluginManager().LoadData(s_modelID);                

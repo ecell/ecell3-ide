@@ -309,13 +309,77 @@ namespace EcellLib.MainWindow
             }
         }
 
-        private void CloseProject(String m_prjID)
+        private void CreateProject(string l_prjID, string l_modelDir, string l_comment)
         {
-            if (m_prjID == null) return;
+            m_dManager.NewProject(l_prjID, l_comment, l_modelDir);
+            m_project = l_prjID;
+            m_isLoadProject = true;
+            m_pManager.ChangeStatus(ProjectStatus.Loaded);
+            m_editCount = 0;
+        }
+
+        private void CloseProject(String l_prjID)
+        {
+            if (l_prjID == null) return;
             m_isLoadProject = false;
             m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
-            m_dManager.CloseProject(m_prjID);
+            m_dManager.CloseProject(l_prjID);
             m_project = null;
+            m_editCount = 0;
+        }
+
+        private bool CheckProjectID(string l_prjID)
+        {
+            if (l_prjID == "")
+            {
+                String errmes = m_resources.GetString("ErrPrjIdNull");
+                MessageBox.Show(errmes,
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (Util.IsNGforIDonWindows(l_prjID))
+            {
+                String errmes = m_resources.GetString("ErrPrjIdNG");
+                MessageBox.Show(errmes,
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (l_prjID.Length > 64)
+            {
+                String errmes = m_resources.GetString("ErrPrjIdNG");
+                MessageBox.Show(errmes,
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool CheckModelID(string l_modelID)
+        {
+            if (l_modelID == "")
+            {
+                String errmes = m_resources.GetString("ErrModelNull");
+                MessageBox.Show(errmes,
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (l_modelID.Length > 64)
+            {
+                String errmes = m_resources.GetString("ErrModelNG");
+                MessageBox.Show(errmes,
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (Util.IsNGforIDonWindows(l_modelID))
+            {
+                String errmes = m_resources.GetString("ErrModelNG");
+                MessageBox.Show(errmes,
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -858,11 +922,7 @@ namespace EcellLib.MainWindow
                 }
                 else if (res == DialogResult.No)
                 {
-                    m_isLoadProject = false;
-                    m_pManager.ChangeStatus(0);
-                    m_dManager.CloseProject(m_project);
-                    m_editCount = 0;
-                    m_project = null;
+                    CloseProject(m_project);
                 }
                 else
                 {
@@ -884,66 +944,23 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         public void NewProject(object sender, EventArgs e)
         {
-                if (m_newPrjDialog.textName.Text == "") 
-                {
-                    String errmes = m_resources.GetString("ErrPrjIdNull");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (m_newPrjDialog.textModelName.Text == "")
-                {
-                    String errmes = m_resources.GetString("ErrModelNull");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (m_newPrjDialog.textName.Text.Length > 64)
-                {
-                    String errmes = m_resources.GetString("ErrPrjIdNG");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (m_newPrjDialog.textModelName.Text.Length > 64)
-                {
-                    String errmes = m_resources.GetString("ErrModelNG");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (Util.IsNGforIDonWindows(m_newPrjDialog.textName.Text))
-                {
-                    String errmes = m_resources.GetString("ErrPrjIdNG");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (Util.IsNGforIDonWindows(m_newPrjDialog.textModelName.Text))
-                {
-                    String errmes = m_resources.GetString("ErrModelNG");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                try
-                {
-                    m_dManager.NewProject(m_newPrjDialog.textName.Text,
-                            m_newPrjDialog.textComment.Text, null);
-                    List<EcellObject> list = new List<EcellObject>();
-                    list.Add(EcellObject.CreateObject(m_newPrjDialog.textModelName.Text, null, "Model", null, null));
-                    m_dManager.DataAdd(list);
-                    m_isLoadProject = true;
-                    m_project = m_newPrjDialog.textName.Text;
-                    m_pManager.ChangeStatus(ProjectStatus.Loaded);
-                    m_editCount = 0;
-                }
-                catch (Exception ex)
-                {
-                    String errmes = m_resources.GetString("ErrCreatePrj");
-                    MessageBox.Show(errmes + "\n\n" + ex.Message,
-                        "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            if (!CheckProjectID(m_newPrjDialog.textName.Text)) return;
+            if (!CheckModelID(m_newPrjDialog.textModelName.Text)) return;
+
+            try
+            {
+                CreateProject(m_newPrjDialog.textName.Text,
+                    null, m_newPrjDialog.textComment.Text);
+                List<EcellObject> list = new List<EcellObject>();
+                list.Add(EcellObject.CreateObject(m_newPrjDialog.textModelName.Text, null, "Model", null, null));
+                m_dManager.DataAdd(list);
+            }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrCreatePrj");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             m_newPrjDialog.Close();
             m_newPrjDialog.Dispose();
             m_newPrjDialog = null;
@@ -982,11 +999,7 @@ namespace EcellLib.MainWindow
                 }
                 else if (res == DialogResult.No)
                 {
-                    m_isLoadProject = false;
-                    m_pManager.ChangeStatus(0);
-                    m_dManager.CloseProject(m_project);
-                    m_editCount = 0;
-                    m_project = null;
+                    CloseProject(m_project);
                 }
                 else
                 {
@@ -995,10 +1008,7 @@ namespace EcellLib.MainWindow
             }
             if (m_project != null)
             {
-                m_isLoadProject = false;
-                m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
-                m_dManager.CloseProject(m_project);
-                m_project = null;
+                CloseProject(m_project);
             }
 
             m_openPrjDialog = new OpenProjectDialog();
@@ -1044,28 +1054,9 @@ namespace EcellLib.MainWindow
                 String prjID = m_openPrjDialog.OPPrjIDText.Text;
                 String comment = m_openPrjDialog.OPCommentText.Text;
                 String fileName = m_openPrjDialog.FileName;
-                if (prjID == "")
-                {
-                    String errmes = m_resources.GetString("ErrPrjIdNull");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (Util.IsNGforIDonWindows(prjID))
-                {
-                    String errmes = m_resources.GetString("ErrPrjIdNG");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
 
-                if (prjID.Length > 64)
-                {
-                    String errmes = m_resources.GetString("ErrPrjIdNG");
-                    MessageBox.Show(errmes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                if (!CheckProjectID(prjID)) return;
+
                 
                 if (fileName.EndsWith("eml"))
                 {
@@ -1074,11 +1065,7 @@ namespace EcellLib.MainWindow
                     {
                         modelDir = modelDir.Substring(0, modelDir.Length - 5);
                     }
-                    m_dManager.NewProject(prjID, comment, modelDir);
-                    m_project = prjID;
-                    m_isLoadProject = true;
-                    m_pManager.ChangeStatus(ProjectStatus.Loaded);
-                    m_editCount = 0;
+                    CreateProject(prjID, modelDir, comment);
                     LoadModel(fileName);
 
                     m_openPrjDialog.Close();
@@ -1098,20 +1085,7 @@ namespace EcellLib.MainWindow
                 m_project = prjID;
                 m_pManager.ChangeStatus(ProjectStatus.Loaded);
                 m_editCount = 0;
-                /*
-                if (m_openPrjDialog.dataGridView1.SelectedRows.Count <= 0)
-                {
-                    String mes = m_resources.GetString("ErrNoSelectPrj");
-                    MessageBox.Show(mes,
-                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                m_dManager.LoadProject((string)m_openPrjDialog.dataGridView1.CurrentRow.Cells["PrjName"].Value);
-                m_isLoadProject = true;
-                m_project = (string)m_openPrjDialog.dataGridView1.CurrentRow.Cells["PrjName"].Value;
-                m_pManager.ChangeStatus(1);
-                m_editCount = 0;
-                 */
+
             }
             catch (Exception ex)
             {
@@ -1191,10 +1165,7 @@ namespace EcellLib.MainWindow
             m_savePrjDialog = null;
             if (m_isClose)
             {
-                m_isLoadProject = false;
-                m_pManager.ChangeStatus(0);
-                m_dManager.CloseProject(m_project);
-                m_project = null;
+                CloseProject(m_project);
                 m_isClose = false;
             }
         }
@@ -1253,10 +1224,7 @@ namespace EcellLib.MainWindow
             m_savePrjDialog = null;
             if (m_isClose)
             {
-                m_isLoadProject = false;
-                m_pManager.ChangeStatus(0);
-                m_dManager.CloseProject(m_project);
-                m_project = null;
+                CloseProject(m_project);
                 m_isClose = false;
             }
         }
@@ -1282,11 +1250,7 @@ namespace EcellLib.MainWindow
                 }
                 else if (res == DialogResult.No)
                 {
-                    m_isLoadProject = false;
-                    m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
-                    m_dManager.CloseProject(m_project);
-                    m_editCount = 0;
-                    m_project = null;
+                    CloseProject(m_project);
                 }
                 else
                 {
@@ -1295,10 +1259,7 @@ namespace EcellLib.MainWindow
             }
             else
             {
-                m_isLoadProject = false;
-                m_pManager.ChangeStatus(0);
-                m_dManager.CloseProject(m_project);
-                m_project = null;
+                CloseProject(m_project);
             }
         }
 
@@ -1323,11 +1284,7 @@ namespace EcellLib.MainWindow
                 }
                 else if (res == DialogResult.No)
                 {
-                    m_isLoadProject = false;
-                    m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
-                    m_dManager.CloseProject(m_project);
-                    m_project = null;
-                    m_editCount = 0;
+                    CloseProject(m_project);
                 }
                 else
                 {
@@ -1336,14 +1293,11 @@ namespace EcellLib.MainWindow
             }
             if (m_project != null)
             {
-                m_isLoadProject = false;
-                m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
-                m_dManager.CloseProject(m_project);
-                m_project = null;
+                CloseProject(m_project);
             }
 
             openFileDialog.RestoreDirectory = true;
-            openFileDialog.Filter = "model file(*.sbml,*.eml)|*.sbml;*.eml|model file(*.sbml)|*.sbml|model file(*.eml)|*.eml|all(*.*)|*.*";
+            openFileDialog.Filter = Constants.extEmlFile; ;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -1355,11 +1309,7 @@ namespace EcellLib.MainWindow
                     {
                         modelDir = modelDir.Substring(0, modelDir.Length - 5);
                     }
-                    m_dManager.NewProject("project", "comment", modelDir);
-                    m_project = "project";
-                    m_isLoadProject = true;
-                    m_pManager.ChangeStatus(ProjectStatus.Loaded);
-                    m_editCount = 0;
+                    CreateProject(Constants.defaultPrjID, modelDir, Constants.defaultComment);
                 }
                 
                 Thread t = new Thread(new ThreadStart(LoadModelData));
@@ -1380,11 +1330,7 @@ namespace EcellLib.MainWindow
                 {
                     modelDir = modelDir.Substring(0, modelDir.Length - 5);
                 }
-                m_dManager.NewProject("project", "comment", modelDir);
-                m_project = "project";
-                m_isLoadProject = true;
-                m_pManager.ChangeStatus(ProjectStatus.Loaded);
-                m_editCount = 0;
+                CreateProject(Constants.defaultPrjID, modelDir, Constants.defaultComment);
             }
             openFileDialog.FileName = path;
             Thread t = new Thread(new ThreadStart(LoadModelData));
@@ -1450,7 +1396,7 @@ namespace EcellLib.MainWindow
                     {
                         saveFileDialog.RestoreDirectory = true;
                         //                    saveFileDialog.Filter = "model file(*.eml,*.sbml)|*.eml;*.sbml|model file(*.sbml)|*.sbml|model file(*.eml)|*.eml|all(*.*)|*.*";
-                        saveFileDialog.Filter = "model file(*.eml)|*.eml|all(*.*)|*.*";
+                        saveFileDialog.Filter = Constants.extEmlFile;
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         {
                             m_dManager.ExportModel(list, saveFileDialog.FileName);
@@ -1478,7 +1424,7 @@ namespace EcellLib.MainWindow
             try
             {
                 saveFileDialog.RestoreDirectory = true;
-                saveFileDialog.Filter = "ess file(*.ess)|*.ess";
+                saveFileDialog.Filter = Constants.extEssFile;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     m_dManager.SaveScript(saveFileDialog.FileName);
@@ -1531,11 +1477,8 @@ namespace EcellLib.MainWindow
                     else if (res == DialogResult.No)
                     {
                         m_dManager.SimulationStop();
-                        Thread.Sleep(1000); 
-                        m_isLoadProject = false;
-                        m_pManager.ChangeStatus(0);
-                        m_dManager.CloseProject(m_project);
-                        m_project = null;
+                        Thread.Sleep(1000);
+                        CloseProject(m_project);
                     }
                     else
                     {
@@ -1546,10 +1489,7 @@ namespace EcellLib.MainWindow
                 {
                     m_dManager.SimulationStop();
                     Thread.Sleep(1000);
-                    m_isLoadProject = false;
-                    m_pManager.ChangeStatus(0);
-                    m_dManager.CloseProject(m_project);
-                    m_project = null;
+                    CloseProject(m_project);
                 }
             }
             this.Close();
@@ -1646,7 +1586,7 @@ namespace EcellLib.MainWindow
             try
             {
                 openFileDialog.RestoreDirectory = true;
-                openFileDialog.Filter = "action file(*.xml)|*.xml;*xml|all(*.*)|*.*";
+                openFileDialog.Filter = Constants.extActionFile;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -1681,7 +1621,7 @@ namespace EcellLib.MainWindow
             try
             {
                 saveFileDialog.RestoreDirectory = true;
-                saveFileDialog.Filter = "action file(*.xml)|*.xml";
+                saveFileDialog.Filter = Constants.extActionFile;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     m_dManager.SaveUserAction(saveFileDialog.FileName);
@@ -1727,7 +1667,7 @@ namespace EcellLib.MainWindow
         private void saveWindowSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Window Setting File(*.xml) |*.xml";
+            sfd.Filter = Constants.extWinSetFile;
             sfd.CheckPathExists = true;
             sfd.CreatePrompt = true;
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -1743,7 +1683,7 @@ namespace EcellLib.MainWindow
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
-            ofd.Filter = "Window Setting File(*.xml) |*.xml";
+            ofd.Filter = Constants.extWinSetFile;
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {

@@ -10,6 +10,14 @@ namespace EcellLib
     public class Constants
     {
         /// <summary>
+        /// default project ID.
+        /// </summary>
+        public const string defaultPrjID = "project";
+        /// <summary>
+        /// default comment.
+        /// </summary>
+        public const string defaultComment = "comment";
+        /// <summary>
         /// DM directory name
         /// </summary>
         public const string DMDirName = "DMs";
@@ -65,6 +73,22 @@ namespace EcellLib
         /// Reserved char for wild card.
         /// </summary>
         public const string delimiterWildcard = "*";
+        /// <summary>
+        /// File extention of the action file.
+        /// </summary>
+        public const string extActionFile = "Action File(*.xml)|*.xml";
+        /// <summary>
+        /// File extention of the model file.
+        /// </summary>
+        public const string extEmlFile = "Model File(*.eml)|*.eml|all(*.*)|*.*";
+        /// <summary>
+        /// File extention of the script file.
+        /// </summary>
+        public const string extEssFile = "Script File(*.ess)|*.ess|all(*.*)|*.*";
+        /// <summary>
+        /// File extention of the window setting file.
+        /// </summary>
+        public const string extWinSetFile = "Window Setting File(*.xml)|*.xml|all(*.*)|*.*";
         /// <summary>
         /// Reserved the name of file..
         /// </summary>
