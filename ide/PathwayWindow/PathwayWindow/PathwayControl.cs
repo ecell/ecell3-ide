@@ -469,8 +469,13 @@ namespace EcellLib.PathwayWindow
                 return;
 
             CanvasControl canvas = m_canvasDict[modelID];
-            PLayer layer = ActiveCanvas.Layers[this.m_defLayerId];
-
+            PLayer layer = canvas.Layers[this.m_defLayerId];
+            bool isLayerSet = false;
+            if (eo.Layer.Equals(""))
+            {
+                eo.Layer = this.m_defLayerId;
+                isLayerSet = true;
+            }
             // Create PathwayObject and set to canvas.
             bool isPosSet = eo.IsPosSet;
             ComponentSetting cs = GetComponentSetting(eo.type);
@@ -493,7 +498,7 @@ namespace EcellLib.PathwayWindow
                 node.Handler4Line = new PInputEventHandler(LineSelected);
             }
             canvas.AddNewObj(m_defLayerId, systemName, obj, isPosSet, false);
-            if(!isPosSet)
+            if (!isPosSet || isLayerSet)
                 NotifyDataChanged(eo.key, eo.key, obj, false, false);
         }
 
@@ -726,9 +731,12 @@ namespace EcellLib.PathwayWindow
             if (ActiveCanvas.ClickedNode is PPathwayObject)
             {
                 PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
-                MessageBox.Show("Name:" + obj.EcellObject.key + "\nX:" + obj.X + "\nY:" + obj.Y
-                    + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY + "\nToString()"
-                    + obj.ToString());
+                MessageBox.Show(
+                    "Name:" + obj.EcellObject.key
+                    + "\nLayer:" + obj.EcellObject.Layer
+                    + "\nX:" + obj.X + "\nY:" + obj.Y
+                    + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY 
+                    + "\nToString()" + obj.ToString());
             }
             else
             {
@@ -1207,6 +1215,7 @@ namespace EcellLib.PathwayWindow
             if (eo == null)
                 throw new Exception();
             eo.key = newKey;
+            eo.Layer = obj.EcellObject.Layer;
             eo.X = obj.X;
             eo.Y = obj.Y;
             eo.Width = obj.Width;

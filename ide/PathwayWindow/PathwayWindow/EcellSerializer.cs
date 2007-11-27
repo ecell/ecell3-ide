@@ -97,6 +97,7 @@ namespace EcellLib.PathwayWindow {
                     xmlOut.WriteAttributeString("ModelID", eo.modelID);
                     xmlOut.WriteAttributeString("Type", eo.type);
                     xmlOut.WriteAttributeString("Key", eo.key);
+                    xmlOut.WriteAttributeString("Layer", eo.Layer);
                     xmlOut.WriteAttributeString("X", eo.X.ToString());
                     xmlOut.WriteAttributeString("Y", eo.Y.ToString());
                     xmlOut.WriteAttributeString("OffsetX", eo.OffsetX.ToString());
@@ -204,20 +205,42 @@ namespace EcellLib.PathwayWindow {
             List<EcellObject> list = new List<EcellObject>();
             while (MoveToNextElement(xmlIn) && xmlIn.Name == "EcellObject")
             {
-                string modelID = xmlIn.GetAttribute("ModelID");
-                string key = xmlIn.GetAttribute("Key");
-                string type = xmlIn.GetAttribute("Type");
-                string classname = xmlIn.GetAttribute("Class");
+                string modelID = GetXMLAttributeString(xmlIn, "ModelID");
+                string key = GetXMLAttributeString(xmlIn, "Key");
+                string type = GetXMLAttributeString(xmlIn, "Type");
+                string classname = GetXMLAttributeString(xmlIn, "Class");
                 EcellObject eo = EcellObject.CreateObject(modelID, key, type, classname, null);
-                eo.X = (float)Convert.ToDouble(xmlIn.GetAttribute("X"), CultureInfo.InvariantCulture);
-                eo.Y = (float)Convert.ToDouble(xmlIn.GetAttribute("Y"), CultureInfo.InvariantCulture);
-                eo.OffsetX = (float)Convert.ToDouble(xmlIn.GetAttribute("OffsetX"), CultureInfo.InvariantCulture);
-                eo.OffsetY = (float)Convert.ToDouble(xmlIn.GetAttribute("OffsetY"), CultureInfo.InvariantCulture);
-                eo.Width = (float)Convert.ToDouble(xmlIn.GetAttribute("Width"), CultureInfo.InvariantCulture);
-                eo.Height = (float)Convert.ToDouble(xmlIn.GetAttribute("Height"), CultureInfo.InvariantCulture);
+                eo.Layer = GetXMLAttributeString(xmlIn, "Layer");
+                eo.X = GetXMLAttributeFloat(xmlIn, "X");
+                eo.Y = GetXMLAttributeFloat(xmlIn, "Y");
+                eo.OffsetX = GetXMLAttributeFloat(xmlIn, "OffsetX");
+                eo.OffsetY = GetXMLAttributeFloat(xmlIn, "OffsetY");
+                eo.Width = GetXMLAttributeFloat(xmlIn, "Width");
+                eo.Height = GetXMLAttributeFloat(xmlIn, "Height");
                 list.Add(eo);
             }
             return list;
+        }
+
+        private static string GetXMLAttributeString(XmlTextReader xmlIn, string key)
+        {
+            string value = xmlIn.GetAttribute(key);
+            if (value == null)
+                return "";
+            else
+                return value;
+        }
+        private static float GetXMLAttributeFloat(XmlTextReader xmlIn, string key)
+        {
+            string value = GetXMLAttributeString(xmlIn, key);
+            try
+            {
+                return (float)Convert.ToDouble(value, CultureInfo.InvariantCulture);
+            }
+            catch (Exception)
+            {
+                return 0f;
+            }
         }
     }
 }

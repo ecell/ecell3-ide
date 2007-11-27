@@ -1027,6 +1027,8 @@ namespace EcellLib.PathwayWindow
                     continue;
 
                 eo.SetPosition(objDict[dictKey]);
+                if (!objDict[dictKey].Layer.Equals(""))
+                    eo.Layer = objDict[dictKey].Layer;
                 this.NotifyDataChanged(eo.key, eo.key, eo, false, false);
                 if (eo.Children == null)
                     continue;
@@ -1037,6 +1039,8 @@ namespace EcellLib.PathwayWindow
                         continue;
 
                     child.SetPosition(objDict[dictKey]);
+                    if (!objDict[dictKey].Layer.Equals(""))
+                        child.Layer = objDict[dictKey].Layer;
                     this.NotifyDataChanged(child.key, child.key, child, false, false);
                 }
             }
