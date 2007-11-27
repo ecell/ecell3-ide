@@ -395,7 +395,8 @@ namespace EcellLib.PathwayWindow
                     for (int x = 0; x < maxX + 1; x++)
                         for (int y = 0; y < maxY + 1; y++)
                         {
-                            if (childsys.Rect.Contains(sys.X + margin + x * grid, sys.Y + margin + y * grid))
+                            if (childsys.Rect.Contains(sys.X + margin + x * grid, sys.Y + margin + y * grid)
+                                || childsys.Rect.Contains(sys.X + margin + x * grid + 30, sys.Y + margin + y * grid + 20))
                                 positionMatrix[x, y] = true;
                         }
                 }

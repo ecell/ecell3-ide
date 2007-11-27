@@ -226,7 +226,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Half of width of a ResizeHandle
         /// </summary>
-        protected float m_resizeHandleHalfWidth = 10;
+        protected readonly float m_resizeHandleHalfWidth = 10;
 
         /// <summary>
         /// Used to save upper left point of a system
@@ -906,9 +906,7 @@ namespace EcellLib.PathwayWindow
         {
             PPathwaySystem system = m_systems[m_selectedSystemName];
             system.MemorizePosition();
-            PointF offsetToL = system.Offset;
-            PointF lP = new PointF(system.X + offsetToL.X, system.Y + offsetToL.Y);
-            m_upperLeftPoint = lP;
+            m_upperLeftPoint = system.PointF;
             m_upperRightPoint = new PointF(m_upperLeftPoint.X + system.Width, m_upperLeftPoint.Y);
             m_lowerRightPoint = new PointF(m_upperLeftPoint.X + system.Width, m_upperLeftPoint.Y + system.Height);
             m_lowerLeftPoint = new PointF(m_upperLeftPoint.X, m_upperLeftPoint.Y + system.Height);
@@ -1291,18 +1289,7 @@ namespace EcellLib.PathwayWindow
                 return;
 
             PPathwaySystem system = m_systems[m_selectedSystemName];
-
-            PointF gP = new PointF(system.X + system.OffsetX, system.Y + system.OffsetY);
-
-            PPathwaySystem parentSystem = system;
-
-            while (parentSystem.Parent is PPathwaySystem)
-            {
-                parentSystem = (PPathwaySystem)parentSystem.Parent;
-                parentSystem.LocalToParent(gP);
-                gP.X = gP.X + parentSystem.OffsetX;
-                gP.Y = gP.Y + parentSystem.OffsetY;
-            }
+            PointF gP = system.PointF;
 
             float halfThickness = PPathwaySystem.HALF_THICKNESS;
             m_resizeHandles[0].SetOffset(gP.X + halfThickness, gP.Y + halfThickness);
@@ -1325,18 +1312,7 @@ namespace EcellLib.PathwayWindow
                 return;
 
             PPathwaySystem system = m_systems[m_selectedSystemName];
-
-            PointF gP = new PointF(system.X + system.OffsetX, system.Y + system.OffsetY);
-
-            PPathwaySystem parentSystem = system;
-
-            while (parentSystem.Parent is PPathwaySystem)
-            {
-                parentSystem = (PPathwaySystem)parentSystem.Parent;
-                parentSystem.LocalToParent(gP);
-                gP.X = gP.X + parentSystem.OffsetX;
-                gP.Y = gP.Y + parentSystem.OffsetY;
-            }
+            PointF gP = system.PointF;
 
             float halfOuterRadius = PPathwaySystem.OUTER_RADIUS / 2f;
             float halfThickness = (PPathwaySystem.OUTER_RADIUS - PPathwaySystem.INNER_RADIUS) / 2;

@@ -196,7 +196,7 @@
     <value>173, 19</value>
   </data>
   <data name="numberTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="numberTextBox.Text" xml:space="preserve">
     <value>10000</value>
@@ -316,7 +316,7 @@
     <value>173, 19</value>
   </data>
   <data name="intervalTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="intervalTextBox.Text" xml:space="preserve">
     <value>0.1</value>
@@ -376,7 +376,7 @@
     <value>74, 23</value>
   </data>
   <data name="TSApplyButton.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>3</value>
   </data>
   <data name="TSApplyButton.Text" xml:space="preserve">
     <value>OK</value>
@@ -403,7 +403,7 @@
     <value>74, 23</value>
   </data>
   <data name="TSCloseButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="TSCloseButton.Text" xml:space="preserve">
     <value>Cancel</value>

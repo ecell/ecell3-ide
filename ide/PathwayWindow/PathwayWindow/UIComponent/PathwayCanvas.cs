@@ -86,19 +86,19 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e">MouseEventArgs.</param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            base.OnMouseWheel(e);
+            //base.OnMouseWheel(e);
             if (Control.ModifierKeys == Keys.Shift)
             {
-                this.m_con.PanCanvas(Direction.Horizontal, e.Delta);
+                this.m_canvas.PanCanvas(Direction.Horizontal, e.Delta);
             }
             else if (Control.ModifierKeys == Keys.Control || e.Button == MouseButtons.Right)
             {
                 float zoom = (float)1.00 + (float)e.Delta / 1200;
-                this.m_con.ActiveCanvas.Zoom(zoom);
+                this.m_canvas.Zoom(zoom);
             }
             else
             {
-                this.m_con.PanCanvas(Direction.Vertical, e.Delta);
+                this.m_canvas.PanCanvas(Direction.Vertical, e.Delta);
             }
         }
         /// <summary>

@@ -1339,19 +1339,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Move the display rectangle of PathwayEditor with mouse.
-        /// </summary>
-        /// <param name="direction">direction of moving.</param>
-        /// <param name="delta">delta of moving.</param>
-        public void PanCanvas(Direction direction, int delta)
-        {
-            foreach (CanvasControl set in m_canvasDict.Values)
-            {
-                set.PanCanvas(direction, delta);
-            }
-        }
-
-        /// <summary>
         /// Clears the contents of the pathway window, and Returns it to an
         /// initial state.
         /// </summary>
@@ -1385,10 +1372,10 @@ namespace EcellLib.PathwayWindow
             {
                 canvas.ResetSelectedObjects();
                 canvas.AddSelectedSystem(((PPathwayObject)sender).EcellObject.key);
+                canvas.ClickedNode = e.PickedNode;
             }
             else
             {
-                canvas.ClickedNode = e.PickedNode;
                 foreach (String iName in ContextMenuDict.Keys)
                 {
                     if (iName.StartsWith("delete"))

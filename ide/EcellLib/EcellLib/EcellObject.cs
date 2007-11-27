@@ -65,14 +65,6 @@ namespace EcellLib
         /// Type string of "Variable".
         /// </summary>
         public const string VARIABLE = "Variable";
-        /// <summary>
-        /// Value of fixed object.
-        /// </summary>
-        public const int Fixed = 1;
-        /// <summary>
-        /// Value of not fixed object.
-        /// </summary>
-        public const int NotFixed = 0;
         #endregion
 
         #region Fields
