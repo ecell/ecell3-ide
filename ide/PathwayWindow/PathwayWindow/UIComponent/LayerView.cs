@@ -36,6 +36,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
+using System.Data;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -44,6 +45,14 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// </summary>
     public class LayerView: DockContent
     {
+        #region Static Fields
+        private static string CREATE_LAYER = "CreateLayer";
+        private static string DELETE_LAYER = "DeleteLayer";
+        private static string RENAME_LAYER = "RenameLayer";
+
+        #endregion
+
+        #region Fields
         /// <summary>
         /// Width of "Show" column of layer DataGridView.
         /// </summary>
@@ -62,19 +71,23 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         private bool m_dirtyEventProcessed = false;
 
+        /// <summary>
+        /// DetaGridView
+        /// </summary>
         private DataGridView m_dgv;
-        #region Fields
         /// <summary>
         /// PPath to show main pathway area in the overview.
         /// Normally, this node is colored in red.
         /// </summary>
         private GroupBox groupBox;
-
         /// <summary>
         /// List of ToolStripMenuItems for ContextMenu
         /// </summary>
         private Dictionary<string, ToolStripItem> m_cMenuDict = new Dictionary<string, ToolStripItem>();
-
+        /// <summary>
+        /// Selected DataRow.
+        /// </summary>
+        private DataGridViewRow m_selectedRow = null;
         #endregion
 
         #region Constructor
@@ -111,23 +124,36 @@ namespace EcellLib.PathwayWindow.UIComponent
         }
 
         /// <summary>
-        /// Set layer.
+        /// Create layer.
         /// </summary>
         /// <param name="layer"></param>
-        public void AddLayer(string layer)
+        public void AddLayer(string name)
         {
             CanvasControl canvas = m_con.ActiveCanvas;
-            canvas.AddLayer(layer);
+            canvas.AddLayer(name);
         }
 
         /// <summary>
-        /// Stop to observe a layer.
+        /// Delete layer.
         /// </summary>
         /// <param name="layer">a layer</param>
-        public void RemoveLayer(string layer)
+        private void DeleteLayer(string name)
         {
             CanvasControl canvas = m_con.ActiveCanvas;
+            canvas.DeleteLayer(name);
         }
+
+        /// <summary>
+        /// Rename Layer.
+        /// </summary>
+        /// <param name="name"></param>
+        private void RenameLayer(string oldName, string newName)
+        {
+            CanvasControl canvas = m_con.ActiveCanvas;
+            canvas.RenameLayer(oldName, newName);
+        }
+
+
 
         /// <summary>
         /// Initializer for PCanvas
@@ -175,6 +201,8 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.m_dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.m_dgv.Size = new System.Drawing.Size(269, 178);
             this.m_dgv.TabIndex = 0;
+            this.m_dgv.MouseDown += new System.Windows.Forms.MouseEventHandler(this.m_dgv_MouseDown);
+            this.m_dgv.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
             this.m_dgv.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
             this.m_dgv.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
             this.m_dgv.VisibleChanged += new System.EventHandler(this.m_dgv_VisibleChanged);
@@ -201,20 +229,23 @@ namespace EcellLib.PathwayWindow.UIComponent
             // Preparing a context menu.
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
 
-            ToolStripItem createNewLayerMenu = new ToolStripMenuItem("CreateNewLayer");
-            createNewLayerMenu.Name = "CreateNewLayer";
-            createNewLayerMenu.Click += new EventHandler(CreateNewLayerClick);
-            nodeMenu.Items.Add(createNewLayerMenu);
+            ToolStripItem menuCreateLayer = new ToolStripMenuItem(CREATE_LAYER);
+            menuCreateLayer.Name = CREATE_LAYER;
+            menuCreateLayer.Click += new EventHandler(CreateNewLayerClick);
+            nodeMenu.Items.Add(menuCreateLayer);
+            m_cMenuDict.Add(CREATE_LAYER, menuCreateLayer);
 
-            ToolStripItem deleteLayerMenu = new ToolStripMenuItem("DeleteLayer");
-            deleteLayerMenu.Name = "DeleteLayer";
-            deleteLayerMenu.Click += new EventHandler(DeleteLayerClick);
-            nodeMenu.Items.Add(deleteLayerMenu);
+            ToolStripItem menuDeleteLayer = new ToolStripMenuItem(DELETE_LAYER);
+            menuDeleteLayer.Name = DELETE_LAYER;
+            menuDeleteLayer.Click += new EventHandler(DeleteLayerClick);
+            nodeMenu.Items.Add(menuDeleteLayer);
+            m_cMenuDict.Add(DELETE_LAYER, menuDeleteLayer);
 
-            ToolStripItem renameLayerMenu = new ToolStripMenuItem("RenameLayer");
-            renameLayerMenu.Name = "RenameLayer";
-            renameLayerMenu.Click += new EventHandler(RenameLayerClick);
-            nodeMenu.Items.Add(renameLayerMenu);
+            ToolStripItem menuRenameLayer = new ToolStripMenuItem(RENAME_LAYER);
+            menuRenameLayer.Name = RENAME_LAYER;
+            menuRenameLayer.Click += new EventHandler(RenameLayerClick);
+            nodeMenu.Items.Add(menuRenameLayer);
+            m_cMenuDict.Add(RENAME_LAYER, menuRenameLayer);
 
             //ToolStripSeparator separator1 = new ToolStripSeparator();
             //nodeMenu.Items.Add(separator1);
@@ -294,23 +325,37 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             InputBox inputBox = new InputBox("新規レイヤー名を入力してください");
             if (inputBox.Show() == DialogResult.OK)
-            {
                 AddLayer(inputBox.Input);
-                Console.WriteLine("レイヤーを追加しました:" + inputBox.Input);
-            }
-            else
-            {
-                Console.WriteLine("レイヤー追加をキャンセルしました");
-            }
             inputBox.Dispose();
         }
 
         private void DeleteLayerClick(object sender, EventArgs e)
         {
+            string name = (string)m_selectedRow.Cells[1].FormattedValue;
+            DeleteLayer(name);
         }
 
         private void RenameLayerClick(object sender, EventArgs e)
         {
+        }
+
+        private void m_dgv_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            m_cMenuDict[CREATE_LAYER].Visible = true;
+            m_cMenuDict[DELETE_LAYER].Visible = true;
+            m_cMenuDict[RENAME_LAYER].Visible = true;
+            m_selectedRow = m_dgv.Rows[e.RowIndex];
+        }
+
+        private void m_dgv_MouseDown(object sender, MouseEventArgs e)
+        {
+            if( m_con.ActiveCanvas == null)
+                m_cMenuDict[CREATE_LAYER].Visible = false;
+            else
+                m_cMenuDict[CREATE_LAYER].Visible = true;
+            m_cMenuDict[DELETE_LAYER].Visible = false;
+            m_cMenuDict[RENAME_LAYER].Visible = false;
+            m_selectedRow = null;
         }
 
     }

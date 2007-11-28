@@ -113,6 +113,7 @@
       <DependentUpon>MessageResPathway.resx</DependentUpon>
     </Compile>
     <Compile Include="Nodes\NamespaceDoc.cs" />
+    <Compile Include="Nodes\PPathwayLayer.cs" />
     <Compile Include="NoSuchComponentClassException.cs" />
     <Compile Include="NoSuchComponentKindException.cs" />
     <Compile Include="PathwayException.cs" />

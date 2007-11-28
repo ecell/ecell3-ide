@@ -190,7 +190,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// this node belong the layer.
         /// </summary>
-        protected PLayer m_layer;
+        protected PPathwayLayer m_layer;
 
         /// <summary>
         /// PathwayView managed this Node.
@@ -412,7 +412,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for m_layer.
         /// </summary>
-        public virtual PLayer Layer
+        public virtual PPathwayLayer Layer
         {
             get { return this.m_layer; }
             set { this.m_layer = value; }

@@ -97,7 +97,7 @@ namespace EcellLib.PathwayWindow {
                     xmlOut.WriteAttributeString("ModelID", eo.modelID);
                     xmlOut.WriteAttributeString("Type", eo.type);
                     xmlOut.WriteAttributeString("Key", eo.key);
-                    xmlOut.WriteAttributeString("Layer", eo.Layer);
+                    xmlOut.WriteAttributeString("Layer", eo.LayerID);
                     xmlOut.WriteAttributeString("X", eo.X.ToString());
                     xmlOut.WriteAttributeString("Y", eo.Y.ToString());
                     xmlOut.WriteAttributeString("OffsetX", eo.OffsetX.ToString());
@@ -210,7 +210,7 @@ namespace EcellLib.PathwayWindow {
                 string type = GetXMLAttributeString(xmlIn, "Type");
                 string classname = GetXMLAttributeString(xmlIn, "Class");
                 EcellObject eo = EcellObject.CreateObject(modelID, key, type, classname, null);
-                eo.Layer = GetXMLAttributeString(xmlIn, "Layer");
+                eo.LayerID = GetXMLAttributeString(xmlIn, "Layer");
                 eo.X = GetXMLAttributeFloat(xmlIn, "X");
                 eo.Y = GetXMLAttributeFloat(xmlIn, "Y");
                 eo.OffsetX = GetXMLAttributeFloat(xmlIn, "OffsetX");

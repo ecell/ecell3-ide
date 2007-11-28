@@ -194,11 +194,6 @@ namespace EcellLib.PathwayWindow
         private string m_activeCanvasID;
 
         /// <summary>
-        /// Default LayerID
-        /// </summary>
-        private string m_defLayerId = "Layer0";
-
-        /// <summary>
         /// ComponentSettingsManager for creating Systems and Nodes
         /// </summary>
         private ComponentManager m_csManager;
@@ -418,7 +413,6 @@ namespace EcellLib.PathwayWindow
             canvas.UpdateOverview();
             // Set Layerview
             m_layerView.DataGridView.DataSource = canvas.LayerTable;
-            canvas.AddLayer(this.m_defLayerId);
         }
 
         /// <summary>
@@ -459,13 +453,6 @@ namespace EcellLib.PathwayWindow
                 return;
 
             CanvasControl canvas = m_canvasDict[modelID];
-            PLayer layer = canvas.Layers[this.m_defLayerId];
-            bool isLayerSet = false;
-            if (eo.Layer.Equals(""))
-            {
-                eo.Layer = this.m_defLayerId;
-                isLayerSet = true;
-            }
             // Create PathwayObject and set to canvas.
             bool isPosSet = eo.IsPosSet;
             ComponentSetting cs = GetComponentSetting(eo.type);
@@ -475,21 +462,18 @@ namespace EcellLib.PathwayWindow
                 PPathwaySystem system = (PPathwaySystem)obj;
                 system.Refresh();
                 system.MouseDown += new PInputEventHandler(SystemSelected);
-                system.Layer = layer;
             }
             else
             {
                 PPathwayNode node = (PPathwayNode)obj;
                 node.ShowingID = m_showingId;
-                node.Layer = layer;
                 node.MouseDown += new PInputEventHandler(NodeSelected);
                 node.MouseEnter += new PInputEventHandler(NodeEntered);
                 node.MouseLeave += new PInputEventHandler(NodeLeft);
                 node.Handler4Line = new PInputEventHandler(LineSelected);
             }
-            canvas.AddNewObj(m_defLayerId, systemName, obj, isPosSet, false);
-            if (!isPosSet || isLayerSet)
-                NotifyDataChanged(eo.key, eo.key, obj, false, false);
+            canvas.AddNewObj(eo.LayerID, systemName, obj, isPosSet, false);
+            NotifyDataChanged(eo.key, eo.key, obj, false, false);
         }
 
         /// <summary>
@@ -723,7 +707,7 @@ namespace EcellLib.PathwayWindow
                 PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
                 MessageBox.Show(
                     "Name:" + obj.EcellObject.key
-                    + "\nLayer:" + obj.EcellObject.Layer
+                    + "\nLayer:" + obj.EcellObject.LayerID
                     + "\nX:" + obj.X + "\nY:" + obj.Y
                     + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY 
                     + "\nToString()" + obj.ToString());
@@ -1205,7 +1189,7 @@ namespace EcellLib.PathwayWindow
             if (eo == null)
                 throw new Exception();
             eo.key = newKey;
-            eo.Layer = obj.EcellObject.Layer;
+            eo.LayerID = obj.Layer.Name;
             eo.X = obj.X;
             eo.Y = obj.Y;
             eo.Width = obj.Width;

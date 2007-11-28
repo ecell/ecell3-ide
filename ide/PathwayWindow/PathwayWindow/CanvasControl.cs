@@ -63,6 +63,11 @@ namespace EcellLib.PathwayWindow
     {
         #region Static readonly fields
         /// <summary>
+        /// Default LayerID
+        /// </summary>
+        protected static readonly string DEFAULT_LAYERID = "Layer0";
+
+        /// <summary>
         /// Least canvas size when a node is focused.
         /// </summary>
         protected static readonly float LEAST_FOCUS_SIZE = 500f;
@@ -160,7 +165,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The dictionary for all layers.
         /// </summary>
-        protected Dictionary<string, PLayer> m_layers;
+        protected Dictionary<string, PPathwayLayer> m_layers;
 
         /// <summary>
         /// The dictionary for all systems on this canvas.
@@ -404,7 +409,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_layers.
         /// </summary>
-        public Dictionary<string, PLayer> Layers
+        public Dictionary<string, PPathwayLayer> Layers
         {
             get { return m_layers; }
         }
@@ -522,7 +527,7 @@ namespace EcellLib.PathwayWindow
             dc2.DataType = typeof(string);
             m_table.Columns.Add(dc2);
             // Preparing layer list
-            m_layers = new Dictionary<string, PLayer>();
+            m_layers = new Dictionary<string, PPathwayLayer>();
 
             // Preparing control layer
             m_ctrlLayer = new PLayer();
@@ -1427,13 +1432,19 @@ namespace EcellLib.PathwayWindow
         /// <param name="obj"></param>
         /// <param name="hasCoords"></param>
         /// <param name="isFirst"></param>
-        public void AddNewObj(string layer, string systemName, PPathwayObject obj, bool hasCoords, bool isFirst)
+        public void AddNewObj(string layerID, string systemName, PPathwayObject obj, bool hasCoords, bool isFirst)
         {
-            ResetSelectedObjects();
-            if (layer == null && Layers.Count == 1)
-                foreach (string key in Layers.Keys)
-                    layer = key;
+            // Set Layer
+            if (layerID == null || layerID.Equals(""))
+            {
+                layerID = DEFAULT_LAYERID;
+            }
+            if (!m_layers.ContainsKey(layerID))
+                AddLayer(layerID);
+            PPathwayLayer layer = m_layers[layerID];
+            obj.Layer = layer;
 
+            ResetSelectedObjects();
             if (obj is PPathwayNode)
                 ((PPathwayNode)obj).ShowingID = this.m_showingId;
             RegisterObjToSet(obj);
@@ -1442,8 +1453,7 @@ namespace EcellLib.PathwayWindow
             {
                 if (!hasCoords)
                     SetSystemSize(obj);
-                obj.Layer = Layers[layer];
-                Layers[layer].AddChild(obj);
+                layer.AddChild(obj);
                 return;
             }
 
@@ -1539,32 +1549,56 @@ namespace EcellLib.PathwayWindow
                 MessageBox.Show(name + m_resources.GetString("ErrAlrExist"));
                 return;
             }
-            PLayer layer = new PLayer();
+            PPathwayLayer layer = new PPathwayLayer(name);
             layer.AddInputEventListener(new NodeDragHandler(this));
-            layer.Visible = true;
 
             m_pCanvas.Root.AddChild(0, layer);
             m_pCanvas.Camera.AddLayer(0, layer);
-
-            DataRow dr = m_table.NewRow();
-            dr[COLUMN_NAME4SHOW] = true;
-            dr[COLUMN_NAME4NAME] = name;
-            m_table.Rows.Add(dr);
-
-            //m_con.OverView.AddLayer(layer);
             m_overviewCanvas.AddObservedLayer(layer);
+            m_layers.Add(layer.Name, layer);
 
-            m_layers.Add(name, layer);
+            RefreshLayerTable();
             ControlLayer.MoveToFront();
+        }
+        /// <summary>
+        /// Refresh Layer table.
+        /// </summary>
+        private void RefreshLayerTable()
+        {
+            m_table.Clear();
+            foreach (KeyValuePair<string, PPathwayLayer> set in m_layers)
+            {
+                DataRow dr = m_table.NewRow();
+                dr[COLUMN_NAME4SHOW] = set.Value.Visible;
+                dr[COLUMN_NAME4NAME] = set.Key;
+                m_table.Rows.Add(dr);
+            }
         }
 
         /// <summary>
-        /// remove selected layer.
+        /// Delete selected layer.
         /// </summary>
         /// <param name="name"></param>
-        public void RemoveLayer(string name)
+        public void DeleteLayer(string name)
         {
-            
+            if (name.Equals(DEFAULT_LAYERID))
+                return;
+            PLayer layer = m_layers[name];
+            m_layers.Remove(name);
+            m_overviewCanvas.RemoveObservedLayer(layer);
+            m_pCanvas.Camera.RemoveLayer(layer);
+            m_pCanvas.Root.RemoveChild(layer);
+
+            RefreshLayerTable();
+        }
+
+        /// <summary>
+        /// Delete selected layer.
+        /// </summary>
+        /// <param name="name"></param>
+        public void RenameLayer(string oldName, string newName)
+        {
+
         }
 
         /// <summary>
