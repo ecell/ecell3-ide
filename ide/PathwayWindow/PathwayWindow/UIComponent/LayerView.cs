@@ -69,6 +69,12 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Normally, this node is colored in red.
         /// </summary>
         private GroupBox groupBox;
+
+        /// <summary>
+        /// List of ToolStripMenuItems for ContextMenu
+        /// </summary>
+        private Dictionary<string, ToolStripItem> m_cMenuDict = new Dictionary<string, ToolStripItem>();
+
         #endregion
 
         #region Constructor
@@ -79,6 +85,9 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             this.m_con = control;
             InitializeComponent();
+            // Preparing context menus.
+            m_dgv.ContextMenuStrip = GetPopUpMenus();
+
         }
         #endregion
 
@@ -105,16 +114,19 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Set layer.
         /// </summary>
         /// <param name="layer"></param>
-        public void AddLayer(PLayer layer)
+        public void AddLayer(string layer)
         {
+            CanvasControl canvas = m_con.ActiveCanvas;
+            canvas.AddLayer(layer);
         }
 
         /// <summary>
         /// Stop to observe a layer.
         /// </summary>
         /// <param name="layer">a layer</param>
-        public void RemoveLayer(PLayer layer)
+        public void RemoveLayer(string layer)
         {
+            CanvasControl canvas = m_con.ActiveCanvas;
         }
 
         /// <summary>
@@ -179,6 +191,41 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.ResumeLayout(false);
 
         }
+
+        /// <summary>
+        /// Get Popup Menus.
+        /// </summary>
+        ///<returns>ContextMenu.</returns>
+        private ContextMenuStrip GetPopUpMenus()
+        {
+            // Preparing a context menu.
+            ContextMenuStrip nodeMenu = new ContextMenuStrip();
+
+            ToolStripItem createNewLayerMenu = new ToolStripMenuItem("CreateNewLayer");
+            createNewLayerMenu.Name = "CreateNewLayer";
+            createNewLayerMenu.Click += new EventHandler(CreateNewLayerClick);
+            nodeMenu.Items.Add(createNewLayerMenu);
+
+            ToolStripItem deleteLayerMenu = new ToolStripMenuItem("DeleteLayer");
+            deleteLayerMenu.Name = "DeleteLayer";
+            deleteLayerMenu.Click += new EventHandler(DeleteLayerClick);
+            nodeMenu.Items.Add(deleteLayerMenu);
+
+            ToolStripItem renameLayerMenu = new ToolStripMenuItem("RenameLayer");
+            renameLayerMenu.Name = "RenameLayer";
+            renameLayerMenu.Click += new EventHandler(RenameLayerClick);
+            nodeMenu.Items.Add(renameLayerMenu);
+
+            //ToolStripSeparator separator1 = new ToolStripSeparator();
+            //nodeMenu.Items.Add(separator1);
+
+            //ToolStripItem constant = new ToolStripMenuItem("Constant", Resource1.ten);
+            //constant.Text = CANVAS_MENU_CONSTANT_LINE;
+            //constant.Click += new EventHandler(ChangeLineClick);
+            //nodeMenu.Items.Add(constant);
+
+            return nodeMenu;
+        }
         #endregion
 
         #region Event sequences
@@ -242,5 +289,29 @@ namespace EcellLib.PathwayWindow.UIComponent
             }
         }
         #endregion
+
+        private void CreateNewLayerClick(object sender, EventArgs e)
+        {
+            InputBox inputBox = new InputBox("新規レイヤー名を入力してください");
+            if (inputBox.Show() == DialogResult.OK)
+            {
+                AddLayer(inputBox.Input);
+                Console.WriteLine("レイヤーを追加しました:" + inputBox.Input);
+            }
+            else
+            {
+                Console.WriteLine("レイヤー追加をキャンセルしました");
+            }
+            inputBox.Dispose();
+        }
+
+        private void DeleteLayerClick(object sender, EventArgs e)
+        {
+        }
+
+        private void RenameLayerClick(object sender, EventArgs e)
+        {
+        }
+
     }
 }

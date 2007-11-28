@@ -1531,6 +1531,14 @@ namespace EcellLib.PathwayWindow
         /// <param name="name">the added layer.</param>
         public void AddLayer(string name)
         {
+            // Error check.
+            if (name == null || name.Equals(""))
+                return;
+            if (m_layers.ContainsKey(name))
+            {
+                MessageBox.Show(name + m_resources.GetString("ErrAlrExist"));
+                return;
+            }
             PLayer layer = new PLayer();
             layer.AddInputEventListener(new NodeDragHandler(this));
             layer.Visible = true;
@@ -1546,9 +1554,17 @@ namespace EcellLib.PathwayWindow
             //m_con.OverView.AddLayer(layer);
             m_overviewCanvas.AddObservedLayer(layer);
 
-            Layers.Add(name, layer);
+            m_layers.Add(name, layer);
             ControlLayer.MoveToFront();
+        }
 
+        /// <summary>
+        /// remove selected layer.
+        /// </summary>
+        /// <param name="name"></param>
+        public void RemoveLayer(string name)
+        {
+            
         }
 
         /// <summary>

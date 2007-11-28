@@ -75,11 +75,6 @@ namespace EcellLib.PathwayWindow
         PathwayControl m_con;
 
         /// <summary>
-        /// ModelID of Ecell "Model" which is currently focused on.
-        /// </summary>
-        string m_modelId = "";
-
-        /// <summary>
         /// A list for layout algorithms, which implement ILayoutAlgorithm.
         /// </summary>
         private List<ILayoutAlgorithm> m_layoutList = new List<ILayoutAlgorithm>();

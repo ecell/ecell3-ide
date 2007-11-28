@@ -123,6 +123,12 @@
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Nodes\Line.cs" />
+    <Compile Include="UIComponent\InputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIComponent\InputBox.Designer.cs">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIComponent\OverView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,6 +186,10 @@
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\hand.gif" />
+    <EmbeddedResource Include="UIComponent\InputBox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\OverView.resx">
       <SubType>Designer</SubType>
       <DependentUpon>OverView.cs</DependentUpon>
