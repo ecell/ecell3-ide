@@ -95,7 +95,7 @@ namespace EcellLib
         /// <summary>
         /// The layer include this object.
         /// </summary>
-        private string m_layer = "";
+        private string m_layerID = "";
         /// <summary>
         /// X coordinate
         /// </summary>
@@ -252,10 +252,10 @@ namespace EcellLib
         /// <summary>
         /// get/set the layer property.
         /// </summary>
-        public string Layer
+        public string LayerID
         {
-            get { return this.m_layer; }
-            set { this.m_layer = value; }
+            get { return this.m_layerID; }
+            set { this.m_layerID = value; }
         }
 
         /// <summary>
@@ -439,7 +439,7 @@ namespace EcellLib
                 l_newEcellObject.OffsetY = this.m_offsetY;
                 l_newEcellObject.Width = this.m_width;
                 l_newEcellObject.Height = this.m_height;
-                l_newEcellObject.Layer = this.Layer;
+                l_newEcellObject.LayerID = this.LayerID;
                 l_newEcellObject.Children = this.CopyChildren();
                 return l_newEcellObject;
             }

@@ -159,31 +159,31 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>332, 8</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 12</value>
   </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
   </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>tableLayoutPanel2</value>
   </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="numberTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -241,39 +241,39 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="numberTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,150,Percent,100,Absolute,40" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="numberTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,150,Percent,100,Absolute,40" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel3.ColumnCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 8</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 12</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
+  <data name="label3.Text" xml:space="preserve">
     <value>redraw interval</value>
   </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
   </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>tableLayoutPanel3</value>
   </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -361,9 +361,9 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel3.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label4" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="intervalTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,150,Percent,100,Absolute,40" /&gt;&lt;Rows Styles="Percent,100,Absolute,29" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label3" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label4" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="intervalTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,150,Percent,100,Absolute,40" /&gt;&lt;Rows Styles="Percent,100,Absolute,29" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <data name="tableLayoutPanel4.ColumnCount" type="System.Int32, mscorlib">
+  <data name="tableLayoutPanel5.ColumnCount" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="TSApplyButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -388,7 +388,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TSApplyButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel4</value>
+    <value>tableLayoutPanel5</value>
   </data>
   <data name="&gt;&gt;TSApplyButton.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -415,102 +415,102 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TSCloseButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel4</value>
+    <value>tableLayoutPanel5</value>
   </data>
   <data name="&gt;&gt;TSCloseButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="tableLayoutPanel4.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="tableLayoutPanel5.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="tableLayoutPanel4.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="tableLayoutPanel5.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 117</value>
   </data>
-  <data name="tableLayoutPanel4.RowCount" type="System.Int32, mscorlib">
+  <data name="tableLayoutPanel5.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="tableLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
     <value>369, 29</value>
   </data>
-  <data name="tableLayoutPanel4.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel4.Name" xml:space="preserve">
-    <value>tableLayoutPanel4</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel4.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel4.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="tableLayoutPanel4.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="TSApplyButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="TSCloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="tableLayoutPanel6.ColumnCount" type="System.Int32, mscorlib">
+  <data name="tableLayoutPanel5.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="label7.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="&gt;&gt;tableLayoutPanel5.Name" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel5.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="TSApplyButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="TSCloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel4.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label5.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
-  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 8</value>
   </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 12</value>
   </data>
-  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="label7.Text" xml:space="preserve">
+  <data name="label5.Text" xml:space="preserve">
     <value>step count for dispatch</value>
   </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
   </data>
-  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>tableLayoutPanel6</value>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
   </data>
-  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="label8.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="label6.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
-  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
     <value>332, 8</value>
   </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 12</value>
   </data>
-  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
+  <data name="label6.Text" xml:space="preserve">
     <value>step</value>
   </data>
-  <data name="&gt;&gt;label8.Name" xml:space="preserve">
-    <value>label8</value>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
   </data>
-  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
-    <value>tableLayoutPanel6</value>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
   </data>
-  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="stepCountTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -535,40 +535,40 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;stepCountTextBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel6</value>
+    <value>tableLayoutPanel4</value>
   </data>
   <data name="&gt;&gt;stepCountTextBox.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="tableLayoutPanel6.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="tableLayoutPanel4.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="tableLayoutPanel6.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="tableLayoutPanel4.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 73</value>
   </data>
-  <data name="tableLayoutPanel6.RowCount" type="System.Int32, mscorlib">
+  <data name="tableLayoutPanel4.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="tableLayoutPanel6.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
     <value>369, 29</value>
   </data>
-  <data name="tableLayoutPanel6.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="tableLayoutPanel4.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel6.Name" xml:space="preserve">
-    <value>tableLayoutPanel6</value>
+  <data name="&gt;&gt;tableLayoutPanel4.Name" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel6.Type" xml:space="preserve">
+  <data name="&gt;&gt;tableLayoutPanel4.Type" xml:space="preserve">
     <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel6.Parent" xml:space="preserve">
+  <data name="&gt;&gt;tableLayoutPanel4.Parent" xml:space="preserve">
     <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel6.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;tableLayoutPanel4.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="tableLayoutPanel6.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label7" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label8" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="stepCountTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,150,Percent,100,Absolute,40" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  <data name="tableLayoutPanel4.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label5" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label6" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="stepCountTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,150,Percent,100,Absolute,40" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -598,85 +598,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel3" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel4" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel6" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,35,Absolute,35,Absolute,35,Percent,100,Absolute,35,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="tableLayoutPanel5.ColumnCount" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="label5.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 44</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 12</value>
-  </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>redraw interval</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>tableLayoutPanel5</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutPanel5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tableLayoutPanel5.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 100</value>
-  </data>
-  <data name="tableLayoutPanel5.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel5.Name" xml:space="preserve">
-    <value>tableLayoutPanel5</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="tableLayoutPanel5.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label5" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,150,Percent,100,Absolute,40" /&gt;&lt;Rows Styles="Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="label6.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 1</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 12</value>
-  </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>sec</value>
-  </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
-  </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel3" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel5" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel4" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,35,Absolute,35,Absolute,35,Percent,100,Absolute,35,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

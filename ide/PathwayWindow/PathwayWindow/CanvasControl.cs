@@ -63,11 +63,6 @@ namespace EcellLib.PathwayWindow
     {
         #region Static readonly fields
         /// <summary>
-        /// Default LayerID
-        /// </summary>
-        protected static readonly string DEFAULT_LAYERID = "Layer0";
-
-        /// <summary>
         /// Least canvas size when a node is focused.
         /// </summary>
         protected static readonly float LEAST_FOCUS_SIZE = 500f;
@@ -161,6 +156,10 @@ namespace EcellLib.PathwayWindow
         /// DataTable for DataGridView displayed layer list.
         /// </summary>
         protected DataTable m_table;
+        /// <summary>
+        /// Default LayerID
+        /// </summary>
+        protected string m_defLayerID = "Layer0";
 
         /// <summary>
         /// The dictionary for all layers.
@@ -1427,22 +1426,14 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Add PPathwayObject to this canvas.
         /// </summary>
-        /// <param name="layer"></param>
         /// <param name="systemName"></param>
         /// <param name="obj"></param>
         /// <param name="hasCoords"></param>
         /// <param name="isFirst"></param>
-        public void AddNewObj(string layerID, string systemName, PPathwayObject obj, bool hasCoords, bool isFirst)
+        public void DataAdd(string systemName, PPathwayObject obj, bool hasCoords, bool isFirst)
         {
             // Set Layer
-            if (layerID == null || layerID.Equals(""))
-            {
-                layerID = DEFAULT_LAYERID;
-            }
-            if (!m_layers.ContainsKey(layerID))
-                AddLayer(layerID);
-            PPathwayLayer layer = m_layers[layerID];
-            obj.Layer = layer;
+            SetLayer(obj);
 
             ResetSelectedObjects();
             if (obj is PPathwayNode)
@@ -1453,7 +1444,7 @@ namespace EcellLib.PathwayWindow
             {
                 if (!hasCoords)
                     SetSystemSize(obj);
-                layer.AddChild(obj);
+                obj.Layer.AddChild(obj);
                 return;
             }
 
@@ -1489,6 +1480,27 @@ namespace EcellLib.PathwayWindow
 
             if (obj is PPathwayProcess)
                 ((PPathwayProcess)obj).RefreshEdges();
+        }
+        /// <summary>
+        /// Set Layer.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void SetLayer(PPathwayObject obj)
+        {
+            string layerID = obj.EcellObject.LayerID;
+            if (obj.EcellObject.key.Equals("/") && (layerID != null && !layerID.Equals("")))
+            {
+                m_defLayerID = layerID;
+            }
+            else if (layerID == null || layerID.Equals(""))
+            {
+                layerID = m_defLayerID;
+            }
+            if (!m_layers.ContainsKey(layerID))
+            {
+                AddLayer(layerID);
+            }
+            obj.Layer = m_layers[layerID];
         }
 
         /// <summary>
@@ -1581,7 +1593,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="name"></param>
         public void DeleteLayer(string name)
         {
-            if (name.Equals(DEFAULT_LAYERID))
+            if (name.Equals(m_defLayerID))
                 return;
             PLayer layer = m_layers[name];
             m_layers.Remove(name);
@@ -1590,15 +1602,19 @@ namespace EcellLib.PathwayWindow
             m_pCanvas.Root.RemoveChild(layer);
 
             RefreshLayerTable();
+            // Delete Nodes under this layer
+            // ToDo
         }
 
         /// <summary>
-        /// Delete selected layer.
+        /// Rename selected layer.
         /// </summary>
         /// <param name="name"></param>
         public void RenameLayer(string oldName, string newName)
         {
 
+            // Change Nodes under this layer
+            // ToDo
         }
 
         /// <summary>
@@ -1904,7 +1920,22 @@ namespace EcellLib.PathwayWindow
             obj.ParentObject.AddChild(obj);
 
         }
+        /// <summary>
+        /// The event sequence on changing value of data at other plugin.
+        /// </summary>
+        /// <param name="oldKey">The ID before value change.</param>
+        /// <param name="type">The data type before value change.</param>
+        /// <param name="obj">Changed value of object.</param>
+        public void DataChanged(string oldKey, string newKey, PPathwayObject obj)
+        {
+            if (!oldKey.Equals(newKey))
+                TransferObject(oldKey, newKey, obj);
 
+            if (obj is PPathwaySystem)
+                UpdateResizeHandlePositions();
+            // Set Layer
+            SetLayer(obj);
+        }
         /// <summary>
         /// event sequence of deleting the object.
         /// </summary>

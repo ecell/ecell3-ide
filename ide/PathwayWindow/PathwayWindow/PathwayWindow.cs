@@ -431,15 +431,16 @@ namespace EcellLib.PathwayWindow
             // Load Model.
             try
             {
-                this.NewDataAddToModel(data);
+                bool layoutFlag = false;
                 if (modelId != null)
                 {
                     string fileName = m_dManager.GetDirPath(modelId) + "\\" + modelId + ".leml";
                     if (File.Exists(fileName))
                         this.SetPositionFromLeml(fileName, data);
                     else
-                        m_con.DoLayout(DefaultLayoutAlgorithm, 0, false);
+                        layoutFlag = true;
                 }
+                this.NewDataAddToModel(data, layoutFlag);
             }
             catch (Exception e)
             {
@@ -798,9 +799,9 @@ namespace EcellLib.PathwayWindow
         /// So, used by DataAdd only.
         /// </summary>
         /// <param name="data">The same argument for DataAdd</param>
-        private void NewDataAddToModel(List<EcellObject> data)
+        private void NewDataAddToModel(List<EcellObject> data, bool layoutFlag)
         {
-            // These new EcellObjects will be loaded onto the Model currently displayed
+            // Load each EcellObject onto the canvas currently displayed
             foreach (EcellObject obj in data)
             {
                 try
@@ -821,6 +822,9 @@ namespace EcellLib.PathwayWindow
                     throw new PathwayException(m_resources.GetString("ErrUnknowType") + "\n" + ex.StackTrace);
                 }
             }
+            // Perform layout if layoutFlag is true.
+            if(layoutFlag)
+                m_con.DoLayout(DefaultLayoutAlgorithm, 0, false);
         }
 
         /// <summary>
@@ -849,7 +853,7 @@ namespace EcellLib.PathwayWindow
                 eo.SetPosition(objDict[dictKey]);
                 if (!objDict[dictKey].LayerID.Equals(""))
                     eo.LayerID = objDict[dictKey].LayerID;
-                this.NotifyDataChanged(eo.key, eo.key, eo, false, false);
+
                 if (eo.Children == null)
                     continue;
                 foreach(EcellObject child in eo.Children)
@@ -861,7 +865,6 @@ namespace EcellLib.PathwayWindow
                     child.SetPosition(objDict[dictKey]);
                     if (!objDict[dictKey].LayerID.Equals(""))
                         child.LayerID = objDict[dictKey].LayerID;
-                    this.NotifyDataChanged(child.key, child.key, child, false, false);
                 }
             }
         }

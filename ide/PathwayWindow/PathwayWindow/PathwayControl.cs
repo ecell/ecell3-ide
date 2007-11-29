@@ -472,7 +472,7 @@ namespace EcellLib.PathwayWindow
                 node.MouseLeave += new PInputEventHandler(NodeLeft);
                 node.Handler4Line = new PInputEventHandler(LineSelected);
             }
-            canvas.AddNewObj(eo.LayerID, systemName, obj, isPosSet, false);
+            canvas.DataAdd(systemName, obj, isPosSet, false);
             NotifyDataChanged(eo.key, eo.key, obj, false, false);
         }
 
@@ -1794,13 +1794,7 @@ namespace EcellLib.PathwayWindow
 
             // Change data.
             obj.EcellObject = eo;
-            if (!oldKey.Equals(eo.key))
-                canvas.TransferObject(oldKey, eo.key, obj);
-
-            //
-            if (obj is PPathwaySystem)
-                canvas.UpdateResizeHandlePositions();
-
+            canvas.DataChanged(oldKey, eo.key, obj);
         }
 
         private void ChangeSystemSize(string modelID, string sysKey, double size)
