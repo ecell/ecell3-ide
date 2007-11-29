@@ -304,7 +304,6 @@ namespace EcellLib.PathwayWindow.Nodes
                     base.OffsetY = m_ecellObj.OffsetY;
                 }
                 MemorizePosition();
-                Refresh();
             }
         }
         /// <summary>
@@ -418,14 +417,6 @@ namespace EcellLib.PathwayWindow.Nodes
             set { this.m_layer = value; }
         }
         /// <summary>
-        /// Accessor for m_pathwayView.
-        /// </summary>
-        public virtual PathwayControl Control
-        {
-            get { return this.m_control; }
-            set { this.m_control = value; }
-        }
-        /// <summary>
         /// Accessor for m_csId.
         /// </summary>
         public virtual string CsID
@@ -439,7 +430,10 @@ namespace EcellLib.PathwayWindow.Nodes
         public virtual CanvasControl CanvasControl
         {
             get { return m_canvas; }
-            set { m_canvas = value; }
+            set {
+                m_canvas = value;
+                m_control = value.PathwayControl;
+            }
         }
         /// <summary>
         /// Accessor for m_parentObject.
@@ -1082,12 +1076,9 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void NotifyMovement()
         {
-            PNodeList children = new PNodeList(this.ChildrenReference);
-            foreach(PNode child in children)
+            foreach (PPathwayObject obj in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
             {
-                if (!(child is PPathwayObject))
-                    continue;
-                ((PPathwayObject)child).NotifyMovement();
+                obj.NotifyMovement();
             }
         }
         #endregion
@@ -1117,6 +1108,10 @@ namespace EcellLib.PathwayWindow.Nodes
             base.Width = this.m_originalWidth;
             base.Height = this.m_originalHeight;
             RefreshText();
+            foreach (PPathwayObject child in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
+            {
+                child.ResetPosition();
+            }
         }
 
         /// <summary>

@@ -215,8 +215,9 @@ namespace EcellLib.PathwayWindow.Nodes
                     path.ProPoint = base.GetContactPoint(path.VarPoint);
                     path.DrawLine();
                     path.Pickable = true;
+                    path.Visible = (var.Visible && this.Visible);
                     
-                    this.ParentObject.AddChild(path);
+                    m_layer.AddChild(path);
                     this.AddRelatedVariable(var, path);
                     var.NotifyAddRelatedProcess(this);
                 }

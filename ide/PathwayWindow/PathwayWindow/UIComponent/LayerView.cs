@@ -323,7 +323,7 @@ namespace EcellLib.PathwayWindow.UIComponent
 
         private void CreateNewLayerClick(object sender, EventArgs e)
         {
-            InputBox inputBox = new InputBox("新規レイヤー名を入力してください");
+            InputBox inputBox = new InputBox("新規レイヤー名を入力してください", "レイヤー名入力ダイアログ");
             if (inputBox.Show() == DialogResult.OK)
                 AddLayer(inputBox.Input);
             inputBox.Dispose();
@@ -337,6 +337,14 @@ namespace EcellLib.PathwayWindow.UIComponent
 
         private void RenameLayerClick(object sender, EventArgs e)
         {
+            string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
+            InputBox inputBox = new InputBox("新規レイヤー名を入力してください", "レイヤー名入力ダイアログ", oldName);
+            if (inputBox.Show() != DialogResult.OK)
+                return;
+            string newName = inputBox.Input;
+            inputBox.Dispose();
+
+            RenameLayer(oldName, newName);
         }
 
         private void m_dgv_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -344,7 +352,8 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_cMenuDict[CREATE_LAYER].Visible = true;
             m_cMenuDict[DELETE_LAYER].Visible = true;
             m_cMenuDict[RENAME_LAYER].Visible = true;
-            m_selectedRow = m_dgv.Rows[e.RowIndex];
+            if (e.RowIndex >= 0)
+                m_selectedRow = m_dgv.Rows[e.RowIndex];
         }
 
         private void m_dgv_MouseDown(object sender, MouseEventArgs e)

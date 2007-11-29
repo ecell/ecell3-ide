@@ -1450,6 +1450,7 @@ namespace EcellLib.PathwayWindow
 
             // Set Child object.
             PPathwaySystem system = m_systems[systemName];
+            obj.ParentObject = system;
             // If obj hasn't coordinate, it will be settled. 
             if (obj is PPathwayNode && !system.Rect.Contains(obj.PointF))
                 obj.PointF = GetVacantPoint(systemName);
@@ -1458,12 +1459,9 @@ namespace EcellLib.PathwayWindow
                 float maxX = system.X + system.OffsetX;
                 float x = 0f;
 
-                foreach (PNode ppo in system.ChildrenReference)
+                foreach (PPathwayObject ppo in GetAllObjectUnder(system.EcellObject.key) )
                 {
-                    if (ppo is PPathwayObject)
-                    {
-                        x = ppo.X + ppo.OffsetX + ppo.Width;
-                    }
+                    x = ppo.X + ppo.OffsetX + ppo.Width;
                     if (maxX < x)
                         maxX = x;
                 }
@@ -1474,9 +1472,8 @@ namespace EcellLib.PathwayWindow
                 system.MakeSpace(obj);
             }
             // Set to parent object.
-            system.AddChild(obj);
-            obj.ParentObject = system;
-            obj.RefreshText();
+            obj.Refresh();
+
 
             if (obj is PPathwayProcess)
                 ((PPathwayProcess)obj).RefreshEdges();
@@ -1501,6 +1498,7 @@ namespace EcellLib.PathwayWindow
                 AddLayer(layerID);
             }
             obj.Layer = m_layers[layerID];
+            obj.Layer.AddChild(obj);
         }
 
         /// <summary>
@@ -1604,6 +1602,7 @@ namespace EcellLib.PathwayWindow
             RefreshLayerTable();
             // Delete Nodes under this layer
             // ToDo
+            
         }
 
         /// <summary>
@@ -1612,9 +1611,30 @@ namespace EcellLib.PathwayWindow
         /// <param name="name"></param>
         public void RenameLayer(string oldName, string newName)
         {
-
             // Change Nodes under this layer
             // ToDo
+            PPathwayLayer layer = m_layers[oldName];
+            layer.Name = newName;
+            m_layers.Remove(oldName);
+            m_layers.Add(newName, layer);
+            List<PPathwayObject> list = GetAllObjects();
+            foreach (PPathwayObject obj in list)
+                if (obj.Layer == layer)
+                    m_con.NotifyDataChanged(
+                        obj.EcellObject.key,
+                        obj.EcellObject.key,
+                        obj,
+                        true,
+                        false);
+            m_con.NotifyDataChanged(
+                list[0].EcellObject.key,
+                list[0].EcellObject.key,
+                list[0],
+                true,
+                true);
+
+            RefreshLayerTable();
+
         }
 
         /// <summary>
@@ -1966,7 +1986,10 @@ namespace EcellLib.PathwayWindow
             }
             RemoveObject(obj);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         private void RemoveObject(PPathwayObject obj)
         {
             if (obj == null)
@@ -1975,7 +1998,10 @@ namespace EcellLib.PathwayWindow
             obj.Text.RemoveFromParent();
             obj.Parent.RemoveChild(obj);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sysKey"></param>
         private void RemoveNodeUnder(string sysKey)
         {
             foreach (PPathwayObject obj in GetAllObjectUnder(sysKey))

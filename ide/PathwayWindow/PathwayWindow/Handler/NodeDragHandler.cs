@@ -148,18 +148,18 @@ namespace EcellLib.PathwayWindow.Handler
         {
             if (systemName != null && m_canvas.Systems.ContainsKey(systemName))
             {
-                m_canvas.PathwayCanvas.BackColor = Color.Silver;
-                m_canvas.Systems[systemName].BackgroundBrush = Brushes.White;
+                m_canvas.PathwayCanvas.BackColor = Color.White;//Color.Silver;
+                m_canvas.Systems[systemName].BackgroundBrush = null; //Brushes.White;
 
                 foreach (PPathwaySystem system in m_canvas.Systems.Values)
                     if (!system.EcellObject.key.Equals(systemName))
-                        system.BackgroundBrush = Brushes.Silver;
+                        system.BackgroundBrush = null; // Brushes.Silver;
             }
             else
             {
                 m_canvas.PathwayCanvas.BackColor = Color.White;
                 foreach (PPathwaySystem system in m_canvas.Systems.Values)
-                    system.BackgroundBrush = Brushes.Silver;
+                    system.BackgroundBrush = null; // Brushes.Silver;
             }
         }
         /// <summary>
@@ -171,15 +171,8 @@ namespace EcellLib.PathwayWindow.Handler
         {
             base.OnStartDrag(sender, e);
             m_isMoved = false;
-            if (e.PickedNode is PPathwaySystem)
-            {
-                PPathwaySystem system = (PPathwaySystem)e.PickedNode;
-            }
             e.Handled = true;
-            if (e.PickedNode.ChildrenCount != 1 || !(e.PickedNode.ChildrenReference[0] is PPathwaySystem))
-            {
-                e.PickedNode.MoveToFront();
-            }
+            e.PickedNode.MoveToFront();
         }
 
         /// <summary>
@@ -198,6 +191,7 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
             PPathwayObject obj = e.PickedNode as PPathwayObject;
             SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(obj.PointF));
+            // Move Nodes.
             if (obj is PPathwaySystem)
             {
                 PPathwaySystem system = (PPathwaySystem)obj;
@@ -210,20 +204,19 @@ namespace EcellLib.PathwayWindow.Handler
                     system.IsInvalid = false;
                 m_canvas.UpdateResizeHandlePositions();
                 system.MoveStart();
+                foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(system.EcellObject.key))
+                {
+                    child.Offset = obj.Offset;
+                    child.Refresh();
+                }
+
             }
             else if (obj is PPathwayNode)
             {
-                PointF offset = obj.Offset;
-                m_movingDelta += e.CanvasDelta;
-
-                if ((Math.Abs(m_movingDelta.Width) + Math.Abs(m_movingDelta.Height)) > m_refreshDistance)
+                foreach (PPathwayObject child in m_canvas.SelectedNodes)
                 {
-                    m_movingDelta = SizeF.Empty;
-                    foreach (PPathwayObject node in m_canvas.SelectedNodes)
-                    {
-                        node.Offset = offset;
-                        node.Refresh();
-                    }
+                    child.Offset = obj.Offset;
+                    child.Refresh();
                 }
             }
         }
@@ -252,7 +245,7 @@ namespace EcellLib.PathwayWindow.Handler
         {
             base.OnEndDrag(sender, e);
 
-            if (!(e.PickedNode is PPathwayObject))
+            if (!(e.PickedNode is PPathwayObject) || (e.PickedNode.OffsetX == 0 && e.PickedNode.OffsetY == 0) )
                 return;
             PPathwayObject obj = e.PickedNode as PPathwayObject;
             if (obj is PPathwayNode)

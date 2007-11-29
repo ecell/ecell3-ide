@@ -99,7 +99,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Brush for drawing back ground.
         /// </summary>
-        protected Brush m_backBrush = Brushes.White;
+        protected Brush m_backBrush = null; //Brushes.White;
 
         /// <summary>
         /// the flag whether this system is changed.
@@ -125,10 +125,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// GraohicsPath of outline.
         /// </summary>
         protected GraphicsPath m_outlineGp;
-        /// <summary>
-        /// Child object list.
-        /// </summary>
-        protected List<PPathwayObject> m_childList = new List<PPathwayObject>();
         #endregion
 
         #region Accessors
@@ -142,14 +138,6 @@ namespace EcellLib.PathwayWindow.Nodes
                 base.EcellObject = value;
                 this.Refresh();
             }
-        }
-        /// <summary>
-        /// Accessor for m_ecellobj.
-        /// </summary>
-        public List<PPathwayObject> ChildObjectList
-        {
-            get { return this.m_childList; }
-            set { this.m_childList = value; }
         }
 
         /// <summary>
@@ -168,10 +156,6 @@ namespace EcellLib.PathwayWindow.Nodes
                 else
                 {
                     this.Brush = m_normalBrush;
-                    if(m_control != null)
-                    {
-                        //HideResizeHandles();
-                    }
                 }
                 m_isChanged = true;
             }
@@ -378,7 +362,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void Refresh()
         {
             this.Reset();
-            foreach (PPathwayObject obj in this.ChildObjectList)
+            foreach (PPathwayObject obj in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
             {
                 if (obj is PPathwayVariable)
                     ((PPathwayVariable)obj).Refresh();
@@ -458,9 +442,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 ((PPathwaySystem)this.Parent).MakeSpace(this);
 
             // Move child nodes position.
-            if (this.ChildObjectList == null)
-                return;
-            foreach(PPathwayObject child in this.ChildObjectList)
+            foreach(PPathwayObject child in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
                 if (obj.Rect.Contains(child.Rect) || obj.Rect.IntersectsWith(child.Rect))
                     child.X += obj.Width;
             m_control.NotifyDataChanged(this.EcellObject.key, this.EcellObject.key, this, false, false);
@@ -617,23 +599,9 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void MoveStart()
         {
-            PNodeList tmplist = new PNodeList();
-            foreach (PNode p in this.ChildrenReference)
+            foreach (PPathwayObject obj in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
             {
-                if (p is PPathwayProcess)
-                    tmplist.Add(p);
-            }
-            foreach (PNode p in tmplist)
-            {
-                if (p is PPathwayObject)
-                {
-                    ((PPathwayObject)p).MoveStart();
-                }
-                else if (p is PPath)
-                {
-                    int ind = this.IndexOfChild(p);
-                    this.RemoveChild(ind);
-                }
+                obj.MoveStart();
             }
         }
 
@@ -642,18 +610,9 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void MoveEnd()
         {
-            PNodeList tmplist = new PNodeList();
-            foreach (PNode p in this.ChildrenReference)
+            foreach (PPathwayObject obj in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
             {
-                if (p is PPathwayProcess)
-                    tmplist.Add(p);
-            }
-            foreach (PNode p in tmplist)
-            {
-                if (p is PPathwayObject)
-                {
-                    ((PPathwayObject)p).MoveEnd();
-                }
+                obj.MoveEnd();
             }
         }
         #endregion

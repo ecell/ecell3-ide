@@ -116,33 +116,6 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return this.m_handler4Line; }
             set { this.m_handler4Line = value; }
         }
-        
-        /// <summary>
-        /// get the position of center at canvas.
-        /// </summary>
-        public PointF CenterPointToCanvas
-        {
-            get
-            {
-                PNode dummyParent = null;
-                PointF canPos = new PointF(base.X + base.Width / 2f + base.OffsetX,
-                                        base.Y + base.Height / 2f + base.OffsetY);
-                
-                do
-                {
-                    if (dummyParent == null)
-                        dummyParent = this.Parent;
-                    else
-                        dummyParent = dummyParent.Parent;
-                    if (dummyParent != null)
-                    {
-                        canPos.X += dummyParent.OffsetX;
-                        canPos.Y += dummyParent.OffsetY;
-                    }
-                } while (dummyParent != null && dummyParent.Parent != this.Root);
-                return canPos;
-            }
-        }
 
         /// <summary>
         /// Accessor for status whether this object is ready to be connected.

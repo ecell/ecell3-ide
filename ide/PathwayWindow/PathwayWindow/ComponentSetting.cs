@@ -269,9 +269,10 @@ namespace EcellLib.PathwayWindow
         /// <param name="eo">EcellObject</param>
         /// <param name="control">PathwayView instance</param>
         /// <returns>Created component</returns>
-        public PPathwayObject CreateNewComponent(EcellObject eo, PathwayControl control)
+        public PPathwayObject CreateNewComponent(EcellObject eo, CanvasControl canvas)
         {
             PPathwayObject obj = m_createMethod();
+            obj.CanvasControl = canvas;
             obj.CsID = m_name;
             obj.Setting = this;
             if(m_componentKind == ComponentType.System)
@@ -279,7 +280,6 @@ namespace EcellLib.PathwayWindow
                 obj.NormalBrush = Brushes.LightBlue;
                 obj.Pen = null;
                 obj.IsHighLighted = false;
-                obj.Control = control;
                 obj.EcellObject = eo;
             }
             else
@@ -292,7 +292,6 @@ namespace EcellLib.PathwayWindow
                 obj.Height = PPathwayNode.DEFAULT_HEIGHT;
             }
             obj.IsHighLighted = false;
-            obj.Refresh();
             return obj;
         }
 

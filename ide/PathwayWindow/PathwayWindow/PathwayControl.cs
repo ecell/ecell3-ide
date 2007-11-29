@@ -456,11 +456,10 @@ namespace EcellLib.PathwayWindow
             // Create PathwayObject and set to canvas.
             bool isPosSet = eo.IsPosSet;
             ComponentSetting cs = GetComponentSetting(eo.type);
-            PPathwayObject obj = cs.CreateNewComponent(eo, this);
+            PPathwayObject obj = cs.CreateNewComponent(eo, canvas);
             if (eo is EcellSystem)
             {
                 PPathwaySystem system = (PPathwaySystem)obj;
-                system.Refresh();
                 system.MouseDown += new PInputEventHandler(SystemSelected);
             }
             else
@@ -1693,7 +1692,8 @@ namespace EcellLib.PathwayWindow
 
         private void DeleteSystemUnder(PPathwaySystem system)
         {
-            foreach (PNode obj in system.ChildrenReference)
+            CanvasControl canvas = system.CanvasControl;
+            foreach (PPathwayObject obj in canvas.GetAllObjectUnder(system.EcellObject.key))
                 if (obj is PPathwaySystem)
                     DeleteSystemUnder((PPathwaySystem)obj);
 
@@ -1794,6 +1794,7 @@ namespace EcellLib.PathwayWindow
 
             // Change data.
             obj.EcellObject = eo;
+            obj.Refresh();
             canvas.DataChanged(oldKey, eo.key, obj);
         }
 

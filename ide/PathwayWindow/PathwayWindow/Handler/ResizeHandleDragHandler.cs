@@ -70,8 +70,7 @@ namespace EcellLib.PathwayWindow
         {
             base.OnStartDrag(sender, e);
             e.Handled = true;
-            if (e.PickedNode.ChildrenCount != 1 || !(e.PickedNode.ChildrenReference[0] is PPathwaySystem))
-                e.PickedNode.MoveToFront();
+            e.PickedNode.MoveToFront();
         }
 
         /// <summary>
