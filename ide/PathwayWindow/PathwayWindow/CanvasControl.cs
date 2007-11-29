@@ -1592,7 +1592,10 @@ namespace EcellLib.PathwayWindow
         public void DeleteLayer(string name)
         {
             if (name.Equals(m_defLayerID))
+            {
+                MessageBox.Show(m_resources.GetString("ErrDelRoot"));
                 return;
+            }
             PLayer layer = m_layers[name];
             m_layers.Remove(name);
             m_overviewCanvas.RemoveObservedLayer(layer);

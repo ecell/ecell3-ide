@@ -88,6 +88,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Create Layer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CreateLayer {
+            get {
+                return ResourceManager.GetString("CreateLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Create Logger に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CreateLogMenuText {
@@ -102,6 +111,15 @@ namespace EcellLib.PathwayWindow {
         internal static string CutMenuText {
             get {
                 return ResourceManager.GetString("CutMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete Layer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DeleteLayer {
+            get {
+                return ResourceManager.GetString("DeleteLayer", resourceCulture);
             }
         }
         
@@ -313,6 +331,24 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Input new Layer name. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LayerDialogMessage {
+            get {
+                return ResourceManager.GetString("LayerDialogMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   LayerNameInputDialog に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LayerDialogTitle {
+            get {
+                return ResourceManager.GetString("LayerDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Show &amp;IDs(Pathway) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowIDText {
@@ -345,6 +381,15 @@ namespace EcellLib.PathwayWindow {
         internal static string PasteMenuText {
             get {
                 return ResourceManager.GetString("PasteMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rename Layer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string RenameLayer {
+            get {
+                return ResourceManager.GetString("RenameLayer", resourceCulture);
             }
         }
     }

@@ -37,6 +37,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using System.Data;
+using System.ComponentModel;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -49,6 +50,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         private static string CREATE_LAYER = "CreateLayer";
         private static string DELETE_LAYER = "DeleteLayer";
         private static string RENAME_LAYER = "RenameLayer";
+        private static string DIALOG_TITLE = "レイヤー名入力ダイアログ";
+        private static string DIALOG_MESSAGE = "新規レイヤー名を入力してください";
 
         #endregion
 
@@ -88,6 +91,10 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Selected DataRow.
         /// </summary>
         private DataGridViewRow m_selectedRow = null;
+        /// <summary>
+        /// ResourceManager for PathwayWindow.
+        /// </summary>
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
         #endregion
 
         #region Constructor
@@ -230,30 +237,22 @@ namespace EcellLib.PathwayWindow.UIComponent
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
 
             ToolStripItem menuCreateLayer = new ToolStripMenuItem(CREATE_LAYER);
-            menuCreateLayer.Name = CREATE_LAYER;
+            menuCreateLayer.Text = m_resources.GetString(CREATE_LAYER);
             menuCreateLayer.Click += new EventHandler(CreateNewLayerClick);
             nodeMenu.Items.Add(menuCreateLayer);
             m_cMenuDict.Add(CREATE_LAYER, menuCreateLayer);
 
             ToolStripItem menuDeleteLayer = new ToolStripMenuItem(DELETE_LAYER);
-            menuDeleteLayer.Name = DELETE_LAYER;
+            menuDeleteLayer.Text = m_resources.GetString(DELETE_LAYER);
             menuDeleteLayer.Click += new EventHandler(DeleteLayerClick);
             nodeMenu.Items.Add(menuDeleteLayer);
             m_cMenuDict.Add(DELETE_LAYER, menuDeleteLayer);
 
             ToolStripItem menuRenameLayer = new ToolStripMenuItem(RENAME_LAYER);
-            menuRenameLayer.Name = RENAME_LAYER;
+            menuRenameLayer.Text = m_resources.GetString(RENAME_LAYER);
             menuRenameLayer.Click += new EventHandler(RenameLayerClick);
             nodeMenu.Items.Add(menuRenameLayer);
             m_cMenuDict.Add(RENAME_LAYER, menuRenameLayer);
-
-            //ToolStripSeparator separator1 = new ToolStripSeparator();
-            //nodeMenu.Items.Add(separator1);
-
-            //ToolStripItem constant = new ToolStripMenuItem("Constant", Resource1.ten);
-            //constant.Text = CANVAS_MENU_CONSTANT_LINE;
-            //constant.Click += new EventHandler(ChangeLineClick);
-            //nodeMenu.Items.Add(constant);
 
             return nodeMenu;
         }
@@ -323,7 +322,7 @@ namespace EcellLib.PathwayWindow.UIComponent
 
         private void CreateNewLayerClick(object sender, EventArgs e)
         {
-            InputBox inputBox = new InputBox("新規レイヤー名を入力してください", "レイヤー名入力ダイアログ");
+            InputBox inputBox = new InputBox(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE));
             if (inputBox.Show() == DialogResult.OK)
                 AddLayer(inputBox.Input);
             inputBox.Dispose();
@@ -338,7 +337,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void RenameLayerClick(object sender, EventArgs e)
         {
             string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
-            InputBox inputBox = new InputBox("新規レイヤー名を入力してください", "レイヤー名入力ダイアログ", oldName);
+            InputBox inputBox = new InputBox(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE), oldName);
             if (inputBox.Show() != DialogResult.OK)
                 return;
             string newName = inputBox.Input;

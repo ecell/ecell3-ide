@@ -213,4 +213,19 @@
   <data name="ErrSaveLEML" xml:space="preserve">
     <value>オブジェクト位置情報の保存に失敗しました。</value>
   </data>
+  <data name="CreateLayer" xml:space="preserve">
+    <value>新規レイヤー作成</value>
+  </data>
+  <data name="DeleteLayer" xml:space="preserve">
+    <value>レイヤー削除</value>
+  </data>
+  <data name="LayerDialogMessage" xml:space="preserve">
+    <value>レイヤー名入力ダイアログ</value>
+  </data>
+  <data name="LayerDialogTitle" xml:space="preserve">
+    <value>新規レイヤー名を入力してください</value>
+  </data>
+  <data name="RenameLayer" xml:space="preserve">
+    <value>レイヤー名変更</value>
+  </data>
 </root>
