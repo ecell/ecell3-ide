@@ -1,3 +1,34 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2007 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+//
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,13 +44,22 @@ namespace EcellLib.MainWindow
     /// </summary>
     public partial class DistributedEnvSetupWindow : Form
     {
+        #region Fields
+        /// <summary>
+        /// Dictionary of jobID and the job object.
+        /// </summary>
         private Dictionary<string, object> m_propDict = new Dictionary<string, object>();
+        /// <summary>
+        /// SessionManager object.
+        /// </summary>
         private SessionManager.SessionManager m_manager = null;
         /// <summary>
         /// ResourceManager for MainWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMain));
+        #endregion
 
+        #region Events
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -30,7 +70,8 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// The event to show the window.
+        /// The event when this form is shown.
+        /// Display the property of default distributed environment.
         /// </summary>
         /// <param name="sender">this form.</param>
         /// <param name="e">EventArgs.</param>
@@ -56,6 +97,12 @@ namespace EcellLib.MainWindow
             DEEnvComboBox.SelectedIndexChanged += new EventHandler(DEEnvComboBox_SelectedIndexChanged);
         }
 
+        /// <summary>
+        /// Event when the distributed environment is changed.
+        /// Get the property of selected distributed environment from SessionManager.
+        /// </summary>
+        /// <param name="sender">ComboBox.</param>
+        /// <param name="e">EventArgs.</param>
         private void DEEnvComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             string envName = DEEnvComboBox.Text;
@@ -73,11 +120,23 @@ namespace EcellLib.MainWindow
             }
         }
 
+        /// <summary>
+        /// Event when the close button is clicked.
+        /// Close this form.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
         private void DECloseButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Event when the apply button is clicked.
+        /// Set the property of distributed environment to SessionManager.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
         private void DEApplyButton_Click(object sender, EventArgs e)
         {
             try
@@ -120,6 +179,12 @@ namespace EcellLib.MainWindow
             this.Close();
         }
 
+        /// <summary>
+        /// Event when the search directory button is clicked.
+        /// Set the working directory with using FolderSelectDialog.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
         private void DESearchDir_Click(object sender, EventArgs e)
         {
             if (m_folderSelectDialog.ShowDialog() == DialogResult.OK)
@@ -131,5 +196,6 @@ namespace EcellLib.MainWindow
                 // nothing.
             }
         }
+        #endregion
     }
 }

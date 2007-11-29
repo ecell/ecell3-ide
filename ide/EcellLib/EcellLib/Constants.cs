@@ -294,6 +294,10 @@ namespace EcellLib
         /// </summary>
         public const string xpathPrm = "Prm";
         /// <summary>
+        /// Reserved XML path name for Parameters.
+        /// </summary>
+        public const string xpathParameters = "Parameters";
+        /// <summary>
         /// Reserved XML path name for Process.
         /// </summary>
         public const string xpathProcess = "Process";
@@ -316,7 +320,7 @@ namespace EcellLib
         /// <summary>
         /// Reserved XML path name for Simulation.
         /// </summary>
-        public const string xpathSimulation = "Parameters";
+        public const string xpathSimulation = "Simulation";
         /// <summary>
         /// Reserved XML path name for Space.
         /// </summary>

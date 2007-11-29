@@ -2888,7 +2888,7 @@ namespace EcellLib
                     this.m_stepperDic[this.m_currentProjectID].Remove(l_parameterID);
                     string l_simulationDirName
                             = this.m_defaultDir + Constants.delimiterPath
-                            + this.m_currentProjectID + Constants.delimiterPath + Constants.xpathSimulation;
+                            + this.m_currentProjectID + Constants.delimiterPath + Constants.xpathParameters;
                     string l_pattern
                             = "_????_??_??_??_??_??_" + l_parameterID + Constants.delimiterPeriod + Constants.xpathXml;
                     if (Directory.Exists(l_simulationDirName))
@@ -3998,7 +3998,7 @@ namespace EcellLib
         /// <returns>The savable simulation result</returns>
         public string GetSavableSimulationResult()
         {
-            return Constants.xpathSimulation + Constants.xpathResult;
+            return Constants.xpathParameters + Constants.xpathResult;
         }
 
         /// <summary>
@@ -4961,7 +4961,7 @@ namespace EcellLib
                 // Loads the simulation parameter.
                 //
                 string l_simulationDirName =
-                    Path.GetDirectoryName(l_prjFile) + Constants.delimiterPath + Constants.xpathSimulation;
+                    Path.GetDirectoryName(l_prjFile) + Constants.delimiterPath + Constants.xpathParameters;
 
                 if (Directory.Exists(l_simulationDirName))
                 {
@@ -5919,7 +5919,7 @@ namespace EcellLib
                 }
                 string l_simulationDirName =
                     this.m_defaultDir + Constants.delimiterPath +
-                    this.m_currentProjectID + Constants.delimiterPath + Constants.xpathSimulation;
+                    this.m_currentProjectID + Constants.delimiterPath + Constants.xpathParameters;
                 if (!Directory.Exists(l_simulationDirName))
                 {
                     Directory.CreateDirectory(l_simulationDirName);
@@ -6021,7 +6021,7 @@ namespace EcellLib
                     }
                     l_simulationDirName =
                         this.m_defaultDir + Constants.delimiterPath +
-                        this.m_currentProjectID + Constants.delimiterPath + Constants.xpathSimulation;
+                        this.m_currentProjectID + Constants.delimiterPath + Constants.xpathParameters;
                 }
                 if (!Directory.Exists(l_simulationDirName))
                 {
