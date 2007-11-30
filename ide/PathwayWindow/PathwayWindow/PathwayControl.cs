@@ -83,6 +83,10 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public static readonly string CANVAS_MENU_DELETE_WITH = "deletewith";
         /// <summary>
+        /// Key definition of m_cMenuDict for Change Layer
+        /// </summary>
+        public static readonly string CANVAS_MENU_CHANGE_LAYER = "Change Layer";
+        /// <summary>
         /// Key definition of m_cMenuDict for Create Logger
         /// </summary>
         public static readonly string CANVAS_MENU_CREATE_LOGGER = "Create Logger";
@@ -138,6 +142,10 @@ namespace EcellLib.PathwayWindow
         /// Key definition of m_cMenuDict for separator4
         /// </summary>
         public static readonly string CANVAS_MENU_SEPARATOR4 = "separator4";
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator5
+        /// </summary>
+        public static readonly string CANVAS_MENU_SEPARATOR5 = "separator5";
         /// <summary>
         /// Key definition of m_cMenuDict for rightArrow
         /// </summary>
@@ -603,6 +611,16 @@ namespace EcellLib.PathwayWindow
             ToolStripSeparator separator4 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator4);
             m_cMenuDict.Add(CANVAS_MENU_SEPARATOR4, separator4);
+
+            ToolStripItem changeLayer = new ToolStripMenuItem(m_resources.GetString("ChangeLayerMenuText"));
+            changeLayer.Text = m_resources.GetString("ChangeLayerMenuText");
+            changeLayer.Click += new EventHandler(this.ChangeLeyerClick);
+            nodeMenu.Items.Add(changeLayer);
+            m_cMenuDict.Add(CANVAS_MENU_CHANGE_LAYER, changeLayer);
+
+            ToolStripSeparator separator5 = new ToolStripSeparator();
+            nodeMenu.Items.Add(separator5);
+            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR5, separator5);
 
             // Create Logger
             ToolStripMenuItem createLogger = new ToolStripMenuItem(m_resources.GetString("CreateLogMenuText"));
@@ -1506,7 +1524,44 @@ namespace EcellLib.PathwayWindow
                 return;
             }
         }
-
+        /// <summary>
+        /// Change the Layer of Selected Objects.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ChangeLeyerClick(object sender, EventArgs e)
+        {
+            if (this.ActiveCanvas == null)
+                return;
+            CanvasControl canvas = this.ActiveCanvas;
+            // Select Layer
+            List<string> list = canvas.GetLayerNameList();
+            string name = SelectBoxDialog.Show("Select Layer", null, list);
+            if (!canvas.Layers.ContainsKey(name))
+            {
+                MessageBox.Show(m_resources.GetString("ErrLayerNot"));
+                return;
+            }
+            // Change layer of selected objects.
+            PPathwayLayer layer = canvas.Layers[name];
+            foreach (PPathwayObject obj in canvas.SelectedNodes)
+            {
+                obj.Layer = layer;
+                NotifyDataChanged(
+                    obj.EcellObject.key,
+                    obj.EcellObject.key,
+                    obj,
+                    true,
+                    false);
+            }
+            PPathwaySystem system = canvas.Systems["/"];
+            NotifyDataChanged(
+                system.EcellObject.key,
+                system.EcellObject.key,
+                system,
+                true,
+                true);
+        }
         /// <summary>
         /// Called when a copy menu of the context menu is clicked.
         /// </summary>

@@ -124,11 +124,11 @@
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Nodes\Line.cs" />
-    <Compile Include="UIComponent\InputBox.cs">
+    <Compile Include="UIComponent\InputBoxDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UIComponent\InputBox.Designer.cs">
-      <DependentUpon>InputBox.cs</DependentUpon>
+    <Compile Include="UIComponent\InputBoxDialog.Designer.cs">
+      <DependentUpon>InputBoxDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UIComponent\OverView.cs">
       <SubType>Form</SubType>
@@ -164,6 +164,12 @@
     <Compile Include="UIComponent\LayerView.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UIComponent\SelectBoxDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIComponent\SelectBoxDialog.Designer.cs">
+      <DependentUpon>SelectBoxDialog.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MessageResPathway.ja.resx">
@@ -187,9 +193,9 @@
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\hand.gif" />
-    <EmbeddedResource Include="UIComponent\InputBox.resx">
+    <EmbeddedResource Include="UIComponent\InputBoxDialog.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>InputBox.cs</DependentUpon>
+      <DependentUpon>InputBoxDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\OverView.resx">
       <SubType>Designer</SubType>
@@ -201,6 +207,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\LayerView.resx">
       <DependentUpon>LayerView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIComponent\SelectBoxDialog.resx">
+      <DependentUpon>SelectBoxDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

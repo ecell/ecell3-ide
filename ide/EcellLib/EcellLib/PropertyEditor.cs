@@ -99,8 +99,9 @@ namespace EcellLib
         private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
         #endregion
 
+        #region Constructor
         /// <summary>
-        /// Constructor for PropertyEditor.
+        /// Constructor for PropertyEditor. 
         /// </summary>
         private PropertyEditor()
         {
@@ -108,7 +109,13 @@ namespace EcellLib
             m_title = this.Text;
             m_dManager = DataManager.GetDataManager();
         }
+        #endregion
 
+        #region Public Methods
+        /// <summary>
+        /// Show PropertyEditor Dialog.
+        /// </summary>
+        /// <param name="obj"></param>
         public static void Show(EcellObject obj)
         {
             PropertyEditor editor = new PropertyEditor();
@@ -133,7 +140,9 @@ namespace EcellLib
                 editor.Dispose();
             }
         }
+        #endregion
 
+        #region Private Methods
         /// <summary>
         /// Set the object to parent object.
         /// </summary>
@@ -163,7 +172,7 @@ namespace EcellLib
         /// Set data type displayed in PropertyEditor.
         /// </summary>
         /// <param name="type">data type of object.</param>
-        public void SetDataType(string type)
+        private void SetDataType(string type)
         {
             /*
             if (type.Equals("Model"))
@@ -187,8 +196,6 @@ namespace EcellLib
                 else button1.Click += new EventHandler(this.UpdateProperty);
             }
              */
-            PECloseButton.Click += new EventHandler(this.AddCancel);
-
             m_type = type;
         }
 
@@ -513,7 +520,6 @@ namespace EcellLib
   
             panel2.ClientSize = panel2.Size;
         }
-
 
         /// <summary>
         /// layout the column of property editor for Model.
@@ -891,207 +897,20 @@ namespace EcellLib
             }
         }
 
-        void DeletePropertyForProcess(object sender, EventArgs e)
-        {
-            Button b = sender as Button;
-            if (b == null) return;
-
-            string delKey = b.Tag as string;
-            if (delKey == null) return;
-
-            if (m_propDict.ContainsKey(delKey))
-            {
-                m_propDict.Remove(delKey);
-            }
-            LayoutNodePropertyEditor();
-        }
-
-        void AddPropertyForProcess(object sender, EventArgs e)
-        {
-            AddPropertyDialog dialog = new AddPropertyDialog();
-
-            String name = dialog.ShowPropertyDialog();
-            if (name == null) return;
-
-            EcellData data;
-            if (m_currentObj != null)
-                data = new EcellData(name, new EcellValue(0.0),
-                    "Process:" + m_currentObj.key + ":" + name);
-            else
-                data = new EcellData(name, new EcellValue(0.0),
-                    "Process:/dummy:" + name);
-
-            data.Gettable = true;
-            data.Loadable = true;
-            data.Logable = true;
-            data.Logged = false;
-            data.Saveable = true;
-            data.Settable = true;
-            
-            m_propDict.Add(name, data);
-
-            Control cnt = null;
-            int width = layoutPanel.Width;
-            layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
-            layoutPanel.RowCount = m_propDict.Keys.Count + 5;
-
-            try {
-                IEnumerator iter = layoutPanel.Controls.GetEnumerator();
-                    while (iter.MoveNext())
-                    {
-                        Control c = (Control)iter.Current;
-                        if (c == null) continue;
-                        TableLayoutPanelCellPosition pos =
-                            layoutPanel.GetPositionFromControl(c);
-                        if (pos.Column != 2) continue;
-                        if (c.Tag.Equals("Add Property"))
-                        {
-                            layoutPanel.Controls.Remove(c);
-                            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-
-                            CheckBox chk = new CheckBox();
-                            chk.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                            chk.Text = "";
-                            chk.AutoSize = true;
-                            chk.Checked = false;
-                            chk.Enabled = true;
-                            layoutPanel.Controls.Add(chk, 0, pos.Row);
-
-                            Label l = new Label();
-                            l.Text = name;
-                            l.Dock = DockStyle.Fill;
-                            layoutPanel.Controls.Add(l, 1, pos.Row);
-
-                            TextBox t = new TextBox();
-                            t.Text = "";
-                            t.Tag = name;
-                            t.Dock = DockStyle.Fill;
-                            t.Text = "0.0";
-                            layoutPanel.Controls.Add(t, 2, pos.Row);
-
-                            Button b = new Button();
-                            b.Text = "Delete";
-                            b.Tag = name;
-                            b.Dock = DockStyle.Fill;
-                            b.Click += new EventHandler(DeletePropertyForProcess);
-                            layoutPanel.Controls.Add(b, 3, pos.Row);
-
-                            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                            Button b1 = new Button();
-                            b1.Text = "Add Property";
-                            b1.Tag = "Add Property";
-                            b1.Dock = DockStyle.Fill;
-                            b1.Click += new EventHandler(AddPropertyForProcess);
-                            layoutPanel.Controls.Add(b1, 2, pos.Row + 1);
-
-                            break;
-                        }
-
-                    }
-
-            } catch (Exception ex)
-            {
-                ex.ToString();
-            }
-            panel1.ClientSize = panel1.Size;
-            this.ActiveControl = cnt;
-        }
-
-        void EnterKeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                PEApplyButton.PerformClick();
-            }
-            else if (e.KeyChar == (char)Keys.Escape)
-            {
-                PECloseButton.PerformClick();
-            }
-        }
-
-        #region Event
         /// <summary>
-        /// event of clicking the formulator button.
-        /// show the window to edit the formulator.
+        /// Inform the changing of EcellObject in PathwayEditor to DataManager.
         /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void ShowFormulatorWindow(object sender, EventArgs e)
+        /// <param name="modelID">the model of object.</param>
+        /// <param name="oldKey">the key of object before edit.</param>
+        /// <param name="eo">The EcellObject changed the property.</param>
+        private void NotifyDataChanged(
+            string modelID,
+            string oldKey,
+            EcellObject eo)
         {
-            m_fwin = new FormulatorWindow();
-            m_cnt = new FormulatorControl();
-            m_fwin.tableLayoutPanel.Controls.Add(m_cnt, 0, 0);
-            m_cnt.Dock = DockStyle.Fill;
-
-            List<string> list = new List<string>();
-            list.Add("self.getSuperSystem().SizeN_A");
-            foreach (string str in m_propDict.Keys)
-            {
-                if (str != "modelID" && str != "key" && str != "type" &&
-                    str != "classname" && str != EcellProcess.ACTIVITY &&
-                    str != EcellProcess.EXPRESSION && str != EcellProcess.NAME &&
-                    str != EcellProcess.PRIORITY && str != EcellProcess.STEPPERID &&
-                    str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
-                    list.Add(str);
-            }
-            List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
-            foreach (EcellReference r in tmpList)
-            {
-                list.Add(r.name + ".MolarConc");
-            }
-            foreach (EcellReference r in tmpList)
-            {
-                list.Add(r.name + ".Value");
-            }
-            m_cnt.AddReserveString(list);
-
-
-            m_cnt.ImportFormulate(m_text.Text);
-
-            m_fwin.FApplyButton.Click += new EventHandler(UpdateFormulator);
-            m_fwin.FCloseButton.Click += new EventHandler(m_fwin.CancelButtonClick);
-
-            m_fwin.ShowDialog();
-        }
-
-        /// <summary>
-        /// event of clicking the OK button in formulator window.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void UpdateFormulator(object sender, EventArgs e)
-        {
-            m_text.Text = m_cnt.ExportFormulate();
-
-            m_fwin.Close();
-            m_fwin.Dispose();
-        }
-
-        /// <summary>
-        /// The action of changing process type.
-        /// </summary>
-        /// <param name="sender">object(ComboBox)</param>
-        /// <param name="e">EventArgs</param>
-        public void ComboSelectedIndexChanged(object sender, EventArgs e)
-        {
-            string propName = ((ComboBox)sender).Text;
-            m_propName = propName;
-            if (m_type.Equals(EcellObject.PROCESS))
-            {
-                m_propDict = m_dManager.GetProcessProperty(m_propName);
-            }
-
-            LayoutPropertyEditor();
-        }
-
-        /// <summary>
-        /// The action of clicking cancel button in AddForm.
-        /// </summary>
-        /// <param name="sender">Cancel Button</param>
-        /// <param name="e">EventArgs</param>
-        public void AddCancel(object sender, EventArgs e)
-        {
-            Dispose();
+            if (modelID == null || oldKey == null || eo.key == null)
+                return;
+            m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, true, true);
         }
 
         /// <summary>
@@ -1128,7 +947,7 @@ namespace EcellLib
                         }
                         isLogger = chk.Checked;
                         continue;
-                        
+
                     }
                     if (pos.Column != 2) continue;
                     if ((string)c.Tag == "Add Property") continue;
@@ -1147,12 +966,12 @@ namespace EcellLib
                             return null;
                         }
                         else if (Util.IsNGforID(c.Text))
-//                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
+                        //                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
                         {
                             String errmes = m_resources.GetString("ErrInvalidID");
                             MessageBox.Show(errmes,
-                                            "WARNING", 
-                                            MessageBoxButtons.OK, 
+                                            "WARNING",
+                                            MessageBoxButtons.OK,
                                             MessageBoxIcon.Warning);
                             return null;
                         }
@@ -1259,7 +1078,7 @@ namespace EcellLib
                             data.Loadable = m_propDict[data.Name].Loadable;
                             data.Gettable = m_propDict[data.Name].Gettable;
                             data.Logable = m_propDict[data.Name].Logable;
-//                            data.Logged = m_propDict[data.Name].Logged;
+                            //                            data.Logged = m_propDict[data.Name].Logged;
                             data.Logged = isLogger;
                         }
                         catch (Exception)
@@ -1283,326 +1102,9 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// The action of clicking ok button in AddForm with System. 
-        /// </summary>
-        /// <param name="sender">OK Button</param>
-        /// <param name="e">EventArgs</param>
-        public void AddSystem(object sender, EventArgs e)
-        {
-            string id = "";
-            string modelID = "";
-            string key = "";
-            string classname = "";
-            string type = "";
-            EcellObject sizeObj = null;
-            List<EcellData> list = new List<EcellData>();
-
-            try
-            {
-                IEnumerator iter = layoutPanel.Controls.GetEnumerator();
-                while (iter.MoveNext())
-                {
-                    Control c = (Control)iter.Current;
-                    if (c == null) continue;
-                    TableLayoutPanelCellPosition pos =
-                        layoutPanel.GetPositionFromControl(c);
-                    if (pos.Column == 0 || pos.Column == 1) continue;
-
-                    if ((string)c.Tag == "modelID") modelID = c.Text;
-                    else if ((string)c.Tag == "id")
-                    {
-                        id = c.Text;
-                        if (c.Text == "")
-                        {
-                            String errmes = m_resources.GetString("ErrNoInput");
-                            MessageBox.Show(errmes + "(ID)",
-                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-                        else if (Util.IsNGforID(c.Text))
-//                        else if (c.Text.Contains(":") || (c.Text.Contains("/") && (m_currentObj.type != "Model" || c.Text != "/")))
-                        {
-                            String errmes = m_resources.GetString("ErrInvalidID");
-                            MessageBox.Show(errmes,
-                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-                        if (m_parentObj.key == "") key = c.Text;
-                        else if (m_parentObj.key == "/") key = "/" + c.Text;
-                        else key = m_parentObj.key + "/" + c.Text;
-                    }
-                    else if ((string)c.Tag == "classname") classname = c.Text;
-                    else if ((string)c.Tag == "type") type = c.Text;
-                    else if ((string)c.Tag == "DefinedSize")
-                    {
-                        if (c.Text == "") continue;
-                        List<EcellData> dList = new List<EcellData>();
-                        Dictionary<string, EcellData> sList = m_dManager.GetVariableProperty();
-                        foreach (string p in sList.Keys)
-                        {
-                            EcellData d = sList[p];
-                            if (p == "Value")
-                            {
-                                d.Value = new EcellValue(Convert.ToDouble(c.Text));
-                            }
-                            dList.Add(d);
-                        }
-                        sizeObj = EcellObject.CreateObject(modelID, key + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, dList);
-                    }
-                    else
-                    {
-                        EcellData data = new EcellData();
-                        try
-                        {
-                            data.Name = (string)c.Tag;
-                            if (m_propDict[data.Name].Value.Type == typeof(int))
-                                data.Value = new EcellValue(Convert.ToInt32(c.Text));
-                            else if (m_propDict[data.Name].Value.Type == typeof(double))
-                            {
-                                if (c.Text == "1.79769313486232E+308")
-                                    data.Value = new EcellValue(Double.MaxValue);
-                                else
-                                    data.Value = new EcellValue(Convert.ToDouble(c.Text));
-                            }
-                            else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
-                                data.Value = EcellValue.ToList(c.Text);
-                            else
-                                data.Value = new EcellValue(c.Text);
-
-                            data.Settable = m_propDict[data.Name].Settable;
-                            data.Saveable = m_propDict[data.Name].Saveable;
-                            data.Loadable = m_propDict[data.Name].Loadable;
-                            data.Gettable = m_propDict[data.Name].Gettable;
-                            data.Logable = m_propDict[data.Name].Logable;
-                            data.Logged = m_propDict[data.Name].Logged;
-
-                            data.EntityPath = type + ":" + m_parentObj.key +
-                                ":" + id + ":" + (string)c.Tag;
-                        }
-                        catch (Exception ex)
-                        {
-                            String errmes = m_resources.GetString("ErrInvalidProp");
-                            MessageBox.Show(errmes + "\n\n" + ex.Message,
-                                "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        list.Add(data);
-
-                    }
-                }
-                EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
-                obj.Children = new List<EcellObject>();
-                List<EcellObject> objList = new List<EcellObject>();
-                objList.Add(obj);
-                if (sizeObj != null) objList.Add(sizeObj);
-                m_dManager.DataAdd(objList);
-
-
-                Dispose();
-            }
-            catch (Exception ex)
-            {
-                String errmes = m_resources.GetString("ErrAdd");
-                MessageBox.Show(errmes + "\n\n" + ex.Message,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-        }
-
-        /// <summary>
-        /// The action of clicking ok button in AddForm with Model. 
-        /// </summary>
-        /// <param name="sender">OK Button</param>
-        /// <param name="e">EventArgs</param>
-        public void AddModel(object sender, EventArgs e)
-        {
-            string modelID = "";
-            string key = "";
-            string classname = "";
-            string type = "Model";
-            List<EcellData> list = new List<EcellData>();
-            try
-            {
-                IEnumerator iter = layoutPanel.Controls.GetEnumerator();
-                while (iter.MoveNext())
-                {
-                    Control c = (Control)iter.Current;
-                    if (c == null) continue;
-                    TableLayoutPanelCellPosition pos =
-                        layoutPanel.GetPositionFromControl(c);
-                    if (pos.Column == 0 || pos.Column == 1) continue;
-
-                    if ((string)c.Tag == "modelID") modelID = c.Text;
-                }
-
-                if (modelID == "")
-                {
-                    String errmes = m_resources.GetString("ErrNoInput");
-                    MessageBox.Show(errmes + "(ModelID)", "WARNING",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                else if (Util.IsNGforID(modelID))
-//                else if (modelID.Contains(":") || modelID.Contains("/"))
-                {
-                    String errmes = m_resources.GetString("ErrInvalidID");
-                    MessageBox.Show(errmes,
-                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
-                obj.Children = new List<EcellObject>();
-                List<EcellObject> objList = new List<EcellObject>();
-                objList.Add(obj);
-                m_dManager.DataAdd(objList);
-
-                Dispose();
-            }
-            catch (Exception ex)
-            {
-                String errmes = m_resources.GetString("ErrAdd");
-                MessageBox.Show(errmes + "\n\n" + ex.Message,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-        }
-
-        /// <summary>
-        /// The action of clicking ok button in AddForm with Variable or Process.
-        /// </summary>
-        /// <param name="sender">OK button</param>
-        /// <param name="e">EventArgs</param>
-        public void AddNodeElement(object sender, EventArgs e)
-        {
-            string id = "";
-            string modelID = "";
-            string key = "";
-            string classname = "";
-            string type = "";
-            List<EcellData> list = new List<EcellData>();
-
-            try
-            {
-                IEnumerator iter = layoutPanel.Controls.GetEnumerator();
-                while (iter.MoveNext())
-                {
-                    Control c = (Control)iter.Current;
-                    if (c == null) continue;
-                    TableLayoutPanelCellPosition pos =
-                        layoutPanel.GetPositionFromControl(c);
-                    if (pos.Column != 1) continue;
-                    if ((string)c.Tag == "Add Property") continue;
-
-                    if ((string)c.Tag == "modelID") modelID = c.Text;
-                    else if ((string)c.Tag == "id")
-                    {
-                        id = c.Text;
-                        if (c.Text == "")
-                        {
-                            String errmes = m_resources.GetString("ErrNoInput");
-                            MessageBox.Show(errmes + "(ID)",
-                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-//                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
-                        else if (Util.IsNGforID(c.Text))
-                        {
-                            String errmes = m_resources.GetString("ErrInvalidID");
-                            MessageBox.Show(errmes,
-                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-                        else if (c.Text.ToUpper() == "SIZE")
-                        {
-                            String errmes = m_resources.GetString("ErrReservSize");
-                            MessageBox.Show(errmes,
-                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-                        if (m_parentObj.key == "") key = c.Text;
-                        else if (m_parentObj.key == "/") key = "/:" + c.Text;
-                        else key = m_parentObj.key + ":" + c.Text;
-                    }
-                    else if ((string)c.Tag == "classname") classname = c.Text;
-                    else if ((string)c.Tag == "type") type = c.Text;
-                    else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
-                    {
-                        EcellData data = new EcellData();
-                        data.Name = (string)c.Tag;
-                        data.Value = EcellValue.ToVariableReferenceList(m_refStr);
-                        data.EntityPath = type + ":" + m_parentObj.key +
-                            ":" + id + ":" + (string)c.Tag;
-                        data.Settable = m_propDict[data.Name].Settable;
-                        data.Saveable = m_propDict[data.Name].Saveable;
-                        data.Loadable = m_propDict[data.Name].Loadable;
-                        data.Gettable = m_propDict[data.Name].Gettable;
-                        data.Logable = m_propDict[data.Name].Logable;
-                        data.Logged = m_propDict[data.Name].Logged;
-
-                        list.Add(data);
-                    }
-                    else
-                    {
-                        EcellData data = new EcellData();
-                        try
-                        {
-                            data.Name = (string)c.Tag;
-                            if (m_propDict[data.Name].Value.Type == typeof(int))
-                                data.Value = new EcellValue(Convert.ToInt32(c.Text));
-                            else if (m_propDict[data.Name].Value.Type == typeof(double))
-                            {
-                                if (c.Text == "1.79769313486232E+308")
-                                    data.Value = new EcellValue(Double.MaxValue);
-                                else
-                                    data.Value = new EcellValue(Convert.ToDouble(c.Text));
-                            }
-                            else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
-                                data.Value = EcellValue.ToList(c.Text);
-                            else
-                                data.Value = new EcellValue(c.Text);
-                            data.EntityPath = type + ":" + m_parentObj.key +
-                                ":" + id + ":" + (string)c.Tag;
-                            data.Settable = m_propDict[data.Name].Settable;
-                            data.Saveable = m_propDict[data.Name].Saveable;
-                            data.Loadable = m_propDict[data.Name].Loadable;
-                            data.Gettable = m_propDict[data.Name].Gettable;
-                            data.Logable = m_propDict[data.Name].Logable;
-                            data.Logged = m_propDict[data.Name].Logged;
-                        }
-                        catch (Exception ex)
-                        {
-                            String errmes = m_resources.GetString("ErrInvalidProp");
-                            MessageBox.Show(errmes + "\n\n" + ex.Message,
-                                "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        list.Add(data);
-                    }
-                }
-
-                EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
-                obj.Children = new List<EcellObject>();
-
-                List<EcellObject> objList = new List<EcellObject>();
-                objList.Add(obj);
-
-                m_dManager.DataAdd(objList);
-                Dispose();
-            }
-            catch (Exception ex)
-            {
-                String errmes = m_resources.GetString("ErrAdd");
-                MessageBox.Show(errmes + "\n\n" + ex.Message,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-        }
-
-        /// <summary>
         /// Update property of the selected TreeNode.
         /// </summary>
-        public void UpdateProperty()
+        private void UpdateProperty()
         {
             string modelID = "";
             string key = "";
@@ -1754,7 +1256,7 @@ namespace EcellLib
                                 sizeData = Convert.ToDouble(c.Text);
                             }
                         }
-                        else 
+                        else
                         {
                             if (c.Text == "")
                             {
@@ -1890,8 +1392,8 @@ namespace EcellLib
                 obj.LayerID = m_currentObj.LayerID;
                 NotifyDataChanged(m_currentObj.modelID, m_currentObj.key, obj);
             }
-            catch(IgnoreException)
-            {                
+            catch (IgnoreException)
+            {
                 return;
             }
             catch (Exception ex)
@@ -1905,30 +1407,527 @@ namespace EcellLib
             this.Dispose();
         }
 
+        #region Event
         /// <summary>
-        /// Inform the changing of EcellObject in PathwayEditor to DataManager.
+        /// 
         /// </summary>
-        /// <param name="modelID">the model of object.</param>
-        /// <param name="oldKey">the key of object before edit.</param>
-        /// <param name="eo">The EcellObject changed the property.</param>
-        public void NotifyDataChanged(
-            string modelID,
-            string oldKey,
-            EcellObject eo)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeletePropertyForProcess(object sender, EventArgs e)
         {
-            if (modelID == null || oldKey == null || eo.key == null)
-                return;
-            m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, true, true);
+            Button b = sender as Button;
+            if (b == null) return;
+
+            string delKey = b.Tag as string;
+            if (delKey == null) return;
+
+            if (m_propDict.ContainsKey(delKey))
+            {
+                m_propDict.Remove(delKey);
+            }
+            LayoutNodePropertyEditor();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddPropertyForProcess(object sender, EventArgs e)
+        {
+            AddPropertyDialog dialog = new AddPropertyDialog();
+
+            String name = dialog.ShowPropertyDialog();
+            if (name == null) return;
+
+            EcellData data;
+            if (m_currentObj != null)
+                data = new EcellData(name, new EcellValue(0.0),
+                    "Process:" + m_currentObj.key + ":" + name);
+            else
+                data = new EcellData(name, new EcellValue(0.0),
+                    "Process:/dummy:" + name);
+
+            data.Gettable = true;
+            data.Loadable = true;
+            data.Logable = true;
+            data.Logged = false;
+            data.Saveable = true;
+            data.Settable = true;
+            
+            m_propDict.Add(name, data);
+
+            Control cnt = null;
+            int width = layoutPanel.Width;
+            layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
+            layoutPanel.RowCount = m_propDict.Keys.Count + 5;
+
+            try {
+                IEnumerator iter = layoutPanel.Controls.GetEnumerator();
+                    while (iter.MoveNext())
+                    {
+                        Control c = (Control)iter.Current;
+                        if (c == null) continue;
+                        TableLayoutPanelCellPosition pos =
+                            layoutPanel.GetPositionFromControl(c);
+                        if (pos.Column != 2) continue;
+                        if (c.Tag.Equals("Add Property"))
+                        {
+                            layoutPanel.Controls.Remove(c);
+                            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+
+                            CheckBox chk = new CheckBox();
+                            chk.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                            chk.Text = "";
+                            chk.AutoSize = true;
+                            chk.Checked = false;
+                            chk.Enabled = true;
+                            layoutPanel.Controls.Add(chk, 0, pos.Row);
+
+                            Label l = new Label();
+                            l.Text = name;
+                            l.Dock = DockStyle.Fill;
+                            layoutPanel.Controls.Add(l, 1, pos.Row);
+
+                            TextBox t = new TextBox();
+                            t.Text = "";
+                            t.Tag = name;
+                            t.Dock = DockStyle.Fill;
+                            t.Text = "0.0";
+                            layoutPanel.Controls.Add(t, 2, pos.Row);
+
+                            Button b = new Button();
+                            b.Text = "Delete";
+                            b.Tag = name;
+                            b.Dock = DockStyle.Fill;
+                            b.Click += new EventHandler(DeletePropertyForProcess);
+                            layoutPanel.Controls.Add(b, 3, pos.Row);
+
+                            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                            Button b1 = new Button();
+                            b1.Text = "Add Property";
+                            b1.Tag = "Add Property";
+                            b1.Dock = DockStyle.Fill;
+                            b1.Click += new EventHandler(AddPropertyForProcess);
+                            layoutPanel.Controls.Add(b1, 2, pos.Row + 1);
+
+                            break;
+                        }
+
+                    }
+
+            } catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            panel1.ClientSize = panel1.Size;
+            this.ActiveControl = cnt;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EnterKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                PEApplyButton.PerformClick();
+            }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                PECloseButton.PerformClick();
+            }
         }
 
         /// <summary>
-        /// Cancel to edit property of the selected TreeNode.
+        /// event of clicking the formulator button.
+        /// show the window to edit the formulator.
         /// </summary>
-        /// <param name="sender">Button (Cancel)</param>
+        /// <param name="sender">object(Button)</param>
         /// <param name="e">EventArgs</param>
-        public void CancelProperty(object sender, EventArgs e)
+        private void ShowFormulatorWindow(object sender, EventArgs e)
         {
-            this.Dispose();
+            m_fwin = new FormulatorWindow();
+            m_cnt = new FormulatorControl();
+            m_fwin.tableLayoutPanel.Controls.Add(m_cnt, 0, 0);
+            m_cnt.Dock = DockStyle.Fill;
+
+            List<string> list = new List<string>();
+            list.Add("self.getSuperSystem().SizeN_A");
+            foreach (string str in m_propDict.Keys)
+            {
+                if (str != "modelID" && str != "key" && str != "type" &&
+                    str != "classname" && str != EcellProcess.ACTIVITY &&
+                    str != EcellProcess.EXPRESSION && str != EcellProcess.NAME &&
+                    str != EcellProcess.PRIORITY && str != EcellProcess.STEPPERID &&
+                    str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
+                    list.Add(str);
+            }
+            List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
+            foreach (EcellReference r in tmpList)
+            {
+                list.Add(r.name + ".MolarConc");
+            }
+            foreach (EcellReference r in tmpList)
+            {
+                list.Add(r.name + ".Value");
+            }
+            m_cnt.AddReserveString(list);
+
+
+            m_cnt.ImportFormulate(m_text.Text);
+
+            m_fwin.FApplyButton.Click += new EventHandler(UpdateFormulator);
+            m_fwin.FCloseButton.Click += new EventHandler(m_fwin.CancelButtonClick);
+
+            m_fwin.ShowDialog();
+        }
+
+        /// <summary>
+        /// event of clicking the OK button in formulator window.
+        /// </summary>
+        /// <param name="sender">object(Button)</param>
+        /// <param name="e">EventArgs</param>
+        private void UpdateFormulator(object sender, EventArgs e)
+        {
+            m_text.Text = m_cnt.ExportFormulate();
+
+            m_fwin.Close();
+            m_fwin.Dispose();
+        }
+
+        /// <summary>
+        /// The action of changing process type.
+        /// </summary>
+        /// <param name="sender">object(ComboBox)</param>
+        /// <param name="e">EventArgs</param>
+        private void ComboSelectedIndexChanged(object sender, EventArgs e)
+        {
+            string propName = ((ComboBox)sender).Text;
+            m_propName = propName;
+            if (m_type.Equals(EcellObject.PROCESS))
+            {
+                m_propDict = m_dManager.GetProcessProperty(m_propName);
+            }
+
+            LayoutPropertyEditor();
+        }
+
+        /// <summary>
+        /// The action of clicking ok button in AddForm with System. 
+        /// </summary>
+        /// <param name="sender">OK Button</param>
+        /// <param name="e">EventArgs</param>
+        private void AddSystem(object sender, EventArgs e)
+        {
+            string id = "";
+            string modelID = "";
+            string key = "";
+            string classname = "";
+            string type = "";
+            EcellObject sizeObj = null;
+            List<EcellData> list = new List<EcellData>();
+
+            try
+            {
+                IEnumerator iter = layoutPanel.Controls.GetEnumerator();
+                while (iter.MoveNext())
+                {
+                    Control c = (Control)iter.Current;
+                    if (c == null) continue;
+                    TableLayoutPanelCellPosition pos =
+                        layoutPanel.GetPositionFromControl(c);
+                    if (pos.Column == 0 || pos.Column == 1) continue;
+
+                    if ((string)c.Tag == "modelID") modelID = c.Text;
+                    else if ((string)c.Tag == "id")
+                    {
+                        id = c.Text;
+                        if (c.Text == "")
+                        {
+                            String errmes = m_resources.GetString("ErrNoInput");
+                            MessageBox.Show(errmes + "(ID)",
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else if (Util.IsNGforID(c.Text))
+//                        else if (c.Text.Contains(":") || (c.Text.Contains("/") && (m_currentObj.type != "Model" || c.Text != "/")))
+                        {
+                            String errmes = m_resources.GetString("ErrInvalidID");
+                            MessageBox.Show(errmes,
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        if (m_parentObj.key == "") key = c.Text;
+                        else if (m_parentObj.key == "/") key = "/" + c.Text;
+                        else key = m_parentObj.key + "/" + c.Text;
+                    }
+                    else if ((string)c.Tag == "classname") classname = c.Text;
+                    else if ((string)c.Tag == "type") type = c.Text;
+                    else if ((string)c.Tag == "DefinedSize")
+                    {
+                        if (c.Text == "") continue;
+                        List<EcellData> dList = new List<EcellData>();
+                        Dictionary<string, EcellData> sList = m_dManager.GetVariableProperty();
+                        foreach (string p in sList.Keys)
+                        {
+                            EcellData d = sList[p];
+                            if (p == "Value")
+                            {
+                                d.Value = new EcellValue(Convert.ToDouble(c.Text));
+                            }
+                            dList.Add(d);
+                        }
+                        sizeObj = EcellObject.CreateObject(modelID, key + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, dList);
+                    }
+                    else
+                    {
+                        EcellData data = new EcellData();
+                        try
+                        {
+                            data.Name = (string)c.Tag;
+                            if (m_propDict[data.Name].Value.Type == typeof(int))
+                                data.Value = new EcellValue(Convert.ToInt32(c.Text));
+                            else if (m_propDict[data.Name].Value.Type == typeof(double))
+                            {
+                                if (c.Text == "1.79769313486232E+308")
+                                    data.Value = new EcellValue(Double.MaxValue);
+                                else
+                                    data.Value = new EcellValue(Convert.ToDouble(c.Text));
+                            }
+                            else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
+                                data.Value = EcellValue.ToList(c.Text);
+                            else
+                                data.Value = new EcellValue(c.Text);
+
+                            data.Settable = m_propDict[data.Name].Settable;
+                            data.Saveable = m_propDict[data.Name].Saveable;
+                            data.Loadable = m_propDict[data.Name].Loadable;
+                            data.Gettable = m_propDict[data.Name].Gettable;
+                            data.Logable = m_propDict[data.Name].Logable;
+                            data.Logged = m_propDict[data.Name].Logged;
+
+                            data.EntityPath = type + ":" + m_parentObj.key +
+                                ":" + id + ":" + (string)c.Tag;
+                        }
+                        catch (Exception ex)
+                        {
+                            String errmes = m_resources.GetString("ErrInvalidProp");
+                            MessageBox.Show(errmes + "\n\n" + ex.Message,
+                                "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        list.Add(data);
+
+                    }
+                }
+                EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
+                obj.Children = new List<EcellObject>();
+                List<EcellObject> objList = new List<EcellObject>();
+                objList.Add(obj);
+                if (sizeObj != null) objList.Add(sizeObj);
+                m_dManager.DataAdd(objList);
+
+
+                Dispose();
+            }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrAdd");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// The action of clicking ok button in AddForm with Model. 
+        /// </summary>
+        /// <param name="sender">OK Button</param>
+        /// <param name="e">EventArgs</param>
+        private void AddModel(object sender, EventArgs e)
+        {
+            string modelID = "";
+            string key = "";
+            string classname = "";
+            string type = "Model";
+            List<EcellData> list = new List<EcellData>();
+            try
+            {
+                IEnumerator iter = layoutPanel.Controls.GetEnumerator();
+                while (iter.MoveNext())
+                {
+                    Control c = (Control)iter.Current;
+                    if (c == null) continue;
+                    TableLayoutPanelCellPosition pos =
+                        layoutPanel.GetPositionFromControl(c);
+                    if (pos.Column == 0 || pos.Column == 1) continue;
+
+                    if ((string)c.Tag == "modelID") modelID = c.Text;
+                }
+
+                if (modelID == "")
+                {
+                    String errmes = m_resources.GetString("ErrNoInput");
+                    MessageBox.Show(errmes + "(ModelID)", "WARNING",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else if (Util.IsNGforID(modelID))
+//                else if (modelID.Contains(":") || modelID.Contains("/"))
+                {
+                    String errmes = m_resources.GetString("ErrInvalidID");
+                    MessageBox.Show(errmes,
+                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
+                obj.Children = new List<EcellObject>();
+                List<EcellObject> objList = new List<EcellObject>();
+                objList.Add(obj);
+                m_dManager.DataAdd(objList);
+
+                Dispose();
+            }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrAdd");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// The action of clicking ok button in AddForm with Variable or Process.
+        /// </summary>
+        /// <param name="sender">OK button</param>
+        /// <param name="e">EventArgs</param>
+        private void AddNodeElement(object sender, EventArgs e)
+        {
+            string id = "";
+            string modelID = "";
+            string key = "";
+            string classname = "";
+            string type = "";
+            List<EcellData> list = new List<EcellData>();
+
+            try
+            {
+                IEnumerator iter = layoutPanel.Controls.GetEnumerator();
+                while (iter.MoveNext())
+                {
+                    Control c = (Control)iter.Current;
+                    if (c == null) continue;
+                    TableLayoutPanelCellPosition pos =
+                        layoutPanel.GetPositionFromControl(c);
+                    if (pos.Column != 1) continue;
+                    if ((string)c.Tag == "Add Property") continue;
+
+                    if ((string)c.Tag == "modelID") modelID = c.Text;
+                    else if ((string)c.Tag == "id")
+                    {
+                        id = c.Text;
+                        if (c.Text == "")
+                        {
+                            String errmes = m_resources.GetString("ErrNoInput");
+                            MessageBox.Show(errmes + "(ID)",
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+//                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
+                        else if (Util.IsNGforID(c.Text))
+                        {
+                            String errmes = m_resources.GetString("ErrInvalidID");
+                            MessageBox.Show(errmes,
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else if (c.Text.ToUpper() == "SIZE")
+                        {
+                            String errmes = m_resources.GetString("ErrReservSize");
+                            MessageBox.Show(errmes,
+                                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        if (m_parentObj.key == "") key = c.Text;
+                        else if (m_parentObj.key == "/") key = "/:" + c.Text;
+                        else key = m_parentObj.key + ":" + c.Text;
+                    }
+                    else if ((string)c.Tag == "classname") classname = c.Text;
+                    else if ((string)c.Tag == "type") type = c.Text;
+                    else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
+                    {
+                        EcellData data = new EcellData();
+                        data.Name = (string)c.Tag;
+                        data.Value = EcellValue.ToVariableReferenceList(m_refStr);
+                        data.EntityPath = type + ":" + m_parentObj.key +
+                            ":" + id + ":" + (string)c.Tag;
+                        data.Settable = m_propDict[data.Name].Settable;
+                        data.Saveable = m_propDict[data.Name].Saveable;
+                        data.Loadable = m_propDict[data.Name].Loadable;
+                        data.Gettable = m_propDict[data.Name].Gettable;
+                        data.Logable = m_propDict[data.Name].Logable;
+                        data.Logged = m_propDict[data.Name].Logged;
+
+                        list.Add(data);
+                    }
+                    else
+                    {
+                        EcellData data = new EcellData();
+                        try
+                        {
+                            data.Name = (string)c.Tag;
+                            if (m_propDict[data.Name].Value.Type == typeof(int))
+                                data.Value = new EcellValue(Convert.ToInt32(c.Text));
+                            else if (m_propDict[data.Name].Value.Type == typeof(double))
+                            {
+                                if (c.Text == "1.79769313486232E+308")
+                                    data.Value = new EcellValue(Double.MaxValue);
+                                else
+                                    data.Value = new EcellValue(Convert.ToDouble(c.Text));
+                            }
+                            else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
+                                data.Value = EcellValue.ToList(c.Text);
+                            else
+                                data.Value = new EcellValue(c.Text);
+                            data.EntityPath = type + ":" + m_parentObj.key +
+                                ":" + id + ":" + (string)c.Tag;
+                            data.Settable = m_propDict[data.Name].Settable;
+                            data.Saveable = m_propDict[data.Name].Saveable;
+                            data.Loadable = m_propDict[data.Name].Loadable;
+                            data.Gettable = m_propDict[data.Name].Gettable;
+                            data.Logable = m_propDict[data.Name].Logable;
+                            data.Logged = m_propDict[data.Name].Logged;
+                        }
+                        catch (Exception ex)
+                        {
+                            String errmes = m_resources.GetString("ErrInvalidProp");
+                            MessageBox.Show(errmes + "\n\n" + ex.Message,
+                                "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        list.Add(data);
+                    }
+                }
+
+                EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
+                obj.Children = new List<EcellObject>();
+
+                List<EcellObject> objList = new List<EcellObject>();
+                objList.Add(obj);
+
+                m_dManager.DataAdd(objList);
+                Dispose();
+            }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrAdd");
+                MessageBox.Show(errmes + "\n\n" + ex.Message,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
 
         /// <summary>
@@ -1936,7 +1935,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="sender">Button(VariableReferenceList)</param>
         /// <param name="e">EventArgs</param>
-        public void ShowVarRefWindow(object sender, EventArgs e)
+        private void ShowVarRefWindow(object sender, EventArgs e)
         {
             m_win = new VariableRefWindow();
             m_win.AddVarButton.Click += new EventHandler(m_win.AddVarReference);
@@ -1957,7 +1956,6 @@ namespace EcellLib
             m_win.m_editor = this;
             m_win.ShowDialog();
         }
-        #endregion
 
         private void PropertyEditorShown(object sender, EventArgs e)
         {
@@ -1966,5 +1964,7 @@ namespace EcellLib
                 m_idText.Focus();
             }
         }
+        #endregion
+        #endregion
     }
 }

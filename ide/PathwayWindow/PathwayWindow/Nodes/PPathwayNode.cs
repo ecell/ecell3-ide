@@ -189,6 +189,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             this.Width = DEFAULT_WIDTH;
             this.Height = DEFAULT_HEIGHT;
+            this.VisibleChanged += new UMD.HCIL.Piccolo.PPropertyEventHandler(_VisibleChanged);
         }
         #endregion
 
@@ -290,6 +291,16 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 base.m_canvas.NotifyMouseLeave();
             }
+        }
+
+        /// <summary>
+        /// event on visibility change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void _VisibleChanged(object sender, UMD.HCIL.Piccolo.Event.PPropertyEventArgs e)
+        {
+            Refresh();
         }
         #endregion
 

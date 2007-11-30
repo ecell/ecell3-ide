@@ -39,80 +39,86 @@ using System.Windows.Forms;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
-    public partial class InputBox : Form
+    public partial class InputBoxDialog : Form
     {
-        #region Accessor
-        /// <summary>
-        ///  get/set message text.
-        /// </summary>
-        public string Message
-        {
-            get { return this.message.Text; }
-            set { this.message.Text = value; }
-        }
-        /// <summary>
-        ///  get/set message text.
-        /// </summary>
-        public string Input
-        {
-            get { return this.inputText.Text; }
-            set { this.inputText.Text = value; }
-        }
-        #endregion
-
         #region Constructor
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public InputBox()
-        {
-            InitializeComponent();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="message"></param>
-        public InputBox(string message)
-        {
-            InitializeComponent();
-            this.Message = message;
-        }
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="title"></param>
-        public InputBox(string message, string title)
-        {
-            InitializeComponent();
-            this.Message = message;
-            this.Text = title;
-        }
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="message"></param>
         /// <param name="title"></param>
         /// <param name="defaultAns"></param>
-        public InputBox(string message, string title, string defaultAns)
+        private InputBoxDialog(string message, string title, string defaultAns)
         {
             InitializeComponent();
-            this.Message = message;
-            this.Text = title;
-            this.Input = defaultAns;
+            if (message != null)
+                this.message.Text = message;
+            if (title != null)
+                this.Text = title;
+            if (defaultAns != null)
+                this.answer.Text = defaultAns;
         }
         #endregion
 
-        #region Methods
+        #region Public Methods
         /// <summary>
         /// Show InputBoxDialog.
+        /// It returns the input string. And returns null when canceled.
         /// </summary>
+        /// <param name="message"></param>
         /// <returns></returns>
-        public new DialogResult Show()
+        public static string Show(string message)
         {
-            this.ShowDialog();
-            return this.DialogResult;
+            return Show(message, null, null);
+        }
+        /// <summary>
+        /// Show InputBoxDialog.
+        /// It returns the input string. And returns null when canceled.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public static string Show(string message, string title)
+        {
+            return Show(message, title, null);
+        }
+        /// <summary>
+        /// Show InputBoxDialog.
+        /// It returns the input string. And returns null when canceled.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="title"></param>
+        /// <param name="defaultAns"></param>
+        /// <returns></returns>
+        public static string Show(string message, string title, string defaultAns)
+        {
+            InputBoxDialog dialog = new InputBoxDialog(message, title, defaultAns);
+            string ans = null;
+            if (dialog.ShowDialog() == DialogResult.OK)
+                ans = dialog.answer.Text;
+            dialog.Dispose();
+            return ans;
         }
         #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Event on enter.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EnterKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                buttonOK.PerformClick();
+            }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                buttonCancel.PerformClick();
+            }
+        }
+        #endregion
+
     }
 }

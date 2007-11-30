@@ -60,16 +60,6 @@ namespace EcellLib.PathwayWindow.Handler
         private CanvasControl m_canvas;
 
         /// <summary>
-        /// Edges will be refreshed every time when this process has moved by this distance.
-        /// </summary>
-        private static readonly float m_refreshDistance = 4;
-
-        /// <summary>
-        /// Whether a node is moved or not.
-        /// </summary>
-        private bool m_isMoved = false;
-
-        /// <summary>
         /// the delta of moving.
         /// </summary>
         private SizeF m_movingDelta = new SizeF(0, 0);
@@ -170,7 +160,6 @@ namespace EcellLib.PathwayWindow.Handler
         protected override void OnStartDrag(object sender, PInputEventArgs e)
         {
             base.OnStartDrag(sender, e);
-            m_isMoved = false;
             e.Handled = true;
             e.PickedNode.MoveToFront();
         }
@@ -183,7 +172,6 @@ namespace EcellLib.PathwayWindow.Handler
         protected override void OnDrag(object sender, PInputEventArgs e)
         {
             base.OnDrag(sender, e);
-            m_isMoved = true;
             e.Canvas.BackColor = Color.Silver;
             SetBackToDefault();
 

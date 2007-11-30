@@ -47,9 +47,10 @@ namespace EcellLib.PathwayWindow.UIComponent
     public class LayerView: DockContent
     {
         #region Static Fields
-        private static string MENU_CREATE_LAYER = "CreateLayer";
-        private static string MENU_DELETE_LAYER = "DeleteLayer";
-        private static string MENU_RENAME_LAYER = "RenameLayer";
+        private static string MENU_CREATE_LAYER = "CreateLayerMenuText";
+        private static string MENU_DELETE_LAYER = "DeleteLayerMenuText";
+        private static string MENU_MERGE_LAYER = "MergeLayerMenuText";
+        private static string MENU_RENAME_LAYER = "RenameLayerMenuText";
         private static string DIALOG_TITLE = "レイヤー名入力ダイアログ";
         private static string DIALOG_MESSAGE = "新規レイヤー名を入力してください";
 
@@ -122,14 +123,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Clear Layer Table.
-        /// </summary>
-        public void Clear()
-        {
-        }
-
         /// <summary>
         /// Initializer for PCanvas
         /// </summary>
@@ -206,21 +199,27 @@ namespace EcellLib.PathwayWindow.UIComponent
 
             ToolStripItem menuCreateLayer = new ToolStripMenuItem(MENU_CREATE_LAYER);
             menuCreateLayer.Text = m_resources.GetString(MENU_CREATE_LAYER);
-            menuCreateLayer.Click += new EventHandler(CreateNewLayerClick);
+            menuCreateLayer.Click += new EventHandler(CreateLayerClick);
             nodeMenu.Items.Add(menuCreateLayer);
             m_cMenuDict.Add(MENU_CREATE_LAYER, menuCreateLayer);
-
-            ToolStripItem menuDeleteLayer = new ToolStripMenuItem(MENU_DELETE_LAYER);
-            menuDeleteLayer.Text = m_resources.GetString(MENU_DELETE_LAYER);
-            menuDeleteLayer.Click += new EventHandler(DeleteLayerClick);
-            nodeMenu.Items.Add(menuDeleteLayer);
-            m_cMenuDict.Add(MENU_DELETE_LAYER, menuDeleteLayer);
 
             ToolStripItem menuRenameLayer = new ToolStripMenuItem(MENU_RENAME_LAYER);
             menuRenameLayer.Text = m_resources.GetString(MENU_RENAME_LAYER);
             menuRenameLayer.Click += new EventHandler(RenameLayerClick);
             nodeMenu.Items.Add(menuRenameLayer);
             m_cMenuDict.Add(MENU_RENAME_LAYER, menuRenameLayer);
+
+            ToolStripItem menuMergeLayer = new ToolStripMenuItem(MENU_MERGE_LAYER);
+            menuMergeLayer.Text = m_resources.GetString(MENU_MERGE_LAYER);
+            menuMergeLayer.Click += new EventHandler(MergeLayerClick);
+            nodeMenu.Items.Add(menuMergeLayer);
+            m_cMenuDict.Add(MENU_MERGE_LAYER, menuMergeLayer);
+
+            ToolStripItem menuDeleteLayer = new ToolStripMenuItem(MENU_DELETE_LAYER);
+            menuDeleteLayer.Text = m_resources.GetString(MENU_DELETE_LAYER);
+            menuDeleteLayer.Click += new EventHandler(DeleteLayerClick);
+            nodeMenu.Items.Add(menuDeleteLayer);
+            m_cMenuDict.Add(MENU_DELETE_LAYER, menuDeleteLayer);
 
             return nodeMenu;
         }
@@ -232,17 +231,15 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void m_dgv_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        private void m_dgv_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
             if (!m_dirtyEventProcessed)
             {
                 CanvasControl canvas = m_con.ActiveCanvas;
                 bool show = !(bool)((DataGridView)sender).CurrentRow.Cells["Show"].Value;
                 string layerName = (string)((DataGridView)sender).CurrentRow.Cells["Name"].Value;
-                canvas.Layers[layerName].Visible = show;
-                canvas.PathwayCanvas.Refresh();
-                canvas.RefreshVisibility();
-                m_con.OverView.Canvas.Refresh();
+
+                canvas.ChangeLayerVisibility(layerName, show);
                 m_dirtyEventProcessed = true;
             }
             else
@@ -257,7 +254,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DataGridViewBindingComplete.</param>
-        void dgv_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void dgv_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             if (((DataGridView)sender).Columns.Contains("Show") && ((DataGridView)sender).Visible)
             {
@@ -275,7 +272,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DataGridViewBindingComplete.</param>
-        void m_dgv_VisibleChanged(object sender, EventArgs e)
+        private void m_dgv_VisibleChanged(object sender, EventArgs e)
         {
             if (((DataGridView)sender).Columns.Contains("Show") && ((DataGridView)sender).Visible)
             {
@@ -286,58 +283,111 @@ namespace EcellLib.PathwayWindow.UIComponent
                 ((DataGridView)sender).Columns["Name"].ReadOnly = true;
             }
         }
-        #endregion
-
-        private void CreateNewLayerClick(object sender, EventArgs e)
+        /// <summary>
+        /// when click menu "Create Layer"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CreateLayerClick(object sender, EventArgs e)
         {
-            InputBox inputBox = new InputBox(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE));
-            if (inputBox.Show() == DialogResult.OK)
+            CanvasControl canvas = m_con.ActiveCanvas;
+            string name = InputBoxDialog.Show(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE), "");
+            if (name == null || name.Equals(""))
+                return;
+            if (canvas.Layers.ContainsKey(name))
             {
-                CanvasControl canvas = m_con.ActiveCanvas;
-                canvas.AddLayer(inputBox.Input);
+                MessageBox.Show(name + m_resources.GetString("ErrAlrExist"));
+                return;
             }
-            inputBox.Dispose();
+            canvas.AddLayer(name);
         }
-
+        /// <summary>
+        /// when click menu "Delete Layer"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteLayerClick(object sender, EventArgs e)
         {
             string name = (string)m_selectedRow.Cells[1].FormattedValue;
             CanvasControl canvas = m_con.ActiveCanvas;
             canvas.DeleteLayer(name);
         }
-
+        /// <summary>
+        /// when click menu "Rename Layer"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RenameLayerClick(object sender, EventArgs e)
         {
-            string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
-            InputBox inputBox = new InputBox(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE), oldName);
-            if (inputBox.Show() != DialogResult.OK)
-                return;
-            string newName = inputBox.Input;
-            inputBox.Dispose();
-
             CanvasControl canvas = m_con.ActiveCanvas;
+            string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
+            string newName = InputBoxDialog.Show(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE), oldName);
+            if (newName == null || newName.Equals(""))
+                return;
+            if (canvas.Layers.ContainsKey(newName))
+            {
+                MessageBox.Show(newName + m_resources.GetString("ErrAlrExist"));
+                return;
+            }
+
             canvas.RenameLayer(oldName, newName);
         }
+        /// <summary>
+        /// when click menu "Merge Layer"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MergeLayerClick(object sender, EventArgs e)
+        {
+            string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
+            CanvasControl canvas = m_con.ActiveCanvas;
+            List<string> list = canvas.GetLayerNameList();
+            string newName = SelectBoxDialog.Show(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE), list);
+            if (!canvas.Layers.ContainsKey(newName))
+            {
+                MessageBox.Show(m_resources.GetString("ErrLayerNot"));
+                return;
+            }
 
+            canvas.MergeLayer(oldName, newName);
+        }
+        /// <summary>
+        /// when click DataGridRows.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void m_dgv_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             m_cMenuDict[MENU_CREATE_LAYER].Visible = true;
-            m_cMenuDict[MENU_DELETE_LAYER].Visible = true;
             m_cMenuDict[MENU_RENAME_LAYER].Visible = true;
+            m_cMenuDict[MENU_MERGE_LAYER].Visible = true;
+            m_cMenuDict[MENU_DELETE_LAYER].Visible = true;
             if (e.RowIndex >= 0)
+            {
                 m_selectedRow = m_dgv.Rows[e.RowIndex];
+                m_selectedRow.Selected = true;
+            }
         }
-
+        /// <summary>
+        /// when click DataGridView.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void m_dgv_MouseDown(object sender, MouseEventArgs e)
         {
-            if( m_con.ActiveCanvas == null)
+            if (m_con.ActiveCanvas == null)
+            {
                 m_cMenuDict[MENU_CREATE_LAYER].Visible = false;
+            }
             else
+            {
                 m_cMenuDict[MENU_CREATE_LAYER].Visible = true;
-            m_cMenuDict[MENU_DELETE_LAYER].Visible = false;
+            }
             m_cMenuDict[MENU_RENAME_LAYER].Visible = false;
+            m_cMenuDict[MENU_MERGE_LAYER].Visible = false;
+            m_cMenuDict[MENU_DELETE_LAYER].Visible = false;
             m_selectedRow = null;
         }
-
+        #endregion
     }
 }

@@ -1596,25 +1596,22 @@ namespace EcellLib.PathwayWindow
                 MessageBox.Show(m_resources.GetString("ErrDelRoot"));
                 return;
             }
-            PLayer layer = m_layers[name];
+            PPathwayLayer layer = m_layers[name];
             m_layers.Remove(name);
             m_overviewCanvas.RemoveObservedLayer(layer);
             m_pCanvas.Camera.RemoveLayer(layer);
             m_pCanvas.Root.RemoveChild(layer);
 
             RefreshLayerTable();
+
             // Delete Nodes under this layer
-            List<PPathwayObject> list = GetAllObjects();
+            List<PPathwayObject> list = layer.NodeList;
+            int i = 0;
             foreach (PPathwayObject obj in list)
-                if (obj.Layer == layer)
-                    m_con.NotifyDataDelete(obj, false);
-            m_con.NotifyDataChanged(
-                list[0].EcellObject.key,
-                list[0].EcellObject.key,
-                list[0],
-                true,
-                true);
-            
+            {
+                i++;
+                m_con.NotifyDataDelete(obj, (i == list.Count));
+            }
         }
 
         /// <summary>
@@ -1628,24 +1625,77 @@ namespace EcellLib.PathwayWindow
             m_layers.Remove(oldName);
             m_layers.Add(newName, layer);
             // Change Nodes under this layer
-            List<PPathwayObject> list = GetAllObjects();
+            List<PPathwayObject> list = layer.NodeList;
+            int i = 0;
             foreach (PPathwayObject obj in list)
-                if (obj.Layer == layer)
-                    m_con.NotifyDataChanged(
-                        obj.EcellObject.key,
-                        obj.EcellObject.key,
-                        obj,
-                        true,
-                        false);
-            m_con.NotifyDataChanged(
-                list[0].EcellObject.key,
-                list[0].EcellObject.key,
-                list[0],
-                true,
-                true);
+            {
+                i++;
+                m_con.NotifyDataChanged(
+                    obj.EcellObject.key,
+                    obj.EcellObject.key,
+                    obj,
+                    true,
+                    (i == list.Count));
+            }
 
             RefreshLayerTable();
+        }
+        /// <summary>
+        /// Set Layer Visibility.
+        /// </summary>
+        /// <param name="layerName"></param>
+        /// <param name="isShowing"></param>
+        public void ChangeLayerVisibility(string layerName, bool isShown)
+        {
+            PPathwayLayer layer = m_layers[layerName];
+            if(layer == null)
+                return;
+            // Set Visibility.
+            layer.Visible = isShown;
+            foreach (PNode node in layer.NodeList)
+                node.Visible = isShown;
 
+            RefreshVisibility();
+            m_con.OverView.Canvas.Refresh();
+        }
+        /// <summary>
+        /// Get a list of layers.
+        /// </summary>
+        /// <returns></returns>
+        internal List<string> GetLayerNameList()
+        {
+            List<string> list = new List<string>();
+            foreach (PPathwayLayer layer in m_layers.Values)
+                list.Add(layer.Name);
+
+            return list;
+        }
+        /// <summary>
+        /// Merge two layers
+        /// 
+        /// </summary>
+        /// <param name="oldName"></param>
+        /// <param name="newName"></param>
+        internal void MergeLayer(string oldName, string newName)
+        {
+            PPathwayLayer oldlayer = m_layers[oldName];
+            PPathwayLayer newlayer = m_layers[newName];
+            // Change Nodes under this layer
+            List<PPathwayObject> list = oldlayer.NodeList;
+            int i = 0;
+            foreach (PPathwayObject obj in list)
+            {
+                i++;
+                obj.Layer = newlayer;
+                m_con.NotifyDataChanged(
+                    obj.EcellObject.key,
+                    obj.EcellObject.key,
+                    obj,
+                    true,
+                    (i == list.Count));
+            }
+            m_layers.Remove(oldName);
+            RefreshLayerTable();
         }
 
         /// <summary>

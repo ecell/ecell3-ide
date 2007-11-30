@@ -146,6 +146,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = false;
 
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CHANGE_LAYER].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR5].Visible = false;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = false;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = false;
             }
@@ -179,6 +181,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = true;
 
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CHANGE_LAYER].Visible = true;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR5].Visible = true;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = true;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = true;
             }
@@ -234,6 +238,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE].Tag = m_canvas.ClickedNode;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = false;
 
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CHANGE_LAYER].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR5].Visible = false;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = false;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = false;
 
@@ -277,6 +283,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
                     m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = false;
                 }
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CHANGE_LAYER].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR5].Visible = false;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = true;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = true;
             }
@@ -300,6 +308,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_WITH].Visible = false;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR4].Visible = false;
 
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CHANGE_LAYER].Visible = false;
+                m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR5].Visible = false;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = false;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = false;
 

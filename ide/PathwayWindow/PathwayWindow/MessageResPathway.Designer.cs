@@ -61,6 +61,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Change Layer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ChangeLayerMenuText {
+            get {
+                return ResourceManager.GetString("ChangeLayerMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Are you sure you want to delete? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmDelete {
@@ -90,9 +99,9 @@ namespace EcellLib.PathwayWindow {
         /// <summary>
         ///   Create Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string CreateLayer {
+        internal static string CreateLayerMenuText {
             get {
-                return ResourceManager.GetString("CreateLayer", resourceCulture);
+                return ResourceManager.GetString("CreateLayerMenuText", resourceCulture);
             }
         }
         
@@ -117,9 +126,9 @@ namespace EcellLib.PathwayWindow {
         /// <summary>
         ///   Delete Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string DeleteLayer {
+        internal static string DeleteLayerMenuText {
             get {
-                return ResourceManager.GetString("DeleteLayer", resourceCulture);
+                return ResourceManager.GetString("DeleteLayerMenuText", resourceCulture);
             }
         }
         
@@ -241,6 +250,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Layer does not exist. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLayerNot {
+            get {
+                return ResourceManager.GetString("ErrLayerNot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can&apos;t execute this layout due to an unexpected error, sorry. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLayout {
@@ -358,6 +376,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Merge Layer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MergeLayerMenuText {
+            get {
+                return ResourceManager.GetString("MergeLayerMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Merge to supersystem に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MergeMenuText {
@@ -387,9 +414,9 @@ namespace EcellLib.PathwayWindow {
         /// <summary>
         ///   Rename Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string RenameLayer {
+        internal static string RenameLayerMenuText {
             get {
-                return ResourceManager.GetString("RenameLayer", resourceCulture);
+                return ResourceManager.GetString("RenameLayerMenuText", resourceCulture);
             }
         }
     }

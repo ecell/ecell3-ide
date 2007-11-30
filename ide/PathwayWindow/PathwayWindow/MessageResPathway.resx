@@ -213,10 +213,10 @@
   <data name="ErrSaveLEML" xml:space="preserve">
     <value>Fail to save EcellObject position settings.</value>
   </data>
-  <data name="CreateLayer" xml:space="preserve">
+  <data name="CreateLayerMenuText" xml:space="preserve">
     <value>Create Layer</value>
   </data>
-  <data name="DeleteLayer" xml:space="preserve">
+  <data name="DeleteLayerMenuText" xml:space="preserve">
     <value>Delete Layer</value>
   </data>
   <data name="LayerDialogMessage" xml:space="preserve">
@@ -225,7 +225,16 @@
   <data name="LayerDialogTitle" xml:space="preserve">
     <value>LayerNameInputDialog</value>
   </data>
-  <data name="RenameLayer" xml:space="preserve">
+  <data name="RenameLayerMenuText" xml:space="preserve">
     <value>Rename Layer</value>
+  </data>
+  <data name="MergeLayerMenuText" xml:space="preserve">
+    <value>Merge Layer</value>
+  </data>
+  <data name="ChangeLayerMenuText" xml:space="preserve">
+    <value>Change Layer</value>
+  </data>
+  <data name="ErrLayerNot" xml:space="preserve">
+    <value>Layer does not exist.</value>
   </data>
 </root>
