@@ -1760,7 +1760,7 @@ namespace EcellLib
                                 }
                                 if (isChange)
                                 {
-                                    m_dManager.DataChanged(target.modelID, target.key, target.type, target);
+                                    NotifyDataChanged(target.modelID, target.key, target);
                                 }
                                 m_currentObj.Children.Remove(target);
                                 m_currentObj.Children.Add(target);
@@ -1864,7 +1864,8 @@ namespace EcellLib
                 obj.OffsetY = m_currentObj.OffsetY;
                 obj.Width = m_currentObj.Width;
                 obj.Height = m_currentObj.Height;
-                m_dManager.DataChanged(m_currentObj.modelID, m_currentObj.key, m_currentObj.type, obj);
+                obj.LayerID = m_currentObj.LayerID;
+                NotifyDataChanged(m_currentObj.modelID, m_currentObj.key, obj);
             }
             catch(IgnoreException)
             {                
@@ -1879,6 +1880,22 @@ namespace EcellLib
             }
 
             this.Dispose();
+        }
+
+        /// <summary>
+        /// Inform the changing of EcellObject in PathwayEditor to DataManager.
+        /// </summary>
+        /// <param name="modelID">the model of object.</param>
+        /// <param name="oldKey">the key of object before edit.</param>
+        /// <param name="eo">The EcellObject changed the property.</param>
+        public void NotifyDataChanged(
+            string modelID,
+            string oldKey,
+            EcellObject eo)
+        {
+            if (modelID == null || oldKey == null || eo.key == null)
+                return;
+            m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, true, true);
         }
 
         /// <summary>

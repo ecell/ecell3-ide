@@ -47,9 +47,9 @@ namespace EcellLib.PathwayWindow.UIComponent
     public class LayerView: DockContent
     {
         #region Static Fields
-        private static string CREATE_LAYER = "CreateLayer";
-        private static string DELETE_LAYER = "DeleteLayer";
-        private static string RENAME_LAYER = "RenameLayer";
+        private static string MENU_CREATE_LAYER = "CreateLayer";
+        private static string MENU_DELETE_LAYER = "DeleteLayer";
+        private static string MENU_RENAME_LAYER = "RenameLayer";
         private static string DIALOG_TITLE = "レイヤー名入力ダイアログ";
         private static string DIALOG_MESSAGE = "新規レイヤー名を入力してください";
 
@@ -131,38 +131,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         }
 
         /// <summary>
-        /// Create layer.
-        /// </summary>
-        /// <param name="layer"></param>
-        public void AddLayer(string name)
-        {
-            CanvasControl canvas = m_con.ActiveCanvas;
-            canvas.AddLayer(name);
-        }
-
-        /// <summary>
-        /// Delete layer.
-        /// </summary>
-        /// <param name="layer">a layer</param>
-        private void DeleteLayer(string name)
-        {
-            CanvasControl canvas = m_con.ActiveCanvas;
-            canvas.DeleteLayer(name);
-        }
-
-        /// <summary>
-        /// Rename Layer.
-        /// </summary>
-        /// <param name="name"></param>
-        private void RenameLayer(string oldName, string newName)
-        {
-            CanvasControl canvas = m_con.ActiveCanvas;
-            canvas.RenameLayer(oldName, newName);
-        }
-
-
-
-        /// <summary>
         /// Initializer for PCanvas
         /// </summary>
         void InitializeComponent()
@@ -236,23 +204,23 @@ namespace EcellLib.PathwayWindow.UIComponent
             // Preparing a context menu.
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
 
-            ToolStripItem menuCreateLayer = new ToolStripMenuItem(CREATE_LAYER);
-            menuCreateLayer.Text = m_resources.GetString(CREATE_LAYER);
+            ToolStripItem menuCreateLayer = new ToolStripMenuItem(MENU_CREATE_LAYER);
+            menuCreateLayer.Text = m_resources.GetString(MENU_CREATE_LAYER);
             menuCreateLayer.Click += new EventHandler(CreateNewLayerClick);
             nodeMenu.Items.Add(menuCreateLayer);
-            m_cMenuDict.Add(CREATE_LAYER, menuCreateLayer);
+            m_cMenuDict.Add(MENU_CREATE_LAYER, menuCreateLayer);
 
-            ToolStripItem menuDeleteLayer = new ToolStripMenuItem(DELETE_LAYER);
-            menuDeleteLayer.Text = m_resources.GetString(DELETE_LAYER);
+            ToolStripItem menuDeleteLayer = new ToolStripMenuItem(MENU_DELETE_LAYER);
+            menuDeleteLayer.Text = m_resources.GetString(MENU_DELETE_LAYER);
             menuDeleteLayer.Click += new EventHandler(DeleteLayerClick);
             nodeMenu.Items.Add(menuDeleteLayer);
-            m_cMenuDict.Add(DELETE_LAYER, menuDeleteLayer);
+            m_cMenuDict.Add(MENU_DELETE_LAYER, menuDeleteLayer);
 
-            ToolStripItem menuRenameLayer = new ToolStripMenuItem(RENAME_LAYER);
-            menuRenameLayer.Text = m_resources.GetString(RENAME_LAYER);
+            ToolStripItem menuRenameLayer = new ToolStripMenuItem(MENU_RENAME_LAYER);
+            menuRenameLayer.Text = m_resources.GetString(MENU_RENAME_LAYER);
             menuRenameLayer.Click += new EventHandler(RenameLayerClick);
             nodeMenu.Items.Add(menuRenameLayer);
-            m_cMenuDict.Add(RENAME_LAYER, menuRenameLayer);
+            m_cMenuDict.Add(MENU_RENAME_LAYER, menuRenameLayer);
 
             return nodeMenu;
         }
@@ -324,14 +292,18 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             InputBox inputBox = new InputBox(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE));
             if (inputBox.Show() == DialogResult.OK)
-                AddLayer(inputBox.Input);
+            {
+                CanvasControl canvas = m_con.ActiveCanvas;
+                canvas.AddLayer(inputBox.Input);
+            }
             inputBox.Dispose();
         }
 
         private void DeleteLayerClick(object sender, EventArgs e)
         {
             string name = (string)m_selectedRow.Cells[1].FormattedValue;
-            DeleteLayer(name);
+            CanvasControl canvas = m_con.ActiveCanvas;
+            canvas.DeleteLayer(name);
         }
 
         private void RenameLayerClick(object sender, EventArgs e)
@@ -343,14 +315,15 @@ namespace EcellLib.PathwayWindow.UIComponent
             string newName = inputBox.Input;
             inputBox.Dispose();
 
-            RenameLayer(oldName, newName);
+            CanvasControl canvas = m_con.ActiveCanvas;
+            canvas.RenameLayer(oldName, newName);
         }
 
         private void m_dgv_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            m_cMenuDict[CREATE_LAYER].Visible = true;
-            m_cMenuDict[DELETE_LAYER].Visible = true;
-            m_cMenuDict[RENAME_LAYER].Visible = true;
+            m_cMenuDict[MENU_CREATE_LAYER].Visible = true;
+            m_cMenuDict[MENU_DELETE_LAYER].Visible = true;
+            m_cMenuDict[MENU_RENAME_LAYER].Visible = true;
             if (e.RowIndex >= 0)
                 m_selectedRow = m_dgv.Rows[e.RowIndex];
         }
@@ -358,11 +331,11 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void m_dgv_MouseDown(object sender, MouseEventArgs e)
         {
             if( m_con.ActiveCanvas == null)
-                m_cMenuDict[CREATE_LAYER].Visible = false;
+                m_cMenuDict[MENU_CREATE_LAYER].Visible = false;
             else
-                m_cMenuDict[CREATE_LAYER].Visible = true;
-            m_cMenuDict[DELETE_LAYER].Visible = false;
-            m_cMenuDict[RENAME_LAYER].Visible = false;
+                m_cMenuDict[MENU_CREATE_LAYER].Visible = true;
+            m_cMenuDict[MENU_DELETE_LAYER].Visible = false;
+            m_cMenuDict[MENU_RENAME_LAYER].Visible = false;
             m_selectedRow = null;
         }
 

@@ -1288,6 +1288,16 @@ namespace EcellLib.PathwayWindow
         {
             m_window.NotifyDataDelete(eo.modelID, eo.key, eo.type, isAnchor);
         }
+
+        /// <summary>
+        /// Notify DataDelete event to outsite.
+        /// </summary>
+        /// <param name="obj">the deleted object.</param>
+        /// <param name="isAnchor">the type of deleted object.</param>
+        public void NotifyDataDelete(PPathwayObject obj, bool isAnchor)
+        {
+            NotifyDataDelete(obj.EcellObject, isAnchor);
+        }
         #endregion
 
         /// <summary>

@@ -1604,7 +1604,16 @@ namespace EcellLib.PathwayWindow
 
             RefreshLayerTable();
             // Delete Nodes under this layer
-            // ToDo
+            List<PPathwayObject> list = GetAllObjects();
+            foreach (PPathwayObject obj in list)
+                if (obj.Layer == layer)
+                    m_con.NotifyDataDelete(obj, false);
+            m_con.NotifyDataChanged(
+                list[0].EcellObject.key,
+                list[0].EcellObject.key,
+                list[0],
+                true,
+                true);
             
         }
 
@@ -1614,12 +1623,11 @@ namespace EcellLib.PathwayWindow
         /// <param name="name"></param>
         public void RenameLayer(string oldName, string newName)
         {
-            // Change Nodes under this layer
-            // ToDo
             PPathwayLayer layer = m_layers[oldName];
             layer.Name = newName;
             m_layers.Remove(oldName);
             m_layers.Add(newName, layer);
+            // Change Nodes under this layer
             List<PPathwayObject> list = GetAllObjects();
             foreach (PPathwayObject obj in list)
                 if (obj.Layer == layer)
