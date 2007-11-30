@@ -493,16 +493,9 @@ namespace EcellLib.PathwayWindow.Nodes
             if (EcellObject == null)
                 return;
             PPathwaySystem p = (PPathwaySystem)e.PickedNode;
-            if (!p.EcellObject.key.Equals(EcellObject.key)) return;
-
-            PropertyEditor editor = new PropertyEditor();
-            editor.layoutPanel.SuspendLayout();
-            editor.SetCurrentObject(EcellObject);
-            editor.SetDataType(EcellObject.type);
-            editor.PEApplyButton.Click += new EventHandler(editor.UpdateProperty);
-            editor.LayoutPropertyEditor();
-            editor.layoutPanel.ResumeLayout(false);
-            editor.ShowDialog();
+            if (!p.EcellObject.key.Equals(EcellObject.key))
+                return;
+            PropertyEditor.Show(this.EcellObject);
         }
 
         /// <summary>

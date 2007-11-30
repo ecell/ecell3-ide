@@ -100,10 +100,6 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         private TreeNode m_prjNode;
         /// <summary>
-        /// m_editor (editable property list window)
-        /// </summary>
-        private PropertyEditor m_editor;
-        /// <summary>
         /// m_propDict (dictionary of property name and data type)
         /// </summary>
         private Dictionary<string, EcellData> m_propDict;
@@ -335,25 +331,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="obj">the selected object</param>
         public void ShowPropEditWindow(EcellObject obj)
         {
-            try
-            {
-                m_editor = new PropertyEditor();
-                m_editor.layoutPanel.SuspendLayout();
-                m_editor.SetCurrentObject(obj);
-                m_editor.SetDataType(obj.type);
-                m_editor.PEApplyButton.Click += new EventHandler(m_editor.UpdateProperty);
-                m_editor.LayoutPropertyEditor();
-                m_editor.layoutPanel.ResumeLayout(false);
-                m_editor.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                String errmes = m_resources.GetString("ErrShowPropEditor");   
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                m_editor.Dispose();
-                return;
-            }
+            PropertyEditor.Show(obj);
         }
 
         /// <summary>
@@ -656,22 +634,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">EventArgs</param>
         public void TreeviewAddModel(object sender, EventArgs e)
         {
-            try
-            {
-                m_editor = new PropertyEditor();
-                m_editor.SetParentObject(m_currentObj);
-                m_editor.SetDataType("Model");
-                m_editor.PEApplyButton.Click += new EventHandler(m_editor.AddModel);
-                m_editor.LayoutPropertyEditor();
-                m_editor.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                String errmes = m_resources.GetString("ErrShowPropEditor");
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            ShowPropEditWindow(m_currentObj);
         }
 
         /// <summary>

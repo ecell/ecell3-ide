@@ -217,25 +217,7 @@ namespace EcellLib.SearchWindow
         /// <param name="obj">the selected object</param>
         public void ShowPropEditWindow(EcellObject obj)
         {
-            PropertyEditor m_editor = new PropertyEditor();
-            try
-            {
-                m_editor.layoutPanel.SuspendLayout();
-                m_editor.SetCurrentObject(obj);
-                m_editor.SetDataType(obj.type);
-                m_editor.PEApplyButton.Click += new EventHandler(m_editor.UpdateProperty);
-                m_editor.LayoutPropertyEditor();
-                m_editor.layoutPanel.ResumeLayout(false);
-                m_editor.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                String errmes = m_resources.GetString("ErrShowPropEdit");
-                MessageBox.Show(errmes + "\n\n" + ex.Message,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                m_editor.Dispose();
-                return;
-            }
+            PropertyEditor.Show(obj);
         }
 
         /// <summary>

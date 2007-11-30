@@ -96,24 +96,49 @@ namespace EcellLib
         /// <summary>
         /// ResourceManager for PropertyEditor.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
+        private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
         #endregion
 
         /// <summary>
         /// Constructor for PropertyEditor.
         /// </summary>
-        public PropertyEditor()
+        private PropertyEditor()
         {
             InitializeComponent();
             m_title = this.Text;
             m_dManager = DataManager.GetDataManager();
         }
 
+        public static void Show(EcellObject obj)
+        {
+            PropertyEditor editor = new PropertyEditor();
+            try
+            {
+                editor.layoutPanel.SuspendLayout();
+                editor.SetCurrentObject(obj);
+                editor.SetDataType(obj.type);
+                editor.LayoutPropertyEditor();
+                editor.layoutPanel.ResumeLayout(false);
+                if (editor.ShowDialog() == DialogResult.OK)
+                    editor.UpdateProperty();
+            }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrShowPropEditor");
+                MessageBox.Show(errmes + "\n\n" + ex,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                editor.Dispose();
+            }
+        }
+
         /// <summary>
         /// Set the object to parent object.
         /// </summary>
         /// <param name="obj">the parent object to add.</param>
-        public void SetParentObject(EcellObject obj)
+        private void SetParentObject(EcellObject obj)
         {
             m_parentObj = obj;
             m_currentObj = null;
@@ -123,7 +148,7 @@ namespace EcellLib
         /// Set the object to current selected object.
         /// </summary>
         /// <param name="obj">EcellObject</param>
-        public void SetCurrentObject(EcellObject obj)
+        private void SetCurrentObject(EcellObject obj)
         {
             m_currentObj = obj;
             m_parentObj = null;
@@ -219,7 +244,7 @@ namespace EcellLib
         /// <summary>
         /// layout the column of property editor according to data type.
         /// </summary>
-        public void LayoutPropertyEditor()
+        private void LayoutPropertyEditor()
         {
             if (m_type.Equals("Model"))
             {
@@ -1577,9 +1602,7 @@ namespace EcellLib
         /// <summary>
         /// Update property of the selected TreeNode.
         /// </summary>
-        /// <param name="sender">Button (Update)</param>
-        /// <param name="e">EventArgs</param>
-        public void UpdateProperty(object sender, EventArgs e)
+        public void UpdateProperty()
         {
             string modelID = "";
             string key = "";

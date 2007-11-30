@@ -115,14 +115,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="e">PInputEventArgs.</param>
         public override void OnDoubleClick(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
-            PropertyEditor editor = new PropertyEditor();
-            editor.layoutPanel.SuspendLayout();
-            editor.SetCurrentObject(EcellObject);
-            editor.SetDataType(EcellObject.type);
-            editor.PEApplyButton.Click += new EventHandler(editor.UpdateProperty);
-            editor.LayoutPropertyEditor();
-            editor.layoutPanel.ResumeLayout(false);
-            editor.ShowDialog();
+            PropertyEditor.Show(this.EcellObject);
         }
 
         /// <summary>

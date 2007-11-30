@@ -36,18 +36,18 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.PEApplyButton = new System.Windows.Forms.Button();
             this.PECloseButton = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.layoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.PEPropTabPage = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.layoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.PECommitTabPage = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.commitLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.PEPropTabPage.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.PECommitTabPage.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -68,6 +68,7 @@
             // 
             // PEApplyButton
             // 
+            this.PEApplyButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.PEApplyButton, "PEApplyButton");
             this.PEApplyButton.Name = "PEApplyButton";
             this.PEApplyButton.UseVisualStyleBackColor = true;
@@ -78,18 +79,6 @@
             resources.ApplyResources(this.PECloseButton, "PECloseButton");
             this.PECloseButton.Name = "PECloseButton";
             this.PECloseButton.UseVisualStyleBackColor = true;
-            // 
-            // panel1
-            // 
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.layoutPanel);
-            this.panel1.Name = "panel1";
-            // 
-            // layoutPanel
-            // 
-            resources.ApplyResources(this.layoutPanel, "layoutPanel");
-            this.layoutPanel.Name = "layoutPanel";
             // 
             // tabControl1
             // 
@@ -105,6 +94,18 @@
             resources.ApplyResources(this.PEPropTabPage, "PEPropTabPage");
             this.PEPropTabPage.Name = "PEPropTabPage";
             this.PEPropTabPage.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.layoutPanel);
+            this.panel1.Name = "panel1";
+            // 
+            // layoutPanel
+            // 
+            resources.ApplyResources(this.layoutPanel, "layoutPanel");
+            this.layoutPanel.Name = "layoutPanel";
             // 
             // PECommitTabPage
             // 
@@ -135,9 +136,9 @@
             this.Shown += new System.EventHandler(this.PropertyEditorShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.PEPropTabPage.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.PECommitTabPage.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);

@@ -315,6 +315,9 @@
   <data name="ErrShowPropEdit" xml:space="preserve">
     <value>プロパティ編集ダイアログの表示に失敗しました。</value>
   </data>
+  <data name="ErrShowPropEditor" xml:space="preserve">
+    <value>プロパティ編集ダイアログの表示に失敗しました。\n表示するオブジェクトを確認してください。</value>
+  </data>
   <data name="ErrSuspendSim" xml:space="preserve">
     <value>シミュレーションを一時停止できませんでした。</value>
   </data>

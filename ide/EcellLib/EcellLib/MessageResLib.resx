@@ -315,6 +315,9 @@
   <data name="ErrShowPropEdit" xml:space="preserve">
     <value>Get exception while system show the property editor.</value>
   </data>
+  <data name="ErrShowPropEditor" xml:space="preserve">
+    <value>Fail to show property editor.\nPlease confirm the property of object.\n</value>
+  </data>
   <data name="ErrSuspendSim" xml:space="preserve">
     <value>Can not suspend the simulation.</value>
   </data>

@@ -224,26 +224,7 @@ namespace EcellLib.StaticDebugWindow
 
                 if (obj != null)
                 {
-                    try
-                    {
-                        PluginManager.GetPluginManager().SelectChanged(obj.modelID, obj.key, obj.type);
-                        PropertyEditor editor = new PropertyEditor();
-                        editor.layoutPanel.SuspendLayout();
-                        editor.SetCurrentObject(obj);
-                        editor.SetDataType(obj.type);
-                        editor.PEApplyButton.Click += new EventHandler(editor.UpdateProperty);
-                        editor.LayoutPropertyEditor();
-                        editor.layoutPanel.ResumeLayout(false);
-                        editor.ShowDialog();
-                    }
-                    catch (Exception ex)
-                    {
-                        String errmes = m_resources.GetString("ErrShowPropEdit");
-                        MessageBox.Show(errmes + "\n\n" + ex,
-                            "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
+                    PropertyEditor.Show(obj);
                     break;
                 }
             }
