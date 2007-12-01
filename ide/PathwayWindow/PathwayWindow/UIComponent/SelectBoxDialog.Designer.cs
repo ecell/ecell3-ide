@@ -72,11 +72,11 @@
             // comboBox
             // 
             this.comboBox.FormattingEnabled = true;
-            this.comboBox.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.comboBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.comboBox.Location = new System.Drawing.Point(12, 91);
             this.comboBox.Name = "comboBox";
             this.comboBox.Size = new System.Drawing.Size(267, 20);
-            this.comboBox.TabIndex = 5;
+            this.comboBox.TabIndex = 0;
             this.comboBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
             // SelectBoxDialog

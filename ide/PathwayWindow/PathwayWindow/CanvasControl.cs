@@ -203,6 +203,11 @@ namespace EcellLib.PathwayWindow
         List<PPathwayObject> m_selectedNodes = new List<PPathwayObject>();
 
         /// <summary>
+        /// SelectChange flag.
+        /// </summary>
+        bool m_isSelectChanged = false;
+
+        /// <summary>
         /// selected line
         /// </summary>
         Line m_selectedLine = null;
@@ -1345,6 +1350,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void NotifySelectChanged(string key, string type)
         {
+            m_isSelectChanged = true;
             if (m_con != null)
                 m_con.Window.NotifySelectChanged(this.m_modelId, key, type);
         }
@@ -1568,7 +1574,7 @@ namespace EcellLib.PathwayWindow
             m_layers.Add(layer.Name, layer);
 
             RefreshLayerTable();
-            ControlLayer.MoveToFront();
+            m_ctrlLayer.MoveToFront();
         }
         /// <summary>
         /// Refresh Layer table.
@@ -1652,9 +1658,6 @@ namespace EcellLib.PathwayWindow
                 return;
             // Set Visibility.
             layer.Visible = isShown;
-            foreach (PNode node in layer.NodeList)
-                node.Visible = isShown;
-
             RefreshVisibility();
             m_con.OverView.Canvas.Refresh();
         }
@@ -1678,6 +1681,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="newName"></param>
         internal void MergeLayer(string oldName, string newName)
         {
+            if (oldName.Equals(newName))
+                return;
+
             PPathwayLayer oldlayer = m_layers[oldName];
             PPathwayLayer newlayer = m_layers[newName];
             // Change Nodes under this layer
@@ -1775,7 +1781,6 @@ namespace EcellLib.PathwayWindow
             ShowResizeHandles();
             UpdateResizeHandlePositions();
             string type = m_systems[systemName].EcellObject.type;
-            NotifySelectChanged(systemName, type);
         }
 
         /// <summary>
@@ -1892,6 +1897,8 @@ namespace EcellLib.PathwayWindow
         /// <returns>A list which contains all PathwayElements of this object</returns>
         public PPathwayObject GetSelectedObject(string key, string type)
         {
+            if (key == null || type == null)
+                return null;
             if (type.Equals(EcellObject.SYSTEM) && m_systems.ContainsKey(key))
                 return m_systems[key];
             if (type.Equals(EcellObject.PROCESS) && m_processes.ContainsKey(key))
@@ -2096,73 +2103,59 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="key">the key of selected object.</param>
         /// <param name="type">the type of selected object.</param>
-        public void SelectChanged(string key, ComponentType type)
+        public void SelectChanged(string key, string type)
         {
+            // Error check.
+            if (key == null || type == null)
+                return;
+            PPathwayObject obj = GetSelectedObject(key, type);
+            if (obj == null)
+                return;
+            // Set select change.
+            RectangleF centerBounds = new RectangleF();
             switch (type)
             {
-                case ComponentType.System:
-                    if (m_selectedSystemName != null && m_selectedSystemName.Equals(key))
-                        return;
+                case EcellObject.SYSTEM:
+                    centerBounds = obj.FullBounds;
                     this.ResetSelectedObjects();
                     this.AddSelectedSystem(key);
-                    PPathwaySystem focusSystem = m_systems[key];
-                    if (null != focusSystem)
-                    {
-                        m_pCanvas.Camera.AnimateViewToCenterBounds(focusSystem.FullBounds,
-                                                                             true,
-                                                                             CAMERA_ANIM_DURATION);
-
-                        UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
-                    }
                     break;
-                case ComponentType.Variable:
-                    bool isAlreadySelected = false;
-                    foreach (PPathwayObject selectNode in m_selectedNodes)
-                    {
-                        if (key.Equals(selectNode.EcellObject.key) && selectNode is PPathwayVariable)
-                        {
-                            isAlreadySelected = true;
-                            break;
-                        }
-                    }
-                    if (!isAlreadySelected)
-                    {
-                        this.ResetSelectedObjects();
-                        if (m_variables.ContainsKey(key))
-                        {
-                            PPathwayNode focusNode = (PPathwayNode)m_variables[key];
-                            this.AddSelectedNode(focusNode, false);
-                            m_pCanvas.Camera.AnimateViewToCenterBounds(PathUtil.GetFocusBound(focusNode.FullBounds, LEAST_FOCUS_SIZE),
-                                                                             true,
-                                                                             CAMERA_ANIM_DURATION);
-                            UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
-                        }
-                    }
-                    break;
-                case ComponentType.Process:
-                    bool isProAlreadySelected = false;
-                    foreach (PPathwayObject selectNode in m_selectedNodes)
-                    {
-                        if (key.Equals(selectNode.EcellObject.key) && selectNode is PPathwayProcess)
-                        {
-                            isProAlreadySelected = true;
-                            break;
-                        }
-                    }
-                    if (!isProAlreadySelected)
-                    {
-                        this.ResetSelectedObjects();
-                        PPathwayNode focusNode = (PPathwayNode)m_processes[key];
-                        this.AddSelectedNode(focusNode, false);
-                        m_pCanvas.Camera.AnimateViewToCenterBounds(PathUtil.GetFocusBound(focusNode.FullBounds, LEAST_FOCUS_SIZE),
-                                                                         true,
-                                                                         CAMERA_ANIM_DURATION);
-                        UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
-                    }
+                case EcellObject.VARIABLE: case EcellObject.PROCESS:
+                    centerBounds = PathUtil.GetFocusBound(obj.FullBounds, LEAST_FOCUS_SIZE);
+                    // Check already selected or not.
+                    if (obj.IsHighLighted)
+                        break;
+                    this.ResetSelectedObjects();
+                    this.AddSelectedNode((PPathwayNode)obj, false);
                     break;
             }
+
+            // Exit if the event came from this plugin.
+            if (m_isSelectChanged)
+            {
+                m_isSelectChanged = false;
+                return;
+            }
+            // Move camera view.
+            m_pCanvas.Camera.AnimateViewToCenterBounds(centerBounds,
+                                             true,
+                                             CAMERA_ANIM_DURATION);
+            UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
         }
 
+        private bool IsAlreadySelected(string key, string type)
+        {
+            bool isProAlreadySelected = false;
+            foreach (PPathwayObject selectNode in m_selectedNodes)
+            {
+                if (key.Equals(selectNode.EcellObject.key) && type.Equals(selectNode.EcellObject.type))
+                {
+                    isProAlreadySelected = true;
+                    break;
+                }
+            }
+            return isProAlreadySelected;
+        }
         #endregion
 
         /// <summary>
@@ -2367,10 +2360,7 @@ namespace EcellLib.PathwayWindow
                     break;
                 }
             }
-            if (isAnyVisible)
-                m_ctrlLayer.Visible = true;
-            else
-                m_ctrlLayer.Visible = false;
+            m_ctrlLayer.Visible = isAnyVisible;
             m_pCanvas.Refresh();
         }
 

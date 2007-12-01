@@ -55,7 +55,7 @@ namespace EcellLib.PathwayWindow.Handler
     {
         #region Fields
         /// <summary>
-        /// the related CanvasViewCompomnetSet.
+        /// the related CanvasControl.
         /// </summary>
         private CanvasControl m_canvas;
 

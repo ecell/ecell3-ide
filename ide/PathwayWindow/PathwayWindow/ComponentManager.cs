@@ -261,7 +261,7 @@ namespace EcellLib.PathwayWindow
                 {
                     ComponentSetting cs = new ComponentSetting();
 
-                    String componentKind = componentNode.Attributes["kind"].Value;
+                    string componentKind = componentNode.Attributes["kind"].Value;
 
                     bool isDefault = false;
                     if (componentNode.Attributes["isDefault"] != null
@@ -373,31 +373,56 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="kind">a name of kind, to be parsed</param>
         /// <returns></returns>
-        public static ComponentType ParseComponentKind(String kind)
+        public static ComponentType ParseComponentKind(string type)
         {
-            if (kind == null || kind.Equals(""))
+            if (type == null || type.Equals(""))
             {
-                throw new NoSuchComponentKindException("Component kind \"" + kind + "\" doesn't" +
+                throw new NoSuchComponentKindException("Component kind \"" + type + "\" doesn't" +
                     " exist. One of System or Variable or Process must be set as a component kind.");
             }
-            kind = kind.ToLower();
-            if (kind.Equals("system"))
+            type = type.ToLower();
+            if (type.Equals("system"))
             {
                 return ComponentType.System;
             }
-            else if (kind.Equals("variable"))
+            else if (type.Equals("variable"))
             {
                 return ComponentType.Variable;
             }
-            else if (kind.Equals("process"))
+            else if (type.Equals("process"))
             {
                 return ComponentType.Process;
             }
             else
             {
-                throw new NoSuchComponentKindException("Component kind \"" + kind + "\" doesn't" +
+                throw new NoSuchComponentKindException("Component kind \"" + type + "\" doesn't" +
                     " exist. One of System or Variable or Process must be set as a component kind.");
             }
+        }
+        /// <summary>
+        /// Get a string of type name.
+        /// </summary>
+        /// <param name="cType"></param>
+        /// <returns></returns>
+        public static string GetTypeString(ComponentType cType)
+        {
+            if (cType == ComponentType.System)
+            {
+                return EcellObject.SYSTEM;
+            }
+            else if (cType == ComponentType.Variable)
+            {
+                return EcellObject.VARIABLE;
+            }
+            else if (cType == ComponentType.Process)
+            {
+                return EcellObject.PROCESS;
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
         /// <summary>

@@ -599,9 +599,8 @@ namespace EcellLib.PathwayWindow
             if (type == null || type == "Model" || type == "Project" || type == "Parameter")
                 return;
             CanvasControl canvas = this.m_con.CanvasDictionary[modelID];
-            ComponentType cType = ComponentManager.ParseComponentKind(type);
             if (canvas != null)
-                canvas.SelectChanged(key, cType);
+                canvas.SelectChanged(key, type);
         }
 
         /// <summary>

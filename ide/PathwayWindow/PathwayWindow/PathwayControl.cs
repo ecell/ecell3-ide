@@ -1380,8 +1380,10 @@ namespace EcellLib.PathwayWindow
 
             if (e.PickedNode == sender)
             {
+                PPathwaySystem system = (PPathwaySystem)sender;
                 canvas.ResetSelectedObjects();
-                canvas.AddSelectedSystem(((PPathwayObject)sender).EcellObject.key);
+                canvas.AddSelectedSystem(system.EcellObject.key);
+                canvas.NotifySelectChanged(system.EcellObject.key, system.EcellObject.type);
                 canvas.ClickedNode = e.PickedNode;
             }
             else
@@ -1535,32 +1537,28 @@ namespace EcellLib.PathwayWindow
                 return;
             CanvasControl canvas = this.ActiveCanvas;
             // Select Layer
-            List<string> list = canvas.GetLayerNameList();
-            string name = SelectBoxDialog.Show("Select Layer", null, list);
-            if (!canvas.Layers.ContainsKey(name))
-            {
-                MessageBox.Show(m_resources.GetString("ErrLayerNot"));
+            List<string> layerList = canvas.GetLayerNameList();
+            string name = SelectBoxDialog.Show("Select Layer", null, layerList);
+            if (name == null || name.Equals(""))
                 return;
-            }
+            if (!canvas.Layers.ContainsKey(name))
+                canvas.AddLayer(name);
+
             // Change layer of selected objects.
             PPathwayLayer layer = canvas.Layers[name];
-            foreach (PPathwayObject obj in canvas.SelectedNodes)
+            List<PPathwayObject> objList = canvas.SelectedNodes;
+            int i = 0;
+            foreach (PPathwayObject obj in objList)
             {
                 obj.Layer = layer;
+                i++;
                 NotifyDataChanged(
                     obj.EcellObject.key,
                     obj.EcellObject.key,
                     obj,
                     true,
-                    false);
+                    (i == objList.Count));
             }
-            PPathwaySystem system = canvas.Systems["/"];
-            NotifyDataChanged(
-                system.EcellObject.key,
-                system.EcellObject.key,
-                system,
-                true,
-                true);
         }
         /// <summary>
         /// Called when a copy menu of the context menu is clicked.

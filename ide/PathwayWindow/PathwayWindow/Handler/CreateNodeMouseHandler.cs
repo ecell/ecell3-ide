@@ -126,34 +126,46 @@ namespace EcellLib.PathwayWindow
                                 MessageBoxIcon.Error);
                 return;
             }
-            
-            EcellObject eo = null;
-            if (m_con.SelectedHandle.CsID == ComponentType.Process)
-            {
-                string tmpId = m_canvas.GetTemporaryID("Process", m_surSystem);
-                Dictionary<string, EcellData> dict = m_dManager.GetProcessProperty("ExpressionFluxProcess");
-                List<EcellData> list = new List<EcellData>();
-                foreach (EcellData d in dict.Values)
-                {
-                    list.Add(d);
-                }
-                eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, "Process", "ExpressionFluxProcess", list);
-            }
-            else
-            {
-                string tmpId = m_canvas.GetTemporaryID("Variable", m_surSystem);
-                Dictionary<string, EcellData> dict = m_dManager.GetVariableProperty();
-                List<EcellData> list = new List<EcellData>();
-                foreach (EcellData d in dict.Values)
-                    list.Add(d);
-                eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, "Variable", "Variable", list);
-            }
+            // Create EcellObject.
+            EcellObject eo = CreateNewObject(m_con.SelectedHandle.CsID);
             eo.X = m_downPos.X;
             eo.Y = m_downPos.Y;
             eo.Width = PPathwayNode.DEFAULT_WIDTH;
             eo.Height = PPathwayNode.DEFAULT_HEIGHT;
 
             m_con.NotifyDataAdd(eo, true);
+        }
+        /// <summary>
+        /// Create new EcellObject.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private EcellObject CreateNewObject(ComponentType cType)
+        {
+            Dictionary<string, EcellData> dict = null;
+            string type = ComponentManager.GetTypeString(cType);
+            string tmpId = m_canvas.GetTemporaryID(type, m_surSystem);
+            string className = null;
+            // Get ECellDatas.
+            if (cType == ComponentType.Process)
+            {
+                className = "ExpressionFluxProcess";
+                dict = m_dManager.GetProcessProperty(className);
+            }
+            else if (cType == ComponentType.Variable)
+            {
+                className = type;
+                dict = m_dManager.GetVariableProperty();
+            }
+            // Change to List.
+            List<EcellData> list = new List<EcellData>();
+            foreach (EcellData d in dict.Values)
+                list.Add(d);
+            
+            // Get EcellObject
+            EcellObject eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, type, className, list);
+
+            return eo;
         }
     }
 }

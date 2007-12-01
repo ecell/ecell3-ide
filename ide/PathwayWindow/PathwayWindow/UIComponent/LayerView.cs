@@ -51,8 +51,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         private static string MENU_DELETE_LAYER = "DeleteLayerMenuText";
         private static string MENU_MERGE_LAYER = "MergeLayerMenuText";
         private static string MENU_RENAME_LAYER = "RenameLayerMenuText";
-        private static string DIALOG_TITLE = "レイヤー名入力ダイアログ";
-        private static string DIALOG_MESSAGE = "新規レイヤー名を入力してください";
+        private static string DIALOG_TITLE = "LayerDialogTitle";
+        private static string DIALOG_MESSAGE = "LayerDialogMessage";
 
         #endregion
 
@@ -343,6 +343,8 @@ namespace EcellLib.PathwayWindow.UIComponent
             CanvasControl canvas = m_con.ActiveCanvas;
             List<string> list = canvas.GetLayerNameList();
             string newName = SelectBoxDialog.Show(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE), list);
+            if (newName == null || newName.Equals(""))
+                return;
             if (!canvas.Layers.ContainsKey(newName))
             {
                 MessageBox.Show(m_resources.GetString("ErrLayerNot"));
