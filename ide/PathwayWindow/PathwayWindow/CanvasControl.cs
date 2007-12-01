@@ -329,14 +329,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_ctrlLayer.
-        /// </summary>
-        public PLayer ControlLayer
-        {
-            get { return m_ctrlLayer; }
-        }
-
-        /// <summary>
         /// Accessor for m_nodeMenu.
         /// </summary>
         public ContextMenuStrip NodeMenu
@@ -1441,10 +1433,9 @@ namespace EcellLib.PathwayWindow
             // Set Layer
             SetLayer(obj);
 
-            ResetSelectedObjects();
+            RegisterObjToSet(obj);
             if (obj is PPathwayNode)
                 ((PPathwayNode)obj).ShowingID = this.m_showingId;
-            RegisterObjToSet(obj);
             // Set Root System
             if (systemName == null || systemName.Equals("") )
             {
@@ -1464,9 +1455,11 @@ namespace EcellLib.PathwayWindow
             {
                 float maxX = system.X + system.OffsetX;
                 float x = 0f;
-
-                foreach (PPathwayObject ppo in GetAllObjectUnder(system.EcellObject.key) )
+                List<PPathwayObject> list = GetAllObjectUnder(system.EcellObject.key);
+                foreach (PPathwayObject ppo in list)
                 {
+                    if (ppo == obj)
+                        continue;
                     x = ppo.X + ppo.OffsetX + ppo.Width;
                     if (maxX < x)
                         maxX = x;
@@ -1477,9 +1470,7 @@ namespace EcellLib.PathwayWindow
                 SetSystemSize(obj);
                 system.MakeSpace(obj);
             }
-            // Set to parent object.
             obj.Refresh();
-
 
             if (obj is PPathwayProcess)
                 ((PPathwayProcess)obj).RefreshEdges();
@@ -1675,7 +1666,6 @@ namespace EcellLib.PathwayWindow
         }
         /// <summary>
         /// Merge two layers
-        /// 
         /// </summary>
         /// <param name="oldName"></param>
         /// <param name="newName"></param>
@@ -2141,20 +2131,6 @@ namespace EcellLib.PathwayWindow
                                              true,
                                              CAMERA_ANIM_DURATION);
             UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
-        }
-
-        private bool IsAlreadySelected(string key, string type)
-        {
-            bool isProAlreadySelected = false;
-            foreach (PPathwayObject selectNode in m_selectedNodes)
-            {
-                if (key.Equals(selectNode.EcellObject.key) && type.Equals(selectNode.EcellObject.type))
-                {
-                    isProAlreadySelected = true;
-                    break;
-                }
-            }
-            return isProAlreadySelected;
         }
         #endregion
 

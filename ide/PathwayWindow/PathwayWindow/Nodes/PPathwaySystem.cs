@@ -427,9 +427,9 @@ namespace EcellLib.PathwayWindow.Nodes
         public void MakeSpace(PPathwayObject obj)
         {
             // Offset position of given object.
-            if (obj.X < this.X + this.Offset.X + SYSTEM_MARGIN)
+            if (obj.X <= this.X + this.Offset.X + SYSTEM_MARGIN)
                 obj.X = this.X + this.Offset.X + SYSTEM_MARGIN;
-            if (obj.Y < this.Y + this.Offset.Y + SYSTEM_MARGIN)
+            if (obj.Y <= this.Y + this.Offset.Y + SYSTEM_MARGIN)
                 obj.Y = this.Y + this.Offset.Y + SYSTEM_MARGIN;
             // Enlarge this system
             if (this.X + this.Width < obj.X + obj.Width + SYSTEM_MARGIN)
@@ -438,13 +438,19 @@ namespace EcellLib.PathwayWindow.Nodes
                 this.Height = obj.Y + obj.Height + SYSTEM_MARGIN - this.Y;
 
             // Make parent system create space for this system.
-            if (null != this.Parent && this.Parent is PPathwaySystem)
-                ((PPathwaySystem)this.Parent).MakeSpace(this);
+            if (null != this.ParentObject && this.ParentObject is PPathwaySystem)
+                ((PPathwaySystem)this.ParentObject).MakeSpace(this);
 
             // Move child nodes position.
-            foreach(PPathwayObject child in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
-                if (obj.Rect.Contains(child.Rect) || obj.Rect.IntersectsWith(child.Rect))
-                    child.X += obj.Width;
+            foreach (PPathwayObject child in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
+            {
+                if (child.EcellObject.key.StartsWith(obj.EcellObject.key))
+                    continue;
+                if (!obj.Rect.Contains(child.Rect) && !obj.Rect.IntersectsWith(child.Rect))
+                    continue;
+                child.PointF = m_canvas.GetVacantPoint(this.EcellObject.key);
+                m_control.NotifyDataChanged(child.EcellObject.key, child.EcellObject.key, child, false, false);
+            }
             m_control.NotifyDataChanged(this.EcellObject.key, this.EcellObject.key, this, false, false);
             this.Refresh();
         }

@@ -107,10 +107,7 @@ namespace EcellLib.PathwayWindow.Handler
             if (obj is PPathwayNode)
             {
                 foreach (PPathwayObject node in m_canvas.SelectedNodes)
-                {
                     node.MemorizePosition();
-                    m_canvas.ControlLayer.AddChild(node);
-                }
             }
             else if (obj is PPathwaySystem)
                 obj.MemorizePosition();
