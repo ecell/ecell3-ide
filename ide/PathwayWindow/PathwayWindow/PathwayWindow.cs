@@ -596,11 +596,13 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
-            if (type == null || type == Constants.xpathModel || type == Constants.xpathProject || type == Constants.xpathParameters)
+            // Error check.
+            if (modelID == null || !m_con.CanvasDictionary.ContainsKey(modelID))
                 return;
             CanvasControl canvas = this.m_con.CanvasDictionary[modelID];
             if (canvas != null)
-                canvas.SelectChanged(key, type);
+                return;
+            canvas.SelectChanged(key, type);
         }
 
         /// <summary>

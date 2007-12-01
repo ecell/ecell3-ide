@@ -18,15 +18,19 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public ProgressBar Bar
         {
-            get { return this.progressBar1; }
+            get { return this.progressBar; }
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public ProgressDialog()
+        public ProgressDialog(int min, int max)
         {
             InitializeComponent();
+            Bar.Minimum = min;
+            Bar.Maximum = max;
+            Bar.Value = min;
+            Bar.Step = 1;
         }
     }
 }
