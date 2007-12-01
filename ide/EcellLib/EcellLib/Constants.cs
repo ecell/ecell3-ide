@@ -138,6 +138,18 @@ namespace EcellLib
         /// </summary>
         public const string headerValue = "value";
         /// <summary>
+        /// Reserved the message of analysis.
+        /// </summary>
+        public const string messageAnalysis = "Analysis";
+        /// <summary>
+        /// Reserved the message of debug.
+        /// </summary>
+        public const string messageDebug = "Debug";
+        /// <summary>
+        /// Reserved the message of simulation.
+        /// </summary>
+        public const string messageSimulation = "Simulation";
+        /// <summary>
         /// Reserved XML path name for DefalutParameter.
         /// </summary>
         public const string parameterKey = "DefaultParameter";

@@ -296,7 +296,7 @@ namespace EcellLib
                         this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.modelID]
                                 .Add(l_stepper);
                         this.m_pManager.Message(
-                            Constants.xpathSimulation.ToLower(),
+                            Constants.messageSimulation,
                             "Create Stepper: " + l_message + System.Environment.NewLine
                             );
                     }
@@ -308,7 +308,7 @@ namespace EcellLib
             {
                 l_message = l_message + m_resources.GetString("ErrNotCreStepper");
                 this.m_pManager.Message(
-                        Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                        Constants.messageSimulation, l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
         }
@@ -333,7 +333,7 @@ namespace EcellLib
             if (!l_src.classname.Equals(l_dest.classname))
             {
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Update Data: " + l_message + "[" + Constants.xpathClassName + "]"
                         + System.Environment.NewLine
                         + "\t[" + l_src.classname + "]->[" + l_dest.classname + "]"
@@ -342,7 +342,7 @@ namespace EcellLib
             if (!l_src.key.Equals(l_dest.key))
             {
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Update Data: " + l_message + "[" + Constants.xpathKey + "]"
                         + System.Environment.NewLine
                         + "\t[" + l_src.key + "]->[" + l_dest.key + "]"
@@ -361,7 +361,7 @@ namespace EcellLib
                     if (l_srcEcellData.Logged)
                     {
                         this.m_pManager.Message(
-                            Constants.xpathSimulation.ToLower(),
+                            Constants.messageSimulation,
                             "Delete Logger: " + l_message + "[" + l_srcEcellData.Name + "]"
                                 + System.Environment.NewLine);
                     }
@@ -464,14 +464,14 @@ namespace EcellLib
                             if (!l_srcEcellData.Logged && l_destEcellData.Logged)
                             {
                                 this.m_pManager.Message(
-                                    Constants.xpathSimulation.ToLower(),
+                                    Constants.messageSimulation,
                                     "Create Logger: " + l_message + "[" + l_srcEcellData.Name + "]"
                                         + System.Environment.NewLine);
                             }
                             else if (l_srcEcellData.Logged && !l_destEcellData.Logged)
                             {
                                 this.m_pManager.Message(
-                                    Constants.xpathSimulation.ToLower(),
+                                    Constants.messageSimulation,
                                     "Delete Logger: " + l_message + "[" + l_srcEcellData.Name + "]"
                                         + System.Environment.NewLine);
                             }
@@ -479,7 +479,7 @@ namespace EcellLib
                                     .Equals(l_destEcellData.Value.ToString()))
                             {
                                 this.m_pManager.Message(
-                                    Constants.xpathSimulation.ToLower(),
+                                    Constants.messageSimulation,
                                     "Update Data: " + l_message
                                         + "[" + l_srcEcellData.Name + "]"
                                         + System.Environment.NewLine
@@ -810,7 +810,7 @@ namespace EcellLib
                 this.m_pManager.AdvancedTime(0);
                 this.m_pManager.Clear();
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Close Project: " + l_message + System.Environment.NewLine + System.Environment.NewLine
                     );
                 m_aManager.Clear();
@@ -820,7 +820,7 @@ namespace EcellLib
             {
                 l_message = l_message + m_resources.GetString("ErrClosePrj");
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -853,7 +853,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrFindModel") + l_message;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -1040,7 +1040,7 @@ namespace EcellLib
                 l_usableList = null;
                 l_message = l_message + m_resources.GetString("ErrAddObj");
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -1095,7 +1095,7 @@ namespace EcellLib
                         if (l_messageFlag)
                         {
                             this.m_pManager.Message(
-                                Constants.xpathSimulation.ToLower(),
+                                Constants.messageSimulation,
                                 "Create " + l_ecellObject.type + ": " + l_message + System.Environment.NewLine);
                         }
                         break;
@@ -1123,7 +1123,7 @@ namespace EcellLib
                         if (l_messageFlag)
                         {
                             this.m_pManager.Message(
-                            Constants.xpathSimulation.ToLower(),
+                            Constants.messageSimulation,
                             "Create " + l_ecellObject.type + ": " + l_message + System.Environment.NewLine);
                         }
                     }
@@ -1135,7 +1135,7 @@ namespace EcellLib
                 if (l_messageFlag)
                 {
                     this.m_pManager.Message(
-                        Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                        Constants.messageSimulation, l_message + System.Environment.NewLine);
                 }
                 throw new Exception(l_message);
             }
@@ -1260,11 +1260,11 @@ namespace EcellLib
             // Messages
             //
             this.m_pManager.Message(
-                Constants.xpathSimulation.ToLower(),
+                Constants.messageSimulation,
                 "Create Model: " + l_message + System.Environment.NewLine
                 );
             this.m_pManager.Message(
-                Constants.xpathSimulation.ToLower(),
+                Constants.messageSimulation,
                 "Create System: " + l_message + "[/]" + System.Environment.NewLine
                 );
         }
@@ -1334,7 +1334,7 @@ namespace EcellLib
             if (l_messageFlag)
             {
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Create System: " + l_message + System.Environment.NewLine);
             }
         }
@@ -1469,7 +1469,7 @@ namespace EcellLib
                     new object[] { l_ecellObject.type }
                 ) + l_message + " " + l_ecellObject.type;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -1766,7 +1766,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrDelete") + l_message + " " + l_type;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -1821,7 +1821,7 @@ namespace EcellLib
                 }
             }
             this.m_pManager.Message(
-                Constants.xpathSimulation.ToLower(),
+                Constants.messageSimulation,
                 "Delete Model: " + l_message + System.Environment.NewLine
                 );
         }
@@ -1883,7 +1883,7 @@ namespace EcellLib
                         if (l_messageFlag)
                         {
                             this.m_pManager.Message(
-                                Constants.xpathSimulation.ToLower(),
+                                Constants.messageSimulation,
                                 "Delete " + l_type + ": " + l_message + System.Environment.NewLine);
                         }
                     }
@@ -2227,7 +2227,7 @@ namespace EcellLib
                 if (l_messageFlag)
                 {
                     this.m_pManager.Message(
-                        Constants.xpathSimulation.ToLower(),
+                        Constants.messageSimulation,
                         "Delete System: " + l_message + System.Environment.NewLine);
                 }
             }
@@ -2905,7 +2905,7 @@ namespace EcellLib
                     this.m_loggerPolicyDic[m_currentProjectID].Remove(l_parameterID);
                     m_pManager.ParameterDelete(m_currentProjectID, l_parameterID);
                     this.m_pManager.Message(
-                        Constants.xpathSimulation.ToLower(),
+                        Constants.messageSimulation,
                         "Delete Simulation Parameter: " + l_message + System.Environment.NewLine
                         );
                 }
@@ -2921,7 +2921,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrDeleteSimParam") + l_message;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -2965,7 +2965,7 @@ namespace EcellLib
                 {
                     l_storedStepperList.RemoveAt(l_point);
                     this.m_pManager.Message(
-                        Constants.xpathSimulation.ToLower(),
+                        Constants.messageSimulation,
                         "Delete Stepper: " + l_message + System.Environment.NewLine
                         );
                 }
@@ -2976,7 +2976,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrDelete") + l_message;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -3114,7 +3114,7 @@ namespace EcellLib
                 l_storedStepperList.AddRange(l_storedSystemList);
                 EmlWriter.Create(l_fileName, l_storedStepperList);
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Export Model: " + l_message + System.Environment.NewLine
                     );
             }
@@ -4513,7 +4513,7 @@ namespace EcellLib
                 // Messages
                 //
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Initialize the simulator:" + System.Environment.NewLine);
             }
             catch (Exception l_ex)
@@ -4796,7 +4796,7 @@ namespace EcellLib
                             );
                 }
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Load Model: " + l_message + System.Environment.NewLine
                     );
                 if (isLogging)
@@ -4810,7 +4810,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrLoadModel") + "[" + l_message + "]";
                 this.m_pManager.Message(
-                        Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                        Constants.messageSimulation, l_message + System.Environment.NewLine);
                 throw new Exception(l_message, l_ex);
             }
         }
@@ -4982,7 +4982,7 @@ namespace EcellLib
                     }
                 }
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Load Project: " + l_message + System.Environment.NewLine);
             }
             catch (Exception l_ex)
@@ -5027,7 +5027,7 @@ namespace EcellLib
                 }
                 l_message = m_resources.GetString("ErrLoadPrj") + "[" + l_message + "]";
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5215,13 +5215,13 @@ namespace EcellLib
                 this.m_loggerPolicyDic[this.m_currentProjectID][simParam.ID] = simParam.LoggerPolicy;
                 this.m_initialCondition[this.m_currentProjectID][simParam.ID] = simParam.InitialConditions;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Load Simulation Parameter: " + l_message + System.Environment.NewLine);
             }
             catch (Exception l_ex)
             {
                 l_message = m_resources.GetString("ErrLoadSimParam") + "[" + l_message + "]";
-                this.m_pManager.Message(Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                this.m_pManager.Message(Constants.messageSimulation, l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
         }
@@ -5454,6 +5454,114 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Create the process with temporary ID.
+        /// </summary>
+        /// <param name="l_modelID">model ID of created object.</param>
+        /// <param name="l_key">the key of parent system object.</param>
+        public void CreateDefaultProcess(string l_modelID, string l_key)
+        {
+            try
+            {
+                String tmpID = GetTemporaryID(l_modelID,
+                    Constants.xpathProcess, l_key);
+
+                Dictionary<string, EcellData> list = GetProcessProperty(DataManager.s_defaultProcessName);
+                List<EcellData> data = new List<EcellData>();
+                foreach (EcellData d in list.Values)
+                {
+                    data.Add(d);
+                }
+                EcellObject obj = EcellObject.CreateObject(l_modelID, tmpID,
+                    Constants.xpathProcess, DataManager.s_defaultProcessName, data);
+
+                List<EcellObject> rList = new List<EcellObject>();
+                rList.Add(obj);
+                DataAdd(rList);
+                m_pManager.SelectChanged(l_modelID, tmpID, Constants.xpathProcess);
+            }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrAddObj");
+                MessageBox.Show(errmes + "\n\n" + ex,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+        }
+
+        /// <summary>
+        /// Create the variable with temporary ID.
+        /// </summary>
+        /// <param name="l_modelID">model ID of created object.</param>
+        /// <param name="l_key">the key of parent system object.</param>
+        public void CreateDefaultVariable(string l_modelID, string l_key)
+        {
+            try
+            {
+                String tmpID = 
+                    GetTemporaryID(l_modelID, Constants.xpathVariable, l_key);
+
+                Dictionary<string, EcellData> list = GetVariableProperty();
+                List<EcellData> data = new List<EcellData>();
+                foreach (EcellData d in list.Values)
+                {
+                    data.Add(d);
+                }
+                EcellObject obj = EcellObject.CreateObject(l_modelID, tmpID,
+                    Constants.xpathVariable, Constants.xpathVariable, data);
+
+                List<EcellObject> rList = new List<EcellObject>();
+                rList.Add(obj);
+                DataAdd(rList);
+                m_pManager.SelectChanged(l_modelID, tmpID, Constants.xpathVariable);
+            }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrAddObj");
+                MessageBox.Show(errmes + "\n\n" + ex,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+        }
+
+        /// <summary>
+        /// Create the system with temporary ID.
+        /// </summary>
+        /// <param name="l_modelID">model ID of created object.</param>
+        /// <param name="l_key">the key of parent system object.</param>
+        public void CreateDefaultSystem(string l_modelID, string l_key)
+        {
+            try
+            {
+                String tmpID = 
+                    GetTemporaryID(l_modelID, Constants.xpathSystem, l_key);
+
+                Dictionary<string, EcellData> list = this.GetSystemProperty();
+                List<EcellData> data = new List<EcellData>();
+                foreach (EcellData d in list.Values)
+                {
+                    data.Add(d);
+                }
+                EcellObject obj = EcellObject.CreateObject(l_modelID, tmpID,
+                    Constants.xpathSystem, Constants.xpathSystem, data);
+
+                List<EcellObject> rList = new List<EcellObject>();
+                rList.Add(obj);
+                DataAdd(rList);
+                m_pManager.SelectChanged(l_modelID, tmpID, Constants.xpathSystem);
+            }
+            catch (Exception ex)
+            {
+                String errmes = m_resources.GetString("ErrAddObj");
+                MessageBox.Show(errmes + "\n\n" + ex,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+        }
+
+        /// <summary>
         /// Creates the new "Project" object.
         /// </summary>
         /// <param name="l_prjID">The "Project" ID</param>
@@ -5497,7 +5605,7 @@ namespace EcellLib
                 l_ecellObjectList.Add(l_ecellObject);
                 m_pManager.DataAdd(l_ecellObjectList);
                 m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Create Project: [" + l_prjID + "]" + System.Environment.NewLine);
                 m_aManager.AddAction(new NewProjectAction(l_prjID, l_comment, l_projectPath));
             }
@@ -5538,7 +5646,7 @@ namespace EcellLib
                 string l_message = String.Format(
                         m_resources.GetString("ErrCrePrj"),
                         new object[] { l_prjID });
-                m_pManager.Message(Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                m_pManager.Message(Constants.messageSimulation, l_message + System.Environment.NewLine);
                 throw new Exception(l_message, l_ex);
             }
         }
@@ -5645,7 +5753,7 @@ namespace EcellLib
                 this.m_initialCondition[this.m_currentProjectID][l_parameterID] = l_dstInitialCondition;
                 m_pManager.ParameterAdd(m_currentProjectID, l_parameterID);
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Create Simulation Parameter: " + l_message + System.Environment.NewLine);
                 if (l_isRecorded)
                     m_aManager.AddAction(new NewSimParamAction(l_parameterID, l_isAnchor));
@@ -5654,7 +5762,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrCreSimParam") + l_message;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5720,7 +5828,7 @@ namespace EcellLib
                 //
                 EmlWriter.Create(l_modelFileName, l_storedList);
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Save Model: " + l_message + System.Environment.NewLine);
                 //
                 // 4 Project
@@ -5733,7 +5841,7 @@ namespace EcellLib
                 l_storedList = null;
                 l_message = m_resources.GetString("ErrSaveModel") + l_message;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5813,14 +5921,14 @@ namespace EcellLib
                 }
                 l_thisPrj.M_updateTime = File.GetLastAccessTime(l_prjFile).ToString();
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Save Project: " + l_message + System.Environment.NewLine);
             }
             catch (Exception l_ex)
             {
                 l_message = m_resources.GetString("ErrSavePrj") + l_message;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5957,7 +6065,7 @@ namespace EcellLib
                         l_loggerPolicy,
                         l_paramID));
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Save Simulation Parameter: " + l_message + System.Environment.NewLine);
                 //
                 // 4 Project
@@ -5968,7 +6076,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrSaveSim") + l_message;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -6054,7 +6162,7 @@ namespace EcellLib
                             l_ecd.Create(l_simulationDirName, l_logData, l_savedType);
                             l_message = "[" + l_fullID + "]";
                             this.m_pManager.Message(
-                                Constants.xpathSimulation.ToLower(),
+                                Constants.messageSimulation,
                                 "Save Simulation Result: " + l_message + System.Environment.NewLine
                                 );
                         }
@@ -6069,7 +6177,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrSaveSim") + l_message;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -6232,13 +6340,13 @@ namespace EcellLib
                 l_message = "[" + l_parameterID + "]";
                 this.m_loggerPolicyDic[this.m_currentProjectID][l_parameterID] = l_loggerPolicy;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Update Logger Policy: " + l_message + System.Environment.NewLine);
             }
             catch (Exception l_ex)
             {
                 l_message = m_resources.GetString("ErrUpdateLogPol") + l_message;
-                this.m_pManager.Message(Constants.xpathSimulation.ToLower(), l_message + System.Environment.NewLine);
+                this.m_pManager.Message(Constants.messageSimulation, l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
         }
@@ -6364,7 +6472,7 @@ namespace EcellLib
                     }
                 }
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Set Simulation Parameter: " + l_message + System.Environment.NewLine);
                 if (l_isRecorded)
                     m_aManager.AddAction(new SetSimParamAction(l_parameterID, l_oldParameterID, l_isAnchor));
@@ -6373,7 +6481,7 @@ namespace EcellLib
             {
                 l_message = m_resources.GetString("ErrSetSimParam") + l_message;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -6397,7 +6505,7 @@ namespace EcellLib
                     this.Initialize(true);
                     this.m_simulationStepLimit = l_stepLimit;
                     this.m_pManager.Message(
-                        Constants.xpathSimulation.ToLower(),
+                        Constants.messageSimulation,
                         "Start Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                             + System.Environment.NewLine
                         );
@@ -6409,7 +6517,7 @@ namespace EcellLib
                         this.m_simulationStepLimit = l_stepLimit;
                     }
                     this.m_pManager.Message(
-                        Constants.xpathSimulation.ToLower(),
+                        Constants.messageSimulation,
                         "Restart Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                             + System.Environment.NewLine
                         );
@@ -6494,7 +6602,7 @@ namespace EcellLib
                     this.m_simulationTimeLimit = l_timeLimit;
                     this.m_simulationStartTime = 0.0;
                     this.m_pManager.Message(
-                        Constants.xpathSimulation.ToLower(),
+                        Constants.messageSimulation,
                         "Start Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                             + System.Environment.NewLine
                         );
@@ -6507,7 +6615,7 @@ namespace EcellLib
                         this.m_simulationStartTime = this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime();
                     }
                     this.m_pManager.Message(
-                        Constants.xpathSimulation.ToLower(),
+                        Constants.messageSimulation,
                         "Restart Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                             + System.Environment.NewLine
                         );
@@ -6578,7 +6686,7 @@ namespace EcellLib
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] = s_simulationWait;
                 string l_message = m_resources.GetString("ErrRunSim");
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -6670,7 +6778,7 @@ namespace EcellLib
                     this.m_simulatorDic[this.m_currentProjectID].Stop();
                 }
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Reset Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                         + System.Environment.NewLine
                     );
@@ -6679,7 +6787,7 @@ namespace EcellLib
             {
                 string l_message = m_resources.GetString("ErrResetSim");
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + "{" + l_ex.ToString() + "}");
@@ -6700,7 +6808,7 @@ namespace EcellLib
                 this.m_simulatorDic[this.m_currentProjectID].Suspend();
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] = s_simulationSuspend;
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     "Suspend Simulator: [" + this.m_simulatorDic[this.m_currentProjectID].GetCurrentTime() + "]"
                         + System.Environment.NewLine
                     );
@@ -6709,7 +6817,7 @@ namespace EcellLib
             {
                 string l_message = m_resources.GetString("ErrSuspendSim");
                 this.m_pManager.Message(
-                    Constants.xpathSimulation.ToLower(),
+                    Constants.messageSimulation,
                     l_message + System.Environment.NewLine
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -6788,7 +6896,7 @@ namespace EcellLib
                                 = l_initialList[l_key];
                     }
                     this.m_pManager.Message(
-                        Constants.xpathSimulation.ToLower(),
+                        Constants.messageSimulation,
                         "Update Initial Condition: " + l_message + System.Environment.NewLine
                         );
                 }

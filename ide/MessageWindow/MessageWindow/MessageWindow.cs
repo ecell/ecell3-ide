@@ -55,8 +55,6 @@ namespace EcellLib.MessageWindow
         /// <param name="t">message type.</param>
         /// <param name="m">message.</param>
         public delegate void SetTextCallback(string t, string m);
-
-
         #endregion
 
         /// <summary>
@@ -66,29 +64,17 @@ namespace EcellLib.MessageWindow
         /// <param name="message">message.</param>
         public void SetText(string type, string message)
         {
-            if (type == "simulation")
+            TextBox curBox = null;
+            if (type == Constants.messageSimulation) curBox = m_form.simText;
+            else if (type == Constants.messageAnalysis) curBox = m_form.anaText;
+            else if (type == Constants.messageDebug) curBox = m_form.debText;
+            if (curBox == null) return;
+
+            curBox.Text += System.Environment.NewLine + message;
+            if (curBox.Visible)
             {
-                if (m_form.simText != null)
-                {
-                    m_form.simText.Text += System.Environment.NewLine + message;
-                    if (m_form.simText.Visible)
-                    {
-                        m_form.simText.SelectionStart = m_form.simText.Text.Length;
-                        m_form.simText.ScrollToCaret();
-                    }
-                }
-            }
-            else if (type == "analysis")
-            {
-                m_form.anaText.Text += System.Environment.NewLine + message;
-                m_form.anaText.SelectionStart = m_form.anaText.Text.Length;
-                m_form.anaText.ScrollToCaret();
-            }
-            else if (type == "debug")
-            {
-                m_form.debText.Text += System.Environment.NewLine + message;
-                m_form.debText.SelectionStart = m_form.debText.Text.Length;
-                m_form.debText.ScrollToCaret();
+                curBox.SelectionStart = curBox.Text.Length;
+                curBox.ScrollToCaret();
             }
         }
 
@@ -304,8 +290,8 @@ namespace EcellLib.MessageWindow
             Form parentForm = GetParent(m_form);
             if (parentForm == null && m_form.InvokeRequired)
             {
-                    SetTextCallback f = new SetTextCallback(SetText);
-                    m_form.Invoke(f, new object[] { type, message });
+                SetTextCallback f = new SetTextCallback(SetText);
+                m_form.Invoke(f, new object[] { type, message });
             }
             else if (parentForm != null && parentForm.InvokeRequired)
             {
@@ -314,30 +300,17 @@ namespace EcellLib.MessageWindow
             }
             else
             {
-                if (type == "simulation")
-                {
-                    if (m_form.simText != null)
-                    {
-                        m_form.simText.Text += message;
-                        if (m_form.simText.Visible)
-                        {
-                            m_form.simText.SelectionStart = m_form.simText.Text.Length;
-                            m_form.simText.ScrollToCaret();
-                        }
+                TextBox curBox = null;
+                if (type == Constants.messageSimulation) curBox = m_form.simText;
+                else if (type == Constants.messageAnalysis) curBox = m_form.anaText;
+                else if (type == Constants.messageDebug) curBox = m_form.debText;
+                if (curBox == null) return;
 
-                    }
-                }
-                else if (type == "analysis")
+                curBox.Text += message;
+                if (curBox.Visible)
                 {
-                    m_form.anaText.Text += message;
-                    m_form.anaText.SelectionStart = m_form.anaText.Text.Length;
-                    m_form.anaText.ScrollToCaret();
-                }
-                else if (type == "debug")
-                {
-                    m_form.debText.Text += message;
-                    m_form.debText.SelectionStart = m_form.debText.Text.Length;
-                    m_form.debText.ScrollToCaret();
+                    curBox.SelectionStart = curBox.Text.Length;
+                    curBox.ScrollToCaret();
                 }
             }
         }

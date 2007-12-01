@@ -61,7 +61,13 @@ namespace EcellLib.EntityListWindow
         /// m_dManager (DataManager)
         /// </summary>
         private DataManager m_dManager;
+        /// <summary>
+        /// Dictionary of tree node for Models.
+        /// </summary>
         private Dictionary<string, TreeNode> m_modelNodeDic = new Dictionary<string, TreeNode>();
+        /// <summary>
+        /// Dictionary of tree node for Simulation Parameters.
+        /// </summary>
         private Dictionary<string, TreeNode> m_paramNodeDic = new Dictionary<string, TreeNode>();
         /// <summary>
         /// m_prjMenu (popup menu for tree node of project)
@@ -154,7 +160,7 @@ namespace EcellLib.EntityListWindow
         /// <summary>
         /// ComponentResourceManager for EntityListWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResEntList));
+        static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResEntList));
         #endregion
 
         /// <summary>
@@ -208,23 +214,23 @@ namespace EcellLib.EntityListWindow
             m_creVarLogger = new MenuItem();
             m_delVarLogger = new MenuItem();
             m_merge = new MenuItem();
-            m_creSysLogger.Text = m_resources.GetString("PopCreLoggerText");
-            m_delSysLogger.Text = m_resources.GetString("PopDelLoggerText");
-            m_creTopSysLogger.Text = m_resources.GetString("PopCreLoggerText");
-            m_delTopSysLogger.Text = m_resources.GetString("PopDelLoggerText");
-            m_creProcLogger.Text = m_resources.GetString("PopCreLoggerText");
-            m_delProcLogger.Text = m_resources.GetString("PopDelLoggerText");
-            m_creVarLogger.Text = m_resources.GetString("PopCreLoggerText");
-            m_delVarLogger.Text = m_resources.GetString("PopDelLoggerText");
-            m_merge.Text = m_resources.GetString("PopMergeText");
-            addModel.Text = m_resources.GetString("PopAddModelText");
-            addSystem.Text = m_resources.GetString("PopAddSystemText");
-            addVar.Text = m_resources.GetString("PopAddVariableText");
-            addProc.Text = m_resources.GetString("PopAddProcessText");
-            del.Text = m_resources.GetString("PopDeleteText");
-            searchMenu.Text = m_resources.GetString("PopSearchText");
-            sortNameMenu.Text = m_resources.GetString("SortNameText");
-            sortTypeMenu.Text = m_resources.GetString("SortTypeText");
+            m_creSysLogger.Text = EntityListWindow.s_resources.GetString("PopCreLoggerText");
+            m_delSysLogger.Text = EntityListWindow.s_resources.GetString("PopDelLoggerText");
+            m_creTopSysLogger.Text = EntityListWindow.s_resources.GetString("PopCreLoggerText");
+            m_delTopSysLogger.Text = EntityListWindow.s_resources.GetString("PopDelLoggerText");
+            m_creProcLogger.Text = EntityListWindow.s_resources.GetString("PopCreLoggerText");
+            m_delProcLogger.Text = EntityListWindow.s_resources.GetString("PopDelLoggerText");
+            m_creVarLogger.Text = EntityListWindow.s_resources.GetString("PopCreLoggerText");
+            m_delVarLogger.Text = EntityListWindow.s_resources.GetString("PopDelLoggerText");
+            m_merge.Text = EntityListWindow.s_resources.GetString("PopMergeText");
+            addModel.Text = EntityListWindow.s_resources.GetString("PopAddModelText");
+            addSystem.Text = EntityListWindow.s_resources.GetString("PopAddSystemText");
+            addVar.Text = EntityListWindow.s_resources.GetString("PopAddVariableText");
+            addProc.Text = EntityListWindow.s_resources.GetString("PopAddProcessText");
+            del.Text = EntityListWindow.s_resources.GetString("PopDeleteText");
+            searchMenu.Text = EntityListWindow.s_resources.GetString("PopSearchText");
+            sortNameMenu.Text = EntityListWindow.s_resources.GetString("SortNameText");
+            sortTypeMenu.Text = EntityListWindow.s_resources.GetString("SortTypeText");
 
             addModel.Index = 1;
             addSystem.Index = 2;
@@ -424,29 +430,10 @@ namespace EcellLib.EntityListWindow
         public EcellObject GetObjectFromNode(TreeNode node)
         {
             TagData t = (TagData)node.Tag;
-            string[] keys = t.m_key.Split(new char[] { ':' });
-            List<EcellObject> list = m_dManager.GetData(t.m_modelID, keys[0]);
-            if (list == null || list.Count == 0)
-            {
-                String errmes = m_resources.GetString("ErrGetData");
-                MessageBox.Show(
-                errmes + "(" + t.m_modelID + "," + t.m_key + ")",
-                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return null;
-            }
-            for (int i = 0; i < list.Count; i++)
-            {
-                List<EcellObject> insList = list[i].Children;
-                if (insList == null || insList.Count == 0) continue;
-                for (int j = 0; j < insList.Count; j++)
-                {
-                    if (insList[j].key == t.m_key && insList[j].type == t.m_type)
-                    {
-                        return insList[j];
-                    }
-                }
-            }
-            return null;
+            if (t == null) return null;
+
+            EcellObject obj = m_dManager.GetEcellObject(t.m_modelID, t.m_key, t.m_type);
+            return obj;
         }
 
         /// <summary>
@@ -460,7 +447,7 @@ namespace EcellLib.EntityListWindow
             if (src.Parent == null) return null;
             TagData tag = (TagData)src.Parent.Tag;
             if (tag == null) return null;
-            if (tag.m_type == "Model")
+            if (tag.m_type == Constants.xpathModel)
             {
                 path = src.Text + path; // top is "/"
                 return path;
@@ -483,7 +470,7 @@ namespace EcellLib.EntityListWindow
             {
                 TagData tag = (TagData)node.Tag;
                 if (tag == null) return null;
-                if (tag.m_type == "Model")
+                if (tag.m_type == Constants.xpathModel)
                 {
                     return node.Text;
                 }
@@ -506,7 +493,7 @@ namespace EcellLib.EntityListWindow
                 foreach (TreeNode t in modelsNode.Nodes)
                 {
                     TagData tag = t.Tag as TagData;
-                    if (tag.m_type == "Model" && t.Text == modelID)
+                    if (tag.m_type == Constants.xpathModel && t.Text == modelID)
                         return t;
                 }
             }
@@ -559,6 +546,29 @@ namespace EcellLib.EntityListWindow
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Change the id of child node if the id of parent node is changed.
+        /// </summary>
+        /// <param name="oldKey">the old id of parent node.</param>
+        /// <param name="newKey">the new id of parent node.</param>
+        /// <param name="node">the current node.</param>
+        private void IDChangeProvide(string oldKey, string newKey, TreeNode node)
+        {
+            foreach (TreeNode t in node.Nodes)
+            {
+                TagData tag = t.Tag as TagData;
+                if (tag == null) continue;
+                if (tag.m_type == Constants.xpathSystem)
+                {
+                    IDChangeProvide(oldKey + "/" + t.Text,
+                        newKey + "/" + t.Text, t);
+                    tag.m_key = newKey + "/" + t.Text;
+                    continue;
+                }
+                tag.m_key = newKey + ":" + t.Text;
+            }
         }
 
         #region Event
@@ -644,33 +654,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">EventArgs</param>
         public void TreeviewAddSystem(object sender, EventArgs e)
         {
-            try
-            {
-                String tmpID = m_dManager.GetTemporaryID(m_currentObj.modelID,
-                    "System", m_currentObj.key);
-
-                Dictionary<string, EcellData> list = m_dManager.GetSystemProperty();
-                List<EcellData> data = new List<EcellData>();
-                foreach (EcellData d in list.Values)
-                {
-                    data.Add(d);
-                }
-                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, tmpID,
-                    "System", "System", data);
-
-                List<EcellObject> rList = new List<EcellObject>();
-                rList.Add(obj);
-                m_dManager.DataAdd(rList);
-                m_pManager.SelectChanged(m_currentObj.modelID, tmpID, "System");
-            }
-            catch (Exception ex)
-            {
-                String errmes = m_resources.GetString("ErrShowPropEditor");
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
+            m_dManager.CreateDefaultSystem(m_currentObj.modelID, m_currentObj.key);
         }
 
         /// <summary>
@@ -680,33 +664,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">EventArgs</param>
         public void TreeviewAddVariable(object sender, EventArgs e)
         {
-            try
-            {
-                String tmpID = m_dManager.GetTemporaryID(m_currentObj.modelID,
-                    "Variable", m_currentObj.key);
-
-                Dictionary<string, EcellData> list = m_dManager.GetVariableProperty();
-                List<EcellData> data = new List<EcellData>();
-                foreach (EcellData d in list.Values)
-                {
-                    data.Add(d);
-                }
-                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, tmpID,
-                    "Variable", "Variable", data);
-
-                List<EcellObject> rList = new List<EcellObject>();
-                rList.Add(obj);
-                m_dManager.DataAdd(rList);
-                m_pManager.SelectChanged(m_currentObj.modelID, tmpID, "Variable");
-            }
-            catch (Exception ex)
-            {
-                String errmes = m_resources.GetString("ErrShowPropEditor");
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
+            m_dManager.CreateDefaultVariable(m_currentObj.modelID, m_currentObj.key);
         }
 
         /// <summary>
@@ -716,33 +674,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">EventArgs</param>
         public void TreeviewAddProcess(object sender, EventArgs e)
         {
-            try
-            {
-                String tmpID = m_dManager.GetTemporaryID(m_currentObj.modelID,
-                    "Process", m_currentObj.key);
-
-                Dictionary<string, EcellData> list = m_dManager.GetProcessProperty("ExpressionFluxProcess");
-                List<EcellData> data = new List<EcellData>();
-                foreach (EcellData d in list.Values)
-                {
-                    data.Add(d);
-                }
-                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID, tmpID,
-                    "Process", "ExpressionFluxProcess", data);
-
-                List<EcellObject> rList = new List<EcellObject>();
-                rList.Add(obj);
-                m_dManager.DataAdd(rList);
-                m_pManager.SelectChanged(m_currentObj.modelID, tmpID, "Process");
-            }
-            catch (Exception ex)
-            {
-                String errmes = m_resources.GetString("ErrShowPropEditor");
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
+            m_dManager.CreateDefaultProcess(m_currentObj.modelID, m_currentObj.key);
         }
 
         /// <summary>
@@ -777,7 +709,7 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrDelData");
+                String errmes = EntityListWindow.s_resources.GetString("ErrDelData");
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -817,7 +749,7 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrDelData");
+                String errmes = EntityListWindow.s_resources.GetString("ErrDelData");
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -859,7 +791,6 @@ namespace EcellLib.EntityListWindow
             m_searchWin = new SearchInstance();
             m_searchWin.SetPlugin(this);
             m_searchWin.SISearchButton.Click += new EventHandler(m_searchWin.SearchButtonClick);
-            m_searchWin.SICloseButton.Click += new EventHandler(m_searchWin.SearchCloseButtonClick);
             m_searchWin.searchText.KeyPress += new KeyPressEventHandler(m_searchWin.SearchTextKeyPress);
 
             m_searchWin.ShowDialog();
@@ -891,7 +822,7 @@ namespace EcellLib.EntityListWindow
             TagData tag = (TagData)node.Tag;
             if (tag == null) return;
             if (tag.m_modelID == null) return;
-            if (tag.m_type == "Parameter")
+            if (tag.m_type == Constants.xpathParameters)
             {
                 m_pManager.SelectChanged("", node.Text, tag.m_type);
                 return;
@@ -904,43 +835,22 @@ namespace EcellLib.EntityListWindow
                 return;
             try
             {
-                if (tag.m_key.Contains(":"))
-                { // not system
-                    string[] keys = tag.m_key.Split(new char[] { ':' });
-                    list = m_dManager.GetData(tag.m_modelID, keys[0]);
-                    if (list == null || list.Count == 0)
-                    {
-                        String errmes = m_resources.GetString("ErrGetData");
-                        MessageBox.Show(
-                        errmes + "(" + tag.m_modelID + "," + tag.m_key + ")",
-                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        List<EcellObject> insList = list[i].Children;
-                        if (insList == null || insList.Count == 0) continue;
-                        for (int j = 0; j < insList.Count; j++)
-                        {
-                            if (insList[j].key == tag.m_key && insList[j].type == tag.m_type)
-                            {
-                                ShowPropEditWindow(insList[j]);
-                                return;
-                            }
-                        }
-                    }
-                }
-                else
-                { // system
-                    list = m_dManager.GetData(tag.m_modelID, tag.m_key);
-                    if (list == null || list.Count == 0) return;
-                    ShowPropEditWindow(list[0]);
+                EcellObject obj = m_dManager.GetEcellObject(tag.m_modelID,
+                    tag.m_key, tag.m_type);
+                if (obj == null)
+                {
+                    String errmes = EntityListWindow.s_resources.GetString("ErrGetData");
+                    MessageBox.Show(
+                    errmes + "(" + tag.m_modelID + "," + tag.m_key + ")",
+                    "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+                ShowPropEditWindow(obj);
+                return;
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrGetData");
+                String errmes = EntityListWindow.s_resources.GetString("ErrGetData");
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -962,7 +872,7 @@ namespace EcellLib.EntityListWindow
             if (node == null) return;
             TagData tag = (TagData)node.Tag;
             if (tag == null) return;
-            if (tag.m_type == "Parameter") return;
+            if (tag.m_type == Constants.xpathParameters) return;
             if (e.Button == MouseButtons.Right)
             {
                 if (m_type != ProjectStatus.Loaded && m_type != ProjectStatus.Stepping)
@@ -971,7 +881,7 @@ namespace EcellLib.EntityListWindow
                     return;
                 }
                 
-                if (tag.m_type == "Project")
+                if (tag.m_type == Constants.xpathProject)
                 {
                     m_targetNode = node;
                     if (m_type == ProjectStatus.Uninitialized)
@@ -979,12 +889,12 @@ namespace EcellLib.EntityListWindow
                     else
                         m_form.treeView1.ContextMenu = m_prjLoadMenu;
                 }
-                else if (tag.m_type == "Model")
+                else if (tag.m_type == Constants.xpathModel)
                 {
                     m_targetNode = node;
                     m_form.treeView1.ContextMenu = m_modelMenu;
                 }
-                else if (tag.m_type == "System")
+                else if (tag.m_type == Constants.xpathSystem)
                 {
                     m_targetNode = node;
                     List<EcellObject> list = m_dManager.GetData(tag.m_modelID, tag.m_key);
@@ -1021,12 +931,12 @@ namespace EcellLib.EntityListWindow
                     {
                         String superSys = tag.m_key.Substring(0, tag.m_key.LastIndexOf("/"));
                         if (superSys == "") superSys = "/";
-                        m_merge.Text = m_resources.GetString("PopMergeText") + "(" + superSys +  ")";
+                        m_merge.Text = EntityListWindow.s_resources.GetString("PopMergeText") + "(" + superSys + ")";
                         m_form.treeView1.ContextMenu = m_systemMenu;
                     }
                     m_currentObj = obj;
                 }
-                else if (tag.m_type == "Variable")
+                else if (tag.m_type == Constants.xpathVariable)
                 {
                     m_targetNode = node;
                     EcellObject obj = GetObjectFromNode(node);
@@ -1052,7 +962,7 @@ namespace EcellLib.EntityListWindow
                     m_currentObj = obj;
                     m_form.treeView1.ContextMenu = m_varMenu;
                 }
-                else if (tag.m_type == "Process")
+                else if (tag.m_type == Constants.xpathProcess)
                 {
                     m_targetNode = node;
                     EcellObject obj = GetObjectFromNode(node);
@@ -1084,7 +994,7 @@ namespace EcellLib.EntityListWindow
             }
             else if (e.Button == MouseButtons.Left)
             {
-                if (tag.m_type != "Project")
+                if (tag.m_type != Constants.xpathProject)
                 {
                     PluginManager.GetPluginManager().SelectChanged(tag.m_modelID, tag.m_key, tag.m_type);
                     m_form.treeView1.SelectedNode = node;
@@ -1197,7 +1107,7 @@ namespace EcellLib.EntityListWindow
         {
             foreach (EcellObject obj in data)
             {
-                if (obj.type == "Project")
+                if (obj.type == Constants.xpathProject)
                 {
                     m_prjNode = new TreeNode(obj.modelID);
                     m_prjNode.Tag = new TagData("", "", "Project");
@@ -1212,7 +1122,7 @@ namespace EcellLib.EntityListWindow
                     m_paramNodeDic.Add(obj.modelID, paramNode);
                     continue;
                 }
-                else if (obj.type == "Model")
+                else if (obj.type == Constants.xpathModel)
                 {
                     if (GetTargetModel(obj.modelID) != null) continue;
                     TreeNode node = new TreeNode(obj.modelID);
@@ -1225,9 +1135,9 @@ namespace EcellLib.EntityListWindow
 //                    m_prjNode.Nodes.Add(node);
                     continue;
                 }
-                else if (obj.type == "Process" || obj.type == "Variable")
+                else if (obj.type == Constants.xpathProcess || obj.type ==Constants.xpathVariable)
                 {
-                    if (obj.key.EndsWith("SIZE")) continue;
+                    if (obj.key.EndsWith(Constants.headerSize)) continue;
                     TreeNode current = GetTargetModel(obj.modelID);
                     if (current == null) return;
                     TreeNode node = GetTargetTreeNode(current, obj.key, obj.type);
@@ -1257,7 +1167,7 @@ namespace EcellLib.EntityListWindow
                         node.Nodes.Add(childNode);
                     }
                 }
-                else if (obj.type == "System")
+                else if (obj.type == Constants.xpathSystem)
                 {
                     TreeNode current = GetTargetModel(obj.modelID);
                     if (current == null) return;
@@ -1345,8 +1255,8 @@ namespace EcellLib.EntityListWindow
                         if (obj.Children == null) continue;
                         foreach (EcellObject eo in obj.Children)
                         {
-                            if (eo.type != "Variable" && eo.type != "Process") continue;
-                            if (eo.key.EndsWith("SIZE")) continue;
+                            if (eo.type != Constants.xpathVariable && eo.type != Constants.xpathProcess) continue;
+                            if (eo.key.EndsWith(Constants.headerSize)) continue;
                             string[] names = eo.key.Split(new char[] { ':' });
                             IEnumerator iter = node.Nodes.GetEnumerator();
                             bool isHit = false;
@@ -1461,31 +1371,13 @@ namespace EcellLib.EntityListWindow
                     TagData tag = (TagData)target.Tag;
                     tag.m_key = data.key;
                     target.Tag = tag;
-                    if (tag.m_type == "System")
+                    if (tag.m_type == Constants.xpathSystem)
                     {
                         IDChangeProvide(key, data.key, target);
                     }
                     m_form.treeView1.Sort();
                 }
 //                m_form.treeView1.SelectedNode = target;
-            }
-        }
-
-        private void IDChangeProvide(string oldKey, string newKey, TreeNode node)
-        {
-            foreach (TreeNode t in node.Nodes)
-            {
-                TagData tag = t.Tag as TagData;
-                if (tag == null) continue;
-                if (tag.m_type == "System")
-                {
-                    IDChangeProvide(oldKey + "/" +  t.Text,
-                        newKey + "/" + t.Text , t);
-                    tag.m_key = newKey + "/" + t.Text;
-                    continue;
-                }
-
-                tag.m_key = newKey + ":" + t.Text;
             }
         }
 
@@ -1539,7 +1431,7 @@ namespace EcellLib.EntityListWindow
                     TreeNode project = (TreeNode)nodeEnumerator.Current;
                     if (project.Text.Equals(projectID))
                     {
-                        paramsNode = new TreeNode("Parameters");
+                        paramsNode = new TreeNode(Constants.xpathParameters);
                         paramsNode.Tag = null;
                         project.Nodes.Add(paramsNode);
                         m_paramNodeDic.Add(projectID, paramsNode);
@@ -1557,7 +1449,7 @@ namespace EcellLib.EntityListWindow
                 if (t.Text == parameterID) return;
             }
             TreeNode paramNode = new TreeNode(parameterID);
-            paramNode.Tag = new TagData("", "", "Parameter");
+            paramNode.Tag = new TagData("", "", Constants.xpathParameters);
             paramsNode.Nodes.Add(paramNode);
 
             return;
@@ -1676,7 +1568,7 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                String errmese = m_resources.GetString("ErrPrintData");
+                String errmese = EntityListWindow.s_resources.GetString("ErrPrintData");
                 MessageBox.Show(errmese + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
@@ -1832,15 +1724,15 @@ namespace EcellLib.EntityListWindow
         {
             switch (type)
             {
-                case "Project":
+                case Constants.xpathProject:
                     return 0;
-                case "Model":
+                case Constants.xpathModel:
                     return 1;
-                case "System":
+                case Constants.xpathSystem:
                     return 2;
-                case "Process":
+                case Constants.xpathProcess:
                     return 3;
-                case "Variable":
+                case Constants.xpathVariable:
                     return 4;
             }
             return 5;

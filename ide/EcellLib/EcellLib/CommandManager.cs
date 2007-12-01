@@ -918,7 +918,7 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().Message(Constants.xpathSimulation.ToLower(), l_message);
+                PluginManager.GetPluginManager().Message(Constants.messageSimulation, l_message);
             }
             catch (Exception l_ex)
             {

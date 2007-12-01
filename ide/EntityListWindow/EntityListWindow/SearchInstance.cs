@@ -96,16 +96,6 @@ namespace EcellLib.EntityListWindow
         }
 
         /// <summary>
-        /// The action of clicking close button.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void SearchCloseButtonClick(object sender, EventArgs e)
-        {
-            this.Dispose();
-        }
-
-        /// <summary>
         /// The action of pressing the key of return on Search Window.
         /// </summary>
         /// <param name="sender">object(Button)</param>
@@ -121,11 +111,17 @@ namespace EcellLib.EntityListWindow
                 SICloseButton.PerformClick();
             }
         }
-        #endregion
 
+        /// <summary>
+        /// Event when this form is shown.
+        /// </summary>
+        /// <param name="sender">SearchInstance.</param>
+        /// <param name="e">EventArgs.</param>
         private void SearchInstanceShown(object sender, EventArgs e)
         {
             this.searchText.Focus();
         }
+        #endregion
+
     }
 }
