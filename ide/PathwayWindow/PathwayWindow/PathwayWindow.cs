@@ -75,21 +75,6 @@ namespace EcellLib.PathwayWindow
         PathwayControl m_con;
 
         /// <summary>
-        /// A list for layout algorithms, which implement ILayoutAlgorithm.
-        /// </summary>
-        private List<ILayoutAlgorithm> m_layoutList = new List<ILayoutAlgorithm>();
-
-        /// <summary>
-        /// A list for menu of layout algorithm, which implement ILayoutAlgorithm.
-        /// </summary>
-        private List<ToolStripMenuItem> m_menuList;
-
-        /// <summary>
-        /// ToolStripMenuItem for switching visibility of IDs on each PPathwayNode
-        /// </summary>
-        private ToolStripMenuItem m_showIdItem;
-
-        /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
@@ -106,13 +91,6 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         #region Accessors
-        /// <summary>
-        /// Accessor for layout algorithm.
-        /// </summary>
-        public List<ILayoutAlgorithm> LayoutAlgorithm
-        {
-            get { return m_layoutList; }
-        }
         /// <summary>
         /// Accessor for default layout algorithm.
         /// </summary>
@@ -138,10 +116,7 @@ namespace EcellLib.PathwayWindow
         {
             m_dManager = DataManager.GetDataManager();
             m_pManager = PluginManager.GetPluginManager();
-
-            m_layoutList = GetLayoutAlgorithms();
             m_con = new PathwayControl(this);
-            CreateMenu();
         }
         #endregion
 
@@ -290,42 +265,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of menu.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-            return m_menuList;
-        }
-
-        /// <summary>
-        /// Called when one of layout menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void eachLayoutItem_Click(object sender, EventArgs e)
-        {
-            if (!(sender is ToolStripMenuItem))
-                return;
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            int layoutIdx = 0;
-            int subIdx = 0;
-            try
-            {
-                if( ((ToolStripMenuItem)sender).Tag is int)
-                {
-                    layoutIdx = (int)item.Tag;
-                    subIdx = -1;
-                }
-                else
-                {
-                    string[] tags = ((string)item.Tag).Split(',');
-                    layoutIdx = int.Parse(tags[0]);
-                    subIdx = int.Parse(tags[1]);
-                }
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(m_resources.GetString("ErrLayout"));
-            }
-            ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
-
-            m_con.DoLayout(algorithm, subIdx, true);
+            return m_con.GetToolStripMenuItems();
         }
 
         /// <summary>
@@ -334,7 +274,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of ToolBarMenu.</returns>
         public List<System.Windows.Forms.ToolStripItem> GetToolBarMenuStripItems()
         {
-            return m_con.GetToolBarMenuStripItems();
+            return m_con.GetToolBarMenuItems();
         }
 
         /// <summary>
@@ -698,71 +638,6 @@ namespace EcellLib.PathwayWindow
 
         #region Internal use
         /// <summary>
-        /// 
-        /// </summary>
-        private void CreateMenu()
-        {
-            this.m_menuList = new List<ToolStripMenuItem>();
-
-            // Setup menu
-            m_showIdItem = new ToolStripMenuItem();
-            m_showIdItem.CheckOnClick = true;
-            m_showIdItem.CheckState = CheckState.Checked;
-            m_showIdItem.ToolTipText = "Visibility of Node's name of each pathway object";
-            m_showIdItem.Text = m_resources.GetString("MenuItemShowIDText");
-            m_showIdItem.Click += new EventHandler(ShowIdClick);
-
-            ToolStripMenuItem viewMenu = new ToolStripMenuItem();
-            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { m_showIdItem });
-            viewMenu.Text = "Setup";
-            viewMenu.Name = "MenuItemView";
-
-            m_menuList.Add(viewMenu);
-
-            // Edit menu
-            ToolStripMenuItem editMenu = new ToolStripMenuItem();
-            editMenu.Text = "Edit";
-            editMenu.Name = "MenuItemEdit";
-
-            ToolStripSeparator separator = new ToolStripSeparator();
-
-            ToolStripMenuItem deleteMenu = new ToolStripMenuItem();
-            deleteMenu.Text = m_resources.GetString("DeleteMenuText");
-            deleteMenu.Name = "MenuItemPaste";
-            deleteMenu.Click += new EventHandler(m_con.DeleteClick);
-            deleteMenu.ShortcutKeys = Keys.Delete;
-            deleteMenu.ShowShortcutKeys = true;
-            ToolStripMenuItem cutMenu = new ToolStripMenuItem();
-            cutMenu.Text = m_resources.GetString("CutMenuText");
-            cutMenu.Name = "MenuItemCut";
-            cutMenu.Click += new EventHandler(m_con.CutClick);
-            cutMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            cutMenu.ShowShortcutKeys = true;
-            ToolStripMenuItem copyMenu = new ToolStripMenuItem();
-            copyMenu.Text = m_resources.GetString("CopyMenuText");
-            copyMenu.Name = "MenuItemCopy";
-            copyMenu.Click += new EventHandler(m_con.CopyClick);
-            copyMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            copyMenu.ShowShortcutKeys = true;
-            ToolStripMenuItem pasteMenu = new ToolStripMenuItem();
-            pasteMenu.Text = m_resources.GetString("PasteMenuText");
-            pasteMenu.Name = "MenuItemPaste";
-            pasteMenu.Click += new EventHandler(m_con.PasteClick);
-            pasteMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            pasteMenu.ShowShortcutKeys = true;
-
-            editMenu.DropDownItems.AddRange(new ToolStripItem[] { cutMenu, copyMenu, pasteMenu, deleteMenu });
-            m_menuList.Add(editMenu);
-
-            // Layout menu
-            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
-            layoutMenu.Text = "Layout";
-            layoutMenu.Name = "MenuItemLayout";
-            layoutMenu.DropDownItems.AddRange(m_con.LayoutMenus.ToArray());
-            m_menuList.Add(layoutMenu);
-        }
-
-        /// <summary>
         /// This method was made for dividing long and redundant DataAdd method.
         /// So, used by DataAdd only.
         /// </summary>
@@ -835,21 +710,6 @@ namespace EcellLib.PathwayWindow
                         child.LayerID = objDict[dictKey].LayerID;
                 }
             }
-        }
-        #endregion
-
-        #region Event delegate
-        /// <summary>
-        /// the event sequence of clicking the menu of [View]->[Show Id]
-        /// </summary>
-        /// <param name="sender">MenuStripItem.</param>
-        /// <param name="e">EventArgs.</param>
-        void ShowIdClick(object sender, EventArgs e)
-        {
-            if (m_showIdItem.CheckState == CheckState.Checked)
-                m_con.ShowingID = true;
-            else
-                m_con.ShowingID = false;
         }
         #endregion
     }

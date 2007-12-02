@@ -58,10 +58,7 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class PathwayControl
     {
-        #region Static readonly fields
-        #endregion
-
-        #region Canvas Menu
+        #region Static readonly fields(Canvas Menu)
         /// <summary>
         /// Key definition of m_cMenuDict for ID
         /// </summary>
@@ -151,6 +148,11 @@ namespace EcellLib.PathwayWindow
         /// A list of toolbox buttons.
         /// </summary>
         private List<ToolStripButton> m_buttonList = new List<ToolStripButton>();
+
+        /// <summary>
+        /// Default Layout Algorithm.
+        /// </summary>
+        private ILayoutAlgorithm m_defAlgorithm = new GridLayout();
 
         /// <summary>
         /// A list for layout algorithms, which implement ILayoutAlgorithm.
@@ -384,31 +386,9 @@ namespace EcellLib.PathwayWindow
             m_popupMenu = GetPopUpMenus();
             m_csManager = ComponentManager.LoadComponentSettings();
         }
-
         #endregion
-        /// <summary>
-        /// Create pathway canvas.
-        /// </summary>
-        /// <param name="modelID">the model ID.</param>
-        public void CreateCanvas(string modelID)
-        {
-            // Clear current canvas (TODO: Remove when support multiple canvas).
-            m_canvasDict = new Dictionary<string, CanvasControl>();
 
-            // Create canvas
-            CanvasControl canvas = new CanvasControl(this, modelID);
-            m_activeCanvasID = modelID;
-            m_canvasDict.Add(modelID, canvas);
-            // Set Pathwayview
-            m_pathwayView.Clear();
-            m_pathwayView.TabControl.Controls.Add(canvas.TabPage);
-            // Set Overview
-            m_overView.SetCanvas(canvas.OverviewCanvas);
-            canvas.UpdateOverview();
-            // Set Layerview
-            m_layerView.DataGridView.DataSource = canvas.LayerTable;
-        }
-
+        #region Public Methods
         /// <summary>
         /// Add new object to this canvas.
         /// </summary>
@@ -469,24 +449,156 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Get ComponentSetting.
+        /// The event sequence on changing value of data at other plugin.
         /// </summary>
-        /// <param name="type">ComponentType</param>
-        /// <returns>ComponentSetting.</returns>
-        private ComponentSetting GetComponentSetting(string type)
+        /// <param name="modelID">The model ID before value change.</param>
+        /// <param name="oldKey">The ID before value change.</param>
+        /// <param name="type">The data type before value change.</param>
+        /// <param name="eo">Changed value of object.</param>
+        public void DataChanged(string modelID, string oldKey, string type, EcellObject eo)
         {
-            ComponentType cType = ComponentManager.ParseComponentKind(type);
-            switch (cType)
+            // Select Canvas
+            CanvasControl canvas = m_canvasDict[modelID];
+            // If case SystemSize
+            if (oldKey.EndsWith(":SIZE"))
             {
-                case ComponentType.Process:
-                    return m_csManager.DefaultProcessSetting;
-                case ComponentType.System:
-                    return m_csManager.DefaultSystemSetting;
-                case ComponentType.Variable:
-                    return m_csManager.DefaultVariableSetting;
+                ChangeSystemSize(modelID, eo.parentSystemID, eo.GetEcellValue("Value").CastToDouble());
+                return;
             }
-            return null;
+
+            // Select changed object.
+            PPathwayObject obj = canvas.GetSelectedObject(oldKey, type);
+            if (obj == null)
+                return;
+
+            // Change data.
+            obj.EcellObject = eo;
+            obj.Refresh();
+            canvas.DataChanged(oldKey, eo.key, obj);
         }
+
+        /// <summary>
+        /// The event sequence on deleting the object at other plugin.
+        /// </summary>
+        /// <param name="modelID">The model ID of deleted object.</param>
+        /// <param name="key">The ID of deleted object.</param>
+        /// <param name="type">The object type of deleted object.</param>
+        public void DataDelete(string modelID, string key, string type)
+        {
+            CanvasControl canvas = this.m_canvasDict[modelID];
+            if (canvas == null)
+                return;
+            // If case SystemSize
+            if (key.EndsWith(":SIZE"))
+            {
+                ChangeSystemSize(modelID, PathUtil.GetParentSystemId(key), 0.1d);
+                return;
+            }
+
+            // Delete object.
+            canvas.DataDelete(key, type);
+        }
+
+        /// <summary>
+        /// Get the list of system in the target mode.
+        /// </summary>
+        /// <param name="modelID">The model ID.</param>
+        /// <returns>The list of system.</returns>
+        public List<EcellObject> GetSystemList(string modelID)
+        {
+            List<EcellObject> systemList = new List<EcellObject>();
+            foreach (PPathwayObject obj in m_canvasDict[modelID].GetSystemList())
+                systemList.Add(m_window.GetEcellObject(modelID, obj.EcellObject.key, obj.EcellObject.type));
+            return systemList;
+        }
+
+        /// <summary>
+        /// Get the list of EcellObject in the target model.
+        /// </summary>
+        /// <param name="modelID">the model ID.</param>
+        /// <returns>the list of EcellObject.</returns>
+        public List<EcellObject> GetNodeList(string modelID)
+        {
+            List<EcellObject> nodeList = new List<EcellObject>();
+            foreach (PPathwayObject obj in m_canvasDict[modelID].GetNodeList())
+                nodeList.Add(m_window.GetEcellObject(modelID, obj.EcellObject.key, obj.EcellObject.type));
+
+            return nodeList;
+        }
+
+        /// <summary>
+        /// Clears the contents of the pathway window, and Returns it to an
+        /// initial state.
+        /// </summary>
+        public void Clear()
+        {
+            // Reset Interfaces
+            m_overView.Clear();
+            m_pathwayView.TabControl.TabPages.Clear();
+            m_layerView.DataGridView.DataSource = null;
+
+            // Clear Canvas dictionary.
+            if (m_canvasDict != null)
+                foreach (CanvasControl set in m_canvasDict.Values)
+                    set.Dispose();
+            m_canvasDict = null;
+        }
+
+        /// <summary>
+        /// get bitmap image of this pathway.
+        /// </summary>
+        /// <returns>Bitmap of this pathway.</returns>
+        public Bitmap Print()
+        {
+            if (m_canvasDict != null && m_canvasDict.Count != 0)
+            {
+                foreach (CanvasControl set in m_canvasDict.Values)
+                {
+                    return set.ToImage();
+                }
+                return new Bitmap(1, 1);
+            }
+            else
+                return new Bitmap(1, 1);
+        }
+
+        /// <summary>
+        /// Set position of EcellObject.
+        /// </summary>
+        /// <param name="modelID">The model ID.</param>
+        /// <param name="eo">The EcellObject set in canvas.</param>
+        public void SetPosition(string modelID, EcellObject eo)
+        {
+            if (modelID == null || eo == null)
+                return;
+            if (!m_canvasDict.ContainsKey(modelID))
+                return;
+            CanvasControl canvas = m_canvasDict[modelID];
+
+            if (EcellObject.SYSTEM.Equals(eo.type))
+            {
+                if (canvas.Systems.ContainsKey(eo.key))
+                    canvas.Systems[eo.key].EcellObject = (EcellSystem)eo;
+            }
+            else if (EcellObject.VARIABLE.Equals(eo.type))
+            {
+                if (canvas.Variables.ContainsKey(eo.key))
+                    canvas.Variables[eo.key].EcellObject = (EcellVariable)eo;
+            }
+            else if (EcellObject.PROCESS.Equals(eo.type))
+            {
+                if (canvas.Processes.ContainsKey(eo.key))
+                    canvas.Processes[eo.key].EcellObject = (EcellProcess)eo;
+            }
+            // If eo = EcellSystem and eo has child objects.
+            if (eo.Children == null || eo.Children.Count == 0)
+                return;
+            foreach (EcellObject child in eo.Children)
+                SetPosition(modelID, child);
+        }
+        #endregion
+        
+        #region Methods to Create Menus
         /// <summary>
         /// Get Popup Menus.
         /// </summary>
@@ -601,372 +713,78 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Create LayoutAlgorithm menus.
+        /// Get Tool Menus.
         /// </summary>
-        private void CreateLayoutAlgorithmMenus()
+        /// <returns></returns>
+        public List<ToolStripMenuItem> GetToolStripMenuItems()
         {
-            // Get LayoutAlgorithms
-            m_layoutList = m_window.GetLayoutAlgorithms();
-            // Create menu.
             List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
-            int count = 0;
-            foreach (ILayoutAlgorithm algorithm in m_layoutList)
-            {
-                ToolStripMenuItem algoItem = new ToolStripMenuItem(algorithm.GetMenuText());
-                algoItem.Tag = count;
-                algoItem.ToolTipText = algorithm.GetToolTipText();
-                algoItem.Click += new EventHandler(LayoutItem_Click);
 
-                List<string> subCommands = algorithm.GetSubCommands();
-                if (subCommands != null && subCommands.Count != 0)
-                {
-                    int subcount = 0;
-                    foreach (string subCommandName in subCommands)
-                    {
-                        ToolStripMenuItem layoutSubItem = new ToolStripMenuItem();
-                        layoutSubItem.Text = subCommandName;
-                        layoutSubItem.Tag = count + "," + subcount;
-                        layoutSubItem.Click += new EventHandler(LayoutItem_Click);
-                        algoItem.DropDownItems.Add(layoutSubItem);
-                        subcount++;
-                    }
-                }
-                menuList.Add(algoItem);
-                count++;
-            }
-            m_menuLayoutList = menuList;
+            // Setup menu
+            ToolStripMenuItem showIdItem = new ToolStripMenuItem();
+            showIdItem.CheckOnClick = true;
+            showIdItem.CheckState = CheckState.Checked;
+            showIdItem.ToolTipText = "Visibility of Node's name of each pathway object";
+            showIdItem.Text = m_resources.GetString("MenuItemShowIDText");
+            showIdItem.Click += new EventHandler(ShowIdClick);
+
+            ToolStripMenuItem viewMenu = new ToolStripMenuItem();
+            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { showIdItem });
+            viewMenu.Text = "Setup";
+            viewMenu.Name = "MenuItemView";
+
+            menuList.Add(viewMenu);
+
+            // Edit menu
+            ToolStripMenuItem editMenu = new ToolStripMenuItem();
+            editMenu.Text = "Edit";
+            editMenu.Name = "MenuItemEdit";
+
+            ToolStripSeparator separator = new ToolStripSeparator();
+
+            ToolStripMenuItem deleteMenu = new ToolStripMenuItem();
+            deleteMenu.Text = m_resources.GetString("DeleteMenuText");
+            deleteMenu.Name = "MenuItemPaste";
+            deleteMenu.Click += new EventHandler(DeleteClick);
+            deleteMenu.ShortcutKeys = Keys.Delete;
+            deleteMenu.ShowShortcutKeys = true;
+            ToolStripMenuItem cutMenu = new ToolStripMenuItem();
+            cutMenu.Text = m_resources.GetString("CutMenuText");
+            cutMenu.Name = "MenuItemCut";
+            cutMenu.Click += new EventHandler(CutClick);
+            cutMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            cutMenu.ShowShortcutKeys = true;
+            ToolStripMenuItem copyMenu = new ToolStripMenuItem();
+            copyMenu.Text = m_resources.GetString("CopyMenuText");
+            copyMenu.Name = "MenuItemCopy";
+            copyMenu.Click += new EventHandler(CopyClick);
+            copyMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            copyMenu.ShowShortcutKeys = true;
+            ToolStripMenuItem pasteMenu = new ToolStripMenuItem();
+            pasteMenu.Text = m_resources.GetString("PasteMenuText");
+            pasteMenu.Name = "MenuItemPaste";
+            pasteMenu.Click += new EventHandler(PasteClick);
+            pasteMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            pasteMenu.ShowShortcutKeys = true;
+
+            editMenu.DropDownItems.AddRange(new ToolStripItem[] { cutMenu, copyMenu, pasteMenu, deleteMenu });
+            menuList.Add(editMenu);
+
+            // Layout menu
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
+            layoutMenu.Text = "Layout";
+            layoutMenu.Name = "MenuItemLayout";
+            layoutMenu.DropDownItems.AddRange(LayoutMenus.ToArray());
+            menuList.Add(layoutMenu);
+
+            return menuList;
         }
-
-        /// <summary>
-        /// Add the selected EventHandler to event listener.
-        /// </summary>
-        /// <param name="handler">added EventHandler.</param>
-        public void AddInputEventListener(PBasicInputEventHandler handler)
-        {
-            // Exception condition 
-            if (m_canvasDict == null)
-                return;
-
-            foreach (CanvasControl set in m_canvasDict.Values)
-                set.PathwayCanvas.AddInputEventListener(handler);
-        }
-
-        /// <summary>
-        /// Delete the selected EventHandler from event listener.
-        /// </summary>
-        /// <param name="handler">deleted EventHandler.</param>
-        public void RemoveInputEventListener(PBasicInputEventHandler handler)
-        {
-            // Exception condition 
-            if (m_canvasDict == null)
-                return;
-
-            foreach(CanvasControl set in m_canvasDict.Values)
-                set.PathwayCanvas.RemoveInputEventListener(handler);
-        }
-
-        #region Event delegate
-#if DEBUG
-        /// <summary>
-        /// Called when a debug menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void DebugClick(object sender, EventArgs e)
-        {
-            if (ActiveCanvas.ClickedNode is PPathwayObject)
-            {
-                PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
-                MessageBox.Show(
-                    "Name:" + obj.EcellObject.key
-                    + "\nLayer:" + obj.EcellObject.LayerID
-                    + "\nX:" + obj.X + "\nY:" + obj.Y
-                    + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY 
-                    + "\nToString()" + obj.ToString());
-            }
-            else
-            {
-                ToolStripMenuItem item = (ToolStripMenuItem)sender;
-                PointF point = new PointF();
-                point.X = item.Owner.Left;
-                point.Y = item.Owner.Top;
-                MessageBox.Show("Left:" + point.X + "Top:" + point.Y);
-
-            }
-        }
-#endif
-        /// <summary>
-        /// Called when a delete menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void MergeClick(object sender, EventArgs e)
-        {
-            // Check exception.
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            if (!(item.Tag is PPathwaySystem))
-                return;
-            PPathwaySystem system = (PPathwaySystem)item.Tag;
-            if (system.EcellObject.key.Equals("/"))
-            {
-                MessageBox.Show(m_resources.GetString("ErrDelRoot"),
-                                "Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
-                return;
-            }
-            // Check Object duplication.
-            bool isDuplicate = false;
-            string sysKey = system.EcellObject.key;
-            string parentSysKey = system.EcellObject.parentSystemID;
-            foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
-            {
-                string newKey = obj.EcellObject.key.Replace(sysKey,parentSysKey);
-                if (ActiveCanvas.GetSelectedObject(newKey, obj.EcellObject.type) != null)
-                {
-                    isDuplicate = true;
-                    MessageBox.Show(newKey + m_resources.GetString("ErrAlrExist"),
-                                    "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
-                }
-            }
-            if (isDuplicate)
-                return;
-
-            // Confirm system merge.
-            DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
-                "Merge",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button2);
-            if (result == DialogResult.Cancel)
-                return;
-
-            try
-            {
-                // Move systems and nodes under merged system.
-                foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
-                {
-                    string newKey = obj.EcellObject.key.Replace(sysKey, parentSysKey);
-                    ActiveCanvas.TransferObject(newKey, obj.EcellObject.key, obj);
-                }
-                m_window.NotifyDataMerge(system.EcellObject.modelID, system.EcellObject.key);
-            }
-            catch (IgnoreException)
-            {
-                return;
-            }
-            if (system.IsHighLighted)
-                ActiveCanvas.ResetSelectedSystem();
-
-            ((ToolStripMenuItem)sender).Tag = null;
-        }
-        /// <summary>
-        /// Called when a create logger menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void CreateLoggerClick(object sender, EventArgs e)
-        {
-            if (!(ActiveCanvas.ClickedNode is PPathwayObject))
-                return;
-
-            string logger = ((ToolStripItem)sender).Text;
-            PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
-            Debug.WriteLine("Create " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
-            // set logger
-            NotifyLoggerChanged(obj, logger, true);
-        }
-        /// <summary>
-        /// Called when a delete logger menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void DeleteLoggerClick(object sender, EventArgs e)
-        {
-            if (!(ActiveCanvas.ClickedNode is PPathwayObject))
-                return;
-            string logger = ((ToolStripItem)sender).Text;
-
-            PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
-            Debug.WriteLine("Delete " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
-            // delete logger
-            NotifyLoggerChanged(obj, logger, false);
-        }
-
-        /// <summary>
-        /// Notify logger change.
-        /// </summary>
-        /// <param name="obj">The object to change the logger property.</param>
-        /// <param name="logger">The logger entity.</param>
-        /// <param name="isLogger">The flag whether the entity is logged.</param>
-        private void NotifyLoggerChanged(PPathwayObject obj, string logger, bool isLogger)
-        {
-            EcellObject eo = m_window.GetEcellObject(obj.EcellObject.modelID, obj.EcellObject.key, obj.EcellObject.type);
-
-            // set logger
-            foreach (EcellData d in eo.Value)
-            {
-                if (!logger.Equals(d.Name))
-                    continue;
-                // Set isLogger
-                d.Logged = isLogger;
-
-                // If isLogger, 
-                if (!isLogger)
-                    continue;
-                m_window.NotifyLoggerAdd(
-                    eo.modelID,
-                    eo.key,
-                    eo.type,
-                    d.EntityPath);
-            }
-            m_window.NotifyDataChanged(eo.key, eo.key, eo, true, true);
-        }
-
-        /// <summary>
-        /// Called when m_nodeMenu is closed.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void m_nodeMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            if (sender is ContextMenuStrip)
-            {
-                ((ContextMenuStrip)sender).Tag = null;
-            }
-        }
-        
-        /// <summary>
-        /// Called when one of layout menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void LayoutItem_Click(object sender, EventArgs e)
-        {
-            if (!(sender is ToolStripMenuItem))
-                return;
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            int layoutIdx = 0;
-            int subIdx = 0;
-            try
-            {
-                if (((ToolStripMenuItem)sender).Tag is int)
-                {
-                    layoutIdx = (int)item.Tag;
-                    subIdx = -1;
-                }
-                else
-                {
-                    string[] tags = ((string)item.Tag).Split(',');
-                    layoutIdx = int.Parse(tags[0]);
-                    subIdx = int.Parse(tags[1]);
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(m_resources.GetString("ErrLayout"));
-            }
-            ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
-
-            DoLayout(algorithm, subIdx, true);
-        }
-        /// <summary>
-        /// Called when a change line menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ChangeLineClick(object sender, EventArgs e)
-        {
-            // Selected MenuItem.
-            if (!(sender is ToolStripItem))
-                return;
-            ToolStripItem item = (ToolStripItem)sender;
-            // Selected Canvas
-            CanvasControl canvas = ActiveCanvas;
-            if (canvas == null)
-                return;
-            // Selected Line
-            Line line = canvas.SelectedLine;
-            if (line == null)
-                return;
-            canvas.ResetSelectedLine();
-
-            // Change edgeInfo.
-            RefChangeType changeType = RefChangeType.SingleDir;
-            int coefficient = 0;
-            if (item.Name == CANVAS_MENU_RIGHT_ARROW)
-            {
-                changeType = RefChangeType.SingleDir;
-                coefficient = 1;
-            }
-            else if (item.Name == CANVAS_MENU_LEFT_ARROW)
-            {
-                changeType = RefChangeType.SingleDir;
-                coefficient = -1;
-            }
-            else if (item.Name == CANVAS_MENU_BIDIR_ARROW)
-            {
-                changeType = RefChangeType.BiDir;
-                coefficient = 0;
-            }
-            else
-            {
-                changeType = RefChangeType.SingleDir;
-                coefficient = 0;
-            }
-            NotifyVariableReferenceChanged(
-                line.Info.ProcessKey,
-                line.Info.VariableKey,
-                changeType,
-                coefficient);
-        }
-        /// <summary>
-        /// When select the button in ToolBox,
-        /// system change the listener for event
-        /// </summary>
-        /// <param name="sender">ToolBoxMenuButton.</param>
-        /// <param name="e">EventArgs.</param>
-        public void ButtonStateChanged(object sender, EventArgs e)
-        {
-            RemoveInputEventListener(m_handlerDict[m_selectedHandle.HandleID]);
-            m_selectedHandle = (Handle)((ToolStripButton)sender).Tag;
-            
-            foreach (ToolStripButton button in m_buttonList)
-            {
-                if (button.Tag != m_selectedHandle)
-                {
-                    button.Checked = false;
-                }
-            }
-
-            AddInputEventListener(m_handlerDict[m_selectedHandle.HandleID]);
-
-            if (m_selectedHandle.Mode == Mode.Pan)
-            {
-                m_pathwayView.Cursor = new Cursor(new MemoryStream(Resource1.move));
-                Freeze();
-            }
-            else
-            {
-                m_pathwayView.Cursor = Cursors.Arrow;
-                Unfreeze();
-            }
-            if (ActiveCanvas == null)
-                return;
-            ActiveCanvas.ResetNodeToBeConnected();
-            ActiveCanvas.SetLineVisibility(false);
-        }
-        #endregion
-        
-        #region Methods from PathwayWindow(Interface) to Controller
 
         /// <summary>
         /// Get a list of ToolStripItems.
         /// </summary>
         /// <returns>the list of ToolStripItems.</returns>
-        public List<ToolStripItem> GetToolBarMenuStripItems()
+        public List<ToolStripItem> GetToolBarMenuItems()
         {
             List<ToolStripItem> list = new List<ToolStripItem>();
 
@@ -1111,61 +929,6 @@ namespace EcellLib.PathwayWindow
 
             return list;
         }
-
-        void ZoomButton_Click(object sender, EventArgs e)
-        {
-            float rate = (float)((ToolStripButton)sender).Tag;
-            if (this.CanvasDictionary == null)
-                return;
-
-            foreach(CanvasControl canvas in this.CanvasDictionary.Values)
-            {
-                canvas.Zoom(rate);
-            }
-        }
-
-        /// <summary>
-        /// get bitmap image of this pathway.
-        /// </summary>
-        /// <returns>Bitmap of this pathway.</returns>
-        public Bitmap Print()
-        {
-            if(m_canvasDict != null && m_canvasDict.Count != 0)
-            {
-                foreach(CanvasControl set in m_canvasDict.Values)
-                {
-                    return set.ToImage();
-                }
-                return new Bitmap(1, 1);
-            }
-            else
-                return new Bitmap(1, 1);
-        }
-
-        /// <summary>
-        /// Set position of EcellObject.
-        /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="eo">The EcellObject set in canvas.</param>
-        public void SetPosition(string modelID, EcellObject eo)
-        {
-            if(EcellObject.SYSTEM.Equals(eo.type))
-                if (m_canvasDict[modelID].Systems.ContainsKey(eo.key))
-                    m_canvasDict[modelID].Systems[eo.key].EcellObject = (EcellSystem)eo;
-
-            else if(EcellObject.VARIABLE.Equals(eo.type))
-                if (m_canvasDict[modelID].Variables.ContainsKey(eo.key))
-                    m_canvasDict[modelID].Variables[eo.key].EcellObject = (EcellVariable)eo;
-
-            else if(EcellObject.PROCESS.Equals(eo.type))
-                if(m_canvasDict[modelID].Processes.ContainsKey(eo.key))
-                    m_canvasDict[modelID].Processes[eo.key].EcellObject = (EcellProcess)eo;
-
-            if (eo.Children == null || eo.Children.Count == 0)
-                return;
-            foreach (EcellObject child in eo.Children)
-                SetPosition(modelID, child);
-        }
         #endregion
 
         #region Methods to notify changes to Interface(PathwayWindow)
@@ -1211,6 +974,46 @@ namespace EcellLib.PathwayWindow
             eo.OffsetY = obj.OffsetY;
 
             m_window.NotifyDataChanged(oldKey, newKey, eo, isRecorded, isAnchor);
+        }
+
+        /// <summary>
+        /// Notify DataDelete event to outsite.
+        /// </summary>
+        /// <param name="eo">the deleted object.</param>
+        /// <param name="isAnchor">the type of deleted object.</param>
+        public void NotifyDataDelete(EcellObject eo, bool isAnchor)
+        {
+            m_window.NotifyDataDelete(eo.modelID, eo.key, eo.type, isAnchor);
+        }
+
+        /// <summary>
+        /// Notify logger change.
+        /// </summary>
+        /// <param name="obj">The object to change the logger property.</param>
+        /// <param name="logger">The logger entity.</param>
+        /// <param name="isLogger">The flag whether the entity is logged.</param>
+        private void NotifyLoggerChanged(PPathwayObject obj, string logger, bool isLogger)
+        {
+            EcellObject eo = m_window.GetEcellObject(obj.EcellObject.modelID, obj.EcellObject.key, obj.EcellObject.type);
+
+            // set logger
+            foreach (EcellData d in eo.Value)
+            {
+                if (!logger.Equals(d.Name))
+                    continue;
+                // Set isLogger
+                d.Logged = isLogger;
+
+                // If isLogger, 
+                if (!isLogger)
+                    continue;
+                m_window.NotifyLoggerAdd(
+                    eo.modelID,
+                    eo.key,
+                    eo.type,
+                    d.EntityPath);
+            }
+            m_window.NotifyDataChanged(eo.key, eo.key, eo, true, true);
         }
 
         /// <summary>
@@ -1296,16 +1099,6 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Notify DataDelete event to outsite.
         /// </summary>
-        /// <param name="eo">the deleted object.</param>
-        /// <param name="isAnchor">the type of deleted object.</param>
-        public void NotifyDataDelete(EcellObject eo, bool isAnchor)
-        {
-            m_window.NotifyDataDelete(eo.modelID, eo.key, eo.type, isAnchor);
-        }
-
-        /// <summary>
-        /// Notify DataDelete event to outsite.
-        /// </summary>
         /// <param name="obj">the deleted object.</param>
         /// <param name="isAnchor">the type of deleted object.</param>
         public void NotifyDataDelete(PPathwayObject obj, bool isAnchor)
@@ -1314,55 +1107,461 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
+        #region EventHandlers for MenuClick
+#if DEBUG
         /// <summary>
-        /// Freeze all objects to be unpickable.
+        /// Called when a debug menu of the context menu is clicked.
         /// </summary>
-        private void Freeze()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void DebugClick(object sender, EventArgs e)
         {
-            if (m_isFreezed)
-                return;
-            if(null != m_canvasDict)
+            if (ActiveCanvas.ClickedNode is PPathwayObject)
             {
-                foreach (CanvasControl canvas in m_canvasDict.Values)
-                    canvas.Freeze();
+                PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
+                MessageBox.Show(
+                    "Name:" + obj.EcellObject.key
+                    + "\nLayer:" + obj.EcellObject.LayerID
+                    + "\nX:" + obj.X + "\nY:" + obj.Y
+                    + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY 
+                    + "\nToString()" + obj.ToString());
             }
-            m_isFreezed = true;
-        }
-
-        /// <summary>
-        /// Cancel freezed status.
-        /// </summary>
-        private void Unfreeze()
-        {
-            if (!m_isFreezed)
-                return;
-            if(null != m_canvasDict)
+            else
             {
-                foreach (CanvasControl canvas in m_canvasDict.Values)
-                    canvas.Unfreeze();
+                ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                PointF point = new PointF();
+                point.X = item.Owner.Left;
+                point.Y = item.Owner.Top;
+                MessageBox.Show("Left:" + point.X + "Top:" + point.Y);
+
             }
-            m_isFreezed = false;
+        }
+#endif
+        /// <summary>
+        /// Called when a delete menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void MergeClick(object sender, EventArgs e)
+        {
+            // Check exception.
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            if (!(item.Tag is PPathwaySystem))
+                return;
+            PPathwaySystem system = (PPathwaySystem)item.Tag;
+            if (system.EcellObject.key.Equals("/"))
+            {
+                MessageBox.Show(m_resources.GetString("ErrDelRoot"),
+                                "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+            // Check Object duplication.
+            bool isDuplicate = false;
+            string sysKey = system.EcellObject.key;
+            string parentSysKey = system.EcellObject.parentSystemID;
+            foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
+            {
+                string newKey = obj.EcellObject.key.Replace(sysKey,parentSysKey);
+                if (ActiveCanvas.GetSelectedObject(newKey, obj.EcellObject.type) != null)
+                {
+                    isDuplicate = true;
+                    MessageBox.Show(newKey + m_resources.GetString("ErrAlrExist"),
+                                    "Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                }
+            }
+            if (isDuplicate)
+                return;
+
+            // Confirm system merge.
+            DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
+                "Merge",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.Cancel)
+                return;
+
+            try
+            {
+                // Move systems and nodes under merged system.
+                foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
+                {
+                    string newKey = obj.EcellObject.key.Replace(sysKey, parentSysKey);
+                    ActiveCanvas.TransferObject(newKey, obj.EcellObject.key, obj);
+                }
+                m_window.NotifyDataMerge(system.EcellObject.modelID, system.EcellObject.key);
+            }
+            catch (IgnoreException)
+            {
+                return;
+            }
+            if (system.IsHighLighted)
+                ActiveCanvas.ResetSelectedSystem();
+
+            ((ToolStripMenuItem)sender).Tag = null;
         }
 
         /// <summary>
-        /// Clears the contents of the pathway window, and Returns it to an
-        /// initial state.
+        /// Called when a delete menu of the context menu is clicked.
         /// </summary>
-        public void Clear()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void DeleteClick(object sender, EventArgs e)
         {
-            // Reset Interfaces
-            m_overView.Clear();
-            m_pathwayView.TabControl.TabPages.Clear();
-            m_layerView.DataGridView.DataSource = null;
+            // Check active canvas.
+            CanvasControl canvas = this.ActiveCanvas;
+            if (canvas == null)
+                return;
 
-            // Clear Canvas dictionary.
-            if(m_canvasDict != null)
-                foreach(CanvasControl set in m_canvasDict.Values)
-                    set.Dispose();
-            m_canvasDict = null;
+            // Delete Selected Line
+            Line line = canvas.SelectedLine;
+            if (line != null)
+            {
+                NotifyVariableReferenceChanged(
+                    line.Info.ProcessKey,
+                    line.Info.VariableKey,
+                    RefChangeType.Delete,
+                    0);
+                canvas.ResetSelectedLine();
+            }
+            // Delete Selected Nodes
+            if (canvas.SelectedNodes != null)
+            {
+                List<EcellObject> slist = new List<EcellObject>();
+                foreach (PPathwayObject node in canvas.SelectedNodes)
+                    slist.Add(node.EcellObject);
+
+                int i = 0;
+                foreach (EcellObject deleteNode in slist)
+                {
+                    i++;
+                    bool isAnchor = (i == slist.Count);
+                    NotifyDataDelete(deleteNode, isAnchor);
+                }
+            }
+            // Delete Selected System
+            if (canvas.SelectedSystemName != null)
+            {
+                PPathwaySystem system = canvas.Systems[canvas.SelectedSystemName];
+                // Return if system is null or root.
+                if (string.IsNullOrEmpty(system.EcellObject.key))
+                    return;
+                if (system.EcellObject.key.Equals("/"))
+                {
+                    MessageBox.Show(m_resources.GetString("ErrDelRoot"),
+                                    "Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return;
+                }
+                // Delete sys.
+                NotifyDataDelete(system.EcellObject, true);
+                canvas.ResetSelectedSystem();
+            }
         }
 
-        #region EventHandler
+        /// <summary>
+        /// Called when a create logger menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void CreateLoggerClick(object sender, EventArgs e)
+        {
+            if (!(ActiveCanvas.ClickedNode is PPathwayObject))
+                return;
+
+            string logger = ((ToolStripItem)sender).Text;
+            PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
+            Debug.WriteLine("Create " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
+            // set logger
+            NotifyLoggerChanged(obj, logger, true);
+        }
+
+        /// <summary>
+        /// Called when a delete logger menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void DeleteLoggerClick(object sender, EventArgs e)
+        {
+            if (!(ActiveCanvas.ClickedNode is PPathwayObject))
+                return;
+            string logger = ((ToolStripItem)sender).Text;
+
+            PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
+            Debug.WriteLine("Delete " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
+            // delete logger
+            NotifyLoggerChanged(obj, logger, false);
+        }
+        
+        /// <summary>
+        /// Called when one of layout menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void LayoutItem_Click(object sender, EventArgs e)
+        {
+            if (!(sender is ToolStripMenuItem))
+                return;
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            int layoutIdx = 0;
+            int subIdx = 0;
+            try
+            {
+                if (((ToolStripMenuItem)sender).Tag is int)
+                {
+                    layoutIdx = (int)item.Tag;
+                    subIdx = -1;
+                }
+                else
+                {
+                    string[] tags = ((string)item.Tag).Split(',');
+                    layoutIdx = int.Parse(tags[0]);
+                    subIdx = int.Parse(tags[1]);
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(m_resources.GetString("ErrLayout"));
+            }
+            ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
+
+            DoLayout(algorithm, subIdx, true);
+        }
+
+        /// <summary>
+        /// Called when a change line menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeLineClick(object sender, EventArgs e)
+        {
+            // Selected MenuItem.
+            if (!(sender is ToolStripItem))
+                return;
+            ToolStripItem item = (ToolStripItem)sender;
+            // Selected Canvas
+            CanvasControl canvas = ActiveCanvas;
+            if (canvas == null)
+                return;
+            // Selected Line
+            Line line = canvas.SelectedLine;
+            if (line == null)
+                return;
+            canvas.ResetSelectedLine();
+
+            // Change edgeInfo.
+            RefChangeType changeType = RefChangeType.SingleDir;
+            int coefficient = 0;
+            if (item.Name == CANVAS_MENU_RIGHT_ARROW)
+            {
+                changeType = RefChangeType.SingleDir;
+                coefficient = 1;
+            }
+            else if (item.Name == CANVAS_MENU_LEFT_ARROW)
+            {
+                changeType = RefChangeType.SingleDir;
+                coefficient = -1;
+            }
+            else if (item.Name == CANVAS_MENU_BIDIR_ARROW)
+            {
+                changeType = RefChangeType.BiDir;
+                coefficient = 0;
+            }
+            else
+            {
+                changeType = RefChangeType.SingleDir;
+                coefficient = 0;
+            }
+            NotifyVariableReferenceChanged(
+                line.Info.ProcessKey,
+                line.Info.VariableKey,
+                changeType,
+                coefficient);
+        }
+
+        /// <summary>
+        /// Change the Layer of Selected Objects.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ChangeLeyerClick(object sender, EventArgs e)
+        {
+            if (this.ActiveCanvas == null)
+                return;
+            CanvasControl canvas = this.ActiveCanvas;
+            // Select Layer
+            List<string> layerList = canvas.GetLayerNameList();
+            string name = SelectBoxDialog.Show("Select Layer", null, layerList);
+            if (name == null || name.Equals(""))
+                return;
+            if (!canvas.Layers.ContainsKey(name))
+                canvas.AddLayer(name);
+
+            // Change layer of selected objects.
+            PPathwayLayer layer = canvas.Layers[name];
+            List<PPathwayObject> objList = canvas.SelectedNodes;
+            int i = 0;
+            foreach (PPathwayObject obj in objList)
+            {
+                obj.Layer = layer;
+                i++;
+                NotifyDataChanged(
+                    obj.EcellObject.key,
+                    obj.EcellObject.key,
+                    obj,
+                    true,
+                    (i == objList.Count));
+            }
+        }
+
+        /// <summary>
+        /// Called when a copy menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void CopyClick(object sender, EventArgs e)
+        {
+            if (this.ActiveCanvas == null)
+                return;
+            this.CopiedNodes.Clear();
+            this.m_copyPos = this.m_mousePos;
+
+            this.CopiedNodes = SetCopyNodes(this.ActiveCanvas.SelectedNodes);
+        }
+
+        /// <summary>
+        /// Called when a cut menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void CutClick(object sender, EventArgs e)
+        {
+            if (this.ActiveCanvas == null)
+                return;
+            this.CopiedNodes.Clear();
+            this.m_copyPos = this.m_mousePos;
+
+            this.CopiedNodes = SetCopyNodes(this.ActiveCanvas.SelectedNodes);
+
+            int i = 0;
+            bool isAnchor;
+            foreach (EcellObject eo in this.CopiedNodes)
+            {
+                i++;
+                isAnchor = (i == this.CopiedNodes.Count);
+                this.NotifyDataDelete(eo, isAnchor);
+            }
+
+        }
+
+        /// <summary>
+        /// Called when a paste menu of the context menu is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void PasteClick(object sender, EventArgs e)
+        {
+            if (m_copiedNodes == null || m_copiedNodes.Count == 0)
+                return;
+
+            List<EcellObject> nodeList = CopyNodes(m_copiedNodes);
+            int i = 0;
+            bool isAnchor;
+            foreach (EcellObject eo in nodeList)
+            {
+                i++;
+                isAnchor = (i == m_copiedNodes.Count);
+                this.NotifyDataAdd(eo, isAnchor);
+            }
+        }
+
+        /// <summary>
+        /// the event sequence of clicking the menu of [View]->[Show Id]
+        /// </summary>
+        /// <param name="sender">MenuStripItem.</param>
+        /// <param name="e">EventArgs.</param>
+        void ShowIdClick(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            if (item.CheckState == CheckState.Checked)
+                ShowingID = true;
+            else
+                ShowingID = false;
+        }
+
+        /// <summary>
+        /// Called when m_nodeMenu is closed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void m_nodeMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            if (sender is ContextMenuStrip)
+            {
+                ((ContextMenuStrip)sender).Tag = null;
+            }
+        }
+
+        /// <summary>
+        /// When select the button in ToolBox,
+        /// system change the listener for event
+        /// </summary>
+        /// <param name="sender">ToolBoxMenuButton.</param>
+        /// <param name="e">EventArgs.</param>
+        public void ButtonStateChanged(object sender, EventArgs e)
+        {
+            RemoveInputEventListener(m_handlerDict[m_selectedHandle.HandleID]);
+            m_selectedHandle = (Handle)((ToolStripButton)sender).Tag;
+            
+            foreach (ToolStripButton button in m_buttonList)
+            {
+                if (button.Tag != m_selectedHandle)
+                {
+                    button.Checked = false;
+                }
+            }
+
+            AddInputEventListener(m_handlerDict[m_selectedHandle.HandleID]);
+
+            if (m_selectedHandle.Mode == Mode.Pan)
+            {
+                m_pathwayView.Cursor = new Cursor(new MemoryStream(Resource1.move));
+                Freeze();
+            }
+            else
+            {
+                m_pathwayView.Cursor = Cursors.Arrow;
+                Unfreeze();
+            }
+            if (ActiveCanvas == null)
+                return;
+            ActiveCanvas.ResetNodeToBeConnected();
+            ActiveCanvas.SetLineVisibility(false);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ZoomButton_Click(object sender, EventArgs e)
+        {
+            float rate = (float)((ToolStripButton)sender).Tag;
+            if (this.CanvasDictionary == null)
+                return;
+
+            foreach(CanvasControl canvas in this.CanvasDictionary.Values)
+            {
+                canvas.Zoom(rate);
+            }
+        }
+        #endregion
+
+        #region EventHandlers for NodeClick
        /// <summary>
         /// the event sequence of selecting the PNode of system in PathwayEditor.
         /// </summary>
@@ -1496,126 +1695,119 @@ namespace EcellLib.PathwayWindow
             if (e.Button == MouseButtons.Right)
                 canvas.ClickedNode = line;
         }
+        #endregion
+
+        #region private Methods.
+        /// <summary>
+        /// Create pathway canvas.
+        /// </summary>
+        /// <param name="modelID">the model ID.</param>
+        private void CreateCanvas(string modelID)
+        {
+            // Clear current canvas (TODO: Remove when support multiple canvas).
+            m_canvasDict = new Dictionary<string, CanvasControl>();
+
+            // Create canvas
+            CanvasControl canvas = new CanvasControl(this, modelID);
+            m_activeCanvasID = modelID;
+            m_canvasDict.Add(modelID, canvas);
+            // Set Pathwayview
+            m_pathwayView.Clear();
+            m_pathwayView.TabControl.Controls.Add(canvas.TabPage);
+            // Set Overview
+            m_overView.SetCanvas(canvas.OverviewCanvas);
+            canvas.UpdateOverview();
+            // Set Layerview
+            m_layerView.DataGridView.DataSource = canvas.LayerTable;
+        }
 
         /// <summary>
-        /// Called when a node moves
+        /// Get ComponentSetting.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void NodeMoved(object sender, PInputEventArgs e)
+        /// <param name="type">ComponentType</param>
+        /// <returns>ComponentSetting.</returns>
+        private ComponentSetting GetComponentSetting(string type)
         {
-            if (!(e.PickedNode is PPathwayNode))
+            ComponentType cType = ComponentManager.ParseComponentKind(type);
+            switch (cType)
             {
-                return;
+                case ComponentType.Process:
+                    return m_csManager.DefaultProcessSetting;
+                case ComponentType.System:
+                    return m_csManager.DefaultSystemSetting;
+                case ComponentType.Variable:
+                    return m_csManager.DefaultVariableSetting;
             }
+            return null;
         }
 
         /// <summary>
-        /// Called when node is unselected.
+        /// Freeze all objects to be unpickable.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void NodeUnselected(object sender, PInputEventArgs e)
+        private void Freeze()
         {
-            if (!(e.PickedNode is PPathwayNode))
+            if (m_isFreezed)
+                return;
+            if (null != m_canvasDict)
             {
-                return;
+                foreach (CanvasControl canvas in m_canvasDict.Values)
+                    canvas.Freeze();
             }
+            m_isFreezed = true;
         }
-        /// <summary>
-        /// Change the Layer of Selected Objects.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void ChangeLeyerClick(object sender, EventArgs e)
-        {
-            if (this.ActiveCanvas == null)
-                return;
-            CanvasControl canvas = this.ActiveCanvas;
-            // Select Layer
-            List<string> layerList = canvas.GetLayerNameList();
-            string name = SelectBoxDialog.Show("Select Layer", null, layerList);
-            if (name == null || name.Equals(""))
-                return;
-            if (!canvas.Layers.ContainsKey(name))
-                canvas.AddLayer(name);
 
-            // Change layer of selected objects.
-            PPathwayLayer layer = canvas.Layers[name];
-            List<PPathwayObject> objList = canvas.SelectedNodes;
-            int i = 0;
-            foreach (PPathwayObject obj in objList)
+        /// <summary>
+        /// Cancel freezed status.
+        /// </summary>
+        private void Unfreeze()
+        {
+            if (!m_isFreezed)
+                return;
+            if (null != m_canvasDict)
             {
-                obj.Layer = layer;
-                i++;
-                NotifyDataChanged(
-                    obj.EcellObject.key,
-                    obj.EcellObject.key,
-                    obj,
-                    true,
-                    (i == objList.Count));
+                foreach (CanvasControl canvas in m_canvasDict.Values)
+                    canvas.Unfreeze();
             }
-        }
-        /// <summary>
-        /// Called when a copy menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void CopyClick(object sender, EventArgs e)
-        {
-            if (this.ActiveCanvas == null)
-                return;
-            this.CopiedNodes.Clear();
-            this.m_copyPos = this.m_mousePos;
-
-            this.CopiedNodes = SetCopyNodes(this.ActiveCanvas.SelectedNodes);
+            m_isFreezed = false;
         }
 
         /// <summary>
-        /// Called when a cut menu of the context menu is clicked.
+        /// Create LayoutAlgorithm menus.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void CutClick(object sender, EventArgs e)
+        private void CreateLayoutAlgorithmMenus()
         {
-            if (this.ActiveCanvas == null)
-                return;
-            this.CopiedNodes.Clear();
-            this.m_copyPos = this.m_mousePos;
-
-            this.CopiedNodes = SetCopyNodes(this.ActiveCanvas.SelectedNodes);
-
-            int i = 0;
-            bool isAnchor;
-            foreach (EcellObject eo in this.CopiedNodes)
+            // Get LayoutAlgorithms
+            m_layoutList = m_window.GetLayoutAlgorithms();
+            // Create menu.
+            List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
+            int count = 0;
+            foreach (ILayoutAlgorithm algorithm in m_layoutList)
             {
-                i++;
-                isAnchor = (i == this.CopiedNodes.Count); 
-                this.NotifyDataDelete(eo, isAnchor);
-            }
+                ToolStripMenuItem algoItem = new ToolStripMenuItem(algorithm.GetMenuText());
+                algoItem.Tag = count;
+                algoItem.ToolTipText = algorithm.GetToolTipText();
+                algoItem.Click += new EventHandler(LayoutItem_Click);
 
+                List<string> subCommands = algorithm.GetSubCommands();
+                if (subCommands != null && subCommands.Count != 0)
+                {
+                    int subcount = 0;
+                    foreach (string subCommandName in subCommands)
+                    {
+                        ToolStripMenuItem layoutSubItem = new ToolStripMenuItem();
+                        layoutSubItem.Text = subCommandName;
+                        layoutSubItem.Tag = count + "," + subcount;
+                        layoutSubItem.Click += new EventHandler(LayoutItem_Click);
+                        algoItem.DropDownItems.Add(layoutSubItem);
+                        subcount++;
+                    }
+                }
+                menuList.Add(algoItem);
+                count++;
+            }
+            m_menuLayoutList = menuList;
         }
 
-        /// <summary>
-        /// Called when a paste menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void PasteClick(object sender, EventArgs e)
-        {
-            if (m_copiedNodes == null || m_copiedNodes.Count == 0)
-                return;
-
-            List<EcellObject> nodeList = CopyNodes(m_copiedNodes);
-            int i = 0;
-            bool isAnchor;
-            foreach (EcellObject eo in nodeList)
-            {
-                i++;
-                isAnchor = (i == m_copiedNodes.Count); 
-                this.NotifyDataAdd(eo, isAnchor);
-            }
-        }
         /// <summary>
         /// Set copied nodes.
         /// </summary>
@@ -1634,6 +1826,7 @@ namespace EcellLib.PathwayWindow
                     copyNodes.Add(node.EcellObject.Copy());
             return copyNodes;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1661,7 +1854,7 @@ namespace EcellLib.PathwayWindow
                 eo.modelID = canvas.ModelID;
                 eo.SetPosition(eo.X + diff.X, eo.Y + diff.Y);
                 sysKey = canvas.GetSurroundingSystemKey(eo.PointF);
-                if( sysKey == null )
+                if (sysKey == null)
                     sysKey = canvas.GetSurroundingSystemKey(this.m_mousePos);
                 if (eo.parentSystemID != sysKey)
                     eo.parentSystemID = sysKey;
@@ -1692,6 +1885,7 @@ namespace EcellLib.PathwayWindow
             }
             return copiedNodes;
         }
+
         /// <summary>
         /// Get distance of two pointF
         /// </summary>
@@ -1710,64 +1904,9 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Called when a delete menu of the context menu is clicked.
+        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void DeleteClick(object sender, EventArgs e)
-        {
-            // Check active canvas.
-            CanvasControl canvas = this.ActiveCanvas;
-            if (canvas == null)
-                return;
-
-            // Delete Selected Line
-            Line line = canvas.SelectedLine;
-            if (line != null)
-            {
-                NotifyVariableReferenceChanged(
-                    line.Info.ProcessKey,
-                    line.Info.VariableKey,
-                    RefChangeType.Delete,
-                    0);
-                canvas.ResetSelectedLine();
-            }
-            // Delete Selected Nodes
-            if (canvas.SelectedNodes != null)
-            {
-                List<EcellObject> slist = new List<EcellObject>();
-                foreach (PPathwayObject node in canvas.SelectedNodes)
-                    slist.Add(node.EcellObject);
-
-                int i = 0;
-                foreach (EcellObject deleteNode in slist)
-                {
-                    i++;
-                    bool isAnchor = (i == slist.Count);
-                    NotifyDataDelete(deleteNode, isAnchor);
-                }
-            }
-            // Delete Selected System
-            if (canvas.SelectedSystemName != null)
-            {
-                PPathwaySystem system = canvas.Systems[canvas.SelectedSystemName];
-                // Return if system is null or root.
-                if (string.IsNullOrEmpty(system.EcellObject.key))
-                    return;
-                if (system.EcellObject.key.Equals("/"))
-                {
-                    MessageBox.Show(m_resources.GetString("ErrDelRoot"),
-                                    "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
-                    return;
-                }
-                // Delete sys.
-                NotifyDataDelete(system.EcellObject, true);
-                canvas.ResetSelectedSystem();
-            }
-        }
-
+        /// <param name="system"></param>
         private void DeleteSystemUnder(PPathwaySystem system)
         {
             CanvasControl canvas = system.CanvasControl;
@@ -1821,61 +1960,11 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Get the list of system in the target mode.
+        /// 
         /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <returns>The list of system.</returns>
-        public List<EcellObject> GetSystemList(string modelID)
-        {
-            List<EcellObject> systemList = new List<EcellObject>();
-            foreach(PPathwayObject obj in m_canvasDict[modelID].GetSystemList())
-                systemList.Add(m_window.GetEcellObject(modelID, obj.EcellObject.key, obj.EcellObject.type));
-            return systemList;
-        }
-
-        /// <summary>
-        /// Get the list of EcellObject in the target model.
-        /// </summary>
-        /// <param name="modelID">the model ID.</param>
-        /// <returns>the list of EcellObject.</returns>
-        public List<EcellObject> GetNodeList(string modelID)
-        {
-            List<EcellObject> nodeList = new List<EcellObject>();
-            foreach (PPathwayObject obj in m_canvasDict[modelID].GetNodeList())
-                nodeList.Add(m_window.GetEcellObject(modelID, obj.EcellObject.key, obj.EcellObject.type));
-
-            return nodeList;
-        }
-
-        /// <summary>
-        /// The event sequence on changing value of data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID before value change.</param>
-        /// <param name="oldKey">The ID before value change.</param>
-        /// <param name="type">The data type before value change.</param>
-        /// <param name="eo">Changed value of object.</param>
-        public void DataChanged(string modelID, string oldKey, string type, EcellObject eo)
-        {
-            // Select Canvas
-            CanvasControl canvas = m_canvasDict[modelID];
-            // If case SystemSize
-            if( oldKey.EndsWith(":SIZE") )
-            {
-                ChangeSystemSize(modelID, eo.parentSystemID, eo.GetEcellValue("Value").CastToDouble());
-                return;
-            }
-
-            // Select changed object.
-            PPathwayObject obj = canvas.GetSelectedObject(oldKey, type);
-            if (obj == null)
-                return;
-
-            // Change data.
-            obj.EcellObject = eo;
-            obj.Refresh();
-            canvas.DataChanged(oldKey, eo.key, obj);
-        }
-
+        /// <param name="modelID"></param>
+        /// <param name="sysKey"></param>
+        /// <param name="size"></param>
         private void ChangeSystemSize(string modelID, string sysKey, double size)
         {
             EcellObject eo = m_window.GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
@@ -1883,29 +1972,34 @@ namespace EcellLib.PathwayWindow
             DataChanged(modelID, eo.key, eo.type, eo);
         }
 
+        #endregion
+
         /// <summary>
-        /// The event sequence on deleting the object at other plugin.
+        /// Add the selected EventHandler to event listener.
         /// </summary>
-        /// <param name="modelID">The model ID of deleted object.</param>
-        /// <param name="key">The ID of deleted object.</param>
-        /// <param name="type">The object type of deleted object.</param>
-        public void DataDelete(string modelID, string key, string type)
+        /// <param name="handler">added EventHandler.</param>
+        public void AddInputEventListener(PBasicInputEventHandler handler)
         {
-            CanvasControl canvas = this.m_canvasDict[modelID];
-            if (canvas == null)
+            // Exception condition 
+            if (m_canvasDict == null)
                 return;
-            // If case SystemSize
-            if (key.EndsWith(":SIZE"))
-            {
-                ChangeSystemSize(modelID, PathUtil.GetParentSystemId(key), 0.1d);
-                return;
-            }
 
-            // Delete object.
-            canvas.DataDelete(key, type);
-
+            foreach (CanvasControl canvas in m_canvasDict.Values)
+                canvas.PathwayCanvas.AddInputEventListener(handler);
         }
 
-        #endregion
+        /// <summary>
+        /// Delete the selected EventHandler from event listener.
+        /// </summary>
+        /// <param name="handler">deleted EventHandler.</param>
+        public void RemoveInputEventListener(PBasicInputEventHandler handler)
+        {
+            // Exception condition 
+            if (m_canvasDict == null)
+                return;
+
+            foreach(CanvasControl canvas in m_canvasDict.Values)
+                canvas.PathwayCanvas.RemoveInputEventListener(handler);
+        }
     }
 }

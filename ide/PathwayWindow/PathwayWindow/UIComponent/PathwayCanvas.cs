@@ -138,7 +138,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             bool isPPathwaySystem = (m_canvas.ClickedNode is PPathwaySystem);
             bool isLine = (m_canvas.ClickedNode is Line);
             bool isCopiedNode = (m_con.CopiedNodes.Count > 0);
-            bool isLayoutMenu = (m_con.Window.LayoutAlgorithm.Count > 0
+            bool isLayoutMenu = (m_con.LayoutMenus.Count > 0
                                 && (isPPathwayObject || isLine || isCopiedNode));
 
             // Set visibility.

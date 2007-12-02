@@ -1752,11 +1752,11 @@ namespace EcellLib.PathwayWindow
         public void AddSelectedSystem(string systemName)
         {
             m_selectedSystemName = systemName;
-            if (m_systems.ContainsKey(systemName))
-                m_systems[systemName].IsHighLighted = true;
+            if (!m_systems.ContainsKey(systemName))
+                return;
+            m_systems[systemName].IsHighLighted = true;
             ShowResizeHandles();
             UpdateResizeHandlePositions();
-            string type = m_systems[systemName].EcellObject.type;
         }
 
         /// <summary>
