@@ -600,7 +600,7 @@ namespace EcellLib.PathwayWindow
             if (modelID == null || !m_con.CanvasDictionary.ContainsKey(modelID))
                 return;
             CanvasControl canvas = this.m_con.CanvasDictionary[modelID];
-            if (canvas != null)
+            if (canvas == null)
                 return;
             canvas.SelectChanged(key, type);
         }

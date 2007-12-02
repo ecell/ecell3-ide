@@ -117,12 +117,6 @@
     <Compile Include="NoSuchComponentClassException.cs" />
     <Compile Include="NoSuchComponentKindException.cs" />
     <Compile Include="PathwayException.cs" />
-    <Compile Include="ProgressDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ProgressDialog.Designer.cs">
-      <DependentUpon>ProgressDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Nodes\Line.cs" />
     <Compile Include="UIComponent\InputBoxDialog.cs">
       <SubType>Form</SubType>
@@ -164,6 +158,12 @@
     <Compile Include="UIComponent\LayerView.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UIComponent\ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIComponent\ProgressDialog.designer.cs">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIComponent\SelectBoxDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,10 +179,6 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResPathway.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProgressDialog.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resource1.ja.resx">
       <SubType>Designer</SubType>
@@ -207,6 +203,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\LayerView.resx">
       <DependentUpon>LayerView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIComponent\ProgressDialog.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\SelectBoxDialog.resx">

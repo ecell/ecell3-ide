@@ -2102,20 +2102,16 @@ namespace EcellLib.PathwayWindow
             if (obj == null)
                 return;
             // Set select change.
+            this.ResetSelectedObjects();
             RectangleF centerBounds = new RectangleF();
             switch (type)
             {
                 case EcellObject.SYSTEM:
                     centerBounds = obj.FullBounds;
-                    this.ResetSelectedObjects();
                     this.AddSelectedSystem(key);
                     break;
                 case EcellObject.VARIABLE: case EcellObject.PROCESS:
                     centerBounds = PathUtil.GetFocusBound(obj.FullBounds, LEAST_FOCUS_SIZE);
-                    // Check already selected or not.
-                    if (obj.IsHighLighted)
-                        break;
-                    this.ResetSelectedObjects();
                     this.AddSelectedNode((PPathwayNode)obj, false);
                     break;
             }
