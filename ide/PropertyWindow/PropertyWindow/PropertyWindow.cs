@@ -50,6 +50,9 @@ namespace EcellLib.PropertyWindow
     public class PropertyWindow : PluginBase
     {
         #region Fields
+        /// <summary>
+        /// The displayed object.
+        /// </summary>
         private EcellObject m_current = null;
         /// <summary>
         /// dgv (DataGridView) is property window grid.
@@ -79,7 +82,13 @@ namespace EcellLib.PropertyWindow
         /// Timer for executing redraw event at each 0.5 minutes.
         /// </summary>
         System.Windows.Forms.Timer m_time;
+        /// <summary>
+        /// Timer to delete the property.
+        /// </summary>
         System.Windows.Forms.Timer m_deletetime;
+        /// <summary>
+        /// Current status of project.
+        /// </summary>
         private ProjectStatus m_type = ProjectStatus.Uninitialized;
         /// <summary>
         /// Expression.
@@ -89,12 +98,22 @@ namespace EcellLib.PropertyWindow
         /// data manager.
         /// </summary>
         private DataManager m_dManager;
+        /// <summary>
+        /// Dictionary of property of displayed object.
+        /// </summary>
         private Dictionary<String, EcellData> m_propDic;
         /// <summary>
         /// ResourceManager for PropertyWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResProperty));
+        /// <summary>
+        /// Flag whether this properties is changing.
+        /// </summary>
         private bool m_isChanging = false;
+        /// <summary>
+        /// Row index edited now.
+        /// </summary>
+        private int m_editRow = -1;
         #endregion
 
         /// <summary>
@@ -142,67 +161,23 @@ namespace EcellLib.PropertyWindow
             m_deletetime.Tick += new EventHandler(DeleteTimerFire);
         }
 
-        void m_dgv_MouseDown(object sender, MouseEventArgs e)
-        {
-            DataGridView v = sender as DataGridView;
-            if (e.Button == MouseButtons.Left)
-            {
-                DataGridView.HitTestInfo hti = v.HitTest(e.X, e.Y);
-                if (hti.ColumnIndex > 0) return;
-//                if (hti.ColumnIndex < 0) return;
-                if (hti.RowIndex <= 0) return;
-                string s = v[0, hti.RowIndex].Value as string;
-                if (s == null) return;
-                foreach (EcellData d in m_current.Value)
-                {
-                    if (d.Name.Equals(s))
-                    {
-                        if (!d.Logable) break;
-                        EcellDragObject dobj = new EcellDragObject(m_current.modelID,
-                            m_current.key,
-                            m_current.type,
-                            d.EntityPath);
-                        
-                        v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
-                        return;
-                    }
-                }
-            }
-        }
-
-
         /// <summary>
-        /// Execute redraw process on simulation running at every 1sec.
+        /// 
         /// </summary>
-        /// <param name="sender">object(Timer)</param>
-        /// <param name="e">EventArgs</param>
-        void TimerFire(object sender, EventArgs e)
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="obj"></param>
+        private void NotifyDataChanged(string modelID, string key, EcellObject obj)
         {
-            m_time.Enabled = false;
-            UpdatePropForSimulation();
-            m_time.Enabled = true;
+            m_isChanging = true;
+            m_dManager.DataChanged(modelID, key, obj.type, obj);
+            m_current = obj;
+            m_isChanging = false;
         }
 
         /// <summary>
-        /// Execute redraw process on simulation running at every 1sec.
+        /// Display the property of current object.
         /// </summary>
-        /// <param name="sender">object(Timer)</param>
-        /// <param name="e">EventArgs</param>
-        void DeleteTimerFire(object sender, EventArgs e)
-        {
-            m_deletetime.Enabled = false;
-            if (m_editRow >= 0)
-            {
-                m_dgv.Rows.RemoveAt(m_editRow);
-                m_editRow = -1;
-                m_deletetime.Stop();
-            }
-            else
-            {
-                m_deletetime.Stop();
-            }
-        }
-
         private void ResetProperty()
         {
             if (m_current == null) return;
@@ -223,6 +198,130 @@ namespace EcellLib.PropertyWindow
             }
         }
 
+        /// <summary>
+        /// Update the size value.
+        /// If system do not have the size object, system create the size object.
+        /// </summary>
+        /// <param name="sysObj">system object.</param>
+        /// <param name="data">size value.</param>
+        private void UpdateSize(EcellObject sysObj, string data)
+        {
+            DataManager dManager = DataManager.GetDataManager();
+            if (data.Equals(""))
+            {
+                if (sysObj.Children == null) return;
+                foreach (EcellObject o in sysObj.Children)
+                {
+                    if (o.key.EndsWith(":SIZE"))
+                    {
+                        sysObj.Children.Remove(o);
+                        dManager.DataDelete(o.modelID, o.key, o.type);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                bool isHit = false;
+                if (sysObj.Children != null)
+                {
+                    foreach (EcellObject o in sysObj.Children)
+                    {
+                        if (!o.key.EndsWith(":SIZE")) continue;
+                        foreach (EcellData d in o.Value)
+                        {
+                            if (!d.Name.EndsWith("Value")) continue;
+                            if (data.Equals(d.Value.ToString())) break;
+
+                            EcellData p = d.Copy();
+                            p.Value = new EcellValue(Convert.ToDouble(data));
+                            o.Value.Remove(d);
+                            o.Value.Add(p);
+                            dManager.DataChanged(
+                                          o.modelID,
+                                          o.key,
+                                          o.type,
+                                          o);
+                            break;
+                        }
+                        isHit = true;
+                        break;
+                    }
+                }
+                if (isHit == false)
+                {
+                    Dictionary<string, EcellData> plist = dManager.GetVariableProperty();
+                    List<EcellData> dlist = new List<EcellData>();
+                    foreach (string pname in plist.Keys)
+                    {
+                        if (pname.Equals("Value"))
+                        {
+                            EcellData d = plist[pname];
+                            d.Value = new EcellValue(Convert.ToDouble(data));
+                            dlist.Add(d);
+                        }
+                        else
+                        {
+                            dlist.Add(plist[pname]);
+                        }
+                    }
+                    EcellObject obj = EcellObject.CreateObject(sysObj.modelID,
+                        sysObj.key + ":SIZE", "Variable", "Variable", dlist);
+                    List<EcellObject> rList = new List<EcellObject>();
+                    rList.Add(obj);
+                    dManager.DataAdd(rList);
+                    if (sysObj.Children == null)
+                        sysObj.Children = new List<EcellObject>();
+                    sysObj.Children.Add(obj);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event of clicking the formulator button.
+        /// Show the window to edit the formulator.
+        /// </summary>
+        public void ShowFormulatorWindow()
+        {
+            m_fwin = new FormulatorWindow();
+            m_cnt = new FormulatorControl();
+            m_fwin.tableLayoutPanel.Controls.Add(m_cnt, 0, 0);
+            m_cnt.Dock = DockStyle.Fill;
+
+            List<string> list = new List<string>();
+            list.Add("self.getSuperSystem().SizeN_A");
+            foreach (EcellData d in m_current.Value)
+            {
+                String str = d.Name;
+                if (str != "modelID" && str != "key" && str != "type" &&
+                    str != "classname" && str != EcellProcess.ACTIVITY &&
+                    str != EcellProcess.EXPRESSION && str != EcellProcess.NAME &&
+                    str != EcellProcess.PRIORITY && str != EcellProcess.STEPPERID &&
+                    str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
+                    list.Add(str);
+            }
+            List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
+            foreach (EcellReference r in tmpList)
+            {
+                list.Add(r.name + ".MolarConc");
+            }
+            foreach (EcellReference r in tmpList)
+            {
+                list.Add(r.name + ".Value");
+            }
+            m_cnt.AddReserveString(list);
+
+
+            m_cnt.ImportFormulate(m_expression);
+            m_fwin.FApplyButton.Click += new EventHandler(UpdateFormulator);
+            m_fwin.FCloseButton.Click += new EventHandler(m_fwin.CancelButtonClick);
+
+            m_fwin.ShowDialog();
+        }
+
+        /// <summary>
+        /// Update the property value with simulation.
+        /// </summary>
         void UpdatePropForSimulation()
         {
             double l_time = m_dManager.GetCurrentSimulationTime();
@@ -245,37 +344,6 @@ namespace EcellLib.PropertyWindow
             }
         }
 
-        void DgvUserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
-        {
-            if (m_propDic == null) return;
-
-            string name = m_dgv.Rows[e.Row.Index].Cells[0].Value.ToString();
-
-            if (m_propDic.ContainsKey(name))
-            {
-                e.Cancel = true;
-            }
-            else {
-                EcellObject p = m_current.Copy();
-                foreach (EcellData d in p.Value)
-                {
-                    if (d.Name.Equals(name))
-                    {
-                        p.Value.Remove(d);
-                        break;
-                    }
-                }
-                m_isChanging = true;
-                m_dManager.DataChanged(
-                    m_current.modelID,
-                    m_current.key,
-                    m_current.type,
-                    p);
-                m_isChanging = false;
-                return;
-            }
-
-        }
 
         /// <summary>
         /// Get the object from DataManager.
@@ -286,30 +354,7 @@ namespace EcellLib.PropertyWindow
         /// <returns>the result object.</returns>
         EcellObject GetData(string modelID, string key, string type)
         {
-            List<EcellObject> list;
-            if (type.Equals("System"))
-            {
-                list = m_dManager.GetData(modelID, key);
-                if (list == null || list.Count != 1) return null;
-                return list[0];
-            }
-
-            string[] keys = key.Split(new char[] { ':' });
-            list = m_dManager.GetData(modelID, keys[0]);
-            if (list == null || list.Count == 0) return null;
-            for (int i = 0; i < list.Count; i++)
-            {
-                List<EcellObject> insList = list[i].Children;
-                if (insList == null || insList.Count == 0) continue;
-                for (int j = 0; j < insList.Count; j++)
-                {
-                    if (insList[j].key == key && insList[j].type == type)
-                    {
-                        return insList[j];
-                    }
-                }
-            }
-            return null;
+            return m_dManager.GetEcellObject(modelID, key, type);
         }
 
         /// <summary>
@@ -327,20 +372,14 @@ namespace EcellLib.PropertyWindow
             r.Cells.Add(c1);
 
             if (d.Value == null) return null;
-            if (d.Name.Equals("ClassName"))
+            if (d.Name.Equals(Constants.xpathClassName))
             {
                 c2 = new DataGridViewComboBoxCell();
-                if (type.Equals("System"))
+                if (type == Constants.xpathSystem || 
+                    type == Constants.xpathVariable)
                 {
-                    ((DataGridViewComboBoxCell)c2).Items.Add("System");
-                    c2.Value = "System";
-                    m_dgv.AllowUserToAddRows = false;
-                    m_dgv.AllowUserToDeleteRows = false;
-                }
-                else if (type.Equals("Variable"))
-                {
-                    ((DataGridViewComboBoxCell)c2).Items.Add("Variable");
-                    c2.Value = "Variable";
+                    ((DataGridViewComboBoxCell)c2).Items.Add(type);
+                    c2.Value = type;
                     m_dgv.AllowUserToAddRows = false;
                     m_dgv.AllowUserToDeleteRows = false;
                 }
@@ -366,12 +405,12 @@ namespace EcellLib.PropertyWindow
                     }
                 }
             }
-            else if (d.Name.Equals("Expression"))
+            else if (d.Name.Equals(Constants.xpathExpression))
             {
                 c2 = new DataGridViewButtonCell();
                 c2.Value = "...";
             }
-            else if (d.Name.Equals(EcellProcess.VARIABLEREFERENCELIST))
+            else if (d.Name.Equals(Constants.xpathVRL))
             {
                 c2 = new DataGridViewButtonCell();
                 c2.Value = "Edit Variable Reference ...";
@@ -472,7 +511,7 @@ namespace EcellLib.PropertyWindow
             
             foreach (EcellData d in obj.Value)
             {
-                if (d.Name.Equals("Size"))
+                if (d.Name.Equals(Constants.xpathSize))
                     continue;
 
                 PropertyAdd(d, type);
@@ -481,10 +520,10 @@ namespace EcellLib.PropertyWindow
                 if (d.Name.Equals(EcellProcess.EXPRESSION))
                     m_expression = d.Value.ToString();
             }
-            if (type.Equals("System"))
+            if (type == Constants.xpathSystem)
             {
                 EcellData dSize = new EcellData();
-                dSize.Name = "Size";
+                dSize.Name = Constants.xpathSize;
                 dSize.Settable = true;
                 dSize.Value = new EcellValue("");
                 if (obj.Children != null)
@@ -666,23 +705,7 @@ namespace EcellLib.PropertyWindow
         /// <param name="time">The current simulation time.</param>
         public void AdvancedTime(double time)
         {
-            //if (time == 0.0) return;
-            //if (m_current == null || m_current.Value == null) return;
-            //foreach (EcellData d in m_current.Value)
-            //{
-            //    if (d.Gettable && (d.Value.IsDouble()))
-            //    {
-            //        EcellValue e = m_dManager.GetEntityProperty(d.EntityPath);
-            //        foreach (DataGridViewRow r in m_dgv.Rows)
-            //        {
-            //            if (r.Cells[0].Value.Equals(d.Name))
-            //            {
-            //                r.Cells[1].Value = e.ToString();
-            //                break;
-            //            }
-            //        }
-            //    }
-            //}
+            // nothing
         }
 
         /// <summary>
@@ -804,10 +827,112 @@ namespace EcellLib.PropertyWindow
 
         #region Events
         /// <summary>
+        /// Event when user delete the row.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewRowCancelEventArgs.</param>
+        void DgvUserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            if (m_propDic == null) return;
+            string name = m_dgv.Rows[e.Row.Index].Cells[0].Value.ToString();
+
+            if (m_propDic.ContainsKey(name)) // be disable to delete.
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                EcellObject p = m_current.Copy();
+                foreach (EcellData d in p.Value)
+                {
+                    if (d.Name.Equals(name))
+                    {
+                        p.Value.Remove(d);
+                        break;
+                    }
+                }
+                try
+                {
+                    NotifyDataChanged(m_current.modelID, m_current.key, p);
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                    m_isChanging = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event when the mouse is down in row.
+        /// This data of row is used for Drag and Drop.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">MouseEventArgs.</param>
+        void m_dgv_MouseDown(object sender, MouseEventArgs e)
+        {
+            DataGridView v = sender as DataGridView;
+            if (e.Button == MouseButtons.Left)
+            {
+                DataGridView.HitTestInfo hti = v.HitTest(e.X, e.Y);
+                if (hti.ColumnIndex > 0) return;
+                if (hti.RowIndex <= 0) return;
+                string s = v[0, hti.RowIndex].Value as string;
+                if (s == null) return;
+                foreach (EcellData d in m_current.Value)
+                {
+                    if (d.Name.Equals(s))
+                    {
+                        if (!d.Logable) break;
+                        EcellDragObject dobj = new EcellDragObject(m_current.modelID,
+                            m_current.key,
+                            m_current.type,
+                            d.EntityPath);
+
+                        v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+                        return;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Execute redraw process on simulation running at every 1sec.
+        /// </summary>
+        /// <param name="sender">object(Timer)</param>
+        /// <param name="e">EventArgs</param>
+        void TimerFire(object sender, EventArgs e)
+        {
+            m_time.Enabled = false;
+            UpdatePropForSimulation();
+            m_time.Enabled = true;
+        }
+
+        /// <summary>
+        /// Execute redraw process on simulation running at every 1sec.
+        /// </summary>
+        /// <param name="sender">object(Timer)</param>
+        /// <param name="e">EventArgs</param>
+        void DeleteTimerFire(object sender, EventArgs e)
+        {
+            m_deletetime.Enabled = false;
+            if (m_editRow >= 0)
+            {
+                m_dgv.Rows.RemoveAt(m_editRow);
+                m_editRow = -1;
+                m_deletetime.Stop();
+            }
+            else
+            {
+                m_deletetime.Stop();
+            }
+        }
+
+        /// <summary>
         /// Set the controller when the edited cell is DataGridViewComboBoxCell.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewEditingControlShowingEventArgs</param>
         void DgvEditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             if (e.Control is DataGridViewComboBoxEditingControl)
@@ -827,8 +952,8 @@ namespace EcellLib.PropertyWindow
         /// Event when the button in VariableReferenceList is clicked.
         /// Set the list of Variable Reference.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
         void ApplyVarRefButton(object sender, EventArgs e)
         {
             String refStr = m_win.GetVarReference();
@@ -841,13 +966,7 @@ namespace EcellLib.PropertyWindow
             m_win.Close();
             try
             {
-                m_isChanging = true;
-                m_dManager.DataChanged(m_current.modelID,
-                    m_current.key,
-                    m_current.type,
-                    obj
-                    );
-                m_isChanging = false;
+                NotifyDataChanged(m_current.modelID, m_current.key, obj);
             }
             catch (Exception ex)
             {
@@ -857,48 +976,6 @@ namespace EcellLib.PropertyWindow
                 m_isChanging = false;
                 return;
             }
-        }
-
-        /// <summary>
-        /// Event of clicking the formulator button.
-        /// Show the window to edit the formulator.
-        /// </summary>
-        public void ShowFormulatorWindow()
-        {
-            m_fwin = new FormulatorWindow();
-            m_cnt = new FormulatorControl();
-            m_fwin.tableLayoutPanel.Controls.Add(m_cnt, 0, 0);
-            m_cnt.Dock = DockStyle.Fill;
-
-            List<string> list = new List<string>();
-            list.Add("self.getSuperSystem().SizeN_A");
-            foreach (EcellData d in m_current.Value)
-            {
-                String str = d.Name;
-                if (str != "modelID" && str != "key" && str != "type" &&
-                    str != "classname" && str != EcellProcess.ACTIVITY &&
-                    str != EcellProcess.EXPRESSION && str != EcellProcess.NAME &&
-                    str != EcellProcess.PRIORITY && str != EcellProcess.STEPPERID &&
-                    str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
-                    list.Add(str);
-            }
-            List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
-            foreach (EcellReference r in tmpList)
-            {
-                list.Add(r.name + ".MolarConc");
-            }
-            foreach (EcellReference r in tmpList)
-            {
-                list.Add(r.name + ".Value");
-            }
-            m_cnt.AddReserveString(list);
-
-
-            m_cnt.ImportFormulate(m_expression);
-            m_fwin.FApplyButton.Click += new EventHandler(UpdateFormulator);
-            m_fwin.FCloseButton.Click += new EventHandler(m_fwin.CancelButtonClick);
-
-            m_fwin.ShowDialog();
         }
 
         /// <summary>
@@ -912,21 +989,15 @@ namespace EcellLib.PropertyWindow
             EcellObject p = m_current.Copy();
             foreach (EcellData d in p.Value)
             {
-                if (d.Name.Equals("Expression"))
+                if (d.Name.Equals(Constants.xpathExpression))
                 {
                     d.Value = new EcellValue(tmp);
                 }
             }
             try
             {
-                m_isChanging = true;
-                m_dManager.DataChanged(
-                        m_current.modelID,
-                        m_current.key,
-                        m_current.type,
-                        p);
+                NotifyDataChanged(m_current.modelID, m_current.key, p);
                 m_expression = tmp;
-                m_isChanging = false;
             }
             catch (Exception ex)
             {
@@ -943,8 +1014,8 @@ namespace EcellLib.PropertyWindow
         /// <summary>
         /// Event when user click the cell in DataGridView.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellEventArgs.</param>
         void CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int rIndex = e.RowIndex;
@@ -985,13 +1056,23 @@ namespace EcellLib.PropertyWindow
             }
         }
 
-        private int m_editRow = -1;
+        /// <summary>
+        /// Start the delete timer.
+        /// </summary>
+        /// <param name="index">the row index to delete.</param>
+        private void StartDeleteTimer(int index)
+        {
+            m_editRow = index;
+            m_deletetime.Enabled = true;
+            m_deletetime.Start();
+        }
+
         /// <summary>
         /// Event when the value of cell is changed.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PropertyChanged(object sender, DataGridViewCellEventArgs e)
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellEventArgs.</param>
+        private void PropertyChanged(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewCell editCell = m_dgv.Rows[e.RowIndex].Cells[e.ColumnIndex];
             if (editCell == null) return;
@@ -1016,10 +1097,8 @@ namespace EcellLib.PropertyWindow
                             }
                             catch (Exception ex)
                             {
-                                m_editRow = e.RowIndex;
                                 ex.ToString();
-                                m_deletetime.Enabled = true;
-                                m_deletetime.Start();
+                                StartDeleteTimer(e.RowIndex);
                             }
                             return;
                         }
@@ -1037,13 +1116,7 @@ namespace EcellLib.PropertyWindow
                     m_dgv.Rows[e.RowIndex].Cells[1].Tag = data;
                     try
                     {
-                        m_isChanging = true;
-                        m_dManager.DataChanged(m_current.modelID,
-                            m_current.key,
-                            m_current.type,
-                            p);
-                        m_isChanging = false;
-                        m_current = p;
+                        NotifyDataChanged(m_current.modelID, m_current.key, p);
                         m_dgv.Rows[e.RowIndex].Cells[1].Value = 0.0;
                     }
                     catch (Exception ex)
@@ -1064,10 +1137,8 @@ namespace EcellLib.PropertyWindow
                     }
                     catch (Exception ex)
                     {
-                                m_editRow = e.RowIndex;
-                                ex.ToString();
-                                m_deletetime.Enabled = true;
-                                m_deletetime.Start();
+                        ex.ToString();
+                        StartDeleteTimer(e.RowIndex);
                     }
                 }
                 return;
@@ -1075,26 +1146,13 @@ namespace EcellLib.PropertyWindow
             if (tag.Name.Equals("ID"))
             {
                 String tmpID = editCell.Value.ToString();
-                if (m_current.type.Equals("System"))
+                if ((m_current.type == Constants.xpathSystem && Util.IsNGforSystemFullID(tmpID)) ||
+                    (m_current.type != Constants.xpathSystem && Util.IsNGforComponentFullID(tmpID)))
                 {
-                    if (Util.IsNGforSystemFullID(tmpID))
-                    {
-                        editCell.Value = m_current.key;
-                        String errmes = m_resources.GetString("ErrID");
-                        MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                        return;
-                    }
-                }
-                else
-                {
-                    if (Util.IsNGforComponentFullID(tmpID))
-                    {
-                        editCell.Value = m_current.key;
-                        String errmes = m_resources.GetString("ErrID");
-                        MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+                    editCell.Value = m_current.key;
+                    String errmes = m_resources.GetString("ErrID");
+                    MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
                 if (editCell.Equals(m_current.key)) return;
 
@@ -1102,14 +1160,7 @@ namespace EcellLib.PropertyWindow
                 p.key = tmpID;
                 try
                 {
-                    m_isChanging = true;
-                    m_dManager.DataChanged(
-                        m_current.modelID,
-                        m_current.key,
-                        m_current.type,
-                        p);
-                    m_current = p;
-                    m_isChanging = false;
+                    NotifyDataChanged(m_current.modelID, m_current.key, p);
                 }
                 catch (Exception ex)
                 {
@@ -1120,7 +1171,7 @@ namespace EcellLib.PropertyWindow
                     return;
                 }
             }
-            else if (tag.Name.Equals("ClassName"))
+            else if (tag.Name.Equals(Constants.xpathClassName))
             {
                 //SelectedIndexChangedイベントハンドラを削除
                 if (this.m_ComboControl != null)
@@ -1130,84 +1181,23 @@ namespace EcellLib.PropertyWindow
                     this.m_ComboControl = null;
                 }
             }
-            else if (tag.Name.Equals("Size"))
+            else if (tag.Name.Equals(Constants.xpathSize))
             {
-                String data = "";
-                if (editCell.Value != null) data = editCell.Value.ToString();
-                if (data.Equals(""))
+                try
                 {
-                    if (m_current.Children != null)
-                    {
-                        foreach (EcellObject o in m_current.Children)
-                        {
-                            if (o.key.EndsWith(":SIZE"))
-                            {
-                                m_current.Children.Remove(o);
-                                m_dManager.DataDelete(o.modelID, o.key, o.type);
-                                break;
-                            }
-                        }
-                    }
+                    String data = "";
+                    if (editCell.Value != null) data = editCell.Value.ToString();
+                    m_isChanging = true;
+                    UpdateSize(m_current, data);
+                    m_isChanging = false;
                 }
-                else
+                catch (Exception ex)
                 {
-                    bool isHit = false;
-                    if (m_current.Children != null)
-                    {
-                        foreach (EcellObject o in m_current.Children)
-                        {
-                            if (o.key.EndsWith(":SIZE"))
-                            {
-                                foreach (EcellData d in o.Value)
-                                {
-                                    if (d.Name.EndsWith("Value"))
-                                    {
-                                        if (data.Equals(d.Value.ToString())) break;
-                                        EcellData p = d.Copy();
-                                        p.Value = new EcellValue(Convert.ToDouble(data));
-                                        o.Value.Remove(d);
-                                        o.Value.Add(p);
-                                        m_isChanging = true;
-                                        m_dManager.DataChanged(
-                                            o.modelID,
-                                            o.key,
-                                            o.type,
-                                            o);
-                                        m_isChanging = false;
-                                        break;
-                                    }
-                                }
-                                isHit = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (isHit == false)
-                    {
-                        Dictionary<string, EcellData> plist = m_dManager.GetVariableProperty();
-                        List<EcellData> dlist = new List<EcellData>();
-                        foreach (string pname in plist.Keys)
-                        {
-                            if (pname.Equals("Value"))
-                            {
-                                EcellData d = plist[pname];
-                                d.Value = new EcellValue(Convert.ToDouble(data));
-                                dlist.Add(d);
-                            }
-                            else
-                            {
-                                dlist.Add(plist[pname]);
-                            }
-                        }
-                        EcellObject obj = EcellObject.CreateObject(m_current.modelID,
-                            m_current.key + ":SIZE", "Variable", "Variable", dlist);
-                        List<EcellObject> rList = new List<EcellObject>();
-                        rList.Add(obj);
-                        m_dManager.DataAdd(rList);
-                        if (m_current.Children == null)
-                            m_current.Children = new List<EcellObject>();
-                        m_current.Children.Add(obj);
-                    }
+                    ex.ToString();
+                    m_isChanging = false;
+                    String errmes = m_resources.GetString("ErrChanged");
+                    MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
             else
@@ -1239,14 +1229,7 @@ namespace EcellLib.PropertyWindow
                 }
                 try
                 {
-                    m_isChanging = true;
-                    m_dManager.DataChanged(
-                        m_current.modelID,
-                        m_current.key,
-                        m_current.type,
-                        p);
-                    m_current = p;
-                    m_isChanging = false;
+                    NotifyDataChanged(m_current.modelID, m_current.key, p);
                 }
                 catch (Exception ex)
                 {
@@ -1254,7 +1237,6 @@ namespace EcellLib.PropertyWindow
                     m_isChanging = false;
                     String errmes = m_resources.GetString("ErrChanged");
                     MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
             }
         }
@@ -1299,13 +1281,7 @@ namespace EcellLib.PropertyWindow
             obj.Width = m_current.Width;
             try
             {
-                m_isChanging = true;
-                m_dManager.DataChanged(
-                    m_current.modelID,
-                    m_current.key,
-                    m_current.type,
-                    obj);
-                m_isChanging = false;
+                NotifyDataChanged(m_current.modelID, m_current.key, obj);
                 if (m_dManager.IsEnableAddProperty(cname))
                 {
                     m_dgv.AllowUserToAddRows = true;

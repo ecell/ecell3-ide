@@ -58,7 +58,6 @@ namespace EcellLib.SearchWindow
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResSearch));
         #endregion
 
-
         /// <summary>
         /// the constructor for SearchCnd.
         /// </summary>
@@ -103,7 +102,6 @@ namespace EcellLib.SearchWindow
             dgv.Rows.Clear();
 
             string searchId = idText.Text;
-
             if (searchId.Equals("") || searchId == null) return;
             List<String> modelList = m_dManager.GetModelList();
             if (modelList == null) return;
@@ -149,7 +147,6 @@ namespace EcellLib.SearchWindow
             }
         }
 
-
         /// <summary>
         /// the action of clicking the close button.
         /// </summary>
@@ -161,7 +158,6 @@ namespace EcellLib.SearchWindow
             this.Dispose();
         }
 
-
         /// <summary>
         /// the action of double clicking in DataGridView.
         /// </summary>
@@ -171,44 +167,20 @@ namespace EcellLib.SearchWindow
         {
             int index = e.RowIndex;
             if (index < 0) return;
-            List<EcellObject> list;
             string model = (string)dgv.Rows[index].Cells[2].Value;
             string id = (string)dgv.Rows[index].Cells[0].Value;
             string type = (string)dgv.Rows[index].Cells[3].Value;
 
-            if (id.Contains(":"))
-            { // not system
-                string[] keys = id.Split(new char[] { ':' });
-                list = m_dManager.GetData(model, keys[0]);
-                if (list == null || list.Count == 0)
-                {
-                    String errmes = m_resources.GetString("ErrNotFind");
-                    MessageBox.Show(
-                    errmes +  "(" + model + "," + id + ")",
-                    "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                for (int i = 0; i < list.Count; i++)
-                {
-                    List<EcellObject> insList = list[i].Children;
-                    if (insList == null || insList.Count == 0) continue;
-                    for (int j = 0; j < insList.Count; j++)
-                    {
-                        if (insList[j].key == id && insList[j].type == type)
-                        {
-                            ShowPropEditWindow(insList[j]);
-                            return;
-                        }
-                    }
-                }
-            }
-            else
-            { // system
-                list = m_dManager.GetData(model, id);
-                if (list == null || list.Count == 0) return;
-                ShowPropEditWindow(list[0]);
+            EcellObject obj = m_dManager.GetEcellObject(model, id, type);
+            if (obj == null)
+            {
+                String errmes = m_resources.GetString("ErrNotFind");
+                MessageBox.Show(
+                errmes + "(" + model + "," + id + ")",
+                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            ShowPropEditWindow(obj);
         }
 
         /// <summary>
@@ -236,7 +208,6 @@ namespace EcellLib.SearchWindow
                 SCCloseButton.PerformClick();
             }
         }
-        #endregion
 
         /// <summary>
         /// The event to show this window.
@@ -248,6 +219,12 @@ namespace EcellLib.SearchWindow
             this.idText.Focus();
         }
 
+        /// <summary>
+        /// Event when the search result item is clicked.
+        /// Select the object corresponding with the search result item.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DataGridViewCellMouseEventArgs.</param>
         private void DgvCellClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             int index = e.RowIndex;
@@ -260,5 +237,7 @@ namespace EcellLib.SearchWindow
             m_pManager.SelectChanged(model, id, type);
             this.Select();
         }
+        #endregion
+
     }
 }

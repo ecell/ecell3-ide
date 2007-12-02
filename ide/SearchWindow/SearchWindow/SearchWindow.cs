@@ -49,9 +49,10 @@ namespace EcellLib.SearchWindow
         /// the window for search objects.
         /// </summary>
         private SearchCnd m_cnd;
-
+        /// <summary>
+        /// ToolBox to search the objects.
+        /// </summary>
         ToolStripTextBox m_text;
-
         #endregion
 
 
@@ -65,6 +66,44 @@ namespace EcellLib.SearchWindow
         {
             m_cnd = new SearchCnd();
             m_cnd.ShowDialog();
+        }
+
+        /// <summary>
+        /// Event when TextBox in ToolBar is input the search condition.
+        /// Display the search result window after system search the object.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">KeyPressEventArgs</param>
+        private void m_text_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!m_searchMenu.Enabled) return;
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                if (m_text.Text == null || m_text.Text.Equals("")) return;
+                if (m_cnd == null || m_cnd.IsDisposed)
+                    m_cnd = new SearchCnd();
+                m_cnd.Show();
+                m_cnd.Search(m_text.Text);
+            }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                m_cnd.Close();
+            }
+        }
+
+        /// <summary>
+        /// Event when the search button is clicked.
+        /// Display the search result window after system search the object.        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
+        private void Search(object sender, EventArgs e)
+        {
+            if (!m_searchMenu.Enabled) return;
+            if (m_text.Text == null || m_text.Text.Equals("")) return;
+            if (m_cnd == null || m_cnd.IsDisposed)
+                m_cnd = new SearchCnd();
+            m_cnd.Show();
+            m_cnd.Search(m_text.Text);
         }
         #endregion
 
@@ -83,7 +122,6 @@ namespace EcellLib.SearchWindow
             m_searchMenu = new ToolStripMenuItem();
             m_searchMenu.Name = "MenuItemSearch";
             m_searchMenu.Size = new Size(96, 22);
-//            m_searchMenu.Text = "Search";
             m_searchMenu.Image = (Image)Resource1.find;
             m_searchMenu.Text = resources.GetString("MenuItemSearchText");
             m_searchMenu.Enabled = false;
@@ -134,33 +172,6 @@ namespace EcellLib.SearchWindow
             return list;
         }
 
-        private void m_text_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!m_searchMenu.Enabled) return;
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                if (m_text.Text == null || m_text.Text.Equals("")) return;
-                if (m_cnd == null || m_cnd.IsDisposed)
-                    m_cnd = new SearchCnd();
-                m_cnd.Show();
-                m_cnd.Search(m_text.Text);
-            }
-            else if (e.KeyChar == (char)Keys.Escape)
-            {
-                m_cnd.Close();
-            }
-        }
-
-        private void Search(object sender, EventArgs e)
-        {
-            if (!m_searchMenu.Enabled) return;
-            if (m_text.Text == null || m_text.Text.Equals("")) return;
-            if (m_cnd == null || m_cnd.IsDisposed)
-                m_cnd = new SearchCnd();
-            m_cnd.Show();
-            m_cnd.Search(m_text.Text);
-        }
-
         /// <summary>
         /// Get the window form for SearchWindow.
         /// </summary>
@@ -189,7 +200,7 @@ namespace EcellLib.SearchWindow
         /// <param name="type">Type of object added to selected objects.</param>
         public void AddSelect(string modelID, string key, string type)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -200,7 +211,7 @@ namespace EcellLib.SearchWindow
         /// <param name="type">Type of object removed from selected objects.</param>
         public void RemoveSelect(string modelID, string key, string type)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -208,7 +219,7 @@ namespace EcellLib.SearchWindow
         /// </summary>
         public void ResetSelect()
         {
-            // not implement
+            // nothing
         }
 
 
@@ -347,8 +358,14 @@ namespace EcellLib.SearchWindow
             // Nothing should be done.
         }
 
+        /// <summary>
+        /// Save the model in this directory.
+        /// </summary>
+        /// <param name="modelID">the saved model.</param>
+        /// <param name="directory">the save directory.</param>
         public void SaveModel(string modelID, string directory)
         {
+            // nothing.
         }
 
         /// <summary>
@@ -371,6 +388,10 @@ namespace EcellLib.SearchWindow
             return "SearchWindow";
         }
 
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>the plugin version.</returns>
         public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
