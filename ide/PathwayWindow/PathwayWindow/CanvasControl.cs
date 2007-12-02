@@ -389,7 +389,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_selectedNodes.
         /// </summary>
-        public PNode SelectedLine
+        public Line SelectedLine
         {
             get { return m_selectedLine; }
         }
@@ -497,12 +497,6 @@ namespace EcellLib.PathwayWindow
 
             // Preparing PathwayCanvas
             m_pCanvas = new PathwayCanvas(this);
-            m_pCanvas.RemoveInputEventListener(m_pCanvas.PanEventHandler);
-            m_pCanvas.RemoveInputEventListener(m_pCanvas.ZoomEventHandler);
-            m_pCanvas.AddInputEventListener(new DefaultMouseHandler(m_con));
-            m_pCanvas.Dock = DockStyle.Fill;
-            m_pCanvas.Name = modelID;
-            m_pCanvas.Camera.ScaleViewBy(0.7f);
 
             // Preparing overview
             m_overviewCanvas = new OverviewCanvas(m_pCanvas.Layer,
@@ -530,9 +524,6 @@ namespace EcellLib.PathwayWindow
             m_ctrlLayer.AddInputEventListener(new ResizeHandleDragHandler(this));
             m_pCanvas.Root.AddChild(m_ctrlLayer);
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
-
-            // Preparing context menus.
-            m_pCanvas.ContextMenuStrip = m_con.NodeMenu;
 
             // Preparing system handlers
             for (int m = 0; m < 8; m++)
@@ -635,8 +626,6 @@ namespace EcellLib.PathwayWindow
             m_line4reconnect.Brush = new SolidBrush(Color.FromArgb(200, Color.Orange));
             m_line4reconnect.Pen = LINE_THIN_PEN;
             m_line4reconnect.Pickable = false;
-
-            //m_pathwayCanvas.AddInputEventListener(new MouseDownHandler(m_pathwayView));
         }
 
         void scrolCtrl_Layout(object sender, LayoutEventArgs e)
@@ -1471,9 +1460,6 @@ namespace EcellLib.PathwayWindow
                 system.MakeSpace(obj);
             }
             obj.Refresh();
-
-            if (obj is PPathwayProcess)
-                ((PPathwayProcess)obj).RefreshEdges();
         }
         /// <summary>
         /// Set Layer.
@@ -1855,8 +1841,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void Freeze()
         {
-            foreach (PPathwaySystem sysCon in m_systems.Values)
-                sysCon.Freeze();
+            foreach (PPathwaySystem system in m_systems.Values)
+                system.Freeze();
             foreach (PPathwayVariable var in m_variables.Values)
                 var.Freeze();
             foreach (PPathwayProcess pro in m_processes.Values)

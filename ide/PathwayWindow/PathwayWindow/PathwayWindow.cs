@@ -85,11 +85,6 @@ namespace EcellLib.PathwayWindow
         private List<ToolStripMenuItem> m_menuList;
 
         /// <summary>
-        /// A list for menu of layout algorithm, which implement ILayoutAlgorithm.
-        /// </summary>
-        private List<ToolStripMenuItem> m_menuLayoutList;
-
-        /// <summary>
         /// ToolStripMenuItem for switching visibility of IDs on each PPathwayNode
         /// </summary>
         private ToolStripMenuItem m_showIdItem;
@@ -144,7 +139,7 @@ namespace EcellLib.PathwayWindow
             m_dManager = DataManager.GetDataManager();
             m_pManager = PluginManager.GetPluginManager();
 
-            SetLayoutAlgorithmDlls();
+            m_layoutList = GetLayoutAlgorithms();
             m_con = new PathwayControl(this);
             CreateMenu();
         }
@@ -377,9 +372,9 @@ namespace EcellLib.PathwayWindow
                 isShow = true;
             }
 
-            foreach (ToolStripMenuItem t in m_menuLayoutList)
+            foreach (ToolStripMenuItem item in m_con.LayoutMenus)
             {
-                t.Enabled = isShow;
+                item.Enabled = isShow;
             }
         }
 
@@ -690,28 +685,29 @@ namespace EcellLib.PathwayWindow
 
             m_con.SetPosition(data.modelID, data);
         }
-        #endregion
-
-        #region Internal use
         /// <summary>
         /// Check layout algorithm's dlls in a plugin\pathway directory and register them
         /// to m_layoutList
         /// </summary>
-        private void SetLayoutAlgorithmDlls()
+        /// <returns></returns>
+        public List<ILayoutAlgorithm> GetLayoutAlgorithms()
         {
-            m_layoutList = m_pManager.GetLayoutPlugins();
+            return m_pManager.GetLayoutPlugins();
         }
+        #endregion
 
+        #region Internal use
+        /// <summary>
+        /// 
+        /// </summary>
         private void CreateMenu()
         {
             this.m_menuList = new List<ToolStripMenuItem>();
-            this.m_menuLayoutList = new List<ToolStripMenuItem>();
 
             // Setup menu
             m_showIdItem = new ToolStripMenuItem();
             m_showIdItem.CheckOnClick = true;
             m_showIdItem.CheckState = CheckState.Checked;
-            //            m_showIdItem.Text = "Show IDs(Pathway)";
             m_showIdItem.ToolTipText = "Visibility of Node's name of each pathway object";
             m_showIdItem.Text = m_resources.GetString("MenuItemShowIDText");
             m_showIdItem.Click += new EventHandler(ShowIdClick);
@@ -762,36 +758,7 @@ namespace EcellLib.PathwayWindow
             ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
             layoutMenu.Text = "Layout";
             layoutMenu.Name = "MenuItemLayout";
-
-            int count = 0; // index for position in m_layoutList
-            foreach (ILayoutAlgorithm algo in m_layoutList)
-            {
-                ToolStripMenuItem eachLayoutItem = new ToolStripMenuItem();
-                eachLayoutItem.Text = algo.GetMenuText();
-                eachLayoutItem.Tag = count;
-                eachLayoutItem.ToolTipText = algo.GetToolTipText();
-                eachLayoutItem.Click += new EventHandler(eachLayoutItem_Click);
-
-                List<string> subCommands = algo.GetSubCommands();
-                if (subCommands != null && subCommands.Count != 0)
-                {
-                    int subCount = 0;
-                    foreach (string subCommandName in subCommands)
-                    {
-                        ToolStripMenuItem layoutSubItem = new ToolStripMenuItem();
-                        layoutSubItem.Text = subCommandName;
-                        layoutSubItem.Tag = count + "," + subCount;
-                        layoutSubItem.Click += new EventHandler(eachLayoutItem_Click);
-                        eachLayoutItem.DropDownItems.Add(layoutSubItem);
-                        subCount++;
-                    }
-                }
-
-                layoutMenu.DropDownItems.Add(eachLayoutItem);
-                m_menuLayoutList.Add(eachLayoutItem);
-                count += 1;
-            }
-
+            layoutMenu.DropDownItems.AddRange(m_con.LayoutMenus.ToArray());
             m_menuList.Add(layoutMenu);
         }
 

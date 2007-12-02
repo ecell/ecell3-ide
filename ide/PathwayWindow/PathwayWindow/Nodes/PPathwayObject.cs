@@ -264,12 +264,12 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Whether this node is showing ID or not.
         /// </summary>
-        protected bool m_showingId;
+        protected bool m_showingId = false;
 
         /// <summary>
         /// Canvas ID.
         /// </summary>
-        protected string m_canvasID;
+        protected string m_canvasID = null;
 
         /// <summary>
         /// Parent object. Maybe PEcellSystem.

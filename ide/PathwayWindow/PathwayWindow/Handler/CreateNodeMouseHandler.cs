@@ -86,10 +86,10 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="dManager">A DataManager instance to associate.</param>
         /// <param name="control">Control to diaplay the Matir2 .</param>
-        public CreateNodeMouseHandler(DataManager dManager, PathwayControl control)
+        public CreateNodeMouseHandler(PathwayControl control)
         {
-            this.m_dManager = dManager;
             this.m_con = control;
+            this.m_dManager = control.Window.DataManager;
         }
 
         /// <summary>

@@ -118,10 +118,10 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="dManager">A DataManager instance to associate</param>
         /// <param name="control"></param>
-        public CreateSystemMouseHandler(DataManager dManager, PathwayControl control)
+        public CreateSystemMouseHandler(PathwayControl control)
         {
-            this.m_dManager = dManager;
             this.m_con = control;
+            this.m_dManager = control.Window.DataManager;
         }
 
         /// <summary>
