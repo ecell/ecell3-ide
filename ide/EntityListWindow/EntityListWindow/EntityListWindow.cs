@@ -169,7 +169,25 @@ namespace EcellLib.EntityListWindow
         public EntityListWindow()
         {
             m_dManager = DataManager.GetDataManager();
+            m_pManager = PluginManager.GetPluginManager();
             m_propDict = new Dictionary<string, EcellData>();
+
+            m_prjMenu = new ContextMenu();
+            m_prjLoadMenu = new ContextMenu();
+            m_modelMenu = new ContextMenu();
+            m_systemMenu = new ContextMenu();
+            m_topSystemMenu = new ContextMenu();
+            m_procMenu = new ContextMenu();
+            m_varMenu = new ContextMenu();
+            m_creSysLogger = new MenuItem();
+            m_delSysLogger = new MenuItem();
+            m_creTopSysLogger = new MenuItem();
+            m_delTopSysLogger = new MenuItem();
+            m_creProcLogger = new MenuItem();
+            m_delProcLogger = new MenuItem();
+            m_creVarLogger = new MenuItem();
+            m_delVarLogger = new MenuItem();
+            m_merge = new MenuItem();
         }
 
         /// <summary>
@@ -186,16 +204,6 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         private void CreatePopupMenu()
         {
-            m_pManager = PluginManager.GetPluginManager();
-
-            m_prjMenu = new ContextMenu();
-            m_prjLoadMenu = new ContextMenu();
-            m_modelMenu = new ContextMenu();
-            m_systemMenu = new ContextMenu();
-            m_topSystemMenu = new ContextMenu();
-            m_procMenu = new ContextMenu();
-            m_varMenu = new ContextMenu();
-
             MenuItem addModel = new MenuItem();
             MenuItem addSystem = new MenuItem();
             MenuItem addVar = new MenuItem();
@@ -205,15 +213,7 @@ namespace EcellLib.EntityListWindow
             MenuItem separator = new MenuItem("-");
             MenuItem sortNameMenu = new MenuItem();
             MenuItem sortTypeMenu = new MenuItem();
-            m_creSysLogger = new MenuItem();
-            m_delSysLogger = new MenuItem();
-            m_creTopSysLogger = new MenuItem();
-            m_delTopSysLogger = new MenuItem();
-            m_creProcLogger = new MenuItem();
-            m_delProcLogger = new MenuItem();
-            m_creVarLogger = new MenuItem();
-            m_delVarLogger = new MenuItem();
-            m_merge = new MenuItem();
+
             m_creSysLogger.Text = EntityListWindow.s_resources.GetString("PopCreLoggerText");
             m_delSysLogger.Text = EntityListWindow.s_resources.GetString("PopDelLoggerText");
             m_creTopSysLogger.Text = EntityListWindow.s_resources.GetString("PopCreLoggerText");
@@ -231,18 +231,6 @@ namespace EcellLib.EntityListWindow
             searchMenu.Text = EntityListWindow.s_resources.GetString("PopSearchText");
             sortNameMenu.Text = EntityListWindow.s_resources.GetString("SortNameText");
             sortTypeMenu.Text = EntityListWindow.s_resources.GetString("SortTypeText");
-
-            addModel.Index = 1;
-            addSystem.Index = 2;
-            addVar.Index = 3;
-            addProc.Index = 4;
-            del.Index = 6;
-            m_merge.Index = 6;
-            m_creProcLogger.Index = 9;
-            m_delProcLogger.Index = 10;
-            m_creVarLogger.Index = 9;
-            m_delVarLogger.Index = 10;
-            searchMenu.Index = 20;
 
             addModel.Click += new EventHandler(TreeviewAddModel);
             addSystem.Click += new EventHandler(TreeviewAddSystem);
@@ -332,6 +320,34 @@ namespace EcellLib.EntityListWindow
         }
 
         /// <summary>
+        /// Create the menu item of popup menu to set and reset the logger.
+        /// </summary>
+        /// <param name="creLogger">menu item to set the logger.</param>
+        /// <param name="delLogger">menu item to reset the logger.</param>
+        /// <param name="obj">object to display the popup menu.</param>
+        private void CrateLoggerPopupMenu(MenuItem creLogger, MenuItem delLogger, EcellObject obj)
+        {
+            creLogger.MenuItems.Clear();
+            delLogger.MenuItems.Clear();
+
+            foreach (EcellData d in obj.Value)
+            {
+                if (d.Logable)
+                {
+                    MenuItem citem = new MenuItem(d.Name);
+                    citem.Click += new EventHandler(TreeViewCreLogger);
+                    creLogger.MenuItems.Add(citem.CloneMenu());
+                }
+                if (d.Logable && d.Logged)
+                {
+                    MenuItem item = new MenuItem(d.Name);
+                    item.Click += new EventHandler(TreeViewDelLogger);
+                    delLogger.MenuItems.Add(item.CloneMenu());
+                }
+            }
+        }
+
+        /// <summary>
         /// Show property window displayed the selected object.
         /// </summary>
         /// <param name="obj">the selected object</param>
@@ -357,6 +373,28 @@ namespace EcellLib.EntityListWindow
             TreeNode node = m_form.treeView1.SelectedNode;
             TagData tag = (TagData)node.Tag;
             m_pManager.SelectChanged(tag.m_modelID, tag.m_key, tag.m_type);
+        }
+
+        /// <summary>
+        /// Add the tree node to TreeView.
+        /// </summary>
+        /// <param name="name">the tree name.</param>
+        /// <param name="obj">the added EcellObject.</param>
+        /// <param name="parent">the parent tree node.</param>
+        /// <returns>Created TreeNode.</returns>
+        private TreeNode AddTreeNode(string name, EcellObject obj, TreeNode parent)
+        {
+            TreeNode node = null;
+            bool isLog = Util.IsLogged(obj);
+            if (isLog) node = new TreeNode(name + "[logged]");
+            else node = new TreeNode(name);
+
+            node.ImageIndex = m_pManager.GetImageIndex(obj.type);
+            node.SelectedImageIndex = node.ImageIndex;
+            node.Tag = new TagData(obj.modelID, obj.key, obj.type);
+            parent.Nodes.Add(node);
+
+            return node;
         }
 
         /// <summary>
@@ -702,9 +740,10 @@ namespace EcellLib.EntityListWindow
 
             try
             {
-//                m_targetNode.Remove();
-                if (tag.m_type == "Model") m_dManager.DataDelete(tag.m_modelID, null, "Model");
-                else m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
+                if (tag.m_type == Constants.xpathModel) 
+                    m_dManager.DataDelete(tag.m_modelID, null, Constants.xpathModel);
+                else 
+                    m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
                 if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
             }
             catch (Exception ex)
@@ -741,9 +780,10 @@ namespace EcellLib.EntityListWindow
 
             try
             {
-                //                m_targetNode.Remove();
-                if (tag.m_type == "Model") m_dManager.DataDelete(tag.m_modelID, null, "Model");
-                else if (tag.m_type == "System") m_dManager.SystemDeleteAndMove(tag.m_modelID, tag.m_key);
+                if (tag.m_type == Constants.xpathModel) 
+                    m_dManager.DataDelete(tag.m_modelID, null, Constants.xpathModel);
+                else if (tag.m_type == Constants.xpathSystem) 
+                    m_dManager.SystemDeleteAndMove(tag.m_modelID, tag.m_key);
                 else m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
                 if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
             }
@@ -796,18 +836,6 @@ namespace EcellLib.EntityListWindow
             m_searchWin.ShowDialog();
         }
 
-        void DoubleClick(object sender, EventArgs e)
-        {
-            TreeView t = (TreeView)sender;
-            TreeNode node = t.SelectedNode;
-            if (node == null) return;
-            TagData tag = (TagData)node.Tag;
-            if (tag == null) return;
-            if (tag.m_modelID == null) return;
-            m_targetNode = node;
-
-        }
-
         /// <summary>
         /// The action of double clicking TreeNode on EntityListWindow.
         /// </summary>
@@ -815,7 +843,6 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">TreeNodeMouseClickEventArgs</param>
         void NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            List<EcellObject> list;
             TreeView t = (TreeView)sender;
             TreeNode node = t.SelectedNode;
             if (node == null) return;
@@ -829,9 +856,8 @@ namespace EcellLib.EntityListWindow
             }
 
             m_targetNode = node;
-
             if (m_type != ProjectStatus.Uninitialized &&
-                    m_type != ProjectStatus.Loaded)
+                m_type != ProjectStatus.Loaded)
                 return;
             try
             {
@@ -900,35 +926,15 @@ namespace EcellLib.EntityListWindow
                     List<EcellObject> list = m_dManager.GetData(tag.m_modelID, tag.m_key);
                     if (list == null || list.Count == 0) return;
                     EcellObject obj = list[0];
-                    m_creSysLogger.MenuItems.Clear();
-                    m_delSysLogger.MenuItems.Clear();
-                    m_creTopSysLogger.MenuItems.Clear();
-                    m_delTopSysLogger.MenuItems.Clear();
-                    foreach (EcellData d in obj.Value)
-                    {
-                        //                        if (d.Logable && !d.Logged)
-                        //                        {
-                        if (d.Logable)
-                        {
-                            MenuItem citem = new MenuItem(d.Name);
-                            citem.Click += new EventHandler(TreeViewCreLogger);
-                            m_creSysLogger.MenuItems.Add(citem.CloneMenu());
-                            m_creTopSysLogger.MenuItems.Add(citem.CloneMenu());
-                        }
-                        if (d.Logable && d.Logged)
-                        {
-                            MenuItem item = new MenuItem(d.Name);
-                            item.Click += new EventHandler(TreeViewDelLogger);
-                            m_delSysLogger.MenuItems.Add(item.CloneMenu());
-                            m_delTopSysLogger.MenuItems.Add(item.CloneMenu());
-                        }
-                    }
+
                     if (node.Text == "/")
                     {
+                        CrateLoggerPopupMenu(m_creTopSysLogger, m_delTopSysLogger, obj);
                         m_form.treeView1.ContextMenu = m_topSystemMenu;
                     }
                     else
                     {
+                        CrateLoggerPopupMenu(m_creSysLogger, m_delSysLogger, obj);
                         String superSys = tag.m_key.Substring(0, tag.m_key.LastIndexOf("/"));
                         if (superSys == "") superSys = "/";
                         m_merge.Text = EntityListWindow.s_resources.GetString("PopMergeText") + "(" + superSys + ")";
@@ -940,25 +946,7 @@ namespace EcellLib.EntityListWindow
                 {
                     m_targetNode = node;
                     EcellObject obj = GetObjectFromNode(node);
-                    m_creVarLogger.MenuItems.Clear();
-                    m_delVarLogger.MenuItems.Clear();
-                    foreach (EcellData d in obj.Value)
-                    {
-//                        if (d.Logable && !d.Logged)
-//                        {
-                        if (d.Logable)
-                        {
-                            MenuItem citem = new MenuItem(d.Name);
-                            citem.Click += new EventHandler(TreeViewCreLogger);
-                            m_creVarLogger.MenuItems.Add(citem.CloneMenu());
-                        }
-                        if (d.Logable && d.Logged)
-                        {
-                            MenuItem item = new MenuItem(d.Name);
-                            item.Click += new EventHandler(TreeViewDelLogger);
-                            m_delVarLogger.MenuItems.Add(item.CloneMenu());
-                        }
-                    }
+                    CrateLoggerPopupMenu(m_creVarLogger, m_delVarLogger, obj);
                     m_currentObj = obj;
                     m_form.treeView1.ContextMenu = m_varMenu;
                 }
@@ -966,24 +954,7 @@ namespace EcellLib.EntityListWindow
                 {
                     m_targetNode = node;
                     EcellObject obj = GetObjectFromNode(node);
-                    m_creProcLogger.MenuItems.Clear();
-                    m_delProcLogger.MenuItems.Clear();
-                    foreach (EcellData d in obj.Value)
-                    {
-//                        if (d.Logable && !d.Logged)
-                        if (d.Logable)
-                        {
-                            MenuItem citem = new MenuItem(d.Name);
-                            citem.Click += new EventHandler(TreeViewCreLogger);
-                            m_creProcLogger.MenuItems.Add(citem.CloneMenu());
-                        }
-                        if (d.Logable && d.Logged)
-                        {
-                            MenuItem item = new MenuItem(d.Name);
-                            item.Click += new EventHandler(TreeViewDelLogger);
-                            m_delProcLogger.MenuItems.Add(item.CloneMenu());
-                        }
-                    }
+                    CrateLoggerPopupMenu(m_creProcLogger, m_delProcLogger, obj);
                     m_currentObj = obj;
                     m_form.treeView1.ContextMenu = m_procMenu;
                 }
@@ -1001,7 +972,6 @@ namespace EcellLib.EntityListWindow
                 }
             }
         }
-
         #endregion
 
         #region PluginBase
@@ -1110,7 +1080,7 @@ namespace EcellLib.EntityListWindow
                 if (obj.type == Constants.xpathProject)
                 {
                     m_prjNode = new TreeNode(obj.modelID);
-                    m_prjNode.Tag = new TagData("", "", "Project");
+                    m_prjNode.Tag = new TagData("", "", Constants.xpathProject);
                     m_form.treeView1.Nodes.Add(m_prjNode);
                     TreeNode modelNode = new TreeNode("Models");
                     modelNode.Tag = null;
@@ -1128,14 +1098,14 @@ namespace EcellLib.EntityListWindow
                     TreeNode node = new TreeNode(obj.modelID);
                     node.ImageIndex = m_pManager.GetImageIndex(obj.type);
                     node.SelectedImageIndex = node.ImageIndex;
-                    node.Tag = new TagData(obj.modelID, "", "Model");
+                    node.Tag = new TagData(obj.modelID, "", Constants.xpathModel);
                     string currentPrj = m_dManager.CurrentProjectID;
                     if (m_modelNodeDic.ContainsKey(currentPrj))
                         m_modelNodeDic[currentPrj].Nodes.Add(node);
-//                    m_prjNode.Nodes.Add(node);
                     continue;
                 }
-                else if (obj.type == Constants.xpathProcess || obj.type ==Constants.xpathVariable)
+                else if (obj.type == Constants.xpathProcess || 
+                    obj.type ==Constants.xpathVariable)
                 {
                     if (obj.key.EndsWith(Constants.headerSize)) continue;
                     TreeNode current = GetTargetModel(obj.modelID);
@@ -1143,28 +1113,11 @@ namespace EcellLib.EntityListWindow
                     TreeNode node = GetTargetTreeNode(current, obj.key, obj.type);
                     if (node == null)
                     {
-                        string[] names = obj.key.Split(new char[] { ':' });
-                        string path = names[0];
+                        string path = "";
+                        string name = Util.GetNameFromPath(obj.key, ref path);
                         node = GetTargetTreeNode(current, path, null);
 
-                        bool isLog = false;
-                        foreach (EcellData d in obj.Value)
-                        {
-                            if (d.Logged)
-                            {
-                                isLog = true;
-                                break;
-                            }
-                        }
-                        TreeNode childNode = null;
-                        if (isLog)
-                            childNode = new TreeNode(names[names.Length - 1] + "[logged]");
-                        else
-                            childNode = new TreeNode(names[names.Length - 1]);
-                        childNode.ImageIndex = m_pManager.GetImageIndex(obj.type);
-                        childNode.SelectedImageIndex = childNode.ImageIndex;
-                        childNode.Tag = new TagData(obj.modelID, obj.key, obj.type);
-                        node.Nodes.Add(childNode);
+                        TreeNode childNode = AddTreeNode(name, obj, node);
                     }
                 }
                 else if (obj.type == Constants.xpathSystem)
@@ -1176,77 +1129,18 @@ namespace EcellLib.EntityListWindow
                     {
                         if (obj.key == "/")
                         {
-                            bool isLog = false;
-                            foreach (EcellData d in obj.Value)
-                            {
-                                if (d.Logged)
-                                {
-                                    isLog = true;
-                                    break;
-                                }
-                            }
-                            if (isLog)
-                                node = new TreeNode(obj.key + "[logged]");
-                            else
-                                node = new TreeNode(obj.key);
-
-                            node.ImageIndex = m_pManager.GetImageIndex(obj.type);
-                            node.SelectedImageIndex = node.ImageIndex;
-                            node.Tag = new TagData(obj.modelID, obj.key, obj.type);
-                            current.Nodes.Add(node);
+                            node = AddTreeNode(obj.key, obj, current);
                         }
                         else
                         {
+                            TreeNode target = null;
                             string path = "";
-                            TreeNode target;
-                            string[] elements;
-                            if (obj.key.StartsWith("/"))
-                            {
-                                elements = obj.key.Split(new Char[] { '/' });
-                                for (int i = 1; i < elements.Length - 1; i++)
-                                {
-                                    path = path + "/" + elements[i];
-                                }
-                                target = GetTargetTreeNode(current, path, null);
-                            }
-                            else
-                            {
-                                elements = obj.key.Split(new Char[] { '/' });
-                                if (elements.Length > 1)
-                                {
-                                    path = elements[0];
-                                    for (int i = 1; i < elements.Length - 1; i++)
-                                    {
-                                        path = path + "/" + elements[i];
-                                    }
-                                    target = GetTargetTreeNode(current, path, null);
-                                }
-                                else
-                                {
-                                    target = current;
-                                }
-                            }
+                            string name = Util.GetNameFromPath(obj.key, ref path);
+                            target = GetTargetTreeNode(current, path, null);
 
                             if (target != null)
                             {
-                                bool isLog = false;
-                                foreach (EcellData d in obj.Value)
-                                {
-                                    if (d.Logged)
-                                    {
-                                        isLog = true;
-                                        break;
-                                    }
-                                }
-
-                                if (isLog)
-                                    node = new TreeNode(elements[elements.Length - 1] + "[logged]");
-                                else
-                                    node = new TreeNode(elements[elements.Length - 1]);
-                                node.ImageIndex = m_pManager.GetImageIndex(obj.type);
-                                node.SelectedImageIndex = node.ImageIndex;
-                                node.Tag = new TagData(obj.modelID, obj.key, obj.type);
-                                target.Nodes.Add(node);
+                                node = AddTreeNode(name, obj, target);
                             }
                         }
                     }
@@ -1273,26 +1167,8 @@ namespace EcellLib.EntityListWindow
                             }
                             if (isHit == true) continue;
 
-                            bool isLog = false;
-                            foreach (EcellData d in eo.Value)
-                            {
-                                if (d.Logged)
-                                {
-                                    isLog = true;
-                                    break;
-                                }
-                            }
-
                             TreeNode childNode = null;
-                            if (isLog)
-                                childNode = new TreeNode(names[names.Length - 1] + "[logged]");
-                            else
-                                childNode = new TreeNode(names[names.Length - 1]);
-
-                            childNode.ImageIndex = m_pManager.GetImageIndex(eo.type);
-                            childNode.SelectedImageIndex = childNode.ImageIndex;
-                            childNode.Tag = new TagData(eo.modelID, eo.key, eo.type);
-                            node.Nodes.Add(childNode);
+                            childNode = AddTreeNode(names[names.Length - 1], eo, node);
                         }
                     }
                 }
@@ -1315,48 +1191,13 @@ namespace EcellLib.EntityListWindow
             if (target != null)
             {
                 string path = "";
-                string[] elements;
-                string targetText;
-                if (data.key.Contains(":"))
-                {
-                    elements = data.key.Split(new char[] { ':' });
-                    path = elements[0];
-                    for (int i = 1; i < elements.Length - 1; i++)
-                    {
-                        path = path + ":" + elements[i];
-                    }
-                    targetText = elements[elements.Length - 1];
-                }
-                else
-                {
-                    if (data.key == "/")
-                    {
-                        path = "/";
-                        targetText = "/";
-                    }
-                    else
-                    {
-                        elements = data.key.Split(new char[] { '/' });
-                        for (int i = 1; i < elements.Length - 1; i++)
-                        {
-                            path = path + "/" + elements[i];
-                        }
-                        targetText = elements[elements.Length - 1];
-                    }
-                }
+                string targetText = Util.GetNameFromPath(data.key, ref path);
+
                 if (target.Text != targetText)
                 {
                     target.Text = targetText;
                 }
-                bool isLog = false;
-                foreach (EcellData d in data.Value)
-                {
-                    if (d.Logged)
-                    {
-                        isLog = true;
-                        break;
-                    }
-                }
+                bool isLog = Util.IsLogged(data);
                 if (isLog)
                 {
                     target.Text = target.Text + "[logged]";
@@ -1364,7 +1205,7 @@ namespace EcellLib.EntityListWindow
 
                 if (key != data.key)
                 {
-                    TreeNode change = GetTargetTreeNode(current, path, "System");
+                    TreeNode change = GetTargetTreeNode(current, path, Constants.xpathSystem);
                     if (change == null) return;
                     target.Parent.Nodes.Remove(target);
                     change.Nodes.Add(target);
@@ -1377,7 +1218,6 @@ namespace EcellLib.EntityListWindow
                     }
                     m_form.treeView1.Sort();
                 }
-//                m_form.treeView1.SelectedNode = target;
             }
         }
 

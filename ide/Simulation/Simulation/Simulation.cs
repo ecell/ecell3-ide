@@ -301,7 +301,7 @@ namespace EcellLib.Simulation
         /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
-            if (type == "Parameter" && key != "Parameter")
+            if (type == Constants.xpathParameters && key != Constants.xpathParameters)
             {
                 int i = 0;
                 m_win = new SimulationSetup();

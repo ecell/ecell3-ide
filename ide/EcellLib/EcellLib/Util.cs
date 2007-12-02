@@ -235,6 +235,25 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Check whether this object have the logging data.
+        /// </summary>
+        /// <param name="obj">the checked object.</param>
+        /// <returns>if the object have the logging data, return true.</returns>
+        static public bool IsLogged(EcellObject obj)
+        {
+            bool isLog = false;
+            foreach (EcellData d in obj.Value)
+            {
+                if (d.Logged)
+                {
+                    isLog = true;
+                    break;
+                }
+            }
+            return isLog;
+        }
+
+        /// <summary>
         /// Check whether this id of system is NG.
         /// </summary>
         /// <param name="l_key">the system id.</param>
@@ -584,6 +603,42 @@ namespace EcellLib
             }
 
             return val.Substring(startIdx, endIdx - startIdx + 1);
+        }
+
+        /// <summary>
+        /// Get the name and the parent path from the full object path.
+        /// </summary>
+        /// <param name="fullPath">the input full path.</param>
+        /// <param name="path">the parent path.</param>
+        /// <returns>the name of object.</returns>
+        public static string GetNameFromPath(string fullPath, ref string path)
+        {
+            string result = "";
+            string[] elements;
+            if (fullPath.Contains(":"))
+            {
+                elements = fullPath.Split(new char[] { ':' });
+                path = elements[0];
+                result = elements[elements.Length - 1];
+            }
+            else
+            {
+                if (fullPath == "/")
+                {
+                    path = "/";
+                    result = "/";
+                }
+                else
+                {
+                    elements = fullPath.Split(new char[] { '/' });
+                    for (int i = 1; i < elements.Length - 1; i++)
+                    {
+                        path = path + "/" + elements[i];
+                    }
+                    result = elements[elements.Length - 1];
+                }
+            }
+            return result;
         }
     }
 }
