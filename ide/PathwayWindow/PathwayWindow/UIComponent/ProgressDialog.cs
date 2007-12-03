@@ -33,7 +33,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.PathwayWindow
+namespace EcellLib.PathwayWindow.UIComponent
 {
     /// <summary>
     /// Form for progress bar

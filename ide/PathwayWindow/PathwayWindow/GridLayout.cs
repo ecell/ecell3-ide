@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
+using EcellLib.PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow
 {
@@ -44,6 +45,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private static float m_naturalLength = 4;
 
+
         /// <summary>
         /// initial temperature (for simulated annealing)
         /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
@@ -55,8 +57,14 @@ namespace EcellLib.PathwayWindow
         /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
         /// </summary>
         private static int m_kmax = 250;
-
+        /// <summary>
+        /// Default Grid distance
+        /// </summary>
         private static float m_defGridDistance = 60;
+        /// <summary>
+        /// Default system Margin
+        /// </summary>
+        private static float m_defMargin = 15;
         #endregion
 
         #region inherited from ILayoutAlgorithm
@@ -76,6 +84,10 @@ namespace EcellLib.PathwayWindow
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
         {
+            // Prepare the progress bar
+            ProgressDialog form = new ProgressDialog(1, m_kmax);
+            form.Show();
+
             // At first, all systems layout will be settled
             if (layoutSystem)
                 DoSystemLayout(systemList, nodeList);
@@ -104,8 +116,10 @@ namespace EcellLib.PathwayWindow
                 }
 
                 if (nodesOfTheSystem.Count > 1)
-                    DoNodeLayout(sys, childSystems, nodesOfTheSystem, isFromScratch);
+                    DoNodeLayout(sys, childSystems, nodesOfTheSystem, form, isFromScratch);
             }
+            form.Dispose();
+
             return true;
         }
         /// <summary>
@@ -356,11 +370,13 @@ namespace EcellLib.PathwayWindow
         /// <param name="sys">nodes must be within this sytem</param>
         /// <param name="childSystems">child systems of this system</param>
         /// <param name="nodeList">nodes, to be layouted</param>
+        /// <param name="dialog">a progress bar</param>
         /// <param name="isFromScratch">Whether layouting will be done from scratch or from current positions</param>
         private void DoNodeLayout(
             EcellObject sys,
             List<EcellObject> childSystems,
             List<EcellObject> nodeList,
+            ProgressDialog dialog,
             bool isFromScratch)
         {
             int[,] relationMatrix = CreateRelationMatrix(nodeList);
@@ -372,10 +388,11 @@ namespace EcellLib.PathwayWindow
             // position on grid coorindate system become sufficient to contain all nodes.
             bool[,] positionMatrix = new bool[1, 1];
             float grid = m_defGridDistance;
-            float margin = m_defGridDistance / 2;
+            float margin = m_defMargin;
             bool posUnsettled = true;
             int maxX = 0;
             int maxY = 0;
+            RectangleF tempRect = new RectangleF(0, 0, 60, 40);
 
             while (posUnsettled)
             {
@@ -395,8 +412,10 @@ namespace EcellLib.PathwayWindow
                     for (int x = 0; x < maxX + 1; x++)
                         for (int y = 0; y < maxY + 1; y++)
                         {
-                            if (childsys.Rect.Contains(sys.X + margin + x * grid, sys.Y + margin + y * grid)
-                                || childsys.Rect.Contains(sys.X + margin + x * grid + 30, sys.Y + margin + y * grid + 20))
+                            tempRect.X = sys.X + margin + x * grid;
+                            tempRect.Y = sys.Y + margin + y * grid;
+                            if (childsys.Rect.Contains(tempRect)
+                                || childsys.Rect.IntersectsWith(tempRect))
                                 positionMatrix[x, y] = true;
                         }
                 }
@@ -442,6 +461,7 @@ namespace EcellLib.PathwayWindow
 
                     nodeIndex++;
                 }
+                dialog.Bar.PerformStep();
                 k++;
             }
 

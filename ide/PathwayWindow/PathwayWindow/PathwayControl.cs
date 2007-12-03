@@ -382,7 +382,8 @@ namespace EcellLib.PathwayWindow
             m_layerView = new LayerView(this);
             // Create Internal object.
             m_canvasDict = new Dictionary<string, CanvasControl>();
-            CreateLayoutAlgorithmMenus();
+            m_layoutList = m_window.GetLayoutAlgorithms();
+            m_menuLayoutList = GetLayoutAlgorithmMenus();
             m_popupMenu = GetPopUpMenus();
             m_csManager = ComponentManager.LoadComponentSettings();
         }
@@ -1655,10 +1656,8 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Create LayoutAlgorithm menus.
         /// </summary>
-        private void CreateLayoutAlgorithmMenus()
+        private List<ToolStripMenuItem> GetLayoutAlgorithmMenus()
         {
-            // Get LayoutAlgorithms
-            m_layoutList = m_window.GetLayoutAlgorithms();
             // Create menu.
             List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
             int count = 0;
@@ -1686,7 +1685,7 @@ namespace EcellLib.PathwayWindow
                 menuList.Add(algoItem);
                 count++;
             }
-            m_menuLayoutList = menuList;
+            return menuList;
         }
 
         /// <summary>

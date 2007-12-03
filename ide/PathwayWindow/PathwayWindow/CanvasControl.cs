@@ -84,27 +84,6 @@ namespace EcellLib.PathwayWindow
         public static readonly float MAX_SCALE = 5;
 
         /// <summary>
-        /// used for painting the background of show button. For viewing objects under it, this
-        /// color has alpha value
-        /// </summary>
-        private static readonly SolidBrush SHOW_BTN_BG_BRUSH
-             = new SolidBrush(Color.FromArgb(48, Color.Gray));
-
-        /// <summary>
-        /// used for painting the arrow of show button. For viewing objects under it, this color
-        /// has alpha value.
-        /// </summary>
-        private static readonly SolidBrush SHOW_BTN_ARROW_BRUSH
-            = new SolidBrush(Color.FromArgb(200, Color.Black));
-
-        /// <summary>
-        /// used for painting the arrow of show button. For viewing objects under it, this color
-        /// has alpha value.
-        /// </summary>
-        private static readonly SolidBrush SHOW_BTN_SHADOW_BRUSH
-             = new SolidBrush(Color.FromArgb(200, Color.Black));
-
-        /// <summary>
         /// Used to draw line to reconnect.
         /// </summary>
         private static readonly Pen LINE_THIN_PEN = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 2);
@@ -138,6 +117,11 @@ namespace EcellLib.PathwayWindow
         protected string m_modelId;
 
         /// <summary>
+        /// Whether each node is showing it's ID or not;
+        /// </summary>
+        protected bool m_showingId = true;
+
+        /// <summary>
         /// Tab page for this canvas.
         /// </summary>
         protected TabPage m_pathwayTabPage;
@@ -151,20 +135,6 @@ namespace EcellLib.PathwayWindow
         /// the canvas of overview.
         /// </summary>
         protected OverviewCanvas m_overviewCanvas;
-
-        /// <summary>
-        /// DataTable for DataGridView displayed layer list.
-        /// </summary>
-        protected DataTable m_table;
-        /// <summary>
-        /// Default LayerID
-        /// </summary>
-        protected string m_defLayerID = "Layer0";
-
-        /// <summary>
-        /// The dictionary for all layers.
-        /// </summary>
-        protected Dictionary<string, PPathwayLayer> m_layers;
 
         /// <summary>
         /// The dictionary for all systems on this canvas.
@@ -182,25 +152,30 @@ namespace EcellLib.PathwayWindow
         protected SortedDictionary<string, PPathwayProcess> m_processes = new SortedDictionary<string, PPathwayProcess>();
 
         /// <summary>
+        /// DataTable for DataGridView displayed layer list.
+        /// </summary>
+        protected DataTable m_table;
+
+        /// <summary>
+        /// The dictionary for all layers.
+        /// </summary>
+        protected Dictionary<string, PPathwayLayer> m_layers;
+
+        /// <summary>
+        /// Default LayerID
+        /// </summary>
+        protected string m_defLayerID = "Layer0";
+
+        /// <summary>
         /// PLayer for control use.
         /// For example, resize handlers for PEcellSystem.
         /// </summary>
         protected PLayer m_ctrlLayer;
 
         /// <summary>
-        /// Whether each node is showing it's ID or not;
-        /// </summary>
-        protected bool m_showingId = true;
-
-        /// <summary>
         /// List of PPathwayNode for selected object.
         /// </summary>
         List<PPathwayObject> m_selectedNodes = new List<PPathwayObject>();
-
-        /// <summary>
-        /// SelectChange flag.
-        /// </summary>
-        bool m_isSelectChanged = false;
 
         /// <summary>
         /// selected line
@@ -213,19 +188,19 @@ namespace EcellLib.PathwayWindow
         string m_selectedSystemName;
 
         /// <summary>
-        /// PPathwayObject, which is to be connected.
+        /// SelectChange flag.
         /// </summary>
-        PPathwayNode m_nodeToBeConnected;
-
-        /// <summary>
-        /// List of PNodes, which are currently surrounded by the system.
-        /// </summary>
-        PNodeList m_surroundedBySystem = null;
+        bool m_isSelectChanged = false;
 
         /// <summary>
         /// ResizeHandler for resizing a system.
         /// </summary>
         protected ResizeHandler m_resizeHandler;
+
+        /// <summary>
+        /// PPathwayObject, which is to be connected.
+        /// </summary>
+        PPathwayNode m_nodeToBeConnected;
 
         /// <summary>
         /// To handle an edge to reconnect
@@ -493,7 +468,7 @@ namespace EcellLib.PathwayWindow
             m_pCanvas.Root.AddChild(m_ctrlLayer);
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
 
-            // Preparing system handlers
+            // Preparing system ResizeHandlers
             m_resizeHandler = new ResizeHandler(this);
 
             // Prepare line handles
@@ -630,18 +605,6 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         /// <summary>
-        /// Validate a system. According to result, system.Valid will be changed.
-        /// </summary>
-        /// <param name="system">PEcellSystem to be validated</param>
-        public void ValidateSystem(PPathwaySystem system)
-        {
-            if (this.DoesSystemOverlaps(system.Rect, system.EcellObject.key))
-                system.Valid = false;
-            else
-                system.Valid = true;
-        }
-
-        /// <summary>
         /// Notify SelectChanged event to outside.
         /// <param name="key">the key of selected object.</param>
         /// <param name="type">the type of selected object.</param>
@@ -690,60 +653,6 @@ namespace EcellLib.PathwayWindow
                 {
                 }
             }
-        }
-
-        /// <summary>
-        /// Highlights objects currently surrounded by the selected system.
-        /// </summary>
-        public void RefreshSurroundState()
-        {
-            if (m_selectedSystemName == null)
-                return;
-            ClearSurroundState();
-            m_surroundedBySystem = new PNodeList();
-            PPathwaySystem topSystem = m_systems[m_selectedSystemName];
-            foreach (PLayer layer in Layers.Values)
-            {
-                PNodeList list = new PNodeList();
-                layer.FindIntersectingNodes(topSystem.Rect, list);
-                m_surroundedBySystem.AddRange(list);
-            }
-            foreach (PNode node in m_surroundedBySystem)
-            {
-                if (node is PPathwayObject)
-                    ((PPathwayObject)node).IsHighLighted = true;
-            }
-        }
-
-        /// <summary>
-        /// Turn off highlight for previously surrounded by system objects, and clear resources for managing
-        /// surrounding state.
-        /// </summary>
-        public void ClearSurroundState()
-        {
-            if (m_surroundedBySystem == null)
-                return;
-            foreach (PNode node in m_surroundedBySystem)
-            {
-                if (node is PPathwayObject)
-                    ((PPathwayObject)node).IsHighLighted = false;
-            }
-            m_surroundedBySystem = null;
-        }
-
-        /// <summary>
-        /// Reset System Resize.
-        /// </summary>
-        /// <param name="system"></param>
-        public void ResetSystemResize(PPathwaySystem system)
-        {
-            // Resizing is aborted
-            system.ResetPosition();
-            system.Refresh();
-            this.ValidateSystem(system);
-            m_resizeHandler.UpdateResizeHandlePositions();
-            ResetSelectedObjects();
-            ClearSurroundState();
         }
 
         /// <summary>
@@ -1123,7 +1032,6 @@ namespace EcellLib.PathwayWindow
                 return;
             m_systems[systemName].IsHighLighted = true;
             m_resizeHandler.ShowResizeHandles();
-            m_resizeHandler.UpdateResizeHandlePositions();
         }
 
         /// <summary>
@@ -1360,8 +1268,6 @@ namespace EcellLib.PathwayWindow
             if (!oldKey.Equals(newKey))
                 TransferObject(oldKey, newKey, obj);
 
-            if (obj is PPathwaySystem)
-                m_resizeHandler.UpdateResizeHandlePositions();
             // Set Layer
             SetLayer(obj);
         }
@@ -1638,12 +1544,8 @@ namespace EcellLib.PathwayWindow
 
             m_isReconnectMode = false;
             m_nodesUnderMouse.Clear();
-
-            if (m_selectedLine != null)
-            {
-                m_processes[m_selectedLine.Info.ProcessKey].Refresh();
-                m_selectedLine = null;
-            }
+            m_processes[m_selectedLine.Info.ProcessKey].Refresh();
+            m_selectedLine = null;
 
             m_vOnLinesEnd = null;
             m_pOnLinesEnd = null;

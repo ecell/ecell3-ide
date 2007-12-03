@@ -54,8 +54,14 @@ namespace EcellLib.GridLayout
         /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
         /// </summary>
         private static int m_kmax = 250;
-
+        /// <summary>
+        /// Default grid distance.
+        /// </summary>
         private static float m_defGridDistance = 60;
+        /// <summary>
+        /// Default grid margin.
+        /// </summary>
+        private static float m_defMargin = 15;
         #endregion
 
         #region inherited from ILayoutAlgorithm
@@ -383,10 +389,11 @@ namespace EcellLib.GridLayout
             // position on grid coorindate system become sufficient to contain all nodes.
             bool[,] positionMatrix = new bool[1, 1];
             float grid = m_defGridDistance;
-            float margin = m_defGridDistance / 2;
+            float margin = m_defMargin;
             bool posUnsettled = true;
             int maxX = 0;
             int maxY = 0;
+            RectangleF tempRect = new RectangleF(0, 0, 60, 40);
 
             while (posUnsettled)
             {
@@ -406,8 +413,10 @@ namespace EcellLib.GridLayout
                     for (int x = 0; x < maxX + 1; x++)
                         for (int y = 0; y < maxY + 1; y++)
                         {
-                            if (childsys.Rect.Contains(sys.X + margin + x * grid, sys.Y + margin + y * grid) 
-                                || childsys.Rect.Contains(sys.X + margin + x * grid + 30, sys.Y + margin + y * grid + 20))
+                            tempRect.X = sys.X + grid * x +margin;
+                            tempRect.Y = sys.Y + grid * y +margin;
+                            if (childsys.Rect.Contains(tempRect) 
+                                || childsys.Rect.IntersectsWith(tempRect))
                                 positionMatrix[x, y] = true;
                         }
                 }

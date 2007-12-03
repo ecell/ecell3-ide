@@ -104,6 +104,7 @@
     <Compile Include="Figure\FigureBase.cs" />
     <Compile Include="Figure\Rectangle.cs" />
     <Compile Include="GridLayout.cs" />
+    <Compile Include="Handler\LineHandler.cs" />
     <Compile Include="Handler\NamespaceDoc.cs" />
     <Compile Include="Handler\NodeDragHandler.cs" />
     <Compile Include="Handle.cs" />

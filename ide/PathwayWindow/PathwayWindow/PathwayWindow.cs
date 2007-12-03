@@ -140,8 +140,7 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
-        #region Methods to notify from inside (pathway) to outside(ECell Core)
-
+        #region Methods to notify change from inside (pathway) to outside(ECell Core)
         /// <summary>
         /// Inform the adding of EcellOBject in PathwayEditor to DataManager.
         /// </summary>
