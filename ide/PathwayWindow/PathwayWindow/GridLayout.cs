@@ -429,9 +429,15 @@ namespace EcellLib.PathwayWindow
 
                 // Do again if there is not enough space for nodes
                 if (nodeList.Count * 2 < numOfVacantPoint)
+                {
                     posUnsettled = false;
+                }
                 else
+                {
                     grid = grid / 2f;
+                    tempRect.Width = tempRect.Width - 1;
+                    tempRect.Height = tempRect.Height - 1;
+                }
             }
 
             // Initialize position in virtual coordinates system

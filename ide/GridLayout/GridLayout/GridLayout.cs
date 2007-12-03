@@ -413,8 +413,8 @@ namespace EcellLib.GridLayout
                     for (int x = 0; x < maxX + 1; x++)
                         for (int y = 0; y < maxY + 1; y++)
                         {
-                            tempRect.X = sys.X + grid * x +margin;
-                            tempRect.Y = sys.Y + grid * y +margin;
+                            tempRect.X = sys.X + grid * x + margin;
+                            tempRect.Y = sys.Y + grid * y + margin;
                             if (childsys.Rect.Contains(tempRect) 
                                 || childsys.Rect.IntersectsWith(tempRect))
                                 positionMatrix[x, y] = true;
@@ -432,7 +432,11 @@ namespace EcellLib.GridLayout
                 if (nodeList.Count * 2 < numOfVacantPoint)
                     posUnsettled = false;
                 else
+                {
                     grid = grid / 2f;
+                    tempRect.Width = tempRect.Width - 1;
+                    tempRect.Height = tempRect.Height - 1;
+                }
             }
 
             // Initialize position in virtual coordinates system
