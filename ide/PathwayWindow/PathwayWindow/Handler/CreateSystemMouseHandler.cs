@@ -181,11 +181,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">event information</param>
         public override void OnMouseDrag(object sender, PInputEventArgs e)
         {
-            if (m_isNode) return;
             base.OnMouseDrag(sender, e);
-
+            if (m_isNode)
+                return;
             if (m_selectedPath == null)
                 return;
+
 
             m_selectedPath.Reset();
             
@@ -196,7 +197,7 @@ namespace EcellLib.PathwayWindow
                 // When mouse surrounding region is smaller than minimum.
                 m_selectedPath.Pen = m_invalidPen;
             }
-            else if (m_con.CanvasDictionary[e.Canvas.Name].DoesSystemOverlaps(rect))
+            else if (m_canvas.DoesSystemOverlaps(rect))
             {
                 // When mouse surrounding region overlaps other system
                 m_selectedPath.Pen = m_overlapPen;
@@ -212,8 +213,8 @@ namespace EcellLib.PathwayWindow
             }
             
             PNodeList newlySelectedList = new PNodeList();
-            m_con.CanvasDictionary[((PCamera)sender).Canvas.Name].ResetSelectedObjects();
-            foreach(PLayer layer in m_con.CanvasDictionary[e.Canvas.Name].Layers.Values)
+            m_canvas.ResetSelectedObjects();
+            foreach (PLayer layer in m_canvas.Layers.Values)
             {
                 PNodeList list = new PNodeList();
                 layer.FindIntersectingNodes(rect, list);
@@ -224,7 +225,7 @@ namespace EcellLib.PathwayWindow
             {
                 if(node is PPathwayNode)
                 {
-                    m_con.CanvasDictionary[((PCamera)sender).Canvas.Name].AddSelectedNode((PPathwayNode)node, false);
+                    m_canvas.AddSelectedNode((PPathwayNode)node);
                 }
             }
         }

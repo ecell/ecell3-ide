@@ -1009,16 +1009,13 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Notify this set that one PPathwayNode is selected
+        /// AddSelect PPathwayNode
         /// </summary>
         /// <param name="obj">Newly selected object</param>
-        /// <param name="toBeNotified">Whether selection must be notified to Ecell-Core or not.</param>
-        public void AddSelectedNode(PPathwayNode obj, bool toBeNotified)
+        public void AddSelectedNode(PPathwayNode obj)
         {
             m_selectedNodes.Add(obj);
             obj.IsHighLighted = true;
-            if (toBeNotified)
-                NotifyAddSelect(obj.EcellObject.key, obj.EcellObject.type, true);
         }
 
         /// <summary>
@@ -1341,7 +1338,7 @@ namespace EcellLib.PathwayWindow
             if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE))
             {
                 PPathwayNode focusNode = (PPathwayNode)obj;
-                this.AddSelectedNode(focusNode, false);
+                this.AddSelectedNode(focusNode);
             }
         }
         /// <summary>
@@ -1368,7 +1365,7 @@ namespace EcellLib.PathwayWindow
                     break;
                 case EcellObject.VARIABLE: case EcellObject.PROCESS:
                     centerBounds = PathUtil.GetFocusBound(obj.FullBounds, LEAST_FOCUS_SIZE);
-                    this.AddSelectedNode((PPathwayNode)obj, false);
+                    this.AddSelectedNode((PPathwayNode)obj);
                     break;
             }
 

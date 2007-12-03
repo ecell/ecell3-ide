@@ -1752,16 +1752,17 @@ namespace EcellLib.PathwayWindow
             // Reset edges.
             foreach (EcellObject eo in copiedNodes)
             {
-                if (eo.type == "Process")
+                if (!(eo is EcellProcess))
+                    continue;
+                EcellProcess ep = (EcellProcess)eo;
+                List<EcellReference> list = ep.ReferenceList;
+                List<EcellReference> newlist = new List<EcellReference>();
+                foreach (EcellReference er in list)
                 {
-                    eo.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value = eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).Copy();
-                    foreach (EcellValue edge in eo.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).CastToList())
-                    {
-                        foreach (EcellValue val in edge.CastToList())
-                            if (varKeys.ContainsKey(val.ToString()))
-                                val.Value = varKeys[val.ToString()];
-                    }
+                    if (varKeys.ContainsKey(er.Key))
+                        newlist.Add(er);
                 }
+                ep.ReferenceList = newlist;
             }
             return copiedNodes;
         }

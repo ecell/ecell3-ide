@@ -127,42 +127,44 @@ namespace EcellLib.PathwayWindow
         public override void OnMouseDrag(object sender, PInputEventArgs e)
         {
             base.OnMouseDrag(sender, e);
-            if (m_selectedPath != null)
+            if (m_selectedPath == null)
+                return;
+
+            CanvasControl canvas = m_con.CanvasDictionary[((PCamera)sender).Canvas.Name];
+            m_selectedPath.Reset();
+            RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
+            m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
+
+            canvas.ResetSelectedObjects();
+            PNodeList newlySelectedList = new PNodeList();
+
+            foreach (PLayer layer in canvas.Layers.Values)
             {
-                m_selectedPath.Reset();
-                RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
-                m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
+                PNodeList list = new PNodeList();
+                layer.FindIntersectingNodes(rect, list);
+                newlySelectedList.AddRange(list);
+            }
 
-                m_con.CanvasDictionary[((PCamera)sender).Canvas.Name].ResetSelectedObjects();
-                PNodeList newlySelectedList = new PNodeList();
+            bool isAlreadySelected = false;
+            PPathwayNode lastNode = null;
 
-                foreach (PLayer layer in m_con.CanvasDictionary[e.Canvas.Name].Layers.Values)
+            foreach (PNode node in newlySelectedList)
+            {
+                if (node is PPathwayNode)
                 {
-                    PNodeList list = new PNodeList();
-                    layer.FindIntersectingNodes(rect, list);
-                    newlySelectedList.AddRange(list);
+                    lastNode = (PPathwayNode)node;
+                    canvas.NotifyAddSelect(
+                        lastNode.EcellObject.key,
+                        lastNode.EcellObject.type,
+                        true);
                 }
-
-                bool isAlreadySelected = false;
-                PPathwayNode lastNode = null;
-
-                foreach (PNode node in newlySelectedList)
-                {
-                    if (node is PPathwayNode)
-                    {
-                        m_con.CanvasDictionary[e.Canvas.Name].AddSelectedNode((PPathwayNode)node, true);
-                        PPathwayObject pObj = (PPathwayObject)node;
-                        lastNode = (PPathwayNode)pObj;
-                    }
-                    if (node == m_lastSelectedObj)
-                        isAlreadySelected = true;
-                }
-
-                if (!isAlreadySelected && lastNode != null)
-                {
-                    m_con.CanvasDictionary[e.Canvas.Name].NotifySelectChanged(lastNode.EcellObject.key, lastNode.EcellObject.type);
-                    m_lastSelectedObj = lastNode;
-                }
+                if (node == m_lastSelectedObj)
+                    isAlreadySelected = true;
+            }
+            if (!isAlreadySelected && lastNode != null)
+            {
+                canvas.NotifySelectChanged(lastNode.EcellObject.key, lastNode.EcellObject.type);
+                m_lastSelectedObj = lastNode;
             }
         }
     }

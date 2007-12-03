@@ -309,7 +309,7 @@ namespace EcellLib.PathwayWindow.Nodes
 
                 if (e.Modifiers == Keys.Shift)
                 {
-                    m_canvas.AddSelectedNode(this, true);
+                    m_canvas.NotifyAddSelect(m_ecellObj.key, m_ecellObj.type, true);
                 }
                 else
                 {
