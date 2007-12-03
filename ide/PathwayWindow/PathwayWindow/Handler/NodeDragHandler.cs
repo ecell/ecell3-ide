@@ -291,7 +291,7 @@ namespace EcellLib.PathwayWindow.Handler
 
             foreach (PPathwayObject node in nodeList)
             {
-                node.ParentObject.AddChild(node);
+                m_canvas.SetLayer(node);
                 newPosition = new PointF(node.X + node.OffsetX, node.Y + node.OffsetY);
                 newSystem = m_canvas.GetSurroundingSystemKey(newPosition);
                 newKey = newSystem + ":" + node.EcellObject.name;

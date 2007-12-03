@@ -67,51 +67,6 @@ namespace EcellLib.PathwayWindow
             set { this.m_brushDic = value; }
         }
         #endregion
-
-        /// <summary>
-        /// Create new instance of EcellReference which has same information of an argument EcellReference
-        /// </summary>
-        /// <param name="reference"></param>
-        /// <returns></returns>
-        public static EcellReference CopyEcellReference(EcellReference reference)
-        {
-            EcellReference newRef = new EcellReference();
-            newRef.coefficient = reference.coefficient;
-            newRef.fullID = reference.fullID;
-            newRef.isAccessor = reference.isAccessor;
-            newRef.name = reference.name;
-            return newRef;
-        }
-
-        /// <summary>
-        /// Get an environment variable.
-        /// If such an variable that has a key doesn't exist, registry will be searched.
-        /// </summary>
-        /// <param name="key">a key for an environment variable</param>
-        /// <returns>
-        ///    a environment variable, if a key has a value.
-        ///    null, if a key is null or '' or doesn't have a value.
-        /// </returns>
-        public static string GetEnvironmentVariable4DirPath(string key)
-        {
-            if (string.IsNullOrEmpty(key))
-                return null;
-
-            Microsoft.Win32.RegistryKey regkey = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey subkey = regkey.OpenSubKey(Constants.registryEnvKey);
-            string dirName = (string)subkey.GetValue(key);            
-            if (string.IsNullOrEmpty(dirName) || !Directory.Exists(dirName))
-            {
-                subkey.Close();
-                subkey = regkey.OpenSubKey(EcellLib.Constants.registrySWKey);
-                dirName = (string)subkey.GetValue(key);
-            }
-            subkey.Close();
-            regkey.Close();
-
-            return dirName;
-        }
-
         /// <summary>
         /// Get bounds to focus on a object.
         /// </summary>
@@ -188,25 +143,6 @@ namespace EcellLib.PathwayWindow
                     return "/";
                 else
                     return returnStr;
-            }
-        }
-
-        /// <summary>
-        /// Remove path from absolute path.
-        /// </summary>
-        /// <param name="absolutePath"></param>
-        /// <returns></returns>
-        public static string RemovePath(string absolutePath)
-        {
-            if (absolutePath == null || absolutePath.Equals("/"))
-                return "";
-            else if (absolutePath.Contains(":"))
-            {
-                return m_preColonRegex.Replace(absolutePath,"");
-            }
-            else
-            {
-                return m_preSlashRegex.Replace(absolutePath,"");
             }
         }
 
@@ -340,46 +276,6 @@ namespace EcellLib.PathwayWindow
                 return false;
 
         }
-
-        ///// <summary>
-        ///// Serialize a list of PathwayElements into a file.
-        ///// </summary>
-        ///// <param name="fileName">Serialized into this file</param>
-        ///// <param name="list">PathwayElement objects, which is going to be serialized</param>
-        //public static void SerializeElements(string fileName, List<PathwayElement> list)
-        //{
-        //    if (fileName == null)
-        //        return;
-        //    IFormatter formatter = new BinaryFormatter();
-        //    using (Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
-        //    {
-        //        foreach(PathwayElement element in list)
-        //        {
-        //            formatter.Serialize(stream, element);
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Deserialize a list of PathwayElements from a file
-        ///// </summary>
-        ///// <param name="fileName">Deserialized from this file</param>
-        ///// <returns>Deserialized list of PathwayElements</returns>
-        //public static List<PathwayElement> DeserializeElements(string fileName)
-        //{
-        //    List<PathwayElement> list = new List<PathwayElement>();
-        //    if (fileName == null || !File.Exists(fileName))
-        //        return list;
-        //    BinaryFormatter formatter = new BinaryFormatter();            
-        //    using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.None))
-        //    {
-        //        while (stream.Length != stream.Position)
-        //        {
-        //            list.Add((PathwayElement)formatter.Deserialize(stream));
-        //        }
-        //    }
-        //    return list;
-        //}
 
         /// <summary>
         /// Create a dictionary (key: name of brush, value: Brush object)

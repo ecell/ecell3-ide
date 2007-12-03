@@ -149,9 +149,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         public void HideResizeHandles()
         {
-            foreach (PNode node in m_resizeHandles)
-                if (node.Parent == m_canvas.ControlLayer)
-                    m_canvas.ControlLayer.RemoveChild(node);
+            foreach (PNode handle in m_resizeHandles)
+                if (handle.Parent == m_canvas.ControlLayer)
+                    m_canvas.ControlLayer.RemoveChild(handle);
         }
 
         /// <summary>

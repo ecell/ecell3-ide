@@ -827,7 +827,7 @@ namespace EcellLib.PathwayWindow
         /// Set Layer.
         /// </summary>
         /// <param name="obj"></param>
-        private void SetLayer(PPathwayObject obj)
+        public void SetLayer(PPathwayObject obj)
         {
             string layerID = obj.EcellObject.LayerID;
             if (obj.EcellObject.key.Equals("/") && (layerID != null && !layerID.Equals("")))
@@ -1346,9 +1346,7 @@ namespace EcellLib.PathwayWindow
                 m_processes[newkey].Refresh();
             }
             string sysKey = PathUtil.GetParentSystemId(newkey);
-            obj.ParentObject.RemoveChild(obj);
             obj.ParentObject = m_systems[sysKey];
-            obj.ParentObject.AddChild(obj);
 
         }
         /// <summary>

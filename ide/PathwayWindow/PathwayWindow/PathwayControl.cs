@@ -1070,7 +1070,7 @@ namespace EcellLib.PathwayWindow
                         newList.Add(changedRef);
                         break;
                     case RefChangeType.BiDir:
-                        EcellReference copyRef = PathUtil.CopyEcellReference(changedRef);
+                        EcellReference copyRef = changedRef.Copy();
                         changedRef.coefficient = -1;
                         changedRef.name = PathUtil.GetNewReferenceName(newList, -1);
                         copyRef.coefficient = 1;
