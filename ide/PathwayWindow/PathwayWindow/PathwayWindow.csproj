@@ -107,6 +107,7 @@
     <Compile Include="Handler\NamespaceDoc.cs" />
     <Compile Include="Handler\NodeDragHandler.cs" />
     <Compile Include="Handle.cs" />
+    <Compile Include="Handler\ResizeHandler.cs" />
     <Compile Include="MessageResPathway.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

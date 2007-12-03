@@ -188,11 +188,6 @@ namespace EcellLib.PathwayWindow
         protected PLayer m_ctrlLayer;
 
         /// <summary>
-        /// ContextMenuStrip for PPathwayNode
-        /// </summary>
-        private ContextMenuStrip m_nodeMenu;
-
-        /// <summary>
         /// Whether each node is showing it's ID or not;
         /// </summary>
         protected bool m_showingId = true;
@@ -228,36 +223,13 @@ namespace EcellLib.PathwayWindow
         PNodeList m_surroundedBySystem = null;
 
         /// <summary>
-        /// m_resideHandles contains a list of ResizeHandle for resizing a system.
+        /// ResizeHandler for resizing a system.
         /// </summary>
-        protected PNodeList m_resizeHandles = new PNodeList();
+        protected ResizeHandler m_resizeHandler;
 
         /// <summary>
-        /// Half of width of a ResizeHandle
+        /// To handle an edge to reconnect
         /// </summary>
-        protected readonly float m_resizeHandleHalfWidth = 10;
-
-        /// <summary>
-        /// Used to save upper left point of a system
-        /// </summary>
-        protected PointF m_upperLeftPoint;
-
-        /// <summary>
-        /// Used to save upper right point of a system
-        /// </summary>
-        protected PointF m_upperRightPoint;
-
-        /// <summary>
-        /// Used to save lower right point of a system
-        /// </summary>
-        protected PointF m_lowerRightPoint;
-
-        /// <summary>
-        /// Used to save lower left point of a system
-        /// </summary>
-        protected PointF m_lowerLeftPoint;
-
-        /////// To handle an edge to reconnect
         bool m_isReconnectMode = false;
 
         /// <summary>
@@ -302,11 +274,11 @@ namespace EcellLib.PathwayWindow
         /// this will be used to reconnect edge.
         /// </summary>
         Stack<PPathwayObject> m_nodesUnderMouse = new Stack<PPathwayObject>();
+
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
-
         #endregion
 
         #region Accessors
@@ -329,12 +301,12 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_nodeMenu.
+        /// Accessor for m_ctrlLayer.
         /// </summary>
-        public ContextMenuStrip NodeMenu
+        public PLayer ControlLayer
         {
-            get { return m_nodeMenu; }
-            set { this.m_nodeMenu = value; }
+            get { return m_ctrlLayer; }
+            set { this.m_ctrlLayer = value; }
         }
 
         /// <summary>
@@ -451,21 +423,12 @@ namespace EcellLib.PathwayWindow
             set
             {
                 m_showingId = value;
-                foreach (PPathwayNode pnode in m_variables.Values)
-                {
-                    pnode.ShowingID = m_showingId;
-                }
-                foreach (PPathwayNode pnode in m_processes.Values)
-                {
-                    pnode.ShowingID = m_showingId;
-                }
+                foreach (PPathwayNode node in m_variables.Values)
+                    node.ShowingID = m_showingId;
+                foreach (PPathwayNode node in m_processes.Values)
+                    node.ShowingID = m_showingId;
                 foreach (PPathwaySystem system in m_systems.Values)
-                {
-                    if (m_showingId)
-                        system.Text.Visible = true;
-                    else
-                        system.Text.Visible = false;
-                }
+                    system.ShowingID = m_showingId;
             }
         }
 
@@ -475,6 +438,11 @@ namespace EcellLib.PathwayWindow
         public Line Line4Reconnect
         {
             get { return m_line4reconnect; }
+        }
+
+        public ResizeHandler ResizeHandler
+        {
+            get { return m_resizeHandler; }
         }
         #endregion
 
@@ -526,74 +494,7 @@ namespace EcellLib.PathwayWindow
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
 
             // Preparing system handlers
-            for (int m = 0; m < 8; m++)
-            {
-                ResizeHandle handle = new ResizeHandle();
-                handle.Brush = Brushes.DarkOrange;
-                handle.Pen = new Pen(Brushes.DarkOliveGreen, 1);
-
-                handle.AddRectangle(-1 * m_resizeHandleHalfWidth,
-                                    -1 * m_resizeHandleHalfWidth,
-                                    m_resizeHandleHalfWidth * 2f,
-                                    m_resizeHandleHalfWidth * 2f);
-                m_resizeHandles.Add(handle);
-            }
-
-            m_resizeHandles[0].Tag = MovingRestriction.NoRestriction;
-            m_resizeHandles[0].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNWSE);
-            m_resizeHandles[0].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
-            m_resizeHandles[0].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
-            m_resizeHandles[0].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeNW);
-            m_resizeHandles[0].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
-
-            m_resizeHandles[1].Tag = MovingRestriction.Vertical;
-            m_resizeHandles[1].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNS);
-            m_resizeHandles[1].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
-            m_resizeHandles[1].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
-            m_resizeHandles[1].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeN);
-            m_resizeHandles[1].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
-
-            m_resizeHandles[2].Tag = MovingRestriction.NoRestriction;
-            m_resizeHandles[2].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNESW);
-            m_resizeHandles[2].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
-            m_resizeHandles[2].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
-            m_resizeHandles[2].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeNE);
-            m_resizeHandles[2].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
-
-            m_resizeHandles[3].Tag = MovingRestriction.Horizontal;
-            m_resizeHandles[3].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeWE);
-            m_resizeHandles[3].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
-            m_resizeHandles[3].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
-            m_resizeHandles[3].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeE);
-            m_resizeHandles[3].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
-
-            m_resizeHandles[4].Tag = MovingRestriction.NoRestriction;
-            m_resizeHandles[4].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNWSE);
-            m_resizeHandles[4].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
-            m_resizeHandles[4].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
-            m_resizeHandles[4].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeSE);
-            m_resizeHandles[4].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
-
-            m_resizeHandles[5].Tag = MovingRestriction.Vertical;
-            m_resizeHandles[5].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNS);
-            m_resizeHandles[5].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
-            m_resizeHandles[5].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
-            m_resizeHandles[5].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeS);
-            m_resizeHandles[5].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
-
-            m_resizeHandles[6].Tag = MovingRestriction.NoRestriction;
-            m_resizeHandles[6].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeNESW);
-            m_resizeHandles[6].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
-            m_resizeHandles[6].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
-            m_resizeHandles[6].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeSW);
-            m_resizeHandles[6].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
-
-            m_resizeHandles[7].Tag = MovingRestriction.Horizontal;
-            m_resizeHandles[7].MouseEnter += new PInputEventHandler(PPathwaySystem_CursorSizeWE);
-            m_resizeHandles[7].MouseLeave += new PInputEventHandler(PPathwaySystem_MouseLeave);
-            m_resizeHandles[7].MouseDown += new PInputEventHandler(PPathwaySystem_MouseDown);
-            m_resizeHandles[7].MouseDrag += new PInputEventHandler(PPathwaySystem_ResizeW);
-            m_resizeHandles[7].MouseUp += new PInputEventHandler(PPathwaySystem_MouseUp);
+            m_resizeHandler = new ResizeHandler(this);
 
             // Prepare line handles
             m_lineHandle4V = new PPath();
@@ -627,7 +528,9 @@ namespace EcellLib.PathwayWindow
             m_line4reconnect.Pen = LINE_THIN_PEN;
             m_line4reconnect.Pickable = false;
         }
+        #endregion
 
+        #region EventHandlers
         void scrolCtrl_Layout(object sender, LayoutEventArgs e)
         {
         }
@@ -726,602 +629,16 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
-        #region Methods for System
-        /// <summary>
-        /// Highlights objects currently surrounded by the selected system.
-        /// </summary>
-        private void RefreshSurroundState()
-        {
-            if (m_selectedSystemName == null)
-                return;
-            ClearSurroundState();
-            m_surroundedBySystem = new PNodeList();
-            PPathwaySystem topSystem = m_systems[m_selectedSystemName];
-            foreach (PLayer layer in Layers.Values)
-            {
-                PNodeList list = new PNodeList();
-                layer.FindIntersectingNodes(topSystem.Rect, list);
-                m_surroundedBySystem.AddRange(list);
-            }
-            foreach (PNode node in m_surroundedBySystem)
-            {
-                if (node is PPathwayObject)
-                    ((PPathwayObject)node).IsHighLighted = true;
-            }
-        }
-
-        /// <summary>
-        /// Turn off highlight for previously surrounded by system objects, and clear resources for managing
-        /// surrounding state.
-        /// </summary>
-        private void ClearSurroundState()
-        {
-            if (m_surroundedBySystem == null)
-                return;
-            foreach (PNode node in m_surroundedBySystem)
-            {
-                if (node is PPathwayObject)
-                    ((PPathwayObject)node).IsHighLighted = false;
-            }
-            m_surroundedBySystem = null;
-        }
-
-        /// <summary>
-        /// Called when the mouse is up on one of resize handles for a system.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_MouseUp(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            if (m_selectedSystemName == null)
-                return;
-            // Get selected system
-            string systemKey = m_selectedSystemName;
-            PPathwaySystem system = m_systems[systemKey];
-
-            // If selected system overlaps another, reset system region.
-            if (this.DoesSystemOverlaps(system.GlobalBounds, systemKey))
-            {
-                ResetSystemResize(system);
-                return;
-            }
-            system.Refresh();
-
-            List<PPathwayObject> objList = GetAllObjects();
-            // Select PathwayObjects being moved into current system.
-            Dictionary<string, PPathwayObject> currentDict = new Dictionary<string, PPathwayObject>();
-            // Select PathwayObjects being moved to upper system.
-            Dictionary<string, PPathwayObject> beforeDict = new Dictionary<string, PPathwayObject>();
-            foreach (PPathwayObject obj in objList)
-            {
-                if (system.Rect.Contains(obj.Rect))
-                {
-                    if (!obj.EcellObject.parentSystemID.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
-                        currentDict.Add(obj.EcellObject.type + ":" + obj.EcellObject.key, obj);
-                }
-                else
-                {
-                    if (obj.EcellObject.parentSystemID.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
-                        beforeDict.Add(obj.EcellObject.type + ":" + obj.EcellObject.key, obj);
-                }
-            }
-
-            // If ID duplication could occurred, system resizing will be aborted
-            foreach (PPathwayObject obj in currentDict.Values)
-            {
-                // Check duplicated object.
-                if (obj is PPathwaySystem && !m_systems.ContainsKey(systemKey + "/" + obj.EcellObject.name))
-                    continue;
-                else if (obj is PPathwayProcess && !m_processes.ContainsKey(systemKey + ":" + obj.EcellObject.name))
-                    continue;
-                else if (obj is PPathwayVariable && !m_variables.ContainsKey(systemKey + ":" + obj.EcellObject.name))
-                    continue;
-                // If duplicated object exists.
-                ResetSystemResize(system);
-                MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            string parentKey = system.EcellObject.parentSystemID;
-            foreach (PPathwayObject obj in beforeDict.Values)
-            {
-                // Check duplicated object.
-                if (obj is PPathwaySystem && !m_systems.ContainsKey(parentKey + "/" + obj.EcellObject.name))
-                    continue;
-                else if (obj is PPathwayProcess && !m_processes.ContainsKey(parentKey + ":" + obj.EcellObject.name))
-                    continue;
-                else if (obj is PPathwayVariable && !m_variables.ContainsKey(parentKey + ":" + obj.EcellObject.name))
-                    continue;
-                // If duplicated object exists.
-                ResetSystemResize(system);
-                MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // Move objects.
-            foreach (PPathwayObject obj in currentDict.Values)
-            {
-                string oldKey = obj.EcellObject.key;
-                string oldSyskey = obj.EcellObject.parentSystemID;
-                string newKey = null;
-                if (obj is PPathwaySystem)
-                    newKey = systemKey + "/" + obj.EcellObject.name;
-                else
-                    newKey = systemKey + ":" + obj.EcellObject.name;
-                // Set node change
-                this.m_con.NotifyDataChanged(oldKey, newKey, obj, true, true);
-            }
-            foreach (PPathwayObject obj in beforeDict.Values)
-            {
-                string oldKey = obj.EcellObject.key;
-                string newKey = null;
-                if (obj is PPathwaySystem)
-                    newKey = parentKey + "/" + obj.EcellObject.name;
-                else
-                    newKey = parentKey + ":" + obj.EcellObject.name;
-                // Set node change
-                this.m_con.NotifyDataChanged(oldKey, newKey, obj, true, true);
-            }
-
-            // Fire DataChanged for child in system.!
-            UpdateResizeHandlePositions();
-            ResetSelectedObjects();
-            ClearSurroundState();
-
-            // Update systems
-            m_con.NotifyDataChanged(
-                system.EcellObject.key,
-                system.EcellObject.key,
-                system,
-                true,
-                true);
-        }
-
-        void ResetSystemResize(PPathwaySystem system)
-        {
-            // Resizing is aborted
-            system.ResetPosition();
-            system.Refresh();
-            this.ValidateSystem(system);
-            UpdateResizeHandlePositions();
-            ResetSelectedObjects();
-            ClearSurroundState();
-        }
-
-        /// <summary>
-        /// Called when the mouse is down on one of resize handles for a system.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_MouseDown(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-            system.MemorizePosition();
-            m_upperLeftPoint = system.PointF;
-            m_upperRightPoint = new PointF(m_upperLeftPoint.X + system.Width, m_upperLeftPoint.Y);
-            m_lowerRightPoint = new PointF(m_upperLeftPoint.X + system.Width, m_upperLeftPoint.Y + system.Height);
-            m_lowerLeftPoint = new PointF(m_upperLeftPoint.X, m_upperLeftPoint.Y + system.Height);
-        }
-
-        /// <summary>
-        /// Called when the NorthWest resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_ResizeNW(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            if (m_selectedSystemName == null)
-                return;
-            RefreshSurroundState();
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-
-            float X = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
-            float Y = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
-            float width = m_lowerRightPoint.X - X;
-            float height = m_lowerRightPoint.Y - Y;
-            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
-            {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                system.X = X;
-                system.Y = Y;
-                system.Width = width;
-                system.Height = height;
-
-                this.ValidateSystem(system);
-                system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
-            }
-            else
-            {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
-                if (width <= PPathwaySystem.MIN_X_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
-                }
-                if (height <= PPathwaySystem.MIN_Y_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Called when the North resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_ResizeN(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            if (m_selectedSystemName == null)
-                return;
-            RefreshSurroundState();
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-
-            float Y = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
-            float height = m_lowerRightPoint.Y - Y;
-
-            if (height > PPathwaySystem.MIN_Y_LENGTH)
-            {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                PointF offsetToL = system.Offset;
-                system.Y = Y - offsetToL.Y;
-                system.Height = height;
-                this.ValidateSystem(system);
-                system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
-            }
-            else
-            {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
-            }
-        }
-
-        /// <summary>
-        /// Called when the NorthEast resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_ResizeNE(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            if (m_selectedSystemName == null)
-                return;
-            RefreshSurroundState();
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-
-            float Y = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
-            float width = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                               - system.X - system.Offset.X;
-            float height = m_lowerLeftPoint.Y - Y;
-
-            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
-            {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                PointF offsetToL = system.Offset;
-                system.Y = Y - offsetToL.Y;
-                system.Width = width;
-                system.Height = height;
-                this.ValidateSystem(system);
-                system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
-            }
-            else
-            {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
-
-                if (width <= PPathwaySystem.MIN_X_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
-                }
-                if (height <= PPathwaySystem.MIN_Y_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Called when the East resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_ResizeE(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            if (m_selectedSystemName == null)
-                return;
-            RefreshSurroundState();
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-
-            float width = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                              - system.X - system.Offset.X;
-            if (width > PPathwaySystem.MIN_X_LENGTH)
-            {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                system.Width = width;
-                this.ValidateSystem(system);
-                system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
-            }
-            else
-            {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
-            }
-        }
-
-        /// <summary>
-        /// Called when the SouthEast resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_ResizeSE(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            if (m_selectedSystemName == null)
-                return;
-            RefreshSurroundState();
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-
-            float width = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                               - system.X - system.Offset.X;
-            float height = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                                - system.Y - system.Offset.Y;
-
-            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
-            {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                PointF offsetToL = system.Offset;
-                system.Width = width;
-                system.Height = height;
-                this.ValidateSystem(system);
-                system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
-            }
-            else
-            {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
-
-                if (width <= PPathwaySystem.MIN_X_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
-                }
-                if (height <= PPathwaySystem.MIN_Y_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Called when the South resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_ResizeS(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            if (m_selectedSystemName == null)
-                return;
-            RefreshSurroundState();
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-
-            float height = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                                 - system.Y - system.Offset.Y;
-
-            if (height > PPathwaySystem.MIN_Y_LENGTH)
-            {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                system.Height = height;
-                this.ValidateSystem(system);
-                system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
-            }
-            else
-            {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
-            }
-        }
-
-        /// <summary>
-        /// Called when the SouthWest resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_ResizeSW(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            if (m_selectedSystemName == null)
-                return;
-            RefreshSurroundState();
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-
-            float X = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
-            float width = m_upperRightPoint.X - e.PickedNode.X - e.PickedNode.OffsetX - m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS;
-            float height = e.PickedNode.Y + e.PickedNode.OffsetY + m_resizeHandleHalfWidth + PPathwaySystem.HALF_THICKNESS
-                               - system.Y - system.Offset.Y;
-
-            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
-            {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                PointF offsetToL = system.Offset;
-                system.X = X - offsetToL.X;
-                system.Width = width;
-                system.Height = height;
-                this.ValidateSystem(system);
-                system.Refresh();
-
-                UpdateResizeHandlePositions(e.PickedNode);
-            }
-            else
-            {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
-
-                if (width <= PPathwaySystem.MIN_X_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
-                }
-                if (height <= PPathwaySystem.MIN_Y_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Called when the West resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_ResizeW(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            if (m_selectedSystemName == null)
-                return;
-            RefreshSurroundState();
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-
-            float X = e.PickedNode.X + e.PickedNode.OffsetX + m_resizeHandleHalfWidth - PPathwaySystem.HALF_THICKNESS;
-            float width = m_lowerRightPoint.X - X;
-
-            if (width > PPathwaySystem.MIN_X_LENGTH)
-            {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                PointF offsetToL = system.Offset;
-                system.X = X - offsetToL.X;
-                system.Width = width;
-                this.ValidateSystem(system);
-                system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
-            }
-            else
-            {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
-            }
-        }
-
-        /// <summary>
-        /// Called when the mouse is off a resize handle.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_MouseLeave(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            e.Canvas.Cursor = Cursors.Default;
-        }
-
-        /// <summary>
-        /// Called for changing the mouse figure on a resize handle
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_CursorSizeNWSE(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            e.Canvas.Cursor = Cursors.SizeNWSE;
-        }
-
-        /// <summary>
-        /// Called for changing the mouse figure on a resize handle
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_CursorSizeNS(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            e.Canvas.Cursor = Cursors.SizeNS;
-        }
-
-        /// <summary>
-        /// Called for changing the mouse figure on a resize handle
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_CursorSizeNESW(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            e.Canvas.Cursor = Cursors.SizeNESW;
-        }
-
-        /// <summary>
-        /// Called for changing the mouse figure on a resize handle
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void PPathwaySystem_CursorSizeWE(object sender, UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            e.Canvas.Cursor = Cursors.SizeWE;
-        }
-        #endregion
-
         /// <summary>
         /// Validate a system. According to result, system.Valid will be changed.
         /// </summary>
         /// <param name="system">PEcellSystem to be validated</param>
-        protected void ValidateSystem(PPathwaySystem system)
+        public void ValidateSystem(PPathwaySystem system)
         {
             if (this.DoesSystemOverlaps(system.Rect, system.EcellObject.key))
                 system.Valid = false;
             else
                 system.Valid = true;
-        }
-
-        /// <summary>
-        /// Show resize handles for resizing system.
-        /// </summary>
-        protected void ShowResizeHandles()
-        {
-            foreach (PNode node in m_resizeHandles)
-            {
-                m_ctrlLayer.AddChild(node);
-            }
-        }
-
-        /// <summary>
-        /// Reset reside handles' positions.
-        /// </summary>
-        public void UpdateResizeHandlePositions()
-        {
-            if (m_selectedSystemName == null || !m_systems.ContainsKey(m_selectedSystemName))
-                return;
-
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-            PointF gP = system.PointF;
-
-            float halfThickness = PPathwaySystem.HALF_THICKNESS;
-            m_resizeHandles[0].SetOffset(gP.X + halfThickness, gP.Y + halfThickness);
-            m_resizeHandles[1].SetOffset(gP.X + system.Width / 2f, gP.Y + halfThickness);
-            m_resizeHandles[2].SetOffset(gP.X + system.Width - halfThickness, gP.Y + halfThickness);
-            m_resizeHandles[3].SetOffset(gP.X + system.Width - halfThickness, gP.Y + system.Height / 2f);
-            m_resizeHandles[4].SetOffset(gP.X + system.Width - halfThickness, gP.Y + system.Height - halfThickness);
-            m_resizeHandles[5].SetOffset(gP.X + system.Width / 2f, gP.Y + system.Height - halfThickness);
-            m_resizeHandles[6].SetOffset(gP.X + halfThickness, gP.Y + system.Height - halfThickness);
-            m_resizeHandles[7].SetOffset(gP.X + halfThickness, gP.Y + system.Height / 2f);
-        }
-
-        /// <summary>
-        /// Reset resize handles' positions except one fixedHandle
-        /// </summary>
-        /// <param name="fixedHandle">this ResizeHandle must not be updated</param>
-        public void UpdateResizeHandlePositions(PNode fixedHandle)
-        {
-            if (m_selectedSystemName == null)
-                return;
-
-            PPathwaySystem system = m_systems[m_selectedSystemName];
-            PointF gP = system.PointF;
-
-            float halfOuterRadius = PPathwaySystem.OUTER_RADIUS / 2f;
-            float halfThickness = (PPathwaySystem.OUTER_RADIUS - PPathwaySystem.INNER_RADIUS) / 2;
-            if (m_resizeHandles[0] != fixedHandle)
-                m_resizeHandles[0].SetOffset(gP.X + halfThickness, gP.Y + halfThickness);
-            if (m_resizeHandles[1] != fixedHandle)
-                m_resizeHandles[1].SetOffset(gP.X + system.Width / 2f, gP.Y + halfThickness);
-            if (m_resizeHandles[2] != fixedHandle)
-                m_resizeHandles[2].SetOffset(gP.X + system.Width - halfThickness, gP.Y + halfThickness);
-            if (m_resizeHandles[3] != fixedHandle)
-                m_resizeHandles[3].SetOffset(gP.X + system.Width - halfThickness, gP.Y + system.Height / 2f);
-            if (m_resizeHandles[4] != fixedHandle)
-                m_resizeHandles[4].SetOffset(gP.X + system.Width - halfThickness, gP.Y + system.Height - halfThickness);
-            if (m_resizeHandles[5] != fixedHandle)
-                m_resizeHandles[5].SetOffset(gP.X + system.Width / 2f, gP.Y + system.Height - halfThickness);
-            if (m_resizeHandles[6] != fixedHandle)
-                m_resizeHandles[6].SetOffset(gP.X + halfThickness, gP.Y + system.Height - halfThickness);
-            if (m_resizeHandles[7] != fixedHandle)
-                m_resizeHandles[7].SetOffset(gP.X + halfThickness, gP.Y + system.Height / 2f);
         }
 
         /// <summary>
@@ -1376,14 +693,59 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Hide resize handles for resizing system.
+        /// Highlights objects currently surrounded by the selected system.
         /// </summary>
-        protected void HideResizeHandles()
+        public void RefreshSurroundState()
         {
-            foreach (PNode node in m_resizeHandles)
-                if (node.Parent == m_ctrlLayer)
-                    m_ctrlLayer.RemoveChild(node);
+            if (m_selectedSystemName == null)
+                return;
+            ClearSurroundState();
+            m_surroundedBySystem = new PNodeList();
+            PPathwaySystem topSystem = m_systems[m_selectedSystemName];
+            foreach (PLayer layer in Layers.Values)
+            {
+                PNodeList list = new PNodeList();
+                layer.FindIntersectingNodes(topSystem.Rect, list);
+                m_surroundedBySystem.AddRange(list);
+            }
+            foreach (PNode node in m_surroundedBySystem)
+            {
+                if (node is PPathwayObject)
+                    ((PPathwayObject)node).IsHighLighted = true;
+            }
         }
+
+        /// <summary>
+        /// Turn off highlight for previously surrounded by system objects, and clear resources for managing
+        /// surrounding state.
+        /// </summary>
+        public void ClearSurroundState()
+        {
+            if (m_surroundedBySystem == null)
+                return;
+            foreach (PNode node in m_surroundedBySystem)
+            {
+                if (node is PPathwayObject)
+                    ((PPathwayObject)node).IsHighLighted = false;
+            }
+            m_surroundedBySystem = null;
+        }
+
+        /// <summary>
+        /// Reset System Resize.
+        /// </summary>
+        /// <param name="system"></param>
+        public void ResetSystemResize(PPathwaySystem system)
+        {
+            // Resizing is aborted
+            system.ResetPosition();
+            system.Refresh();
+            this.ValidateSystem(system);
+            m_resizeHandler.UpdateResizeHandlePositions();
+            ResetSelectedObjects();
+            ClearSurroundState();
+        }
+
         /// <summary>
         /// Check if any system of this canvas overlaps given rectangle.
         /// </summary>
@@ -1528,6 +890,7 @@ namespace EcellLib.PathwayWindow
                 obj.CanvasControl = this;
         }
 
+        #region Methods to control Layer.
         /// <summary>
         /// add the selected layer.
         /// </summary>
@@ -1623,6 +986,7 @@ namespace EcellLib.PathwayWindow
 
             RefreshLayerTable();
         }
+
         /// <summary>
         /// Set Layer Visibility.
         /// </summary>
@@ -1638,6 +1002,7 @@ namespace EcellLib.PathwayWindow
             RefreshVisibility();
             m_con.OverView.Canvas.Refresh();
         }
+
         /// <summary>
         /// Get a list of layers.
         /// </summary>
@@ -1650,6 +1015,7 @@ namespace EcellLib.PathwayWindow
 
             return list;
         }
+
         /// <summary>
         /// Merge two layers
         /// </summary>
@@ -1679,6 +1045,7 @@ namespace EcellLib.PathwayWindow
             m_layers.Remove(oldName);
             RefreshLayerTable();
         }
+        #endregion
 
         /// <summary>
         /// Get a temporary key of EcellObject.
@@ -1755,8 +1122,8 @@ namespace EcellLib.PathwayWindow
             if (!m_systems.ContainsKey(systemName))
                 return;
             m_systems[systemName].IsHighLighted = true;
-            ShowResizeHandles();
-            UpdateResizeHandlePositions();
+            m_resizeHandler.ShowResizeHandles();
+            m_resizeHandler.UpdateResizeHandlePositions();
         }
 
         /// <summary>
@@ -1996,7 +1363,7 @@ namespace EcellLib.PathwayWindow
                 TransferObject(oldKey, newKey, obj);
 
             if (obj is PPathwaySystem)
-                UpdateResizeHandlePositions();
+                m_resizeHandler.UpdateResizeHandlePositions();
             // Set Layer
             SetLayer(obj);
         }
@@ -2038,7 +1405,6 @@ namespace EcellLib.PathwayWindow
         {
             if (obj == null)
                 return;
-
             obj.Text.RemoveFromParent();
             obj.Parent.RemoveChild(obj);
         }
@@ -2212,7 +1578,7 @@ namespace EcellLib.PathwayWindow
                 m_systems[m_selectedSystemName].IsHighLighted = false;
             }
             m_selectedSystemName = null;
-            HideResizeHandles();
+            m_resizeHandler.HideResizeHandles();
         }
 
         /// <summary>
@@ -2322,15 +1688,6 @@ namespace EcellLib.PathwayWindow
             m_pCanvas.Refresh();
         }
 
-        /// <summary>
-        /// Return true if EcellSystem contains a point.
-        /// </summary>
-        /// <param name="eo">EcellSystem object.</param>
-        /// <returns>bool</returns>
-        public bool CheckNodePosition(EcellObject eo)
-        {
-            return CheckNodePosition(eo.parentSystemID, eo.PointF);
-        }
         /// <summary>
         /// Return true if EcellSystem contains a point.
         /// </summary>

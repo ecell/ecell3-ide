@@ -34,7 +34,6 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -78,6 +77,7 @@ namespace EcellLib.PathwayWindow
         /// ResourceManager for PathwayWindow.
         /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+
         /// <summary>
         /// m_dManager (DataManager)
         /// </summary>
@@ -87,7 +87,6 @@ namespace EcellLib.PathwayWindow
         /// m_dManager (DataManager)
         /// </summary>
         private PluginManager m_pManager;
-
         #endregion
 
         #region Accessors
@@ -511,9 +510,10 @@ namespace EcellLib.PathwayWindow
         /// <param name="directory">the directory of save.</param>
         public void SaveModel(string modelID, string directory)
         {
+            // Error Check
             if(String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(directory))
                 return;
-            if (!this.m_con.CanvasDictionary.ContainsKey(modelID))
+            if (!m_con.CanvasDictionary.ContainsKey(modelID))
                 return;
 
             List<EcellObject> list = new List<EcellObject>();
@@ -531,13 +531,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">Selected the data type.</param>
         public void SelectChanged(string modelID, string key, string type)
         {
-            // Error check.
-            if (modelID == null || !m_con.CanvasDictionary.ContainsKey(modelID))
-                return;
-            CanvasControl canvas = this.m_con.CanvasDictionary[modelID];
-            if (canvas == null)
-                return;
-            canvas.SelectChanged(key, type);
+            m_con.SelectChanged(modelID, key, type);
         }
 
         /// <summary>
@@ -548,10 +542,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">Type of object added to selected objects.</param>
         public void AddSelect(string modelID, string key, string type)
         {
-            // not implement
-            CanvasControl canvas = this.m_con.CanvasDictionary[modelID];
-            if (canvas != null)
-                canvas.AddSelect(key, type);
+            m_con.AddSelect(modelID, key, type);
         }
 
         /// <summary>

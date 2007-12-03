@@ -428,23 +428,8 @@ namespace EcellLib.PathwayWindow
             // Create PathwayObject and set to canvas.
             CanvasControl canvas = m_canvasDict[modelID];
             ComponentSetting cs = GetComponentSetting(eo.type);
-            bool isPosSet = eo.IsPosSet;
             PPathwayObject obj = cs.CreateNewComponent(eo, canvas);
-            if (eo is EcellSystem)
-            {
-                PPathwaySystem system = (PPathwaySystem)obj;
-                system.MouseDown += new PInputEventHandler(SystemSelected);
-            }
-            else
-            {
-                PPathwayNode node = (PPathwayNode)obj;
-                node.ShowingID = m_showingId;
-                node.MouseDown += new PInputEventHandler(NodeSelected);
-                node.MouseEnter += new PInputEventHandler(NodeEntered);
-                node.MouseLeave += new PInputEventHandler(NodeLeft);
-                node.Handler4Line = new PInputEventHandler(LineSelected);
-            }
-            canvas.DataAdd(systemName, obj, isPosSet, false);
+            canvas.DataAdd(systemName, obj, eo.IsPosSet, false);
             NotifyDataChanged(eo.key, eo.key, obj, false, false);
         }
 
@@ -595,6 +580,38 @@ namespace EcellLib.PathwayWindow
                 return;
             foreach (EcellObject child in eo.Children)
                 SetPosition(modelID, child);
+        }
+
+        /// <summary>
+        /// The event sequence on changing selected object at other plugin.
+        /// </summary>
+        /// <param name="modelID">Selected the model ID.</param>
+        /// <param name="key">Selected the ID.</param>
+        /// <param name="type">Selected the data type.</param>
+        public void SelectChanged(string modelID, string key, string type)
+        {
+            // Error check.
+            if (modelID == null || !m_canvasDict.ContainsKey(modelID))
+                return;
+            CanvasControl canvas = m_canvasDict[modelID];
+            if (canvas == null)
+                return;
+            canvas.SelectChanged(key, type);
+        }
+
+        /// <summary>
+        /// The event process when user add the object to the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object added to selected objects.</param>
+        /// <param name="key">ID of object added to selected objects.</param>
+        /// <param name="type">Type of object added to selected objects.</param>
+        public void AddSelect(string modelID, string key, string type)
+        {
+            // not implement
+            CanvasControl canvas = m_canvasDict[modelID];
+            if (canvas == null)
+                return;
+            canvas.AddSelect(key, type);
         }
         #endregion
         
@@ -1114,7 +1131,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void DebugClick(object sender, EventArgs e)
+        private void DebugClick(object sender, EventArgs e)
         {
             if (ActiveCanvas.ClickedNode is PPathwayObject)
             {
@@ -1142,7 +1159,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void MergeClick(object sender, EventArgs e)
+        private void MergeClick(object sender, EventArgs e)
         {
             // Check exception.
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
@@ -1210,7 +1227,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DeleteClick(object sender, EventArgs e)
+        private void DeleteClick(object sender, EventArgs e)
         {
             // Check active canvas.
             CanvasControl canvas = this.ActiveCanvas;
@@ -1303,7 +1320,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void LayoutItem_Click(object sender, EventArgs e)
+        private void LayoutItem_Click(object sender, EventArgs e)
         {
             if (!(sender is ToolStripMenuItem))
                 return;
@@ -1389,7 +1406,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ChangeLeyerClick(object sender, EventArgs e)
+        private void ChangeLeyerClick(object sender, EventArgs e)
         {
             if (this.ActiveCanvas == null)
                 return;
@@ -1424,7 +1441,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CopyClick(object sender, EventArgs e)
+        private void CopyClick(object sender, EventArgs e)
         {
             if (this.ActiveCanvas == null)
                 return;
@@ -1439,7 +1456,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CutClick(object sender, EventArgs e)
+        private void CutClick(object sender, EventArgs e)
         {
             if (this.ActiveCanvas == null)
                 return;
@@ -1464,7 +1481,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void PasteClick(object sender, EventArgs e)
+        private void PasteClick(object sender, EventArgs e)
         {
             if (m_copiedNodes == null || m_copiedNodes.Count == 0)
                 return;
@@ -1485,7 +1502,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender">MenuStripItem.</param>
         /// <param name="e">EventArgs.</param>
-        void ShowIdClick(object sender, EventArgs e)
+        private void ShowIdClick(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             if (item.CheckState == CheckState.Checked)
@@ -1499,7 +1516,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void m_nodeMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        private void m_nodeMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
             if (sender is ContextMenuStrip)
             {
@@ -1513,7 +1530,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender">ToolBoxMenuButton.</param>
         /// <param name="e">EventArgs.</param>
-        public void ButtonStateChanged(object sender, EventArgs e)
+        private void ButtonStateChanged(object sender, EventArgs e)
         {
             RemoveInputEventListener(m_handlerDict[m_selectedHandle.HandleID]);
             m_selectedHandle = (Handle)((ToolStripButton)sender).Tag;
@@ -1548,7 +1565,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ZoomButton_Click(object sender, EventArgs e)
+        private void ZoomButton_Click(object sender, EventArgs e)
         {
             float rate = (float)((ToolStripButton)sender).Tag;
             if (this.CanvasDictionary == null)
@@ -1558,142 +1575,6 @@ namespace EcellLib.PathwayWindow
             {
                 canvas.Zoom(rate);
             }
-        }
-        #endregion
-
-        #region EventHandlers for NodeClick
-       /// <summary>
-        /// the event sequence of selecting the PNode of system in PathwayEditor.
-        /// </summary>
-        /// <param name="sender">PPathwaySystem</param>
-        /// <param name="e">PInputEventArgs</param>
-        public void SystemSelected(object sender, PInputEventArgs e)
-        {
-            CanvasControl canvas = this.CanvasDictionary[e.Canvas.Name];
-            if (canvas == null)
-                return;
-
-            if (e.PickedNode == sender)
-            {
-                PPathwaySystem system = (PPathwaySystem)sender;
-                canvas.ResetSelectedObjects();
-                canvas.AddSelectedSystem(system.EcellObject.key);
-                canvas.NotifySelectChanged(system.EcellObject.key, system.EcellObject.type);
-                canvas.ClickedNode = e.PickedNode;
-            }
-            else
-            {
-                foreach (String iName in ContextMenuDict.Keys)
-                {
-                    if (iName.StartsWith("delete"))
-                    {
-                        ContextMenuDict[iName].Tag = e.PickedNode;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// the event sequence of selecting the PNode of process or variable in PathwayEditor.
-        /// </summary>
-        /// <param name="sender">PEcellVariavle of PEcellProcess.</param>
-        /// <param name="e">PInputEventArgs.</param>
-        public void NodeSelected(object sender, PInputEventArgs e)
-        {
-            PPathwayNode pnode = (PPathwayNode)sender;
-
-            if (m_selectedHandle.Mode == Mode.CreateOneWayReaction
-                || m_selectedHandle.Mode == Mode.CreateMutualReaction
-                || m_selectedHandle.Mode == Mode.CreateConstant)
-            {
-                this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
-                this.CanvasDictionary[e.Canvas.Name].AddNodeToBeConnected(pnode);
-            }
-            else
-            {
-                if (!pnode.IsHighLighted)
-                {
-                    if (e.Modifiers == Keys.Shift)
-                    {
-                        this.CanvasDictionary[e.Canvas.Name].AddSelectedNode(pnode, true);
-                    }
-                    else
-                    {
-                        this.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
-                        this.CanvasDictionary[e.Canvas.Name].NotifySelectChanged(pnode.EcellObject.key, pnode.EcellObject.type);
-                    }
-                }
-            }
-            this.CanvasDictionary[e.Canvas.Name].ClickedNode = pnode;
-            foreach (String iName in ContextMenuDict.Keys)
-            {
-                if (iName.StartsWith("delete"))
-                {
-                    ContextMenuDict[iName].Tag = pnode;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Called when the mouse enters a node
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void NodeEntered(object sender, PInputEventArgs e)
-        {
-            if (m_selectedHandle.Mode == Mode.CreateOneWayReaction ||
-                m_selectedHandle.Mode == Mode.CreateMutualReaction ||
-                m_selectedHandle.Mode == Mode.CreateConstant)
-            {
-                PPathwayNode startNode = m_canvasDict[e.Canvas.Name].NodeToBeReconnected;
-                if (null == startNode)
-                    return;
-
-                if ((startNode is PPathwayProcess && e.PickedNode is PPathwayVariable)
-                    || (startNode is PPathwayVariable && e.PickedNode is PPathwayProcess))
-                {
-                    PPathwayNode endNode = e.PickedNode as PPathwayNode;
-                    if (null != endNode)
-                        endNode.IsMouseOn = true;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Called when the mouse leaves a node
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void NodeLeft(object sender, PInputEventArgs e)
-        {
-            if (m_selectedHandle.Mode == Mode.CreateOneWayReaction ||
-                m_selectedHandle.Mode == Mode.CreateMutualReaction ||
-                m_selectedHandle.Mode == Mode.CreateConstant)
-            {
-                PPathwayNode endNode = e.PickedNode as PPathwayNode;
-                if (null != endNode)
-                    endNode.IsMouseOn = false;
-            }
-        }
-
-        /// <summary>
-        /// Called when a line is selected on the PathwayWindow
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void LineSelected(object sender, PInputEventArgs e)
-        {
-            if (!(e.PickedNode is Line))
-                return;
-
-            CanvasControl canvas = this.CanvasDictionary[e.Canvas.Name];
-            Line line = (Line)e.PickedNode;
-
-            canvas.ResetSelectedObjects();
-            canvas.AddSelectedLine(line);
-
-            if (e.Button == MouseButtons.Right)
-                canvas.ClickedNode = line;
         }
         #endregion
 
@@ -1859,7 +1740,7 @@ namespace EcellLib.PathwayWindow
                 if (eo.parentSystemID != sysKey)
                     eo.parentSystemID = sysKey;
                 // Check Position
-                if (!ActiveCanvas.CheckNodePosition(eo))
+                if (!canvas.CheckNodePosition(eo.parentSystemID, eo.PointF))
                     eo.PointF = canvas.GetVacantPoint(sysKey, eo.PointF);
                 // Check duplicated object.
                 if (canvas.GetSelectedObject(eo.key, eo.type) != null)

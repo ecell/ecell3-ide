@@ -273,21 +273,19 @@ namespace EcellLib.PathwayWindow
         {
             PPathwayObject obj = m_createMethod();
             obj.CanvasControl = canvas;
+            obj.ShowingID = canvas.ShowingID;
             obj.CsID = m_name;
             obj.Setting = this;
-            if(m_componentKind == ComponentType.System)
+            obj.EcellObject = eo;
+            if (m_componentKind == ComponentType.System)
             {
                 obj.NormalBrush = Brushes.LightBlue;
                 obj.Pen = null;
-                obj.IsHighLighted = false;
-                obj.EcellObject = eo;
             }
             else
             {
                 obj.AddPath(m_gp,false);
                 obj.NormalBrush = m_normalBrush;
-                obj.HighLightBrush = m_highlightBrush;
-                obj.EcellObject = eo;
                 obj.Width = PPathwayNode.DEFAULT_WIDTH;
                 obj.Height = PPathwayNode.DEFAULT_HEIGHT;
             }

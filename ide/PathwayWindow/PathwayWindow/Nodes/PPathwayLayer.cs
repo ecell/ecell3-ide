@@ -24,7 +24,7 @@
 //
 //END_HEADER
 //
-// written by by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 

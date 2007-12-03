@@ -39,6 +39,8 @@ using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.Piccolo.Nodes;
 using System.Drawing;
 using EcellLib.PathwayWindow.Figure;
+using UMD.HCIL.Piccolo.Event;
+using System.Windows.Forms;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -59,11 +61,6 @@ namespace EcellLib.PathwayWindow.Nodes
         #endregion
 
         #region Fields
-        /// <summary>
-        /// list of figure.
-        /// </summary>
-        protected List<FigureBase> m_figureList;
-
         /// <summary>
         /// Object will be painted with this Brush when object is to be connected.
         /// </summary>
@@ -106,15 +103,6 @@ namespace EcellLib.PathwayWindow.Nodes
 
                 return returnP;
             }
-        }
-
-        /// <summary>
-        /// Accessor for handler for edge line.
-        /// </summary>
-        public PInputEventHandler Handler4Line
-        {
-            get { return this.m_handler4Line; }
-            set { this.m_handler4Line = value; }
         }
 
         /// <summary>
@@ -163,15 +151,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// get/set the list of figure.
-        /// </summary>
-        public virtual List<FigureBase> FigureList
-        {
-            get { return m_figureList; }
-            set { m_figureList = value; }
-        }
-
-        /// <summary>
         /// get/set the parent system.
         /// </summary>
         public virtual PPathwaySystem ParentSystem
@@ -189,7 +168,11 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             this.Width = DEFAULT_WIDTH;
             this.Height = DEFAULT_HEIGHT;
-            this.VisibleChanged += new UMD.HCIL.Piccolo.PPropertyEventHandler(_VisibleChanged);
+            this.VisibleChanged += new UMD.HCIL.Piccolo.PPropertyEventHandler(PPathwayNode_VisibleChanged);
+            this.MouseDown += new PInputEventHandler(NodeSelected);
+            this.MouseEnter += new PInputEventHandler(NodeEntered);
+            this.MouseLeave += new PInputEventHandler(NodeLeft);
+            this.m_handler4Line = new PInputEventHandler(LineSelected);
         }
         #endregion
 
@@ -298,9 +281,102 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void _VisibleChanged(object sender, UMD.HCIL.Piccolo.Event.PPropertyEventArgs e)
+        void PPathwayNode_VisibleChanged(object sender, PPropertyEventArgs e)
         {
             Refresh();
+        }
+        /// <summary>
+        /// the event sequence of selecting the PNode of process or variable in PathwayEditor.
+        /// </summary>
+        /// <param name="sender">PEcellVariavle of PEcellProcess.</param>
+        /// <param name="e">PInputEventArgs.</param>
+        void NodeSelected(object sender, PInputEventArgs e)
+        {
+            m_canvas.ClickedNode = this;
+            //
+            Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
+            if (mode == Mode.CreateOneWayReaction
+                || mode == Mode.CreateMutualReaction
+                || mode == Mode.CreateConstant)
+            {
+                m_canvas.ResetSelectedObjects();
+                m_canvas.AddNodeToBeConnected(this);
+            }
+            else
+            {
+                if (m_isSelected)
+                    return;
+
+                if (e.Modifiers == Keys.Shift)
+                {
+                    m_canvas.AddSelectedNode(this, true);
+                }
+                else
+                {
+                    m_canvas.ResetSelectedObjects();
+                    m_canvas.NotifySelectChanged(m_ecellObj.key, m_ecellObj.type);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when the mouse enters a node
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void NodeEntered(object sender, PInputEventArgs e)
+        {
+            Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
+            if (mode == Mode.CreateOneWayReaction
+                || mode == Mode.CreateMutualReaction
+                || mode == Mode.CreateConstant)
+            {
+                PPathwayNode startNode = m_canvas.NodeToBeReconnected;
+                if (null == startNode)
+                    return;
+
+                if ((startNode is PPathwayProcess && this is PPathwayVariable)
+                    || (startNode is PPathwayVariable && this is PPathwayProcess))
+                {
+                    this.IsMouseOn = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when the mouse leaves a node
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void NodeLeft(object sender, PInputEventArgs e)
+        {
+            Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
+            if (mode == Mode.CreateOneWayReaction
+                || mode == Mode.CreateMutualReaction
+                || mode == Mode.CreateConstant)
+            {
+                this.IsMouseOn = false;
+            }
+        }
+
+        /// <summary>
+        /// Called when a line is selected on the PathwayWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void LineSelected(object sender, PInputEventArgs e)
+        {
+            if (!(e.PickedNode is Line))
+                return;
+
+            Line line = (Line)e.PickedNode;
+
+            CanvasControl canvas = m_canvas;
+            canvas.ResetSelectedObjects();
+            canvas.AddSelectedLine(line);
+
+            if (e.Button == MouseButtons.Right)
+                canvas.ClickedNode = line;
         }
         #endregion
 

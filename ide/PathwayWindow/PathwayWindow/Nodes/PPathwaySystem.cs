@@ -30,6 +30,8 @@
 // edited by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
 using System;
 using System.Collections.Generic;
@@ -40,6 +42,7 @@ using System.Drawing;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
+using UMD.HCIL.Piccolo.Event;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -287,6 +290,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             base.Width = DEFAULT_WIDTH;
             base.Height = DEFAULT_HEIGHT;
+            this.MouseDown += new PInputEventHandler(SystemSelected);
         }
         #endregion
 
@@ -449,9 +453,9 @@ namespace EcellLib.PathwayWindow.Nodes
                 if (!obj.Rect.Contains(child.Rect) && !obj.Rect.IntersectsWith(child.Rect))
                     continue;
                 child.PointF = m_canvas.GetVacantPoint(this.EcellObject.key);
-                m_control.NotifyDataChanged(child.EcellObject.key, child.EcellObject.key, child, false, false);
+                m_canvas.PathwayControl.NotifyDataChanged(child.EcellObject.key, child.EcellObject.key, child, false, false);
             }
-            m_control.NotifyDataChanged(this.EcellObject.key, this.EcellObject.key, this, false, false);
+            m_canvas.PathwayControl.NotifyDataChanged(this.EcellObject.key, this.EcellObject.key, this, false, false);
             this.Refresh();
         }
 
@@ -493,7 +497,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// it fire event at outside system.
         /// </summary>
         /// <param name="e"></param>
-        public override void OnDoubleClick(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
+        public override void OnDoubleClick(PInputEventArgs e)
         {
             if (!(e.PickedNode is PPathwaySystem)) return;
             if (EcellObject == null)
@@ -502,6 +506,24 @@ namespace EcellLib.PathwayWindow.Nodes
             if (!p.EcellObject.key.Equals(EcellObject.key))
                 return;
             PropertyEditor.Show(this.EcellObject);
+        }
+
+        /// <summary>
+        /// the event sequence of selecting the PNode of system in PathwayEditor.
+        /// </summary>
+        /// <param name="sender">PPathwaySystem</param>
+        /// <param name="e">PInputEventArgs</param>
+        public void SystemSelected(object sender, PInputEventArgs e)
+        {
+            if (m_canvas == null)
+                return;
+            if (e.PickedNode != this)
+                return;
+
+            m_canvas.ResetSelectedObjects();
+            m_canvas.AddSelectedSystem(m_ecellObj.key);
+            m_canvas.NotifySelectChanged(m_ecellObj.key, m_ecellObj.type);
+            m_canvas.ClickedNode = this;
         }
 
         /// <summary>

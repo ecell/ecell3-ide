@@ -193,11 +193,6 @@ namespace EcellLib.PathwayWindow.Nodes
         protected PPathwayLayer m_layer;
 
         /// <summary>
-        /// PathwayView managed this Node.
-        /// </summary>
-        protected PathwayControl m_control;
-
-        /// <summary>
         /// GraphicsPath.
         /// </summary>
         protected GraphicsPath path;
@@ -275,6 +270,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Parent object. Maybe PEcellSystem.
         /// </summary>
         protected PPathwayObject m_parentObject;
+
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
@@ -319,35 +315,6 @@ namespace EcellLib.PathwayWindow.Nodes
             }
         }
 
-        /// <summary>
-        /// Accessor for m_canvasId.
-        /// </summary>
-        public string CanvasID
-        {
-            get { return m_canvasID; }
-            set { m_canvasID = value; }
-        }
-        /// <summary>
-        /// Accessor for coordinate in PCanvas.
-        /// </summary>
-        public PointF CanvasPosition
-        {
-            get
-            {
-                PNode dummyParent = null;
-                PointF canPos = new PointF(base.X, base.Y);
-                do
-                {
-                    if (dummyParent == null)
-                        dummyParent = this.Parent;
-                    else
-                        dummyParent = dummyParent.Parent;
-                    canPos.X += dummyParent.OffsetX;
-                    canPos.Y += dummyParent.OffsetY;
-                } while (dummyParent != this.Root);
-                return canPos;
-            }
-        }
         /// <summary>
         /// Accessor for m_setting.
         /// </summary>
@@ -432,7 +399,6 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return m_canvas; }
             set {
                 m_canvas = value;
-                m_control = value.PathwayControl;
             }
         }
         /// <summary>
