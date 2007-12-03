@@ -43,11 +43,13 @@ namespace EcellLib.StaticDebugWindow
         /// get the name of this debug.
         /// </summary>
         /// <returns></returns>
-        String GetDebugName();
+        string GetDebugName();
+
         /// <summary>
         /// exevute debug.
         /// </summary>
-        /// <returns></returns>
-        List<ErrorMessage> Debug();
+        /// <param name="data">The list of object to be checked.</param>
+        /// <returns>The list of error message.</returns>
+        List<ErrorMessage> Debug(List<EcellObject> data);
     }
 }

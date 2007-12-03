@@ -82,6 +82,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResStDebug.resx</DependentUpon>
     </Compile>
+    <Compile Include="StaticDebugForModel.cs" />
+    <Compile Include="StaticDebugForNetwork.cs" />
     <Compile Include="StaticDebugPlugin.cs" />
     <Compile Include="StaticDebugSetupWindow.cs">
       <SubType>Form</SubType>

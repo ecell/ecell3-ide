@@ -57,18 +57,6 @@ namespace EcellLib.StaticDebugWindow
         /// </summary>
         DataManager m_dManager;
         /// <summary>
-        /// The dictionary of the multi-validation
-        /// </summary>
-        Dictionary<string, Dictionary<string, Dictionary<Type, MultiValidateMethod>>> m_multiValidateModelDic;
-        /// <summary>
-        /// The dictionary of the uni-model-validation
-        /// </summary>
-        Dictionary<string, Dictionary<string, Dictionary<Type, UniValidateMethod>>> m_uniValidateModelDic;
-        /// <summary>
-        /// The dictionary of the uni-network-validation
-        /// </summary>
-        Dictionary<string, Dictionary<string, Dictionary<Type, UniValidateMethod>>> m_uniValidateNetworkDic;
-        /// <summary>
         /// The list of the error message
         /// </summary>
         List<ErrorMessage> m_errorMessageList;
@@ -80,38 +68,11 @@ namespace EcellLib.StaticDebugWindow
         /// The dictionary of StaticDebugPlugin.
         /// Word is the name of static debug. Data is the plugin of static debug.
         /// </summary>
-        // Dictionary<string, StaticDebugPlugin> m_pluginDic;
-        Dictionary<string, Type> m_pluginDic;
-        /// <summary>
-        /// The list of the used "Variable"
-        /// </summary>
-        List<string> m_usedVariableList;
-        /// <summary>
-        /// The list of the existed "Variable"
-        /// </summary>
-        List<string> m_existVariableList;
+        Dictionary<string, StaticDebugPlugin> m_pluginDict = new Dictionary<string,StaticDebugPlugin>();
         /// <summary>
         /// ResourceManager for StaticDebugWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResStDebug));
-        #endregion
-
-        #region Delegate
-        /// <summary>
-        /// Delegates the multi-validarion.
-        /// </summary>
-        /// <param name="modelID">modelID.</param>
-        /// <param name="type">data type.</param>
-        /// <param name="ecellDataList">the list of data.</param>
-        delegate void MultiValidateMethod(string modelID, string type, List<EcellData> ecellDataList);
-
-        /// <summary>
-        /// Delegates the uni-validation.
-        /// </summary>
-        /// <param name="modelID">modelID.</param>
-        /// <param name="type">data type.</param>
-        /// <param name="ecellData">data.</param>
-        delegate void UniValidateMethod(string modelID, string type, EcellData ecellData);
+        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResStDebug));
         #endregion
 
         #region Property
@@ -152,16 +113,6 @@ namespace EcellLib.StaticDebugWindow
         {
             // Nothing should be done.
         }
-
-        /*
-        /// <summary>
-        /// The event sequence on closing this project.
-        /// </summary>
-        public void Clear()
-        {
-            // nothing
-        }
-         */
 
         /// <summary>
         /// The event sequence to add the object at other plugin.
@@ -227,9 +178,7 @@ namespace EcellLib.StaticDebugWindow
             m_staticDebug = new ToolStripMenuItem();
             m_staticDebug.Name = "MenuItemStaticDebug";
             m_staticDebug.Size = new Size(96, 22);
-//            m_staticDebug.Text = "Static Debug";
-//            resources.ApplyResources(m_staticDebug, "MenuItemStaticDebug");
-            m_staticDebug.Text = m_resources.GetString("MenuItemStaticDebugText");
+            m_staticDebug.Text = StaticDebugWindow.s_resources.GetString("MenuItemStaticDebugText");
             m_staticDebug.Tag = 10;
             m_staticDebug.Enabled = false;
             m_staticDebug.Click += new EventHandler(this.ShowStaticDebugSetupWindow);
@@ -373,7 +322,7 @@ namespace EcellLib.StaticDebugWindow
         /// <param name="type">Type of object added to selected objects.</param>
         public void AddSelect(string modelID, string key, string type)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -384,7 +333,7 @@ namespace EcellLib.StaticDebugWindow
         /// <param name="type">Type of object removed from selected objects.</param>
         public void RemoveSelect(string modelID, string key, string type)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -392,7 +341,7 @@ namespace EcellLib.StaticDebugWindow
         /// </summary>
         public void ResetSelect()
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -415,240 +364,26 @@ namespace EcellLib.StaticDebugWindow
         public void SetPosition(EcellObject data)
         {
         }
-        #endregion
 
         /// <summary>
-        /// Clears the stored list of the "ErrorMessage".
+        /// Close the current project..
         /// </summary>
         public void Clear()
         {
             this.m_errorMessageList.Clear();
-            this.m_usedVariableList.Clear();
         }
+        #endregion
 
         /// <summary>
         /// Initializes validated patterns.
         /// </summary>
         void Initialize()
         {
-            //
-            // 4 System
-            //
-            this.m_uniValidateModelDic[Constants.xpathSystem]
-                = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
-            //
-            this.m_uniValidateModelDic[Constants.xpathSystem][Constants.xpathID] = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathSystem][Constants.xpathID][typeof(string)]
-                = new UniValidateMethod(this.ValidateInvalidCharacters);
-            //
-            this.m_uniValidateNetworkDic[Constants.xpathSystem]
-                = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
-            //
-            this.m_uniValidateNetworkDic[Constants.xpathSystem][Constants.xpathStepper + Constants.xpathID]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateNetworkDic[Constants.xpathSystem][Constants.xpathStepper + Constants.xpathID][typeof(string)]
-                = new UniValidateMethod(this.ValidateExistStepperID);
-            //
-            // 4 Variable
-            //
-            this.m_uniValidateModelDic[Constants.xpathVariable]
-                = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
-            //
-            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathID]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathID][typeof(string)]
-                = new UniValidateMethod(this.ValidateInvalidCharacters);
-            //
-            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathFixed]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathFixed][typeof(int)]
-                = new UniValidateMethod(this.ValidateIsBool);
-            //
-            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathMolarConc]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathMolarConc][typeof(double)]
-                = new UniValidateMethod(this.ValidateIsPositiveNumberWithZero);
-            //
-            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathNumberConc]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathVariable][Constants.xpathNumberConc][typeof(double)]
-                = new UniValidateMethod(this.ValidateIsPositiveNumberWithZero);
-            //
-            /*
-            this.m_uniValidateNetworkDic[Constants.xpathVariable][Constants.xpathStepper + Constants.xpathID]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateNetworkDic[Constants.xpathVariable][Constants.xpathStepper + Constants.xpathID][typeof(string)]
-                = new UniValidateMethod(this.ValidateExistStepperID);
-             */
-            //
-            // 4 Process
-            //
-            this.m_uniValidateModelDic[Constants.xpathProcess]
-                = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
-            //
-            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathID] = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathID][typeof(string)]
-                = new UniValidateMethod(this.ValidateInvalidCharacters);
-            //
-            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathExpression]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathExpression][typeof(string)]
-                = new UniValidateMethod(this.ValidateParenthesisInExpression);
-            //
-            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathFireMethod]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathProcess][Constants.xpathFireMethod][typeof(string)]
-                = new UniValidateMethod(this.ValidateParenthesisInExpression);
-            //
-            this.m_multiValidateModelDic[Constants.xpathProcess]
-                = new Dictionary<string, Dictionary<Type, MultiValidateMethod>>();
-            //
-            this.m_multiValidateModelDic[Constants.xpathProcess][Constants.xpathExpression]
-                = new Dictionary<Type, MultiValidateMethod>();
-            this.m_multiValidateModelDic[Constants.xpathProcess][Constants.xpathExpression][typeof(string)]
-                = new MultiValidateMethod(this.ValidateExistVariableInExpression);
-            //
-            this.m_multiValidateModelDic[Constants.xpathProcess][Constants.xpathFireMethod]
-                = new Dictionary<Type, MultiValidateMethod>();
-            this.m_multiValidateModelDic[Constants.xpathProcess][Constants.xpathFireMethod][typeof(string)]
-                = new MultiValidateMethod(this.ValidateExistVariableInExpression);
-            //
-            this.m_uniValidateNetworkDic[Constants.xpathProcess]
-                = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
-            //
-            this.m_uniValidateNetworkDic[Constants.xpathProcess][Constants.xpathStepper + Constants.xpathID]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateNetworkDic[Constants.xpathProcess][Constants.xpathStepper + Constants.xpathID][typeof(string)]
-                = new UniValidateMethod(this.ValidateExistStepperID);
-            //
-            this.m_uniValidateNetworkDic[Constants.xpathProcess][Constants.xpathVRL]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateNetworkDic[Constants.xpathProcess][Constants.xpathVRL][typeof(List<EcellValue>)]
-                = new UniValidateMethod(this.ValidateVariableList);
-            //
-            // 4 Stepper
-            //
-            this.m_uniValidateModelDic[Constants.xpathStepper] 
-                = new Dictionary<string, Dictionary<Type, UniValidateMethod>>();
-            //
-            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerMaximum + Constants.xpathStepInterval]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerMaximum + Constants.xpathStepInterval]
-                [typeof(double)] = new UniValidateMethod(this.ValidateIsPositiveNumber);
-            //
-            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerMinimum + Constants.xpathStepInterval]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerMinimum + Constants.xpathStepInterval]
-                [typeof(double)] = new UniValidateMethod(this.ValidateIsPositiveNumberWithZero);
-            //
-            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.xpathStepInterval]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.xpathStepInterval]
-                [typeof(double)] = new UniValidateMethod(this.ValidateIsPositiveNumber);
-            //
-            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerTolerable + Constants.xpathStepInterval]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.headerTolerable + Constants.xpathStepInterval]
-                [typeof(double)] = new UniValidateMethod(this.ValidateIsPositiveNumber);
-            //
-            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.xpathIsEpsilonChecked]
-                = new Dictionary<Type, UniValidateMethod>();
-            this.m_uniValidateModelDic[Constants.xpathStepper][Constants.xpathIsEpsilonChecked][typeof(int)]
-                = new UniValidateMethod(this.ValidateIsBool);
-            //
-            this.m_multiValidateModelDic[Constants.xpathStepper]
-                = new Dictionary<string, Dictionary<Type, MultiValidateMethod>>();
-            //
-            this.m_multiValidateModelDic[Constants.xpathStepper][Constants.headerMaximum + Constants.xpathStepInterval]
-                = new Dictionary<Type, MultiValidateMethod>();
-            this.m_multiValidateModelDic[Constants.xpathStepper][Constants.headerMaximum + Constants.xpathStepInterval]
-                [typeof(double)] = new MultiValidateMethod(this.ValidateCompareStepInterval);
-            //
-            // 4 Network
-            //
-            this.m_usedVariableList = new List<string>();
-            this.m_existVariableList = new List<string>();
-            //
-            try
-            {
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
-                Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
-                string m_pluginDir = (string)subkey.GetValue(Constants.registryStaticDebugDirKey);
-                if (m_pluginDir != null)
-                {
-                    if (Directory.Exists(m_pluginDir))
-                    {
-                        foreach (string fileName in
-                            Directory.GetFiles(m_pluginDir, Constants.delimiterWildcard + Constants.dmFileExtension))
-                        {
-                            // StaticDebugPlugin p = LoadPlugin(fileName);
-                            // if (p != null)
-                            //     m_pluginDic.Add(p.GetDebugName(), p);
-                            Type aType = LoadPlugin(fileName);
-                            if (aType != null)
-                            {
-                                object p
-                                    = aType.InvokeMember(
-                                        null,
-                                        BindingFlags.CreateInstance,
-                                        null,
-                                        null,
-                                        null);
-                                string debugName
-                                    = (string)aType.InvokeMember(
-                                        "GetDebugName",
-                                        BindingFlags.InvokeMethod,
-                                        null,
-                                        p,
-                                        null);
-                                m_pluginDic.Add(debugName, aType);
-                            }
-                        }
-                    }
-                }
-                subkey.Close();
-                key.Close();
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                return;
-            }
-        }
+            StaticDebugPlugin p1 = new StaticDebugForModel();
+            StaticDebugPlugin p2 = new StaticDebugForNetwork();
 
-        /// <summary>
-        /// Loads the plugin of the static debug.
-        /// </summary>
-        /// <param name="path">The path</param>
-        /// <returns>The "StaticDebugObject"</returns>
-        private Type LoadPlugin(String path)
-        {
-            try
-            {
-                string pName = Path.GetFileNameWithoutExtension(path);
-                string className = "EcellLib." + pName + "." + pName;
-                Assembly m_theHandle = Assembly.LoadFile(path);
-                Type aType = m_theHandle.GetType(className);
-                /*
-                anAllocator = aType.InvokeMember(
-                    null,
-                    BindingFlags.CreateInstance,
-                    null,
-                    null,
-                    null
-                );
-
-                // StaticDebugPlugin p = (StaticDebugPlugin)anAllocator;
-
-                // return p;
-                 */
-                return aType;
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                return null;
-            }
+            m_pluginDict.Add(p1.GetDebugName(), p1);
+            m_pluginDict.Add(p2.GetDebugName(), p2);
         }
 
         /// <summary>
@@ -657,466 +392,11 @@ namespace EcellLib.StaticDebugWindow
         public StaticDebugWindow()
         {
             this.m_dManager = DataManager.GetDataManager();
-            this.m_uniValidateModelDic
-                = new Dictionary<string, Dictionary<string, Dictionary<Type, UniValidateMethod>>>();
-            this.m_uniValidateNetworkDic
-                = new Dictionary<string, Dictionary<string, Dictionary<Type, UniValidateMethod>>>();
-            this.m_multiValidateModelDic
-                    = new Dictionary<string, Dictionary<string, Dictionary<Type, MultiValidateMethod>>>();
             this.m_errorMessageList = new List<ErrorMessage>();
-            // this.m_pluginDic = new Dictionary<string, StaticDebugPlugin>();
-            this.m_pluginDic = new Dictionary<string, Type>();
             this.Initialize();
         }
 
-        /// <summary>
-        /// Validates data.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        public void ValidateAll(string modelID)
-        {
-            this.ValidateModel(modelID);
-            this.ValidateNetwork(modelID);
-            this.ValidateMassConservation(modelID);
-        }
-
-        /// <summary>
-        /// Validates whether "StepInterval"s are correct.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellDataList">The list of the validated "EcellData"</param>
-        void ValidateCompareStepInterval(string modelID, string type, List<EcellData> ecellDataList)
-        {
-            if (modelID == null || modelID.Length <= 0 || ecellDataList == null || ecellDataList.Count <= 0)
-            {
-                return;
-            }
-            double maxStepInterval = Double.MinValue;
-            double minStepInterval = Double.MaxValue;
-            string maxEntityPath = null;
-            string minEntityPath = null;
-            foreach (EcellData ecellData in ecellDataList)
-            {
-                if (ecellData.Name.Equals(Constants.headerMaximum + Constants.xpathStepInterval))
-                {
-                    maxStepInterval = ecellData.Value.CastToDouble();
-                    maxEntityPath = ecellData.EntityPath;
-                }
-                else if (ecellData.Name.Equals(Constants.headerMinimum + Constants.xpathStepInterval))
-                {
-                    minStepInterval = ecellData.Value.CastToDouble();
-                    minEntityPath = ecellData.EntityPath;
-                }
-            }
-            if (maxStepInterval < minStepInterval)
-            {
-                string message
-                        = "The MaxStepInterval[" + maxStepInterval
-                        + "] is smaller than MinStepInterval[" + minStepInterval + "].";
-                this.m_errorMessageList.Add(
-                        new ErrorMessage(modelID, type, maxEntityPath + ", " + minEntityPath, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates whether the stepper ID exists.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellData">The validated "EcellData"</param>
-        void ValidateExistStepperID(string modelID, string type, EcellData ecellData)
-        {
-            if (modelID == null || modelID.Length <= 0 || ecellData == null)
-            {
-                return;
-            }
-            bool existedFlag = false;
-            foreach (EcellObject stepper in this.m_dManager.GetStepper(null, modelID))
-            {
-                if (stepper.key.Equals(ecellData.Value.CastToString()))
-                {
-                    existedFlag = true;
-                    break;
-                }
-            }
-            if (!existedFlag)
-            {
-                string message= "Can't find the stepper with the key[" + ecellData.Value.CastToString() + "].";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates whether the "VariableReferenceList" has available "Valiable"s.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellData">The validated "EcellData"</param>
-        void ValidateExistVariable(string modelID, string type, EcellData ecellData)
-        {
-            Dictionary<int, List<string>> directionDic = new Dictionary<int, List<string>>();
-            try
-            {
-                if (modelID == null || modelID.Length <= 0 || ecellData == null)
-                {
-                    return;
-                }
-                foreach (EcellValue vr in ecellData.Value.CastToList())
-                {
-                    List<EcellValue> vrInfoList = vr.CastToList();
-                    //
-                    // Searchs the "Variable"
-                    //
-                    string[] variableInfos = vrInfoList[1].CastToString().Split(Constants.delimiterColon.ToCharArray());
-                    string systemPath = variableInfos[1];
-                    if (systemPath.Equals(Constants.delimiterPeriod))
-                    {
-                        systemPath = ecellData.EntityPath.Split(Constants.delimiterColon.ToCharArray())[1];
-                    }
-                    string variableKey = systemPath + Constants.delimiterColon + variableInfos[2];
-                    bool existFlag = false;
-                    foreach (EcellObject ecellObject in this.m_dManager.GetData(modelID, systemPath))
-                    {
-                        if (ecellObject.type.Equals(Constants.xpathVariable) && ecellObject.key.Equals(variableKey))
-                        {
-                            existFlag = true;
-                            break;
-                        }
-                        if (ecellObject.Children != null && ecellObject.Children.Count > 0)
-                        {
-                            foreach (EcellObject childEcellObject in ecellObject.Children)
-                            {
-                                if (childEcellObject.type.Equals(Constants.xpathVariable)
-                                        && childEcellObject.key.Equals(variableKey))
-                                {
-                                    existFlag = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (!existFlag)
-                    {
-                        string message
-                            = "The \"VariableReference[" + vr.ToString() + "]\" has no available \"Variable\".";
-                        this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-                    }
-                    //
-                    // Validates the direction.
-                    //
-                    if (directionDic.ContainsKey(vrInfoList[2].CastToInt()))
-                    {
-                        if (directionDic[vrInfoList[2].CastToInt()].Contains(vrInfoList[1].CastToString()))
-                        {
-                            string message
-                                = "The \"VariableReference["
-                                + vr.ToString() + "]\" has the duplicated \"Coefficient\" and \"Variable\""
-                                + "in this \"VariableReferenceList[" + ecellData.Value.ToString() + "]\".";
-                            this.m_errorMessageList.Add(
-                                new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-                        }
-                        else
-                        {
-                            directionDic[vrInfoList[2].CastToInt()].Add(vrInfoList[1].CastToString());
-                        }
-                    }
-                    else
-                    {
-                        directionDic[vrInfoList[2].CastToInt()] = new List<string>();
-                        directionDic[vrInfoList[2].CastToInt()].Add(vrInfoList[1].CastToString());
-                    }
-                }
-                //
-                // Validates the "0" "Coefficient".
-                //
-                if (directionDic.ContainsKey(0) && directionDic.Count == 1)
-                {
-                    string message
-                        = "The \"VariableReferenceList["
-                        + ecellData.Value.ToString() + "]\" has only the 0 \"Coefficient\".";
-                    this.m_errorMessageList.Add(
-                        new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                String errmes = m_resources.GetString("ErrCehckVar");
-                MessageBox.Show(errmes, "ERROR",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // string message
-                //     = "The [" + ecellData.Value.CastToString() + "] is out of order. [" + ex.ToString() + "]";
-                // this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-            }
-            finally
-            {
-                directionDic.Clear();
-                directionDic = null;
-            }
-        }
-
-        /// <summary>
-        /// Validates whether the expression has proper terms.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellDataList">The validated "EcellData"</param>
-        void ValidateExistVariableInExpression(string modelID, string type, List<EcellData> ecellDataList)
-        {
-            if (modelID == null || modelID.Length <= 0 || ecellDataList == null || ecellDataList.Count <= 0)
-            {
-                return;
-            }
-            EcellData expression = null;
-            EcellData variableReferenceList = null;
-            List<string> variableList = new List<string>();
-            List<string> nameList = new List<string>();
-            foreach (EcellData ecellData in ecellDataList)
-            {
-                if (ecellData.Name.Equals(Constants.xpathExpression))
-                {
-                    expression = ecellData.Copy();
-                }
-                else if (ecellData.Name.Equals(Constants.xpathVRL))
-                {
-                    variableReferenceList = ecellData.Copy();
-                    foreach (EcellValue parent in variableReferenceList.Value.CastToList())
-                    {
-                        variableList.Add((parent.CastToList())[0].CastToString());
-                    }
-                }
-                else
-                {
-                    nameList.Add(ecellData.Name);
-                }
-            }
-            if (expression == null || variableReferenceList == null)
-            {
-                return;
-            }
-            Regex regVariable
-                = new Regex("[\\(\\)+\\-\\*/ ]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            string message = " in this expression   \"";
-            string[] elements = regVariable.Split(expression.Value.CastToString());
-            foreach (string element in elements)
-            {
-                if (element.Length <= 0)
-                {
-                    continue;
-                }
-                else if (element.IndexOf("self") == 0)
-                {
-                    continue;
-                }
-                else if (element.IndexOf(Constants.delimiterPeriod) < 0)
-                {
-                    if (!nameList.Contains(element))
-                    {
-                        try
-                        {
-                            Convert.ToDouble(element);
-                        }
-                        catch (Exception)
-                        {
-                            message
-                                = "The [" + element + "] in this expression [" + expression.Value.CastToString() + "]"
-                                + " isn't a property of the process.";
-                            this.m_errorMessageList.Add(
-                                new ErrorMessage(modelID, type, expression.EntityPath, message));
-                        }
-                    }
-                }
-                else
-                {
-                    string alias = element.Split(Constants.delimiterPeriod.ToCharArray())[0];
-                    if (alias != null && alias.Length > 0 && !variableList.Contains(alias))
-                    {
-//                        message = "The [" + alias + "] in this expression [" + expression.Value.CastToString() + "]"
-//                            + " isn't a element of this \"VariableReferenceList\" [" 
-//                            + variableReferenceList.Value.ToString() + "].";
-                        message = "Can't not find the variable[" + alias + "] in this expression from VariableReferemce+List";  
-                        this.m_errorMessageList.Add(new ErrorMessage(modelID, type, expression.EntityPath, message));
-                    }
-                }
-            }
-        }
         
-        /// <summary>
-        /// Validates whether the value has invalid characters.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellData">The validated "EcellData"</param>
-        void ValidateInvalidCharacters(string modelID, string type, EcellData ecellData)
-        {
-            if (modelID == null || modelID.Length <= 0 || ecellData == null)
-            {
-                return;
-            }
-            string message = " has the invalid character \"";
-            string value = ecellData.Value.CastToString();
-            if (value.IndexOf(Constants.delimiterPath) >= 0)
-            {
-                message = "The \"" + ecellData.Name + "[" + value + "]\"" + message + Constants.delimiterPath + "\".";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-            }
-            else if (value.IndexOf(Constants.delimiterColon) >= 0)
-            {
-                message = "The \"" + ecellData.Name + "[" + value + "]\"" + message + Constants.delimiterColon + "\".";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates whether the value is the boolean value. 
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellData">The validated "EcellData"</param>
-        void ValidateIsBool(string modelID, string type, EcellData ecellData)
-        {
-            if (modelID == null || modelID.Length <= 0 || ecellData == null)
-            {
-                return;
-            }
-            if (ecellData.Value.CastToInt() != 0 && ecellData.Value.CastToInt() != 1)
-            {
-                string message = "The \"" + ecellData.Name + "[" + ecellData.Value.CastToInt() 
-                    + "]\" cannot be converted into \"Bool\". ";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates whether the value is a positive number.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellData">The validated "EcellData"</param>
-        void ValidateIsPositiveNumber(string modelID, string type, EcellData ecellData)
-        {
-            if (modelID == null || modelID.Length <= 0 || ecellData == null)
-            {
-                return;
-            }
-            if (ecellData.Value.CastToDouble() <= 0.0)
-            {
-                string message = "The \"" + ecellData.Name + "[" + ecellData.Value.CastToDouble()
-                    + "]\" isn't a positive number. ";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates whether the value is a positive number or 0.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellData">The validated "ECellData"</param>
-        void ValidateIsPositiveNumberWithZero(string modelID, string type, EcellData ecellData)
-        {
-            if (modelID == null || modelID.Length <= 0 || ecellData == null)
-            {
-                return;
-            }
-            if (ecellData.Value.CastToDouble() < 0.0)
-            {
-                string message = "The \"" + ecellData.Name + "[" + ecellData.Value.CastToDouble() 
-                    + "] isn't 0 or a positive number. ";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates the list of the "EcellObject" 4 the network.
-        /// </summary>
-        /// <param name="ecellObjectList"></param>
-        private void ValidateNetwork(List<EcellObject> ecellObjectList)
-        {
-            if (ecellObjectList == null || ecellObjectList.Count <= 0)
-            {
-                return;
-            }
-            foreach (EcellObject ecellObject in ecellObjectList)
-            {
-                if (ecellObject.type.Equals(Constants.xpathModel))
-                {
-                    //
-                    // 4 Stepper
-                    //
-                    this.ValidateNetwork(this.m_dManager.GetStepper(null, ecellObject.modelID));
-                }
-                if (this.m_uniValidateNetworkDic.ContainsKey(ecellObject.type))
-                {
-                    //
-                    // 4 System, Variable and Process
-                    //
-                    foreach (EcellData ecellData in ecellObject.Value)
-                    {
-                        if (this.m_uniValidateNetworkDic[ecellObject.type].ContainsKey(ecellData.Name))
-                        {
-                            if (this.m_uniValidateNetworkDic[ecellObject.type][ecellData.Name].ContainsKey(
-                                ecellData.Value.Type))
-                            {
-                                this.m_uniValidateNetworkDic[ecellObject.type][ecellData.Name]
-                                    [ecellData.Value.Type](ecellObject.modelID, ecellObject.type, ecellData);
-                            }
-                        }
-                    }
-                }
-                /*
-                if (this.m_multiValidateNetworkDic.ContainsKey(ecellObject.type))
-                {
-                    //
-                    // 4 System, Variable and Process
-                    //
-                    foreach (EcellData ecellData in ecellObject.Value)
-                    {
-                        if (this.m_multiValidateNetworkDic[ecellObject.type].ContainsKey(ecellData.Name))
-                        {
-                            if (this.m_multiValidateNetworkDic[ecellObject.type][ecellData.Name].ContainsKey(
-                                ecellData.Value.Type))
-                            {
-                                this.m_multiValidateNetworkDic[ecellObject.type][ecellData.Name]
-                                    [ecellData.Value.Type](
-                                        ecellObject.modelID, ecellObject.type, ecellObject.Value);
-                            }
-                        }
-                    }
-                }
-                 */
-                if (ecellObject.type.Equals(Constants.xpathVariable))
-                {
-                    this.m_existVariableList.Add(ecellObject.key);
-                }
-                if (ecellObject.Children != null && ecellObject.Children.Count > 0)
-                {
-                    this.ValidateNetwork(ecellObject.Children);
-                }
-            }
-            if (ecellObjectList.Count > 0 && !ecellObjectList[0].type.Equals(Constants.xpathStepper))
-            {
-                this.ValidateReferToVariable(ecellObjectList[0].modelID);
-            }
-        }
-
-        /// <summary>
-        /// Validates the network.
-        /// </summary>
-        /// <param name="modelID"></param>
-        public void ValidateNetwork(string modelID)
-        {
-            try
-            {
-                this.ValidateNetwork(this.m_dManager.GetData(modelID, null));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("The static debug of the network failed. [" + ex.ToString() + "]");
-            }
-        }
-
         /// <summary>
         /// Validates the list of the "EcellObject" 4 the mass conservation.
         /// </summary>
@@ -1143,191 +423,6 @@ namespace EcellLib.StaticDebugWindow
         }
 
         /// <summary>
-        /// Validates the list of the "EcellObject" 4 the model consistency.
-        /// </summary>
-        /// <param name="ecellObjectList">the list of the validated "EcellObject"</param>
-        private void ValidateModel(List<EcellObject> ecellObjectList)
-        {
-            if (ecellObjectList == null || ecellObjectList.Count <= 0)
-            {
-                return;
-            }
-            foreach (EcellObject ecellObject in ecellObjectList)
-            {
-                if (ecellObject.type.Equals(Constants.xpathModel))
-                {
-                    //
-                    // 4 Stepper
-                    //
-                    this.ValidateModel(this.m_dManager.GetStepper(null, ecellObject.modelID));
-                }
-                if (this.m_uniValidateModelDic.ContainsKey(ecellObject.type))
-                {
-                    //
-                    // 4 System, Variable and Process
-                    //
-                    foreach (EcellData ecellData in ecellObject.Value)
-                    {
-                        if (this.m_uniValidateModelDic[ecellObject.type].ContainsKey(ecellData.Name))
-                        {
-                            if (this.m_uniValidateModelDic[ecellObject.type][ecellData.Name].ContainsKey(
-                                ecellData.Value.Type))
-                            {
-                                this.m_uniValidateModelDic[ecellObject.type][ecellData.Name]
-                                    [ecellData.Value.Type](ecellObject.modelID, ecellObject.type, ecellData);
-                            }
-                        }
-                    }
-                }
-                if (this.m_multiValidateModelDic.ContainsKey(ecellObject.type))
-                {
-                    //
-                    // 4 System, Variable and Process
-                    //
-                    foreach (EcellData ecellData in ecellObject.Value)
-                    {
-                        if (this.m_multiValidateModelDic[ecellObject.type].ContainsKey(ecellData.Name))
-                        {
-                            if (this.m_multiValidateModelDic[ecellObject.type][ecellData.Name].ContainsKey(
-                                ecellData.Value.Type))
-                            {
-                                this.m_multiValidateModelDic[ecellObject.type][ecellData.Name]
-                                    [ecellData.Value.Type](
-                                        ecellObject.modelID, ecellObject.type, ecellObject.Value);
-                            }
-                        }
-                    }
-                }
-                if (ecellObject.Children != null && ecellObject.Children.Count > 0)
-                {
-                    this.ValidateModel(ecellObject.Children);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Validates the model consistency.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        public void ValidateModel(string modelID)
-        {
-            try
-            {
-                this.ValidateModel(this.m_dManager.GetData(modelID, null));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("The static debug of the model failed. [" + ex.ToString() + "]");
-            }
-        }
-
-        /// <summary>
-        /// Validates whether the expression has parentheses of the same number.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellData">The validated "EcellData"</param>
-        void ValidateParenthesisInExpression(string modelID, string type, EcellData ecellData)
-        {
-            if (modelID == null || modelID.Length <= 0 || ecellData == null)
-            {
-                return;
-            }
-            Regex regParenthesis = new Regex("[\\(\\)]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            Match matchParenthesis = null;
-            int leftParenthesisCount = 0;
-            int rightParenthesisCount = 0;
-            for (matchParenthesis = regParenthesis.Match(ecellData.Value.CastToString());
-                matchParenthesis.Success; matchParenthesis = matchParenthesis.NextMatch())
-            {
-                if (ecellData.Value.CastToString()[matchParenthesis.Groups[0].Index] == '(')
-                {
-                    leftParenthesisCount++;
-                }
-                else
-                {
-                    rightParenthesisCount++;
-                }
-            }
-            if (leftParenthesisCount != rightParenthesisCount)
-            {
-                string message = "The number of left parenthesis isn't equal to the number of right ones"
-                    + " in this expression.";
-                //                    + " in this expression [" + ecellData.Value.CastToString() + "].";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates whether the "VariableReferenceList" is null.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellData">The validated "EcellData"</param>
-        void ValidateReferToProcess(string modelID, string type, EcellData ecellData)
-        {
-            if (modelID == null || modelID.Length <= 0 || ecellData == null)
-            {
-                return;
-            }
-            if (ecellData.Value.CastToList().Count <= 0)
-            {
-                string message = "The \"VariableReferenceList\" is \"null\".";
-                this.m_errorMessageList.Add(new ErrorMessage(modelID, type, ecellData.EntityPath, message));
-            }
-        }
-
-        /// <summary>
-        /// Validates whether the "Variable" is refered to some "Process".
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        void ValidateReferToVariable(string modelID)
-        {
-            foreach (string variableKey in this.m_existVariableList)
-            {
-                if (!this.m_usedVariableList.Contains(Constants.delimiterColon + variableKey)
-                    && !variableKey.EndsWith(Constants.xpathSize.ToUpper()))
-                {
-                    string message = "The \"Variable\" is referred to nowhere.";
-                    this.m_errorMessageList.Add(new ErrorMessage(modelID, Constants.xpathVariable, variableKey, message));
-                }
-            }
-            this.m_existVariableList.Clear();
-            this.m_usedVariableList.Clear();
-        }
-
-        /// <summary>
-        /// Validates whether the "Variable" is refered to some "Process".
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellData">The validated "EcellData"</param>
-        void ValidateReferToVariable4Process(string modelID, string type, EcellData ecellData)
-        {
-            if (modelID == null || modelID.Length <= 0 || ecellData == null)
-            {
-                return;
-            }
-            foreach (EcellValue vr in ecellData.Value.CastToList())
-            {
-                this.m_usedVariableList.Add(vr.CastToList()[1].ToString());
-            }
-        }
-
-        /// <summary>
-        /// Validates the "VariableReferenceList".
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="type"></param>
-        /// <param name="ecellData"></param>
-        void ValidateVariableList(string modelID, string type, EcellData ecellData)
-        {
-            this.ValidateExistVariable(modelID, type, ecellData);
-            this.ValidateReferToProcess(modelID, type, ecellData);
-            this.ValidateReferToVariable4Process(modelID, type, ecellData);
-        }
-
-        /// <summary>
         /// The action of selecting the menu [Debug]->[Static Debug].
         /// </summary>
         /// <param name="sender">MenuItem</param>
@@ -1338,11 +433,7 @@ namespace EcellLib.StaticDebugWindow
             win.SetPlugin(this);
             List<String> list = new List<string>();
 
-            list.Add("Model");
-            list.Add("Network");
-            list.Add("MassConservation");
-
-            foreach (string key in m_pluginDic.Keys)
+            foreach (string key in m_pluginDict.Keys)
             {
                 list.Add(key);
             }
@@ -1360,113 +451,21 @@ namespace EcellLib.StaticDebugWindow
         public void Debug(List<string> list)
         {
             m_errorMessageList.Clear();
-            for (int i = 0; i < list.Count; i++)
+            List<string> mList = m_dManager.GetModelList();
+            foreach (string modelID in mList)
             {
-                if (list[i].Equals("Model"))
+                List<EcellObject> olist = m_dManager.GetData(modelID, null);
+                foreach (string key in m_pluginDict.Keys)
                 {
-                    List<string> mList = m_dManager.GetModelList();
-                    for (int j = 0; j < mList.Count; j++)
-                        ValidateModel(mList[j]);
-                }
-                else if (list[i].Equals("Network"))
-                {
-                    List<string> mList = m_dManager.GetModelList();
-                    for (int j = 0; j < mList.Count; j++)
-                        ValidateNetwork(mList[j]);
-                }
-                else if (list[i].Equals("MassConservation"))
-                {
-                    List<string> mList = m_dManager.GetModelList();
-                    for (int j = 0; j < mList.Count; j++)
-                        ValidateMassConservation(mList[j]);
-                }
-                else
-                {
-                    if (m_pluginDic.ContainsKey(list[i]))
+                    if (!list.Contains(key)) continue;
+                    List<ErrorMessage> tmp = m_pluginDict[key].Debug(olist);
+                    foreach (ErrorMessage mes in tmp)
                     {
-                        /*
-                        StaticDebugPlugin p = m_pluginDic[list[i]];
-                        List<ErrorMessage> tmplist = p.Debug();
-                        for (int k = 0; k < tmplist.Count; k++)
-                            m_errorMessageList.Add(tmplist[k]);
-                         */
-                        Type aType = m_pluginDic[list[i]];
-                        Object p
-                            = aType.InvokeMember(
-                                null,
-                                BindingFlags.CreateInstance,
-                                null,
-                                null,
-                                null);
-                        Object r
-                            = aType.InvokeMember(
-                                "Debug",
-                                BindingFlags.InvokeMethod,
-                                null,
-                                p,
-                                null);
-                        Object enu
-                            = r.GetType().InvokeMember(
-                                "GetEnumerator",
-                                BindingFlags.InvokeMethod,
-                                null,
-                                r,
-                                null);
-                        while (true)
-                        {
-                            bool nextFlag
-                                = (bool)enu.GetType().InvokeMember(
-                                    "MoveNext",
-                                    BindingFlags.InvokeMethod,
-                                    null,
-                                    enu,
-                                    null);
-                            if (!nextFlag)
-                            {
-                                break;
-                            }
-                            Object errorMessage
-                                = enu.GetType().InvokeMember(
-                                    "Current",
-                                    BindingFlags.GetProperty,
-                                    null,
-                                    enu,
-                                    null);
-                            string modelID
-                                = (string)errorMessage.GetType().InvokeMember(
-                                    "ModelID",
-                                    BindingFlags.GetProperty,
-                                    null,
-                                    errorMessage,
-                                    null);
-                            string type
-                                = (string)errorMessage.GetType().InvokeMember(
-                                    "Type",
-                                    BindingFlags.GetProperty,
-                                    null,
-                                    errorMessage,
-                                    null);
-                            string entityPath
-                                = (string)errorMessage.GetType().InvokeMember(
-                                    "EntityPath",
-                                    BindingFlags.GetProperty,
-                                    null,
-                                    errorMessage,
-                                    null);
-                            string message
-                                = (string)errorMessage.GetType().InvokeMember(
-                                    "Message",
-                                    BindingFlags.GetProperty,
-                                    null,
-                                    errorMessage,
-                                    null);
-                            m_errorMessageList.Add(new ErrorMessage(modelID, type, entityPath, message));
-                        }
+                        m_errorMessageList.Add(mes);
                     }
                 }
-
-                // execute other static debug!
             }
+
         }
     }
 }

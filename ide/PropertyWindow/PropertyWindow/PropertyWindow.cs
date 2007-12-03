@@ -961,12 +961,14 @@ namespace EcellLib.PropertyWindow
                 return;
 
             EcellObject obj = m_current.Copy();
-            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value = new EcellValue(refStr);
+            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value = 
+                EcellValue.ToVariableReferenceList(refStr);
 
             m_win.Close();
             try
             {
                 NotifyDataChanged(m_current.modelID, m_current.key, obj);
+                m_refStr = refStr;
             }
             catch (Exception ex)
             {

@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2007 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -49,10 +49,6 @@ namespace EcellLib.StaticDebugWindow
         /// The plugin(StaticDebugWindow) diplayed this window.
         /// </summary>
         private StaticDebugWindow m_staticDebug;
-        /// <summary>
-        /// ResourceManager for StaticDebugSetupWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResStDebug));
         #endregion
 
         /// <summary>
@@ -97,6 +93,7 @@ namespace EcellLib.StaticDebugWindow
                 {
                     CheckBox c1 = new CheckBox();
                     c1.Checked = true;
+                    c1.Width = 150;
                     c1.Text = checkList[i];
                     layoutPanel.Controls.Add(c1, j, k);
                     if (j == 0) j++;
@@ -112,7 +109,7 @@ namespace EcellLib.StaticDebugWindow
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrLayout");
+                String errmes = StaticDebugWindow.s_resources.GetString("ErrLayout");
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -142,10 +139,18 @@ namespace EcellLib.StaticDebugWindow
         {
             String[] list = entityPath.Split(new char[] { ':' });
             if (list.Length == 2) return entityPath;
+            bool isSystem = false;
+            if (list[0] == Constants.xpathSystem) isSystem = true;
             String result = list[1];
             for (int i = 2; i < list.Length - 1; i++)
             {
-                result = result + ":" + list[i];
+                if (isSystem)
+                {
+                    if (result == "") result = list[i];
+                    else result = result + "/" + list[i];
+                }
+                else
+                    result = result + ":" + list[i];
             }
             return result;
         }
@@ -172,7 +177,7 @@ namespace EcellLib.StaticDebugWindow
 
             if (m_staticDebug.ErrorMessageList.Count <= 0)
             {
-                String mes = m_resources.GetString("NoError");
+                String mes = StaticDebugWindow.s_resources.GetString("NoError");
                 MessageBox.Show(mes,
                     "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -190,8 +195,8 @@ namespace EcellLib.StaticDebugWindow
         /// <summary>
         /// The action of double clicking the cell in this DataGridView.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">DataGirdView.</param>
+        /// <param name="e">DataGridViewCellEventArgs.</param>
         void CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -202,31 +207,10 @@ namespace EcellLib.StaticDebugWindow
 
             String key = GetKeyFromPath(path);
 
-            List<EcellObject> objList = DataManager.GetDataManager().GetData(modelID, GetSystemFromPath(path));
-            for (int i = 0; i < objList.Count; i++)
+            EcellObject obj = DataManager.GetDataManager().GetEcellObject(modelID, key, type);
+            if (obj != null)
             {
-                EcellObject obj = null;
-                if (type == "System")
-                    obj = objList[i];
-                else
-                {
-                    IEnumerator iter = objList[i].Children.GetEnumerator();
-                    while (iter.MoveNext())
-                    {
-                        EcellObject tmp = (EcellObject)iter.Current;
-                        if (tmp.key.Equals(key))
-                        {
-                            obj = tmp; 
-                            break;
-                        }
-                    }
-                }
-
-                if (obj != null)
-                {
-                    PropertyEditor.Show(obj);
-                    break;
-                }
+                PropertyEditor.Show(obj);
             }
         }
 
@@ -241,11 +225,16 @@ namespace EcellLib.StaticDebugWindow
             this.Close();
             this.Dispose();
         }
-        #endregion
 
+        /// <summary>
+        /// Event when this form is shown.
+        /// </summary>
+        /// <param name="sender">StaticDebugSetupWindow.</param>
+        /// <param name="e">EventArgs.</param>
         private void StaticDebugWinShown(object sender, EventArgs e)
         {
             this.SSDebugButton.Focus();
         }
+        #endregion
     }
 }
