@@ -904,12 +904,25 @@ namespace EcellLib.PathwayWindow
         public void ChangeLayerVisibility(string layerName, bool isShown)
         {
             PPathwayLayer layer = m_layers[layerName];
-            if(layer == null)
+            if (layer == null)
                 return;
             // Set Visibility.
             layer.Visible = isShown;
             RefreshVisibility();
             m_con.OverView.Canvas.Refresh();
+        }
+
+        /// <summary>
+        /// Change Process Visibility.
+        /// </summary>
+        /// <param name="layerName"></param>
+        /// <param name="isShowing"></param>
+        public void ChangeViewMode(bool isShown)
+        {
+            foreach (PPathwayProcess process in m_processes.Values)
+            {
+                process.ViewMode = isShown;
+            }
         }
 
         /// <summary>

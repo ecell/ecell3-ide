@@ -237,4 +237,7 @@
   <data name="ErrLayerNot" xml:space="preserve">
     <value>レイヤーが存在しません。</value>
   </data>
+  <data name="MenuItemViewModeText" xml:space="preserve">
+    <value>ビューモード</value>
+  </data>
 </root>

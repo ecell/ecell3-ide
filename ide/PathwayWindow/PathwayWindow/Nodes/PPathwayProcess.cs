@@ -41,6 +41,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
 using EcellLib.PathwayWindow.UIComponent;
+using EcellLib.PathwayWindow.Figure;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -76,6 +77,10 @@ namespace EcellLib.PathwayWindow.Nodes
         /// list of size.
         /// </summary>
         protected List<SizeF> m_sizes = new List<SizeF>();
+        /// <summary>
+        /// Is Edit Mode or not.
+        /// </summary>
+        protected bool m_editMode = true;
         #endregion
 
         #region Accessors
@@ -89,6 +94,17 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 base.EcellObject = value;
                 Refresh();
+            }
+        }
+        /// <summary>
+        /// get/set m_editMode.
+        /// </summary>
+        public bool ViewMode
+        {
+            get { return this.m_editMode; }
+            set {
+                this.m_editMode = value;
+                this.ChangeViewMode();
             }
         }
         #endregion
@@ -306,6 +322,28 @@ namespace EcellLib.PathwayWindow.Nodes
             RefreshText();
         }
 
+        /// <summary>
+        /// Change View Mode.
+        /// </summary>
+        private void ChangeViewMode()
+        {
+            this.ShowingID = m_editMode;
+            //this.Pickable = m_editMode;
+            m_path.Reset();
+            m_setting.FigureList.Clear();
+            if (m_editMode)
+            {
+                base.AddRectangle(m_originalX, m_originalY, m_originalWidth, m_originalHeight);
+                m_setting.FigureList.Add(new RectangleFigure(- m_originalWidth / 2, - m_originalHeight / 2, m_originalWidth, m_originalHeight));
+            }
+            else
+            {
+                PointF pos = this.CenterPoint;
+                base.AddEllipse(m_originalX + 25, m_originalY + 15, 10, 10);
+                m_setting.FigureList.Add(new EllipseFigure(-5, -5, 10, 10));
+            }
+            Refresh();
+        }
         /// <summary>
         /// start to move this Node by drag.
         /// </summary>

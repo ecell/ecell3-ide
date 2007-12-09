@@ -263,7 +263,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of menu.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-            return m_con.GetToolStripMenuItems();
+            return m_con.CreateToolStripMenuItems();
         }
 
         /// <summary>
@@ -272,7 +272,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of ToolBarMenu.</returns>
         public List<System.Windows.Forms.ToolStripItem> GetToolBarMenuStripItems()
         {
-            return m_con.GetToolBarMenuItems();
+            return m_con.CreateToolButtonItems();
         }
 
         /// <summary>

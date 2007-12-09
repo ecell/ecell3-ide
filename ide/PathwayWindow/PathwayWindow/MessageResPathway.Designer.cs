@@ -376,6 +376,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   View Mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemViewModeText {
+            get {
+                return ResourceManager.GetString("MenuItemViewModeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Merge Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MergeLayerMenuText {

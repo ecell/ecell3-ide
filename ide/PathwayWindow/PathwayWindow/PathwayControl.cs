@@ -162,7 +162,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// A list for menu of layout algorithm, which implement ILayoutAlgorithm.
         /// </summary>
-        private List<ToolStripMenuItem> m_menuLayoutList;
+        private List<ToolStripItem> m_menuLayoutList;
 
         /// <summary>
         /// List of ToolStripMenuItems for ContextMenu
@@ -312,7 +312,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_menuLayoutList.
         /// </summary>
-        public List<ToolStripMenuItem> LayoutMenus
+        public List<ToolStripItem> LayoutMenus
         {
             get { return m_menuLayoutList; }
         }
@@ -383,8 +383,8 @@ namespace EcellLib.PathwayWindow
             // Create Internal object.
             m_canvasDict = new Dictionary<string, CanvasControl>();
             m_layoutList = m_window.GetLayoutAlgorithms();
-            m_menuLayoutList = GetLayoutAlgorithmMenus();
-            m_popupMenu = GetPopUpMenus();
+            m_menuLayoutList = CreateLayoutMenus();
+            m_popupMenu = CreatePopUpMenus();
             m_csManager = ComponentManager.LoadComponentSettings();
         }
         #endregion
@@ -618,10 +618,47 @@ namespace EcellLib.PathwayWindow
         
         #region Methods to Create Menus
         /// <summary>
-        /// Get Popup Menus.
+        /// Create LayoutAlgorithm menus.
+        /// </summary>
+        private List<ToolStripItem> CreateLayoutMenus()
+        {
+            // Create menu.
+            List<ToolStripItem> menuList = new List<ToolStripItem>();
+            int count = 0;
+            foreach (ILayoutAlgorithm algorithm in m_layoutList)
+            {
+                ToolStripMenuItem layoutItem = new ToolStripMenuItem(algorithm.GetMenuText());
+                layoutItem.Tag = count;
+                layoutItem.Visible = true;
+                layoutItem.ToolTipText = algorithm.GetToolTipText();
+                layoutItem.Click += new EventHandler(LayoutItem_Click);
+
+                List<string> subCommands = algorithm.GetSubCommands();
+                if (subCommands != null && subCommands.Count != 0)
+                {
+                    int subcount = 0;
+                    foreach (string subCommandName in subCommands)
+                    {
+                        ToolStripItem layoutSubItem = new ToolStripMenuItem();
+                        layoutSubItem.Text = subCommandName;
+                        layoutSubItem.Tag = count + "," + subcount;
+                        layoutSubItem.Visible = true;
+                        layoutSubItem.Click += new EventHandler(LayoutItem_Click);
+                        layoutItem.DropDownItems.Add(layoutSubItem);
+                        subcount++;
+                    }
+                }
+                menuList.Add(layoutItem);
+                count++;
+            }
+            return menuList;
+        }
+
+        /// <summary>
+        /// Create Popup Menus.
         /// </summary>
         ///<returns>ContextMenu.</returns>
-        public ContextMenuStrip GetPopUpMenus()
+        public ContextMenuStrip CreatePopUpMenus()
         {
             // Preparing a context menu.
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
@@ -637,7 +674,7 @@ namespace EcellLib.PathwayWindow
             m_cMenuDict.Add(CANVAS_MENU_SEPARATOR1, separator1);
 
             // Add LayoutMenu
-            nodeMenu.Items.AddRange(m_menuLayoutList.ToArray());
+            nodeMenu.Items.AddRange(CreateLayoutMenus().ToArray());
 
             ToolStripSeparator separator2 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator2);
@@ -731,10 +768,10 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Get Tool Menus.
+        /// Create Tool Menus.
         /// </summary>
         /// <returns></returns>
-        public List<ToolStripMenuItem> GetToolStripMenuItems()
+        public List<ToolStripMenuItem> CreateToolStripMenuItems()
         {
             List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
 
@@ -746,8 +783,15 @@ namespace EcellLib.PathwayWindow
             showIdItem.Text = m_resources.GetString("MenuItemShowIDText");
             showIdItem.Click += new EventHandler(ShowIdClick);
 
+            ToolStripMenuItem viewModeItem = new ToolStripMenuItem();
+            viewModeItem.CheckOnClick = true;
+            viewModeItem.CheckState = CheckState.Checked;
+            viewModeItem.ToolTipText = "Change visibility of Process Nodes";
+            viewModeItem.Text = m_resources.GetString("MenuItemViewModeText");
+            viewModeItem.Click += new EventHandler(ViewModeClick);
+
             ToolStripMenuItem viewMenu = new ToolStripMenuItem();
-            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { showIdItem });
+            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { showIdItem, viewModeItem });
             viewMenu.Text = "Setup";
             viewMenu.Name = "MenuItemView";
 
@@ -792,17 +836,17 @@ namespace EcellLib.PathwayWindow
             ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
             layoutMenu.Text = "Layout";
             layoutMenu.Name = "MenuItemLayout";
-            layoutMenu.DropDownItems.AddRange(LayoutMenus.ToArray());
+            layoutMenu.DropDownItems.AddRange(m_menuLayoutList.ToArray());
             menuList.Add(layoutMenu);
 
             return menuList;
         }
 
         /// <summary>
-        /// Get a list of ToolStripItems.
+        /// Create ToolStripItems.
         /// </summary>
         /// <returns>the list of ToolStripItems.</returns>
-        public List<ToolStripItem> GetToolBarMenuItems()
+        public List<ToolStripItem> CreateToolButtonItems()
         {
             List<ToolStripItem> list = new List<ToolStripItem>();
 
@@ -1513,6 +1557,18 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// the event sequence of clicking the menu of [View]->[Show Id]
+        /// </summary>
+        /// <param name="sender">MenuStripItem.</param>
+        /// <param name="e">EventArgs.</param>
+        private void ViewModeClick(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            foreach (CanvasControl canvas in m_canvasDict.Values)
+                canvas.ChangeViewMode(item.Checked);
+        }
+
+        /// <summary>
         /// Called when m_nodeMenu is closed.
         /// </summary>
         /// <param name="sender"></param>
@@ -1651,41 +1707,6 @@ namespace EcellLib.PathwayWindow
                     canvas.Unfreeze();
             }
             m_isFreezed = false;
-        }
-
-        /// <summary>
-        /// Create LayoutAlgorithm menus.
-        /// </summary>
-        private List<ToolStripMenuItem> GetLayoutAlgorithmMenus()
-        {
-            // Create menu.
-            List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
-            int count = 0;
-            foreach (ILayoutAlgorithm algorithm in m_layoutList)
-            {
-                ToolStripMenuItem algoItem = new ToolStripMenuItem(algorithm.GetMenuText());
-                algoItem.Tag = count;
-                algoItem.ToolTipText = algorithm.GetToolTipText();
-                algoItem.Click += new EventHandler(LayoutItem_Click);
-
-                List<string> subCommands = algorithm.GetSubCommands();
-                if (subCommands != null && subCommands.Count != 0)
-                {
-                    int subcount = 0;
-                    foreach (string subCommandName in subCommands)
-                    {
-                        ToolStripMenuItem layoutSubItem = new ToolStripMenuItem();
-                        layoutSubItem.Text = subCommandName;
-                        layoutSubItem.Tag = count + "," + subcount;
-                        layoutSubItem.Click += new EventHandler(LayoutItem_Click);
-                        algoItem.DropDownItems.Add(layoutSubItem);
-                        subcount++;
-                    }
-                }
-                menuList.Add(algoItem);
-                count++;
-            }
-            return menuList;
         }
 
         /// <summary>

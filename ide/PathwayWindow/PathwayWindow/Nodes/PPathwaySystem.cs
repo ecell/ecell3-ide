@@ -195,7 +195,7 @@ namespace EcellLib.PathwayWindow.Nodes
             }
             set
             {
-                base.pen = value;
+                base.m_pen = value;
                 this.Repaint();
             }
         }
@@ -477,7 +477,7 @@ namespace EcellLib.PathwayWindow.Nodes
             }
             Brush b = this.Brush;
             if (b != null)
-                paintContext.Graphics.FillPath(b, base.path);
+                paintContext.Graphics.FillPath(b, base.m_path);
             
             if(m_backBrush != null)
                 paintContext.Graphics.FillPath(m_backBrush, m_backGp);

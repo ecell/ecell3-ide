@@ -195,19 +195,19 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// GraphicsPath.
         /// </summary>
-        protected GraphicsPath path;
+        protected GraphicsPath m_path;
 
         /// <summary>
         /// GraphicsPath for resize.
         /// </summary>
         [NonSerialized]
-        protected GraphicsPath resizePath;
+        protected GraphicsPath m_resizePath;
 
         /// <summary>
         /// Pen written this node.
         /// </summary>
         [NonSerialized]
-        protected Pen pen;
+        protected Pen m_pen;
 
         /// <summary>
         /// the flag whether bound from path.
@@ -417,8 +417,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public PPathwayObject()
         {
-            pen = DEFAULT_PEN;
-            path = new GraphicsPath();
+            m_pen = DEFAULT_PEN;
+            m_path = new GraphicsPath();
             m_pText = new PText();
             m_pText.Pickable = false;
             m_pText.Font = new Font("Gothics", m_nodeTextFontSize, System.Drawing.FontStyle.Bold);
@@ -509,14 +509,14 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <value>The pen used when rendering this node.</value>
         public virtual Pen Pen
         {
-            get { return pen; }
+            get { return m_pen; }
             set
             {
-                Pen old = pen;
-                pen = value;
+                Pen old = m_pen;
+                m_pen = value;
                 UpdateBoundsFromPath();
                 InvalidatePaint();
-                FirePropertyChangedEvent(PROPERTY_KEY_PEN, PROPERTY_CODE_PEN, old, pen);
+                FirePropertyChangedEvent(PROPERTY_KEY_PEN, PROPERTY_CODE_PEN, old, m_pen);
             }
         }
         #endregion
@@ -548,8 +548,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void StartResizeBounds()
         {
-            resizePath = new GraphicsPath();
-            resizePath.AddPath(path, false);
+            m_resizePath = new GraphicsPath();
+            m_resizePath.AddPath(m_path, false);
         }
 
         /// <summary>
@@ -557,7 +557,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void EndResizeBounds()
         {
-            resizePath = null;
+            m_resizePath = null;
         }
 
         /// <summary>
@@ -576,27 +576,27 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </remarks>
         protected override void InternalUpdateBounds(float x, float y, float width, float height)
         {
-            if (updatingBoundsFromPath || path == null)
+            if (updatingBoundsFromPath || m_path == null)
             {
                 return;
             }
 
-            if (resizePath != null)
+            if (m_resizePath != null)
             {
-                path.Reset();
-                path.AddPath(resizePath, false);
+                m_path.Reset();
+                m_path.AddPath(m_resizePath, false);
             }
 
-            RectangleF pathBounds = path.GetBounds();
+            RectangleF pathBounds = m_path.GetBounds();
 
-            if (pen != null && path.PointCount > 0)
+            if (m_pen != null && m_path.PointCount > 0)
             {
                 try
                 {
                     TEMP_PATH.Reset();
-                    TEMP_PATH.AddPath(path, false);
+                    TEMP_PATH.AddPath(m_path, false);
 
-                    TEMP_PATH.Widen(pen);
+                    TEMP_PATH.Widen(m_pen);
                     RectangleF penPathBounds = TEMP_PATH.GetBounds();
 
                     float strokeOutset = Math.Max(penPathBounds.Width - pathBounds.Width,
@@ -621,7 +621,7 @@ namespace EcellLib.PathwayWindow.Nodes
             TEMP_MATRIX.ScaleBy(scaleX, scaleY);
             TEMP_MATRIX.TranslateBy(-pathBounds.X, -pathBounds.Y);
 
-            path.Transform(TEMP_MATRIX.MatrixReference);
+            m_path.Transform(TEMP_MATRIX.MatrixReference);
         }
 
         /// <summary>
@@ -692,16 +692,16 @@ namespace EcellLib.PathwayWindow.Nodes
                 if (!matrix.IsIdentity) bounds = matrix.Transform(bounds);
 
                 // Set the temp region to the transformed path.
-                SetTempRegion(path, matrix, false);
+                SetTempRegion(m_path, matrix, false);
 
                 if (Brush != null && TEMP_REGION.IsVisible(bounds))
                 {
                     return true;
                 }
-                else if (pen != null)
+                else if (m_pen != null)
                 {
                     // Set the temp region to the transformed, widened path.
-                    SetTempRegion(path, matrix, true);
+                    SetTempRegion(m_path, matrix, true);
                     return TEMP_REGION.IsVisible(bounds);
                 }
             }
@@ -723,7 +723,7 @@ namespace EcellLib.PathwayWindow.Nodes
 
                 if (widen)
                 {
-                    TEMP_PATH.Widen(pen, matrix.MatrixReference);
+                    TEMP_PATH.Widen(m_pen, matrix.MatrixReference);
                 }
                 else
                 {
@@ -741,7 +741,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public virtual void UpdateBoundsFromPath()
         {
             updatingBoundsFromPath = true;
-            if (path == null || path.PointCount == 0)
+            if (m_path == null || m_path.PointCount == 0)
             {
                 ResetBounds();
             }
@@ -750,8 +750,8 @@ namespace EcellLib.PathwayWindow.Nodes
                 try
                 {
                     TEMP_PATH.Reset();
-                    TEMP_PATH.AddPath(path, false);
-                    if (pen != null && TEMP_PATH.PointCount > 0) TEMP_PATH.Widen(pen);
+                    TEMP_PATH.AddPath(m_path, false);
+                    if (m_pen != null && TEMP_PATH.PointCount > 0) TEMP_PATH.Widen(m_pen);
                     RectangleF b = TEMP_PATH.GetBounds();
                     SetBounds(b.X, b.Y, b.Width, b.Height);
                 }
@@ -779,12 +779,12 @@ namespace EcellLib.PathwayWindow.Nodes
 
             if (b != null)
             {
-                g.FillPath(b, path);
+                g.FillPath(b, m_path);
             }
 
-            if (pen != null)
+            if (m_pen != null)
             {
-                g.DrawPath(pen, path);
+                g.DrawPath(m_pen, m_path);
             }
         }
         #endregion
@@ -821,7 +821,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <value>The underlying path object.</value>
         public virtual GraphicsPath PathReference
         {
-            get { return path; }
+            get { return m_path; }
         }
 
         /// <summary>
@@ -829,10 +829,10 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual FillMode FillMode
         {
-            get { return path.FillMode; }
+            get { return m_path.FillMode; }
             set
             {
-                path.FillMode = value;
+                m_path.FillMode = value;
                 InvalidatePaint();
             }
         }
@@ -854,7 +854,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual PathData PathData
         {
-            get { return path.PathData; }
+            get { return m_path.PathData; }
         }
 
         /// <summary>
@@ -862,7 +862,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual int PointCount
         {
-            get { return path.PointCount; }
+            get { return m_path.PointCount; }
         }
 
         /// <summary>
@@ -884,8 +884,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void AddArc(float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
-            path.AddArc(x, y, width, height, startAngle, sweepAngle);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            m_path.AddArc(x, y, width, height, startAngle, sweepAngle);
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
@@ -896,8 +896,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void AddBezier(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
         {
-            path.AddBezier(x1, y1, x2, y2, x3, y3, x4, y4);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            m_path.AddBezier(x1, y1, x2, y2, x3, y3, x4, y4);
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
@@ -907,8 +907,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void AddClosedCurve(PointF[] points)
         {
-            path.AddClosedCurve(points);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            m_path.AddClosedCurve(points);
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
@@ -918,8 +918,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void AddCurve(PointF[] points)
         {
-            path.AddCurve(points);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            m_path.AddCurve(points);
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
@@ -930,8 +930,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void AddEllipse(float x, float y, float width, float height)
         {
-            path.AddEllipse(x, y, width, height);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            m_path.AddEllipse(x, y, width, height);
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
@@ -941,8 +941,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void AddLine(float x1, float y1, float x2, float y2)
         {
-            path.AddLine(x1, y1, x2, y2);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            m_path.AddLine(x1, y1, x2, y2);
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
@@ -952,7 +952,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void AddPath(GraphicsPath path, bool connect)
         {
-            this.path.AddPath(path, connect);
+            this.m_path.AddPath(path, connect);
             FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
             UpdateBoundsFromPath();
             InvalidatePaint();
@@ -963,8 +963,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void AddPolygon(PointF[] points)
         {
-            path.AddPolygon(points);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            m_path.AddPolygon(points);
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
@@ -975,8 +975,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void AddRectangle(float x, float y, float width, float height)
         {
-            path.AddRectangle(new RectangleF(x, y, width, height));
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            m_path.AddRectangle(new RectangleF(x, y, width, height));
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
@@ -986,8 +986,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void CloseFigure()
         {
-            path.CloseFigure();
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            m_path.CloseFigure();
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
@@ -997,8 +997,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void CloseAllFigures()
         {
-            path.CloseAllFigures();
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            m_path.CloseAllFigures();
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
@@ -1008,8 +1008,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void Reset()
         {
-            path.Reset();
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            m_path.Reset();
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
             RefreshText();
@@ -1155,7 +1155,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             base.GetObjectData(info, context);
 
-            PUtil.WritePen(pen, info);
+            PUtil.WritePen(m_pen, info);
         }
 
         #endregion

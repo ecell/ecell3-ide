@@ -237,4 +237,7 @@
   <data name="ErrLayerNot" xml:space="preserve">
     <value>Layer does not exist.</value>
   </data>
+  <data name="MenuItemViewModeText" xml:space="preserve">
+    <value>View Mode</value>
+  </data>
 </root>
