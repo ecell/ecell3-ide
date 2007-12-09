@@ -89,18 +89,19 @@ namespace EcellLib.PathwayWindow
         {
             base.OnMouseDown(sender, e);
             // set mouse position
+            CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
             m_startPoint = e.Position;
             m_con.MousePosition = e.Position;
             if (e.PickedNode is PCamera)
             {
-                m_con.CanvasDictionary[e.Canvas.Name].ClickedNode = null;
-                m_con.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
+                canvas.ClickedNode = null;
+                canvas.ResetSelectedObjects();
             }
             if (e.Button == MouseButtons.Left)
             {
-                m_con.CanvasDictionary[e.Canvas.Name].ResetSelectedObjects();
+                canvas.ResetSelectedObjects();
                 m_selectedPath = new PPath();
-                e.Canvas.Layer.AddChild(m_selectedPath);
+                canvas.ControlLayer.AddChild(m_selectedPath);
             }
         }
 
@@ -130,7 +131,7 @@ namespace EcellLib.PathwayWindow
             if (m_selectedPath == null)
                 return;
 
-            CanvasControl canvas = m_con.CanvasDictionary[((PCamera)sender).Canvas.Name];
+            CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
             m_selectedPath.Reset();
             RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
             m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
@@ -140,6 +141,8 @@ namespace EcellLib.PathwayWindow
 
             foreach (PLayer layer in canvas.Layers.Values)
             {
+                if (!layer.Visible)
+                    continue;
                 PNodeList list = new PNodeList();
                 layer.FindIntersectingNodes(rect, list);
                 newlySelectedList.AddRange(list);

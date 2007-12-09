@@ -709,7 +709,7 @@ namespace EcellLib.PathwayWindow
             PPathwaySystem system = m_systems[systemName];
             obj.ParentObject = system;
             // If obj hasn't coordinate, it will be settled. 
-            if (obj is PPathwayNode && !system.Rect.Contains(obj.PointF))
+            if (obj is PPathwayNode && (!system.Rect.Contains(obj.PointF) || !hasCoords))
                 obj.PointF = GetVacantPoint(systemName);
             if (obj is PPathwaySystem && !hasCoords)
             {

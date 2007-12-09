@@ -421,8 +421,8 @@ namespace EcellLib.GridLayout
             // An initial value of gridDistance is m_defGridDistance. gridDistance will be decreased until numbers of
             // position on grid coorindate system become sufficient to contain all nodes.
             bool[,] positionMatrix = new bool[1, 1];
-            float grid = m_defGridDistance;
             float margin = m_defMargin;
+            float grid = (sys.Width - margin * 2) / (float)Math.Sqrt(sys.Children.Count * 2);
             bool posUnsettled = true;
             int maxX = 0;
             int maxY = 0;
@@ -433,9 +433,9 @@ namespace EcellLib.GridLayout
                 // Set Grid size.
                 maxX = (int)((sys.Width - margin * 2) / grid) - 1;
                 maxY = (int)((sys.Height - margin * 2) / grid) - 1;
-                if (maxX < 0 || maxY < 0 || maxX * maxY < nodeList.Count * 2)
+                if (maxX < 0 || maxY < 0 || maxX * maxY < nodeList.Count * 4)
                 {
-                    grid = grid / 2f;
+                    grid = grid / 1.4f;
                     continue;
                 }
 

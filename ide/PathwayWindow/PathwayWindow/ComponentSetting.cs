@@ -276,7 +276,6 @@ namespace EcellLib.PathwayWindow
             obj.ShowingID = canvas.ShowingID;
             obj.CsID = m_name;
             obj.Setting = this;
-            obj.EcellObject = eo;
             if (m_componentKind == ComponentType.System)
             {
                 obj.NormalBrush = Brushes.LightBlue;
@@ -289,6 +288,7 @@ namespace EcellLib.PathwayWindow
                 obj.Width = PPathwayNode.DEFAULT_WIDTH;
                 obj.Height = PPathwayNode.DEFAULT_HEIGHT;
             }
+            obj.EcellObject = eo;
             obj.IsHighLighted = false;
             return obj;
         }

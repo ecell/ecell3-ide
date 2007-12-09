@@ -333,8 +333,8 @@ namespace EcellLib.PathwayWindow.Nodes
             m_setting.FigureList.Clear();
             if (m_editMode)
             {
-                base.AddRectangle(m_originalX, m_originalY, m_originalWidth, m_originalHeight);
-                m_setting.FigureList.Add(new RectangleFigure(- m_originalWidth / 2, - m_originalHeight / 2, m_originalWidth, m_originalHeight));
+                base.AddRectangle(m_originalX, m_originalY, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+                m_setting.FigureList.Add(new RectangleFigure(-DEFAULT_WIDTH / 2, -DEFAULT_HEIGHT / 2, DEFAULT_WIDTH, DEFAULT_HEIGHT));
             }
             else
             {

@@ -421,7 +421,7 @@ namespace EcellLib.PathwayWindow
             // position on grid coorindate system become sufficient to contain all nodes.
             bool[,] positionMatrix = new bool[1, 1];
             float margin = m_defMargin;
-            float grid = m_defGridDistance;
+            float grid = (sys.Width - margin * 2) / (float)Math.Sqrt(sys.Children.Count * 2);
             bool posUnsettled = true;
             int maxX = 0;
             int maxY = 0;
@@ -432,9 +432,9 @@ namespace EcellLib.PathwayWindow
                 // Set Grid size.
                 maxX = (int)((sys.Width - margin * 2) / grid) - 1;
                 maxY = (int)((sys.Height - margin * 2) / grid) - 1;
-                if (maxX < 0 || maxY < 0 || maxX * maxY < nodeList.Count * 2)
+                if (maxX < 0 || maxY < 0 || maxX * maxY < nodeList.Count * 4)
                 {
-                    grid = grid / 2f;
+                    grid = grid / 1.4f;
                     continue;
                 }
 
