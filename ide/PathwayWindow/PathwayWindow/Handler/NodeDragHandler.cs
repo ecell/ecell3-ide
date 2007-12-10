@@ -102,7 +102,7 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
             PPathwayObject obj = e.PickedNode as PPathwayObject;
             if (obj is PPathwayProcess)
-                ((PPathwayProcess)obj).RefreshEdges();
+                ((PPathwayProcess)obj).Refresh();
 
             if (obj is PPathwayNode)
             {

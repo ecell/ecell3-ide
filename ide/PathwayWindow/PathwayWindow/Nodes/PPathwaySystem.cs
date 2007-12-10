@@ -139,6 +139,8 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return (EcellSystem)base.m_ecellObj; }
             set {
                 base.EcellObject = value;
+                base.Width = m_ecellObj.Width;
+                base.Height = m_ecellObj.Height;
                 this.Refresh();
             }
         }

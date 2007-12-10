@@ -785,7 +785,7 @@ namespace EcellLib.PathwayWindow
 
             ToolStripMenuItem viewModeItem = new ToolStripMenuItem();
             viewModeItem.CheckOnClick = true;
-            viewModeItem.CheckState = CheckState.Checked;
+            viewModeItem.CheckState = CheckState.Unchecked;
             viewModeItem.ToolTipText = "Change visibility of Process Nodes";
             viewModeItem.Text = m_resources.GetString("MenuItemViewModeText");
             viewModeItem.Click += new EventHandler(ViewModeClick);
@@ -930,7 +930,6 @@ namespace EcellLib.PathwayWindow
             zoominButton.CheckOnClick = false;
             zoominButton.ToolTipText = "Zoom In";
             zoominButton.Tag = 2f;
-            //m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             zoominButton.Click += new EventHandler(ZoomButton_Click);
             list.Add(zoominButton);
             m_buttonList.Add(zoominButton);
@@ -943,7 +942,6 @@ namespace EcellLib.PathwayWindow
             zoomoutButton.CheckOnClick = false;
             zoomoutButton.ToolTipText = "Zoom Out";
             zoomoutButton.Tag = 0.5f;
-            //m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             zoomoutButton.Click += new EventHandler(ZoomButton_Click);
             list.Add(zoomoutButton);
             m_buttonList.Add(zoomoutButton);
@@ -962,7 +960,6 @@ namespace EcellLib.PathwayWindow
                 {
                     Rectangle rect = new Rectangle(3, 3, 240, 240);
                     gra.DrawRectangle(new Pen(Brushes.Black, 16), rect);
-                    //m_objectHandlerList.Add(new CreateSystemMouseHandler(this));
                     m_handlerDict.Add(handleCount, csmh);
                     button.Tag = new Handle(Mode.CreateSystem, handleCount++, cs.ComponentType);
                 }
@@ -971,7 +968,6 @@ namespace EcellLib.PathwayWindow
                     GraphicsPath gp = cs.TransformedPath;
                     gra.FillPath(cs.NormalBrush, gp);
                     gra.DrawPath(new Pen(Brushes.Black, 16), gp);
-                    //m_objectHandlerList.Add(new CreateNodeMouseHandler(this));
                     m_handlerDict.Add(handleCount, cnmh);
                     button.Tag = new Handle(Mode.CreateNode, handleCount++, cs.ComponentType);
                 }

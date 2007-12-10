@@ -294,8 +294,6 @@ namespace EcellLib.PathwayWindow.Nodes
                 {
                     base.X = m_ecellObj.X;
                     base.Y = m_ecellObj.Y;
-                    base.Width = m_ecellObj.Width;
-                    base.Height = m_ecellObj.Height;
                     base.OffsetX = m_ecellObj.OffsetX;
                     base.OffsetY = m_ecellObj.OffsetY;
                 }

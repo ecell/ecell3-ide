@@ -151,7 +151,15 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void DrawLine()
         {
+            SetLine();
             SetDirection();
+        }
+
+        /// <summary>
+        /// Draw Line
+        /// </summary>
+        public void SetLine()
+        {
             switch (this.m_edgeInfo.TypeOfLine)
             {
                 case LineType.Solid:
@@ -167,6 +175,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     this.AddLine(this.ProPoint.X, this.ProPoint.Y, this.VarPoint.X, this.VarPoint.Y);
                     break;
             }
+
         }
 
         /// <summary>
@@ -189,7 +198,6 @@ namespace EcellLib.PathwayWindow.Nodes
                 case EdgeDirection.None:
                     break;
             }
-
         }
 
         /// <summary>

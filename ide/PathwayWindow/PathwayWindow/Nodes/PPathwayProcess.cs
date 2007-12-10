@@ -77,10 +77,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// list of size.
         /// </summary>
         protected List<SizeF> m_sizes = new List<SizeF>();
-        /// <summary>
-        /// Is Edit Mode or not.
-        /// </summary>
-        protected bool m_editMode = true;
         #endregion
 
         #region Accessors
@@ -94,17 +90,6 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 base.EcellObject = value;
                 Refresh();
-            }
-        }
-        /// <summary>
-        /// get/set m_editMode.
-        /// </summary>
-        public bool ViewMode
-        {
-            get { return this.m_editMode; }
-            set {
-                this.m_editMode = value;
-                this.ChangeViewMode();
             }
         }
         #endregion
@@ -201,12 +186,23 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void CreateEdges()
         {
+            // Error Check
             if (this.EcellObject == null || this.EcellObject.ReferenceList == null)
                 return;
+            List<EcellReference> list = EcellObject.ReferenceList;
+            // Check if this node is tarminal node or not.
+            bool isEndNode = true;
+            foreach (EcellReference er in list)
+            {
+                if (er.coefficient != 1)
+                    continue;
+                isEndNode = false;
+                break;
+            }
 
             try
             {
-                foreach (EcellReference er in EcellObject.ReferenceList)
+                foreach (EcellReference er in list)
                 {
                     if (!base.m_canvas.Variables.ContainsKey(er.Key))
                         continue;
@@ -219,7 +215,9 @@ namespace EcellLib.PathwayWindow.Nodes
                     path.Brush = Brushes.Black;
                     path.VarPoint = var.GetContactPoint(base.CenterPoint);
                     path.ProPoint = base.GetContactPoint(path.VarPoint);
-                    path.DrawLine();
+                    path.SetLine();
+                    if (!m_isViewMode || isEndNode || er.coefficient == 1)
+                        path.SetDirection();
                     path.Pickable = true;
                     path.Visible = (var.Visible && this.Visible);
                     
@@ -322,28 +320,6 @@ namespace EcellLib.PathwayWindow.Nodes
             RefreshText();
         }
 
-        /// <summary>
-        /// Change View Mode.
-        /// </summary>
-        private void ChangeViewMode()
-        {
-            this.ShowingID = m_editMode;
-            //this.Pickable = m_editMode;
-            m_path.Reset();
-            m_setting.FigureList.Clear();
-            if (m_editMode)
-            {
-                base.AddRectangle(m_originalX, m_originalY, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-                m_setting.FigureList.Add(new RectangleFigure(-DEFAULT_WIDTH / 2, -DEFAULT_HEIGHT / 2, DEFAULT_WIDTH, DEFAULT_HEIGHT));
-            }
-            else
-            {
-                PointF pos = this.CenterPoint;
-                base.AddEllipse(m_originalX + 25, m_originalY + 15, 10, 10);
-                m_setting.FigureList.Add(new EllipseFigure(-5, -5, 10, 10));
-            }
-            Refresh();
-        }
         /// <summary>
         /// start to move this Node by drag.
         /// </summary>

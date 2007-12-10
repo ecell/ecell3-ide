@@ -184,9 +184,9 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void Refresh()
         {
             ValidateEdges();
-            foreach(PPathwayProcess p in m_relatedProcesses.Values)
+            foreach(PPathwayProcess process in m_relatedProcesses.Values)
             {
-                p.RefreshEdges();
+                process.RefreshEdges();
             }
             RefreshText();
         }
@@ -196,10 +196,10 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void MoveStart()
         {
-            foreach (PPathwayProcess p in m_relatedProcesses.Values)
+            foreach (PPathwayProcess process in m_relatedProcesses.Values)
             {
-                p.DeleteEdge(this.EcellObject.key);
-                p.RefreshEdges();
+                process.DeleteEdge(this.EcellObject.key);
+                process.RefreshEdges();
             }
         }
 

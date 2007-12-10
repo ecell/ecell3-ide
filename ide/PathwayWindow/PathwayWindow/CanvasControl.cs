@@ -921,7 +921,7 @@ namespace EcellLib.PathwayWindow
         {
             foreach (PPathwayProcess process in m_processes.Values)
             {
-                process.ViewMode = isShown;
+                process.IsViewMode = isShown;
             }
         }
 

@@ -85,6 +85,14 @@ namespace EcellLib.PathwayWindow.Nodes
         /// handler for line
         /// </summary>
         protected PInputEventHandler m_handler4Line;
+        /// <summary>
+        /// Is Edit Mode or not.
+        /// </summary>
+        protected bool m_isViewMode = false;
+        /// <summary>
+        /// Figure List
+        /// </summary>
+        protected List<FigureBase> m_figureList = new List<FigureBase>();
         #endregion
 
         #region Accessors
@@ -172,7 +180,20 @@ namespace EcellLib.PathwayWindow.Nodes
             this.MouseDown += new PInputEventHandler(NodeSelected);
             this.MouseEnter += new PInputEventHandler(NodeEntered);
             this.MouseLeave += new PInputEventHandler(NodeLeft);
-            this.m_handler4Line = new PInputEventHandler(LineSelected);
+            m_handler4Line = new PInputEventHandler(LineSelected);
+            m_figureList.Add(new EllipseFigure(-5, -5, 10, 10));
+        }
+        /// <summary>
+        /// get/set m_editMode.
+        /// </summary>
+        public bool IsViewMode
+        {
+            get { return this.m_isViewMode; }
+            set
+            {
+                this.m_isViewMode = value;
+                this.ChangeViewMode();
+            }
         }
         #endregion
 
@@ -248,6 +269,26 @@ namespace EcellLib.PathwayWindow.Nodes
         public override PPathwayObject CreateNewObject()
         {
             return new PPathwayNode();
+        }
+
+        /// <summary>
+        /// Change View Mode.
+        /// </summary>
+        private void ChangeViewMode()
+        {
+            this.ShowingID = !m_isViewMode;
+            //this.Pickable = m_editMode;
+            m_path.Reset();
+            if (m_isViewMode)
+            {
+                PointF pos = this.CenterPoint;
+                base.AddEllipse(m_originalX + 25, m_originalY + 15, 10, 10);
+            }
+            else
+            {
+                base.AddRectangle(m_originalX, m_originalY, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+            }
+            Refresh();
         }
 
         /// <summary>
@@ -417,12 +458,16 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <returns></returns>
         public PointF GetContactPoint(PointF refPoint)
         {
+            // Set Figure List
             if (base.m_setting == null)
-                return PointF.Empty;
-
-            List<FigureBase> figureList = base.m_setting.FigureList;
+                return this.CenterPoint;
+            List<FigureBase> figureList;
+            if (m_isViewMode)
+                figureList = m_figureList;
+            else
+                figureList = base.m_setting.FigureList;
             if (figureList == null)
-                return PointF.Empty;
+                return this.CenterPoint;
 
             PointF originalPoint = new PointF(0f,0f);
             PointF centerPoint = this.CenterPoint;
