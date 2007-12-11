@@ -102,13 +102,13 @@ namespace EcellLib.PathwayWindow.Handler
         public ResizeHandler(CanvasControl canvas)
         {
             this.m_canvas = canvas;
-            // Preparing system handlers
+            // Preparing system resize handlers
+            // position of each handle is shown below.
             //  0 | 1 | 2
             // -----------
             //  7 |   | 3
             // -----------
             //  6 | 5 | 4
-            // position of each handle.
             for (int m = 0; m < 8; m++)
             {
                 ResizeHandle handle = new ResizeHandle();
@@ -125,35 +125,27 @@ namespace EcellLib.PathwayWindow.Handler
                 m_resizeHandles.Add(handle);
             }
 
-            m_resizeHandles[0].Restriction = MovingRestriction.NoRestriction;
             m_resizeHandles[0].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNWSE);
             m_resizeHandles[0].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeNW);
 
-            m_resizeHandles[1].Restriction = MovingRestriction.Vertical;
             m_resizeHandles[1].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNS);
             m_resizeHandles[1].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeN);
 
-            m_resizeHandles[2].Restriction = MovingRestriction.NoRestriction;
             m_resizeHandles[2].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNESW);
             m_resizeHandles[2].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeNE);
 
-            m_resizeHandles[3].Restriction = MovingRestriction.Horizontal;
             m_resizeHandles[3].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeWE);
             m_resizeHandles[3].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeE);
 
-            m_resizeHandles[4].Restriction = MovingRestriction.NoRestriction;
             m_resizeHandles[4].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNWSE);
             m_resizeHandles[4].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeSE);
 
-            m_resizeHandles[5].Restriction = MovingRestriction.Vertical;
             m_resizeHandles[5].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNS);
             m_resizeHandles[5].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeS);
 
-            m_resizeHandles[6].Restriction = MovingRestriction.NoRestriction;
             m_resizeHandles[6].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNESW);
             m_resizeHandles[6].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeSW);
 
-            m_resizeHandles[7].Restriction = MovingRestriction.Horizontal;
             m_resizeHandles[7].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeWE);
             m_resizeHandles[7].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeW);
         }
@@ -208,7 +200,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// Reset resize handles' positions except one fixedHandle
         /// </summary>
         /// <param name="fixedHandle">this ResizeHandle must not be updated</param>
-        private void UpdateResizeHandlePositions(PNode fixedHandle)
+        private void UpdateResizeHandlePositions(ResizeHandle fixedHandle)
         {
             string systemName = m_canvas.SelectedSystemName;
             if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
@@ -448,34 +440,25 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            float X = e.PickedNode.X + e.PickedNode.OffsetX + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
-            float Y = e.PickedNode.Y + e.PickedNode.OffsetY + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
+            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            float X = handle.X + handle.OffsetX + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
+            float Y = handle.Y + handle.OffsetY + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
             float width = m_lowerRightPoint.X - X;
             float height = m_lowerRightPoint.Y - Y;
+
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 system.X = X;
                 system.Y = Y;
                 system.Width = width;
                 system.Height = height;
-
                 ValidateSystem(system);
                 system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
+                UpdateResizeHandlePositions(handle);
             }
             else
             {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
-                if (width <= PPathwaySystem.MIN_X_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
-                }
-                if (height <= PPathwaySystem.MIN_Y_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
-                }
+                UpdateResizeHandlePositions();
             }
         }
 
@@ -492,22 +475,22 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            float Y = e.PickedNode.Y + e.PickedNode.OffsetY + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
+            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            float Y = handle.Y + handle.OffsetY + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
             float height = m_lowerRightPoint.Y - Y;
 
+            handle.OffsetX = system.X + system.Width / 2f;
             if (height > PPathwaySystem.MIN_Y_LENGTH)
             {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                PointF offsetToL = system.Offset;
-                system.Y = Y - offsetToL.Y;
+                system.Y = Y;
                 system.Height = height;
                 ValidateSystem(system);
                 system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
+                UpdateResizeHandlePositions(handle);
             }
             else
             {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
+                UpdateResizeHandlePositions();
             }
         }
 
@@ -524,35 +507,24 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            float Y = e.PickedNode.Y + e.PickedNode.OffsetY + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
-            float width = e.PickedNode.X + e.PickedNode.OffsetX + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
+            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            float Y = handle.Y + handle.OffsetY + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
+            float width = handle.X + handle.OffsetX + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
                                - system.X - system.Offset.X;
             float height = m_lowerLeftPoint.Y - Y;
 
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                PointF offsetToL = system.Offset;
-                system.Y = Y - offsetToL.Y;
+                system.Y = Y;
                 system.Width = width;
                 system.Height = height;
                 ValidateSystem(system);
                 system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
+                UpdateResizeHandlePositions(handle);
             }
             else
             {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
-
-                if (width <= PPathwaySystem.MIN_X_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
-                }
-                if (height <= PPathwaySystem.MIN_Y_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
-                }
+                UpdateResizeHandlePositions();
             }
         }
 
@@ -569,19 +541,21 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            float width = e.PickedNode.X + e.PickedNode.OffsetX + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
+            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            float width = handle.X + handle.OffsetX + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
                               - system.X - system.Offset.X;
+
+            handle.OffsetY = system.Y + system.Height / 2f;
             if (width > PPathwaySystem.MIN_X_LENGTH)
             {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 system.Width = width;
                 ValidateSystem(system);
                 system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
+                UpdateResizeHandlePositions(handle);
             }
             else
             {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
+                UpdateResizeHandlePositions();
             }
         }
 
@@ -598,34 +572,23 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            float width = e.PickedNode.X + e.PickedNode.OffsetX + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
+            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            float width = handle.X + handle.OffsetX + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
                                - system.X - system.Offset.X;
-            float height = e.PickedNode.Y + e.PickedNode.OffsetY + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
+            float height = handle.Y + handle.OffsetY + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
                                 - system.Y - system.Offset.Y;
 
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                PointF offsetToL = system.Offset;
                 system.Width = width;
                 system.Height = height;
                 ValidateSystem(system);
                 system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
+                UpdateResizeHandlePositions(handle);
             }
             else
             {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
-
-                if (width <= PPathwaySystem.MIN_X_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
-                }
-                if (height <= PPathwaySystem.MIN_Y_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
-                }
+                UpdateResizeHandlePositions();
             }
         }
 
@@ -642,20 +605,21 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            float height = e.PickedNode.Y + e.PickedNode.OffsetY + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
+            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            float height = handle.Y + handle.OffsetY + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
                                  - system.Y - system.Offset.Y;
 
+            handle.OffsetX = system.X + system.Width / 2f;
             if (height > PPathwaySystem.MIN_Y_LENGTH)
             {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
                 system.Height = height;
                 ValidateSystem(system);
                 system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
+                UpdateResizeHandlePositions(handle);
             }
             else
             {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
+                UpdateResizeHandlePositions();
             }
         }
 
@@ -672,36 +636,24 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            float X = e.PickedNode.X + e.PickedNode.OffsetX + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
-            float width = m_upperRightPoint.X - e.PickedNode.X - e.PickedNode.OffsetX - HALF_WIDTH + PPathwaySystem.HALF_THICKNESS;
-            float height = e.PickedNode.Y + e.PickedNode.OffsetY + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
+            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            float X = handle.X + handle.OffsetX + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
+            float width = m_upperRightPoint.X - handle.X - handle.OffsetX - HALF_WIDTH + PPathwaySystem.HALF_THICKNESS;
+            float height = handle.Y + handle.OffsetY + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
                                - system.Y - system.Offset.Y;
 
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                PointF offsetToL = system.Offset;
-                system.X = X - offsetToL.X;
+                system.X = X;
                 system.Width = width;
                 system.Height = height;
                 ValidateSystem(system);
                 system.Refresh();
-
-                UpdateResizeHandlePositions(e.PickedNode);
+                UpdateResizeHandlePositions(handle);
             }
             else
             {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToYMinus();
-
-                if (width <= PPathwaySystem.MIN_X_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToYPlus();
-                }
-                if (height <= PPathwaySystem.MIN_Y_LENGTH)
-                {
-                    ((ResizeHandle)e.PickedNode).ProhibitMovingToXMinus();
-                }
+                UpdateResizeHandlePositions();
             }
         }
 
@@ -718,22 +670,22 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            float X = e.PickedNode.X + e.PickedNode.OffsetX + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
+            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            float X = handle.X + handle.OffsetX + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
             float width = m_lowerRightPoint.X - X;
 
+            handle.OffsetY = system.Y + system.Height / 2f;
             if (width > PPathwaySystem.MIN_X_LENGTH)
             {
-                ((ResizeHandle)e.PickedNode).FreeMoveRestriction();
-                PointF offsetToL = system.Offset;
-                system.X = X - offsetToL.X;
+                system.X = X;
                 system.Width = width;
                 ValidateSystem(system);
                 system.Refresh();
-                UpdateResizeHandlePositions(e.PickedNode);
+                UpdateResizeHandlePositions(handle);
             }
             else
             {
-                ((ResizeHandle)e.PickedNode).ProhibitMovingToXPlus();
+                UpdateResizeHandlePositions();
             }
         }
 

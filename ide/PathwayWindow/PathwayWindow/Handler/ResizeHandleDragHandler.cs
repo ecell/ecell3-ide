@@ -30,14 +30,7 @@
 // modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
 using UMD.HCIL.Piccolo.Event;
-using UMD.HCIL.Piccolo.Nodes;
-using EcellLib.PathwayWindow.Nodes;
-using EcellLib.PathwayWindow.Handler;
 
 namespace EcellLib.PathwayWindow
 {
@@ -46,13 +39,6 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class ResizeHandleDragHandler : PDragEventHandler
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public ResizeHandleDragHandler()
-        {
-        }
-
         /// <summary>
         /// Called when dragging of a resize handle started.
         /// </summary>
@@ -63,29 +49,6 @@ namespace EcellLib.PathwayWindow
             base.OnStartDrag(sender, e);
             e.Handled = true;
             e.PickedNode.MoveToFront();
-        }
-
-        /// <summary>
-        /// Called when resize handles are dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected override void OnDrag(object sender, PInputEventArgs e)
-        {
-            base.OnDrag(sender, e);
-            if (!(e.PickedNode is ResizeHandle))
-                return;
-
-            ResizeHandle handle = (ResizeHandle)e.PickedNode;
-            SizeF size = e.GetDeltaRelativeTo(base.DraggedNode);
-            size = base.DraggedNode.LocalToParent(size);
-
-            if (handle.Restriction == MovingRestriction.Horizontal)
-                base.DraggedNode.OffsetBy(size.Width, 0);
-            else if (handle.Restriction == MovingRestriction.Vertical)
-                base.DraggedNode.OffsetBy(0, size.Height);
-            else
-                base.DraggedNode.OffsetBy(size.Width, size.Height);
         }
     }
 }
