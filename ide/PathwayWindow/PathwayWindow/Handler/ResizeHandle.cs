@@ -34,6 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UMD.HCIL.Piccolo.Nodes;
+using UMD.HCIL.Piccolo.Event;
 
 namespace EcellLib.PathwayWindow.Handler
 {
@@ -64,6 +65,28 @@ namespace EcellLib.PathwayWindow.Handler
         private float m_prevX = 0;
 
         private float m_prevY = 0;
+        /// <summary>
+        /// MovingRestriction
+        /// </summary>
+        private MovingRestriction m_restriction = MovingRestriction.NoRestriction;
+
+        #region Accessor
+        /// <summary>
+        /// MovingRestriction
+        /// </summary>
+        public MovingRestriction Restriction
+        {
+            get { return m_restriction; }
+            set { m_restriction = value; }
+        }
+        #endregion
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ResizeHandle()
+        {
+            this.AddInputEventListener(new ResizeHandleDragHandler());
+        }
 
         /// <summary>
         /// Free restriction of move of this node
@@ -108,30 +131,30 @@ namespace EcellLib.PathwayWindow.Handler
             m_ableToMoveYMinus = false;
         }
 
-        /// <summary>
-        /// Override SettOffset.
-        /// Restriction of moving was inplemented.
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public override void SetOffset(float x, float y)
-        {
-            if (m_isMoved)
-            {
-                float deltaX = x - m_prevX;
-                float deltaY = y - m_prevY;
-                if ((0 < deltaX && !m_ableToMoveXPlus) || (deltaX < 0 && !m_ableToMoveXMinus))
-                    x = m_prevX;
-                if ((0 < deltaY && !m_ableToMoveYPlus) || (deltaY < 0 && !m_ableToMoveYMinus))
-                    y = m_prevY;
-            }
-            else
-                m_isMoved = true;
+        ///// <summary>
+        ///// Override SettOffset.
+        ///// Restriction of moving was inplemented.
+        ///// </summary>
+        ///// <param name="x"></param>
+        ///// <param name="y"></param>
+        //public override void SetOffset(float x, float y)
+        //{
+        //    if (m_isMoved)
+        //    {
+        //        float deltaX = x - m_prevX;
+        //        float deltaY = y - m_prevY;
+        //        if ((0 < deltaX && !m_ableToMoveXPlus) || (deltaX < 0 && !m_ableToMoveXMinus))
+        //            x = m_prevX;
+        //        if ((0 < deltaY && !m_ableToMoveYPlus) || (deltaY < 0 && !m_ableToMoveYMinus))
+        //            y = m_prevY;
+        //    }
+        //    else
+        //        m_isMoved = true;
             
-            base.SetOffset(x, y);
+        //    base.SetOffset(x, y);
 
-            m_prevX = x;
-            m_prevY = y;
-        }
+        //    m_prevX = x;
+        //    m_prevY = y;
+        //}
     }
 }

@@ -66,7 +66,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// m_resideHandles contains a list of ResizeHandle for resizing a system.
         /// </summary>
-        protected PNodeList m_resizeHandles = new PNodeList();
+        protected List<ResizeHandle> m_resizeHandles = new List<ResizeHandle>();
 
         /// <summary>
         /// List of PNodes, which are currently surrounded by the system.
@@ -95,78 +95,67 @@ namespace EcellLib.PathwayWindow.Handler
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="canvas"></param>
         public ResizeHandler(CanvasControl canvas)
         {
             this.m_canvas = canvas;
             // Preparing system handlers
+            //  0 | 1 | 2
+            // -----------
+            //  7 |   | 3
+            // -----------
+            //  6 | 5 | 4
+            // position of each handle.
             for (int m = 0; m < 8; m++)
             {
                 ResizeHandle handle = new ResizeHandle();
                 handle.Brush = Brushes.DarkOrange;
                 handle.Pen = new Pen(Brushes.DarkOliveGreen, 1);
-
                 handle.AddRectangle(-1 * HALF_WIDTH,
                                     -1 * HALF_WIDTH,
                                     HALF_WIDTH * 2f,
                                     HALF_WIDTH * 2f);
+
+                handle.MouseLeave += new PInputEventHandler(ResizeHandle_MouseLeave);
+                handle.MouseDown += new PInputEventHandler(ResizeHandle_MouseDown);
+                handle.MouseUp += new PInputEventHandler(ResizeHandle_MouseUp);
                 m_resizeHandles.Add(handle);
             }
 
-            m_resizeHandles[0].Tag = MovingRestriction.NoRestriction;
+            m_resizeHandles[0].Restriction = MovingRestriction.NoRestriction;
             m_resizeHandles[0].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNWSE);
-            m_resizeHandles[0].MouseLeave += new PInputEventHandler(ResizeHandle_MouseLeave);
-            m_resizeHandles[0].MouseDown += new PInputEventHandler(ResizeHandle_MouseDown);
             m_resizeHandles[0].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeNW);
-            m_resizeHandles[0].MouseUp += new PInputEventHandler(ResizeHandle_MouseUp);
 
-            m_resizeHandles[1].Tag = MovingRestriction.Vertical;
+            m_resizeHandles[1].Restriction = MovingRestriction.Vertical;
             m_resizeHandles[1].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNS);
-            m_resizeHandles[1].MouseLeave += new PInputEventHandler(ResizeHandle_MouseLeave);
-            m_resizeHandles[1].MouseDown += new PInputEventHandler(ResizeHandle_MouseDown);
             m_resizeHandles[1].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeN);
-            m_resizeHandles[1].MouseUp += new PInputEventHandler(ResizeHandle_MouseUp);
 
-            m_resizeHandles[2].Tag = MovingRestriction.NoRestriction;
+            m_resizeHandles[2].Restriction = MovingRestriction.NoRestriction;
             m_resizeHandles[2].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNESW);
-            m_resizeHandles[2].MouseLeave += new PInputEventHandler(ResizeHandle_MouseLeave);
-            m_resizeHandles[2].MouseDown += new PInputEventHandler(ResizeHandle_MouseDown);
             m_resizeHandles[2].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeNE);
-            m_resizeHandles[2].MouseUp += new PInputEventHandler(ResizeHandle_MouseUp);
 
-            m_resizeHandles[3].Tag = MovingRestriction.Horizontal;
+            m_resizeHandles[3].Restriction = MovingRestriction.Horizontal;
             m_resizeHandles[3].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeWE);
-            m_resizeHandles[3].MouseLeave += new PInputEventHandler(ResizeHandle_MouseLeave);
-            m_resizeHandles[3].MouseDown += new PInputEventHandler(ResizeHandle_MouseDown);
             m_resizeHandles[3].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeE);
-            m_resizeHandles[3].MouseUp += new PInputEventHandler(ResizeHandle_MouseUp);
 
-            m_resizeHandles[4].Tag = MovingRestriction.NoRestriction;
+            m_resizeHandles[4].Restriction = MovingRestriction.NoRestriction;
             m_resizeHandles[4].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNWSE);
-            m_resizeHandles[4].MouseLeave += new PInputEventHandler(ResizeHandle_MouseLeave);
-            m_resizeHandles[4].MouseDown += new PInputEventHandler(ResizeHandle_MouseDown);
             m_resizeHandles[4].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeSE);
-            m_resizeHandles[4].MouseUp += new PInputEventHandler(ResizeHandle_MouseUp);
 
-            m_resizeHandles[5].Tag = MovingRestriction.Vertical;
+            m_resizeHandles[5].Restriction = MovingRestriction.Vertical;
             m_resizeHandles[5].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNS);
-            m_resizeHandles[5].MouseLeave += new PInputEventHandler(ResizeHandle_MouseLeave);
-            m_resizeHandles[5].MouseDown += new PInputEventHandler(ResizeHandle_MouseDown);
             m_resizeHandles[5].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeS);
-            m_resizeHandles[5].MouseUp += new PInputEventHandler(ResizeHandle_MouseUp);
 
-            m_resizeHandles[6].Tag = MovingRestriction.NoRestriction;
+            m_resizeHandles[6].Restriction = MovingRestriction.NoRestriction;
             m_resizeHandles[6].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNESW);
-            m_resizeHandles[6].MouseLeave += new PInputEventHandler(ResizeHandle_MouseLeave);
-            m_resizeHandles[6].MouseDown += new PInputEventHandler(ResizeHandle_MouseDown);
             m_resizeHandles[6].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeSW);
-            m_resizeHandles[6].MouseUp += new PInputEventHandler(ResizeHandle_MouseUp);
 
-            m_resizeHandles[7].Tag = MovingRestriction.Horizontal;
+            m_resizeHandles[7].Restriction = MovingRestriction.Horizontal;
             m_resizeHandles[7].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeWE);
-            m_resizeHandles[7].MouseLeave += new PInputEventHandler(ResizeHandle_MouseLeave);
-            m_resizeHandles[7].MouseDown += new PInputEventHandler(ResizeHandle_MouseDown);
             m_resizeHandles[7].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeW);
-            m_resizeHandles[7].MouseUp += new PInputEventHandler(ResizeHandle_MouseUp);
         }
         #endregion
 
@@ -201,9 +190,10 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
 
             PPathwaySystem system = m_canvas.Systems[systemName];
-            PointF gP = system.PointF;
+            PointF gP = new PointF(system.X + system.OffsetX, system.Y + system.OffsetY);
 
             float halfThickness = PPathwaySystem.HALF_THICKNESS;
+
             m_resizeHandles[0].SetOffset(gP.X + halfThickness, gP.Y + halfThickness);
             m_resizeHandles[1].SetOffset(gP.X + system.Width / 2f, gP.Y + halfThickness);
             m_resizeHandles[2].SetOffset(gP.X + system.Width - halfThickness, gP.Y + halfThickness);
@@ -224,9 +214,8 @@ namespace EcellLib.PathwayWindow.Handler
             if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
                 return;
             PPathwaySystem system = m_canvas.Systems[systemName];
-            PointF gP = system.PointF;
+            PointF gP = new PointF(system.X + system.OffsetX, system.Y + system.OffsetY);
 
-            float halfOuterRadius = PPathwaySystem.OUTER_RADIUS / 2f;
             float halfThickness = (PPathwaySystem.OUTER_RADIUS - PPathwaySystem.INNER_RADIUS) / 2;
             if (m_resizeHandles[0] != fixedHandle)
                 m_resizeHandles[0].SetOffset(gP.X + halfThickness, gP.Y + halfThickness);

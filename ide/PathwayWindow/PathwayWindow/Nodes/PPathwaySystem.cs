@@ -523,7 +523,6 @@ namespace EcellLib.PathwayWindow.Nodes
                 return;
 
             m_canvas.ResetSelectedObjects();
-            m_canvas.AddSelectedSystem(m_ecellObj.key);
             m_canvas.NotifySelectChanged(m_ecellObj.key, m_ecellObj.type);
             m_canvas.ClickedNode = this;
         }

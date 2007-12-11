@@ -51,11 +51,10 @@ namespace EcellLib.PathwayWindow.Nodes
     public class PPathwayProcess : PPathwayNode
     {
         #region Static readonly fields
-
         /// <summary>
-        /// Edges will be refreshed every time when this process has moved by this distance.
+        /// Default Line color.
         /// </summary>
-        protected static readonly float REFRESH_DISTANCE = 4;
+        protected static readonly Brush DefaultLineBrush = Brushes.Black;
         #endregion
 
         #region Fields
@@ -212,7 +211,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     Line path = new Line(edge);
                     
                     path.MouseDown += this.m_handler4Line;
-                    path.Brush = Brushes.Black;
+                    path.Brush = DefaultLineBrush;
                     path.VarPoint = var.GetContactPoint(base.CenterPoint);
                     path.ProPoint = base.GetContactPoint(path.VarPoint);
                     path.SetLine();
@@ -261,8 +260,8 @@ namespace EcellLib.PathwayWindow.Nodes
                     }
                     else if (line.Pen.Width == 0)
                     {
-                        line.Brush = Brushes.Black;
-                        line.Pen.Brush = Brushes.Black;
+                        line.Brush = DefaultLineBrush;
+                        line.Pen.Brush = DefaultLineBrush;
                     }
                     line.Pen.Width = width;
                 }

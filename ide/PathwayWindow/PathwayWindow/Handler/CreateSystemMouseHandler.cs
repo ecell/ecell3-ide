@@ -192,7 +192,7 @@ namespace EcellLib.PathwayWindow
             
             RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
             m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
-            if( m_minSystemWidth > rect.Width || m_minSystemHeight > rect.Height)
+            if (rect.Width < PPathwaySystem.MIN_X_LENGTH || rect.Height < PPathwaySystem.MIN_Y_LENGTH)
             {
                 // When mouse surrounding region is smaller than minimum.
                 m_selectedPath.Pen = m_invalidPen;

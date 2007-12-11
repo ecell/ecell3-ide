@@ -46,22 +46,11 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class ResizeHandleDragHandler : PDragEventHandler
     {
-        #region Fields
-        //private MovingRestriction m_restrict;
-        
-        /// <summary>
-        /// CanvasView, to which this handler belongs.
-        /// </summary>
-        private CanvasControl m_canvas;
-        #endregion
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="canvas">default canves,</param>
-        public ResizeHandleDragHandler(CanvasControl canvas)
+        public ResizeHandleDragHandler()
         {
-            m_canvas = canvas;
         }
 
         /// <summary>
@@ -83,24 +72,20 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         protected override void OnDrag(object sender, PInputEventArgs e)
         {
-            if (e.PickedNode is ResizeHandle)
-            {
-                SizeF s = e.GetDeltaRelativeTo(base.DraggedNode);
-                s = base.DraggedNode.LocalToParent(s);
+            base.OnDrag(sender, e);
+            if (!(e.PickedNode is ResizeHandle))
+                return;
 
-                MovingRestriction restrict = (MovingRestriction)((PPath)e.PickedNode).Tag;
+            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            SizeF size = e.GetDeltaRelativeTo(base.DraggedNode);
+            size = base.DraggedNode.LocalToParent(size);
 
-                if (restrict == MovingRestriction.Horizontal)
-                    base.DraggedNode.OffsetBy(s.Width, 0);
-                else if (restrict == MovingRestriction.Vertical)
-                    base.DraggedNode.OffsetBy(0, s.Height);
-                else
-                    base.DraggedNode.OffsetBy(s.Width, s.Height);
-            }
+            if (handle.Restriction == MovingRestriction.Horizontal)
+                base.DraggedNode.OffsetBy(size.Width, 0);
+            else if (handle.Restriction == MovingRestriction.Vertical)
+                base.DraggedNode.OffsetBy(0, size.Height);
             else
-            {
-                base.OnDrag(sender, e);
-            }
+                base.DraggedNode.OffsetBy(size.Width, size.Height);
         }
     }
 }

@@ -482,7 +482,6 @@ namespace EcellLib.PathwayWindow
 
             // Preparing control layer
             m_ctrlLayer = new PLayer();
-            m_ctrlLayer.AddInputEventListener(new ResizeHandleDragHandler(this));
             m_pCanvas.Root.AddChild(m_ctrlLayer);
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
 
