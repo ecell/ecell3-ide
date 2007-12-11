@@ -241,7 +241,33 @@ namespace EcellLib.PathwayWindow.Nodes
             DeleteEdges();
             CreateEdges();
         }
-
+        /// <summary>
+        /// Set Line Width.
+        /// </summary>
+        /// <param name="width"></param>
+        public void SetLineWidth(float width)
+        {
+            foreach (List<Line> list in m_lines.Values)
+            {
+                foreach (Line line in list)
+                {
+                    if (line.Info.Coefficient == 0)
+                        continue;
+                    // Set Color.
+                    if (width == 0f)
+                    {
+                        line.Brush = Brushes.Gray;
+                        line.Pen.Brush = Brushes.Gray;
+                    }
+                    else if (line.Pen.Width == 0)
+                    {
+                        line.Brush = Brushes.Black;
+                        line.Pen.Brush = Brushes.Black;
+                    }
+                    line.Pen.Width = width;
+                }
+            }
+        }
         /// <summary>
         /// delete all related process from list.
         /// </summary>

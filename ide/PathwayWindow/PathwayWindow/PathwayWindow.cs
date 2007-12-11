@@ -304,16 +304,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">System status.</param>
         public void ChangeStatus(ProjectStatus type)
         {
-            bool isShow = false;
-            if (type == ProjectStatus.Loaded)
-            {
-                isShow = true;
-            }
-
-            foreach (ToolStripMenuItem item in m_con.LayoutMenus)
-            {
-                item.Enabled = isShow;
-            }
+            m_con.ChangeStatus(type);
         }
 
         /// <summary>

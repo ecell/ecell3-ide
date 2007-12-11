@@ -57,6 +57,10 @@ namespace EcellLib.PathwayWindow.Nodes
         ///  Arrow design settings
         /// </summary>        
         public static readonly float ARROW_LENGTH = 15;
+        /// <summary>
+        /// Default Line width. = 2f
+        /// </summary>
+        private static readonly float LineWidth = 2f;
 
         /// <summary>
         /// this line stands for this EdgeInfo.
@@ -160,22 +164,29 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void SetLine()
         {
+            SetLine(LineWidth);
+        }
+
+        /// <summary>
+        /// Draw Line
+        /// </summary>
+        public void SetLine(float width)
+        {
             switch (this.m_edgeInfo.TypeOfLine)
             {
                 case LineType.Solid:
-                    this.Pen = new Pen(this.Brush, 2);
+                    this.Pen = new Pen(this.Brush, width);
                     this.AddLine(this.ProPoint.X, this.ProPoint.Y, this.VarPoint.X, this.VarPoint.Y);
                     break;
                 case LineType.Dashed:
-                    this.Pen = new Pen(this.Brush, 3);
+                    this.Pen = new Pen(this.Brush, width);
                     AddDashedLine(this, this.ProPoint.X, this.ProPoint.Y, this.VarPoint.X, this.VarPoint.Y);
                     break;
                 case LineType.Unknown:
-                    this.Pen = new Pen(this.Brush, 3);
+                    this.Pen = new Pen(this.Brush, width);
                     this.AddLine(this.ProPoint.X, this.ProPoint.Y, this.VarPoint.X, this.VarPoint.Y);
                     break;
             }
-
         }
 
         /// <summary>
@@ -208,7 +219,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="startY">the position of start.</param>
         /// <param name="endX">the position of end.</param>
         /// <param name="endY">the position of end.</param>
-        public static void AddDashedLine(PPath path, float startX, float startY, float endX, float endY)
+        private void AddDashedLine(PPath path, float startX, float startY, float endX, float endY)
         {
             if (path == null)
                 return;
@@ -240,7 +251,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="arrowApex">an apex of an arrow</param>
         /// <param name="guidePoint">an arrow line goes direction from arrowApex to guidePoint</param>
         /// <returns></returns>
-        public static PointF[] GetArrowPoints(PointF arrowApex,
+        private PointF[] GetArrowPoints(PointF arrowApex,
                                               PointF guidePoint)
         {
             guidePoint.X = guidePoint.X - arrowApex.X;

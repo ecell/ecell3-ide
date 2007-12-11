@@ -193,6 +193,11 @@ namespace EcellLib.PathwayWindow
         bool m_isSelectChanged = false;
 
         /// <summary>
+        /// ViewMode flag.
+        /// </summary>
+        bool m_isViewMode = false;
+
+        /// <summary>
         /// ResizeHandler for resizing a system.
         /// </summary>
         protected ResizeHandler m_resizeHandler;
@@ -404,6 +409,19 @@ namespace EcellLib.PathwayWindow
                     node.ShowingID = m_showingId;
                 foreach (PPathwaySystem system in m_systems.Values)
                     system.ShowingID = m_showingId;
+            }
+        }
+
+        /// <summary>
+        /// Accessor for m_showingId.
+        /// </summary>
+        public bool ViewMode
+        {
+            get { return m_isViewMode; }
+            set
+            {
+                m_isViewMode = value;
+                ChangeViewMode(value);
             }
         }
 
@@ -917,7 +935,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="layerName"></param>
         /// <param name="isShowing"></param>
-        public void ChangeViewMode(bool isShown)
+        private void ChangeViewMode(bool isShown)
         {
             foreach (PPathwayProcess process in m_processes.Values)
             {
@@ -1393,6 +1411,48 @@ namespace EcellLib.PathwayWindow
                                              true,
                                              CAMERA_ANIM_DURATION);
             UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void UpdatePropForSimulation()
+        {
+            DataManager dm = this.PathwayControl.Window.DataManager;
+            foreach (PPathwayProcess process in m_processes.Values)
+            {
+                string propName = "Process:" + process.EcellObject.key + ":MolarActivity";
+                EcellValue ev = dm.GetEntityProperty(propName);
+                if (ev == null)
+                    continue;
+                // Set Line Width.
+                float witdh = GetLineWidth((float)ev.CastToDouble());
+                process.SetLineWidth(witdh);
+            }
+            this.m_pCanvas.Refresh();
+        }
+        /// <summary>
+        /// Get line width.
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <returns></returns>
+        private float GetLineWidth(float activity)
+        {
+            float width = activity;
+            // 0 < 1
+            if (width >= 20f)
+                width = 20f;
+            return width;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ResetPropForSimulation()
+        {
+            foreach (PPathwayProcess process in m_processes.Values)
+            {
+                process.Refresh();
+            }
         }
         #endregion
 

@@ -228,6 +228,11 @@ namespace EcellLib.PathwayWindow
         /// Indicate which pathway-related toolbar button is selected.
         /// </summary>
         private Handle m_selectedHandle;
+        
+        /// <summary>
+        /// EventTimer for animation.
+        /// </summary>
+        private Timer m_time;
 
         /// <summary>
         /// Whether PathwayView is freezed or not.
@@ -386,6 +391,12 @@ namespace EcellLib.PathwayWindow
             m_menuLayoutList = CreateLayoutMenus();
             m_popupMenu = CreatePopUpMenus();
             m_csManager = ComponentManager.LoadComponentSettings();
+            // Set Timer.
+            m_time = new Timer();
+            m_time.Enabled = false;
+            m_time.Interval = 200;
+            m_time.Tick += new EventHandler(TimerFire);
+
         }
         #endregion
 
@@ -549,6 +560,44 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        ///  When change system status, change menu enable/disable.
+        /// </summary>
+        /// <param name="type">System status.</param>
+        public void ChangeStatus(ProjectStatus type)
+        {
+            // When a project is loaded or unloaded.
+            if (type == ProjectStatus.Loaded)
+                foreach (ToolStripMenuItem item in m_menuLayoutList)
+                    item.Enabled = true;
+            else if (type == ProjectStatus.Uninitialized)
+                foreach (ToolStripMenuItem item in m_menuLayoutList)
+                    item.Enabled = false;
+            // When simulation started.
+            if (type == ProjectStatus.Running)
+            {
+                ChangeViewMode(true);
+                m_time.Enabled = true;
+                m_time.Start();
+            }
+            else if (type == ProjectStatus.Stepping)
+            {
+                UpdatePropForSimulation();
+            }
+            else if (type == ProjectStatus.Suspended)
+            {
+                m_time.Enabled = false;
+                m_time.Stop();
+                ResetPropForSimulation();
+            }
+            else
+            {
+                ChangeViewMode(false);
+                m_time.Enabled = false;
+                m_time.Stop();
+            }
+        }
+
+        /// <summary>
         /// Set position of EcellObject.
         /// </summary>
         /// <param name="modelID">The model ID.</param>
@@ -615,7 +664,37 @@ namespace EcellLib.PathwayWindow
             canvas.AddSelect(key, type);
         }
         #endregion
-        
+
+        #region Methods to control TimerEvent
+        /// <summary>
+        /// Execute redraw process on simulation running at every 1sec.
+        /// </summary>
+        /// <param name="sender">object(Timer)</param>
+        /// <param name="e">EventArgs</param>
+        private void TimerFire(object sender, EventArgs e)
+        {
+            m_time.Enabled = false;
+            UpdatePropForSimulation();
+            m_time.Enabled = true;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void UpdatePropForSimulation()
+        {
+            foreach (CanvasControl canvas in m_canvasDict.Values)
+                canvas.UpdatePropForSimulation();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ResetPropForSimulation()
+        {
+            foreach (CanvasControl canvas in m_canvasDict.Values)
+                canvas.ResetPropForSimulation();
+        }
+        #endregion
+
         #region Methods to Create Menus
         /// <summary>
         /// Create LayoutAlgorithm menus.
@@ -1560,8 +1639,7 @@ namespace EcellLib.PathwayWindow
         private void ViewModeClick(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            foreach (CanvasControl canvas in m_canvasDict.Values)
-                canvas.ChangeViewMode(item.Checked);
+            ChangeViewMode(item.Checked);
         }
 
         /// <summary>
@@ -1705,6 +1783,17 @@ namespace EcellLib.PathwayWindow
             m_isFreezed = false;
         }
 
+        /// <summary>
+        /// Change ViewMode.
+        /// </summary>
+        /// <param name="isViewMode"></param>
+        private void ChangeViewMode(bool isViewMode)
+        {
+            if (m_canvasDict == null)
+                return;
+            foreach (CanvasControl canvas in m_canvasDict.Values)
+                canvas.ViewMode = isViewMode;
+        }
         /// <summary>
         /// Set copied nodes.
         /// </summary>
@@ -1870,13 +1959,11 @@ namespace EcellLib.PathwayWindow
             DataChanged(modelID, eo.key, eo.type, eo);
         }
 
-        #endregion
-
         /// <summary>
         /// Add the selected EventHandler to event listener.
         /// </summary>
         /// <param name="handler">added EventHandler.</param>
-        public void AddInputEventListener(PBasicInputEventHandler handler)
+        private void AddInputEventListener(PBasicInputEventHandler handler)
         {
             // Exception condition 
             if (m_canvasDict == null)
@@ -1890,7 +1977,7 @@ namespace EcellLib.PathwayWindow
         /// Delete the selected EventHandler from event listener.
         /// </summary>
         /// <param name="handler">deleted EventHandler.</param>
-        public void RemoveInputEventListener(PBasicInputEventHandler handler)
+        private void RemoveInputEventListener(PBasicInputEventHandler handler)
         {
             // Exception condition 
             if (m_canvasDict == null)
@@ -1899,5 +1986,6 @@ namespace EcellLib.PathwayWindow
             foreach(CanvasControl canvas in m_canvasDict.Values)
                 canvas.PathwayCanvas.RemoveInputEventListener(handler);
         }
+        #endregion
     }
 }

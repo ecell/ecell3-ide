@@ -279,6 +279,8 @@ namespace EcellLib.PathwayWindow
             if (m_componentKind == ComponentType.System)
             {
                 obj.NormalBrush = Brushes.LightBlue;
+                obj.Width = eo.Width;
+                obj.Height = eo.Height;
                 obj.Pen = null;
             }
             else
