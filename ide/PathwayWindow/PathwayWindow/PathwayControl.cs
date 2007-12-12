@@ -225,6 +225,11 @@ namespace EcellLib.PathwayWindow
         private bool m_showingId = true;
 
         /// <summary>
+        /// Whether each node is showing it's ID or not;
+        /// </summary>
+        private bool m_isViewMode = false;
+
+        /// <summary>
         /// Indicate which pathway-related toolbar button is selected.
         /// </summary>
         private Handle m_selectedHandle;
@@ -330,11 +335,25 @@ namespace EcellLib.PathwayWindow
             set
             {
                 m_showingId = value;
-                if (m_canvasDict == null) return;
-                foreach(CanvasControl set in m_canvasDict.Values)
-                {
-                    set.ShowingID = m_showingId;
-                }
+                if (m_canvasDict == null)
+                    return;
+                foreach (CanvasControl canvas in m_canvasDict.Values)
+                    canvas.ShowingID = m_showingId;
+            }
+        }
+        /// <summary>
+        /// get/set the flag of showing id.
+        /// </summary>
+        public bool ViewMode
+        {
+            get { return m_isViewMode; }
+            set
+            {
+                m_isViewMode = value;
+                if (m_canvasDict == null)
+                    return;
+                foreach (CanvasControl canvas in m_canvasDict.Values)
+                    canvas.ViewMode = m_isViewMode;
             }
         }
 
@@ -560,44 +579,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        ///  When change system status, change menu enable/disable.
-        /// </summary>
-        /// <param name="type">System status.</param>
-        public void ChangeStatus(ProjectStatus type)
-        {
-            // When a project is loaded or unloaded.
-            if (type == ProjectStatus.Loaded)
-                foreach (ToolStripMenuItem item in m_menuLayoutList)
-                    item.Enabled = true;
-            else if (type == ProjectStatus.Uninitialized)
-                foreach (ToolStripMenuItem item in m_menuLayoutList)
-                    item.Enabled = false;
-            // When simulation started.
-            if (type == ProjectStatus.Running)
-            {
-                ChangeViewMode(true);
-                m_time.Enabled = true;
-                m_time.Start();
-            }
-            else if (type == ProjectStatus.Stepping)
-            {
-                UpdatePropForSimulation();
-            }
-            else if (type == ProjectStatus.Suspended)
-            {
-                m_time.Enabled = false;
-                m_time.Stop();
-                ResetPropForSimulation();
-            }
-            else
-            {
-                ChangeViewMode(false);
-                m_time.Enabled = false;
-                m_time.Stop();
-            }
-        }
-
-        /// <summary>
         /// Set position of EcellObject.
         /// </summary>
         /// <param name="modelID">The model ID.</param>
@@ -667,6 +648,42 @@ namespace EcellLib.PathwayWindow
 
         #region Methods to control TimerEvent
         /// <summary>
+        ///  When change project status, change menu enable/disable.
+        /// </summary>
+        /// <param name="type">System status.</param>
+        public void ChangeStatus(ProjectStatus type)
+        {
+            // When a project is loaded or unloaded.
+            if (type == ProjectStatus.Loaded)
+                foreach (ToolStripMenuItem item in m_menuLayoutList)
+                    item.Enabled = true;
+            else if (type == ProjectStatus.Uninitialized)
+                foreach (ToolStripMenuItem item in m_menuLayoutList)
+                    item.Enabled = false;
+            // When simulation started.
+            if (type == ProjectStatus.Running && m_isViewMode)
+            {
+                m_time.Enabled = true;
+                m_time.Start();
+            }
+            else if (type == ProjectStatus.Stepping && m_isViewMode)
+            {
+                UpdatePropForSimulation();
+            }
+            else if (type == ProjectStatus.Suspended)
+            {
+                m_time.Enabled = false;
+                m_time.Stop();
+            }
+            else
+            {
+                m_time.Enabled = false;
+                m_time.Stop();
+                ResetPropForSimulation();
+            }
+        }
+
+        /// <summary>
         /// Execute redraw process on simulation running at every 1sec.
         /// </summary>
         /// <param name="sender">object(Timer)</param>
@@ -682,6 +699,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private void UpdatePropForSimulation()
         {
+            if (m_canvasDict == null)
+                return;
             foreach (CanvasControl canvas in m_canvasDict.Values)
                 canvas.UpdatePropForSimulation();
         }
@@ -690,6 +709,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private void ResetPropForSimulation()
         {
+            if (m_canvasDict == null)
+                return;
             foreach (CanvasControl canvas in m_canvasDict.Values)
                 canvas.ResetPropForSimulation();
         }
@@ -1639,7 +1660,7 @@ namespace EcellLib.PathwayWindow
         private void ViewModeClick(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            ChangeViewMode(item.Checked);
+            ViewMode = item.Checked;
         }
 
         /// <summary>
@@ -1783,17 +1804,6 @@ namespace EcellLib.PathwayWindow
             m_isFreezed = false;
         }
 
-        /// <summary>
-        /// Change ViewMode.
-        /// </summary>
-        /// <param name="isViewMode"></param>
-        private void ChangeViewMode(bool isViewMode)
-        {
-            if (m_canvasDict == null)
-                return;
-            foreach (CanvasControl canvas in m_canvasDict.Values)
-                canvas.ViewMode = isViewMode;
-        }
         /// <summary>
         /// Set copied nodes.
         /// </summary>

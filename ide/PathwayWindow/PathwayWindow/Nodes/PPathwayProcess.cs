@@ -360,6 +360,27 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             RefreshEdges();
         }
+
+        /// <summary>
+        /// Change View Mode.
+        /// </summary>
+        public override void ChangeViewMode()
+        {
+            this.ShowingID = !m_isViewMode;
+            m_path.Reset();
+            if (m_isViewMode)
+            {
+                PointF pos = this.CenterPoint;
+                base.AddEllipse(m_originalX + 25, m_originalY + 15, 10, 10);
+            }
+            else
+            {
+                base.AddRectangle(m_originalX - 24, m_originalY - 14, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+            }
+            this.MemorizePosition();
+            Refresh();
+        }
+
         #endregion
     }
 

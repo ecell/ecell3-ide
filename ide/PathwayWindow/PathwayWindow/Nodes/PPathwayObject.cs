@@ -262,6 +262,11 @@ namespace EcellLib.PathwayWindow.Nodes
         protected bool m_showingId = false;
 
         /// <summary>
+        /// Is Edit Mode or not.
+        /// </summary>
+        protected bool m_isViewMode = false;
+
+        /// <summary>
         /// Canvas ID.
         /// </summary>
         protected string m_canvasID = null;
@@ -364,7 +369,22 @@ namespace EcellLib.PathwayWindow.Nodes
                     this.Brush = m_normalBrush;
             }
         }
-        
+
+        /// <summary>
+        /// get/set m_editMode.
+        /// </summary>
+        public bool ViewMode
+        {
+            get { return m_isViewMode; }
+            set
+            {
+                if (m_isViewMode == value)
+                    return;
+                m_isViewMode = value;
+                ChangeViewMode();
+            }
+        }
+
         /// <summary>
         /// Accessor for m_isInvalid.
         /// </summary>
@@ -1112,6 +1132,14 @@ namespace EcellLib.PathwayWindow.Nodes
         public virtual void MoveEnd()
         {
         }
+
+        /// <summary>
+        /// Change View Mode.
+        /// </summary>
+        public virtual void ChangeViewMode()
+        {
+        }
+
         #endregion
 
         #region Methods

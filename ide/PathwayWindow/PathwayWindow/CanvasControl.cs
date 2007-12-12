@@ -421,7 +421,12 @@ namespace EcellLib.PathwayWindow
             set
             {
                 m_isViewMode = value;
-                ChangeViewMode(value);
+                if (m_processes != null)
+                    foreach (PPathwayProcess process in m_processes.Values)
+                        process.ViewMode = m_isViewMode;
+                if (m_variables != null)
+                    foreach (PPathwayVariable var in m_variables.Values)
+                        var.ViewMode = m_isViewMode;
             }
         }
 
@@ -450,6 +455,7 @@ namespace EcellLib.PathwayWindow
         {
             m_con = view;
             m_modelId = modelID;
+            this.ViewMode = m_con.ViewMode;
 
             // Preparing TabPage
             m_pathwayTabPage = new TabPage(modelID);
@@ -726,8 +732,12 @@ namespace EcellLib.PathwayWindow
             PPathwaySystem system = m_systems[systemName];
             obj.ParentObject = system;
             // If obj hasn't coordinate, it will be settled. 
-            if (obj is PPathwayNode && (!system.Rect.Contains(obj.PointF) || !hasCoords))
-                obj.PointF = GetVacantPoint(systemName);
+            if (obj is PPathwayNode)
+            {
+                obj.ViewMode = this.ViewMode;
+                if ((!system.Rect.Contains(obj.PointF) || !hasCoords))
+                    obj.PointF = GetVacantPoint(systemName);
+            }
             if (obj is PPathwaySystem && !hasCoords)
             {
                 float maxX = system.X + system.OffsetX;
@@ -927,19 +937,6 @@ namespace EcellLib.PathwayWindow
             layer.Visible = isShown;
             RefreshVisibility();
             m_con.OverView.Canvas.Refresh();
-        }
-
-        /// <summary>
-        /// Change Process Visibility.
-        /// </summary>
-        /// <param name="layerName"></param>
-        /// <param name="isShowing"></param>
-        private void ChangeViewMode(bool isShown)
-        {
-            foreach (PPathwayProcess process in m_processes.Values)
-            {
-                process.IsViewMode = isShown;
-            }
         }
 
         /// <summary>
@@ -1413,7 +1410,7 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// 
+        /// Update canvas visibility.
         /// </summary>
         public void UpdatePropForSimulation()
         {
@@ -1437,14 +1434,16 @@ namespace EcellLib.PathwayWindow
         /// <returns></returns>
         private float GetLineWidth(float activity)
         {
-            float width = activity;
-            // 0 < 1
-            if (width >= 20f)
-                width = 20f;
-            return width;
+            if (float.IsNaN(activity))
+                return 0f;
+            else if (activity <= 0f)
+                return 0f;
+            else if (activity >= 20f)
+                return 20f;
+            return activity;
         }
         /// <summary>
-        /// 
+        /// Reset canvas visibility.
         /// </summary>
         public void ResetPropForSimulation()
         {
@@ -1452,6 +1451,7 @@ namespace EcellLib.PathwayWindow
             {
                 process.Refresh();
             }
+            m_pCanvas.Refresh();
         }
         #endregion
 

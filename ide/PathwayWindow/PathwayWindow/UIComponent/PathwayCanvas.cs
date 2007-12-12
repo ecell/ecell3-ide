@@ -163,8 +163,8 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CHANGE_LAYER].Visible = isPPathwayNode;
             m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_SEPARATOR5].Visible = isPPathwayNode;
             //Logger
-            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = false;
-            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = false;
+            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_CREATE_LOGGER].Visible = isPPathwayObject;
+            m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_DELETE_LOGGER].Visible = isPPathwayObject;
 
             // Set popup menu text.
             if (isPPathwayObject)

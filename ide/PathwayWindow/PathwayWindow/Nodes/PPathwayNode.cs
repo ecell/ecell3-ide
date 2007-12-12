@@ -85,10 +85,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// handler for line
         /// </summary>
         protected PInputEventHandler m_handler4Line;
-        /// <summary>
-        /// Is Edit Mode or not.
-        /// </summary>
-        protected bool m_isViewMode = false;
+
         /// <summary>
         /// Figure List
         /// </summary>
@@ -183,18 +180,6 @@ namespace EcellLib.PathwayWindow.Nodes
             m_handler4Line = new PInputEventHandler(LineSelected);
             m_figureList.Add(new EllipseFigure(-5, -5, 10, 10));
         }
-        /// <summary>
-        /// get/set m_editMode.
-        /// </summary>
-        public bool IsViewMode
-        {
-            get { return this.m_isViewMode; }
-            set
-            {
-                this.m_isViewMode = value;
-                this.ChangeViewMode();
-            }
-        }
         #endregion
 
         #region Inherited Methods
@@ -269,26 +254,6 @@ namespace EcellLib.PathwayWindow.Nodes
         public override PPathwayObject CreateNewObject()
         {
             return new PPathwayNode();
-        }
-
-        /// <summary>
-        /// Change View Mode.
-        /// </summary>
-        private void ChangeViewMode()
-        {
-            this.ShowingID = !m_isViewMode;
-            //this.Pickable = m_editMode;
-            m_path.Reset();
-            if (m_isViewMode)
-            {
-                PointF pos = this.CenterPoint;
-                base.AddEllipse(m_originalX + 25, m_originalY + 15, 10, 10);
-            }
-            else
-            {
-                base.AddRectangle(m_originalX, m_originalY, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-            }
-            Refresh();
         }
 
         /// <summary>
@@ -462,7 +427,7 @@ namespace EcellLib.PathwayWindow.Nodes
             if (base.m_setting == null)
                 return this.CenterPoint;
             List<FigureBase> figureList;
-            if (m_isViewMode)
+            if (m_isViewMode && this is PPathwayProcess)
                 figureList = m_figureList;
             else
                 figureList = base.m_setting.FigureList;
