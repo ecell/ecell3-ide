@@ -424,12 +424,10 @@ namespace EcellLib.PathwayWindow
         /// Add new object to this canvas.
         /// </summary>
         /// <param name="modelID">name of model</param>
-        /// <param name="systemName">name of system</param>
         /// <param name="eo">EcellObject</param>
         /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
         /// only the last action's isAnchor is true, the others' isAnchor is false</param>
         public void DataAdd(string modelID,
-            string systemName,
             EcellObject eo,
             bool isAnchor)
         {
@@ -460,7 +458,7 @@ namespace EcellLib.PathwayWindow
             CanvasControl canvas = m_canvasDict[modelID];
             ComponentSetting cs = GetComponentSetting(eo.type);
             PPathwayObject obj = cs.CreateNewComponent(eo, canvas);
-            canvas.DataAdd(systemName, obj, eo.IsPosSet, false);
+            canvas.DataAdd(eo.parentSystemID, obj, eo.IsPosSet, false);
             NotifyDataChanged(eo.key, eo.key, obj, false, false);
         }
 
@@ -488,7 +486,9 @@ namespace EcellLib.PathwayWindow
                 return;
 
             // Change data.
+            obj.ViewMode = false;
             obj.EcellObject = eo;
+            obj.ViewMode = m_isViewMode;
             obj.Refresh();
             canvas.DataChanged(oldKey, eo.key, obj);
         }
@@ -576,41 +576,6 @@ namespace EcellLib.PathwayWindow
             }
             else
                 return new Bitmap(1, 1);
-        }
-
-        /// <summary>
-        /// Set position of EcellObject.
-        /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="eo">The EcellObject set in canvas.</param>
-        public void SetPosition(string modelID, EcellObject eo)
-        {
-            if (modelID == null || eo == null)
-                return;
-            if (!m_canvasDict.ContainsKey(modelID))
-                return;
-            CanvasControl canvas = m_canvasDict[modelID];
-
-            if (EcellObject.SYSTEM.Equals(eo.type))
-            {
-                if (canvas.Systems.ContainsKey(eo.key))
-                    canvas.Systems[eo.key].EcellObject = (EcellSystem)eo;
-            }
-            else if (EcellObject.VARIABLE.Equals(eo.type))
-            {
-                if (canvas.Variables.ContainsKey(eo.key))
-                    canvas.Variables[eo.key].EcellObject = (EcellVariable)eo;
-            }
-            else if (EcellObject.PROCESS.Equals(eo.type))
-            {
-                if (canvas.Processes.ContainsKey(eo.key))
-                    canvas.Processes[eo.key].EcellObject = (EcellProcess)eo;
-            }
-            // If eo = EcellSystem and eo has child objects.
-            if (eo.Children == null || eo.Children.Count == 0)
-                return;
-            foreach (EcellObject child in eo.Children)
-                SetPosition(modelID, child);
         }
 
         /// <summary>
@@ -1119,9 +1084,11 @@ namespace EcellLib.PathwayWindow
             bool isRecorded,
             bool isAnchor)
         {
+            obj.ViewMode = false;
             EcellObject eo = m_window.GetEcellObject(obj.EcellObject.modelID, oldKey, obj.EcellObject.type);
             if (eo == null)
                 throw new Exception();
+
             eo.key = newKey;
             eo.LayerID = obj.Layer.Name;
             eo.X = obj.X;

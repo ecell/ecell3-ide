@@ -51,7 +51,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private static string MENU_DELETE_LAYER = "DeleteLayerMenuText";
         private static string MENU_MERGE_LAYER = "MergeLayerMenuText";
         private static string MENU_RENAME_LAYER = "RenameLayerMenuText";
-        private static string MENU_SELECCT_NODES = "SelectNodeMenuText";
+        private static string MENU_SELECCT_NODES = "SelectNodesMenuText";
         private static string MENU_SEPALATOR1 = "Sepalator1";
         private static string DIALOG_TITLE = "LayerDialogTitle";
         private static string DIALOG_MESSAGE = "LayerDialogMessage";
@@ -383,6 +383,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void m_dgv_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
+            m_cMenuDict[MENU_SELECCT_NODES].Visible = true;
+            m_cMenuDict[MENU_SEPALATOR1].Visible = true;
             m_cMenuDict[MENU_CREATE_LAYER].Visible = true;
             m_cMenuDict[MENU_RENAME_LAYER].Visible = true;
             m_cMenuDict[MENU_MERGE_LAYER].Visible = true;
@@ -400,14 +402,9 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void m_dgv_MouseDown(object sender, MouseEventArgs e)
         {
-            if (m_con.ActiveCanvas == null)
-            {
-                m_cMenuDict[MENU_CREATE_LAYER].Visible = false;
-            }
-            else
-            {
-                m_cMenuDict[MENU_CREATE_LAYER].Visible = true;
-            }
+            m_cMenuDict[MENU_SELECCT_NODES].Visible = false;
+            m_cMenuDict[MENU_SEPALATOR1].Visible = false;
+            m_cMenuDict[MENU_CREATE_LAYER].Visible = (m_con.ActiveCanvas != null);
             m_cMenuDict[MENU_RENAME_LAYER].Visible = false;
             m_cMenuDict[MENU_MERGE_LAYER].Visible = false;
             m_cMenuDict[MENU_DELETE_LAYER].Visible = false;

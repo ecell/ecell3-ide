@@ -240,4 +240,7 @@
   <data name="MenuItemViewModeText" xml:space="preserve">
     <value>ビューモード</value>
   </data>
+  <data name="SelectNodesMenuText" xml:space="preserve">
+    <value>レイヤー下のノードを選択する</value>
+  </data>
 </root>

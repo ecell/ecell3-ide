@@ -364,20 +364,19 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Change View Mode.
         /// </summary>
-        public override void ChangeViewMode()
+        public override void ChangeViewMode(bool isViewMode)
         {
-            this.ShowingID = !m_isViewMode;
+            this.ShowingID = !isViewMode;
             m_path.Reset();
-            if (m_isViewMode)
+            if (isViewMode)
             {
                 PointF pos = this.CenterPoint;
-                base.AddEllipse(m_originalX + 25, m_originalY + 15, 10, 10);
+                base.AddEllipse(X + 25, Y + 15, 10, 10);
             }
             else
             {
-                base.AddRectangle(m_originalX - 24, m_originalY - 14, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+                base.AddRectangle(X - 24, Y - 14, DEFAULT_WIDTH, DEFAULT_HEIGHT);
             }
-            this.MemorizePosition();
             Refresh();
         }
 

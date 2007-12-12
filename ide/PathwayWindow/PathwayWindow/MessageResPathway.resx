@@ -240,4 +240,7 @@
   <data name="MenuItemViewModeText" xml:space="preserve">
     <value>View Mode</value>
   </data>
+  <data name="SelectNodesMenuText" xml:space="preserve">
+    <value>Select nodes under...</value>
+  </data>
 </root>

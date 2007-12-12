@@ -601,10 +601,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="data">EcellObject, whose position will be set</param>
         public void SetPosition(EcellObject data)
         {
-            if (data == null)
-                return;
-
-            m_con.SetPosition(data.modelID, data);
         }
         /// <summary>
         /// Check layout algorithm's dlls in a plugin\pathway directory and register them
@@ -631,13 +627,11 @@ namespace EcellLib.PathwayWindow
                 try
                 {
                     m_con.DataAdd(obj.modelID,
-                                    obj.parentSystemID,
                                     obj,
                                     true);
                     if (obj is EcellSystem)
                         foreach (EcellObject node in obj.Children)
                             m_con.DataAdd(node.modelID,
-                                            node.parentSystemID,
                                             node.Copy(),
                                             true);
 

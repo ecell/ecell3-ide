@@ -371,9 +371,9 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// get/set m_editMode.
+        /// get/set m_isViewMode.
         /// </summary>
-        public bool ViewMode
+        public virtual bool ViewMode
         {
             get { return m_isViewMode; }
             set
@@ -381,7 +381,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 if (m_isViewMode == value)
                     return;
                 m_isViewMode = value;
-                ChangeViewMode();
+                ChangeViewMode(value);
             }
         }
 
@@ -1136,7 +1136,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Change View Mode.
         /// </summary>
-        public virtual void ChangeViewMode()
+        public virtual void ChangeViewMode(bool isViewMode)
         {
         }
 

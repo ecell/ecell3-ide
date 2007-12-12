@@ -743,7 +743,7 @@ namespace EcellLib.PathwayWindow
             // If obj hasn't coordinate, it will be settled. 
             if (obj is PPathwayNode)
             {
-                obj.ViewMode = this.ViewMode;
+                obj.ViewMode = false;
                 if ((!system.Rect.Contains(obj.PointF) || !hasCoords))
                     obj.PointF = GetVacantPoint(systemName);
             }

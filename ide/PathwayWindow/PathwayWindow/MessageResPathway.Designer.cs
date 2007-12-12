@@ -428,5 +428,14 @@ namespace EcellLib.PathwayWindow {
                 return ResourceManager.GetString("RenameLayerMenuText", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Select nodes under... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SelectNodesMenuText {
+            get {
+                return ResourceManager.GetString("SelectNodesMenuText", resourceCulture);
+            }
+        }
     }
 }
