@@ -59,17 +59,10 @@ namespace EcellLib.Analysis
 
             m_zCnt = new ZedGraphControl();
             m_zCnt.Dock = DockStyle.Fill;
-//            m_zCnt.GraphPane.Title = "";
-//            m_zCnt.GraphPane.XAxis.Title = "X";
-//            m_zCnt.GraphPane.YAxis.Title = "Y";
             m_zCnt.GraphPane.Title.Text = "";
             m_zCnt.GraphPane.XAxis.Title.Text = "X";
             m_zCnt.GraphPane.YAxis.Title.Text = "Y";
             m_zCnt.GraphPane.Legend.IsVisible = false;
-//            m_zCnt.GraphPane.XAxis.Max = 100;
-//            m_zCnt.GraphPane.XAxis.Min = 0;
-//            m_zCnt.GraphPane.YAxis.Max = 100;
-//            m_zCnt.GraphPane.YAxis.Min = 0;
             m_zCnt.GraphPane.XAxis.Scale.Max = 100;
             m_zCnt.GraphPane.XAxis.Scale.Min = 0;
             m_zCnt.GraphPane.YAxis.Scale.Max = 100;
@@ -88,11 +81,8 @@ namespace EcellLib.Analysis
         /// <param name="min">Min value on X axis.</param>
         public void ChangeXAxis(String tmpStr, double max, double min)
         {
-//            m_zCnt.GraphPane.XAxis.Title = tmpStr;
             m_zCnt.GraphPane.XAxis.Title.Text = tmpStr;
             dataGridView1.Columns[0].HeaderText = tmpStr;
-//            m_zCnt.GraphPane.XAxis.Max = max;
-//            m_zCnt.GraphPane.XAxis.Min = min;
             m_zCnt.GraphPane.XAxis.Scale.Max = max;
             m_zCnt.GraphPane.XAxis.Scale.Min = min;
             m_zCnt.Refresh();
@@ -106,11 +96,8 @@ namespace EcellLib.Analysis
         /// <param name="min">Min value on Y axis.</param>
         public void ChangeYAxis(String tmpStr, double max, double min)
         {
-//            m_zCnt.GraphPane.YAxis.Title = tmpStr;
             m_zCnt.GraphPane.YAxis.Title.Text = tmpStr;
             dataGridView1.Columns[1].HeaderText = tmpStr;
-//            m_zCnt.GraphPane.YAxis.Max = max;
-//            m_zCnt.GraphPane.YAxis.Min = min;
             m_zCnt.GraphPane.YAxis.Scale.Max = max;
             m_zCnt.GraphPane.YAxis.Scale.Min = min;
             m_zCnt.Refresh();

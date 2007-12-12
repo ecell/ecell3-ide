@@ -64,7 +64,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// ResourceManager for AnalysisTemplate.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
+        static public ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
 
         #endregion
 
@@ -79,6 +79,11 @@ namespace EcellLib.Analysis
         }
 
         #region Events
+        /// <summary>
+        /// Event when this form of robust analysis is shown.
+        /// </summary>
+        /// <param name="sender">RobustAnalysis.</param>
+        /// <param name="e">EventArgs.</param>
         private void ShowRobustAnalysisWindow(object sender, EventArgs e)
         {
 
@@ -103,21 +108,27 @@ namespace EcellLib.Analysis
             m_robustAnalysisItem.Enabled = true;
         }
 
+        /// <summary>
+        /// Event when robust analysis menu is clicked.
+        /// This program execute the program of robust analysis.
+        /// </summary>
+        /// <param name="sender">MenuItem</param>
+        /// <param name="e">EventArgs.</param>
         private void ExecuteRobustAnalysis(object sender, EventArgs e)
         {
             if (m_win == null) return;
 
             if (m_win.IsRunning)
             {
-                string mes = m_resources.GetString("ConfirmStopAnalysis");
+                string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
                 DialogResult res = MessageBox.Show(mes, "Question", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.OK)
                 {
-                    m_win.Stop();
+                    m_win.StopAnalysis();
                 }
                 return;
             }           
-            m_win.Execute();
+            m_win.ExecuteAnalysis();
         }
         #endregion
 

@@ -323,10 +323,6 @@ namespace EcellLib.Analysis
         /// The flag whether the select object is changing.
         /// </summary>
         bool isChangeSelect = false;
-        /// <summary>
-        /// ResourceManager for AnalysisTemplate.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
         #endregion
 
         /// <summary>
@@ -483,7 +479,7 @@ namespace EcellLib.Analysis
                 }
                 catch (Exception ex1)
                 {
-                    String mes = m_resources.GetString("ErrAnalysis");
+                    String mes = Analysis.s_resources.GetString("ErrAnalysis");
                     MessageBox.Show(mes + "\n" + ex1.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -537,7 +533,7 @@ namespace EcellLib.Analysis
             
             reader.Close();
 
-            String mes = m_resources.GetString("FinishRAnalysis");
+            String mes = Analysis.s_resources.GetString("FinishRAnalysis");
             MessageBox.Show(mes, "Info",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -571,7 +567,7 @@ namespace EcellLib.Analysis
                     ex.ToString();
                     writer.Close();
                     fs.Close();
-                    String errmes = m_resources.GetString("ErrOutParam");
+                    String errmes = Analysis.s_resources.GetString("ErrOutParam");
                     MessageBox.Show(errmes,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -581,7 +577,7 @@ namespace EcellLib.Analysis
                 {
                     writer.Close();
                     fs.Close();
-                    String errmes = m_resources.GetString("ErrPosValue");
+                    String errmes = Analysis.s_resources.GetString("ErrPosValue");
                     MessageBox.Show(errmes,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -599,7 +595,7 @@ namespace EcellLib.Analysis
                 if (writer != null) writer.Close();
                 if (fs != null) fs.Close();
                 e.ToString();
-                String errmes = m_resources.GetString("ErrOutParamFile");
+                String errmes = Analysis.s_resources.GetString("ErrOutParamFile");
                 MessageBox.Show(errmes,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -639,7 +635,7 @@ namespace EcellLib.Analysis
 
                 if (count <= 1)
                 {
-                    String errmes = m_resources.GetString("ErrRandParam");
+                    String errmes = Analysis.s_resources.GetString("ErrRandParam");
                     MessageBox.Show(errmes,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -650,7 +646,7 @@ namespace EcellLib.Analysis
                 if (writer != null) writer.Close();
                 if (fs != null) fs.Close();
                 e.ToString();
-                String errmes = m_resources.GetString("ErrOutParamFile");
+                String errmes = Analysis.s_resources.GetString("ErrOutParamFile");
                 MessageBox.Show(errmes,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -695,7 +691,7 @@ namespace EcellLib.Analysis
 
                 if (count <= 0)
                 {
-                    String errmes = m_resources.GetString("ErrNotCheckParam");
+                    String errmes = Analysis.s_resources.GetString("ErrNotCheckParam");
                     MessageBox.Show(errmes,
                         "ERRROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -706,7 +702,7 @@ namespace EcellLib.Analysis
                 if (writer != null) writer.Close();
                 if (fs != null) fs.Close();
                 e.ToString();
-                String errmes = m_resources.GetString("ErrOutParamFile");
+                String errmes = Analysis.s_resources.GetString("ErrOutParamFile");
                 MessageBox.Show(errmes,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -903,7 +899,7 @@ namespace EcellLib.Analysis
             catch (Exception ex)
             {
                 ex.ToString();
-                String errmes = m_resources.GetString("ErrInputReflect");
+                String errmes = Analysis.s_resources.GetString("ErrInputReflect");
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -954,7 +950,7 @@ namespace EcellLib.Analysis
 
             if (xStr.Equals(yStr))
             {
-                String errmes = m_resources.GetString("ErrSameAxis");
+                String errmes = Analysis.s_resources.GetString("ErrSameAxis");
                 MessageBox.Show(errmes,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1059,7 +1055,7 @@ namespace EcellLib.Analysis
             catch (Exception ex)
             {
                 ex.ToString();
-                String errmes = m_resources.GetString("ErrInputReflect");
+                String errmes = Analysis.s_resources.GetString("ErrInputReflect");
                 MessageBox.Show(errmes + "\n" + "\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1170,7 +1166,7 @@ namespace EcellLib.Analysis
             catch (Exception ex)
             {
                 ex.ToString();
-                String errmes = m_resources.GetString("ErrInputReflect");
+                String errmes = Analysis.s_resources.GetString("ErrInputReflect");
                 MessageBox.Show(errmes + "\n" + "\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1292,18 +1288,13 @@ namespace EcellLib.Analysis
             catch (Exception ex)
             {
                 ex.ToString();
-                string errmes = m_resources.GetString("ErrLoadParam");
+                string errmes = Analysis.s_resources.GetString("ErrLoadParam");
                 MessageBox.Show(errmes,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (reader != null) reader.Close();
             }
         }
         #endregion
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
 

@@ -147,6 +147,9 @@
   <data name="ErrOutParamFile" xml:space="preserve">
     <value>Get the exception while the prameter file is output.</value>
   </data>
+  <data name="ErrOverMax" xml:space="preserve">
+    <value>The max number of input is over</value>
+  </data>
   <data name="ErrParamProp" xml:space="preserve">
     <value>Can't get the parameter of property. Please set at least two property.</value>
   </data>

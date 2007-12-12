@@ -147,6 +147,9 @@
   <data name="ErrOutParamFile" xml:space="preserve">
     <value>パラメータファイル出力中にエラーが発生しました。</value>
   </data>
+  <data name="ErrOverMax" xml:space="preserve">
+    <value>最大入力数に規定以上の値が設定されています</value>
+  </data>
   <data name="ErrParamProp" xml:space="preserve">
     <value>解析対象のプロパティが設定されていません。少なくとも2つのプロパティを設定してください。</value>
   </data>

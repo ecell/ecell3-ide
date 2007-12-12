@@ -51,16 +51,42 @@ namespace EcellLib.Analysis
     /// </summary>
     public partial class RobustAnalysis : DockContent
     {
+        /// <summary>
+        /// The dictionary of the logging data to be observed.
+        /// </summary>
         private Dictionary<string, EcellData> m_observList = new Dictionary<string, EcellData>();
+        /// <summary>
+        /// The dictionary of the data to be set by random.
+        /// </summary>
         private Dictionary<string, EcellData> m_paramList = new Dictionary<string, EcellData>();
+        /// <summary>
+        /// Graph control to display the matrix of analysis result.
+        /// </summary>
         private ZedGraphControl m_zCnt = null;
+        /// <summary>
+        /// Popup menu to be displayed in DataGridView.
+        /// </summary>
         private ContextMenuStrip m_cntMenu = null;
+        /// <summary>
+        /// The parent plugin include this form.
+        /// </summary>
         private Analysis m_parent = null;
+        /// <summary>
+        /// The flag whether the analysis is running.
+        /// </summary>
         private bool m_isRunning = false;
+        /// <summary>
+        /// SessionManager to manage the analysis session.
+        /// </summary>
         private SessionManager.SessionManager m_manager;
-        private ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
+        /// <summary>
+        /// Timer to update the status of jobs.
+        /// </summary>
         private System.Windows.Forms.Timer m_timer;
-
+        /// <summary>
+        /// The max number of input data to be executed FFT.
+        /// </summary>
+        public const int MaxSize = 2097152;
 
         /// <summary>
         /// Constructor.
@@ -70,8 +96,8 @@ namespace EcellLib.Analysis
             InitializeComponent();
             m_cntMenu = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = m_resources.GetString("ReflectMenuText");
-            it.Click += new EventHandler(ReflectMenuClick);
+            it.Text = Analysis.s_resources.GetString("ReflectMenuText");
+            it.Click += new EventHandler(ClickReflectMenu);
             m_cntMenu.Items.AddRange(new ToolStripItem[] { it });
             RAResultGridView.ContextMenuStrip = m_cntMenu;
             RARandomCheck.Checked = true;
@@ -80,7 +106,7 @@ namespace EcellLib.Analysis
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
             m_timer.Interval = 5000;
-            m_timer.Tick += new EventHandler(UpdateTimeFire);
+            m_timer.Tick += new EventHandler(FireTimer);
 
             m_zCnt = new ZedGraphControl();
             m_zCnt.Dock = DockStyle.Fill;
@@ -96,12 +122,9 @@ namespace EcellLib.Analysis
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
             m_manager = SessionManager.SessionManager.GetManager();
+            this.FormClosed += new FormClosedEventHandler(CloseRobustAnalysisForm);
 
             InitializeData();
-            string d = Util.GetTmpDir();
-            d.ToString();
-
-            this.FormClosed += new FormClosedEventHandler(RobustAnalysis_FormClosed);
         }
 
         #region accessor
@@ -138,12 +161,12 @@ namespace EcellLib.Analysis
                 List<EcellObject> oList = manager.GetData(modelName, null);
                 foreach (EcellObject sObj in oList)
                 {
-                    SearchAndAddEntry(sObj);
+                    SearchAndAddParamEntry(sObj);
                     if (sObj.Children != null)
                     {
                         foreach (EcellObject obj in sObj.Children)
                         {
-                            SearchAndAddEntry(obj);
+                            SearchAndAddParamEntry(obj);
                         }
                     }
                 }
@@ -186,30 +209,13 @@ namespace EcellLib.Analysis
         /// If this parameter alrady exists, system don't insert the entry.
         /// </summary>
         /// <param name="obj">parameter object.</param>
-        private void SearchAndAddEntry(EcellObject obj)
+        private void SearchAndAddParamEntry(EcellObject obj)
         {
             if (obj.Value == null) return;
             foreach (EcellData d in obj.Value)
             {
-                if (d.Committed) continue;
                 if (m_paramList.ContainsKey(d.EntityPath)) continue;
-                DataGridViewRow r = new DataGridViewRow();
-                DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                c1.Value = d.EntityPath;
-                r.Cells.Add(c1);
-                DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                c2.Value = d.Max;
-                r.Cells.Add(c2);
-                DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-                c3.Value = d.Min;
-                r.Cells.Add(c3);
-                DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
-                c4.Value = d.Step;
-                r.Cells.Add(c4);
-                r.Tag = obj;
-                AssignParamPopupMenu(r);
-                RAParamGridView.Rows.Add(r);
-                m_paramList.Add(d.EntityPath, d);
+                AddParameterEntry(obj, d);
             }
         }
 
@@ -218,19 +224,26 @@ namespace EcellLib.Analysis
         /// Robust analysis include the simulation execution of parameter and 
         /// judgement of simulation results.
         /// </summary>
-        public void Execute()
+        public void ExecuteAnalysis()
         {
             String tmpDir = m_manager.TmpRootDir;
             int num = Convert.ToInt32(RASampleNumText.Text);
             double simTime = Convert.ToDouble(RASimTimeText.Text);
+            int maxSize = Convert.ToInt32(RMAMaxData.Text);
+            if (maxSize > RobustAnalysis.MaxSize)
+            {
+                string errmes = Analysis.s_resources.GetString("ErrOverMax") + "[" + RobustAnalysis.MaxSize + "]";
+                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             string model = "";
             List<string> modelList = DataManager.GetDataManager().GetModelList();
             if (modelList.Count > 0) model = modelList[0];
 
-            List<ParameterRange> paramList = GetParamPropList();
-            if (paramList == null) return; 
-            List<SaveLoggerProperty> saveList = GetObservedPropList();
+            List<ParameterRange> paramList = ExtractParameter();
+            if (paramList == null) return;
+            List<SaveLoggerProperty> saveList = GetObservedDataList();
             if (saveList == null) return;
 
             m_manager.SetParameterRange(paramList);
@@ -244,10 +257,8 @@ namespace EcellLib.Analysis
                 m_manager.RunSimParameterMatrix(tmpDir, model, simTime, false);
             }
             m_isRunning = true;
-
             m_timer.Enabled = true;
             m_timer.Start();
-
         }
 
         /// <summary>
@@ -255,7 +266,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">Timer.</param>
         /// <param name="e">EventArgs.</param>
-        void UpdateTimeFire(object sender, EventArgs e)
+        void FireTimer(object sender, EventArgs e)
         {
             if (!m_manager.IsFinished())
             {
@@ -273,22 +284,22 @@ namespace EcellLib.Analysis
 
             if (m_manager.IsError())
             {
-                String mes = m_resources.GetString("ErrFindErrorJob");
+                String mes = Analysis.s_resources.GetString("ErrFindErrorJob");
                 DialogResult res = MessageBox.Show(mes, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Cancel)
                 {
                     return;
                 }
             }
-            Judgement();
-            String finMes = m_resources.GetString("FinishRAnalysis");
+            JudgeResult();
+            String finMes = Analysis.s_resources.GetString("FinishRAnalysis");
             MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>
         /// Stop the robust analysis.
         /// </summary>
-        public void Stop()
+        public void StopAnalysis()
         {
             m_manager.StopRunningJobs();
             m_isRunning = false;
@@ -297,7 +308,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Judge the robustness from the simulation result.
         /// </summary>
-        private void Judgement()
+        private void JudgeResult()
         {
             string xPath = "";
             string yPath = "";
@@ -307,7 +318,8 @@ namespace EcellLib.Analysis
             double ymin = 0.0;
             RAXComboBox.Items.Clear();
             RAYComboBox.Items.Clear();
-            List<ParameterRange> pList = GetParamPropList();
+            List<ParameterRange> pList = ExtractParameter();
+            if (pList == null) return;
             int count = 0;
             foreach (ParameterRange r in pList)
             {
@@ -332,8 +344,7 @@ namespace EcellLib.Analysis
             m_zCnt.GraphPane.YAxis.Scale.Max = ymax;
             m_zCnt.GraphPane.YAxis.Scale.Min = ymin;
            
-
-            List<JudgementParam> judgeList = ExtractJudgement();
+            List<JudgementParam> judgeList = ExtractObserved();
             foreach (int jobid in m_manager.SessionList.Keys)
             {
                 if (m_manager.SessionList[jobid].Status != JobStatus.FINISHED)
@@ -345,7 +356,6 @@ namespace EcellLib.Analysis
                 {
                     Dictionary<double, double> logList = 
                         m_manager.SessionList[jobid].GetLogData(p.Path);
-
 
                     double simTime = Convert.ToDouble(RASimTimeText.Text);
                     double winSize = Convert.ToDouble(RAWinSizeText.Text);
@@ -365,20 +375,15 @@ namespace EcellLib.Analysis
                         }
                     }
 
-                    bool rJudge = JudgementRange(logList, p.Max, p.Min, p.Difference);
-                    if (rJudge == false)
+                    bool rJudge = JudgeResultByRange(logList, p.Max, p.Min, p.Difference);
+                    bool pJudge = JudgeResultByFFT(logList, p.Rate);
+                    if (rJudge == false || pJudge == false)
                     {
                         isOK = false;
                         break;
                     }
-                    bool pJudge = JudgementFFT(logList, p.Rate);
-                    if (pJudge == false)
-                    {
-                        isOK = false;
-                        break;
-                    }                
                 }
-                AddJudgeData(jobid, x, y, isOK);
+                AddJudgementData(jobid, x, y, isOK);
             }
         }
 
@@ -390,7 +395,7 @@ namespace EcellLib.Analysis
         /// <param name="min">the minimum data of log data.</param>
         /// <param name="diff">the difference of log data.</param>
         /// <returns>if all condition is OK, return true.</returns>
-        private bool JudgementRange(Dictionary<double, double> resDic, double max, double min, double diff)
+        private bool JudgeResultByRange(Dictionary<double, double> resDic, double max, double min, double diff)
         {
             bool isFirst = true;
             double minValue = 0.0;
@@ -419,21 +424,30 @@ namespace EcellLib.Analysis
         /// <param name="resDic">log data.</param>
         /// <param name="rate">FFT rate.</param>
         /// <returns>if all judgement is ok, return true.</returns>
-        private bool JudgementFFT(Dictionary<double, double> resDic, double rate)
+        private bool JudgeResultByFFT(Dictionary<double, double> resDic, double rate)
         {
             double maxFreq = Convert.ToDouble(RAMaxFreqText.Text);
             double minFreq = Convert.ToDouble(RAMinFreqText.Text);
+            int maxSize = Convert.ToInt32(RMAMaxData.Text);
+
             ComplexFourierTransformation cft = new ComplexFourierTransformation();
             int size = 4;
+            int divide = 1;
             while (true)
             {
                 if (resDic.Count <= size) break;
+                if (size >= maxSize)
+                {
+                    divide = resDic.Count / maxSize + 1;
+                    break;
+                }
                 size = size * 2;
             }
             double[] data = new double[size * 2];
             int i = 0;
             foreach(double d in resDic.Keys)
             {
+                if (i % divide != 0) continue;
                 data[i*2] = resDic[d];
                 data[i*2 + 1] = 0.0;
                 i++;
@@ -458,7 +472,7 @@ namespace EcellLib.Analysis
         /// Extract the judgement condition from DataGridView.
         /// </summary>
         /// <returns>the list of judgement condition.</returns>
-        private List<JudgementParam> ExtractJudgement()
+        private List<JudgementParam> ExtractObserved()
         {
             List<JudgementParam> resList = new List<JudgementParam>();
 
@@ -482,7 +496,7 @@ namespace EcellLib.Analysis
         /// If there are any problems, this function return null.
         /// </summary>
         /// <returns>the list of parameter property.</returns>
-        public List<ParameterRange> GetParamPropList()
+        public List<ParameterRange> ExtractParameter()
         {
             List<ParameterRange> resList = new List<ParameterRange>();
 
@@ -500,7 +514,7 @@ namespace EcellLib.Analysis
 
             if (resList.Count < 2)
             {
-                String mes = m_resources.GetString("ErrParamProp");
+                String mes = Analysis.s_resources.GetString("ErrParamProp");
                 MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
@@ -512,7 +526,7 @@ namespace EcellLib.Analysis
         /// If there are any problems, this function return null. 
         /// </summary>
         /// <returns>the list of observed property.</returns>
-        public List<SaveLoggerProperty> GetObservedPropList()
+        public List<SaveLoggerProperty> GetObservedDataList()
         {
             SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
             List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
@@ -530,7 +544,7 @@ namespace EcellLib.Analysis
 
             if (resList.Count < 1)
             {
-                String mes = m_resources.GetString("ErrObservProp");
+                String mes = Analysis.s_resources.GetString("ErrObservProp");
                 MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
@@ -609,41 +623,52 @@ namespace EcellLib.Analysis
                 if (m_paramList.ContainsKey(d.EntityPath))
                 {
                     if (!d.Committed) continue;
-                    m_paramList.Remove(d.EntityPath);
                     for (int i = 0; i < RAParamGridView.Rows.Count; i++)
                     {
                         String pData = RAParamGridView[0, i].Value.ToString();
                         if (pData.Equals(d.EntityPath))
                         {
+                            m_paramList.Remove(d.EntityPath);
                             RAParamGridView.Rows.RemoveAt(i);
                             break;
                         }
                     }
                 }
-                if (d.Committed) continue;
-                DataGridViewRow r = new DataGridViewRow();
-                DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                c1.Value = d.EntityPath;
-                r.Cells.Add(c1);
-                DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                c2.Value = d.Max;
-                r.Cells.Add(c2);
-                DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-                c3.Value = d.Min;
-                r.Cells.Add(c3);
-                DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
-                c4.Value = d.Step;
-                r.Cells.Add(c4);
-                r.Tag = obj;
-                AssignParamPopupMenu(r);
-                RAParamGridView.Rows.Add(r); m_paramList.Add(d.EntityPath, d);
+                AddParameterEntry(obj, d);
             }
+        }
+
+        /// <summary>
+        /// Add the parameter data.
+        /// </summary>
+        /// <param name="obj">object include the parameter data.</param>
+        /// <param name="d">the parameter data.</param>
+        private void AddParameterEntry(EcellObject obj, EcellData d)
+        {
+            if (d.Committed) return;
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+            c1.Value = d.EntityPath;
+            r.Cells.Add(c1);
+            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+            c2.Value = d.Max;
+            r.Cells.Add(c2);
+            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
+            c3.Value = d.Min;
+            r.Cells.Add(c3);
+            DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
+            c4.Value = d.Step;
+            r.Cells.Add(c4);
+            r.Tag = obj;
+            AssignParamPopupMenu(r);
+            RAParamGridView.Rows.Add(r);
+            m_paramList.Add(d.EntityPath, d);
         }
 
         /// <summary>
         /// Redraw the result table and graph when axis data is changed.
         /// </summary>
-        public void AxisIndexChanged()
+        public void ChangeAxisIndex()
         {
             if (RAXComboBox.Text.Equals(RAYComboBox.Text))
                 return;
@@ -668,61 +693,40 @@ namespace EcellLib.Analysis
         /// <param name="x">the value of parameter.</param>
         /// <param name="y">the value of parameter.</param>
         /// <param name="isOK">the flag whether this parameter is robustness.</param>
-        public void AddJudgeData(int jobid, double x, double y, bool isOK)
+        public void AddJudgementData(int jobid, double x, double y, bool isOK)
         {
             LineItem line = null;
-            if (isOK)
+            Color drawColor = Color.Blue;
+            Color styleColor = Color.White;
+            if (!isOK)
             {
-                DataGridViewRow r = new DataGridViewRow();
-                DataGridViewCheckBoxCell c0 = new DataGridViewCheckBoxCell();
-                c0.Value = true;
-                r.Cells.Add(c0);
-
-                DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                c1.Value = Convert.ToString(x);
-                r.Cells.Add(c1);
-
-                DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                c2.Value = Convert.ToString(y);
-                r.Cells.Add(c2);
-
-                r.Tag = jobid;
-                RAResultGridView.Rows.Add(r);
-
-
-                line = m_zCnt.GraphPane.AddCurve(
-                    "Result",
-                    new PointPairList(),
-                    Color.Blue,
-                    SymbolType.TriangleDown);
+                drawColor = Color.Red;
+                styleColor = Color.Silver;
             }
-            else
-            {
-                DataGridViewRow r = new DataGridViewRow();
-                DataGridViewCheckBoxCell c0 = new DataGridViewCheckBoxCell();
-                c0.Value = false;
-                r.Cells.Add(c0);
 
-                DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                c1.Value = Convert.ToString(x);
-                c1.Style.BackColor = Color.Silver;
-                r.Cells.Add(c1);
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewCheckBoxCell c0 = new DataGridViewCheckBoxCell();
+            c0.Value = isOK;
+            r.Cells.Add(c0);
 
-                DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                c2.Value = Convert.ToString(y);
-                c2.Style.BackColor = Color.Silver;
-                r.Cells.Add(c2);
+            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+            c1.Value = Convert.ToString(x);
+            c1.Style.BackColor = styleColor;
+            r.Cells.Add(c1);
 
-                r.Tag = jobid;
-                RAResultGridView.Rows.Add(r);
+            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+            c2.Value = Convert.ToString(y);
+            c2.Style.BackColor = styleColor;
+            r.Cells.Add(c2);
 
+            r.Tag = jobid;
+            RAResultGridView.Rows.Add(r);
+            line = m_zCnt.GraphPane.AddCurve(
+                "Result",
+                new PointPairList(),
+                drawColor,
+                SymbolType.TriangleDown);
 
-                line = m_zCnt.GraphPane.AddCurve(
-                    "Result",
-                    new PointPairList(),
-                    Color.Red,
-                    SymbolType.TriangleDown);
-            }
             line.Line.Width = 3;
             line.AddPoint(new PointPair(x, y));
 
@@ -737,7 +741,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">This form.</param>
         /// <param name="e">FormClosedEventArgs</param>
-        void RobustAnalysis_FormClosed(object sender, FormClosedEventArgs e)
+        void CloseRobustAnalysisForm(object sender, FormClosedEventArgs e)
         {
             if (m_parent != null)
             {
@@ -751,9 +755,9 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">ComboBox.</param>
         /// <param name="e">EventArgs.</param>
-        private void YIndexChanged(object sender, EventArgs e)
+        private void ChangeYIndex(object sender, EventArgs e)
         {
-            AxisIndexChanged();
+            ChangeAxisIndex();
         }
 
         /// <summary>
@@ -761,9 +765,9 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">ComboBox.</param>
         /// <param name="e">EventArgs.</param>
-        private void XIndexChanged(object sender, EventArgs e)
+        private void ChangeXIndex(object sender, EventArgs e)
         {
-            AxisIndexChanged();
+            ChangeAxisIndex();
         }
 
         /// <summary>
@@ -771,7 +775,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">MenuItem.</param>
         /// <param name="e">EventArgs.</param>
-        private void ReflectMenuClick(object sender, EventArgs e)
+        private void ClickReflectMenu(object sender, EventArgs e)
         {
             DataManager manager = DataManager.GetDataManager();
             foreach (DataGridViewRow r in RAResultGridView.SelectedRows)
@@ -791,6 +795,7 @@ namespace EcellLib.Analysis
                         if (d.EntityPath.Equals(path))
                         {
                             d.Value = new EcellValue(param);
+                            d.Committed = true;
                             break;
                         }
                     }
@@ -837,7 +842,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DragEventArgs</param>
-        private void ParamDragDrop(object sender, DragEventArgs e)
+        private void DragDropParam(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
             if (obj == null) return;
@@ -866,7 +871,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DragEventArgs</param>
-        private void ParamDragEnter(object sender, DragEventArgs e)
+        private void DragEnterParam(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
             if (obj != null)
@@ -880,7 +885,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DragEventArgs</param>
-        private void ObservDragDrop(object sender, DragEventArgs e)
+        private void DragDropObserv(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
             if (obj == null) return;
@@ -942,7 +947,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DragEventArgs</param>
-        private void ObservDragEnter(object sender, DragEventArgs e)
+        private void DragEnterObserv(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
             if (obj != null)
@@ -978,31 +983,14 @@ namespace EcellLib.Analysis
             string key = r.Cells[0].Value.ToString();
             RemoveParamEntry(key);
         }
-        #endregion
 
         /// <summary>
-        /// Process when user click close button on Window.
+        /// Event when CheckBox of random is changed.
+        /// If CheckBox of random is true, TextBox input the number of sample is active.
         /// </summary>
-        /// <param name="m">Message</param>
-        protected override void WndProc(ref Message m)
-        {
-            const int WM_SYSCOMMAND = 0x112;
-            const int SC_CLOSE = 0xF060;
-
-            if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
-            {
-                String mes = m_resources.GetString("ConfirmClose");
-
-                DialogResult res = MessageBox.Show(mes,
-                    "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                if (res == DialogResult.OK) this.Dispose();
-                return;
-            }
-
-            base.WndProc(ref m);
-        }
-
-        private void RARandomCheckChanged(object sender, EventArgs e)
+        /// <param name="sender">CheckBox.</param>
+        /// <param name="e">EventArgs.</param>
+        private void ChangeRARandomCheck(object sender, EventArgs e)
         {
             if (RARandomCheck.Checked == true)
             {
@@ -1022,7 +1010,13 @@ namespace EcellLib.Analysis
             }
         }
 
-        private void RAMatrixCheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Event when CheckBox of matrix is changed.
+        /// If CheckBox of matrix is true, TextBox input the number of sample is not active.
+        /// </summary>
+        /// <param name="sender">CheckBox.</param>
+        /// <param name="e">EventArgs.</param>
+        private void ChangeRAMatrixCheck(object sender, EventArgs e)
         {
             if (RAMatrixCheck.Checked == true)
             {
@@ -1041,7 +1035,29 @@ namespace EcellLib.Analysis
                 }
             }
         }
+        #endregion
 
+        /// <summary>
+        /// Process when user click close button on Window.
+        /// </summary>
+        /// <param name="m">Message</param>
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_SYSCOMMAND = 0x112;
+            const int SC_CLOSE = 0xF060;
+
+            if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
+            {
+                String mes = Analysis.s_resources.GetString("ConfirmClose");
+
+                DialogResult res = MessageBox.Show(mes,
+                    "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (res == DialogResult.OK) this.Dispose();
+                return;
+            }
+
+            base.WndProc(ref m);
+        }
     }
 
     /// <summary>
