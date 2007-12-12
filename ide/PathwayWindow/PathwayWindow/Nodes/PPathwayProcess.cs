@@ -250,8 +250,8 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 foreach (Line line in list)
                 {
-                    if (line.Info.Coefficient == 0)
-                        continue;
+                    //if (line.Info.Coefficient == 0)
+                    //    continue;
                     // Set Color.
                     if (width == 0f)
                     {

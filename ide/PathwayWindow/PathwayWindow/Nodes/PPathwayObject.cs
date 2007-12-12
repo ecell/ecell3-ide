@@ -1116,7 +1116,7 @@ namespace EcellLib.PathwayWindow.Nodes
 
             this.m_pText.Text = this.m_ecellObj.Text;
             this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
-            this.m_pText.MoveToFront();           
+            this.m_pText.MoveToFront();
         }
         
         /// <summary>

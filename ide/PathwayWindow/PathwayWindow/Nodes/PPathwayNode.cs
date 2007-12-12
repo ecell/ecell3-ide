@@ -34,13 +34,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
+using System.Windows.Forms;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Util;
-using UMD.HCIL.Piccolo.Nodes;
-using System.Drawing;
-using EcellLib.PathwayWindow.Figure;
 using UMD.HCIL.Piccolo.Event;
-using System.Windows.Forms;
+using UMD.HCIL.Piccolo.Nodes;
+using EcellLib.PathwayWindow.Figure;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -58,6 +58,10 @@ namespace EcellLib.PathwayWindow.Nodes
         /// The default height of object.
         /// </summary>
         public static readonly float DEFAULT_HEIGHT = 40;
+        /// <summary>
+        /// Indent of PPropertyText
+        /// </summary>
+        public static readonly float PPropertyIndent = 10f;
         #endregion
 
         #region Fields
@@ -75,6 +79,11 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Whether the mouse in on this node or not.
         /// </summary>
         protected bool m_isMouseOn = false;
+
+        /// <summary>
+        /// PText for showing this object's ID.
+        /// </summary>
+        private PText m_pPropertyText;
 
         /// <summary>
         /// system have this node.
@@ -154,6 +163,14 @@ namespace EcellLib.PathwayWindow.Nodes
                 RefreshText();
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual PText PPropertyText
+        {
+            get { return m_pPropertyText; }
+            set { m_pPropertyText = value; }
+        }
 
         /// <summary>
         /// get/set the parent system.
@@ -179,6 +196,11 @@ namespace EcellLib.PathwayWindow.Nodes
             this.MouseLeave += new PInputEventHandler(NodeLeft);
             m_handler4Line = new PInputEventHandler(LineSelected);
             m_figureList.Add(new EllipseFigure(-5, -5, 10, 10));
+            // PropertyText
+            m_pPropertyText = new PText();
+            m_pPropertyText.Pickable = false;
+            this.AddChild(m_pPropertyText);
+
         }
         #endregion
 
@@ -256,6 +278,14 @@ namespace EcellLib.PathwayWindow.Nodes
             return new PPathwayNode();
         }
 
+        public override void RefreshText()
+        {
+            base.RefreshText();
+            m_pPropertyText.X = base.X + 5;
+            m_pPropertyText.Y = base.Y - 15;
+            m_pPropertyText.MoveToFront();
+        }
+
         /// <summary>
         /// Called when the mouse enters this object.
         /// </summary>
@@ -315,12 +345,12 @@ namespace EcellLib.PathwayWindow.Nodes
 
                 if (e.Modifiers == Keys.Shift)
                 {
-                    m_canvas.NotifyAddSelect(m_ecellObj.key, m_ecellObj.type, true);
+                    m_canvas.NotifyAddSelect(this, true);
                 }
                 else
                 {
                     m_canvas.ResetSelectedObjects();
-                    m_canvas.NotifySelectChanged(m_ecellObj.key, m_ecellObj.type);
+                    m_canvas.NotifySelectChanged(this);
                 }
             }
         }

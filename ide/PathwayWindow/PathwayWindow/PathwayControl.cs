@@ -1922,7 +1922,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="isRecorded">Whether to record this change.</param>
         public void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool isRecorded)
         {
-
             List<EcellObject> systemList = this.GetSystemList(ActiveCanvas.ModelID);
             List<EcellObject> nodeList = this.GetNodeList(ActiveCanvas.ModelID);
 
@@ -1930,7 +1929,6 @@ namespace EcellLib.PathwayWindow
             if (algorithm.GetLayoutType() == LayoutType.Selected)
                 foreach (EcellObject node in nodeList)
                     node.isFixed = this.ActiveCanvas.GetSelectedObject(node.key, node.type).IsHighLighted;
-
             try
             {
                 algorithm.DoLayout(subIdx, false, systemList, nodeList);

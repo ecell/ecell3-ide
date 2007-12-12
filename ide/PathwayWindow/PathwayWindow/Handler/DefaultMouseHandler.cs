@@ -156,17 +156,14 @@ namespace EcellLib.PathwayWindow
                 if (node is PPathwayNode)
                 {
                     lastNode = (PPathwayNode)node;
-                    canvas.NotifyAddSelect(
-                        lastNode.EcellObject.key,
-                        lastNode.EcellObject.type,
-                        true);
+                    canvas.NotifyAddSelect(lastNode, true);
                 }
                 if (node == m_lastSelectedObj)
                     isAlreadySelected = true;
             }
             if (!isAlreadySelected && lastNode != null)
             {
-                canvas.NotifySelectChanged(lastNode.EcellObject.key, lastNode.EcellObject.type);
+                canvas.NotifySelectChanged(lastNode);
                 m_lastSelectedObj = lastNode;
             }
         }

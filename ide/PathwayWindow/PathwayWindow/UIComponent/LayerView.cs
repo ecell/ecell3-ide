@@ -51,6 +51,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         private static string MENU_DELETE_LAYER = "DeleteLayerMenuText";
         private static string MENU_MERGE_LAYER = "MergeLayerMenuText";
         private static string MENU_RENAME_LAYER = "RenameLayerMenuText";
+        private static string MENU_SELECCT_NODES = "SelectNodeMenuText";
+        private static string MENU_SEPALATOR1 = "Sepalator1";
         private static string DIALOG_TITLE = "LayerDialogTitle";
         private static string DIALOG_MESSAGE = "LayerDialogMessage";
 
@@ -197,6 +199,16 @@ namespace EcellLib.PathwayWindow.UIComponent
             // Preparing a context menu.
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
 
+            ToolStripItem menuSelectNodes = new ToolStripMenuItem(MENU_SELECCT_NODES);
+            menuSelectNodes.Text = m_resources.GetString(MENU_SELECCT_NODES);
+            menuSelectNodes.Click += new EventHandler(SelectNodesClick);
+            nodeMenu.Items.Add(menuSelectNodes);
+            m_cMenuDict.Add(MENU_SELECCT_NODES, menuSelectNodes);
+
+            ToolStripSeparator separator = new ToolStripSeparator();
+            m_cMenuDict.Add(MENU_SEPALATOR1, separator);
+            nodeMenu.Items.Add(separator);
+
             ToolStripItem menuCreateLayer = new ToolStripMenuItem(MENU_CREATE_LAYER);
             menuCreateLayer.Text = m_resources.GetString(MENU_CREATE_LAYER);
             menuCreateLayer.Click += new EventHandler(CreateLayerClick);
@@ -282,6 +294,17 @@ namespace EcellLib.PathwayWindow.UIComponent
                 ((DataGridView)sender).Columns["Name"].SortMode = DataGridViewColumnSortMode.NotSortable;
                 ((DataGridView)sender).Columns["Name"].ReadOnly = true;
             }
+        }
+        /// <summary>
+        /// when click menu "Create Layer"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectNodesClick(object sender, EventArgs e)
+        {
+            CanvasControl canvas = m_con.ActiveCanvas;
+            string name = (string)m_selectedRow.Cells[1].FormattedValue;
+            canvas.SelectNodesUnderLayer(name);
         }
         /// <summary>
         /// when click menu "Create Layer"

@@ -632,11 +632,15 @@ namespace EcellLib.PathwayWindow
         /// <param name="key">the key of selected object.</param>
         /// <param name="type">the type of selected object.</param>
         /// </summary>
-        public void NotifySelectChanged(string key, string type)
+        public void NotifySelectChanged(PPathwayObject obj)
         {
+            if (m_con == null)
+                return;
             m_isSelectChanged = true;
-            if (m_con != null)
-                m_con.Window.NotifySelectChanged(this.m_modelId, key, type);
+            m_con.Window.NotifySelectChanged(
+                this.m_modelId, 
+                obj.EcellObject.key, 
+                obj.EcellObject.type);
         }
 
         /// <summary>
@@ -645,10 +649,15 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">the type of selected object.</param>
         /// <param name="isSelect">the flag whether this object is selected.</param>
         /// </summary>
-        public void NotifyAddSelect(string key, string type, bool isSelect)
+        public void NotifyAddSelect(PPathwayObject obj, bool isSelect)
         {
-            if (m_con != null)
-                m_con.Window.NotifyAddSelect(this.m_modelId, key, type, isSelect);
+            if (m_con == null)
+                return;
+            m_con.Window.NotifyAddSelect(
+                this.m_modelId, 
+                obj.EcellObject.key, 
+                obj.EcellObject.type, 
+                isSelect);
         }
 
         /// <summary>
@@ -939,6 +948,20 @@ namespace EcellLib.PathwayWindow
             m_con.OverView.Canvas.Refresh();
         }
 
+        /// <summary>
+        /// Select nodes under this Layer
+        /// </summary>
+        /// <param name="layerName"></param>
+        public void SelectNodesUnderLayer(string layerName)
+        {
+            PPathwayLayer layer = m_layers[layerName];
+            if (layer == null)
+                return;
+            foreach (PPathwayObject obj in layer.NodeList)
+            {
+                NotifyAddSelect(obj, true);
+            }
+        }
         /// <summary>
         /// Get a list of layers.
         /// </summary>
@@ -1417,6 +1440,8 @@ namespace EcellLib.PathwayWindow
             DataManager dm = this.PathwayControl.Window.DataManager;
             foreach (PPathwayProcess process in m_processes.Values)
             {
+                if (!process.Visible)
+                    continue;
                 string propName = "Process:" + process.EcellObject.key + ":MolarActivity";
                 EcellValue ev = dm.GetEntityProperty(propName);
                 if (ev == null)
@@ -1424,6 +1449,17 @@ namespace EcellLib.PathwayWindow
                 // Set Line Width.
                 float witdh = GetLineWidth((float)ev.CastToDouble());
                 process.SetLineWidth(witdh);
+            }
+            foreach (PPathwayVariable variable in m_variables.Values)
+            {
+                if (!variable.Visible)
+                    continue;
+                string propName = "Variable:" + variable.EcellObject.key + ":MolarConc";
+                EcellValue ev = dm.GetEntityProperty(propName);
+                if (ev == null)
+                    continue;
+                // Set Line Width.
+                variable.PPropertyText.Text = ev.CastToDouble().ToString("E2");
             }
             this.m_pCanvas.Refresh();
         }
@@ -1450,6 +1486,11 @@ namespace EcellLib.PathwayWindow
             foreach (PPathwayProcess process in m_processes.Values)
             {
                 process.Refresh();
+            }
+            foreach (PPathwayVariable variable in m_variables.Values)
+            {
+                variable.PPropertyText.Text = "";
+                variable.Refresh();
             }
             m_pCanvas.Refresh();
         }

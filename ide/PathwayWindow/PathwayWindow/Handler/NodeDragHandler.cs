@@ -101,8 +101,7 @@ namespace EcellLib.PathwayWindow.Handler
             if (!(e.PickedNode is PPathwayObject))
                 return;
             PPathwayObject obj = e.PickedNode as PPathwayObject;
-            if (obj is PPathwayProcess)
-                ((PPathwayProcess)obj).Refresh();
+            obj.Refresh();
 
             if (obj is PPathwayNode)
             {
