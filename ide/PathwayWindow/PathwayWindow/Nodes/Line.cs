@@ -35,13 +35,14 @@ using System.Windows.Forms;
 using System.Drawing;
 using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Nodes;
+using UMD.HCIL.Piccolo.Event;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
     /// <summary>
     /// Line
     /// </summary>
-    public class Line : PPath
+    public class PPathwayLine : PPath
     {
         /// <summary>
         ///  Arrow design settings
@@ -61,6 +62,11 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Default Line width. = 2f
         /// </summary>
         private static readonly float LineWidth = 2f;
+
+        /// <summary>
+        /// On this CanvasViewComponentSet this PPathwayObject is drawn.
+        /// </summary>
+        protected CanvasControl m_canvas;
 
         /// <summary>
         /// this line stands for this EdgeInfo.
@@ -107,16 +113,18 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Constructor
         /// </summary>
-        public Line()
+        public PPathwayLine(CanvasControl canvas)
         {
+            m_canvas = canvas;
             m_edgeInfo = new EdgeInfo();
         }
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="edgeInfo"></param>
-        public Line(EdgeInfo edgeInfo)
+        public PPathwayLine(CanvasControl canvas, EdgeInfo edgeInfo)
         {
+            m_canvas = canvas;
             m_edgeInfo = edgeInfo;
         }
 
@@ -275,5 +283,46 @@ namespace EcellLib.PathwayWindow.Nodes
 
             return new PointF[] { arrowApex, arrowPointA, arrowPointB };
         }
+
+        #region EventHandlers
+        /// <summary>
+        /// Called when the mouse enters this object.
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnMouseEnter(PInputEventArgs e)
+        {
+            base.OnMouseEnter(e);
+            if (m_canvas == null)
+                return;
+            m_canvas.FocusNode = this;
+        }
+
+        /// <summary>
+        /// Called when the mouse leaves this object.
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnMouseLeave(PInputEventArgs e)
+        {
+            base.OnMouseLeave(e);
+            if (m_canvas == null)
+                return;
+            m_canvas.FocusNode = null;
+        }
+
+        /// <summary>
+        /// Called when the mouse leaves this object.
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnMouseUp(PInputEventArgs e)
+        {
+            base.OnMouseUp(e);
+            if (m_canvas == null)
+                return;
+            m_canvas.FocusNode = this;
+            m_canvas.ResetSelectedObjects();
+            m_canvas.AddSelectedLine(this);
+        }
+        #endregion
+
     }
 }

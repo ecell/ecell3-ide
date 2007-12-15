@@ -111,9 +111,9 @@ namespace EcellLib.PathwayWindow.Handler
             else if (obj is PPathwaySystem)
                 obj.MemorizePosition();
 
-            e.Canvas.BackColor = Color.Silver;
-            SetBackToDefault();
-            SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(obj.PointF));
+            //e.Canvas.BackColor = Color.Silver;
+            //SetBackToDefault();
+            //SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(obj.PointF));
         }
 
         /// <summary>
@@ -134,18 +134,18 @@ namespace EcellLib.PathwayWindow.Handler
         {
             if (systemName != null && m_canvas.Systems.ContainsKey(systemName))
             {
-                m_canvas.PathwayCanvas.BackColor = Color.White;//Color.Silver;
-                m_canvas.Systems[systemName].BackgroundBrush = null; //Brushes.White;
+                m_canvas.PathwayCanvas.BackColor = Color.Silver;
+                m_canvas.Systems[systemName].BackgroundBrush = Brushes.White;
 
                 foreach (PPathwaySystem system in m_canvas.Systems.Values)
                     if (!system.EcellObject.key.Equals(systemName))
-                        system.BackgroundBrush = null; // Brushes.Silver;
+                        system.BackgroundBrush = Brushes.Silver;
             }
             else
             {
                 m_canvas.PathwayCanvas.BackColor = Color.White;
                 foreach (PPathwaySystem system in m_canvas.Systems.Values)
-                    system.BackgroundBrush = null; // Brushes.Silver;
+                    system.BackgroundBrush = Brushes.Silver;
             }
         }
         /// <summary>
@@ -168,13 +168,13 @@ namespace EcellLib.PathwayWindow.Handler
         protected override void OnDrag(object sender, PInputEventArgs e)
         {
             base.OnDrag(sender, e);
-            e.Canvas.BackColor = Color.Silver;
-            SetBackToDefault();
+            //e.Canvas.BackColor = Color.Silver;
+            //SetBackToDefault();
 
             if (!(e.PickedNode is PPathwayObject))
                 return;
             PPathwayObject obj = e.PickedNode as PPathwayObject;
-            SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(obj.PointF));
+            //SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(obj.PointF));
             // Move Nodes.
             if (obj is PPathwaySystem)
             {
@@ -272,7 +272,7 @@ namespace EcellLib.PathwayWindow.Handler
                 system.MoveEnd();
                 system.Refresh();
             }
-            SetBackToDefault();
+            //SetBackToDefault();
             m_canvas.PathwayCanvas.Refresh();
             m_canvas.UpdateOverview();
         }

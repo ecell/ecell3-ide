@@ -292,7 +292,6 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             base.Width = DEFAULT_WIDTH;
             base.Height = DEFAULT_HEIGHT;
-            this.MouseDown += new PInputEventHandler(SystemSelected);
         }
         #endregion
 
@@ -515,16 +514,14 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         /// <param name="sender">PPathwaySystem</param>
         /// <param name="e">PInputEventArgs</param>
-        public void SystemSelected(object sender, PInputEventArgs e)
+        public override void OnMouseDown(PInputEventArgs e)
         {
+            base.OnMouseDown(e);
             if (m_canvas == null)
-                return;
-            if (e.PickedNode != this)
                 return;
 
             m_canvas.ResetSelectedObjects();
             m_canvas.NotifySelectChanged(this);
-            m_canvas.ClickedNode = this;
         }
 
         /// <summary>

@@ -94,12 +94,11 @@ namespace EcellLib.PathwayWindow
             m_con.MousePosition = e.Position;
             if (e.PickedNode is PCamera)
             {
-                canvas.ClickedNode = null;
+                canvas.FocusNode = null;
                 canvas.ResetSelectedObjects();
             }
             if (e.Button == MouseButtons.Left)
             {
-                canvas.ResetSelectedObjects();
                 m_selectedPath = new PPath();
                 canvas.ControlLayer.AddChild(m_selectedPath);
             }

@@ -73,7 +73,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             //
             this.RemoveInputEventListener(PanEventHandler);
             this.RemoveInputEventListener(ZoomEventHandler);
-            this.AddInputEventListener(new DefaultMouseHandler(m_con));
             this.Dock = DockStyle.Fill;
             this.Name = canvas.ModelID;
             this.Camera.ScaleViewBy(0.7f);
@@ -123,9 +122,9 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Called when the mouse is on this canvas.
         /// </summary>
         /// <param name="e"></param>
-        protected override void OnMouseDown(MouseEventArgs e)
+        protected override void OnMouseUp(MouseEventArgs e)
         {
-            base.OnMouseDown(e);
+            base.OnMouseUp(e);
 
             if (m_con == null)
                 return;
@@ -133,10 +132,10 @@ namespace EcellLib.PathwayWindow.UIComponent
                 return;
 
             // Set popup menu visibility.
-            bool isPPathwayObject = (m_canvas.ClickedNode is PPathwayObject);
-            bool isPPathwayNode = (m_canvas.ClickedNode is PPathwayNode);
-            bool isPPathwaySystem = (m_canvas.ClickedNode is PPathwaySystem);
-            bool isLine = (m_canvas.ClickedNode is Line);
+            bool isPPathwayObject = (m_canvas.FocusNode is PPathwayObject);
+            bool isPPathwayNode = (m_canvas.FocusNode is PPathwayNode);
+            bool isPPathwaySystem = (m_canvas.FocusNode is PPathwaySystem);
+            bool isLine = (m_canvas.FocusNode is PPathwayLine);
             bool isCopiedNode = (m_con.CopiedNodes.Count > 0);
             bool isLayoutMenu = (m_con.LayoutMenus.Count > 0
                                 && (isPPathwayObject || isLine || isCopiedNode));
@@ -169,7 +168,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             // Set popup menu text.
             if (isPPathwayObject)
             {
-                PPathwayObject obj = (PPathwayObject)m_canvas.ClickedNode;
+                PPathwayObject obj = (PPathwayObject)m_canvas.FocusNode;
                 m_con.ContextMenuDict[PathwayControl.CANVAS_MENU_ID].Text = obj.EcellObject.key;
                 SetMenuLogger(obj);
                 if (isPPathwaySystem)

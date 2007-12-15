@@ -51,17 +51,13 @@ namespace EcellLib.PathwayWindow.Nodes
     public class PPathwayProcess : PPathwayNode
     {
         #region Static readonly fields
-        /// <summary>
-        /// Default Line color.
-        /// </summary>
-        protected static readonly Brush DefaultLineBrush = Brushes.Black;
         #endregion
 
         #region Fields
         /// <summary>
         /// dictionary of Line. Key is node.EcellObject.key.
         /// </summary>
-        protected Dictionary<string, List<Line>> m_lines = new Dictionary<string, List<Line>>();
+        protected Dictionary<string, List<PPathwayLine>> m_lines = new Dictionary<string, List<PPathwayLine>>();
         /// <summary>
         /// dictionary of related PPathwayVariable. Key is node.EcellObject.key.
         /// </summary>
@@ -71,6 +67,11 @@ namespace EcellLib.PathwayWindow.Nodes
         /// delta of moving this node.
         /// </summary>
         protected SizeF m_movingDelta = new SizeF(0,0);
+
+        /// <summary>
+        /// Default Line color.
+        /// </summary>
+        protected Brush m_lineBrush = Brushes.Black;
 
         /// <summary>
         /// list of size.
@@ -111,8 +112,8 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void Freeze()
         {
             base.Freeze();
-            foreach (List<Line> list in m_lines.Values)
-                foreach (Line line in list)
+            foreach (List<PPathwayLine> list in m_lines.Values)
+                foreach (PPathwayLine line in list)
                     line.Pickable = false;
         }
 
@@ -122,8 +123,8 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void Unfreeze()
         {
             base.Unfreeze();
-            foreach (List<Line> list in m_lines.Values)
-                foreach (Line line in list)
+            foreach (List<PPathwayLine> list in m_lines.Values)
+                foreach (PPathwayLine line in list)
                     line.Pickable = true;
         }
 
@@ -164,7 +165,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         /// <param name="var">the related variable.</param>
         /// <param name="path">PPath of the related variable.</param>
-        private void AddRelatedVariable(PPathwayVariable var, Line path)
+        private void AddRelatedVariable(PPathwayVariable var, PPathwayLine path)
         {
             string key = var.EcellObject.key;
             if (m_lines.ContainsKey(key))
@@ -174,7 +175,7 @@ namespace EcellLib.PathwayWindow.Nodes
             else
             {
                 m_relatedVariables.Add(key, var);
-                List<Line> ppaths = new List<Line>();
+                List<PPathwayLine> ppaths = new List<PPathwayLine>();
                 ppaths.Add(path);
                 m_lines.Add(key, ppaths);
             }
@@ -208,10 +209,9 @@ namespace EcellLib.PathwayWindow.Nodes
 
                     PPathwayVariable var = base.m_canvas.Variables[er.Key];
                     EdgeInfo edge = new EdgeInfo(this.EcellObject.key, er);
-                    Line path = new Line(edge);
+                    PPathwayLine path = new PPathwayLine(m_canvas, edge);
                     
-                    path.MouseDown += this.m_handler4Line;
-                    path.Brush = DefaultLineBrush;
+                    path.Brush = m_lineBrush;
                     path.VarPoint = var.GetContactPoint(base.CenterPoint);
                     path.ProPoint = base.GetContactPoint(path.VarPoint);
                     path.SetLine();
@@ -246,26 +246,23 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="width"></param>
         public void SetLineWidth(float width)
         {
-            foreach (List<Line> list in m_lines.Values)
-            {
-                foreach (Line line in list)
-                {
-                    //if (line.Info.Coefficient == 0)
-                    //    continue;
-                    // Set Color.
-                    if (width == 0f)
-                    {
-                        line.Brush = Brushes.Gray;
-                        line.Pen.Brush = Brushes.Gray;
-                    }
-                    else if (line.Pen.Width == 0)
-                    {
-                        line.Brush = DefaultLineBrush;
-                        line.Pen.Brush = DefaultLineBrush;
-                    }
+            foreach (List<PPathwayLine> list in m_lines.Values)
+                foreach (PPathwayLine line in list)
                     line.Pen.Width = width;
+        }
+        /// <summary>
+        /// Set Line Width.
+        /// </summary>
+        /// <param name="width"></param>
+        public void SetLineColor(Brush brush)
+        {
+            m_lineBrush = brush;
+            foreach (List<PPathwayLine> list in m_lines.Values)
+                foreach (PPathwayLine line in list)
+                {
+                    line.Pen.Brush = brush;
+                    line.Brush = brush;
                 }
-            }
         }
         /// <summary>
         /// delete all related process from list.
@@ -284,7 +281,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             if (!m_lines.ContainsKey(key))
                 return;
-            List<Line> pathList = m_lines[key];
+            List<PPathwayLine> pathList = m_lines[key];
 
             foreach (PPath path in pathList)
             {
@@ -302,9 +299,9 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void DeleteEdges()
         {
-            foreach (List<Line> pathList in m_lines.Values)
+            foreach (List<PPathwayLine> pathList in m_lines.Values)
             {
-                foreach (Line path in pathList)
+                foreach (PPathwayLine path in pathList)
                 {
                     if (path.Parent != null)
                         path.Parent.RemoveChild(path);

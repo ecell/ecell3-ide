@@ -441,7 +441,7 @@ namespace EcellLib.PathwayWindow
                 return;
             }
             // create new canvas
-            if (EcellObject.MODEL.Equals(eo.type))
+            if (eo.type.Equals(EcellObject.MODEL))
             {
                 this.CreateCanvas(eo.modelID);
                 return;
@@ -473,6 +473,8 @@ namespace EcellLib.PathwayWindow
         {
             // Select Canvas
             CanvasControl canvas = m_canvasDict[modelID];
+            if (canvas == null)
+                return;
             // If case SystemSize
             if (oldKey.EndsWith(":SIZE"))
             {
@@ -501,7 +503,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">The object type of deleted object.</param>
         public void DataDelete(string modelID, string key, string type)
         {
-            CanvasControl canvas = this.m_canvasDict[modelID];
+            CanvasControl canvas = m_canvasDict[modelID];
             if (canvas == null)
                 return;
             // If case SystemSize
@@ -628,6 +630,7 @@ namespace EcellLib.PathwayWindow
             // When simulation started.
             if (type == ProjectStatus.Running && m_isViewMode)
             {
+                SetPropForSimulation();
                 m_time.Enabled = true;
                 m_time.Start();
             }
@@ -658,6 +661,16 @@ namespace EcellLib.PathwayWindow
             m_time.Enabled = false;
             UpdatePropForSimulation();
             m_time.Enabled = true;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetPropForSimulation()
+        {
+            if (m_canvasDict == null)
+                return;
+            foreach (CanvasControl canvas in m_canvasDict.Values)
+                canvas.SetPropForSimulation();
         }
         /// <summary>
         /// 
@@ -1241,9 +1254,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         private void DebugClick(object sender, EventArgs e)
         {
-            if (ActiveCanvas.ClickedNode is PPathwayObject)
+            if (ActiveCanvas.FocusNode is PPathwayObject)
             {
-                PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
+                PPathwayObject obj = (PPathwayObject)ActiveCanvas.FocusNode;
                 MessageBox.Show(
                     "Name:" + obj.EcellObject.key
                     + "\nLayer:" + obj.EcellObject.LayerID
@@ -1343,7 +1356,7 @@ namespace EcellLib.PathwayWindow
                 return;
 
             // Delete Selected Line
-            Line line = canvas.SelectedLine;
+            PPathwayLine line = canvas.SelectedLine;
             if (line != null)
             {
                 NotifyVariableReferenceChanged(
@@ -1396,11 +1409,11 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void CreateLoggerClick(object sender, EventArgs e)
         {
-            if (!(ActiveCanvas.ClickedNode is PPathwayObject))
+            if (!(ActiveCanvas.FocusNode is PPathwayObject))
                 return;
 
             string logger = ((ToolStripItem)sender).Text;
-            PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
+            PPathwayObject obj = (PPathwayObject)ActiveCanvas.FocusNode;
             Debug.WriteLine("Create " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
             // set logger
             NotifyLoggerChanged(obj, logger, true);
@@ -1413,11 +1426,11 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void DeleteLoggerClick(object sender, EventArgs e)
         {
-            if (!(ActiveCanvas.ClickedNode is PPathwayObject))
+            if (!(ActiveCanvas.FocusNode is PPathwayObject))
                 return;
             string logger = ((ToolStripItem)sender).Text;
 
-            PPathwayObject obj = (PPathwayObject)ActiveCanvas.ClickedNode;
+            PPathwayObject obj = (PPathwayObject)ActiveCanvas.FocusNode;
             Debug.WriteLine("Delete " + obj.EcellObject.type + " Logger:" + obj.EcellObject.key);
             // delete logger
             NotifyLoggerChanged(obj, logger, false);
@@ -1474,7 +1487,7 @@ namespace EcellLib.PathwayWindow
             if (canvas == null)
                 return;
             // Selected Line
-            Line line = canvas.SelectedLine;
+            PPathwayLine line = canvas.SelectedLine;
             if (line == null)
                 return;
             canvas.ResetSelectedLine();
@@ -1711,6 +1724,7 @@ namespace EcellLib.PathwayWindow
             CanvasControl canvas = new CanvasControl(this, modelID);
             m_activeCanvasID = modelID;
             m_canvasDict.Add(modelID, canvas);
+            canvas.PathwayCanvas.AddInputEventListener(m_handlerDict[m_selectedHandle.HandleID]);
             // Set Pathwayview
             m_pathwayView.Clear();
             m_pathwayView.TabControl.Controls.Add(canvas.TabPage);

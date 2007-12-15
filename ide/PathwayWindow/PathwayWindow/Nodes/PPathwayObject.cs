@@ -42,6 +42,7 @@ using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.Piccolo.Nodes;
 using EcellLib;
 using System.ComponentModel;
+using UMD.HCIL.Piccolo.Event;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -784,9 +785,8 @@ namespace EcellLib.PathwayWindow.Nodes
         
         #region Painting
         //****************************************************************
-        // Painting - Methods for painting a PProcess.
+        // Painting - Methods for painting a PPathwayObject.
         //****************************************************************
-
         /// <summary>
         /// Overridden.  See <see cref="PNode.Paint">PNode.Paint</see>.
         /// </summary>
@@ -1054,7 +1054,6 @@ namespace EcellLib.PathwayWindow.Nodes
         #endregion
 
         #region Messaging between subclasses
-
         /// <summary>
         /// Notify children about movement.
         /// </summary>
@@ -1158,6 +1157,44 @@ namespace EcellLib.PathwayWindow.Nodes
         public virtual void Unfreeze()
         {
             this.Pickable = m_isPickableBeforeFreeze;
+        }
+        #endregion
+
+        #region EventHandlers
+        /// <summary>
+        /// Called when the mouse enters this object.
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnMouseEnter(PInputEventArgs e)
+        {
+            base.OnMouseEnter(e);
+            if (m_canvas == null)
+                return;
+            m_canvas.FocusNode = this;
+        }
+
+        /// <summary>
+        /// Called when the mouse leaves this object.
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnMouseLeave(PInputEventArgs e)
+        {
+            base.OnMouseLeave(e);
+            if (m_canvas == null)
+                return;
+            m_canvas.FocusNode = null;
+        }
+
+        /// <summary>
+        /// Called when the mouse leaves this object.
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnMouseUp(PInputEventArgs e)
+        {
+            base.OnMouseUp(e);
+            if (m_canvas == null)
+                return;
+            m_canvas.FocusNode = this;
         }
         #endregion
 

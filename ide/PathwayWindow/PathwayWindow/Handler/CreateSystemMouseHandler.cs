@@ -223,10 +223,9 @@ namespace EcellLib.PathwayWindow
 
             foreach(PNode node in newlySelectedList)
             {
-                if(node is PPathwayNode)
-                {
-                    m_canvas.AddSelectedNode((PPathwayNode)node);
-                }
+                if (!(node is PPathwayNode))
+                    continue;
+                m_canvas.AddSelectedNode((PPathwayNode)node);
             }
         }
 

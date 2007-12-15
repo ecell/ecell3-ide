@@ -66,7 +66,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// selected line
         /// </summary>
-        Line m_selectedLine = null;
+        PPathwayLine m_selectedLine = null;
 
         /// <summary>
         /// To handle an edge to reconnect
@@ -98,7 +98,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// When a line owned by PEcellProcess is selected, this line will be hidden.
         /// Then m_line4reconnect will appear.
         /// </summary>
-        Line m_line4reconnect = null;
+        PPathwayLine m_line4reconnect = null;
 
         /// <summary>
         /// Variable or Process.
@@ -121,7 +121,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Accessor for m_selectedNodes.
         /// </summary>
-        public Line SelectedLine
+        public PPathwayLine SelectedLine
         {
             get { return m_selectedLine; }
         }
@@ -159,7 +159,7 @@ namespace EcellLib.PathwayWindow.Handler
             m_lineHandle4P.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
             m_lineHandle4P.MouseUp += new PInputEventHandler(m_lineHandle_MouseUp);
 
-            m_line4reconnect = new Line();
+            m_line4reconnect = new PPathwayLine(m_canvas);
             m_line4reconnect.Brush = new SolidBrush(Color.FromArgb(200, Color.Orange));
             m_line4reconnect.Pen = LINE_THIN_PEN;
             m_line4reconnect.Pickable = false;

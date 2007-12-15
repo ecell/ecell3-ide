@@ -91,11 +91,6 @@ namespace EcellLib.PathwayWindow.Nodes
         protected PPathwaySystem m_system;
 
         /// <summary>
-        /// handler for line
-        /// </summary>
-        protected PInputEventHandler m_handler4Line;
-
-        /// <summary>
         /// Figure List
         /// </summary>
         protected List<FigureBase> m_figureList = new List<FigureBase>();
@@ -190,11 +185,9 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             this.Width = DEFAULT_WIDTH;
             this.Height = DEFAULT_HEIGHT;
-            this.VisibleChanged += new UMD.HCIL.Piccolo.PPropertyEventHandler(PPathwayNode_VisibleChanged);
-            this.MouseDown += new PInputEventHandler(NodeSelected);
-            this.MouseEnter += new PInputEventHandler(NodeEntered);
-            this.MouseLeave += new PInputEventHandler(NodeLeft);
-            m_handler4Line = new PInputEventHandler(LineSelected);
+            this.VisibleChanged += new PPropertyEventHandler(PPathwayNode_VisibleChanged);
+            this.MouseEnter += new PInputEventHandler(PPathwayNode_OnMouseEnter);
+            this.MouseLeave += new PInputEventHandler(PPathwayNode_OnMouseLeave);
             m_figureList.Add(new EllipseFigure(-5, -5, 10, 10));
             // PropertyText
             m_pPropertyText = new PText();
@@ -269,66 +262,27 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void End()
         {
         }
-        /// <summary>
-        /// Create new instance of this class.
-        /// </summary>
-        /// <returns></returns>
-        public override PPathwayObject CreateNewObject()
-        {
-            return new PPathwayNode();
-        }
+        #endregion
 
-        public override void RefreshText()
-        {
-            base.RefreshText();
-            m_pPropertyText.X = base.X + 5;
-            m_pPropertyText.Y = base.Y - 15;
-            m_pPropertyText.MoveToFront();
-        }
-
-        /// <summary>
-        /// Called when the mouse enters this object.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseEnter(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            base.OnMouseEnter(e);
-            if(base.m_canvas != null)
-            {
-                base.m_canvas.NotifyMouseEnter(this);
-            }
-        }
-
-        /// <summary>
-        /// Called when the mouse leaves this object.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseLeave(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            base.OnMouseLeave(e);
-            if (null != base.m_canvas)
-            {
-                base.m_canvas.NotifyMouseLeave();
-            }
-        }
-
+        #region EventHandlers
         /// <summary>
         /// event on visibility change.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void PPathwayNode_VisibleChanged(object sender, PPropertyEventArgs e)
+        public void PPathwayNode_VisibleChanged(object sender, PPropertyEventArgs e)
         {
             Refresh();
         }
+
         /// <summary>
         /// the event sequence of selecting the PNode of process or variable in PathwayEditor.
         /// </summary>
         /// <param name="sender">PEcellVariavle of PEcellProcess.</param>
         /// <param name="e">PInputEventArgs.</param>
-        void NodeSelected(object sender, PInputEventArgs e)
+        public override void OnMouseDown(PInputEventArgs e)
         {
-            m_canvas.ClickedNode = this;
+            base.OnMouseDown(e);
             //
             Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
             if (mode == Mode.CreateOneWayReaction
@@ -349,7 +303,6 @@ namespace EcellLib.PathwayWindow.Nodes
                 }
                 else
                 {
-                    m_canvas.ResetSelectedObjects();
                     m_canvas.NotifySelectChanged(this);
                 }
             }
@@ -360,7 +313,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void NodeEntered(object sender, PInputEventArgs e)
+        void PPathwayNode_OnMouseEnter(object sender, PInputEventArgs e)
         {
             Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
             if (mode == Mode.CreateOneWayReaction
@@ -384,7 +337,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void NodeLeft(object sender, PInputEventArgs e)
+        void PPathwayNode_OnMouseLeave(object sender, PInputEventArgs e)
         {
             Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
             if (mode == Mode.CreateOneWayReaction
@@ -394,29 +347,27 @@ namespace EcellLib.PathwayWindow.Nodes
                 this.IsMouseOn = false;
             }
         }
-
-        /// <summary>
-        /// Called when a line is selected on the PathwayWindow
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void LineSelected(object sender, PInputEventArgs e)
-        {
-            if (!(e.PickedNode is Line))
-                return;
-
-            Line line = (Line)e.PickedNode;
-
-            CanvasControl canvas = m_canvas;
-            canvas.ResetSelectedObjects();
-            canvas.AddSelectedLine(line);
-
-            if (e.Button == MouseButtons.Right)
-                canvas.ClickedNode = line;
-        }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Create new instance of this class.
+        /// </summary>
+        /// <returns></returns>
+        public override PPathwayObject CreateNewObject()
+        {
+            return new PPathwayNode();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void RefreshText()
+        {
+            base.RefreshText();
+            m_pPropertyText.X = base.X + 5;
+            m_pPropertyText.Y = base.Y - 15;
+            m_pPropertyText.MoveToFront();
+        }
         /// <summary>
         /// set the offset of this node.
         /// </summary>
