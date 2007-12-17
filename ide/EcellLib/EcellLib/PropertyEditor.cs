@@ -679,12 +679,19 @@ namespace EcellLib
                 if (m_type.Equals(EcellObject.PROCESS))
                 {
                     List<string> list = m_dManager.GetProcessList();
+                    int selectedIndex = -1;
                     foreach (string str in list)
                     {
                         combo.Items.AddRange(new object[] { str });
-                        if (str == m_propName) combo.SelectedIndex = j;
+                        if (str == m_propName) selectedIndex = j;
                         j++;
                     }
+                    if (selectedIndex == -1)
+                    {
+                        combo.Items.AddRange(new object[] { m_propName });
+                        selectedIndex = j;
+                    }
+                    combo.SelectedIndex = selectedIndex;
                     combo.SelectedIndexChanged += new EventHandler(ComboSelectedIndexChanged);
                 }
                 else if (m_type.Equals(EcellObject.SYSTEM))

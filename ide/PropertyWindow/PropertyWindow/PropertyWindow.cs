@@ -386,11 +386,17 @@ namespace EcellLib.PropertyWindow
                 else
                 {
                     List<string> procList = m_dManager.GetProcessList();
+                    bool isHit = false;
                     foreach (string pName in procList)
                     {
                         ((DataGridViewComboBoxCell)c2).Items.Add(pName);
+                        if (pName == d.Value.ToString()) isHit = true;
                     }
-                    
+
+                    if (!isHit)
+                    {
+                        ((DataGridViewComboBoxCell)c2).Items.Add(d.Value.ToString());
+                    }
                     c2.Value = d.Value.ToString();
                     if (m_dManager.IsEnableAddProperty(d.Value.ToString()))
                     {

@@ -2308,9 +2308,19 @@ namespace EcellLib
                 EcellObject l_ecellObject,
                 Dictionary<string, double> l_initialCondition)
         {
+            bool isCreated = true;
             string l_key = Constants.xpathProcess + Constants.delimiterColon + l_ecellObject.key;
-            WrappedPolymorph l_wrappedPolymorph = l_simulator.GetEntityPropertyList(l_key);
-            if (!l_wrappedPolymorph.IsList())
+            WrappedPolymorph l_wrappedPolymorph = null;
+            try
+            {
+                l_wrappedPolymorph = l_simulator.GetEntityPropertyList(l_key);
+            }
+            catch (Exception l_ex)
+            {
+                l_ex.ToString();
+                isCreated = false;
+            }
+            if (isCreated != false && !l_wrappedPolymorph.IsList())
             {
                 return;
             }
@@ -2346,89 +2356,107 @@ namespace EcellLib
             //
             // Stores the "EcellData"
             //
-            List<WrappedPolymorph> l_processAllPropertyList = l_wrappedPolymorph.CastToList();
-            for (int i = 0; i < l_processAllPropertyList.Count; i++)
+            if (isCreated)
             {
-                if (!(l_processAllPropertyList[i]).IsString())
+                List<WrappedPolymorph> l_processAllPropertyList = l_wrappedPolymorph.CastToList();
+                for (int i = 0; i < l_processAllPropertyList.Count; i++)
                 {
-                    continue;
-                }
-                string l_name = (l_processAllPropertyList[i]).CastToString();
-                List<bool> l_flag = l_simulator.GetEntityPropertyAttributes(
-                        l_key + Constants.delimiterColon + l_name);
-                if (!l_flag[WrappedSimulator.s_flagGettable])
-                {
-                    continue;
-                }
-                EcellValue l_value = null;
-                try
-                {
-                    WrappedPolymorph l_property = l_simulator.GetEntityProperty(
-                            l_key + Constants.delimiterColon + l_name);
-                    l_value = new EcellValue(l_property);
-                }
-                catch (Exception)
-                {
-                    if (l_storedEcellDataDic.ContainsKey(l_name))
+                    if (!(l_processAllPropertyList[i]).IsString())
                     {
-                        if (l_storedEcellDataDic[l_name].Value.CastToList()[0].IsList())
+                        continue;
+                    }
+                    string l_name = (l_processAllPropertyList[i]).CastToString();
+                    List<bool> l_flag = l_simulator.GetEntityPropertyAttributes(
+                            l_key + Constants.delimiterColon + l_name);
+                    if (!l_flag[WrappedSimulator.s_flagGettable])
+                    {
+                        continue;
+                    }
+                    EcellValue l_value = null;
+                    try
+                    {
+                        WrappedPolymorph l_property = l_simulator.GetEntityProperty(
+                                l_key + Constants.delimiterColon + l_name);
+                        l_value = new EcellValue(l_property);
+                    }
+                    catch (Exception)
+                    {
+                        if (l_storedEcellDataDic.ContainsKey(l_name))
                         {
-                            l_value = l_storedEcellDataDic[l_name].Value;
-                            if (l_name.Equals(Constants.xpathVRL))
+                            if (l_storedEcellDataDic[l_name].Value.CastToList()[0].IsList())
                             {
-                                foreach (EcellValue l_vr in l_value.CastToList())
+                                l_value = l_storedEcellDataDic[l_name].Value;
+                                if (l_name.Equals(Constants.xpathVRL))
                                 {
-                                    l_vr.CastToList()[2]
-                                        = new EcellValue(Convert.ToInt32(l_vr.CastToList()[2].ToString()));
-                                    l_vr.CastToList()[3]
-                                        = new EcellValue(Convert.ToInt32(l_vr.CastToList()[3].ToString()));
+                                    foreach (EcellValue l_vr in l_value.CastToList())
+                                    {
+                                        l_vr.CastToList()[2]
+                                            = new EcellValue(Convert.ToInt32(l_vr.CastToList()[2].ToString()));
+                                        l_vr.CastToList()[3]
+                                            = new EcellValue(Convert.ToInt32(l_vr.CastToList()[3].ToString()));
+                                    }
                                 }
                             }
+                            else
+                            {
+                                l_value = l_storedEcellDataDic[l_name].Value.CastToList()[0];
+                            }
+                        }
+                        else if (l_name.Equals(Constants.xpathActivity))
+                        {
+                            l_value = new EcellValue(0.0);
                         }
                         else
                         {
-                            l_value = l_storedEcellDataDic[l_name].Value.CastToList()[0];
+                            l_value = new EcellValue("");
                         }
                     }
-                    else if (l_name.Equals(Constants.xpathActivity))
+                    EcellData l_ecellData = new EcellData(
+                            l_name, l_value, l_key + Constants.delimiterColon + l_name);
+                    l_ecellData.Settable = l_flag[WrappedSimulator.s_flagSettable];
+                    l_ecellData.Gettable = l_flag[WrappedSimulator.s_flagGettable];
+                    l_ecellData.Loadable = l_flag[WrappedSimulator.s_flagLoadable];
+                    l_ecellData.Saveable = l_flag[WrappedSimulator.s_flagSavable];
+                    if (l_ecellData.Value != null)
                     {
-                        l_value = new EcellValue(0.0);
-                    }
-                    else
-                    {
-                        l_value = new EcellValue("");
-                    }
-                }
-                EcellData l_ecellData = new EcellData(
-                        l_name, l_value, l_key + Constants.delimiterColon + l_name);
-                l_ecellData.Settable = l_flag[WrappedSimulator.s_flagSettable];
-                l_ecellData.Gettable = l_flag[WrappedSimulator.s_flagGettable];
-                l_ecellData.Loadable = l_flag[WrappedSimulator.s_flagLoadable];
-                l_ecellData.Saveable = l_flag[WrappedSimulator.s_flagSavable];
-                if (l_ecellData.Value != null)
-                {
-                    if (l_ecellData.Value.IsDouble())
-                    {
-                        l_ecellData.Logable = true;
-                        if (l_initialCondition != null && l_ecellData.Settable)
+                        if (l_ecellData.Value.IsDouble())
                         {
-                            l_initialCondition[l_ecellData.EntityPath] = l_ecellData.Value.CastToDouble();
+                            l_ecellData.Logable = true;
+                            if (l_initialCondition != null && l_ecellData.Settable)
+                            {
+                                l_initialCondition[l_ecellData.EntityPath] = l_ecellData.Value.CastToDouble();
+                            }
                         }
-                    }
-                    else if (l_ecellData.Value.IsInt())
-                    {
-                        if (l_initialCondition != null && l_ecellData.Settable)
+                        else if (l_ecellData.Value.IsInt())
                         {
-                            l_initialCondition[l_ecellData.EntityPath] = l_ecellData.Value.CastToInt();
+                            if (l_initialCondition != null && l_ecellData.Settable)
+                            {
+                                l_initialCondition[l_ecellData.EntityPath] = l_ecellData.Value.CastToInt();
+                            }
                         }
                     }
+                    if (l_storedEcellDataDic.ContainsKey(l_name))
+                    {
+                        l_ecellData.Logged = l_storedEcellDataDic[l_name].Logged;
+                        l_processEcellDataList.Remove(l_storedEcellDataDic[l_name]);
+                    }
+                    l_processEcellDataList.Add(l_ecellData);
                 }
-                if (l_storedEcellDataDic.ContainsKey(l_name))
+            }
+            else
+            {
+                foreach (EcellData d in l_processEcellDataList)
                 {
-                    l_ecellData.Logged = l_storedEcellDataDic[l_name].Logged;
-                    l_processEcellDataList.Remove(l_storedEcellDataDic[l_name]);
+                    if (d.Name == Constants.xpathVRL)
+                    {
+                        string systemPath = "";
+                        string name = Util.GetNameFromPath(l_ecellObject.key, ref systemPath);
+                        EcellValue v = EcellReference.ConvertReferenceInEml(systemPath, d.Value);
+                        d.Value = v;
+                        v.ToString();
+                        break;
+                    }
                 }
-                l_processEcellDataList.Add(l_ecellData);
             }
             l_ecellObject.SetEcellDatas(l_processEcellDataList);
         }
@@ -2442,10 +2470,19 @@ namespace EcellLib
                 WrappedSimulator l_simulator, EcellObject l_ecellObject)
         {
             List<EcellData> l_stepperEcellDataList = new List<EcellData>();
+            WrappedPolymorph l_wrappedPolymorph = null;
             //
             // Property List
             //
-            WrappedPolymorph l_wrappedPolymorph = l_simulator.GetStepperPropertyList(l_ecellObject.key);
+            try
+            {
+                l_wrappedPolymorph = l_simulator.GetStepperPropertyList(l_ecellObject.key);
+            }
+            catch (Exception l_ex)
+            {
+                l_ex.ToString();
+                return;
+            }
             if (!l_wrappedPolymorph.IsList())
             {
                 return;
@@ -3828,9 +3865,11 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(
-                    s_resources.GetString("ErrGetProp") +
-                    "[" + l_dmName + "] {" + l_ex.ToString() + "}", l_ex);
+                l_ex.ToString();
+                return false;
+                //throw new Exception(
+                //    s_resources.GetString("ErrGetProp") +
+                //    "[" + l_dmName + "] {" + l_ex.ToString() + "}", l_ex);
             }
             return isEnable;
         }

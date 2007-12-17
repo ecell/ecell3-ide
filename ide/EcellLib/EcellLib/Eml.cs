@@ -238,6 +238,9 @@ namespace EcellLib
 
         private Dictionary<string, WrappedPolymorph> m_processPropertyDic;
 
+        private bool m_isWarn = false;
+
+
         /// <summary>
         /// Creates a new "Eml" instance with no argument.
         /// </summary>
@@ -260,6 +263,7 @@ namespace EcellLib
             string l_systemID,
             string l_flag)
         {
+            bool isCreated = true;
             XmlNode l_nodeClass = l_node.Attributes.GetNamedItem(Constants.xpathClass);
             XmlNode l_nodeID = l_node.Attributes.GetNamedItem(Constants.xpathID.ToLower());
             if (!this.IsValidNode(l_nodeClass) || !this.IsValidNode(l_nodeID))
@@ -269,9 +273,18 @@ namespace EcellLib
             //
             // 4 "EcellCoreLib"
             //
-            m_simulator.CreateEntity(
-                l_nodeClass.InnerText,
-                Util.BuildFullID(l_flag, l_systemID, l_nodeID.InnerText));
+            try
+            {
+                m_simulator.CreateEntity(
+                    l_nodeClass.InnerText,
+                    Util.BuildFullID(l_flag, l_systemID, l_nodeID.InnerText));
+            }
+            catch (Exception l_ex)
+            {
+                l_ex.ToString();
+                isCreated = false;
+                m_isWarn = true;
+            }
             //
             // 4 children
             //
@@ -313,7 +326,8 @@ namespace EcellLib
                     WrappedPolymorph l_polymorph = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellValue);
                     if (l_flag.Equals(Constants.xpathVariable))
                     {
-                        m_simulator.LoadEntityProperty(l_entityPath, l_polymorph);
+                        if (isCreated == true)
+                            m_simulator.LoadEntityProperty(l_entityPath, l_polymorph);
                     }
                     else
                     {
@@ -354,12 +368,14 @@ namespace EcellLib
             }
             catch (Exception e)
             {
-                throw new Exception(
-                    String.Format(
-                        "Could not create {0}",
-                        new object[] { l_stepperClass.InnerText }),
-                    e
-                );
+                e.ToString();
+                m_isWarn = true;
+                //throw new Exception(
+                //    String.Format(
+                //        "Could not create {0}",
+                //        new object[] { l_stepperClass.InnerText }),
+                //    e
+                //);
             }
 
             //
@@ -525,6 +541,8 @@ namespace EcellLib
         {
             EcellObject l_modelObject = EcellObject.CreateObject(
                     m_modelID, "", Constants.xpathModel, "", null);
+
+            m_isWarn = false;
             //
             // Parse
             //
@@ -553,10 +571,12 @@ namespace EcellLib
                 }
                 catch (WrappedException e)
                 {
-                    throw new EmlParseException(
-                        String.Format(
-                            "Could not load entity property {0}: {1}",
-                            pair.Key, pair.Value.ToString()), e);
+                    e.ToString();
+                    m_isWarn = true;
+                    //throw new EmlParseException(
+                    //    String.Format(
+                    //        "Could not load entity property {0}: {1}",
+                    //        pair.Key, pair.Value.ToString()), e);
                 }
                 if (pair.Key.EndsWith(Constants.xpathVRL))
                     removeList.Add(pair.Key);
