@@ -177,7 +177,7 @@ namespace EcellLib.Simulation
             }
             string newParamName = paramTextBox.Text;
 
-            m_dManager.NewSimulationParameter(newParamName);
+            m_dManager.CreateSimulationParameter(newParamName);
             m_win.paramCombo.Items.Add(newParamName);
             m_win.paramCombo.SelectedItem = newParamName;
             Dispose();

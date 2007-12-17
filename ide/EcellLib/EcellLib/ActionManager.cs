@@ -595,7 +595,7 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().NewProject(m_prjName, m_comment, m_prjPath);
+            DataManager.GetDataManager().CreateProject(m_prjName, m_comment, m_prjPath);
             PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>
@@ -1305,7 +1305,7 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().NewSimulationParameter(m_paramID, false, m_isAnchor);
+            DataManager.GetDataManager().CreateSimulationParameter(m_paramID, false, m_isAnchor);
         }
         /// <summary>
         /// Unexecute this action.
@@ -1382,7 +1382,7 @@ namespace EcellLib
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().NewSimulationParameter(m_paramID, false, m_isAnchor);
+            DataManager.GetDataManager().CreateSimulationParameter(m_paramID, false, m_isAnchor);
         }
     }
 

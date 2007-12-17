@@ -311,7 +311,7 @@ namespace EcellLib.MainWindow
 
         private void CreateProject(string l_prjID, string l_modelDir, string l_comment)
         {
-            m_dManager.NewProject(l_prjID, l_comment, l_modelDir);
+            m_dManager.CreateProject(l_prjID, l_comment, l_modelDir);
             m_project = l_prjID;
             m_isLoadProject = true;
             m_pManager.ChangeStatus(ProjectStatus.Loaded);

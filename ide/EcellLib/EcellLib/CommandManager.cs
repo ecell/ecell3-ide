@@ -261,7 +261,7 @@ namespace EcellLib
         {
             try
             {
-                DataManager.GetDataManager().NewProject(l_projectID, l_comment, null);
+                DataManager.GetDataManager().CreateProject(l_projectID, l_comment, null);
             }
             catch (Exception l_ex)
             {
@@ -898,7 +898,7 @@ namespace EcellLib
                     {
                         modelDir = modelDir.Substring(0, modelDir.Length - 5);
                     }
-                    DataManager.GetDataManager().NewProject(Constants.defaultPrjID, DateTime.Now.ToString(), modelDir);
+                    DataManager.GetDataManager().CreateProject(Constants.defaultPrjID, DateTime.Now.ToString(), modelDir);
                 }
                 s_modelID = DataManager.GetDataManager().LoadModel(l_fileName, false);
                 PluginManager.GetPluginManager().LoadData(s_modelID);                
@@ -1972,7 +1972,7 @@ namespace EcellLib
                     }
                     if (!l_existFlag)
                     {
-                        DataManager.GetDataManager().NewSimulationParameter(this.m_parameterID);
+                        DataManager.GetDataManager().CreateSimulationParameter(this.m_parameterID);
                     }
                     //
                     // Searches the loaded "Stepper".
@@ -2239,7 +2239,7 @@ namespace EcellLib
                     }
                     if (!l_existFlag)
                     {
-                        DataManager.GetDataManager().NewSimulationParameter(this.m_parameterID);
+                        DataManager.GetDataManager().CreateSimulationParameter(this.m_parameterID);
                     }
                     //
                     // Searches the loaded "Stepper".

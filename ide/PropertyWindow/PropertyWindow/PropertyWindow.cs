@@ -114,7 +114,13 @@ namespace EcellLib.PropertyWindow
         /// Row index edited now.
         /// </summary>
         private int m_editRow = -1;
+        /// <summary>
+        /// StepperID of current object.
+        /// </summary>
         private String m_stepperID = "";
+        /// <summary>
+        /// StepperID ComboBox of current object.
+        /// </summary>
         private DataGridViewComboBoxCell m_stepperIDComboBox = null;
         #endregion
 
@@ -146,16 +152,16 @@ namespace EcellLib.PropertyWindow
             m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
                     textName, textValue});
 
-            m_dgv.MouseDown += new MouseEventHandler(m_dgv_MouseDown);
-            m_dgv.UserDeletingRow += new DataGridViewRowCancelEventHandler(DgvUserDeletingRow);
-            m_dgv.CellClick += new DataGridViewCellEventHandler(CellClick);
-            m_dgv.CellEndEdit += new DataGridViewCellEventHandler(PropertyChanged);
-            m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(DgvEditingControlShowing);
+            m_dgv.MouseDown += new MouseEventHandler(MouseDownOnDataGrid);
+            m_dgv.UserDeletingRow += new DataGridViewRowCancelEventHandler(DeleteRowByUser);
+            m_dgv.CellClick += new DataGridViewCellEventHandler(ClickCell);
+            m_dgv.CellEndEdit += new DataGridViewCellEventHandler(ChangeProperty);
+            m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(ShowEditingControl);
             
             m_time = new System.Windows.Forms.Timer();
             m_time.Enabled = false;
             m_time.Interval = 100;
-            m_time.Tick += new EventHandler(TimerFire);
+            m_time.Tick += new EventHandler(FireTimer);
 
             m_deletetime = new System.Windows.Forms.Timer();
             m_deletetime.Enabled = false;
@@ -164,11 +170,11 @@ namespace EcellLib.PropertyWindow
         }
 
         /// <summary>
-        /// 
+        /// Change the property of data. 
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="obj"></param>
+        /// <param name="modelID">the modelID of object changed property.</param>
+        /// <param name="key">the key of object changed property.</param>
+        /// <param name="obj">the object changed property.</param>
         private void NotifyDataChanged(string modelID, string key, EcellObject obj)
         {
             m_isChanging = true;
@@ -232,7 +238,7 @@ namespace EcellLib.PropertyWindow
                         if (!o.key.EndsWith(":SIZE")) continue;
                         foreach (EcellData d in o.Value)
                         {
-                            if (!d.Name.EndsWith("Value")) continue;
+                            if (!d.Name.EndsWith(Constants.xpathValue)) continue;
                             if (data.Equals(d.Value.ToString())) break;
 
                             EcellData p = d.Copy();
@@ -256,7 +262,7 @@ namespace EcellLib.PropertyWindow
                     List<EcellData> dlist = new List<EcellData>();
                     foreach (string pname in plist.Keys)
                     {
-                        if (pname.Equals("Value"))
+                        if (pname.Equals(Constants.xpathValue))
                         {
                             EcellData d = plist[pname];
                             d.Value = new EcellValue(Convert.ToDouble(data));
@@ -268,7 +274,8 @@ namespace EcellLib.PropertyWindow
                         }
                     }
                     EcellObject obj = EcellObject.CreateObject(sysObj.modelID,
-                        sysObj.key + ":SIZE", "Variable", "Variable", dlist);
+                        sysObj.key + ":SIZE", Constants.xpathVariable, 
+                        Constants.xpathVariable, dlist);
                     List<EcellObject> rList = new List<EcellObject>();
                     rList.Add(obj);
                     dManager.DataAdd(rList);
@@ -295,8 +302,7 @@ namespace EcellLib.PropertyWindow
             foreach (EcellData d in m_current.Value)
             {
                 String str = d.Name;
-                if (str != "modelID" && str != "key" && str != "type" &&
-                    str != "classname" && str != EcellProcess.ACTIVITY &&
+                if (str != EcellProcess.ACTIVITY &&
                     str != EcellProcess.EXPRESSION && str != EcellProcess.NAME &&
                     str != EcellProcess.PRIORITY && str != EcellProcess.STEPPERID &&
                     str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
@@ -365,7 +371,7 @@ namespace EcellLib.PropertyWindow
         /// <param name="d">EcellData of property.</param>
         /// <param name="type">Type of property.</param>
         /// <returns>Row in DataGridView.</returns>
-        DataGridViewRow PropertyAdd(EcellData d, string type)
+        DataGridViewRow AddProperty(EcellData d, string type)
         {
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
@@ -425,8 +431,7 @@ namespace EcellLib.PropertyWindow
             }
             else if (d.Name.Equals(Constants.xpathStepperID))
             {
-                m_stepperIDComboBox = new DataGridViewComboBoxCell();
-                c2 = m_stepperIDComboBox;
+                c2 = new DataGridViewComboBoxCell();
                 List<EcellObject> slist;
                 slist = m_dManager.GetStepper(null, m_current.modelID);
                 foreach (EcellObject obj in slist)
@@ -435,6 +440,7 @@ namespace EcellLib.PropertyWindow
                 }
                 m_stepperID = d.Value.ToString();
                 c2.Value = d.Value.ToString();
+                m_stepperIDComboBox = (DataGridViewComboBoxCell)(c2.Clone());
             }
             else
             {
@@ -516,19 +522,19 @@ namespace EcellLib.PropertyWindow
             dModelID.Name = "ModelID";
             dModelID.Value = new EcellValue(modelID);
             dModelID.Settable = false;
-            PropertyAdd(dModelID, type);
+            AddProperty(dModelID, type);
 
             EcellData dKey = new EcellData();
             dKey.Name = "ID";
             dKey.Value = new EcellValue(key);
             dKey.Settable = true;
-            PropertyAdd(dKey, type);
+            AddProperty(dKey, type);
 
             EcellData dClass = new EcellData();
             dClass.Name = "ClassName";
             dClass.Value = new EcellValue(obj.classname);
             dClass.Settable = true;
-            PropertyAdd(dClass, type);
+            AddProperty(dClass, type);
             m_current = obj;
             
             foreach (EcellData d in obj.Value)
@@ -536,7 +542,7 @@ namespace EcellLib.PropertyWindow
                 if (d.Name.Equals(Constants.xpathSize))
                     continue;
 
-                PropertyAdd(d, type);
+                AddProperty(d, type);
                 if (d.Name.Equals(EcellProcess.VARIABLEREFERENCELIST))
                     m_refStr = d.Value.ToString();
                 if (d.Name.Equals(EcellProcess.EXPRESSION))
@@ -564,7 +570,7 @@ namespace EcellLib.PropertyWindow
                         }
                     }
                 }
-                PropertyAdd(dSize, type);
+                AddProperty(dSize, type);
             }
 
             if (m_type == ProjectStatus.Suspended)
@@ -869,7 +875,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DataGridViewRowCancelEventArgs.</param>
-        void DgvUserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        private void DeleteRowByUser(object sender, DataGridViewRowCancelEventArgs e)
         {
             if (m_propDic == null) return;
             string name = m_dgv.Rows[e.Row.Index].Cells[0].Value.ToString();
@@ -907,7 +913,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">MouseEventArgs.</param>
-        void m_dgv_MouseDown(object sender, MouseEventArgs e)
+        private void MouseDownOnDataGrid(object sender, MouseEventArgs e)
         {
             DataGridView v = sender as DataGridView;
             if (e.Button == MouseButtons.Left)
@@ -939,7 +945,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         /// <param name="sender">object(Timer)</param>
         /// <param name="e">EventArgs</param>
-        void TimerFire(object sender, EventArgs e)
+        void FireTimer(object sender, EventArgs e)
         {
             m_time.Enabled = false;
             UpdatePropForSimulation();
@@ -960,10 +966,7 @@ namespace EcellLib.PropertyWindow
                 m_editRow = -1;
                 m_deletetime.Stop();
             }
-            else
-            {
-                m_deletetime.Stop();
-            }
+            m_deletetime.Stop();
         }
 
         /// <summary>
@@ -971,7 +974,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DataGridViewEditingControlShowingEventArgs</param>
-        void DgvEditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        void ShowEditingControl(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             if (e.Control is DataGridViewComboBoxEditingControl)
             {
@@ -984,12 +987,12 @@ namespace EcellLib.PropertyWindow
                     if (d.Name.Equals(Constants.xpathClassName))
                     {
                         this.m_ComboControl.SelectedIndexChanged +=
-                            new EventHandler(ProcessClassSelectedIndexChanged);
+                            new EventHandler(ChangeSelectedIndexOfProcessClass);
                     }
                     else
                     {
                         this.m_ComboControl.SelectedIndexChanged +=
-                            new EventHandler(StepperIDSelectedIndexChanged);
+                            new EventHandler(ChangeSelectedIndexOfStepperID);
                     }
                 }
             }
@@ -1065,7 +1068,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DataGridViewCellEventArgs.</param>
-        void CellClick(object sender, DataGridViewCellEventArgs e)
+        void ClickCell(object sender, DataGridViewCellEventArgs e)
         {
             int rIndex = e.RowIndex;
             int cIndex = e.ColumnIndex;
@@ -1075,6 +1078,7 @@ namespace EcellLib.PropertyWindow
             DataGridViewCell c = m_dgv.Rows[rIndex].Cells[cIndex] as DataGridViewCell;
             if (c == null) return;
             if (c is DataGridViewTextBoxCell) return;
+            if (c.Value == null) return;
 
             if (c.Value.Equals("..."))
             {
@@ -1121,7 +1125,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DataGridViewCellEventArgs.</param>
-        private void PropertyChanged(object sender, DataGridViewCellEventArgs e)
+        private void ChangeProperty(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewCell editCell = m_dgv.Rows[e.RowIndex].Cells[e.ColumnIndex];
             if (editCell == null) return;
@@ -1222,21 +1226,19 @@ namespace EcellLib.PropertyWindow
             }
             else if (tag.Name.Equals(Constants.xpathClassName))
             {
-                //SelectedIndexChangedイベントハンドラを削除
                 if (this.m_ComboControl != null)
                 {
                     this.m_ComboControl.SelectedIndexChanged -=
-                        new EventHandler(ProcessClassSelectedIndexChanged);
+                        new EventHandler(ChangeSelectedIndexOfProcessClass);
                     this.m_ComboControl = null;
                 }
             }
             else if (tag.Name.Equals(Constants.xpathStepperID))
             {
-                //SelectedIndexChangedイベントハンドラを削除
                 if (this.m_ComboControl != null)
                 {
                     this.m_ComboControl.SelectedIndexChanged -=
-                        new EventHandler(ProcessClassSelectedIndexChanged);
+                        new EventHandler(ChangeSelectedIndexOfStepperID);
                     this.m_ComboControl = null;
                 }
             }
@@ -1305,7 +1307,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ProcessClassSelectedIndexChanged(object sender, EventArgs e)
+        private void ChangeSelectedIndexOfProcessClass(object sender, EventArgs e)
         {
             //選択されたアイテムを表示
             DataGridViewComboBoxEditingControl cb =
@@ -1367,7 +1369,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void StepperIDSelectedIndexChanged(object sender, EventArgs e)
+        private void ChangeSelectedIndexOfStepperID(object sender, EventArgs e)
         {
             //選択されたアイテムを表示
             DataGridViewComboBoxEditingControl cb =

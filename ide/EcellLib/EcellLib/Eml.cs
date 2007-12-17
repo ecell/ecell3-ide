@@ -238,8 +238,6 @@ namespace EcellLib
 
         private Dictionary<string, WrappedPolymorph> m_processPropertyDic;
 
-        private bool m_isWarn = false;
-
 
         /// <summary>
         /// Creates a new "Eml" instance with no argument.
@@ -283,7 +281,6 @@ namespace EcellLib
             {
                 l_ex.ToString();
                 isCreated = false;
-                m_isWarn = true;
             }
             //
             // 4 children
@@ -369,13 +366,6 @@ namespace EcellLib
             catch (Exception e)
             {
                 e.ToString();
-                m_isWarn = true;
-                //throw new Exception(
-                //    String.Format(
-                //        "Could not create {0}",
-                //        new object[] { l_stepperClass.InnerText }),
-                //    e
-                //);
             }
 
             //
@@ -542,7 +532,6 @@ namespace EcellLib
             EcellObject l_modelObject = EcellObject.CreateObject(
                     m_modelID, "", Constants.xpathModel, "", null);
 
-            m_isWarn = false;
             //
             // Parse
             //
@@ -572,7 +561,6 @@ namespace EcellLib
                 catch (WrappedException e)
                 {
                     e.ToString();
-                    m_isWarn = true;
                     //throw new EmlParseException(
                     //    String.Format(
                     //        "Could not load entity property {0}: {1}",

@@ -5595,23 +5595,10 @@ namespace EcellLib
                 String tmpID = 
                     GetTemporaryID(modelID, Constants.xpathVariable, key);
 
-                EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
-                if (sysobj == null) return null;
-                String stepperID = "";
-                foreach (EcellData d in sysobj.Value)
-                {
-                    if (!d.Name.Equals(Constants.xpathStepperID)) continue;
-                    stepperID = d.Value.ToString();
-                }
-
                 Dictionary<string, EcellData> list = GetVariableProperty();
                 List<EcellData> data = new List<EcellData>();
                 foreach (EcellData d in list.Values)
                 {
-                    if (d.Name.Equals(Constants.xpathStepperID))
-                    {
-                        d.Value = new EcellValue(stepperID);
-                    }
                     data.Add(d);
                 }
                 EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
@@ -5650,10 +5637,23 @@ namespace EcellLib
                 String tmpID = 
                     GetTemporaryID(modelID, Constants.xpathSystem, key);
 
+                EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
+                if (sysobj == null) return null;
+                String stepperID = "";
+                foreach (EcellData d in sysobj.Value)
+                {
+                    if (!d.Name.Equals(Constants.xpathStepperID)) continue;
+                    stepperID = d.Value.ToString();
+                }
+
                 Dictionary<string, EcellData> list = this.GetSystemProperty();
                 List<EcellData> data = new List<EcellData>();
                 foreach (EcellData d in list.Values)
                 {
+                    if (d.Name.Equals(Constants.xpathStepperID))
+                    {
+                        d.Value = new EcellValue(stepperID);
+                    }
                     data.Add(d);
                 }
                 EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
@@ -5684,7 +5684,7 @@ namespace EcellLib
         /// <param name="l_prjID">The "Project" ID</param>
         /// <param name="l_comment">The comment</param>
         /// <param name="l_projectPath">The project directory path to load the dm of this project.</param>
-        public void NewProject(string l_prjID, string l_comment, string l_projectPath)
+        public void CreateProject(string l_prjID, string l_comment, string l_projectPath)
         {
             Project l_prj = null;
             try
@@ -5773,9 +5773,9 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_parameterID">The new parameter ID</param>
         /// <returns>The new parameter</returns>
-        public void NewSimulationParameter(string l_parameterID)
+        public void CreateSimulationParameter(string l_parameterID)
         {
-            NewSimulationParameter(l_parameterID, true, true);
+            CreateSimulationParameter(l_parameterID, true, true);
         }
 
         /// <summary>
@@ -5784,7 +5784,7 @@ namespace EcellLib
         /// <param name="l_parameterID">The new parameter ID</param>
         /// <param name="l_isRecorded">Whether this action is recorded or not</param>
         /// <param name="l_isAnchor">Whether this action is an anchor or not</param>        
-        public void NewSimulationParameter(string l_parameterID, bool l_isRecorded, bool l_isAnchor)
+        public void CreateSimulationParameter(string l_parameterID, bool l_isRecorded, bool l_isAnchor)
         {
             string l_message = null;
             try
