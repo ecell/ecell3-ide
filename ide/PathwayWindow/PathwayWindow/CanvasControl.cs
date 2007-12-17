@@ -536,8 +536,10 @@ namespace EcellLib.PathwayWindow
             if (obj is PPathwayNode)
             {
                 obj.ViewMode = false;
-                if ((!system.Rect.Contains(obj.PointF) || !hasCoords))
+                if (!hasCoords)
                     obj.PointF = GetVacantPoint(systemName);
+                else if (!system.Rect.Contains(obj.PointF))
+                    obj.PointF = GetVacantPoint(systemName, obj.PointF);
             }
             if (obj is PPathwaySystem && !hasCoords)
             {
@@ -994,7 +996,11 @@ namespace EcellLib.PathwayWindow
         /// <returns></returns>
         public Bitmap ToImage()
         {
-            return new Bitmap(m_pCanvas.Layer[0].ToImage());
+            //return new Bitmap(m_pCanvas.Layer[0].ToImage());
+            Rectangle rect = new Rectangle(0, 0, (int)m_systems["/"].Rect.Width, (int)m_systems["/"].Rect.Height);
+            Bitmap bitmap = new Bitmap(m_pCanvas.ClientRectangle.Width, m_pCanvas.ClientRectangle.Height);
+            m_pCanvas.DrawToBitmap(bitmap, m_pCanvas.ClientRectangle);
+            return bitmap;
         }
 
         /// <summary>

@@ -569,16 +569,10 @@ namespace EcellLib.PathwayWindow
         /// <returns>Bitmap of this pathway.</returns>
         public Bitmap Print()
         {
-            if (m_canvasDict != null && m_canvasDict.Count != 0)
-            {
-                foreach (CanvasControl set in m_canvasDict.Values)
-                {
-                    return set.ToImage();
-                }
+            if (m_canvasDict == null || m_canvasDict.Count == 0)
                 return new Bitmap(1, 1);
-            }
-            else
-                return new Bitmap(1, 1);
+
+            return ActiveCanvas.ToImage();
         }
 
         /// <summary>
