@@ -52,7 +52,7 @@ namespace Formulator
         /// <summary>
         /// Width of image.
         /// </summary>
-        private int m_sizeX = 1000;
+        private int m_sizeX = 3000;
         /// <summary>
         /// Height of image.
         /// </summary>
