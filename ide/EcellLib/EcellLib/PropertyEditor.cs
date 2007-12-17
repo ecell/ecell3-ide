@@ -778,21 +778,15 @@ namespace EcellLib
                     }
                     else if (key == EcellProcess.STEPPERID)
                     {
-                        TextBox t = new TextBox();
-                        if (m_currentObj == null)
+                        ComboBox t = new ComboBox();
+                        List<EcellObject> slist;
+                        slist = m_dManager.GetStepper(null, m_currentObj.modelID);
+                        foreach (EcellObject obj in slist)
                         {
-                            List<EcellObject> slist;
-                            slist = m_dManager.GetStepper(null, m_parentObj.modelID);
-                            foreach (EcellObject obj in slist)
-                            {
-                                t.Text = obj.key;
-                                break;
-                            }
+                            t.Items.AddRange(new object[] { obj.key });
                         }
-                        else
-                        {
-                            t.Text = m_propDict[key].Value.ToString();
-                        }
+
+                        t.Text = m_propDict[key].Value.ToString();
                         t.Tag = key;
                         t.Dock = DockStyle.Fill;
                         t.KeyPress += new KeyPressEventHandler(EnterKeyPress);

@@ -295,6 +295,12 @@ namespace EcellLib
                         }
                         this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.modelID]
                                 .Add(l_stepper);
+                        if (m_currentParameterID.Equals(l_parameterID))
+                        {
+                            List<EcellObject> stepperList = new List<EcellObject>();
+                            stepperList.Add(l_stepper);
+                            m_pManager.DataAdd(stepperList);
+                        }
                         this.m_pManager.Message(
                             Constants.messageSimulation,
                             "Create Stepper: " + l_message + System.Environment.NewLine
@@ -3008,6 +3014,10 @@ namespace EcellLib
                 }
                 if (l_isRecorded)
                     m_aManager.AddAction(new DeleteStepperAction(l_parameterID, l_stepper));
+                if (m_currentParameterID.Equals(l_parameterID))
+                {
+                    m_pManager.DataDelete(l_stepper.modelID, l_stepper.key, l_stepper.type);
+                }
             }
             catch (Exception l_ex)
             {
@@ -5493,37 +5503,80 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Create the default object(Process, Variable and System).
+        /// </summary>
+        /// <param name="modelID">the model ID of created object.</param>
+        /// <param name="key">the system path of parent object.</param>
+        /// <param name="type">the type of created object.</param>
+        /// <param name="isProper">the flag whether the create object is propergated.</param>
+        /// <returns>the create object.</returns>
+        public EcellObject CreateDefaultObject(string modelID, string key, string type, bool isProper)
+        {
+            if (type.Equals(Constants.xpathSystem))
+            {
+                return CreateDefaultSystem(modelID, key, isProper);
+            }
+            else if (type.Equals(Constants.xpathProcess))
+            {
+                return CreateDefaultProcess(modelID, key, isProper);
+            }
+            else if (type.Equals(Constants.xpathVariable))
+            {
+                return CreateDefaultVariable(modelID, key, isProper);
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Create the process with temporary ID.
         /// </summary>
-        /// <param name="l_modelID">model ID of created object.</param>
-        /// <param name="l_key">the key of parent system object.</param>
-        public void CreateDefaultProcess(string l_modelID, string l_key)
+        /// <param name="modelID">model ID of created object.</param>
+        /// <param name="key">the key of parent system object.</param>
+        /// <param name="isProper">the flag whether the create object is propergated.</param>
+        /// <returns>the create object.</returns>
+        private EcellObject CreateDefaultProcess(string modelID, string key, bool isProper)
         {
             try
             {
-                String tmpID = GetTemporaryID(l_modelID,
-                    Constants.xpathProcess, l_key);
+                String tmpID = GetTemporaryID(modelID,
+                    Constants.xpathProcess, key);
+                EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
+                if (sysobj == null) return null;
+                String stepperID = "";
+                foreach (EcellData d in sysobj.Value)
+                {
+                    if (!d.Name.Equals(Constants.xpathStepperID)) continue;
+                    stepperID = d.Value.ToString();
+                }
 
                 Dictionary<string, EcellData> list = GetProcessProperty(DataManager.s_defaultProcessName);
                 List<EcellData> data = new List<EcellData>();
                 foreach (EcellData d in list.Values)
                 {
+                    if (d.Name.Equals(Constants.xpathStepperID))
+                    {
+                        d.Value = new EcellValue(stepperID);
+                    }
                     data.Add(d);
                 }
-                EcellObject obj = EcellObject.CreateObject(l_modelID, tmpID,
+                EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
                     Constants.xpathProcess, DataManager.s_defaultProcessName, data);
 
-                List<EcellObject> rList = new List<EcellObject>();
-                rList.Add(obj);
-                DataAdd(rList);
-                m_pManager.SelectChanged(l_modelID, tmpID, Constants.xpathProcess);
+                if (isProper)
+                {
+                    List<EcellObject> rList = new List<EcellObject>();
+                    rList.Add(obj);
+                    DataAdd(rList);
+                    m_pManager.SelectChanged(modelID, tmpID, Constants.xpathProcess);
+                }
+                return obj;
             }
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString("ErrAddObj");
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return null;
             }
 
         }
@@ -5531,35 +5584,54 @@ namespace EcellLib
         /// <summary>
         /// Create the variable with temporary ID.
         /// </summary>
-        /// <param name="l_modelID">model ID of created object.</param>
-        /// <param name="l_key">the key of parent system object.</param>
-        public void CreateDefaultVariable(string l_modelID, string l_key)
+        /// <param name="modelID">model ID of created object.</param>
+        /// <param name="key">the key of parent system object.</param>
+        /// <param name="isProper">the flag whether the create object is propergated.</param>
+        /// <returns>the create object.</returns>
+        private EcellObject CreateDefaultVariable(string modelID, string key, bool isProper)
         {
             try
             {
                 String tmpID = 
-                    GetTemporaryID(l_modelID, Constants.xpathVariable, l_key);
+                    GetTemporaryID(modelID, Constants.xpathVariable, key);
+
+                EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
+                if (sysobj == null) return null;
+                String stepperID = "";
+                foreach (EcellData d in sysobj.Value)
+                {
+                    if (!d.Name.Equals(Constants.xpathStepperID)) continue;
+                    stepperID = d.Value.ToString();
+                }
 
                 Dictionary<string, EcellData> list = GetVariableProperty();
                 List<EcellData> data = new List<EcellData>();
                 foreach (EcellData d in list.Values)
                 {
+                    if (d.Name.Equals(Constants.xpathStepperID))
+                    {
+                        d.Value = new EcellValue(stepperID);
+                    }
                     data.Add(d);
                 }
-                EcellObject obj = EcellObject.CreateObject(l_modelID, tmpID,
+                EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
                     Constants.xpathVariable, Constants.xpathVariable, data);
 
-                List<EcellObject> rList = new List<EcellObject>();
-                rList.Add(obj);
-                DataAdd(rList);
-                m_pManager.SelectChanged(l_modelID, tmpID, Constants.xpathVariable);
+                if (isProper)
+                {
+                    List<EcellObject> rList = new List<EcellObject>();
+                    rList.Add(obj);
+                    DataAdd(rList);
+                    m_pManager.SelectChanged(modelID, tmpID, Constants.xpathVariable);
+                }
+                return obj;
             }
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString("ErrAddObj");
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return null;
             }
 
         }
@@ -5567,14 +5639,16 @@ namespace EcellLib
         /// <summary>
         /// Create the system with temporary ID.
         /// </summary>
-        /// <param name="l_modelID">model ID of created object.</param>
-        /// <param name="l_key">the key of parent system object.</param>
-        public void CreateDefaultSystem(string l_modelID, string l_key)
+        /// <param name="modelID">model ID of created object.</param>
+        /// <param name="key">the key of parent system object.</param>
+        /// <param name="isProper">the flag whether the create object is propergated.</param>
+        /// <returns>the create object.</returns>
+        private EcellObject CreateDefaultSystem(string modelID, string key, bool isProper)
         {
             try
             {
                 String tmpID = 
-                    GetTemporaryID(l_modelID, Constants.xpathSystem, l_key);
+                    GetTemporaryID(modelID, Constants.xpathSystem, key);
 
                 Dictionary<string, EcellData> list = this.GetSystemProperty();
                 List<EcellData> data = new List<EcellData>();
@@ -5582,20 +5656,24 @@ namespace EcellLib
                 {
                     data.Add(d);
                 }
-                EcellObject obj = EcellObject.CreateObject(l_modelID, tmpID,
+                EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
                     Constants.xpathSystem, Constants.xpathSystem, data);
 
-                List<EcellObject> rList = new List<EcellObject>();
-                rList.Add(obj);
-                DataAdd(rList);
-                m_pManager.SelectChanged(l_modelID, tmpID, Constants.xpathSystem);
+                if (isProper)
+                {
+                    List<EcellObject> rList = new List<EcellObject>();
+                    rList.Add(obj);
+                    DataAdd(rList);
+                    m_pManager.SelectChanged(modelID, tmpID, Constants.xpathSystem);
+                }
+                return obj;
             }
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString("ErrAddObj");
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return null;
             }
 
         }

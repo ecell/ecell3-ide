@@ -692,7 +692,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">EventArgs</param>
         public void TreeviewAddSystem(object sender, EventArgs e)
         {
-            m_dManager.CreateDefaultSystem(m_currentObj.modelID, m_currentObj.key);
+            m_dManager.CreateDefaultObject(m_currentObj.modelID, m_currentObj.key, Constants.xpathSystem, true);
         }
 
         /// <summary>
@@ -702,7 +702,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">EventArgs</param>
         public void TreeviewAddVariable(object sender, EventArgs e)
         {
-            m_dManager.CreateDefaultVariable(m_currentObj.modelID, m_currentObj.key);
+            m_dManager.CreateDefaultObject(m_currentObj.modelID, m_currentObj.key, Constants.xpathVariable, true);
         }
 
         /// <summary>
@@ -712,7 +712,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">EventArgs</param>
         public void TreeviewAddProcess(object sender, EventArgs e)
         {
-            m_dManager.CreateDefaultProcess(m_currentObj.modelID, m_currentObj.key);
+            m_dManager.CreateDefaultObject(m_currentObj.modelID, m_currentObj.key, Constants.xpathProcess, true);
         }
 
         /// <summary>
