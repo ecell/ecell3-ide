@@ -869,6 +869,7 @@ namespace EcellLib.ObjectList
         {
             if (this.m_currentModelID == null ||
                 this.m_currentModelID != modelID) return;
+            if (type.Equals(Constants.xpathStepper)) return;
 
             if (key == null)
             {

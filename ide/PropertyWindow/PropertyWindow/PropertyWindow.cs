@@ -114,6 +114,8 @@ namespace EcellLib.PropertyWindow
         /// Row index edited now.
         /// </summary>
         private int m_editRow = -1;
+        private String m_stepperID = "";
+        private DataGridViewComboBoxCell m_stepperIDComboBox = null;
         #endregion
 
         /// <summary>
@@ -421,6 +423,19 @@ namespace EcellLib.PropertyWindow
                 c2 = new DataGridViewButtonCell();
                 c2.Value = "Edit Variable Reference ...";
             }
+            else if (d.Name.Equals(Constants.xpathStepperID))
+            {
+                m_stepperIDComboBox = new DataGridViewComboBoxCell();
+                c2 = m_stepperIDComboBox;
+                List<EcellObject> slist;
+                slist = m_dManager.GetStepper(null, m_current.modelID);
+                foreach (EcellObject obj in slist)
+                {
+                    ((DataGridViewComboBoxCell)c2).Items.AddRange(new object[] { obj.key });
+                }
+                m_stepperID = d.Value.ToString();
+                c2.Value = d.Value.ToString();
+            }
             else
             {
                 c2 = new DataGridViewTextBoxCell();
@@ -514,6 +529,7 @@ namespace EcellLib.PropertyWindow
             dClass.Value = new EcellValue(obj.classname);
             dClass.Settable = true;
             PropertyAdd(dClass, type);
+            m_current = obj;
             
             foreach (EcellData d in obj.Value)
             {
@@ -550,7 +566,7 @@ namespace EcellLib.PropertyWindow
                 }
                 PropertyAdd(dSize, type);
             }
-            m_current = obj;
+
             if (m_type == ProjectStatus.Suspended)
             {
                 UpdatePropForSimulation();
@@ -593,7 +609,14 @@ namespace EcellLib.PropertyWindow
         /// <param name="data">The value of the adding object.</param>
         public void DataAdd(List<EcellObject> data)
         {
-            // nothing
+            foreach (EcellObject obj in data)
+            {
+                if (obj.type.Equals(Constants.xpathStepper))
+                {
+                    if (m_stepperIDComboBox == null) return;
+                    m_stepperIDComboBox.Items.AddRange(new object[] { obj.key });
+                }
+            }
         }
 
         /// <summary>
@@ -631,6 +654,14 @@ namespace EcellLib.PropertyWindow
         public void DataDelete(string modelID, string key, string type)
         {
             if (m_current == null) return;
+            if (type.Equals(Constants.xpathStepper))
+            {
+                if (m_stepperIDComboBox == null) return;
+                if (m_stepperIDComboBox.Items.Contains(key))
+                {
+                    m_stepperIDComboBox.Items.Remove(key);
+                }
+            }
             if (modelID.Equals(m_current.modelID) &&
                 key.Equals(m_current.key) &&
                 type.Equals(m_current.type))
@@ -681,6 +712,7 @@ namespace EcellLib.PropertyWindow
             m_dgv.Rows.Clear();
             m_dgv.AllowUserToAddRows = false;
             m_dgv.AllowUserToDeleteRows = false;
+            m_stepperIDComboBox = null;
         }
 
         /// <summary>
@@ -948,8 +980,17 @@ namespace EcellLib.PropertyWindow
                 {
                     this.m_ComboControl =
                         (DataGridViewComboBoxEditingControl)e.Control;
-                    this.m_ComboControl.SelectedIndexChanged +=
-                        new EventHandler(DgvSelectedIndexChanged);
+                    EcellData d = dgv.CurrentCell.Tag as EcellData;
+                    if (d.Name.Equals(Constants.xpathClassName))
+                    {
+                        this.m_ComboControl.SelectedIndexChanged +=
+                            new EventHandler(ProcessClassSelectedIndexChanged);
+                    }
+                    else
+                    {
+                        this.m_ComboControl.SelectedIndexChanged +=
+                            new EventHandler(StepperIDSelectedIndexChanged);
+                    }
                 }
             }
         }
@@ -1185,7 +1226,17 @@ namespace EcellLib.PropertyWindow
                 if (this.m_ComboControl != null)
                 {
                     this.m_ComboControl.SelectedIndexChanged -=
-                        new EventHandler(DgvSelectedIndexChanged);
+                        new EventHandler(ProcessClassSelectedIndexChanged);
+                    this.m_ComboControl = null;
+                }
+            }
+            else if (tag.Name.Equals(Constants.xpathStepperID))
+            {
+                //SelectedIndexChangedイベントハンドラを削除
+                if (this.m_ComboControl != null)
+                {
+                    this.m_ComboControl.SelectedIndexChanged -=
+                        new EventHandler(ProcessClassSelectedIndexChanged);
                     this.m_ComboControl = null;
                 }
             }
@@ -1254,11 +1305,12 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DgvSelectedIndexChanged(object sender, EventArgs e)
+        private void ProcessClassSelectedIndexChanged(object sender, EventArgs e)
         {
             //選択されたアイテムを表示
             DataGridViewComboBoxEditingControl cb =
                 (DataGridViewComboBoxEditingControl)sender;
+            String tagName = cb.Tag as string;
             String cname = cb.SelectedItem.ToString();
             if (cname.Equals(m_current.classname)) return;
 
@@ -1298,6 +1350,52 @@ namespace EcellLib.PropertyWindow
                 {
                     m_dgv.AllowUserToAddRows = false;
                 }
+                SelectChanged(m_current.modelID, m_current.key, m_current.type);
+            }
+            catch (Exception ex)
+            {
+                m_isChanging = false;
+                ex.ToString();
+                String errmes = m_resources.GetString("ErrChanged");
+                MessageBox.Show(errmes + "\n\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Event when user change the selected item of DataGridViewComboBoxCell.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StepperIDSelectedIndexChanged(object sender, EventArgs e)
+        {
+            //選択されたアイテムを表示
+            DataGridViewComboBoxEditingControl cb =
+                (DataGridViewComboBoxEditingControl)sender;
+            String cname = cb.SelectedItem.ToString();
+            if (cname.Equals(m_stepperID)) return;
+
+            foreach (EcellData d in m_current.Value)
+            {
+                if (d.Name.Equals(Constants.xpathStepperID))
+                {
+                    d.Value = new EcellValue(cname);
+                }
+            }
+            EcellObject obj = EcellObject.CreateObject(m_current.modelID,
+                m_current.key,
+                m_current.type,
+                m_current.classname,
+                m_current.Value);
+            obj.X = m_current.X;
+            obj.Y = m_current.Y;
+            obj.OffsetX = m_current.OffsetX;
+            obj.OffsetY = m_current.OffsetY;
+            obj.Height = m_current.Height;
+            obj.Width = m_current.Width;
+            try
+            {
+                NotifyDataChanged(m_current.modelID, m_current.key, obj);
             }
             catch (Exception ex)
             {
