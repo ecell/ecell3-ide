@@ -43,66 +43,54 @@ using UMD.HCIL.Piccolo.Nodes;
 using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.UIComponent;
 
-namespace EcellLib.PathwayWindow
+namespace EcellLib.PathwayWindow.Handler
 {
     /// <summary>
     /// Handler class for creating nodes (variables, process).
     /// </summary>
-    public class CreateNodeMouseHandler : PBasicInputEventHandler
+    public class CreateNodeMouseHandler : PPathwayInputEventHandler
     {
-        /// <summary>
-        /// PathwayView
-        /// </summary>
-        protected PathwayControl m_con;
-
-        /// <summary>
-        /// PropertyEditor. By using this, parameters for new object will be input.
-        /// </summary>
-        protected PropertyEditor m_editor;
-
-        /// <summary>
-        /// CanvasViewComponentSet, on which a new object will be created.
-        /// </summary>
-        protected CanvasControl m_canvas;
-
-        /// <summary>
-        /// Where mouse was pressed down on pathwaycanvas.
-        /// </summary>
-        protected PointF m_downPos;
-
-        /// <summary>
-        /// A system, which surrounds the position where the mouse was pressed down.
-        /// </summary>
-        protected string m_surSystem;
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
-
+        #region Fields
         /// <summary>
         /// DataManage instance associated to this object.
         /// </summary>
-        DataManager m_dManager;
+        private DataManager m_dManager;
 
+        /// <summary>
+        /// Object template.
+        /// </summary>
+        private PPathwayObject m_template;
+        #endregion
+
+        #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="dManager">A DataManager instance to associate.</param>
         /// <param name="control">Control to diaplay the Matir2 .</param>
-        public CreateNodeMouseHandler(PathwayControl control)
+        /// <param name="control">Control to diaplay the Matir2 .</param>
+        public CreateNodeMouseHandler(PathwayControl control, ComponentType cType)
         {
             this.m_con = control;
             this.m_dManager = control.Window.DataManager;
+            this.m_template = m_con.ComponentManager.CreateTemplate(cType);
+            m_template.Pickable = false;
         }
+        #endregion
 
+        #region EventHandlers
         /// <summary>
-        /// Return whether this handler accepts a certain event or not.
+        /// Called when the mouse is move on the canvas.
         /// </summary>
-        /// <param name="e">checked event</param>
-        /// <returns>true if this handler accepts an event, false otherwise</returns>
-        public override bool DoesAcceptEvent(PInputEventArgs e)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void OnMouseMove(object sender, PInputEventArgs e)
         {
-            return e.Button != MouseButtons.Right;
+            base.OnMouseMove(sender, e);
+            CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
+            if (canvas == null)
+                return;
+            canvas.ControlLayer.AddChild(m_template);
+            m_template.CenterPointF = e.Position;
         }
 
         /// <summary>
@@ -117,11 +105,10 @@ namespace EcellLib.PathwayWindow
             if (!(e.PickedNode is PCamera))
                 return;
 
-            m_canvas = m_con.CanvasDictionary[e.Canvas.Name];
-            m_downPos = e.Position;
-            m_surSystem = m_con.CanvasDictionary[e.Canvas.Name].GetSurroundingSystemKey(e.Position);
+            CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
+            string system = canvas.GetSurroundingSystemKey(e.Position);
 
-            if (string.IsNullOrEmpty(m_surSystem))
+            if (string.IsNullOrEmpty(system))
             {
                 MessageBox.Show(m_resources.GetString("ErrOutRoot"),
                                 "Error",
@@ -130,45 +117,73 @@ namespace EcellLib.PathwayWindow
                 return;
             }
             // Create EcellObject.
-            EcellObject eo = CreateNewObject(m_con.SelectedHandle.CsID);
-            eo.X = m_downPos.X;
-            eo.Y = m_downPos.Y;
-            eo.Width = PPathwayNode.DEFAULT_WIDTH;
-            eo.Height = PPathwayNode.DEFAULT_HEIGHT;
-
+            string type = ComponentManager.GetTypeString(m_template.Setting.ComponentType);
+            EcellObject eo = m_dManager.CreateDefaultObject(canvas.ModelID, system, type, false);
+            eo.X = m_template.X;
+            eo.Y = m_template.Y;
+            eo.Width = m_template.Width;
+            eo.Height = m_template.Height;
+            
             m_con.NotifyDataAdd(eo, true);
         }
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        /// Method to initialize EventHandler status.
+        /// </summary>
+        public override void Initialize()
+        {
+            base.Initialize();
+            Reset();
+        }
+
+        /// <summary>
+        /// Method to reset EventHandler status.
+        /// </summary>
+        public override void Reset()
+        {
+            base.Reset();
+            if (m_template.Parent == null)
+                return;
+            m_template.Parent.RemoveChild(m_template);
+        }
+        #endregion
+
+        #region Private Methods
         /// <summary>
         /// Create new EcellObject.
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        private EcellObject CreateNewObject(ComponentType cType)
-        {
-            Dictionary<string, EcellData> dict = null;
-            string type = ComponentManager.GetTypeString(cType);
-            string tmpId = m_canvas.GetTemporaryID(type, m_surSystem);
-            string className = null;
-            // Get ECellDatas.
-            if (cType == ComponentType.Process)
-            {
-                className = "ExpressionFluxProcess";
-                dict = m_dManager.GetProcessProperty(className);
-            }
-            else if (cType == ComponentType.Variable)
-            {
-                className = type;
-                dict = m_dManager.GetVariableProperty();
-            }
-            // Change to List.
-            List<EcellData> list = new List<EcellData>();
-            foreach (EcellData d in dict.Values)
-                list.Add(d);
+        //private EcellObject CreateNewObject(ComponentType cType)
+        //{
+        //    Dictionary<string, EcellData> dict = null;
+        //    string type = ComponentManager.GetTypeString(m_template.Setting.ComponentType);
+        //    string tmpId = m_canvas.GetTemporaryID(type, m_surSystem);
+        //    string className = null;
+        //    // Get ECellDatas.
+        //    if (cType == ComponentType.Process)
+        //    {
+        //        className = "ExpressionFluxProcess";
+        //        dict = m_dManager.GetProcessProperty(className);
+        //    }
+        //    else if (cType == ComponentType.Variable)
+        //    {
+        //        className = type;
+        //        dict = m_dManager.GetVariableProperty();
+        //    }
+        //    // Change to List.
+        //    List<EcellData> list = new List<EcellData>();
+        //    foreach (EcellData d in dict.Values)
+        //        list.Add(d);
             
-            // Get EcellObject
-            EcellObject eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, type, className, list);
+        //    // Get EcellObject
+        //    EcellObject eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, type, className, list);
 
-            return eo;
-        }
+        //    return eo;
+        //}
+        
+        #endregion
     }
 }

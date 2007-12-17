@@ -42,14 +42,15 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Data;
 using System.Drawing.Drawing2D;
+using System.IO;
+using System.ComponentModel;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.PiccoloX.Nodes;
 using UMD.HCIL.Piccolo.Util;
-using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Nodes;
-using System.IO;
-using System.ComponentModel;
+using EcellLib.PathwayWindow.UIComponent;
+using EcellLib.PathwayWindow.Handler;
 
 namespace EcellLib.PathwayWindow
 {
@@ -1024,9 +1025,6 @@ namespace EcellLib.PathwayWindow
             list.Add(zoomoutButton);
             m_buttonList.Add(zoomoutButton);
 
-            CreateSystemMouseHandler csmh = new CreateSystemMouseHandler(this);
-            CreateNodeMouseHandler cnmh = new CreateNodeMouseHandler(this);
-
             foreach (ComponentSetting cs in m_csManager.ComponentSettings)
             {
                 ToolStripButton button = new ToolStripButton();
@@ -1038,7 +1036,7 @@ namespace EcellLib.PathwayWindow
                 {
                     Rectangle rect = new Rectangle(3, 3, 240, 240);
                     gra.DrawRectangle(new Pen(Brushes.Black, 16), rect);
-                    m_handlerDict.Add(handleCount, csmh);
+                    m_handlerDict.Add(handleCount, new CreateSystemMouseHandler(this));
                     button.Tag = new Handle(Mode.CreateSystem, handleCount++, cs.ComponentType);
                 }
                 else
@@ -1046,7 +1044,7 @@ namespace EcellLib.PathwayWindow
                     GraphicsPath gp = cs.TransformedPath;
                     gra.FillPath(cs.NormalBrush, gp);
                     gra.DrawPath(new Pen(Brushes.Black, 16), gp);
-                    m_handlerDict.Add(handleCount, cnmh);
+                    m_handlerDict.Add(handleCount, new CreateNodeMouseHandler(this, cs.ComponentType));
                     button.Tag = new Handle(Mode.CreateNode, handleCount++, cs.ComponentType);
                 }
                 button.Size = new System.Drawing.Size(256, 256);
@@ -1356,7 +1354,7 @@ namespace EcellLib.PathwayWindow
                 return;
 
             // Delete Selected Line
-            PPathwayLine line = canvas.SelectedLine;
+            PPathwayLine line = canvas.LineHandler.SelectedLine;
             if (line != null)
             {
                 NotifyVariableReferenceChanged(
@@ -1487,7 +1485,7 @@ namespace EcellLib.PathwayWindow
             if (canvas == null)
                 return;
             // Selected Line
-            PPathwayLine line = canvas.SelectedLine;
+            PPathwayLine line = canvas.LineHandler.SelectedLine;
             if (line == null)
                 return;
             canvas.ResetSelectedLine();
@@ -1664,9 +1662,15 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">EventArgs.</param>
         private void ButtonStateChanged(object sender, EventArgs e)
         {
-            RemoveInputEventListener(m_handlerDict[m_selectedHandle.HandleID]);
+            // Remove an old EventHandler
+            PBasicInputEventHandler handler = m_handlerDict[m_selectedHandle.HandleID];
+            if (handler is PPathwayInputEventHandler)
+                ((PPathwayInputEventHandler)handler).Reset();
+            RemoveInputEventListener(handler);
+
+            // Set a new EventHandler 
             m_selectedHandle = (Handle)((ToolStripButton)sender).Tag;
-            
+            handler = m_handlerDict[m_selectedHandle.HandleID];
             foreach (ToolStripButton button in m_buttonList)
             {
                 if (button.Tag != m_selectedHandle)
@@ -1674,8 +1678,9 @@ namespace EcellLib.PathwayWindow
                     button.Checked = false;
                 }
             }
-
-            AddInputEventListener(m_handlerDict[m_selectedHandle.HandleID]);
+            if (handler is PPathwayInputEventHandler)
+                ((PPathwayInputEventHandler)handler).Initialize();
+            AddInputEventListener(handler);
 
             if (m_selectedHandle.Mode == Mode.Pan)
             {
@@ -1690,7 +1695,7 @@ namespace EcellLib.PathwayWindow
             if (ActiveCanvas == null)
                 return;
             ActiveCanvas.ResetNodeToBeConnected();
-            ActiveCanvas.SetLineVisibility(false);
+            ActiveCanvas.LineHandler.SetLineVisibility(false);
         }
         /// <summary>
         /// 

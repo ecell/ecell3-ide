@@ -108,6 +108,7 @@
     <Compile Include="Handler\NamespaceDoc.cs" />
     <Compile Include="Handler\NodeDragHandler.cs" />
     <Compile Include="Handle.cs" />
+    <Compile Include="Handler\PPathwayInputEventHandler.cs" />
     <Compile Include="Handler\ResizeHandler.cs" />
     <Compile Include="MessageResPathway.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -119,7 +120,7 @@
     <Compile Include="NoSuchComponentClassException.cs" />
     <Compile Include="NoSuchComponentKindException.cs" />
     <Compile Include="PathwayException.cs" />
-    <Compile Include="Nodes\Line.cs" />
+    <Compile Include="Nodes\PPathwayLine.cs" />
     <Compile Include="UIComponent\InputBoxDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,13 +147,12 @@
     <Compile Include="Nodes\PPathwayObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Handler\CreateSystemMouseHandler.cs" />
-    <Compile Include="Handler\ResizeHandleDragHandler.cs" />
+    <Compile Include="Handler\ObjectDragHandler.cs" />
     <Compile Include="Resource1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
-    <Compile Include="Handler\ResizeHandle.cs" />
     <Compile Include="UIComponent\NamespaceDoc.cs" />
     <Compile Include="UIComponent\PathwayView.cs">
       <SubType>Form</SubType>

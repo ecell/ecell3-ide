@@ -149,13 +149,13 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// get/set related element.
         /// </summary>
-        public new virtual EcellObject EcellObject
+        public override EcellObject EcellObject
         {
             get { return base.m_ecellObj; }
             set
             {   
                 base.EcellObject = value;
-                RefreshText();
+                Refresh();
             }
         }
         /// <summary>
@@ -193,7 +193,6 @@ namespace EcellLib.PathwayWindow.Nodes
             m_pPropertyText = new PText();
             m_pPropertyText.Pickable = false;
             this.AddChild(m_pPropertyText);
-
         }
         #endregion
 

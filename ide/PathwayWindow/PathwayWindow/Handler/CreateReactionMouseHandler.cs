@@ -36,45 +36,34 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
+using System.Drawing;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
+using UMD.HCIL.Piccolo.Nodes;
 using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.UIComponent;
-using System.Drawing;
-using UMD.HCIL.Piccolo.Nodes;
 
-namespace EcellLib.PathwayWindow
+namespace EcellLib.PathwayWindow.Handler
 {
-    class CreateReactionMouseHandler : PBasicInputEventHandler
+    public class CreateReactionMouseHandler : PPathwayInputEventHandler
     {
+
+        public enum ReferenceKind { Changeable, Constant };
+
+        #region Fields
         /// <summary>
         /// Used to draw line to connect.
         /// </summary>
         private static readonly Pen LINE_THICK_PEN = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 5);
-
-        public enum ReferenceKind {Changeable, Constant};
-
-        /// <summary>
-        /// PathwayView
-        /// </summary>
-        protected PathwayControl m_con;
 
         /// <summary>
         /// Currently selected node.
         /// </summary>
         protected PPathwayNode m_current = null;
 
-        /// <summary>
-        /// Start point of line
-        /// </summary>
-        protected PointF m_startPoint = PointF.Empty;
+        #endregion
 
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
-
-
+        #region Constructors
         /// <summary>
         /// Constructor with PathwayView.
         /// </summary>
@@ -83,17 +72,9 @@ namespace EcellLib.PathwayWindow
         {
             this.m_con = control;
         }
+        #endregion
 
-        /// <summary>
-        /// Get the flag whether system accept this events.
-        /// </summary>
-        /// <param name="e">Target events.</param>
-        /// <returns>The judgement whether this event is accepted.</returns>
-        public override bool DoesAcceptEvent(PInputEventArgs e)
-        {
-            return e.Button != MouseButtons.Right;
-        }
-
+        #region EventHandlers
         /// <summary>
         /// Called when the mouse is down on the canvas.
         /// </summary>
@@ -170,7 +151,7 @@ namespace EcellLib.PathwayWindow
             base.OnMouseMove(sender, e);
             PointF contactP = m_current.GetContactPoint(e.Position);
 
-            PPathwayLine line = m_con.CanvasDictionary[e.Canvas.Name].Line4Reconnect;
+            PPathwayLine line = m_con.CanvasDictionary[e.Canvas.Name].LineHandler.Line4Reconnect;
             line.Reset();
 
             // Set Line Type
@@ -191,7 +172,9 @@ namespace EcellLib.PathwayWindow
             line.VarPoint = e.Position;
             line.DrawLine();
         }
+        #endregion
 
+        #region Private methods
         /// <summary>
         /// Create VariableReferenceList of process.
         /// </summary>
@@ -201,7 +184,6 @@ namespace EcellLib.PathwayWindow
         private void CreateEdge(PPathwayProcess process, PPathwayVariable variable, int coefficient)
         {
             m_con.NotifyVariableReferenceChanged(process.EcellObject.key, variable.EcellObject.key, RefChangeType.SingleDir, coefficient);
-            //process.CreateEdge(variable, coefficient);
         }
 
         /// <summary>
@@ -215,16 +197,17 @@ namespace EcellLib.PathwayWindow
             if (null != node)
             {
                 canvas.AddNodeToBeConnected(node);
-                canvas.Line4Reconnect.Pen = LINE_THICK_PEN;
-                canvas.SetLineVisibility(true);
+                canvas.LineHandler.Line4Reconnect.Pen = LINE_THICK_PEN;
+                canvas.LineHandler.SetLineVisibility(true);
             }
             else
             {
-                canvas.Line4Reconnect.Reset();
+                canvas.LineHandler.Line4Reconnect.Reset();
                 canvas.ResetNodeToBeConnected();
-                canvas.SetLineVisibility(false);
+                canvas.LineHandler.SetLineVisibility(false);
             }
         }
-
+        
+        #endregion
     }
 }

@@ -34,13 +34,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using UMD.HCIL.Piccolo.Util;
 using System.Drawing;
+using System.Windows.Forms;
+using System.ComponentModel;
+using EcellLib.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
-using System.Windows.Forms;
-using EcellLib.PathwayWindow.Nodes;
-using System.ComponentModel;
+using UMD.HCIL.Piccolo.Nodes;
+using UMD.HCIL.Piccolo.Util;
 
 namespace EcellLib.PathwayWindow.Handler
 {
@@ -66,7 +67,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// m_resideHandles contains a list of ResizeHandle for resizing a system.
         /// </summary>
-        protected List<ResizeHandle> m_resizeHandles = new List<ResizeHandle>();
+        protected List<PPath> m_resizeHandles = new List<PPath>();
 
         /// <summary>
         /// List of PNodes, which are currently surrounded by the system.
@@ -111,7 +112,8 @@ namespace EcellLib.PathwayWindow.Handler
             //  6 | 5 | 4
             for (int m = 0; m < 8; m++)
             {
-                ResizeHandle handle = new ResizeHandle();
+                PPath handle = new PPath();
+                handle.AddInputEventListener(new ObjectDragHandler());
                 handle.Brush = Brushes.DarkOrange;
                 handle.Pen = new Pen(Brushes.DarkOliveGreen, 1);
                 handle.AddRectangle(-1 * HALF_WIDTH,
@@ -200,7 +202,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// Reset resize handles' positions except one fixedHandle
         /// </summary>
         /// <param name="fixedHandle">this ResizeHandle must not be updated</param>
-        private void UpdateResizeHandlePositions(ResizeHandle fixedHandle)
+        private void UpdateResizeHandlePositions(PPath fixedHandle)
         {
             string systemName = m_canvas.SelectedSystemName;
             if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
@@ -440,7 +442,7 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            PPath handle = (PPath)e.PickedNode;
             float X = handle.X + handle.OffsetX + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
             float Y = handle.Y + handle.OffsetY + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
             float width = m_lowerRightPoint.X - X;
@@ -475,7 +477,7 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            PPath handle = (PPath)e.PickedNode;
             float Y = handle.Y + handle.OffsetY + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
             float height = m_lowerRightPoint.Y - Y;
 
@@ -507,7 +509,7 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            PPath handle = (PPath)e.PickedNode;
             float Y = handle.Y + handle.OffsetY + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
             float width = handle.X + handle.OffsetX + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
                                - system.X - system.Offset.X;
@@ -541,7 +543,7 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            PPath handle = (PPath)e.PickedNode;
             float width = handle.X + handle.OffsetX + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
                               - system.X - system.Offset.X;
 
@@ -572,7 +574,7 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            PPath handle = (PPath)e.PickedNode;
             float width = handle.X + handle.OffsetX + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
                                - system.X - system.Offset.X;
             float height = handle.Y + handle.OffsetY + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
@@ -605,7 +607,7 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            PPath handle = (PPath)e.PickedNode;
             float height = handle.Y + handle.OffsetY + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
                                  - system.Y - system.Offset.Y;
 
@@ -636,7 +638,7 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            PPath handle = (PPath)e.PickedNode;
             float X = handle.X + handle.OffsetX + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
             float width = m_upperRightPoint.X - handle.X - handle.OffsetX - HALF_WIDTH + PPathwaySystem.HALF_THICKNESS;
             float height = handle.Y + handle.OffsetY + HALF_WIDTH + PPathwaySystem.HALF_THICKNESS
@@ -670,7 +672,7 @@ namespace EcellLib.PathwayWindow.Handler
             PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
-            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            PPath handle = (PPath)e.PickedNode;
             float X = handle.X + handle.OffsetX + HALF_WIDTH - PPathwaySystem.HALF_THICKNESS;
             float width = m_lowerRightPoint.X - X;
 

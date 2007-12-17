@@ -271,30 +271,42 @@ namespace EcellLib.PathwayWindow
         /// <returns>Created component</returns>
         public PPathwayObject CreateNewComponent(EcellObject eo, CanvasControl canvas)
         {
-            PPathwayObject obj = m_createMethod();
+            PPathwayObject obj = CreateTemplate();
             obj.CanvasControl = canvas;
             obj.ShowingID = canvas.ShowingID;
+            obj.EcellObject = eo;
+            if (obj is PPathwaySystem)
+            {
+                obj.Width = eo.Width;
+                obj.Height = eo.Height;
+            }
+            obj.IsHighLighted = false;
+            return obj;
+        }
+
+        /// <summary>
+        /// Create object template.
+        /// </summary>
+        /// <returns></returns>
+        public PPathwayObject CreateTemplate()
+        {
+            PPathwayObject obj = m_createMethod();
             obj.CsID = m_name;
             obj.Setting = this;
             if (m_componentKind == ComponentType.System)
             {
                 obj.NormalBrush = Brushes.LightBlue;
-                obj.Width = eo.Width;
-                obj.Height = eo.Height;
                 obj.Pen = null;
             }
             else
             {
-                obj.AddPath(m_gp,false);
+                obj.AddPath(m_gp, false);
                 obj.NormalBrush = m_normalBrush;
                 obj.Width = PPathwayNode.DEFAULT_WIDTH;
                 obj.Height = PPathwayNode.DEFAULT_HEIGHT;
             }
-            obj.EcellObject = eo;
-            obj.IsHighLighted = false;
             return obj;
         }
-
         /// <summary>
         /// Set figure for this ComponentSetting.
         /// </summary>

@@ -44,18 +44,13 @@ using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.PiccoloX.Nodes;
 using EcellLib.PathwayWindow.Nodes;
 
-namespace EcellLib.PathwayWindow
+namespace EcellLib.PathwayWindow.Handler
 {
     /// <summary>
     /// default handler.
     /// </summary>
-    public class DefaultMouseHandler : PBasicInputEventHandler
+    public class DefaultMouseHandler : PPathwayInputEventHandler
     {
-        /// <summary>
-        /// The PathwayView instance.
-        /// </summary>
-        private PathwayControl m_con;
-
         /// <summary>
         /// The drag start point
         /// </summary>
@@ -70,6 +65,11 @@ namespace EcellLib.PathwayWindow
         /// One PPathwayObject of currently selected objects.
         /// </summary>
         private PPathwayObject m_lastSelectedObj;
+
+        /// <summary>
+        /// Flag to show dragged state.
+        /// </summary>
+        private bool m_isDragged = false;
 
         /// <summary>
         /// constructor
@@ -88,15 +88,16 @@ namespace EcellLib.PathwayWindow
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {
             base.OnMouseDown(sender, e);
+            if (!(e.PickedNode is PCamera))
+                return;
+
             // set mouse position
+            m_isDragged = true;
             CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
             m_startPoint = e.Position;
             m_con.MousePosition = e.Position;
-            if (e.PickedNode is PCamera)
-            {
-                canvas.FocusNode = null;
-                canvas.ResetSelectedObjects();
-            }
+            canvas.FocusNode = null;
+            canvas.ResetSelectedObjects();
             if (e.Button == MouseButtons.Left)
             {
                 m_selectedPath = new PPath();
@@ -117,6 +118,7 @@ namespace EcellLib.PathwayWindow
                 m_selectedPath.Parent.RemoveChild(m_selectedPath);
             m_selectedPath = null;
             m_lastSelectedObj = null;
+            m_isDragged = false;
         }
 
         /// <summary>
@@ -127,7 +129,7 @@ namespace EcellLib.PathwayWindow
         public override void OnMouseDrag(object sender, PInputEventArgs e)
         {
             base.OnMouseDrag(sender, e);
-            if (m_selectedPath == null)
+            if (m_selectedPath == null || !m_isDragged)
                 return;
 
             CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];

@@ -51,7 +51,7 @@ namespace EcellLib.PathwayWindow.Handler
     /// <summary>
     /// EcventHandler when the node object is dragged.
     /// </summary>
-    public class NodeDragHandler : PDragEventHandler
+    public class NodeDragHandler : ObjectDragHandler
     {
         #region Fields
         /// <summary>
@@ -147,17 +147,6 @@ namespace EcellLib.PathwayWindow.Handler
                 foreach (PPathwaySystem system in m_canvas.Systems.Values)
                     system.BackgroundBrush = Brushes.Silver;
             }
-        }
-        /// <summary>
-        /// event on start to drag PNode.
-        /// </summary>
-        /// <param name="sender">PathwayView.</param>
-        /// <param name="e">PInputEventArgs.</param>
-        protected override void OnStartDrag(object sender, PInputEventArgs e)
-        {
-            base.OnStartDrag(sender, e);
-            e.Handled = true;
-            e.PickedNode.MoveToFront();
         }
 
         /// <summary>

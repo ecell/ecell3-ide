@@ -235,7 +235,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void RefreshEdges()
         {
-            if (base.m_canvas == null || this.EcellObject == null)
+            if (base.m_canvas == null || m_ecellObj == null  || m_layer == null)
                 return;
             DeleteEdges();
             CreateEdges();

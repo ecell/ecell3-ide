@@ -35,6 +35,7 @@ using System.Xml;
 using System.Windows.Forms;
 using System.IO;
 using System.ComponentModel;
+using EcellLib.PathwayWindow.Nodes;
 
 namespace EcellLib.PathwayWindow
 {
@@ -425,6 +426,39 @@ namespace EcellLib.PathwayWindow
 
         }
 
+        /// <summary>
+        /// Get an object template.
+        /// </summary>
+        /// <param name="cType"></param>
+        /// <returns></returns>
+        public PPathwayObject CreateTemplate(ComponentType cType)
+        {
+            ComponentSetting setting = GetDefaultComponentSetting(cType);
+            if (setting == null)
+                return null;
+            PPathwayObject obj = setting.CreateTemplate();
+            return obj;
+        }
+
+        private ComponentSetting GetDefaultComponentSetting(ComponentType cType)
+        {
+            if (cType == ComponentType.System)
+            {
+                return DefaultSystemSetting;
+            }
+            else if (cType == ComponentType.Variable)
+            {
+                return DefaultVariableSetting;
+            }
+            else if (cType == ComponentType.Process)
+            {
+                return DefaultProcessSetting;
+            }
+            else
+            {
+                return null;
+            }
+        }
         /// <summary>
         /// Register ComponentSetting of a system onto this manager
         /// </summary>

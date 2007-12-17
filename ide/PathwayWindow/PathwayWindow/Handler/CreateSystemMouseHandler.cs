@@ -45,26 +45,29 @@ using UMD.HCIL.Piccolo.Util;
 using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.UIComponent;
 
-namespace EcellLib.PathwayWindow
+namespace EcellLib.PathwayWindow.Handler
 {
     /// <summary>
     /// For creating a system.
     /// When [Create System] menu (rectangle on it) is selected in the toolbar, mouse event will be
     /// dealed with this handler.
     /// </summary>
-    class CreateSystemMouseHandler : PBasicInputEventHandler
+    class CreateSystemMouseHandler : PPathwayInputEventHandler
     {
         #region Fields
-        protected PathwayControl m_con;
-
+        /// <summary>
+        /// 
+        /// </summary>
         protected CanvasControl m_canvas;
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        protected PointF m_startPoint;
 
         /// <summary>
-        /// PropertyEditor. By using this, parameters for new object will be input.
+        /// 
         /// </summary>
-        //protected PropertyEditor m_editor;
-
-        protected PointF m_startPoint;
         protected PPath m_selectedPath;
 
         /// <summary>
@@ -97,17 +100,6 @@ namespace EcellLib.PathwayWindow
         /// systems, m_overlapPen will be used.
         /// </summary>
         protected Pen m_overlapPen = new Pen(Brushes.Red, 5);
-
-        /// <summary>
-        /// minimum width and height of System
-        /// </summary>
-        protected float m_minSystemWidth = 40;
-        protected float m_minSystemHeight = 40;
-
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
 
         /// <summary>
         /// DataManager instance associated to this object.
@@ -258,16 +250,6 @@ namespace EcellLib.PathwayWindow
                     return;
                 }
 
-                string modelID = this.m_canvas.ModelID;
-                string tmpID = m_canvas.GetTemporaryID("System", m_surSystem);
-
-                Dictionary<string, EcellData> dict = this.m_dManager.GetSystemProperty();
-                List<EcellData> dataList = new List<EcellData>();
-                foreach (EcellData d in dict.Values)
-                {
-                    dataList.Add(d);
-                }
-
                 List<PPathwayObject> newlySelectedList = new List<PPathwayObject>();
 
                 foreach (PLayer layer in m_canvas.Layers.Values)
@@ -278,8 +260,7 @@ namespace EcellLib.PathwayWindow
                         if (node is PPathwayObject)
                             newlySelectedList.Add((PPathwayObject)node);
                 }
-
-                EcellObject eo = EcellObject.CreateObject(modelID, tmpID, "System", "System", dataList);
+                EcellObject eo = m_dManager.CreateDefaultObject(m_canvas.ModelID, m_surSystem, EcellObject.SYSTEM, false);
 
                 eo.X = m_rect.X;
                 eo.Y = m_rect.Y;

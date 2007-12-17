@@ -288,7 +288,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for EcellObject.
         /// </summary>
-        public EcellObject EcellObject
+        public virtual EcellObject EcellObject
         {
             get {
                 return this.m_ecellObj;
@@ -316,6 +316,19 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 base.X = value.X;
                 base.Y = value.Y;
+            }
+        }
+
+        /// <summary>
+        /// Accessor for X coordinate.
+        /// </summary>
+        public PointF CenterPointF
+        {
+            get { return new PointF(base.X + base.OffsetX + base.Width / 2f, base.Y + base.OffsetY + base.Height / 2f); }
+            set
+            {
+                base.X = value.X - base.Width / 2f;
+                base.Y = value.Y - base.Height / 2f;
             }
         }
 
