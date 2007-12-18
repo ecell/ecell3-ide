@@ -126,12 +126,6 @@
   <data name="ConfirmMerge" xml:space="preserve">
     <value>システムの内容を上位システムにマージしてもよろしいですか？</value>
   </data>
-  <data name="CreateLogMenuText" xml:space="preserve">
-    <value>ロガー設定</value>
-  </data>
-  <data name="DeleteLogMenuText" xml:space="preserve">
-    <value>ロガー解除</value>
-  </data>
   <data name="DeleteMenuText" xml:space="preserve">
     <value>削除(&amp;D)</value>
   </data>

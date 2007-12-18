@@ -440,7 +440,12 @@ namespace EcellLib.PathwayWindow
             return obj;
         }
 
-        private ComponentSetting GetDefaultComponentSetting(ComponentType cType)
+        /// <summary>
+        /// Get
+        /// </summary>
+        /// <param name="cType"></param>
+        /// <returns></returns>
+        public ComponentSetting GetDefaultComponentSetting(ComponentType cType)
         {
             if (cType == ComponentType.System)
             {

@@ -179,13 +179,11 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         public void UpdateResizeHandlePositions()
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
 
-            PPathwaySystem system = m_canvas.Systems[systemName];
             PointF gP = new PointF(system.X + system.OffsetX, system.Y + system.OffsetY);
-
             float halfThickness = PPathwaySystem.HALF_THICKNESS;
 
             m_resizeHandles[0].SetOffset(gP.X + halfThickness, gP.Y + halfThickness);
@@ -204,10 +202,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="fixedHandle">this ResizeHandle must not be updated</param>
         private void UpdateResizeHandlePositions(PPath fixedHandle)
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem system = m_canvas.Systems[systemName];
             PointF gP = new PointF(system.X + system.OffsetX, system.Y + system.OffsetY);
 
             float halfThickness = (PPathwaySystem.OUTER_RADIUS - PPathwaySystem.INNER_RADIUS) / 2;
@@ -250,7 +247,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="system">PEcellSystem to be validated</param>
         private void ValidateSystem(PPathwaySystem system)
         {
-            if (m_canvas.DoesSystemOverlaps(system.Rect, system.EcellObject.key))
+            if (m_canvas.DoesSystemOverlaps(system))
                 system.Valid = false;
             else
                 system.Valid = true;
@@ -261,17 +258,16 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         private void RefreshSurroundState()
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem topSystem = m_canvas.Systems[systemName];
 
             ClearSurroundState();
             m_surroundedBySystem = new PNodeList();
             foreach (PLayer layer in m_canvas.Layers.Values)
             {
                 PNodeList list = new PNodeList();
-                layer.FindIntersectingNodes(topSystem.Rect, list);
+                layer.FindIntersectingNodes(system.Rect, list);
                 m_surroundedBySystem.AddRange(list);
             }
             foreach (PNode node in m_surroundedBySystem)
@@ -306,20 +302,20 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_MouseUp(object sender, PInputEventArgs e)
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
             // If selected system overlaps another, reset system region.
-            if (m_canvas.DoesSystemOverlaps(system.GlobalBounds, systemName))
+            if (m_canvas.DoesSystemOverlaps(system))
             {
                 ResetSystemResize(system);
                 return;
             }
             system.Refresh();
 
+            string systemName = system.EcellObject.key;
             List<PPathwayObject> objList = m_canvas.GetAllObjects();
             // Select PathwayObjects being moved into current system.
             Dictionary<string, PPathwayObject> currentDict = new Dictionary<string, PPathwayObject>();
@@ -408,10 +404,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_MouseDown(object sender, PInputEventArgs e)
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem system = m_canvas.Systems[systemName];
             system.MemorizePosition();
             m_upperLeftPoint = system.PointF;
             m_upperRightPoint = new PointF(system.X + system.Width, system.Y);
@@ -436,10 +431,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_ResizeNW(object sender, PInputEventArgs e)
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
             PPath handle = (PPath)e.PickedNode;
@@ -471,10 +465,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_ResizeN(object sender, PInputEventArgs e)
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
             PPath handle = (PPath)e.PickedNode;
@@ -503,10 +496,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_ResizeNE(object sender, PInputEventArgs e)
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
             PPath handle = (PPath)e.PickedNode;
@@ -537,10 +529,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_ResizeE(object sender, PInputEventArgs e)
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
             PPath handle = (PPath)e.PickedNode;
@@ -568,10 +559,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_ResizeSE(object sender, PInputEventArgs e)
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
             PPath handle = (PPath)e.PickedNode;
@@ -601,10 +591,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_ResizeS(object sender, PInputEventArgs e)
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
             PPath handle = (PPath)e.PickedNode;
@@ -632,10 +621,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_ResizeSW(object sender, PInputEventArgs e)
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
             PPath handle = (PPath)e.PickedNode;
@@ -666,10 +654,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_ResizeW(object sender, PInputEventArgs e)
         {
-            string systemName = m_canvas.SelectedSystemName;
-            if (systemName == null || !m_canvas.Systems.ContainsKey(systemName))
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
                 return;
-            PPathwaySystem system = m_canvas.Systems[systemName];
             RefreshSurroundState();
 
             PPath handle = (PPath)e.PickedNode;

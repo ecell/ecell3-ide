@@ -170,7 +170,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The name of system currently selected on the canvas.
         /// </summary>
-        string m_selectedSystemName;
+        PPathwaySystem m_selectedSystem = null;
 
         /// <summary>
         /// SelectChange flag.
@@ -288,9 +288,9 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_selectedNodes.
         /// </summary>
-        public string SelectedSystemName
+        public PPathwaySystem SelectedSystem
         {
-            get { return m_selectedSystemName; }
+            get { return m_selectedSystem; }
         }
 
         /// <summary>
@@ -483,7 +483,11 @@ namespace EcellLib.PathwayWindow
         /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
         public bool DoesSystemOverlaps(RectangleF rect)
         {
-            return DoesSystemOverlaps(rect, null);
+            bool isOverlaping = false;
+            foreach (PPathwaySystem system in m_systems.Values)
+                if (system.Overlaps(rect))
+                    isOverlaping = true;
+            return isOverlaping;
         }
 
         /// <summary>
@@ -492,13 +496,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="rect">RectangleF to be checked</param>
         /// <param name="excludeSystem">The name of the system to ignore in the check.</param>
         /// <returns>True if there is a system which overlaps rectangle of argument, false otherwise</returns>
-        public bool DoesSystemOverlaps(RectangleF rect, string excludeSystem)
+        public bool DoesSystemOverlaps(PPathwaySystem system)
         {
             bool isOverlaping = false;
-            foreach (PPathwaySystem system in m_systems.Values)
-                if (system.Overlaps(rect) && !system.EcellObject.key.Equals(excludeSystem))
+            foreach (PPathwaySystem sys in m_systems.Values)
+                if (system != sys && system.Overlaps(sys.Rect))
                     isOverlaping = true;
-
             return isOverlaping;
         }
 
@@ -867,9 +870,9 @@ namespace EcellLib.PathwayWindow
         /// Notify this set that one PEcellSystem is selected.
         /// </summary>
         /// <param name="systemName">the name of selected system.</param>
-        public void AddSelectedSystem(PPathwayObject obj)
+        public void AddSelectedSystem(PPathwaySystem obj)
         {
-            m_selectedSystemName = obj.EcellObject.key;
+            m_selectedSystem = obj;
             obj.IsHighLighted = true;
             m_resizeHandler.ShowResizeHandles();
         }
@@ -1118,7 +1121,7 @@ namespace EcellLib.PathwayWindow
             if (type.Equals(EcellObject.SYSTEM))
             {
                 ResetSelectedObjects();
-                AddSelectedSystem(obj);
+                AddSelectedSystem((PPathwaySystem)obj);
             }
             if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE))
             {
@@ -1147,7 +1150,7 @@ namespace EcellLib.PathwayWindow
             {
                 case EcellObject.SYSTEM:
                     centerBounds = obj.FullBounds;
-                    AddSelectedSystem(obj);
+                    AddSelectedSystem((PPathwaySystem)obj);
                     break;
                 case EcellObject.VARIABLE: case EcellObject.PROCESS:
                     centerBounds = PathUtil.GetFocusBound(obj.FullBounds, LEAST_FOCUS_SIZE);
@@ -1326,11 +1329,11 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void ResetSelectedSystem()
         {
-            if (m_selectedSystemName != null && m_systems.ContainsKey(m_selectedSystemName))
+            if (m_selectedSystem != null && m_systems.ContainsValue(m_selectedSystem))
             {
-                m_systems[m_selectedSystemName].IsHighLighted = false;
+                m_selectedSystem.IsHighLighted = false;
             }
-            m_selectedSystemName = null;
+            m_selectedSystem = null;
             m_resizeHandler.HideResizeHandles();
         }
 

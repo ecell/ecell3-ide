@@ -1309,10 +1309,10 @@ namespace EcellLib.PathwayWindow
         private void MergeClick(object sender, EventArgs e)
         {
             // Check exception.
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            if (!(item.Tag is PPathwaySystem))
+            CanvasControl canvas = ActiveCanvas;
+            if (canvas == null || canvas.SelectedSystem == null)
                 return;
-            PPathwaySystem system = (PPathwaySystem)item.Tag;
+            PPathwaySystem system = canvas.SelectedSystem;
             if (system.EcellObject.key.Equals("/"))
             {
                 MessageBox.Show(m_resources.GetString("ErrDelRoot"),
@@ -1408,9 +1408,9 @@ namespace EcellLib.PathwayWindow
                 }
             }
             // Delete Selected System
-            if (canvas.SelectedSystemName != null)
+            PPathwaySystem system = canvas.SelectedSystem;
+            if (system != null)
             {
-                PPathwaySystem system = canvas.Systems[canvas.SelectedSystemName];
                 // Return if system is null or root.
                 if (string.IsNullOrEmpty(system.EcellObject.key))
                     return;
@@ -1776,16 +1776,7 @@ namespace EcellLib.PathwayWindow
         private ComponentSetting GetComponentSetting(string type)
         {
             ComponentType cType = ComponentManager.ParseComponentKind(type);
-            switch (cType)
-            {
-                case ComponentType.Process:
-                    return m_csManager.DefaultProcessSetting;
-                case ComponentType.System:
-                    return m_csManager.DefaultSystemSetting;
-                case ComponentType.Variable:
-                    return m_csManager.DefaultVariableSetting;
-            }
-            return null;
+            return m_csManager.GetDefaultComponentSetting(cType);
         }
 
         /// <summary>

@@ -217,7 +217,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     path.SetLine();
                     if (!m_isViewMode || isEndNode || er.coefficient == 1)
                         path.SetDirection();
-                    path.Pickable = true;
+                    path.Pickable = (var.Visible && this.Visible);
                     path.Visible = (var.Visible && this.Visible);
                     
                     m_layer.AddChild(path);

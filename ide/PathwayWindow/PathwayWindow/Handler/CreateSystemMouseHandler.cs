@@ -138,10 +138,13 @@ namespace EcellLib.PathwayWindow.Handler
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {            
             base.OnMouseDown(sender, e);
+            m_canvas = m_con.CanvasDictionary[e.Canvas.Name];
+            if (m_canvas != null)
+                m_canvas.ResetSelectedObjects();
 
             if (e.PickedNode is PCamera)
             {
-                m_surSystem = m_con.CanvasDictionary[e.Canvas.Name].GetSurroundingSystemKey(e.Position);
+                m_surSystem = m_canvas.GetSurroundingSystemKey(e.Position);
 
                 if (string.IsNullOrEmpty(m_surSystem))
                 {
@@ -155,9 +158,6 @@ namespace EcellLib.PathwayWindow.Handler
                 m_startPoint = e.Position;
                 m_selectedPath = new PPath();
                 e.Canvas.Layer.AddChild(m_selectedPath);
-                m_canvas = m_con.CanvasDictionary[e.Canvas.Name];
-                if (m_canvas != null)
-                    m_canvas.ResetSelectedObjects();
                 m_isNode = false;
             }
             else
@@ -241,7 +241,7 @@ namespace EcellLib.PathwayWindow.Handler
 
             if (m_rect.Width >= 40 && m_rect.Height >= 40)
             {
-                if (m_con.CanvasDictionary[e.Canvas.Name].DoesSystemOverlaps(m_rect))
+                if (m_canvas.DoesSystemOverlaps(m_rect))
                 {
                     MessageBox.Show(m_resources.GetString("ErrOverSystem"),
                                     "Error",

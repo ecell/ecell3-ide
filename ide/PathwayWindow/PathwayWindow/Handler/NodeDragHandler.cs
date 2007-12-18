@@ -170,7 +170,7 @@ namespace EcellLib.PathwayWindow.Handler
                 PPathwaySystem system = (PPathwaySystem)obj;
                 system.Refresh();
                 // Change color if the system overlaps other system
-                if (m_canvas.DoesSystemOverlaps(system.GlobalBounds, system.EcellObject.key)
+                if (m_canvas.DoesSystemOverlaps(system)
                     || !IsInsideRoot(system.Rect))
                     system.IsInvalid = true;
                 else
@@ -239,7 +239,7 @@ namespace EcellLib.PathwayWindow.Handler
                     newSysKey = parentSysKey + "/" + system.EcellObject.name;
 
                 // Reset system movement when the system is overlapping other system or out of root.
-                if (m_canvas.DoesSystemOverlaps(system.GlobalBounds, oldSysKey) || !IsInsideRoot(system.Rect))
+                if (m_canvas.DoesSystemOverlaps(system) || !IsInsideRoot(system.Rect))
                 {
                     system.ResetPosition();
                     m_canvas.ResizeHandler.UpdateResizeHandlePositions();
