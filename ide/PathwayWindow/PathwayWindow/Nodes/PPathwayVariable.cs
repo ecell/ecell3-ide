@@ -146,6 +146,24 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// Change View Mode.
+        /// </summary>
+        public override void ChangeViewMode(bool isViewMode)
+        {
+            if (isViewMode)
+            {
+                m_pen = new Pen(Brushes.Blue, 1);
+                m_pText.TextBrush = Brushes.Blue;
+                m_pPropertyText.TextBrush = Brushes.DarkRed;
+            }
+            else
+            {
+                m_pen = new Pen(Brushes.Black, 1);
+                m_pText.TextBrush = Brushes.Black;
+                m_pPropertyText.Text ="";
+            }
+        }
+        /// <summary>
         /// notify to add the related process to list.
         /// </summary>
         /// <param name="pro">the related process.</param>

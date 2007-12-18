@@ -355,6 +355,11 @@ namespace EcellLib.PathwayWindow
                     return;
                 foreach (CanvasControl canvas in m_canvasDict.Values)
                     canvas.ViewMode = m_isViewMode;
+                if (m_isViewMode)
+                    SetPropForSimulation();
+                else
+                    ResetPropForSimulation();
+
             }
         }
 
@@ -617,17 +622,19 @@ namespace EcellLib.PathwayWindow
         {
             // When a project is loaded or unloaded.
             if (type == ProjectStatus.Loaded)
+            {
                 foreach (ToolStripMenuItem item in m_menuLayoutList)
                     item.Enabled = true;
+            }
             else if (type == ProjectStatus.Uninitialized)
+            {
                 foreach (ToolStripMenuItem item in m_menuLayoutList)
                     item.Enabled = false;
+            }
             // When simulation started.
             if (type == ProjectStatus.Running && m_isViewMode)
             {
                 SetPropForSimulation();
-                m_time.Enabled = true;
-                m_time.Start();
             }
             else if (type == ProjectStatus.Stepping && m_isViewMode)
             {
@@ -640,8 +647,6 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
-                m_time.Enabled = false;
-                m_time.Stop();
                 ResetPropForSimulation();
             }
         }
@@ -662,6 +667,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private void SetPropForSimulation()
         {
+            m_time.Enabled = true;
+            m_time.Start();
             if (m_canvasDict == null)
                 return;
             foreach (CanvasControl canvas in m_canvasDict.Values)
@@ -682,6 +689,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private void ResetPropForSimulation()
         {
+            m_time.Enabled = false;
+            m_time.Stop();
             if (m_canvasDict == null)
                 return;
             foreach (CanvasControl canvas in m_canvasDict.Values)

@@ -83,7 +83,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// PText for showing this object's ID.
         /// </summary>
-        private PText m_pPropertyText;
+        protected PText m_pPropertyText;
 
         /// <summary>
         /// system have this node.

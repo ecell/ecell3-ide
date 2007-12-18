@@ -369,10 +369,14 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 PointF pos = this.CenterPoint;
                 base.AddEllipse(X + 25, Y + 15, 10, 10);
+                m_pen = new Pen(Brushes.Green, 1);
+                SetLineColor(Brushes.LightGreen);
             }
             else
             {
                 base.AddRectangle(X - 24, Y - 14, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+                m_pen = new Pen(Brushes.Black, 1);
+                SetLineColor(Brushes.Black);
             }
             Refresh();
         }

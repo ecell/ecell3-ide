@@ -376,6 +376,10 @@ namespace EcellLib.PathwayWindow
                 if (m_variables != null)
                     foreach (PPathwayVariable var in m_variables.Values)
                         var.ViewMode = m_isViewMode;
+                if (m_isViewMode)
+                    m_pCanvas.BackColor = Color.Black;
+                else
+                    m_pCanvas.BackColor = Color.White;
             }
         }
         /// <summary>
@@ -405,7 +409,6 @@ namespace EcellLib.PathwayWindow
         {
             m_con = view;
             m_modelId = modelID;
-            this.ViewMode = m_con.ViewMode;
 
             // Preparing TabPage
             m_pathwayTabPage = new TabPage(modelID);
@@ -443,6 +446,10 @@ namespace EcellLib.PathwayWindow
             // Preparing system ResizeHandlers
             m_resizeHandler = new ResizeHandler(this);
             m_lineHandler = new LineHandler(this);
+
+            // Set ViewMode
+            this.ViewMode = m_con.ViewMode;
+
         }
         #endregion
 
@@ -1173,19 +1180,6 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void SetPropForSimulation()
         {
-            m_pCanvas.BackColor = Color.Black;
-            foreach (PPathwayProcess process in m_processes.Values)
-            {
-                process.Pen = new Pen(Brushes.Green, 1);
-                process.SetLineColor(Brushes.LightGreen);
-            }
-            foreach (PPathwayVariable variable in m_variables.Values)
-            {
-                variable.Pen = new Pen(Brushes.Blue, 1);
-                variable.Text.TextBrush = Brushes.Blue;
-                variable.PPropertyText.TextBrush = Brushes.DarkRed;
-            }
-            this.m_pCanvas.Refresh();
         }
 
         /// <summary>
@@ -1219,7 +1213,6 @@ namespace EcellLib.PathwayWindow
                 variable.PPropertyText.Text = ev.CastToDouble().ToString("E2");
                 variable.MoveToFront();
             }
-            this.m_pCanvas.Refresh();
         }
         /// <summary>
         /// Get line width.
@@ -1244,18 +1237,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void ResetPropForSimulation()
         {
-            m_pCanvas.BackColor = Color.White;
-            foreach (PPathwayProcess process in m_processes.Values)
-            {
-                process.SetLineColor(Brushes.Black);
-                process.Refresh();
-            }
-            foreach (PPathwayVariable variable in m_variables.Values)
-            {
-                variable.PPropertyText.Text = "";
-                variable.Refresh();
-            }
-            m_pCanvas.Refresh();
+            foreach (PPathwayObject obj in GetAllObjects())
+                obj.Refresh();
         }
         #endregion
 
