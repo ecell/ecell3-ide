@@ -157,6 +157,7 @@ namespace EcellLib.PropertyWindow
             m_dgv.CellClick += new DataGridViewCellEventHandler(ClickCell);
             m_dgv.CellEndEdit += new DataGridViewCellEventHandler(ChangeProperty);
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(ShowEditingControl);
+            m_dgv.MouseLeave += new EventHandler(LeaveMouse);
             
             m_time = new System.Windows.Forms.Timer();
             m_time.Enabled = false;
@@ -1069,6 +1070,16 @@ namespace EcellLib.PropertyWindow
 
             m_fwin.Close();
             m_fwin.Dispose();
+        }
+
+        /// <summary>
+        /// Event when mouse is leave on DataDridView.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">EventArgs</param>
+        void LeaveMouse(object sender, EventArgs e)
+        {
+            m_dgv.EndEdit();
         }
 
         /// <summary>

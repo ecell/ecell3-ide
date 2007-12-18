@@ -61,10 +61,10 @@
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 2, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
-            // SWSSetting1PictureBox
+            // SWSPictureBox
             // 
-            resources.ApplyResources(this.SWSPictureBox, "SWSSetting1PictureBox");
-            this.SWSPictureBox.Name = "SWSSetting1PictureBox";
+            resources.ApplyResources(this.SWSPictureBox, "SWSPictureBox");
+            this.SWSPictureBox.Name = "SWSPictureBox";
             this.SWSPictureBox.TabStop = false;
             // 
             // tableLayoutPanel3
@@ -133,8 +133,13 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "SelectWinSettingWindow";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).EndInit();
