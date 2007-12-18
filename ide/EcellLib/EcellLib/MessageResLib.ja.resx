@@ -327,4 +327,7 @@
   <data name="ErrUpdateLogPol" xml:space="preserve">
     <value>ロガーポリシーの設定に失敗しました。</value>
   </data>
+  <data name="WarnLoadDM" xml:space="preserve">
+    <value>ロードできないProcessまたはStepperが存在します。</value>
+  </data>
 </root>

@@ -94,6 +94,10 @@ namespace EcellLib
         /// </summary>
         public const string fileProject = "project.info";
         /// <summary>
+        /// Reserved the file name of window setting list.
+        /// </summary>
+        public const string fileWinSetting = "settinglist.conf";
+        /// <summary>
         /// Reserved the header of average.
         /// </summary>
         public const string headerAverage = "avg";
@@ -154,6 +158,14 @@ namespace EcellLib
         /// </summary>
         public const string parameterKey = "DefaultParameter";
         /// <summary>
+        /// Reserved the extention of XML file.
+        /// </summary>
+        public const string postfixXML = ".xml";
+        /// <summary>
+        /// Reserved the extention of png file.
+        /// </summary>
+        public const string postfixPNG = ".png";
+        /// <summary>
         /// Reserved XML path name for name of "E-CELL IDE ANALYSIS".
         /// </summary>
         public const string registryAnalysisDirKey = "E-CELL IDE ANALYSIS";
@@ -193,6 +205,10 @@ namespace EcellLib
         /// Reserved XML path name for key of Software.
         /// </summary>
         public const string registrySW2Key = "software\\KeioUniv";
+        /// <summary>
+        /// Reserved the key of registry for E-CELL WINDOW SETTING.
+        /// </summary>
+        public const string registryWinSetDir = "E-CELL IDE WINDOW SETTING";
         /// <summary>
         /// Reserved XML path name for comment.
         /// </summary>

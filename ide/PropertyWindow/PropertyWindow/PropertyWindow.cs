@@ -178,7 +178,15 @@ namespace EcellLib.PropertyWindow
         private void NotifyDataChanged(string modelID, string key, EcellObject obj)
         {
             m_isChanging = true;
-            m_dManager.DataChanged(modelID, key, obj.type, obj);
+            try
+            {
+                m_dManager.DataChanged(modelID, key, obj.type, obj);
+            }
+            catch (IgnoreException ex)
+            {
+                ex.ToString();
+                return;
+            }
             m_current = obj;
             m_isChanging = false;
         }

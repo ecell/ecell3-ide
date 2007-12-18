@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml;
@@ -238,6 +239,8 @@ namespace EcellLib
 
         private Dictionary<string, WrappedPolymorph> m_processPropertyDic;
 
+        private bool m_isWarn = false;
+
 
         /// <summary>
         /// Creates a new "Eml" instance with no argument.
@@ -281,6 +284,7 @@ namespace EcellLib
             {
                 l_ex.ToString();
                 isCreated = false;
+                m_isWarn = true;
             }
             //
             // 4 children
@@ -366,6 +370,7 @@ namespace EcellLib
             catch (Exception e)
             {
                 e.ToString();
+                m_isWarn = true;
             }
 
             //
@@ -529,6 +534,7 @@ namespace EcellLib
 
         public EcellObject Parse()
         {
+            m_isWarn = false;
             EcellObject l_modelObject = EcellObject.CreateObject(
                     m_modelID, "", Constants.xpathModel, "", null);
 
@@ -561,6 +567,7 @@ namespace EcellLib
                 catch (WrappedException e)
                 {
                     e.ToString();
+                    m_isWarn = true;
                     //throw new EmlParseException(
                     //    String.Format(
                     //        "Could not load entity property {0}: {1}",
@@ -572,6 +579,12 @@ namespace EcellLib
             foreach (string entityPath in removeList)
             {
                 m_processPropertyDic.Remove(entityPath);
+            }
+            if (m_isWarn == true)
+            {
+                String errmes = DataManager.s_resources.GetString("WarnLoadDM");
+                MessageBox.Show(errmes + "\n",
+                    "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             return l_modelObject;

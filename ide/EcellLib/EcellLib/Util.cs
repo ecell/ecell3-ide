@@ -78,6 +78,15 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Get the directory of window setting..
+        /// </summary>
+        /// <returns>the directory path.</returns>
+        static public string GetWindowSettingDir()
+        {
+            return GetRegistryValue(Constants.registryWinSetDir);
+        }
+
+        /// <summary>
         /// Get the working directory from register.
         /// </summary>
         /// <returns>the working directory.</returns>

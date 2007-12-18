@@ -174,7 +174,7 @@ namespace EcellLib.MainWindow
             LoadPlugins();
             //Load default window settings.
             setFilePath();
-            loadDefaultWindowSetting();
+//            LoadDefaultWindowSetting();
         }
         /// <summary>
         /// Set window setting file path.
@@ -229,12 +229,24 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Load default window settings.
         /// </summary>
-        private void loadDefaultWindowSetting()
+        public void LoadDefaultWindowSetting()
         {
             //Load user window settings.
+            // Load default window settings when failed.
             if (!loadWindowSetting(userWindowSettingPath))
-                // Load default window settings when failed.
-                loadWindowSetting(defaultWindowSettingPath);
+            {
+                SelectWinSettingWindow win = new SelectWinSettingWindow();
+                try
+                {
+                    string filePath = win.ShowWindow();
+                    loadWindowSetting(filePath);
+                }
+                catch (IgnoreException ex)
+                {
+                    ex.ToString();
+                    loadWindowSetting(defaultWindowSettingPath);
+                }
+            }
         }
 
         /// <summary>

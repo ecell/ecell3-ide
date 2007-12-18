@@ -327,4 +327,7 @@
   <data name="ErrUpdateLogPol" xml:space="preserve">
     <value>Can not set the policy of logger.</value>
   </data>
+  <data name="WarnLoadDM" xml:space="preserve">
+    <value>There are any process and any stepper that do not exist in DM directory.</value>
+  </data>
 </root>

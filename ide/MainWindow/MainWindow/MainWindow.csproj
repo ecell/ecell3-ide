@@ -131,6 +131,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SelectWinSettingWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectWinSettingWindow.Designer.cs">
+      <DependentUpon>SelectWinSettingWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="SetupIDEWindow.cs">
       <SubType>Form</SubType>
@@ -232,6 +238,14 @@
     <EmbeddedResource Include="SaveProjectDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SaveProjectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectWinSettingWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SelectWinSettingWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectWinSettingWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SelectWinSettingWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SetupIDEWindow.ja.resx">
       <SubType>Designer</SubType>

@@ -173,7 +173,7 @@ namespace EcellLib
         /// <summary>
         /// ResourceManager for StaticDebugSetupWindow.
         /// </summary>
-        static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResLib));
+        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResLib));
         #endregion
 
         /// <summary>
@@ -1398,7 +1398,7 @@ namespace EcellLib
                 this.m_simulatorExeFlagDic[this.m_currentProjectID] == s_simulationSuspend)
             {
                 String mes = m_resources.GetString("ConfirmReset");
-                DialogResult r = MessageBox.Show("Simulation is running. Would you reset the simulation?",
+                DialogResult r = MessageBox.Show(mes,
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK)
                 {
