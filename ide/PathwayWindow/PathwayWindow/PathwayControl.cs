@@ -63,75 +63,79 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Key definition of m_cMenuDict for ID
         /// </summary>
-        public static readonly string CANVAS_MENU_ID = "id";
+        public static readonly string CanvasMenuID = "CanvasMenuID";
         /// <summary>
         /// Key definition of m_cMenuDict for delete
         /// </summary>
-        public static readonly string CANVAS_MENU_DELETE = "Delete";
+        public static readonly string CanvasMenuDelete = "CanvasMenuDelete";
         /// <summary>
         /// Key definition of m_cMenuDict for copy
         /// </summary>
-        public static readonly string CANVAS_MENU_COPY = "Copy";
+        public static readonly string CanvasMenuCopy = "CanvasMenuCopy";
         /// <summary>
         /// Key definition of m_cMenuDict for cut
         /// </summary>
-        public static readonly string CANVAS_MENU_CUT = "Cut";
+        public static readonly string CanvasMenuCut = "CanvasMenuCut";
         /// <summary>
         /// Key definition of m_cMenuDict for paste
         /// </summary>
-        public static readonly string CANVAS_MENU_PASTE = "Paste";
+        public static readonly string CanvasMenuPaste = "CanvasMenuPaste";
         /// <summary>
         /// Key definition of m_cMenuDict for delete
         /// </summary>
-        public static readonly string CANVAS_MENU_DELETE_WITH = "deletewith";
+        public static readonly string CanvasMenuDeleteWith = "CanvasMenuDeleteWith";
+        /// <summary>
+        /// Key definition of m_cMenuDict for Set Layout
+        /// </summary>
+        public static readonly string CanvasMenuLayout = "CanvasMenuLayout";
         /// <summary>
         /// Key definition of m_cMenuDict for Change Layer
         /// </summary>
-        public static readonly string CANVAS_MENU_CHANGE_LAYER = "Change Layer";
+        public static readonly string CanvasMenuChangeLayer = "CanvasMenuChangeLayer";
         /// <summary>
         /// Key definition of m_cMenuDict for Create Logger
         /// </summary>
-        public static readonly string CANVAS_MENU_CREATE_LOGGER = "Create Logger";
+        public static readonly string CanvasMenuCreateLogger = "CanvasMenuCreateLogger";
         /// <summary>
         /// Key definition of m_cMenuDict for delete Logger
         /// </summary>
-        public static readonly string CANVAS_MENU_DELETE_LOGGER = "Delete Logger";
+        public static readonly string CanvasMenuDeleteLogger = "CanvasMenuDeleteLogger";
         /// <summary>
         /// Key definition of m_cMenuDict for separator1
         /// </summary>
-        public static readonly string CANVAS_MENU_SEPARATOR1 = "separator1";
+        public static readonly string CanvasMenuSeparator1 = "CanvasMenuSeparator1";
         /// <summary>
         /// Key definition of m_cMenuDict for separator2
         /// </summary>
-        public static readonly string CANVAS_MENU_SEPARATOR2 = "separator2";
+        public static readonly string CanvasMenuSeparator2 = "CanvasMenuSeparator2";
         /// <summary>
         /// Key definition of m_cMenuDict for separator3
         /// </summary>
-        public static readonly string CANVAS_MENU_SEPARATOR3 = "separator3";
+        public static readonly string CanvasMenuSeparator3 = "CanvasMenuSeparator3";
         /// <summary>
         /// Key definition of m_cMenuDict for separator4
         /// </summary>
-        public static readonly string CANVAS_MENU_SEPARATOR4 = "separator4";
+        public static readonly string CanvasMenuSeparator4 = "CanvasMenuSeparator4";
         /// <summary>
         /// Key definition of m_cMenuDict for separator5
         /// </summary>
-        public static readonly string CANVAS_MENU_SEPARATOR5 = "separator5";
+        public static readonly string CanvasMenuSeparator5 = "CanvasMenuSeparator5";
         /// <summary>
         /// Key definition of m_cMenuDict for rightArrow
         /// </summary>
-        public static readonly string CANVAS_MENU_RIGHT_ARROW = "rightArrow";
+        public static readonly string CanvasMenuRightArrow = "CanvasMenuRightArrow";
         /// <summary>
         /// Key definition of m_cMenuDict for leftArrow
         /// </summary>
-        public static readonly string CANVAS_MENU_LEFT_ARROW = "leftArrow";
+        public static readonly string CanvasMenuLeftArrow = "CanvasMenuLeftArrow";
         /// <summary>
         /// Key definition of m_cMenuDict for bidirArrow
         /// </summary>
-        public static readonly string CANVAS_MENU_BIDIR_ARROW = "bidirArrow";
+        public static readonly string CanvasMenuBidirArrow = "CanvasMenuBidirArrow";
         /// <summary>
         /// Key definition of m_cMenuDict for constantLine
         /// </summary>
-        public static readonly string CANVAS_MENU_CONSTANT_LINE = "constantLine";
+        public static readonly string CanvasMenuConstantLine = "CanvasMenuConstantLine";
         #endregion
 
         #region Fields
@@ -713,10 +717,13 @@ namespace EcellLib.PathwayWindow
                 layoutItem.Tag = count;
                 layoutItem.Visible = true;
                 layoutItem.ToolTipText = algorithm.GetToolTipText();
-                layoutItem.Click += new EventHandler(LayoutItem_Click);
 
                 List<string> subCommands = algorithm.GetSubCommands();
-                if (subCommands != null && subCommands.Count != 0)
+                if (subCommands == null || subCommands.Count == 0)
+                {
+                    layoutItem.Click += new EventHandler(LayoutItem_Click);
+                }
+                else
                 {
                     int subcount = 0;
                     foreach (string subCommandName in subCommands)
@@ -746,105 +753,106 @@ namespace EcellLib.PathwayWindow
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
             nodeMenu.Closed += new ToolStripDropDownClosedEventHandler(m_nodeMenu_Closed);
 
-            ToolStripItem idShow = new ToolStripMenuItem("tmp");
-            idShow.Name = CANVAS_MENU_ID;
+            ToolStripItem idShow = new ToolStripMenuItem(CanvasMenuID);
+            idShow.Name = CanvasMenuID;
             nodeMenu.Items.Add(idShow);
-            m_cMenuDict.Add(CANVAS_MENU_ID, idShow);
+            m_cMenuDict.Add(CanvasMenuID, idShow);
 
             ToolStripSeparator separator1 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator1);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR1, separator1);
+            m_cMenuDict.Add(CanvasMenuSeparator1, separator1);
 
             // Add LayoutMenu
-            nodeMenu.Items.AddRange(CreateLayoutMenus().ToArray());
+            ToolStripMenuItem layout = new ToolStripMenuItem(m_resources.GetString(CanvasMenuLayout));
+            layout.Name = CanvasMenuLayout;
+            layout.DropDownItems.AddRange(CreateLayoutMenus().ToArray());
+            nodeMenu.Items.Add(layout);
+            m_cMenuDict.Add(CanvasMenuLayout, layout);
 
             ToolStripSeparator separator2 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator2);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR2, separator2);
+            m_cMenuDict.Add(CanvasMenuSeparator2, separator2);
 
-            ToolStripItem rightArrow = new ToolStripMenuItem("Process -> Variable", Resource1.arrow_long_right_w);
-            rightArrow.Name = CANVAS_MENU_RIGHT_ARROW;
+            ToolStripItem rightArrow = new ToolStripMenuItem(m_resources.GetString(CanvasMenuRightArrow), Resource1.arrow_long_right_w);
+            rightArrow.Name = CanvasMenuRightArrow;
             rightArrow.Click += new EventHandler(ChangeLineClick);
             nodeMenu.Items.Add(rightArrow);
-            m_cMenuDict.Add(CANVAS_MENU_RIGHT_ARROW, rightArrow);
+            m_cMenuDict.Add(CanvasMenuRightArrow, rightArrow);
 
-            ToolStripItem leftArrow = new ToolStripMenuItem("Process <- Variable", Resource1.arrow_long_left_w);
-            leftArrow.Name = CANVAS_MENU_LEFT_ARROW;
+            ToolStripItem leftArrow = new ToolStripMenuItem(m_resources.GetString(CanvasMenuLeftArrow), Resource1.arrow_long_left_w);
+            leftArrow.Name = CanvasMenuLeftArrow;
             leftArrow.Click += new EventHandler(ChangeLineClick);
             nodeMenu.Items.Add(leftArrow);
-            m_cMenuDict.Add(CANVAS_MENU_LEFT_ARROW, leftArrow);
+            m_cMenuDict.Add(CanvasMenuLeftArrow, leftArrow);
 
-            ToolStripItem bidirArrow = new ToolStripMenuItem("Process <-> Variable", Resource1.arrow_long_bidir_w);
-            bidirArrow.Name = CANVAS_MENU_BIDIR_ARROW;
+            ToolStripItem bidirArrow = new ToolStripMenuItem(m_resources.GetString(CanvasMenuBidirArrow), Resource1.arrow_long_bidir_w);
+            bidirArrow.Name = CanvasMenuBidirArrow;
             bidirArrow.Click += new EventHandler(ChangeLineClick);
             nodeMenu.Items.Add(bidirArrow);
-            m_cMenuDict.Add(CANVAS_MENU_BIDIR_ARROW, bidirArrow);
+            m_cMenuDict.Add(CanvasMenuBidirArrow, bidirArrow);
 
-            ToolStripItem constant = new ToolStripMenuItem("Constant", Resource1.ten);
-            constant.Name = CANVAS_MENU_CONSTANT_LINE;
+            ToolStripItem constant = new ToolStripMenuItem(m_resources.GetString(CanvasMenuConstantLine), Resource1.ten);
+            constant.Name = CanvasMenuConstantLine;
             constant.Click += new EventHandler(ChangeLineClick);
             nodeMenu.Items.Add(constant);
-            m_cMenuDict.Add(CANVAS_MENU_CONSTANT_LINE, constant);
+            m_cMenuDict.Add(CanvasMenuConstantLine, constant);
 
             ToolStripSeparator separator3 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator3);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR3, separator3);
+            m_cMenuDict.Add(CanvasMenuSeparator3, separator3);
 
-            ToolStripItem cut = new ToolStripMenuItem(m_resources.GetString("CutMenuText"));
+            ToolStripItem cut = new ToolStripMenuItem(m_resources.GetString(CanvasMenuCut));
             cut.Click += new EventHandler(this.CutClick);
             nodeMenu.Items.Add(cut);
-            m_cMenuDict.Add(CANVAS_MENU_CUT, cut);
+            m_cMenuDict.Add(CanvasMenuCut, cut);
 
-            ToolStripItem copy = new ToolStripMenuItem(m_resources.GetString("CopyMenuText"));
+            ToolStripItem copy = new ToolStripMenuItem(m_resources.GetString(CanvasMenuCopy));
             copy.Click += new EventHandler(this.CopyClick);
             nodeMenu.Items.Add(copy);
-            m_cMenuDict.Add(CANVAS_MENU_COPY, copy);
+            m_cMenuDict.Add(CanvasMenuCopy, copy);
 
-            ToolStripItem paste = new ToolStripMenuItem(m_resources.GetString("PasteMenuText"));
+            ToolStripItem paste = new ToolStripMenuItem(m_resources.GetString(CanvasMenuPaste));
             paste.Click += new EventHandler(this.PasteClick);
             nodeMenu.Items.Add(paste);
-            m_cMenuDict.Add(CANVAS_MENU_PASTE, paste);
+            m_cMenuDict.Add(CanvasMenuPaste, paste);
 
-            ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString("DeleteMenuText"));
-            delete.Text = m_resources.GetString("DeleteMenuText");
+            ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString(CanvasMenuDelete));
             delete.Click += new EventHandler(this.DeleteClick);
             nodeMenu.Items.Add(delete);
-            m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
+            m_cMenuDict.Add(CanvasMenuDelete, delete);
 
-            ToolStripItem deleteWith = new ToolStripMenuItem(m_resources.GetString("MergeMenuText"));
+            ToolStripItem deleteWith = new ToolStripMenuItem(m_resources.GetString(CanvasMenuDeleteWith));
             deleteWith.Click += new EventHandler(MergeClick);
             nodeMenu.Items.Add(deleteWith);
-            m_cMenuDict.Add(CANVAS_MENU_DELETE_WITH, deleteWith);
+            m_cMenuDict.Add(CanvasMenuDeleteWith, deleteWith);
 
             ToolStripSeparator separator4 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator4);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR4, separator4);
+            m_cMenuDict.Add(CanvasMenuSeparator4, separator4);
 
-            ToolStripItem changeLayer = new ToolStripMenuItem(m_resources.GetString("ChangeLayerMenuText"));
-            changeLayer.Text = m_resources.GetString("ChangeLayerMenuText");
+            ToolStripItem changeLayer = new ToolStripMenuItem(m_resources.GetString(CanvasMenuChangeLayer));
             changeLayer.Click += new EventHandler(this.ChangeLeyerClick);
             nodeMenu.Items.Add(changeLayer);
-            m_cMenuDict.Add(CANVAS_MENU_CHANGE_LAYER, changeLayer);
+            m_cMenuDict.Add(CanvasMenuChangeLayer, changeLayer);
 
             ToolStripSeparator separator5 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator5);
-            m_cMenuDict.Add(CANVAS_MENU_SEPARATOR5, separator5);
+            m_cMenuDict.Add(CanvasMenuSeparator5, separator5);
 
             // Create Logger
-            ToolStripMenuItem createLogger = new ToolStripMenuItem(m_resources.GetString("CreateLogMenuText"));
+            ToolStripMenuItem createLogger = new ToolStripMenuItem(m_resources.GetString(CanvasMenuCreateLogger));
             nodeMenu.Items.Add(createLogger);
-            m_cMenuDict.Add(CANVAS_MENU_CREATE_LOGGER, createLogger);
+            m_cMenuDict.Add(CanvasMenuCreateLogger, createLogger);
 
             // Delete Logger
-            ToolStripMenuItem deleteLogger = new ToolStripMenuItem(m_resources.GetString("DeleteLogMenuText"));
+            ToolStripMenuItem deleteLogger = new ToolStripMenuItem(m_resources.GetString(CanvasMenuDeleteLogger));
             nodeMenu.Items.Add(deleteLogger);
-            m_cMenuDict.Add(CANVAS_MENU_DELETE_LOGGER, deleteLogger);
+            m_cMenuDict.Add(CanvasMenuDeleteLogger, deleteLogger);
 
 #if DEBUG
             ToolStripItem debug = new ToolStripMenuItem("Debug");
             debug.Click += new EventHandler(DebugClick);
             nodeMenu.Items.Add(debug);
-            //m_cMenuDict.Add(CANVAS_MENU_DELETE, delete);
 #endif
             return nodeMenu;
         }
@@ -1112,7 +1120,17 @@ namespace EcellLib.PathwayWindow
             eo.OffsetX = obj.OffsetX;
             eo.OffsetY = obj.OffsetY;
 
-            m_window.NotifyDataChanged(oldKey, newKey, eo, isRecorded, isAnchor);
+            obj.ViewMode = m_isViewMode;
+            try
+            {
+                m_window.NotifyDataChanged(oldKey, newKey, eo, isRecorded, isAnchor);
+            }
+            catch (Exception e)
+            {
+                obj.ResetPosition();
+                obj.CanvasControl.DataChanged(oldKey, oldKey, obj);
+                Debug.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
@@ -1122,7 +1140,14 @@ namespace EcellLib.PathwayWindow
         /// <param name="isAnchor">the type of deleted object.</param>
         public void NotifyDataDelete(EcellObject eo, bool isAnchor)
         {
-            m_window.NotifyDataDelete(eo.modelID, eo.key, eo.type, isAnchor);
+            try
+            {
+                m_window.NotifyDataDelete(eo.modelID, eo.key, eo.type, isAnchor);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
@@ -1496,17 +1521,17 @@ namespace EcellLib.PathwayWindow
             // Change edgeInfo.
             RefChangeType changeType = RefChangeType.SingleDir;
             int coefficient = 0;
-            if (item.Name == CANVAS_MENU_RIGHT_ARROW)
+            if (item.Name == CanvasMenuRightArrow)
             {
                 changeType = RefChangeType.SingleDir;
                 coefficient = 1;
             }
-            else if (item.Name == CANVAS_MENU_LEFT_ARROW)
+            else if (item.Name == CanvasMenuLeftArrow)
             {
                 changeType = RefChangeType.SingleDir;
                 coefficient = -1;
             }
-            else if (item.Name == CANVAS_MENU_BIDIR_ARROW)
+            else if (item.Name == CanvasMenuBidirArrow)
             {
                 changeType = RefChangeType.BiDir;
                 coefficient = 0;

@@ -273,7 +273,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 ((DataGridView)sender).Columns["Show"].Width = LAYER_SHOWCOLUMN_WIDTH;
                 ((DataGridView)sender).Columns["Show"].Resizable = DataGridViewTriState.False;
                 ((DataGridView)sender).Columns["Show"].Frozen = true;
-                ((DataGridView)sender).Columns["Name"].SortMode = DataGridViewColumnSortMode.NotSortable;
+                ((DataGridView)sender).Columns["Name"].SortMode = DataGridViewColumnSortMode.Automatic;
                 ((DataGridView)sender).Columns["Name"].ReadOnly = true;
             }
         }
@@ -291,7 +291,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 ((DataGridView)sender).Columns["Show"].Width = LAYER_SHOWCOLUMN_WIDTH;
                 ((DataGridView)sender).Columns["Show"].Resizable = DataGridViewTriState.False;
                 ((DataGridView)sender).Columns["Show"].Frozen = true;
-                ((DataGridView)sender).Columns["Name"].SortMode = DataGridViewColumnSortMode.NotSortable;
+                ((DataGridView)sender).Columns["Name"].SortMode = DataGridViewColumnSortMode.Automatic;
                 ((DataGridView)sender).Columns["Name"].ReadOnly = true;
             }
         }

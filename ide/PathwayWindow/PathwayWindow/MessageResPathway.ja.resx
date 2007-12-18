@@ -148,7 +148,7 @@
     <value>は既に存在します。</value>
   </data>
   <data name="ErrCompInvalid" xml:space="preserve">
-    <value>ComponentSetting.xmlは不完全ではありません。</value>
+    <value>ComponentSetting.xmlは不完全です。</value>
   </data>
   <data name="ErrComProcess" xml:space="preserve">
     <value>ComponentSettings.xmlにデフォルトProcessの設定情報がありません。</value>
@@ -242,5 +242,44 @@
   </data>
   <data name="SelectNodesMenuText" xml:space="preserve">
     <value>レイヤー下のノードを選択する</value>
+  </data>
+  <data name="CanvasMenuBidirArrow" xml:space="preserve">
+    <value>プロセス &lt;-&gt; バリアブル</value>
+  </data>
+  <data name="CanvasMenuChangeLayer" xml:space="preserve">
+    <value>レイヤー変更</value>
+  </data>
+  <data name="CanvasMenuConstantLine" xml:space="preserve">
+    <value>定数</value>
+  </data>
+  <data name="CanvasMenuCopy" xml:space="preserve">
+    <value>コピー(&amp;C)</value>
+  </data>
+  <data name="CanvasMenuCreateLogger" xml:space="preserve">
+    <value>ロガー設定</value>
+  </data>
+  <data name="CanvasMenuCut" xml:space="preserve">
+    <value>切り取り(&amp;T)</value>
+  </data>
+  <data name="CanvasMenuDelete" xml:space="preserve">
+    <value>削除(&amp;D)</value>
+  </data>
+  <data name="CanvasMenuDeleteLogger" xml:space="preserve">
+    <value>ロガー解除</value>
+  </data>
+  <data name="CanvasMenuDeleteWith" xml:space="preserve">
+    <value>上のシステムにマージ</value>
+  </data>
+  <data name="CanvasMenuLayout" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="CanvasMenuLeftArrow" xml:space="preserve">
+    <value>プロセス &lt;- バリアブル</value>
+  </data>
+  <data name="CanvasMenuPaste" xml:space="preserve">
+    <value>貼り付け(&amp;P)</value>
+  </data>
+  <data name="CanvasMenuRightArrow" xml:space="preserve">
+    <value>プロセス -&gt; バリアブル</value>
   </data>
 </root>

@@ -84,16 +84,6 @@ namespace EcellLib.PathwayWindow
         public static readonly float MAX_SCALE = 5;
 
         /// <summary>
-        /// Used to draw line to reconnect.
-        /// </summary>
-        private static readonly Pen LINE_THIN_PEN = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 2);
-
-        /// <summary>
-        /// radius of a line handle
-        /// </summary>
-        private static readonly float LINE_HANDLE_RADIUS = 5;
-
-        /// <summary>
         /// Name of DataColumn for setting layer visibilities (check box)
         /// </summary>
         private static readonly string COLUMN_NAME4SHOW = "Show";
@@ -1059,6 +1049,9 @@ namespace EcellLib.PathwayWindow
 
             // Set Layer
             SetLayer(obj);
+            // Set visibility
+            obj.ViewMode = m_isViewMode;
+            obj.Refresh();
         }
         /// <summary>
         /// event sequence of deleting the object.

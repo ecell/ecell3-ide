@@ -61,6 +61,123 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Process &lt;-&gt; Variable に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuBidirArrow {
+            get {
+                return ResourceManager.GetString("CanvasMenuBidirArrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Change Layer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuChangeLayer {
+            get {
+                return ResourceManager.GetString("CanvasMenuChangeLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Constant に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuConstantLine {
+            get {
+                return ResourceManager.GetString("CanvasMenuConstantLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &amp;Copy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuCopy {
+            get {
+                return ResourceManager.GetString("CanvasMenuCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create Logger に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuCreateLogger {
+            get {
+                return ResourceManager.GetString("CanvasMenuCreateLogger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cu&amp;t に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuCut {
+            get {
+                return ResourceManager.GetString("CanvasMenuCut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &amp;Delete に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuDelete {
+            get {
+                return ResourceManager.GetString("CanvasMenuDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete Logger に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuDeleteLogger {
+            get {
+                return ResourceManager.GetString("CanvasMenuDeleteLogger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Merge to supersystem に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuDeleteWith {
+            get {
+                return ResourceManager.GetString("CanvasMenuDeleteWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Layout に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuLayout {
+            get {
+                return ResourceManager.GetString("CanvasMenuLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Process &lt;- Variable に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuLeftArrow {
+            get {
+                return ResourceManager.GetString("CanvasMenuLeftArrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &amp;Paste に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuPaste {
+            get {
+                return ResourceManager.GetString("CanvasMenuPaste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Process -&gt; Variable に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuRightArrow {
+            get {
+                return ResourceManager.GetString("CanvasMenuRightArrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Change Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLayerMenuText {

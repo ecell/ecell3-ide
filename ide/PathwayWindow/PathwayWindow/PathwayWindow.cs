@@ -184,15 +184,7 @@ namespace EcellLib.PathwayWindow
         {
             if(oldKey == null || newKey == null || eo.type == null)
                 return;
-            try
-            {
-                eo.key = newKey;
-                m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, isRecorded, isAnchor);
-            }
-            catch (IgnoreException)
-            {
-                this.DataChanged(eo.modelID, newKey, eo.type, eo);
-            }
+            m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, isRecorded, isAnchor);
         }
 
         /// <summary>

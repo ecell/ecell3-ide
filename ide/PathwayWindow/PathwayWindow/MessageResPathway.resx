@@ -243,4 +243,43 @@
   <data name="SelectNodesMenuText" xml:space="preserve">
     <value>Select nodes under...</value>
   </data>
+  <data name="CanvasMenuBidirArrow" xml:space="preserve">
+    <value>Process &lt;-&gt; Variable</value>
+  </data>
+  <data name="CanvasMenuChangeLayer" xml:space="preserve">
+    <value>Change Layer</value>
+  </data>
+  <data name="CanvasMenuConstantLine" xml:space="preserve">
+    <value>Constant</value>
+  </data>
+  <data name="CanvasMenuCopy" xml:space="preserve">
+    <value>&amp;Copy</value>
+  </data>
+  <data name="CanvasMenuCreateLogger" xml:space="preserve">
+    <value>Create Logger</value>
+  </data>
+  <data name="CanvasMenuCut" xml:space="preserve">
+    <value>Cu&amp;t</value>
+  </data>
+  <data name="CanvasMenuDelete" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
+  <data name="CanvasMenuDeleteLogger" xml:space="preserve">
+    <value>Delete Logger</value>
+  </data>
+  <data name="CanvasMenuDeleteWith" xml:space="preserve">
+    <value>Merge to supersystem</value>
+  </data>
+  <data name="CanvasMenuLayout" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="CanvasMenuLeftArrow" xml:space="preserve">
+    <value>Process &lt;- Variable</value>
+  </data>
+  <data name="CanvasMenuPaste" xml:space="preserve">
+    <value>&amp;Paste</value>
+  </data>
+  <data name="CanvasMenuRightArrow" xml:space="preserve">
+    <value>Process -&gt; Variable</value>
+  </data>
 </root>
