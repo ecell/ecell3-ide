@@ -51,8 +51,8 @@ namespace EcellLib.ObjectList
             }
 
             // UserControlÇâ¡Ç¶ÇÈÅB
-            List<DockContent> windowList = pb.GetWindowsForms();
-            foreach (DockContent win in windowList)
+            List<EcellDockContent> windowList = pb.GetWindowsForms();
+            foreach (EcellDockContent win in windowList)
             {
                 foreach(Control con in win.Controls)
                     panel2.Controls.Add(con);

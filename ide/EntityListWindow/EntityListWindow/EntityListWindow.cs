@@ -998,9 +998,9 @@ namespace EcellLib.EntityListWindow
         /// This user control add the NodeMouseClick event action.
         /// </summary>
         /// <returns>UserControl.</returns>
-        public List<DockContent> GetWindowsForms()
+        public List<EcellDockContent> GetWindowsForms()
         {
-            List<DockContent> list = new List<DockContent>();
+            List<EcellDockContent> list = new List<EcellDockContent>();
             m_form = new EntityList();
             m_form.treeView1.NodeMouseClick +=
                 new TreeNodeMouseClickEventHandler(this.NodeMouseClick);

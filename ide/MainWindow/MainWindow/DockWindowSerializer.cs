@@ -66,7 +66,7 @@ namespace EcellLib.MainWindow {
         public static void SaveAsXML(MainWindow window, string filename)
         {
             DockPanel dockPanel = window.dockPanel;
-            CloseTracerWindow(dockPanel);
+            CloseUnSavableWindows(dockPanel);
             CheckFilePath(filename);
             FileStream fs = null;
             XmlTextWriter xmlOut = null;
@@ -229,16 +229,19 @@ namespace EcellLib.MainWindow {
         /// <summary>
         /// Close TracerWindow.
         /// </summary>
-        private static void CloseTracerWindow(DockPanel dockPanel)
+        private static void CloseUnSavableWindows(DockPanel dockPanel)
         {
-            List<DockContent> list = new List<DockContent>();
-            for (int i = dockPanel.Contents.Count - 1; i > 0; i--)
+            foreach (DockContent content in dockPanel.Contents)
             {
-                DockContent content = (DockContent)dockPanel.Contents[i];
-                if (content.Text.Contains("Tracer") || content.Text.Contains("ÉgÉåÅ[ÉT"))
+                if (!(content is EcellDockContent))
+                {
                     content.Close();
-                if (content.Text.Contains("Analysis") || content.Text.Contains("âêÕ"))
+                    continue;
+                }
+                if (!((EcellDockContent)content).IsSavable)
+                {
                     content.Close();
+                }
             }
             dockPanel.Refresh();
         }

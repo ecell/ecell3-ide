@@ -176,7 +176,7 @@ namespace EcellLib.SearchWindow
         /// Get the window form for SearchWindow.
         /// </summary>
         /// <returns>UserControl.</returns>
-        public List<DockContent> GetWindowsForms()
+        public List<EcellDockContent> GetWindowsForms()
         {
             return null;
         }

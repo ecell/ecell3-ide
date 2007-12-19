@@ -574,13 +574,14 @@ namespace EcellLib.ObjectList
         /// Get the window form for ObjectList.
         /// </summary>
         /// <returns>UserControl</returns>        
-        public List<DockContent> GetWindowsForms()
+        public List<EcellDockContent> GetWindowsForms()
         {
-            DockContent win = new DockContent();
+            EcellDockContent win = new EcellDockContent();
             m_tabControl.Dock = DockStyle.Fill;
             win.Controls.Add(m_tabControl);
             win.Text = "ObjectList";
-            List<DockContent> list = new List<DockContent>();
+            win.IsSavable = true;
+            List<EcellDockContent> list = new List<EcellDockContent>();
             list.Add(win);
 
             return list;

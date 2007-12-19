@@ -288,7 +288,7 @@ namespace EcellLib.Simulation
         /// Get the windows form for Simulation.
         /// </summary>
         /// <returns>null</returns>
-        public List<DockContent> GetWindowsForms()
+        public List<EcellDockContent> GetWindowsForms()
         {
             return null;
         }

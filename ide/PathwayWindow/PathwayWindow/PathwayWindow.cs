@@ -50,15 +50,13 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Windows.Forms;
-
-using EcellLib;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.PiccoloX.Components;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.PiccoloX.Nodes;
-using WeifenLuo.WinFormsUI.Docking;
+using EcellLib;
 using EcellLib.PathwayWindow.Exceptions;
 using EcellLib.PathwayWindow.Resources;
 
@@ -275,9 +273,9 @@ namespace EcellLib.PathwayWindow
         /// PathwayWindow get it and attach some delegates to them and pass it to PluginManager.
         /// </summary>
         /// <returns>UserControl with pathway canvases, etc.</returns>
-        public List<DockContent> GetWindowsForms()
+        public List<EcellDockContent> GetWindowsForms()
         {
-            List<DockContent> list = new List<DockContent>();
+            List<EcellDockContent> list = new List<EcellDockContent>();
             list.Add(m_con.PathwayView);
             list.Add(m_con.OverView);
             list.Add(m_con.LayerView);

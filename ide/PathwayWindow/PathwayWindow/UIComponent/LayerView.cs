@@ -29,15 +29,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
-using System.Data;
-using System.ComponentModel;
 using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow.UIComponent
@@ -45,7 +44,7 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// <summary>
     /// UserControl class to display the list of layer.
     /// </summary>
-    public class LayerView: DockContent
+    public class LayerView: EcellDockContent
     {
         #region Static Fields
         private static string MenuCreate = "LayerMenuCreate";
@@ -106,6 +105,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         public LayerView(PathwayControl control)
         {
+            base.m_isSavable = true;
             this.m_con = control;
             InitializeComponent();
             // Preparing context menus.

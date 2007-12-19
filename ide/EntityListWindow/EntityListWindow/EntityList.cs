@@ -9,13 +9,14 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib
 {
-    public partial class EntityList : DockContent
+    public partial class EntityList : EcellDockContent
     {
         /// <summary>
         /// Constructor.
         /// </summary>
         public EntityList()
         {
+            base.m_isSavable = true;
             InitializeComponent();
             
         }

@@ -411,7 +411,7 @@ namespace EcellLib.MainWindow
         void LoadPlugin(string path)
         {
             PluginBase pb = null;
-            List<DockContent> winList = null;
+            List<EcellDockContent> winList = null;
             List<ToolStripMenuItem> menuList = null;
             List<ToolStripItem> toolList = null;
 
@@ -437,7 +437,7 @@ namespace EcellLib.MainWindow
             // Set DockContent.
             winList = pb.GetWindowsForms();
             if (winList != null && winList.Count > 0)
-                foreach (DockContent dock in winList)
+                foreach (EcellDockContent dock in winList)
                     SetDockContent(dock);
             // Set Menu.
             menuList = pb.GetMenuStripItems();
@@ -547,7 +547,6 @@ namespace EcellLib.MainWindow
             {
                 ((Form)sender).Controls.Clear();
             }
-
         }
 
         /// <summary>
@@ -607,7 +606,7 @@ namespace EcellLib.MainWindow
         /// Get the window form for MainWindow plugin.
         /// </summary>
         /// <returns>Windows form</returns>
-        public List<DockContent> GetWindowsForms()
+        public List<EcellDockContent> GetWindowsForms()
         {
             return null;
         }

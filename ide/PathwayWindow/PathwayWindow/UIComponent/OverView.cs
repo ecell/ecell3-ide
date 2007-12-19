@@ -31,7 +31,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using WeifenLuo.WinFormsUI.Docking;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
@@ -42,7 +41,7 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// <summary>
     /// Control class to display the overview of pathway.
     /// </summary>
-    public class OverView: DockContent
+    public class OverView: EcellDockContent
     {
         #region Fields
         /// <summary>
@@ -71,6 +70,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         public OverView()
         {
+            base.m_isSavable = true;
             InitializeComponent();
             m_area = new PDisplayedArea();
             m_transparentNode = new PPath();

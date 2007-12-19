@@ -89,7 +89,7 @@ namespace EcellLib.AboutWindow
         /// Get the window form for AboutWindow plugin.
         /// </summary>
         /// <returns>null.</returns>
-        public List<DockContent> GetWindowsForms()
+        public List<EcellDockContent> GetWindowsForms()
         {
             return null;
         }

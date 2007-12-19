@@ -498,14 +498,14 @@ namespace EcellLib.PropertyWindow
         /// Get the window form for PropertyWindow.
         /// </summary>
         /// <returns>UserControl</returns>
-        public List<DockContent> GetWindowsForms()
+        public List<EcellDockContent> GetWindowsForms()
         {
-            DockContent dock = new DockContent();
+            EcellDockContent dock = new EcellDockContent();
             dock.Dock = DockStyle.Fill;
             dock.Text = "PropertyWindow";
             dock.Controls.Add(m_dgv);
-
-            List<DockContent> list = new List<DockContent>();
+            dock.IsSavable = true;
+            List<EcellDockContent> list = new List<EcellDockContent>();
             list.Add(dock);
 
             return list;

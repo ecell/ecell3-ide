@@ -38,8 +38,6 @@ using System.Threading;
 using System.Windows.Forms;
 
 using SessionManager;
-
-using WeifenLuo.WinFormsUI.Docking;
 using ZedGraph;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
@@ -49,7 +47,7 @@ namespace EcellLib.Analysis
     /// <summary>
     /// Analysis window for robust analysis.
     /// </summary>
-    public partial class RobustAnalysis : DockContent
+    public partial class RobustAnalysis : EcellDockContent
     {
         /// <summary>
         /// The dictionary of the logging data to be observed.

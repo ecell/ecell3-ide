@@ -145,19 +145,19 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Key definition of MessageResPathway for ShowID
         /// </summary>
-        public static readonly string MenuItemShowID = "MenuItemShowID";
+        private static readonly string MenuItemShowID = "MenuItemShowID";
         /// <summary>
         /// Key definition of MessageResPathway for ToolTipShowID
         /// </summary>
-        public static readonly string MenuToolTipShowID = "MenuToolTipShowID";
+        private static readonly string MenuToolTipShowID = "MenuToolTipShowID";
         /// <summary>
         /// Key definition of MessageResPathway for ViewMode
         /// </summary>
-        public static readonly string MenuItemViewMode = "MenuItemViewMode";
+        private static readonly string MenuItemViewMode = "MenuItemViewMode";
         /// <summary>
         /// Key definition of MessageResPathway for ToolTipViewMode
         /// </summary>
-        public static readonly string MenuToolTipViewMode = "MenuToolTipViewMode";
+        private static readonly string MenuToolTipViewMode = "MenuToolTipViewMode";
         #endregion
         #endregion
 

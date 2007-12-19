@@ -12,13 +12,14 @@ namespace EcellLib.MessageWindow
     /// <summary>
     /// User Control for MessageWindow.
     /// </summary>
-    public partial class MessageWindowControl : DockContent
+    public partial class MessageWindowControl : EcellDockContent
     {
         /// <summary>
         /// Constructor.
         /// </summary>
         public MessageWindowControl()
         {
+            base.m_isSavable = true;
             InitializeComponent();
         }
     }

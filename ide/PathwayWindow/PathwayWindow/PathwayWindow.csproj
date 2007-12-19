@@ -86,10 +86,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\bin\UMD.HCIL.PiccoloX.dll</HintPath>
     </Reference>
-    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.2706.19617, Culture=neutral, PublicKeyToken=d481317c817cec47, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
-    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.2706.19617, Culture=neutral, PublicKeyToken=d481317c817cec47, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EcellSerializer.cs" />

@@ -185,7 +185,7 @@ namespace EcellLib.Analysis
         /// Called by PluginManager for getting UseControl.
         /// </summary>
         /// <returns>nothing.</returns>
-        public List<DockContent> GetWindowsForms()
+        public List<EcellDockContent> GetWindowsForms()
         {
             return null;
         }

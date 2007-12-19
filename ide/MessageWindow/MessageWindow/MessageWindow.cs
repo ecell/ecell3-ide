@@ -130,9 +130,9 @@ namespace EcellLib.MessageWindow
         /// Get the window form for TracerWindow plugin.
         /// </summary>
         /// <returns>Windows form</returns>
-        public List<DockContent> GetWindowsForms()
+        public List<EcellDockContent> GetWindowsForms()
         {
-            List<DockContent> array = new List<DockContent>();
+            List<EcellDockContent> array = new List<EcellDockContent>();
             m_form = new MessageWindowControl();
             array.Add(m_form);
 

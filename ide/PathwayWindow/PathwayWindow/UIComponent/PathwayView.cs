@@ -32,7 +32,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
@@ -42,7 +41,7 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// <summary>
     /// Control class to display pathway.
     /// </summary>
-    public class PathwayView: DockContent
+    public class PathwayView : EcellDockContent
     {
         #region Fields
         /// <summary>
@@ -65,6 +64,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="control">PathwayControl</param>
         public PathwayView(PathwayControl control)
         {
+            base.m_isSavable = true;
             this.m_con = control;
             InitializeComponent();
         }

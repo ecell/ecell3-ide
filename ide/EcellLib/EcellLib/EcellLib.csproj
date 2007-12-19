@@ -204,6 +204,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="EcellDockContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="EcellXml.cs" />
     <Compile Include="SimulationParameter.cs" />
     <Compile Include="DataLogger.cs" />

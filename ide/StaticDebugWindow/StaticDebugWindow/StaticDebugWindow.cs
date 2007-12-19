@@ -226,7 +226,7 @@ namespace EcellLib.StaticDebugWindow
         /// Returns window forms used on the main window.
         /// </summary>
         /// <returns>window forms</returns>
-        public List<DockContent> GetWindowsForms()
+        public List<EcellDockContent> GetWindowsForms()
         {
             return null;
         }

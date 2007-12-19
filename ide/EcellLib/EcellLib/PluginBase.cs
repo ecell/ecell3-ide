@@ -59,7 +59,7 @@ namespace EcellLib
         /// </summary>
         /// <returns>UserControl.</returns>
         //List<UserControl> GetWindowsForms();
-        List<DockContent> GetWindowsForms();
+        List<EcellDockContent> GetWindowsForms();
 
         /// <summary>
         /// The event sequence on changing selected object at other plugin.

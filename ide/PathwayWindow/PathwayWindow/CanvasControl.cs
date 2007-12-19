@@ -42,16 +42,15 @@ using System.Text;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using EcellLib.PathwayWindow.Nodes;
-using EcellLib.PathwayWindow.UIComponent;
-using EcellLib.PathwayWindow.Handler;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.PiccoloX.Nodes;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.PiccoloX.Components;
-using WeifenLuo.WinFormsUI.Docking;
+using EcellLib.PathwayWindow.Nodes;
+using EcellLib.PathwayWindow.Handler;
+using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow
