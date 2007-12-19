@@ -49,10 +49,6 @@ namespace EcellLib.Simulation
         /// the parent window with SimulationSetupWindow.
         /// </summary>
         SimulationSetup m_win;
-        /// <summary>
-        /// ResourceManager for NewParameterWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResSimulation));
         #endregion
 
         /// <summary>
@@ -84,36 +80,37 @@ namespace EcellLib.Simulation
             string data = paramTextBox.Text;
             if (data == "" || data == null)
             {
-                String errmes = m_resources.GetString("ErrNoInput");
+                String errmes = Simulation.s_resources.GetString("ErrNoInput");
                 MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (m_win.stepperListBox.Items.Contains(data))
+            if (m_win.IsExistStepper(data))
             {
-                String errmes = m_resources.GetString("ErrAlready");
+                String errmes = Simulation.s_resources.GetString("ErrAlready");
                 MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (Util.IsNGforID(data))
             {
-                String errmes = m_resources.GetString("ErrIDNG");
+                String errmes = Simulation.s_resources.GetString("ErrIDNG");
                 MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            string paramID = m_win.paramCombo.Text;
-            string modelID = m_win.modelCombo.Text;
-            string stepperID = m_win.stepCombo.Text;
+            string paramID = m_win.GetCurrentParameter();
+            string modelID = m_win.GetCurrentModel();
+            string stepperID = m_win.GetCurrentStepper();
             Dictionary<string, EcellData> propDict =
                 m_dManager.GetStepperProperty(stepperID);
             List<EcellData> list = new List<EcellData>();
             foreach (string key in propDict.Keys)
             {
-                if (propDict[key].Name == "ProcessList" || propDict[key].Name == "SystemList" ||
-                    propDict[key].Name == "ReadVariableList" ||
-                    propDict[key].Name == "WriteVariableList")
+                if (propDict[key].Name == Constants.propProcessList || 
+                    propDict[key].Name == Constants.propSystemList ||
+                    propDict[key].Name == Constants.propReadVariableList ||
+                    propDict[key].Name == Constants.propWriteVariableList)
                 {
                     EcellData d = propDict[key];
                     List<EcellValue> nulllist = new List<EcellValue>();
@@ -125,9 +122,9 @@ namespace EcellLib.Simulation
                     list.Add(propDict[key]);
                 }
             }
-            EcellObject obj = EcellObject.CreateObject(modelID, data, "Stepper", stepperID, list);
+            EcellObject obj = EcellObject.CreateObject(modelID, data, Constants.xpathStepper, stepperID, list);
             m_dManager.AddStepperID(paramID, obj);
-            m_win.stepperListBox.Items.Add(data);
+            m_win.AddStepper(data);
             m_win.SetStepperList(m_dManager.GetStepper(paramID, modelID));
             Close();
             Dispose();
@@ -163,30 +160,33 @@ namespace EcellLib.Simulation
         {
             if (paramTextBox.Text == "")
             {
-                String errmes = m_resources.GetString("ErrNoInput");
+                String errmes = Simulation.s_resources.GetString("ErrNoInput");
                 MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (Util.IsNGforID(paramTextBox.Text))
             {
-                String errmes = m_resources.GetString("ErrIDNG");
+                String errmes = Simulation.s_resources.GetString("ErrIDNG");
                 MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             string newParamName = paramTextBox.Text;
-
             m_dManager.CreateSimulationParameter(newParamName);
-            m_win.paramCombo.Items.Add(newParamName);
-            m_win.paramCombo.SelectedItem = newParamName;
+            m_win.SetNewParameter(newParamName);
             Dispose();
         }
-        #endregion
 
-        private void CreateParameterShown(object sender, EventArgs e)
+        /// <summary>
+        /// Event when this form is shown.
+        /// </summary>
+        /// <param name="sender">Form.</param>
+        /// <param name="e">EventArgs.</param>
+        private void ShowCreateParameterWin(object sender, EventArgs e)
         {
             this.paramTextBox.Focus();
         }
+        #endregion
     }
 }

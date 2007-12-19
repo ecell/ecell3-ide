@@ -97,7 +97,7 @@
             this.CancelButton = this.CPCancelButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "NewParameterWindow";
-            this.Shown += new System.EventHandler(this.CreateParameterShown);
+            this.Shown += new System.EventHandler(this.ShowCreateParameterWin);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();

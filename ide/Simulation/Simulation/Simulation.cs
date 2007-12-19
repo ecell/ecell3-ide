@@ -88,10 +88,11 @@ namespace EcellLib.Simulation
         /// system status.
         /// </summary>
         private ProjectStatus m_type;
+        private PluginManager m_pManager;
         /// <summary>
         /// ResourceManager for NewParameterWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResSimulation));
+        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResSimulation));
         #endregion
 
         /// <summary>
@@ -100,6 +101,7 @@ namespace EcellLib.Simulation
         public Simulation()
         {
             m_dManager = DataManager.GetDataManager();
+            m_pManager = PluginManager.GetPluginManager();
         }
 
         #region PluginBase
@@ -120,7 +122,7 @@ namespace EcellLib.Simulation
             m_runSim.Name = "MenuItemRunSimulation";
             m_runSim.Size = new Size(96, 22);
             m_runSim.Image = (Image)resources.GetObject("media_play_green");
-            m_runSim.Text = m_resources.GetString("MenuItemRun");
+            m_runSim.Text = Simulation.s_resources.GetString("MenuItemRun");
 //            resources.ApplyResources(m_runSim, "MenuItemRun");
             m_runSim.Enabled = false;
             m_runSim.Click += new EventHandler(this.RunSimulation);
@@ -129,7 +131,7 @@ namespace EcellLib.Simulation
             m_suspendSim.Name = "MenuItemSuspendSimulation";
             m_suspendSim.Size = new Size(96, 22);
 //            m_suspendSim.Text = "Suspend ...";
-            m_suspendSim.Text = m_resources.GetString("MenuItemSuspend");
+            m_suspendSim.Text = Simulation.s_resources.GetString("MenuItemSuspend");
             m_suspendSim.Image = (Image)resources.GetObject("media_pause"); 
 //            resources.ApplyResources(m_suspendSim, "MenuItemSuspend");
             m_suspendSim.Enabled = false;
@@ -140,7 +142,7 @@ namespace EcellLib.Simulation
             m_stopSim.Size = new Size(96, 22);
 //            m_stopSim.Text = "Stop ...";
             m_stopSim.Image = (Image)resources.GetObject("media_stop_red");
-            m_stopSim.Text = m_resources.GetString("MenuItemStop");
+            m_stopSim.Text = Simulation.s_resources.GetString("MenuItemStop");
             //            resources.ApplyResources(m_stopSim, "MenuItemStop");
             m_stopSim.Enabled = false;
             m_stopSim.Click += new EventHandler(this.ResetSimulation);
@@ -161,7 +163,7 @@ namespace EcellLib.Simulation
             m_setupSim.Size = new Size(96, 22);
 //            m_setupSim.Text = "Simulation";
 //            resources.ApplyResources(m_setupSim, "MenuItemSetupSim");
-            m_setupSim.Text = m_resources.GetString("MenuItemSetupSim");
+            m_setupSim.Text = Simulation.s_resources.GetString("MenuItemSetupSim");
             m_setupSim.Tag = 10;
             m_setupSim.Enabled = false;
             m_setupSim.Click += new EventHandler(this.SetupSimulation);
@@ -303,131 +305,7 @@ namespace EcellLib.Simulation
         {
             if (type == Constants.xpathParameters && key != Constants.xpathParameters)
             {
-                int i = 0;
-                m_win = new SimulationSetup();
-
-                List<string> stepList = m_dManager.GetStepperList();
-                foreach (string step in stepList)
-                {
-                    m_win.stepCombo.Items.Add(step);
-                }
-
-                string currentParam = key;
-                List<string> paramList = m_dManager.GetSimulationParameterIDs();
-                foreach (string param in paramList)
-                {
-                    m_win.paramCombo.Items.Add(param);
-                    if (param == currentParam || (currentParam == null && i == 0))
-                    {
-                        m_win.paramCombo.SelectedIndex = i;
-                        m_win.ChangePameterID(param);
-                        m_win.ChangeModelID(m_win.modelCombo.Text);
-                    }
-                    i++;
-                }
-
-                LoggerPolicy log = m_dManager.GetLoggerPolicy(m_win.paramCombo.Text);
-                if (log.m_reloadStepCount > 0)
-                {
-                    m_win.freqByStepRadio.Checked = true;
-                    m_win.freqByStepTextBox.Text = log.m_reloadStepCount.ToString();
-                }
-                else if (log.m_reloadInterval > 0.0)
-                {
-                    m_win.freqBySecRadio.Checked = true;
-                    m_win.freqBySecTextBox.Text = log.m_reloadInterval.ToString();
-                }
-                if (log.m_diskFullAction == 0)
-                {
-                    m_win.exceptionRadio.Checked = true;
-                }
-                else
-                {
-                    m_win.overrideRadio.Checked = true;
-                }
-                if (log.m_maxDiskSpace == 0)
-                {
-                    m_win.noLimitRadio.Checked = true;
-                }
-                else
-                {
-                    m_win.maxSizeRadio.Checked = true;
-                    m_win.maxKbTextBox.Text = log.m_maxDiskSpace.ToString();
-                }
-
-                int j = 0;
-                string selectModelName = "";
-
-                m_win.iModelCombo.Items.Clear();
-                List<string> modelList = m_dManager.GetModelList();
-                foreach (String modelName in modelList)
-                {
-                    m_win.iModelCombo.Items.Add(modelName);
-                    if (j == 0)
-                    {
-                        m_win.iModelCombo.SelectedIndex = 0;
-                        selectModelName = modelName;
-
-                        m_win.InitProDGV.Rows.Clear();
-                        m_win.InitVarDGV.Rows.Clear();
-
-                        Dictionary<string, double> initList;
-                        initList = m_dManager.GetInitialCondition(currentParam,
-                            selectModelName, "Process");
-                        foreach (string v in initList.Keys)
-                        {
-                            DataGridViewRow row = new DataGridViewRow();
-
-                            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                            c1.Value = v;
-                            row.Cells.Add(c1);
-                            c1.ReadOnly = true;
-
-                            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                            c2.Value = initList[v];
-                            row.Cells.Add(c2);
-
-                            row.Tag = initList[v];
-                            m_win.InitProDGV.Rows.Add(row);
-                        }
-
-                        initList = m_dManager.GetInitialCondition(currentParam,
-                            selectModelName, "Variable");
-                        foreach (string v in initList.Keys)
-                        {
-                            DataGridViewRow row = new DataGridViewRow();
-
-                            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                            c1.Value = v;
-                            row.Cells.Add(c1);
-                            c1.ReadOnly = true;
-
-                            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                            c2.Value = initList[v];
-                            row.Cells.Add(c2);
-
-                            row.Tag = initList[v];
-                            m_win.InitVarDGV.Rows.Add(row);
-                        }
-                    }
-                    j++;
-                }
-                m_win.paramCombo.SelectedIndexChanged += new EventHandler(m_win.SelectedIndexChangedParam);
-                m_win.stepperListBox.SelectedIndexChanged += new EventHandler(m_win.StepperListBoxSelectedIndexChanged);
-                m_win.stepCombo.SelectedIndexChanged += new EventHandler(m_win.StepComboSelectedIndexChanged);
-                m_win.modelCombo.SelectedIndexChanged += new EventHandler(m_win.ModelComboSelectedIndexChanged);
-                m_win.SSCreateButton.Click += new EventHandler(m_win.NewButtonClick);
-                m_win.SSDeleteButton.Click += new EventHandler(m_win.DeleteButtonClick);
-                m_win.SSCloseButton.Click += new EventHandler(m_win.CloseButtonClick);
-                m_win.SSApplyButton.Click += new EventHandler(m_win.UpdateButtonClick);
-                m_win.iModelCombo.SelectedIndexChanged += new EventHandler(m_win.InitModelComboSelectedIndexChanged);
-
-                m_win.SSSetButton.Click += new EventHandler(m_win.SetButtonClick);
-                m_win.SSAddStepperButton.Click += new EventHandler(m_win.AddStepperClick);
-                m_win.SSDeleteStepperButton.Click += new EventHandler(m_win.DeleteStepperClick);
-
-                m_win.ShowDialog();
-
+                SetupSimulation(new Button(), new EventArgs());
             }
         }
 
@@ -717,159 +595,14 @@ namespace EcellLib.Simulation
         {
             if (m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Running)
             {
-                String mes = m_resources.GetString("ConfirmSetup");
+                String mes = Simulation.s_resources.GetString("ConfirmSetup");
                 DialogResult r = MessageBox.Show(mes,
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK) return;
                 ResetSimulation(sender, e);
             }
 
-            int i = 0;
             m_win = new SimulationSetup();
-
-            List<string> stepList = m_dManager.GetStepperList();
-            foreach (string step in stepList)
-            {
-                m_win.stepCombo.Items.Add(step);
-            }
-
-            string currentParam = m_dManager.GetCurrentSimulationParameterID();
-            List<string> paramList = m_dManager.GetSimulationParameterIDs();
-            foreach (string param in paramList)
-            {
-                m_win.paramCombo.Items.Add(param);
-                if (param == currentParam || (currentParam == null && i == 0))
-                {
-                    m_win.paramCombo.SelectedIndex = i;
-                    m_win.ChangePameterID(param);
-                    m_win.ChangeModelID(m_win.modelCombo.Text);
-                }
-                i++;
-            }
-
-            LoggerPolicy log = m_dManager.GetLoggerPolicy(m_win.paramCombo.Text);
-            if (log.m_reloadStepCount > 0)
-            {
-                m_win.freqByStepRadio.Checked = true;
-                m_win.freqByStepTextBox.Text = log.m_reloadStepCount.ToString();
-            }
-            else if (log.m_reloadInterval > 0.0)
-            {
-                m_win.freqBySecRadio.Checked = true;
-                m_win.freqBySecTextBox.Text = log.m_reloadInterval.ToString();
-            }
-            if (log.m_diskFullAction == 0)
-            {
-                m_win.exceptionRadio.Checked = true;
-            }
-            else
-            {
-                m_win.overrideRadio.Checked = true;
-            }
-            if (log.m_maxDiskSpace == 0)
-            {
-                m_win.noLimitRadio.Checked = true;
-            }
-            else
-            {
-                m_win.maxSizeRadio.Checked = true;
-                m_win.maxKbTextBox.Text = log.m_maxDiskSpace.ToString();
-            }
-
-            int j = 0;
-            string selectModelName = "";
-
-            m_win.iModelCombo.Items.Clear();
-            List<string> modelList = m_dManager.GetModelList();
-            foreach (String modelName in modelList)
-            {
-                m_win.iModelCombo.Items.Add(modelName);
-                if (j == 0)
-                {
-                    m_win.iModelCombo.SelectedIndex = 0;
-                    selectModelName = modelName;
-
-                    m_win.InitProDGV.Rows.Clear();
-//                    m_win.InitSysDGV.Rows.Clear();
-                    m_win.InitVarDGV.Rows.Clear();
-
-                    Dictionary<string, double> initList;
-
-                    /*
-                    initList = m_dManager.GetInitialCondition(currentParam, 
-                        selectModelName, "System");
-                    foreach (string key in initList.Keys)
-                    {
-                        DataGridViewRow row = new DataGridViewRow();
-
-                        DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                        c1.Value = key;
-                        row.Cells.Add(c1);
-                        c1.ReadOnly = true;
-
-                        DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                        c2.Value = initList[key];
-                        row.Cells.Add(c2);
-
-                        row.Tag = initList[key];
-                        m_win.InitSysDGV.Rows.Add(row);
-                    }
-                    */
-
-                    initList = m_dManager.GetInitialCondition(currentParam,
-                        selectModelName, "Process");
-                    foreach (string key in initList.Keys)
-                    {
-                        DataGridViewRow row = new DataGridViewRow();
-
-                        DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                        c1.Value = key;
-                        row.Cells.Add(c1);
-                        c1.ReadOnly = true;
-
-                        DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                        c2.Value = initList[key];
-                        row.Cells.Add(c2);
-
-                        row.Tag = initList[key];
-                        m_win.InitProDGV.Rows.Add(row);
-                    }
-
-                    initList = m_dManager.GetInitialCondition(currentParam,
-                        selectModelName, "Variable");
-                    foreach (string key in initList.Keys)
-                    {
-                        DataGridViewRow row = new DataGridViewRow();
-
-                        DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                        c1.Value = key;
-                        row.Cells.Add(c1);
-                        c1.ReadOnly = true;
-
-                        DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                        c2.Value = initList[key];
-                        row.Cells.Add(c2);
-
-                        row.Tag = initList[key];
-                        m_win.InitVarDGV.Rows.Add(row);
-                    }
-                }
-                j++;
-            }
-            m_win.paramCombo.SelectedIndexChanged += new EventHandler(m_win.SelectedIndexChangedParam);
-            m_win.stepperListBox.SelectedIndexChanged += new EventHandler(m_win.StepperListBoxSelectedIndexChanged);
-            m_win.stepCombo.SelectedIndexChanged += new EventHandler(m_win.StepComboSelectedIndexChanged);
-            m_win.modelCombo.SelectedIndexChanged += new EventHandler(m_win.ModelComboSelectedIndexChanged);
-            m_win.SSCreateButton.Click += new EventHandler(m_win.NewButtonClick);
-            m_win.SSDeleteButton.Click += new EventHandler(m_win.DeleteButtonClick);
-            m_win.SSCloseButton.Click += new EventHandler(m_win.CloseButtonClick);
-            m_win.SSApplyButton.Click += new EventHandler(m_win.UpdateButtonClick);
-            m_win.iModelCombo.SelectedIndexChanged += new EventHandler(m_win.InitModelComboSelectedIndexChanged);
-
-            m_win.SSSetButton.Click += new EventHandler(m_win.SetButtonClick);
-            m_win.SSAddStepperButton.Click += new EventHandler(m_win.AddStepperClick);
-            m_win.SSDeleteStepperButton.Click += new EventHandler(m_win.DeleteStepperClick);
-
             m_win.ShowDialog();
         }
 
@@ -883,17 +616,17 @@ namespace EcellLib.Simulation
         {
             if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Uninitialized) return;
             ProjectStatus preType = m_type;
-            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Running);
+            m_pManager.ChangeStatus(ProjectStatus.Running);
             try
             {
                 m_dManager.SimulationStart(0.0, 0);
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrRunning");
+                String errmes = Simulation.s_resources.GetString("ErrRunning");
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                PluginManager.GetPluginManager().ChangeStatus(preType);
+                m_pManager.ChangeStatus(preType);
             }
 
         }
@@ -908,18 +641,18 @@ namespace EcellLib.Simulation
         {
             if (m_type != ProjectStatus.Running && m_type != ProjectStatus.Stepping)
                 return;
-            ProjectStatus preType = m_type;
-            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Suspended);
+            ProjectStatus preType = m_type;            
+            m_pManager.ChangeStatus(ProjectStatus.Suspended);
             try
             {
                 m_dManager.SimulationSuspend();
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrSuspend");
+                String errmes = Simulation.s_resources.GetString("ErrSuspend");
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                PluginManager.GetPluginManager().ChangeStatus(preType);
+                m_pManager.ChangeStatus(preType);
             }
         }
 
@@ -942,23 +675,22 @@ namespace EcellLib.Simulation
                     int stepCount = Convert.ToInt32(m_text1.Text);
                     if (stepCount < 0) return;
                     m_dManager.SimulationStartKeepSetting(stepCount); // m_dManager.SimulationStart(stepCount);
-                    PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Stepping);
                 }
                 else
                 {
                     double timeCount = Convert.ToDouble(m_text1.Text);
                     if (timeCount < 0) return;
                     m_dManager.SimulationStartKeepSetting(timeCount); // m_dManager.SimulationStart(timeCount);
-                    PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Stepping);
+                    m_pManager.ChangeStatus(ProjectStatus.Stepping);
                 }
-//                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Stepping);
+                m_pManager.ChangeStatus(ProjectStatus.Stepping);
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrStep");
+                String errmes = Simulation.s_resources.GetString("ErrStep");
                 MessageBox.Show(errmes + "\n\n" + ex,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                PluginManager.GetPluginManager().ChangeStatus(preType);                
+                m_pManager.ChangeStatus(preType);                
             }
         }
 
@@ -976,17 +708,17 @@ namespace EcellLib.Simulation
                     m_type != ProjectStatus.Stepping)
                 return;
             ProjectStatus preType = m_type;
-            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
+            m_pManager.ChangeStatus(ProjectStatus.Loaded);
             try
             {
                 m_dManager.SimulationStop();
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrReset");
+                String errmes = Simulation.s_resources.GetString("ErrReset");
                 MessageBox.Show(errmes + "\n\n" + ex,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                PluginManager.GetPluginManager().ChangeStatus(preType);
+                m_pManager.ChangeStatus(preType);
             }
         }
         #endregion

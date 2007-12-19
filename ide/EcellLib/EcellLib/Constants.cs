@@ -166,6 +166,22 @@ namespace EcellLib
         /// </summary>
         public const string postfixPNG = ".png";
         /// <summary>
+        /// Property name of ReadVariableList.
+        /// </summary>
+        public const string propReadVariableList = "ReadVariableList";
+        /// <summary>
+        /// Property name of ProcessList.
+        /// </summary>
+        public const string propProcessList = "ProcessList";
+        /// <summary>
+        /// Property name of SystemList.
+        /// </summary>
+        public const string propSystemList = "SystemList";
+        /// <summary>
+        /// Property name of WriteProcessList.
+        /// </summary>
+        public const string propWriteVariableList = "WriteVariableList";
+        /// <summary>
         /// Reserved XML path name for name of "E-CELL IDE ANALYSIS".
         /// </summary>
         public const string registryAnalysisDirKey = "E-CELL IDE ANALYSIS";

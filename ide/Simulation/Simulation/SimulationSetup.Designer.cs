@@ -587,7 +587,7 @@
             this.CancelButton = this.SSCloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "SimulationSetup";
-            this.Shown += new System.EventHandler(this.SimulationSetupShown);
+            this.Shown += new System.EventHandler(this.ShowSimulationSetupWin);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetupKeyPress);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -646,18 +646,10 @@
         public System.Windows.Forms.TabPage loggingPage;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        /// <summary>
-        /// ListBox to select steppr to edit properties.
-        /// </summary>
-        public System.Windows.Forms.ListBox stepperListBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Label label1;
-        /// <summary>
-        /// ComboBox to set using stepper class.
-        /// </summary>
-        public System.Windows.Forms.ComboBox stepCombo;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
@@ -665,84 +657,16 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
-        /// <summary>
-        /// RadioButton to set interval by steps.
-        /// </summary>
-        public System.Windows.Forms.RadioButton freqByStepRadio;
-        /// <summary>
-        /// RadioButton to set interval by seconds.
-        /// </summary>
-        public System.Windows.Forms.RadioButton freqBySecRadio;
-        /// <summary>
-        /// RadioButton to throw exception file size is over.
-        /// </summary>
-        public System.Windows.Forms.RadioButton exceptionRadio;
-        /// <summary>
-        /// RadioButton to overrive the log when file size is over.
-        /// </summary>
-        public System.Windows.Forms.RadioButton overrideRadio;
-        /// <summary>
-        /// RadioButton to set file size of logging file no limit.
-        /// </summary>
-        public System.Windows.Forms.RadioButton noLimitRadio;
-        /// <summary>
-        /// RadioButton to set max size of logging file.
-        /// </summary>
-        public System.Windows.Forms.RadioButton maxSizeRadio;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        /// <summary>
-        /// TextBox to set frequency by step.
-        /// </summary>
-        public System.Windows.Forms.TextBox freqByStepTextBox;
-        /// <summary>
-        /// TextBox to set frequency by second.
-        /// </summary>
-        public System.Windows.Forms.TextBox freqBySecTextBox;
-        /// <summary>
-        /// TextBox to set max size of log file.
-        /// </summary>
-        public System.Windows.Forms.TextBox maxKbTextBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel11;
-        /// <summary>
-        /// ComboBox to select parameter set.
-        /// </summary>
-        public System.Windows.Forms.ComboBox paramCombo;
-        /// <summary>
-        /// DataGridView to display the parameter of stepper.
-        /// </summary>
-        public System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.DataGridViewTextBoxColumn Property;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Get;
         private System.Windows.Forms.DataGridViewTextBoxColumn Set;
-        /// <summary>
-        /// Button to create parameter set.
-        /// </summary>
-        public System.Windows.Forms.Button SSCreateButton;
-        /// <summary>
-        /// Button to delete selected parameter set.
-        /// </summary>
-        public System.Windows.Forms.Button SSDeleteButton;
         private System.Windows.Forms.Label label6;
-        /// <summary>
-        /// ComboBox to select model on initial parameter tab.
-        /// </summary>
-        public System.Windows.Forms.ComboBox modelCombo;
-        /// <summary>
-        /// Button to set parameter set of simulation.
-        /// </summary>
-        public System.Windows.Forms.Button SSSetButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
-        /// <summary>
-        /// Button to apply changed parameters on this window.
-        /// </summary>
-        public System.Windows.Forms.Button SSApplyButton;
-        /// <summary>
-        /// Button to close this window.
-        /// </summary>
-        public System.Windows.Forms.Button SSCloseButton;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel14;
@@ -754,26 +678,30 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn initialvalue;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        /// <summary>
-        /// ComboBox to select model on stepper tab.
-        /// </summary>
-        public System.Windows.Forms.ComboBox iModelCombo;
-        /// <summary>
-        /// DataGridView to set initial parameter of process.
-        /// </summary>
-        public System.Windows.Forms.DataGridView InitProDGV;
-        /// <summary>
-        /// DataGridView to set initial parameter of variable.
-        /// </summary>
-        public System.Windows.Forms.DataGridView InitVarDGV;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
-        /// <summary>
-        /// Button to add stepper on simulation setup window.
-        /// </summary>
-        public System.Windows.Forms.Button SSAddStepperButton;
-        /// <summary>
-        /// Button to delete stepper on simulation setup window.
-        /// </summary>
-        public System.Windows.Forms.Button SSDeleteStepperButton;
+        private System.Windows.Forms.Button SSCreateButton;
+        private System.Windows.Forms.Button SSDeleteButton;
+        private System.Windows.Forms.Button SSSetButton;
+        private System.Windows.Forms.ComboBox stepCombo;
+        private System.Windows.Forms.ComboBox modelCombo;
+        private System.Windows.Forms.ListBox stepperListBox;
+        private System.Windows.Forms.DataGridView dgv;
+        private System.Windows.Forms.Button SSApplyButton;
+        private System.Windows.Forms.Button SSCloseButton;
+        private System.Windows.Forms.Button SSAddStepperButton;
+        private System.Windows.Forms.Button SSDeleteStepperButton;
+        private System.Windows.Forms.RadioButton freqByStepRadio;
+        private System.Windows.Forms.RadioButton freqBySecRadio;
+        private System.Windows.Forms.RadioButton exceptionRadio;
+        private System.Windows.Forms.RadioButton overrideRadio;
+        private System.Windows.Forms.RadioButton noLimitRadio;
+        private System.Windows.Forms.RadioButton maxSizeRadio;
+        private System.Windows.Forms.TextBox freqByStepTextBox;
+        private System.Windows.Forms.TextBox freqBySecTextBox;
+        private System.Windows.Forms.TextBox maxKbTextBox;
+        private System.Windows.Forms.ComboBox iModelCombo;
+        private System.Windows.Forms.DataGridView InitProDGV;
+        private System.Windows.Forms.DataGridView InitVarDGV;
+        private System.Windows.Forms.ComboBox paramCombo;
     }
 }

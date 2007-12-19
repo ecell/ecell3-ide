@@ -594,14 +594,17 @@
   <data name="tableLayoutPanel8.ColumnCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
+  <data name="freqByStepRadio.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
   <data name="freqByStepRadio.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="freqByStepRadio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>3, 6</value>
   </data>
   <data name="freqByStepRadio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 16</value>
+    <value>114, 16</value>
   </data>
   <data name="freqByStepRadio.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -621,14 +624,17 @@
   <data name="&gt;&gt;freqByStepRadio.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="freqBySecRadio.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
   <data name="freqBySecRadio.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="freqBySecRadio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 31</value>
+    <value>3, 34</value>
   </data>
   <data name="freqBySecRadio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 16</value>
+    <value>114, 16</value>
   </data>
   <data name="freqBySecRadio.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -819,14 +825,17 @@
   <data name="tableLayoutPanel9.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
+  <data name="exceptionRadio.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
   <data name="exceptionRadio.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="exceptionRadio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>3, 6</value>
   </data>
   <data name="exceptionRadio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 16</value>
+    <value>114, 16</value>
   </data>
   <data name="exceptionRadio.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -846,11 +855,14 @@
   <data name="&gt;&gt;exceptionRadio.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="overrideRadio.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
   <data name="overrideRadio.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="overrideRadio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 31</value>
+    <value>3, 34</value>
   </data>
   <data name="overrideRadio.Size" type="System.Drawing.Size, System.Drawing">
     <value>114, 16</value>
@@ -933,14 +945,17 @@
   <data name="tableLayoutPanel10.ColumnCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
+  <data name="noLimitRadio.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
   <data name="noLimitRadio.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="noLimitRadio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>3, 6</value>
   </data>
   <data name="noLimitRadio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 16</value>
+    <value>114, 16</value>
   </data>
   <data name="noLimitRadio.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -960,14 +975,17 @@
   <data name="&gt;&gt;noLimitRadio.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="maxSizeRadio.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
   <data name="maxSizeRadio.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="maxSizeRadio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 31</value>
+    <value>3, 34</value>
   </data>
   <data name="maxSizeRadio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 16</value>
+    <value>114, 16</value>
   </data>
   <data name="maxSizeRadio.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
