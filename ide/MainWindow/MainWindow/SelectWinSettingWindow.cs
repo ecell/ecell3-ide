@@ -51,6 +51,7 @@ namespace EcellLib.MainWindow
         /// Dictionary of the initial window setting.
         /// </summary>
         private Dictionary<int, WindowSetting> m_dicPath = new Dictionary<int, WindowSetting>();
+        private List<RadioButton> m_patternList = new List<RadioButton>();
         
         /// <summary>
         /// Constructor/
@@ -72,8 +73,8 @@ namespace EcellLib.MainWindow
                 throw new IgnoreException("Not found the registry key");
             }
             StreamReader reader = new StreamReader(
-                (System.IO.Stream)File.OpenRead(path + "/settinglist.conf"));
-            while (i <= 4)
+                (System.IO.Stream)File.OpenRead(path + "/" + Constants.fileWinSetting));
+            while (i <= 5)
             {
                 string line = reader.ReadLine();
                 if (line == null) break;
@@ -81,8 +82,8 @@ namespace EcellLib.MainWindow
                 string[] ele = line.Split(new char[] { '\t' });
                 WindowSetting s = new WindowSetting(
                     ele[0],
-                    path + "/" + ele[0] + ".xml",
-                    path + "/" + ele[0] + ".png",
+                    path + "/" + ele[0] + Constants.postfixXML,
+                    path + "/" + ele[0] + Constants.postfixPNG,
                     ele[1]);
                 m_dicPath.Add(i, s);
                 i++;
@@ -96,28 +97,19 @@ namespace EcellLib.MainWindow
         {
             foreach (int id in m_dicPath.Keys)
             {
+                RadioButton b = new RadioButton();
+                b.Tag = Convert.ToInt32(id);
+                b.Text = m_dicPath[id].Name;
                 if (id == 1)
                 {
-                    SWSSetting1RadioButton.Tag = Convert.ToInt32(1);
-                    SWSSetting1RadioButton.Text = m_dicPath[id].Name;
+                    b.Checked = true;
                     SWSNoteTextBox.Text = m_dicPath[id].Note;
                     SWSPictureBox.Image = Image.FromFile(m_dicPath[id].Image);
                 }
-                else if (id == 2)
-                {
-                    SWSSetting2RadioButton.Tag = Convert.ToInt32(2);
-                    SWSSetting2RadioButton.Text = m_dicPath[id].Name;
-                }
-                else if (id == 3)
-                {
-                    SWSSetting3RadioButton.Tag = Convert.ToInt32(3);
-                    SWSSetting3RadioButton.Text = m_dicPath[id].Name;
-                }
-                else if (id == 4)
-                {
-                    SWSSetting4RadioButton.Tag = Convert.ToInt32(4);
-                    SWSSetting4RadioButton.Text = m_dicPath[id].Name;
-                }
+                b.CheckedChanged += new EventHandler(ChangePatternRadioBox);
+                SWSPatternListLayoutPanel.Controls.Add(b, 0, id - 1);
+                m_patternList.Add(b);
+
             }
         }
 
@@ -140,10 +132,13 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void ClickSWSSelectButton(object sender, EventArgs e)
         {
-            if (SWSSetting1RadioButton.Checked) m_selectPath = m_dicPath[1].Path;
-            else if (SWSSetting2RadioButton.Checked) m_selectPath = m_dicPath[2].Path;
-            else if (SWSSetting3RadioButton.Checked) m_selectPath = m_dicPath[3].Path;
-            else if (SWSSetting4RadioButton.Checked) m_selectPath = m_dicPath[4].Path;
+            foreach ( RadioButton r in m_patternList)
+            {
+                if (!r.Checked) continue;
+                Int32 id = (Int32)r.Tag;
+                m_selectPath = m_dicPath[id].Path;
+                break;
+            }
             this.Close();
         }
 

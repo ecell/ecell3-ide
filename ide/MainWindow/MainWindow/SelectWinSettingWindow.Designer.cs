@@ -32,18 +32,14 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.SWSPictureBox = new System.Windows.Forms.PictureBox();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.SWSSetting1RadioButton = new System.Windows.Forms.RadioButton();
-            this.SWSSetting4RadioButton = new System.Windows.Forms.RadioButton();
-            this.SWSSetting3RadioButton = new System.Windows.Forms.RadioButton();
-            this.SWSSetting2RadioButton = new System.Windows.Forms.RadioButton();
+            this.SWSPatternListLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.SWSNoteTextBox = new System.Windows.Forms.TextBox();
             this.SWSSelectButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).BeginInit();
-            this.tableLayoutPanel3.SuspendLayout();
+            this.SWSPatternListLayoutPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,7 +54,7 @@
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
             this.tableLayoutPanel2.Controls.Add(this.SWSPictureBox, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.SWSPatternListLayoutPanel, 2, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // SWSPictureBox
@@ -67,45 +63,11 @@
             this.SWSPictureBox.Name = "SWSPictureBox";
             this.SWSPictureBox.TabStop = false;
             // 
-            // tableLayoutPanel3
+            // SWSPatternListLayoutPanel
             // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.SWSSetting1RadioButton, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.SWSSetting4RadioButton, 0, 3);
-            this.tableLayoutPanel3.Controls.Add(this.SWSSetting3RadioButton, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.SWSSetting2RadioButton, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.groupBox1, 0, 5);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            // 
-            // SWSSetting1RadioButton
-            // 
-            resources.ApplyResources(this.SWSSetting1RadioButton, "SWSSetting1RadioButton");
-            this.SWSSetting1RadioButton.Checked = true;
-            this.SWSSetting1RadioButton.Name = "SWSSetting1RadioButton";
-            this.SWSSetting1RadioButton.TabStop = true;
-            this.SWSSetting1RadioButton.UseVisualStyleBackColor = true;
-            this.SWSSetting1RadioButton.CheckedChanged += new System.EventHandler(this.ChangePatternRadioBox);
-            // 
-            // SWSSetting4RadioButton
-            // 
-            resources.ApplyResources(this.SWSSetting4RadioButton, "SWSSetting4RadioButton");
-            this.SWSSetting4RadioButton.Name = "SWSSetting4RadioButton";
-            this.SWSSetting4RadioButton.UseVisualStyleBackColor = true;
-            this.SWSSetting4RadioButton.CheckedChanged += new System.EventHandler(this.ChangePatternRadioBox);
-            // 
-            // SWSSetting3RadioButton
-            // 
-            resources.ApplyResources(this.SWSSetting3RadioButton, "SWSSetting3RadioButton");
-            this.SWSSetting3RadioButton.Name = "SWSSetting3RadioButton";
-            this.SWSSetting3RadioButton.UseVisualStyleBackColor = true;
-            this.SWSSetting3RadioButton.CheckedChanged += new System.EventHandler(this.ChangePatternRadioBox);
-            // 
-            // SWSSetting2RadioButton
-            // 
-            resources.ApplyResources(this.SWSSetting2RadioButton, "SWSSetting2RadioButton");
-            this.SWSSetting2RadioButton.Name = "SWSSetting2RadioButton";
-            this.SWSSetting2RadioButton.UseVisualStyleBackColor = true;
-            this.SWSSetting2RadioButton.CheckedChanged += new System.EventHandler(this.ChangePatternRadioBox);
+            resources.ApplyResources(this.SWSPatternListLayoutPanel, "SWSPatternListLayoutPanel");
+            this.SWSPatternListLayoutPanel.Controls.Add(this.groupBox1, 0, 6);
+            this.SWSPatternListLayoutPanel.Name = "SWSPatternListLayoutPanel";
             // 
             // groupBox1
             // 
@@ -143,8 +105,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).EndInit();
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
+            this.SWSPatternListLayoutPanel.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -156,12 +117,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button SWSSelectButton;
-        private System.Windows.Forms.RadioButton SWSSetting4RadioButton;
-        private System.Windows.Forms.RadioButton SWSSetting3RadioButton;
-        private System.Windows.Forms.RadioButton SWSSetting2RadioButton;
-        private System.Windows.Forms.RadioButton SWSSetting1RadioButton;
         private System.Windows.Forms.PictureBox SWSPictureBox;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel SWSPatternListLayoutPanel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox SWSNoteTextBox;
     }

@@ -153,128 +153,8 @@
   <data name="&gt;&gt;SWSPictureBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="tableLayoutPanel3.ColumnCount" type="System.Int32, mscorlib">
+  <data name="SWSPatternListLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="SWSSetting1RadioButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="SWSSetting1RadioButton.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="SWSSetting1RadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 7</value>
-  </data>
-  <data name="SWSSetting1RadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 16</value>
-  </data>
-  <data name="SWSSetting1RadioButton.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="SWSSetting1RadioButton.Text" xml:space="preserve">
-    <value>Pattern1</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting1RadioButton.Name" xml:space="preserve">
-    <value>SWSSetting1RadioButton</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting1RadioButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting1RadioButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting1RadioButton.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="SWSSetting4RadioButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="SWSSetting4RadioButton.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="SWSSetting4RadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 97</value>
-  </data>
-  <data name="SWSSetting4RadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 16</value>
-  </data>
-  <data name="SWSSetting4RadioButton.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="SWSSetting4RadioButton.Text" xml:space="preserve">
-    <value>Pattern3</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting4RadioButton.Name" xml:space="preserve">
-    <value>SWSSetting4RadioButton</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting4RadioButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting4RadioButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting4RadioButton.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="SWSSetting3RadioButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="SWSSetting3RadioButton.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="SWSSetting3RadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 67</value>
-  </data>
-  <data name="SWSSetting3RadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 16</value>
-  </data>
-  <data name="SWSSetting3RadioButton.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="SWSSetting3RadioButton.Text" xml:space="preserve">
-    <value>Pattern3</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting3RadioButton.Name" xml:space="preserve">
-    <value>SWSSetting3RadioButton</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting3RadioButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting3RadioButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting3RadioButton.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="SWSSetting2RadioButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="SWSSetting2RadioButton.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="SWSSetting2RadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 37</value>
-  </data>
-  <data name="SWSSetting2RadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 16</value>
-  </data>
-  <data name="SWSSetting2RadioButton.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="SWSSetting2RadioButton.Text" xml:space="preserve">
-    <value>Pattern2</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting2RadioButton.Name" xml:space="preserve">
-    <value>SWSSetting2RadioButton</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting2RadioButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting2RadioButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
-  </data>
-  <data name="&gt;&gt;SWSSetting2RadioButton.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="SWSNoteTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -292,7 +172,7 @@
     <value>Horizontal</value>
   </data>
   <data name="SWSNoteTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 212</value>
+    <value>182, 207</value>
   </data>
   <data name="SWSNoteTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -316,10 +196,10 @@
     <value>Fill</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 133</value>
+    <value>3, 138</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 230</value>
+    <value>188, 225</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -334,40 +214,40 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
+    <value>SWSPatternListLayoutPanel</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>0</value>
   </data>
-  <data name="tableLayoutPanel3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="SWSPatternListLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="tableLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="SWSPatternListLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>549, 3</value>
   </data>
-  <data name="tableLayoutPanel3.RowCount" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="SWSPatternListLayoutPanel.RowCount" type="System.Int32, mscorlib">
+    <value>7</value>
   </data>
-  <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="SWSPatternListLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>194, 366</value>
   </data>
-  <data name="tableLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
+  <data name="SWSPatternListLayoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel3.Name" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
+  <data name="&gt;&gt;SWSPatternListLayoutPanel.Name" xml:space="preserve">
+    <value>SWSPatternListLayoutPanel</value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel3.Type" xml:space="preserve">
+  <data name="&gt;&gt;SWSPatternListLayoutPanel.Type" xml:space="preserve">
     <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel3.Parent" xml:space="preserve">
+  <data name="&gt;&gt;SWSPatternListLayoutPanel.Parent" xml:space="preserve">
     <value>tableLayoutPanel2</value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel3.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;SWSPatternListLayoutPanel.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="tableLayoutPanel3.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SWSSetting1RadioButton" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="SWSSetting4RadioButton" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="SWSSetting3RadioButton" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="SWSSetting2RadioButton" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="groupBox1" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,20" /&gt;&lt;Rows Styles="Absolute,30,Absolute,30,Absolute,30,Absolute,30,Absolute,10,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  <data name="SWSPatternListLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBox1" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,10,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -397,7 +277,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SWSPictureBox" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel3" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,5,Absolute,200" /&gt;&lt;Rows Styles="Percent,100,Absolute,372,Absolute,372" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SWSPictureBox" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="SWSPatternListLayoutPanel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,5,Absolute,200" /&gt;&lt;Rows Styles="Percent,100,Absolute,372,Absolute,372" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="SWSSelectButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom</value>
