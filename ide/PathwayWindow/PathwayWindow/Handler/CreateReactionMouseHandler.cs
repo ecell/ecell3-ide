@@ -184,7 +184,12 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="coefficient">coefficient of VariableReferenceList of process</param>
         private void CreateEdge(PPathwayProcess process, PPathwayVariable variable, int coefficient)
         {
-            m_con.NotifyVariableReferenceChanged(process.EcellObject.key, variable.EcellObject.key, RefChangeType.SingleDir, coefficient);
+            m_con.NotifyVariableReferenceChanged(
+                process.EcellObject.key,
+                variable.EcellObject.key,
+                RefChangeType.SingleDir,
+                coefficient,
+                true);
         }
 
         /// <summary>

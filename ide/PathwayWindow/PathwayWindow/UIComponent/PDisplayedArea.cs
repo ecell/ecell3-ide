@@ -36,6 +36,7 @@ using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
 using EcellLib.PathwayWindow.Nodes;
 using System.IO;
+using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -55,7 +56,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <summary>
         /// Cursor to move this object.
         /// </summary>
-        Cursor m_hand = new Cursor( new MemoryStream( Resource1.move ));
+        Cursor m_hand = new Cursor( new MemoryStream( PathwayResource.move ));
 
         /// <summary>
         /// pen for an outline of rectangle

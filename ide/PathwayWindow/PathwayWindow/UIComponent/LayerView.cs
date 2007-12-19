@@ -47,14 +47,14 @@ namespace EcellLib.PathwayWindow.UIComponent
     public class LayerView: DockContent
     {
         #region Static Fields
-        private static string MENU_CREATE_LAYER = "CreateLayerMenuText";
-        private static string MENU_DELETE_LAYER = "DeleteLayerMenuText";
-        private static string MENU_MERGE_LAYER = "MergeLayerMenuText";
-        private static string MENU_RENAME_LAYER = "RenameLayerMenuText";
-        private static string MENU_SELECCT_NODES = "SelectNodesMenuText";
-        private static string MENU_SEPALATOR1 = "Sepalator1";
-        private static string DIALOG_TITLE = "LayerDialogTitle";
-        private static string DIALOG_MESSAGE = "LayerDialogMessage";
+        private static string MenuCreate = "LayerMenuCreate";
+        private static string MenuDelete = "LayerMenuDelete";
+        private static string MenuMerge = "LayerMenuMerge";
+        private static string MenuRename = "LayerMenuRename";
+        private static string MenuSelectNode = "LayerMenuSelectNodes";
+        private static string MenuSepalator = "Sepalator";
+        private static string DialogTitle = "LayerDialogTitle";
+        private static string DialogMessage = "LayerDialogMessage";
 
         #endregion
 
@@ -199,39 +199,39 @@ namespace EcellLib.PathwayWindow.UIComponent
             // Preparing a context menu.
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
 
-            ToolStripItem menuSelectNodes = new ToolStripMenuItem(MENU_SELECCT_NODES);
-            menuSelectNodes.Text = m_resources.GetString(MENU_SELECCT_NODES);
+            ToolStripItem menuSelectNodes = new ToolStripMenuItem(MenuSelectNode);
+            menuSelectNodes.Text = m_resources.GetString(MenuSelectNode);
             menuSelectNodes.Click += new EventHandler(SelectNodesClick);
             nodeMenu.Items.Add(menuSelectNodes);
-            m_cMenuDict.Add(MENU_SELECCT_NODES, menuSelectNodes);
+            m_cMenuDict.Add(MenuSelectNode, menuSelectNodes);
 
             ToolStripSeparator separator = new ToolStripSeparator();
-            m_cMenuDict.Add(MENU_SEPALATOR1, separator);
+            m_cMenuDict.Add(MenuSepalator, separator);
             nodeMenu.Items.Add(separator);
 
-            ToolStripItem menuCreateLayer = new ToolStripMenuItem(MENU_CREATE_LAYER);
-            menuCreateLayer.Text = m_resources.GetString(MENU_CREATE_LAYER);
+            ToolStripItem menuCreateLayer = new ToolStripMenuItem(MenuCreate);
+            menuCreateLayer.Text = m_resources.GetString(MenuCreate);
             menuCreateLayer.Click += new EventHandler(CreateLayerClick);
             nodeMenu.Items.Add(menuCreateLayer);
-            m_cMenuDict.Add(MENU_CREATE_LAYER, menuCreateLayer);
+            m_cMenuDict.Add(MenuCreate, menuCreateLayer);
 
-            ToolStripItem menuRenameLayer = new ToolStripMenuItem(MENU_RENAME_LAYER);
-            menuRenameLayer.Text = m_resources.GetString(MENU_RENAME_LAYER);
+            ToolStripItem menuRenameLayer = new ToolStripMenuItem(MenuRename);
+            menuRenameLayer.Text = m_resources.GetString(MenuRename);
             menuRenameLayer.Click += new EventHandler(RenameLayerClick);
             nodeMenu.Items.Add(menuRenameLayer);
-            m_cMenuDict.Add(MENU_RENAME_LAYER, menuRenameLayer);
+            m_cMenuDict.Add(MenuRename, menuRenameLayer);
 
-            ToolStripItem menuMergeLayer = new ToolStripMenuItem(MENU_MERGE_LAYER);
-            menuMergeLayer.Text = m_resources.GetString(MENU_MERGE_LAYER);
+            ToolStripItem menuMergeLayer = new ToolStripMenuItem(MenuMerge);
+            menuMergeLayer.Text = m_resources.GetString(MenuMerge);
             menuMergeLayer.Click += new EventHandler(MergeLayerClick);
             nodeMenu.Items.Add(menuMergeLayer);
-            m_cMenuDict.Add(MENU_MERGE_LAYER, menuMergeLayer);
+            m_cMenuDict.Add(MenuMerge, menuMergeLayer);
 
-            ToolStripItem menuDeleteLayer = new ToolStripMenuItem(MENU_DELETE_LAYER);
-            menuDeleteLayer.Text = m_resources.GetString(MENU_DELETE_LAYER);
+            ToolStripItem menuDeleteLayer = new ToolStripMenuItem(MenuDelete);
+            menuDeleteLayer.Text = m_resources.GetString(MenuDelete);
             menuDeleteLayer.Click += new EventHandler(DeleteLayerClick);
             nodeMenu.Items.Add(menuDeleteLayer);
-            m_cMenuDict.Add(MENU_DELETE_LAYER, menuDeleteLayer);
+            m_cMenuDict.Add(MenuDelete, menuDeleteLayer);
 
             return nodeMenu;
         }
@@ -314,7 +314,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void CreateLayerClick(object sender, EventArgs e)
         {
             CanvasControl canvas = m_con.ActiveCanvas;
-            string name = InputBoxDialog.Show(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE), "");
+            string name = InputBoxDialog.Show(m_resources.GetString(DialogMessage), m_resources.GetString(DialogTitle), "");
             if (name == null || name.Equals(""))
                 return;
             if (canvas.Layers.ContainsKey(name))
@@ -344,7 +344,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             CanvasControl canvas = m_con.ActiveCanvas;
             string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
-            string newName = InputBoxDialog.Show(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE), oldName);
+            string newName = InputBoxDialog.Show(m_resources.GetString(DialogMessage), m_resources.GetString(DialogTitle), oldName);
             if (newName == null || newName.Equals(""))
                 return;
             if (canvas.Layers.ContainsKey(newName))
@@ -365,7 +365,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
             CanvasControl canvas = m_con.ActiveCanvas;
             List<string> list = canvas.GetLayerNameList();
-            string newName = SelectBoxDialog.Show(m_resources.GetString(DIALOG_MESSAGE), m_resources.GetString(DIALOG_TITLE), list);
+            string newName = SelectBoxDialog.Show(m_resources.GetString(DialogMessage), m_resources.GetString(DialogTitle), list);
             if (newName == null || newName.Equals(""))
                 return;
             if (!canvas.Layers.ContainsKey(newName))
@@ -383,12 +383,12 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void m_dgv_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            m_cMenuDict[MENU_SELECCT_NODES].Visible = true;
-            m_cMenuDict[MENU_SEPALATOR1].Visible = true;
-            m_cMenuDict[MENU_CREATE_LAYER].Visible = true;
-            m_cMenuDict[MENU_RENAME_LAYER].Visible = true;
-            m_cMenuDict[MENU_MERGE_LAYER].Visible = true;
-            m_cMenuDict[MENU_DELETE_LAYER].Visible = true;
+            m_cMenuDict[MenuSelectNode].Visible = true;
+            m_cMenuDict[MenuSepalator].Visible = true;
+            m_cMenuDict[MenuCreate].Visible = true;
+            m_cMenuDict[MenuRename].Visible = true;
+            m_cMenuDict[MenuMerge].Visible = true;
+            m_cMenuDict[MenuDelete].Visible = true;
             if (e.RowIndex >= 0)
             {
                 m_selectedRow = m_dgv.Rows[e.RowIndex];
@@ -402,12 +402,12 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void m_dgv_MouseDown(object sender, MouseEventArgs e)
         {
-            m_cMenuDict[MENU_SELECCT_NODES].Visible = false;
-            m_cMenuDict[MENU_SEPALATOR1].Visible = false;
-            m_cMenuDict[MENU_CREATE_LAYER].Visible = (m_con.ActiveCanvas != null);
-            m_cMenuDict[MENU_RENAME_LAYER].Visible = false;
-            m_cMenuDict[MENU_MERGE_LAYER].Visible = false;
-            m_cMenuDict[MENU_DELETE_LAYER].Visible = false;
+            m_cMenuDict[MenuSelectNode].Visible = false;
+            m_cMenuDict[MenuSepalator].Visible = false;
+            m_cMenuDict[MenuCreate].Visible = (m_con.ActiveCanvas != null);
+            m_cMenuDict[MenuRename].Visible = false;
+            m_cMenuDict[MenuMerge].Visible = false;
+            m_cMenuDict[MenuDelete].Visible = false;
             m_selectedRow = null;
         }
         #endregion

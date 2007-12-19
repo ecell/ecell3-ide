@@ -148,10 +148,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Handler\CreateSystemMouseHandler.cs" />
     <Compile Include="Handler\ObjectDragHandler.cs" />
-    <Compile Include="Resource1.Designer.cs">
+    <Compile Include="Resources\PathwayResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resource1.resx</DependentUpon>
+      <DependentUpon>PathwayResource.resx</DependentUpon>
     </Compile>
     <Compile Include="UIComponent\NamespaceDoc.cs" />
     <Compile Include="UIComponent\PathwayView.cs">
@@ -188,13 +188,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResPathway.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resource1.ja.resx">
+    <EmbeddedResource Include="Resources\PathwayResource.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resource1.resx">
+    <EmbeddedResource Include="Resources\PathwayResource.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+      <LastGenOutput>PathwayResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\hand.gif" />
     <EmbeddedResource Include="UIComponent\InputBoxDialog.resx">

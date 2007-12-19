@@ -120,14 +120,8 @@
   <data name="ConfirmDelete" xml:space="preserve">
     <value>Are you sure you want to delete?</value>
   </data>
-  <data name="CopyMenuText" xml:space="preserve">
-    <value>&amp;Copy</value>
-  </data>
   <data name="ConfirmMerge" xml:space="preserve">
     <value>Are you sure merge the component in system to upper system.</value>
-  </data>
-  <data name="DeleteMenuText" xml:space="preserve">
-    <value>&amp;Delete</value>
   </data>
   <data name="ErrAddObj" xml:space="preserve">
     <value>Can not add the object.</value>
@@ -183,23 +177,14 @@
   <data name="ErrUnknowType" xml:space="preserve">
     <value>The added object have the unknown type.</value>
   </data>
-  <data name="MenuItemShowIDText" xml:space="preserve">
+  <data name="MenuItemShowID" xml:space="preserve">
     <value>Show &amp;IDs(Pathway)</value>
-  </data>
-  <data name="MergeMenuText" xml:space="preserve">
-    <value>Merge to supersystem</value>
   </data>
   <data name="MsgLayoutNoNode" xml:space="preserve">
     <value>Please select at least one node to layout</value>
   </data>
-  <data name="PasteMenuText" xml:space="preserve">
-    <value>&amp;Paste</value>
-  </data>
   <data name="ErrMerge" xml:space="preserve">
     <value>Can not merge the component to the upper system.</value>
-  </data>
-  <data name="CutMenuText" xml:space="preserve">
-    <value>Cu&amp;t</value>
   </data>
   <data name="ErrLoadLEML" xml:space="preserve">
     <value>Fail to load EcellObject position settings.</value>
@@ -207,10 +192,10 @@
   <data name="ErrSaveLEML" xml:space="preserve">
     <value>Fail to save EcellObject position settings.</value>
   </data>
-  <data name="CreateLayerMenuText" xml:space="preserve">
+  <data name="LayerMenuCreate" xml:space="preserve">
     <value>Create Layer</value>
   </data>
-  <data name="DeleteLayerMenuText" xml:space="preserve">
+  <data name="LayerMenuDelete" xml:space="preserve">
     <value>Delete Layer</value>
   </data>
   <data name="LayerDialogMessage" xml:space="preserve">
@@ -219,22 +204,22 @@
   <data name="LayerDialogTitle" xml:space="preserve">
     <value>LayerNameInputDialog</value>
   </data>
-  <data name="RenameLayerMenuText" xml:space="preserve">
+  <data name="LayerMenuRename" xml:space="preserve">
     <value>Rename Layer</value>
   </data>
-  <data name="MergeLayerMenuText" xml:space="preserve">
+  <data name="LayerMenuMerge" xml:space="preserve">
     <value>Merge Layer</value>
   </data>
-  <data name="ChangeLayerMenuText" xml:space="preserve">
+  <data name="LayerMenuChange" xml:space="preserve">
     <value>Change Layer</value>
   </data>
   <data name="ErrLayerNot" xml:space="preserve">
     <value>Layer does not exist.</value>
   </data>
-  <data name="MenuItemViewModeText" xml:space="preserve">
+  <data name="MenuItemViewMode" xml:space="preserve">
     <value>View Mode</value>
   </data>
-  <data name="SelectNodesMenuText" xml:space="preserve">
+  <data name="LayerMenuSelectNodes" xml:space="preserve">
     <value>Select nodes under...</value>
   </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
@@ -275,5 +260,11 @@
   </data>
   <data name="CanvasMenuRightArrow" xml:space="preserve">
     <value>Process -&gt; Variable</value>
+  </data>
+  <data name="MenuToolTipShowID" xml:space="preserve">
+    <value>Visibility of Node's name of each pathway object.</value>
+  </data>
+  <data name="MenuToolTipViewMode" xml:space="preserve">
+    <value>Change view mode of canvas.</value>
   </data>
 </root>

@@ -178,15 +178,6 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
-        ///   Change Layer に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ChangeLayerMenuText {
-            get {
-                return ResourceManager.GetString("ChangeLayerMenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Are you sure you want to delete? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmDelete {
@@ -201,51 +192,6 @@ namespace EcellLib.PathwayWindow {
         internal static string ConfirmMerge {
             get {
                 return ResourceManager.GetString("ConfirmMerge", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   &amp;Copy に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string CopyMenuText {
-            get {
-                return ResourceManager.GetString("CopyMenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create Layer に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string CreateLayerMenuText {
-            get {
-                return ResourceManager.GetString("CreateLayerMenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Cu&amp;t に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string CutMenuText {
-            get {
-                return ResourceManager.GetString("CutMenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete Layer に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DeleteLayerMenuText {
-            get {
-                return ResourceManager.GetString("DeleteLayerMenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   &amp;Delete に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DeleteMenuText {
-            get {
-                return ResourceManager.GetString("DeleteMenuText", resourceCulture);
             }
         }
         
@@ -466,38 +412,92 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
-        ///   Show &amp;IDs(Pathway) に類似しているローカライズされた文字列を検索します。
+        ///   Change Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemShowIDText {
+        internal static string LayerMenuChange {
             get {
-                return ResourceManager.GetString("MenuItemShowIDText", resourceCulture);
+                return ResourceManager.GetString("LayerMenuChange", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   View Mode に類似しているローカライズされた文字列を検索します。
+        ///   Create Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemViewModeText {
+        internal static string LayerMenuCreate {
             get {
-                return ResourceManager.GetString("MenuItemViewModeText", resourceCulture);
+                return ResourceManager.GetString("LayerMenuCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete Layer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LayerMenuDelete {
+            get {
+                return ResourceManager.GetString("LayerMenuDelete", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Merge Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MergeLayerMenuText {
+        internal static string LayerMenuMerge {
             get {
-                return ResourceManager.GetString("MergeLayerMenuText", resourceCulture);
+                return ResourceManager.GetString("LayerMenuMerge", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Merge to supersystem に類似しているローカライズされた文字列を検索します。
+        ///   Rename Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MergeMenuText {
+        internal static string LayerMenuRename {
             get {
-                return ResourceManager.GetString("MergeMenuText", resourceCulture);
+                return ResourceManager.GetString("LayerMenuRename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select nodes under... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LayerMenuSelectNodes {
+            get {
+                return ResourceManager.GetString("LayerMenuSelectNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show &amp;IDs(Pathway) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemShowID {
+            get {
+                return ResourceManager.GetString("MenuItemShowID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View Mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemViewMode {
+            get {
+                return ResourceManager.GetString("MenuItemViewMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Visibility of Node&apos;s name of each pathway object. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipShowID {
+            get {
+                return ResourceManager.GetString("MenuToolTipShowID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Change view mode of canvas. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipViewMode {
+            get {
+                return ResourceManager.GetString("MenuToolTipViewMode", resourceCulture);
             }
         }
         
@@ -507,33 +507,6 @@ namespace EcellLib.PathwayWindow {
         internal static string MsgLayoutNoNode {
             get {
                 return ResourceManager.GetString("MsgLayoutNoNode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   &amp;Paste に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string PasteMenuText {
-            get {
-                return ResourceManager.GetString("PasteMenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Rename Layer に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string RenameLayerMenuText {
-            get {
-                return ResourceManager.GetString("RenameLayerMenuText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Select nodes under... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string SelectNodesMenuText {
-            get {
-                return ResourceManager.GetString("SelectNodesMenuText", resourceCulture);
             }
         }
     }

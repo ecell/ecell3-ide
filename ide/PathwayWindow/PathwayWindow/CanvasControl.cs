@@ -903,19 +903,18 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Get a key list of systems under a given system.
+        /// Get object under the point.
         /// </summary>
-        /// <param name="systemKey"></param>
-        /// <returns>list of Ecell key of systems</returns>
-        public List<PPathwayObject> GetAllObjectUnder(string systemKey)
+        /// <param name="pointF"></param>
+        /// <returns></returns>
+        public PPathwayObject GetPickedObject(PointF pointF)
         {
-            List<PPathwayObject> returnList = new List<PPathwayObject>();
-            foreach (PPathwayObject obj in this.GetAllObjects())
-            {
-                if (obj.EcellObject.key.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
-                    returnList.Add(obj);
-            }
-            return returnList;
+            PPathwayObject pickedObj = null;
+            foreach (PPathwayLayer layer in m_layers.Values)
+                foreach (PPathwayObject obj in layer.NodeList)
+                    if (obj.Visible && obj.Rect.Contains(pointF))
+                        pickedObj = obj;
+            return pickedObj;
         }
 
         /// <summary>
@@ -946,6 +945,21 @@ namespace EcellLib.PathwayWindow
             returnList.AddRange(GetSystemList());
             returnList.AddRange(GetNodeList());
 
+            return returnList;
+        }
+        /// <summary>
+        /// Get a key list of systems under a given system.
+        /// </summary>
+        /// <param name="systemKey"></param>
+        /// <returns>list of Ecell key of systems</returns>
+        public List<PPathwayObject> GetAllObjectUnder(string systemKey)
+        {
+            List<PPathwayObject> returnList = new List<PPathwayObject>();
+            foreach (PPathwayObject obj in this.GetAllObjects())
+            {
+                if (obj.EcellObject.key.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
+                    returnList.Add(obj);
+            }
             return returnList;
         }
         /// <summary>

@@ -1209,6 +1209,19 @@ namespace EcellLib.PathwayWindow.Nodes
                 return;
             m_canvas.FocusNode = this;
         }
+
+        public override void OnDragEnter(PInputEventArgs e)
+        {
+            base.OnDragEnter(e);
+            if (m_canvas == null)
+                return;
+            m_canvas.FocusNode = this;
+        }
+
+        public override void OnDragDrop(PInputEventArgs e)
+        {
+            base.OnDragDrop(e);
+        }
         #endregion
 
         #region Serialization
