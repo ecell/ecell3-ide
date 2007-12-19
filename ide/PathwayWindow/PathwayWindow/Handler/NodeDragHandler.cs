@@ -45,6 +45,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Util;
+using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow.Handler
 {

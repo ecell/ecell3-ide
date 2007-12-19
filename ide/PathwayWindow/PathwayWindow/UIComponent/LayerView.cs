@@ -38,6 +38,7 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using System.Data;
 using System.ComponentModel;
+using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -55,7 +56,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         private static string MenuSepalator = "Sepalator";
         private static string DialogTitle = "LayerDialogTitle";
         private static string DialogMessage = "LayerDialogMessage";
-
         #endregion
 
         #region Fields

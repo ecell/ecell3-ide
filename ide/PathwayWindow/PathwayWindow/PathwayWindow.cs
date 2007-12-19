@@ -59,6 +59,8 @@ using UMD.HCIL.PiccoloX.Components;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.PiccoloX.Nodes;
 using WeifenLuo.WinFormsUI.Docking;
+using EcellLib.PathwayWindow.Exceptions;
+using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow
 {

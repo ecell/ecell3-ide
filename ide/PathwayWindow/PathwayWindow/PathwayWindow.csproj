@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="EcellSerializer.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Exceptions\DuplicateKeyException.cs" />
     <Compile Include="Handler\CreateReactionMouseHandler.cs" />
     <Compile Include="CanvasControl.cs" />
     <Compile Include="ComponentSetting.cs" />
@@ -110,16 +111,16 @@
     <Compile Include="Handle.cs" />
     <Compile Include="Handler\PPathwayInputEventHandler.cs" />
     <Compile Include="Handler\ResizeHandler.cs" />
-    <Compile Include="MessageResPathway.Designer.cs">
+    <Compile Include="Resources\MessageResPathway.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResPathway.resx</DependentUpon>
     </Compile>
     <Compile Include="Nodes\NamespaceDoc.cs" />
     <Compile Include="Nodes\PPathwayLayer.cs" />
-    <Compile Include="NoSuchComponentClassException.cs" />
-    <Compile Include="NoSuchComponentKindException.cs" />
-    <Compile Include="PathwayException.cs" />
+    <Compile Include="Exceptions\NoSuchComponentClassException.cs" />
+    <Compile Include="Exceptions\NoSuchComponentKindException.cs" />
+    <Compile Include="Exceptions\PathwayException.cs" />
     <Compile Include="Nodes\PPathwayLine.cs" />
     <Compile Include="UIComponent\InputBoxDialog.cs">
       <SubType>Form</SubType>
@@ -180,10 +181,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MessageResPathway.ja.resx">
+    <EmbeddedResource Include="Resources\MessageResPathway.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResPathway.resx">
+    <EmbeddedResource Include="Resources\MessageResPathway.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResPathway.Designer.cs</LastGenOutput>

@@ -35,6 +35,7 @@ using System.Drawing;
 using EcellLib.PathwayWindow.Figure;
 using EcellLib.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo.Util;
+using EcellLib.PathwayWindow.Exceptions;
 
 namespace EcellLib.PathwayWindow
 {

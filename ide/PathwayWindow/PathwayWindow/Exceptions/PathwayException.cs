@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib.PathwayWindow
+namespace EcellLib.PathwayWindow.Exceptions
 {
     /// <summary>
     /// Exception for PathwayWindow.

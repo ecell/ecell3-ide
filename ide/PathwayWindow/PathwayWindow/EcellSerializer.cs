@@ -43,6 +43,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow {
     /// <summary>

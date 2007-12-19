@@ -36,6 +36,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.ComponentModel;
 using EcellLib.PathwayWindow.Nodes;
+using EcellLib.PathwayWindow.Exceptions;
+using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow
 {
