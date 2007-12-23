@@ -1073,7 +1073,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void NotifyMovement()
         {
-            foreach (PPathwayObject obj in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
+            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(this.EcellObject.key))
             {
                 obj.NotifyMovement();
             }
@@ -1105,7 +1105,7 @@ namespace EcellLib.PathwayWindow.Nodes
             base.Width = this.m_originalWidth;
             base.Height = this.m_originalHeight;
             RefreshText();
-            foreach (PPathwayObject child in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
+            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(this.EcellObject.key))
             {
                 child.ResetPosition();
             }
@@ -1211,18 +1211,19 @@ namespace EcellLib.PathwayWindow.Nodes
             m_canvas.FocusNode = this;
         }
 
-        public override void OnDragEnter(PInputEventArgs e)
+        /// <summary>
+        /// event on double click this system.
+        /// if there are system outside this system,
+        /// it fire event at outside system.
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnDoubleClick(PInputEventArgs e)
         {
-            base.OnDragEnter(e);
-            if (m_canvas == null)
+            if (m_ecellObj == null)
                 return;
-            m_canvas.FocusNode = this;
+            PropertyEditor.Show(m_ecellObj);
         }
 
-        public override void OnDragDrop(PInputEventArgs e)
-        {
-            base.OnDragDrop(e);
-        }
         #endregion
 
         #region Serialization

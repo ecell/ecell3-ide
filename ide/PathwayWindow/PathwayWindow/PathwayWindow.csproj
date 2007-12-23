@@ -137,6 +137,12 @@
     </Compile>
     <Compile Include="PathwayControl.cs" />
     <Compile Include="PathwayWindow.cs" />
+    <Compile Include="UIComponent\PathwayToolStripButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIComponent\PathwayToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UIComponent\PDisplayedArea.cs" />
     <Compile Include="Nodes\PPathwayProcess.cs" />
     <Compile Include="Nodes\PPathwaySystem.cs" />

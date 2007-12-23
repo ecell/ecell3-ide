@@ -86,7 +86,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for delete
         /// </summary>
-        public static readonly string CanvasMenuDeleteWith = "CanvasMenuDeleteWith";
+        public static readonly string CanvasMenuMerge = "CanvasMenuMerge";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for Set Layout
         /// </summary>
@@ -158,6 +158,18 @@ namespace EcellLib.PathwayWindow
         /// Key definition of MessageResPathway for ToolTipViewMode
         /// </summary>
         private static readonly string MenuToolTipViewMode = "MenuToolTipViewMode";
+        /// <summary>
+        /// Key definition of MessageResPathway for MenuItemLayout
+        /// </summary>
+        public static readonly string MenuItemLayout = "MenuItemLayout";
+        /// <summary>
+        /// Key definition of MessageResPathway for MenuItemLayout
+        /// </summary>
+        public static readonly string MenuItemEdit = "MenuItemEdit";
+        /// <summary>
+        /// Key definition of MessageResPathway for MenuItemLayout
+        /// </summary>
+        public static readonly string MenuItemView = "MenuItemView";
         #endregion
         #endregion
 
@@ -175,7 +187,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// A list of toolbox buttons.
         /// </summary>
-        private List<ToolStripButton> m_buttonList = new List<ToolStripButton>();
+        private List<PathwayToolStripButton> m_buttonList = new List<PathwayToolStripButton>();
 
         /// <summary>
         /// Default Layout Algorithm.
@@ -456,13 +468,13 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Add new object to this canvas.
         /// </summary>
-        /// <param name="modelID">name of model</param>
         /// <param name="eo">EcellObject</param>
         /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
         /// only the last action's isAnchor is true, the others' isAnchor is false</param>
-        public void DataAdd(string modelID,
-            EcellObject eo,
-            bool isAnchor)
+        /// <param name="isFirst"></param>
+        public void DataAdd(EcellObject eo,
+            bool isAnchor,
+            bool isFirst)
         {
             // Null check.
             if (eo == null)
@@ -482,17 +494,17 @@ namespace EcellLib.PathwayWindow
             // Error check.
             if (string.IsNullOrEmpty(eo.key))
                 throw new PathwayException(m_resources.GetString("ErrKeyNot"));
-            if (string.IsNullOrEmpty(modelID) || !m_canvasDict.ContainsKey(modelID))
+            if (string.IsNullOrEmpty(eo.modelID) || !m_canvasDict.ContainsKey(eo.modelID))
                 throw new PathwayException(m_resources.GetString("ErrNotSetCanvas") + eo.key);
             if (eo.key.EndsWith(":SIZE"))
                 return;
 
             // Create PathwayObject and set to canvas.
-            CanvasControl canvas = m_canvasDict[modelID];
+            CanvasControl canvas = m_canvasDict[eo.modelID];
             ComponentSetting cs = GetComponentSetting(eo.type);
             PPathwayObject obj = cs.CreateNewComponent(eo, canvas);
-            canvas.DataAdd(eo.parentSystemID, obj, eo.IsPosSet, false);
-            NotifyDataChanged(eo.key, eo.key, obj, false, false);
+            canvas.DataAdd(eo.parentSystemID, obj, eo.IsPosSet, isFirst);
+            NotifyDataChanged(eo.key, eo.key, obj, !isFirst, false);
         }
 
         /// <summary>
@@ -736,8 +748,9 @@ namespace EcellLib.PathwayWindow
             int count = 0;
             foreach (ILayoutAlgorithm algorithm in m_layoutList)
             {
-                ToolStripMenuItem layoutItem = new ToolStripMenuItem(algorithm.GetMenuText());
-                layoutItem.Tag = count;
+                PathwayToolStripMenuItem layoutItem = new PathwayToolStripMenuItem();
+                layoutItem.Text = algorithm.GetMenuText();
+                layoutItem.ID = count;
                 layoutItem.Visible = true;
                 layoutItem.ToolTipText = algorithm.GetToolTipText();
 
@@ -751,9 +764,9 @@ namespace EcellLib.PathwayWindow
                     int subcount = 0;
                     foreach (string subCommandName in subCommands)
                     {
-                        ToolStripItem layoutSubItem = new ToolStripMenuItem();
+                        PathwayToolStripMenuItem layoutSubItem = new PathwayToolStripMenuItem();
                         layoutSubItem.Text = subCommandName;
-                        layoutSubItem.Tag = count + "," + subcount;
+                        layoutSubItem.SubID = subcount;
                         layoutSubItem.Visible = true;
                         layoutSubItem.Click += new EventHandler(LayoutItem_Click);
                         layoutItem.DropDownItems.Add(layoutSubItem);
@@ -774,7 +787,6 @@ namespace EcellLib.PathwayWindow
         {
             // Preparing a context menu.
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
-            nodeMenu.Closed += new ToolStripDropDownClosedEventHandler(m_nodeMenu_Closed);
 
             // Add ID checker
             ToolStripItem idShow = new ToolStripMenuItem(CanvasMenuID);
@@ -836,10 +848,10 @@ namespace EcellLib.PathwayWindow
             nodeMenu.Items.Add(delete);
             m_cMenuDict.Add(CanvasMenuDelete, delete);
 
-            ToolStripItem deleteWith = new ToolStripMenuItem(m_resources.GetString(CanvasMenuDeleteWith));
-            deleteWith.Click += new EventHandler(MergeClick);
-            nodeMenu.Items.Add(deleteWith);
-            m_cMenuDict.Add(CanvasMenuDeleteWith, deleteWith);
+            ToolStripItem merge = new ToolStripMenuItem(m_resources.GetString(CanvasMenuMerge));
+            merge.Click += new EventHandler(MergeClick);
+            nodeMenu.Items.Add(merge);
+            m_cMenuDict.Add(CanvasMenuMerge, merge);
 
             ToolStripSeparator separator4 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator4);
@@ -909,15 +921,15 @@ namespace EcellLib.PathwayWindow
 
             ToolStripMenuItem viewMenu = new ToolStripMenuItem();
             viewMenu.DropDownItems.AddRange(new ToolStripItem[] { showIdItem, viewModeItem });
-            viewMenu.Text = "Setup";
-            viewMenu.Name = "MenuItemView";
+            viewMenu.Text = m_resources.GetString(MenuItemView);
+            viewMenu.Name = MenuItemView;
 
             menuList.Add(viewMenu);
 
             // Edit menu
             ToolStripMenuItem editMenu = new ToolStripMenuItem();
-            editMenu.Text = "Edit";
-            editMenu.Name = "MenuItemEdit";
+            editMenu.Text = m_resources.GetString(MenuItemEdit);
+            editMenu.Name = MenuItemEdit;
 
             ToolStripSeparator separator = new ToolStripSeparator();
 
@@ -954,8 +966,8 @@ namespace EcellLib.PathwayWindow
 
             // Layout menu
             ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
-            layoutMenu.Text = m_resources.GetString(CanvasMenuLayout); ;
-            layoutMenu.Name = CanvasMenuLayout;
+            layoutMenu.Text = m_resources.GetString(MenuItemLayout);
+            layoutMenu.Name = MenuItemLayout;
             layoutMenu.DropDownItems.AddRange(m_menuLayoutList.ToArray());
             menuList.Add(layoutMenu);
 
@@ -973,102 +985,101 @@ namespace EcellLib.PathwayWindow
             // Used for ID of handle
             int handleCount = 0;
 
-            ToolStripButton handButton = new ToolStripButton();
+            PathwayToolStripButton handButton = new PathwayToolStripButton();
             handButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             handButton.Name = "MoveCanvas";
             handButton.Image = PathwayResource.move1;
             handButton.Text = "";
             handButton.CheckOnClick = true;
             handButton.ToolTipText = "MoveCanvas";
-            handButton.Tag = new Handle(Mode.Pan, handleCount);
+            handButton.Handle = new Handle(Mode.Pan, handleCount);
             m_handlerDict.Add(handleCount++, new PPanEventHandler());
             handButton.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(handButton);
             m_buttonList.Add(handButton);
 
-            ToolStripButton button0 = new ToolStripButton();
+            PathwayToolStripButton button0 = new PathwayToolStripButton();
             button0.ImageTransparentColor = System.Drawing.Color.Magenta;
             button0.Name = "SelectMode";
             button0.Image = PathwayResource.arrow;
             button0.Text = "";
             button0.CheckOnClick = true;
             button0.ToolTipText = "SelectMode";
-            button0.Tag = new Handle(Mode.Select, handleCount);
+            button0.Handle = new Handle(Mode.Select, handleCount);
             m_handlerDict.Add(handleCount++, new DefaultMouseHandler(this));
             button0.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(button0);
             m_buttonList.Add(button0);
 
             ToolStripSeparator sep = new ToolStripSeparator();
-            sep.Tag = 7;
             list.Add(sep);
 
-            ToolStripButton arrowButton = new ToolStripButton();
+            PathwayToolStripButton arrowButton = new PathwayToolStripButton();
             arrowButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             arrowButton.Name = "reactionOneway";
             arrowButton.Image = PathwayResource.arrow_long_right_w;
             arrowButton.Text = "";
             arrowButton.CheckOnClick = true;
             arrowButton.ToolTipText = "Add Oneway Reaction";
-            arrowButton.Tag = new Handle(Mode.CreateOneWayReaction, handleCount);
+            arrowButton.Handle = new Handle(Mode.CreateOneWayReaction, handleCount);
             m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             arrowButton.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(arrowButton);
             m_buttonList.Add(arrowButton);
 
-            ToolStripButton bidirButton = new ToolStripButton();
+            PathwayToolStripButton bidirButton = new PathwayToolStripButton();
             bidirButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             bidirButton.Name = "reactionMutual";
             bidirButton.Image = PathwayResource.arrow_long_bidir_w;
             bidirButton.Text = "";
             bidirButton.CheckOnClick = true;
             bidirButton.ToolTipText = "Add Mutual Reaction";
-            bidirButton.Tag = new Handle(Mode.CreateMutualReaction, handleCount);
+            bidirButton.Handle = new Handle(Mode.CreateMutualReaction, handleCount);
             m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             bidirButton.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(bidirButton);
             m_buttonList.Add(bidirButton);
 
-            ToolStripButton constButton = new ToolStripButton();
+            PathwayToolStripButton constButton = new PathwayToolStripButton();
             constButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             constButton.Name = "constant";
             constButton.Image = PathwayResource.ten;
             constButton.Text = "";
             constButton.CheckOnClick = true;
             constButton.ToolTipText = "Add Constant";
-            constButton.Tag = new Handle(Mode.CreateConstant, handleCount);
+            constButton.Handle = new Handle(Mode.CreateConstant, handleCount);
             m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(this));
             constButton.Click += new EventHandler(this.ButtonStateChanged);
             list.Add(constButton);
             m_buttonList.Add(constButton);
 
-            ToolStripButton zoominButton = new ToolStripButton();            
+            PathwayToolStripButton zoominButton = new PathwayToolStripButton();            
             zoominButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             zoominButton.Name = "zoomin";
             zoominButton.Image = PathwayResource.zoom_in;
             zoominButton.Text = "";
             zoominButton.CheckOnClick = false;
             zoominButton.ToolTipText = "Zoom In";
-            zoominButton.Tag = 2f;
+            zoominButton.Handle = new Handle(Mode.CreateConstant, handleCount, 2f);
             zoominButton.Click += new EventHandler(ZoomButton_Click);
             list.Add(zoominButton);
             m_buttonList.Add(zoominButton);
 
-            ToolStripButton zoomoutButton = new ToolStripButton();
+            PathwayToolStripButton zoomoutButton = new PathwayToolStripButton();
             zoomoutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             zoomoutButton.Name = "zoomout";
             zoomoutButton.Image = PathwayResource.zoom_out;
             zoomoutButton.Text = "";
             zoomoutButton.CheckOnClick = false;
             zoomoutButton.ToolTipText = "Zoom Out";
-            zoomoutButton.Tag = 0.5f;
+            zoomoutButton.Handle = new Handle(Mode.CreateConstant, handleCount, 0.5f);
             zoomoutButton.Click += new EventHandler(ZoomButton_Click);
             list.Add(zoomoutButton);
             m_buttonList.Add(zoomoutButton);
 
             foreach (ComponentSetting cs in m_csManager.ComponentSettings)
             {
-                ToolStripButton button = new ToolStripButton();
+                PathwayToolStripButton button = new PathwayToolStripButton();
                 button.ImageTransparentColor = System.Drawing.Color.Magenta;
                 button.Name = cs.Name;
                 button.Image = new Bitmap(256, 256);
@@ -1078,7 +1089,7 @@ namespace EcellLib.PathwayWindow
                     Rectangle rect = new Rectangle(3, 3, 240, 240);
                     gra.DrawRectangle(new Pen(Brushes.Black, 16), rect);
                     m_handlerDict.Add(handleCount, new CreateSystemMouseHandler(this));
-                    button.Tag = new Handle(Mode.CreateSystem, handleCount++, cs.ComponentType);
+                    button.Handle = new Handle(Mode.CreateSystem, handleCount++, cs.ComponentType);
                 }
                 else
                 {
@@ -1086,7 +1097,7 @@ namespace EcellLib.PathwayWindow
                     gra.FillPath(cs.NormalBrush, gp);
                     gra.DrawPath(new Pen(Brushes.Black, 16), gp);
                     m_handlerDict.Add(handleCount, new CreateNodeMouseHandler(this, cs.ComponentType));
-                    button.Tag = new Handle(Mode.CreateNode, handleCount++, cs.ComponentType);
+                    button.Handle = new Handle(Mode.CreateNode, handleCount++, cs.ComponentType);
                 }
                 button.Size = new System.Drawing.Size(256, 256);
                 button.Text = "";
@@ -1100,7 +1111,7 @@ namespace EcellLib.PathwayWindow
 
             // SelectMode is default.
             button0.Checked = true;
-            m_selectedHandle = (Handle)button0.Tag;
+            m_selectedHandle = (Handle)button0.Handle;
 
             return list;
         }
@@ -1357,7 +1368,7 @@ namespace EcellLib.PathwayWindow
             string parentSysKey = system.EcellObject.parentSystemID;
             foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
             {
-                string newKey = obj.EcellObject.key.Replace(sysKey,parentSysKey);
+                string newKey = PathUtil.GetMovedKey(obj.EcellObject.key, sysKey, parentSysKey);
                 if (ActiveCanvas.GetSelectedObject(newKey, obj.EcellObject.type) != null)
                 {
                     isDuplicate = true;
@@ -1384,7 +1395,7 @@ namespace EcellLib.PathwayWindow
                 // Move systems and nodes under merged system.
                 foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
                 {
-                    string newKey = obj.EcellObject.key.Replace(sysKey, parentSysKey);
+                    string newKey = PathUtil.GetMovedKey(obj.EcellObject.key, sysKey, parentSysKey);
                     ActiveCanvas.TransferObject(newKey, obj.EcellObject.key, obj);
                 }
                 m_window.NotifyDataMerge(system.EcellObject.modelID, system.EcellObject.key);
@@ -1395,8 +1406,6 @@ namespace EcellLib.PathwayWindow
             }
             if (system.IsHighLighted)
                 ActiveCanvas.ResetSelectedSystem();
-
-            ((ToolStripMenuItem)sender).Tag = null;
         }
 
         /// <summary>
@@ -1500,31 +1509,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         private void LayoutItem_Click(object sender, EventArgs e)
         {
-            if (!(sender is ToolStripMenuItem))
+            if (!(sender is PathwayToolStripMenuItem))
                 return;
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            int layoutIdx = 0;
-            int subIdx = 0;
-            try
-            {
-                if (((ToolStripMenuItem)sender).Tag is int)
-                {
-                    layoutIdx = (int)item.Tag;
-                    subIdx = -1;
-                }
-                else
-                {
-                    string[] tags = ((string)item.Tag).Split(',');
-                    layoutIdx = int.Parse(tags[0]);
-                    subIdx = int.Parse(tags[1]);
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(m_resources.GetString("ErrLayout"));
-            }
+            PathwayToolStripMenuItem item = (PathwayToolStripMenuItem)sender;
+            int layoutIdx = item.ID;
+            int subIdx = item.SubID;
             ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
-
             DoLayout(algorithm, subIdx, true);
         }
 
@@ -1627,7 +1617,7 @@ namespace EcellLib.PathwayWindow
             this.CopiedNodes.Clear();
             this.m_copyPos = this.m_mousePos;
 
-            this.CopiedNodes = SetCopyNodes(this.ActiveCanvas.SelectedNodes);
+            this.CopiedNodes = SetCopyNodes();
         }
 
         /// <summary>
@@ -1642,7 +1632,7 @@ namespace EcellLib.PathwayWindow
             this.CopiedNodes.Clear();
             this.m_copyPos = this.m_mousePos;
 
-            this.CopiedNodes = SetCopyNodes(this.ActiveCanvas.SelectedNodes);
+            this.CopiedNodes = SetCopyNodes();
 
             int i = 0;
             bool isAnchor;
@@ -1664,8 +1654,13 @@ namespace EcellLib.PathwayWindow
         {
             if (m_copiedNodes == null || m_copiedNodes.Count == 0)
                 return;
-
-            List<EcellObject> nodeList = CopyNodes(m_copiedNodes);
+            // Copy objects.
+            List<EcellObject> nodeList;
+            if (m_copiedNodes[0] is EcellSystem)
+                nodeList = CopySystems(m_copiedNodes);
+            else
+                nodeList = CopyNodes(m_copiedNodes);
+            // Add objects.
             int i = 0;
             bool isAnchor;
             foreach (EcellObject eo in nodeList)
@@ -1702,19 +1697,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Called when m_nodeMenu is closed.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void m_nodeMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            if (sender is ContextMenuStrip)
-            {
-                ((ContextMenuStrip)sender).Tag = null;
-            }
-        }
-
-        /// <summary>
         /// When select the button in ToolBox,
         /// system change the listener for event
         /// </summary>
@@ -1722,6 +1704,10 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">EventArgs.</param>
         private void ButtonStateChanged(object sender, EventArgs e)
         {
+            if (!(sender is PathwayToolStripButton))
+                return;
+            PathwayToolStripButton selectedButton = (PathwayToolStripButton)sender;
+
             // Remove an old EventHandler
             PBasicInputEventHandler handler = m_handlerDict[m_selectedHandle.HandleID];
             if (handler is PPathwayInputEventHandler)
@@ -1729,11 +1715,11 @@ namespace EcellLib.PathwayWindow
             RemoveInputEventListener(handler);
 
             // Set a new EventHandler 
-            m_selectedHandle = (Handle)((ToolStripButton)sender).Tag;
+            m_selectedHandle = selectedButton.Handle;
             handler = m_handlerDict[m_selectedHandle.HandleID];
-            foreach (ToolStripButton button in m_buttonList)
+            foreach (PathwayToolStripButton button in m_buttonList)
             {
-                if (button.Tag != m_selectedHandle)
+                if (button.Handle != m_selectedHandle)
                 {
                     button.Checked = false;
                 }
@@ -1764,10 +1750,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         private void ZoomButton_Click(object sender, EventArgs e)
         {
-            float rate = (float)((ToolStripButton)sender).Tag;
+            if (!(sender is PathwayToolStripButton))
+                return;
+            PathwayToolStripButton button = (PathwayToolStripButton)sender;
+            float rate = button.Handle.ZoomingRate;
             if (this.CanvasDictionary == null)
                 return;
-
             foreach(CanvasControl canvas in this.CanvasDictionary.Values)
             {
                 canvas.Zoom(rate);
@@ -1846,17 +1834,43 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="nodeList"></param>
         /// <returns></returns>
-        private List<EcellObject> SetCopyNodes(List<PPathwayObject> nodeList)
+        private List<EcellObject> SetCopyNodes()
         {
             List<EcellObject> copyNodes = new List<EcellObject>();
+            // Copy System
+            PPathwaySystem system = ActiveCanvas.SelectedSystem;
+            EcellObject eo;
+            if (system != null)
+            {
+                eo = system.EcellObject;
+                copyNodes.Add(m_window.GetEcellObject(eo.modelID, eo.key, eo.type));
+                foreach (PPathwayObject child in ActiveCanvas.GetAllObjectUnder(system.EcellObject.key))
+                {
+                    if (child is PPathwaySystem)
+                    {
+                        eo = child.EcellObject;
+                        copyNodes.Add(m_window.GetEcellObject(eo.modelID, eo.key, eo.type));
+                    }
+                }
+            }
             //Copy Variavles
-            foreach (PPathwayObject node in nodeList)
+            foreach (PPathwayObject node in ActiveCanvas.SelectedNodes)
+            {
                 if (node is PPathwayVariable)
-                    copyNodes.Add(node.EcellObject.Copy());
+                {
+                    eo = node.EcellObject;
+                    copyNodes.Add(m_window.GetEcellObject(eo.modelID, eo.key, eo.type));
+                }
+            }
             //Copy Processes
-            foreach (PPathwayObject node in nodeList)
+            foreach (PPathwayObject node in ActiveCanvas.SelectedNodes)
+            {
                 if (node is PPathwayProcess)
-                    copyNodes.Add(node.EcellObject.Copy());
+                {
+                    eo = node.EcellObject;
+                    copyNodes.Add(m_window.GetEcellObject(eo.modelID, eo.key, eo.type));
+                }
+            }
             return copyNodes;
         }
 
@@ -1880,12 +1894,12 @@ namespace EcellLib.PathwayWindow
             // Set m_copiedNodes.
             for (int i = 0; i < nodeList.Count; i++)
             {
-                EcellObject node = nodeList[i];
                 //Create new EcellObject
-                EcellObject eo = node.Copy();
+                EcellObject eo = nodeList[i].Copy();
+                string nodeKey = eo.key;
                 // Check parent system
                 eo.modelID = canvas.ModelID;
-                eo.SetPosition(eo.X + diff.X, eo.Y + diff.Y);
+                eo.MovePosition(diff);
                 sysKey = canvas.GetSurroundingSystemKey(eo.PointF);
                 if (sysKey == null)
                     sysKey = canvas.GetSurroundingSystemKey(this.m_mousePos);
@@ -1900,7 +1914,9 @@ namespace EcellLib.PathwayWindow
 
                 copiedNodes.Add(eo);
                 // Set Variable name.
-                varKeys.Add(":" + node.key, ":" + eo.key);
+                if (!(eo is EcellVariable))
+                    continue;
+                varKeys.Add(nodeKey, eo.key);
             }
             // Reset edges.
             foreach (EcellObject eo in copiedNodes)
@@ -1912,8 +1928,10 @@ namespace EcellLib.PathwayWindow
                 List<EcellReference> newlist = new List<EcellReference>();
                 foreach (EcellReference er in list)
                 {
-                    if (varKeys.ContainsKey(er.Key))
-                        newlist.Add(er);
+                    if (!varKeys.ContainsKey(er.Key))
+                        continue;
+                    er.Key = varKeys[er.Key];
+                    newlist.Add(er);
                 }
                 ep.ReferenceList = newlist;
             }
@@ -1935,6 +1953,83 @@ namespace EcellLib.PathwayWindow
                 diff.Y = diff.Y + 10;
             }
             return diff;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nodeList"></param>
+        /// <returns></returns>
+        private List<EcellObject> CopySystems(List<EcellObject> systemList)
+        {
+            List<EcellObject> copiedSystems = new List<EcellObject>();
+            Dictionary<string, string> varKeys = new Dictionary<string, string>();
+            CanvasControl canvas = this.ActiveCanvas;
+            if (canvas == null || systemList == null || systemList.Count == 0)
+                return copiedSystems;
+
+            // Get position diff
+            PointF basePos = systemList[0].PointF;
+            PointF diff = GetDistance(this.m_mousePos, basePos);
+            // Get parent System
+            string oldSysKey = systemList[0].parentSystemID;
+            string newSysKey = canvas.GetSurroundingSystemKey(this.m_mousePos);
+
+            // Set m_copiedNodes.
+            for (int i = 0; i < systemList.Count; i++)
+            {
+                //Create new EcellObject
+                EcellObject system = systemList[i].Copy();
+                // Check system position
+                system.MovePosition(diff);
+                if (canvas.DoesSystemOverlaps(newSysKey, system.Rect))
+                {
+                    system.PointF = canvas.GetVacantPoint(newSysKey, system.Rect);
+                    diff = GetDistance(system.PointF, basePos);
+                }
+                // Check duplicated object.
+                system.modelID = canvas.ModelID;
+                system.key = PathUtil.GetMovedKey(system.key, oldSysKey, newSysKey);
+                if (canvas.GetSelectedObject(system.key, system.type) != null)
+                {
+                    oldSysKey = system.key;
+                    newSysKey = canvas.GetTemporaryID(system.type, newSysKey);
+                    system.key = newSysKey;
+                }
+                // Check child nodes.
+                foreach (EcellObject eo in system.Children)
+                {
+                    string oldNodeKey = eo.key;
+                    eo.parentSystemID = system.key;
+                    eo.MovePosition(diff);
+                    // Set node name.
+                    if (!(eo is EcellVariable))
+                        continue;
+                    varKeys.Add(oldNodeKey, eo.key);
+                }
+                copiedSystems.Add(system);
+            }
+            // Reset edges.
+            foreach (EcellObject system in copiedSystems)
+            {
+                foreach (EcellObject eo in system.Children)
+                {
+                    if (!(eo is EcellProcess))
+                        continue;
+                    EcellProcess ep = (EcellProcess)eo;
+                    List<EcellReference> list = ep.ReferenceList;
+                    List<EcellReference> newlist = new List<EcellReference>();
+                    foreach (EcellReference er in list)
+                    {
+                        if (!varKeys.ContainsKey(er.Key))
+                            continue;
+                        er.Key = varKeys[er.Key];
+                        newlist.Add(er);
+                    }
+                    ep.ReferenceList = newlist;
+                }
+            }
+            return copiedSystems;
         }
 
         /// <summary>

@@ -367,7 +367,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void Refresh()
         {
             this.Reset();
-            foreach (PPathwayObject obj in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
+            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(m_ecellObj.key))
             {
                 if (obj is PPathwayVariable)
                     ((PPathwayVariable)obj).Refresh();
@@ -378,8 +378,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void RefreshText()
         {
-            base.m_pText.Text = this.EcellObject.Text;
-            base.m_pText.CenterBoundsOnPoint(this.X + this.Width / 2, this.Y + this.Height - TEXT_LOWER_MARGIN);
+            base.m_pText.Text = m_ecellObj.Text;
+            base.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height - TEXT_LOWER_MARGIN);
             base.m_pText.MoveToFront();
         }
 
@@ -429,34 +429,34 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Extend current space to contain given rectangle.
         /// </summary>
         /// <param name="obj">The child object.</param>
-        public void MakeSpace(PPathwayObject obj)
+        public void MakeSpace(PPathwayObject obj, bool isRecorded)
         {
             // Offset position of given object.
-            if (obj.X <= this.X + this.Offset.X + SYSTEM_MARGIN)
-                obj.X = this.X + this.Offset.X + SYSTEM_MARGIN;
-            if (obj.Y <= this.Y + this.Offset.Y + SYSTEM_MARGIN)
-                obj.Y = this.Y + this.Offset.Y + SYSTEM_MARGIN;
+            if (obj.X <= base.X + base.Offset.X + SYSTEM_MARGIN)
+                obj.X = base.X + base.Offset.X + SYSTEM_MARGIN;
+            if (obj.Y <= base.Y + base.Offset.Y + SYSTEM_MARGIN)
+                obj.Y = base.Y + base.Offset.Y + SYSTEM_MARGIN;
             // Enlarge this system
-            if (this.X + this.Width < obj.X + obj.Width + SYSTEM_MARGIN)
-                this.Width = obj.X + obj.Width + SYSTEM_MARGIN - this.X;
-            if (this.Y + this.Height < obj.Y + obj.Height + SYSTEM_MARGIN)
-                this.Height = obj.Y + obj.Height + SYSTEM_MARGIN - this.Y;
-
-            // Make parent system create space for this system.
-            if (null != this.ParentObject && this.ParentObject is PPathwaySystem)
-                ((PPathwaySystem)this.ParentObject).MakeSpace(this);
+            if (base.X + base.Width < obj.X + obj.Width + SYSTEM_MARGIN)
+                base.Width = obj.X + obj.Width + SYSTEM_MARGIN - base.X;
+            if (base.Y + base.Height < obj.Y + obj.Height + SYSTEM_MARGIN)
+                base.Height = obj.Y + obj.Height + SYSTEM_MARGIN - base.Y;
 
             // Move child nodes position.
-            foreach (PPathwayObject child in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
+            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(m_ecellObj.key))
             {
                 if (child.EcellObject.key.StartsWith(obj.EcellObject.key))
                     continue;
                 if (!obj.Rect.Contains(child.Rect) && !obj.Rect.IntersectsWith(child.Rect))
                     continue;
-                child.PointF = m_canvas.GetVacantPoint(this.EcellObject.key);
-                m_canvas.PathwayControl.NotifyDataChanged(child.EcellObject.key, child.EcellObject.key, child, false, false);
+                child.PointF = m_canvas.GetVacantPoint(m_ecellObj.key, child.Rect);
+                m_canvas.PathwayControl.NotifyDataChanged(child.EcellObject.key, child.EcellObject.key, child, isRecorded, false);
             }
-            m_canvas.PathwayControl.NotifyDataChanged(this.EcellObject.key, this.EcellObject.key, this, false, false);
+
+            // Make parent system create space for this system.
+            if (null != m_parentObject && m_parentObject is PPathwaySystem)
+                ((PPathwaySystem)m_parentObject).MakeSpace(this, isRecorded);
+            m_canvas.PathwayControl.NotifyDataChanged(m_ecellObj.key, m_ecellObj.key, this, isRecorded, false);
             this.Refresh();
         }
 
@@ -464,7 +464,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// event on paint this object.
         /// </summary>
         /// <param name="paintContext">PPaintContext</param>
-        protected override void Paint(UMD.HCIL.Piccolo.Util.PPaintContext paintContext)
+        protected override void Paint(PPaintContext paintContext)
         {
             if(m_prevX != (this.X + this.OffsetX) || m_prevY != (this.Y + this.OffsetY))
             {
@@ -490,23 +490,6 @@ namespace EcellLib.PathwayWindow.Nodes
                 p = new Pen(Brushes.Blue, 1);
             paintContext.Graphics.DrawPath( p, m_outlineGp );            
             
-        }
-
-        /// <summary>
-        /// event on double click this system.
-        /// if there are system outside this system,
-        /// it fire event at outside system.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnDoubleClick(PInputEventArgs e)
-        {
-            if (!(e.PickedNode is PPathwaySystem)) return;
-            if (EcellObject == null)
-                return;
-            PPathwaySystem p = (PPathwaySystem)e.PickedNode;
-            if (!p.EcellObject.key.Equals(EcellObject.key))
-                return;
-            PropertyEditor.Show(this.EcellObject);
         }
 
         /// <summary>
@@ -618,7 +601,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void MoveStart()
         {
-            foreach (PPathwayObject obj in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
+            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(m_ecellObj.key))
             {
                 obj.MoveStart();
             }
@@ -629,7 +612,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void MoveEnd()
         {
-            foreach (PPathwayObject obj in this.CanvasControl.GetAllObjectUnder(this.EcellObject.key))
+            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(m_ecellObj.key))
             {
                 obj.MoveEnd();
             }

@@ -356,7 +356,7 @@ namespace EcellLib.PathwayWindow
                     else
                         layoutFlag = true;
                 }
-                this.NewDataAddToModel(data, layoutFlag);
+                this.NewDataAddToModel(data, layoutFlag, (modelId != null) );
             }
             catch (Exception e)
             {
@@ -611,21 +611,19 @@ namespace EcellLib.PathwayWindow
         /// So, used by DataAdd only.
         /// </summary>
         /// <param name="data">The same argument for DataAdd</param>
-        private void NewDataAddToModel(List<EcellObject> data, bool layoutFlag)
+        /// <param name="layoutFlag"></param>
+        /// <param name="isFirst"></param>
+        private void NewDataAddToModel(List<EcellObject> data, bool layoutFlag, bool isFirst)
         {
             // Load each EcellObject onto the canvas currently displayed
             foreach (EcellObject obj in data)
             {
                 try
                 {
-                    m_con.DataAdd(obj.modelID,
-                                    obj,
-                                    true);
+                    m_con.DataAdd(obj, true, isFirst);
                     if (obj is EcellSystem)
                         foreach (EcellObject node in obj.Children)
-                            m_con.DataAdd(node.modelID,
-                                            node.Copy(),
-                                            true);
+                            m_con.DataAdd(node, true, isFirst);
 
                 } catch (Exception ex)
                 {

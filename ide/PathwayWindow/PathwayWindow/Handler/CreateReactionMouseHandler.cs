@@ -200,7 +200,7 @@ namespace EcellLib.PathwayWindow.Handler
         private void SetCurrent(CanvasControl canvas, PPathwayNode node)
         {
             m_current = node;
-            if (null != node)
+            if (node != null)
             {
                 canvas.AddNodeToBeConnected(node);
                 canvas.LineHandler.Line4Reconnect.Pen = LINE_THICK_PEN;

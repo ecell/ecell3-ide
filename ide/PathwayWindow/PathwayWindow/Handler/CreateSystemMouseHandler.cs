@@ -276,7 +276,6 @@ namespace EcellLib.PathwayWindow.Handler
             }
             m_startPoint = PointF.Empty;
         }
-
         /// <summary>
         /// Transfer an object from one PEcellSystem/Layer to PEcellSystem/Layer.
         /// </summary>
@@ -294,10 +293,7 @@ namespace EcellLib.PathwayWindow.Handler
                 if (obj.EcellObject.parentSystemID.StartsWith(systemName))
                     continue;
 
-                if (obj.EcellObject.parentSystemID.Equals("/") )
-                    newKey = systemName + obj.EcellObject.key;
-                else
-                    newKey = obj.EcellObject.key.Replace(system.EcellObject.parentSystemID, systemName);
+                newKey = PathUtil.GetMovedKey(obj.EcellObject.key, system.EcellObject.parentSystemID, systemName);
                 m_con.NotifyDataChanged(
                     obj.EcellObject.key,
                     newKey,
@@ -310,7 +306,7 @@ namespace EcellLib.PathwayWindow.Handler
                 if (obj.EcellObject.parentSystemID.StartsWith(systemName) || !system.Rect.Contains(obj.Rect))
                     continue;
 
-                newKey = obj.EcellObject.key.Replace(system.EcellObject.parentSystemID, systemName);
+                newKey = PathUtil.GetMovedKey(obj.EcellObject.key, system.EcellObject.parentSystemID, systemName);
                 m_con.NotifyDataChanged(
                     obj.EcellObject.key,
                     newKey,

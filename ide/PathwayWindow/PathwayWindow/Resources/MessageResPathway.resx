@@ -246,7 +246,7 @@
   <data name="CanvasMenuDeleteLogger" xml:space="preserve">
     <value>Delete Logger</value>
   </data>
-  <data name="CanvasMenuDeleteWith" xml:space="preserve">
+  <data name="CanvasMenuMerge" xml:space="preserve">
     <value>Merge to supersystem</value>
   </data>
   <data name="CanvasMenuLayout" xml:space="preserve">
@@ -266,5 +266,14 @@
   </data>
   <data name="MenuToolTipViewMode" xml:space="preserve">
     <value>Change view mode of canvas.</value>
+  </data>
+  <data name="MenuItemEdit" xml:space="preserve">
+    <value>&amp;Edit</value>
+  </data>
+  <data name="MenuItemLayout" xml:space="preserve">
+    <value>&amp;Layout</value>
+  </data>
+  <data name="MenuItemView" xml:space="preserve">
+    <value>&amp;View</value>
   </data>
 </root>

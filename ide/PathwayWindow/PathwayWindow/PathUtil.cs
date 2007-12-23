@@ -239,42 +239,14 @@ namespace EcellLib.PathwayWindow
         {
             if (null == originalKey || null == originalSystemKey || null == newSystemKey)
                 return null;
-            Regex reg = new Regex(originalSystemKey);
-            return reg.Replace(originalKey, newSystemKey, 1);
-        }
-
-        /// <summary>
-        /// Check whether two objects are on the same system or not
-        /// </summary>
-        /// <param name="key1"></param>
-        /// <param name="key2"></param>
-        /// <returns>true if key1 and key2 are on the same system, false otherwise.</returns>
-        public static bool IsOnSameSystem(string key1, string key2)
-        {
-            if (null == key1 || null == key2)
-                return false;
-            string parent1 = PathUtil.GetParentSystemId(key1);
-            string parent2 = PathUtil.GetParentSystemId(key2);
-
-            if (null == parent1 || null == parent2)
-                return false;
-            return parent1.Equals(parent2);
-        }
-
-        /// <summary>
-        /// Check whether a object with subjectKey is under a object with baseKey
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsUnder(string baseKey, string subjectKey)
-        {
-            if (null == baseKey || null == subjectKey)
-                return false;
-
-            if (subjectKey.StartsWith(baseKey) && !subjectKey.Equals(baseKey))
-                return true;
+            string newKey;
+            if (originalSystemKey.Equals("/") && !newSystemKey.Equals("/"))
+                newKey = newSystemKey + originalKey;
+            else if (!originalSystemKey.Equals("/") && newSystemKey.Equals("/"))
+                newKey = originalKey.Replace(originalSystemKey, "");
             else
-                return false;
-
+                newKey = originalKey.Replace(originalSystemKey, newSystemKey);
+            return newKey;
         }
 
         /// <summary>

@@ -246,7 +246,7 @@
   <data name="CanvasMenuDeleteLogger" xml:space="preserve">
     <value>ロガー解除</value>
   </data>
-  <data name="CanvasMenuDeleteWith" xml:space="preserve">
+  <data name="CanvasMenuMerge" xml:space="preserve">
     <value>上のシステムにマージ</value>
   </data>
   <data name="CanvasMenuLayout" xml:space="preserve">
@@ -266,5 +266,14 @@
   </data>
   <data name="MenuToolTipViewMode" xml:space="preserve">
     <value>キャンバスのビューモードを変更する</value>
+  </data>
+  <data name="MenuItemEdit" xml:space="preserve">
+    <value>編集(&amp;E)</value>
+  </data>
+  <data name="MenuItemLayout" xml:space="preserve">
+    <value>配置(&amp;L)</value>
+  </data>
+  <data name="MenuItemView" xml:space="preserve">
+    <value>表示(&amp;V)</value>
   </data>
 </root>

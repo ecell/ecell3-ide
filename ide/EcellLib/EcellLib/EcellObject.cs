@@ -215,12 +215,20 @@ namespace EcellLib
             get { return GetParentSystemId(key); }
             set
             {
-                if (key == null || key.Equals("/"))
+                if (this.m_type == EcellObject.PROCESS || this.m_type == EcellObject.VARIABLE)
+                {
+                    this.m_key = value + ":" + this.name;
+                    return;
+                }
+                else if (key == null || key.Equals("/"))
                     this.m_key = "/";
-                else if (key.Contains(":"))
-                    this.m_key = value + ":" + name;
+                else if (value.Equals("/"))
+                    this.m_key = value + this.name;
                 else
-                    this.m_key = value + "/" + name;
+                    this.m_key = value + "/" + this.name;
+
+                foreach (EcellObject eo in m_children)
+                    eo.parentSystemID = this.m_key;
             }
 
         }
@@ -496,6 +504,16 @@ namespace EcellLib
             this.OffsetY = obj.OffsetY;
             this.Width = obj.Width;
             this.Height = obj.Height;
+        }
+
+        /// <summary>
+        /// Set Moving delta.
+        /// </summary>
+        /// <param name="delta"></param>
+        public void MovePosition(PointF delta)
+        {
+            this.X = this.X + delta.X;
+            this.Y = this.Y + delta.Y;
         }
 
         /// <summary>

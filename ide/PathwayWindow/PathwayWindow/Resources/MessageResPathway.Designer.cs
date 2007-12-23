@@ -133,15 +133,6 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
-        ///   Merge to supersystem に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string CanvasMenuDeleteWith {
-            get {
-                return ResourceManager.GetString("CanvasMenuDeleteWith", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Layout に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuLayout {
@@ -156,6 +147,15 @@ namespace EcellLib.PathwayWindow.Resources {
         internal static string CanvasMenuLeftArrow {
             get {
                 return ResourceManager.GetString("CanvasMenuLeftArrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Merge to supersystem に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuMerge {
+            get {
+                return ResourceManager.GetString("CanvasMenuMerge", resourceCulture);
             }
         }
         
@@ -466,11 +466,38 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
+        ///   &amp;Edit に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemEdit {
+            get {
+                return ResourceManager.GetString("MenuItemEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &amp;Layout に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemLayout {
+            get {
+                return ResourceManager.GetString("MenuItemLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Show &amp;IDs(Pathway) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowID {
             get {
                 return ResourceManager.GetString("MenuItemShowID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &amp;View に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemView {
+            get {
+                return ResourceManager.GetString("MenuItemView", resourceCulture);
             }
         }
         

@@ -58,10 +58,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// The default height of object.
         /// </summary>
         public static readonly float DEFAULT_HEIGHT = 40;
-        /// <summary>
-        /// Indent of PPropertyText
-        /// </summary>
-        public static readonly float PPropertyIndent = 10f;
         #endregion
 
         #region Fields

@@ -87,15 +87,16 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {
+            // set mouse position
+            m_startPoint = e.Position;
+            m_con.MousePosition = e.Position;
+
             base.OnMouseDown(sender, e);
             if (!(e.PickedNode is PCamera))
                 return;
 
-            // set mouse position
             m_isDragged = true;
             CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
-            m_startPoint = e.Position;
-            m_con.MousePosition = e.Position;
             canvas.FocusNode = null;
             canvas.ResetSelectedObjects();
             if (e.Button == MouseButtons.Left)
@@ -168,5 +169,16 @@ namespace EcellLib.PathwayWindow.Handler
                 m_lastSelectedObj = lastNode;
             }
         }
+
+        /// <summary>
+        /// Get the flag whether system accept this events.
+        /// </summary>
+        /// <param name="e">Target events.</param>
+        /// <returns>The judgement whether this event is accepted.</returns>
+        public override bool DoesAcceptEvent(PInputEventArgs e)
+        {
+            return true;
+        }        
+
     }
 }

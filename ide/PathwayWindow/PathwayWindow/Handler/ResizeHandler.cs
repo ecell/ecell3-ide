@@ -372,14 +372,14 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 string oldKey = obj.EcellObject.key;
                 string oldSyskey = obj.EcellObject.parentSystemID;
-                string newKey = obj.EcellObject.key.Replace(obj.EcellObject.parentSystemID, systemName);
+                string newKey = PathUtil.GetMovedKey(oldKey, oldSyskey, systemName);
                 // Set node change
                 m_canvas.PathwayControl.NotifyDataChanged(oldKey, newKey, obj, true, false);
             }
             foreach (PPathwayObject obj in beforeDict.Values)
             {
                 string oldKey = obj.EcellObject.key;
-                string newKey = obj.EcellObject.key.Replace(systemName, parentKey);
+                string newKey = PathUtil.GetMovedKey(oldKey, systemName, parentKey);
                 // Set node change
                 m_canvas.PathwayControl.NotifyDataChanged(oldKey, newKey, obj, true, false);
             }

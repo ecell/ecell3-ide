@@ -52,9 +52,23 @@ namespace EcellLib.PathwayWindow
         private int m_handleID;
 
         /// <summary>
-        /// ID of component setting
+        /// ComponentType
         /// </summary>
-        private ComponentType m_csID;
+        private ComponentType m_cType;
+
+        /// <summary>
+        /// Zooming rate of canvas
+        /// </summary>
+        private float m_zoomingRate;
+
+        /// <summary>
+        /// Zooming rate of canvas
+        /// </summary>
+        public float ZoomingRate
+        {
+            get { return m_zoomingRate; }
+            set { m_zoomingRate = value; }
+        }
 
         /// <summary>
         /// Accessor for mode of this handle.
@@ -75,9 +89,9 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for component setting's ID
         /// </summary>
-        public ComponentType CsID
+        public ComponentType ComponentType
         {
-            get { return this.m_csID; }
+            get { return this.m_cType; }
         }
 
         /// <summary>
@@ -100,7 +114,19 @@ namespace EcellLib.PathwayWindow
         {
             this.m_mode = mode;
             this.m_handleID = handleID;
-            this.m_csID = csID;
+            this.m_cType = csID;
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="mode">Mode of this handle (select, pan, etc.)</param>
+        /// <param name="handleID">ID of this handle</param>
+        /// <param name="zoomingRate">Zooming rate</param>
+        public Handle(Mode mode, int handleID, float zoomingRate)
+        {
+            this.m_mode = mode;
+            this.m_handleID = handleID;
+            this.m_zoomingRate = zoomingRate;
         }
     }
 }

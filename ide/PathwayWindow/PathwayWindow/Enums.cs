@@ -124,6 +124,10 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         Pan,
         /// <summary>
+        /// Zoom canvas
+        /// </summary>
+        Zoom,
+        /// <summary>
         /// Create reaction
         /// </summary>
         CreateOneWayReaction,

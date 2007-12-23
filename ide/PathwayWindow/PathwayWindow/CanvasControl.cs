@@ -491,6 +491,23 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Check if any system of this canvas overlaps given rectangle.
+        /// </summary>
+        /// <param name="systemName">Check systems under.</param>
+        /// <param name="rect">RectangleF to be checked</param>
+        /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
+        public bool DoesSystemOverlaps(string systemName, RectangleF rect)
+        {
+            bool isOverlaping = false;
+            foreach (PPathwaySystem system in m_systems.Values)
+                if (system.EcellObject.key.StartsWith(systemName)
+                    && !system.EcellObject.key.Equals(systemName)
+                    && system.Overlaps(rect))
+                    isOverlaping = true;
+            return isOverlaping;
+        }
+
+        /// <summary>
         /// Check if any system of this canvas (exclude specified system) overlaps given rectangle.
         /// </summary>
         /// <param name="rect">RectangleF to be checked</param>
@@ -541,24 +558,27 @@ namespace EcellLib.PathwayWindow
                 else if (!system.Rect.Contains(obj.PointF))
                     obj.PointF = GetVacantPoint(systemName, obj.PointF);
             }
-            if (obj is PPathwaySystem && !hasCoords)
+            if (obj is PPathwaySystem)
             {
-                float maxX = system.X + system.OffsetX;
-                float x = 0f;
-                List<PPathwayObject> list = GetAllObjectUnder(system.EcellObject.key);
-                foreach (PPathwayObject ppo in list)
+                if (!hasCoords)
                 {
-                    if (ppo == obj)
-                        continue;
-                    x = ppo.X + ppo.OffsetX + ppo.Width;
-                    if (maxX < x)
-                        maxX = x;
+                    float maxX = system.X + system.OffsetX;
+                    float x = 0f;
+                    List<PPathwayObject> list = GetAllObjectUnder(system.EcellObject.key);
+                    foreach (PPathwayObject ppo in list)
+                    {
+                        if (ppo == obj)
+                            continue;
+                        x = ppo.X + ppo.OffsetX + ppo.Width;
+                        if (maxX < x)
+                            maxX = x;
+                    }
+                    // Set obj's coordinate
+                    obj.X = maxX + PPathwaySystem.SYSTEM_MARGIN;
+                    obj.Y = system.Y + system.Offset.Y + PPathwaySystem.SYSTEM_MARGIN;
+                    SetSystemSize(obj);
                 }
-                // Set obj's coordinate
-                obj.X = maxX + PPathwaySystem.SYSTEM_MARGIN;
-                obj.Y = system.Y + system.Offset.Y + PPathwaySystem.SYSTEM_MARGIN;
-                SetSystemSize(obj);
-                system.MakeSpace(obj);
+                system.MakeSpace(obj, !isFirst);
             }
             obj.Refresh();
         }
@@ -1435,7 +1455,7 @@ namespace EcellLib.PathwayWindow
         /// Return nearest vacant point of EcellSystem.
         /// </summary>
         /// <param name="sysKey">Key of system.</param>
-        ///<returns>Point.</returns>
+        ///<returns>PointF.</returns>
         public PointF GetVacantPoint(string sysKey)
         {
             PPathwaySystem sys = m_systems[sysKey];
@@ -1451,7 +1471,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sysKey">The key of system.</param>
         /// <param name="pos">Target position.</param>
-        /// <returns>Point.</returns>
+        /// <returns>PointF.</returns>
         public PointF GetVacantPoint(string sysKey, PointF pos)
         {
             PPathwaySystem sys = m_systems[sysKey];
@@ -1470,6 +1490,33 @@ namespace EcellLib.PathwayWindow
 
             } while (r < sys.Width || r < sys.Height);
             return newPos;
+        }
+
+        /// <summary>
+        /// Return nearest vacant point of EcellSystem.
+        /// </summary>
+        /// <param name="sysKey">The key of system.</param>
+        /// <param name="rectF">Target position.</param>
+        /// <returns>PointF.</returns>
+        public PointF GetVacantPoint(string sysKey, RectangleF rectF)
+        {
+            PPathwaySystem sys = m_systems[sysKey];
+            PointF basePos = new PointF(rectF.X, rectF.Y);
+            double rad = Math.PI * 0.25f;
+            float r = 0f;
+
+            do
+            {
+                // Check 
+                if (!DoesSystemOverlaps(sysKey, rectF))
+                    break;
+
+                r += 1f;
+                rectF.X = basePos.X + r * (float)Math.Cos(rad * r);
+                rectF.Y = basePos.Y + r * (float)Math.Sin(rad * r);
+
+            } while (r < sys.Width || r < sys.Height);
+            return new PointF(rectF.X, rectF.Y);
         }
     }
 }

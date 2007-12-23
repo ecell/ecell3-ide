@@ -376,10 +376,7 @@ namespace EcellLib.PathwayWindow.Handler
                 if (obj.EcellObject.parentSystemID.StartsWith(systemName))
                     continue;
 
-                if (obj.EcellObject.parentSystemID.Equals("/"))
-                    newNodeKey = systemName + obj.EcellObject.key;
-                else
-                    newNodeKey = obj.EcellObject.key.Replace(system.EcellObject.parentSystemID, systemName);
+                newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.key, system.EcellObject.parentSystemID, systemName);
                 m_canvas.PathwayControl.NotifyDataChanged(
                     obj.EcellObject.key,
                     newNodeKey,
@@ -392,7 +389,7 @@ namespace EcellLib.PathwayWindow.Handler
                 if (obj.EcellObject.parentSystemID.StartsWith(systemName) || !system.Rect.Contains(obj.Rect))
                     continue;
 
-                newNodeKey = obj.EcellObject.key.Replace(system.EcellObject.parentSystemID, systemName);
+                newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.key, system.EcellObject.parentSystemID, systemName);
                 m_canvas.PathwayControl.NotifyDataChanged(
                     obj.EcellObject.key,
                     newNodeKey,

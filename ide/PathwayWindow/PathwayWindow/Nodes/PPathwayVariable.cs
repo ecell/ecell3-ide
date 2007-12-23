@@ -112,15 +112,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// event on double click on this variable.
-        /// </summary>
-        /// <param name="e">PInputEventArgs.</param>
-        public override void OnDoubleClick(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            PropertyEditor.Show(this.EcellObject);
-        }
-
-        /// <summary>
         /// reconstruct the list of related process by using the information of elements.
         /// </summary>
         public override void ValidateEdges()

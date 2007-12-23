@@ -152,15 +152,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// event on double click this node.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnDoubleClick(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            PropertyEditor.Show(this.EcellObject);
-        }
-
-        /// <summary>
         /// notify to add the related variable to list.
         /// </summary>
         /// <param name="var">the related variable.</param>
