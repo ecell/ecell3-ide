@@ -150,8 +150,8 @@ namespace EcellLib.PathwayWindow.Handler
 
             base.OnMouseMove(sender, e);
             PointF contactP = m_current.GetContactPoint(e.Position);
-            CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
 
+            CanvasControl canvas = m_current.CanvasControl;
             PPathwayLine line = canvas.LineHandler.Line4Reconnect;
             line.Reset();
 

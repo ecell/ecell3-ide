@@ -64,7 +64,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <returns>The judgement whether this event is accepted.</returns>
         public override bool DoesAcceptEvent(PInputEventArgs e)
         {
-            return e.Button == MouseButtons.Left;
+            return e.Button != MouseButtons.Right;
         }        
         #endregion
 
