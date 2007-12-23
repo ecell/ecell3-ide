@@ -227,6 +227,11 @@ namespace EcellLib.PathwayWindow
         private ComponentManager m_csManager;
 
         /// <summary>
+        /// AnimationControl for simulation.
+        /// </summary>
+        private AnimationControl m_animCon;
+
+        /// <summary>
         /// OverView interface.
         /// </summary>
         private PathwayView m_pathwayView;
@@ -273,11 +278,6 @@ namespace EcellLib.PathwayWindow
         /// Indicate which pathway-related toolbar button is selected.
         /// </summary>
         private Handle m_selectedHandle;
-        
-        /// <summary>
-        /// EventTimer for animation.
-        /// </summary>
-        private Timer m_time;
 
         /// <summary>
         /// Whether PathwayView is freezed or not.
@@ -395,10 +395,9 @@ namespace EcellLib.PathwayWindow
                 foreach (CanvasControl canvas in m_canvasDict.Values)
                     canvas.ViewMode = m_isViewMode;
                 if (m_isViewMode)
-                    SetPropForSimulation();
+                    m_animCon.SetPropForSimulation();
                 else
-                    ResetPropForSimulation();
-
+                    m_animCon.ResetPropForSimulation();
             }
         }
 
@@ -455,12 +454,8 @@ namespace EcellLib.PathwayWindow
             m_menuLayoutList = CreateLayoutMenus();
             m_popupMenu = CreatePopUpMenus();
             m_csManager = ComponentManager.LoadComponentSettings();
-            // Set Timer.
-            m_time = new Timer();
-            m_time.Enabled = false;
-            m_time.Interval = 200;
-            m_time.Tick += new EventHandler(TimerFire);
-
+            // Set AnimationControl
+            m_animCon = new AnimationControl(this);
         }
         #endregion
 
@@ -652,7 +647,6 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
-        #region Methods to control TimerEvent
         /// <summary>
         ///  When change project status, change menu enable/disable.
         /// </summary>
@@ -673,69 +667,21 @@ namespace EcellLib.PathwayWindow
             // When simulation started.
             if (type == ProjectStatus.Running && m_isViewMode)
             {
-                SetPropForSimulation();
+                m_animCon.SetPropForSimulation();
             }
             else if (type == ProjectStatus.Stepping && m_isViewMode)
             {
-                UpdatePropForSimulation();
+                m_animCon.UpdatePropForSimulation();
             }
             else if (type == ProjectStatus.Suspended)
             {
-                m_time.Enabled = false;
-                m_time.Stop();
+                m_animCon.TimerStop();
             }
             else
             {
-                ResetPropForSimulation();
+                m_animCon.ResetPropForSimulation();
             }
         }
-
-        /// <summary>
-        /// Execute redraw process on simulation running at every 1sec.
-        /// </summary>
-        /// <param name="sender">object(Timer)</param>
-        /// <param name="e">EventArgs</param>
-        private void TimerFire(object sender, EventArgs e)
-        {
-            m_time.Enabled = false;
-            UpdatePropForSimulation();
-            m_time.Enabled = true;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        private void SetPropForSimulation()
-        {
-            m_time.Enabled = true;
-            m_time.Start();
-            if (m_canvasDict == null)
-                return;
-            foreach (CanvasControl canvas in m_canvasDict.Values)
-                canvas.SetPropForSimulation();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        private void UpdatePropForSimulation()
-        {
-            if (m_canvasDict == null)
-                return;
-            foreach (CanvasControl canvas in m_canvasDict.Values)
-                canvas.UpdatePropForSimulation();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        private void ResetPropForSimulation()
-        {
-            m_time.Enabled = false;
-            m_time.Stop();
-            if (m_canvasDict == null)
-                return;
-            foreach (CanvasControl canvas in m_canvasDict.Values)
-                canvas.ResetPropForSimulation();
-        }
-        #endregion
 
         #region Methods to Create Menus
         /// <summary>

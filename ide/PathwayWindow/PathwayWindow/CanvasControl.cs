@@ -366,10 +366,10 @@ namespace EcellLib.PathwayWindow
                 if (m_variables != null)
                     foreach (PPathwayVariable var in m_variables.Values)
                         var.ViewMode = m_isViewMode;
-                if (m_isViewMode)
-                    m_pCanvas.BackColor = Color.Black;
-                else
-                    m_pCanvas.BackColor = Color.White;
+                //if (m_isViewMode)
+                //    m_pCanvas.BackColor = Color.Black;
+                //else
+                //    m_pCanvas.BackColor = Color.White;
             }
         }
         /// <summary>
@@ -1203,72 +1203,6 @@ namespace EcellLib.PathwayWindow
                                              true,
                                              CAMERA_ANIM_DURATION);
             UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
-        }
-
-        /// <summary>
-        /// Set canvas property for simulation.
-        /// </summary>
-        public void SetPropForSimulation()
-        {
-        }
-
-        /// <summary>
-        /// Update canvas property for simulation.
-        /// </summary>
-        public void UpdatePropForSimulation()
-        {
-            DataManager dm = this.PathwayControl.Window.DataManager;
-            foreach (PPathwayProcess process in m_processes.Values)
-            {
-                if (!process.Visible)
-                    continue;
-                string propName = "Process:" + process.EcellObject.key + ":MolarActivity";
-                EcellValue ev = dm.GetEntityProperty(propName);
-                if (ev == null)
-                    continue;
-                // Set Line Width.
-                float witdh = GetLineWidth((float)ev.CastToDouble());
-                process.SetLineWidth(witdh);
-                process.MoveToFront();
-            }
-            foreach (PPathwayVariable variable in m_variables.Values)
-            {
-                if (!variable.Visible)
-                    continue;
-                string propName = "Variable:" + variable.EcellObject.key + ":MolarConc";
-                EcellValue ev = dm.GetEntityProperty(propName);
-                if (ev == null)
-                    continue;
-                // Set Line Width.
-                variable.PPropertyText.Text = ev.CastToDouble().ToString("E2");
-                variable.MoveToFront();
-            }
-        }
-        /// <summary>
-        /// Get line width.
-        /// </summary>
-        /// <param name="activity"></param>
-        /// <returns></returns>
-        private float GetLineWidth(float activity)
-        {
-            float maxActivity = 100f;
-            float defWidth = 20f;
-            float width = defWidth * activity / maxActivity;
-            if (float.IsNaN(width))
-                return 0f;
-            else if (width <= 0f)
-                return 0f;
-            else if (width >= defWidth)
-                return defWidth;
-            return width;
-        }
-        /// <summary>
-        /// Reset canvas visibility.
-        /// </summary>
-        public void ResetPropForSimulation()
-        {
-            foreach (PPathwayObject obj in GetAllObjects())
-                obj.Refresh();
         }
         #endregion
 

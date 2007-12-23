@@ -89,6 +89,7 @@
     <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.2706.19617, Culture=neutral, PublicKeyToken=d481317c817cec47, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationControl.cs" />
     <Compile Include="EcellSerializer.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Exceptions\DuplicateKeyException.cs" />
