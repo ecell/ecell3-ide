@@ -147,7 +147,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             {
                 PPathwayObject obj = (PPathwayObject)m_canvas.FocusNode;
                 m_con.ContextMenuDict[PathwayControl.CanvasMenuID].Text = obj.EcellObject.key;
-                SetMenuLogger(obj);
+                SetLoggerMenu(obj);
                 if (isPPathwaySystem)
                 {
                     m_con.ContextMenuDict[PathwayControl.CanvasMenuMerge].Text =
@@ -188,7 +188,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Set logger menu items.
         /// </summary>
         /// <param name="obj">Selected PPathwayObject.</param>
-        private void SetMenuLogger(PPathwayObject obj)
+        private void SetLoggerMenu(PPathwayObject obj)
         {
 
             ToolStripMenuItem createLogger = (ToolStripMenuItem)m_con.ContextMenuDict[PathwayControl.CanvasMenuCreateLogger];

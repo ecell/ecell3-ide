@@ -279,6 +279,7 @@ namespace EcellLib.PathwayWindow
             list.Add(m_con.PathwayView);
             list.Add(m_con.OverView);
             list.Add(m_con.LayerView);
+            list.Add(m_con.ToolBox);
             return list;
         }
 

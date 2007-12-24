@@ -96,7 +96,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         void InitializeComponent()
         {
-            this.m_tabControl = new TabControl();
+            this.m_tabControl = new System.Windows.Forms.TabControl();
             this.SuspendLayout();
             // 
             // m_tabControl
@@ -105,14 +105,13 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.m_tabControl.Location = new System.Drawing.Point(0, 0);
             this.m_tabControl.Name = "m_tabControl";
             this.m_tabControl.SelectedIndex = 0;
-            this.m_tabControl.Size = new System.Drawing.Size(292, 273);
+            this.m_tabControl.Size = new System.Drawing.Size(622, 491);
             this.m_tabControl.TabIndex = 0;
-            this.m_tabControl.SelectedIndexChanged += new EventHandler(m_tabControl_SelectedIndexChanged);
-
+            this.m_tabControl.SelectedIndexChanged += new System.EventHandler(this.m_tabControl_SelectedIndexChanged);
             // 
             // PathwayView
             // 
-            this.ClientSize = new System.Drawing.Size(292, 273);
+            this.ClientSize = new System.Drawing.Size(622, 491);
             this.Controls.Add(this.m_tabControl);
             this.Name = "PathwayView";
             this.TabText = this.Name;

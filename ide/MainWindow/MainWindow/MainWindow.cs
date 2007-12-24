@@ -67,7 +67,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// m_entityListDock (DockContent)
         /// </summary>
-        private Dictionary<string, DockContent> m_dockWindowDic;
+        private Dictionary<string, EcellDockContent> m_dockWindowDic;
         /// <summary>
         /// m_entityListDock (DockContent)
         /// </summary>
@@ -167,7 +167,7 @@ namespace EcellLib.MainWindow
         public MainWindow()
         {
             InitializeComponent();
-            m_dockWindowDic = new Dictionary<string,DockContent>();
+            m_dockWindowDic = new Dictionary<string,EcellDockContent>();
             m_dockMenuDic = new Dictionary<string,ToolStripMenuItem>();
             PluginManager pm = PluginManager.GetPluginManager();
             pm.DockPanel = this.dockPanel;
@@ -226,6 +226,22 @@ namespace EcellLib.MainWindow
                 return false;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="persistString"></param>
+        /// <returns></returns>
+        private IDockContent GetContentFromPersistString(string persistString)
+        {
+            foreach (EcellDockContent content in m_dockWindowDic.Values)
+            {
+                if (persistString == content.GetType().ToString())
+                    return content;
+            }
+            return null;
+        }
+
         /// <summary>
         /// Load default window settings.
         /// </summary>
@@ -493,7 +509,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// set DockContent
         /// </summary>
-        private void SetDockContent(DockContent content)
+        private void SetDockContent(EcellDockContent content)
         {
             Debug.WriteLine("create dock: " + content.Text);
             //Create New DockContent
@@ -526,7 +542,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Get specified DockContent
         /// </summary>
-        public DockContent getDockContent(string name)
+        public DockContent GetDockContent(string name)
         {
             return m_dockWindowDic[name];
         }
@@ -540,7 +556,7 @@ namespace EcellLib.MainWindow
                 // hide dock window
                 ((DockContent)sender).Hide();
                 // uncheck dock window menu
-                checkWindowMenu(((DockContent)sender).Name, false);
+                CheckWindowMenu(((DockContent)sender).Name, false);
                 e.Cancel = true;
             }
             else
@@ -554,7 +570,7 @@ namespace EcellLib.MainWindow
         /// </summary>
         /// <param name="name">window menu name.</param>
         /// <param name="bChecked">input data.</param>
-        public void checkWindowMenu(String name, bool bChecked)
+        public void CheckWindowMenu(String name, bool bChecked)
         {
             m_dockMenuDic[name].Checked = bChecked;
         }

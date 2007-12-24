@@ -650,8 +650,8 @@ namespace EcellLib.PathwayWindow
             m_pCanvas.Camera.AddLayer(0, layer);
             m_overviewCanvas.AddObservedLayer(layer);
             m_layers.Add(layer.Name, layer);
-            layer.MoveToFront();
             RefreshLayerTable();
+            layer.MoveToFront();
             m_ctrlLayer.MoveToFront();
         }
 

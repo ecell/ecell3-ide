@@ -243,6 +243,10 @@ namespace EcellLib.PathwayWindow
         /// LayerView interface.
         /// </summary>
         private LayerView m_layerView;
+        /// <summary>
+        /// ToolBox interface.
+        /// </summary>
+        private ToolBox m_toolBox;
 
         /// <summary>
         /// ContextMenuStrip for PPathwayNode
@@ -333,6 +337,13 @@ namespace EcellLib.PathwayWindow
         public LayerView LayerView
         {
             get { return m_layerView; }
+        }
+        /// <summary>
+        /// Accessor for m_layerView.
+        /// </summary>
+        public ToolBox ToolBox
+        {
+            get { return m_toolBox; }
         }
         /// <summary>
         /// get/set the number of checked component.
@@ -444,10 +455,6 @@ namespace EcellLib.PathwayWindow
         public PathwayControl(PathwayWindow window)
         {
             this.m_window = window;
-            // Preparing Interfaces
-            m_pathwayView = new PathwayView(this);
-            m_overView = new OverView();
-            m_layerView = new LayerView(this);
             // Create Internal object.
             m_canvasDict = new Dictionary<string, CanvasControl>();
             m_layoutList = m_window.GetLayoutAlgorithms();
@@ -456,6 +463,11 @@ namespace EcellLib.PathwayWindow
             m_csManager = ComponentManager.LoadComponentSettings();
             // Set AnimationControl
             m_animCon = new AnimationControl(this);
+            // Preparing Interfaces
+            m_pathwayView = new PathwayView(this);
+            m_overView = new OverView();
+            m_layerView = new LayerView(this);
+            m_toolBox = new ToolBox(this);
         }
         #endregion
 

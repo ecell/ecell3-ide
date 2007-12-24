@@ -57,7 +57,9 @@ namespace EcellLib.MainWindow {
         /// Version of config file.
         /// </summary>
         private const string ConfigFileVersion = "1.2";
-
+        /// <summary>
+        /// ResourceManager
+        /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMain));
 
         /// <summary>
@@ -271,77 +273,32 @@ namespace EcellLib.MainWindow {
                 xmlIn = new XmlTextReader(fs);
                 xmlIn.WhitespaceHandling = WhitespaceHandling.None;
                 xmlIn.MoveToContent();
+
                 // Check XML file
-                while (!xmlIn.Name.Equals("Application"))
-                {
-                    if (!MoveToNextElement(xmlIn))
-                        throw new ArgumentException();
-                }
-                // version check
-                string formatVersion = xmlIn.GetAttribute("ConfigFileVersion");
-                if (formatVersion == null || !IsFormatVersionValid(formatVersion))
-                    throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + ConfigFileVersion);
+                CheckFileStatus(xmlIn);
+                // load window settings
+                LoadWindowStatus(window, xmlIn);
 
-                // load Form settings
-                while (!xmlIn.Name.Equals("Form"))
-                {
-                    if (!MoveToNextElement(xmlIn))
-                        throw new ArgumentException();
-                }
-                EnumConverter windowStateConverter = new EnumConverter(typeof(FormWindowState));
-                window.WindowState = (FormWindowState)windowStateConverter.ConvertFrom(xmlIn.GetAttribute("WindowState"));
-                window.Left = Convert.ToInt32(xmlIn.GetAttribute("Left"), CultureInfo.InvariantCulture);
-                window.Top = Convert.ToInt32(xmlIn.GetAttribute("Top"), CultureInfo.InvariantCulture);
-                window.Height = Convert.ToInt32(xmlIn.GetAttribute("Height"), CultureInfo.InvariantCulture);
-                window.Width = Convert.ToInt32(xmlIn.GetAttribute("Width"), CultureInfo.InvariantCulture);
-                // checkWindowSize
-                CheckWindowSize(window);
-
-                while (!xmlIn.Name.Equals("DockPanel"))
-                {
-                    if (!MoveToNextElement(xmlIn))
-                        throw new ArgumentException("No DockPanel.");
-                }
-
-                DockPanelStruct dockPanelStruct = new DockPanelStruct();
-                dockPanelStruct.DockLeftPortion = Convert.ToDouble(xmlIn.GetAttribute("DockLeftPortion"), CultureInfo.InvariantCulture);
-                dockPanelStruct.DockRightPortion = Convert.ToDouble(xmlIn.GetAttribute("DockRightPortion"), CultureInfo.InvariantCulture);
-                dockPanelStruct.DockTopPortion = Convert.ToDouble(xmlIn.GetAttribute("DockTopPortion"), CultureInfo.InvariantCulture);
-                dockPanelStruct.DockBottomPortion = Convert.ToDouble(xmlIn.GetAttribute("DockBottomPortion"), CultureInfo.InvariantCulture);
-                dockPanelStruct.IndexActiveDocumentPane = Convert.ToInt32(xmlIn.GetAttribute("ActiveDocumentPane"), CultureInfo.InvariantCulture);
-                dockPanelStruct.IndexActivePane = Convert.ToInt32(xmlIn.GetAttribute("ActivePane"), CultureInfo.InvariantCulture);
-
+                // Load DockPanelStruct
+                DockPanelStruct dockPanelStruct = LoadDockPanelStruct(xmlIn);
                 // Load Contents
-                MoveToNextElement(xmlIn);
-                if (xmlIn.Name != "Contents")
-                    throw new ArgumentException("No DockContents.");
                 ContentStruct[] contents = LoadContents(xmlIn);
-
                 // Load Panes
-                if (xmlIn.Name != "Panes")
-                    throw new ArgumentException("No DockPanes.");
                 PaneStruct[] panes = LoadPanes(xmlIn);
-
                 // Load DockWindows
-                if (xmlIn.Name != "DockWindows")
-                    throw new ArgumentException("No DockWindows.");
                 DockWindowStruct[] dockWindows = LoadDockWindows(xmlIn, dockPanel);
-
                 // Load FloatWindows
-                if (xmlIn.Name != "FloatWindows")
-                    throw new ArgumentException("No FloatWindows");
                 FloatWindowStruct[] floatWindows = LoadFloatWindows(xmlIn);
-
                 // close file
                 xmlIn.Close();
 
                 dockPanel.SuspendLayout(true);
-
+                // Set DockPanelLayout
                 dockPanel.DockLeftPortion = dockPanelStruct.DockLeftPortion;
                 dockPanel.DockRightPortion = dockPanelStruct.DockRightPortion;
                 dockPanel.DockTopPortion = dockPanelStruct.DockTopPortion;
                 dockPanel.DockBottomPortion = dockPanelStruct.DockBottomPortion;
-
+                
                 // Set DockWindow ZOrders
                 int prevMaxDockWindowZOrder = int.MaxValue;
                 for (int i = 0; i < dockWindows.Length; i++)
@@ -362,6 +319,7 @@ namespace EcellLib.MainWindow {
                 }
 
                 // Create Contents
+                List<DockContent> contentList = new List<DockContent>();
                 for (int i = 0; i < contents.Length; i++)
                 {
                     IDockContent content = SetDockContent(window, contents[i]);
@@ -369,17 +327,20 @@ namespace EcellLib.MainWindow {
                         content = new DockContent();
                     content.DockHandler.DockPanel = dockPanel;
                     content.DockHandler.AutoHidePortion = contents[i].AutoHidePortion;
-                    content.DockHandler.IsHidden = true;
+                    content.DockHandler.IsHidden = contents[i].IsHidden;
                     content.DockHandler.IsFloat = contents[i].IsFloat;
+
+                    contentList.Add((DockContent)content);
                 }
 
                 // Create panes
+                List<DockPane> paneList = new List<DockPane>();
                 for (int i = 0; i < panes.Length; i++)
                 {
                     DockPane pane = null;
                     for (int j = 0; j < panes[i].IndexContents.Length; j++)
                     {
-                        IDockContent content = dockPanel.Contents[panes[i].IndexContents[j]];
+                        IDockContent content = contentList[ panes[i].IndexContents[j] ];
                         if (j == 0)
                             pane = dockPanel.DockPaneFactory.CreateDockPane(content, panes[i].DockState, false);
                         else if (panes[i].DockState == DockState.Float)
@@ -387,18 +348,19 @@ namespace EcellLib.MainWindow {
                         else
                             content.DockHandler.PanelPane = pane;
                     }
+                    paneList.Add(pane);
                 }
 
                 // Assign Panes to DockWindows
                 for (int i = 0; i < dockWindows.Length; i++)
                 {
+                    DockWindow dw = dockPanel.DockWindows[dockWindows[i].DockState];
                     for (int j = 0; j < dockWindows[i].NestedPanes.Length; j++)
                     {
-                        DockWindow dw = dockPanel.DockWindows[dockWindows[i].DockState];
                         int indexPane = dockWindows[i].NestedPanes[j].IndexPane;
-                        DockPane pane = dockPanel.Panes[indexPane];
+                        DockPane pane = paneList[indexPane];
                         int indexPrevPane = dockWindows[i].NestedPanes[j].IndexPrevPane;
-                        DockPane prevPane = (indexPrevPane == -1) ? dw.NestedPanes.GetDefaultPreviousPane(pane) : dockPanel.Panes[indexPrevPane];
+                        DockPane prevPane = (indexPrevPane == -1) ? dw.NestedPanes.GetDefaultPreviousPane(pane) : paneList[indexPrevPane];
                         DockAlignment alignment = dockWindows[i].NestedPanes[j].Alignment;
                         double proportion = dockWindows[i].NestedPanes[j].Proportion;
                         pane.DockTo(dw, prevPane, alignment, proportion);
@@ -414,7 +376,7 @@ namespace EcellLib.MainWindow {
                     for (int j = 0; j < floatWindows[i].NestedPanes.Length; j++)
                     {
                         int indexPane = floatWindows[i].NestedPanes[j].IndexPane;
-                        DockPane pane = dockPanel.Panes[indexPane];
+                        DockPane pane = paneList[indexPane];
                         if (j == 0)
                         {
                             fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, floatWindows[i].Bounds);
@@ -423,7 +385,7 @@ namespace EcellLib.MainWindow {
                         else
                         {
                             int indexPrevPane = floatWindows[i].NestedPanes[j].IndexPrevPane;
-                            DockPane prevPane = indexPrevPane == -1 ? null : dockPanel.Panes[indexPrevPane];
+                            DockPane prevPane = indexPrevPane == -1 ? null : paneList[indexPrevPane];
                             DockAlignment alignment = floatWindows[i].NestedPanes[j].Alignment;
                             double proportion = floatWindows[i].NestedPanes[j].Proportion;
                             pane.DockTo(fw, prevPane, alignment, proportion);
@@ -433,23 +395,53 @@ namespace EcellLib.MainWindow {
                     }
                 }
 
+                // Create float windows for unrecorded contents
+                foreach (DockContent content in dockPanel.Contents)
+                {
+                    // Check Unrecorded content.
+                    bool isRecorded = false;
+                    foreach (DockContent recorded in contentList)
+                    {
+                        if (content == recorded)
+                        {
+                            isRecorded = true;
+                            break;
+                        }
+                    }
+                    if (isRecorded)
+                        continue;
+                    // Create new content.
+                    content.IsHidden = true;
+                    content.IsFloat = true;
+                    content.AutoHidePortion = 0.25;
+                    window.CheckWindowMenu(content.Name, !content.IsHidden);
+                    content.Pane = null;
+                    content.PanelPane = null;
+                    content.FloatPane = null;
+                    contentList.Add(content);
+                    DockPane pane = dockPanel.DockPaneFactory.CreateDockPane(content, DockState.Float, false);
+                    content.DockHandler.FloatPane = pane;
+                    paneList.Add(pane);
+                    FloatWindow fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, FloatWindowStruct.DefaultBounds);
+                    CheckWindowSize(fw);
+                }
+
                 // sort IDockContent by its Pane's ZOrder
                 int[] sortedContents = null;
-                if (contents.Length > 0)
+                if (contentList.Count > 0)
                 {
-                    sortedContents = new int[contents.Length];
-                    for (int i = 0; i < contents.Length; i++)
+                    sortedContents = new int[contentList.Count];
+                    for (int i = 0; i < contentList.Count; i++)
                         sortedContents[i] = i;
 
-                    int lastDocument = contents.Length;
-                    for (int i = 0; i < contents.Length - 1; i++)
+                    for (int i = 0; i < contentList.Count - 1; i++)
                     {
-                        for (int j = i + 1; j < contents.Length; j++)
+                        for (int j = i + 1; j < contentList.Count; j++)
                         {
                             DockPane pane1 = dockPanel.Contents[sortedContents[i]].DockHandler.Pane;
-                            int ZOrderIndex1 = pane1 == null ? 0 : panes[dockPanel.Panes.IndexOf(pane1)].ZOrderIndex;
+                            int ZOrderIndex1 = GetZOrderIndex(dockPanel, panes, pane1);
                             DockPane pane2 = dockPanel.Contents[sortedContents[j]].DockHandler.Pane;
-                            int ZOrderIndex2 = pane2 == null ? 0 : panes[dockPanel.Panes.IndexOf(pane2)].ZOrderIndex;
+                            int ZOrderIndex2 = GetZOrderIndex(dockPanel, panes, pane2); ;
                             if (ZOrderIndex1 > ZOrderIndex2)
                             {
                                 int temp = sortedContents[i];
@@ -476,20 +468,20 @@ namespace EcellLib.MainWindow {
                         content.DockHandler.IsHidden = contents[sortedContents[i]].IsHidden;
                 }
 
+                // Activate the Contents, Panes and DockWindows.
                 for (int i = 0; i < panes.Length; i++)
-                    dockPanel.Panes[i].ActiveContent = panes[i].IndexActiveContent == -1 ? null : dockPanel.Contents[panes[i].IndexActiveContent];
-
+                    paneList[i].ActiveContent = (panes[i].IndexActiveContent == -1) ? null : dockPanel.Contents[panes[i].IndexActiveContent];
                 if (dockPanelStruct.IndexActiveDocumentPane != -1)
-                    dockPanel.Panes[dockPanelStruct.IndexActiveDocumentPane].Activate();
-
+                    paneList[dockPanelStruct.IndexActiveDocumentPane].Activate();
                 if (dockPanelStruct.IndexActivePane != -1)
-                    dockPanel.Panes[dockPanelStruct.IndexActivePane].Activate();
-
-                //for (int i = dockPanel.Contents.Count - 1; i >= 0; i--)
-                //    if (dockPanel.Contents[i] is DockContent)
-                //        dockPanel.Contents[i].DockHandler.Form.Close();
+                    paneList[dockPanelStruct.IndexActivePane].Activate();
 
                 dockPanel.ResumeLayout(true, true);
+            }
+            catch (Exception e)
+            {
+                Debug.Print(e.StackTrace);
+                throw e;
             }
             finally
             {
@@ -498,18 +490,259 @@ namespace EcellLib.MainWindow {
             }
         }
 
+        private static int GetZOrderIndex(DockPanel dockPanel, PaneStruct[] panes, DockPane pane)
+        {
+            if (pane == null || dockPanel.Panes.IndexOf(pane) >= panes.Length)
+                return 0;
+            else
+                return panes[dockPanel.Panes.IndexOf(pane)].ZOrderIndex;
+        }
+
         private static bool MoveToNextElement(XmlTextReader xmlIn)
         {
             if (!xmlIn.Read())
                 return false;
-
             while (xmlIn.NodeType == XmlNodeType.EndElement)
             {
                 if (!xmlIn.Read())
                     return false;
             }
-
             return true;
+        }
+
+        private static void CheckFileStatus(XmlTextReader xmlIn)
+        {
+            while (!xmlIn.Name.Equals("Application"))
+            {
+                if (!MoveToNextElement(xmlIn))
+                    throw new ArgumentException();
+            }
+            // version check
+            string formatVersion = xmlIn.GetAttribute("ConfigFileVersion");
+            if (formatVersion == null || !IsFormatVersionValid(formatVersion))
+                throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + ConfigFileVersion);
+        }
+
+        private static bool IsFormatVersionValid(string formatVersion)
+        {
+            if (formatVersion == ConfigFileVersion)
+                return true;
+
+            //foreach (string s in CompatibleConfigFileVersions)
+            //    if (s == formatVersion)
+            //        return true;
+
+            return false;
+        }
+
+        private static void LoadWindowStatus(MainWindow window, XmlTextReader xmlIn)
+        {
+            while (!xmlIn.Name.Equals("Form"))
+            {
+                if (!MoveToNextElement(xmlIn))
+                    throw new ArgumentException();
+            }
+            EnumConverter windowStateConverter = new EnumConverter(typeof(FormWindowState));
+            window.WindowState = (FormWindowState)windowStateConverter.ConvertFrom(xmlIn.GetAttribute("WindowState"));
+            window.Left = Convert.ToInt32(xmlIn.GetAttribute("Left"), CultureInfo.InvariantCulture);
+            window.Top = Convert.ToInt32(xmlIn.GetAttribute("Top"), CultureInfo.InvariantCulture);
+            window.Height = Convert.ToInt32(xmlIn.GetAttribute("Height"), CultureInfo.InvariantCulture);
+            window.Width = Convert.ToInt32(xmlIn.GetAttribute("Width"), CultureInfo.InvariantCulture);
+            // checkWindowSize
+            CheckWindowSize(window);
+        }
+
+        private static void CheckWindowSize(Form win)
+        {
+            if (win.Left < 0)
+                win.Left = 0;
+            if (win.Top < 0)
+                win.Top = 0;
+            if (win.Width > Screen.PrimaryScreen.WorkingArea.Width)
+                win.Width = Screen.PrimaryScreen.WorkingArea.Width;
+            if (win.Height > Screen.PrimaryScreen.WorkingArea.Height)
+                win.Height = Screen.PrimaryScreen.WorkingArea.Height;
+            if (win.Width + win.Left > Screen.PrimaryScreen.WorkingArea.Width)
+                win.Left = Screen.PrimaryScreen.WorkingArea.Width - win.Width;
+            if (win.Height + win.Top > Screen.PrimaryScreen.WorkingArea.Height)
+                win.Top = Screen.PrimaryScreen.WorkingArea.Height - win.Height;
+        }
+
+        private static DockPanelStruct LoadDockPanelStruct(XmlTextReader xmlIn)
+        {
+            while (!xmlIn.Name.Equals("DockPanel"))
+            {
+                if (!MoveToNextElement(xmlIn))
+                    throw new ArgumentException("No DockPanel.");
+            }
+            DockPanelStruct dockPanelStruct = new DockPanelStruct();
+            dockPanelStruct.DockLeftPortion = Convert.ToDouble(xmlIn.GetAttribute("DockLeftPortion"), CultureInfo.InvariantCulture);
+            dockPanelStruct.DockRightPortion = Convert.ToDouble(xmlIn.GetAttribute("DockRightPortion"), CultureInfo.InvariantCulture);
+            dockPanelStruct.DockTopPortion = Convert.ToDouble(xmlIn.GetAttribute("DockTopPortion"), CultureInfo.InvariantCulture);
+            dockPanelStruct.DockBottomPortion = Convert.ToDouble(xmlIn.GetAttribute("DockBottomPortion"), CultureInfo.InvariantCulture);
+            dockPanelStruct.IndexActiveDocumentPane = Convert.ToInt32(xmlIn.GetAttribute("ActiveDocumentPane"), CultureInfo.InvariantCulture);
+            dockPanelStruct.IndexActivePane = Convert.ToInt32(xmlIn.GetAttribute("ActivePane"), CultureInfo.InvariantCulture);
+            return dockPanelStruct;
+        }
+
+        private static ContentStruct[] LoadContents(XmlTextReader xmlIn)
+        {
+            MoveToNextElement(xmlIn);
+            if (xmlIn.Name != "Contents")
+                throw new ArgumentException("No DockContents.");
+
+            int countOfContents = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
+            ContentStruct[] contents = new ContentStruct[countOfContents];
+            MoveToNextElement(xmlIn);
+            for (int i = 0; i < countOfContents; i++)
+            {
+                int id = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
+                if (xmlIn.Name != "Content" || id != i)
+                    throw new ArgumentException();
+
+                contents[i].Name = xmlIn.GetAttribute("Name");
+                contents[i].AutoHidePortion = Convert.ToDouble(xmlIn.GetAttribute("AutoHidePortion"), CultureInfo.InvariantCulture);
+                contents[i].IsHidden = Convert.ToBoolean(xmlIn.GetAttribute("IsHidden"), CultureInfo.InvariantCulture);
+                contents[i].IsFloat = Convert.ToBoolean(xmlIn.GetAttribute("IsFloat"), CultureInfo.InvariantCulture);
+                MoveToNextElement(xmlIn);
+            }
+
+            return contents;
+        }
+
+        private static PaneStruct[] LoadPanes(XmlTextReader xmlIn)
+        {
+            if (xmlIn.Name != "Panes")
+                throw new ArgumentException("No DockPanes.");
+
+            EnumConverter dockStateConverter = new EnumConverter(typeof(DockState));
+            int countOfPanes = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
+            PaneStruct[] panes = new PaneStruct[countOfPanes];
+            MoveToNextElement(xmlIn);
+            for (int i = 0; i < countOfPanes; i++)
+            {
+                int id = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
+                if (xmlIn.Name != "Pane" || id != i)
+                    throw new ArgumentException();
+
+                panes[i].DockState = (DockState)dockStateConverter.ConvertFrom(xmlIn.GetAttribute("DockState"));
+                panes[i].IndexActiveContent = Convert.ToInt32(xmlIn.GetAttribute("ActiveContent"), CultureInfo.InvariantCulture);
+                panes[i].ZOrderIndex = -1;
+
+                MoveToNextElement(xmlIn);
+                if (xmlIn.Name != "Contents")
+                    throw new ArgumentException();
+                int countOfPaneContents = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
+                panes[i].IndexContentNames = new string[countOfPaneContents];
+                panes[i].IndexContents = new int[countOfPaneContents];
+                MoveToNextElement(xmlIn);
+                for (int j = 0; j < countOfPaneContents; j++)
+                {
+                    int id2 = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
+                    if (xmlIn.Name != "Content" || id2 != j)
+                        throw new ArgumentException();
+
+                    panes[i].IndexContentNames[j] = xmlIn.GetAttribute("Name");
+                    panes[i].IndexContents[j] = Convert.ToInt32(xmlIn.GetAttribute("RefID"), CultureInfo.InvariantCulture);
+                    MoveToNextElement(xmlIn);
+                }
+            }
+
+            return panes;
+        }
+
+        private static DockWindowStruct[] LoadDockWindows(XmlTextReader xmlIn, DockPanel dockPanel)
+        {
+            if (xmlIn.Name != "DockWindows")
+                throw new ArgumentException("No DockWindows.");
+
+            EnumConverter dockStateConverter = new EnumConverter(typeof(DockState));
+            EnumConverter dockAlignmentConverter = new EnumConverter(typeof(DockAlignment));
+            int countOfDockWindows = dockPanel.DockWindows.Count;
+            DockWindowStruct[] dockWindows = new DockWindowStruct[countOfDockWindows];
+            MoveToNextElement(xmlIn);
+            for (int i = 0; i < countOfDockWindows; i++)
+            {
+                int id = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
+                if (xmlIn.Name != "DockWindow" || id != i)
+                    throw new ArgumentException();
+
+                dockWindows[i].DockState = (DockState)dockStateConverter.ConvertFrom(xmlIn.GetAttribute("DockState"));
+                dockWindows[i].ZOrderIndex = Convert.ToInt32(xmlIn.GetAttribute("ZOrderIndex"), CultureInfo.InvariantCulture);
+                MoveToNextElement(xmlIn);
+                if (xmlIn.Name != "DockList" && xmlIn.Name != "NestedPanes")
+                    throw new ArgumentException();
+                int countOfNestedPanes = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
+                dockWindows[i].NestedPanes = new NestedPane[countOfNestedPanes];
+                MoveToNextElement(xmlIn);
+                for (int j = 0; j < countOfNestedPanes; j++)
+                {
+                    int id2 = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
+                    if (xmlIn.Name != "Pane" || id2 != j)
+                        throw new ArgumentException();
+                    dockWindows[i].NestedPanes[j].IndexPane = Convert.ToInt32(xmlIn.GetAttribute("RefID"), CultureInfo.InvariantCulture);
+                    dockWindows[i].NestedPanes[j].IndexPrevPane = Convert.ToInt32(xmlIn.GetAttribute("PrevPane"), CultureInfo.InvariantCulture);
+                    dockWindows[i].NestedPanes[j].Alignment = (DockAlignment)dockAlignmentConverter.ConvertFrom(xmlIn.GetAttribute("Alignment"));
+                    dockWindows[i].NestedPanes[j].Proportion = Convert.ToDouble(xmlIn.GetAttribute("Proportion"), CultureInfo.InvariantCulture);
+                    MoveToNextElement(xmlIn);
+                }
+            }
+
+            return dockWindows;
+        }
+
+        private static FloatWindowStruct[] LoadFloatWindows(XmlTextReader xmlIn)
+        {
+            if (xmlIn.Name != "FloatWindows")
+                throw new ArgumentException("No FloatWindows");
+
+            EnumConverter dockAlignmentConverter = new EnumConverter(typeof(DockAlignment));
+            RectangleConverter rectConverter = new RectangleConverter();
+            int countOfFloatWindows = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
+            FloatWindowStruct[] floatWindows = new FloatWindowStruct[countOfFloatWindows];
+            MoveToNextElement(xmlIn);
+            for (int i = 0; i < countOfFloatWindows; i++)
+            {
+                int id = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
+                if (xmlIn.Name != "FloatWindow" || id != i)
+                    throw new ArgumentException();
+
+                floatWindows[i].Bounds = (Rectangle)rectConverter.ConvertFromInvariantString(xmlIn.GetAttribute("Bounds"));
+                floatWindows[i].ZOrderIndex = Convert.ToInt32(xmlIn.GetAttribute("ZOrderIndex"), CultureInfo.InvariantCulture);
+                MoveToNextElement(xmlIn);
+                if (xmlIn.Name != "DockList" && xmlIn.Name != "NestedPanes")
+                    throw new ArgumentException();
+                int countOfNestedPanes = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
+                floatWindows[i].NestedPanes = new NestedPane[countOfNestedPanes];
+                MoveToNextElement(xmlIn);
+                for (int j = 0; j < countOfNestedPanes; j++)
+                {
+                    int id2 = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
+                    if (xmlIn.Name != "Pane" || id2 != j)
+                        throw new ArgumentException();
+                    floatWindows[i].NestedPanes[j].IndexPane = Convert.ToInt32(xmlIn.GetAttribute("RefID"), CultureInfo.InvariantCulture);
+                    floatWindows[i].NestedPanes[j].IndexPrevPane = Convert.ToInt32(xmlIn.GetAttribute("PrevPane"), CultureInfo.InvariantCulture);
+                    floatWindows[i].NestedPanes[j].Alignment = (DockAlignment)dockAlignmentConverter.ConvertFrom(xmlIn.GetAttribute("Alignment"));
+                    floatWindows[i].NestedPanes[j].Proportion = Convert.ToDouble(xmlIn.GetAttribute("Proportion"), CultureInfo.InvariantCulture);
+                    MoveToNextElement(xmlIn);
+                }
+            }
+
+            return floatWindows;
+        }
+
+        private static DockContent SetDockContent(MainWindow window, ContentStruct content)
+        {
+            DockContent dock = window.GetDockContent(content.Name);
+            dock.IsHidden = content.IsHidden;
+            dock.IsFloat = content.IsFloat;
+            dock.AutoHidePortion = content.AutoHidePortion;
+            window.CheckWindowMenu(content.Name, !content.IsHidden);
+            dock.Pane = null;
+            dock.PanelPane = null;
+            dock.FloatPane = null;
+            
+            return dock;
         }
 
         private struct DockPanelStruct
@@ -611,6 +844,13 @@ namespace EcellLib.MainWindow {
                 set { m_indexContents = value; }
             }
 
+            private string[] m_indexContentNames;
+            public string[] IndexContentNames
+            {
+                get { return m_indexContentNames; }
+                set { m_indexContentNames = value; }
+            }
+
             private int m_zOrderIndex;
             public int ZOrderIndex
             {
@@ -696,178 +936,8 @@ namespace EcellLib.MainWindow {
                 get { return m_nestedPanes; }
                 set { m_nestedPanes = value; }
             }
-        }
 
-        private static bool IsFormatVersionValid(string formatVersion)
-        {
-            if (formatVersion == ConfigFileVersion)
-                return true;
-
-            //foreach (string s in CompatibleConfigFileVersions)
-            //    if (s == formatVersion)
-            //        return true;
-
-            return false;
-        }
-
-        private static ContentStruct[] LoadContents(XmlTextReader xmlIn)
-        {
-            int countOfContents = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
-            ContentStruct[] contents = new ContentStruct[countOfContents];
-            MoveToNextElement(xmlIn);
-            for (int i = 0; i < countOfContents; i++)
-            {
-                int id = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
-                if (xmlIn.Name != "Content" || id != i)
-                    throw new ArgumentException();
-
-                contents[i].Name = xmlIn.GetAttribute("Name");
-                contents[i].AutoHidePortion = Convert.ToDouble(xmlIn.GetAttribute("AutoHidePortion"), CultureInfo.InvariantCulture);
-                contents[i].IsHidden = Convert.ToBoolean(xmlIn.GetAttribute("IsHidden"), CultureInfo.InvariantCulture);
-                contents[i].IsFloat = Convert.ToBoolean(xmlIn.GetAttribute("IsFloat"), CultureInfo.InvariantCulture);
-                MoveToNextElement(xmlIn);
-            }
-
-            return contents;
-        }
-
-        private static DockContent SetDockContent(MainWindow window, ContentStruct content)
-        {
-            DockContent dock = window.getDockContent(content.Name);
-            dock.IsHidden = content.IsHidden;
-            dock.IsFloat = content.IsFloat;
-            dock.AutoHidePortion = content.AutoHidePortion;
-            window.checkWindowMenu(content.Name, !content.IsHidden);
-            dock.Pane = null;
-            dock.PanelPane = null;
-            dock.FloatPane = null;
-            return dock;
-        }
-        
-        private static PaneStruct[] LoadPanes(XmlTextReader xmlIn)
-        {
-            EnumConverter dockStateConverter = new EnumConverter(typeof(DockState));
-            int countOfPanes = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
-            PaneStruct[] panes = new PaneStruct[countOfPanes];
-            MoveToNextElement(xmlIn);
-            for (int i = 0; i < countOfPanes; i++)
-            {
-                int id = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
-                if (xmlIn.Name != "Pane" || id != i)
-                    throw new ArgumentException();
-
-                panes[i].DockState = (DockState)dockStateConverter.ConvertFrom(xmlIn.GetAttribute("DockState"));
-                panes[i].IndexActiveContent = Convert.ToInt32(xmlIn.GetAttribute("ActiveContent"), CultureInfo.InvariantCulture);
-                panes[i].ZOrderIndex = -1;
-
-                MoveToNextElement(xmlIn);
-                if (xmlIn.Name != "Contents")
-                    throw new ArgumentException();
-                int countOfPaneContents = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
-                panes[i].IndexContents = new int[countOfPaneContents];
-                MoveToNextElement(xmlIn);
-                for (int j = 0; j < countOfPaneContents; j++)
-                {
-                    int id2 = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
-                    if (xmlIn.Name != "Content" || id2 != j)
-                        throw new ArgumentException();
-
-                    panes[i].IndexContents[j] = Convert.ToInt32(xmlIn.GetAttribute("RefID"), CultureInfo.InvariantCulture);
-                    MoveToNextElement(xmlIn);
-                }
-            }
-
-            return panes;
-        }
-
-        private static DockWindowStruct[] LoadDockWindows(XmlTextReader xmlIn, DockPanel dockPanel)
-        {
-            EnumConverter dockStateConverter = new EnumConverter(typeof(DockState));
-            EnumConverter dockAlignmentConverter = new EnumConverter(typeof(DockAlignment));
-            int countOfDockWindows = dockPanel.DockWindows.Count;
-            DockWindowStruct[] dockWindows = new DockWindowStruct[countOfDockWindows];
-            MoveToNextElement(xmlIn);
-            for (int i = 0; i < countOfDockWindows; i++)
-            {
-                int id = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
-                if (xmlIn.Name != "DockWindow" || id != i)
-                    throw new ArgumentException();
-
-                dockWindows[i].DockState = (DockState)dockStateConverter.ConvertFrom(xmlIn.GetAttribute("DockState"));
-                dockWindows[i].ZOrderIndex = Convert.ToInt32(xmlIn.GetAttribute("ZOrderIndex"), CultureInfo.InvariantCulture);
-                MoveToNextElement(xmlIn);
-                if (xmlIn.Name != "DockList" && xmlIn.Name != "NestedPanes")
-                    throw new ArgumentException();
-                int countOfNestedPanes = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
-                dockWindows[i].NestedPanes = new NestedPane[countOfNestedPanes];
-                MoveToNextElement(xmlIn);
-                for (int j = 0; j < countOfNestedPanes; j++)
-                {
-                    int id2 = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
-                    if (xmlIn.Name != "Pane" || id2 != j)
-                        throw new ArgumentException();
-                    dockWindows[i].NestedPanes[j].IndexPane = Convert.ToInt32(xmlIn.GetAttribute("RefID"), CultureInfo.InvariantCulture);
-                    dockWindows[i].NestedPanes[j].IndexPrevPane = Convert.ToInt32(xmlIn.GetAttribute("PrevPane"), CultureInfo.InvariantCulture);
-                    dockWindows[i].NestedPanes[j].Alignment = (DockAlignment)dockAlignmentConverter.ConvertFrom(xmlIn.GetAttribute("Alignment"));
-                    dockWindows[i].NestedPanes[j].Proportion = Convert.ToDouble(xmlIn.GetAttribute("Proportion"), CultureInfo.InvariantCulture);
-                    MoveToNextElement(xmlIn);
-                }
-            }
-
-            return dockWindows;
-        }
-
-        private static FloatWindowStruct[] LoadFloatWindows(XmlTextReader xmlIn)
-        {
-            EnumConverter dockAlignmentConverter = new EnumConverter(typeof(DockAlignment));
-            RectangleConverter rectConverter = new RectangleConverter();
-            int countOfFloatWindows = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
-            FloatWindowStruct[] floatWindows = new FloatWindowStruct[countOfFloatWindows];
-            MoveToNextElement(xmlIn);
-            for (int i = 0; i < countOfFloatWindows; i++)
-            {
-                int id = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
-                if (xmlIn.Name != "FloatWindow" || id != i)
-                    throw new ArgumentException();
-
-                floatWindows[i].Bounds = (Rectangle)rectConverter.ConvertFromInvariantString(xmlIn.GetAttribute("Bounds"));
-                floatWindows[i].ZOrderIndex = Convert.ToInt32(xmlIn.GetAttribute("ZOrderIndex"), CultureInfo.InvariantCulture);
-                MoveToNextElement(xmlIn);
-                if (xmlIn.Name != "DockList" && xmlIn.Name != "NestedPanes")
-                    throw new ArgumentException();
-                int countOfNestedPanes = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
-                floatWindows[i].NestedPanes = new NestedPane[countOfNestedPanes];
-                MoveToNextElement(xmlIn);
-                for (int j = 0; j < countOfNestedPanes; j++)
-                {
-                    int id2 = Convert.ToInt32(xmlIn.GetAttribute("ID"), CultureInfo.InvariantCulture);
-                    if (xmlIn.Name != "Pane" || id2 != j)
-                        throw new ArgumentException();
-                    floatWindows[i].NestedPanes[j].IndexPane = Convert.ToInt32(xmlIn.GetAttribute("RefID"), CultureInfo.InvariantCulture);
-                    floatWindows[i].NestedPanes[j].IndexPrevPane = Convert.ToInt32(xmlIn.GetAttribute("PrevPane"), CultureInfo.InvariantCulture);
-                    floatWindows[i].NestedPanes[j].Alignment = (DockAlignment)dockAlignmentConverter.ConvertFrom(xmlIn.GetAttribute("Alignment"));
-                    floatWindows[i].NestedPanes[j].Proportion = Convert.ToDouble(xmlIn.GetAttribute("Proportion"), CultureInfo.InvariantCulture);
-                    MoveToNextElement(xmlIn);
-                }
-            }
-
-            return floatWindows;
-        }
-
-        private static void CheckWindowSize(Form win)
-        {
-            if (win.Left < 0)
-                win.Left = 0;
-            if (win.Top < 0)
-                win.Top = 0;
-            if (win.Width > Screen.PrimaryScreen.WorkingArea.Width)
-                win.Width = Screen.PrimaryScreen.WorkingArea.Width;
-            if (win.Height > Screen.PrimaryScreen.WorkingArea.Height)
-                win.Height = Screen.PrimaryScreen.WorkingArea.Height;
-            if (win.Width + win.Left > Screen.PrimaryScreen.WorkingArea.Width)
-                win.Left = Screen.PrimaryScreen.WorkingArea.Width - win.Width;
-            if (win.Height + win.Top > Screen.PrimaryScreen.WorkingArea.Height)
-                win.Top = Screen.PrimaryScreen.WorkingArea.Height - win.Height;
+            public static Rectangle DefaultBounds = new Rectangle(100, 100, 300, 300);
         }
     }
 
