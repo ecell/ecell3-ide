@@ -109,6 +109,7 @@
     <Compile Include="Handle.cs" />
     <Compile Include="Handler\PPathwayInputEventHandler.cs" />
     <Compile Include="Handler\ResizeHandler.cs" />
+    <Compile Include="Handler\ToolBoxEventHandler.cs" />
     <Compile Include="Resources\MessageResPathway.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
