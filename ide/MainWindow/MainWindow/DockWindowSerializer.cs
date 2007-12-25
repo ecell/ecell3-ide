@@ -455,7 +455,7 @@ namespace EcellLib.MainWindow {
                 // show non-document IDockContent first to avoid screen flickers
                 for (int i = 0; i < contents.Length; i++)
                 {
-                    IDockContent content = dockPanel.Contents[sortedContents[i]];
+                    IDockContent content = contentList[sortedContents[i]];
                     if (content.DockHandler.Pane != null && content.DockHandler.Pane.DockState != DockState.Document)
                         content.DockHandler.IsHidden = contents[sortedContents[i]].IsHidden;
                 }
@@ -463,7 +463,7 @@ namespace EcellLib.MainWindow {
                 // after all non-document IDockContent, show document IDockContent
                 for (int i = 0; i < contents.Length; i++)
                 {
-                    IDockContent content = dockPanel.Contents[sortedContents[i]];
+                    IDockContent content = contentList[sortedContents[i]];
                     if (content.DockHandler.Pane != null && content.DockHandler.Pane.DockState == DockState.Document)
                         content.DockHandler.IsHidden = contents[sortedContents[i]].IsHidden;
                 }
