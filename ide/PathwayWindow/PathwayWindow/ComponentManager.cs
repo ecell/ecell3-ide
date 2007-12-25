@@ -26,6 +26,10 @@
 //
 // written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// 
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.Collections.Generic;
@@ -585,7 +589,7 @@ namespace EcellLib.PathwayWindow
             ComponentSetting defSysCs = new ComponentSetting();
             defSysCs.ComponentType = ComponentType.System;
             defSysCs.Name = DEFAULT_SYSTEM_NAME;
-            defSysCs.NormalBrush = Brushes.Black;
+            defSysCs.NormalBrush = Brushes.LightBlue;
             defSysCs.AddComponentClass("PEcellSystem");
             RegisterSystemSetting(defSysCs.Name, defSysCs, true);
 

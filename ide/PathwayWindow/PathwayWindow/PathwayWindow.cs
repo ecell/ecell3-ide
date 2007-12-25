@@ -255,16 +255,16 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of menu.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-            return m_con.CreateToolStripMenuItems();
+            return m_con.MenuControl.MenuList;
         }
 
         /// <summary>
         /// Get toolbar buttons for PathwayWindow plugin.
         /// </summary>
         /// <returns>the list of ToolBarMenu.</returns>
-        public List<System.Windows.Forms.ToolStripItem> GetToolBarMenuStripItems()
+        public List<ToolStripItem> GetToolBarMenuStripItems()
         {
-            return m_con.CreateToolButtonItems();
+            return m_con.MenuControl.ButtonList;
         }
 
         /// <summary>

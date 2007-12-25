@@ -41,20 +41,54 @@ namespace EcellLib.PathwayWindow.Handler
 {
     class ToolBoxEventHandler : PPathwayInputEventHandler
     {
-        CanvasControl m_canvas;
-        bool m_flag = false;
-        PPathwayObject m_object = null;
+        #region Fields
         /// <summary>
-        /// 
+        /// Current canvas.
+        /// </summary>
+        CanvasControl m_canvas;
+        /// <summary>
+        /// flag of EventHandler state.
+        /// </summary>
+        bool m_flag = false;
+        /// <summary>
+        /// Template object.
+        /// </summary>
+        PPathwayObject m_object = null;
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructor
         /// </summary>
         /// <param name="control"></param>
         public ToolBoxEventHandler(PathwayControl control)
         {
             base.m_con = control;
         }
+        #endregion
+
+        #region EventHandlers
+        /// <summary>
+        /// Event on mouse move.
+        /// Move template object.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void OnMouseMove(object sender, PInputEventArgs e)
+        {
+            base.OnMouseMove(sender, e);
+
+            if (!m_flag || m_canvas == null || e.Canvas != m_canvas.PathwayCanvas)
+                return;
+            if (m_object == null)
+                return;
+
+            m_object.CenterPointF = e.Position;
+        }
 
         /// <summary>
-        /// 
+        /// Event on mouse down.
+        /// Check EventHandler status and Set/Reset EventHandler.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -64,27 +98,35 @@ namespace EcellLib.PathwayWindow.Handler
 
             if (!m_flag)
             {
+                // Set EventHandler for current canvas.
                 if (m_con.ActiveCanvas == null)
                     return;
                 if (!(e.Canvas is PToolBoxCanvas))
                     return;
-
-                SetCanvas((PToolBoxCanvas)e.Canvas);
+                SetEventHandler((PToolBoxCanvas)e.Canvas);
             }
             else if (e.Canvas == m_canvas.PathwayCanvas)
             {
+                // Add new object and reset EventHandler.
                 AddObject(e);
-                ClearCanvas();
+                ResetEventHandler();
             }
             else
             {
-                ClearCanvas();
+                // Reset EventHandler.
+                ResetEventHandler();
                 if (!(e.Canvas is PToolBoxCanvas))
                     return;
-                SetCanvas((PToolBoxCanvas)e.Canvas);
+                SetEventHandler((PToolBoxCanvas)e.Canvas);
             }
         }
+        #endregion
 
+        #region private Methods
+        /// <summary>
+        /// Add new Object.
+        /// </summary>
+        /// <param name="e"></param>
         private void AddObject(PInputEventArgs e)
         {
             string systemKey = m_canvas.GetSurroundingSystemKey(e.Position);
@@ -98,6 +140,11 @@ namespace EcellLib.PathwayWindow.Handler
             m_canvas.PathwayControl.NotifyDataAdd(eo, true);
         }
 
+        /// <summary>
+        /// get object type.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private string GetType(PPathwayObject obj)
         {
             if (obj is PPathwaySystem)
@@ -109,8 +156,11 @@ namespace EcellLib.PathwayWindow.Handler
             else
                 return null;
         }
-
-        private void SetCanvas(PToolBoxCanvas canvas)
+        /// <summary>
+        /// Initialise EventHandler.
+        /// </summary>
+        /// <param name="canvas"></param>
+        private void SetEventHandler(PToolBoxCanvas canvas)
         {
             m_canvas = m_con.ActiveCanvas;
             m_canvas.PathwayCanvas.AddInputEventListener(this);
@@ -120,7 +170,10 @@ namespace EcellLib.PathwayWindow.Handler
             m_flag = true;
         }
 
-        private void ClearCanvas()
+        /// <summary>
+        /// Reset EventHandler
+        /// </summary>
+        private void ResetEventHandler()
         {
             m_canvas.PathwayCanvas.RemoveInputEventListener(this);
             m_canvas.ControlLayer.RemoveChild(m_object);
@@ -128,17 +181,6 @@ namespace EcellLib.PathwayWindow.Handler
             m_object = null;
             m_flag = false;
         }
-
-        public override void OnMouseMove(object sender, PInputEventArgs e)
-        {
-            base.OnMouseMove(sender, e);
-
-            if (!m_flag || m_canvas == null || e.Canvas != m_canvas.PathwayCanvas)
-                return;
-            if (m_object == null)
-                return;
-
-            m_object.CenterPointF = e.Position;
-        }
+        #endregion
     }
 }

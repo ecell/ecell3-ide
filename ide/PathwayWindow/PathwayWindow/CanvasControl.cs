@@ -556,7 +556,7 @@ namespace EcellLib.PathwayWindow
                 if (!hasCoords)
                     obj.PointF = GetVacantPoint(systemName);
                 else if (!system.Rect.Contains(obj.PointF))
-                    obj.PointF = GetVacantPoint(systemName, obj.PointF);
+                    obj.PointF = GetVacantPoint(systemName, obj.Rect);
             }
             if (obj is PPathwaySystem)
             {
@@ -1394,36 +1394,12 @@ namespace EcellLib.PathwayWindow
         {
             PPathwaySystem sys = m_systems[sysKey];
             Random hRandom = new Random();
-            PointF basePos = new PointF(
+            RectangleF basePos = new RectangleF(
                 (float)hRandom.Next((int)sys.X, (int)(sys.X + sys.Width)),
-                (float)hRandom.Next((int)sys.Y, (int)(sys.Y + sys.Height)) );
+                (float)hRandom.Next((int)sys.Y, (int)(sys.Y + sys.Height)),
+                0,
+                0);
             return GetVacantPoint(sysKey, basePos);
-        }
-
-        /// <summary>
-        /// Return nearest vacant point of EcellSystem.
-        /// </summary>
-        /// <param name="sysKey">The key of system.</param>
-        /// <param name="pos">Target position.</param>
-        /// <returns>PointF.</returns>
-        public PointF GetVacantPoint(string sysKey, PointF pos)
-        {
-            PPathwaySystem sys = m_systems[sysKey];
-            PointF newPos = new PointF(pos.X, pos.Y);
-            double rad = Math.PI * 0.25f;
-            float r = 0f;
-
-            do
-            {
-                // Check 
-                if (CheckNodePosition(sysKey, newPos))
-                    break;
-
-                r += 1f;
-                newPos = new PointF(pos.X + r * (float)Math.Cos(rad * r), pos.Y + r * (float)Math.Sin(rad * r));
-
-            } while (r < sys.Width || r < sys.Height);
-            return newPos;
         }
 
         /// <summary>
@@ -1442,15 +1418,14 @@ namespace EcellLib.PathwayWindow
             do
             {
                 // Check 
-                if (!DoesSystemOverlaps(sysKey, rectF))
-                    break;
-
+                if (!DoesSystemOverlaps(sysKey, rectF) && sys.Rect.Contains(rectF))
+                    return new PointF(rectF.X, rectF.Y);
                 r += 1f;
                 rectF.X = basePos.X + r * (float)Math.Cos(rad * r);
                 rectF.Y = basePos.Y + r * (float)Math.Sin(rad * r);
-
             } while (r < sys.Width || r < sys.Height);
-            return new PointF(rectF.X, rectF.Y);
+            // if there si no vacant point, return basePos.
+            return basePos;
         }
     }
 }
