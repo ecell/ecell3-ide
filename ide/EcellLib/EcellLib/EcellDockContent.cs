@@ -34,6 +34,9 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib
 {
+    /// <summary>
+    /// Class managed the DockContent
+    /// </summary>
     public class EcellDockContent : DockContent
     {
         #region Fields

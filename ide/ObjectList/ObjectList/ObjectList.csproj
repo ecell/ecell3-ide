@@ -78,11 +78,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IObjectListTabPage.cs" />
     <Compile Include="MessageResObjList.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResObjList.resx</DependentUpon>
     </Compile>
+    <Compile Include="ModelTabPage.cs" />
     <Compile Include="ObjectList.cs">
     </Compile>
     <Compile Include="PluginDriver.cs">
@@ -118,7 +120,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ObjectListOfType.cs" />
     <Compile Include="SearchInstance.cs">
       <SubType>Form</SubType>
     </Compile>

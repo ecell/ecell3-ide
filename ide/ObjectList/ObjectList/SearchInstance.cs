@@ -44,7 +44,7 @@ namespace EcellLib.ObjectList
         /// <summary>
         /// the plugin control this windows form.
         /// </summary>
-        private ObjectList m_plugin;
+        private IObjectListTabPage m_plugin;
         #endregion
 
         /// <summary>
@@ -58,10 +58,13 @@ namespace EcellLib.ObjectList
         /// <summary>
         /// Set plugin that control this window.
         /// </summary>
-        /// <param name="p">ObjectList</param>
-        public void SetPlugin(ObjectList p)
+        /// <param name="p">IObjectListTabPage</param>
+        public void SetPlugin(IObjectListTabPage p)
         {
             this.m_plugin = p;
+            SICloseButton.Click += new EventHandler(SearchCloseButtonClick);
+            SISearchButton.Click += new EventHandler(SearchButtonClick);
+            searchText.KeyPress += new KeyPressEventHandler(SearchTextKeyPress);
         }
 
         #region Event
@@ -70,10 +73,10 @@ namespace EcellLib.ObjectList
         /// </summary>
         /// <param name="sender">object(Button)</param>
         /// <param name="e">EventArgs</param>
-        public void SearchButtonClick(object sender, EventArgs e)
+        private void SearchButtonClick(object sender, EventArgs e)
         {
             string text = this.searchText.Text;
-            m_plugin.SearchObjectFromDgv(text);
+            m_plugin.SearchInstance(text);
         }
 
         /// <summary>
@@ -81,7 +84,7 @@ namespace EcellLib.ObjectList
         /// </summary>
         /// <param name="sender">object(Button)</param>
         /// <param name="e">EventArgs</param>
-        public void SearchCloseButtonClick(object sender, EventArgs e)
+        private void SearchCloseButtonClick(object sender, EventArgs e)
         {
             this.Dispose();
         }
@@ -91,7 +94,7 @@ namespace EcellLib.ObjectList
         /// </summary>
         /// <param name="sender">object(Button)</param>
         /// <param name="e">KeyPressEventArgs</param>
-        public void SearchTextKeyPress(object sender, KeyPressEventArgs e)
+        private void SearchTextKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
