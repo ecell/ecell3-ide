@@ -30,13 +30,13 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.pCanvas1 = new UMD.HCIL.Piccolo.PCanvas();
+            this.pCanvas1 = new EcellLib.PathwayWindow.UIComponent.PToolBoxCanvas();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.pCanvas2 = new UMD.HCIL.Piccolo.PCanvas();
+            this.pCanvas2 = new EcellLib.PathwayWindow.UIComponent.PToolBoxCanvas();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.pCanvas3 = new UMD.HCIL.Piccolo.PCanvas();
+            this.pCanvas3 = new EcellLib.PathwayWindow.UIComponent.PToolBoxCanvas();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -169,12 +169,12 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
-        private UMD.HCIL.Piccolo.PCanvas pCanvas1;
+        private EcellLib.PathwayWindow.UIComponent.PToolBoxCanvas pCanvas1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label2;
-        private UMD.HCIL.Piccolo.PCanvas pCanvas2;
+        private EcellLib.PathwayWindow.UIComponent.PToolBoxCanvas pCanvas2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label3;
-        private UMD.HCIL.Piccolo.PCanvas pCanvas3;
+        private EcellLib.PathwayWindow.UIComponent.PToolBoxCanvas pCanvas3;
     }
 }

@@ -1,4 +1,33 @@
-﻿using System;
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +36,7 @@ using System.Text;
 using System.Windows.Forms;
 using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.Handler;
+using UMD.HCIL.Piccolo;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -22,45 +52,59 @@ namespace EcellLib.PathwayWindow.UIComponent
 
         private void SetToolBoxItems()
         {
-            PPathwayLayer layer1 = new PPathwayLayer();
-            pCanvas1.Root.AddChild(layer1);
-            pCanvas1.Camera.AddLayer(layer1);
-            pCanvas1.Camera.ScaleViewBy(0.7f);
-            pCanvas1.RemoveInputEventListener(pCanvas1.PanEventHandler);
-            pCanvas1.RemoveInputEventListener(pCanvas1.ZoomEventHandler);
-            pCanvas1.AddInputEventListener(new ToolBoxEventHandler(m_con));
-            RectangleF bounds = pCanvas1.Camera.ViewBounds;
-            PointF center = new PointF(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
-            PPathwayObject obj1 = m_con.ComponentManager.DefaultSystemSetting.CreateTemplate();
-            obj1.Pickable = false;
-            obj1.Width = PPathwaySystem.MIN_X_LENGTH;
-            obj1.Height = PPathwaySystem.MIN_Y_LENGTH;
-            obj1.CenterPointF = center;
-            layer1.AddChild(obj1);
+            ToolBoxEventHandler eventHandler = new ToolBoxEventHandler(m_con);
+            pCanvas1.AddInputEventListener(eventHandler);
+            pCanvas1.Setting = m_con.ComponentManager.DefaultSystemSetting;
             
-            PPathwayLayer layer2 = new PPathwayLayer();
-            pCanvas2.Root.AddChild(layer2);
-            pCanvas2.Camera.AddLayer(layer2);
-            pCanvas2.Camera.ScaleViewBy(0.7f);
-            pCanvas2.RemoveInputEventListener(pCanvas2.PanEventHandler);
-            pCanvas2.RemoveInputEventListener(pCanvas2.ZoomEventHandler);
-            pCanvas2.AddInputEventListener(new ToolBoxEventHandler(m_con));
-            PPathwayObject obj2 = m_con.ComponentManager.DefaultVariableSetting.CreateTemplate();
-            obj2.Pickable = false;
-            obj2.CenterPointF = center;
-            layer2.AddChild(obj2);
+            pCanvas2.AddInputEventListener(eventHandler);
+            pCanvas2.Setting = m_con.ComponentManager.DefaultVariableSetting;
 
-            PPathwayLayer layer3 = new PPathwayLayer();
-            pCanvas3.Root.AddChild(layer3);
-            pCanvas3.Camera.AddLayer(layer3);
-            pCanvas3.Camera.ScaleViewBy(0.7f);
-            pCanvas3.RemoveInputEventListener(pCanvas3.PanEventHandler);
-            pCanvas3.RemoveInputEventListener(pCanvas3.ZoomEventHandler);
-            pCanvas3.AddInputEventListener(new ToolBoxEventHandler(m_con));
-            PPathwayObject obj3 = m_con.ComponentManager.DefaultProcessSetting.CreateTemplate();
-            obj3.Pickable = false;
-            obj3.CenterPointF = center;
-            layer3.AddChild(obj3);
+            pCanvas3.AddInputEventListener(eventHandler);
+            pCanvas3.Setting = m_con.ComponentManager.DefaultProcessSetting;
+        }
+    }
+    public partial class PToolBoxCanvas : PCanvas
+    {
+
+        PPathwayObject m_object = null;
+        public PPathwayObject PPathwayObject
+        {
+            get { return m_object; }
+            set { m_object = value; }
+        }
+
+        ComponentSetting m_setting = null;
+        public ComponentSetting Setting
+        {
+            get { return m_setting; }
+            set
+            { 
+                m_setting = value;
+                SetTemplate(value);
+            }
+        }
+
+        public PToolBoxCanvas()
+        {
+            PPathwayLayer layer = new PPathwayLayer();
+            base.Root.AddChild(layer);
+            base.Camera.AddLayer(layer);
+            base.Camera.ScaleViewBy(0.7f);
+            base.RemoveInputEventListener(base.PanEventHandler);
+            base.RemoveInputEventListener(base.ZoomEventHandler);
+        }
+
+        private void SetTemplate(ComponentSetting setting)
+        {
+            if (setting == null)
+                return;
+            PPathwayObject obj = setting.CreateTemplate();
+            RectangleF bounds = base.Camera.ViewBounds;
+            PointF center = new PointF(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
+            obj.Pickable = false;
+            obj.CenterPointF = center;
+            base.Layer.AddChild(obj);
+            m_object = obj;
         }
     }
 }
