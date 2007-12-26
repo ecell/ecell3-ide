@@ -1055,16 +1055,20 @@ namespace EcellLib
             {
                 if (l_usableList != null && l_usableList.Count > 0)
                 {
+                    m_isAdded = true;
                     m_pManager.DataAdd(l_usableList);
+                    m_isAdded = false;
                     foreach (EcellObject obj in l_usableList)
                     {
-                        m_pManager.SetPosition(obj);
+//                        m_pManager.SetPosition(obj);
                         if (l_isRecorded)
                             m_aManager.AddAction(new DataAddAction(obj, l_isUndoable, l_isAnchor));
                     }
                 }
             }
         }
+
+        bool m_isAdded = false;
 
         /// <summary>
         /// Adds the "Process" or the "Variable".
@@ -1432,7 +1436,7 @@ namespace EcellLib
                 EcellObject l_oldObj = GetEcellObject(l_modelID, l_key, l_type);
                 //if (!l_oldObj.IsPosSet)
                 //    m_pManager.SetPosition(l_oldObj);
-                if (l_isRecorded)
+                if (l_isRecorded && !m_isAdded)
                     this.m_aManager.AddAction(new DataChangeAction(l_modelID, l_type, l_oldObj, l_ecellObject.Copy(), l_isAnchor));
 
                 //
