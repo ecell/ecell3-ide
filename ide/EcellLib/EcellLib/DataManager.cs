@@ -1087,6 +1087,10 @@ namespace EcellLib
             if (l_ecellObject.key.IndexOf(Constants.delimiterColon) > 0)
             {
                 l_systemKey = l_ecellObject.key.Substring(0, l_ecellObject.key.IndexOf(Constants.delimiterColon));
+                if (!l_systemKey.Equals("/"))
+                {
+                    l_systemKey.Substring(0, l_systemKey.Length - 1);
+                }
             }
             foreach (EcellObject l_parentSystem in this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID])
             {
