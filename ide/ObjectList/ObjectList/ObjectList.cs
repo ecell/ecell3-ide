@@ -272,7 +272,7 @@ namespace EcellLib.ObjectList
 
             foreach (string id in m_TabDict.Keys)
             {
-                m_TabDict[id].DataDelete(modelID, key, type);
+                m_TabDict[id].DataDelete(modelID, key, type, true);
             }
             return;
         }

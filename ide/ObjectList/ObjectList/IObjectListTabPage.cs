@@ -52,7 +52,8 @@ namespace EcellLib.ObjectList
         /// <param name="modelID">ModelID of the deleted object.</param>
         /// <param name="id">ID of the deleted object.</param>
         /// <param name="type">Type of the deleted object.</param>
-        void DataDelete(string modelID, string id, string type);
+        /// <param name="isChanged">whether id is changed.</param>
+        void DataDelete(string modelID, string id, string type, bool isChanged);
         /// <summary>
         /// Event when object is added.
         /// </summary>

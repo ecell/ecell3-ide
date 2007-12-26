@@ -721,7 +721,8 @@ namespace EcellLib.ObjectList
         /// <param name="obj">The changed object.</param>
         public void DataChanged(string modelID, string id, string type, EcellObject obj)
         {
-            DataDelete(modelID, id, type);
+            bool isIDChanged = !(id == obj.key);
+            DataDelete(modelID, id, type, isIDChanged);
             DataAdd(obj);
             int index = SearchObjectIndex(obj.key, obj.type);
             m_gridView.Rows[index].Selected = true;
@@ -734,7 +735,8 @@ namespace EcellLib.ObjectList
         /// <param name="modelID">ModelID of the deleted object.</param>
         /// <param name="id">ID of the deleted object.</param>
         /// <param name="type">Type of the deleted object.</param>
-        public void DataDelete(string modelID, string id, string type)
+        /// <param name="isChanged">whether id is changed.</param>
+        public void DataDelete(string modelID, string id, string type, bool isChanged)
         {
             int ind = SearchObjectIndex(id, type);
             if (ind < 0) return;
@@ -743,10 +745,18 @@ namespace EcellLib.ObjectList
                 int len = m_gridView.Rows.Count;
                 for (int i = len - 1; i >= 0; i--)
                 {
-                    if (m_gridView[1, i].Value.ToString().StartsWith(id))
+                    if (m_gridView[1, i].Value.ToString().Equals(id))
                     {
                         DeleteDictionary(i);
                         m_gridView.Rows.RemoveAt(i);
+                    }
+                    if (isChanged)
+                    {
+                        if (m_gridView[1, i].Value.ToString().StartsWith(id))
+                        {
+                            DeleteDictionary(i);
+                            m_gridView.Rows.RemoveAt(i);
+                        }
                     }
                 }
             }
