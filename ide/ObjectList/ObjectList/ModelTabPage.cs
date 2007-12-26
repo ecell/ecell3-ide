@@ -725,6 +725,7 @@ namespace EcellLib.ObjectList
             DataDelete(modelID, id, type, isIDChanged);
             DataAdd(obj);
             int index = SearchObjectIndex(obj.key, obj.type);
+            if (index < 0) return;
             m_gridView.Rows[index].Selected = true;
             m_gridView.FirstDisplayedScrollingRowIndex = index;
         }
