@@ -204,4 +204,7 @@
   <data name="SaveConfirm" xml:space="preserve">
     <value>Do you want to save the project before the project is closed?</value>
   </data>
+  <data name="SelectDMDir" xml:space="preserve">
+    <value>Please select the dm directory.</value>
+  </data>
 </root>

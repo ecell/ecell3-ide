@@ -595,7 +595,7 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().CreateProject(m_prjName, m_comment, m_prjPath);
+            DataManager.GetDataManager().CreateProject(m_prjName, m_comment, m_prjPath, new List<string>());
             PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>

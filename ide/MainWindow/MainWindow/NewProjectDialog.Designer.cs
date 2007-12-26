@@ -69,9 +69,17 @@ namespace EcellLib.MainWindow
             this.CPCancelButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.CPAddButton = new System.Windows.Forms.Button();
+            this.CPRemoveButton = new System.Windows.Forms.Button();
+            this.CPListBox = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -83,6 +91,8 @@ namespace EcellLib.MainWindow
             this.tableLayoutPanel1.Controls.Add(this.textComment, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.textModelName, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 1, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // label1
@@ -145,6 +155,45 @@ namespace EcellLib.MainWindow
             this.tableLayoutPanel3.Controls.Add(this.CPCreateButton, 1, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // tableLayoutPanel4
+            // 
+            resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.CPListBox, 0, 0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            // 
+            // tableLayoutPanel5
+            // 
+            resources.ApplyResources(this.tableLayoutPanel5, "tableLayoutPanel5");
+            this.tableLayoutPanel5.Controls.Add(this.CPAddButton, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.CPRemoveButton, 0, 2);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            // 
+            // CPAddButton
+            // 
+            resources.ApplyResources(this.CPAddButton, "CPAddButton");
+            this.CPAddButton.Name = "CPAddButton";
+            this.CPAddButton.UseVisualStyleBackColor = true;
+            this.CPAddButton.Click += new System.EventHandler(this.ClickAddButton);
+            // 
+            // CPRemoveButton
+            // 
+            resources.ApplyResources(this.CPRemoveButton, "CPRemoveButton");
+            this.CPRemoveButton.Name = "CPRemoveButton";
+            this.CPRemoveButton.UseVisualStyleBackColor = true;
+            this.CPRemoveButton.Click += new System.EventHandler(this.ClickRemoveButton);
+            // 
+            // CPListBox
+            // 
+            resources.ApplyResources(this.CPListBox, "CPListBox");
+            this.CPListBox.FormattingEnabled = true;
+            this.CPListBox.Name = "CPListBox";
+            // 
             // NewProjectDialog
             // 
             this.AcceptButton = this.CPCreateButton;
@@ -158,6 +207,8 @@ namespace EcellLib.MainWindow
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -190,5 +241,11 @@ namespace EcellLib.MainWindow
         public System.Windows.Forms.Button CPCancelButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.Button CPAddButton;
+        private System.Windows.Forms.Button CPRemoveButton;
+        private System.Windows.Forms.ListBox CPListBox;
     }
 }

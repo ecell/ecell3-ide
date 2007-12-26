@@ -53,10 +53,6 @@ namespace EcellLib.MainWindow
         /// SessionManager object.
         /// </summary>
         private SessionManager.SessionManager m_manager = null;
-        /// <summary>
-        /// ResourceManager for MainWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMain));
         #endregion
 
         #region Events
@@ -144,14 +140,14 @@ namespace EcellLib.MainWindow
                 int conc = Convert.ToInt32(DEConcTextBox.Text);
                 if (conc <= 0)
                 {
-                    string errmes = m_resources.GetString("ErrConcInvalid");
+                    string errmes = MainWindow.s_resources.GetString("ErrConcInvalid");
                     MessageBox.Show(errmes, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 if (DEWorkDirTextBox.Text == null ||
                     DEWorkDirTextBox.Text == "")
                 {
-                    string errmes = m_resources.GetString("ErrNoWorkDir");
+                    string errmes = MainWindow.s_resources.GetString("ErrNoWorkDir");
                     MessageBox.Show(errmes, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -172,7 +168,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 ex.ToString();
-                string errmes = m_resources.GetString("ErrUpdateDistEnv");
+                string errmes = MainWindow.s_resources.GetString("ErrUpdateDistEnv");
                 MessageBox.Show(errmes, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }

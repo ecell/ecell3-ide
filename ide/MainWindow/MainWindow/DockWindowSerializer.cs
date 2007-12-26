@@ -57,10 +57,6 @@ namespace EcellLib.MainWindow {
         /// Version of config file.
         /// </summary>
         private const string ConfigFileVersion = "1.2";
-        /// <summary>
-        /// ResourceManager
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMain));
 
         /// <summary>
         /// Save ECell window settings.

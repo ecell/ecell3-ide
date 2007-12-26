@@ -76,5 +76,51 @@ namespace EcellLib.MainWindow
         {
             this.textName.Focus();
         }
+
+        /// <summary>
+        /// Get the list of dm directory.
+        /// </summary>
+        /// <returns>the list of dm directory.</returns>
+        public List<string> GetDmList()
+        {
+            List<string> result = new List<string>();
+            int len = CPListBox.Items.Count;
+            for (int i = 0; i < len; i++)
+            {
+                string dir = CPListBox.Items[i] as string;
+                if (dir == null) continue;
+                result.Add(dir);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Event when Remove Button is clicked to remove the selected dm directory.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
+        private void ClickRemoveButton(object sender, EventArgs e)
+        {
+            int ind = CPListBox.SelectedIndex;
+            if (ind < 0) return;
+            CPListBox.Items.RemoveAt(ind);
+        }
+
+        /// <summary>
+        /// Event when Add Button is cliecked to add the dm directory.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
+        private void ClickAddButton(object sender, EventArgs e)
+        {
+            SelectDirectory win = new SelectDirectory();
+            String mes = MainWindow.s_resources.GetString("ExpModelMes");
+            win.Description = mes;
+            if (win.ShowDialog() == DialogResult.OK)
+            {
+                string dir = win.DirectoryPath;
+                CPListBox.Items.Add(dir);
+            }
+        }
     }
 }

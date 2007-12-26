@@ -5684,7 +5684,9 @@ namespace EcellLib
         /// <param name="l_prjID">The "Project" ID</param>
         /// <param name="l_comment">The comment</param>
         /// <param name="l_projectPath">The project directory path to load the dm of this project.</param>
-        public void CreateProject(string l_prjID, string l_comment, string l_projectPath)
+        /// <param name="l_setDirList">The list of dm directory.</param>
+        public void CreateProject(string l_prjID, string l_comment, string l_projectPath,
+            List<String> l_setDirList)
         {
             Project l_prj = null;
             try
@@ -5702,6 +5704,7 @@ namespace EcellLib
                 m_currentProjectID = l_prjID;
                 m_currentProjectPath = l_projectPath;
                 m_simulatorDic[l_prjID] = CreateSimulatorInstance();
+                CreateProjectDir(l_prjID);
                 SetDMList();
                 m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
                 l_prj = new Project(l_prjID, l_comment, DateTime.Now.ToString());
@@ -5882,6 +5885,53 @@ namespace EcellLib
                     Constants.messageSimulation,
                     l_message + System.Environment.NewLine);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
+            }
+        }
+
+        /// <summary>
+        /// Copy the dm data from the set directory to the project directory.
+        /// </summary>
+        /// <param name="prjID">Project ID.</param>
+        /// <param name="dmList">The list of set dm directory.</param>
+        private void CopyDmData(string prjID, List<string> dmList)
+        {
+            string baseDir = this.m_defaultDir + Constants.delimiterPath + prjID;
+            string dmDir = baseDir + Constants.delimiterPath + Constants.DMDirName;
+
+            foreach (string dmPath in dmList)
+            {
+                string[] dmData = Directory.GetFiles(dmPath, "*.dll");
+                if (dmData == null) continue;
+                for (int i = 0; i < dmData.Length; i++)
+                {
+                    dmData[i].ToString();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Create the project directory.
+        /// </summary>
+        /// <param name="prjID">Project ID.</param>
+        private void CreateProjectDir(string prjID)
+        {
+            SetDefaultDir();
+            string baseDir = this.m_defaultDir + Constants.delimiterPath + prjID;
+            string modelDir = baseDir + Constants.delimiterPath + Constants.xpathModel;
+            string dmDir = baseDir + Constants.delimiterPath + Constants.DMDirName;
+            string paramDir = baseDir +Constants.delimiterPath+ Constants.xpathParameters; 
+
+            if (!Directory.Exists(baseDir)) 
+            {
+                Directory.CreateDirectory(baseDir);
+            }
+            if (!Directory.Exists(modelDir))
+            {
+                Directory.CreateDirectory(modelDir);
+            }
+            if (!Directory.Exists(dmDir))
+            {
+                Directory.CreateDirectory(dmDir);
             }
         }
 

@@ -210,13 +210,13 @@ namespace EcellLib.MainWindow
             // 
             this.saveWindowSettingsToolStripMenuItem.Name = "saveWindowSettingsToolStripMenuItem";
             resources.ApplyResources(this.saveWindowSettingsToolStripMenuItem, "saveWindowSettingsToolStripMenuItem");
-            this.saveWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveWindowSettingsToolStripMenuItem_Click);
+            this.saveWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.SaveWindowSettingsClick);
             // 
             // loadWindowSettingsToolStripMenuItem
             // 
             this.loadWindowSettingsToolStripMenuItem.Name = "loadWindowSettingsToolStripMenuItem";
             resources.ApplyResources(this.loadWindowSettingsToolStripMenuItem, "loadWindowSettingsToolStripMenuItem");
-            this.loadWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadWindowSettingsToolStripMenuItem_Click);
+            this.loadWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.LoadWindowSettingsClick);
             // 
             // toolStripSeparator3
             // 
@@ -294,7 +294,7 @@ namespace EcellLib.MainWindow
             // 
             this.distributedEnvToolStripMenuItem.Name = "distributedEnvToolStripMenuItem";
             resources.ApplyResources(this.distributedEnvToolStripMenuItem, "distributedEnvToolStripMenuItem");
-            this.distributedEnvToolStripMenuItem.Click += new System.EventHandler(this.DistributedEnvMenuClick);
+            this.distributedEnvToolStripMenuItem.Click += new System.EventHandler(this.ClickDistributedEnvMenu);
             // 
             // MenuItemLayout
             // 
@@ -368,7 +368,7 @@ namespace EcellLib.MainWindow
             // 
             this.jobStatusToolStripMenuItem.Name = "jobStatusToolStripMenuItem";
             resources.ApplyResources(this.jobStatusToolStripMenuItem, "jobStatusToolStripMenuItem");
-            this.jobStatusToolStripMenuItem.Click += new System.EventHandler(this.jobStatusToolStripMenuItem_Click);
+            this.jobStatusToolStripMenuItem.Click += new System.EventHandler(this.ClickJobStatusMenu);
             // 
             // MainWindow
             // 
@@ -380,7 +380,7 @@ namespace EcellLib.MainWindow
             this.MainMenuStrip = this.menustrip;
             this.Name = "MainWindow";
             this.Disposed += new System.EventHandler(this.MainWindowDisposed);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindowFormClosing);
             this.menustrip.ResumeLayout(false);
             this.menustrip.PerformLayout();
             this.ResumeLayout(false);
