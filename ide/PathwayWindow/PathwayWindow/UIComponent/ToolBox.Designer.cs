@@ -66,11 +66,13 @@
             // pCanvas1
             // 
             this.pCanvas1.AllowDrop = true;
-            this.pCanvas1.BackColor = System.Drawing.Color.White;
+            this.pCanvas1.BackColor = System.Drawing.Color.Silver;
             this.pCanvas1.GridFitText = false;
             this.pCanvas1.Location = new System.Drawing.Point(10, 13);
             this.pCanvas1.Name = "pCanvas1";
+            this.pCanvas1.PPathwayObject = null;
             this.pCanvas1.RegionManagement = true;
+            this.pCanvas1.Setting = null;
             this.pCanvas1.Size = new System.Drawing.Size(75, 65);
             this.pCanvas1.TabIndex = 0;
             this.pCanvas1.Text = "pCanvas1";
@@ -99,11 +101,13 @@
             // pCanvas2
             // 
             this.pCanvas2.AllowDrop = true;
-            this.pCanvas2.BackColor = System.Drawing.Color.White;
+            this.pCanvas2.BackColor = System.Drawing.Color.Silver;
             this.pCanvas2.GridFitText = false;
             this.pCanvas2.Location = new System.Drawing.Point(10, 13);
             this.pCanvas2.Name = "pCanvas2";
+            this.pCanvas2.PPathwayObject = null;
             this.pCanvas2.RegionManagement = true;
+            this.pCanvas2.Setting = null;
             this.pCanvas2.Size = new System.Drawing.Size(75, 65);
             this.pCanvas2.TabIndex = 0;
             this.pCanvas2.Text = "pCanvas2";
@@ -132,11 +136,13 @@
             // pCanvas3
             // 
             this.pCanvas3.AllowDrop = true;
-            this.pCanvas3.BackColor = System.Drawing.Color.White;
+            this.pCanvas3.BackColor = System.Drawing.Color.Silver;
             this.pCanvas3.GridFitText = false;
             this.pCanvas3.Location = new System.Drawing.Point(10, 13);
             this.pCanvas3.Name = "pCanvas3";
+            this.pCanvas3.PPathwayObject = null;
             this.pCanvas3.RegionManagement = true;
+            this.pCanvas3.Setting = null;
             this.pCanvas3.Size = new System.Drawing.Size(75, 65);
             this.pCanvas3.TabIndex = 0;
             this.pCanvas3.Text = "pCanvas3";

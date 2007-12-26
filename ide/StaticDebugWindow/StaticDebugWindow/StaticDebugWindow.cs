@@ -40,7 +40,6 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
 using System.ComponentModel;
-using WeifenLuo.WinFormsUI.Docking;
 
 using EcellLib;
 

@@ -36,7 +36,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Reflection;
 using System.ComponentModel;
-using WeifenLuo.WinFormsUI.Docking;
 
 using EcellLib;
 

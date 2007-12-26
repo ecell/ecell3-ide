@@ -36,7 +36,6 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Reflection;
 using EcellLib;
-using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.AboutWindow
 {

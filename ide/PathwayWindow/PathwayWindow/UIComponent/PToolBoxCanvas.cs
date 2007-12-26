@@ -80,6 +80,9 @@ namespace EcellLib.PathwayWindow.UIComponent
             base.Camera.ScaleViewBy(0.7f);
             base.RemoveInputEventListener(base.PanEventHandler);
             base.RemoveInputEventListener(base.ZoomEventHandler);
+            base.BackColor = Color.Silver;
+            base.AllowDrop = false;
+            base.GridFitText = false;
         }
         
         #endregion

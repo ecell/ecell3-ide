@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib
 {
@@ -18,8 +17,6 @@ namespace EcellLib
         {
             base.m_isSavable = true;
             InitializeComponent();
-            
         }
-
     }
 }

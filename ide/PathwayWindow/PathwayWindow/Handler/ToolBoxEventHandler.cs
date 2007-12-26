@@ -36,10 +36,12 @@ using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
 using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Nodes;
+using EcellLib.PathwayWindow.Resources;
+using System.Drawing;
 
 namespace EcellLib.PathwayWindow.Handler
 {
-    class ToolBoxEventHandler : PPathwayInputEventHandler
+    public class ToolBoxEventHandler : PPathwayInputEventHandler
     {
         #region Fields
         /// <summary>
@@ -82,17 +84,17 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
             if (m_object == null)
                 return;
-
+            m_canvas.ControlLayer.AddChild(m_object);
             m_object.CenterPointF = e.Position;
         }
 
         /// <summary>
-        /// Event on mouse down.
+        /// Event on mouse up.
         /// Check EventHandler status and Set/Reset EventHandler.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnMouseDown(object sender, PInputEventArgs e)
+        public override void OnMouseUp(object sender, PInputEventArgs e)
         {
             base.OnMouseDown(sender, e);
 
@@ -108,7 +110,8 @@ namespace EcellLib.PathwayWindow.Handler
             else if (e.Canvas == m_canvas.PathwayCanvas)
             {
                 // Add new object and reset EventHandler.
-                AddObject(e);
+                if(e.Button == MouseButtons.Left)
+                    AddObject(e);
                 ResetEventHandler();
             }
             else
@@ -119,6 +122,15 @@ namespace EcellLib.PathwayWindow.Handler
                     return;
                 SetEventHandler((PToolBoxCanvas)e.Canvas);
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public override bool DoesAcceptEvent(PInputEventArgs e)
+        {
+            return base.DoesAcceptEvent(e) || e.Button == MouseButtons.Right;
         }
         #endregion
 
@@ -166,8 +178,10 @@ namespace EcellLib.PathwayWindow.Handler
             m_canvas.PathwayCanvas.AddInputEventListener(this);
             m_object = canvas.Setting.CreateTemplate();
             m_object.Pickable = false;
-            m_canvas.ControlLayer.AddChild(m_object);
             m_flag = true;
+            // Set Icon
+            //m_con.ToolBox.Icon = (Icon)PathwayResource.hand;
+            //m_con.PathwayView.Icon = (Icon)PathwayResource.hand;
         }
 
         /// <summary>
@@ -176,10 +190,15 @@ namespace EcellLib.PathwayWindow.Handler
         private void ResetEventHandler()
         {
             m_canvas.PathwayCanvas.RemoveInputEventListener(this);
-            m_canvas.ControlLayer.RemoveChild(m_object);
+            if(m_object.Parent != null)
+                m_object.Parent.RemoveChild(m_object);
+
             m_canvas = null;
             m_object = null;
             m_flag = false;
+            // Set Icon
+            //m_con.ToolBox.Icon = (Icon)PathwayResource.arrow;
+            //m_con.PathwayView.Icon = (Icon)PathwayResource.arrow;
         }
         #endregion
     }

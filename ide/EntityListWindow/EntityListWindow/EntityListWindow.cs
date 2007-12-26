@@ -37,7 +37,6 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
-using WeifenLuo.WinFormsUI.Docking;
 
 using EcellLib;
 

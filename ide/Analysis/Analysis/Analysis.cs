@@ -35,9 +35,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
-using WeifenLuo.WinFormsUI.Docking;
 
 using SessionManager;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.Analysis
 {
