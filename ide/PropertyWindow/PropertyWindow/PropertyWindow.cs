@@ -624,6 +624,7 @@ namespace EcellLib.PropertyWindow
         /// <param name="data">The value of the adding object.</param>
         public void DataAdd(List<EcellObject> data)
         {
+            if (data == null) return;
             foreach (EcellObject obj in data)
             {
                 if (obj.type.Equals(Constants.xpathStepper))

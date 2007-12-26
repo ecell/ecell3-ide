@@ -1728,11 +1728,7 @@ namespace EcellLib
                 {
                     key = ":" + systemPath + ":" + key.Substring(3);
                 }
-                string coeff = "0";
-                if (ele.Length == 3)
-                {
-                    coeff = ele[2].Trim();
-                }
+                string coeff = ele[2].Trim();
 
                 str = "((\"" + id + "\", \"" + key + "\", " + Convert.ToInt32(coeff) + ", 1))";
                 List<EcellReference> refs = EcellReference.ConvertString(str);
