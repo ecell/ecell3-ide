@@ -45,8 +45,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         PathwayControl m_con;
         public ToolBox(PathwayControl control)
         {
-            m_con = control;
             InitializeComponent();
+            m_con = control;
             SetToolBoxItems();
         }
 
@@ -61,50 +61,6 @@ namespace EcellLib.PathwayWindow.UIComponent
 
             pCanvas3.AddInputEventListener(eventHandler);
             pCanvas3.Setting = m_con.ComponentManager.DefaultProcessSetting;
-        }
-    }
-    public partial class PToolBoxCanvas : PCanvas
-    {
-
-        PPathwayObject m_object = null;
-        public PPathwayObject PPathwayObject
-        {
-            get { return m_object; }
-            set { m_object = value; }
-        }
-
-        ComponentSetting m_setting = null;
-        public ComponentSetting Setting
-        {
-            get { return m_setting; }
-            set
-            { 
-                m_setting = value;
-                SetTemplate(value);
-            }
-        }
-
-        public PToolBoxCanvas()
-        {
-            PPathwayLayer layer = new PPathwayLayer();
-            base.Root.AddChild(layer);
-            base.Camera.AddLayer(layer);
-            base.Camera.ScaleViewBy(0.7f);
-            base.RemoveInputEventListener(base.PanEventHandler);
-            base.RemoveInputEventListener(base.ZoomEventHandler);
-        }
-
-        private void SetTemplate(ComponentSetting setting)
-        {
-            if (setting == null)
-                return;
-            PPathwayObject obj = setting.CreateTemplate();
-            RectangleF bounds = base.Camera.ViewBounds;
-            PointF center = new PointF(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
-            obj.Pickable = false;
-            obj.CenterPointF = center;
-            base.Layer.AddChild(obj);
-            m_object = obj;
         }
     }
 }

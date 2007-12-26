@@ -197,7 +197,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Dictionary for Eventhandlers.
         /// </summary>
-        private Dictionary<int, PBasicInputEventHandler> m_handlerDict = new Dictionary<int, PBasicInputEventHandler>();
+        private Dictionary<string, Handle> m_handleDict = new Dictionary<string, Handle>();
 
         /// <summary>
         /// ResourceManager for PathwayWindow.
@@ -218,10 +218,9 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Dictionary of EventHandlers
         /// </summary>
-        public Dictionary<int, PBasicInputEventHandler> HandlerDict
+        public Dictionary<string, Handle> HandleDict
         {
-            get { return m_handlerDict; }
-            set { m_handlerDict = value; }
+            get { return m_handleDict; }
         }
 
         /// <summary>
@@ -527,8 +526,8 @@ namespace EcellLib.PathwayWindow
             handButton.Text = "";
             handButton.CheckOnClick = true;
             handButton.ToolTipText = "MoveCanvas";
-            handButton.Handle = new Handle(Mode.Pan, handleCount);
-            m_handlerDict.Add(handleCount++, new PPanEventHandler());
+            handButton.Handle = new Handle(Mode.Pan, handleCount, new PPanEventHandler());
+            m_handleDict.Add("MoveCanvas", handButton.Handle);
             handButton.Click += new EventHandler(m_con.ButtonStateChanged);
             list.Add(handButton);
 
@@ -539,8 +538,8 @@ namespace EcellLib.PathwayWindow
             button0.Text = "";
             button0.CheckOnClick = true;
             button0.ToolTipText = "SelectMode";
-            button0.Handle = new Handle(Mode.Select, handleCount);
-            m_handlerDict.Add(handleCount++, new DefaultMouseHandler(m_con));
+            button0.Handle = new Handle(Mode.Select, handleCount, new DefaultMouseHandler(m_con));
+            m_handleDict.Add("SelectMode", button0.Handle);
             button0.Click += new EventHandler(m_con.ButtonStateChanged);
             list.Add(button0);
 
@@ -554,8 +553,8 @@ namespace EcellLib.PathwayWindow
             arrowButton.Text = "";
             arrowButton.CheckOnClick = true;
             arrowButton.ToolTipText = "Add Oneway Reaction";
-            arrowButton.Handle = new Handle(Mode.CreateOneWayReaction, handleCount);
-            m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(m_con));
+            arrowButton.Handle = new Handle(Mode.CreateOneWayReaction, handleCount, new CreateReactionMouseHandler(m_con));
+            m_handleDict.Add("reactionOneway", arrowButton.Handle);
             arrowButton.Click += new EventHandler(m_con.ButtonStateChanged);
             list.Add(arrowButton);
 
@@ -566,8 +565,8 @@ namespace EcellLib.PathwayWindow
             bidirButton.Text = "";
             bidirButton.CheckOnClick = true;
             bidirButton.ToolTipText = "Add Mutual Reaction";
-            bidirButton.Handle = new Handle(Mode.CreateMutualReaction, handleCount);
-            m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(m_con));
+            bidirButton.Handle = new Handle(Mode.CreateMutualReaction, handleCount, new CreateReactionMouseHandler(m_con));
+            m_handleDict.Add("reactionMutual", bidirButton.Handle);
             bidirButton.Click += new EventHandler(m_con.ButtonStateChanged);
             list.Add(bidirButton);
 
@@ -578,10 +577,40 @@ namespace EcellLib.PathwayWindow
             constButton.Text = "";
             constButton.CheckOnClick = true;
             constButton.ToolTipText = "Add Constant";
-            constButton.Handle = new Handle(Mode.CreateConstant, handleCount);
-            m_handlerDict.Add(handleCount++, new CreateReactionMouseHandler(m_con));
+            constButton.Handle = new Handle(Mode.CreateConstant, handleCount, new CreateReactionMouseHandler(m_con));
+            m_handleDict.Add("constant", constButton.Handle);
             constButton.Click += new EventHandler(m_con.ButtonStateChanged);
             list.Add(constButton);
+
+            foreach (ComponentSetting cs in m_con.ComponentManager.ComponentSettings)
+            {
+                PathwayToolStripButton button = new PathwayToolStripButton();
+                button.ImageTransparentColor = System.Drawing.Color.Magenta;
+                button.Name = cs.Name;
+                button.Image = new Bitmap(256, 256);
+                Graphics gra = Graphics.FromImage(button.Image);
+                if (cs.ComponentType == ComponentType.System)
+                {
+                    Rectangle rect = new Rectangle(3, 3, 240, 240);
+                    gra.DrawRectangle(new Pen(Brushes.Black, 16), rect);
+                    button.Handle = new Handle(Mode.CreateSystem, handleCount++, new CreateSystemMouseHandler(m_con), cs.ComponentType);
+                }
+                else
+                {
+                    GraphicsPath gp = cs.TransformedPath;
+                    gra.FillPath(cs.NormalBrush, gp);
+                    gra.DrawPath(new Pen(Brushes.Black, 16), gp);
+                    button.Handle = new Handle(Mode.CreateNode, handleCount++, new CreateNodeMouseHandler(m_con, cs.ComponentType), cs.ComponentType);
+                }
+                button.Size = new System.Drawing.Size(256, 256);
+                button.Text = "";
+                button.CheckOnClick = true;
+                button.ToolTipText = cs.Name;
+
+                m_handleDict.Add(cs.Name, button.Handle);
+                button.Click += new EventHandler(m_con.ButtonStateChanged);
+                list.Add(button);
+            }
 
             PathwayToolStripButton zoominButton = new PathwayToolStripButton();
             zoominButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -604,37 +633,6 @@ namespace EcellLib.PathwayWindow
             zoomoutButton.Handle = new Handle(Mode.CreateConstant, handleCount, 0.5f);
             zoomoutButton.Click += new EventHandler(m_con.ZoomButton_Click);
             list.Add(zoomoutButton);
-
-            foreach (ComponentSetting cs in m_con.ComponentManager.ComponentSettings)
-            {
-                PathwayToolStripButton button = new PathwayToolStripButton();
-                button.ImageTransparentColor = System.Drawing.Color.Magenta;
-                button.Name = cs.Name;
-                button.Image = new Bitmap(256, 256);
-                Graphics gra = Graphics.FromImage(button.Image);
-                if (cs.ComponentType == ComponentType.System)
-                {
-                    Rectangle rect = new Rectangle(3, 3, 240, 240);
-                    gra.DrawRectangle(new Pen(Brushes.Black, 16), rect);
-                    m_handlerDict.Add(handleCount, new CreateSystemMouseHandler(m_con));
-                    button.Handle = new Handle(Mode.CreateSystem, handleCount++, cs.ComponentType);
-                }
-                else
-                {
-                    GraphicsPath gp = cs.TransformedPath;
-                    gra.FillPath(cs.NormalBrush, gp);
-                    gra.DrawPath(new Pen(Brushes.Black, 16), gp);
-                    m_handlerDict.Add(handleCount, new CreateNodeMouseHandler(m_con, cs.ComponentType));
-                    button.Handle = new Handle(Mode.CreateNode, handleCount++, cs.ComponentType);
-                }
-                button.Size = new System.Drawing.Size(256, 256);
-                button.Text = "";
-                button.CheckOnClick = true;
-                button.ToolTipText = cs.Name;
-
-                button.Click += new EventHandler(m_con.ButtonStateChanged);
-                list.Add(button);
-            }
 
             // SelectMode is default.
             button0.Checked = true;

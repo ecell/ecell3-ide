@@ -33,6 +33,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UMD.HCIL.Piccolo.Event;
 
 namespace EcellLib.PathwayWindow
 {
@@ -41,6 +42,7 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class Handle
     {
+        #region Fields
         /// <summary>
         /// This handle's mode
         /// </summary>
@@ -52,6 +54,11 @@ namespace EcellLib.PathwayWindow
         private int m_handleID;
 
         /// <summary>
+        /// EventHandler
+        /// </summary>
+        private PBasicInputEventHandler m_handler = null;
+
+        /// <summary>
         /// ComponentType
         /// </summary>
         private ComponentType m_cType;
@@ -60,16 +67,9 @@ namespace EcellLib.PathwayWindow
         /// Zooming rate of canvas
         /// </summary>
         private float m_zoomingRate;
+        #endregion
 
-        /// <summary>
-        /// Zooming rate of canvas
-        /// </summary>
-        public float ZoomingRate
-        {
-            get { return m_zoomingRate; }
-            set { m_zoomingRate = value; }
-        }
-
+        #region Accessors
         /// <summary>
         /// Accessor for mode of this handle.
         /// </summary>
@@ -86,6 +86,12 @@ namespace EcellLib.PathwayWindow
             get { return this.m_handleID; }
         }
 
+        public PBasicInputEventHandler EventHandler
+        {
+            get { return m_handler; }
+            set { m_handler = value; }
+        }
+
         /// <summary>
         /// Accessor for component setting's ID
         /// </summary>
@@ -95,26 +101,41 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Zooming rate of canvas
+        /// </summary>
+        public float ZoomingRate
+        {
+            get { return m_zoomingRate; }
+            set { m_zoomingRate = value; }
+        }
+        #endregion
+
+        #region Constructors
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="mode">Mode of this handle (select, pan, etc.)</param>
         /// <param name="handleID">ID of this handle</param>
-        public Handle(Mode mode, int handleID)
+        /// <param name="handler">PBasicInputEventHandler</param>
+        public Handle(Mode mode, int handleID, PBasicInputEventHandler handler)
         {
             this.m_mode = mode;
             this.m_handleID = handleID;
+            this.m_handler = handler;
         }
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="mode">Mode of this handle (select, pan, etc.)</param>
         /// <param name="handleID">ID of this handle</param>
+        /// <param name="handler">PBasicInputEventHandler</param>
         /// <param name="csID">ID of component setting</param>
-        public Handle(Mode mode, int handleID, ComponentType csID)
+        public Handle(Mode mode, int handleID, PBasicInputEventHandler handler, ComponentType csID)
         {
             this.m_mode = mode;
             this.m_handleID = handleID;
             this.m_cType = csID;
+            this.m_handler = handler;
         }
         /// <summary>
         /// Constructor
@@ -128,5 +149,6 @@ namespace EcellLib.PathwayWindow
             this.m_handleID = handleID;
             this.m_zoomingRate = zoomingRate;
         }
+        #endregion
     }
 }

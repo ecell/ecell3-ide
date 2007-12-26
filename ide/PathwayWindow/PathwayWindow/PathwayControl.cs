@@ -559,6 +559,51 @@ namespace EcellLib.PathwayWindow
                 m_animCon.ResetPropForSimulation();
             }
         }
+
+        /// <summary>
+        /// Set EventHandler.
+        /// </summary>
+        /// <param name="handle"></param>
+        public void SetEventHandler(Handle handle)
+        {
+            // Remove old EventHandler
+            PBasicInputEventHandler handler = m_selectedHandle.EventHandler;
+            if (handler is PPathwayInputEventHandler)
+                ((PPathwayInputEventHandler)handler).Reset();
+            RemoveInputEventListener(handler);
+
+            // Set new EventHandler 
+            m_selectedHandle = handle;
+            handler = m_selectedHandle.EventHandler;
+            foreach (ToolStripItem item in m_menuCon.ButtonList)
+            {
+                if (!(item is PathwayToolStripButton))
+                    continue;
+                PathwayToolStripButton button = (PathwayToolStripButton)item;
+                if (button.Handle == m_selectedHandle)
+                    button.Checked = true;
+                else
+                    button.Checked = false;
+            }
+            if (handler is PPathwayInputEventHandler)
+                ((PPathwayInputEventHandler)handler).Initialize();
+            AddInputEventListener(handler);
+
+            if (m_selectedHandle.Mode == Mode.Pan)
+            {
+                m_pathwayView.Cursor = new Cursor(new MemoryStream(PathwayResource.move));
+                Freeze();
+            }
+            else
+            {
+                m_pathwayView.Cursor = Cursors.Arrow;
+                Unfreeze();
+            }
+            if (ActiveCanvas == null)
+                return;
+            ActiveCanvas.ResetNodeToBeConnected();
+            ActiveCanvas.LineHandler.SetLineVisibility(false);
+        }
         #endregion
 
         #region Methods to notify changes to Interface(PathwayWindow)
@@ -778,11 +823,7 @@ namespace EcellLib.PathwayWindow
             else
             {
                 ToolStripMenuItem item = (ToolStripMenuItem)sender;
-                PointF point = new PointF();
-                point.X = item.Owner.Left;
-                point.Y = item.Owner.Top;
-                MessageBox.Show("Left:" + point.X + "Top:" + point.Y);
-
+                MessageBox.Show("X:" + m_mousePos.X + "Y:" + m_mousePos.Y);
             }
         }
 #endif
@@ -1151,41 +1192,7 @@ namespace EcellLib.PathwayWindow
             if (!(sender is PathwayToolStripButton))
                 return;
             PathwayToolStripButton selectedButton = (PathwayToolStripButton)sender;
-
-            // Remove an old EventHandler
-            PBasicInputEventHandler handler = m_menuCon.HandlerDict[m_selectedHandle.HandleID];
-            if (handler is PPathwayInputEventHandler)
-                ((PPathwayInputEventHandler)handler).Reset();
-            RemoveInputEventListener(handler);
-
-            // Set a new EventHandler 
-            m_selectedHandle = selectedButton.Handle;
-            handler = m_menuCon.HandlerDict[m_selectedHandle.HandleID];
-            foreach (PathwayToolStripButton button in m_menuCon.ButtonList)
-            {
-                if (button.Handle != m_selectedHandle)
-                {
-                    button.Checked = false;
-                }
-            }
-            if (handler is PPathwayInputEventHandler)
-                ((PPathwayInputEventHandler)handler).Initialize();
-            AddInputEventListener(handler);
-
-            if (m_selectedHandle.Mode == Mode.Pan)
-            {
-                m_pathwayView.Cursor = new Cursor(new MemoryStream(PathwayResource.move));
-                Freeze();
-            }
-            else
-            {
-                m_pathwayView.Cursor = Cursors.Arrow;
-                Unfreeze();
-            }
-            if (ActiveCanvas == null)
-                return;
-            ActiveCanvas.ResetNodeToBeConnected();
-            ActiveCanvas.LineHandler.SetLineVisibility(false);
+            SetEventHandler(selectedButton.Handle);
         }
         /// <summary>
         /// 
@@ -1221,7 +1228,7 @@ namespace EcellLib.PathwayWindow
             CanvasControl canvas = new CanvasControl(this, modelID);
             m_activeCanvasID = modelID;
             m_canvasDict.Add(modelID, canvas);
-            canvas.PathwayCanvas.AddInputEventListener(m_menuCon.HandlerDict[m_selectedHandle.HandleID]);
+            canvas.PathwayCanvas.AddInputEventListener(m_selectedHandle.EventHandler);
             // Set Pathwayview
             m_pathwayView.Clear();
             m_pathwayView.TabControl.Controls.Add(canvas.TabPage);

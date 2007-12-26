@@ -49,7 +49,7 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// <summary>
     /// PathwayCanvas which have piccolo objects.
     /// </summary>
-    public class PathwayCanvas : PCanvas
+    public class PPathwayCanvas : PCanvas
     {
         /// <summary>
         /// CanvasView to which this PathwayCanvas belongs
@@ -59,13 +59,16 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// PathwayControl to control the PathwayView.
         /// </summary>
         protected PathwayControl m_con = null;
+        /// <summary>
+        /// ResourceManager
+        /// </summary>
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="cview"></param>
-        public PathwayCanvas(CanvasControl canvas)
+        public PPathwayCanvas(CanvasControl canvas)
         {
             m_canvas = canvas;
             m_con = canvas.PathwayControl;

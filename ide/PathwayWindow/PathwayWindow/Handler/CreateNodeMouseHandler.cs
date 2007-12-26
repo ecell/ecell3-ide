@@ -86,11 +86,7 @@ namespace EcellLib.PathwayWindow.Handler
         public override void OnMouseMove(object sender, PInputEventArgs e)
         {
             base.OnMouseMove(sender, e);
-            CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
-            if (canvas == null)
-                return;
-            canvas.ControlLayer.AddChild(m_template);
-            m_template.CenterPointF = e.Position;
+            SetTemplate(e);
         }
 
         /// <summary>
@@ -151,6 +147,18 @@ namespace EcellLib.PathwayWindow.Handler
         #endregion
 
         #region Private Methods
+        /// <summary>
+        /// Set object template.
+        /// </summary>
+        private void SetTemplate(PInputEventArgs e)
+        {
+            CanvasControl canvas = m_con.CanvasDictionary[e.Canvas.Name];
+            if (canvas == null)
+                return;
+            canvas.ControlLayer.AddChild(m_template);
+            m_template.CenterPointF = e.Position;
+        }
+
         /// <summary>
         /// Create new EcellObject.
         /// </summary>

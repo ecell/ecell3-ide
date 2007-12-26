@@ -132,10 +132,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PathUtil.cs" />
-    <Compile Include="UIComponent\OverviewCanvas.cs">
+    <Compile Include="UIComponent\POverviewCanvas.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UIComponent\PathwayCanvas.cs">
+    <Compile Include="UIComponent\PPathwayCanvas.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="PathwayControl.cs" />
@@ -178,6 +178,9 @@
     </Compile>
     <Compile Include="UIComponent\PropertyDialog.Designer.cs">
       <DependentUpon>PropertyDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIComponent\PToolBoxCanvas.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UIComponent\SelectBoxDialog.cs">
       <SubType>Form</SubType>

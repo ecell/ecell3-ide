@@ -119,12 +119,12 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// PCanvas for pathways.
         /// </summary>
-        protected PathwayCanvas m_pCanvas;
+        protected PPathwayCanvas m_pCanvas;
 
         /// <summary>
         /// the canvas of overview.
         /// </summary>
-        protected OverviewCanvas m_overviewCanvas;
+        protected POverviewCanvas m_overviewCanvas;
 
         /// <summary>
         /// The dictionary for all systems on this canvas.
@@ -406,10 +406,10 @@ namespace EcellLib.PathwayWindow
             m_pathwayTabPage.AutoScroll = true;
 
             // Preparing PathwayCanvas
-            m_pCanvas = new PathwayCanvas(this);
+            m_pCanvas = new PPathwayCanvas(this);
 
             // Preparing overview
-            m_overviewCanvas = new OverviewCanvas(m_pCanvas.Layer,
+            m_overviewCanvas = new POverviewCanvas(m_pCanvas.Layer,
                                                   m_pCanvas.Camera);
             m_pCanvas.Camera.RemoveLayer(m_pCanvas.Layer);
 
@@ -491,9 +491,23 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Check if any system of this canvas (exclude specified system) overlaps given rectangle.
+        /// </summary>
+        /// <param name="system">PPathwaySystem to be checked</param>
+        /// <returns>True if there is a system which overlaps rectangle of argument, false otherwise</returns>
+        public bool DoesSystemOverlaps(PPathwaySystem system)
+        {
+            bool isOverlaping = false;
+            foreach (PPathwaySystem sys in m_systems.Values)
+                if (system != sys && system.Overlaps(sys.Rect))
+                    isOverlaping = true;
+            return isOverlaping;
+        }
+
+        /// <summary>
         /// Check if any system of this canvas overlaps given rectangle.
         /// </summary>
-        /// <param name="systemName">Check systems under.</param>
+        /// <param name="systemName">Parent system.</param>
         /// <param name="rect">RectangleF to be checked</param>
         /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
         public bool DoesSystemOverlaps(string systemName, RectangleF rect)
@@ -503,21 +517,6 @@ namespace EcellLib.PathwayWindow
                 if (system.EcellObject.key.StartsWith(systemName)
                     && !system.EcellObject.key.Equals(systemName)
                     && system.Overlaps(rect))
-                    isOverlaping = true;
-            return isOverlaping;
-        }
-
-        /// <summary>
-        /// Check if any system of this canvas (exclude specified system) overlaps given rectangle.
-        /// </summary>
-        /// <param name="rect">RectangleF to be checked</param>
-        /// <param name="excludeSystem">The name of the system to ignore in the check.</param>
-        /// <returns>True if there is a system which overlaps rectangle of argument, false otherwise</returns>
-        public bool DoesSystemOverlaps(PPathwaySystem system)
-        {
-            bool isOverlaping = false;
-            foreach (PPathwaySystem sys in m_systems.Values)
-                if (system != sys && system.Overlaps(sys.Rect))
                     isOverlaping = true;
             return isOverlaping;
         }

@@ -44,7 +44,7 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// <summary>
     /// PCanvas for overview.
     /// </summary>
-    public class OverviewCanvas : PCanvas
+    public class POverviewCanvas : PCanvas
     {
         /// <summary>
         /// Graphical content of m_canvas is scaled by m_reductionScale in overview canvas (m_overCanvas)
@@ -73,7 +73,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="observedLayer"></param>
         /// <param name="mainCamera"></param>
-        public OverviewCanvas(PLayer observedLayer,
+        public POverviewCanvas(PLayer observedLayer,
                               PCamera mainCamera)
         {
             this.Dock = DockStyle.Fill;
