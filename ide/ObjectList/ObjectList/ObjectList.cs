@@ -222,6 +222,12 @@ namespace EcellLib.ObjectList
             {
                 m_TabDict[key].DataAdd(data);
             }
+            foreach (EcellObject obj in data)
+            {
+                if (obj.modelID.Equals("")) continue;
+                m_currentModelID = obj.modelID;
+                break;
+            }
             return;
         }
 

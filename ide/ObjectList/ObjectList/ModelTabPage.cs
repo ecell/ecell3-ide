@@ -63,7 +63,7 @@ namespace EcellLib.ObjectList
         /// <summary>
         /// The ID of the selected Model now.
         /// </summary>
-        private string m_currentModelID = "";
+        private string m_currentModelID = null;
         /// <summary>
         /// The status of selected Model now.
         /// </summary>
@@ -641,6 +641,7 @@ namespace EcellLib.ObjectList
             CreateSystemHeader();
             CreateVariableHeader();
             CreateProcessHeader();
+            m_currentModelID = null;
         }
 
         /// <summary>
@@ -692,6 +693,7 @@ namespace EcellLib.ObjectList
             if (ind < 0) return;
             m_gridView[0, ind].Selected = true;
             m_gridView.FirstDisplayedScrollingRowIndex = ind;
+            m_currentModelID = modelID;
         }
 
         /// <summary>
@@ -703,6 +705,7 @@ namespace EcellLib.ObjectList
             foreach (EcellObject obj in objList)
             {
                 if (obj.type.Equals(Constants.xpathModel)) continue;
+                if (m_currentModelID != null && !m_currentModelID.Equals(obj.modelID)) continue;
                 DataAdd(obj);
                 if (obj.Children == null) continue;
                 foreach (EcellObject cobj in obj.Children)
