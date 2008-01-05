@@ -1,0 +1,409 @@
+<?xml version="1.0" ?>
+<eml>
+<stepper class="FluxDistributionStepper" id="FD"/>
+<stepper class="FixedODE1Stepper" id="DE1"/>
+<system class="System" id="/">
+<property name="StepperID">
+<value>
+DE1
+</value>
+</property>
+<property name="Name">
+<value>
+The culture medium
+</value>
+</property>
+</system>
+<system class="System" id="/CELL">
+<property name="StepperID">
+<value>
+DE1
+</value>
+</property>
+<property name="Name">
+<value>
+The cell
+</value>
+</property>
+</system>
+<system class="System" id="/CELL/CYTOPLASM">
+<property name="StepperID">
+<value>
+DE1
+</value>
+</property>
+<property name="Name">
+<value>
+The cytoplasm
+</value>
+</property>
+<variable class="Variable" id="SIZE">
+<property name="Value">
+<value>
+1E-018
+</value>
+</property>
+</variable>
+<variable class="Variable" id="A">
+<property name="Value">
+<value>
+10000
+</value>
+</property>
+<property name="Fixed">
+<value>
+1
+</value>
+</property>
+<property name="Name">
+<value>
+A
+</value>
+</property>
+</variable>
+<variable class="Variable" id="B">
+<property name="Value">
+<value>
+10000
+</value>
+</property>
+<property name="Name">
+<value>
+B
+</value>
+</property>
+</variable>
+<variable class="Variable" id="C">
+<property name="Value">
+<value>
+10000
+</value>
+</property>
+<property name="Name">
+<value>
+C
+</value>
+</property>
+</variable>
+<variable class="Variable" id="D">
+<property name="Value">
+<value>
+5000
+</value>
+</property>
+<property name="Name">
+<value>
+D
+</value>
+</property>
+</variable>
+<variable class="Variable" id="E">
+<property name="Value">
+<value>
+5000
+</value>
+</property>
+<property name="Name">
+<value>
+E
+</value>
+</property>
+</variable>
+<variable class="Variable" id="F">
+<property name="Value">
+<value>
+5000
+</value>
+</property>
+<property name="Name">
+<value>
+F
+</value>
+</property>
+</variable>
+<variable class="Variable" id="G">
+<property name="Value">
+<value>
+5000
+</value>
+</property>
+<property name="Name">
+<value>
+G
+</value>
+</property>
+</variable>
+<variable class="Variable" id="H">
+<property name="Value">
+<value>
+0
+</value>
+</property>
+<property name="Name">
+<value>
+H
+</value>
+</property>
+</variable>
+<variable class="Variable" id="I">
+<property name="Value">
+<value>
+0
+</value>
+</property>
+<property name="Name">
+<value>
+I
+</value>
+</property>
+</variable>
+<process class="MassActionFluxProcess" id="E_AB">
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:A
+</value>
+<value>
+-1
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:B
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+<property name="k">
+<value>
+0.01
+</value>
+</property>
+</process>
+<process class="MassActionFluxProcess" id="E_BC">
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:B
+</value>
+<value>
+-1
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:C
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+<property name="k">
+<value>
+0.01
+</value>
+</property>
+</process>
+<process class="MassActionFluxProcess" id="E_FH">
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:F
+</value>
+<value>
+-1
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:H
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+<property name="k">
+<value>
+0.01
+</value>
+</property>
+</process>
+<process class="MassActionFluxProcess" id="E_GI">
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:G
+</value>
+<value>
+-1
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:I
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+<property name="k">
+<value>
+0.01
+</value>
+</property>
+</process>
+<process class="QuasiDynamicFluxProcess" id="E_CD">
+<property name="StepperID">
+<value>
+FD
+</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:C
+</value>
+<value>
+-1
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:D
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+</process>
+<process class="QuasiDynamicFluxProcess" id="E_CE">
+<property name="StepperID">
+<value>
+FD
+</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:C
+</value>
+<value>
+-1
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:E
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+</process>
+<process class="QuasiDynamicFluxProcess" id="E_DF">
+<property name="StepperID">
+<value>
+FD
+</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:D
+</value>
+<value>
+-1
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:F
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+</process>
+<process class="QuasiDynamicFluxProcess" id="E_EG">
+<property name="StepperID">
+<value>
+FD
+</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:E
+</value>
+<value>
+-1
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:G
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+</process>
+</system>
+</eml>

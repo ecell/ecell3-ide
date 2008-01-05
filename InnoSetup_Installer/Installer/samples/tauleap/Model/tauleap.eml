@@ -1,0 +1,152 @@
+<?xml version="1.0" ?>
+<eml>
+<stepper class="TauLeapStepper" id="TL"/>
+<system class="System" id="/">
+<property name="StepperID">
+<value>
+TL
+</value>
+</property>
+<variable class="Variable" id="SIZE">
+<property name="Value">
+<value>
+1e-15
+</value>
+</property>
+</variable>
+<variable class="Variable" id="S1">
+<property name="Value">
+<value>
+100000
+</value>
+</property>
+</variable>
+<variable class="Variable" id="S2">
+<property name="Value">
+<value>
+0
+</value>
+</property>
+</variable>
+<variable class="Variable" id="S3">
+<property name="Value">
+<value>
+0
+</value>
+</property>
+</variable>
+<process class="GillespieProcess" id="C1">
+<property name="k">
+<value>
+1
+</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:S1
+</value>
+<value>
+-1
+</value>
+</value>
+</property>
+</process>
+<process class="GillespieProcess" id="C2">
+<property name="k">
+<value>
+1204428.0
+</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:S1
+</value>
+<value>
+-2
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:S2
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+</process>
+<process class="GillespieProcess" id="C3">
+<property name="k">
+<value>
+0.5
+</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:S2
+</value>
+<value>
+-1
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:S1
+</value>
+<value>
+2
+</value>
+</value>
+</property>
+</process>
+<process class="GillespieProcess" id="C4">
+<property name="k">
+<value>
+0.04
+</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>
+S0
+</value>
+<value>
+:.:S2
+</value>
+<value>
+-1
+</value>
+</value>
+<value>
+<value>
+P0
+</value>
+<value>
+:.:S3
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+</process>
+</system>
+</eml>

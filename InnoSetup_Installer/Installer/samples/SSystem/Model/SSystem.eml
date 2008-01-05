@@ -1,0 +1,374 @@
+<?xml version="1.0" ?>
+<eml>
+<stepper class="DiscreteTimeStepper" id="DT_01">
+<property name="StepInterval">
+<value>
+0.001
+</value>
+</property>
+</stepper>
+<system class="System" id="/">
+<property name="StepperID">
+<value>
+DT_01
+</value>
+</property>
+<property name="Name">
+<value>
+The culture medium
+</value>
+</property>
+</system>
+<system class="System" id="/CELL">
+<property name="StepperID">
+<value>
+DT_01
+</value>
+</property>
+<property name="Name">
+<value>
+The cell
+</value>
+</property>
+</system>
+<system class="System" id="/CELL/CYTOPLASM">
+<property name="StepperID">
+<value>
+DT_01
+</value>
+</property>
+<property name="Name">
+<value>
+The cytoplasm
+</value>
+</property>
+<variable class="Variable" id="SIZE">
+<property name="Value">
+<value>
+1E-018
+</value>
+</property>
+</variable>
+<variable class="Variable" id="A">
+<property name="Value">
+<value>
+10000
+</value>
+</property>
+<property name="Name">
+<value>
+A
+</value>
+</property>
+</variable>
+<variable class="Variable" id="B">
+<property name="Value">
+<value>
+10000
+</value>
+</property>
+<property name="Name">
+<value>
+B
+</value>
+</property>
+</variable>
+<variable class="Variable" id="C">
+<property name="Value">
+<value>
+10000
+</value>
+</property>
+<property name="Name">
+<value>
+C
+</value>
+</property>
+</variable>
+<variable class="Variable" id="D">
+<property name="Value">
+<value>
+10000
+</value>
+</property>
+<property name="Name">
+<value>
+D
+</value>
+</property>
+</variable>
+<variable class="Variable" id="E">
+<property name="Value">
+<value>
+10000
+</value>
+</property>
+<property name="Name">
+<value>
+E
+</value>
+</property>
+</variable>
+<process class="SSystemProcess" id="SSystem">
+<property name="Name">
+<value>
+SSystemPProcess
+</value>
+</property>
+<property name="Order">
+<value>
+3
+</value>
+</property>
+<property name="SSystemMatrix">
+<value>
+<value>
+0.5
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0.6
+</value>
+<value>
+0
+</value>
+<value>
+0.2
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+</value>
+<value>
+<value>
+0.7
+</value>
+<value>
+0.1
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0.2
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0.2
+</value>
+<value>
+0.2
+</value>
+<value>
+0
+</value>
+</value>
+<value>
+<value>
+0.5
+</value>
+<value>
+0
+</value>
+<value>
+0.1
+</value>
+<value>
+0
+</value>
+<value>
+0.1
+</value>
+<value>
+0
+</value>
+<value>
+0.4
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0.2
+</value>
+</value>
+<value>
+<value>
+0.2
+</value>
+<value>
+0
+</value>
+<value>
+0.1
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0.9
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0.2
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+</value>
+<value>
+<value>
+0.1
+</value>
+<value>
+0
+</value>
+<value>
+0.7
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0.5
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+<value>
+0
+</value>
+</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>
+P0
+</value>
+<value>
+Variable:/CELL/CYTOPLASM:A
+</value>
+<value>
+1
+</value>
+</value>
+<value>
+<value>
+P1
+</value>
+<value>
+Variable:/CELL/CYTOPLASM:B
+</value>
+<value>
+1
+</value>
+</value>
+<value>
+<value>
+P2
+</value>
+<value>
+Variable:/CELL/CYTOPLASM:C
+</value>
+<value>
+1
+</value>
+</value>
+<value>
+<value>
+P3
+</value>
+<value>
+Variable:/CELL/CYTOPLASM:D
+</value>
+<value>
+1
+</value>
+</value>
+<value>
+<value>
+P4
+</value>
+<value>
+Variable:/CELL/CYTOPLASM:E
+</value>
+<value>
+1
+</value>
+</value>
+</property>
+</process>
+</system>
+</eml>
