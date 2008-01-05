@@ -1608,7 +1608,18 @@ namespace EcellLib
             m_propName = propName;
             if (m_type.Equals(EcellObject.PROCESS))
             {
+                Dictionary<string, EcellData> tmpDict = new Dictionary<string, EcellData>();
+                foreach (string id in m_propDict.Keys)
+                {
+                    tmpDict.Add(id, m_propDict[id]);
+                }
                 m_propDict = m_dManager.GetProcessProperty(m_propName);
+                foreach (string id in tmpDict.Keys)
+                {
+                    if (!m_propDict.ContainsKey(id)) continue;
+                    if (!m_propDict[id].Settable) continue;
+                    m_propDict[id].Value = tmpDict[id].Value;
+                }
             }
 
             LayoutPropertyEditor();

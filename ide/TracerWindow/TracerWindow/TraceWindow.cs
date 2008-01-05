@@ -249,7 +249,7 @@ namespace EcellLib.TracerWindow
             DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
             c4.Value = tag.M_path;
             r.Cells.Add(c4);
-            r.Tag = new TagData(tag.M_modelID, tag.M_key, tag.Type, tag.M_path);
+            r.Tag = new TagData(tag.M_modelID, tag.M_key, tag.Type, tag.M_path, tag.IsContinue);
 
             ContextMenuStrip contextStrip = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();

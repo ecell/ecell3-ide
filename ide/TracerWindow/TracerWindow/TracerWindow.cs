@@ -141,7 +141,7 @@ namespace EcellLib.TracerWindow
         /// <summary>
         /// ResourceManager for TraceWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResTrace));
+        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResTrace));
 
         #endregion
 
@@ -448,7 +448,7 @@ namespace EcellLib.TracerWindow
             catch (Exception ex)
             {
                 ex.ToString();
-                m_resources.GetString("ErrInputData");
+                TracerWindow.s_resources.GetString("ErrInputData");
                 m_setup.Dispose();
                 return;
             }
@@ -678,11 +678,20 @@ namespace EcellLib.TracerWindow
             foreach (EcellObject obj in data)
             {
                 if (obj.Value == null) continue;
+                bool isContinue = true;
+                foreach (EcellData d in obj.Value)
+                {
+                    if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
+                    {
+                        if (d.Value.CastToInt() == 1) isContinue = true;
+                        else isContinue = false;
+                    }
+                }
                 foreach (EcellData d in obj.Value)
                 {
                     if (d.Logged)
                     {
-                        AddToEntry(new TagData(obj.modelID, obj.key, obj.type, d.EntityPath));
+                        AddToEntry(new TagData(obj.modelID, obj.key, obj.type, d.EntityPath, isContinue));
                     }
                 }
             }
@@ -764,7 +773,19 @@ namespace EcellLib.TracerWindow
         public void LoggerAdd(string modelID, string key, string type, string path)
         {
             if (isLogAdding) return;
-            TagData tag = new TagData(modelID, key, type, path);
+            EcellObject obj = DataManager.GetDataManager().GetEcellObject(modelID, key, type);
+            if (obj == null) return;
+            bool isContinue = true;
+            foreach (EcellData d in obj.Value)
+            {
+                if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
+                {
+                    if (d.Value.CastToInt() == 1) isContinue = true;
+                    else isContinue = false;
+                    break;
+                }
+            }
+            TagData tag = new TagData(modelID, key, type, path, isContinue);
             AddToEntry(tag);
         }
 
@@ -1056,6 +1077,7 @@ namespace EcellLib.TracerWindow
         private string m_key;
         private string m_type;
         private string m_path;
+        private bool m_isContinue = false;
 
         /// <summary>
         /// get / set model ID of tag data.
@@ -1095,6 +1117,15 @@ namespace EcellLib.TracerWindow
         }
 
         /// <summary>
+        /// get / set whether this log is continue.
+        /// </summary>
+        public bool IsContinue
+        {
+            get { return this.m_isContinue; }
+            set { this.m_isContinue = value; }
+        }
+
+        /// <summary>
         /// Constructor of tag data.
         /// </summary>
         public TagData()
@@ -1112,12 +1143,14 @@ namespace EcellLib.TracerWindow
         /// <param name="l_key">initial id of object.</param>
         /// <param name="l_type">initial type of object.</param>
         /// <param name="l_path">initial path of object.</param>
-        public TagData(string l_modelID, string l_key, string l_type, string l_path)
+        /// <param name="l_isContinue">initial flag whether this log is continue.</param>
+        public TagData(string l_modelID, string l_key, string l_type, string l_path, bool l_isContinue)
         {
             this.m_modelID = l_modelID;
             this.m_key = l_key;
             this.m_type = l_type;
             this.m_path = l_path;
+            this.m_isContinue = l_isContinue;
         }
 
         /// <summary>
@@ -1126,7 +1159,9 @@ namespace EcellLib.TracerWindow
         /// <returns></returns>
         public override string ToString()
         {
-            return this.m_modelID + ":" + this.m_type + ":" + this.m_key + ":" + this.m_path;
+            string data = "0";
+            if (m_isContinue) data = "1";
+            return this.m_modelID + ":" + this.m_type + ":" + this.m_key + ":" + this.m_path + ":" + data;
         }
 
         /// <summary>

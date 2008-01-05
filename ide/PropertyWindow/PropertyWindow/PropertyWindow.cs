@@ -1343,6 +1343,7 @@ namespace EcellLib.PropertyWindow
                 {
                     continue;
                 }
+                if (!propDict[d.Name].Settable) continue;
                 propDict[d.Name].Value = d.Value;
             }
             foreach (EcellData d in propDict.Values)

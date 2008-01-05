@@ -1601,12 +1601,12 @@ namespace EcellLib
                             = EcellObject.CreateObject(
                                 l_systemList[i].modelID, l_newKey, l_systemList[i].type, l_systemList[i].classname,
                                 l_systemList[i].Value);
-                        l_createdSystem.X = l_systemList[i].X;
-                        l_createdSystem.Y = l_systemList[i].Y;
-                        l_createdSystem.OffsetX = l_systemList[i].OffsetX;
-                        l_createdSystem.OffsetY = l_systemList[i].OffsetY;
-                        l_createdSystem.Width = l_systemList[i].Width;
-                        l_createdSystem.Height = l_systemList[i].Height;
+                        l_createdSystem.X = l_ecellObject.X;
+                        l_createdSystem.Y = l_ecellObject.Y;
+                        l_createdSystem.OffsetX = l_ecellObject.OffsetX;
+                        l_createdSystem.OffsetY = l_ecellObject.OffsetY;
+                        l_createdSystem.Width = l_ecellObject.Width;
+                        l_createdSystem.Height = l_ecellObject.Height;
                         this.CheckEntityPath(l_createdSystem);
                         this.DataAdd4System(l_createdSystem, false);
                         this.CheckDifferences(l_systemList[i], l_createdSystem, null);
