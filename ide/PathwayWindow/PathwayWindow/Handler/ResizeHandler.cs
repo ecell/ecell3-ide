@@ -371,8 +371,7 @@ namespace EcellLib.PathwayWindow.Handler
             foreach (PPathwayObject obj in currentDict.Values)
             {
                 string oldKey = obj.EcellObject.key;
-                string oldSyskey = obj.EcellObject.parentSystemID;
-                string newKey = PathUtil.GetMovedKey(oldKey, oldSyskey, systemName);
+                string newKey = PathUtil.GetMovedKey(oldKey, parentKey, systemName);
                 // Set node change
                 m_canvas.PathwayControl.NotifyDataChanged(oldKey, newKey, obj, true, false);
             }
