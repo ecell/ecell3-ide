@@ -1,0 +1,62 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{09B09DC1-3D77-4D58-BDAF-FF451E3D511D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>E_Cell_IDE_Installer</RootNamespace>
+    <AssemblyName>E-Cell IDE Installer</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="E-Cell_IDE_Installer.iss.tmpl" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>SubWCRev "$(SolutionDir)..\ide\MainWindow" "$(ProjectDir)E-Cell_IDE_Installer.iss.tmpl" "$(ProjectDir)E-Cell_IDE_Installer.iss"</PreBuildEvent>
+    <PostBuildEvent>XCOPY /Y /S "$(ECELL_STAGING_HOME)\bin\*" "$(ProjectDir)32bit\bin"
+XCOPY /Y /S "$(ECELL_STAGING_HOME)\plugin\*" "$(ProjectDir)32bit\plugin"
+XCOPY /Y /S "$(ECELL_STAGING_HOME)\dm\*" "$(ProjectDir)32bit\dm"
+
+XCOPY /Y /S "$(ECELL_STAGING_HOME64)\bin\*" "$(ProjectDir)64bit\bin"
+XCOPY /Y /S "$(ECELL_STAGING_HOME64)\plugin\*" "$(ProjectDir)64bit\plugin"
+XCOPY /Y /S "$(ECELL_STAGING_HOME64)\dm\*" "$(ProjectDir)32bit\dm"
+
+XCOPY /Y /S "$(ECELL_STAGING_HOME)\lib\ironpython\*" "$(ProjectDir)lib\ironpython"</PostBuildEvent>
+  </PropertyGroup>
+</Project>
