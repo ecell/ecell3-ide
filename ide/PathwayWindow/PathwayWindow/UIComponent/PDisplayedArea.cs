@@ -57,11 +57,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Cursor to move this object.
         /// </summary>
         Cursor m_hand = new Cursor( new MemoryStream( PathwayResource.move ));
-
-        /// <summary>
-        /// pen for an outline of rectangle
-        /// </summary>
-        Pen m_pen = new Pen(Brushes.DarkRed,4);
                 
         /// <summary>
         /// constructor. almost all settings for this object is done here.
@@ -69,7 +64,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         public PDisplayedArea()
         {
             this.Brush = m_brush;
-            this.Pen = m_pen;
+            this.Pen = new Pen(Brushes.DarkRed, 4);
         }
 
         #region inherited from PPathwayObject

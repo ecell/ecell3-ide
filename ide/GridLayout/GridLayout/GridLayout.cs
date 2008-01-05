@@ -87,10 +87,7 @@ namespace EcellLib.GridLayout
         /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
         /// </summary>
         private static int m_kmax = 250;
-        /// <summary>
-        /// Default grid distance.
-        /// </summary>
-        private static float m_defGridDistance = 60;
+
         /// <summary>
         /// Default grid margin.
         /// </summary>

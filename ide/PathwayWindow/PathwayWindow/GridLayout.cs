@@ -90,10 +90,7 @@ namespace EcellLib.PathwayWindow
         /// See http://en.wikipedia.org/wiki/Simulated_annealing for detail.
         /// </summary>
         private static int m_kmax = 250;
-        /// <summary>
-        /// Default Grid distance
-        /// </summary>
-        private static float m_defGridDistance = 60;
+
         /// <summary>
         /// Default system Margin
         /// </summary>
