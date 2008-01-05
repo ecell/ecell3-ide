@@ -14,7 +14,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>.\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -55,7 +55,7 @@ XCOPY /Y /S "$(ECELL_STAGING_HOME)\dm\*" "$(ProjectDir)32bit\dm"
 
 XCOPY /Y /S "$(ECELL_STAGING_HOME64)\bin\*" "$(ProjectDir)64bit\bin"
 XCOPY /Y /S "$(ECELL_STAGING_HOME64)\plugin\*" "$(ProjectDir)64bit\plugin"
-XCOPY /Y /S "$(ECELL_STAGING_HOME64)\dm\*" "$(ProjectDir)32bit\dm"
+XCOPY /Y /S "$(ECELL_STAGING_HOME64)\dm\*" "$(ProjectDir)64bit\dm"
 
 XCOPY /Y /S "$(ECELL_STAGING_HOME)\lib\ironpython\*" "$(ProjectDir)lib\ironpython"</PostBuildEvent>
   </PropertyGroup>

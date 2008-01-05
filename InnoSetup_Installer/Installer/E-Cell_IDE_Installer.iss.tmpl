@@ -17,7 +17,7 @@ DefaultGroupName=E-Cell IDE
 OutputDir=Output
 VersionInfoCopyright=Copyright (C) 2005-2007 Keio University\r\nCopyright (C) 2005-2007 Mitsubishi Space Software Co., LTD.
 AppVerName=E-Cell IDE 1.1.$WCREV$
-SetupIconFile=..\ide\MainWindow\MainWindow\ECellIDE.ico
+SetupIconFile=ECellIDE.ico
 BackColor2=$004080FF
 BackColor=$0086ADFF
 DisableProgramGroupPage=Yes
@@ -265,7 +265,7 @@ Source: "64bit\plugin\TracerWindow.dll"; DestDir: "{app}\plugin"; Flags: 64Bit; 
 ; ======================================================
 ; plugin/pathway/*
 ; ======================================================
-Source: "..\plugin\pathway\ComponentSettings.xml"; DestDir: "{app}\plugin\pathway";
+Source: "32bit\plugin\pathway\ComponentSettings.xml"; DestDir: "{app}\plugin\pathway";
 
 Source: "32bit\plugin\pathway\AlignLayout.dll"; DestDir: "{app}\plugin\pathway"; Flags: 32Bit; Check: not IsWin64();
 Source: "32bit\plugin\pathway\CircularLayout.dll"; DestDir: "{app}\plugin\pathway"; Flags: 32Bit; Check: not IsWin64();
@@ -384,8 +384,8 @@ Source: "64bit\dm\Differential2Process.dll"; DestDir: "{commondocs}\My E-Cell Pr
 Source: "64bit\dm\FOProcess.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\cascade\dms"; Flags: 64Bit; Check: IsWin64();
 Source: "64bit\dm\FOProcess.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\cascade\dms"; Flags: 64Bit; Check: IsWin64();
 
-Source: "..\64bit\dm\MakesignalProcess.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "..\64bit\dm\MakesignalProcess.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "64bit\dm\MakesignalProcess.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "64bit\dm\MakesignalProcess.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD\dms"; Flags: 64Bit; Check: IsWin64();
 
 ;Source: "64bit\dm\BisectionRapidEquilibriumProcess.dll"; DestDir: "{commondocs}\My E-Cell Projects\sample\dm"; Flags: 64Bit; Check: IsWin64();
 ;Source: "64bit\dm\FM1Process.dll"; DestDir: "{commondocs}\My E-Cell Projects\sample\dm"; Flags: 64Bit; Check: IsWin64();  Drosophila-cpp
