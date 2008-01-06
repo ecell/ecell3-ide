@@ -49,7 +49,7 @@ namespace EcellCoreLib {
         }
         catch(libecs::Exception l_ex)
         {
-            throw gcnew Exception("Failed to initilaize \"libecs\".");
+            throw gcnew Exception("Failed to initialize \"libecs\".");
         }
 		if (l_dmPaths != nullptr)
 		{
