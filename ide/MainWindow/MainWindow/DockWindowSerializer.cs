@@ -424,15 +424,15 @@ namespace EcellLib.MainWindow {
 
                 // sort IDockContent by its Pane's ZOrder
                 int[] sortedContents = null;
-                if (contentList.Count > 0)
+                if (contents.Length > 0)
                 {
-                    sortedContents = new int[contentList.Count];
-                    for (int i = 0; i < contentList.Count; i++)
+                    sortedContents = new int[contents.Length];
+                    for (int i = 0; i < contents.Length; i++)
                         sortedContents[i] = i;
 
-                    for (int i = 0; i < contentList.Count - 1; i++)
+                    for (int i = 0; i < contents.Length - 1; i++)
                     {
-                        for (int j = i + 1; j < contentList.Count; j++)
+                        for (int j = i + 1; j < contents.Length; j++)
                         {
                             DockPane pane1 = dockPanel.Contents[sortedContents[i]].DockHandler.Pane;
                             int ZOrderIndex1 = GetZOrderIndex(dockPanel, panes, pane1);
@@ -466,7 +466,7 @@ namespace EcellLib.MainWindow {
 
                 // Activate the Contents, Panes and DockWindows.
                 for (int i = 0; i < panes.Length; i++)
-                    paneList[i].ActiveContent = (panes[i].IndexActiveContent == -1) ? null : dockPanel.Contents[panes[i].IndexActiveContent];
+                    paneList[i].ActiveContent = (panes[i].IndexActiveContent == -1) ? null : contentList[panes[i].IndexActiveContent];
                 if (dockPanelStruct.IndexActiveDocumentPane != -1)
                     paneList[dockPanelStruct.IndexActiveDocumentPane].Activate();
                 if (dockPanelStruct.IndexActivePane != -1)

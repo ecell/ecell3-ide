@@ -200,7 +200,7 @@ namespace EcellLib.MainWindow
             {
                 string errmsg = MainWindow.s_resources.GetString("ErrSaveWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
                 Debug.WriteLine(errmsg);
-                //MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -222,7 +222,7 @@ namespace EcellLib.MainWindow
             {
                 string errmsg = MainWindow.s_resources.GetString("ErrLoadWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
                 Debug.WriteLine(errmsg);
-                //MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
