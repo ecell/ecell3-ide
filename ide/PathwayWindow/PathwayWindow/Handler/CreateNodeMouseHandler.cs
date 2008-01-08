@@ -52,11 +52,6 @@ namespace EcellLib.PathwayWindow.Handler
     {
         #region Fields
         /// <summary>
-        /// DataManage instance associated to this object.
-        /// </summary>
-        private DataManager m_dManager;
-
-        /// <summary>
         /// Object template.
         /// </summary>
         private PPathwayObject m_template;
@@ -71,7 +66,6 @@ namespace EcellLib.PathwayWindow.Handler
         public CreateNodeMouseHandler(PathwayControl control, ComponentType cType)
         {
             this.m_con = control;
-            this.m_dManager = control.Window.DataManager;
             this.m_template = m_con.ComponentManager.CreateTemplate(cType);
             m_template.Pickable = false;
         }
@@ -114,7 +108,7 @@ namespace EcellLib.PathwayWindow.Handler
             }
             // Create EcellObject.
             string type = ComponentManager.GetTypeString(m_template.Setting.ComponentType);
-            EcellObject eo = m_dManager.CreateDefaultObject(canvas.ModelID, system, type, false);
+            EcellObject eo = m_con.CreateDefaultObject(canvas.ModelID, system, type, false);
             eo.X = m_template.X;
             eo.Y = m_template.Y;
             eo.Width = m_template.Width;

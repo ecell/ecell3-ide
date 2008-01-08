@@ -1212,6 +1212,19 @@ namespace EcellLib.PathwayWindow
                 canvas.Zoom(rate);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="system"></param>
+        /// <param name="type"></param>
+        /// <param name="isRecorded"></param>
+        /// <returns></returns>
+        internal EcellObject CreateDefaultObject(string model, string system, string type, bool isRecorded)
+        {
+            EcellObject eo = m_window.DataManager.CreateDefaultObject(model, system, type, isRecorded);
+            return eo;
+        }
         #endregion
 
         #region private Methods.

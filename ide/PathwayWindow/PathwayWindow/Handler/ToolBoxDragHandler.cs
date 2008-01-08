@@ -133,8 +133,7 @@ namespace EcellLib.PathwayWindow.Handler
         {
             string systemKey = m_canvas.GetSurroundingSystemKey(e.Position);
             string type = GetType(m_object);
-            DataManager dm = m_canvas.PathwayControl.Window.DataManager;
-            EcellObject eo = dm.CreateDefaultObject(m_canvas.ModelID, systemKey, type, false);
+            EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, systemKey, type, false);
             eo.X = m_object.X;
             eo.Y = m_object.Y;
             eo.Width = m_object.Width;

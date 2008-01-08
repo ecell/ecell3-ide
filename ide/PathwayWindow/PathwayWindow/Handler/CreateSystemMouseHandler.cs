@@ -101,11 +101,6 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         protected Pen m_overlapPen = new Pen(Brushes.Red, 5);
 
-        /// <summary>
-        /// DataManager instance associated to this object.
-        /// </summary>
-        private DataManager m_dManager;
-
         #endregion
 
         /// <summary>
@@ -116,7 +111,6 @@ namespace EcellLib.PathwayWindow.Handler
         public CreateSystemMouseHandler(PathwayControl control)
         {
             this.m_con = control;
-            this.m_dManager = control.Window.DataManager;
         }
 
         /// <summary>
@@ -260,7 +254,7 @@ namespace EcellLib.PathwayWindow.Handler
                         if (node is PPathwayObject)
                             newlySelectedList.Add((PPathwayObject)node);
                 }
-                EcellObject eo = m_dManager.CreateDefaultObject(m_canvas.ModelID, m_surSystem, EcellObject.SYSTEM, false);
+                EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, m_surSystem, EcellObject.SYSTEM, false);
 
                 eo.X = m_rect.X;
                 eo.Y = m_rect.Y;
