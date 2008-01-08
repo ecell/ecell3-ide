@@ -350,6 +350,14 @@ namespace EcellLib.PathwayWindow.Handler
             PointF offset = system.Offset;
             if (offset.X == 0 && offset.Y == 0)
                 return;
+            
+            // Move system.
+            m_canvas.PathwayControl.NotifyDataChanged(
+                oldKey,
+                newKey,
+                system,
+                true,
+                false);
 
             // Move objects under this system.
             // TODO: This process should be implemented in EcellLib.DataChanged().
@@ -366,8 +374,9 @@ namespace EcellLib.PathwayWindow.Handler
                     false);
             }
 
-            // Inport Nodes
+            // Import Nodes
             string systemName = system.EcellObject.key;
+            string parentSystemName = system.EcellObject.parentSystemID;
             string newNodeKey = null;
             foreach (PPathwayObject obj in m_canvas.GetSystemList())
             {
@@ -376,7 +385,16 @@ namespace EcellLib.PathwayWindow.Handler
                 if (obj.EcellObject.parentSystemID.StartsWith(systemName))
                     continue;
 
-                newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.key, system.EcellObject.parentSystemID, systemName);
+                if (obj.EcellObject.parentSystemID.StartsWith(oldKey))
+                {
+                    newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.key, oldKey, newKey);
+                    obj.X = obj.X + offset.X;
+                    obj.Y = obj.Y + offset.Y;
+                }
+                else
+                {
+                    newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.key, parentSystemName, systemName);
+                }
                 m_canvas.PathwayControl.NotifyDataChanged(
                     obj.EcellObject.key,
                     newNodeKey,
@@ -389,7 +407,7 @@ namespace EcellLib.PathwayWindow.Handler
                 if (obj.EcellObject.parentSystemID.StartsWith(systemName) || !system.Rect.Contains(obj.Rect))
                     continue;
 
-                newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.key, system.EcellObject.parentSystemID, systemName);
+                newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.key, parentSystemName, systemName);
                 m_canvas.PathwayControl.NotifyDataChanged(
                     obj.EcellObject.key,
                     newNodeKey,
@@ -403,7 +421,7 @@ namespace EcellLib.PathwayWindow.Handler
             system.Y = system.Y + offset.Y;
             system.Offset = PointF.Empty;
             m_canvas.PathwayControl.NotifyDataChanged(
-                oldKey,
+                newKey,
                 newKey,
                 system,
                 true,

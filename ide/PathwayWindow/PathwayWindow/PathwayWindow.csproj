@@ -258,6 +258,7 @@
     <Content Include="Resources\zoom_out.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="pathwaywindow.snk" />
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
     <None Include="Resources\arrow.gif" />

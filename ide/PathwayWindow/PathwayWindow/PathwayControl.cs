@@ -575,7 +575,7 @@ namespace EcellLib.PathwayWindow
             // Set new EventHandler 
             m_selectedHandle = handle;
             handler = m_selectedHandle.EventHandler;
-            foreach (ToolStripItem item in m_menuCon.ButtonList)
+            foreach (ToolStripItem item in m_menuCon.ToolButtonList)
             {
                 if (!(item is PathwayToolStripButton))
                     continue;

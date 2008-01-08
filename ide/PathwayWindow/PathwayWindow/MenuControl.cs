@@ -150,15 +150,15 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Key definition of MessageResPathway for MenuItemLayout
         /// </summary>
-        public static readonly string MenuItemLayout = "MenuItemLayout";
+        private static readonly string MenuItemLayout = "MenuItemLayout";
         /// <summary>
         /// Key definition of MessageResPathway for MenuItemLayout
         /// </summary>
-        public static readonly string MenuItemEdit = "MenuItemEdit";
+        private static readonly string MenuItemEdit = "MenuItemEdit";
         /// <summary>
         /// Key definition of MessageResPathway for MenuItemLayout
         /// </summary>
-        public static readonly string MenuItemView = "MenuItemView";
+        private static readonly string MenuItemView = "MenuItemView";
         #endregion
         #endregion
         
@@ -209,7 +209,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_buttonList.
         /// </summary>
-        public List<ToolStripItem> ButtonList
+        public List<ToolStripItem> ToolButtonList
         {
             get { return m_buttonList; }
             set { m_buttonList = value; }
@@ -242,7 +242,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_menuList.
         /// </summary>
-        public List<ToolStripMenuItem> MenuList
+        public List<ToolStripMenuItem> ToolMenuList
         {
             get { return m_menuList; }
             set { m_menuList = value; }

@@ -296,157 +296,25 @@ namespace EcellLib.MainWindow {
                 dockPanel.DockBottomPortion = dockPanelStruct.DockBottomPortion;
                 
                 // Set DockWindow ZOrders
-                int prevMaxDockWindowZOrder = int.MaxValue;
-                for (int i = 0; i < dockWindows.Length; i++)
-                {
-                    int maxDockWindowZOrder = -1;
-                    int index = -1;
-                    for (int j = 0; j < dockWindows.Length; j++)
-                    {
-                        if (dockWindows[j].ZOrderIndex > maxDockWindowZOrder && dockWindows[j].ZOrderIndex < prevMaxDockWindowZOrder)
-                        {
-                            maxDockWindowZOrder = dockWindows[j].ZOrderIndex;
-                            index = j;
-                        }
-                    }
-
-                    dockPanel.DockWindows[dockWindows[index].DockState].BringToFront();
-                    prevMaxDockWindowZOrder = maxDockWindowZOrder;
-                }
+                SetDockWindowZOrder(dockPanel, dockWindows);
 
                 // Create Contents
-                List<DockContent> contentList = new List<DockContent>();
-                for (int i = 0; i < contents.Length; i++)
-                {
-                    IDockContent content = SetDockContent(window, contents[i]);
-                    if (content == null)
-                        content = new DockContent();
-                    content.DockHandler.DockPanel = dockPanel;
-                    content.DockHandler.AutoHidePortion = contents[i].AutoHidePortion;
-                    content.DockHandler.IsHidden = contents[i].IsHidden;
-                    content.DockHandler.IsFloat = contents[i].IsFloat;
-
-                    contentList.Add((DockContent)content);
-                }
+                List<DockContent> contentList = CreateContents(window, dockPanel, contents);
 
                 // Create panes
-                List<DockPane> paneList = new List<DockPane>();
-                for (int i = 0; i < panes.Length; i++)
-                {
-                    DockPane pane = null;
-                    for (int j = 0; j < panes[i].IndexContents.Length; j++)
-                    {
-                        IDockContent content = contentList[ panes[i].IndexContents[j] ];
-                        if (j == 0)
-                            pane = dockPanel.DockPaneFactory.CreateDockPane(content, panes[i].DockState, false);
-                        else if (panes[i].DockState == DockState.Float)
-                            content.DockHandler.FloatPane = pane;
-                        else
-                            content.DockHandler.PanelPane = pane;
-                    }
-                    paneList.Add(pane);
-                }
+                List<DockPane> paneList = CreatePanes(dockPanel, panes, contentList);
 
                 // Assign Panes to DockWindows
-                for (int i = 0; i < dockWindows.Length; i++)
-                {
-                    DockWindow dw = dockPanel.DockWindows[dockWindows[i].DockState];
-                    for (int j = 0; j < dockWindows[i].NestedPanes.Length; j++)
-                    {
-                        int indexPane = dockWindows[i].NestedPanes[j].IndexPane;
-                        DockPane pane = paneList[indexPane];
-                        int indexPrevPane = dockWindows[i].NestedPanes[j].IndexPrevPane;
-                        DockPane prevPane = (indexPrevPane == -1) ? dw.NestedPanes.GetDefaultPreviousPane(pane) : paneList[indexPrevPane];
-                        DockAlignment alignment = dockWindows[i].NestedPanes[j].Alignment;
-                        double proportion = dockWindows[i].NestedPanes[j].Proportion;
-                        pane.DockTo(dw, prevPane, alignment, proportion);
-                        if (panes[indexPane].DockState == dw.DockState)
-                            panes[indexPane].ZOrderIndex = dockWindows[i].ZOrderIndex;
-                    }
-                }
+                AssignPanes(dockPanel, panes, dockWindows, paneList);
 
                 // Create float windows
-                for (int i = 0; i < floatWindows.Length; i++)
-                {
-                    FloatWindow fw = null;
-                    for (int j = 0; j < floatWindows[i].NestedPanes.Length; j++)
-                    {
-                        int indexPane = floatWindows[i].NestedPanes[j].IndexPane;
-                        DockPane pane = paneList[indexPane];
-                        if (j == 0)
-                        {
-                            fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, floatWindows[i].Bounds);
-                            CheckWindowSize(fw);
-                        }
-                        else
-                        {
-                            int indexPrevPane = floatWindows[i].NestedPanes[j].IndexPrevPane;
-                            DockPane prevPane = indexPrevPane == -1 ? null : paneList[indexPrevPane];
-                            DockAlignment alignment = floatWindows[i].NestedPanes[j].Alignment;
-                            double proportion = floatWindows[i].NestedPanes[j].Proportion;
-                            pane.DockTo(fw, prevPane, alignment, proportion);
-                            if (panes[indexPane].DockState == fw.DockState)
-                                panes[indexPane].ZOrderIndex = floatWindows[i].ZOrderIndex;
-                        }
-                    }
-                }
+                CreateFloatWindows(dockPanel, panes, floatWindows, paneList);
 
                 // Create float windows for unrecorded contents
-                foreach (DockContent content in dockPanel.Contents)
-                {
-                    // Check Unrecorded content.
-                    bool isRecorded = false;
-                    foreach (DockContent recorded in contentList)
-                    {
-                        if (content == recorded)
-                        {
-                            isRecorded = true;
-                            break;
-                        }
-                    }
-                    if (isRecorded)
-                        continue;
-                    // Create new content.
-                    content.IsHidden = true;
-                    content.IsFloat = true;
-                    content.AutoHidePortion = 0.25;
-                    window.CheckWindowMenu(content.Name, !content.IsHidden);
-                    content.Pane = null;
-                    content.PanelPane = null;
-                    content.FloatPane = null;
-                    contentList.Add(content);
-                    DockPane pane = dockPanel.DockPaneFactory.CreateDockPane(content, DockState.Float, false);
-                    content.DockHandler.FloatPane = pane;
-                    paneList.Add(pane);
-                    FloatWindow fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, FloatWindowStruct.DefaultBounds);
-                    CheckWindowSize(fw);
-                }
+                CreateFloatWindowForUnrecordedContents(window, dockPanel, contentList, paneList);
 
                 // sort IDockContent by its Pane's ZOrder
-                int[] sortedContents = null;
-                if (contents.Length > 0)
-                {
-                    sortedContents = new int[contents.Length];
-                    for (int i = 0; i < contents.Length; i++)
-                        sortedContents[i] = i;
-
-                    for (int i = 0; i < contents.Length - 1; i++)
-                    {
-                        for (int j = i + 1; j < contents.Length; j++)
-                        {
-                            DockPane pane1 = dockPanel.Contents[sortedContents[i]].DockHandler.Pane;
-                            int ZOrderIndex1 = GetZOrderIndex(dockPanel, panes, pane1);
-                            DockPane pane2 = dockPanel.Contents[sortedContents[j]].DockHandler.Pane;
-                            int ZOrderIndex2 = GetZOrderIndex(dockPanel, panes, pane2); ;
-                            if (ZOrderIndex1 > ZOrderIndex2)
-                            {
-                                int temp = sortedContents[i];
-                                sortedContents[i] = sortedContents[j];
-                                sortedContents[j] = temp;
-                            }
-                        }
-                    }
-                }
+                int[] sortedContents = SortContents(dockPanel, contents, panes);
 
                 // show non-document IDockContent first to avoid screen flickers
                 for (int i = 0; i < contents.Length; i++)
@@ -483,6 +351,214 @@ namespace EcellLib.MainWindow {
             {
                 if (xmlIn != null) xmlIn.Close();
                 if (fs != null) fs.Close();
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dockPanel"></param>
+        /// <param name="contents"></param>
+        /// <param name="panes"></param>
+        /// <returns></returns>
+        private static int[] SortContents(DockPanel dockPanel, ContentStruct[] contents, PaneStruct[] panes)
+        {
+            int[] sortedContents = null;
+            if (contents.Length > 0)
+            {
+                sortedContents = new int[contents.Length];
+                for (int i = 0; i < contents.Length; i++)
+                    sortedContents[i] = i;
+
+                for (int i = 0; i < contents.Length - 1; i++)
+                {
+                    for (int j = i + 1; j < contents.Length; j++)
+                    {
+                        DockPane pane1 = dockPanel.Contents[sortedContents[i]].DockHandler.Pane;
+                        int ZOrderIndex1 = GetZOrderIndex(dockPanel, panes, pane1);
+                        DockPane pane2 = dockPanel.Contents[sortedContents[j]].DockHandler.Pane;
+                        int ZOrderIndex2 = GetZOrderIndex(dockPanel, panes, pane2); ;
+                        if (ZOrderIndex1 > ZOrderIndex2)
+                        {
+                            int temp = sortedContents[i];
+                            sortedContents[i] = sortedContents[j];
+                            sortedContents[j] = temp;
+                        }
+                    }
+                }
+            }
+            return sortedContents;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="dockPanel"></param>
+        /// <param name="contentList"></param>
+        /// <param name="paneList"></param>
+        private static void CreateFloatWindowForUnrecordedContents(MainWindow window, DockPanel dockPanel, List<DockContent> contentList, List<DockPane> paneList)
+        {
+            foreach (DockContent content in dockPanel.Contents)
+            {
+                // Check Unrecorded content.
+                bool isRecorded = false;
+                foreach (DockContent recorded in contentList)
+                {
+                    if (content == recorded)
+                    {
+                        isRecorded = true;
+                        break;
+                    }
+                }
+                if (isRecorded)
+                    continue;
+                // Create new content.
+                content.IsHidden = true;
+                content.IsFloat = true;
+                content.AutoHidePortion = 0.25;
+                window.CheckWindowMenu(content.Name, !content.IsHidden);
+                content.Pane = null;
+                content.PanelPane = null;
+                content.FloatPane = null;
+                contentList.Add(content);
+                DockPane pane = dockPanel.DockPaneFactory.CreateDockPane(content, DockState.Float, false);
+                content.DockHandler.FloatPane = pane;
+                paneList.Add(pane);
+                FloatWindow fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, content.Bounds);
+                CheckWindowSize(fw);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dockPanel"></param>
+        /// <param name="panes"></param>
+        /// <param name="dockWindows"></param>
+        /// <param name="paneList"></param>
+        private static void AssignPanes(DockPanel dockPanel, PaneStruct[] panes, DockWindowStruct[] dockWindows, List<DockPane> paneList)
+        {
+            for (int i = 0; i < dockWindows.Length; i++)
+            {
+                DockWindow dw = dockPanel.DockWindows[dockWindows[i].DockState];
+                for (int j = 0; j < dockWindows[i].NestedPanes.Length; j++)
+                {
+                    int indexPane = dockWindows[i].NestedPanes[j].IndexPane;
+                    DockPane pane = paneList[indexPane];
+                    int indexPrevPane = dockWindows[i].NestedPanes[j].IndexPrevPane;
+                    DockPane prevPane = (indexPrevPane == -1) ? dw.NestedPanes.GetDefaultPreviousPane(pane) : paneList[indexPrevPane];
+                    DockAlignment alignment = dockWindows[i].NestedPanes[j].Alignment;
+                    double proportion = dockWindows[i].NestedPanes[j].Proportion;
+                    pane.DockTo(dw, prevPane, alignment, proportion);
+                    if (panes[indexPane].DockState == dw.DockState)
+                        panes[indexPane].ZOrderIndex = dockWindows[i].ZOrderIndex;
+                }
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dockPanel"></param>
+        /// <param name="panes"></param>
+        /// <param name="floatWindows"></param>
+        /// <param name="paneList"></param>
+        private static void CreateFloatWindows(DockPanel dockPanel, PaneStruct[] panes, FloatWindowStruct[] floatWindows, List<DockPane> paneList)
+        {
+            for (int i = 0; i < floatWindows.Length; i++)
+            {
+                FloatWindow fw = null;
+                for (int j = 0; j < floatWindows[i].NestedPanes.Length; j++)
+                {
+                    int indexPane = floatWindows[i].NestedPanes[j].IndexPane;
+                    DockPane pane = paneList[indexPane];
+                    if (j == 0)
+                    {
+                        fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, floatWindows[i].Bounds);
+                        CheckWindowSize(fw);
+                    }
+                    else
+                    {
+                        int indexPrevPane = floatWindows[i].NestedPanes[j].IndexPrevPane;
+                        DockPane prevPane = indexPrevPane == -1 ? null : paneList[indexPrevPane];
+                        DockAlignment alignment = floatWindows[i].NestedPanes[j].Alignment;
+                        double proportion = floatWindows[i].NestedPanes[j].Proportion;
+                        pane.DockTo(fw, prevPane, alignment, proportion);
+                        if (panes[indexPane].DockState == fw.DockState)
+                            panes[indexPane].ZOrderIndex = floatWindows[i].ZOrderIndex;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dockPanel"></param>
+        /// <param name="panes"></param>
+        /// <param name="contentList"></param>
+        /// <returns></returns>
+        private static List<DockPane> CreatePanes(DockPanel dockPanel, PaneStruct[] panes, List<DockContent> contentList)
+        {
+            List<DockPane> paneList = new List<DockPane>();
+            for (int i = 0; i < panes.Length; i++)
+            {
+                DockPane pane = null;
+                for (int j = 0; j < panes[i].IndexContents.Length; j++)
+                {
+                    IDockContent content = contentList[panes[i].IndexContents[j]];
+                    if (j == 0)
+                        pane = dockPanel.DockPaneFactory.CreateDockPane(content, panes[i].DockState, false);
+                    else if (panes[i].DockState == DockState.Float)
+                        content.DockHandler.FloatPane = pane;
+                    else
+                        content.DockHandler.PanelPane = pane;
+                }
+                paneList.Add(pane);
+            }
+            return paneList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="dockPanel"></param>
+        /// <param name="contents"></param>
+        /// <returns></returns>
+        private static List<DockContent> CreateContents(MainWindow window, DockPanel dockPanel, ContentStruct[] contents)
+        {
+            List<DockContent> contentList = new List<DockContent>();
+            for (int i = 0; i < contents.Length; i++)
+            {
+                IDockContent content = SetDockContent(window, contents[i]);
+                if (content == null)
+                    content = new DockContent();
+                content.DockHandler.DockPanel = dockPanel;
+                content.DockHandler.AutoHidePortion = contents[i].AutoHidePortion;
+                content.DockHandler.IsHidden = contents[i].IsHidden;
+                content.DockHandler.IsFloat = contents[i].IsFloat;
+
+                contentList.Add((DockContent)content);
+            }
+            return contentList;
+        }
+
+        private static void SetDockWindowZOrder(DockPanel dockPanel, DockWindowStruct[] dockWindows)
+        {
+            int prevMaxDockWindowZOrder = int.MaxValue;
+            for (int i = 0; i < dockWindows.Length; i++)
+            {
+                int maxDockWindowZOrder = -1;
+                int index = -1;
+                for (int j = 0; j < dockWindows.Length; j++)
+                {
+                    if (dockWindows[j].ZOrderIndex > maxDockWindowZOrder && dockWindows[j].ZOrderIndex < prevMaxDockWindowZOrder)
+                    {
+                        maxDockWindowZOrder = dockWindows[j].ZOrderIndex;
+                        index = j;
+                    }
+                }
+
+                dockPanel.DockWindows[dockWindows[index].DockState].BringToFront();
+                prevMaxDockWindowZOrder = maxDockWindowZOrder;
             }
         }
 
