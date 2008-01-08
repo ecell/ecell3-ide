@@ -56,4 +56,11 @@
       <HashCode>CBAAAKEAJEAACCAQAKAAAAQIAJAAhAAAQBAIAADAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
+  <Class Name="EcellLib.PathwayWindow.Handle" Collapsed="true">
+    <Position X="7.25" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Handle.cs</FileName>
+      <HashCode>AAAAiDAAAIAQAAAAAAAAAEAAAAAAAAAgAABAAAABAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
 </ClassDiagram>
