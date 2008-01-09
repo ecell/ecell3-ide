@@ -19,7 +19,7 @@
     </SccProvider>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferencePath>$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin;$(REFPATH)</ReferencePath>
+    <ReferencePath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(REFPATH)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Win32' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,7 +62,7 @@
   <ItemGroup>
     <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7d5574583093e55f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\EcellLib.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -72,11 +72,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.2706.19617, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
     <Reference Include="ZedGraph, Version=4.3.2.30706, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\ZedGraph.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\ZedGraph.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -192,12 +192,12 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>IF NOT EXIST "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\plugin" MKDIR "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\plugin"
-XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\src\MainWindow\MainWindow\bin\$(ConfigurationName)"
-XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\plugin"
-XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin"
-FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\%25%25D"
-FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\%25%25D"</PostBuildEvent>
+    <PostBuildEvent>IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin"
+XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\src\MainWindow\MainWindow\bin\$(Configuration)"
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin"
+XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin"
+FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"
+FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"</PostBuildEvent>
     <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
 </Project>

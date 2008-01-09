@@ -20,7 +20,7 @@
     </SccProvider>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferencePath>$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin;$(REFPATH)</ReferencePath>
+    <ReferencePath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(REFPATH)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Win32' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,7 +63,7 @@
   <ItemGroup>
     <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\EcellLib.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -130,8 +130,8 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>
-IF NOT EXIST "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin" MKDIR "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin"
-XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin"
+IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin"
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin"
     </PostBuildEvent>
   </PropertyGroup>
 </Project>

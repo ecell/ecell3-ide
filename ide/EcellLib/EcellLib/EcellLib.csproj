@@ -21,7 +21,7 @@
     <AssemblyOriginatorKeyFile>ecelllib.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferencePath>$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin;$(REFPATH)</ReferencePath>
+    <ReferencePath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(REFPATH)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Win32' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,11 +65,11 @@
   <ItemGroup>
     <Reference Include="EcellCoreLibCLR">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\EcellCoreLibCLR.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellCoreLibCLR.dll</HintPath>
     </Reference>
     <Reference Include="Formulator">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\Formulator.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\Formulator.dll</HintPath>
     </Reference>
     <Reference Include="IronMath">
       <SpecificVersion>False</SpecificVersion>
@@ -87,7 +87,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.2706.19617, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -228,12 +228,12 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin"
-FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\%25%25D"
-FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\%25%25D"
+    <PostBuildEvent>XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin"
+FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"
+FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"
 SETLOCAL
-SET _STG_HOME=$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)
-SET PATH=$(PATH);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin;$(TargetDir)
+SET _STG_HOME=$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)
+SET PATH=$(PATH);$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(TargetDir)
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -21,7 +21,7 @@
     <AssemblyOriginatorKeyFile>formulator.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferencePath>$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin;$(REFPATH)</ReferencePath>
+    <ReferencePath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(REFPATH)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Win32' ">
     <DebugSymbols>true</DebugSymbols>
@@ -97,6 +97,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin"</PostBuildEvent>
+    <PostBuildEvent>XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin"</PostBuildEvent>
   </PropertyGroup>
 </Project>
