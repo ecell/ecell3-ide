@@ -169,6 +169,9 @@
       <DependentUpon>OpenProjectDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="Test\TestMainWindow.cs" />
+    <Compile Include="Test\TestDockWindowSerializer.cs" />
+    <Compile Include="Test\TestSelectDirectory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DistributedEnvSetupWindow.ja.resx">
       <SubType>Designer</SubType>

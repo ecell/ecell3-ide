@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="MS UI Gothic" Size="9" />
+  <Class Name="EcellLib.MainWindow.DistributedEnvSetupWindow" Collapsed="true">
+    <Position X="3.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DistributedEnvSetupWindow.cs</FileName>
+      <HashCode>AQQCABAQICAAABBAAAKAIEACwABggAEggEAgAAAAECA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.MainWindow.DistributedEnvWindow" Collapsed="true">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DistributedEnvWindow.cs</FileName>
+      <HashCode>AAAEAAQwAKAIAAQCgQCIAAAGTAQACQAggAAAAAAIADA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.MainWindow.NewProjectDialog" Collapsed="true">
+    <Position X="8.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>NewProjectDialog.cs</FileName>
+      <HashCode>EAAAAAAQCKgAQBAAgAKAAKACggAAAAAAwEAABAAAACE=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.MainWindow.OpenProjectDialog" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>OpenProjectDialog.cs</FileName>
+      <HashCode>AgAAhAQUQKAgQBAABgCAAAAKAAgAAAAAgkAAIABgACA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.MainWindow.PluginVersionListWindow" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PluginVersionListWindow.cs</FileName>
+      <HashCode>AAAAABAAACFAAAAAAACAAAgCAAAAAAAAAAAgAgAAACA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.MainWindow.SaveProjectDialog" Collapsed="true">
+    <Position X="3.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SaveProjectDialog.cs</FileName>
+      <HashCode>AAAAAAAQAGAAQAAAAACAAAACgAAAAAAAIAAAAAAAACA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.MainWindow.SelectWinSettingWindow" Collapsed="true">
+    <Position X="7" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SelectWinSettingWindow.cs</FileName>
+      <HashCode>CACIAAgQADAAAKAEAACAAAACAAAAAIAAAiAAIABAACA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.MainWindow.WindowSetting" Collapsed="true">
+    <Position X="7" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SelectWinSettingWindow.cs</FileName>
+      <HashCode>EAAAAAAAAAAAAAIAAKAAAAQAAAAAABAAAAAAIAEAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.MainWindow.SetupIDEWindow" Collapsed="true">
+    <Position X="5.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SetupIDEWindow.cs</FileName>
+      <HashCode>AYAAAAASCCAAQAAAAACAAAACACAEAAAAAgEQAAAAACA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EcellLib.MainWindow.Splash" Collapsed="true">
+    <Position X="7" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Splash.cs</FileName>
+      <HashCode>AAAgAAAAACAAAEAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+</ClassDiagram>
