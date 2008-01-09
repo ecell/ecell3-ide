@@ -1,3 +1,4 @@
+#pragma warning(disable:4793)
 #include "boost/shared_array.hpp"
 
 #include "libemc/Simulator.hpp"

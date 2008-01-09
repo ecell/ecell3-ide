@@ -21,7 +21,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="2"
 			ManagedExtensions="1"
@@ -96,13 +96,13 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /L /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="2"
 			ManagedExtensions="1"
@@ -178,13 +178,13 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /L /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="2"
 			ManagedExtensions="1"
@@ -258,13 +258,13 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /L /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="2"
 			ManagedExtensions="1"
@@ -339,7 +339,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="XCOPY /L /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
+				CommandLine="XCOPY /Y &quot;$(OutDir)\$(ProjectName).dll&quot; &quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin&quot;"
 			/>
 		</Configuration>
 	</Configurations>

@@ -1,5 +1,5 @@
+#pragma warning(disable:4793)
 #include "WrappedPolymorph.hpp"
-
 
 namespace EcellCoreLib
 {

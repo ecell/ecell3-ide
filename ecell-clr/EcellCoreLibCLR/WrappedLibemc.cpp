@@ -1,3 +1,4 @@
+#pragma warning(disable:4793)
 #include "WrappedLibemc.hpp"
 
 using namespace System;

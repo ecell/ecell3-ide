@@ -1,3 +1,4 @@
+#pragma warning(disable:4793)
 #include "WrappedDataPointVector.hpp"
 
 using namespace System;
