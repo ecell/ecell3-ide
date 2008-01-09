@@ -15,7 +15,6 @@ namespace test
         [SetUp]
         public void SetUp()
         {
-            m_dManager = DataManager.GetDataManager();
         }
 
         [TearDown]
@@ -26,8 +25,13 @@ namespace test
         [Test]
         public void Test()
         {
-            m_dManager.CreateProject("testProject", "comment", null, new List<string>());
-            m_dManager.SaveProject("testProject");
+            m_dManager = DataManager.GetDataManager();
+            string project = "testProject";
+            m_dManager.CreateProject(project, "comment", null, new List<string>());
+            m_dManager.SaveProject(project);
+            Assert.AreEqual(project, m_dManager.CurrentProjectID);
+            m_dManager.CloseProject(project);
+            Assert.IsNull(m_dManager.CurrentProjectID);
         }
     }
 }

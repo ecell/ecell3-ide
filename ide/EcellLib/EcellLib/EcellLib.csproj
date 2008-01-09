@@ -213,6 +213,7 @@
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />
     <Compile Include="test\DataManagerTest.cs" />
+    <Compile Include="test\TestDataManager.cs" />
     <None Include="ecelllib.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +230,10 @@
   <PropertyGroup>
     <PostBuildEvent>XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin"
 FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\%25%25D"
-FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\%25%25D"</PostBuildEvent>
+FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin\%25%25D"
+SETLOCAL
+SET _STG_HOME=$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)
+SET PATH=$(PATH);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin;$(TargetDir)
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

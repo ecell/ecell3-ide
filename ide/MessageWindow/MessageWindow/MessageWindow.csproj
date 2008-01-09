@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="MessageWindow.cs" />
     <Compile Include="MessageWindowControl.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="MessageWindowControl.Designer.cs">
       <DependentUpon>MessageWindowControl.cs</DependentUpon>

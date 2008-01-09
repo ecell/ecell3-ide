@@ -130,6 +130,7 @@
       <DependentUpon>InputBoxDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UIComponent\OverView.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="PathUtil.cs" />
     <Compile Include="UIComponent\POverviewCanvas.cs">
@@ -162,8 +163,10 @@
     </Compile>
     <Compile Include="UIComponent\NamespaceDoc.cs" />
     <Compile Include="UIComponent\PathwayView.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UIComponent\LayerView.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UIComponent\ProgressDialog.cs">
       <SubType>Form</SubType>
@@ -187,6 +190,7 @@
       <DependentUpon>SelectBoxDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UIComponent\ToolBox.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UIComponent\ToolBox.Designer.cs">
       <DependentUpon>ToolBox.cs</DependentUpon>

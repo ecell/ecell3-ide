@@ -111,6 +111,7 @@
       <DependentUpon>TracerWindowSetup.cs</DependentUpon>
     </Compile>
     <Compile Include="TraceWindow.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="TraceWindow.Designer.cs">
       <DependentUpon>TraceWindow.cs</DependentUpon>

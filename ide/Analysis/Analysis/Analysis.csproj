@@ -99,6 +99,7 @@
       <DependentUpon>AnalysisTemplate.cs</DependentUpon>
     </Compile>
     <Compile Include="RobustAnalysis.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="RobustAnalysis.Designer.cs">
       <DependentUpon>RobustAnalysis.cs</DependentUpon>

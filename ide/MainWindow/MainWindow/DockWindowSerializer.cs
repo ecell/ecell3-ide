@@ -250,6 +250,8 @@ namespace EcellLib.MainWindow {
         private static void CheckFilePath(string filename)
         {
             string path = Path.GetDirectoryName(filename);
+            if(string.IsNullOrEmpty(path))
+                return;
             if (!Directory.Exists(path))
                Directory.CreateDirectory(path); 
         }
