@@ -65,7 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <PropertyGroup>
-    <PostBuildEvent>nunit-console.exe "$(TargetDir)$(TargetName).dll"</PostBuildEvent>
+    <PostBuildEvent>SETLOCAL
+SET _STG_HOME=$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)
+SET PATH=$(PATH);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\bin;$(TargetDir)
+nunit-console-x86.exe "$(TargetDir)$(TargetName).dll"</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\EcellCoreLibCLR\EcellCoreLibCLR.vcproj">
