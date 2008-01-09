@@ -3378,7 +3378,6 @@ namespace EcellLib
             if (s_instance == null)
             {
                 s_instance = new DataManager();
-
             }
             return s_instance;
         }

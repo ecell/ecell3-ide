@@ -214,6 +214,8 @@
     <Compile Include="Eml.cs" />
     <Compile Include="test\DataManagerTest.cs" />
     <Compile Include="test\TestDataManager.cs" />
+    <Compile Include="test\TestPluginManager.cs" />
+    <Compile Include="test\TestPluginData.cs" />
     <None Include="ecelllib.snk" />
   </ItemGroup>
   <ItemGroup>
