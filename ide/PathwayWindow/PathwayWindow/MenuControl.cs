@@ -598,7 +598,7 @@ namespace EcellLib.PathwayWindow
                 else
                 {
                     GraphicsPath gp = cs.TransformedPath;
-                    gra.FillPath(cs.NormalBrush, gp);
+                    gra.FillPath(cs.FillBrush, gp);
                     gra.DrawPath(new Pen(Brushes.Black, 16), gp);
                     button.Handle = new Handle(Mode.CreateNode, handleCount++, new CreateNodeMouseHandler(m_con, cs.ComponentType), cs.ComponentType);
                 }

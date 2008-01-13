@@ -69,11 +69,6 @@ namespace EcellLib.PathwayWindow.Nodes
         protected SizeF m_movingDelta = new SizeF(0,0);
 
         /// <summary>
-        /// Default Line color.
-        /// </summary>
-        protected Brush m_lineBrush = Brushes.Black;
-
-        /// <summary>
         /// list of size.
         /// </summary>
         protected List<SizeF> m_sizes = new List<SizeF>();
@@ -95,6 +90,13 @@ namespace EcellLib.PathwayWindow.Nodes
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public PPathwayProcess()
+        {
+            m_lineBrush = Brushes.Black;
+        }
         /// <summary>
         /// create new PEcellProcess.
         /// </summary>

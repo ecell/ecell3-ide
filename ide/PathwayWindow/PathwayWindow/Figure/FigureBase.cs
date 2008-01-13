@@ -40,6 +40,26 @@ namespace EcellLib.PathwayWindow.Figure
     public abstract class FigureBase
     {
         /// <summary>
+        /// X coordinate of this figure.
+        /// </summary>
+        protected float m_x;
+
+        /// <summary>
+        /// Y coordinate of this figure.
+        /// </summary>
+        protected float m_y;
+
+        /// <summary>
+        /// Width of this figure.
+        /// </summary>
+        protected float m_width;
+
+        /// <summary>
+        /// Height of this figure.
+        /// </summary>
+        protected float m_height;
+
+        /// <summary>
         /// Return a contact point between an outer point and an inner point.
         /// </summary>
         /// <param name="outerPoint"></param>

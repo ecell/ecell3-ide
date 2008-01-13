@@ -79,6 +79,12 @@ namespace EcellLib.PathwayWindow.Nodes
         #endregion
 
         /// <summary>
+        /// 
+        /// </summary>
+        public PPathwayVariable()
+        {
+        }
+        /// <summary>
         /// create new PEcellVariable.
         /// </summary>
         /// <returns></returns>

@@ -160,7 +160,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 }
                 else
                 {
-                    this.Brush = m_normalBrush;
+                    this.Brush = m_fillBrush;
                 }
                 m_isChanged = true;
             }
@@ -182,7 +182,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 else if (m_isSelected)
                     this.Brush = m_highLightBrush;
                 else
-                    this.Brush = m_normalBrush;
+                    this.Brush = m_fillBrush;
             }
         }
         
@@ -251,7 +251,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     if (this.m_isSelected)
                         this.Brush = m_highLightBrush;
                     else
-                        this.Brush = m_normalBrush;
+                        this.Brush = m_fillBrush;
                 }
                 else
                     this.Brush = m_invalidBrush;

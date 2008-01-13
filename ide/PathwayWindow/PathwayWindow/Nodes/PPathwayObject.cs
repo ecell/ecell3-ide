@@ -99,7 +99,11 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Object will be painted with this Brush when object is not selected.
         /// </summary>
-        protected Brush m_normalBrush = Brushes.White;
+        protected Brush m_fillBrush = Brushes.White;
+        /// <summary>
+        /// Object will be painted with this Brush when object is not selected.
+        /// </summary>
+        protected Brush m_lineBrush = Brushes.White;
         /// <summary>
         /// Object will be painted with this Brush when object is selected.
         /// </summary>
@@ -356,10 +360,18 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for m_normalBrush.
         /// </summary>
-        public Brush NormalBrush
+        public Brush FillBrush
         {
-            get { return this.m_normalBrush; }
-            set { this.m_normalBrush = value; }
+            get { return this.m_fillBrush; }
+            set { this.m_fillBrush = value; }
+        }
+        /// <summary>
+        /// Accessor for m_normalBrush.
+        /// </summary>
+        public Brush LineBrush
+        {
+            get { return this.m_lineBrush; }
+            set { this.m_lineBrush = value; }
         }
         /// <summary>
         /// Accessor for m_highLightBrush.
@@ -381,7 +393,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 if (value)
                     this.Brush = m_highLightBrush;
                 else
-                    this.Brush = m_normalBrush;
+                    this.Brush = m_fillBrush;
             }
         }
 

@@ -40,26 +40,6 @@ namespace EcellLib.PathwayWindow.Figure
     public class EllipseFigure : FigureBase
     {
         /// <summary>
-        /// X coordinate of this figure.
-        /// </summary>
-        protected float m_x;
-
-        /// <summary>
-        /// Y coordinate of this figure.
-        /// </summary>
-        protected float m_y;
-
-        /// <summary>
-        /// Width of this figure.
-        /// </summary>
-        protected float m_width;
-
-        /// <summary>
-        /// Height of this figure.
-        /// </summary>
-        protected float m_height;
-
-        /// <summary>
         /// A constructor.
         /// </summary>
         /// <param name="x"></param>

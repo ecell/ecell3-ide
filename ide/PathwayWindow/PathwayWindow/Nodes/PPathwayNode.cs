@@ -122,7 +122,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 if (value)
                     this.Brush = m_toBeConnectedBrush;
                 else
-                    this.Brush = m_normalBrush;
+                    this.Brush = m_fillBrush;
             }
         }
 
@@ -138,7 +138,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 if (value)
                     this.Brush = m_toBeConnectedBrush;
                 else if (!m_isToBeConnected)
-                    this.Brush = m_normalBrush;
+                    this.Brush = m_fillBrush;
             }
         }
 
