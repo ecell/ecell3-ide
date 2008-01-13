@@ -158,7 +158,7 @@ namespace EcellLib.PathwayWindow
 
         /// <summary>
         /// PLayer for control use.
-        /// For example, resize handlers for PEcellSystem.
+        /// For example, resize handlers for System.
         /// </summary>
         protected PLayer m_ctrlLayer;
 
@@ -886,7 +886,7 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Notify this set that one PEcellSystem is selected.
+        /// AddSelect PPathwaySystem.
         /// </summary>
         /// <param name="systemName">the name of selected system.</param>
         public void AddSelectedSystem(PPathwaySystem obj)

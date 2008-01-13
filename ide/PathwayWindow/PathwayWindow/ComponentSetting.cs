@@ -111,7 +111,12 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Brush for drawing this component when normal.
         /// </summary>
-        private Brush m_normalBrush = Brushes.White;
+        private Brush m_fillBrush = Brushes.White;
+
+        /// <summary>
+        /// Brush for drawing this component when normal.
+        /// </summary>
+        private Brush m_lineBrush = Brushes.White;
 
         /// <summary>
         /// Brush for drawing this component when highlighted.
@@ -191,12 +196,24 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_normalBrush.
         /// </summary>
-        public Brush NormalBrush
+        public Brush FillBrush
         {
-            get { return this.m_normalBrush; }
+            get { return this.m_fillBrush; }
             set
             {
-                this.m_normalBrush = value;
+                this.m_fillBrush = value;
+                isNormalBrushSet = true;
+            }
+        }
+        /// <summary>
+        /// Accessor for m_normalBrush.
+        /// </summary>
+        public Brush LineBrush
+        {
+            get { return this.m_lineBrush; }
+            set
+            {
+                this.m_lineBrush = value;
                 isNormalBrushSet = true;
             }
         }
@@ -251,17 +268,17 @@ namespace EcellLib.PathwayWindow
             {
                 throw new NoSuchComponentClassException();
             }
-            if(className.Equals("PEcellVariable"))
+            if (className.Equals(ComponentManager.ClassPPathwayVariable) || className.Equals(ComponentManager.ClassPEcellVariable))
             {
                 PPathwayVariable variable = new PPathwayVariable();
                 m_createMethod = variable.CreateNewObject;
             }
-            else if(className.Equals("PEcellProcess"))
+            else if (className.Equals(ComponentManager.ClassPPathwayProcess) || className.Equals(ComponentManager.ClassPEcellProcess))
             {
                 PPathwayProcess process = new PPathwayProcess();
                 m_createMethod = process.CreateNewObject;
             }
-            else if(className.Equals("PEcellSystem"))
+            else if (className.Equals(ComponentManager.ClassPPathwaySystem) || className.Equals(ComponentManager.ClassPEcellSystem))
             {
                 PPathwaySystem system = new PPathwaySystem();
                 m_createMethod = system.CreateNewObject;
@@ -300,7 +317,7 @@ namespace EcellLib.PathwayWindow
             obj.Setting = this;
             if (m_componentKind == ComponentType.System)
             {
-                obj.NormalBrush = Brushes.LightBlue;
+                obj.FillBrush = Brushes.LightBlue;
                 obj.Width = PPathwaySystem.MIN_X_LENGTH;
                 obj.Height = PPathwaySystem.MIN_Y_LENGTH;
                 obj.Pen = null;
@@ -308,11 +325,11 @@ namespace EcellLib.PathwayWindow
             else
             {
                 obj.AddPath(m_gp, false);
-                obj.NormalBrush = m_normalBrush;
+                obj.FillBrush = m_fillBrush;
                 obj.Width = PPathwayNode.DEFAULT_WIDTH;
                 obj.Height = PPathwayNode.DEFAULT_HEIGHT;
             }
-            obj.Brush = obj.NormalBrush;
+            obj.Brush = obj.FillBrush;
 
             return obj;
         }

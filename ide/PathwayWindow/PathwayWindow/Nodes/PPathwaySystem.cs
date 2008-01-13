@@ -286,7 +286,7 @@ namespace EcellLib.PathwayWindow.Nodes
 
         #region Constructor
         /// <summary>
-        /// Constructor for PEcellSystem.
+        /// Constructor for PPathwaySystem.
         /// </summary>
         public PPathwaySystem()
         {

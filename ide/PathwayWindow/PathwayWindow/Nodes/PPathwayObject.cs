@@ -278,7 +278,7 @@ namespace EcellLib.PathwayWindow.Nodes
         protected string m_canvasID = null;
 
         /// <summary>
-        /// Parent object. Maybe PEcellSystem.
+        /// Parent object.
         /// </summary>
         protected PPathwayObject m_parentObject;
 

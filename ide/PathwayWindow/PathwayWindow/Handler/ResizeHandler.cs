@@ -245,7 +245,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Validate a system. According to result, system.Valid will be changed.
         /// </summary>
-        /// <param name="system">PEcellSystem to be validated</param>
+        /// <param name="system">System to be validated</param>
         private void ValidateSystem(PPathwaySystem system)
         {
             if (m_canvas.DoesSystemOverlaps(system))

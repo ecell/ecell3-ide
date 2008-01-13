@@ -273,7 +273,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// the event sequence of selecting the PNode of process or variable in PathwayEditor.
         /// </summary>
-        /// <param name="sender">PEcellVariavle of PEcellProcess.</param>
         /// <param name="e">PInputEventArgs.</param>
         public override void OnMouseDown(PInputEventArgs e)
         {

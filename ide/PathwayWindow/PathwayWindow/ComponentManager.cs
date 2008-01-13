@@ -63,21 +63,28 @@ namespace EcellLib.PathwayWindow
         /// The default name of variable.
         /// </summary>
         public const string DEFAULT_VARIABLE_NAME = "DefaultVariable";
+
+        public const string ClassPPathwaySystem = "PPathwaySystem";
+        public const string ClassPPathwayProcess = "PPathwayProcess";
+        public const string ClassPPathwayVariable = "PPathwayVariable";
+        public const string ClassPEcellSystem = "PEcellSystem";
+        public const string ClassPEcellProcess = "PEcellProcess";
+        public const string ClassPEcellVariable = "PEcellVariable";
         #endregion
 
         #region Fields
         /// <summary>
-        /// Dictionary of ComponentSettings for creating PEcellSystems.
+        /// Dictionary of ComponentSettings for creating PPathwaySystems.
         /// </summary>
         protected Dictionary<string, ComponentSetting> m_systemSettings;
         
         /// <summary>
-        /// Dictionary of ComponentSetting for creating PEcellProcess.
+        /// Dictionary of ComponentSetting for creating PPathwayProcess.
         /// </summary>
         protected Dictionary<string, ComponentSetting> m_processSettings;
 
         /// <summary>
-        /// Dictionary of ComponentSetting for creating PEcellVariable.
+        /// Dictionary of ComponentSetting for creating PPathwayVariable.
         /// </summary>
         protected Dictionary<string, ComponentSetting> m_variableSettings;
 
@@ -296,7 +303,7 @@ namespace EcellLib.PathwayWindow
                             Brush brush = PathUtil.GetBrushFromString(parameterNode.InnerText);
                             if (brush != null)
                             {
-                                cs.NormalBrush = brush;
+                                cs.FillBrush = brush;
                             }
                         }
                         else if ("Drawings".Equals(parameterNode.Name))
@@ -589,26 +596,26 @@ namespace EcellLib.PathwayWindow
             ComponentSetting defSysCs = new ComponentSetting();
             defSysCs.ComponentType = ComponentType.System;
             defSysCs.Name = DEFAULT_SYSTEM_NAME;
-            defSysCs.NormalBrush = Brushes.LightBlue;
-            defSysCs.AddComponentClass("PEcellSystem");
+            defSysCs.FillBrush = Brushes.LightBlue;
+            defSysCs.AddComponentClass(ClassPPathwaySystem);
             RegisterSystemSetting(defSysCs.Name, defSysCs, true);
 
             // Set hard coded default variable ComponentSettings
             ComponentSetting defVarCs = new ComponentSetting();
             defVarCs.ComponentType = ComponentType.Variable;
             defVarCs.Name = DEFAULT_VARIABLE_NAME;
-            defVarCs.NormalBrush = Brushes.LightBlue;
+            defVarCs.FillBrush = Brushes.LightBlue;
             defVarCs.AddFigure("Ellipse", "-30,-20,60,40");
-            defVarCs.AddComponentClass("PEcellVariable");
+            defVarCs.AddComponentClass(ClassPPathwayVariable);
             RegisterProcessSetting(defVarCs.Name, defVarCs, true);
 
             // Set hard coded default process ComponentSettings
             ComponentSetting defProCs = new ComponentSetting();
             defProCs.ComponentType = ComponentType.Process;
             defProCs.Name = DEFAULT_PROCESS_NAME;
-            defProCs.NormalBrush = Brushes.LightGreen;
+            defProCs.FillBrush = Brushes.LightGreen;
             defProCs.AddFigure("Rectangle","-30,-20,60,40");
-            defProCs.AddComponentClass("PEcellProcess");
+            defProCs.AddComponentClass(ClassPPathwayProcess);
             RegisterProcessSetting(defProCs.Name, defProCs, true);
         }
 

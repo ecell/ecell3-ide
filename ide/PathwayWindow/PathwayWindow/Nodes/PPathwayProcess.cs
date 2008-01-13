@@ -98,7 +98,7 @@ namespace EcellLib.PathwayWindow.Nodes
             m_lineBrush = Brushes.Black;
         }
         /// <summary>
-        /// create new PEcellProcess.
+        /// create new PPathwayProcess.
         /// </summary>
         /// <returns></returns>
         public override PPathwayObject CreateNewObject()

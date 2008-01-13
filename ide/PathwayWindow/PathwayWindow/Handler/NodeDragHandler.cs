@@ -268,7 +268,7 @@ namespace EcellLib.PathwayWindow.Handler
         }
 
         /// <summary>
-        /// Transfer an system from one PEcellSystem/Layer to PEcellSystem/Layer.
+        /// Transfer an system from one System/Layer to other System/Layer.
         /// </summary>
         /// <param name="nodeList">Transfered nodes</param>
         private void TransferNodes(List<PPathwayObject> nodeList)
@@ -340,7 +340,7 @@ namespace EcellLib.PathwayWindow.Handler
         }
 
         /// <summary>
-        /// Transfer an system from one PEcellSystem/Layer to PEcellSystem/Layer.
+        /// Transfer an system from one System/Layer to other System/Layer.
         /// </summary>
         /// <param name="newKey">new key of a system to be transfered</param>
         /// <param name="oldKey">old key of a system to be transfered</param>

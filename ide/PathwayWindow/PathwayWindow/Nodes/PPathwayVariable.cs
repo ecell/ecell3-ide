@@ -85,7 +85,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
         }
         /// <summary>
-        /// create new PEcellVariable.
+        /// create new PPathwayVariable.
         /// </summary>
         /// <returns></returns>
         public override PPathwayObject CreateNewObject()

@@ -271,13 +271,12 @@ namespace EcellLib.PathwayWindow.Handler
             m_startPoint = PointF.Empty;
         }
         /// <summary>
-        /// Transfer an object from one PEcellSystem/Layer to PEcellSystem/Layer.
+        /// Transfer an object from one System/Layer to other System/Layer.
         /// </summary>
         /// <param name="systemName">The name of the system to which object is transfered. If null, obj is
         /// transfered to layer itself</param>
         public void TransferNodeToByCreate(string systemName)
         {
-            // The case that obj is transfered to PEcellSystem.
             PPathwaySystem system = m_canvas.Systems[systemName];
             string newKey = null;
             foreach (PPathwayObject obj in m_canvas.GetSystemList())
