@@ -36,7 +36,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 
-using SessionManager;
+using EcellLib.SessionManager;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.Analysis

@@ -17,7 +17,7 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>ecelllib.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>

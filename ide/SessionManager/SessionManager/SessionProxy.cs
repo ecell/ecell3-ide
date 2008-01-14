@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SessionManager
+namespace EcellLib.SessionManager
 {
     /// <summary>
     /// enumerable set of status for job.

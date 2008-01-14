@@ -35,7 +35,7 @@ using System.Windows.Forms;
 
 using EcellLib;
 
-namespace SessionManager
+namespace EcellLib.SessionManager
 {
     /// <summary>
     /// SessionProxy to execute the simulation in Local Environment.

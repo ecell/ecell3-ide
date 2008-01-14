@@ -7,7 +7,7 @@
     <ProjectGuid>{3F101152-5363-4599-AA2C-29A78D20879E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib</RootNamespace>
+    <RootNamespace>EcellLib.SessionManager</RootNamespace>
     <AssemblyName>SessionManager</AssemblyName>
     <StartupObject>
     </StartupObject>
@@ -54,7 +54,7 @@
     <DocumentationFile>bin\x86_64\Release\SessionManager.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7d5574583093e55f, processorArchitecture=x86">
+    <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellLib.dll</HintPath>
     </Reference>

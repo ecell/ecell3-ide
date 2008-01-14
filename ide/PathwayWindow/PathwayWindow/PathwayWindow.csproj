@@ -19,7 +19,7 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>pathwaywindow.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>

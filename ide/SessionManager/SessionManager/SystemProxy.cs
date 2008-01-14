@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SessionManager
+namespace EcellLib.SessionManager
 {
     /// <summary>
     /// SystemProxy class. This class is abstract class managed session.

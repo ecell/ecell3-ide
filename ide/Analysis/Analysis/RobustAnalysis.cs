@@ -37,7 +37,8 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-using SessionManager;
+using EcellLib;
+using EcellLib.SessionManager;
 using ZedGraph;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;

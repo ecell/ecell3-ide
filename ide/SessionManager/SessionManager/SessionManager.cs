@@ -35,7 +35,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using EcellLib;
 
-namespace SessionManager
+namespace EcellLib.SessionManager
 {
     /// <summary>
     /// Management class of session.
