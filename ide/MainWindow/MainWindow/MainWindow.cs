@@ -212,11 +212,12 @@ namespace EcellLib.MainWindow
         {
             try
             {
-                if (!File.Exists(filename))
-                    throw new Exception(MainWindow.s_resources.GetString("FileNotFound"));
-                DockWindowSerializer.LoadFromXML(this, filename);
-                Debug.WriteLine("load window settings: " + filename);
-                return true;
+                if (File.Exists(filename))
+                {
+                    DockWindowSerializer.LoadFromXML(this, filename);
+                    Debug.WriteLine("load window settings: " + filename);
+                    return true;
+                }
             }
             catch (Exception ex)
             {
@@ -225,6 +226,7 @@ namespace EcellLib.MainWindow
                 MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+            return false;
         }
 
         /// <summary>
