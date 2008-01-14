@@ -9,18 +9,19 @@ namespace EcellLib.MainWindow
     [TestFixture()]
     public class TestDockWindowSerializer
     {
-
+        MainWindow _window;
         private DockWindowSerializer _unitUnderTest;
         private string _modelFile;
-        [SetUp()]
+
+        [TestFixtureSetUp()]
         public void SetUp()
         {
-            string foldername = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "E-Cell IDE");
-            _modelFile = Path.Combine(foldername, "TestModel.xml");
+            _modelFile = Path.Combine(Util.GetUserDir(), "TestModel.xml");
+            _window = new MainWindow();
             _unitUnderTest = new DockWindowSerializer();
         }
 
-        [TearDown()]
+        [TestFixtureTearDown()]
         public void TearDown()
         {
             _unitUnderTest = null;
@@ -29,17 +30,15 @@ namespace EcellLib.MainWindow
         [Test()]
         public void TestSaveAsXML()
         {
-            EcellLib.MainWindow.MainWindow window = new MainWindow();
-            DockWindowSerializer.SaveAsXML(window, _modelFile);
-            Assert.IsNotNull(window);
+            DockWindowSerializer.SaveAsXML(_window, _modelFile);
+            Assert.IsNotNull(_window);
         }
 
         [Test()]
         public void TestLoadFromXML()
         {
-            EcellLib.MainWindow.MainWindow window = new MainWindow();
-            DockWindowSerializer.LoadFromXML(window, _modelFile);
-            Assert.IsNotNull(window);
+            DockWindowSerializer.LoadFromXML(_window, _modelFile);
+            Assert.IsNotNull(_window);
         }
     }
 }

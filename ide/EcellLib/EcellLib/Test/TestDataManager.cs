@@ -7,17 +7,16 @@ namespace EcellLib
     [TestFixture()]
     public class TestDataManager
     {
-
         private DataManager _unitUnderTest;
 
         [TestFixtureSetUp()]
-        public void SetUp()
+        public void TestFixtureSetUp()
         {
             _unitUnderTest = DataManager.GetDataManager();
         }
 
         [TestFixtureTearDown()]
-        public void TearDown()
+        public void TestFixtureTearDown()
         {
             _unitUnderTest = null;
         }

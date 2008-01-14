@@ -12,20 +12,22 @@ namespace test
     {
         private DataManager m_dManager;
 
-        [SetUp]
-        public void SetUp()
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
         {
+            m_dManager = DataManager.GetDataManager();
         }
 
-        [TearDown]
-        public void TearDown()
+        [TestFixtureTearDown]
+        public void TestFixtureTearDown()
         {
+            m_dManager = null;
         }
 
         [Test]
         public void Test()
         {
-            m_dManager = DataManager.GetDataManager();
+            
             string project = "testProject";
             m_dManager.CreateProject(project, "comment", null, new List<string>());
             m_dManager.SaveProject(project);
