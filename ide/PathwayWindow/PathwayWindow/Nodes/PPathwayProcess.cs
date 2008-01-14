@@ -95,7 +95,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public PPathwayProcess()
         {
-            m_lineBrush = Brushes.Black;
         }
         /// <summary>
         /// create new PPathwayProcess.

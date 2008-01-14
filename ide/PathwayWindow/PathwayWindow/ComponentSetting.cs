@@ -145,6 +145,23 @@ namespace EcellLib.PathwayWindow
             set { this.m_componentKind = value; }
         }
 
+        public string Class
+        {
+            get
+            {
+                switch(m_componentKind)
+                {
+                    case ComponentType.System:
+                        return ComponentManager.ClassPPathwaySystem;
+                    case ComponentType.Process:
+                        return ComponentManager.ClassPPathwayProcess;
+                    case ComponentType.Variable:
+                        return ComponentManager.ClassPPathwayVariable;
+                }
+                return null;
+            }
+        }
+
         /// <summary>
         /// Accessor for m_name.
         /// </summary>
@@ -403,6 +420,11 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.No_Error;
             }
             else if (type.Equals("rectangle"))
+            {
+                returnCode = AddRectangle(args);
+                return ErrorType.No_Error;
+            }
+            else if (type.Equals("roundcornerrectangle"))
             {
                 returnCode = AddRectangle(args);
                 return ErrorType.No_Error;

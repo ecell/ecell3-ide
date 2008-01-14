@@ -42,6 +42,7 @@ using System.ComponentModel;
 using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.Exceptions;
 using EcellLib.PathwayWindow.Resources;
+using EcellLib.PathwayWindow.Figure;
 
 namespace EcellLib.PathwayWindow
 {
@@ -294,11 +295,11 @@ namespace EcellLib.PathwayWindow
 
                     foreach (XmlNode parameterNode in componentNode.ChildNodes)
                     {
-                        if ("Name".Equals(parameterNode.Name))
+                        if (parameterNode.Name.Equals("Name"))
                         {
                             cs.Name = parameterNode.InnerText;
                         }
-                        else if ("Color".Equals(parameterNode.Name))
+                        else if (parameterNode.Name.Equals("FillColor") || parameterNode.Name.Equals("Color"))
                         {
                             Brush brush = PathUtil.GetBrushFromString(parameterNode.InnerText);
                             if (brush != null)
@@ -306,7 +307,15 @@ namespace EcellLib.PathwayWindow
                                 cs.FillBrush = brush;
                             }
                         }
-                        else if ("Drawings".Equals(parameterNode.Name))
+                        else if (parameterNode.Name.Equals("LineColor"))
+                        {
+                            Brush brush = PathUtil.GetBrushFromString(parameterNode.InnerText);
+                            if (brush != null)
+                            {
+                                cs.LineBrush = brush;
+                            }
+                        }
+                        else if (parameterNode.Name.Equals("Drawings"))
                         {
                             foreach (XmlNode drawNode in parameterNode.ChildNodes)
                             {
@@ -314,7 +323,7 @@ namespace EcellLib.PathwayWindow
                                     cs.AddFigure(drawNode.Attributes["type"].Value, drawNode.InnerText);
                             }
                         }
-                        else if ("Class".Equals(parameterNode.Name))
+                        else if (parameterNode.Name.Equals("Class"))
                         {
                             cs.AddComponentClass(parameterNode.InnerText);
                         }
@@ -380,6 +389,67 @@ namespace EcellLib.PathwayWindow
                 }
             }
             return manager;
+        }
+
+        /// <summary>
+        /// Save ComponentSettings
+        /// </summary>
+        public void SaveComponentSettings()
+        {
+            string filepath = Path.Combine(Util.GetUserDir(), "ComponentSettings.xml");
+            FileStream fs = null;
+            XmlTextWriter xmlOut = null;
+            try
+            {
+                // Create xml file
+                fs = new FileStream(filepath, FileMode.Create);
+                xmlOut = new XmlTextWriter(fs, Encoding.Unicode);
+
+                // Use indenting for readability
+                xmlOut.Formatting = Formatting.Indented;
+                xmlOut.WriteStartDocument();
+
+                // Always begin file with identification and warning
+                xmlOut.WriteComment("PathwayWindow configuration file.");
+                xmlOut.WriteComment("Automatically generated file. DO NOT modify!");
+
+                // Application settings
+                xmlOut.WriteStartElement("ComponentList");
+                xmlOut.WriteAttributeString("Name", Application.ProductName);
+                xmlOut.WriteAttributeString("Version", Application.ProductVersion);
+
+                // Object settings
+                foreach (ComponentSetting setting in ComponentSettings)
+                {
+                    xmlOut.WriteStartElement("Component");
+                    xmlOut.WriteElementString("Name", setting.Name);
+                    xmlOut.WriteElementString("Class", setting.Class);
+                    xmlOut.WriteElementString("LineColor", setting.LineBrush.ToString());
+                    xmlOut.WriteElementString("FillColor", setting.FillBrush.ToString());
+                    xmlOut.WriteStartElement("Drawings");
+                    foreach (FigureBase figure in setting.FigureList)
+                    {
+                        xmlOut.WriteStartElement("Draw");
+                        xmlOut.WriteAttributeString("Type", figure.Type);
+                        xmlOut.WriteValue(figure.ToString());
+                        xmlOut.WriteEndElement();
+                    }
+                    xmlOut.WriteEndElement();
+                    xmlOut.WriteEndElement();
+                }
+                xmlOut.WriteEndElement();
+                xmlOut.WriteEndDocument();
+            }
+            catch (Exception ex)
+            {
+                string errmsg = m_resources.GetString("ErrCompInvalid") + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
+                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (xmlOut != null) xmlOut.Close();
+                if (fs != null) fs.Close();
+            }
         }
 
         /// <summary>

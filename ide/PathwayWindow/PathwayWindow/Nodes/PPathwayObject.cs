@@ -103,7 +103,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Object will be painted with this Brush when object is not selected.
         /// </summary>
-        protected Brush m_lineBrush = Brushes.White;
+        protected Brush m_lineBrush = Brushes.Black;
         /// <summary>
         /// Object will be painted with this Brush when object is selected.
         /// </summary>

@@ -10,13 +10,13 @@ namespace EcellLib
 
         private DataManager _unitUnderTest;
 
-        [SetUp()]
+        [TestFixtureSetUp()]
         public void SetUp()
         {
             _unitUnderTest = DataManager.GetDataManager();
         }
 
-        [TearDown()]
+        [TestFixtureTearDown()]
         public void TearDown()
         {
             _unitUnderTest = null;
@@ -25,25 +25,21 @@ namespace EcellLib
         [Test()]
         public void TestGetDataManager()
         {
-            EcellLib.DataManager expectedDataManager = DataManager.GetDataManager();
             EcellLib.DataManager resultDataManager = DataManager.GetDataManager();
-            Assert.AreEqual(expectedDataManager, resultDataManager, "GetDataManager method returned unexpected result.");
-
+            Assert.AreEqual(_unitUnderTest, resultDataManager, "GetDataManager method returned unexpected result.");
         }
 
         [Test()]
         public void TestSaveUserAction()
         {
-            string fileName = null;
+            string fileName = "";
             _unitUnderTest.SaveUserAction(fileName);
-            Assert.Fail("Create or modify test(s).");
-
         }
 
         [Test()]
         public void TestLoadUserActionFile()
         {
-            string filenName = null;
+            string filenName = "";
             _unitUnderTest.LoadUserActionFile(filenName);
             Assert.Fail("Create or modify test(s).");
 
@@ -52,7 +48,7 @@ namespace EcellLib
         [Test()]
         public void TestAddStepperIDL_parameterIDL_stepper()
         {
-            string l_parameterID = null;
+            string l_parameterID = "";
             EcellLib.EcellObject l_stepper = null;
             _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
             Assert.Fail("Create or modify test(s).");

@@ -20,6 +20,7 @@ namespace EcellLib.PathwayWindow.Figure
             m_y = y;
             m_width = width;
             m_height = height;
+            m_type = "RoundCornerRectangle";
         }
 
         /// <summary>

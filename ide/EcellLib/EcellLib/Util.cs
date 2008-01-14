@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Security.AccessControl;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace EcellLib
 {
@@ -336,6 +337,15 @@ namespace EcellLib
             }
             return topDir;
 //            return GetRegistryValue(Constants.registryTmpDirKey);
+        }
+
+        /// <summary>
+        /// Get the user directory.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetUserDir()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Application.ProductName);
         }
 
         /// <summary>

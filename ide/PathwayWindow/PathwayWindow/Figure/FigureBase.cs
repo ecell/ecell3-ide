@@ -60,6 +60,20 @@ namespace EcellLib.PathwayWindow.Figure
         protected float m_height;
 
         /// <summary>
+        /// 
+        /// </summary>
+        protected string m_type;
+
+        /// <summary>
+        /// type string.
+        /// </summary>
+        public string Type
+        {
+            get { return m_type; }
+            set { m_type = value; }
+        }
+
+        /// <summary>
         /// Return a contact point between an outer point and an inner point.
         /// </summary>
         /// <param name="outerPoint"></param>

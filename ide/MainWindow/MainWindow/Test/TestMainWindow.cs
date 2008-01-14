@@ -10,25 +10,23 @@ namespace EcellLib.MainWindow
 
         private MainWindow _unitUnderTest;
 
-        [SetUp()]
-        public void SetUp()
+        [TestFixtureSetUp()]
+        public void TestFixtureSetUp()
         {
             _unitUnderTest = new MainWindow();
         }
 
-        [TearDown()]
-        public void TearDown()
+        [TestFixtureTearDown()]
+        public void TestFixtureTearDown()
         {
             _unitUnderTest = null;
         }
 
-        [Test()]
+        [NUnit.Framework.Test()]
         public void TestConstructorMainWindow()
         {
             MainWindow testMainWindow = new MainWindow();
             Assert.IsNotNull(testMainWindow, "Constructor of type, MainWindow failed to create instance.");
-            Assert.Fail("Create or modify test(s).");
-
         }
 
         [Test()]
