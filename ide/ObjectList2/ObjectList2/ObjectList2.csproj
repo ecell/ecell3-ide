@@ -132,8 +132,6 @@
     <Compile Include="VariablePropertyTabPage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="column.xml">
-    </EmbeddedResource>
     <EmbeddedResource Include="MessageResObjList.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

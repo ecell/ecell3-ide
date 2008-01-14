@@ -1,10 +1,22 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AboutWindow", "AboutWindow\AboutWindow\AboutWindow.csproj", "{FA048ADB-AA9C-40D1-BD82-EB696C65658F}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlignLayout", "AlignLayout\AlignLayout\AlignLayout.csproj", "{517EBCF9-A5DA-4BF0-B4BF-1C4A7BB899CE}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analysis", "Analysis\Analysis\Analysis.csproj", "{DA6AB870-F791-478E-AE09-7A670F4AFBDE}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{3F101152-5363-4599-AA2C-29A78D20879E} = {3F101152-5363-4599-AA2C-29A78D20879E}
 		{EB193AD3-99DC-477F-BDF9-C071812B93D0} = {EB193AD3-99DC-477F-BDF9-C071812B93D0}
@@ -12,77 +24,167 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analysis", "Analysis\Analys
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircularLayout", "CircularLayout\CircularLayout\CircularLayout.csproj", "{BF10EC05-D4CC-47C7-A4C1-94465ACDDAE2}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributeLayout", "DistributeLayout\DistributeLayout\DistributeLayout.csproj", "{E1014A1A-00B5-4C97-832E-86EE773F0403}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcellLib", "EcellLib\EcellLib\EcellLib.csproj", "{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{EB193AD3-99DC-477F-BDF9-C071812B93D0} = {EB193AD3-99DC-477F-BDF9-C071812B93D0}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityListWindow", "EntityListWindow\EntityListWindow\EntityListWindow.csproj", "{9F1830B0-28F0-40C6-9B26-0307FA52268C}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{EB193AD3-99DC-477F-BDF9-C071812B93D0} = {EB193AD3-99DC-477F-BDF9-C071812B93D0}
 		{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295} = {1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Formulator", "Formulator\Formulator\Formulator.csproj", "{EB193AD3-99DC-477F-BDF9-C071812B93D0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridLayout", "GridLayout\GridLayout\GridLayout.csproj", "{4FFE2BEB-049B-46E4-88C9-50F6BCA79CC0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{5DAE389C-7C1E-4F6E-8F63-FB0980CFACB7} = {5DAE389C-7C1E-4F6E-8F63-FB0980CFACB7}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layout Engines", "Layout Engines", "{F3C01B10-44B8-492C-94C2-8BDFC67DBCC9}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Features", "Features", "{3B79DB33-4745-48A4-9D21-45926FA20D15}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainWindow", "MainWindow\MainWindow\MainWindow.csproj", "{3F802287-78C1-4EE6-9B06-8C1A9CB62226}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageWindow", "MessageWindow\MessageWindow\MessageWindow.csproj", "{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectList", "ObjectList\ObjectList\ObjectList.csproj", "{659B501F-086F-4414-83D3-E018F05C380B}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295} = {1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PathwayWindow", "PathwayWindow\PathwayWindow\PathwayWindow.csproj", "{5DAE389C-7C1E-4F6E-8F63-FB0980CFACB7}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295} = {1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyWindow", "PropertyWindow\PropertyWindow\PropertyWindow.csproj", "{25FDB8FE-243A-4666-8B81-C52E0949D566}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{EB193AD3-99DC-477F-BDF9-C071812B93D0} = {EB193AD3-99DC-477F-BDF9-C071812B93D0}
 		{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295} = {1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchWindow", "SearchWindow\SearchWindow\SearchWindow.csproj", "{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295} = {1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulation", "Simulation\Simulation\Simulation.csproj", "{A27D08FE-F274-464E-B361-E1DDE7203264}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaticDebugWindow", "StaticDebugWindow\StaticDebugWindow\StaticDebugWindow.csproj", "{E484AC73-2464-472C-B779-D6878E8B3FA3}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295} = {1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{779F77E3-3ED3-4D22-B54A-0F07F9415AF9}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{2FC504C3-330C-4837-B79F-872EE644B6D0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolLauncher", "ToolLauncher\ToolLauncher\ToolLauncher.csproj", "{5A0DDD5F-9122-4FD1-83D1-5F9D96178D75}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracerWindow", "TracerWindow\TracerWindow\TracerWindow.csproj", "{878AA0FC-E743-4592-84C5-C1B8B82310C2}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295} = {1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SessionManager", "SessionManager\SessionManager\SessionManager.csproj", "{3F101152-5363-4599-AA2C-29A78D20879E}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295} = {1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectList2", "ObjectList2\ObjectList2\ObjectList2.csproj", "{2FB3385F-89E2-40FE-8157-5A2993C6D258}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
 Global
@@ -253,6 +355,14 @@ Global
 		{3F101152-5363-4599-AA2C-29A78D20879E}.Release|Win32.Build.0 = Release|Win32
 		{3F101152-5363-4599-AA2C-29A78D20879E}.Release|x64.ActiveCfg = Release|x64
 		{3F101152-5363-4599-AA2C-29A78D20879E}.Release|x64.Build.0 = Release|x64
+		{2FB3385F-89E2-40FE-8157-5A2993C6D258}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2FB3385F-89E2-40FE-8157-5A2993C6D258}.Debug|Win32.Build.0 = Debug|Win32
+		{2FB3385F-89E2-40FE-8157-5A2993C6D258}.Debug|x64.ActiveCfg = Debug|x64
+		{2FB3385F-89E2-40FE-8157-5A2993C6D258}.Debug|x64.Build.0 = Debug|x64
+		{2FB3385F-89E2-40FE-8157-5A2993C6D258}.Release|Win32.ActiveCfg = Release|Win32
+		{2FB3385F-89E2-40FE-8157-5A2993C6D258}.Release|Win32.Build.0 = Release|Win32
+		{2FB3385F-89E2-40FE-8157-5A2993C6D258}.Release|x64.ActiveCfg = Release|x64
+		{2FB3385F-89E2-40FE-8157-5A2993C6D258}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -276,6 +386,7 @@ Global
 		{659B501F-086F-4414-83D3-E018F05C380B} = {779F77E3-3ED3-4D22-B54A-0F07F9415AF9}
 		{A27D08FE-F274-464E-B361-E1DDE7203264} = {779F77E3-3ED3-4D22-B54A-0F07F9415AF9}
 		{DA6AB870-F791-478E-AE09-7A670F4AFBDE} = {779F77E3-3ED3-4D22-B54A-0F07F9415AF9}
+		{2FB3385F-89E2-40FE-8157-5A2993C6D258} = {779F77E3-3ED3-4D22-B54A-0F07F9415AF9}
 		{EB193AD3-99DC-477F-BDF9-C071812B93D0} = {2FC504C3-330C-4837-B79F-872EE644B6D0}
 	EndGlobalSection
 EndGlobal
