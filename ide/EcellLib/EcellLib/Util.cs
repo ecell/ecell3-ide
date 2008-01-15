@@ -624,6 +624,29 @@ namespace EcellLib
             return val.Substring(startIdx, endIdx - startIdx + 1);
         }
 
+        public static void CopyDirectory(string sourceDirName, string destDirName)
+        {
+            if (!System.IO.Directory.Exists(destDirName))
+            {
+                System.IO.Directory.CreateDirectory(destDirName);
+                System.IO.File.SetAttributes(destDirName,
+                    System.IO.File.GetAttributes(sourceDirName));
+            }
+            if (destDirName[destDirName.Length - 1] !=
+                    System.IO.Path.DirectorySeparatorChar)
+                destDirName = destDirName + System.IO.Path.DirectorySeparatorChar;
+
+            string[] files = System.IO.Directory.GetFiles(sourceDirName);
+            foreach (string file in files)
+                System.IO.File.Copy(file,
+                    destDirName + System.IO.Path.GetFileName(file), true);
+
+            string[] dirs = System.IO.Directory.GetDirectories(sourceDirName);
+            foreach (string dir in dirs)
+                CopyDirectory(dir, destDirName + System.IO.Path.GetFileName(dir));
+        }
+
+
         /// <summary>
         /// Get the name and the parent path from the full object path.
         /// </summary>

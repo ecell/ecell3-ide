@@ -5712,7 +5712,7 @@ namespace EcellLib
                 m_currentProjectID = l_prjID;
                 m_currentProjectPath = l_projectPath;
                 m_simulatorDic[l_prjID] = CreateSimulatorInstance();
-                CreateProjectDir(l_prjID);
+                CreateProjectDir(l_prjID, l_setDirList);
                 SetDMList();
                 m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
                 l_prj = new Project(l_prjID, l_comment, DateTime.Now.ToString());
@@ -5921,7 +5921,7 @@ namespace EcellLib
         /// Create the project directory.
         /// </summary>
         /// <param name="prjID">Project ID.</param>
-        private void CreateProjectDir(string prjID)
+        private void CreateProjectDir(string prjID, List<string> dmList)
         {
             SetDefaultDir();
             string baseDir = this.m_defaultDir + Constants.delimiterPath + prjID;
@@ -5941,7 +5941,12 @@ namespace EcellLib
             {
                 Directory.CreateDirectory(dmDir);
             }
+            foreach (string sourceDirName in dmList)
+            {
+                Util.CopyDirectory(sourceDirName, dmDir);
+            }
         }
+
 
         /// <summary>
         /// Saves the model using the model ID.
