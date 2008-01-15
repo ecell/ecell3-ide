@@ -270,9 +270,17 @@ namespace EcellLib.ObjectList2
         /// <param name="obj">The changed object.</param>
         public void DataChanged(string modelID, string id, string type, EcellObject obj)
         {
-            if (m_tabList.ContainsKey(typeof(EcellObject)))
+            if (obj is EcellSystem)
             {
-                m_tabList[typeof(object)].DataChanged(modelID, id, obj);
+                m_tabList[typeof(EcellSystem)].DataChanged(modelID, id, obj);
+            }
+            else if (obj is EcellVariable)
+            {
+                m_tabList[typeof(EcellVariable)].DataChanged(modelID, id, obj);
+            }
+            else if (obj is EcellProcess)
+            {
+                m_tabList[typeof(EcellProcess)].DataChanged(modelID, id, obj);
             }
         }
 
