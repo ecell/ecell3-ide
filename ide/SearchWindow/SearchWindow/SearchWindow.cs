@@ -371,7 +371,7 @@ namespace EcellLib.SearchWindow
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>        
-        public Bitmap Print()
+        public Bitmap Print(string name)
         {
              if (m_cnd != null)
                  return m_cnd.Print();
@@ -409,11 +409,12 @@ namespace EcellLib.SearchWindow
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true</returns>
-        public bool IsEnablePrint()
+        public List<string> GetEnablePrintNames()
         {
+            List<string> names = new List<string>();
             if (m_cnd != null && m_cnd.Visible)
-                return true;
-            return false;
+                names.Add("Search result.");
+            return names;
         }
 
         /// <summary>

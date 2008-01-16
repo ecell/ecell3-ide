@@ -106,6 +106,15 @@ namespace EcellLib.TracerWindow {
         }
         
         /// <summary>
+        ///   Delete に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemDeleteText {
+            get {
+                return ResourceManager.GetString("MenuItemDeleteText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Save Trace ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowSaveTraceText {

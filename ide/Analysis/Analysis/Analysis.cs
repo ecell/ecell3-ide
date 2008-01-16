@@ -282,9 +282,10 @@ namespace EcellLib.Analysis
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true.</returns>
-        public bool IsEnablePrint()
+        public List<String> GetEnablePrintNames()
         {
-            return true;
+            List<string> names = new List<string>();
+            return names;
         }
 
         /// <summary>
@@ -332,7 +333,7 @@ namespace EcellLib.Analysis
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>
-        public Bitmap Print()
+        public Bitmap Print(string name)
         {
             return null;
         }

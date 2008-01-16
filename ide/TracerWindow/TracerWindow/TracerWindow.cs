@@ -49,29 +49,11 @@ namespace EcellLib.TracerWindow
     {
         #region Fields
         /// <summary>
-        /// The delegate function for adding rows into DataGridView.
-        /// </summary>
-        /// <param name="t">TagData.</param>
-        delegate void AddRowCallBack(TagData t);
-        /// <summary>
-        /// The delegate function for removing rows from DataGridView.
-        /// </summary>
-        /// <param name="t">TagData.</param>
-        delegate void RemoveRowCallBack(TagData t);
-        /// <summary>
         /// The delegate function for changins system status.
         /// </summary>
         /// <param name="r">system status.</param>
         delegate void ChangeStatusCallBack(int r);
-        /// <summary>
-        /// The delegate function for clearing rows on DataGirdView.
-        /// </summary>
-        delegate void ClearCallBack();
-        /// <summary>
-        /// The delegate function for print screen of plugin.
-        /// </summary>
-        /// <returns></returns>
-        delegate Bitmap PrintCallBack();
+        DataManager m_dManager = DataManager.GetDataManager();
         /// <summary>
         /// The menu item for [Show] -> [Show TraceWindow].
         /// </summary>
@@ -131,13 +113,15 @@ namespace EcellLib.TracerWindow
         /// <summary>
         /// The drawing points on drawing area.
         /// </summary>
-        double m_count = 5000.0;
+        static public double s_count = 10000.0;
+        static public double s_duple = 1.25;
         /// <summary>
         /// The time interval to redraw.
         /// </summary>
         int m_timespan = 100;
         bool isStep = false;
         bool isLogAdding = false;
+        int m_winCount = 1;
         /// <summary>
         /// ResourceManager for TraceWindow.
         /// </summary>
@@ -151,6 +135,7 @@ namespace EcellLib.TracerWindow
         public TracerWindow()
         {
             m_currentMax = 1.0;
+            m_winCount = 1;
 
             m_entry = new Dictionary<TagData, List<TraceWindow>>();
             m_tagList = new Dictionary<string, TagData>();
@@ -176,28 +161,27 @@ namespace EcellLib.TracerWindow
         void UpdateGraphDelegate()
         {
             List<LogData> list;
-            DataManager manager = DataManager.GetDataManager();
-            double nextTime = manager.GetCurrentSimulationTime();
+            double nextTime = m_dManager.GetCurrentSimulationTime();
 
             if (m_winList.Count == 0) return;
             if (nextTime > m_currentMax)
             {
-                if (nextTime > m_currentMax * 1.3)
+                if (nextTime > m_currentMax * TracerWindow.s_duple)
                 {
                     foreach (TraceWindow t in m_winList)
                     {
                         t.ClearTime();
                         t.m_current = 0.0;
                     }
-                    m_currentMax = nextTime * 1.3;
-                    m_step = m_currentMax / m_count;
-                    list = manager.GetLogData(0.0, nextTime, m_step);
+                    m_currentMax = nextTime * TracerWindow.s_duple;
+                    m_step = m_currentMax / TracerWindow.s_count;
+                    list = m_dManager.GetLogData(0.0, nextTime, m_step);
                 }
                 else
                 {
-                    m_currentMax = m_currentMax * 1.3;
-                    m_step = m_currentMax / m_count;
-                    list = manager.GetLogData(m_current, nextTime, m_step);
+                    m_currentMax = m_currentMax * TracerWindow.s_duple;
+                    m_step = m_currentMax / TracerWindow.s_count;
+                    list = m_dManager.GetLogData(m_current, nextTime, m_step);
                     if (list != null)
                     {
                         foreach (LogData d in list)
@@ -217,7 +201,7 @@ namespace EcellLib.TracerWindow
             }
             else if (m_current + m_step < nextTime)
             {
-                list = manager.GetLogData(m_current, nextTime, m_step);
+                list = m_dManager.GetLogData(m_current, nextTime, m_step);
                 if (list != null)
                 {
                     foreach (LogData d in list)
@@ -251,15 +235,6 @@ namespace EcellLib.TracerWindow
         }
 
         /// <summary>
-        /// Get the bitmap from TraceWindow in active.
-        /// </summary>
-        /// <returns>Bitmap</returns>
-        Bitmap PrintInvoke()
-        {
-            return m_win.GetBitmap();
-        }
-
-        /// <summary>
         /// Invoke method to add the data to DataGridView.
         /// </summary>
         /// <param name="tag">tag data</param>
@@ -279,26 +254,9 @@ namespace EcellLib.TracerWindow
             if (m_win == null) return;
             if (m_entry[tmp].Contains(m_win)) return;
             m_entry[tmp].Add(m_win);
-
-            if (m_win.InvokeRequired)
-            {
-                AddRowCallBack f = new AddRowCallBack(AddRowInvoke);
-                m_win.Invoke(f, new object[] { tag });
-            }
-            else
-            {
-                m_win.AddLoggerEntry(tag);
-            }
-        }
-
-        /// <summary>
-        /// add the data to DataDridView.
-        /// </summary>
-        /// <param name="tag">tag data</param>
-        void AddRowInvoke(TagData tag)
-        {
             m_win.AddLoggerEntry(tag);
         }
+
 
         /// <summary>
         /// Invoke method to remove the row from DataGridView.
@@ -315,44 +273,8 @@ namespace EcellLib.TracerWindow
             if (m_win == null) return;
             foreach (TraceWindow t in m_winList)
             {
-                if (t.InvokeRequired)
-                {
-                    TraceWindow tmp = m_win;
-                    m_win = t;
-                    RemoveRowCallBack f = new RemoveRowCallBack(RemoveRowInvoke);
-                    t.Invoke(f, new object[] { tag });
-                    m_win = tmp;
-                }
-                else
-                {
-                    t.RemoveLoggerEntry(tag);
-                }
+                t.RemoveLoggerEntry(tag);
             }
-        }
-
-        /// <summary>
-        /// remove the row from DataGridView.
-        /// </summary>
-        /// <param name="tag">row</param>
-        void RemoveRowInvoke(TagData tag)
-        {
-            m_win.RemoveLoggerEntry(tag);
-        }
-
-        /// <summary>
-        /// Invoke method to clear the data of DataGridView.
-        /// </summary>
-        public void ClearInvoke()
-        {
-            foreach (string key in m_win.m_paneDic.Keys)
-            {
-                m_win.m_paneDic[key].Clear();
-                m_win.m_tmpPaneDic[key].Clear();
-            }
-            m_win.m_paneDic.Clear();
-            m_win.m_tmpPaneDic.Clear();
-            m_win.dgv.Rows.Clear();
-            m_win.UpdateGraph(true);
         }
 
         /// <summary>
@@ -365,6 +287,35 @@ namespace EcellLib.TracerWindow
             {
                 m_current = 0.0;
                 m_currentMax = 10.0;
+
+                Dictionary<TagData, bool> tagDic = new Dictionary<TagData, bool>();
+                foreach (TagData t in m_tagList.Values)
+                {
+                    bool isHit = false;
+                    if (t.Type != EcellObject.PROCESS) continue;
+                    foreach (TagData ct in tagDic.Keys)
+                    {
+                        if (t.M_modelID == ct.M_modelID &&
+                            t.M_key == ct.M_key)
+                        {
+                            isHit = true;
+                            break;
+                        }
+                    }
+                    if (isHit) continue;
+                    string FullPN = t.Type + Constants.delimiterColon + t.M_key +
+                        Constants.delimiterColon + EcellProcess.ISCONTINUOUS;
+                    EcellValue v = m_dManager.GetEntityProperty(FullPN);
+                    if (v == null) continue;
+                    bool isCont = false;
+                    if (v.CastToInt() == 1) isCont = true;
+
+                    tagDic.Add(t, isCont);
+                    foreach (TraceWindow win in m_winList)
+                    {
+                        win.SetIsContinuous(t.M_path, isCont);
+                    }
+                }
             }
             if (m_timespan <= 0) m_timespan = 1000;
             m_time.Interval = m_timespan;
@@ -425,9 +376,9 @@ namespace EcellLib.TracerWindow
         void ShowSetupTracerWindow(Object sender, EventArgs e)
         {
             m_setup = new TracerWindowSetup();
-            m_setup.numberTextBox.Text = Convert.ToString(m_count);
+            m_setup.numberTextBox.Text = Convert.ToString(TracerWindow.s_count);
             m_setup.intervalTextBox.Text = Convert.ToString(m_timespan / 1000.0);
-            m_setup.stepCountTextBox.Text = Convert.ToString(DataManager.GetDataManager().StepCount);
+            m_setup.stepCountTextBox.Text = Convert.ToString(m_dManager.StepCount);
             m_setup.TSApplyButton.Click += new EventHandler(this.SetupTraceWindowClick);
             m_setup.ShowDialog();
         }
@@ -441,9 +392,9 @@ namespace EcellLib.TracerWindow
         {
             try
             {
-                m_count = Convert.ToInt32(m_setup.numberTextBox.Text);
+                TracerWindow.s_count = Convert.ToInt32(m_setup.numberTextBox.Text);
                 m_timespan = Convert.ToInt32(Convert.ToDouble(m_setup.intervalTextBox.Text) * 1000.0);
-                DataManager.GetDataManager().StepCount = Convert.ToInt32(m_setup.stepCountTextBox.Text);
+                m_dManager.StepCount = Convert.ToInt32(m_setup.stepCountTextBox.Text);
             }
             catch (Exception ex)
             {
@@ -483,6 +434,9 @@ namespace EcellLib.TracerWindow
             m_win.Shown += new EventHandler(m_win.ShownEvent);
             m_win.m_entry = new List<TagData>();
             m_win.Control = this;
+            m_win.Text = m_win.Text + m_winCount;
+            m_win.TabText = m_win.Text;
+            m_winCount++;
 
             // Set Dock settings
             DockPanel panel = PluginManager.GetPluginManager().DockPanel;
@@ -504,8 +458,6 @@ namespace EcellLib.TracerWindow
             }
             m_winList.Add(m_win);
             m_win.Show();
-            //Thread t = new Thread(new ThreadStart(TraceWindowAppStart));
-            //t.Start();
         }
 
 
@@ -534,22 +486,6 @@ namespace EcellLib.TracerWindow
             {
                 m_win = m_winList[m_winList.Count - 1];
             }
-            /*
-            List<TraceWindow> removeList = new List<TraceWindow>();
-            foreach (TraceWindow t in m_winList)
-            {
-                if (t.Disposing || t.IsDisposed) removeList.Add(t);
-                
-            }
-            foreach (TraceWindow t in removeList)
-            {
-                m_winList.Remove(t);
-                if (t == m_win) m_win = null;
-            }
-            if (m_win == null && m_winList.Count > 0)
-            {
-                m_win = m_winList[m_winList.Count - 1];
-            }*/
         }
         #endregion
 
@@ -560,19 +496,17 @@ namespace EcellLib.TracerWindow
         /// <returns>MenuStripItems</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResTrace));
-
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
 
             m_showWin = new ToolStripMenuItem();
-            m_showWin.Text = resources.GetString( "MenuItemShowTraceText");
+            m_showWin.Text = TracerWindow.s_resources.GetString( "MenuItemShowTraceText");
             m_showWin.Name = "MenuItemShowTrace";
             m_showWin.Size = new Size(96, 22);
             m_showWin.Enabled = false;
             m_showWin.Click += new EventHandler(this.ShowTracerWindow);
 
             m_showSaveWin = new ToolStripMenuItem();
-            m_showSaveWin.Text = resources.GetString("MenuItemShowSaveTraceText");
+            m_showSaveWin.Text = TracerWindow.s_resources.GetString("MenuItemShowSaveTraceText");
             m_showSaveWin.Name = "MenuItemShowSaveTrace";
             m_showSaveWin.Size = new Size(96, 22);
             m_showSaveWin.Enabled = false;
@@ -591,7 +525,7 @@ namespace EcellLib.TracerWindow
             m_setupWin = new ToolStripMenuItem();
             m_setupWin.Name = "MenuItemShowTraceSetup";
             m_setupWin.Size = new Size(96, 22);
-            m_setupWin.Text = resources.GetString("MenuItemShowTraceSetupText");
+            m_setupWin.Text = TracerWindow.s_resources.GetString("MenuItemShowTraceSetupText");
 //            m_setupWin.Text = "TracerWindow";
             m_setupWin.Enabled = true;
             m_setupWin.Click += new EventHandler(this.ShowSetupTracerWindow);
@@ -739,28 +673,6 @@ namespace EcellLib.TracerWindow
             {
                 RemoveFromEntry(t);
             }
-
-            //foreach (EcellData d in data.Value)
-            //{
-            //    if (!d.Logable) continue;
-            //    //                bool isHit = false;
-
-            //    // If the data changed from logging to no logging.
-            //    TagData tag = null;
-            //    foreach (TagData t in m_entry.Keys)
-            //    {
-            //        if (t.M_modelID == modelID && t.M_key == key &&
-            //            t.Type == type && t.M_path == d.EntityPath)
-            //        {
-            //            if (!d.Logged)
-            //            {
-            //                tag = t; ;
-            //                RemoveFromEntry(tag);
-            //            }
-            //            break;
-            //        }
-            //    }
-            //}
         }
 
         /// <summary>
@@ -773,7 +685,7 @@ namespace EcellLib.TracerWindow
         public void LoggerAdd(string modelID, string key, string type, string path)
         {
             if (isLogAdding) return;
-            EcellObject obj = DataManager.GetDataManager().GetEcellObject(modelID, key, type);
+            EcellObject obj = m_dManager.GetEcellObject(modelID, key, type);
             if (obj == null) return;
             bool isContinue = true;
             foreach (EcellData d in obj.Value)
@@ -800,7 +712,7 @@ namespace EcellLib.TracerWindow
             List<TagData> removeList = new List<TagData>();
             foreach (TagData t in m_entry.Keys)
             {
-                if (type == "System")
+                if (type == EcellObject.SYSTEM)
                 {
                     if (modelID == t.M_modelID && t.M_key.StartsWith(key)) removeList.Add(t);
                 }
@@ -851,22 +763,11 @@ namespace EcellLib.TracerWindow
         /// </summary>
         public void Clear()
         {
-            if (m_win != null)
+            foreach (TagData t in m_tagList.Values)
             {
-                foreach (TraceWindow t in m_winList)
+                foreach (TraceWindow win in m_entry[t]) 
                 {
-                    if (t.InvokeRequired)
-                    {
-                        TraceWindow tmp = m_win;
-                        m_win = t;
-                        ClearCallBack f = new ClearCallBack(ClearInvoke);
-                        t.Invoke(f);
-                        m_win = tmp;
-                    }
-                    else
-                    {
-                        t.dgv.Rows.Clear();
-                    }
+                    win.RemoveLoggerEntry(t);
                 }
             }
             m_tagList.Clear();
@@ -1009,13 +910,14 @@ namespace EcellLib.TracerWindow
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>
-        public Bitmap Print()
+        public Bitmap Print(string name)
         {
-            if (m_win != null)
+            foreach (TraceWindow t in m_winList)
             {
-                PrintCallBack f = new PrintCallBack(PrintInvoke);
-                return m_win.Invoke(f) as Bitmap;
-
+                if (name.Equals(t.Text))
+                {
+                    return t.GetBitmap();
+                }
             }
             return null;
         }
@@ -1051,10 +953,14 @@ namespace EcellLib.TracerWindow
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true</returns>
-        public bool IsEnablePrint()
+        public List<string> GetEnablePrintNames()
         {
-            if (m_win != null) return true;
-            else return false;
+            List<string> names = new List<string>();
+            foreach (TraceWindow t in m_winList)
+            {
+                names.Add(t.Text);
+            }
+            return names;
         }
 
         /// <summary>

@@ -132,6 +132,9 @@
   <data name="FinishSave" xml:space="preserve">
     <value>Finish to save the simulation log successfully.</value>
   </data>
+  <data name="MenuItemDeleteText" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="MenuItemShowSaveTraceText" xml:space="preserve">
     <value>Save Trace ...</value>
   </data>

@@ -110,6 +110,14 @@ namespace EcellLib
         /// DockPanel of MainWindow.
         /// </summary>
         private DockPanel m_panel;
+        /// <summary>
+        /// Name of selected plugin to print.
+        /// </summary>
+        private string m_printName;
+        /// <summary>
+        /// Dictionary of plugin and pirnt target.
+        /// </summary>
+        private Dictionary<string, string> m_printDic = new Dictionary<string, string>();
         #endregion
 
         /// <summary>
@@ -370,25 +378,32 @@ namespace EcellLib
         public void ShowSelectPlugin()
         {
             if (m_pluginList == null) return;
+            m_printDic.Clear();
 
             // plugin base list show
             PrintPluginDialog d = new PrintPluginDialog();
 
             foreach (KeyValuePair<string, PluginBase> kvp in m_pluginList)
             {
-                if (kvp.Value.IsEnablePrint())
-                    d.listBox1.Items.Add(kvp.Key);
+                List<string> names = kvp.Value.GetEnablePrintNames();
+                foreach (string name in names)
+                {
+                    d.listBox1.Items.Add(name);
+                    m_printDic.Add(name, kvp.Key);
+                }
             }
             d.Show();
         }
 
+
         /// <summary>
         /// print the display image of plugin using PrintDoc.
         /// </summary>
-        /// <param name="pluginName">the plugin to print</param>
-        public void Print(string pluginName)
+        /// <param name="orintName">the plugin to print</param>
+        public void Print(string printName)
         {
-            this.m_printBase = pluginName;
+            this.m_printBase = m_printDic[printName];
+            this.m_printName = printName;
 
             m_dialog.Document = m_printDoc;
             System.Windows.Forms.DialogResult result = m_dialog.ShowDialog();
@@ -682,7 +697,7 @@ namespace EcellLib
             PluginBase p = m_pluginList[m_printBase];
             if (p != null)
             {
-                Bitmap bitmap = p.Print();
+                Bitmap bitmap = p.Print(m_printName);
                 if (bitmap == null)
                     return;
                 e.Graphics.DrawImage(bitmap, new Point(0, 0));

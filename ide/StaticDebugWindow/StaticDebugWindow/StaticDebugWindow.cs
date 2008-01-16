@@ -234,9 +234,10 @@ namespace EcellLib.StaticDebugWindow
         /// Checks whether this plugin can print the display image.
         /// </summary>
         /// <returns>false(Fixed)</returns>
-        public bool IsEnablePrint()
+        public List<string> GetEnablePrintNames()
         {
-            return false;
+            List<string> names = new List<string>();
+            return names;
         }
 
         /// <summary>
@@ -287,7 +288,7 @@ namespace EcellLib.StaticDebugWindow
         /// Returns the bitmap image that converts the display image on this plugin.
         /// </summary>
         /// <returns>the bitmap image</returns>
-        public Bitmap Print()
+        public Bitmap Print(string name)
         {
             return null;
         }

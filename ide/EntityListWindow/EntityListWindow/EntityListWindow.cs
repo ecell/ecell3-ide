@@ -159,7 +159,7 @@ namespace EcellLib.EntityListWindow
         /// <summary>
         /// ComponentResourceManager for EntityListWindow.
         /// </summary>
-        static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResEntList));
+        static public ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResEntList));
         #endregion
 
         /// <summary>
@@ -1396,7 +1396,7 @@ namespace EcellLib.EntityListWindow
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>        
-        public Bitmap Print()
+        public Bitmap Print(string name)
         {
             if (m_form == null) return null;
 
@@ -1446,9 +1446,11 @@ namespace EcellLib.EntityListWindow
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true</returns>
-        public bool IsEnablePrint()
+        public List<string> GetEnablePrintNames()
         {
-            return true;
+            List<string> names = new List<string>();
+            names.Add("TreeView of entity.");
+            return names;
         }
 
         /// <summary>

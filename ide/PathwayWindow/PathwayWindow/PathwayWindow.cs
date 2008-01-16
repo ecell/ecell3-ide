@@ -437,9 +437,11 @@ namespace EcellLib.PathwayWindow
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true.</returns>
-        public bool IsEnablePrint()
+        public List<string> GetEnablePrintNames()
         {
-            return true;
+            List<string> names = new List<string>();
+            names.Add("Network of model.");
+            return names;
         }
 
         /// <summary>
@@ -487,7 +489,7 @@ namespace EcellLib.PathwayWindow
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>
-        public Bitmap Print()
+        public Bitmap Print(string name)
         {
             if (m_con != null)
                 return m_con.Print();

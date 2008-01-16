@@ -254,10 +254,10 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestIsEnablePrint()
         {
-            bool expectedBoolean = false;
-            bool resultBoolean = false;
-            resultBoolean = _unitUnderTest.IsEnablePrint();
-            Assert.AreEqual(expectedBoolean, resultBoolean, "IsEnablePrint method returned unexpected result.");
+            List<string> expectedList = null;
+            List<string> resultList = null;
+            resultList = _unitUnderTest.GetEnablePrintNames();
+            Assert.AreEqual(expectedList, resultList, "IsEnablePrint method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -313,7 +313,7 @@ namespace EcellLib.PathwayWindow
         {
             System.Drawing.Bitmap expectedBitmap = null;
             System.Drawing.Bitmap resultBitmap = null;
-            resultBitmap = _unitUnderTest.Print();
+            resultBitmap = _unitUnderTest.Print("");
             Assert.AreEqual(expectedBitmap, resultBitmap, "Print method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 

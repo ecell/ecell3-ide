@@ -814,7 +814,7 @@ namespace EcellLib.PropertyWindow
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>
-        public Bitmap Print()
+        public Bitmap Print(string name)
         {
             try
             {
@@ -862,9 +862,11 @@ namespace EcellLib.PropertyWindow
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true</returns>
-        public bool IsEnablePrint()
+        public List<string> GetEnablePrintNames()
         {
-            return true;
+            List<string> names = new List<string>();
+            names.Add("Property of entiry.");
+            return names;
         }
 
         /// <summary>

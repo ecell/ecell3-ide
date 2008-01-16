@@ -202,13 +202,13 @@ namespace EcellLib
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>false.</returns>
-        bool IsEnablePrint();
+        List<String> GetEnablePrintNames();
 
         /// <summary>
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>   
-        Bitmap Print();
+        Bitmap Print(string name);
 
         /// <summary>
         /// Get the name of this plugin.

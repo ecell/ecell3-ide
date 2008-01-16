@@ -353,7 +353,7 @@ namespace EcellLib.MessageWindow
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>
-        public Bitmap Print()
+        public Bitmap Print(string name)
         {
             return null;
         }
@@ -389,9 +389,10 @@ namespace EcellLib.MessageWindow
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>false</returns>
-        public bool IsEnablePrint()
+        public List<string> GetEnablePrintNames()
         {
-            return false;
+            List<string> names = new List<string>();
+            return names;
         }
 
         /// <summary>

@@ -395,9 +395,15 @@ namespace EcellLib.ObjectList2
         /// get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>bitmap data</returns>
-        public Bitmap Print()
+        public Bitmap Print(string names)
         {
-            return null;
+            TabPage tab = m_tabControl.SelectedTab;
+            if (tab == null) return null;
+
+            Bitmap b = new Bitmap(tab.Width, tab.Height);
+            tab.DrawToBitmap(b, tab.ClientRectangle);
+
+            return b;
         }
 
         /// <summary>
@@ -431,9 +437,11 @@ namespace EcellLib.ObjectList2
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true</returns>
-        public bool IsEnablePrint()
+        public List<string> GetEnablePrintNames()
         {
-            return false;
+            List<string> names = new List<string>();
+            names.Add("List of entity2.");
+            return names;
         }
 
         /// <summary>

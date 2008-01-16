@@ -47,6 +47,7 @@ namespace EcellLib.TracerWindow
     public partial class TraceWindow : EcellDockContent
     {
         #region Fields
+        private DataManager m_dManager = DataManager.GetDataManager();
         /// <summary>
         /// The object managed this window.
         /// </summary>
@@ -72,17 +73,19 @@ namespace EcellLib.TracerWindow
         /// </summary>
         public double m_current;
         /// <summary>
-        /// The dictionary of entity path and LineItem.
-        /// </summary>
-        public Dictionary<string, LineItem> m_paneDic;
-        /// <summary>
-        /// The dictionary of entity path and temporary LineItem.
-        /// </summary>
-        public Dictionary<string, LineItem> m_tmpPaneDic;
+        ///// The dictionary of entity path and LineItem.
+        ///// </summary>
+        //public Dictionary<string, LineItem> m_paneDic;
+        ///// <summary>
+        ///// The dictionary of entity path and temporary LineItem.
+        ///// </summary>
+        //public Dictionary<string, LineItem> m_tmpPaneDic;
         /// <summary>
         /// The List of entity path on tracer.
         /// </summary>
         public List<TagData> m_entry;
+        private Dictionary<string, bool> m_tagDic = new Dictionary<string, bool>();
+        private Dictionary<string, TraceEntry> m_entryDic = new Dictionary<string, TraceEntry>();
         /// <summary>
         /// The delegate for event handler function.
         /// </summary>
@@ -111,11 +114,6 @@ namespace EcellLib.TracerWindow
         /// <param name="fullID">list of ids for saving.</param>
         delegate void SaveSimulationCallback(string dirName, double start, double end,
             string fileType, List<string> fullID);
-        delegate void DeleteEntryCallback(TagData tag);
-        /// <summary>
-        /// ResourceManager for TraceWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResTrace));
         #endregion
 
         /// <summary>
@@ -124,6 +122,7 @@ namespace EcellLib.TracerWindow
         public TraceWindow()
         {
             InitializeComponent();
+            m_isSavable = false;
             dgv.DragEnter += new DragEventHandler(dgv_DragEnter);
             dgv.DragDrop += new DragEventHandler(dgv_DragDrop);
         }
@@ -155,10 +154,9 @@ namespace EcellLib.TracerWindow
             PluginManager pManager = PluginManager.GetPluginManager();
             TraceWindow tWin = m_control.CurrentWin;
             m_control.CurrentWin = this;
-            pManager.LoggerAdd(dobj.ModelID, dobj.Type, dobj.Key, dobj.Path);
+            pManager.LoggerAdd(dobj.ModelID, dobj.Key, dobj.Type, dobj.Path);
             m_control.CurrentWin = tWin;
-            DataManager dManager = DataManager.GetDataManager();
-            EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
+            EcellObject t = m_dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
             foreach (EcellData d in t.Value)
             {
                 if (d.EntityPath.Equals(dobj.Path))
@@ -167,7 +165,7 @@ namespace EcellLib.TracerWindow
                     break;
                 }
             }
-            dManager.DataChanged(t.modelID, t.key, t.type, t);
+            m_dManager.DataChanged(t.modelID, t.key, t.type, t);
         }
 
         /// <summary>
@@ -177,6 +175,7 @@ namespace EcellLib.TracerWindow
         public void InitializeWindow(List<TagData> m_entry)
         {
             foreach (TagData t in m_entry) AddLoggerEntry(t);
+            m_entry.Clear();
         }
 
         /// <summary>
@@ -187,6 +186,14 @@ namespace EcellLib.TracerWindow
             if (dgv.IsCurrentCellDirty)
             {
                 dgv.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        public void SetIsContinuous(string tag, bool isCont)
+        {
+            if (m_tagDic.ContainsKey(tag))
+            {
+                m_tagDic[tag] = isCont;
             }
         }
 
@@ -253,7 +260,7 @@ namespace EcellLib.TracerWindow
 
             ContextMenuStrip contextStrip = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = "Delete ";
+            it.Text = TracerWindow.s_resources.GetString("MenuItemDeleteText");
             it.ShortcutKeys = Keys.Control | Keys.D;
             it.Click += new EventHandler(DeleteTraceItem);
             it.Tag = r;
@@ -269,8 +276,8 @@ namespace EcellLib.TracerWindow
             LineItem i1 = m_zCnt.GraphPane.AddCurve(tag.M_path,
                     new PointPairList(), ColorCreator.GetColor(ind), SymbolType.None);
             i1.Line.Width = 2;
-            m_paneDic.Add(tag.M_path, i);
-            m_tmpPaneDic.Add(tag.M_path, i1);
+            m_entryDic.Add(tag.M_path, new TraceEntry(tag.M_path, i, i1, tag.IsContinue));
+            m_tagDic.Add(tag.M_path, tag.IsContinue);
         }
 
         /// <summary>
@@ -289,15 +296,13 @@ namespace EcellLib.TracerWindow
                     break;
                 }
             }
-            if (m_paneDic.ContainsKey(tag.M_path))
+            if (m_entryDic.ContainsKey(tag.M_path))
             {
-                m_paneDic[tag.M_path].Clear();
-                m_zCnt.GraphPane.CurveList.Remove(m_paneDic[tag.M_path]);
-                m_paneDic.Remove(tag.M_path);
-
-                m_tmpPaneDic[tag.M_path].Clear();
-                m_zCnt.GraphPane.CurveList.Remove(m_tmpPaneDic[tag.M_path]);
-                m_tmpPaneDic.Remove(tag.M_path);
+                string path = tag.M_path;
+                m_entryDic[path].ClearPoint();
+                m_zCnt.GraphPane.CurveList.Remove(m_entryDic[path].CurrentLineItem);
+                m_zCnt.GraphPane.CurveList.Remove(m_entryDic[path].TmpLineItem);
+                m_entryDic.Remove(path);
 
                 UpdateGraphCallBack dlg = new UpdateGraphCallBack(UpdateGraph);
                 this.Invoke(dlg, new object[] { true });
@@ -309,10 +314,9 @@ namespace EcellLib.TracerWindow
         /// </summary>
         public void ClearTime()
         {
-            foreach (string key in m_paneDic.Keys)
+            foreach (string key in m_entryDic.Keys)
             {
-                m_paneDic[key].Clear();
-                m_tmpPaneDic[key].Clear();
+                m_entryDic[key].ClearPoint();
             }
             m_current = 0.0;
             m_zCnt.GraphPane.XAxis.Scale.Max = 10.0;
@@ -327,10 +331,9 @@ namespace EcellLib.TracerWindow
         {
             if (!isSuspend)
             {
-                foreach (string key in m_paneDic.Keys)
+                foreach (string key in m_entryDic.Keys)
                 {
-                    m_paneDic[key].Clear();
-                    m_tmpPaneDic[key].Clear();
+                    m_entryDic[key].ClearPoint();
                 }
                 m_current = 0.0;
             }
@@ -348,8 +351,6 @@ namespace EcellLib.TracerWindow
                     m_zCnt.AxisChange();
                     m_zCnt.Refresh();
                 }
-                //searchDirButton.Enabled = false;
-                //TWSaveButton.Enabled = false;
             }
             isSuspend = false;
         }
@@ -368,8 +369,6 @@ namespace EcellLib.TracerWindow
                 m_zCnt.AxisChange();
                 m_zCnt.Refresh();
             }
-            //searchDirButton.Enabled = status;
-            //TWSaveButton.Enabled = status;
         }
 
         /// <summary>
@@ -378,16 +377,12 @@ namespace EcellLib.TracerWindow
         /// </summary>
         public void StopSimulation()
         {
-            if (this.InvokeRequired)
-            {
-                ChangeStatusCallBack f = new ChangeStatusCallBack(ChangeStatus);
-                this.Invoke(f, new object[] { true });
-            }
-            else
-            {
-                //searchDirButton.Enabled = true;
-                //TWSaveButton.Enabled = true;
-            }
+            //if (this.InvokeRequired)
+            //{
+            //    ChangeStatusCallBack f = new ChangeStatusCallBack(ChangeStatus);
+            //    this.Invoke(f, new object[] { true });
+            //}
+            ChangeStatus(true);
             m_zCnt.IsShowContextMenu = true;
             isSuspend = false;
         }
@@ -403,11 +398,6 @@ namespace EcellLib.TracerWindow
             {
                 ChangeStatusCallBack f = new ChangeStatusCallBack(ChangeStatus);
                 this.Invoke(f, new object[] { true });
-            }
-            else
-            {
-                //searchDirButton.Enabled = true;
-                //TWSaveButton.Enabled = true;
             }
             isSuspend = true;
         }
@@ -427,11 +417,10 @@ namespace EcellLib.TracerWindow
             {
                 Graphics g = m_zCnt.CreateGraphics();
                 g.ResetClip();
-//                g.SetClip(m_zCnt.MasterPane.PaneRect);
                 g.SetClip(m_zCnt.MasterPane.Rect);
-                foreach (string key in m_tmpPaneDic.Keys)
+                foreach (string key in m_entryDic.Keys)
                 {
-                    m_tmpPaneDic[key].Draw(g, m_zCnt.GraphPane, 0, 1.5F);
+                    m_entryDic[key].TmpLineItem.Draw(g, m_zCnt.GraphPane, 0, 1.5F);
                 }
                 g.ResetClip();
             }
@@ -447,13 +436,11 @@ namespace EcellLib.TracerWindow
         public void AddPoints(double maxAxis, double nextTime, List<LogData> data)
         {
             bool isAxis = false;
-            
+
             if (m_zCnt.GraphPane.IsZoomed)
             {
-//                if (m_current > m_zCnt.GraphPane.XAxis.Max ||
-//                    nextTime < m_zCnt.GraphPane.XAxis.Min)
                 if (m_current > m_zCnt.GraphPane.XAxis.Scale.Max ||
-                    nextTime < m_zCnt.GraphPane.XAxis.Scale.Max)
+                    nextTime < m_zCnt.GraphPane.XAxis.Scale.Min)
                 {
                     m_current = nextTime;
                     return;
@@ -461,43 +448,43 @@ namespace EcellLib.TracerWindow
             }
             else
             {
-//                if (nextTime > m_zCnt.GraphPane.XAxis.Max)
                 if (nextTime > m_zCnt.GraphPane.XAxis.Scale.Max)
+                {
+                    if (nextTime > m_zCnt.GraphPane.XAxis.Scale.Max * TracerWindow.s_duple)
                     {
-//                    if (nextTime > m_zCnt.GraphPane.XAxis.Max * 1.3)
-                        if (nextTime > m_zCnt.GraphPane.XAxis.Scale.Max * 1.3)
+                        m_zCnt.GraphPane.XAxis.Scale.Max = maxAxis;
+                        foreach (string key in m_entryDic.Keys)
                         {
-//                        m_zCnt.GraphPane.XAxis.Max = maxAxis;
-                            m_zCnt.GraphPane.XAxis.Scale.Max = maxAxis;
-                            foreach (string key in m_paneDic.Keys)
-                        {
-                            m_paneDic[key].Clear();
-                            m_tmpPaneDic[key].Clear();
+                            m_entryDic[key].ClearPoint();
                         }
                     }
                     else
                     {
-//                        m_zCnt.GraphPane.XAxis.Max = maxAxis;
                         m_zCnt.GraphPane.XAxis.Scale.Max = maxAxis;
-                        foreach (string key in m_paneDic.Keys)
+                        foreach (string key in m_entryDic.Keys)
                         {
-                            for (int j = 0; j < m_tmpPaneDic[key].Points.Count; j++)
-                            {
-                                m_paneDic[key].AddPoint(m_tmpPaneDic[key].Points[j]);
-                            }
-                            m_tmpPaneDic[key].Clear();
+                            m_entryDic[key].ThinPoints();
+                            //for (int j = 0; j < m_entryDic[key].TmpLineItem.Points.Count; j++)
+                            //{
+                            //    m_entryDic[key].CurrentLineItem.AddPoint(m_entryDic[key].TmpLineItem.Points[j]);
+                            //}
+                            //m_entryDic[key].TmpLineItem.Clear();
 
-                            if (m_paneDic[key].Points.Count > 20000)
-                            {
-                                int i = 1;
-                                while (i < m_paneDic[key].Points.Count)
-                                {
-                                    m_paneDic[key].RemovePoint(i);
-                                    i = i + 2;
-                                }
-                            }
-                            int l = m_paneDic[key].Points.Count;
-                            m_tmpPaneDic[key].AddPoint(m_paneDic[key].Points[l - 1]);
+                            //if (m_entryDic[key].CurrentLineItem.Points.Count > TracerWindow.s_count)
+                            //{
+                            //    int i = 1;
+                            //    while (i < m_entryDic[key].CurrentLineItem.Points.Count)
+                            //    {
+                            //        m_entryDic[key].CurrentLineItem.RemovePoint(i);
+                            //        i = i + 5;
+                            //    }
+                            //}
+
+                            //int l = m_entryDic[key].CurrentLineItem.Points.Count;
+                            //if (l > 0)
+                            //{
+                            //    m_entryDic[key].TmpLineItem.AddPoint(m_entryDic[key].CurrentLineItem.Points[l - 1]);
+                            //}
                         }
                     }
                     isAxis = true;
@@ -509,19 +496,22 @@ namespace EcellLib.TracerWindow
             foreach (LogData d in data)
             {
                 string p = d.type + ":" + d.key + ":" + d.propName;
-                if (!m_tmpPaneDic.ContainsKey(p)) continue;
+                if (!m_entryDic.ContainsKey(p)) continue;
 
-                foreach (LogValue v in d.logValueList)
+                bool isRet = m_entryDic[p].AddPoint(d.logValueList, m_zCnt.GraphPane.YAxis.Scale.Max, m_zCnt.GraphPane.YAxis.Scale.Min);
+                if (isAxis == false)
                 {
-                    if (isAxis == false)
-                    {
-//                        if (m_zCnt.GraphPane.YAxis.Max < v.value) isAxis = true;
-//                        if (m_zCnt.GraphPane.YAxis.Min > v.value) isAxis = true;
-                        if (m_zCnt.GraphPane.YAxis.Scale.Max < v.value) isAxis = true;
-                        if (m_zCnt.GraphPane.YAxis.Scale.Min > v.value) isAxis = true;
-                    }
-                    m_tmpPaneDic[p].AddPoint(v.time, v.value);
+                    isAxis = isRet;
                 }
+                //foreach (LogValue v in d.logValueList)
+                //{
+                //    if (isAxis == false)
+                //    {
+                //        if (m_zCnt.GraphPane.YAxis.Scale.Max < v.value) isAxis = true;
+                //        if (m_zCnt.GraphPane.YAxis.Scale.Min > v.value) isAxis = true;
+                //    }
+                //    m_entryDic[p].TmpLineItem.AddPoint(v.time, v.value);
+                //}
             }
             if (m_zCnt.GraphPane.IsZoomed) isAxis = false;
             
@@ -540,8 +530,7 @@ namespace EcellLib.TracerWindow
         public void SaveSimulationInvoke(string dirName, double start, double end,
             string fileType, List<string> fullID)
         {
-            DataManager manager = DataManager.GetDataManager();
-            manager.SaveSimulationResult(dirName, start, end, fileType, fullID);
+            m_dManager.SaveSimulationResult(dirName, start, end, fileType, fullID);
         }
 
         #region Event
@@ -555,18 +544,14 @@ namespace EcellLib.TracerWindow
         {
             m_zCnt = new ZedGraphControl();
             m_zCnt.Dock = DockStyle.Fill;
-//            m_zCnt.GraphPane.Title = "";
-//            m_zCnt.GraphPane.XAxis.Title = "Time";
-//            m_zCnt.GraphPane.YAxis.Title = "Value";
             m_zCnt.GraphPane.Title.Text = "";
             m_zCnt.GraphPane.XAxis.Title.Text = "Time";
             m_zCnt.GraphPane.YAxis.Title.Text = "Value";
             m_zCnt.GraphPane.Legend.IsVisible = false;
-//            m_zCnt.GraphPane.XAxis.Max = 100;
-//            m_zCnt.GraphPane.XAxis.Min = 0;
             m_zCnt.GraphPane.XAxis.Scale.Max = 100;
+            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = false;
+//            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = false;
             m_zCnt.GraphPane.XAxis.Scale.Min = 0;
-//            m_zCnt.ContextMenu.Popup += new EventHandler(ContextMenuPopup);
             m_zCnt.ZoomEvent += new ZedGraphControl.ZoomEventHandler(ZcntZoomEvent);
             dgv.CellDoubleClick += new DataGridViewCellEventHandler(CellDoubleClicked);
             dgv.CurrentCellDirtyStateChanged += new EventHandler(CurrentCellDirtyStateChanged);
@@ -575,8 +560,6 @@ namespace EcellLib.TracerWindow
             dgv.Columns[1].Width = 40;
 
             tableLayoutPanel1.Controls.Add(m_zCnt, 0, 0);
-            m_paneDic = new Dictionary<string, LineItem>();
-            m_tmpPaneDic = new Dictionary<string, LineItem>();
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
 
@@ -594,7 +577,7 @@ namespace EcellLib.TracerWindow
         void ShowLineStyleDialog(TagData t, int rowIndex, int columnIndex)
         {
             LineStyleDialog dialog = new LineStyleDialog();
-            switch (m_paneDic[t.M_path].Line.Style)
+            switch (m_entryDic[t.M_path].CurrentLineItem.Line.Style)
             {
                 case System.Drawing.Drawing2D.DashStyle.Solid:
                     dialog.solidRadioButton.Checked = true;
@@ -619,15 +602,14 @@ namespace EcellLib.TracerWindow
 
             Bitmap b1 = new Bitmap(20, 20);
             Graphics g1 = Graphics.FromImage(b1);
-            Pen p1 = new Pen(m_paneDic[t.M_path].Color);            
+            Pen p1 = new Pen(m_entryDic[t.M_path].CurrentLineItem.Color);            
             p1.DashStyle = style;
             p1.Width = 2;
             g1.DrawLine(p1, 0, 10, 20, 10);
             g1.ReleaseHdc(g1.GetHdc());
             cell.Value = b1;
 
-            m_paneDic[t.M_path].Line.Style = style;
-            m_tmpPaneDic[t.M_path].Line.Style = style;
+            m_entryDic[t.M_path].SetStyle(style);
             m_zCnt.Refresh();
         }
 
@@ -643,7 +625,7 @@ namespace EcellLib.TracerWindow
             DataGridViewImageCell cell1 = dgv.Rows[rowIndex].Cells[columnIndex + 1] as DataGridViewImageCell;
             if (cell == null || cell1 == null)
             {
-                String errmes = m_resources.GetString("ErrColorDlg");
+                String errmes = TracerWindow.s_resources.GetString("ErrColorDlg");
                 MessageBox.Show(errmes, 
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -658,13 +640,12 @@ namespace EcellLib.TracerWindow
                 g.FillRectangle(p.Brush, 3, 3, 14, 14);
                 g.ReleaseHdc(g.GetHdc());
 
-                m_paneDic[t.M_path].Color = m_colorDialog.Color;
-                m_tmpPaneDic[t.M_path].Color = m_colorDialog.Color;
+                m_entryDic[t.M_path].SetColor(m_colorDialog.Color);
 
                 Bitmap b1 = new Bitmap(20, 20);
                 Graphics g1 = Graphics.FromImage(b1);
                 Pen p1 = new Pen(m_colorDialog.Color);
-                p1.DashStyle = m_paneDic[t.M_path].Line.Style;
+                p1.DashStyle = m_entryDic[t.M_path].CurrentLineItem.Line.Style;
                 p1.Width = 2;
                 g1.DrawLine(p1, 0, 10, 20, 10);
                 g1.ReleaseHdc(g1.GetHdc());
@@ -672,10 +653,7 @@ namespace EcellLib.TracerWindow
                 cell.Value = b;
                 cell1.Value = b1;
 
-                m_paneDic[t.M_path].Color = m_colorDialog.Color;
-                m_tmpPaneDic[t.M_path].Color = m_colorDialog.Color;
-                m_zCnt.Refresh();
-
+                m_entryDic[t.M_path].SetColor(m_colorDialog.Color);
 
                 m_zCnt.Refresh();
             }
@@ -719,16 +697,7 @@ namespace EcellLib.TracerWindow
 
             DataGridViewRow r = dgv.Rows[e.RowIndex];
             TagData t = (TagData)r.Tag;
-            if ((bool)cell.Value == true)
-            {
-                m_paneDic[t.M_path].IsVisible = true;
-                m_tmpPaneDic[t.M_path].IsVisible = true;
-            }
-            else
-            {
-                m_paneDic[t.M_path].IsVisible = false;
-                m_tmpPaneDic[t.M_path].IsVisible = false;
-            }
+            m_entryDic[t.M_path].SetVisible((bool)cell.Value);
             m_zCnt.Refresh();
         }
 
@@ -757,12 +726,11 @@ namespace EcellLib.TracerWindow
         /// <param name="tag"></param>
         public void DeleteTraceEntry(TagData tag)
         {
-            DataManager m_dManager = DataManager.GetDataManager();
             EcellObject m_currentObj = m_dManager.GetEcellObject(tag.M_modelID, tag.M_key, tag.Type);
 
             if (m_currentObj == null)
             {
-                String errmes = m_resources.GetString("ErrNoFind");
+                String errmes = TracerWindow.s_resources.GetString("ErrNoFind");
                 MessageBox.Show(errmes + "(" + tag.M_modelID + "," + tag.M_key + ")",
                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -790,9 +758,7 @@ namespace EcellLib.TracerWindow
             TagData tag = r.Tag as TagData;
             if (tag == null) return;
 
-            DeleteEntryCallback f = new DeleteEntryCallback(DeleteTraceEntry);
-            this.Invoke(f, new object[] { tag });
-//            RemoveLoggerEntry(tag);
+            DeleteTraceEntry(tag);
         }
 
         /// <summary>
@@ -856,7 +822,7 @@ namespace EcellLib.TracerWindow
 
             if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
             {
-                String mes = m_resources.GetString("ConfirmClose");
+                String mes = TracerWindow.s_resources.GetString("ConfirmClose");
                 DialogResult res = MessageBox.Show(mes,
                     "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (res == DialogResult.OK) this.Dispose();
@@ -876,40 +842,37 @@ namespace EcellLib.TracerWindow
         {
             bool isAxis = false;
             if (m_current == 0.0) return;
-            foreach (string key in m_paneDic.Keys)
+            foreach (string key in m_entryDic.Keys)
             {
-                m_paneDic[key].Clear();
+                m_entryDic[key].ClearPoint();
             }
-//            double sx = m_zCnt.GraphPane.XAxis.Min;
-//            double ex = m_zCnt.GraphPane.XAxis.Max;
             double sx = m_zCnt.GraphPane.XAxis.Scale.Min;
             double ex = m_zCnt.GraphPane.XAxis.Scale.Max;
-            double m_step = (ex - sx) / 10000;
+            double m_step = (ex - sx) / TracerWindow.s_count;
             List<LogData> list;
             if (!m_zCnt.GraphPane.IsZoomed)
             {
-                double nextTime = DataManager.GetDataManager().GetCurrentSimulationTime();
+                double nextTime = m_dManager.GetCurrentSimulationTime();
                 if (nextTime > ex)
                 {
-//                    m_zCnt.GraphPane.XAxis.Max = nextTime * 1.5;
-//                    ex = m_zCnt.GraphPane.XAxis.Max ;
                     m_zCnt.GraphPane.XAxis.Scale.Max = nextTime * 1.5;
                     ex = m_zCnt.GraphPane.XAxis.Scale.Max;
   
-                    m_step = (ex - sx) / 10000;
+                    m_step = (ex - sx) / TracerWindow.s_count;
                     isAxis = true;
                 }
             }
-            list = DataManager.GetDataManager().GetLogData(sx, ex, m_step);
+            list = m_dManager.GetLogData(sx, ex, m_step);
             foreach (LogData l in list)
             {
                 string p = l.type + ":" + l.key + ":" + l.propName;
-                if (!m_paneDic.ContainsKey(p)) continue;
+                if (!m_entryDic.ContainsKey(p)) continue;
 
-                foreach (LogValue v in l.logValueList)
-                {
-                    m_paneDic[p].AddPoint(v.time, v.value);
-                }
+                m_entryDic[p].AddPoint(l.logValueList, 0.0, 0.0);
+                //foreach (LogValue v in l.logValueList)
+                //{
+                //    m_entryDic[p].CurrentLineItem.AddPoint(v.time, v.value);
+                //}
             }
 
             UpdateGraphCallBack f = new UpdateGraphCallBack(UpdateGraph);

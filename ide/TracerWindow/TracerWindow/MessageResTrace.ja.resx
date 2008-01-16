@@ -132,6 +132,9 @@
   <data name="FinishSave" xml:space="preserve">
     <value>シミュレーションログを保存しました</value>
   </data>
+  <data name="MenuItemDeleteText" xml:space="preserve">
+    <value>削除</value>
+  </data>
   <data name="MenuItemShowSaveTraceText" xml:space="preserve">
     <value>トレース保存</value>
   </data>

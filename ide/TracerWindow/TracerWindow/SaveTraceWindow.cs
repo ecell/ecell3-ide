@@ -45,11 +45,6 @@ namespace EcellLib.TracerWindow
     public partial class SaveTraceWindow : Form
     {
         /// <summary>
-        /// ResourceManager for TraceWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResTrace));
-
-        /// <summary>
         /// Constructor.
         /// </summary>
         public SaveTraceWindow()
@@ -128,7 +123,7 @@ namespace EcellLib.TracerWindow
             DataManager manager = DataManager.GetDataManager();
             manager.SaveSimulationResult(dirName, start, end, fileType, fullID);
 
-            String mes = m_resources.GetString("FinishSave");
+            String mes = TracerWindow.s_resources.GetString("FinishSave");
             MessageBox.Show(mes, "Information",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
