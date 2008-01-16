@@ -25,8 +25,7 @@ namespace EcellLib.MainWindow
         [NUnit.Framework.Test()]
         public void TestConstructorMainWindow()
         {
-            MainWindow testMainWindow = new MainWindow();
-            Assert.IsNotNull(testMainWindow, "Constructor of type, MainWindow failed to create instance.");
+            Assert.IsNotNull(_unitUnderTest, "Constructor of type, MainWindow failed to create instance.");
         }
 
         [Test()]

@@ -229,18 +229,17 @@ namespace EcellLib.MainWindow {
         /// </summary>
         private static void CloseUnSavableWindows(DockPanel dockPanel)
         {
+            List<DockContent> list = new List<DockContent>();
             foreach (DockContent content in dockPanel.Contents)
             {
                 if (!(content is EcellDockContent))
-                {
-                    content.Close();
-                    continue;
-                }
-                if (!((EcellDockContent)content).IsSavable)
-                {
-                    content.Close();
-                }
+                    list.Add(content);
+                else if (!((EcellDockContent)content).IsSavable)
+                    list.Add(content);
             }
+            foreach (DockContent content in list)
+                content.Close();
+
             dockPanel.Refresh();
         }
 
