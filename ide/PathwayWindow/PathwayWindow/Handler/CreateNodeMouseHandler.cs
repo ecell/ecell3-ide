@@ -107,7 +107,7 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
             }
             // Create EcellObject.
-            string type = ComponentManager.GetTypeString(m_template.Setting.ComponentType);
+            string type = ComponentManager.ParseComponentTypeToString(m_template.Setting.ComponentType);
             EcellObject eo = m_con.CreateDefaultObject(canvas.ModelID, system, type, false);
             eo.X = m_template.X;
             eo.Y = m_template.Y;

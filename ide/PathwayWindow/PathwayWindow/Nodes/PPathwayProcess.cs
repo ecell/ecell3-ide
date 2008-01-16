@@ -72,6 +72,11 @@ namespace EcellLib.PathwayWindow.Nodes
         /// list of size.
         /// </summary>
         protected List<SizeF> m_sizes = new List<SizeF>();
+
+        /// <summary>
+        /// edge brush.
+        /// </summary>
+        protected Brush m_edgeBrush = Brushes.Black;
         #endregion
 
         #region Accessors
@@ -248,7 +253,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="width"></param>
         public void SetLineColor(Brush brush)
         {
-            m_lineBrush = brush;
+            m_edgeBrush = brush;
             foreach (List<PPathwayLine> list in m_lines.Values)
                 foreach (PPathwayLine line in list)
                 {
@@ -367,8 +372,8 @@ namespace EcellLib.PathwayWindow.Nodes
             else
             {
                 base.AddRectangle(X - 24, Y - 14, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-                m_pen = new Pen(Brushes.Black, 1);
-                SetLineColor(Brushes.Black);
+                m_pen = new Pen(m_lineBrush, 1);
+                SetLineColor(m_lineBrush);
             }
             Refresh();
         }

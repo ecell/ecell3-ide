@@ -133,6 +133,12 @@ namespace EcellLib.PathwayWindow
         /// delegate of CreateComponent.
         /// </summary>
         private CreateComponent m_createMethod;
+
+        /// <summary>
+        /// Default flag.
+        /// </summary>
+        private bool m_isDefault = false;
+
         #endregion
 
         #region Accessors
@@ -169,6 +175,15 @@ namespace EcellLib.PathwayWindow
         {
             get { return this.m_name; }
             set { this.m_name = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_isDefault.
+        /// </summary>
+        public bool IsDefault
+        {
+            get { return m_isDefault; }
+            set { m_isDefault = value; }
         }
 
         /// <summary>
@@ -332,9 +347,10 @@ namespace EcellLib.PathwayWindow
             PPathwayObject obj = m_createMethod();
             obj.CsID = m_name;
             obj.Setting = this;
+            obj.FillBrush = m_fillBrush;
+            obj.LineBrush = m_lineBrush;
             if (m_componentKind == ComponentType.System)
             {
-                obj.FillBrush = Brushes.LightBlue;
                 obj.Width = PPathwaySystem.MIN_X_LENGTH;
                 obj.Height = PPathwaySystem.MIN_Y_LENGTH;
                 obj.Pen = null;
@@ -342,7 +358,6 @@ namespace EcellLib.PathwayWindow
             else
             {
                 obj.AddPath(m_gp, false);
-                obj.FillBrush = m_fillBrush;
                 obj.Width = PPathwayNode.DEFAULT_WIDTH;
                 obj.Height = PPathwayNode.DEFAULT_HEIGHT;
             }
@@ -358,14 +373,12 @@ namespace EcellLib.PathwayWindow
         /// <returns></returns>
         public ErrorType AddFigure(string type, string argString)
         {
-            if (type == null || type.Equals(""))
-            {
+            // Check Errors
+            if (string.IsNullOrEmpty(type))
                 return ErrorType.Error_FigureNull;
-            }
-            if (argString == null || argString.Equals(""))
-            {
+            if (string.IsNullOrEmpty(argString))
                 return ErrorType.Error_ArgsNull;
-            }
+
             type = type.ToLower();
             string[] args = argString.Split(new Char[] { ',', ' ' });
             ErrorType returnCode = ComponentSetting.ErrorType.No_Error;
@@ -426,7 +439,7 @@ namespace EcellLib.PathwayWindow
             }
             else if (type.Equals("roundcornerrectangle"))
             {
-                returnCode = AddRectangle(args);
+                returnCode = AddRoundCornerRectangle(args);
                 return ErrorType.No_Error;
             }
             else
@@ -647,7 +660,27 @@ namespace EcellLib.PathwayWindow
             {
                 return ErrorType.Error_IllegalFormat;
             }
-        }      
+        }
+        private ErrorType AddRoundCornerRectangle(String[] args)
+        {
+            if (args.Length < 4)
+                return ErrorType.Error_LessArgs;
+
+            try
+            {
+                RectangleF rect = new RectangleF(float.Parse(args[0]),
+                                float.Parse(args[1]),
+                                float.Parse(args[2]),
+                                float.Parse(args[3]));
+                m_figureList.Add(new RoundCornerRectangle(rect.X, rect.Y, rect.Width, rect.Height));
+                m_gp.AddRectangle(rect);
+                return ErrorType.No_Error;
+            }
+            catch (FormatException)
+            {
+                return ErrorType.Error_IllegalFormat;
+            }
+        }
         #endregion
     }
 }

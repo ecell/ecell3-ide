@@ -146,16 +146,6 @@ namespace EcellLib.PathwayWindow
             {
                 if (m_defaultSystemName != null && m_systemSettings.ContainsKey(m_defaultSystemName))
                     return m_systemSettings[m_defaultSystemName];
-                else if (m_systemSettings.Count != 0)
-                {
-                    ComponentSetting def = null;
-                    foreach (ComponentSetting cs in m_systemSettings.Values)
-                    {
-                        def = cs;
-                        break;
-                    }
-                    return def;
-                }
                 else
                     return null;
             }
@@ -171,16 +161,6 @@ namespace EcellLib.PathwayWindow
             {
                 if (m_defaultProcessName != null && m_processSettings.ContainsKey(m_defaultProcessName))
                     return m_processSettings[m_defaultProcessName];
-                else if (m_processSettings.Count != 0)
-                {
-                    ComponentSetting def = null;
-                    foreach (ComponentSetting cs in m_processSettings.Values)
-                    {
-                        def = cs;
-                        break;
-                    }
-                    return def;
-                }
                 else
                     return null;
             }
@@ -196,16 +176,6 @@ namespace EcellLib.PathwayWindow
             {
                 if (m_defaultVariableName != null && m_variableSettings.ContainsKey(m_defaultVariableName))
                     return m_variableSettings[m_defaultVariableName];
-                else if (m_variableSettings.Count != 0)
-                {
-                    ComponentSetting def = null;
-                    foreach (ComponentSetting cs in m_variableSettings.Values)
-                    {
-                        def = cs;
-                        break;
-                    }
-                    return def;
-                }
                 else
                     return null;
             }
@@ -236,7 +206,7 @@ namespace EcellLib.PathwayWindow
             m_systemSettings = new Dictionary<string, ComponentSetting>();
             m_processSettings = new Dictionary<string, ComponentSetting>();
             m_variableSettings = new Dictionary<string, ComponentSetting>();
-            SetDefaultSettings();
+            SetComponentSettings();
         }
         #endregion
 
@@ -244,151 +214,26 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Load ComponentSettings from default setting file.
         /// </summary>
-        public static ComponentManager LoadComponentSettings()
+        public void LoadComponentSettings(string filename)
         {
-            // Read component settings from ComopnentSettings.xml
-            string settingFile = FindComponentSettingsFile();
-
-            ComponentManager manager = new ComponentManager();
-
+            // Load file.
             XmlDocument xmlD = new XmlDocument();
             try
             {
-                xmlD.Load(settingFile);
+                xmlD.Load(filename);
             }
             catch (FileNotFoundException)
             {
                 MessageBox.Show(m_resources.GetString("ErrNotComXml"), "WARNING", MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
-                xmlD = null;
+                CreateDefaultSettings();
+                return;
             }
 
-            if (xmlD != null)
-            {
-                // All ComponentSettings in the xml file are in valid format or not.
-                bool isAllValid = true;
-                // If any ComponentSettings in the xml file is invalid, these messages are shown.
-                List<string> lackMessages = new List<string>();
-                int csCount = 1;
-
-                // Read ComponentSettings information from xml file.
-                foreach (XmlNode componentNode in xmlD.ChildNodes[0].ChildNodes)
-                {
-                    ComponentSetting cs = new ComponentSetting();
-
-                    string componentKind = componentNode.Attributes["kind"].Value;
-
-                    bool isDefault = false;
-                    if (componentNode.Attributes["isDefault"] != null
-                     && componentNode.Attributes["isDefault"].ToString().ToLower().Equals("true"))
-                        isDefault = true;
-
-                    try
-                    {
-                        cs.ComponentType = ComponentManager.ParseComponentKind(componentKind);
-                    }
-                    catch (NoSuchComponentKindException e)
-                    {
-                        MessageBox.Show(m_resources.GetString("ErrCreateKind") + "\n\n" + e.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        continue;
-                    }
-
-                    foreach (XmlNode parameterNode in componentNode.ChildNodes)
-                    {
-                        if (parameterNode.Name.Equals("Name"))
-                        {
-                            cs.Name = parameterNode.InnerText;
-                        }
-                        else if (parameterNode.Name.Equals("FillColor") || parameterNode.Name.Equals("Color"))
-                        {
-                            Brush brush = PathUtil.GetBrushFromString(parameterNode.InnerText);
-                            if (brush != null)
-                            {
-                                cs.FillBrush = brush;
-                            }
-                        }
-                        else if (parameterNode.Name.Equals("LineColor"))
-                        {
-                            Brush brush = PathUtil.GetBrushFromString(parameterNode.InnerText);
-                            if (brush != null)
-                            {
-                                cs.LineBrush = brush;
-                            }
-                        }
-                        else if (parameterNode.Name.Equals("Drawings"))
-                        {
-                            foreach (XmlNode drawNode in parameterNode.ChildNodes)
-                            {
-                                if (drawNode.Attributes["type"] != null)
-                                    cs.AddFigure(drawNode.Attributes["type"].Value, drawNode.InnerText);
-                            }
-                        }
-                        else if (parameterNode.Name.Equals("Class"))
-                        {
-                            cs.AddComponentClass(parameterNode.InnerText);
-                        }
-                    }
-
-                    List<string> lackInfos = cs.Validate();
-
-                    if (lackInfos == null)
-                    {
-                        switch (cs.ComponentType)
-                        {
-                            case ComponentType.System:
-                                manager.RegisterSystemSetting(cs.Name, cs, isDefault);
-                                break;
-                            case ComponentType.Process:
-                                manager.RegisterProcessSetting(cs.Name, cs, isDefault);
-                                break;
-                            case ComponentType.Variable:
-                                manager.RegisterVariableSetting(cs.Name, cs, isDefault);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        isAllValid = false;
-                        string nameForCs = null;
-                        if (cs.Name == null)
-                            nameForCs = "ComponentSetting No." + csCount;
-                        else
-                            nameForCs = cs.Name;
-                        foreach (string lackInfo in lackInfos)
-                            lackMessages.Add(nameForCs + " lacks " + lackInfo + "\n");
-                    }
-                    csCount++;
-                }
-
-                string warnMessage = "";
-
-                if (manager.DefaultSystemSetting == null)
-                    warnMessage += m_resources.GetString("ErrCompSystem") + "\n\n";
-                if (manager.DefaultVariableSetting == null)
-                    warnMessage += m_resources.GetString("ErrCompVariable") + "\n\n";
-                if (manager.DefaultProcessSetting == null)
-                    warnMessage += m_resources.GetString("ErrCompProcess") + "\n\n";
-
-                if (!isAllValid)
-                {
-                    warnMessage += m_resources.GetString("ErrCompInvalid");
-                    if (lackMessages.Count != 1)
-                        warnMessage += "s";
-                    warnMessage += "\n";
-
-                    foreach (string msg in lackMessages)
-                    {
-                        warnMessage += "    " + msg;
-                    }
-                }
-
-                if (warnMessage != null && warnMessage.Length != 0)
-                {
-                    MessageBox.Show(warnMessage, "WARNING by PathwayWindow", MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-                }
-            }
-            return manager;
+            // Load ComponentSettings information from xml file.
+            List<ComponentSetting> list = LoadFromXML(xmlD);
+            // Check and register ComponentSettings.
+            CheckAndRegisterComponent(list);
         }
 
         /// <summary>
@@ -396,7 +241,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void SaveComponentSettings()
         {
-            string filepath = Path.Combine(Util.GetUserDir(), "ComponentSettings.xml");
+            string filepath = GetUserSettingsFilePath();
             FileStream fs = null;
             XmlTextWriter xmlOut = null;
             try
@@ -422,16 +267,18 @@ namespace EcellLib.PathwayWindow
                 foreach (ComponentSetting setting in ComponentSettings)
                 {
                     xmlOut.WriteStartElement("Component");
+                    xmlOut.WriteAttributeString("Type", ParseComponentTypeToString(setting.ComponentType));
+                    xmlOut.WriteAttributeString("isDefault", setting.IsDefault.ToString());
                     xmlOut.WriteElementString("Name", setting.Name);
                     xmlOut.WriteElementString("Class", setting.Class);
-                    xmlOut.WriteElementString("LineColor", setting.LineBrush.ToString());
-                    xmlOut.WriteElementString("FillColor", setting.FillBrush.ToString());
+                    xmlOut.WriteElementString("LineColor", BrushManager.ParseBrushToString(setting.LineBrush));
+                    xmlOut.WriteElementString("FillColor", BrushManager.ParseBrushToString(setting.FillBrush));
                     xmlOut.WriteStartElement("Drawings");
                     foreach (FigureBase figure in setting.FigureList)
                     {
                         xmlOut.WriteStartElement("Draw");
                         xmlOut.WriteAttributeString("Type", figure.Type);
-                        xmlOut.WriteValue(figure.ToString());
+                        xmlOut.WriteValue(figure.Coordinates);
                         xmlOut.WriteEndElement();
                     }
                     xmlOut.WriteEndElement();
@@ -457,23 +304,17 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="kind">a name of kind, to be parsed</param>
         /// <returns></returns>
-        public static ComponentType ParseComponentKind(string type)
+        public static ComponentType ParseStringToComponentType(string type)
         {
-            if (type == null || type.Equals(""))
-            {
-                throw new NoSuchComponentKindException("Component kind \"" + type + "\" doesn't" +
-                    " exist. One of System or Variable or Process must be set as a component kind.");
-            }
-            type = type.ToLower();
-            if (type.Equals("system"))
+            if (type.Equals(EcellObject.SYSTEM))
             {
                 return ComponentType.System;
             }
-            else if (type.Equals("variable"))
+            else if (type.Equals(EcellObject.VARIABLE))
             {
                 return ComponentType.Variable;
             }
-            else if (type.Equals("process"))
+            else if (type.Equals(EcellObject.PROCESS))
             {
                 return ComponentType.Process;
             }
@@ -488,7 +329,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="cType"></param>
         /// <returns></returns>
-        public static string GetTypeString(ComponentType cType)
+        public static string ParseComponentTypeToString(ComponentType cType)
         {
             if (cType == ComponentType.System)
             {
@@ -506,7 +347,6 @@ namespace EcellLib.PathwayWindow
             {
                 return null;
             }
-
         }
 
         /// <summary>
@@ -547,161 +387,226 @@ namespace EcellLib.PathwayWindow
                 return null;
             }
         }
-        /// <summary>
-        /// Register ComponentSetting of a system onto this manager
-        /// </summary>
-        /// <param name="settingName">the name of ComponentSetting </param>
-        /// <param name="setting">ComponentSetting to be registered</param>
-        /// <param name="isDefault">If true, this setting will be set as default</param>
-        public void RegisterSystemSetting(string settingName, ComponentSetting setting, bool isDefault)
-        {
-            if (settingName == null)
-                return;
-            if (m_systemSettings.ContainsKey(settingName))
-                m_systemSettings.Remove(settingName);
-            m_systemSettings.Add(settingName, setting);
-            if (isDefault)
-                m_defaultSystemName = settingName;
-        }
 
         /// <summary>
-        /// Register ComponentSetting of a process onto this manager
+        /// Register ComponentSetting onto this manager
         /// </summary>
-        /// <param name="settingName">the name of ComponentSetting</param>
-        /// <param name="setting">ComponentSetting to be registered</param>
-        /// <param name="isDefault">If true, this setting will be set as default</param>
-        public void RegisterProcessSetting(string settingName, ComponentSetting setting, bool isDefault)
+        /// <param name="settingName"></param>
+        /// <param name="setting"></param>
+        /// <param name="isDefault"></param>
+        public void RegisterSetting(ComponentSetting setting)
         {
-            if (settingName == null)
-                return;
-            if (m_processSettings.ContainsKey(settingName))
-                m_processSettings.Remove(settingName);
-            m_processSettings.Add(settingName, setting);
-            if (isDefault)
-                m_defaultProcessName = settingName;
-        }
+            Dictionary<string, ComponentSetting> dic = GetSettingDictionary(setting.ComponentType);
+            if (dic.ContainsKey(setting.Name))
+                dic.Remove(setting.Name);
 
-        /// <summary>
-        /// Register ComponentSetting of a variable onto this manager
-        /// </summary>
-        /// <param name="settingName">the name of ComponentSetting</param>
-        /// <param name="setting">ComponentSetting to be registered</param>
-        /// <param name="isDefault">If true, this setting will be set as default</param>
-        public void RegisterVariableSetting(string settingName, ComponentSetting setting, bool isDefault)
-        {
-            if (settingName == null)
-                return;
-            if (m_variableSettings.ContainsKey(settingName))
-                m_variableSettings.Remove(settingName);
-            m_variableSettings.Add(settingName, setting);
-            if (isDefault)
-                m_defaultVariableName = settingName;
-        }
-
-        /// <summary>
-        /// Remove ComponentSetting of a system from this manager.
-        /// </summary>
-        /// <param name="settingName">the name of ComponentSetting</param>
-        /// <returns>True if this name has existed in the dictionary, otherwise false.</returns>
-        public bool RemoveSystemSetting(string settingName)
-        {
-            if (settingName != null && m_systemSettings.ContainsKey(settingName))
-            {
-                m_systemSettings.Remove(settingName);
-                if (m_defaultSystemName != null && m_defaultSystemName.Equals(settingName))
-                    m_defaultSystemName = null;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Remove ComponentSetting of a process from this manager.
-        /// </summary>
-        /// <param name="settingName">the name of ComponentSetting</param>
-        /// <returns>True if this name has existed in the dictionary, otherwise false.</returns>
-        public bool RemoveProcessSetting(string settingName)
-        {
-            if (settingName != null && m_processSettings.ContainsKey(settingName))
-            {
-                m_processSettings.Remove(settingName);
-                if (m_defaultProcessName != null && m_defaultProcessName.Equals(settingName))
-                    m_defaultProcessName = null;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Remove ComponentSetting of a variable from this manager.
-        /// </summary>
-        /// <param name="settingName">the name of ComponentSetting</param>
-        /// <returns>True if this name has existed in the dictionary, otherwise false.</returns>
-        public bool RemoveVariableSetting(string settingName)
-        {
-            if (settingName != null && m_variableSettings.ContainsKey(settingName))
-            {
-                m_variableSettings.Remove(settingName);
-                if (m_defaultVariableName != null && m_defaultVariableName.Equals(settingName))
-                    m_defaultVariableName = null;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            // Resister
+            dic.Add(setting.Name, setting);
+            if (setting.IsDefault)
+                SetDefaultSetting(setting);
         }
         #endregion
 
         #region Private Methods
-        private void SetDefaultSettings()
+        private void CreateDefaultSettings()
         {
             // Set hard coded default system ComponentSettings
             ComponentSetting defSysCs = new ComponentSetting();
             defSysCs.ComponentType = ComponentType.System;
             defSysCs.Name = DEFAULT_SYSTEM_NAME;
+            defSysCs.IsDefault = true;
             defSysCs.FillBrush = Brushes.LightBlue;
+            defSysCs.LineBrush = Brushes.Blue;
+            defSysCs.AddFigure("RoundCornerRectangle", "0,0,500,500");
             defSysCs.AddComponentClass(ClassPPathwaySystem);
-            RegisterSystemSetting(defSysCs.Name, defSysCs, true);
+            RegisterSetting(defSysCs);
 
             // Set hard coded default variable ComponentSettings
             ComponentSetting defVarCs = new ComponentSetting();
             defVarCs.ComponentType = ComponentType.Variable;
             defVarCs.Name = DEFAULT_VARIABLE_NAME;
+            defVarCs.IsDefault = true;
             defVarCs.FillBrush = Brushes.LightBlue;
+            defVarCs.LineBrush = Brushes.Black;
             defVarCs.AddFigure("Ellipse", "-30,-20,60,40");
             defVarCs.AddComponentClass(ClassPPathwayVariable);
-            RegisterProcessSetting(defVarCs.Name, defVarCs, true);
+            RegisterSetting(defVarCs);
 
             // Set hard coded default process ComponentSettings
             ComponentSetting defProCs = new ComponentSetting();
             defProCs.ComponentType = ComponentType.Process;
             defProCs.Name = DEFAULT_PROCESS_NAME;
+            defProCs.IsDefault = true;
             defProCs.FillBrush = Brushes.LightGreen;
-            defProCs.AddFigure("Rectangle","-30,-20,60,40");
+            defProCs.LineBrush = Brushes.Black;
+            defProCs.AddFigure("Rectangle", "-30,-20,60,40");
             defProCs.AddComponentClass(ClassPPathwayProcess);
-            RegisterProcessSetting(defProCs.Name, defProCs, true);
+            RegisterSetting(defProCs);
         }
 
         /// <summary>
         /// Find component settings file
         /// </summary>
-        private static string FindComponentSettingsFile()
+        private static string GetUserSettingsFilePath()
         {
-            string[] pluginDirs = EcellLib.Util.GetPluginDirs();
-            foreach (string pluginDir in pluginDirs)
+            string filename = Path.Combine(Util.GetUserDir(), "ComponentSettings.xml");
+            return filename;
+        }
+
+        /// <summary>
+        /// Set ComponentSettings.
+        /// This method is for loading user setting.
+        /// If there is no user setting file, create default setting file.
+        /// </summary>
+        private void SetComponentSettings()
+        {
+            CreateDefaultSettings();
+            string filename = GetUserSettingsFilePath();
+            if (File.Exists(filename))
+                LoadComponentSettings(filename);
+            else
+                SaveComponentSettings();
+        }
+
+        /// <summary>
+        /// Get ComponentSetting dictionary.
+        /// </summary>
+        /// <param name="cType"></param>
+        /// <returns></returns>
+        private Dictionary<string, ComponentSetting> GetSettingDictionary(ComponentType cType)
+        {
+            Dictionary<string, ComponentSetting> dic = null;
+            switch (cType)
             {
-                string settingFile = pluginDir + "\\pathway\\ComponentSettings.xml";
-                if (File.Exists(settingFile))
-                    return settingFile;
+                case ComponentType.System:
+                    dic = SystemSettings;
+                    break;
+                case ComponentType.Process:
+                    dic = ProcessSettings;
+                    break;
+                case ComponentType.Variable:
+                    dic = VariableSettings;
+                    break;
             }
-            return null;
+            return dic;
+        }
+
+        /// <summary>
+        /// Load ComponentSettings from xml file.
+        /// </summary>
+        /// <param name="xmlD"></param>
+        /// <returns></returns>
+        private static List<ComponentSetting> LoadFromXML(XmlDocument xmlD)
+        {
+            XmlNode componentsNode = null;
+            List<ComponentSetting> list = new List<ComponentSetting>();
+            foreach (XmlNode node in xmlD.ChildNodes)
+            {
+                if (node.Name.Equals("ComponentList"))
+                    componentsNode = node;
+            }
+
+            foreach (XmlNode componentNode in componentsNode.ChildNodes)
+            {
+                ComponentSetting cs = new ComponentSetting();
+                try
+                {
+                    string type = componentNode.Attributes["Type"].Value;
+                    string isDefault = componentNode.Attributes["isDefault"].Value;
+                    cs.ComponentType = ParseStringToComponentType(type);
+                    cs.IsDefault = bool.Parse(isDefault);
+                }
+                catch (NoSuchComponentKindException e)
+                {
+                    MessageBox.Show(m_resources.GetString("ErrCreateKind") + "\n\n" + e.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    continue;
+                }
+
+                foreach (XmlNode parameterNode in componentNode.ChildNodes)
+                {
+                    if (parameterNode.Name.Equals("Name"))
+                    {
+                        cs.Name = parameterNode.InnerText;
+                    }
+                    else if (parameterNode.Name.Equals("FillColor") || parameterNode.Name.Equals("Color"))
+                    {
+                        Brush brush = BrushManager.ParseStringToBrush(parameterNode.InnerText);
+                        if (brush != null)
+                        {
+                            cs.FillBrush = brush;
+                        }
+                    }
+                    else if (parameterNode.Name.Equals("LineColor"))
+                    {
+                        Brush brush = BrushManager.ParseStringToBrush(parameterNode.InnerText);
+                        if (brush != null)
+                        {
+                            cs.LineBrush = brush;
+                        }
+                    }
+                    else if (parameterNode.Name.Equals("Drawings"))
+                    {
+                        foreach (XmlNode drawNode in parameterNode.ChildNodes)
+                        {
+                            if (drawNode.Attributes["Type"] != null)
+                                cs.AddFigure(drawNode.Attributes["Type"].Value, drawNode.InnerText);
+                        }
+                    }
+                    else if (parameterNode.Name.Equals("Class"))
+                    {
+                        cs.AddComponentClass(parameterNode.InnerText);
+                    }
+                }
+                list.Add(cs);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Set Default ComponentSetting.
+        /// </summary>
+        /// <param name="setting"></param>
+        private void SetDefaultSetting(ComponentSetting setting)
+        {
+            switch (setting.ComponentType)
+            {
+                case ComponentType.System:
+                    m_defaultSystemName = setting.Name;
+                    break;
+                case ComponentType.Process:
+                    m_defaultProcessName = setting.Name;
+                    break;
+                case ComponentType.Variable:
+                    m_defaultVariableName = setting.Name;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Check errors and register each ComponentSetting.
+        /// If any ComponentSettings in the xml file is invalid, these messages are shown.
+        /// </summary>
+        /// <param name="list"></param>
+        private void CheckAndRegisterComponent(List<ComponentSetting> list)
+        {
+            int csCount = 0;
+            foreach (ComponentSetting cs in list)
+            {
+                List<string> lackInfos = cs.Validate();
+                if (lackInfos == null)
+                {
+                    RegisterSetting(cs);
+                }
+                else
+                {
+                    string name = (cs.Name == null) ? cs.Name : "ComponentSetting No." + csCount.ToString();
+                    string warnMessage = m_resources.GetString("ErrCompInvalid") + "\n";
+                    foreach (string lackInfo in lackInfos)
+                        warnMessage += "    " + name + " lacks " + lackInfo + "\n";
+                    MessageBox.Show(warnMessage, "WARNING by PathwayWindow", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                csCount++;
+            }
         }
         #endregion
     }

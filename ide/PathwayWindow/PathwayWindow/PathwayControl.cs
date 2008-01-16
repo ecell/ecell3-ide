@@ -323,7 +323,7 @@ namespace EcellLib.PathwayWindow
             this.m_window = window;
             // Create Internal object.
             m_canvasDict = new Dictionary<string, CanvasControl>();
-            m_csManager = ComponentManager.LoadComponentSettings();
+            m_csManager = new ComponentManager();
             m_layoutList = m_window.GetLayoutAlgorithms();
             // Create menus
             m_menuCon = new MenuControl(this);
@@ -374,7 +374,8 @@ namespace EcellLib.PathwayWindow
 
             // Create PathwayObject and set to canvas.
             CanvasControl canvas = m_canvasDict[eo.modelID];
-            ComponentSetting cs = GetComponentSetting(eo.type);
+            ComponentType cType = ComponentManager.ParseStringToComponentType(eo.type);
+            ComponentSetting cs = m_csManager.GetDefaultComponentSetting(cType);
             PPathwayObject obj = cs.CreateNewComponent(eo, canvas);
             canvas.DataAdd(eo.parentSystemID, obj, eo.IsPosSet, isFirst);
             NotifyDataChanged(eo.key, eo.key, obj, !isFirst, false);
@@ -1250,17 +1251,6 @@ namespace EcellLib.PathwayWindow
             canvas.UpdateOverview();
             // Set Layerview
             m_layerView.DataGridView.DataSource = canvas.LayerTable;
-        }
-
-        /// <summary>
-        /// Get ComponentSetting.
-        /// </summary>
-        /// <param name="type">ComponentType</param>
-        /// <returns>ComponentSetting.</returns>
-        private ComponentSetting GetComponentSetting(string type)
-        {
-            ComponentType cType = ComponentManager.ParseComponentKind(type);
-            return m_csManager.GetDefaultComponentSetting(cType);
         }
 
         /// <summary>

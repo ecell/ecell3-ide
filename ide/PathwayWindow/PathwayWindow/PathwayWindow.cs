@@ -246,6 +246,15 @@ namespace EcellLib.PathwayWindow
                 m_pManager.RemoveSelect(modelID, key, type);
 
         }
+        /// <summary>
+        /// Inform the plugin message.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="message"></param>
+        public void NotifyMessage(string type, string message)
+        {
+            m_pManager.Message(type, message);
+        }
         #endregion
 
         #region Inherited from PluginBase

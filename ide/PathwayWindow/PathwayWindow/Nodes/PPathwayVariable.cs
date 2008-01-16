@@ -155,7 +155,7 @@ namespace EcellLib.PathwayWindow.Nodes
             }
             else
             {
-                m_pen = new Pen(Brushes.Black, 1);
+                m_pen = new Pen(m_lineBrush, 1);
                 m_pText.TextBrush = Brushes.Black;
                 m_pPropertyText.Text ="";
             }

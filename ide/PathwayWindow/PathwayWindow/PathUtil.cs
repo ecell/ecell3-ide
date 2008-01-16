@@ -61,16 +61,6 @@ namespace EcellLib.PathwayWindow
         private Dictionary<string, Brush> m_brushDic = null;
         #endregion
 
-        #region Accessors
-        /// <summary>
-        /// Accessor for a dictionary of brushes
-        /// </summary>
-        public Dictionary<string, Brush> BrushDic
-        {
-            get { return m_brushDic; }
-            set { this.m_brushDic = value; }
-        }
-        #endregion
         /// <summary>
         /// Get bounds to focus on a object.
         /// </summary>
@@ -195,44 +185,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Parse argument string into Brush
-        /// For example, when an argument is "white", Brushes.White will be returned.
-        /// </summary>
-        /// <param name="color">A color you want</param>
-        /// <returns>Brush, which has a color indicated by argument.
-        ///          Null will be returned when an argument can't be parsed.
-        /// </returns>
-        public static Brush GetBrushFromString(string color)
-        {
-            if(color == null || color.Equals(""))
-            {
-                return null;
-            }
-            color = color.ToLower();
-            
-            if(m_util == null)
-            {
-                m_util = new PathUtil();
-            }
-
-            if(m_util.BrushDic == null)
-            {
-                m_util.createBrushDictionary();
-            }
-
-            Dictionary<string, Brush> brushDic = m_util.BrushDic;
-
-            if (brushDic.ContainsKey(color))
-            {
-                return brushDic[color];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Get key moved to another system.
         /// </summary>
         /// <param name="originalKey"></param>
@@ -252,154 +204,210 @@ namespace EcellLib.PathwayWindow
                 newKey = originalKey.Replace(originalSystemKey, newSystemKey);
             return newKey;
         }
+    }
 
+    public class BrushManager
+    {
+        /// <summary>
+        /// Brush Dictionary.
+        /// </summary>
+        private static Dictionary<string, Brush> m_brushDic = null;
+
+        /// <summary>
+        /// Parse argument string into Brush
+        /// For example, when an argument is "white", Brushes.White will be returned.
+        /// </summary>
+        /// <param name="color">A color you want</param>
+        /// <returns>Brush, which has a color indicated by argument.
+        ///          Null will be returned when an argument can't be parsed.
+        /// </returns>
+        public static Brush ParseStringToBrush(string color)
+        {
+            if (string.IsNullOrEmpty(color))
+                return null;
+            if (m_brushDic == null)
+                m_brushDic = CreateBrushDictionary();
+
+            color = color.ToLower();
+            Brush brush = null;
+            foreach (KeyValuePair<string, Brush> pair in m_brushDic)
+            {
+                string key = pair.Key.ToLower();
+                if (key.Equals(color))
+                    brush = pair.Value;
+            }
+            return brush;
+        }
+
+        /// <summary>
+        /// Parse Brush into string.
+        /// </summary>
+        /// <param name="brush"></param>
+        /// <returns></returns>
+        public static string ParseBrushToString(Brush brush)
+        {
+            if (brush == null)
+                return null;
+            if (m_brushDic == null)
+                m_brushDic = CreateBrushDictionary();
+
+            string key = null;
+            foreach(KeyValuePair<string, Brush> pair in m_brushDic)
+            {
+                if(pair.Value.Equals(brush))
+                    key = pair.Key;
+            }
+            return key;
+        }
         /// <summary>
         /// Create a dictionary (key: name of brush, value: Brush object)
         /// </summary>
-        public void createBrushDictionary()
+        public static Dictionary<string, Brush> CreateBrushDictionary()
         {
-            m_brushDic = new Dictionary<string, Brush>();
-            m_brushDic.Add("aliceblue",Brushes.AliceBlue);
-            m_brushDic.Add("antiquewhite", Brushes.AntiqueWhite);
-            m_brushDic.Add("aqua", Brushes.Aqua);
-            m_brushDic.Add("aquamarine", Brushes.Aquamarine);
-            m_brushDic.Add("azure", Brushes.Azure);
-            m_brushDic.Add("beige", Brushes.Beige);
-            m_brushDic.Add("bisque", Brushes.Bisque);
-            m_brushDic.Add("black", Brushes.Black);
-            m_brushDic.Add("blanchedalmond", Brushes.BlanchedAlmond);
-            m_brushDic.Add("blue", Brushes.Blue);
-            m_brushDic.Add("blueviolet", Brushes.BlueViolet);
-            m_brushDic.Add("brown", Brushes.Brown);
-            m_brushDic.Add("burlywood", Brushes.BurlyWood);
-            m_brushDic.Add("cadetblue", Brushes.CadetBlue);
-            m_brushDic.Add("chartreuse", Brushes.Chartreuse);
-            m_brushDic.Add("chocolate", Brushes.Chocolate);
-            m_brushDic.Add("coral", Brushes.Coral);
-            m_brushDic.Add("cornflowerblue", Brushes.CornflowerBlue);
-            m_brushDic.Add("cornsilk", Brushes.Cornsilk);
-            m_brushDic.Add("crimson", Brushes.Crimson);
-            m_brushDic.Add("cyan", Brushes.Cyan);
-            m_brushDic.Add("darkblue", Brushes.DarkBlue);
-            m_brushDic.Add("darkcyan", Brushes.DarkCyan);
-            m_brushDic.Add("darkgoldenrod", Brushes.DarkGoldenrod);
-            m_brushDic.Add("darkgray", Brushes.DarkGray);
-            m_brushDic.Add("darkgreen", Brushes.DarkGreen);
-            m_brushDic.Add("darkkhaki", Brushes.DarkKhaki);
-            m_brushDic.Add("darkmagenta", Brushes.DarkMagenta);
-            m_brushDic.Add("darkolivegreen", Brushes.DarkOliveGreen);
-            m_brushDic.Add("darkorange", Brushes.DarkOrange);
-            m_brushDic.Add("darkorchid", Brushes.DarkOrchid);
-            m_brushDic.Add("darkred", Brushes.DarkRed);
-            m_brushDic.Add("darksalmon", Brushes.DarkSalmon);
-            m_brushDic.Add("darkseagreen", Brushes.DarkSeaGreen);
-            m_brushDic.Add("darkslateblue", Brushes.DarkSlateBlue);
-            m_brushDic.Add("darkslategray", Brushes.DarkSlateGray);
-            m_brushDic.Add("darkturquoise", Brushes.DarkTurquoise);
-            m_brushDic.Add("darkviolet", Brushes.DarkViolet);
-            m_brushDic.Add("deeppink", Brushes.DeepPink);
-            m_brushDic.Add("deepskyblue", Brushes.DeepSkyBlue);
-            m_brushDic.Add("dimgray", Brushes.DimGray);
-            m_brushDic.Add("dodgerblue", Brushes.DodgerBlue);
-            m_brushDic.Add("firebrick", Brushes.Firebrick);
-            m_brushDic.Add("floralwhite", Brushes.FloralWhite);
-            m_brushDic.Add("forestgreen", Brushes.ForestGreen);
-            m_brushDic.Add("fuchsia", Brushes.Fuchsia);
-            m_brushDic.Add("gainsboro", Brushes.Gainsboro);
-            m_brushDic.Add("ghostwhite", Brushes.GhostWhite);
-            m_brushDic.Add("gold", Brushes.Gold);
-            m_brushDic.Add("goldenrod", Brushes.Goldenrod);
-            m_brushDic.Add("gray", Brushes.Gray);
-            m_brushDic.Add("green", Brushes.Green);
-            m_brushDic.Add("greenyellow", Brushes.GreenYellow);
-            m_brushDic.Add("honeydew", Brushes.Honeydew);
-            m_brushDic.Add("hotpink", Brushes.HotPink);
-            m_brushDic.Add("indianred", Brushes.IndianRed);
-            m_brushDic.Add("indigo", Brushes.Indigo);
-            m_brushDic.Add("ivory", Brushes.Ivory);
-            m_brushDic.Add("khaki", Brushes.Khaki);
-            m_brushDic.Add("lavender", Brushes.Lavender);
-            m_brushDic.Add("lavenderblush", Brushes.LavenderBlush);
-            m_brushDic.Add("lawngreen", Brushes.LawnGreen);
-            m_brushDic.Add("lemonchiffon", Brushes.LemonChiffon);
-            m_brushDic.Add("lightblue", Brushes.LightBlue);
-            m_brushDic.Add("lightcoral", Brushes.LightCoral);
-            m_brushDic.Add("lightcyan", Brushes.LightCyan);
-            m_brushDic.Add("lightgoldenrodyellow", Brushes.LightGoldenrodYellow);
-            m_brushDic.Add("lightgray", Brushes.LightGray);
-            m_brushDic.Add("lightgreen", Brushes.LightGreen);
-            m_brushDic.Add("lightpink", Brushes.LightPink);
-            m_brushDic.Add("lightsalmon", Brushes.LightSalmon);
-            m_brushDic.Add("lightseagreen", Brushes.LightSeaGreen);
-            m_brushDic.Add("lightskyblue", Brushes.LightSkyBlue);
-            m_brushDic.Add("lightslategray", Brushes.LightSlateGray);
-            m_brushDic.Add("lightsteelblue", Brushes.LightSteelBlue);
-            m_brushDic.Add("lightyellow", Brushes.LightYellow);
-            m_brushDic.Add("lime", Brushes.Lime);
-            m_brushDic.Add("limegreen", Brushes.LimeGreen);
-            m_brushDic.Add("linen", Brushes.Linen);
-            m_brushDic.Add("magenta", Brushes.Magenta);
-            m_brushDic.Add("maroon", Brushes.Maroon);
-            m_brushDic.Add("mediumaquamarine", Brushes.MediumAquamarine);
-            m_brushDic.Add("mediumblue", Brushes.MediumBlue);
-            m_brushDic.Add("mediumorchid", Brushes.MediumOrchid);
-            m_brushDic.Add("mediumpurple", Brushes.MediumPurple);
-            m_brushDic.Add("mediumseagreen", Brushes.MediumSeaGreen);
-            m_brushDic.Add("mediumslateblue", Brushes.MediumSlateBlue);
-            m_brushDic.Add("mediumspringgreen", Brushes.MediumSpringGreen);
-            m_brushDic.Add("mediumturquoise", Brushes.MediumTurquoise);
-            m_brushDic.Add("mediumvioletred", Brushes.MediumVioletRed);
-            m_brushDic.Add("midnightblue", Brushes.MidnightBlue);
-            m_brushDic.Add("mintcream", Brushes.MintCream);
-            m_brushDic.Add("mistyrose", Brushes.MistyRose);
-            m_brushDic.Add("moccasin", Brushes.Moccasin);
-            m_brushDic.Add("navajowhite", Brushes.NavajoWhite);
-            m_brushDic.Add("navy", Brushes.Navy);
-            m_brushDic.Add("oldlace", Brushes.OldLace);
-            m_brushDic.Add("olive", Brushes.Olive);
-            m_brushDic.Add("olivedrab", Brushes.OliveDrab);
-            m_brushDic.Add("orange", Brushes.Orange);
-            m_brushDic.Add("orangered", Brushes.OrangeRed);
-            m_brushDic.Add("orchid", Brushes.Orchid);
-            m_brushDic.Add("palegoldenrod", Brushes.PaleGoldenrod);
-            m_brushDic.Add("palegreen", Brushes.PaleGreen);
-            m_brushDic.Add("paleturquoise", Brushes.PaleTurquoise);
-            m_brushDic.Add("palevioletred", Brushes.PaleVioletRed);
-            m_brushDic.Add("papayawhip", Brushes.PapayaWhip);
-            m_brushDic.Add("peachpuff", Brushes.PeachPuff);
-            m_brushDic.Add("peru", Brushes.Peru);
-            m_brushDic.Add("pink", Brushes.Pink);
-            m_brushDic.Add("plum", Brushes.Plum);
-            m_brushDic.Add("powderblue", Brushes.PowderBlue);
-            m_brushDic.Add("purple", Brushes.Purple);
-            m_brushDic.Add("red", Brushes.Red);
-            m_brushDic.Add("rosybrown", Brushes.RosyBrown);
-            m_brushDic.Add("royalblue", Brushes.RoyalBlue);
-            m_brushDic.Add("saddlebrown", Brushes.SaddleBrown);
-            m_brushDic.Add("salmon", Brushes.Salmon);
-            m_brushDic.Add("sandybrown", Brushes.SandyBrown);
-            m_brushDic.Add("seagreen", Brushes.SeaGreen);
-            m_brushDic.Add("seashell", Brushes.SeaShell);
-            m_brushDic.Add("sienna", Brushes.Sienna);
-            m_brushDic.Add("silver", Brushes.Silver);
-            m_brushDic.Add("skyblue", Brushes.SkyBlue);
-            m_brushDic.Add("slateblue", Brushes.SlateBlue);
-            m_brushDic.Add("slategray", Brushes.SlateGray);
-            m_brushDic.Add("snow", Brushes.Snow);
-            m_brushDic.Add("springgreen", Brushes.SpringGreen);
-            m_brushDic.Add("steelblue", Brushes.SteelBlue);
-            m_brushDic.Add("tan", Brushes.Tan);
-            m_brushDic.Add("teal", Brushes.Teal);
-            m_brushDic.Add("thistle", Brushes.Thistle);
-            m_brushDic.Add("tomato", Brushes.Tomato);
-            m_brushDic.Add("transparent", Brushes.Transparent);
-            m_brushDic.Add("turquoise", Brushes.Turquoise);
-            m_brushDic.Add("violet", Brushes.Violet);
-            m_brushDic.Add("wheat", Brushes.Wheat);
-            m_brushDic.Add("white", Brushes.White);
-            m_brushDic.Add("whitesmoke", Brushes.WhiteSmoke);
-            m_brushDic.Add("yellow", Brushes.Yellow);
-            m_brushDic.Add("yellowgreen", Brushes.YellowGreen);
+            Dictionary<string, Brush> brushDic = new Dictionary<string, Brush>();
+            brushDic.Add("AliceBlue", Brushes.AliceBlue);
+            brushDic.Add("AntiqueWhite", Brushes.AntiqueWhite);
+            brushDic.Add("Aqua", Brushes.Aqua);
+            brushDic.Add("Aquamarine", Brushes.Aquamarine);
+            brushDic.Add("Azure", Brushes.Azure);
+            brushDic.Add("Beige", Brushes.Beige);
+            brushDic.Add("Bisque", Brushes.Bisque);
+            brushDic.Add("Black", Brushes.Black);
+            brushDic.Add("BlanchedAlmond", Brushes.BlanchedAlmond);
+            brushDic.Add("Blue", Brushes.Blue);
+            brushDic.Add("BlueViolet", Brushes.BlueViolet);
+            brushDic.Add("Brown", Brushes.Brown);
+            brushDic.Add("BurlyWood", Brushes.BurlyWood);
+            brushDic.Add("CadetBlue", Brushes.CadetBlue);
+            brushDic.Add("Chartreuse", Brushes.Chartreuse);
+            brushDic.Add("Chocolate", Brushes.Chocolate);
+            brushDic.Add("Coral", Brushes.Coral);
+            brushDic.Add("CornflowerBlue", Brushes.CornflowerBlue);
+            brushDic.Add("Cornsilk", Brushes.Cornsilk);
+            brushDic.Add("Crimson", Brushes.Crimson);
+            brushDic.Add("Cyan", Brushes.Cyan);
+            brushDic.Add("DarkBlue", Brushes.DarkBlue);
+            brushDic.Add("DarkCyan", Brushes.DarkCyan);
+            brushDic.Add("DarkGoldenrod", Brushes.DarkGoldenrod);
+            brushDic.Add("DarkGray", Brushes.DarkGray);
+            brushDic.Add("DarkGreen", Brushes.DarkGreen);
+            brushDic.Add("DarkKhaki", Brushes.DarkKhaki);
+            brushDic.Add("DarkMagenta", Brushes.DarkMagenta);
+            brushDic.Add("DarkOliveGreen", Brushes.DarkOliveGreen);
+            brushDic.Add("DarkOrange", Brushes.DarkOrange);
+            brushDic.Add("DarkOrchid", Brushes.DarkOrchid);
+            brushDic.Add("DarkRed", Brushes.DarkRed);
+            brushDic.Add("DarkSalmon", Brushes.DarkSalmon);
+            brushDic.Add("DarkSeaGreen", Brushes.DarkSeaGreen);
+            brushDic.Add("DarkSlateBlue", Brushes.DarkSlateBlue);
+            brushDic.Add("DarkSlateGray", Brushes.DarkSlateGray);
+            brushDic.Add("DarkTurquoise", Brushes.DarkTurquoise);
+            brushDic.Add("DarkViolet", Brushes.DarkViolet);
+            brushDic.Add("DeepPink", Brushes.DeepPink);
+            brushDic.Add("DeepSkyBlue", Brushes.DeepSkyBlue);
+            brushDic.Add("DimGray", Brushes.DimGray);
+            brushDic.Add("DodgerBlue", Brushes.DodgerBlue);
+            brushDic.Add("Firebrick", Brushes.Firebrick);
+            brushDic.Add("FloralWhite", Brushes.FloralWhite);
+            brushDic.Add("ForestGreen", Brushes.ForestGreen);
+            brushDic.Add("Fuchsia", Brushes.Fuchsia);
+            brushDic.Add("Gainsboro", Brushes.Gainsboro);
+            brushDic.Add("GhostWhite", Brushes.GhostWhite);
+            brushDic.Add("Gold", Brushes.Gold);
+            brushDic.Add("Goldenrod", Brushes.Goldenrod);
+            brushDic.Add("Gray", Brushes.Gray);
+            brushDic.Add("Green", Brushes.Green);
+            brushDic.Add("GreenYellow", Brushes.GreenYellow);
+            brushDic.Add("Honeydew", Brushes.Honeydew);
+            brushDic.Add("HotPink", Brushes.HotPink);
+            brushDic.Add("IndianRed", Brushes.IndianRed);
+            brushDic.Add("Indigo", Brushes.Indigo);
+            brushDic.Add("Ivory", Brushes.Ivory);
+            brushDic.Add("Khaki", Brushes.Khaki);
+            brushDic.Add("Lavender", Brushes.Lavender);
+            brushDic.Add("LavenderBlush", Brushes.LavenderBlush);
+            brushDic.Add("LawnGreen", Brushes.LawnGreen);
+            brushDic.Add("LemonChiffon", Brushes.LemonChiffon);
+            brushDic.Add("LightBlue", Brushes.LightBlue);
+            brushDic.Add("LightCoral", Brushes.LightCoral);
+            brushDic.Add("LightCyan", Brushes.LightCyan);
+            brushDic.Add("LightGoldenrodYellow", Brushes.LightGoldenrodYellow);
+            brushDic.Add("LightGray", Brushes.LightGray);
+            brushDic.Add("LightGreen", Brushes.LightGreen);
+            brushDic.Add("LightPink", Brushes.LightPink);
+            brushDic.Add("LightSalmon", Brushes.LightSalmon);
+            brushDic.Add("LightSeaGreen", Brushes.LightSeaGreen);
+            brushDic.Add("LightSkyBlue", Brushes.LightSkyBlue);
+            brushDic.Add("LightSlateGray", Brushes.LightSlateGray);
+            brushDic.Add("LightSteelBlue", Brushes.LightSteelBlue);
+            brushDic.Add("LightYellow", Brushes.LightYellow);
+            brushDic.Add("Lime", Brushes.Lime);
+            brushDic.Add("LimeGreen", Brushes.LimeGreen);
+            brushDic.Add("Linen", Brushes.Linen);
+            brushDic.Add("Magenta", Brushes.Magenta);
+            brushDic.Add("Maroon", Brushes.Maroon);
+            brushDic.Add("MediumAquamarine", Brushes.MediumAquamarine);
+            brushDic.Add("MediumBlue", Brushes.MediumBlue);
+            brushDic.Add("MediumOrchid", Brushes.MediumOrchid);
+            brushDic.Add("MediumPurple", Brushes.MediumPurple);
+            brushDic.Add("MediumSeaGreen", Brushes.MediumSeaGreen);
+            brushDic.Add("MediumSlateBlue", Brushes.MediumSlateBlue);
+            brushDic.Add("MediumSpringGreen", Brushes.MediumSpringGreen);
+            brushDic.Add("MediumTurquoise", Brushes.MediumTurquoise);
+            brushDic.Add("MediumVioletRed", Brushes.MediumVioletRed);
+            brushDic.Add("MidnightBlue", Brushes.MidnightBlue);
+            brushDic.Add("MintCream", Brushes.MintCream);
+            brushDic.Add("MistyRose", Brushes.MistyRose);
+            brushDic.Add("Moccasin", Brushes.Moccasin);
+            brushDic.Add("NavajoWhite", Brushes.NavajoWhite);
+            brushDic.Add("Navy", Brushes.Navy);
+            brushDic.Add("OldLace", Brushes.OldLace);
+            brushDic.Add("Olive", Brushes.Olive);
+            brushDic.Add("OliveDrab", Brushes.OliveDrab);
+            brushDic.Add("Orange", Brushes.Orange);
+            brushDic.Add("OrangeRed", Brushes.OrangeRed);
+            brushDic.Add("Orchid", Brushes.Orchid);
+            brushDic.Add("PaleGoldenrod", Brushes.PaleGoldenrod);
+            brushDic.Add("PaleGreen", Brushes.PaleGreen);
+            brushDic.Add("PaleTurquoise", Brushes.PaleTurquoise);
+            brushDic.Add("PaleVioletRed", Brushes.PaleVioletRed);
+            brushDic.Add("PapayaWhip", Brushes.PapayaWhip);
+            brushDic.Add("PeachPuff", Brushes.PeachPuff);
+            brushDic.Add("Peru", Brushes.Peru);
+            brushDic.Add("Pink", Brushes.Pink);
+            brushDic.Add("Plum", Brushes.Plum);
+            brushDic.Add("PowderBlue", Brushes.PowderBlue);
+            brushDic.Add("Purple", Brushes.Purple);
+            brushDic.Add("Red", Brushes.Red);
+            brushDic.Add("RosyBrown", Brushes.RosyBrown);
+            brushDic.Add("RoyalBlue", Brushes.RoyalBlue);
+            brushDic.Add("SaddleBrown", Brushes.SaddleBrown);
+            brushDic.Add("Salmon", Brushes.Salmon);
+            brushDic.Add("SandyBrown", Brushes.SandyBrown);
+            brushDic.Add("SeaGreen", Brushes.SeaGreen);
+            brushDic.Add("SeaShell", Brushes.SeaShell);
+            brushDic.Add("Sienna", Brushes.Sienna);
+            brushDic.Add("Silver", Brushes.Silver);
+            brushDic.Add("SkyBlue", Brushes.SkyBlue);
+            brushDic.Add("SlateBlue", Brushes.SlateBlue);
+            brushDic.Add("SlateGray", Brushes.SlateGray);
+            brushDic.Add("Snow", Brushes.Snow);
+            brushDic.Add("SpringGreen", Brushes.SpringGreen);
+            brushDic.Add("SteelBlue", Brushes.SteelBlue);
+            brushDic.Add("Tan", Brushes.Tan);
+            brushDic.Add("Teal", Brushes.Teal);
+            brushDic.Add("Thistle", Brushes.Thistle);
+            brushDic.Add("Tomato", Brushes.Tomato);
+            brushDic.Add("Transparent", Brushes.Transparent);
+            brushDic.Add("Turquoise", Brushes.Turquoise);
+            brushDic.Add("Violet", Brushes.Violet);
+            brushDic.Add("Wheat", Brushes.Wheat);
+            brushDic.Add("White", Brushes.White);
+            brushDic.Add("WhiteSmoke", Brushes.WhiteSmoke);
+            brushDic.Add("Yellow", Brushes.Yellow);
+            brushDic.Add("YellowGreen", Brushes.YellowGreen);
+
+            return brushDic;
         }
     }
 }

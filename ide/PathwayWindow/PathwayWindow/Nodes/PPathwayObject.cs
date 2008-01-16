@@ -363,7 +363,10 @@ namespace EcellLib.PathwayWindow.Nodes
         public Brush FillBrush
         {
             get { return this.m_fillBrush; }
-            set { this.m_fillBrush = value; }
+            set {
+                this.m_fillBrush = value;
+                base.Brush = value;
+            }
         }
         /// <summary>
         /// Accessor for m_normalBrush.
@@ -371,7 +374,10 @@ namespace EcellLib.PathwayWindow.Nodes
         public Brush LineBrush
         {
             get { return this.m_lineBrush; }
-            set { this.m_lineBrush = value; }
+            set {
+                this.m_lineBrush = value;
+                m_pen = new Pen(value, 1);
+            }
         }
         /// <summary>
         /// Accessor for m_highLightBrush.

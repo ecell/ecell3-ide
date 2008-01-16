@@ -74,6 +74,17 @@ namespace EcellLib.PathwayWindow.Figure
         }
 
         /// <summary>
+        /// type string.
+        /// </summary>
+        public string Coordinates 
+        {
+            get{
+                string coordinates = m_x.ToString() + "," + m_y.ToString() + "," + m_width + "," + m_height.ToString();
+                return coordinates;
+            }
+        }
+
+        /// <summary>
         /// Return a contact point between an outer point and an inner point.
         /// </summary>
         /// <param name="outerPoint"></param>
