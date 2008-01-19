@@ -43,6 +43,7 @@ using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.Exceptions;
 using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Figure;
+using System.Diagnostics;
 
 namespace EcellLib.PathwayWindow
 {
@@ -216,24 +217,21 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void LoadComponentSettings(string filename)
         {
-            // Load file.
-            XmlDocument xmlD = new XmlDocument();
             try
             {
-                xmlD.Load(filename);
+                // Load ComponentSettings information from xml file.
+                List<ComponentSetting> list = LoadFromXML(filename);
+                // Check and register ComponentSettings.
+                CheckAndRegisterComponent(list);
             }
-            catch (FileNotFoundException)
+            catch (Exception e)
             {
+                Debug.WriteLine(e.StackTrace);
                 MessageBox.Show(m_resources.GetString("ErrNotComXml"), "WARNING", MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
                 CreateDefaultSettings();
                 return;
             }
-
-            // Load ComponentSettings information from xml file.
-            List<ComponentSetting> list = LoadFromXML(xmlD);
-            // Check and register ComponentSettings.
-            CheckAndRegisterComponent(list);
         }
 
         /// <summary>
@@ -496,17 +494,24 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="xmlD"></param>
         /// <returns></returns>
-        private static List<ComponentSetting> LoadFromXML(XmlDocument xmlD)
+        private static List<ComponentSetting> LoadFromXML(string filename)
         {
-            XmlNode componentsNode = null;
+            XmlDocument xmlD = new XmlDocument();
+            xmlD.Load(filename);
+
+            // Get Component List.
+            XmlNode componentList = null;
             List<ComponentSetting> list = new List<ComponentSetting>();
             foreach (XmlNode node in xmlD.ChildNodes)
             {
                 if (node.Name.Equals("ComponentList"))
-                    componentsNode = node;
+                    componentList = node;
             }
+            if (componentList == null)
+                return list;
 
-            foreach (XmlNode componentNode in componentsNode.ChildNodes)
+            // Create component.
+            foreach (XmlNode componentNode in componentList.ChildNodes)
             {
                 ComponentSetting cs = new ComponentSetting();
                 try

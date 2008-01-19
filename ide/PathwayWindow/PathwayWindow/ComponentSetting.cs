@@ -380,66 +380,66 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.Error_ArgsNull;
 
             type = type.ToLower();
-            string[] args = argString.Split(new Char[] { ',', ' ' });
+            float[] values = StringToFloats(argString);
             ErrorType returnCode = ComponentSetting.ErrorType.No_Error;
             if(type.Equals("arc"))
             {
-                returnCode = AddArc(args);
+                returnCode = AddArc(values);
                 return ErrorType.No_Error;
             }
             else if(type.Equals("bezier"))
             {
-                returnCode = AddBezier(args);
+                returnCode = AddBezier(values);
                 return ErrorType.No_Error;
             }
             else if (type.Equals("beziers"))
             {
-                returnCode = AddBeziers(args);
+                returnCode = AddBeziers(values);
                 return ErrorType.No_Error;
             }
             else if (type.Equals("closedcurve"))
             {
-                returnCode = AddClosedCurve(args);
+                returnCode = AddClosedCurve(values);
                 return ErrorType.No_Error;
             }
             else if (type.Equals("curve"))
             {
-                returnCode = AddCurve(args);
+                returnCode = AddCurve(values);
                 return ErrorType.No_Error;
             }
             else if (type.Equals("ellipse"))
             {
-                returnCode = AddEllipse(args);
+                returnCode = AddEllipse(values);
                 return ErrorType.No_Error;
             }
             else if (type.Equals("line"))
             {
-                returnCode = AddLine(args);
+                returnCode = AddLine(values);
                 return ErrorType.No_Error;
             }
             else if (type.Equals("lines"))
             {
-                returnCode = AddLines(args);
+                returnCode = AddLines(values);
                 return ErrorType.No_Error;
             }
             else if (type.Equals("pie"))
             {
-                returnCode = AddPie(args);
+                returnCode = AddPie(values);
                 return ErrorType.No_Error;
             }
             else if (type.Equals("polygon"))
             {
-                returnCode = AddPolygon(args);
+                returnCode = AddPolygon(values);
                 return ErrorType.No_Error;
             }
             else if (type.Equals("rectangle"))
             {
-                returnCode = AddRectangle(args);
+                returnCode = AddRectangle(values);
                 return ErrorType.No_Error;
             }
             else if (type.Equals("roundcornerrectangle"))
             {
-                returnCode = AddRoundCornerRectangle(args);
+                returnCode = AddRoundCornerRectangle(values);
                 return ErrorType.No_Error;
             }
             else
@@ -447,20 +447,39 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.Error_NoSuchFigure;
             }
         }
-
-        private ErrorType AddArc(String[] args)
+        /// <summary>
+        /// Change string to float array.
+        /// </summary>
+        /// <param name="argString"></param>
+        /// <returns></returns>
+        private float[] StringToFloats(string argString)
+        {
+            string[] args = argString.Split(new Char[] { ',', ' ' });
+            float[] values = new float[args.Length];
+            for (int i = 0; i < args.Length; i++)
+            {
+                values[i] = float.Parse(args[i]);
+            }
+            return values;
+        }
+        /// <summary>
+        /// Add arc.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddArc(float[] args)
         {
             if (args.Length < 6)
                 return ErrorType.Error_LessArgs;
 
             try
             {
-                m_gp.AddArc(int.Parse(args[0]),
-                                int.Parse(args[1]),
-                                int.Parse(args[2]),
-                                int.Parse(args[3]),
-                                float.Parse(args[4]),
-                                float.Parse(args[5]));
+                m_gp.AddArc(args[0],
+                            args[1],
+                            args[2],
+                            args[3],
+                            args[4],
+                            args[5]);
                 return ComponentSetting.ErrorType.No_Error;
             }
             catch(FormatException)
@@ -468,17 +487,22 @@ namespace EcellLib.PathwayWindow
                 return ComponentSetting.ErrorType.Error_IllegalFormat;
             }
         }
-        private ErrorType AddBezier(String[] args)
+        /// <summary>
+        /// Add bezier curve.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddBezier(float[] args)
         {
             if (args.Length < 8)
                 return ErrorType.Error_LessArgs;
 
             try
             {
-                Point p1 = new Point(int.Parse(args[0]), int.Parse(args[1]));
-                Point p2 = new Point(int.Parse(args[2]), int.Parse(args[3]));
-                Point p3 = new Point(int.Parse(args[4]), int.Parse(args[5]));
-                Point p4 = new Point(int.Parse(args[6]), int.Parse(args[7]));
+                PointF p1 = new PointF(args[0], args[1]);
+                PointF p2 = new PointF(args[2], args[3]);
+                PointF p3 = new PointF(args[4], args[5]);
+                PointF p4 = new PointF(args[6], args[7]);
                 m_gp.AddBezier(p1, p2, p3, p4);
                 return ErrorType.No_Error;
             }
@@ -487,7 +511,12 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.Error_IllegalFormat;
             }
         }
-        private ErrorType AddBeziers(String[] args)
+        /// <summary>
+        /// Add bezier curves
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddBeziers(float[] args)
         {
             if(args.Length < 2)
                 return ComponentSetting.ErrorType.Error_LessArgs;
@@ -495,9 +524,9 @@ namespace EcellLib.PathwayWindow
             try
             {
                 int numPoint = args.Length / 2;
-                Point[] pArray = new Point[numPoint];
+                PointF[] pArray = new PointF[numPoint];
                 for (int m = 0; m < numPoint; m++)
-                    pArray[m] = new Point(int.Parse(args[m]), int.Parse(args[m + 1]));
+                    pArray[m] = new PointF(args[m], args[m + 1]);
                 m_gp.AddBeziers(pArray);
                 return ComponentSetting.ErrorType.No_Error;
             }
@@ -506,7 +535,12 @@ namespace EcellLib.PathwayWindow
                 return ComponentSetting.ErrorType.Error_IllegalFormat;
             }
         }
-        private ErrorType AddClosedCurve(String[] args)
+        /// <summary>
+        /// Add closed curve
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddClosedCurve(float[] args)
         {
             if (args.Length < 2)
                 return ErrorType.Error_LessArgs;
@@ -514,9 +548,9 @@ namespace EcellLib.PathwayWindow
             try
             {
                 int numPoint = args.Length / 2;
-                Point[] pArray = new Point[numPoint];
+                PointF[] pArray = new PointF[numPoint];
                 for (int m = 0; m < numPoint; m++)
-                    pArray[m] = new Point(int.Parse(args[m]), int.Parse(args[m + 1]));
+                    pArray[m] = new PointF(args[m], args[m + 1]);
                 m_gp.AddClosedCurve(pArray);
                 return ErrorType.No_Error;
             }
@@ -525,7 +559,12 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.Error_IllegalFormat;
             }
         }
-        private ErrorType AddCurve(String[] args)
+        /// <summary>
+        /// Add curve
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddCurve(float[] args)
         {
             if (args.Length < 2)
                 return ErrorType.Error_LessArgs;
@@ -533,9 +572,9 @@ namespace EcellLib.PathwayWindow
             try
             {
                 int numPoint = args.Length / 2;
-                Point[] pArray = new Point[numPoint];
+                PointF[] pArray = new PointF[numPoint];
                 for (int m = 0; m < numPoint; m++)
-                    pArray[m] = new Point(int.Parse(args[m]), int.Parse(args[m + 1]));
+                    pArray[m] = new PointF(args[m], args[m + 1]);
                 m_gp.AddCurve(pArray);
                 return ErrorType.No_Error;
             }
@@ -544,17 +583,22 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.Error_IllegalFormat;
             }
         }
-        private ErrorType AddEllipse(String[] args)
+        /// <summary>
+        /// Add ellipse
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddEllipse(float[] args)
         {
             if (args.Length < 4)
                 return ErrorType.Error_LessArgs;
 
             try
             {
-                RectangleF rect = new RectangleF( float.Parse(args[0]),
-                                                  float.Parse(args[1]),
-                                                  float.Parse(args[2]),
-                                                  float.Parse(args[3]));
+                RectangleF rect = new RectangleF( args[0],
+                                                  args[1],
+                                                  args[2],
+                                                  args[3]);
                 m_gp.AddEllipse(rect.X, rect.Y, rect.Width, rect.Height);
                 m_figureList.Add(new EllipseFigure(rect.X, rect.Y, rect.Width, rect.Height));
                 return ErrorType.No_Error;
@@ -564,17 +608,22 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.Error_IllegalFormat;
             }
         }
-        private ErrorType AddLine(String[] args)
+        /// <summary>
+        /// Add line
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddLine(float[] args)
         {
             if (args.Length < 4)
                 return ErrorType.Error_LessArgs;
 
             try
             {
-                m_gp.AddLine(float.Parse(args[0]),
-                             float.Parse(args[1]),
-                             float.Parse(args[2]),
-                             float.Parse(args[3]));
+                m_gp.AddLine(args[0],
+                             args[1],
+                             args[2],
+                             args[3]);
                 m_gp.CloseFigure();
                 return ErrorType.No_Error;
             }
@@ -583,7 +632,12 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.Error_IllegalFormat;
             }
         }
-        private ErrorType AddLines(String[] args)
+        /// <summary>
+        /// Add lines
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddLines(float[] args)
         {
             if (args.Length < 2)
                 return ErrorType.Error_LessArgs;
@@ -591,9 +645,9 @@ namespace EcellLib.PathwayWindow
             try
             {
                 int numPoint = args.Length / 2;
-                Point[] pArray = new Point[numPoint];
+                PointF[] pArray = new PointF[numPoint];
                 for (int m = 0; m < numPoint; m++)
-                    pArray[m] = new Point(int.Parse(args[m]), int.Parse(args[m + 1]));
+                    pArray[m] = new PointF(args[m], args[m + 1]);
                 m_gp.AddLines(pArray);
                 return ErrorType.No_Error;
             }
@@ -602,19 +656,24 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.Error_IllegalFormat;
             }
         }
-        private ErrorType AddPie(String[] args)
+        /// <summary>
+        /// Add pie
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddPie(float[] args)
         {
             if (args.Length < 6)
                 return ErrorType.Error_LessArgs;
 
             try
             {
-                m_gp.AddPie(float.Parse(args[0]),
-                            float.Parse(args[1]),
-                            float.Parse(args[2]),
-                            float.Parse(args[3]),
-                            float.Parse(args[4]),
-                            float.Parse(args[5]));
+                m_gp.AddPie(args[0],
+                            args[1],
+                            args[2],
+                            args[3],
+                            args[4],
+                            args[5]);
                 return ErrorType.No_Error;
             }
             catch (FormatException)
@@ -622,7 +681,12 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.Error_IllegalFormat;
             }
         }
-        private ErrorType AddPolygon(String[] args)
+        /// <summary>
+        /// Add polygon
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddPolygon(float[] args)
         {
             if (args.Length < 2)
                 return ErrorType.Error_LessArgs;
@@ -630,9 +694,9 @@ namespace EcellLib.PathwayWindow
             try
             {
                 int numPoint = args.Length / 2;
-                Point[] pArray = new Point[numPoint];
+                PointF[] pArray = new PointF[numPoint];
                 for (int m = 0; m < numPoint; m++)
-                    pArray[m] = new Point(int.Parse(args[m]), int.Parse(args[m + 1]));
+                    pArray[m] = new PointF(args[m], args[m + 1]);
                 m_gp.AddPolygon(pArray);
                 return ErrorType.No_Error;
             }
@@ -641,17 +705,22 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.Error_IllegalFormat;
             }
         }
-        private ErrorType AddRectangle(String[] args)
+        /// <summary>
+        /// Add rectangle
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddRectangle(float[] args)
         {
             if (args.Length < 4)
                 return ErrorType.Error_LessArgs;
 
             try
             {
-                RectangleF rect = new RectangleF(float.Parse(args[0]),
-                                float.Parse(args[1]),
-                                float.Parse(args[2]),
-                                float.Parse(args[3]));
+                RectangleF rect = new RectangleF(args[0],
+                                args[1],
+                                args[2],
+                                args[3]);
                 m_figureList.Add(new RectangleFigure(rect.X, rect.Y, rect.Width, rect.Height));
                 m_gp.AddRectangle(rect);
                 return ErrorType.No_Error;
@@ -661,17 +730,22 @@ namespace EcellLib.PathwayWindow
                 return ErrorType.Error_IllegalFormat;
             }
         }
-        private ErrorType AddRoundCornerRectangle(String[] args)
+        /// <summary>
+        /// Add RoundCornerRectangle
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private ErrorType AddRoundCornerRectangle(float[] args)
         {
             if (args.Length < 4)
                 return ErrorType.Error_LessArgs;
 
             try
             {
-                RectangleF rect = new RectangleF(float.Parse(args[0]),
-                                float.Parse(args[1]),
-                                float.Parse(args[2]),
-                                float.Parse(args[3]));
+                RectangleF rect = new RectangleF(args[0],
+                                args[1],
+                                args[2],
+                                args[3]);
                 m_figureList.Add(new RoundCornerRectangle(rect.X, rect.Y, rect.Width, rect.Height));
                 m_gp.AddRectangle(rect);
                 return ErrorType.No_Error;

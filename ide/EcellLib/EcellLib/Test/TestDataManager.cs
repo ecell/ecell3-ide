@@ -1,9 +1,10 @@
-using System;
-using NUnit.Framework;
-using EcellCoreLib;
-
 namespace EcellLib
 {
+    using System;
+    using NUnit.Framework;
+    using EcellCoreLib;
+    using System.Windows.Forms;
+
     [TestFixture()]
     public class TestDataManager
     {

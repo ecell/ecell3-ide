@@ -364,7 +364,6 @@ namespace EcellLib.PathwayWindow.Nodes
             m_path.Reset();
             if (isViewMode)
             {
-                PointF pos = this.CenterPoint;
                 base.AddEllipse(X + 25, Y + 15, 10, 10);
                 m_pen = new Pen(Brushes.Green, 1);
                 SetLineColor(Brushes.LightGreen);

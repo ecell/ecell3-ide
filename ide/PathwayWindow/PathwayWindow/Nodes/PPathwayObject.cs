@@ -893,7 +893,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             get { return m_showingId; }
             set { m_showingId = value;
-                if (m_showingId)
+                if (m_showingId && !m_isViewMode)
                     m_pText.Visible = true;
                 else
                     m_pText.Visible = false;

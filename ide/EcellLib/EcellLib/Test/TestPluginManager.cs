@@ -2,6 +2,7 @@ namespace EcellLib
 {
     using System;
     using NUnit.Framework;
+    using System.Collections.Generic;
 
 
     [TestFixture()]
@@ -27,8 +28,6 @@ namespace EcellLib
         {
             PluginManager testPluginManager = new PluginManager();
             Assert.IsNotNull(testPluginManager, "Constructor of type, PluginManager failed to create instance.");
-            Assert.Fail("Create or modify test(s).");
-
         }
 
         [Test()]
@@ -36,7 +35,7 @@ namespace EcellLib
         {
             string modelID = null;
             string key = null;
-            EcellLib.PluginBase pbase = null;
+            PluginBase pbase = null;
             _unitUnderTest.FocusDataChanged(modelID, key, pbase);
             Assert.Fail("Create or modify test(s).");
 
@@ -58,7 +57,6 @@ namespace EcellLib
             string type = null;
             _unitUnderTest.SelectChanged(modelID, key, type);
             Assert.Fail("Create or modify test(s).");
-
         }
 
         [Test()]
@@ -98,7 +96,7 @@ namespace EcellLib
             string key = null;
             string type = null;
             string propName = null;
-            System.Collections.Generic.List<EcellLib.LogData> data = null;
+            List<LogData> data = null;
             _unitUnderTest.LogData(modelID, key, type, propName, data);
             Assert.Fail("Create or modify test(s).");
 
@@ -110,7 +108,7 @@ namespace EcellLib
             string modelID = null;
             string key = null;
             string type = null;
-            EcellLib.EcellObject data = null;
+            EcellObject data = null;
             _unitUnderTest.DataChanged(modelID, key, type, data);
             Assert.Fail("Create or modify test(s).");
 
@@ -119,7 +117,7 @@ namespace EcellLib
         [Test()]
         public void TestDataAdd()
         {
-            System.Collections.Generic.List<EcellLib.EcellObject> data = null;
+            List<EcellObject> data = null;
             _unitUnderTest.DataAdd(data);
             Assert.Fail("Create or modify test(s).");
 
@@ -180,7 +178,7 @@ namespace EcellLib
         [Test()]
         public void TestAddPlugin()
         {
-            EcellLib.PluginBase p = null;
+            PluginBase p = null;
             _unitUnderTest.AddPlugin(p);
             Assert.Fail("Create or modify test(s).");
 
@@ -279,9 +277,8 @@ namespace EcellLib
         {
             string path = null;
             string className = null;
-            EcellLib.PluginBase expectedPluginBase = null;
-            EcellLib.PluginBase resultPluginBase = null;
-            resultPluginBase = _unitUnderTest.LoadPlugin(path, className);
+            PluginBase expectedPluginBase = null;
+            PluginBase resultPluginBase = _unitUnderTest.LoadPlugin(path, className);
             Assert.AreEqual(expectedPluginBase, resultPluginBase, "LoadPlugin method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
@@ -290,7 +287,7 @@ namespace EcellLib
         [Test()]
         public void TestUnloadPlugin()
         {
-            EcellLib.PluginBase p = null;
+            PluginBase p = null;
             _unitUnderTest.UnloadPlugin(p);
             Assert.Fail("Create or modify test(s).");
 
@@ -329,8 +326,8 @@ namespace EcellLib
         public void TestGetPlugin()
         {
             string name = null;
-            EcellLib.PluginBase expectedPluginBase = null;
-            EcellLib.PluginBase resultPluginBase = null;
+            PluginBase expectedPluginBase = null;
+            PluginBase resultPluginBase = null;
             resultPluginBase = _unitUnderTest.GetPlugin(name);
             Assert.AreEqual(expectedPluginBase, resultPluginBase, "GetPlugin method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -340,9 +337,8 @@ namespace EcellLib
         [Test()]
         public void TestGetLayoutPlugins()
         {
-            System.Collections.Generic.List<EcellLib.ILayoutAlgorithm> expectedList = null;
-            System.Collections.Generic.List<EcellLib.ILayoutAlgorithm> resultList = null;
-            resultList = _unitUnderTest.GetLayoutPlugins();
+            List<EcellLib.ILayoutAlgorithm> expectedList = null;
+            List<EcellLib.ILayoutAlgorithm> resultList = _unitUnderTest.GetLayoutPlugins();
             Assert.AreEqual(expectedList, resultList, "GetLayoutPlugins method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
@@ -351,9 +347,8 @@ namespace EcellLib
         [Test()]
         public void TestGetPluginVersionList()
         {
-            System.Collections.Generic.Dictionary<System.String, System.String> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, System.String> resultDictionary = null;
-            resultDictionary = _unitUnderTest.GetPluginVersionList();
+            Dictionary<System.String, System.String> expectedDictionary = null;
+            Dictionary<System.String, System.String> resultDictionary = _unitUnderTest.GetPluginVersionList();
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetPluginVersionList method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
@@ -362,18 +357,15 @@ namespace EcellLib
         [Test()]
         public void TestGetPluginManager()
         {
-            EcellLib.PluginManager expectedPluginManager = null;
-            EcellLib.PluginManager resultPluginManager = null;
-            resultPluginManager = PluginManager.GetPluginManager();
+            PluginManager expectedPluginManager = PluginManager.GetPluginManager();
+            PluginManager resultPluginManager = PluginManager.GetPluginManager();
             Assert.AreEqual(expectedPluginManager, resultPluginManager, "GetPluginManager method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
         }
 
         [Test()]
         public void TestSetPosition()
         {
-            EcellLib.EcellObject data = null;
+            EcellObject data = null;
             _unitUnderTest.SetPosition(data);
             Assert.Fail("Create or modify test(s).");
 
