@@ -376,7 +376,7 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return this.m_lineBrush; }
             set {
                 this.m_lineBrush = value;
-                m_pen = new Pen(value, 1);
+                Pen = new Pen(value, 1);
             }
         }
         /// <summary>

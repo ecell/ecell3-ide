@@ -44,6 +44,7 @@ using EcellLib.PathwayWindow.Exceptions;
 using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Figure;
 using System.Diagnostics;
+using EcellLib.PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow
 {
@@ -403,6 +404,46 @@ namespace EcellLib.PathwayWindow
             if (setting.IsDefault)
                 SetDefaultSetting(setting);
         }
+
+        public void ShowDialog()
+        {
+            PropertyDialog dialog = new PropertyDialog();
+            TabPage page = CreateTabPage();
+            dialog.TabControl.Controls.Add(page);
+            if (dialog.ShowDialog() == DialogResult.OK)
+                SetNewParames(page);
+            dialog.Dispose();
+
+        }
+
+        private TabPage CreateTabPage()
+        {
+            TabPage page = new TabPage("ComponentSettings");
+            page.SuspendLayout();
+            int top = 0;
+            foreach (ComponentSetting cs in this.ComponentSettings)
+            {
+                PropertyItem item =  new PropertyItem(cs);
+                item.Top = top;
+                item.SuspendLayout();
+                page.Controls.Add(item);
+                item.ResumeLayout();
+                item.PerformLayout();
+                top += item.Height;
+            }
+            page.ResumeLayout();
+            return page;
+        }
+
+        private void SetNewParames(TabPage page)
+        {
+            foreach (PropertyItem item in page.Controls)
+            {
+                item.ApplyChange();
+            }
+            SaveComponentSettings();
+        }
+
         #endregion
 
         #region Private Methods
@@ -533,7 +574,7 @@ namespace EcellLib.PathwayWindow
                     {
                         cs.Name = parameterNode.InnerText;
                     }
-                    else if (parameterNode.Name.Equals("FillColor") || parameterNode.Name.Equals("Color"))
+                    else if (parameterNode.Name.Equals("FillColor"))
                     {
                         Brush brush = BrushManager.ParseStringToBrush(parameterNode.InnerText);
                         if (brush != null)
@@ -614,5 +655,162 @@ namespace EcellLib.PathwayWindow
             }
         }
         #endregion
+
+        private class PropertyItem : GroupBox
+        {
+            private Label labelName;
+            private Label labelFigure;
+            private Label labelLineColor;
+            private Label labelFillColor;
+            private ComboBox cBoxFigure;
+            private ComboBox cBoxLineColor;
+            private ComboBox cBoxFillColor;
+            private PToolBoxCanvas pCanvas;
+
+            public PropertyItem(ComponentSetting cs)
+            {
+                this.labelName = new Label();
+                this.labelFigure = new Label();
+                this.labelLineColor = new Label();
+                this.labelFillColor = new Label();
+                this.cBoxFigure = new ComboBox();
+                this.cBoxLineColor = new ComboBox();
+                this.cBoxFillColor = new ComboBox();
+                this.pCanvas = new PToolBoxCanvas();
+                this.SuspendLayout();
+                // 
+                // groupBox
+                // 
+                this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left)| AnchorStyles.Right);
+                this.AutoSize = true;
+                this.Controls.Add(this.labelName);
+                this.Controls.Add(this.labelFigure);
+                this.Controls.Add(this.labelLineColor);
+                this.Controls.Add(this.labelFillColor);
+                this.Controls.Add(this.cBoxFigure);
+                this.Controls.Add(this.cBoxFillColor);
+                this.Controls.Add(this.cBoxLineColor);
+                this.Controls.Add(this.pCanvas);
+                this.Name = "Panel";
+                this.TabStop = false;
+                // 
+                // labelName
+                // 
+                this.labelName.AutoSize = true;
+                this.labelName.Location = new System.Drawing.Point(14, 16);
+                this.labelName.Text = cs.Name;
+                this.labelName.Size = new System.Drawing.Size(35, 12);
+                // 
+                // labelFigure
+                // 
+                this.labelFigure.AutoSize = true;
+                this.labelFigure.Location = new System.Drawing.Point(14, 42);
+                this.labelFigure.Name = "labelFigure";
+                this.labelFigure.Size = new System.Drawing.Size(53, 12);
+                this.labelFigure.Text = "Figure";
+                // 
+                // labelLineColor
+                // 
+                this.labelLineColor.AutoSize = true;
+                this.labelLineColor.Location = new System.Drawing.Point(14, 68);
+                this.labelLineColor.Name = "labelLineColor";
+                this.labelLineColor.Size = new System.Drawing.Size(53, 12);
+                this.labelLineColor.Text = "LineColor";
+                // 
+                // labelFillColor
+                // 
+                this.labelFillColor.AutoSize = true;
+                this.labelFillColor.Location = new System.Drawing.Point(14, 94);
+                this.labelFillColor.Name = "labelFillColor";
+                this.labelFillColor.Size = new System.Drawing.Size(48, 12);
+                this.labelFillColor.Text = "FillColor";
+                // 
+                // cBoxFigure
+                // 
+                this.cBoxFigure.FormattingEnabled = true;
+                this.cBoxFigure.Location = new System.Drawing.Point(100, 39);
+                this.cBoxFigure.Name = "cBoxLineColor";
+                this.cBoxFigure.Size = new System.Drawing.Size(128, 20);
+                this.cBoxFigure.TabIndex = 0;
+                this.cBoxFigure.Text = cs.FigureList[0].Type;
+                // 
+                // cBoxLineColor
+                // 
+                this.cBoxLineColor.FormattingEnabled = true;
+                this.cBoxLineColor.Location = new System.Drawing.Point(100, 65);
+                this.cBoxLineColor.Name = "cBoxLineColor";
+                this.cBoxLineColor.Size = new System.Drawing.Size(128, 20);
+                this.cBoxLineColor.TabIndex = 1;
+                this.cBoxLineColor.Text = BrushManager.ParseBrushToString(cs.LineBrush);
+                this.cBoxLineColor.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
+                this.cBoxLineColor.TextChanged += new EventHandler(cBoxLineColor_TextChanged);
+                // 
+                // cBoxFillColor
+                // 
+                this.cBoxFillColor.FormattingEnabled = true;
+                this.cBoxFillColor.Location = new System.Drawing.Point(100, 91);
+                this.cBoxFillColor.Name = "cBoxFillColor";
+                this.cBoxFillColor.Size = new System.Drawing.Size(128, 20);
+                this.cBoxFillColor.TabIndex = 2;
+                this.cBoxFillColor.Text = BrushManager.ParseBrushToString(cs.FillBrush);
+                this.cBoxFillColor.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
+                this.cBoxFillColor.TextChanged += new EventHandler(cBoxFillColor_TextChanged);
+                // 
+                // pCanvas
+                // 
+                this.pCanvas.AllowDrop = true;
+                this.pCanvas.GridFitText = false;
+                this.pCanvas.Name = "pCanvas";
+                this.pCanvas.RegionManagement = true;
+                this.pCanvas.Location = new System.Drawing.Point(250, 25);
+                this.pCanvas.Size = new System.Drawing.Size(80, 80);
+                this.pCanvas.BackColor = System.Drawing.Color.Silver;
+                this.pCanvas.Setting = cs;
+
+                this.ResumeLayout(false);
+                this.PerformLayout();
+
+                this.Height = 125;
+            }
+
+            public void ApplyChange()
+            {
+                ComponentSetting cs = this.pCanvas.Setting;
+                cs.LineBrush = BrushManager.ParseStringToBrush(this.cBoxLineColor.Text);
+                cs.FillBrush = BrushManager.ParseStringToBrush(this.cBoxFillColor.Text);
+            }
+
+            void cBoxFillColor_TextChanged(object sender, EventArgs e)
+            {
+                ComboBox colorBox = (ComboBox)sender;
+                Brush brush = BrushManager.ParseStringToBrush(colorBox.Text);
+
+                if (brush != null)
+                {
+                    this.pCanvas.PPathwayObject.FillBrush = brush;
+                }
+                else
+                {
+                    colorBox.Text = BrushManager.ParseBrushToString(this.pCanvas.Setting.FillBrush);
+                }
+            }
+
+            void cBoxLineColor_TextChanged(object sender, EventArgs e)
+            {
+                ComboBox colorBox = (ComboBox)sender;
+                Brush brush = BrushManager.ParseStringToBrush(colorBox.Text);
+
+                if (brush != null)
+                {
+                    this.pCanvas.PPathwayObject.LineBrush = brush;
+                }
+                else
+                {
+                    colorBox.Text = BrushManager.ParseBrushToString(this.pCanvas.Setting.LineBrush);
+                }
+            }
+
+
+        }
     }
 }

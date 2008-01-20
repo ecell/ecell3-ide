@@ -44,5 +44,10 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             InitializeComponent();
         }
+
+        public TabControl TabControl
+        {
+            get { return this.tabControl; }
+        }
     }
 }

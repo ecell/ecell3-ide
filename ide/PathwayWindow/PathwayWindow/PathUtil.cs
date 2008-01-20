@@ -214,6 +214,23 @@ namespace EcellLib.PathwayWindow
         private static Dictionary<string, Brush> m_brushDic = null;
 
         /// <summary>
+        /// Returns a list of Brush names.
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetBrushNameList()
+        {
+            List<string> list = new List<string>();
+            if (m_brushDic == null)
+                m_brushDic = CreateBrushDictionary();
+
+            foreach (string key in m_brushDic.Keys)
+            {
+                list.Add(key);
+            }
+            return list;
+        }
+
+        /// <summary>
         /// Parse argument string into Brush
         /// For example, when an argument is "white", Brushes.White will be returned.
         /// </summary>

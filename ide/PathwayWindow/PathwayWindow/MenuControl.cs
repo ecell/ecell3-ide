@@ -134,6 +134,14 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Key definition of MessageResPathway for ShowID
         /// </summary>
+        private static readonly string MenuItemSetup = "MenuItemSetup";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolTipShowID
+        /// </summary>
+        private static readonly string MenuToolTipSetup = "MenuToolTipSetup";
+        /// <summary>
+        /// Key definition of MessageResPathway for ShowID
+        /// </summary>
         private static readonly string MenuItemShowID = "MenuItemShowID";
         /// <summary>
         /// Key definition of MessageResPathway for ToolTipShowID
@@ -441,6 +449,19 @@ namespace EcellLib.PathwayWindow
             List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
 
             // Setup menu
+            ToolStripMenuItem setupItem = new ToolStripMenuItem();
+            setupItem.ToolTipText = m_resources.GetString(MenuToolTipSetup);
+            setupItem.Text = m_resources.GetString(MenuItemSetup);
+            setupItem.Click += new EventHandler(m_con.ShowDialogClick);
+
+            ToolStripMenuItem setupMenu = new ToolStripMenuItem();
+            setupMenu.DropDownItems.AddRange(new ToolStripItem[] { setupItem });
+            setupMenu.Text = m_resources.GetString(MenuItemSetup);
+            setupMenu.Name = MenuItemSetup;
+
+            menuList.Add(setupMenu);
+
+            // View menu
             ToolStripMenuItem showIdItem = new ToolStripMenuItem();
             showIdItem.CheckOnClick = true;
             showIdItem.CheckState = CheckState.Checked;

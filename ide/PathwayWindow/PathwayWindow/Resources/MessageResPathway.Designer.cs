@@ -484,6 +484,15 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
+        ///   Pathway Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemSetup {
+            get {
+                return ResourceManager.GetString("MenuItemSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Show &amp;IDs(Pathway) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowID {
@@ -507,6 +516,15 @@ namespace EcellLib.PathwayWindow.Resources {
         internal static string MenuItemViewMode {
             get {
                 return ResourceManager.GetString("MenuItemViewMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show PropertyDialog of PathwayWindow. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipSetup {
+            get {
+                return ResourceManager.GetString("MenuToolTipSetup", resourceCulture);
             }
         }
         

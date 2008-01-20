@@ -276,4 +276,10 @@
   <data name="MenuItemView" xml:space="preserve">
     <value>&amp;View</value>
   </data>
+  <data name="MenuItemSetup" xml:space="preserve">
+    <value>Pathway Setting</value>
+  </data>
+  <data name="MenuToolTipSetup" xml:space="preserve">
+    <value>Show PropertyDialog of PathwayWindow.</value>
+  </data>
 </root>

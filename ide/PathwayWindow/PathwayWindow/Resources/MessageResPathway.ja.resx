@@ -276,4 +276,10 @@
   <data name="MenuItemView" xml:space="preserve">
     <value>表示(&amp;V)</value>
   </data>
+  <data name="MenuItemSetup" xml:space="preserve">
+    <value>Pathway設定ダイアログ</value>
+  </data>
+  <data name="MenuToolTipSetup" xml:space="preserve">
+    <value>PathwayWindowの設定ダイアログを開きます</value>
+  </data>
 </root>

@@ -1162,6 +1162,16 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender">MenuStripItem.</param>
         /// <param name="e">EventArgs.</param>
+        public void ShowDialogClick(object sender, EventArgs e)
+        {
+            m_csManager.ShowDialog();
+        }
+
+        /// <summary>
+        /// the event sequence of clicking the menu of [View]->[Show Id]
+        /// </summary>
+        /// <param name="sender">MenuStripItem.</param>
+        /// <param name="e">EventArgs.</param>
         public void ShowIdClick(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
