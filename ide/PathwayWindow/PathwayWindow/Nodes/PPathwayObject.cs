@@ -1190,6 +1190,15 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             this.Pickable = m_isPickableBeforeFreeze;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ResetSetting()
+        {
+            LineBrush = m_setting.LineBrush;
+            FillBrush = m_setting.FillBrush;
+        }
         #endregion
 
         #region EventHandlers

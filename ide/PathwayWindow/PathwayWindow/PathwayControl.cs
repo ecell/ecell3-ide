@@ -1165,6 +1165,11 @@ namespace EcellLib.PathwayWindow
         public void ShowDialogClick(object sender, EventArgs e)
         {
             m_csManager.ShowDialog();
+            foreach (CanvasControl canvas in m_canvasDict.Values)
+            {
+                canvas.ResetObjectSetting();
+            }
+            m_toolBox.ResetTemplate();
         }
 
         /// <summary>

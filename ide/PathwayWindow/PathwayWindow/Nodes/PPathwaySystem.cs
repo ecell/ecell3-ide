@@ -476,20 +476,14 @@ namespace EcellLib.PathwayWindow.Nodes
                 this.SetGraphicsPath();
                 m_isChanged = false;
             }
-            Brush b = this.Brush;
-            if (b != null)
-                paintContext.Graphics.FillPath(b, base.m_path);
-            
+
+            this.Brush = m_fillBrush;
+            if (m_fillBrush != null)
+                paintContext.Graphics.FillPath(m_fillBrush, base.m_path);
             if(m_backBrush != null)
                 paintContext.Graphics.FillPath(m_backBrush, m_backGp);
-            
-            Pen p = null;
-            if (IsHighLighted)
-                p = new Pen(Brushes.DarkOrange, 1);
-            else
-                p = new Pen(Brushes.Blue, 1);
-            paintContext.Graphics.DrawPath( p, m_outlineGp );            
-            
+            Pen pen = (IsHighLighted) ? new Pen(m_highLightBrush, 1) : new Pen(m_lineBrush, 1);
+            paintContext.Graphics.DrawPath(pen, m_outlineGp);            
         }
 
         /// <summary>

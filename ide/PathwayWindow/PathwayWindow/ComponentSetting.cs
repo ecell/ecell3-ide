@@ -300,17 +300,17 @@ namespace EcellLib.PathwayWindow
             {
                 throw new NoSuchComponentClassException();
             }
-            if (className.Equals(ComponentManager.ClassPPathwayVariable) || className.Equals(ComponentManager.ClassPEcellVariable))
+            if (className.Equals(ComponentManager.ClassPPathwayVariable))
             {
                 PPathwayVariable variable = new PPathwayVariable();
                 m_createMethod = variable.CreateNewObject;
             }
-            else if (className.Equals(ComponentManager.ClassPPathwayProcess) || className.Equals(ComponentManager.ClassPEcellProcess))
+            else if (className.Equals(ComponentManager.ClassPPathwayProcess))
             {
                 PPathwayProcess process = new PPathwayProcess();
                 m_createMethod = process.CreateNewObject;
             }
-            else if (className.Equals(ComponentManager.ClassPPathwaySystem) || className.Equals(ComponentManager.ClassPEcellSystem))
+            else if (className.Equals(ComponentManager.ClassPPathwaySystem))
             {
                 PPathwaySystem system = new PPathwaySystem();
                 m_createMethod = system.CreateNewObject;
@@ -353,7 +353,6 @@ namespace EcellLib.PathwayWindow
             {
                 obj.Width = PPathwaySystem.MIN_X_LENGTH;
                 obj.Height = PPathwaySystem.MIN_Y_LENGTH;
-                obj.Pen = null;
             }
             else
             {

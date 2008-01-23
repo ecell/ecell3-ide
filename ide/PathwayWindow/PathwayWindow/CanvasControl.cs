@@ -1426,5 +1426,13 @@ namespace EcellLib.PathwayWindow
             // if there si no vacant point, return basePos.
             return basePos;
         }
+
+        internal void ResetObjectSetting()
+        {
+            foreach (PPathwayObject obj in GetAllObjects())
+            {
+                obj.ResetSetting();
+            }
+        }
     }
 }
