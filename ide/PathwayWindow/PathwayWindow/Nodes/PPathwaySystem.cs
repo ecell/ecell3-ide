@@ -367,6 +367,8 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void Refresh()
         {
             this.Reset();
+            if (m_canvas == null)
+                return;
             foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(m_ecellObj.key))
             {
                 if (obj is PPathwayVariable)
@@ -378,7 +380,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void RefreshText()
         {
-            base.m_pText.Text = m_ecellObj.Text;
+            base.RefreshText();
             base.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height - TEXT_LOWER_MARGIN);
             base.m_pText.MoveToFront();
         }
@@ -388,19 +390,22 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void Reset()
         {
-            float prevX = X;
-            float prevY = Y;
+            float prevX = base.X;
+            float prevY = base.Y;
             float prevWidth = base.Width;
             float prevHeight = base.Height;
 
             base.Reset();
+
             base.Width = prevWidth;
             base.Height = prevHeight;
+
             float thickness = OUTER_RADIUS - INNER_RADIUS;
             float outerDiameter = OUTER_RADIUS * 2;
             float innerDiameter = INNER_RADIUS * 2;
             float horizontalRectWidth = base.Width - 2f * OUTER_RADIUS;
             float verticalRectHeight = base.Height - 2f * OUTER_RADIUS;
+
             GraphicsPath gp = new GraphicsPath();
             gp.AddPie(0, 0, outerDiameter, outerDiameter, 180, 90);
             gp.AddPie(thickness, thickness, innerDiameter, innerDiameter, 180, 90);
@@ -417,9 +422,11 @@ namespace EcellLib.PathwayWindow.Nodes
             gp.AddRectangle(new RectangleF(0, OUTER_RADIUS, thickness, verticalRectHeight));
             
             AddPath(gp,false);
-            X = prevX;
-            Y = prevY;
 
+            base.Width = prevWidth;
+            base.Height = prevHeight;
+            base.X = prevX;
+            base.Y = prevY;
             SetGraphicsPath();
             RefreshText();
         }
@@ -514,53 +521,53 @@ namespace EcellLib.PathwayWindow.Nodes
 
             m_backGp = new GraphicsPath();
             m_backGp.FillMode = FillMode.Alternate;
-            m_backGp.AddRectangle(new RectangleF(X + thickness,
-                                               Y + thickness,
+            m_backGp.AddRectangle(new RectangleF(base.X + thickness,
+                                               base.Y + thickness,
                                                base.Width - 2 * thickness,
                                                base.Height - 2 * thickness));
-            m_backGp.AddRectangle(new RectangleF(X + thickness,
-                                               Y + thickness,
+            m_backGp.AddRectangle(new RectangleF(base.X + thickness,
+                                               base.Y + thickness,
                                                INNER_RADIUS,
                                                INNER_RADIUS));
-            m_backGp.AddRectangle(new RectangleF(X + base.Width - OUTER_RADIUS,
-                                               Y + thickness,
+            m_backGp.AddRectangle(new RectangleF(base.X + base.Width - OUTER_RADIUS,
+                                               base.Y + thickness,
                                                INNER_RADIUS,
                                                INNER_RADIUS));
-            m_backGp.AddRectangle(new RectangleF(X + base.Width - OUTER_RADIUS,
-                                               Y + base.Height - OUTER_RADIUS,
+            m_backGp.AddRectangle(new RectangleF(base.X + base.Width - OUTER_RADIUS,
+                                               base.Y + base.Height - OUTER_RADIUS,
                                                INNER_RADIUS,
                                                INNER_RADIUS));
-            m_backGp.AddRectangle(new RectangleF(X + thickness,
-                                               Y + base.Height - OUTER_RADIUS,
+            m_backGp.AddRectangle(new RectangleF(base.X + thickness,
+                                               base.Y + base.Height - OUTER_RADIUS,
                                                INNER_RADIUS,
                                                INNER_RADIUS));
-            m_backGp.AddPie(X + thickness, Y + thickness, innerDiameter, innerDiameter, 180, 90);
-            m_backGp.AddPie(X + base.Width - OUTER_RADIUS - INNER_RADIUS, Y + thickness,
+            m_backGp.AddPie(base.X + thickness, base.Y + thickness, innerDiameter, innerDiameter, 180, 90);
+            m_backGp.AddPie(base.X + base.Width - OUTER_RADIUS - INNER_RADIUS, base.Y + thickness,
                            innerDiameter, innerDiameter, 270, 90);
-            m_backGp.AddPie(X + base.Width - OUTER_RADIUS - INNER_RADIUS,
-                            Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
+            m_backGp.AddPie(base.X + base.Width - OUTER_RADIUS - INNER_RADIUS,
+                            base.Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
                             innerDiameter, innerDiameter, 0, 90);
-            m_backGp.AddPie(X + thickness, Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
+            m_backGp.AddPie(base.X + thickness, base.Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
                            innerDiameter, innerDiameter, 90, 90);
 
 
             m_outlineGp = new GraphicsPath();
             m_outlineGp.FillMode = FillMode.Alternate;
-            m_outlineGp.AddArc(X, Y, outerDiameter, outerDiameter, 180, 90);
-            m_outlineGp.AddArc(X + base.Width - outerDiameter, Y, outerDiameter, outerDiameter, 270, 90);
-            m_outlineGp.AddArc(X + base.Width - outerDiameter, Y + base.Height - outerDiameter,
+            m_outlineGp.AddArc(base.X, base.Y, outerDiameter, outerDiameter, 180, 90);
+            m_outlineGp.AddArc(base.X + base.Width - outerDiameter, base.Y, outerDiameter, outerDiameter, 270, 90);
+            m_outlineGp.AddArc(base.X + base.Width - outerDiameter, base.Y + base.Height - outerDiameter,
                       outerDiameter, outerDiameter, 0, 90);
-            m_outlineGp.AddArc(X, Y + base.Height - outerDiameter, outerDiameter, outerDiameter, 90, 90);
-            m_outlineGp.AddLine(X, Y + OUTER_RADIUS, X, Y + base.Height - OUTER_RADIUS);
+            m_outlineGp.AddArc(base.X, base.Y + base.Height - outerDiameter, outerDiameter, outerDiameter, 90, 90);
+            m_outlineGp.AddLine(base.X, base.Y + OUTER_RADIUS, base.X, base.Y + base.Height - OUTER_RADIUS);
             m_outlineGp.CloseFigure();
-            m_outlineGp.AddArc(X + thickness, Y + thickness, innerDiameter, innerDiameter, 180, 90);
-            m_outlineGp.AddArc(X + base.Width - OUTER_RADIUS - INNER_RADIUS,
-                      Y + thickness, innerDiameter, innerDiameter, 270, 90);
-            m_outlineGp.AddArc(X + base.Width - OUTER_RADIUS - INNER_RADIUS,
-                      Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
+            m_outlineGp.AddArc(base.X + thickness, base.Y + thickness, innerDiameter, innerDiameter, 180, 90);
+            m_outlineGp.AddArc(base.X + base.Width - OUTER_RADIUS - INNER_RADIUS,
+                      base.Y + thickness, innerDiameter, innerDiameter, 270, 90);
+            m_outlineGp.AddArc(base.X + base.Width - OUTER_RADIUS - INNER_RADIUS,
+                      base.Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
                       innerDiameter, innerDiameter, 0, 90);
-            m_outlineGp.AddArc(X + thickness, Y + base.Height - OUTER_RADIUS - INNER_RADIUS, innerDiameter, innerDiameter, 90, 90);
-            m_outlineGp.AddLine(X + thickness, Y + OUTER_RADIUS, X + thickness, Y + base.Height - OUTER_RADIUS);
+            m_outlineGp.AddArc(base.X + thickness, base.Y + base.Height - OUTER_RADIUS - INNER_RADIUS, innerDiameter, innerDiameter, 90, 90);
+            m_outlineGp.AddLine(base.X + thickness, base.Y + OUTER_RADIUS, base.X + thickness, base.Y + base.Height - OUTER_RADIUS);
 
         }
 

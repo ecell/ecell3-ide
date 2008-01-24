@@ -177,6 +177,7 @@ namespace EcellLib.PathwayWindow.Handler
             m_canvas.PathwayCanvas.AddInputEventListener(this);
             m_object = canvas.Setting.CreateTemplate();
             m_object.Pickable = false;
+            m_object.Refresh();
             m_flag = true;
             // Set Icon
             //m_con.ToolBox.Icon = (Icon)PathwayResource.hand;

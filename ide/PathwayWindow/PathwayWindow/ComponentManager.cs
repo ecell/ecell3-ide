@@ -411,7 +411,7 @@ namespace EcellLib.PathwayWindow
             TabPage page = CreateTabPage();
             dialog.TabControl.Controls.Add(page);
             if (dialog.ShowDialog() == DialogResult.OK)
-                SetNewParames(page);
+                SetNewParams(page);
             dialog.Dispose();
 
         }
@@ -435,7 +435,7 @@ namespace EcellLib.PathwayWindow
             return page;
         }
 
-        private void SetNewParames(TabPage page)
+        private void SetNewParams(TabPage page)
         {
             foreach (PropertyItem item in page.Controls)
             {

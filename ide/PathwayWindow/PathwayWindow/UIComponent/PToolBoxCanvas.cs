@@ -92,13 +92,13 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             if (setting == null)
                 return;
-            PPathwayObject obj = setting.CreateTemplate();
             RectangleF bounds = base.Camera.ViewBounds;
             PointF center = new PointF(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
-            obj.Pickable = false;
-            obj.CenterPointF = center;
-            base.Layer.AddChild(obj);
-            m_object = obj;
+            m_object = setting.CreateTemplate();
+            m_object.Pickable = false;
+            m_object.CenterPointF = center;
+            m_object.Refresh();
+            base.Layer.AddChild(m_object);
         }
         
         #endregion

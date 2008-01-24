@@ -360,7 +360,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void ChangeViewMode(bool isViewMode)
         {
-            this.ShowingID = !isViewMode;
             m_path.Reset();
             if (isViewMode)
             {
@@ -375,6 +374,14 @@ namespace EcellLib.PathwayWindow.Nodes
                 SetLineColor(m_lineBrush);
             }
             Refresh();
+        }
+
+        protected override void SetTextVisiblity()
+        {
+            if (m_showingId && !m_isViewMode)
+                m_pText.Visible = true;
+            else
+                m_pText.Visible = false;
         }
 
         #endregion

@@ -415,6 +415,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     return;
                 m_isViewMode = value;
                 ChangeViewMode(value);
+                SetTextVisiblity();
             }
         }
 
@@ -893,12 +894,10 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             get { return m_showingId; }
             set { m_showingId = value;
-                if (m_showingId && !m_isViewMode)
-                    m_pText.Visible = true;
-                else
-                    m_pText.Visible = false;
+            SetTextVisiblity();
             }
         }
+
         /// <summary>
         /// See <see cref="GraphicsPath.PathData">GraphicsPath.PathData</see>.
         /// </summary>
@@ -1142,10 +1141,9 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void RefreshText()
         {
-            if (this.m_ecellObj == null)
-                return;
-
-            this.m_pText.Text = this.m_ecellObj.Text;
+            if (this.m_ecellObj != null)
+                this.m_pText.Text = this.m_ecellObj.Text;
+            
             this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
             this.m_pText.MoveToFront();
         }
@@ -1198,6 +1196,14 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             LineBrush = m_setting.LineBrush;
             FillBrush = m_setting.FillBrush;
+        }
+
+        protected virtual void SetTextVisiblity()
+        {
+            if (m_showingId)
+                m_pText.Visible = true;
+            else
+                m_pText.Visible = false;
         }
         #endregion
 
