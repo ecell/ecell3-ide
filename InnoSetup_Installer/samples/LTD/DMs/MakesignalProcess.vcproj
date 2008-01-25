@@ -19,7 +19,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)\32bit\samples\LTD\DMs"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\samples\LTD\DMs"
 			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			>
