@@ -49,8 +49,8 @@
   -->
   <PropertyGroup>
     <PreBuildEvent>SubWCRev "$(SolutionDir)..\ide\MainWindow" "$(ProjectDir)E-Cell_IDE_Installer.iss.tmpl" "$(ProjectDir)E-Cell_IDE_Installer.iss"</PreBuildEvent>
-    <PostBuildEvent>FOR %25%25A IN (32bit 64bit) DO FOR %25%25D IN (bin plugin) DO XCOPY /I /E /Y /S "$(ECELL_STAGING_HOME)\"%25%25D "$(ProjectDir)"%25%25A\%25%25D &amp;&amp; XCOPY /I /E /Y /S "$(ECELL_STAGING_HOME)\lib\ecell-3.1\dms" "$(ProjectDir)%25%25A\lib\ecell-3.1\dms"
+    <PostBuildEvent>FOR %25%25A IN (Win32 x64) DO FOR %25%25D IN (bin plugin) DO XCOPY /I /E /Y /S "$(ECELL_STAGING_HOME)\"%25%25A"\release\"%25%25D "$(ProjectDir)\"%25%25A\%25%25D &amp;&amp; XCOPY /I /E /Y /S "$(ECELL_STAGING_HOME)\"%25%25A"\release\lib\ecell-3.1\dms" "$(ProjectDir)%25%25A\lib\ecell-3.1\dms"
 
-XCOPY /Y /S "$(ECELL_STAGING_HOME)\lib\ironpython\*" "$(ProjectDir)lib\ironpyhon"</PostBuildEvent>
+XCOPY /I /E /Y /S "$(ECELL_STAGING_HOME)\Win32\release\lib\ironpython" "$(ProjectDir)lib\ironpython"</PostBuildEvent>
   </PropertyGroup>
 </Project>

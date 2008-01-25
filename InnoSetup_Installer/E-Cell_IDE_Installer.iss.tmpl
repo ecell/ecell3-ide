@@ -40,7 +40,7 @@ Name: "Japanese"; MessagesFile: "C:\Program Files\Inno Setup 5\Languages\Japanes
 ; ======================================================
 ; common
 ; ======================================================
-Source: "32bit\bin\*.py"; DestDir: "{app}\bin";
+Source: "Win32\bin\*.py"; DestDir: "{app}\bin";
 
 Source: "samples\Arti_Class1\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Arti_Class1";
 Source: "samples\Arti_Class1\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\Arti_Class1";
@@ -61,10 +61,10 @@ Source: "samples\CoupledOscillator\*"; DestDir: "{userdocs}\My E-Cell Projects\s
 Source: "samples\CoupledOscillator\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\CoupledOscillator";
 Source: "samples\CoupledOscillator\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\Model";
 Source: "samples\CoupledOscillator\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\CoupledOscillator\Model";
-Source: "32bit\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "64bit\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "Win32\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "x64\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
 
 Source: "samples\Drosophila\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Drosophila";
 Source: "samples\Drosophila\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\Drosophila";
@@ -80,10 +80,10 @@ Source: "samples\LTD\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD";
 Source: "samples\LTD\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD";
 Source: "samples\LTD\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD\Model";
 Source: "samples\LTD\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD\Model";
-Source: "32bit\samples\LTD\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\samples\LTD\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "64bit\samples\LTD\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\samples\LTD\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "Win32\samples\LTD\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\samples\LTD\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "x64\samples\LTD\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\samples\LTD\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
 
 Source: "samples\Oscillation\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Oscillation";
 Source: "samples\Oscillation\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\Oscillation";
@@ -94,10 +94,10 @@ Source: "samples\Pendulum\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pe
 Source: "samples\Pendulum\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum";
 Source: "samples\Pendulum\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\Model";
 Source: "samples\Pendulum\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\Model";
-Source: "32bit\samples\Pendulum\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\samples\Pendulum\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "64bit\samples\Pendulum\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\samples\Pendulum\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "Win32\samples\Pendulum\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\samples\Pendulum\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "x64\samples\Pendulum\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\samples\Pendulum\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\dms"; Flags: 64Bit; Check: IsWin64();
 
 Source: "samples\QuorumSensing1\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\QuorumSensing1";
 Source: "samples\QuorumSensing1\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\QuorumSensing1";
@@ -138,107 +138,113 @@ Source: "lib\ironpython\*"; DestDir: "{app}\lib\ironpython";
 ; ======================================================
 ; bin/*.exe
 ; ======================================================
-Source: "32bit\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 
-Source: "64bit\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 
 ; ======================================================
 ; bin/*.dll
 ; ======================================================
-Source: "32bit\bin\EcellCoreLibCLR.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\EcellLib.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\ecs.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\emc.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\fftpack_lite.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\fftpack_lite_core.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\Formulator.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\IronMath.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\IronPython.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\gslcblas.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\ZedGraph.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\SessionManager.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\bin\MathNet.Iridium.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\EcellCoreLibCLR.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\EcellLib.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\ecs.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\emc.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\fftpack_lite.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\fftpack_lite_core.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\Formulator.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\IronMath.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\IronPython.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\libgsl.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\gslcblas.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\ZedGraph.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\SessionManager.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\MathNet.Iridium.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 
-Source: "64bit\bin\EcellCoreLibCLR.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\EcellLib.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\ecs.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\emc.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\fftpack_lite.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\fftpack_lite_core.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\Formulator.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\IronMath.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\IronPython.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\libgsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\ZedGraph.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\SessionManager.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\MathNet.Iridium.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\EcellCoreLibCLR.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\EcellLib.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\ecs.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\emc.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\fftpack_lite.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\fftpack_lite_core.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\Formulator.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\IronMath.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\IronPython.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\gslcblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\libgsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\ZedGraph.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\SessionManager.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\MathNet.Iridium.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 
 
 ; ======================================================
 ; bin/ja/*
 ; ======================================================
-Source: "32bit\bin\ja\*"; DestDir: "{app}\bin\ja"; Flags: 32bit; Check: not IsWin64();
-Source: "64bit\bin\ja\*"; DestDir: "{app}\bin\ja"; Flags: 64Bit; Check: IsWin64();
+Source: "Win32\bin\ja\*"; DestDir: "{app}\bin\ja"; Flags: 32bit; Check: not IsWin64();
+Source: "x64\bin\ja\*"; DestDir: "{app}\bin\ja"; Flags: 64Bit; Check: IsWin64();
 
 ; ======================================================
 ; bin/Microsoft.VC80.CRT/*
 ; ======================================================
-Source: "32bit\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;
-Source: "32bit\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;
-Source: "32bit\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;
-Source: "32bit\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;
 
-Source: "32bit\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;
-Source: "32bit\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;
-Source: "32bit\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;
-Source: "32bit\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;
 
-Source: "64bit\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();
 
 
 ; ======================================================
 ; plugins/*.dll
 ; ======================================================
-Source: "32bit\plugins\AboutWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\Analysis.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\EntityListWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\MessageWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\ObjectList.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\PathwayWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\PropertyWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\SearchWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\Simulation.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\StaticDebugWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\TracerWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\AboutWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\Analysis.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\EntityListWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\MessageWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\ObjectList.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\ObjectList2.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\PathwayWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\PropertyWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\SearchWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\Simulation.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\StaticDebugWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\TracerWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();
 
-Source: "64bit\plugins\AboutWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\Analysis.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\EntityListWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\MessageWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\ObjectList.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\PathwayWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\PropertyWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\SearchWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\Simulation.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\StaticDebugWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\TracerWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\AboutWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\Analysis.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\EntityListWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\MessageWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\ObjectList.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\ObjectList2.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\PathwayWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\PropertyWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\SearchWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\Simulation.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\StaticDebugWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\TracerWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();
 
 
 ; ======================================================
@@ -246,67 +252,67 @@ Source: "64bit\plugins\TracerWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit
 ; ======================================================
 Source: "ComponentSettings.xml"; DestDir: "{app}\pluginss\pathway";
 
-Source: "32bit\plugins\pathway\AlignLayout.dll"; DestDir: "{app}\pluginss\pathway"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\pathway\CircularLayout.dll"; DestDir: "{app}\pluginss\pathway"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\pathway\DistributeLayout.dll"; DestDir: "{app}\pluginss\pathway"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\plugins\pathway\GridLayout.dll"; DestDir: "{app}\pluginss\pathway"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\pathway\AlignLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\pathway\CircularLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\pathway\DistributeLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\plugin\pathway\GridLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();
 
-Source: "64bit\plugins\pathway\AlignLayout.dll"; DestDir: "{app}\pluginss\pathway"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\pathway\CircularLayout.dll"; DestDir: "{app}\pluginss\pathway"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\pathway\DistributeLayout.dll"; DestDir: "{app}\pluginss\pathway"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\plugins\pathway\GridLayout.dll"; DestDir: "{app}\pluginss\pathway"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\pathway\AlignLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\pathway\CircularLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\pathway\DistributeLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\plugin\pathway\GridLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 64Bit; Check: IsWin64();
 
 
 ; ======================================================
 ; dm/*.dll
 ; ======================================================
-Source: "32bit\lib\ecell-3.1\dms\ConstantFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\DAEStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit;  Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\DecayFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\ESSYNSStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\ExpressionAlgebraicProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\ExpressionAssignmentProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\ExpressionFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\FixedDAE1Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\FixedODE1Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\FluxDistributionStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\GillespieProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\GMAProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\MassActionFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\MichaelisUniUniFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\ODE23Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\ODE45Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\ODEStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\PingPongBiBiFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\PythonProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\QuasiDynamicFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\SSystemProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\TauLeapProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
-Source: "32bit\lib\ecell-3.1\dms\TauLeapStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\ConstantFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\DAEStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit;  Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\DecayFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\ESSYNSStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\ExpressionAlgebraicProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\ExpressionAssignmentProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\ExpressionFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\FixedDAE1Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\FixedODE1Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\FluxDistributionStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\GillespieProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\GMAProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\MassActionFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\MichaelisUniUniFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\ODE23Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\ODE45Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\ODEStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\PingPongBiBiFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\PythonProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\QuasiDynamicFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\SSystemProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\TauLeapProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\lib\ecell-3.1\dms\TauLeapStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64();
 
-Source: "64bit\lib\ecell-3.1\dms\ConstantFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\DAEStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\DecayFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\ESSYNSStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\ExpressionAlgebraicProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\ExpressionAssignmentProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\ExpressionFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\FixedDAE1Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\FixedODE1Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\FluxDistributionStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\GillespieProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\GMAProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\MassActionFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\MichaelisUniUniFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\ODE23Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\ODE45Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\ODEStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\PingPongBiBiFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\PythonProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\QuasiDynamicFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\SSystemProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\TauLeapProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
-Source: "64bit\lib\ecell-3.1\dms\TauLeapStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\ConstantFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\DAEStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\DecayFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\ESSYNSStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\ExpressionAlgebraicProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\ExpressionAssignmentProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\ExpressionFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\FixedDAE1Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\FixedODE1Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\FluxDistributionStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\GillespieProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\GMAProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\MassActionFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\MichaelisUniUniFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\ODE23Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\ODE45Stepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\ODEStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\PingPongBiBiFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\PythonProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\QuasiDynamicFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\SSystemProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\TauLeapProcess.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\lib\ecell-3.1\dms\TauLeapStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();
 
 ; ======================================================
 ; temporary
