@@ -76,7 +76,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// edge brush.
         /// </summary>
-        protected Brush m_edgeBrush = Brushes.Black;
+        private Brush m_edgeBrush = Brushes.Black;
         #endregion
 
         #region Accessors
@@ -90,6 +90,26 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 base.EcellObject = value;
                 Refresh();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Brush EdgeBrush
+        {
+            get { return m_edgeBrush; }
+            set 
+            {
+                m_edgeBrush = value;
+                foreach (List<PPathwayLine> list in m_lines.Values)
+                {
+                    foreach (PPathwayLine line in list)
+                    {
+                        line.Pen.Brush = m_edgeBrush;
+                        line.Brush = m_edgeBrush;
+                    }
+                }
             }
         }
         #endregion
@@ -208,7 +228,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     EdgeInfo edge = new EdgeInfo(this.EcellObject.key, er);
                     PPathwayLine path = new PPathwayLine(m_canvas, edge);
                     
-                    path.Brush = m_lineBrush;
+                    path.Brush = m_edgeBrush;
                     path.VarPoint = var.GetContactPoint(base.CenterPoint);
                     path.ProPoint = base.GetContactPoint(path.VarPoint);
                     path.SetLine();
@@ -253,13 +273,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="width"></param>
         public void SetLineColor(Brush brush)
         {
-            m_edgeBrush = brush;
-            foreach (List<PPathwayLine> list in m_lines.Values)
-                foreach (PPathwayLine line in list)
-                {
-                    line.Pen.Brush = brush;
-                    line.Brush = brush;
-                }
         }
         /// <summary>
         /// delete all related process from list.
@@ -364,14 +377,12 @@ namespace EcellLib.PathwayWindow.Nodes
             if (isViewMode)
             {
                 base.AddEllipse(X + 25, Y + 15, 10, 10);
-                m_pen = new Pen(Brushes.Green, 1);
-                SetLineColor(Brushes.LightGreen);
+                EdgeBrush = Brushes.LightGreen;
             }
             else
             {
                 base.AddRectangle(X - 24, Y - 14, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-                m_pen = new Pen(m_lineBrush, 1);
-                SetLineColor(m_lineBrush);
+                EdgeBrush = Brushes.Black;
             }
             Refresh();
         }

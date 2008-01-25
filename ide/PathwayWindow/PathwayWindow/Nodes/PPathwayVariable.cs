@@ -149,13 +149,11 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             if (isViewMode)
             {
-                m_pen = new Pen(Brushes.Blue, 1);
                 m_pText.TextBrush = Brushes.Blue;
                 m_pPropertyText.TextBrush = Brushes.DarkRed;
             }
             else
             {
-                m_pen = new Pen(m_lineBrush, 1);
                 m_pText.TextBrush = Brushes.Black;
                 m_pPropertyText.Text ="";
             }

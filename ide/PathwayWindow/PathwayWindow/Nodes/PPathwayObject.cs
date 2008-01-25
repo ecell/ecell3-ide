@@ -901,9 +901,9 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// See <see cref="GraphicsPath.PathData">GraphicsPath.PathData</see>.
         /// </summary>
-        public virtual PathData PathData
+        public virtual GraphicsPath Path
         {
-            get { return m_path.PathData; }
+            get { return m_path; }
         }
 
         /// <summary>

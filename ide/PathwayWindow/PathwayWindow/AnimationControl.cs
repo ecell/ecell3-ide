@@ -34,6 +34,7 @@ using System.Text;
 using System.Windows.Forms;
 using EcellLib.PathwayWindow.Nodes;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace EcellLib.PathwayWindow
 {
@@ -141,17 +142,27 @@ namespace EcellLib.PathwayWindow
             {
                 if (!process.Visible)
                     continue;
+                // Set gradient brush
+                PathGradientBrush pthGrBrush = new PathGradientBrush(process.Path);
+                pthGrBrush.CenterColor = Color.White;
+                pthGrBrush.SurroundColors = new Color[] {Color.LightGreen};
+                process.FillBrush = pthGrBrush;
                 // Line setting.
                 string propName = "Process:" + process.EcellObject.key + ":MolarActivity";
                 float activity = GetFloatValue(propName);
-                process.SetLineWidth(GetLineWidth(activity));
-                process.SetLineColor(GetLineColor(activity));
+                process.EdgeBrush = GetEdgeBrush(activity);
+                process.SetLineWidth(GetEdgeWidth(activity));
                 process.MoveToFront();
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
                 if (!variable.Visible)
                     continue;
+                // Set gradient brush
+                PathGradientBrush pthGrBrush = new PathGradientBrush(variable.Path);
+                pthGrBrush.CenterColor = Color.White;
+                pthGrBrush.SurroundColors = new Color[] { Color.LightBlue };
+                variable.FillBrush = pthGrBrush;
                 // Variable setting.
                 string propName = "Variable:" + variable.EcellObject.key + ":MolarConc";
                 float molerConc = GetFloatValue(propName);
@@ -171,6 +182,21 @@ namespace EcellLib.PathwayWindow
             // Reset objects.
             foreach (PPathwayObject obj in m_canvas.GetAllObjects())
                 obj.Refresh();
+            foreach (PPathwayProcess process in m_canvas.Processes.Values)
+            {
+                if (!process.Visible)
+                    continue;
+                process.FillBrush = process.Setting.FillBrush;
+                // Line setting.
+                process.EdgeBrush = Brushes.Black;
+                process.MoveToFront();
+            }
+            foreach (PPathwayVariable variable in m_canvas.Variables.Values)
+            {
+                if (!variable.Visible)
+                    continue;
+                variable.FillBrush = variable.Setting.FillBrush;
+            }
             m_canvas = null;
         }
         #endregion
@@ -192,7 +218,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="activity"></param>
         /// <returns></returns>
-        private float GetLineWidth(float activity)
+        private float GetEdgeWidth(float activity)
         {
             if (float.IsNaN(activity))
                 return 0f;
@@ -207,7 +233,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="activity"></param>
         /// <returns></returns>
-        private Brush GetLineColor(float activity)
+        private Brush GetEdgeBrush(float activity)
         {
             if (float.IsNaN(activity) || float.IsInfinity(activity))
                 return NGColor;
