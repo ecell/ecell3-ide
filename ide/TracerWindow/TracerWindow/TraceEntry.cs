@@ -149,7 +149,7 @@ namespace EcellLib.TracerWindow
             if (m_currentLineItem.Points.Count > TracerWindow.s_count)
             {
                 int i = m_currentLineItem.Points.Count - 4;
-                while (i < m_currentLineItem.Points.Count)
+                while (i < m_currentLineItem.Points.Count && i >= 0)
                 {
                     m_currentLineItem.RemovePoint(i);
                     m_currentLineItem.RemovePoint(i);
