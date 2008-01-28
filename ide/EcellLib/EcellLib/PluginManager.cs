@@ -609,6 +609,7 @@ namespace EcellLib
         /// <returns>the plugin. if not find the plugin, return null.</returns>
         public List<ILayoutAlgorithm> GetLayoutPlugins()
         {
+            List<string> loadedPlugins = new List<string>();
             List<ILayoutAlgorithm> layoutList = new List<ILayoutAlgorithm>();
 
             // Read component settings from ComponentSettings.xml
@@ -624,6 +625,8 @@ namespace EcellLib
                     // Only dlls will be loaded (NOT xml)!
                     if (string.IsNullOrEmpty(pluginName) || !pluginName.EndsWith(Constants.pluginFileExtension))
                         continue;
+                    if (loadedPlugins.Contains(pluginName)) continue;
+                    loadedPlugins.Add(pluginName);
                     try
                     {
                         Assembly handle = Assembly.LoadFile(pluginName);
