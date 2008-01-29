@@ -105,7 +105,16 @@ namespace EcellLib
             List<string> dmDirs = new List<string>();
             List<string> candidates = new List<string>();
             if (currentProjectPath != null)
+            {
+                if (currentProjectPath.EndsWith(Convert.ToString( Path.DirectorySeparatorChar)))
+                {
+                    candidates.Add(currentProjectPath + Constants.DMDirName);
+                }
+                else 
+                {
                 candidates.Add(currentProjectPath + Path.DirectorySeparatorChar + Constants.DMDirName);
+                }
+            }
             candidates.AddRange(extraDMDirs);
             if (!noDefaultPaths)
                 candidates.Add(GetRegistryValue(Constants.registryDMDirKey));
