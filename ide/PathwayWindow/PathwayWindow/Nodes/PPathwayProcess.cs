@@ -42,6 +42,7 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
 using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Figure;
+using System.Drawing.Drawing2D;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -377,12 +378,16 @@ namespace EcellLib.PathwayWindow.Nodes
             if (isViewMode)
             {
                 base.AddEllipse(X + 25, Y + 15, 10, 10);
-                EdgeBrush = Brushes.LightGreen;
+                // Set gradient brush
+                PathGradientBrush pthGrBrush = new PathGradientBrush(this.m_path);
+                pthGrBrush.CenterColor = Color.White;
+                pthGrBrush.SurroundColors = new Color[] { Color.LightGreen };
+                base.FillBrush = pthGrBrush;
             }
             else
             {
                 base.AddRectangle(X - 24, Y - 14, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-                EdgeBrush = Brushes.Black;
+                base.FillBrush = m_setting.FillBrush;
             }
             Refresh();
         }

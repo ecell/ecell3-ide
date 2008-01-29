@@ -38,6 +38,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Threading;
+using System.Drawing.Drawing2D;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -151,11 +152,17 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 m_pText.TextBrush = Brushes.Blue;
                 m_pPropertyText.TextBrush = Brushes.DarkRed;
+                // Set gradient brush
+                PathGradientBrush pthGrBrush = new PathGradientBrush(this.m_path);
+                pthGrBrush.CenterColor = Color.White;
+                pthGrBrush.SurroundColors = new Color[] { Color.LightBlue };
+                base.FillBrush = pthGrBrush;
             }
             else
             {
                 m_pText.TextBrush = Brushes.Black;
                 m_pPropertyText.Text ="";
+                base.FillBrush = m_setting.FillBrush;
             }
         }
         /// <summary>

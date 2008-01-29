@@ -405,25 +405,32 @@ namespace EcellLib.PathwayWindow
                 SetDefaultSetting(setting);
         }
 
+        /// <summary>
+        /// Show ComponentManagerDialog.
+        /// </summary>
         public void ShowDialog()
         {
             PropertyDialog dialog = new PropertyDialog();
+            dialog.Text = "ComponentManagerDialog";
             TabPage page = CreateTabPage();
             dialog.TabControl.Controls.Add(page);
             if (dialog.ShowDialog() == DialogResult.OK)
                 SetNewParams(page);
             dialog.Dispose();
-
         }
 
-        private TabPage CreateTabPage()
+        /// <summary>
+        /// Create TabPage for PathwaySettingDialog
+        /// </summary>
+        /// <returns></returns>
+        public TabPage CreateTabPage()
         {
             TabPage page = new TabPage("ComponentSettings");
             page.SuspendLayout();
             int top = 0;
             foreach (ComponentSetting cs in this.ComponentSettings)
             {
-                PropertyItem item =  new PropertyItem(cs);
+                ComponentItem item =  new ComponentItem(cs);
                 item.Top = top;
                 item.SuspendLayout();
                 page.Controls.Add(item);
@@ -437,7 +444,7 @@ namespace EcellLib.PathwayWindow
 
         private void SetNewParams(TabPage page)
         {
-            foreach (PropertyItem item in page.Controls)
+            foreach (ComponentItem item in page.Controls)
             {
                 item.ApplyChange();
             }
@@ -656,7 +663,10 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
-        private class PropertyItem : GroupBox
+        /// <summary>
+        /// private class for ComponentSettingDialog
+        /// </summary>
+        private class ComponentItem : GroupBox
         {
             private Label labelName;
             private Label labelFigure;
@@ -667,7 +677,7 @@ namespace EcellLib.PathwayWindow
             private ComboBox cBoxFillColor;
             private PToolBoxCanvas pCanvas;
 
-            public PropertyItem(ComponentSetting cs)
+            public ComponentItem(ComponentSetting cs)
             {
                 this.labelName = new Label();
                 this.labelFigure = new Label();

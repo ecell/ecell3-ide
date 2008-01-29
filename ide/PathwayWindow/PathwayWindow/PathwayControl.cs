@@ -473,7 +473,7 @@ namespace EcellLib.PathwayWindow
             m_overView.Clear();
             m_pathwayView.TabControl.TabPages.Clear();
             m_layerView.DataGridView.DataSource = null;
-
+            m_animCon.TimerStop();
             // Clear Canvas dictionary.
             if (m_canvasDict != null)
                 foreach (CanvasControl set in m_canvasDict.Values)
@@ -546,6 +546,7 @@ namespace EcellLib.PathwayWindow
             if (type == ProjectStatus.Running && m_isViewMode)
             {
                 m_animCon.SetPropForSimulation();
+                m_animCon.TimerStart();
             }
             else if (type == ProjectStatus.Stepping && m_isViewMode)
             {

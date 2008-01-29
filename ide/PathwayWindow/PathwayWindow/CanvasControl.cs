@@ -439,6 +439,7 @@ namespace EcellLib.PathwayWindow
 
             // Set ViewMode
             this.ViewMode = m_con.ViewMode;
+            this.ShowingID = m_con.ShowingID;
 
         }
         #endregion
