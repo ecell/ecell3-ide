@@ -184,6 +184,9 @@
     <Compile Include="UIComponent\PropertyDialog.Designer.cs">
       <DependentUpon>PropertyDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIComponent\PropertyDialogItems.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UIComponent\PToolBoxCanvas.cs">
       <SubType>Component</SubType>
     </Compile>

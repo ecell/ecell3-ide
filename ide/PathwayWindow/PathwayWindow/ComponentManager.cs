@@ -442,7 +442,7 @@ namespace EcellLib.PathwayWindow
             return page;
         }
 
-        private void SetNewParams(TabPage page)
+        public void SetNewParams(TabPage page)
         {
             foreach (ComponentItem item in page.Controls)
             {

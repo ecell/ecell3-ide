@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using EcellLib.PathwayWindow.Nodes;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using EcellLib.PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow
 {
@@ -42,13 +43,18 @@ namespace EcellLib.PathwayWindow
     {
         #region constant fields
         bool isLogarithm = false;
-        protected float MaxActivity = 100f;
-        protected float MinActivity = 0f;
+        protected float ThresholdHigh = 100f;
+        protected float ThresholdMin = 0f;
+        protected float NormalLineWidth = 0f;
         protected float MaxLineWidth = 20f;
-        protected Brush NGColor = Brushes.Red;
-        protected Brush DefLineColor = Brushes.LightGreen;
-        protected Brush MinLineColor = Brushes.Gray;
-        protected Brush MaxLineColor = Brushes.Yellow;
+        protected Brush BackGroundBrush = Brushes.White;
+        protected Brush ViewModeBGBrush = Brushes.White;
+        protected Brush NormalLineBrush = Brushes.Black;
+        protected Brush ViewLineBrush = Brushes.LightGreen;
+        protected Brush MinLineBrush = Brushes.Gray;
+        protected Brush MaxLineBrush = Brushes.Yellow;
+        protected Brush NGLineBrush = Brushes.Red;
+        protected bool IsLogarithmic = true;
         protected string FormatLog = "E2";
         protected string FormatNatural = "0.000000";
         #endregion
@@ -196,9 +202,13 @@ namespace EcellLib.PathwayWindow
         {
             TabPage page = new TabPage("AnimationSettings");
             page.SuspendLayout();
-            page.Controls.Add(new AnimationBrushItem("BackGroundBrush", Brushes.White, Brushes.White));
-            page.Controls.Add(new AnimationBrushItem("LineBrush", Brushes.Black, Brushes.LightGreen));
+            GroupBox boxBackGroundBrush = new AnimationBackGroundItem(this);
+            page.Controls.Add(boxBackGroundBrush);
+            GroupBox boxLineBrush = new AnimationLineItem(this);
+            boxLineBrush.Top = boxBackGroundBrush.Top + boxBackGroundBrush.Height;
+            page.Controls.Add(boxLineBrush);
             page.ResumeLayout();
+            page.PerformLayout();
             return page;
         }
         #endregion
@@ -227,11 +237,11 @@ namespace EcellLib.PathwayWindow
         {
             if (float.IsNaN(activity))
                 return 0f;
-            else if (activity <= MinActivity)
+            else if (activity <= ThresholdMin)
                 return 0f;
-            else if (activity >= MaxActivity)
-                return MaxLineWidth;
-            return MaxLineWidth * activity / MaxActivity;
+            else if (activity >= ThresholdHigh)
+                return NormalLineWidth;
+            return NormalLineWidth * activity / ThresholdHigh;
         }
         /// <summary>
         /// Get line color
@@ -241,12 +251,12 @@ namespace EcellLib.PathwayWindow
         private Brush GetEdgeBrush(float activity)
         {
             if (float.IsNaN(activity) || float.IsInfinity(activity))
-                return NGColor;
-            else if (activity <= MinActivity)
-                return MinLineColor;
-            else if (activity >= MaxActivity)
-                return MaxLineColor;
-            return DefLineColor;
+                return NGLineBrush;
+            else if (activity <= ThresholdMin)
+                return MinLineBrush;
+            else if (activity >= ThresholdHigh)
+                return MaxLineBrush;
+            return ViewLineBrush;
         }
         private string GetPropertyString(float value)
         {
@@ -259,104 +269,47 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// private class for ComponentSettingDialog
         /// </summary>
-        private class AnimationBrushItem : GroupBox
+        private class AnimationBackGroundItem : GroupBox
         {
-            private Label labelNomalMode;
-            private Label labelViewMode;
-            private ComboBox cBoxNomalMode;
-            private ComboBox cBoxViewMode;
-            private Brush m_nomalBrush = null;
-            private Brush m_viewBrush = null;
+            private PropertyBrushItem m_normalBrushItem;
+            private PropertyBrushItem m_viewBrushItem;
 
             public Brush NomalBrush
             {
-                get { return m_nomalBrush; }
-                set { m_nomalBrush = value; }
+                get { return m_normalBrushItem.Brush; }
+                set { m_normalBrushItem.Brush = value; }
             }
 
             public Brush ViewBrush
             {
-                get { return m_viewBrush; }
-                set { m_viewBrush = value; }
+                get { return m_viewBrushItem.Brush; }
+                set { m_viewBrushItem.Brush = value; }
             }
 
-            public AnimationBrushItem(string title, Brush nomalBrush, Brush viewBrush)
+            public AnimationBackGroundItem(AnimationControl control)
             {
                 // set Brushes
-                m_nomalBrush = nomalBrush;
-                m_viewBrush = viewBrush;
+                List<string> list = BrushManager.GetBrushNameList();
+                m_normalBrushItem = new PropertyBrushItem("Nomal Mode", control.BackGroundBrush, list);
+                m_viewBrushItem = new PropertyBrushItem("View Mode", control.ViewModeBGBrush, list);
 
-                this.labelNomalMode = new Label();
-                this.labelViewMode = new Label();
-                this.cBoxNomalMode = new ComboBox();
-                this.cBoxViewMode = new ComboBox();
                 this.SuspendLayout();
                 // 
-                // groupBox
+                // Initialize
                 // 
                 this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right);
                 this.AutoSize = true;
-                this.Controls.Add(this.labelNomalMode);
-                this.Controls.Add(this.labelViewMode);
-                this.Controls.Add(this.cBoxNomalMode);
-                this.Controls.Add(this.cBoxViewMode);
-                this.Text = title;
+                this.Controls.Add(this.m_normalBrushItem);
+                this.Controls.Add(this.m_viewBrushItem);
+                this.Text = "BackGroundBrush";
                 this.TabStop = false;
-                // 
-                // labelNomalMode
-                // 
-                this.labelNomalMode.AutoSize = true;
-                this.labelNomalMode.Location = new System.Drawing.Point(14, 16);
-                this.labelNomalMode.Size = new System.Drawing.Size(35, 12);
-                this.labelNomalMode.Text = "Nomal Mode";
-                // 
-                // labelViewMode
-                // 
-                this.labelViewMode.AutoSize = true;
-                this.labelViewMode.Location = new System.Drawing.Point(14, 42);
-                this.labelViewMode.Size = new System.Drawing.Size(53, 12);
-                this.labelViewMode.Text = "View Mode";
-                // 
-                // cBoxNomalMode
-                // 
-                this.cBoxNomalMode.FormattingEnabled = true;
-                this.cBoxNomalMode.Location = new System.Drawing.Point(100, 13);
-                this.cBoxNomalMode.Name = "cBoxNomalBrush";
-                this.cBoxNomalMode.Size = new System.Drawing.Size(128, 20);
-                this.cBoxNomalMode.TabIndex = 1;
-                this.cBoxNomalMode.Text = BrushManager.ParseBrushToString(m_nomalBrush);
-                this.cBoxNomalMode.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
-                this.cBoxNomalMode.TextChanged += new EventHandler(cBoxNomalBrush_TextChanged);
-                // 
-                // cBoxViewMode
-                // 
-                this.cBoxViewMode.FormattingEnabled = true;
-                this.cBoxViewMode.Location = new System.Drawing.Point(100, 39);
-                this.cBoxViewMode.Name = "cBoxViewBrush";
-                this.cBoxViewMode.Size = new System.Drawing.Size(128, 20);
-                this.cBoxViewMode.TabIndex = 2;
-                this.cBoxViewMode.Text = BrushManager.ParseBrushToString(m_viewBrush);
-                this.cBoxViewMode.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
-                this.cBoxViewMode.TextChanged += new EventHandler(cBoxViewBrush_TextChanged);
+
+                // Set Position
+                this.m_normalBrushItem.Location = new System.Drawing.Point(5, 20);
+                this.m_viewBrushItem.Location = new System.Drawing.Point(5, 50);
 
                 this.ResumeLayout(false);
                 this.PerformLayout();
-
-                this.Height = 125;
-            }
-
-            void cBoxNomalBrush_TextChanged(object sender, EventArgs e)
-            {
-                ComboBox cBox = (ComboBox)sender;
-                Brush brush = BrushManager.ParseStringToBrush(cBox.Text);
-                m_nomalBrush = brush;
-            }
-
-            void cBoxViewBrush_TextChanged(object sender, EventArgs e)
-            {
-                ComboBox cBox = (ComboBox)sender;
-                Brush brush = BrushManager.ParseStringToBrush(cBox.Text);
-                m_viewBrush = brush;
             }
         }
 
@@ -365,105 +318,66 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private class AnimationLineItem : GroupBox
         {
-            private Label labelLineWidth;
-            private Label labelLineThresholdLow;
-            private Label labelLineThresholdHigh;
-            private Label labelFillColor;
-            private ComboBox cBoxFigure;
-            private ComboBox cBoxLineColor;
-            private ComboBox cBoxFillColor;
+            private PropertyBrushItem m_lineNormalBrush;
+            private PropertyBrushItem m_lineViewBrush;
+            private PropertyTextItem m_lineNormalWidth;
+            private PropertyTextItem m_lineViewWidth;
+            private PropertyCheckBoxItem m_lineCheckBox;
+            private PropertyTextItem m_lineThresholdHigh;
+            private PropertyTextItem m_lineThresholdLow;
+            private PropertyBrushItem m_lineHighBrush;
+            private PropertyBrushItem m_lineLowBrush;
+            private PropertyBrushItem m_lineNGBrush;
 
-            public AnimationLineItem(AnimationControl animCon)
+            public AnimationLineItem(AnimationControl control)
             {
-                this.labelLineWidth = new Label();
-                this.labelLineThresholdLow = new Label();
-                this.labelLineThresholdHigh = new Label();
-                this.labelFillColor = new Label();
-                this.cBoxFigure = new ComboBox();
-                this.cBoxLineColor = new ComboBox();
-                this.cBoxFillColor = new ComboBox();
+                List<string> list = BrushManager.GetBrushNameList();
+                this.m_lineNormalBrush = new PropertyBrushItem("Normal Line Brush", control.NormalLineBrush, list);
+                this.m_lineViewBrush = new PropertyBrushItem("View Mode Line Brush", control.ViewLineBrush, list);
+                this.m_lineHighBrush = new PropertyBrushItem("High Threshold Brush", control.MaxLineBrush, list);
+                this.m_lineLowBrush = new PropertyBrushItem("Low Threshold Brush", control.MinLineBrush, list);
+                this.m_lineNGBrush = new PropertyBrushItem("NG Brush", control.NGLineBrush, list);
+
+                this.m_lineNormalWidth = new PropertyTextItem("Normal Line Width", control.NormalLineWidth.ToString());
+                this.m_lineViewWidth = new PropertyTextItem("View Mode Line Width", control.MaxLineWidth.ToString());
+                this.m_lineThresholdHigh = new PropertyTextItem("High Threshold", control.ThresholdHigh.ToString());
+                this.m_lineThresholdLow = new PropertyTextItem("Low Threshold", control.ThresholdMin.ToString());
+
+                this.m_lineCheckBox = new PropertyCheckBoxItem("logarithmic display", true);
+
                 this.SuspendLayout();
                 // 
-                // groupBox
+                // This
                 // 
                 this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right);
                 this.AutoSize = true;
-                this.Controls.Add(this.labelLineWidth);
-                this.Controls.Add(this.labelLineThresholdLow);
-                this.Controls.Add(this.labelLineThresholdHigh);
-                this.Controls.Add(this.labelFillColor);
-                this.Controls.Add(this.cBoxFigure);
-                this.Controls.Add(this.cBoxFillColor);
-                this.Controls.Add(this.cBoxLineColor);
+                this.Controls.Add(this.m_lineNormalBrush);
+                this.Controls.Add(this.m_lineViewBrush);
+                this.Controls.Add(this.m_lineHighBrush);
+                this.Controls.Add(this.m_lineLowBrush);
+                this.Controls.Add(this.m_lineNGBrush);
+                this.Controls.Add(this.m_lineNormalWidth);
+                this.Controls.Add(this.m_lineViewWidth);
+                this.Controls.Add(this.m_lineThresholdHigh);
+                this.Controls.Add(this.m_lineThresholdLow);
+                this.Controls.Add(this.m_lineCheckBox);
                 this.Text = "LineSettings";
                 this.TabStop = false;
-                // 
-                // labelName
-                // 
-                this.labelLineWidth.AutoSize = true;
-                this.labelLineWidth.Location = new System.Drawing.Point(14, 16);
-                this.labelLineWidth.Text = "";
-                this.labelLineWidth.Size = new System.Drawing.Size(35, 12);
-                // 
-                // labelFigure
-                // 
-                this.labelLineThresholdLow.AutoSize = true;
-                this.labelLineThresholdLow.Location = new System.Drawing.Point(14, 42);
-                this.labelLineThresholdLow.Name = "labelFigure";
-                this.labelLineThresholdLow.Size = new System.Drawing.Size(53, 12);
-                this.labelLineThresholdLow.Text = "Figure";
-                // 
-                // labelLineColor
-                // 
-                this.labelLineThresholdHigh.AutoSize = true;
-                this.labelLineThresholdHigh.Location = new System.Drawing.Point(14, 68);
-                this.labelLineThresholdHigh.Name = "labelLineColor";
-                this.labelLineThresholdHigh.Size = new System.Drawing.Size(53, 12);
-                this.labelLineThresholdHigh.Text = "LineColor";
-                // 
-                // labelFillColor
-                // 
-                this.labelFillColor.AutoSize = true;
-                this.labelFillColor.Location = new System.Drawing.Point(14, 94);
-                this.labelFillColor.Name = "labelFillColor";
-                this.labelFillColor.Size = new System.Drawing.Size(48, 12);
-                this.labelFillColor.Text = "FillColor";
-                // 
-                // cBoxFigure
-                // 
-                this.cBoxFigure.FormattingEnabled = true;
-                this.cBoxFigure.Location = new System.Drawing.Point(100, 39);
-                this.cBoxFigure.Name = "cBoxLineColor";
-                this.cBoxFigure.Size = new System.Drawing.Size(128, 20);
-                this.cBoxFigure.TabIndex = 0;
-                this.cBoxFigure.Text = "";
-                // 
-                // cBoxLineColor
-                // 
-                this.cBoxLineColor.FormattingEnabled = true;
-                this.cBoxLineColor.Location = new System.Drawing.Point(100, 65);
-                this.cBoxLineColor.Name = "cBoxLineColor";
-                this.cBoxLineColor.Size = new System.Drawing.Size(128, 20);
-                this.cBoxLineColor.TabIndex = 1;
-                this.cBoxLineColor.Text = BrushManager.ParseBrushToString(null);
-                this.cBoxLineColor.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
-                this.cBoxLineColor.TextChanged += new EventHandler(cBoxLineColor_TextChanged);
-                // 
-                // cBoxFillColor
-                // 
-                this.cBoxFillColor.FormattingEnabled = true;
-                this.cBoxFillColor.Location = new System.Drawing.Point(100, 91);
-                this.cBoxFillColor.Name = "cBoxFillColor";
-                this.cBoxFillColor.Size = new System.Drawing.Size(128, 20);
-                this.cBoxFillColor.TabIndex = 2;
-                this.cBoxFillColor.Text = BrushManager.ParseBrushToString(null);
-                this.cBoxFillColor.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
-                this.cBoxFillColor.TextChanged += new EventHandler(cBoxFillColor_TextChanged);
+
+                // SetPosition 
+                this.m_lineNormalBrush.Location = new System.Drawing.Point(5, 20);
+                this.m_lineViewBrush.Location = new System.Drawing.Point(5, 50);
+                this.m_lineNormalWidth.Location = new System.Drawing.Point(5, 80);
+                this.m_lineViewWidth.Location = new System.Drawing.Point(5, 110);
+                this.m_lineCheckBox.Location = new System.Drawing.Point(5, 140);
+                this.m_lineThresholdHigh.Location = new System.Drawing.Point(5, 170);
+                this.m_lineThresholdLow.Location = new System.Drawing.Point(5, 200);
+                this.m_lineHighBrush.Location = new System.Drawing.Point(5, 230);
+                this.m_lineLowBrush.Location = new System.Drawing.Point(5, 260);
+                this.m_lineNGBrush.Location = new System.Drawing.Point(5, 290);
 
                 this.ResumeLayout(false);
                 this.PerformLayout();
-
-                this.Height = 125;
             }
 
             void cBoxFillColor_TextChanged(object sender, EventArgs e)

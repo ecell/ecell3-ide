@@ -1165,7 +1165,19 @@ namespace EcellLib.PathwayWindow
         /// <param name="e">EventArgs.</param>
         public void ShowDialogClick(object sender, EventArgs e)
         {
-            m_csManager.ShowDialog();
+            PropertyDialog dialog = new PropertyDialog();
+            dialog.Text = "PathwaySettings";
+            TabPage cspage = m_csManager.CreateTabPage();
+            TabPage apage = m_animCon.CreateTabPage();
+            dialog.TabControl.Controls.Add(cspage);
+            dialog.TabControl.Controls.Add(apage);
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                m_csManager.SetNewParams(cspage);
+                //m_animCon.SetNewParams(apage);
+            }
+            dialog.Dispose();
+
             foreach (CanvasControl canvas in m_canvasDict.Values)
             {
                 canvas.ResetObjectSetting();
