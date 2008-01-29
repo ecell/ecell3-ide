@@ -81,9 +81,9 @@ namespace EcellLib.ObjectList2
             m_gridView.Rows.Insert(index, rs);
         }
 
-        public override void DataDelete(string modelID, string id, bool isChanged)
+        public override void DataDelete(string modelID, string id, bool isChanged, Type dType)
         {
-            base.DataDelete(modelID, id, isChanged);
+            base.DataDelete(modelID, id, isChanged, dType);
             if (isChanged)
             {
                 int len = m_gridView.Rows.Count;

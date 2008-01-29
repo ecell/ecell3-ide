@@ -8,6 +8,7 @@ namespace EcellLib.ObjectList2
 {
     public class VPropertyTabPage
     {
+        private Type m_Type;
         protected DataGridView m_gridView;
         protected TabPage m_tabPage;
         /// <summary>
@@ -112,6 +113,12 @@ namespace EcellLib.ObjectList2
             CreateHeader();
         }
 
+        public Type Type
+        {
+            get { return this.m_Type; }
+            set { this.m_Type = value; }
+        }
+
         public virtual void DataAdd(EcellObject data)
         {
             // nothing.
@@ -120,7 +127,7 @@ namespace EcellLib.ObjectList2
         public void DataChanged(string modelID, string id, EcellObject obj)
         {
             bool isIDChanged = !(id == obj.key);
-            DataDelete(modelID, id, isIDChanged);
+            DataDelete(modelID, id, isIDChanged, m_Type);
             DataAdd(obj);
             int index = SearchObjectIndex(obj.key);
             if (index < 0) return;
@@ -128,12 +135,24 @@ namespace EcellLib.ObjectList2
             m_gridView.FirstDisplayedScrollingRowIndex = index;
         }
 
-        public virtual void DataDelete(string modelID, string id, bool isChanged)
+        public virtual void DataDelete(string modelID, string id, bool isChanged, Type dType)
         {
             int ind = SearchObjectIndex(id);
-            if (ind < 0) return;
-            DeleteDictionary(ind);
-            m_gridView.Rows.RemoveAt(ind);
+            if (ind >= 0)
+            {
+                DeleteDictionary(ind);
+                m_gridView.Rows.RemoveAt(ind);
+            }
+            if (dType == typeof(EcellSystem))
+            {
+                ind = SearchIncludeObjectIndex(id);
+                while (ind != -1)
+                {
+                    DeleteDictionary(ind);
+                    m_gridView.Rows.RemoveAt(ind);
+                    ind = SearchIncludeObjectIndex(id);
+                }
+            }
         }
 
         public void SelectChanged(string modelID, string id, string type)
@@ -207,6 +226,17 @@ namespace EcellLib.ObjectList2
             for (int i = 0; i < len; i++)
             {
                 if (!key.Equals(m_gridView[1, i].Value)) continue;
+                return i;
+            }
+            return -1;
+        }
+
+        protected int SearchIncludeObjectIndex(string key)
+        {
+            int len = m_gridView.Rows.Count;
+            for (int i = 0; i < len; i++)
+            {
+                if (!m_gridView[1, i].Value.ToString().StartsWith(key)) continue;
                 return i;
             }
             return -1;

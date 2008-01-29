@@ -83,9 +83,7 @@ namespace EcellLib.ObjectList2
             }
             rs.Tag = obj;
             m_gridView.Rows.Insert(index, rs);
-
         }
-
 
         public override void CreateHeader()
         {

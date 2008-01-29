@@ -84,14 +84,17 @@ namespace EcellLib.ObjectList2
             m_tabPage.Controls.Add(m_tabControl);
 
             VPropertyTabPage sysPage = new SystemPropertyTabPage();
+            sysPage.Type = typeof(EcellSystem);
             m_tabList.Add(typeof(EcellSystem), sysPage);
             m_tabControl.Controls.Add(sysPage.GetTabPage());
 
             VPropertyTabPage varPage = new VariablePropertyTabPage();
+            varPage.Type = typeof(EcellVariable);
             m_tabList.Add(typeof(EcellVariable), varPage);
             m_tabControl.Controls.Add(varPage.GetTabPage());
 
             VPropertyTabPage proPage = new ProcessPropertyTabPage();
+            proPage.Type = typeof(EcellProcess);
             m_tabList.Add(typeof(EcellProcess), proPage);
             m_tabControl.Controls.Add(proPage.GetTabPage());
 
@@ -294,7 +297,12 @@ namespace EcellLib.ObjectList2
         {
             foreach (Type t in m_tabList.Keys)
             {
-                m_tabList[t].DataDelete(modelID, id, isChanged);
+                if (type == EcellObject.SYSTEM)
+                    m_tabList[t].DataDelete(modelID, id, isChanged, typeof(EcellSystem));
+                else if (type == EcellObject.PROCESS)
+                    m_tabList[t].DataDelete(modelID, id, isChanged, typeof(EcellProcess));
+                else if (type == EcellObject.VARIABLE)
+                    m_tabList[t].DataDelete(modelID, id, isChanged, typeof(EcellVariable));
             }
         }
 
