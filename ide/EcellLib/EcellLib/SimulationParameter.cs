@@ -170,6 +170,7 @@ namespace EcellLib
                 {
                     if (l_ecellData == null
                         || !l_ecellData.Settable
+                        || !l_ecellData.Loadable
                         || l_ecellData.Value == null
                         || (l_ecellData.Value.IsString() &&
                             l_ecellData.Value.CastToString().Length <= 0))
@@ -462,7 +463,7 @@ namespace EcellLib
                 throw new InvalidDataException("action value should be either 0 or 1");
             }
 
-            if (l_diskSpace <= 0)
+            if (l_diskSpace < 0)
             {
                 throw new InvalidDataException("maximum disk usage should be greater than 0");
             }
@@ -554,7 +555,7 @@ namespace EcellLib
             //
             // Parses the "Stepper".
             //
-            XmlNodeList l_modelList = m_doc.SelectNodes("/" + Constants.xpathPrm + "/" + Constants.xpathModel.ToLower());
+            XmlNodeList l_modelList = m_doc.SelectNodes("/" + Constants.xpathPrm.ToLower() + "/" + Constants.xpathModel.ToLower());
             foreach (XmlNode l_model in l_modelList)
             {
                 XmlNode l_modelID = l_model.Attributes.GetNamedItem(Constants.xpathID.ToLower());
@@ -579,7 +580,7 @@ namespace EcellLib
             // Parses the "LoggerPolicy"
             //
             LoggerPolicy l_loggerPolicy = ParseLoggerPolicy(
-                    m_doc.SelectSingleNode("/" + Constants.xpathPrm + "/" + Constants.xpathLoggerPolicy.ToLower()));
+                    m_doc.SelectSingleNode("/" + Constants.xpathPrm.ToLower() + "/" + Constants.xpathLoggerPolicy.ToLower()));
 
             return new SimulationParameter(
                 l_stepperList,

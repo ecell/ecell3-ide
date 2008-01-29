@@ -4859,6 +4859,8 @@ namespace EcellLib
                 if (isLogging)
                     m_aManager.AddAction(new ImportModelAction(l_filename));
                 string l_dirName = Path.GetDirectoryName(l_filename);
+                if (m_loadDirList.ContainsKey(l_modelID))
+                    m_loadDirList.Remove(l_modelID);
                 m_loadDirList.Add(l_modelID, l_dirName);
 
                 return l_modelID;
