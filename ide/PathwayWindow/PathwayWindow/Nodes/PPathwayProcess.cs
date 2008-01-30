@@ -379,10 +379,7 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 base.AddEllipse(X + 25, Y + 15, 10, 10);
                 // Set gradient brush
-                PathGradientBrush pthGrBrush = new PathGradientBrush(this.m_path);
-                pthGrBrush.CenterColor = Color.White;
-                pthGrBrush.SurroundColors = new Color[] { Color.LightGreen };
-                base.FillBrush = pthGrBrush;
+                base.FillBrush = m_setting.FillBrush;
             }
             else
             {

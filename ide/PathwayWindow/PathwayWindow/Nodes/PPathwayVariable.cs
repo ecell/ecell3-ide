@@ -153,10 +153,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 m_pText.TextBrush = Brushes.Blue;
                 m_pPropertyText.TextBrush = Brushes.DarkRed;
                 // Set gradient brush
-                PathGradientBrush pthGrBrush = new PathGradientBrush(this.m_path);
-                pthGrBrush.CenterColor = Color.White;
-                pthGrBrush.SurroundColors = new Color[] { Color.LightBlue };
-                base.FillBrush = pthGrBrush;
+                base.FillBrush = m_setting.FillBrush;
             }
             else
             {

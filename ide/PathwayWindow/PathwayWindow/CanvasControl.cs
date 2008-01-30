@@ -360,16 +360,7 @@ namespace EcellLib.PathwayWindow
             set
             {
                 m_isViewMode = value;
-                if (m_processes != null)
-                    foreach (PPathwayProcess process in m_processes.Values)
-                        process.ViewMode = m_isViewMode;
-                if (m_variables != null)
-                    foreach (PPathwayVariable var in m_variables.Values)
-                        var.ViewMode = m_isViewMode;
-                if (m_isViewMode)
-                    m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.AnimationControl.ViewBGBrush);
-                else
-                    m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.AnimationControl.NormalBGBrush);
+                ResetObjectSettings();
             }
         }
         /// <summary>
@@ -1428,12 +1419,22 @@ namespace EcellLib.PathwayWindow
             return basePos;
         }
 
-        internal void ResetObjectSetting()
+        internal void ResetObjectSettings()
         {
             foreach (PPathwayObject obj in GetAllObjects())
             {
+                obj.ViewMode = m_isViewMode;
                 obj.ResetSetting();
             }
+            if (m_processes != null)
+            foreach (PPathwayProcess process in m_processes.Values)
+            {
+                process.EdgeBrush = (m_isViewMode) ? m_con.AnimationControl.ViewLineBrush : m_con.AnimationControl.NormalLineBrush;
+            }
+            if (m_isViewMode)
+                m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.AnimationControl.ViewBGBrush);
+            else
+                m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.AnimationControl.NormalBGBrush);
         }
     }
 }

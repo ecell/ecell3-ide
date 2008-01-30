@@ -1188,7 +1188,7 @@ namespace EcellLib.PathwayWindow
 
             foreach (CanvasControl canvas in m_canvasDict.Values)
             {
-                canvas.ResetObjectSetting();
+                canvas.ResetObjectSettings();
             }
             m_toolBox.ResetTemplate();
         }
