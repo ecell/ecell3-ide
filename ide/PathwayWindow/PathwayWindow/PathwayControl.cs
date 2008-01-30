@@ -820,8 +820,9 @@ namespace EcellLib.PathwayWindow
                     "Name:" + obj.EcellObject.key
                     + "\nLayer:" + obj.EcellObject.LayerID
                     + "\nX:" + obj.X + "\nY:" + obj.Y
+                    + "\nWidth:" + obj.Width + "\nHeight:" + obj.Height
                     + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY 
-                    + "\nToString()" + obj.ToString());
+                    + "\nToString():" + obj.ToString());
             }
             else
             {
