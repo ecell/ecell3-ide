@@ -1262,9 +1262,10 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="e"></param>
         public override void OnDoubleClick(PInputEventArgs e)
         {
-            if (m_ecellObj == null)
+            if (m_ecellObj == null || m_canvas == null)
                 return;
-            PropertyEditor.Show(m_ecellObj);
+            EcellObject obj = m_canvas.PathwayControl.Window.GetEcellObject(m_ecellObj.modelID, m_ecellObj.key, m_ecellObj.type);
+            PropertyEditor.Show(obj);
         }
 
         #endregion

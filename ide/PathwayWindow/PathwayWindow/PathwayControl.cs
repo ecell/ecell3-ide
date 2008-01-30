@@ -404,11 +404,7 @@ namespace EcellLib.PathwayWindow
                 return;
             // If case SystemSize
             if (oldKey.EndsWith(":SIZE"))
-            {
-                ChangeSystemSize(modelID, eo.parentSystemID, eo.GetEcellValue("Value").CastToDouble());
                 return;
-            }
-
             // Select changed object.
             PPathwayObject obj = canvas.GetSelectedObject(oldKey, type);
             if (obj == null)
@@ -435,10 +431,7 @@ namespace EcellLib.PathwayWindow
                 return;
             // If case SystemSize
             if (key.EndsWith(":SIZE"))
-            {
-                ChangeSystemSize(modelID, PathUtil.GetParentSystemId(key), 0.1d);
                 return;
-            }
 
             // Delete object.
             canvas.DataDelete(key, type);
@@ -1574,19 +1567,6 @@ namespace EcellLib.PathwayWindow
                     this.m_window.NotifyDataChanged(node.key, node.key, node, isRecorded, true);
                 i++;
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="sysKey"></param>
-        /// <param name="size"></param>
-        private void ChangeSystemSize(string modelID, string sysKey, double size)
-        {
-            EcellObject eo = m_window.GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
-            eo.GetEcellValue(EcellSystem.SIZE).Value = size;
-            DataChanged(modelID, eo.key, eo.type, eo);
         }
 
         /// <summary>

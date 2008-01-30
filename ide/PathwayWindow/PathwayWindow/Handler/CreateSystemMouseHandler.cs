@@ -233,7 +233,7 @@ namespace EcellLib.PathwayWindow.Handler
             }
             m_rect = PathUtil.GetRectangle(m_startPoint, e.Position);
 
-            if (m_rect.Width >= 40 && m_rect.Height >= 40)
+            if (m_rect.Width >= PPathwaySystem.MIN_X_LENGTH && m_rect.Height >= PPathwaySystem.MIN_Y_LENGTH)
             {
                 if (m_canvas.DoesSystemOverlaps(m_rect))
                 {
