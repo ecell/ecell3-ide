@@ -6,7 +6,12 @@ using System.Drawing;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
-
+    public partial class PropertyDialogTabPage : TabPage
+    {
+        public virtual void ApplyChange()
+        {
+        }
+    }
     /// <summary>
     /// UI class for PropertyDialog
     /// </summary>

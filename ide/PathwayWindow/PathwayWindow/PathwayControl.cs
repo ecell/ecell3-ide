@@ -1167,14 +1167,14 @@ namespace EcellLib.PathwayWindow
         {
             PropertyDialog dialog = new PropertyDialog();
             dialog.Text = "PathwaySettings";
-            TabPage cspage = m_csManager.CreateTabPage();
-            TabPage apage = m_animCon.CreateTabPage();
-            dialog.TabControl.Controls.Add(cspage);
-            dialog.TabControl.Controls.Add(apage);
+            PropertyDialogTabPage componentPage = m_csManager.CreateTabPage();
+            PropertyDialogTabPage animationPage = m_animCon.CreateTabPage();
+            dialog.TabControl.Controls.Add(componentPage);
+            dialog.TabControl.Controls.Add(animationPage);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                m_csManager.SetNewParams(cspage);
-                //m_animCon.SetNewParams(apage);
+                componentPage.ApplyChange();
+                animationPage.ApplyChange();
             }
             dialog.Dispose();
 

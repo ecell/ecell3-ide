@@ -42,7 +42,6 @@ namespace EcellLib.PathwayWindow
     public class AnimationControl
     {
         #region constant fields
-        bool isLogarithm = false;
         protected float ThresholdHigh = 100f;
         protected float ThresholdMin = 0f;
         protected float NormalLineWidth = 0f;
@@ -198,17 +197,9 @@ namespace EcellLib.PathwayWindow
         /// Create TabPage for PathwaySettingDialog
         /// </summary>
         /// <returns></returns>
-        public TabPage CreateTabPage()
+        public PropertyDialogTabPage CreateTabPage()
         {
-            TabPage page = new TabPage("AnimationSettings");
-            page.SuspendLayout();
-            GroupBox boxBackGroundBrush = new AnimationBackGroundItem(this);
-            page.Controls.Add(boxBackGroundBrush);
-            GroupBox boxLineBrush = new AnimationLineItem(this);
-            boxLineBrush.Top = boxBackGroundBrush.Top + boxBackGroundBrush.Height;
-            page.Controls.Add(boxLineBrush);
-            page.ResumeLayout();
-            page.PerformLayout();
+            PropertyDialogTabPage page = new AnimationTabPage(this);
             return page;
         }
         #endregion
@@ -260,19 +251,49 @@ namespace EcellLib.PathwayWindow
         }
         private string GetPropertyString(float value)
         {
-            if (isLogarithm)
+            if (IsLogarithmic)
                 return value.ToString(FormatLog);
             return value.ToString(FormatNatural);
         }
 
+        /// <summary>
+        /// private class for AnimationSettingDialog
+        /// </summary>
+        private class AnimationTabPage : PropertyDialogTabPage
+        {
+            private AnimationBackGroundItem m_boxBackGroundBrush;
+            private AnimationLineItem m_boxLineSettings;
+            public AnimationTabPage(AnimationControl control)
+            {
+                m_boxBackGroundBrush = new AnimationBackGroundItem(control);
+                m_boxLineSettings = new AnimationLineItem(control);
+
+                this.Text = "AnimationSettings";
+                this.SuspendLayout();
+                this.Controls.Add(m_boxBackGroundBrush);
+                this.Controls.Add(m_boxLineSettings);
+                
+                m_boxLineSettings.Top = m_boxBackGroundBrush.Top + m_boxBackGroundBrush.Height;
+                this.ResumeLayout();
+                this.PerformLayout();
+            }
+
+            public override void ApplyChange()
+            {
+                base.ApplyChange();
+                m_boxBackGroundBrush.ApplyChanges();
+                m_boxLineSettings.ApplyChanges();
+            }
+        }
 
         /// <summary>
-        /// private class for ComponentSettingDialog
+        /// private class for AnimationSettingDialog
         /// </summary>
         private class AnimationBackGroundItem : GroupBox
         {
             private PropertyBrushItem m_normalBrushItem;
             private PropertyBrushItem m_viewBrushItem;
+            private AnimationControl m_control;
 
             public Brush NomalBrush
             {
@@ -288,6 +309,8 @@ namespace EcellLib.PathwayWindow
 
             public AnimationBackGroundItem(AnimationControl control)
             {
+                m_control = control;
+
                 // set Brushes
                 List<string> list = BrushManager.GetBrushNameList();
                 m_normalBrushItem = new PropertyBrushItem("Nomal Mode", control.BackGroundBrush, list);
@@ -311,10 +334,16 @@ namespace EcellLib.PathwayWindow
                 this.ResumeLayout(false);
                 this.PerformLayout();
             }
+
+            public void ApplyChanges()
+            {
+                m_control.BackGroundBrush = this.m_normalBrushItem.Brush;
+                m_control.ViewModeBGBrush = this.m_viewBrushItem.Brush;
+            }
         }
 
         /// <summary>
-        /// private class for ComponentSettingDialog
+        /// private class for AnimationSettingDialog
         /// </summary>
         private class AnimationLineItem : GroupBox
         {
@@ -328,9 +357,12 @@ namespace EcellLib.PathwayWindow
             private PropertyBrushItem m_lineHighBrush;
             private PropertyBrushItem m_lineLowBrush;
             private PropertyBrushItem m_lineNGBrush;
+            private AnimationControl m_control;
 
             public AnimationLineItem(AnimationControl control)
             {
+                m_control = control;
+                // set Brushes
                 List<string> list = BrushManager.GetBrushNameList();
                 this.m_lineNormalBrush = new PropertyBrushItem("Normal Line Brush", control.NormalLineBrush, list);
                 this.m_lineViewBrush = new PropertyBrushItem("View Mode Line Brush", control.ViewLineBrush, list);
@@ -380,16 +412,18 @@ namespace EcellLib.PathwayWindow
                 this.PerformLayout();
             }
 
-            void cBoxFillColor_TextChanged(object sender, EventArgs e)
+            public void ApplyChanges()
             {
-                ComboBox colorBox = (ComboBox)sender;
-                Brush brush = BrushManager.ParseStringToBrush(colorBox.Text);
-            }
-
-            void cBoxLineColor_TextChanged(object sender, EventArgs e)
-            {
-                ComboBox colorBox = (ComboBox)sender;
-                Brush brush = BrushManager.ParseStringToBrush(colorBox.Text);
+                m_control.NormalLineBrush = this.m_lineNormalBrush.Brush;
+                m_control.ViewLineBrush = this.m_lineViewBrush.Brush;
+                m_control.MaxLineBrush = this.m_lineHighBrush.Brush;
+                m_control.MinLineBrush = this.m_lineLowBrush.Brush;
+                m_control.NGLineBrush = this.m_lineNGBrush.Brush;
+                m_control.NormalLineWidth = float.Parse(this.m_lineNormalWidth.Text);
+                m_control.MaxLineWidth = float.Parse(this.m_lineViewWidth.Text);
+                m_control.ThresholdHigh = float.Parse(this.m_lineThresholdHigh.Text);
+                m_control.ThresholdMin = float.Parse(this.m_lineThresholdLow.Text);
+                m_control.IsLogarithmic = this.m_lineCheckBox.Checked;
             }
         }
     }

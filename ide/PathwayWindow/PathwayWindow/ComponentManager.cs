@@ -423,22 +423,9 @@ namespace EcellLib.PathwayWindow
         /// Create TabPage for PathwaySettingDialog
         /// </summary>
         /// <returns></returns>
-        public TabPage CreateTabPage()
+        public PropertyDialogTabPage CreateTabPage()
         {
-            TabPage page = new TabPage("ComponentSettings");
-            page.SuspendLayout();
-            int top = 0;
-            foreach (ComponentSetting cs in this.ComponentSettings)
-            {
-                ComponentItem item =  new ComponentItem(cs);
-                item.Top = top;
-                item.SuspendLayout();
-                page.Controls.Add(item);
-                item.ResumeLayout();
-                item.PerformLayout();
-                top += item.Height;
-            }
-            page.ResumeLayout();
+            PropertyDialogTabPage page = new ComponentTabPage(this);
             return page;
         }
 
@@ -662,6 +649,39 @@ namespace EcellLib.PathwayWindow
             }
         }
         #endregion
+
+        private class ComponentTabPage : PropertyDialogTabPage
+        {
+            ComponentManager m_manager = null;
+
+            public ComponentTabPage(ComponentManager manager)
+            {
+                m_manager = manager;
+
+                this.Text = "ComponentSettings";
+                this.SuspendLayout();
+                int top = 0;
+                foreach (ComponentSetting cs in m_manager.ComponentSettings)
+                {
+                    ComponentItem item = new ComponentItem(cs);
+                    item.Top = top;
+                    item.SuspendLayout();
+                    this.Controls.Add(item);
+                    item.ResumeLayout();
+                    item.PerformLayout();
+                    top += item.Height;
+                }
+                this.ResumeLayout();
+            }
+            public override void ApplyChange()
+            {
+                base.ApplyChange();
+                foreach (ComponentItem item in this.Controls)
+                {
+                    item.ApplyChange();
+                }
+            }
+        }
 
         /// <summary>
         /// private class for ComponentSettingDialog
