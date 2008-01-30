@@ -767,6 +767,7 @@ namespace EcellLib.TracerWindow
             {
                 foreach (TraceWindow win in m_entry[t]) 
                 {
+                    if (!m_winList.Contains(win)) continue;
                     win.RemoveLoggerEntry(t);
                 }
             }
