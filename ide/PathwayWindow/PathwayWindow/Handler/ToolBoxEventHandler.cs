@@ -142,6 +142,9 @@ namespace EcellLib.PathwayWindow.Handler
         private void AddObject(PInputEventArgs e)
         {
             string systemKey = m_canvas.GetSurroundingSystemKey(e.Position);
+            if (string.IsNullOrEmpty(systemKey))
+                return;
+            
             string type = GetType(m_object);
             EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, systemKey, type, false);
             eo.X = m_object.X;
