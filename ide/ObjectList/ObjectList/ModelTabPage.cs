@@ -388,6 +388,7 @@ namespace EcellLib.ObjectList
                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
                 c.Value = data;
                 rs.Cells.Add(c);
+                c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
                 {
                     if (name.Equals(m_systemProp[i]))
@@ -434,6 +435,7 @@ namespace EcellLib.ObjectList
                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
                 c.Value = data;
                 rs.Cells.Add(c);
+                c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
                 {
                     if (name.Equals(m_variableProp[i]))
@@ -480,6 +482,7 @@ namespace EcellLib.ObjectList
                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
                 c.Value = data;
                 rs.Cells.Add(c);
+                c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
                 {
                     if (name.Equals(m_processProp[i]))

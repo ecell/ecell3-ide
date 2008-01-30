@@ -68,7 +68,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellLib.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Iridium, Version=2007.3.8.35795, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MathNet.Iridium">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\MathNet.Iridium.dll</HintPath>
     </Reference>
