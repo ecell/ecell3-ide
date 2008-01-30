@@ -413,6 +413,11 @@ namespace EcellLib.PathwayWindow
             // Change data.
             obj.ViewMode = false;
             obj.EcellObject = eo;
+            if (obj is PPathwaySystem)
+            {
+                obj.Width = eo.Width;
+                obj.Height = eo.Height;
+            }
             obj.ViewMode = m_isViewMode;
             obj.Refresh();
             canvas.DataChanged(oldKey, eo.key, obj);
