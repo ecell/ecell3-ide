@@ -132,8 +132,7 @@ namespace EcellLib.PathwayWindow.Handler
             }
             else if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
             {
-                this.CreateEdge(process, variable, -1);
-                this.CreateEdge(process, variable, 1);
+                this.CreateEdge(process, variable, 2);
             }
             SetCurrent(canvas, null);
         }
@@ -184,12 +183,24 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="coefficient">coefficient of VariableReferenceList of process</param>
         private void CreateEdge(PPathwayProcess process, PPathwayVariable variable, int coefficient)
         {
-            m_con.NotifyVariableReferenceChanged(
-                process.EcellObject.key,
-                variable.EcellObject.key,
-                RefChangeType.SingleDir,
-                coefficient,
-                true);
+            if (coefficient == 2)
+            {
+                m_con.NotifyVariableReferenceChanged(
+                    process.EcellObject.key,
+                    variable.EcellObject.key,
+                    RefChangeType.BiDir,
+                    0,
+                    true);
+            }
+            else
+            {
+                m_con.NotifyVariableReferenceChanged(
+                    process.EcellObject.key,
+                    variable.EcellObject.key,
+                    RefChangeType.SingleDir,
+                    coefficient,
+                    true);
+            }
         }
 
         /// <summary>
