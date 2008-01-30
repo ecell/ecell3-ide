@@ -146,7 +146,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				RegisterOutput="true"
+				RegisterOutput="false"
 				AdditionalOptions=""
 				AdditionalDependencies="ecs.lib emc.lib"
 				LinkIncremental="2"
