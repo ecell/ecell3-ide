@@ -131,7 +131,6 @@
     <PostBuildEvent>
 IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin"
 XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin"
-"$(FrameworkSDKDir)Bin\gacutil" /i "$(TargetPath)"
 FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"
 FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"</PostBuildEvent>
     <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
