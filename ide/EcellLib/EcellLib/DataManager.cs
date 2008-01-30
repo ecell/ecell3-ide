@@ -4996,7 +4996,8 @@ namespace EcellLib
                         foreach (string l_model in l_models)
                         {
                             string l_fileName = Path.GetFileName(l_model);
-                            if (l_fileName.IndexOf(Constants.delimiterUnderbar) != 0)
+                            if (l_fileName.IndexOf(Constants.delimiterUnderbar) != 0 &&
+                                !l_fileName.EndsWith(Constants.backFileExtension))
                             {
                                 this.LoadModel(l_model, false);
                             }
