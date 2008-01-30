@@ -197,9 +197,9 @@ namespace EcellLib.PathwayWindow
                 return null;
             string newKey;
             if (originalSystemKey.Equals("/") && !newSystemKey.Equals("/"))
-                newKey = newSystemKey + originalKey;
+                newKey = newSystemKey + originalKey.Substring(1);
             else if (!originalSystemKey.Equals("/") && newSystemKey.Equals("/"))
-                newKey = originalKey.Replace(originalSystemKey, "");
+                newKey = originalKey.Replace(originalSystemKey, "/");
             else
                 newKey = originalKey.Replace(originalSystemKey, newSystemKey);
             return newKey;
