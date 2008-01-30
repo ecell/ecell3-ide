@@ -98,8 +98,8 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>
-IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin\pathway" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin\pathway"
-XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin\pathway"
+IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugins\pathway" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugins\pathway"
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugins\pathway"
 FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"
 FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"</PostBuildEvent>
   </PropertyGroup>

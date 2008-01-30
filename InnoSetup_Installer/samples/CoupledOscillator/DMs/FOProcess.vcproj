@@ -84,7 +84,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)\64bit\samples\CoupledOscillator\DMs"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\samples\CoupledOscillator\DMs"
 			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			>
@@ -171,7 +171,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libecs;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libemc"
+				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_HOME)\include;$(ECELL_HOME)\include\ecell-3.1\libecs;$(ECELL_HOME)\include\ecell-3.1\libemc"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -236,7 +236,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libecs;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libemc"
+				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_HOME)\include;$(ECELL_HOME)\include\ecell-3.1\libecs;$(ECELL_HOME)\include\ecell-3.1\libemc"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

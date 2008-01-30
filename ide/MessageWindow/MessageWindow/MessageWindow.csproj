@@ -103,8 +103,8 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>
-IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin"
-XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin"
+IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugins" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugins"
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugins"
 </PostBuildEvent>
     <PreBuildEvent>SubWCRev "$(SolutionDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.tmpl" "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>

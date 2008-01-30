@@ -193,9 +193,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin"
+    <PostBuildEvent>IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugins" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugins"
 XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\src\MainWindow\MainWindow\bin\$(Configuration)"
-XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugin"
+XCOPY /Y "$(TargetPath)" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\plugins"
 XCOPY /Y ZedGraph.dll "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin"
 FOR /D %25%25D IN ("*") DO IF NOT EXIST "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D" MKDIR "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"
 FOR /D %25%25D IN ("*") DO XCOPY /Y /S "%25%25D\$(TargetName).*.dll" "$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\%25%25D"</PostBuildEvent>
