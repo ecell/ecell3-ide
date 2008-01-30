@@ -212,6 +212,10 @@ namespace EcellLib.PathwayWindow
         /// Brush Dictionary.
         /// </summary>
         private static Dictionary<string, Brush> m_brushDic = null;
+        /// <summary>
+        /// Brush Dictionary.
+        /// </summary>
+        private static Dictionary<string, Color> m_colorDic = null;
 
         /// <summary>
         /// Returns a list of Brush names.
@@ -269,12 +273,35 @@ namespace EcellLib.PathwayWindow
                 m_brushDic = CreateBrushDictionary();
 
             string key = null;
-            foreach(KeyValuePair<string, Brush> pair in m_brushDic)
+            foreach (KeyValuePair<string, Brush> pair in m_brushDic)
             {
-                if(pair.Value.Equals(brush))
+                if (pair.Value.Equals(brush))
                     key = pair.Key;
             }
             return key;
+        }
+
+        /// <summary>
+        /// Parse Brush into string.
+        /// </summary>
+        /// <param name="brush"></param>
+        /// <returns></returns>
+        public static Color ParseBrushToColor(Brush brush)
+        {
+            Color color = Color.Black;
+            if (brush == null)
+                return color;
+            string brushName = ParseBrushToString(brush);
+
+            if (m_colorDic == null)
+                m_colorDic = CreateColorDictionary();
+
+            foreach (KeyValuePair<string, Color> pair in m_colorDic)
+            {
+                if (pair.Key.Equals(brushName))
+                    color = pair.Value;
+            }
+            return color;
         }
         /// <summary>
         /// Create a dictionary (key: name of brush, value: Brush object)
@@ -425,6 +452,156 @@ namespace EcellLib.PathwayWindow
             brushDic.Add("YellowGreen", Brushes.YellowGreen);
 
             return brushDic;
+        }
+        /// <summary>
+        /// Create a dictionary (key: name of brush, value: Brush object)
+        /// </summary>
+        public static Dictionary<string, Color> CreateColorDictionary()
+        {
+            Dictionary<string, Color> colorDic = new Dictionary<string, Color>();
+            colorDic.Add("AliceBlue", Color.AliceBlue);
+            colorDic.Add("AntiqueWhite", Color.AntiqueWhite);
+            colorDic.Add("Aqua", Color.Aqua);
+            colorDic.Add("Aquamarine", Color.Aquamarine);
+            colorDic.Add("Azure", Color.Azure);
+            colorDic.Add("Beige", Color.Beige);
+            colorDic.Add("Bisque", Color.Bisque);
+            colorDic.Add("Black", Color.Black);
+            colorDic.Add("BlanchedAlmond", Color.BlanchedAlmond);
+            colorDic.Add("Blue", Color.Blue);
+            colorDic.Add("BlueViolet", Color.BlueViolet);
+            colorDic.Add("Brown", Color.Brown);
+            colorDic.Add("BurlyWood", Color.BurlyWood);
+            colorDic.Add("CadetBlue", Color.CadetBlue);
+            colorDic.Add("Chartreuse", Color.Chartreuse);
+            colorDic.Add("Chocolate", Color.Chocolate);
+            colorDic.Add("Coral", Color.Coral);
+            colorDic.Add("CornflowerBlue", Color.CornflowerBlue);
+            colorDic.Add("Cornsilk", Color.Cornsilk);
+            colorDic.Add("Crimson", Color.Crimson);
+            colorDic.Add("Cyan", Color.Cyan);
+            colorDic.Add("DarkBlue", Color.DarkBlue);
+            colorDic.Add("DarkCyan", Color.DarkCyan);
+            colorDic.Add("DarkGoldenrod", Color.DarkGoldenrod);
+            colorDic.Add("DarkGray", Color.DarkGray);
+            colorDic.Add("DarkGreen", Color.DarkGreen);
+            colorDic.Add("DarkKhaki", Color.DarkKhaki);
+            colorDic.Add("DarkMagenta", Color.DarkMagenta);
+            colorDic.Add("DarkOliveGreen", Color.DarkOliveGreen);
+            colorDic.Add("DarkOrange", Color.DarkOrange);
+            colorDic.Add("DarkOrchid", Color.DarkOrchid);
+            colorDic.Add("DarkRed", Color.DarkRed);
+            colorDic.Add("DarkSalmon", Color.DarkSalmon);
+            colorDic.Add("DarkSeaGreen", Color.DarkSeaGreen);
+            colorDic.Add("DarkSlateBlue", Color.DarkSlateBlue);
+            colorDic.Add("DarkSlateGray", Color.DarkSlateGray);
+            colorDic.Add("DarkTurquoise", Color.DarkTurquoise);
+            colorDic.Add("DarkViolet", Color.DarkViolet);
+            colorDic.Add("DeepPink", Color.DeepPink);
+            colorDic.Add("DeepSkyBlue", Color.DeepSkyBlue);
+            colorDic.Add("DimGray", Color.DimGray);
+            colorDic.Add("DodgerBlue", Color.DodgerBlue);
+            colorDic.Add("Firebrick", Color.Firebrick);
+            colorDic.Add("FloralWhite", Color.FloralWhite);
+            colorDic.Add("ForestGreen", Color.ForestGreen);
+            colorDic.Add("Fuchsia", Color.Fuchsia);
+            colorDic.Add("Gainsboro", Color.Gainsboro);
+            colorDic.Add("GhostWhite", Color.GhostWhite);
+            colorDic.Add("Gold", Color.Gold);
+            colorDic.Add("Goldenrod", Color.Goldenrod);
+            colorDic.Add("Gray", Color.Gray);
+            colorDic.Add("Green", Color.Green);
+            colorDic.Add("GreenYellow", Color.GreenYellow);
+            colorDic.Add("Honeydew", Color.Honeydew);
+            colorDic.Add("HotPink", Color.HotPink);
+            colorDic.Add("IndianRed", Color.IndianRed);
+            colorDic.Add("Indigo", Color.Indigo);
+            colorDic.Add("Ivory", Color.Ivory);
+            colorDic.Add("Khaki", Color.Khaki);
+            colorDic.Add("Lavender", Color.Lavender);
+            colorDic.Add("LavenderBlush", Color.LavenderBlush);
+            colorDic.Add("LawnGreen", Color.LawnGreen);
+            colorDic.Add("LemonChiffon", Color.LemonChiffon);
+            colorDic.Add("LightBlue", Color.LightBlue);
+            colorDic.Add("LightCoral", Color.LightCoral);
+            colorDic.Add("LightCyan", Color.LightCyan);
+            colorDic.Add("LightGoldenrodYellow", Color.LightGoldenrodYellow);
+            colorDic.Add("LightGray", Color.LightGray);
+            colorDic.Add("LightGreen", Color.LightGreen);
+            colorDic.Add("LightPink", Color.LightPink);
+            colorDic.Add("LightSalmon", Color.LightSalmon);
+            colorDic.Add("LightSeaGreen", Color.LightSeaGreen);
+            colorDic.Add("LightSkyBlue", Color.LightSkyBlue);
+            colorDic.Add("LightSlateGray", Color.LightSlateGray);
+            colorDic.Add("LightSteelBlue", Color.LightSteelBlue);
+            colorDic.Add("LightYellow", Color.LightYellow);
+            colorDic.Add("Lime", Color.Lime);
+            colorDic.Add("LimeGreen", Color.LimeGreen);
+            colorDic.Add("Linen", Color.Linen);
+            colorDic.Add("Magenta", Color.Magenta);
+            colorDic.Add("Maroon", Color.Maroon);
+            colorDic.Add("MediumAquamarine", Color.MediumAquamarine);
+            colorDic.Add("MediumBlue", Color.MediumBlue);
+            colorDic.Add("MediumOrchid", Color.MediumOrchid);
+            colorDic.Add("MediumPurple", Color.MediumPurple);
+            colorDic.Add("MediumSeaGreen", Color.MediumSeaGreen);
+            colorDic.Add("MediumSlateBlue", Color.MediumSlateBlue);
+            colorDic.Add("MediumSpringGreen", Color.MediumSpringGreen);
+            colorDic.Add("MediumTurquoise", Color.MediumTurquoise);
+            colorDic.Add("MediumVioletRed", Color.MediumVioletRed);
+            colorDic.Add("MidnightBlue", Color.MidnightBlue);
+            colorDic.Add("MintCream", Color.MintCream);
+            colorDic.Add("MistyRose", Color.MistyRose);
+            colorDic.Add("Moccasin", Color.Moccasin);
+            colorDic.Add("NavajoWhite", Color.NavajoWhite);
+            colorDic.Add("Navy", Color.Navy);
+            colorDic.Add("OldLace", Color.OldLace);
+            colorDic.Add("Olive", Color.Olive);
+            colorDic.Add("OliveDrab", Color.OliveDrab);
+            colorDic.Add("Orange", Color.Orange);
+            colorDic.Add("OrangeRed", Color.OrangeRed);
+            colorDic.Add("Orchid", Color.Orchid);
+            colorDic.Add("PaleGoldenrod", Color.PaleGoldenrod);
+            colorDic.Add("PaleGreen", Color.PaleGreen);
+            colorDic.Add("PaleTurquoise", Color.PaleTurquoise);
+            colorDic.Add("PaleVioletRed", Color.PaleVioletRed);
+            colorDic.Add("PapayaWhip", Color.PapayaWhip);
+            colorDic.Add("PeachPuff", Color.PeachPuff);
+            colorDic.Add("Peru", Color.Peru);
+            colorDic.Add("Pink", Color.Pink);
+            colorDic.Add("Plum", Color.Plum);
+            colorDic.Add("PowderBlue", Color.PowderBlue);
+            colorDic.Add("Purple", Color.Purple);
+            colorDic.Add("Red", Color.Red);
+            colorDic.Add("RosyBrown", Color.RosyBrown);
+            colorDic.Add("RoyalBlue", Color.RoyalBlue);
+            colorDic.Add("SaddleBrown", Color.SaddleBrown);
+            colorDic.Add("Salmon", Color.Salmon);
+            colorDic.Add("SandyBrown", Color.SandyBrown);
+            colorDic.Add("SeaGreen", Color.SeaGreen);
+            colorDic.Add("SeaShell", Color.SeaShell);
+            colorDic.Add("Sienna", Color.Sienna);
+            colorDic.Add("Silver", Color.Silver);
+            colorDic.Add("SkyBlue", Color.SkyBlue);
+            colorDic.Add("SlateBlue", Color.SlateBlue);
+            colorDic.Add("SlateGray", Color.SlateGray);
+            colorDic.Add("Snow", Color.Snow);
+            colorDic.Add("SpringGreen", Color.SpringGreen);
+            colorDic.Add("SteelBlue", Color.SteelBlue);
+            colorDic.Add("Tan", Color.Tan);
+            colorDic.Add("Teal", Color.Teal);
+            colorDic.Add("Thistle", Color.Thistle);
+            colorDic.Add("Tomato", Color.Tomato);
+            colorDic.Add("Transparent", Color.Transparent);
+            colorDic.Add("Turquoise", Color.Turquoise);
+            colorDic.Add("Violet", Color.Violet);
+            colorDic.Add("Wheat", Color.Wheat);
+            colorDic.Add("White", Color.White);
+            colorDic.Add("WhiteSmoke", Color.WhiteSmoke);
+            colorDic.Add("Yellow", Color.Yellow);
+            colorDic.Add("YellowGreen", Color.YellowGreen);
+
+            return colorDic;
         }
     }
 }

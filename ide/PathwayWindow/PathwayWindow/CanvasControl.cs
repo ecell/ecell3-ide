@@ -366,10 +366,10 @@ namespace EcellLib.PathwayWindow
                 if (m_variables != null)
                     foreach (PPathwayVariable var in m_variables.Values)
                         var.ViewMode = m_isViewMode;
-                //if (m_isViewMode)
-                //    m_pCanvas.BackColor = Color.Black;
-                //else
-                //    m_pCanvas.BackColor = Color.White;
+                if (m_isViewMode)
+                    m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.AnimationControl.ViewBGBrush);
+                else
+                    m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.AnimationControl.NormalBGBrush);
             }
         }
         /// <summary>

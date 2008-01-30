@@ -219,6 +219,14 @@ namespace EcellLib.PathwayWindow
             get { return m_menuCon; }
             set { m_menuCon = value; }
         }
+        /// <summary>
+        /// get/set the AnimationControl.
+        /// </summary>
+        public AnimationControl AnimationControl
+        {
+            get { return m_animCon; }
+            set { m_animCon = value; }
+        }
 
         /// <summary>
         ///  get/set Dctionary of CanvasViewComponentSet.

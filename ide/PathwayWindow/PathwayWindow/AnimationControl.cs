@@ -41,21 +41,21 @@ namespace EcellLib.PathwayWindow
 {
     public class AnimationControl
     {
-        #region constant fields
-        protected float ThresholdHigh = 100f;
-        protected float ThresholdMin = 0f;
-        protected float NormalLineWidth = 0f;
-        protected float MaxLineWidth = 20f;
-        protected Brush BackGroundBrush = Brushes.White;
-        protected Brush ViewModeBGBrush = Brushes.White;
-        protected Brush NormalLineBrush = Brushes.Black;
-        protected Brush ViewLineBrush = Brushes.LightGreen;
-        protected Brush MinLineBrush = Brushes.Gray;
-        protected Brush MaxLineBrush = Brushes.Yellow;
-        protected Brush NGLineBrush = Brushes.Red;
-        protected bool IsLogarithmic = true;
-        protected string FormatLog = "E2";
-        protected string FormatNatural = "0.000000";
+        #region Fields
+        private float m_thresholdHigh = 100f;
+        private float m_thresholdMin = 0f;
+        private float m_normalLineWidth = 0f;
+        private float m_maxLineWidth = 20f;
+        private Brush m_normalBGBrush = Brushes.White;
+        private Brush m_viewBGBrush = Brushes.White;
+        private Brush m_normalLineBrush = Brushes.Black;
+        private Brush m_viewLineBrush = Brushes.LightGreen;
+        private Brush m_minLineBrush = Brushes.Gray;
+        private Brush m_maxLineBrush = Brushes.Yellow;
+        private Brush m_ngLineBrush = Brushes.Red;
+        private bool m_isLogarithmic = true;
+        protected const string FormatLog = "E2";
+        protected const string FormatNatural = "0.000000";
         #endregion
 
         #region Object Fields
@@ -75,6 +75,80 @@ namespace EcellLib.PathwayWindow
         /// EventTimer for animation.
         /// </summary>
         private Timer m_time;
+        #endregion
+
+        #region Accessors
+        public float ThresholdHigh
+        {
+            get { return m_thresholdHigh; }
+            set { m_thresholdHigh = value; }
+        }
+
+        public float ThresholdMin
+        {
+            get { return m_thresholdMin; }
+            set { m_thresholdMin = value; }
+        }
+
+        public float NormalLineWidth
+        {
+            get { return m_normalLineWidth; }
+            set { m_normalLineWidth = value; }
+        }
+
+        public float MaxLineWidth
+        {
+            get { return m_maxLineWidth; }
+            set { m_maxLineWidth = value; }
+        }
+
+        public Brush NormalBGBrush
+        {
+            get { return m_normalBGBrush; }
+            set { m_normalBGBrush = value; }
+        }
+
+        public Brush ViewBGBrush
+        {
+            get { return m_viewBGBrush; }
+            set { m_viewBGBrush = value; }
+        }
+
+        public Brush NormalLineBrush
+        {
+            get { return m_normalLineBrush; }
+            set { m_normalLineBrush = value; }
+        }
+
+        public Brush ViewLineBrush
+        {
+            get { return m_viewLineBrush; }
+            set { m_viewLineBrush = value; }
+        }
+
+        public Brush MinLineBrush
+        {
+            get { return m_minLineBrush; }
+            set { m_minLineBrush = value; }
+        }
+
+        public Brush MaxLineBrush
+        {
+            get { return m_maxLineBrush; }
+            set { m_maxLineBrush = value; }
+        }
+
+        public Brush NgLineBrush
+        {
+            get { return m_ngLineBrush; }
+            set { m_ngLineBrush = value; }
+        }
+
+        public bool IsLogarithmic
+        {
+            get { return m_isLogarithmic; }
+            set { m_isLogarithmic = value; }
+        }
         #endregion
 
         #region Constructors
@@ -179,7 +253,7 @@ namespace EcellLib.PathwayWindow
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                process.EdgeBrush = Brushes.Black;
+                process.EdgeBrush = m_normalLineBrush;
                 process.MoveToFront();
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
@@ -228,11 +302,11 @@ namespace EcellLib.PathwayWindow
         {
             if (float.IsNaN(activity))
                 return 0f;
-            else if (activity <= ThresholdMin)
+            else if (activity <= m_thresholdMin)
                 return 0f;
-            else if (activity >= ThresholdHigh)
-                return NormalLineWidth;
-            return NormalLineWidth * activity / ThresholdHigh;
+            else if (activity >= m_thresholdHigh)
+                return m_maxLineWidth;
+            return m_maxLineWidth * activity / m_thresholdHigh;
         }
         /// <summary>
         /// Get line color
@@ -242,16 +316,16 @@ namespace EcellLib.PathwayWindow
         private Brush GetEdgeBrush(float activity)
         {
             if (float.IsNaN(activity) || float.IsInfinity(activity))
-                return NGLineBrush;
-            else if (activity <= ThresholdMin)
-                return MinLineBrush;
-            else if (activity >= ThresholdHigh)
-                return MaxLineBrush;
-            return ViewLineBrush;
+                return m_ngLineBrush;
+            else if (activity <= m_thresholdMin)
+                return m_minLineBrush;
+            else if (activity >= m_thresholdHigh)
+                return m_maxLineBrush;
+            return m_viewLineBrush;
         }
         private string GetPropertyString(float value)
         {
-            if (IsLogarithmic)
+            if (m_isLogarithmic)
                 return value.ToString(FormatLog);
             return value.ToString(FormatNatural);
         }
@@ -313,8 +387,8 @@ namespace EcellLib.PathwayWindow
 
                 // set Brushes
                 List<string> list = BrushManager.GetBrushNameList();
-                m_normalBrushItem = new PropertyBrushItem("Nomal Mode", control.BackGroundBrush, list);
-                m_viewBrushItem = new PropertyBrushItem("View Mode", control.ViewModeBGBrush, list);
+                m_normalBrushItem = new PropertyBrushItem("Nomal Mode", control.NormalBGBrush, list);
+                m_viewBrushItem = new PropertyBrushItem("View Mode", control.ViewBGBrush, list);
 
                 this.SuspendLayout();
                 // 
@@ -337,8 +411,8 @@ namespace EcellLib.PathwayWindow
 
             public void ApplyChanges()
             {
-                m_control.BackGroundBrush = this.m_normalBrushItem.Brush;
-                m_control.ViewModeBGBrush = this.m_viewBrushItem.Brush;
+                m_control.NormalBGBrush = this.m_normalBrushItem.Brush;
+                m_control.ViewBGBrush = this.m_viewBrushItem.Brush;
             }
         }
 
@@ -368,7 +442,7 @@ namespace EcellLib.PathwayWindow
                 this.m_lineViewBrush = new PropertyBrushItem("View Mode Line Brush", control.ViewLineBrush, list);
                 this.m_lineHighBrush = new PropertyBrushItem("High Threshold Brush", control.MaxLineBrush, list);
                 this.m_lineLowBrush = new PropertyBrushItem("Low Threshold Brush", control.MinLineBrush, list);
-                this.m_lineNGBrush = new PropertyBrushItem("NG Brush", control.NGLineBrush, list);
+                this.m_lineNGBrush = new PropertyBrushItem("NG Brush", control.NgLineBrush, list);
 
                 this.m_lineNormalWidth = new PropertyTextItem("Normal Line Width", control.NormalLineWidth.ToString());
                 this.m_lineViewWidth = new PropertyTextItem("View Mode Line Width", control.MaxLineWidth.ToString());
@@ -418,7 +492,7 @@ namespace EcellLib.PathwayWindow
                 m_control.ViewLineBrush = this.m_lineViewBrush.Brush;
                 m_control.MaxLineBrush = this.m_lineHighBrush.Brush;
                 m_control.MinLineBrush = this.m_lineLowBrush.Brush;
-                m_control.NGLineBrush = this.m_lineNGBrush.Brush;
+                m_control.NgLineBrush = this.m_lineNGBrush.Brush;
                 m_control.NormalLineWidth = float.Parse(this.m_lineNormalWidth.Text);
                 m_control.MaxLineWidth = float.Parse(this.m_lineViewWidth.Text);
                 m_control.ThresholdHigh = float.Parse(this.m_lineThresholdHigh.Text);
