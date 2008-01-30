@@ -232,7 +232,7 @@ namespace EcellLib.PathwayWindow
                     continue;
                 // Variable setting.
                 float molerConc = GetFloatValue(variable.EcellObject, "MolarConc");
-                variable.PPropertyText.Text = molerConc.ToString(FormatLog);
+                variable.PPropertyText.Text = GetPropertyString(molerConc);
                 variable.MoveToFront();
             }
         }
@@ -323,6 +323,11 @@ namespace EcellLib.PathwayWindow
                 return m_maxLineBrush;
             return m_viewLineBrush;
         }
+        /// <summary>
+        /// GetPropertyString
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         private string GetPropertyString(float value)
         {
             if (m_isLogarithmic)
@@ -449,7 +454,7 @@ namespace EcellLib.PathwayWindow
                 this.m_lineThresholdHigh = new PropertyTextItem("High Threshold", control.ThresholdHigh.ToString());
                 this.m_lineThresholdLow = new PropertyTextItem("Low Threshold", control.ThresholdMin.ToString());
 
-                this.m_lineCheckBox = new PropertyCheckBoxItem("logarithmic display", true);
+                this.m_lineCheckBox = new PropertyCheckBoxItem("logarithmic display", control.IsLogarithmic);
 
                 this.SuspendLayout();
                 // 
