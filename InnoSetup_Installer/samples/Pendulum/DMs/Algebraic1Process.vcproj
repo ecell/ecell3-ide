@@ -40,7 +40,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_STAGING_HOME)\include;$(ECELL_STAGING_HOME)\include\ecell-3.1\libecs;$(ECELL_STAGING_HOME)\include\ecell-3.1\libemc"
+				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libecs;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libemc"
 				PreprocessorDefinitions="WIN32"
 			/>
 			<Tool
@@ -106,7 +106,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_STAGING_HOME)\include;$(ECELL_STAGING_HOME)\include\ecell-3.1\libecs;$(ECELL_STAGING_HOME)\include\ecell-3.1\libemc"
+				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libecs;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libemc"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -120,7 +120,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="ecs.lib"
-				AdditionalLibraryDirectories="$(LIB);$(ECELL_STAGING_HOME)\lib"
+				AdditionalLibraryDirectories="$(LIB);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -171,7 +171,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_STAGING_HOME)\include;$(ECELL_STAGING_HOME)\include\ecell-3.1\libecs;$(ECELL_STAGING_HOME)\include\ecell-3.1\libemc"
+				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libecs;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libemc"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -185,7 +185,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="ecs.lib"
-				AdditionalLibraryDirectories="$(LIB);$(ECELL_STAGING_HOME)\lib"
+				AdditionalLibraryDirectories="$(LIB);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -236,7 +236,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_STAGING_HOME)\include;$(ECELL_STAGING_HOME)\include\ecell-3.1\libecs;$(ECELL_STAGING_HOME)\include\ecell-3.1\libemc"
+				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libecs;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libemc"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -250,7 +250,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="ecs.lib"
-				AdditionalLibraryDirectories="$(LIB);$(ECELL_STAGING_HOME)\lib"
+				AdditionalLibraryDirectories="$(LIB);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib"
 				TargetMachine="17"
 			/>
 			<Tool
