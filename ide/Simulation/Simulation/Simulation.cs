@@ -626,7 +626,8 @@ namespace EcellLib.Simulation
                 String errmes = Simulation.s_resources.GetString("ErrRunning");
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                m_pManager.ChangeStatus(preType);
+                if (m_type != ProjectStatus.Uninitialized)
+                    m_pManager.ChangeStatus(preType);
             }
 
         }

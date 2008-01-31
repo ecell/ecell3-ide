@@ -1536,6 +1536,7 @@ namespace EcellLib.MainWindow
                 {
                     m_dManager.SimulationStop();
                     Thread.Sleep(1000);
+
                     CloseProject(m_project);
                 }
             }
@@ -1786,6 +1787,10 @@ namespace EcellLib.MainWindow
         /// <param name="e">FormClosingEventArgs</param>
         private void MainWindowFormClosing(object sender, FormClosingEventArgs e)
         {
+            if (!string.IsNullOrEmpty(m_project))
+            {
+                CloseProject(m_project);
+            }
             saveWindowSetting(userWindowSettingPath);
         }
 
