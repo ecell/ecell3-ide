@@ -1205,7 +1205,6 @@ namespace EcellLib.PathwayWindow.Nodes
         public void ResetSetting()
         {
             LineBrush = m_setting.LineBrush;
-            FillBrush = m_setting.FillBrush;
         }
 
         protected virtual void SetTextVisiblity()

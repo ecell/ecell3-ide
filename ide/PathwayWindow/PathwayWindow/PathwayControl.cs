@@ -479,7 +479,7 @@ namespace EcellLib.PathwayWindow
             m_overView.Clear();
             m_pathwayView.TabControl.TabPages.Clear();
             m_layerView.DataGridView.DataSource = null;
-            m_animCon.TimerStop();
+            m_animCon.StopSimulation();
             // Clear Canvas dictionary.
             if (m_canvasDict != null)
                 foreach (CanvasControl set in m_canvasDict.Values)
@@ -551,20 +551,19 @@ namespace EcellLib.PathwayWindow
             // When simulation started.
             if (type == ProjectStatus.Running && m_isViewMode)
             {
-                m_animCon.SetPropForSimulation();
-                m_animCon.TimerStart();
+                m_animCon.StartSimulation();
             }
             else if (type == ProjectStatus.Stepping && m_isViewMode)
             {
-                m_animCon.UpdatePropForSimulation();
+                m_animCon.StepSimulation();
             }
             else if (type == ProjectStatus.Suspended)
             {
-                m_animCon.TimerStop();
+                m_animCon.PauseSimulation();
             }
             else
             {
-                m_animCon.ResetPropForSimulation();
+                m_animCon.StopSimulation();
             }
         }
 
@@ -665,9 +664,10 @@ namespace EcellLib.PathwayWindow
             }
             catch (Exception e)
             {
-                obj.ResetPosition();
-                obj.CanvasControl.DataChanged(oldKey, oldKey, obj);
                 Debug.WriteLine(e.Message);
+                obj.ResetPosition();
+                obj.Refresh();
+                obj.CanvasControl.DataChanged(oldKey, oldKey, obj);
             }
         }
 

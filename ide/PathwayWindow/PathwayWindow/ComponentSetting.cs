@@ -360,7 +360,6 @@ namespace EcellLib.PathwayWindow
                 obj.Width = PPathwayNode.DEFAULT_WIDTH;
                 obj.Height = PPathwayNode.DEFAULT_HEIGHT;
             }
-            obj.Brush = obj.FillBrush;
 
             return obj;
         }

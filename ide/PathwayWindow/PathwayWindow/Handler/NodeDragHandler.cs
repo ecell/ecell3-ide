@@ -327,6 +327,7 @@ namespace EcellLib.PathwayWindow.Handler
                 foreach (PPathwayObject node in nodeList)
                 {
                     i++;
+                    node.Refresh();
                     newSystem = m_canvas.GetSurroundingSystemKey(node.PointF);
                     newKey = newSystem + ":" + node.EcellObject.name;
                     m_canvas.PathwayControl.NotifyDataChanged(

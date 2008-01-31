@@ -378,14 +378,12 @@ namespace EcellLib.PathwayWindow.Nodes
             if (isViewMode)
             {
                 base.AddEllipse(X + 25, Y + 15, 10, 10);
-                // Set gradient brush
-                base.FillBrush = m_setting.FillBrush;
             }
             else
             {
                 base.AddRectangle(X - 24, Y - 14, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-                base.FillBrush = m_setting.FillBrush;
             }
+            base.FillBrush = m_setting.FillBrush;
             Refresh();
         }
 

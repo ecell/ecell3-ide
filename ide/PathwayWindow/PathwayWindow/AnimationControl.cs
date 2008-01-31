@@ -75,6 +75,11 @@ namespace EcellLib.PathwayWindow
         /// EventTimer for animation.
         /// </summary>
         private Timer m_time;
+
+        /// <summary>
+        /// EventFlag isPausing
+        /// </summary>
+        private bool m_isPausing = false;
         #endregion
 
         #region Accessors
@@ -181,10 +186,45 @@ namespace EcellLib.PathwayWindow
             m_time.Enabled = true;
         }
         /// <summary>
+        /// Start Simulation
+        /// </summary>
+        public void StartSimulation()
+        {
+            SetPropForSimulation();
+            TimerStart();
+            m_isPausing = false;
+        }
+        /// <summary>
+        /// Pause Simulation
+        /// </summary>
+        public void PauseSimulation()
+        {
+            TimerStop();
+            m_isPausing = true;
+        }
+        /// <summary>
+        /// Step Simulation
+        /// </summary>
+        public void StepSimulation()
+        {
+            UpdatePropForSimulation();
+            m_isPausing = true;
+        }
+        /// <summary>
+        /// Stop Simulation
+        /// </summary>
+        public void StopSimulation()
+        {
+            TimerStop();
+            ResetPropForSimulation();
+            m_isPausing = false;
+        }
+        /// <summary>
         /// Start Timer.
         /// </summary>
         public void TimerStart()
         {
+            m_isPausing = false;
             m_time.Enabled = true;
             m_time.Start();
         }
@@ -207,6 +247,8 @@ namespace EcellLib.PathwayWindow
             if (m_con.ActiveCanvas == null)
                 return;
             m_canvas = m_con.ActiveCanvas;
+            if (m_isPausing)
+                UpdatePropForSimulation();
         }
 
         /// <summary>

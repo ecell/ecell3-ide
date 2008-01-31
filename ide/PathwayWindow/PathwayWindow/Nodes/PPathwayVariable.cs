@@ -152,15 +152,15 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 m_pText.TextBrush = Brushes.Blue;
                 m_pPropertyText.TextBrush = Brushes.DarkRed;
-                // Set gradient brush
-                base.FillBrush = m_setting.FillBrush;
+                m_pPropertyText.Visible = true;
             }
             else
             {
                 m_pText.TextBrush = Brushes.Black;
-                m_pPropertyText.Text ="";
-                base.FillBrush = m_setting.FillBrush;
+                m_pPropertyText.Visible = false;
             }
+            // Set gradient brush
+            base.FillBrush = m_setting.FillBrush;
         }
         /// <summary>
         /// notify to add the related process to list.
