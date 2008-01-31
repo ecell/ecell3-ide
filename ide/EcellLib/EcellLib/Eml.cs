@@ -311,7 +311,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_ex.ToString();
+                Trace.WriteLine(l_ex.ToString());
                 isCreated = false;
                 m_isWarn = true;
             }
@@ -398,7 +398,7 @@ namespace EcellLib
             }
             catch (Exception e)
             {
-                e.ToString();
+                Trace.WriteLine(e.ToString());
                 m_isWarn = true;
             }
 
@@ -496,10 +496,17 @@ namespace EcellLib
                 {
                     l_parentPath = Constants.delimiterPath;
                 }
-                m_simulator.CreateEntity(
-                        l_systemClass.InnerText,
-                        l_systemClass.InnerText + Constants.delimiterColon + l_parentPath
-                            + Constants.delimiterColon + l_childPath);
+                try
+                {
+                    m_simulator.CreateEntity(
+                            l_systemClass.InnerText,
+                            l_systemClass.InnerText + Constants.delimiterColon + l_parentPath
+                                + Constants.delimiterColon + l_childPath);
+                }
+                catch (Exception e)
+                {
+                    throw new EmlParseException("Failed to create a System entity", e);
+                }
             }
 
             List<EcellData> l_ecellDataList = new List<EcellData>();

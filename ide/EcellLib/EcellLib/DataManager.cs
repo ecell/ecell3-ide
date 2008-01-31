@@ -5086,6 +5086,7 @@ namespace EcellLib
                 {
                     this.m_initialCondition.Remove(l_prjID);
                 }
+                Trace.WriteLine(l_ex.ToString());
                 l_message = m_resources.GetString("ErrLoadPrj") + "[" + l_message + "]";
                 this.m_pManager.Message(
                     Constants.messageSimulation,
@@ -7527,7 +7528,9 @@ namespace EcellLib
         /// </summary>
         protected WrappedSimulator CreateSimulatorInstance()
         {
-            return new WrappedSimulator(Util.GetDMDirs(m_currentProjectPath));
+            string[] dmpath = Util.GetDMDirs(m_currentProjectPath);
+            Trace.WriteLine("Creating simulator (dmpath=" + string.Join(";", dmpath) + ")");
+            return new WrappedSimulator(dmpath);
         }
 
     }

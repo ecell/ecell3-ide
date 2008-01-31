@@ -36,6 +36,7 @@ using System.Resources;
 using System.Threading;
 using System.Reflection;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace EcellLib.MainWindow
 {
@@ -45,6 +46,9 @@ namespace EcellLib.MainWindow
         {
             PluginDirectory
         };
+
+        [DllImport("kernel32")]
+        static extern bool AllocConsole();
 
         /// <summary>
         /// Parses the argument list, configures the application and
@@ -70,6 +74,11 @@ namespace EcellLib.MainWindow
                     else if (arg == "/NODEFAULTS")
                     {
                         Util.OmitDefaultPaths();
+                    }
+                    else if (arg == "/TRACE")
+                    {
+                        AllocConsole();
+                        Trace.Listeners.Add(new ConsoleTraceListener());
                     }
                 }
                 else
