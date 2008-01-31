@@ -40,7 +40,7 @@ Name: "Japanese"; MessagesFile: "C:\Program Files\Inno Setup 5\Languages\Japanes
 ; ======================================================
 ; common
 ; ======================================================
-;Source: "Win32\bin\*.py"; DestDir: "{app}\bin";
+Source: "Win32\bin\*.py"; DestDir: "{app}\bin";
 
 Source: "samples\Arti_Class1\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Arti_Class1";
 Source: "samples\Arti_Class1\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\Arti_Class1";
@@ -131,20 +131,20 @@ Source: "samples\Toy_Hybrid\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\
 
 Source: "conf\*"; DestDir: "{app}\conf";
 
-;Source: "lib\ironpython\*"; DestDir: "{app}\lib\ironpython";
+Source: "lib\ironpython\*"; DestDir: "{app}\lib\ironpython";
 
 
 ; ======================================================
 ; bin/*.exe
 ; ======================================================
 Source: "Win32\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-;Source: "Win32\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-;Source: "Win32\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 Source: "MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 
 Source: "x64\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-;Source: "x64\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-;Source: "x64\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 Source: "MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 
 ; ======================================================
@@ -179,6 +179,8 @@ Source: "x64\bin\IronMath.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin
 Source: "x64\bin\IronPython.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 Source: "x64\bin\cblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\libgsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 Source: "x64\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 Source: "x64\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 Source: "x64\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
@@ -245,7 +247,7 @@ Source: "x64\plugins\TracerWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; 
 ; ======================================================
 ; plugins/pathway/*
 ; ======================================================
-Source: "ComponentSettings.xml"; DestDir: "{app}\pluginss\pathway";
+Source: "ComponentSettings.xml"; DestDir: "{app}\plugins\pathway";
 
 Source: "Win32\plugins\pathway\AlignLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();
 Source: "Win32\plugins\pathway\CircularLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();
@@ -316,8 +318,8 @@ Source: "gacutil.exe"; DestDir: "{app}\bin";
 Source: "test.bat"; DestDir: "{app}\bin";
 
 [Registry]
-;Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "IRONPYTHONPATH"; ValueData: "%IRONPYTHONPATH%:{app}\bin";
-;Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "IRONPYTHONSTARTUP"; ValueData: "{app}\lib\ironpython\__init__.py";
+Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "IRONPYTHONPATH"; ValueData: "%IRONPYTHONPATH%:{app}\bin";
+Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "IRONPYTHONSTARTUP"; ValueData: "{app}\lib\ironpython\__init__.py";
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE DM"; ValueData: "{app}\lib\ecell-3.1\dms";
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Plugin"; ValueData: "{app}\plugins";
