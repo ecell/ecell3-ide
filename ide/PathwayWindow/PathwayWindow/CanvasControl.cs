@@ -1426,11 +1426,6 @@ namespace EcellLib.PathwayWindow
                 obj.ViewMode = m_isViewMode;
                 obj.ResetSetting();
             }
-            if (m_processes != null)
-            foreach (PPathwayProcess process in m_processes.Values)
-            {
-                process.EdgeBrush = (m_isViewMode) ? m_con.AnimationControl.ViewLineBrush : m_con.AnimationControl.NormalLineBrush;
-            }
             if (m_isViewMode)
                 m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.AnimationControl.ViewBGBrush);
             else

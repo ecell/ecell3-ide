@@ -133,8 +133,6 @@ namespace EcellLib.PathwayWindow.Handler
         {            
             base.OnMouseDown(sender, e);
             m_canvas = m_con.CanvasDictionary[e.Canvas.Name];
-            if (m_canvas != null)
-                m_canvas.ResetSelectedObjects();
 
             if (e.PickedNode is PCamera)
             {

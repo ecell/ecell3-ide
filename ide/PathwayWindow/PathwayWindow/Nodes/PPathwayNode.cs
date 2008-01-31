@@ -283,22 +283,18 @@ namespace EcellLib.PathwayWindow.Nodes
                 || mode == Mode.CreateMutualReaction
                 || mode == Mode.CreateConstant)
             {
-                m_canvas.ResetSelectedObjects();
                 m_canvas.AddNodeToBeConnected(this);
+            }
+            if (m_isSelected)
+                return;
+
+            if (e.Modifiers == Keys.Shift)
+            {
+                m_canvas.NotifyAddSelect(this, true);
             }
             else
             {
-                if (m_isSelected)
-                    return;
-
-                if (e.Modifiers == Keys.Shift)
-                {
-                    m_canvas.NotifyAddSelect(this, true);
-                }
-                else
-                {
-                    m_canvas.NotifySelectChanged(this);
-                }
+                m_canvas.NotifySelectChanged(this);
             }
         }
 
