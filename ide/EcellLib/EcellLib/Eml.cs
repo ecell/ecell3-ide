@@ -189,7 +189,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_fileName">The eml formatted file name</param>
         /// <param name="l_storedList">The list of the stored "EcellObject"</param>
-        public static void Create(string l_fileName, List<EcellObject> l_storedList)
+        public static void Create(string l_fileName, List<EcellObject> l_storedList, bool isProjectSave)
         {
             //
             // Checks the old model file.
@@ -208,30 +208,32 @@ namespace EcellLib
             }
 
             // For single model
-            string dirName = Path.GetDirectoryName(l_fileName);
-            string[] l_models = Directory.GetFileSystemEntries(
-                                    dirName,
-                                    Constants.delimiterWildcard + Constants.delimiterPeriod + Constants.xpathEml);
-            if (l_models != null && l_models.Length > 0)
+            if (isProjectSave)
             {
-                foreach (string l_model in l_models)
+                string dirName = Path.GetDirectoryName(l_fileName);
+                string[] l_models = Directory.GetFileSystemEntries(
+                                        dirName,
+                                        Constants.delimiterWildcard + Constants.delimiterPeriod + Constants.xpathEml);
+                if (l_models != null && l_models.Length > 0)
                 {
-                    string fileName = Path.GetFileName(l_model);
-                    if (fileName.IndexOf(Constants.delimiterUnderbar) != 0)
+                    foreach (string l_model in l_models)
                     {
-                        string l_date
-                            = File.GetLastAccessTime(l_model).ToString().Replace(
-                                Constants.delimiterColon, Constants.delimiterUnderbar);
-                        l_date = l_date.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
-                        l_date = l_date.Replace(Constants.delimiterSpace, Constants.delimiterUnderbar);
-                        string l_destFileName
-                            = Path.GetDirectoryName(l_model) + Constants.delimiterPath
-                            + Constants.delimiterUnderbar + l_date + Constants.delimiterUnderbar + Path.GetFileName(fileName) + Constants.backFileExtension;
-                        File.Move(l_model, l_destFileName);
+                        string fileName = Path.GetFileName(l_model);
+                        if (fileName.IndexOf(Constants.delimiterUnderbar) != 0)
+                        {
+                            string l_date
+                                = File.GetLastAccessTime(l_model).ToString().Replace(
+                                    Constants.delimiterColon, Constants.delimiterUnderbar);
+                            l_date = l_date.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
+                            l_date = l_date.Replace(Constants.delimiterSpace, Constants.delimiterUnderbar);
+                            string l_destFileName
+                                = Path.GetDirectoryName(l_model) + Constants.delimiterPath
+                                + Constants.delimiterUnderbar + l_date + Constants.delimiterUnderbar + Path.GetFileName(fileName) + Constants.backFileExtension;
+                            File.Move(l_model, l_destFileName);
+                        }
                     }
                 }
             }
-
 
             //
             // Saves the model

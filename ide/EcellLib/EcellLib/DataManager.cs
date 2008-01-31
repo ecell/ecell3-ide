@@ -1410,7 +1410,7 @@ namespace EcellLib
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK)
                 {
-                    throw new IgnoreException("Can't change the object.");
+                    return;
                 }
                 SimulationStop();
                 m_pManager.ChangeStatus(ProjectStatus.Loaded);
@@ -2393,8 +2393,9 @@ namespace EcellLib
                                 l_key + Constants.delimiterColon + l_name);
                         l_value = new EcellValue(l_property);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        ex.ToString();
                         if (l_storedEcellDataDic.ContainsKey(l_name))
                         {
                             if (l_storedEcellDataDic[l_name].Value.CastToList()[0].IsList())
@@ -3167,7 +3168,7 @@ namespace EcellLib
                 // Exports.
                 //
                 l_storedStepperList.AddRange(l_storedSystemList);
-                EmlWriter.Create(l_fileName, l_storedStepperList);
+                EmlWriter.Create(l_fileName, l_storedStepperList, false);
                 this.m_pManager.Message(
                     Constants.messageSimulation,
                     "Export Model: " + l_message + System.Environment.NewLine
@@ -6009,7 +6010,7 @@ namespace EcellLib
                 //
                 // Creates.
                 //
-                EmlWriter.Create(l_modelFileName, l_storedList);
+                EmlWriter.Create(l_modelFileName, l_storedList, true);
                 this.m_pManager.Message(
                     Constants.messageSimulation,
                     "Save Model: " + l_message + System.Environment.NewLine);
