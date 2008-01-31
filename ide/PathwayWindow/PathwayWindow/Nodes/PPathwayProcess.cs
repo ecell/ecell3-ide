@@ -162,8 +162,6 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void OnMouseUp(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseUp(e);
-            this.RefreshEdges();
-
             m_movingDelta = new SizeF(0, 0);
         }
 

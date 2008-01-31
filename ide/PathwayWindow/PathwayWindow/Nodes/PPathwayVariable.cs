@@ -111,10 +111,6 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void OnMouseUp(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
             base.OnMouseUp(e);
-            foreach (PPathwayProcess process in m_relatedProcesses.Values)
-            {
-                process.RefreshEdges();
-            }
             m_movingDelta = new SizeF(0, 0);
         }
 
