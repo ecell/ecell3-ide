@@ -66,13 +66,18 @@ namespace EcellLib.PathwayWindow
         /// The default name of variable.
         /// </summary>
         public const string DEFAULT_VARIABLE_NAME = "DefaultVariable";
-
+        /// <summary>
+        /// Class name of PPathwaySystem.
+        /// </summary>
         public const string ClassPPathwaySystem = "PPathwaySystem";
+        /// <summary>
+        /// Class name of PPathwayProcess.
+        /// </summary>
         public const string ClassPPathwayProcess = "PPathwayProcess";
+        /// <summary>
+        /// Class name of PPathwayVariable.
+        /// </summary>
         public const string ClassPPathwayVariable = "PPathwayVariable";
-        public const string ClassPEcellSystem = "PEcellSystem";
-        public const string ClassPEcellProcess = "PEcellProcess";
-        public const string ClassPEcellVariable = "PEcellVariable";
         #endregion
 
         #region Fields
@@ -301,7 +306,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Parse a name of kind to ComponentType
         /// </summary>
-        /// <param name="kind">a name of kind, to be parsed</param>
+        /// <param name="type">a name of type, to be parsed</param>
         /// <returns></returns>
         public static ComponentType ParseStringToComponentType(string type)
         {
@@ -390,9 +395,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Register ComponentSetting onto this manager
         /// </summary>
-        /// <param name="settingName"></param>
-        /// <param name="setting"></param>
-        /// <param name="isDefault"></param>
+        /// <param name="setting">ComponentSetting</param>
         public void RegisterSetting(ComponentSetting setting)
         {
             Dictionary<string, ComponentSetting> dic = GetSettingDictionary(setting.ComponentType);
@@ -412,10 +415,10 @@ namespace EcellLib.PathwayWindow
         {
             PropertyDialog dialog = new PropertyDialog();
             dialog.Text = "ComponentManagerDialog";
-            TabPage page = CreateTabPage();
+            PropertyDialogTabPage page = CreateTabPage();
             dialog.TabControl.Controls.Add(page);
             if (dialog.ShowDialog() == DialogResult.OK)
-                SetNewParams(page);
+                page.ApplyChange();
             dialog.Dispose();
         }
 
@@ -428,16 +431,6 @@ namespace EcellLib.PathwayWindow
             PropertyDialogTabPage page = new ComponentTabPage(this);
             return page;
         }
-
-        public void SetNewParams(TabPage page)
-        {
-            foreach (ComponentItem item in page.Controls)
-            {
-                item.ApplyChange();
-            }
-            SaveComponentSettings();
-        }
-
         #endregion
 
         #region Private Methods
@@ -527,7 +520,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Load ComponentSettings from xml file.
         /// </summary>
-        /// <param name="xmlD"></param>
+        /// <param name="filename"></param>
         /// <returns></returns>
         private static List<ComponentSetting> LoadFromXML(string filename)
         {

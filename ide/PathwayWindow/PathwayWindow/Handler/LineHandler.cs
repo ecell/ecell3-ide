@@ -44,6 +44,9 @@ using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow.Handler
 {
+    /// <summary>
+    /// LineHandler
+    /// </summary>
     public class LineHandler
     {
         #region Static readonly fields
@@ -120,6 +123,10 @@ namespace EcellLib.PathwayWindow.Handler
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="canvas"></param>
         public LineHandler(CanvasControl canvas)
         {
             this.m_canvas = canvas;

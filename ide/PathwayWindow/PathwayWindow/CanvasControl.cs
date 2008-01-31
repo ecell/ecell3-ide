@@ -437,8 +437,7 @@ namespace EcellLib.PathwayWindow
 
         /// <summary>
         /// Notify SelectChanged event to outside.
-        /// <param name="key">the key of selected object.</param>
-        /// <param name="type">the type of selected object.</param>
+        /// <param name="obj">the selected object.</param>
         /// </summary>
         public void NotifySelectChanged(PPathwayObject obj)
         {
@@ -453,8 +452,7 @@ namespace EcellLib.PathwayWindow
 
         /// <summary>
         /// Notify SelectChanged event to outside.
-        /// <param name="key">the key of selected object.</param>
-        /// <param name="type">the type of selected object.</param>
+        /// <param name="obj">the selected object.</param>
         /// <param name="isSelect">the flag whether this object is selected.</param>
         /// </summary>
         public void NotifyAddSelect(PPathwayObject obj, bool isSelect)
@@ -716,7 +714,8 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Rename selected layer.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="oldName"></param>
+        /// <param name="newName"></param>
         public void RenameLayer(string oldName, string newName)
         {
             PPathwayLayer layer = m_layers[oldName];
@@ -744,7 +743,7 @@ namespace EcellLib.PathwayWindow
         /// Set Layer Visibility.
         /// </summary>
         /// <param name="layerName"></param>
-        /// <param name="isShowing"></param>
+        /// <param name="isShown"></param>
         public void ChangeLayerVisibility(string layerName, bool isShown)
         {
             PPathwayLayer layer = m_layers[layerName];
@@ -880,7 +879,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// AddSelect PPathwaySystem.
         /// </summary>
-        /// <param name="systemName">the name of selected system.</param>
+        /// <param name="obj">PPathwaySystem</param>
         public void AddSelectedSystem(PPathwaySystem obj)
         {
             m_selectedSystem = obj;
@@ -1068,7 +1067,7 @@ namespace EcellLib.PathwayWindow
         /// The event sequence on changing value of data at other plugin.
         /// </summary>
         /// <param name="oldKey">The ID before value change.</param>
-        /// <param name="type">The data type before value change.</param>
+        /// <param name="newKey">The data type before value change.</param>
         /// <param name="obj">Changed value of object.</param>
         public void DataChanged(string oldKey, string newKey, PPathwayObject obj)
         {
@@ -1078,8 +1077,8 @@ namespace EcellLib.PathwayWindow
             // Set Layer
             SetLayer(obj);
             // Set visibility
-            obj.ViewMode = m_isViewMode;
             obj.Refresh();
+            obj.ViewMode = m_isViewMode;
         }
         /// <summary>
         /// event sequence of deleting the object.
@@ -1424,7 +1423,7 @@ namespace EcellLib.PathwayWindow
             foreach (PPathwayObject obj in GetAllObjects())
             {
                 obj.ViewMode = m_isViewMode;
-                obj.ResetSetting();
+                obj.LineBrush = obj.Setting.LineBrush;
             }
             if (m_isViewMode)
                 m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.AnimationControl.ViewBGBrush);

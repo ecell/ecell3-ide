@@ -37,6 +37,9 @@ using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow.Handler
 {
+    /// <summary>
+    /// PPathwayInputEventHandler
+    /// </summary>
     public class PPathwayInputEventHandler : PBasicInputEventHandler
     {
         #region Fields

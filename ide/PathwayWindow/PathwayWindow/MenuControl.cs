@@ -48,6 +48,9 @@ using System.Drawing.Drawing2D;
 
 namespace EcellLib.PathwayWindow
 {
+    /// <summary>
+    /// MenuControl for PathwayWindow
+    /// </summary>
     public class MenuControl
     {
         #region Static readonly fields

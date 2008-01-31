@@ -4,7 +4,9 @@ namespace EcellLib.PathwayWindow
     using NUnit.Framework;
     using System.Collections.Generic;
 
-
+    /// <summary>
+    /// Auto Generated TestCase of PathwayWindow
+    /// </summary>
     [TestFixture()]
     public class TestPathwayWindow
     {

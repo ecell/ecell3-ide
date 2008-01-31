@@ -34,6 +34,9 @@ using System.Windows.Forms;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
     public class PathwayToolStripButton : ToolStripButton
     {
         #region Fields

@@ -67,7 +67,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="cview"></param>
+        /// <param name="canvas">CanvasControl instance</param>
         public PPathwayCanvas(CanvasControl canvas)
         {
             m_canvas = canvas;

@@ -1,5 +1,8 @@
 ﻿namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// UI class for PathwayWindow
+    /// </summary>
     partial class SelectBoxDialog
     {
         /// <summary>

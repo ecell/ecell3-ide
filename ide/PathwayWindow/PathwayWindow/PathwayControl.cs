@@ -725,6 +725,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="varKey">key of variable</param>
         /// <param name="changeType">type of change</param>
         /// <param name="coefficient">coefficient of VariableReference</param>
+        /// <param name="isAnchor">is anchored or not.</param>
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient, bool isAnchor)
         {
             // Get EcellObject of identified process.
@@ -1321,8 +1322,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Set copied nodes.
         /// </summary>
-        /// <param name="nodeList"></param>
-        /// <returns></returns>
+        /// <returns>A list of copied nodes.</returns>
         private List<EcellObject> SetCopyNodes()
         {
             List<EcellObject> copyNodes = new List<EcellObject>();
@@ -1445,9 +1445,9 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// 
+        /// Copy selected systems.
         /// </summary>
-        /// <param name="nodeList"></param>
+        /// <param name="systemList"></param>
         /// <returns></returns>
         private List<EcellObject> CopySystems(List<EcellObject> systemList)
         {

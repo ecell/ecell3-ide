@@ -1,4 +1,34 @@
-﻿using System;
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
@@ -6,19 +36,37 @@ using System.Drawing;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// PropertyDialogTabPage for PropertyDialog
+    /// </summary>
     public partial class PropertyDialogTabPage : TabPage
     {
+        /// <summary>
+        /// ApplyChange
+        /// </summary>
         public virtual void ApplyChange()
         {
         }
     }
+
     /// <summary>
     /// UI class for PropertyDialog
     /// </summary>
     public partial class PropertyDialogItem : Panel
     {
+        /// <summary>
+        /// label to explain the DialogItem.
+        /// </summary>
         protected Label m_label;
+        
+        /// <summary>
+        /// position of itembox.
+        /// </summary>
         protected Point m_position = new Point(150, 5);
+        
+        /// <summary>
+        /// size of the itembox.
+        /// </summary>
         protected Size m_size = new Size(128, 20);
 
         /// <summary>
@@ -72,12 +120,21 @@ namespace EcellLib.PathwayWindow.UIComponent
         private ComboBox m_comboBoxBrush;
         private Brush m_brush;
 
+        /// <summary>
+        /// Get/Set m_brush.
+        /// </summary>
         public Brush Brush
         {
             get { return m_brush; }
             set { m_brush = value; }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="brush"></param>
+        /// <param name="brushList"></param>
         public PropertyBrushItem(string label, Brush brush, List<string> brushList)
         {
             // set Brushes
@@ -118,12 +175,20 @@ namespace EcellLib.PathwayWindow.UIComponent
     {
         private Label m_text;
 
+        /// <summary>
+        /// Get/Set m_text.Text
+        /// </summary>
         public override string Text
         {
             get { return m_text.Text; }
             set { m_text.Text = value; }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="text"></param>
         public PropertyLabelItem(string label, string text)
         {
             this.m_label.Text = label;
@@ -150,13 +215,19 @@ namespace EcellLib.PathwayWindow.UIComponent
     public class PropertyTextItem : PropertyDialogItem
     {
         private TextBox m_textBox;
-
+        /// <summary>
+        /// Get/Set m_textBox.Text
+        /// </summary>
         public override string Text
         {
             get { return m_textBox.Text; }
             set { m_textBox.Text = value; }
         }
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="text"></param>
         public PropertyTextItem(string label, string text)
         {
             this.m_label.Text = label;
@@ -184,12 +255,20 @@ namespace EcellLib.PathwayWindow.UIComponent
     {
         private CheckBox m_checkBox;
 
+        /// <summary>
+        /// Get/Set m_checkBox.Checked
+        /// </summary>
         public bool Checked
         {
             get { return m_checkBox.Checked; }
             set { m_checkBox.Checked = value; }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="isChecked"></param>
         public PropertyCheckBoxItem(string label, bool isChecked)
         {
             this.m_label.Text = label;

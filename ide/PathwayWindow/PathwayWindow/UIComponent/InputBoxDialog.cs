@@ -38,6 +38,9 @@ using System.Windows.Forms;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// InputBoxDialog for PathwayWindow.
+    /// </summary>
     public partial class InputBoxDialog : Form
     {
         #region Constructor

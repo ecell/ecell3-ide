@@ -37,6 +37,9 @@ using EcellLib.PathwayWindow.Nodes;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// UI class for PathwayWindow.
+    /// </summary>
     public partial class PToolBoxCanvas : PCanvas
     {
         #region Fields

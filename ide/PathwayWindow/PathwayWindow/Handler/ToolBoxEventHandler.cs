@@ -41,6 +41,9 @@ using System.Drawing;
 
 namespace EcellLib.PathwayWindow.Handler
 {
+    /// <summary>
+    /// ToolBoxEventHandler
+    /// </summary>
     public class ToolBoxEventHandler : PPathwayInputEventHandler
     {
         #region Fields

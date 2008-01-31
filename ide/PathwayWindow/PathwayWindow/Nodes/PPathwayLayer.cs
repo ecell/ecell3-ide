@@ -35,6 +35,9 @@ using UMD.HCIL.Piccolo;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
+    /// <summary>
+    /// PPathwayLayer for CanvasControl
+    /// </summary>
     public class PPathwayLayer : PLayer
     {
         #region Fields

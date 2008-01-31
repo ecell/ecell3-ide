@@ -46,7 +46,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="message"></param>
         /// <param name="title"></param>
-        /// <param name="defaultAns"></param>
+        /// <param name="options"></param>
         public SelectBoxDialog(string message, string title, List<string> options)
         {
             InitializeComponent();
@@ -66,7 +66,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="message"></param>
         /// <param name="title"></param>
-        /// <param name="defaultAns"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
         public static string Show(string message, string title, List<string> options)
         {

@@ -38,13 +38,21 @@ using System.Windows.Forms;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// Tabbed PropertyDialog for PathwayWindow.
+    /// </summary>
     public partial class PropertyDialog : Form
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public PropertyDialog()
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Get tabControl.
+        /// </summary>
         public TabControl TabControl
         {
             get { return this.tabControl; }

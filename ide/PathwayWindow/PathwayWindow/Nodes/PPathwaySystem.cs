@@ -436,6 +436,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Extend current space to contain given rectangle.
         /// </summary>
         /// <param name="obj">The child object.</param>
+        /// <param name="isRecorded">is recorded or not.</param>
         public void MakeSpace(PPathwayObject obj, bool isRecorded)
         {
             // Offset position of given object.
@@ -496,7 +497,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// the event sequence of selecting the PNode of system in PathwayEditor.
         /// </summary>
-        /// <param name="sender">PPathwaySystem</param>
         /// <param name="e">PInputEventArgs</param>
         public override void OnMouseDown(PInputEventArgs e)
         {

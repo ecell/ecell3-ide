@@ -39,6 +39,10 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class DuplicateKeyException : Exception
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="message"></param>
         public DuplicateKeyException(string message)
             : base(message)
         {

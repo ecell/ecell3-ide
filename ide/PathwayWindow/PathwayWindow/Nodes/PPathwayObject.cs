@@ -424,7 +424,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 if (m_isViewMode == value)
                     return;
                 m_isViewMode = value;
-                ChangeViewMode(value);
+                RefreshView(value);
                 SetTextVisiblity();
             }
         }
@@ -1175,7 +1175,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Change View Mode.
         /// </summary>
-        public virtual void ChangeViewMode(bool isViewMode)
+        /// <param name="isViewMode"></param>
+        public virtual void RefreshView(bool isViewMode)
         {
         }
 
@@ -1202,11 +1203,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
-        public void ResetSetting()
-        {
-            LineBrush = m_setting.LineBrush;
-        }
-
         protected virtual void SetTextVisiblity()
         {
             if (m_showingId)

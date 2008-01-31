@@ -61,8 +61,8 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="control">Control to diaplay the Matir2 .</param>
-        /// <param name="control">Control to diaplay the Matir2 .</param>
+        /// <param name="control">PathwayControl instance.</param>
+        /// <param name="cType">ComponentType</param>
         public CreateNodeMouseHandler(PathwayControl control, ComponentType cType)
         {
             this.m_con = control;
@@ -152,40 +152,6 @@ namespace EcellLib.PathwayWindow.Handler
             canvas.ControlLayer.AddChild(m_template);
             m_template.CenterPointF = e.Position;
         }
-
-        /// <summary>
-        /// Create new EcellObject.
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        //private EcellObject CreateNewObject(ComponentType cType)
-        //{
-        //    Dictionary<string, EcellData> dict = null;
-        //    string type = ComponentManager.GetTypeString(m_template.Setting.ComponentType);
-        //    string tmpId = m_canvas.GetTemporaryID(type, m_surSystem);
-        //    string className = null;
-        //    // Get ECellDatas.
-        //    if (cType == ComponentType.Process)
-        //    {
-        //        className = "ExpressionFluxProcess";
-        //        dict = m_dManager.GetProcessProperty(className);
-        //    }
-        //    else if (cType == ComponentType.Variable)
-        //    {
-        //        className = type;
-        //        dict = m_dManager.GetVariableProperty();
-        //    }
-        //    // Change to List.
-        //    List<EcellData> list = new List<EcellData>();
-        //    foreach (EcellData d in dict.Values)
-        //        list.Add(d);
-            
-        //    // Get EcellObject
-        //    EcellObject eo = EcellObject.CreateObject(m_canvas.ModelID, tmpId, type, className, list);
-
-        //    return eo;
-        //}
-        
         #endregion
     }
 }

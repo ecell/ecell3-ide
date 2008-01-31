@@ -39,6 +39,9 @@ using EcellLib.PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow
 {
+    /// <summary>
+    /// AnimationControl
+    /// </summary>
     public class AnimationControl
     {
         #region Fields
@@ -54,8 +57,8 @@ namespace EcellLib.PathwayWindow
         private Brush m_maxLineBrush = Brushes.Yellow;
         private Brush m_ngLineBrush = Brushes.Red;
         private bool m_isLogarithmic = true;
-        protected const string FormatLog = "E2";
-        protected const string FormatNatural = "0.000000";
+        private const string FormatLog = "E2";
+        private const string FormatNatural = "0.000000";
         #endregion
 
         #region Object Fields
@@ -83,72 +86,108 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// Get/Set m_thresholdHigh
+        /// </summary>
         public float ThresholdHigh
         {
             get { return m_thresholdHigh; }
             set { m_thresholdHigh = value; }
         }
 
+        /// <summary>
+        /// Get/Set m_thresholdMin
+        /// </summary>
         public float ThresholdMin
         {
             get { return m_thresholdMin; }
             set { m_thresholdMin = value; }
         }
 
+        /// <summary>
+        /// Get/Set m_normalLineWidth
+        /// </summary>
         public float NormalLineWidth
         {
             get { return m_normalLineWidth; }
             set { m_normalLineWidth = value; }
         }
 
+        /// <summary>
+        /// Get/Set m_maxLineWidth
+        /// </summary>
         public float MaxLineWidth
         {
             get { return m_maxLineWidth; }
             set { m_maxLineWidth = value; }
         }
 
+        /// <summary>
+        /// Get/Set m_normalBGBrush
+        /// </summary>
         public Brush NormalBGBrush
         {
             get { return m_normalBGBrush; }
             set { m_normalBGBrush = value; }
         }
 
+        /// <summary>
+        /// Get/Set m_viewBGBrush
+        /// </summary>
         public Brush ViewBGBrush
         {
             get { return m_viewBGBrush; }
             set { m_viewBGBrush = value; }
         }
 
+        /// <summary>
+        /// Get/Set m_normalLineBrush
+        /// </summary>
         public Brush NormalLineBrush
         {
             get { return m_normalLineBrush; }
             set { m_normalLineBrush = value; }
         }
 
+        /// <summary>
+        /// Get/Set m_viewLineBrush
+        /// </summary>
         public Brush ViewLineBrush
         {
             get { return m_viewLineBrush; }
             set { m_viewLineBrush = value; }
         }
 
+        /// <summary>
+        /// Get/Set m_minLineBrush
+        /// </summary>
         public Brush MinLineBrush
         {
             get { return m_minLineBrush; }
             set { m_minLineBrush = value; }
         }
 
+        /// <summary>
+        /// Get/Set m_maxLineBrush
+        /// </summary>
         public Brush MaxLineBrush
         {
             get { return m_maxLineBrush; }
             set { m_maxLineBrush = value; }
         }
 
+        /// <summary>
+        /// Get/Set m_ngLineBrush
+        /// </summary>
         public Brush NgLineBrush
         {
             get { return m_ngLineBrush; }
             set { m_ngLineBrush = value; }
         }
 
+        /// <summary>
+        /// Get/Set m_isLogarithmic
+        /// </summary>
         public bool IsLogarithmic
         {
             get { return m_isLogarithmic; }
@@ -323,6 +362,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="eo"></param>
         /// <param name="propName"></param>
         /// <returns></returns>
         private float GetFloatValue(EcellObject eo ,string propName)

@@ -45,11 +45,11 @@ using EcellLib.PathwayWindow.UIComponent;
 
 namespace EcellLib.PathwayWindow.Handler
 {
+    /// <summary>
+    /// CreateReactionMouseHandler
+    /// </summary>
     public class CreateReactionMouseHandler : PPathwayInputEventHandler
     {
-
-        public enum ReferenceKind { Changeable, Constant };
-
         #region Fields
         /// <summary>
         /// Used to draw line to connect.

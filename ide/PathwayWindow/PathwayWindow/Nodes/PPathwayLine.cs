@@ -121,6 +121,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="canvas"></param>
         /// <param name="edgeInfo"></param>
         public PPathwayLine(CanvasControl canvas, EdgeInfo edgeInfo)
         {

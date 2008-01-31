@@ -46,6 +46,9 @@ using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow.Handler
 {
+    /// <summary>
+    /// ResizeHandler
+    /// </summary>
     public class ResizeHandler
     {
 

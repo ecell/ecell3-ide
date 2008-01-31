@@ -269,13 +269,6 @@ namespace EcellLib.PathwayWindow.Nodes
                     line.Pen.Width = width;
         }
         /// <summary>
-        /// Set Line Width.
-        /// </summary>
-        /// <param name="width"></param>
-        public void SetLineColor(Brush brush)
-        {
-        }
-        /// <summary>
         /// delete all related process from list.
         /// </summary>
         public override void Delete()
@@ -372,7 +365,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Change View Mode.
         /// </summary>
-        public override void ChangeViewMode(bool isViewMode)
+        public override void RefreshView(bool isViewMode)
         {
             m_path.Reset();
             if (isViewMode)
@@ -386,7 +379,9 @@ namespace EcellLib.PathwayWindow.Nodes
             base.FillBrush = m_setting.FillBrush;
             Refresh();
         }
-
+        /// <summary>
+        /// SetTextVisiblity
+        /// </summary>
         protected override void SetTextVisiblity()
         {
             if (m_showingId && !m_isViewMode)

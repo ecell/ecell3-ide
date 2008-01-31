@@ -56,11 +56,6 @@ namespace EcellLib.PathwayWindow
         private static readonly Regex m_preColonRegex = new Regex("^.*:");
         #endregion
 
-        #region Fields
-        private static PathUtil m_util = null;
-        private Dictionary<string, Brush> m_brushDic = null;
-        #endregion
-
         /// <summary>
         /// Get bounds to focus on a object.
         /// </summary>
@@ -206,6 +201,9 @@ namespace EcellLib.PathwayWindow
         }
     }
 
+    /// <summary>
+    /// BrushManager
+    /// </summary>
     public class BrushManager
     {
         /// <summary>

@@ -151,6 +151,9 @@ namespace EcellLib.PathwayWindow
             set { this.m_componentKind = value; }
         }
 
+        /// <summary>
+        /// Accessor for ClassName of PPathwayObject.
+        /// </summary>
         public string Class
         {
             get
@@ -321,7 +324,7 @@ namespace EcellLib.PathwayWindow
         /// This method create a new component with information in this class.
         /// </summary>
         /// <param name="eo">EcellObject</param>
-        /// <param name="control">PathwayView instance</param>
+        /// <param name="canvas">CanvasControl instance</param>
         /// <returns>Created component</returns>
         public PPathwayObject CreateNewComponent(EcellObject eo, CanvasControl canvas)
         {

@@ -41,6 +41,9 @@ using System.Drawing;
 
 namespace EcellLib.PathwayWindow.Handler
 {
+    /// <summary>
+    /// ToolBoxDragHandler
+    /// </summary>
     public class ToolBoxDragHandler : PDragSequenceEventHandler
     {
         #region Fields
@@ -87,10 +90,20 @@ namespace EcellLib.PathwayWindow.Handler
 
             m_object.CenterPointF = e.Position;
         }
+        /// <summary>
+        /// Event on MouseDown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {
             base.OnMouseDown(sender, e);
         }
+        /// <summary>
+        /// Event on MouseStartDrag
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected override void OnStartDrag(object sender, PInputEventArgs e)
         {
             base.OnStartDrag(sender, e);

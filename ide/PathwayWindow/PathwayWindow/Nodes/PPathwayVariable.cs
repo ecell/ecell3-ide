@@ -146,7 +146,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Change View Mode.
         /// </summary>
-        public override void ChangeViewMode(bool isViewMode)
+        public override void RefreshView(bool isViewMode)
         {
             if (isViewMode)
             {

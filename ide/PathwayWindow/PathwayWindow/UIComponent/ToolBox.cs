@@ -40,9 +40,16 @@ using UMD.HCIL.Piccolo;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
+    /// <summary>
+    /// UI class for PathwayWindow
+    /// </summary>
     public partial class ToolBox : EcellDockContent
     {
         PathwayControl m_con;
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="control"></param>
         public ToolBox(PathwayControl control)
         {
             InitializeComponent();

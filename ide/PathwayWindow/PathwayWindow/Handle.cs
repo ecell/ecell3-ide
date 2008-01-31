@@ -85,7 +85,9 @@ namespace EcellLib.PathwayWindow
         {
             get { return this.m_handleID; }
         }
-
+        /// <summary>
+        /// EventHandler
+        /// </summary>
         public PBasicInputEventHandler EventHandler
         {
             get { return m_handler; }
