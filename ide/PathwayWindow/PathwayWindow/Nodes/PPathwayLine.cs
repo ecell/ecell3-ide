@@ -58,10 +58,6 @@ namespace EcellLib.PathwayWindow.Nodes
         ///  Arrow design settings
         /// </summary>        
         public static readonly float ARROW_LENGTH = 15;
-        /// <summary>
-        /// Default Line width. = 2f
-        /// </summary>
-        private static readonly float LineWidth = 2f;
 
         /// <summary>
         /// On this CanvasViewComponentSet this PPathwayObject is drawn.
@@ -134,8 +130,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void highlight()
         {
-            float width = this.Pen.Width;
-            this.Pen = new Pen(Brushes.Orange, width);
+            this.Pen = new Pen(Brushes.Orange, Pen.Width);
             this.Brush = Brushes.Orange;
         }
 
@@ -144,8 +139,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void unhighlight()
         {
-            float width = this.Pen.Width;
-            this.Pen = new Pen(Brushes.Black, width);
+            this.Pen = new Pen(Brushes.Black, Pen.Width);
             this.Brush = Brushes.Black;
         }
 
@@ -173,7 +167,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void SetLine()
         {
-            SetLine(LineWidth);
+            SetLine(Pen.Width);
         }
 
         /// <summary>

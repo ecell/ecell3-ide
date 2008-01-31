@@ -53,7 +53,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Used to draw line to reconnect.
         /// </summary>
-        private static readonly Pen LINE_THIN_PEN = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 2);
+        private static readonly Brush LINE_BRUSH = new SolidBrush(Color.FromArgb(200, Color.Orange));
 
         /// <summary>
         /// radius of a line handle
@@ -145,7 +145,7 @@ namespace EcellLib.PathwayWindow.Handler
 
             m_line4reconnect = new PPathwayLine(m_canvas);
             m_line4reconnect.Brush = new SolidBrush(Color.FromArgb(200, Color.Orange));
-            m_line4reconnect.Pen = LINE_THIN_PEN;
+            m_line4reconnect.Pen = new Pen(LINE_BRUSH, 2);
             m_line4reconnect.Pickable = false;
         }
         #endregion
@@ -174,7 +174,7 @@ namespace EcellLib.PathwayWindow.Handler
 
             // Create Reconnect line
             m_line4reconnect.Reset();
-            m_line4reconnect.Pen = LINE_THIN_PEN;
+            m_line4reconnect.Pen = new Pen(LINE_BRUSH, line.Pen.Width);
             m_line4reconnect.Info.Direction = m_selectedLine.Info.Direction;
             m_line4reconnect.Info.TypeOfLine = m_selectedLine.Info.TypeOfLine;
             m_line4reconnect.VarPoint = m_selectedLine.VarPoint;
@@ -216,7 +216,7 @@ namespace EcellLib.PathwayWindow.Handler
             m_line4reconnect.VarPoint = varPoint;
             m_line4reconnect.ProPoint = proPoint;
             m_line4reconnect.DrawLine();
-            m_canvas.Processes[m_selectedLine.Info.ProcessKey].Refresh();
+            //m_canvas.Processes[m_selectedLine.Info.ProcessKey].Refresh();
         }
 
         /// <summary>

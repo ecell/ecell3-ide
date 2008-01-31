@@ -665,9 +665,9 @@ namespace EcellLib.PathwayWindow
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                obj.ResetPosition();
-                obj.Refresh();
-                obj.CanvasControl.DataChanged(oldKey, oldKey, obj);
+                DataChanged(eo.modelID, oldKey, eo.type, obj.EcellObject);
+                if (m_isViewMode)
+                    m_animCon.UpdatePropForSimulation();
             }
         }
 
