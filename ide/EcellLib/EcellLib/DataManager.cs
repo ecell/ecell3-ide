@@ -1410,7 +1410,8 @@ namespace EcellLib
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK)
                 {
-                    return;
+                    throw new IgnoreException("Can't change the object.");
+                    //return; // TODO
                 }
                 SimulationStop();
                 m_pManager.ChangeStatus(ProjectStatus.Loaded);
