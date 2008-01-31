@@ -76,14 +76,14 @@ Source: "samples\heatshock\*"; DestDir: "{commondocs}\My E-Cell Projects\samples
 Source: "samples\heatshock\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\heatshock\Model";
 Source: "samples\heatshock\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\heatshock\Model";
 
-Source: "samples\LTD\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD";
-Source: "samples\LTD\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD";
-Source: "samples\LTD\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD\Model";
-Source: "samples\LTD\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD\Model";
-Source: "Win32\samples\LTD\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD\DMs"; Flags: 32Bit; Check: not IsWin64();
-Source: "Win32\samples\LTD\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD\DMs"; Flags: 32Bit; Check: not IsWin64();
-Source: "x64\samples\LTD\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD\DMs"; Flags: 64Bit; Check: IsWin64();
-Source: "x64\samples\LTD\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD\DMs"; Flags: 64Bit; Check: IsWin64();
+;Source: "samples\LTD\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD";
+;Source: "samples\LTD\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD";
+;Source: "samples\LTD\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD\Model";
+;Source: "samples\LTD\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD\Model";
+;Source: "Win32\samples\LTD\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD\DMs"; Flags: 32Bit; Check: not IsWin64();
+;Source: "Win32\samples\LTD\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD\DMs"; Flags: 32Bit; Check: not IsWin64();
+;Source: "x64\samples\LTD\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\LTD\DMs"; Flags: 64Bit; Check: IsWin64();
+;Source: "x64\samples\LTD\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\LTD\DMs"; Flags: 64Bit; Check: IsWin64();
 
 Source: "samples\Oscillation\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Oscillation";
 Source: "samples\Oscillation\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\Oscillation";
@@ -140,12 +140,12 @@ Source: "conf\*"; DestDir: "{app}\conf";
 Source: "Win32\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 ;Source: "Win32\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 ;Source: "Win32\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
-Source: "MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
+Source: "Win32\bin\MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();
 
 Source: "x64\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 ;Source: "x64\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 ;Source: "x64\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
-Source: "MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
+Source: "x64\bin\MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();
 
 ; ======================================================
 ; bin/*.dll
