@@ -558,31 +558,32 @@ namespace EcellLib.Analysis
         /// <param name="key">the key of parameter value.</param>
         public void RemoveParamEntry(string key)
         {
-            if (m_paramList.ContainsKey(key)) m_paramList.Remove(key);
-            else return;
+            if (m_paramList.ContainsKey(key))
+                m_paramList.Remove(key);
+            else
+                return;
 
             for (int i = 0; i < RAParamGridView.Rows.Count; i++)
             {
-                String pData = RAParamGridView[0, i].Value.ToString();
-                if (pData.Equals(key))
-                {
-                    EcellObject obj = RAParamGridView.Rows[i].Tag as EcellObject;
-                    if (obj == null) continue;
-                    RAParamGridView.Rows.RemoveAt(i);
-                    m_paramList.Remove(key);
+                string pData = RAParamGridView[0, i].Value.ToString();
+                if (!pData.Equals(key))
+                    continue;
+                EcellObject obj = RAParamGridView.Rows[i].Tag as EcellObject;
+                if (obj == null)
+                    continue;
 
-                    foreach (EcellData d in obj.Value)
-                    {
-                        if (key.Equals(d.EntityPath))
-                        {
-                            d.Committed = true;
-                        }
-                        break;
-                    }
-                    DataManager dManager = DataManager.GetDataManager();
-                    dManager.DataChanged(obj.modelID, obj.key, obj.type, obj);
-                    break;
+                RAParamGridView.Rows.RemoveAt(i);
+                m_paramList.Remove(key);
+
+                foreach (EcellData d in obj.Value)
+                {
+                    if (!key.Equals(d.EntityPath))
+                        continue;
+
+                    d.Committed = true;
                 }
+                DataManager dManager = DataManager.GetDataManager();
+                dManager.DataChanged(obj.modelID, obj.key, obj.type, obj);
             }
         }
 
@@ -592,8 +593,10 @@ namespace EcellLib.Analysis
         /// <param name="key">the key of observed value.</param>
         public void RemoveObservEntry(string key)
         {
-            if (m_observList.ContainsKey(key)) m_observList.Remove(key);
-            else return;
+            if (m_observList.ContainsKey(key))
+                m_observList.Remove(key);
+            else
+                return;
 
             for (int i = 0; i < RAObservGridView.Rows.Count; i++)
             {
