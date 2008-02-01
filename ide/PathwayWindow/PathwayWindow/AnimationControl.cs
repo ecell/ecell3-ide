@@ -36,6 +36,7 @@ using EcellLib.PathwayWindow.Nodes;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using EcellLib.PathwayWindow.UIComponent;
+using System.Diagnostics;
 
 namespace EcellLib.PathwayWindow
 {
@@ -368,12 +369,19 @@ namespace EcellLib.PathwayWindow
         private float GetFloatValue(EcellObject eo ,string propName)
         {
             string fullpath = eo.type + ":" + eo.key + ":" + propName;
-            EcellValue value = m_dManager.GetEntityProperty(fullpath);
-            //EcellObject currentObj = m_con.Window.GetEcellObject(eo.modelID, eo.key, eo.type);
-            //EcellValue value = currentObj.GetEcellValue(propName);
-            if (value == null)
-                return 0f;
-            return (float)value.CastToDouble();
+            EcellValue value = null;
+            float num = 0f;
+            try
+            {
+                value = m_dManager.GetEntityProperty(fullpath);
+                num = (float)value.CastToDouble();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                num = float.NaN;
+            }
+            return num;
         }
         /// <summary>
         /// Get line width.
