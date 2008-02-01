@@ -108,6 +108,11 @@ namespace EcellLib.PathwayWindow.Handler
                     return;
                 if (!(e.Canvas is PToolBoxCanvas))
                     return;
+                if (!(m_con.SelectedHandle.EventHandler is DefaultMouseHandler))
+                {
+                    MessageBox.Show(m_resources.GetString("ErrToolBox"));
+                    return;
+                }
                 SetEventHandler((PToolBoxCanvas)e.Canvas);
             }
             else if (e.Canvas == m_canvas.PathwayCanvas)

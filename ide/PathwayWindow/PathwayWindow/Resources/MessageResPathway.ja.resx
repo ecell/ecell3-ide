@@ -181,7 +181,7 @@
     <value>ID表示/非表示(&amp;I)</value>
   </data>
   <data name="MsgLayoutNoNode" xml:space="preserve">
-    <value>レイアウトをする１つ以上のノードを選択して下さい</value>
+    <value>レイアウトをする１つ以上のノードを選択して下さい。</value>
   </data>
   <data name="ErrMerge" xml:space="preserve">
     <value>上位システムにマージに失敗しました。</value>
@@ -202,7 +202,7 @@
     <value>レイヤー名入力ダイアログ</value>
   </data>
   <data name="LayerDialogTitle" xml:space="preserve">
-    <value>新規レイヤー名を入力してください</value>
+    <value>新規レイヤー名を入力してください。</value>
   </data>
   <data name="LayerMenuRename" xml:space="preserve">
     <value>レイヤー名変更</value>
@@ -220,7 +220,7 @@
     <value>ビューモード</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
-    <value>レイヤー下のノードを選択する</value>
+    <value>レイヤー下のノードを選択する。</value>
   </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
     <value>プロセス &lt;-&gt; バリアブル</value>
@@ -262,10 +262,10 @@
     <value>プロセス -&gt; バリアブル</value>
   </data>
   <data name="MenuToolTipShowID" xml:space="preserve">
-    <value>オブジェクトのID表示を変更する</value>
+    <value>オブジェクトのID表示を変更する。</value>
   </data>
   <data name="MenuToolTipViewMode" xml:space="preserve">
-    <value>キャンバスのビューモードを変更する</value>
+    <value>キャンバスのビューモードを変更する。</value>
   </data>
   <data name="MenuItemEdit" xml:space="preserve">
     <value>編集(&amp;E)</value>
@@ -280,6 +280,9 @@
     <value>Pathway設定ダイアログ</value>
   </data>
   <data name="MenuToolTipSetup" xml:space="preserve">
-    <value>PathwayWindowの設定ダイアログを開きます</value>
+    <value>PathwayWindowの設定ダイアログを開きます。</value>
+  </data>
+  <data name="ErrToolBox" xml:space="preserve">
+    <value>ツールボックスは選択モード時のみ使用できます。</value>
   </data>
 </root>

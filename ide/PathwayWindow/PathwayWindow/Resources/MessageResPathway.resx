@@ -282,4 +282,7 @@
   <data name="MenuToolTipSetup" xml:space="preserve">
     <value>Show PropertyDialog of PathwayWindow.</value>
   </data>
+  <data name="ErrToolBox" xml:space="preserve">
+    <value>Toolbox is available only with a select mode.</value>
+  </data>
 </root>
