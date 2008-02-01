@@ -624,8 +624,12 @@ namespace EcellLib.ObjectList
                     if (m_gridView[j, i].Value.ToString().Contains(text))
                     {
                         ClearSelection();
+                        if (i < 0 || i > m_gridView.RowCount - 1) continue;
+                        if (m_gridView.Rows[i].Visible == false ||
+                            m_gridView.Rows[i].Frozen == true) continue;
                         m_gridView.Rows[i].Selected = true;
                         m_gridView.FirstDisplayedScrollingRowIndex = i;
+                        
                         return;
                     }
                 }
@@ -656,7 +660,9 @@ namespace EcellLib.ObjectList
         public void AddSelection(string modelID, string key, string type)
         {
             int ind = SearchObjectIndex(key, type);
-            if (ind < 0) return;
+            if (ind < 0 || ind > m_gridView.RowCount - 1) return;
+            if (m_gridView.Rows[ind].Visible == false ||
+                m_gridView.Rows[ind].Frozen) return;
             m_gridView.Rows[ind].Selected = true;
             m_gridView.FirstDisplayedScrollingRowIndex = ind;
         }
@@ -670,7 +676,9 @@ namespace EcellLib.ObjectList
         public void RemoveSelection(string modelID, string key, string type)
         {
             int ind = SearchObjectIndex(key, type);
-            if (ind < 0) return;
+            if (ind < 0 || ind > m_gridView.RowCount - 1) return;
+            if (m_gridView.Rows[ind].Visible == false ||
+                m_gridView.Rows[ind].Frozen == true) return;
             m_gridView.Rows[ind].Selected = false;
             m_gridView.FirstDisplayedScrollingRowIndex = ind;
         }
@@ -693,10 +701,11 @@ namespace EcellLib.ObjectList
         {
             ClearSelection();
             int ind = SearchObjectIndex(id, type);
-            if (ind < 0) return;
+            if (ind < 0 || ind > m_gridView.RowCount - 1) return;
+            if (m_gridView.Rows[ind].Frozen == true ||
+                m_gridView.Rows[ind].Visible == false) return;
             m_gridView[0, ind].Selected = true;
             m_gridView.FirstDisplayedScrollingRowIndex = ind;
-            m_currentModelID = modelID;
         }
 
         /// <summary>
@@ -731,7 +740,9 @@ namespace EcellLib.ObjectList
             DataDelete(modelID, id, type, isIDChanged);
             DataAdd(obj);
             int index = SearchObjectIndex(obj.key, obj.type);
-            if (index < 0) return;
+            if (index < 0 || index > m_gridView.RowCount - 1) return;
+            if (m_gridView.Rows[index].Visible == false ||
+                m_gridView.Rows[index].Frozen == true) return;
             m_gridView.Rows[index].Selected = true;
             m_gridView.FirstDisplayedScrollingRowIndex = index;
         }
