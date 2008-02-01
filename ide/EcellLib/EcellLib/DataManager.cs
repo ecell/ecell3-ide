@@ -2017,20 +2017,7 @@ namespace EcellLib
                 return;
             }
             // Get objects under this system.
-            List<EcellObject> dataList = GetData(modelID, key);
-            List<EcellObject> eoList = new List<EcellObject>();
-            foreach (EcellObject sys in dataList)
-            {
-                if (sys.key.StartsWith(system.key) && !sys.key.Equals(system.key))
-                    eoList.Add(sys.Copy());
-                
-                foreach (EcellObject node in sys.Children)
-                {
-                    if (node.key.EndsWith(":SIZE"))
-                        continue;
-                    eoList.Add(node);
-                }
-            }
+            List<EcellObject> eoList = GetObjectUnder(modelID, key);
 
             // Check Object duplication.
             string sysKey = system.key;
@@ -2060,10 +2047,39 @@ namespace EcellLib
             foreach (EcellObject eo in eoList)
             {
                 string oldKey = eo.key;
-                eo.key = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
-                DataChanged(modelID, oldKey, eo.type, eo, true, false);
+                EcellObject obj = GetEcellObject(modelID, oldKey, eo.type);
+                if (obj == null)
+                    continue;
+                obj.key = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
+                DataChanged(modelID, oldKey, eo.type, obj, true, false);
             }
-            DataDelete(modelID, system.key, system.type, true, true);
+            DataDelete(modelID, sysKey, system.type, true, true);
+        }
+        /// <summary>
+        /// Get object list under the system.
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private List<EcellObject> GetObjectUnder(string modelID, string key)
+        {
+            List<EcellObject> eoList = new List<EcellObject>();
+
+            foreach (EcellObject obj in m_systemDic[m_currentProjectID][modelID])
+            {
+                if (obj.modelID != modelID || !obj.key.StartsWith(key))
+                    continue;
+                if (!obj.key.Equals(key))
+                    eoList.Add(obj.Copy());
+
+                foreach (EcellObject node in obj.Children)
+                {
+                    if (node.key.EndsWith(":SIZE"))
+                        continue;
+                    eoList.Add(node.Copy());
+                }
+            }
+            return eoList;
         }
 
         /// <summary>

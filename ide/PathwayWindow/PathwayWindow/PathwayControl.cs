@@ -861,50 +861,51 @@ namespace EcellLib.PathwayWindow
             CanvasControl canvas = ActiveCanvas;
             if (canvas == null || canvas.SelectedSystem == null)
                 return;
-            PPathwaySystem system = canvas.SelectedSystem;
-            if (system.EcellObject.key.Equals("/"))
-            {
-                MessageBox.Show(m_resources.GetString("ErrDelRoot"),
-                                "Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
-                return;
-            }
-            // Check Object duplication.
-            string sysKey = system.EcellObject.key;
-            string parentSysKey = system.EcellObject.parentSystemID;
-            foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
-            {
-                string newKey = PathUtil.GetMovedKey(obj.EcellObject.key, sysKey, parentSysKey);
-                if (ActiveCanvas.GetSelectedObject(newKey, obj.EcellObject.type) != null)
-                {
-                    MessageBox.Show(newKey + m_resources.GetString("ErrAlrExist"),
-                                    "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
-                    return;
-                }
-            }
 
-            // Confirm system merge.
-            DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
-                "Merge",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button2);
-            if (result == DialogResult.Cancel)
-                return;
+            PPathwaySystem system = canvas.SelectedSystem;
+            //if (system.EcellObject.key.Equals("/"))
+            //{
+            //    MessageBox.Show(m_resources.GetString("ErrDelRoot"),
+            //                    "Error",
+            //                    MessageBoxButtons.OK,
+            //                    MessageBoxIcon.Error);
+            //    return;
+            //}
+            //// Check Object duplication.
+            //string sysKey = system.EcellObject.key;
+            //string parentSysKey = system.EcellObject.parentSystemID;
+            //foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
+            //{
+            //    string newKey = PathUtil.GetMovedKey(obj.EcellObject.key, sysKey, parentSysKey);
+            //    if (ActiveCanvas.GetSelectedObject(newKey, obj.EcellObject.type) != null)
+            //    {
+            //        MessageBox.Show(newKey + m_resources.GetString("ErrAlrExist"),
+            //                        "Error",
+            //                        MessageBoxButtons.OK,
+            //                        MessageBoxIcon.Error);
+            //        return;
+            //    }
+            //}
+
+            //// Confirm system merge.
+            //DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
+            //    "Merge",
+            //    MessageBoxButtons.OKCancel,
+            //    MessageBoxIcon.Question,
+            //    MessageBoxDefaultButton.Button2);
+            //if (result == DialogResult.Cancel)
+            //    return;
 
             try
             {
                 // Move systems and nodes under merged system.
-                foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
-                {
-                    string newKey = PathUtil.GetMovedKey(obj.EcellObject.key, sysKey, parentSysKey);
-                    NotifyDataChanged(obj.EcellObject.key, newKey, obj, true, false);
-                }
-                NotifyDataDelete(system.EcellObject, true);
-                //m_window.NotifyDataMerge(system.EcellObject.modelID, system.EcellObject.key);
+                //foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
+                //{
+                //    string newKey = PathUtil.GetMovedKey(obj.EcellObject.key, sysKey, parentSysKey);
+                //    NotifyDataChanged(obj.EcellObject.key, newKey, obj, true, false);
+                //}
+                //NotifyDataDelete(system.EcellObject, true);
+                m_window.NotifyDataMerge(system.EcellObject.modelID, system.EcellObject.key);
             }
             catch (IgnoreException)
             {
