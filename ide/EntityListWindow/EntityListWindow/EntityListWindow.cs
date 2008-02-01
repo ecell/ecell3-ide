@@ -450,7 +450,7 @@ namespace EcellLib.EntityListWindow
             else
             {
                 TagData tag = (TagData)parentNode.Tag;
-                if (tag.m_key.Contains(text))
+                if (tag != null && tag.m_key.Contains(text))
                 {
                     m_form.treeView1.SelectedNode = parentNode;
                     return true;
