@@ -232,7 +232,7 @@ namespace EcellLib.PathwayWindow
         {
             SetPropForSimulation();
             TimerStart();
-            m_isPausing = false;
+            m_isPausing = true;
         }
         /// <summary>
         /// Pause Simulation

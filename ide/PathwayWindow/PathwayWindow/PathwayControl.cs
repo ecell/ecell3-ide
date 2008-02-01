@@ -115,6 +115,11 @@ namespace EcellLib.PathwayWindow
         private Handle m_selectedHandle;
 
         /// <summary>
+        /// ProjectStatus
+        /// </summary>
+        private ProjectStatus m_status = ProjectStatus.Uninitialized;
+
+        /// <summary>
         /// Dictionary for canvases.
         ///  key: canvas ID
         ///  value: CanvasViewComponentSet
@@ -297,9 +302,16 @@ namespace EcellLib.PathwayWindow
                 foreach (CanvasControl canvas in m_canvasDict.Values)
                     canvas.ViewMode = m_isViewMode;
                 if (m_isViewMode)
-                    m_animCon.SetPropForSimulation();
+                {
+                    if (m_status == ProjectStatus.Running)
+                        m_animCon.StartSimulation();
+                    else
+                        m_animCon.SetPropForSimulation();
+                }
                 else
+                {
                     m_animCon.ResetPropForSimulation();
+                }
             }
         }
 
@@ -534,30 +546,31 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         ///  When change project status, change menu enable/disable.
         /// </summary>
-        /// <param name="type">System status.</param>
-        public void ChangeStatus(ProjectStatus type)
+        /// <param name="status">System status.</param>
+        public void ChangeStatus(ProjectStatus status)
         {
+            m_status = status;
             // When a project is loaded or unloaded.
-            if (type == ProjectStatus.Loaded)
+            if (status == ProjectStatus.Loaded)
             {
                 foreach (ToolStripMenuItem item in m_menuCon.LayoutMenus)
                     item.Enabled = true;
             }
-            else if (type == ProjectStatus.Uninitialized)
+            else if (status == ProjectStatus.Uninitialized)
             {
                 foreach (ToolStripMenuItem item in m_menuCon.LayoutMenus)
                     item.Enabled = false;
             }
             // When simulation started.
-            if (type == ProjectStatus.Running && m_isViewMode)
+            if (status == ProjectStatus.Running && m_isViewMode)
             {
                 m_animCon.StartSimulation();
             }
-            else if (type == ProjectStatus.Stepping && m_isViewMode)
+            else if (status == ProjectStatus.Stepping && m_isViewMode)
             {
                 m_animCon.StepSimulation();
             }
-            else if (type == ProjectStatus.Suspended)
+            else if (status == ProjectStatus.Suspended)
             {
                 m_animCon.PauseSimulation();
             }
@@ -858,7 +871,6 @@ namespace EcellLib.PathwayWindow
                 return;
             }
             // Check Object duplication.
-            bool isDuplicate = false;
             string sysKey = system.EcellObject.key;
             string parentSysKey = system.EcellObject.parentSystemID;
             foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
@@ -866,15 +878,13 @@ namespace EcellLib.PathwayWindow
                 string newKey = PathUtil.GetMovedKey(obj.EcellObject.key, sysKey, parentSysKey);
                 if (ActiveCanvas.GetSelectedObject(newKey, obj.EcellObject.type) != null)
                 {
-                    isDuplicate = true;
                     MessageBox.Show(newKey + m_resources.GetString("ErrAlrExist"),
                                     "Error",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Error);
+                    return;
                 }
             }
-            if (isDuplicate)
-                return;
 
             // Confirm system merge.
             DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
@@ -891,9 +901,11 @@ namespace EcellLib.PathwayWindow
                 foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
                 {
                     string newKey = PathUtil.GetMovedKey(obj.EcellObject.key, sysKey, parentSysKey);
-                    ActiveCanvas.TransferObject(newKey, obj.EcellObject.key, obj);
+                    //ActiveCanvas.TransferObject(newKey, obj.EcellObject.key, obj);
+                    NotifyDataChanged(obj.EcellObject.key, newKey, obj, true, false);
                 }
-                m_window.NotifyDataMerge(system.EcellObject.modelID, system.EcellObject.key);
+                NotifyDataDelete(system.EcellObject, true);
+                //m_window.NotifyDataMerge(system.EcellObject.modelID, system.EcellObject.key);
             }
             catch (IgnoreException)
             {
@@ -1152,7 +1164,9 @@ namespace EcellLib.PathwayWindow
             // Copy objects.
             List<EcellObject> nodeList;
             if (m_copiedNodes[0] is EcellSystem)
+            {
                 nodeList = CopySystems(m_copiedNodes);
+            }
             else
                 nodeList = CopyNodes(m_copiedNodes);
             // Add objects.
@@ -1476,7 +1490,7 @@ namespace EcellLib.PathwayWindow
                     system.PointF = canvas.GetVacantPoint(newSysKey, system.Rect);
                     diff = GetDistance(system.PointF, basePos);
                 }
-                // Check duplicated object.
+                // Check duplicated key.
                 system.modelID = canvas.ModelID;
                 system.key = PathUtil.GetMovedKey(system.key, oldSysKey, newSysKey);
                 if (canvas.GetSelectedObject(system.key, system.type) != null)
@@ -1485,6 +1499,13 @@ namespace EcellLib.PathwayWindow
                     newSysKey = canvas.GetTemporaryID(system.type, newSysKey);
                     system.key = newSysKey;
                 }
+                // Check system overlap
+                if (canvas.DoesSystemOverlaps(system.Rect))
+                {
+                    MessageBox.Show(m_resources.GetString("ErrSystemOverlap"));
+                    break;
+                }
+
                 // Check child nodes.
                 foreach (EcellObject eo in system.Children)
                 {

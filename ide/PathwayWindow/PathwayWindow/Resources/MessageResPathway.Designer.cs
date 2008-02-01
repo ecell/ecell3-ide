@@ -385,6 +385,15 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
+        ///   There is no space to create new system. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSystemOverlap {
+            get {
+                return ResourceManager.GetString("ErrSystemOverlap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toolbox is available only with a select mode. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrToolBox {

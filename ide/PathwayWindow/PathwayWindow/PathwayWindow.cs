@@ -303,10 +303,10 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         ///  When change system status, change menu enable/disable.
         /// </summary>
-        /// <param name="type">System status.</param>
-        public void ChangeStatus(ProjectStatus type)
+        /// <param name="status">System status.</param>
+        public void ChangeStatus(ProjectStatus status)
         {
-            m_con.ChangeStatus(type);
+            m_con.ChangeStatus(status);
         }
 
         /// <summary>

@@ -441,7 +441,7 @@ namespace EcellLib.StaticDebugWindow
             win.LayoutCheckList(list);
             win.SSDebugButton.Select();
 
-            win.Show();
+            win.ShowDialog();
         }
 
         /// <summary>

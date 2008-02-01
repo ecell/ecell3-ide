@@ -285,4 +285,7 @@
   <data name="ErrToolBox" xml:space="preserve">
     <value>Toolbox is available only with a select mode.</value>
   </data>
+  <data name="ErrSystemOverlap" xml:space="preserve">
+    <value>There is no space to create new system.</value>
+  </data>
 </root>

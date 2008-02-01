@@ -280,7 +280,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Parent object.
         /// </summary>
-        protected PPathwayObject m_parentObject;
+        protected PPathwaySystem m_parentSystem;
 
         /// <summary>
         /// ResourceManager for PathwayWindow.
@@ -466,10 +466,10 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for m_parentObject.
         /// </summary>
-        public virtual PPathwayObject ParentObject
+        public virtual PPathwaySystem ParentObject
         {
-            get { return m_parentObject; }
-            set { m_parentObject = value; }
+            get { return m_parentSystem; }
+            set { m_parentSystem = value; }
         }
         #endregion
 

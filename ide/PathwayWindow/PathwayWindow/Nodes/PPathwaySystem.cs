@@ -462,8 +462,8 @@ namespace EcellLib.PathwayWindow.Nodes
             }
 
             // Make parent system create space for this system.
-            if (null != m_parentObject && m_parentObject is PPathwaySystem)
-                ((PPathwaySystem)m_parentObject).MakeSpace(this, isRecorded);
+            if (m_parentSystem != null)
+                m_parentSystem.MakeSpace(this, isRecorded);
             m_canvas.PathwayControl.NotifyDataChanged(m_ecellObj.key, m_ecellObj.key, this, isRecorded, false);
             this.Refresh();
         }

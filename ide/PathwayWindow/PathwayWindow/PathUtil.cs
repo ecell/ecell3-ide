@@ -197,7 +197,7 @@ namespace EcellLib.PathwayWindow
                 newKey = originalKey.Replace(originalSystemKey, "/");
             else
                 newKey = originalKey.Replace(originalSystemKey, newSystemKey);
-            return newKey;
+            return newKey.Replace("//","/");
         }
     }
 
