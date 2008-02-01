@@ -79,11 +79,10 @@ namespace EcellLib.PathwayWindow
         public void TestNotifyDataChanged()
         {
             string oldKey = null;
-            string newKey = null;
             EcellLib.EcellObject eo = null;
             bool isRecorded = false;
             bool isAnchor = false;
-            _unitUnderTest.NotifyDataChanged(oldKey, newKey, eo, isRecorded, isAnchor);
+            _unitUnderTest.NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
             Assert.Fail("Create or modify test(s).");
 
         }

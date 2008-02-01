@@ -171,18 +171,16 @@ namespace EcellLib.PathwayWindow
         /// Inform the changing of EcellObject in PathwayEditor to DataManager.
         /// </summary>
         /// <param name="oldKey">the key of object before edit.</param>
-        /// <param name="newKey">the key of object after edit.</param>
         /// <param name="eo">The EcellObject changed the property.</param>
         /// <param name="isRecorded">Whether to record this change.</param>
         /// <param name="isAnchor">Whether this action is an anchor or not.</param>
         public void NotifyDataChanged(
             string oldKey,
-            string newKey,
             EcellObject eo,
             bool isRecorded,
             bool isAnchor)
         {
-            if(oldKey == null || newKey == null || eo.type == null)
+            if(oldKey == null || eo.type == null)
                 return;
             m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, isRecorded, isAnchor);
         }

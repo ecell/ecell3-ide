@@ -639,7 +639,34 @@ namespace EcellLib.PathwayWindow
             if (m_window != null)
                 m_window.NotifyDataAdd(list, isAnchor);
         }
+        
+        /// <summary>
+        /// Notify DataChanged event to outside (PathwayView -> PathwayWindow -> DataManager)
+        /// To notify position or size change.
+        /// </summary>
+        /// <param name="oldKey">the key before adding.</param>
+        /// <param name="eo">Changed EcellObject.</param>
+        /// <param name="isRecorded">Whether to record this change.</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
+        public void NotifyDataChanged(
+            string oldKey,
+            EcellObject eo,
+            bool isRecorded,
+            bool isAnchor)
+        {
+            try
+            {
+                m_window.NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                DataChanged(eo.modelID, oldKey, eo.type, eo);
+                if (m_isViewMode && m_status == ProjectStatus.Running)
+                    m_animCon.UpdatePropForSimulation();
+            }
 
+        }
         /// <summary>
         /// Notify DataChanged event to outside (PathwayView -> PathwayWindow -> DataManager)
         /// To notify position or size change.
@@ -673,7 +700,7 @@ namespace EcellLib.PathwayWindow
             obj.ViewMode = m_isViewMode;
             try
             {
-                m_window.NotifyDataChanged(oldKey, newKey, eo, isRecorded, isAnchor);
+                NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
             }
             catch (Exception e)
             {
@@ -728,7 +755,7 @@ namespace EcellLib.PathwayWindow
                     eo.type,
                     d.EntityPath);
             }
-            m_window.NotifyDataChanged(eo.key, eo.key, eo, true, true);
+            NotifyDataChanged(eo.key, eo, true, true);
         }
 
         /// <summary>
@@ -809,7 +836,7 @@ namespace EcellLib.PathwayWindow
                 }
             }
             ep.ReferenceList = newList;
-            m_window.NotifyDataChanged(ep.key, ep.key, ep, true, isAnchor);
+            NotifyDataChanged(ep.key, ep, true, isAnchor);
         }
 
         /// <summary>
@@ -863,54 +890,7 @@ namespace EcellLib.PathwayWindow
                 return;
 
             PPathwaySystem system = canvas.SelectedSystem;
-            //if (system.EcellObject.key.Equals("/"))
-            //{
-            //    MessageBox.Show(m_resources.GetString("ErrDelRoot"),
-            //                    "Error",
-            //                    MessageBoxButtons.OK,
-            //                    MessageBoxIcon.Error);
-            //    return;
-            //}
-            //// Check Object duplication.
-            //string sysKey = system.EcellObject.key;
-            //string parentSysKey = system.EcellObject.parentSystemID;
-            //foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
-            //{
-            //    string newKey = PathUtil.GetMovedKey(obj.EcellObject.key, sysKey, parentSysKey);
-            //    if (ActiveCanvas.GetSelectedObject(newKey, obj.EcellObject.type) != null)
-            //    {
-            //        MessageBox.Show(newKey + m_resources.GetString("ErrAlrExist"),
-            //                        "Error",
-            //                        MessageBoxButtons.OK,
-            //                        MessageBoxIcon.Error);
-            //        return;
-            //    }
-            //}
-
-            //// Confirm system merge.
-            //DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
-            //    "Merge",
-            //    MessageBoxButtons.OKCancel,
-            //    MessageBoxIcon.Question,
-            //    MessageBoxDefaultButton.Button2);
-            //if (result == DialogResult.Cancel)
-            //    return;
-
-            try
-            {
-                // Move systems and nodes under merged system.
-                //foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
-                //{
-                //    string newKey = PathUtil.GetMovedKey(obj.EcellObject.key, sysKey, parentSysKey);
-                //    NotifyDataChanged(obj.EcellObject.key, newKey, obj, true, false);
-                //}
-                //NotifyDataDelete(system.EcellObject, true);
-                m_window.NotifyDataMerge(system.EcellObject.modelID, system.EcellObject.key);
-            }
-            catch (IgnoreException)
-            {
-                return;
-            }
+            m_window.NotifyDataMerge(system.EcellObject.modelID, system.EcellObject.key);
             if (system.IsHighLighted)
                 ActiveCanvas.ResetSelectedSystem();
         }
@@ -1583,15 +1563,15 @@ namespace EcellLib.PathwayWindow
 
             // Set Layout.
             foreach (EcellObject system in systemList)
-                this.m_window.NotifyDataChanged(system.key, system.key, system, isRecorded, false);
+                this.NotifyDataChanged(system.key, system, isRecorded, false);
             int i = 0;
             foreach (EcellObject node in nodeList)
             {
                 node.isFixed = false;
                 if(i != nodeList.Count)
-                    this.m_window.NotifyDataChanged(node.key, node.key, node, isRecorded, false);
+                    this.NotifyDataChanged(node.key, node, isRecorded, false);
                 else
-                    this.m_window.NotifyDataChanged(node.key, node.key, node, isRecorded, true);
+                    this.NotifyDataChanged(node.key, node, isRecorded, true);
                 i++;
             }
         }

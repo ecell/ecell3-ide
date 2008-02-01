@@ -440,7 +440,7 @@ namespace EcellLib.PathwayWindow
             brushDic.Add("Teal", Brushes.Teal);
             brushDic.Add("Thistle", Brushes.Thistle);
             brushDic.Add("Tomato", Brushes.Tomato);
-            brushDic.Add("Transparent", Brushes.Transparent);
+            //brushDic.Add("Transparent", Brushes.Transparent);
             brushDic.Add("Turquoise", Brushes.Turquoise);
             brushDic.Add("Violet", Brushes.Violet);
             brushDic.Add("Wheat", Brushes.Wheat);
@@ -590,7 +590,7 @@ namespace EcellLib.PathwayWindow
             colorDic.Add("Teal", Color.Teal);
             colorDic.Add("Thistle", Color.Thistle);
             colorDic.Add("Tomato", Color.Tomato);
-            colorDic.Add("Transparent", Color.Transparent);
+            //colorDic.Add("Transparent", Color.Transparent);
             colorDic.Add("Turquoise", Color.Turquoise);
             colorDic.Add("Violet", Color.Violet);
             colorDic.Add("Wheat", Color.Wheat);
