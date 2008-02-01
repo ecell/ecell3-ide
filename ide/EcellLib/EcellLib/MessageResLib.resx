@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConfirmMerge" xml:space="preserve">
+    <value>Are you sure merge the component in system to upper system.</value>
+  </data>
   <data name="ConfirmReset" xml:space="preserve">
     <value>Simulation is running. Would you reset the simulation?</value>
   </data>
@@ -164,6 +167,9 @@
   </data>
   <data name="ErrDeleteSimParam" xml:space="preserve">
     <value>Can not delete the simulation parameter.</value>
+  </data>
+  <data name="ErrDelRoot" xml:space="preserve">
+    <value>Can not delete the root system.</value>
   </data>
   <data name="ErrExistID" xml:space="preserve">
     <value>{0} already exists in this VariableReferenceList.</value>

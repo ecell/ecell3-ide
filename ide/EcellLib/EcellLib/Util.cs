@@ -692,5 +692,26 @@ namespace EcellLib
             return result;
         }
 
+        /// <summary>
+        /// Get key moved to another system.
+        /// </summary>
+        /// <param name="originalKey"></param>
+        /// <param name="originalSystemKey"></param>
+        /// <param name="newSystemKey"></param>
+        /// <returns></returns>
+        public static string GetMovedKey(string originalKey, string originalSystemKey, string newSystemKey)
+        {
+            if (null == originalKey || null == originalSystemKey || null == newSystemKey)
+                return null;
+            string newKey;
+            if (originalSystemKey.Equals("/") && !newSystemKey.Equals("/"))
+                newKey = newSystemKey + originalKey.Substring(1);
+            else if (!originalSystemKey.Equals("/") && newSystemKey.Equals("/"))
+                newKey = originalKey.Replace(originalSystemKey, "/");
+            else
+                newKey = originalKey.Replace(originalSystemKey, newSystemKey);
+            return newKey.Replace("//", "/");
+        }
+
     }
 }

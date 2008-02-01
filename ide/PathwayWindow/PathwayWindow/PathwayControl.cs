@@ -901,7 +901,6 @@ namespace EcellLib.PathwayWindow
                 foreach (PPathwayObject obj in ActiveCanvas.GetAllObjectUnder(sysKey))
                 {
                     string newKey = PathUtil.GetMovedKey(obj.EcellObject.key, sysKey, parentSysKey);
-                    //ActiveCanvas.TransferObject(newKey, obj.EcellObject.key, obj);
                     NotifyDataChanged(obj.EcellObject.key, newKey, obj, true, false);
                 }
                 NotifyDataDelete(system.EcellObject, true);

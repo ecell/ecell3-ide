@@ -2006,6 +2006,75 @@ namespace EcellLib
         /// <param name="isAnchor">whether this action is an anchor or not</param>
         public void SystemDeleteAndMove(string modelID, string key, bool isRecorded, bool isAnchor)
         {
+
+            EcellObject system = GetEcellObject(modelID, key, EcellObject.SYSTEM);
+            if (system.key.Equals("/"))
+            {
+                MessageBox.Show(m_resources.GetString("ErrDelRoot"),
+                                "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+            // Get objects under this system.
+            List<EcellObject> dataList = GetData(modelID, key);
+            List<EcellObject> eoList = new List<EcellObject>();
+            foreach (EcellObject sys in dataList)
+            {
+                if (sys.key.StartsWith(system.key) && !sys.key.Equals(system.key))
+                    eoList.Add(sys.Copy());
+                
+                foreach (EcellObject node in sys.Children)
+                {
+                    if (node.key.EndsWith(":SIZE"))
+                        continue;
+                    eoList.Add(node);
+                }
+            }
+
+            // Check Object duplication.
+            string sysKey = system.key;
+            string parentSysKey = system.parentSystemID;
+            foreach (EcellObject eo in eoList)
+            {
+                string newKey = Util.GetMovedKey(eo.key, sysKey, parentSysKey);
+                if (GetEcellObject(modelID, newKey, eo.type) != null)
+                {
+                    MessageBox.Show(newKey + m_resources.GetString("ErrExistObj"),
+                                    "Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            // Confirm system merge.
+            DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
+                "Merge",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.Cancel)
+                return;
+
+            // Move systems and nodes under merged system.
+            foreach (EcellObject eo in eoList)
+            {
+                string oldKey = eo.key;
+                eo.key = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
+                DataChanged(modelID, oldKey, eo.type, eo, true, false);
+            }
+            DataDelete(modelID, system.key, system.type, true, true);
+        }
+
+        /// <summary>
+        /// Move the component to the upper system, when system is deleted.
+        /// </summary>
+        /// <param name="modelID">modelID of deleted system.</param>
+        /// <param name="key">key of deleted system.</param>
+        /// <param name="isRecorded">whether this action will be recorded or not</param>
+        /// <param name="isAnchor">whether this action is an anchor or not</param>
+        public void SystemDeleteAndMove2(string modelID, string key, bool isRecorded, bool isAnchor)
+        {
             string sizeKey = key + ":SIZE";
             Dictionary<String, String> variableList = new Dictionary<String, String>();
             List<EcellObject> targetSysList = new List<EcellObject>();

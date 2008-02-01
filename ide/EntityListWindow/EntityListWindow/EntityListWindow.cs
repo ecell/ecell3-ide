@@ -784,7 +784,7 @@ namespace EcellLib.EntityListWindow
                 else if (tag.m_type == Constants.xpathSystem) 
                     m_dManager.SystemDeleteAndMove(tag.m_modelID, tag.m_key);
                 else m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
-                if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
+//                if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
             }
             catch (Exception ex)
             {
