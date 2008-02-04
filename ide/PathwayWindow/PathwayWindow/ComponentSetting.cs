@@ -271,7 +271,6 @@ namespace EcellLib.PathwayWindow
         public PPathwayObject CreateTemplate()
         {
             PPathwayObject obj = m_createMethod();
-            obj.CsID = m_name;
             obj.Setting = this;
             obj.FillBrush = m_fillBrush;
             obj.LineBrush = m_lineBrush;

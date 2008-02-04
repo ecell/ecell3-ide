@@ -93,10 +93,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         protected PText m_pText;
         /// <summary>
-        /// The ID of ComponentSetting from which this object was created
-        /// </summary>
-        protected string m_csId;
-        /// <summary>
         /// Object will be painted with this Brush when object is not selected.
         /// </summary>
         protected Brush m_fillBrush = Brushes.White;
@@ -444,14 +440,6 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             get { return this.m_layer; }
             set { this.m_layer = value; }
-        }
-        /// <summary>
-        /// Accessor for m_csId.
-        /// </summary>
-        public virtual string CsID
-        {
-            get { return this.m_csId; }
-            set { this.m_csId = value; }
         }
         /// <summary>
         /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
@@ -877,27 +865,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// Gets a reference to the underlying path object.
-        /// </summary>
-        /// <value>The underlying path object.</value>
-        public virtual GraphicsPath PathReference
-        {
-            get { return m_path; }
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.FillMode">GraphicsPath.FillMode</see>.
-        /// </summary>
-        public virtual FillMode FillMode
-        {
-            get { return m_path.FillMode; }
-            set
-            {
-                m_path.FillMode = value;
-                InvalidatePaint();
-            }
-        }
-        /// <summary>
         /// get/set whether is shown ID.
         /// </summary>
         public bool ShowingID
@@ -914,14 +881,6 @@ namespace EcellLib.PathwayWindow.Nodes
         public virtual GraphicsPath Path
         {
             get { return m_path; }
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.PointCount">GraphicsPath.PointCount</see>.
-        /// </summary>
-        public virtual int PointCount
-        {
-            get { return m_path.PointCount; }
         }
 
         /// <summary>
