@@ -61,14 +61,9 @@ namespace EcellLib.PathwayWindow
         private string m_name;
 
         /// <summary>
-        /// GraphicsPath of this component.
-        /// </summary>
-        private GraphicsPath m_gp = new GraphicsPath();
-
-        /// <summary>
         /// List of FigureBase, which will be used for getting contact point to edge.
         /// </summary>
-        private List<FigureBase> m_figureList = new List<FigureBase>();
+        private FigureBase m_figure = null;
 
         /// <summary>
         /// Whether NormalBrush is set or not.
@@ -157,45 +152,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_gp.
-        /// </summary>
-        public GraphicsPath GraphicsPath
-        {
-            get { return m_gp; }
-        }
-        /// <summary>
-        /// Accessor for resized m_gp for being used as ToolBox item.
-        /// </summary>
-        public GraphicsPath TransformedPath
-        {
-            get
-            {
-                GraphicsPath transPath = (GraphicsPath)m_gp.Clone();
-                RectangleF rect = m_gp.GetBounds();
-                Matrix matrix = new Matrix();
-                
-                matrix.Translate(-1f * (rect.X + rect.Width / 2f),
-                                 -1f * (rect.Y + rect.Height / 2f));
-
-                transPath.Transform(matrix);
-
-                matrix = new Matrix();
-                if(rect.Width > rect.Height)
-                {
-                    matrix.Scale(240f / rect.Width, 240f / rect.Width);
-                    matrix.Translate(128f * rect.Width / 256f, 128f * rect.Width / 256f);
-                }
-                else
-                {
-                    matrix.Scale(240f / rect.Height, 240f / rect.Height);
-                    matrix.Translate(128f * rect.Height / 256f, 128f * rect.Height / 256f);
-                }
-                
-                transPath.Transform(matrix);
-                return transPath;
-            }
-        }
-        /// <summary>
         /// Accessor for m_normalBrush.
         /// </summary>
         public Brush FillBrush
@@ -230,9 +186,9 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_figureList.
         /// </summary>
-        public List<FigureBase> FigureList
+        public FigureBase Figure
         {
-            get { return this.m_figureList; }
+            get { return this.m_figure; }
         }
         #endregion
 
@@ -244,7 +200,7 @@ namespace EcellLib.PathwayWindow
         public List<string> Validate()
         {
             List<string> lackInfos = new List<string>();
-            if (m_gp.PathData == null || m_gp.PointCount == 0)
+            if (m_figure.GraphicsPath.PathData == null || m_figure.GraphicsPath.PointCount == 0)
                 if(m_componentKind != ComponentType.System)
                     lackInfos.Add("Drawing");
 
@@ -267,9 +223,8 @@ namespace EcellLib.PathwayWindow
         public void AddComponentClass(string className)
         {
             if(className == null || className.Equals(""))
-            {
                 throw new NoSuchComponentClassException();
-            }
+
             if (className.Equals(ComponentManager.ClassPPathwayVariable))
             {
                 PPathwayVariable variable = new PPathwayVariable();
@@ -326,7 +281,7 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
-                obj.AddPath(m_gp, false);
+                obj.AddPath(m_figure.GraphicsPath, false);
                 obj.Width = PPathwayNode.DEFAULT_WIDTH;
                 obj.Height = PPathwayNode.DEFAULT_HEIGHT;
             }
@@ -349,66 +304,18 @@ namespace EcellLib.PathwayWindow
 
             type = type.ToLower();
             float[] values = StringToFloats(argString);
-            ErrorType returnCode = ErrorType.No_Error;
-            if(type.Equals("arc"))
+
+            if (type.Equals("ellipse"))
             {
-                returnCode = AddArc(values);
-                return ErrorType.No_Error;
-            }
-            else if(type.Equals("bezier"))
-            {
-                returnCode = AddBezier(values);
-                return ErrorType.No_Error;
-            }
-            else if (type.Equals("beziers"))
-            {
-                returnCode = AddBeziers(values);
-                return ErrorType.No_Error;
-            }
-            else if (type.Equals("closedcurve"))
-            {
-                returnCode = AddClosedCurve(values);
-                return ErrorType.No_Error;
-            }
-            else if (type.Equals("curve"))
-            {
-                returnCode = AddCurve(values);
-                return ErrorType.No_Error;
-            }
-            else if (type.Equals("ellipse"))
-            {
-                returnCode = AddEllipse(values);
-                return ErrorType.No_Error;
-            }
-            else if (type.Equals("line"))
-            {
-                returnCode = AddLine(values);
-                return ErrorType.No_Error;
-            }
-            else if (type.Equals("lines"))
-            {
-                returnCode = AddLines(values);
-                return ErrorType.No_Error;
-            }
-            else if (type.Equals("pie"))
-            {
-                returnCode = AddPie(values);
-                return ErrorType.No_Error;
-            }
-            else if (type.Equals("polygon"))
-            {
-                returnCode = AddPolygon(values);
-                return ErrorType.No_Error;
+                return AddEllipse(values);
             }
             else if (type.Equals("rectangle"))
             {
-                returnCode = AddRectangle(values);
-                return ErrorType.No_Error;
+                return AddRectangle(values);
             }
             else if (type.Equals("roundcornerrectangle"))
             {
-                returnCode = AddRoundCornerRectangle(values);
-                return ErrorType.No_Error;
+                return AddRoundCornerRectangle(values);
             }
             else
             {
@@ -431,127 +338,6 @@ namespace EcellLib.PathwayWindow
             return values;
         }
         /// <summary>
-        /// Add arc.
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private ErrorType AddArc(float[] args)
-        {
-            if (args.Length < 6)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                m_gp.AddArc(args[0],
-                            args[1],
-                            args[2],
-                            args[3],
-                            args[4],
-                            args[5]);
-                return ErrorType.No_Error;
-            }
-            catch(FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
-        }
-        /// <summary>
-        /// Add bezier curve.
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private ErrorType AddBezier(float[] args)
-        {
-            if (args.Length < 8)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                PointF p1 = new PointF(args[0], args[1]);
-                PointF p2 = new PointF(args[2], args[3]);
-                PointF p3 = new PointF(args[4], args[5]);
-                PointF p4 = new PointF(args[6], args[7]);
-                m_gp.AddBezier(p1, p2, p3, p4);
-                return ErrorType.No_Error;
-            }
-            catch(FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
-        }
-        /// <summary>
-        /// Add bezier curves
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private ErrorType AddBeziers(float[] args)
-        {
-            if(args.Length < 2)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                int numPoint = args.Length / 2;
-                PointF[] pArray = new PointF[numPoint];
-                for (int m = 0; m < numPoint; m++)
-                    pArray[m] = new PointF(args[m], args[m + 1]);
-                m_gp.AddBeziers(pArray);
-                return ErrorType.No_Error;
-            }
-            catch(FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
-        }
-        /// <summary>
-        /// Add closed curve
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private ErrorType AddClosedCurve(float[] args)
-        {
-            if (args.Length < 2)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                int numPoint = args.Length / 2;
-                PointF[] pArray = new PointF[numPoint];
-                for (int m = 0; m < numPoint; m++)
-                    pArray[m] = new PointF(args[m], args[m + 1]);
-                m_gp.AddClosedCurve(pArray);
-                return ErrorType.No_Error;
-            }
-            catch(FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
-        }
-        /// <summary>
-        /// Add curve
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private ErrorType AddCurve(float[] args)
-        {
-            if (args.Length < 2)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                int numPoint = args.Length / 2;
-                PointF[] pArray = new PointF[numPoint];
-                for (int m = 0; m < numPoint; m++)
-                    pArray[m] = new PointF(args[m], args[m + 1]);
-                m_gp.AddCurve(pArray);
-                return ErrorType.No_Error;
-            }
-            catch (FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
-        }
-        /// <summary>
         /// Add ellipse
         /// </summary>
         /// <param name="args"></param>
@@ -563,109 +349,7 @@ namespace EcellLib.PathwayWindow
 
             try
             {
-                RectangleF rect = new RectangleF( args[0],
-                                                  args[1],
-                                                  args[2],
-                                                  args[3]);
-                m_gp.AddEllipse(rect.X, rect.Y, rect.Width, rect.Height);
-                m_figureList.Add(new EllipseFigure(rect.X, rect.Y, rect.Width, rect.Height));
-                return ErrorType.No_Error;
-            }
-            catch (FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
-        }
-        /// <summary>
-        /// Add line
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private ErrorType AddLine(float[] args)
-        {
-            if (args.Length < 4)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                m_gp.AddLine(args[0],
-                             args[1],
-                             args[2],
-                             args[3]);
-                m_gp.CloseFigure();
-                return ErrorType.No_Error;
-            }
-            catch (FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
-        }
-        /// <summary>
-        /// Add lines
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private ErrorType AddLines(float[] args)
-        {
-            if (args.Length < 2)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                int numPoint = args.Length / 2;
-                PointF[] pArray = new PointF[numPoint];
-                for (int m = 0; m < numPoint; m++)
-                    pArray[m] = new PointF(args[m], args[m + 1]);
-                m_gp.AddLines(pArray);
-                return ErrorType.No_Error;
-            }
-            catch (FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
-        }
-        /// <summary>
-        /// Add pie
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private ErrorType AddPie(float[] args)
-        {
-            if (args.Length < 6)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                m_gp.AddPie(args[0],
-                            args[1],
-                            args[2],
-                            args[3],
-                            args[4],
-                            args[5]);
-                return ErrorType.No_Error;
-            }
-            catch (FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
-        }
-        /// <summary>
-        /// Add polygon
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private ErrorType AddPolygon(float[] vars)
-        {
-            if (vars.Length < 2)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                int numPoint = vars.Length / 2;
-                PointF[] pArray = new PointF[numPoint];
-                for (int m = 0; m < numPoint; m++)
-                    pArray[m] = new PointF(vars[m], vars[m + 1]);
-                m_gp.AddPolygon(pArray);
+                m_figure = new EllipseFigure(args);
                 return ErrorType.No_Error;
             }
             catch (FormatException)
@@ -676,7 +360,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Add rectangle
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="vars"></param>
         /// <returns></returns>
         private ErrorType AddRectangle(float[] vars)
         {
@@ -685,12 +369,7 @@ namespace EcellLib.PathwayWindow
 
             try
             {
-                RectangleF rect = new RectangleF(vars[0],
-                                vars[1],
-                                vars[2],
-                                vars[3]);
-                m_figureList.Add(new RectangleFigure(rect.X, rect.Y, rect.Width, rect.Height));
-                m_gp.AddRectangle(rect);
+                m_figure = new RectangleFigure(vars);
                 return ErrorType.No_Error;
             }
             catch (FormatException)
@@ -701,7 +380,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Add RoundCornerRectangle
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="vars"></param>
         /// <returns></returns>
         private ErrorType AddRoundCornerRectangle(float[] vars)
         {
@@ -710,12 +389,7 @@ namespace EcellLib.PathwayWindow
 
             try
             {
-                RectangleF rect = new RectangleF(vars[0],
-                                vars[1],
-                                vars[2],
-                                vars[3]);
-                m_figureList.Add(new RoundCornerRectangle(rect.X, rect.Y, rect.Width, rect.Height));
-                m_gp.AddRectangle(rect);
+                m_figure = new RoundCornerRectangle(vars);
                 return ErrorType.No_Error;
             }
             catch (FormatException)

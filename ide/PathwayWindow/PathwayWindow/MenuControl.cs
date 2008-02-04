@@ -622,7 +622,7 @@ namespace EcellLib.PathwayWindow
                 }
                 else
                 {
-                    GraphicsPath gp = cs.TransformedPath;
+                    GraphicsPath gp = cs.Figure.TransformedPath;
                     gra.FillPath(cs.FillBrush, gp);
                     gra.DrawPath(new Pen(Brushes.Black, 16), gp);
                     button.Handle = new Handle(Mode.CreateNode, handleCount++, new CreateNodeMouseHandler(m_con, cs.ComponentType), cs.ComponentType);

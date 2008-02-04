@@ -279,13 +279,10 @@ namespace EcellLib.PathwayWindow
                     xmlOut.WriteElementString("LineColor", BrushManager.ParseBrushToString(setting.LineBrush));
                     xmlOut.WriteElementString("FillColor", BrushManager.ParseBrushToString(setting.FillBrush));
                     xmlOut.WriteStartElement("Drawings");
-                    foreach (FigureBase figure in setting.FigureList)
-                    {
-                        xmlOut.WriteStartElement("Draw");
-                        xmlOut.WriteAttributeString("Type", figure.Type);
-                        xmlOut.WriteValue(figure.Coordinates);
-                        xmlOut.WriteEndElement();
-                    }
+                    xmlOut.WriteStartElement("Draw");
+                    xmlOut.WriteAttributeString("Type", setting.Figure.Type);
+                    xmlOut.WriteValue(setting.Figure.Coordinates);
+                    xmlOut.WriteEndElement();
                     xmlOut.WriteEndElement();
                     xmlOut.WriteEndElement();
                 }
@@ -769,7 +766,7 @@ namespace EcellLib.PathwayWindow
                 this.cBoxFigure.Name = "cBoxLineColor";
                 this.cBoxFigure.Size = new System.Drawing.Size(128, 20);
                 this.cBoxFigure.TabIndex = 0;
-                this.cBoxFigure.Text = cs.FigureList[0].Type;
+                this.cBoxFigure.Text = cs.Figure.Type;
                 // 
                 // cBoxLineColor
                 // 

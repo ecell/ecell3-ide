@@ -89,7 +89,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Figure List
         /// </summary>
-        protected List<FigureBase> m_figureList = new List<FigureBase>();
+        protected FigureBase m_tempFigure = null;
         #endregion
 
         #region Accessors
@@ -184,7 +184,7 @@ namespace EcellLib.PathwayWindow.Nodes
             this.VisibleChanged += new PPropertyEventHandler(PPathwayNode_VisibleChanged);
             this.MouseEnter += new PInputEventHandler(PPathwayNode_OnMouseEnter);
             this.MouseLeave += new PInputEventHandler(PPathwayNode_OnMouseLeave);
-            m_figureList.Add(new EllipseFigure(-5, -5, 10, 10));
+            m_tempFigure = new EllipseFigure(-5, -5, 10, 10);
             // PropertyText
             m_pPropertyText = new PText();
             m_pPropertyText.Pickable = false;
@@ -397,11 +397,11 @@ namespace EcellLib.PathwayWindow.Nodes
             // Set Figure List
             if (base.m_setting == null)
                 return this.CenterPoint;
-            List<FigureBase> figureList;
+            FigureBase figureList;
             if (m_isViewMode && this is PPathwayProcess)
-                figureList = m_figureList;
+                figureList = m_tempFigure;
             else
-                figureList = base.m_setting.FigureList;
+                figureList = base.m_setting.Figure;
             if (figureList == null)
                 return this.CenterPoint;
 
@@ -413,16 +413,14 @@ namespace EcellLib.PathwayWindow.Nodes
 
             float minDistance = 0;
             PointF minContactPoint = PointF.Empty;
-            foreach(FigureBase figureBase in figureList)
+
+            PointF candPoint = figureList.GetContactPoint(refPoint, originalPoint);
+            float distance = PathUtil.GetDistance(refPoint, candPoint)
+                            + PathUtil.GetDistance(originalPoint, candPoint);
+            if(minContactPoint == PointF.Empty || distance < minDistance)
             {
-                PointF candPoint = figureBase.GetContactPoint(refPoint, originalPoint);
-                float distance = PathUtil.GetDistance(refPoint, candPoint)
-                                + PathUtil.GetDistance(originalPoint, candPoint);
-                if(minContactPoint == PointF.Empty || distance < minDistance)
-                {
-                    minContactPoint = candPoint;
-                    minDistance = distance;
-                }
+                minContactPoint = candPoint;
+                minDistance = distance;
             }
 
             minContactPoint.X += centerPoint.X;

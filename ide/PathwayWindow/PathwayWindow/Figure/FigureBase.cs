@@ -72,16 +72,6 @@ namespace EcellLib.PathwayWindow.Figure
         protected GraphicsPath m_gp = null;
         #endregion
 
-        #region Constructors
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public FigureBase()
-        {
-            m_gp = new GraphicsPath();
-        }
-        #endregion
-
         #region Accessors
         /// <summary>
         /// Accessor for m_gp.
@@ -103,14 +93,95 @@ namespace EcellLib.PathwayWindow.Figure
         /// <summary>
         /// type string.
         /// </summary>
-        public string Coordinates 
+        public string Coordinates
         {
-            get{
+            get
+            {
                 string coordinates = m_x.ToString() + "," + m_y.ToString() + "," + m_width + "," + m_height.ToString();
                 return coordinates;
             }
         }
+
+        /// <summary>
+        /// Accessor for resized m_gp for being used as ToolBox item.
+        /// </summary>
+        public GraphicsPath TransformedPath
+        {
+            get
+            {
+                GraphicsPath transPath = (GraphicsPath)m_gp.Clone();
+                RectangleF rect = m_gp.GetBounds();
+                Matrix matrix = new Matrix();
+
+                matrix.Translate(-1f * (rect.X + rect.Width / 2f),
+                                 -1f * (rect.Y + rect.Height / 2f));
+
+                transPath.Transform(matrix);
+
+                matrix = new Matrix();
+                if (rect.Width > rect.Height)
+                {
+                    matrix.Scale(240f / rect.Width, 240f / rect.Width);
+                    matrix.Translate(128f * rect.Width / 256f, 128f * rect.Width / 256f);
+                }
+                else
+                {
+                    matrix.Scale(240f / rect.Height, 240f / rect.Height);
+                    matrix.Translate(128f * rect.Height / 256f, 128f * rect.Height / 256f);
+                }
+
+                transPath.Transform(matrix);
+                return transPath;
+            }
+        }
         #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public FigureBase()
+        {
+            m_gp = new GraphicsPath();
+        }
+
+        /// <summary>
+        /// Create figure.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static FigureBase CreateFigure(string type, string args)
+        {
+            switch (type)
+            {
+                case "Ellipse":
+                    return new EllipseFigure(StringToFloats(args));
+                case "Rectangle":
+                    return new RectangleFigure(StringToFloats(args));
+                case "RoundCornerRectangle":
+                    return new EllipseFigure(StringToFloats(args));
+                default:
+                    return null;
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Change string to float array.
+        /// </summary>
+        /// <param name="argString"></param>
+        /// <returns></returns>
+        protected static float[] StringToFloats(string argString)
+        {
+            string[] args = argString.Split(new Char[] { ',', ' ' });
+            float[] values = new float[args.Length];
+            for (int i = 0; i < args.Length; i++)
+            {
+                values[i] = float.Parse(args[i]);
+            }
+            return values;
+        }
 
         /// <summary>
         /// Return a contact point between an outer point and an inner point.

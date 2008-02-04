@@ -39,8 +39,16 @@ namespace EcellLib.PathwayWindow.Figure
     /// </summary>
     public class EllipseFigure : FigureBase
     {
+        #region Constructors
         /// <summary>
-        /// A constructor.
+        /// Constructor with no params.
+        /// </summary>
+        public EllipseFigure()
+        {
+            Initialize(0, 0, 0, 0);
+        }
+        /// <summary>
+        /// Constructor with params
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -48,13 +56,40 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="height"></param>
         public EllipseFigure(float x, float y, float width, float height)
         {
+            Initialize(x, y, width, height);
+        }
+        /// <summary>
+        /// Constructor with float array.
+        /// </summary>
+        /// <param name="vars"></param>
+        public EllipseFigure(float[] vars)
+        {
+            if (vars.Length >= 4)
+                Initialize(vars[0], vars[1], vars[2], vars[3]);
+            else
+                Initialize(0, 0, 0, 0);
+        }
+
+        /// <summary>
+        /// Initializer
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        private void Initialize(float x, float y, float width, float height)
+        {
             m_x = x;
             m_y = y;
             m_width = width;
             m_height = height;
             m_type = "Ellipse";
+            RectangleF rect = new RectangleF(x, y, width, height);
+            m_gp.AddEllipse(rect);
         }
+        #endregion
 
+        #region Inherited
         /// <summary>
         /// Get contact point for this figure.
         /// </summary>
@@ -145,5 +180,7 @@ namespace EcellLib.PathwayWindow.Figure
             
             return contactPoint;
         }
+        #endregion
+
     }
 }
