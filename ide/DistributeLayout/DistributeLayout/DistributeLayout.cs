@@ -59,10 +59,12 @@ namespace EcellLib.DistributeLayout
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
         {
+            if (nodeList == null || nodeList.Count <= 1)
+                return false;
+            nodeList = GetSelectedObject(nodeList);
             if (nodeList.Count <= 2)
                 return false;
 
-            nodeList = GetSelectedObject(nodeList);
             RectangleF rect = GetSurroundingRect(nodeList);
 
             Direction dir = GetDirection(subNum);
