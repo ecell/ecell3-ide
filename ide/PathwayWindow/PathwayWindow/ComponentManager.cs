@@ -251,6 +251,7 @@ namespace EcellLib.PathwayWindow
             try
             {
                 // Create xml file
+                CheckFilePath();
                 fs = new FileStream(filepath, FileMode.Create);
                 xmlOut = new XmlTextWriter(fs, Encoding.Unicode);
 
@@ -475,8 +476,21 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private static string GetUserSettingsFilePath()
         {
-            string filename = Path.Combine(Util.GetUserDir(), "ComponentSettings.xml");
+            string path = Util.GetUserDir();
+            string filename = Path.Combine(path, "ComponentSettings.xml");
             return filename;
+        }
+
+        /// <summary>
+        /// Check file path.
+        /// </summary>
+        private static void CheckFilePath()
+        {
+            string path = Util.GetUserDir();
+            if (string.IsNullOrEmpty(path))
+                return;
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
         }
 
         /// <summary>
