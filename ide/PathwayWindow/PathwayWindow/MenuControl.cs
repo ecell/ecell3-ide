@@ -313,6 +313,7 @@ namespace EcellLib.PathwayWindow
                     {
                         PathwayToolStripMenuItem layoutSubItem = new PathwayToolStripMenuItem();
                         layoutSubItem.Text = subCommandName;
+                        layoutSubItem.ID = count;
                         layoutSubItem.SubID = subcount;
                         layoutSubItem.Visible = true;
                         layoutSubItem.Click += new EventHandler(m_con.LayoutItem_Click);

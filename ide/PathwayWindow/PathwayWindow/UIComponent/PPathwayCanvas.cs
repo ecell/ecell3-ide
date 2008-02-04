@@ -136,7 +136,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             if (e.Button != MouseButtons.Right)
                 return;
 
-            // Set popup menu visibility.
+            // Set popup menu visibility flags.
             bool isPPathwayObject = (m_canvas.FocusNode is PPathwayObject);
             bool isPPathwayNode = (m_canvas.FocusNode is PPathwayNode);
             bool isPPathwaySystem = (m_canvas.FocusNode is PPathwaySystem);

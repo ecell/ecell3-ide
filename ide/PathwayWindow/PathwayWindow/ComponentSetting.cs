@@ -49,39 +49,6 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class ComponentSetting
     {
-        #region Enums
-        /// <summary>
-        /// Type of errors which are returned by methods of this class.
-        /// </summary>
-        public enum ErrorType
-        {
-            /// <summary>
-            /// not an error.
-            /// </summary>
-            No_Error,
-            /// <summary>
-            /// figure is null
-            /// </summary>
-            Error_FigureNull,
-            /// <summary>
-            /// argument is null
-            /// </summary>
-            Error_ArgsNull,
-            /// <summary>
-            /// a figure doesn't exist
-            /// </summary>
-            Error_NoSuchFigure,
-            /// <summary>
-            /// some argument is lost
-            /// </summary>
-            Error_LessArgs,
-            /// <summary>
-            /// format is illegal
-            /// </summary>
-            Error_IllegalFormat
-        };
-        #endregion
-
         #region Fields
         /// <summary>
         /// Type of component which this instance offers.
@@ -382,7 +349,7 @@ namespace EcellLib.PathwayWindow
 
             type = type.ToLower();
             float[] values = StringToFloats(argString);
-            ErrorType returnCode = ComponentSetting.ErrorType.No_Error;
+            ErrorType returnCode = ErrorType.No_Error;
             if(type.Equals("arc"))
             {
                 returnCode = AddArc(values);
@@ -481,11 +448,11 @@ namespace EcellLib.PathwayWindow
                             args[3],
                             args[4],
                             args[5]);
-                return ComponentSetting.ErrorType.No_Error;
+                return ErrorType.No_Error;
             }
             catch(FormatException)
             {
-                return ComponentSetting.ErrorType.Error_IllegalFormat;
+                return ErrorType.Error_IllegalFormat;
             }
         }
         /// <summary>
@@ -520,7 +487,7 @@ namespace EcellLib.PathwayWindow
         private ErrorType AddBeziers(float[] args)
         {
             if(args.Length < 2)
-                return ComponentSetting.ErrorType.Error_LessArgs;
+                return ErrorType.Error_LessArgs;
 
             try
             {
@@ -529,11 +496,11 @@ namespace EcellLib.PathwayWindow
                 for (int m = 0; m < numPoint; m++)
                     pArray[m] = new PointF(args[m], args[m + 1]);
                 m_gp.AddBeziers(pArray);
-                return ComponentSetting.ErrorType.No_Error;
+                return ErrorType.No_Error;
             }
             catch(FormatException)
             {
-                return ComponentSetting.ErrorType.Error_IllegalFormat;
+                return ErrorType.Error_IllegalFormat;
             }
         }
         /// <summary>
@@ -687,17 +654,17 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        private ErrorType AddPolygon(float[] args)
+        private ErrorType AddPolygon(float[] vars)
         {
-            if (args.Length < 2)
+            if (vars.Length < 2)
                 return ErrorType.Error_LessArgs;
 
             try
             {
-                int numPoint = args.Length / 2;
+                int numPoint = vars.Length / 2;
                 PointF[] pArray = new PointF[numPoint];
                 for (int m = 0; m < numPoint; m++)
-                    pArray[m] = new PointF(args[m], args[m + 1]);
+                    pArray[m] = new PointF(vars[m], vars[m + 1]);
                 m_gp.AddPolygon(pArray);
                 return ErrorType.No_Error;
             }
@@ -711,17 +678,17 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        private ErrorType AddRectangle(float[] args)
+        private ErrorType AddRectangle(float[] vars)
         {
-            if (args.Length < 4)
+            if (vars.Length < 4)
                 return ErrorType.Error_LessArgs;
 
             try
             {
-                RectangleF rect = new RectangleF(args[0],
-                                args[1],
-                                args[2],
-                                args[3]);
+                RectangleF rect = new RectangleF(vars[0],
+                                vars[1],
+                                vars[2],
+                                vars[3]);
                 m_figureList.Add(new RectangleFigure(rect.X, rect.Y, rect.Width, rect.Height));
                 m_gp.AddRectangle(rect);
                 return ErrorType.No_Error;
@@ -736,17 +703,17 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        private ErrorType AddRoundCornerRectangle(float[] args)
+        private ErrorType AddRoundCornerRectangle(float[] vars)
         {
-            if (args.Length < 4)
+            if (vars.Length < 4)
                 return ErrorType.Error_LessArgs;
 
             try
             {
-                RectangleF rect = new RectangleF(args[0],
-                                args[1],
-                                args[2],
-                                args[3]);
+                RectangleF rect = new RectangleF(vars[0],
+                                vars[1],
+                                vars[2],
+                                vars[3]);
                 m_figureList.Add(new RoundCornerRectangle(rect.X, rect.Y, rect.Width, rect.Height));
                 m_gp.AddRectangle(rect);
                 return ErrorType.No_Error;
