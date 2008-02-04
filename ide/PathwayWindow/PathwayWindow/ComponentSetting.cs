@@ -189,6 +189,7 @@ namespace EcellLib.PathwayWindow
         public FigureBase Figure
         {
             get { return this.m_figure; }
+            set { this.m_figure = value; }
         }
         #endregion
 
@@ -287,115 +288,6 @@ namespace EcellLib.PathwayWindow
             }
 
             return obj;
-        }
-        /// <summary>
-        /// Set figure for this ComponentSetting.
-        /// </summary>
-        /// <param name="type">type of figure</param>
-        /// <param name="argString">arguments to create a figure</param>
-        /// <returns></returns>
-        public ErrorType AddFigure(string type, string argString)
-        {
-            // Check Errors
-            if (string.IsNullOrEmpty(type))
-                return ErrorType.Error_FigureNull;
-            if (string.IsNullOrEmpty(argString))
-                return ErrorType.Error_ArgsNull;
-
-            type = type.ToLower();
-            float[] values = StringToFloats(argString);
-
-            if (type.Equals("ellipse"))
-            {
-                return AddEllipse(values);
-            }
-            else if (type.Equals("rectangle"))
-            {
-                return AddRectangle(values);
-            }
-            else if (type.Equals("roundcornerrectangle"))
-            {
-                return AddRoundCornerRectangle(values);
-            }
-            else
-            {
-                return ErrorType.Error_NoSuchFigure;
-            }
-        }
-        /// <summary>
-        /// Change string to float array.
-        /// </summary>
-        /// <param name="argString"></param>
-        /// <returns></returns>
-        private float[] StringToFloats(string argString)
-        {
-            string[] args = argString.Split(new Char[] { ',', ' ' });
-            float[] values = new float[args.Length];
-            for (int i = 0; i < args.Length; i++)
-            {
-                values[i] = float.Parse(args[i]);
-            }
-            return values;
-        }
-        /// <summary>
-        /// Add ellipse
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private ErrorType AddEllipse(float[] args)
-        {
-            if (args.Length < 4)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                m_figure = new EllipseFigure(args);
-                return ErrorType.No_Error;
-            }
-            catch (FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
-        }
-        /// <summary>
-        /// Add rectangle
-        /// </summary>
-        /// <param name="vars"></param>
-        /// <returns></returns>
-        private ErrorType AddRectangle(float[] vars)
-        {
-            if (vars.Length < 4)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                m_figure = new RectangleFigure(vars);
-                return ErrorType.No_Error;
-            }
-            catch (FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
-        }
-        /// <summary>
-        /// Add RoundCornerRectangle
-        /// </summary>
-        /// <param name="vars"></param>
-        /// <returns></returns>
-        private ErrorType AddRoundCornerRectangle(float[] vars)
-        {
-            if (vars.Length < 4)
-                return ErrorType.Error_LessArgs;
-
-            try
-            {
-                m_figure = new RoundCornerRectangle(vars);
-                return ErrorType.No_Error;
-            }
-            catch (FormatException)
-            {
-                return ErrorType.Error_IllegalFormat;
-            }
         }
         #endregion
     }

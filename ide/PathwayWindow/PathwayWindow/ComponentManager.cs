@@ -441,7 +441,7 @@ namespace EcellLib.PathwayWindow
             defSysCs.IsDefault = true;
             defSysCs.FillBrush = Brushes.LightBlue;
             defSysCs.LineBrush = Brushes.Blue;
-            defSysCs.AddFigure("RoundCornerRectangle", "0,0,500,500");
+            defSysCs.Figure = FigureBase.CreateFigure("RoundCornerRectangle", "0,0,500,500");
             defSysCs.AddComponentClass(ClassPPathwaySystem);
             RegisterSetting(defSysCs);
 
@@ -452,7 +452,7 @@ namespace EcellLib.PathwayWindow
             defVarCs.IsDefault = true;
             defVarCs.FillBrush = Brushes.LightBlue;
             defVarCs.LineBrush = Brushes.Black;
-            defVarCs.AddFigure("Ellipse", "-30,-20,60,40");
+            defVarCs.Figure = FigureBase.CreateFigure("Ellipse", "-30,-20,60,40");
             defVarCs.AddComponentClass(ClassPPathwayVariable);
             RegisterSetting(defVarCs);
 
@@ -463,7 +463,7 @@ namespace EcellLib.PathwayWindow
             defProCs.IsDefault = true;
             defProCs.FillBrush = Brushes.LightGreen;
             defProCs.LineBrush = Brushes.Black;
-            defProCs.AddFigure("Rectangle", "-30,-20,60,40");
+            defProCs.Figure = FigureBase.CreateFigure("Rectangle", "-30,-20,60,40");
             defProCs.AddComponentClass(ClassPPathwayProcess);
             RegisterSetting(defProCs);
         }
@@ -593,7 +593,7 @@ namespace EcellLib.PathwayWindow
                         foreach (XmlNode drawNode in parameterNode.ChildNodes)
                         {
                             if (drawNode.Attributes["Type"] != null)
-                                cs.AddFigure(drawNode.Attributes["Type"].Value, drawNode.InnerText);
+                                cs.Figure = FigureBase.CreateFigure(drawNode.Attributes["Type"].Value, drawNode.InnerText);
                         }
                     }
                     else if (parameterNode.Name.Equals("Class"))
@@ -654,6 +654,9 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
+        /// <summary>
+        /// private class for ComponentSettingDialog
+        /// </summary>
         private class ComponentTabPage : PropertyDialogTabPage
         {
             ComponentManager m_manager = null;
@@ -684,6 +687,7 @@ namespace EcellLib.PathwayWindow
                 {
                     item.ApplyChange();
                 }
+                m_manager.SaveComponentSettings();
             }
         }
 
