@@ -447,7 +447,11 @@ namespace EcellLib.PropertyWindow
                     ((DataGridViewComboBoxCell)c2).Items.AddRange(new object[] { obj.key });
                 }
                 m_stepperID = d.Value.ToString();
-                c2.Value = d.Value.ToString();
+                m_stepperID =  m_stepperID.Replace("(", "");
+                m_stepperID = m_stepperID.Replace(")", "");
+                m_stepperID = m_stepperID.Replace("\"", "");
+
+                c2.Value = m_stepperID;
                 m_stepperIDComboBox = (DataGridViewComboBoxCell)(c2.Clone());
             }
             else
