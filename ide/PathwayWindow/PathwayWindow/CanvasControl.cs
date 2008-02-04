@@ -1248,21 +1248,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="rate"></param>
         public void Zoom(float rate)
         {
-            float currentScale = this.PathwayCanvas.Camera.ViewScale;
-            float newScale = currentScale * rate;
+            float newScale = m_pCanvas.Camera.ViewScale * rate;
+            if (newScale < MIN_SCALE || MAX_SCALE < newScale)
+                rate = 1f;
 
-            if (newScale < MIN_SCALE)
-            {
-                rate = MIN_SCALE / currentScale;
-            }
-
-            if (MAX_SCALE < newScale)
-            {
-                rate = MAX_SCALE / currentScale;
-            }
-
-            float zoomX = this.PathwayCanvas.Camera.X + this.PathwayCanvas.Camera.OffsetX + (this.PathwayCanvas.Camera.Width / 2);
-            float zoomY = this.PathwayCanvas.Camera.Y + this.PathwayCanvas.Camera.OffsetY + (this.PathwayCanvas.Camera.Height / 2);
+            float zoomX = this.PathwayCanvas.Camera.ViewBounds.X + (this.PathwayCanvas.Camera.ViewBounds.Width / 2);
+            float zoomY = this.PathwayCanvas.Camera.ViewBounds.Y + (this.PathwayCanvas.Camera.ViewBounds.Height / 2);
             this.PathwayCanvas.Camera.ScaleViewBy(rate, zoomX, zoomY);
             UpdateOverview();
         }
