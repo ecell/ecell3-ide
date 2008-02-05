@@ -809,6 +809,13 @@ namespace EcellLib.PathwayWindow.Nodes
                                       base.Width,
                                       base.Height);
             }
+            set
+            {
+                base.X = value.X;
+                base.Y = value.Y;
+                base.Width = value.Width;
+                base.Height = value.Height;
+            }
         }
 
         /// <summary>

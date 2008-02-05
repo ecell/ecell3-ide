@@ -134,9 +134,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="rect">The overviewing area of pathway view.</param>
         public void UpdateOverview(RectangleF rect)
         {
-            this.m_area.Reset();
             this.m_area.Offset = PointF.Empty;
-            this.m_area.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
+            this.m_area.Rect = rect;
             this.UpdateTransparent();
             this.Refresh();
         }

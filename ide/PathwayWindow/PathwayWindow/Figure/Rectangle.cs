@@ -47,7 +47,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// </summary>
         public RectangleFigure()
         {
-            Initialize(0, 0, 0, 0);
+            Initialize(0, 0, 1, 1);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace EcellLib.PathwayWindow.Figure
             if (vars.Length >= 4)
                 Initialize(vars[0], vars[1], vars[2], vars[3]);
             else
-                Initialize(0, 0, 0, 0);
+                Initialize(0, 0, 1, 1);
         }
 
         /// <summary>

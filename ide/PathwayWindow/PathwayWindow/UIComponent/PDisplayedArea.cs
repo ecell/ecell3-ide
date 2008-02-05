@@ -37,6 +37,7 @@ using UMD.HCIL.Piccolo;
 using EcellLib.PathwayWindow.Nodes;
 using System.IO;
 using EcellLib.PathwayWindow.Resources;
+using EcellLib.PathwayWindow.Figure;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -65,6 +66,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             this.Brush = m_brush;
             this.Pen = new Pen(Brushes.DarkRed, 4);
+            RectangleFigure fig = new RectangleFigure();
+            this.AddPath(fig.GraphicsPath, false);
         }
 
         #region inherited from PPathwayObject
