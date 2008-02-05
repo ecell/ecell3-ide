@@ -94,23 +94,6 @@ namespace EcellLib.PathwayWindow.Nodes
 
         #region Accessors
         /// <summary>
-        /// get/set the position of center.
-        /// </summary>
-        public PointF CenterPoint
-        {
-            get
-            {
-                PointF returnP = new PointF(base.X + base.Width / 2f,
-                                      base.Y + base.Height / 2f);
-
-                returnP.X += base.OffsetX;
-                returnP.Y += base.OffsetY;
-
-                return returnP;
-            }
-        }
-
-        /// <summary>
         /// Accessor for status whether this object is ready to be connected.
         /// </summary>
         public virtual bool IsToBeConnected
@@ -182,8 +165,6 @@ namespace EcellLib.PathwayWindow.Nodes
             this.Width = DEFAULT_WIDTH;
             this.Height = DEFAULT_HEIGHT;
             this.VisibleChanged += new PPropertyEventHandler(PPathwayNode_VisibleChanged);
-            this.MouseEnter += new PInputEventHandler(PPathwayNode_OnMouseEnter);
-            this.MouseLeave += new PInputEventHandler(PPathwayNode_OnMouseLeave);
             m_tempFigure = new EllipseFigure(-5, -5, 10, 10);
             // PropertyText
             m_pPropertyText = new PText();
@@ -236,7 +217,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void PPathwayNode_OnMouseEnter(object sender, PInputEventArgs e)
+        public override void OnMouseEnter(PInputEventArgs e)
         {
             Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
             if (mode == Mode.CreateOneWayReaction
@@ -260,7 +241,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void PPathwayNode_OnMouseLeave(object sender, PInputEventArgs e)
+        public override void OnMouseLeave(PInputEventArgs e)
         {
             Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
             if (mode == Mode.CreateOneWayReaction
@@ -310,17 +291,17 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             // Set Figure List
             if (base.m_setting == null)
-                return this.CenterPoint;
-            FigureBase figureList;
+                return base.CenterPointF;
+            FigureBase figure;
             if (m_isViewMode && this is PPathwayProcess)
-                figureList = m_tempFigure;
+                figure = m_tempFigure;
             else
-                figureList = base.m_setting.Figure;
-            if (figureList == null)
-                return this.CenterPoint;
+                figure = base.m_setting.Figure;
+            if (figure == null)
+                return base.CenterPointF;
 
             PointF originalPoint = new PointF(0f,0f);
-            PointF centerPoint = this.CenterPoint;
+            PointF centerPoint = base.CenterPointF;
             
             refPoint.X -= centerPoint.X;
             refPoint.Y -= centerPoint.Y;
@@ -328,7 +309,7 @@ namespace EcellLib.PathwayWindow.Nodes
             float minDistance = 0;
             PointF minContactPoint = PointF.Empty;
 
-            PointF candPoint = figureList.GetContactPoint(refPoint, originalPoint);
+            PointF candPoint = figure.GetContactPoint(refPoint, originalPoint);
             float distance = PathUtil.GetDistance(refPoint, candPoint)
                             + PathUtil.GetDistance(originalPoint, candPoint);
             if(minContactPoint == PointF.Empty || distance < minDistance)

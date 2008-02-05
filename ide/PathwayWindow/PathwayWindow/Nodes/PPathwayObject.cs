@@ -185,11 +185,6 @@ namespace EcellLib.PathwayWindow.Nodes
         protected static Pen DEFAULT_PEN = Pens.Black;
 
         /// <summary>
-        /// FillMode of this Node.
-        /// </summary>
-        protected const FillMode DEFAULT_FILLMODE = FillMode.Alternate;
-
-        /// <summary>
         /// this node belong the layer.
         /// </summary>
         protected PPathwayLayer m_layer;
@@ -492,25 +487,6 @@ namespace EcellLib.PathwayWindow.Nodes
         //****************************************************************
 
         /// <summary>
-        /// Occurs when there is a change in this node's <see cref="Pen">Pen</see>.
-        /// </summary>
-        /// <remarks>
-        /// When a user attaches an event handler to the PenChanged Event as in
-        /// PenChanged += new PPropertyEventHandler(aHandler),
-        /// the add method adds the handler to the delegate for the event
-        /// (keyed by PROPERTY_KEY_PEN in the Events list).
-        /// When a user removes an event handler from the PenChanged event as in 
-        /// PenChanged -= new PPropertyEventHandler(aHandler),
-        /// the remove method removes the handler from the delegate for the event
-        /// (keyed by PROPERTY_KEY_PEN in the Events list).
-        /// </remarks>
-        public virtual event PPropertyEventHandler PenChanged
-        {
-            add { HandlerList.AddHandler(PROPERTY_KEY_PEN, value); }
-            remove { HandlerList.RemoveHandler(PROPERTY_KEY_PEN, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the pen used when rendering this node.
         /// </summary>
         /// <value>The pen used when rendering this node.</value>
@@ -803,25 +779,6 @@ namespace EcellLib.PathwayWindow.Nodes
         //****************************************************************
 
         /// <summary>
-        /// Occurs when there is a change in this node's <see cref="Pen">Pen</see>.
-        /// </summary>
-        /// <remarks>
-        /// When a user attaches an event handler to the PathChanged Event as in
-        /// PathChanged += new PPropertyEventHandler(aHandler),
-        /// the add method adds the handler to the delegate for the event
-        /// (keyed by PROPERTY_KEY_PATH in the Events list).
-        /// When a user removes an event handler from the PathChanged event as in 
-        /// PathChanged -= new PPropertyEventHandler(aHandler),
-        /// the remove method removes the handler from the delegate for the event
-        /// (keyed by PROPERTY_KEY_PATH in the Events list).
-        /// </remarks>
-        public virtual event PPropertyEventHandler PathChanged
-        {
-            add { HandlerList.AddHandler(PROPERTY_KEY_PATH, value); }
-            remove { HandlerList.RemoveHandler(PROPERTY_KEY_PATH, value); }
-        }
-
-        /// <summary>
         /// get/set whether is shown ID.
         /// </summary>
         public bool ShowingID
@@ -853,74 +810,6 @@ namespace EcellLib.PathwayWindow.Nodes
                                       base.Height);
             }
         }
-        /// <summary>
-        /// See <see cref="GraphicsPath.AddArc(float, float, float, float, float, float)">
-        /// GraphicsPath.AddArc</see>.
-        /// </summary>
-        public virtual void AddArc(float x, float y, float width, float height, float startAngle, float sweepAngle)
-        {
-            m_path.AddArc(x, y, width, height, startAngle, sweepAngle);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.AddBezier(float, float, float, float, float, float, float, float)">
-        /// GraphicsPath.AddBezier</see>.
-        /// </summary>
-        public virtual void AddBezier(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
-        {
-            m_path.AddBezier(x1, y1, x2, y2, x3, y3, x4, y4);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.AddClosedCurve(PointF[])">GraphicsPath.AddClosedCurve</see>.
-        /// </summary>
-        public virtual void AddClosedCurve(PointF[] points)
-        {
-            m_path.AddClosedCurve(points);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.AddCurve(PointF[])">GraphicsPath.AddCurve</see>.
-        /// </summary>
-        public virtual void AddCurve(PointF[] points)
-        {
-            m_path.AddCurve(points);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.AddEllipse(float, float, float, float)">
-        /// GraphicsPath.AddEllipse</see>.
-        /// </summary>
-        public virtual void AddEllipse(float x, float y, float width, float height)
-        {
-            m_path.AddEllipse(x, y, width, height);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.AddLine(float, float, float, float)">GraphicsPath.AddLine</see>.
-        /// </summary>
-        public virtual void AddLine(float x1, float y1, float x2, float y2)
-        {
-            m_path.AddLine(x1, y1, x2, y2);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
 
         /// <summary>
         /// See <see cref="GraphicsPath.AddPath(GraphicsPath, bool)">GraphicsPath.AddPath</see>.
@@ -929,51 +818,6 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             this.m_path.AddPath(path, connect);
             FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.AddPolygon(PointF[])">GraphicsPath.AddPolygon</see>.
-        /// </summary>
-        public virtual void AddPolygon(PointF[] points)
-        {
-            m_path.AddPolygon(points);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.AddRectangle(RectangleF)">
-        /// GraphicsPath.AddRectangle</see>.
-        /// </summary>
-        public virtual void AddRectangle(float x, float y, float width, float height)
-        {
-            m_path.AddRectangle(new RectangleF(x, y, width, height));
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.CloseFigure">GraphicsPath.CloseFigure</see>.
-        /// </summary>
-        public virtual void CloseFigure()
-        {
-            m_path.CloseFigure();
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.CloseAllFigures">GraphicsPath.CloseAllFigures</see>.
-        /// </summary>
-        public virtual void CloseAllFigures()
-        {
-            m_path.CloseAllFigures();
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
             UpdateBoundsFromPath();
             InvalidatePaint();
         }

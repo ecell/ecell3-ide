@@ -228,7 +228,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     PPathwayLine path = new PPathwayLine(m_canvas, edge);
                     
                     path.Brush = m_edgeBrush;
-                    path.VarPoint = var.GetContactPoint(base.CenterPoint);
+                    path.VarPoint = var.GetContactPoint(base.CenterPointF);
                     path.ProPoint = base.GetContactPoint(path.VarPoint);
                     path.SetLine();
                     if (!m_isViewMode || isEndNode || er.coefficient == 1)
@@ -343,14 +343,16 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void RefreshView(bool isViewMode)
         {
             m_path.Reset();
+            PointF centerPos = this.CenterPointF;
             if (isViewMode)
             {
-                base.AddEllipse(X + 25, Y + 15, 10, 10);
+                base.AddPath(m_tempFigure.GraphicsPath, false);
             }
             else
             {
-                base.AddRectangle(X - 24, Y - 14, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+                base.AddPath(m_setting.Figure.GraphicsPath, false);
             }
+            base.CenterPointF = centerPos;
             base.FillBrush = m_setting.FillBrush;
             Refresh();
         }
