@@ -83,7 +83,6 @@
       <HintPath>$(IRONPYTHONHOME)\IronPython.dll</HintPath>
     </Reference>
     <Reference Include="EcellLib" />
-    <Reference Include="nunit.framework, Version=2.4.6.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="SessionManager">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\SessionManager.dll</HintPath>
@@ -170,9 +169,6 @@
       <DependentUpon>OpenProjectDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="Test\TestMainWindow.cs" />
-    <Compile Include="Test\TestDockWindowSerializer.cs" />
-    <Compile Include="Test\TestSelectDirectory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DistributedEnvSetupWindow.ja.resx">
       <SubType>Designer</SubType>
