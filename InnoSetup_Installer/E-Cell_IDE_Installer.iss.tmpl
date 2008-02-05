@@ -316,6 +316,7 @@ Source: "x64\lib\ecell-3.1\dms\TauLeapStepper.dll"; DestDir: "{app}\lib\ecell-3.
 ; ======================================================
 Source: "gacutil.exe"; DestDir: "{app}\bin";
 Source: "test.bat"; DestDir: "{app}\bin";
+Source: psvince.dll; DestDir: {app}
 
 [Registry]
 Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "IRONPYTHONPATH"; ValueData: "%IRONPYTHONPATH%:{app}\bin";
@@ -359,6 +360,12 @@ Name: "{group}\samples\Toy_Hybrid"; Filename: "{app}\bin\MainWindow.exe"; Parame
 Filename: "{app}\bin\test.bat"; Flags: runhidden; WorkingDir: "{app}\bin";
 
 [Code]
+function IsModuleLoaded(modulename: String ):  Boolean;
+external 'IsModuleLoaded@files:psvince.dll stdcall setuponly';
+function IsModuleLoadedU(modulename: String ):  Boolean;
+external 'IsModuleLoaded@{app}\psvince.dll stdcall uninstallonly' ;
+
+
 function InitializeSetup(): Boolean;
 begin
   Result := true;
@@ -368,4 +375,31 @@ begin
     MsgBox('This application needs Microsoft .NET Framework version 2.0', mbInformation, MB_OK);
     Result := false
   end;
+
+  if (Result = true) then
+  begin
+    if IsModuleLoaded( 'MainWindow.exe' ) then
+    begin
+      MsgBox( 'E-Cell IDE is running, please close it and run again install.',
+               mbError, MB_OK );
+      Result := false;
+    end
+  end
+end;
+
+function InitializeUninstall(): Boolean;
+begin
+
+  // check if notepad is running
+  if IsModuleLoadedU( 'MainWindow.exe' ) then
+  begin
+    MsgBox( 'E-Cell IDE is running, please close it and run again uninstall.',
+             mbError, MB_OK );
+    Result := false;
+  end
+  else Result := true;
+
+  // Unload the DLL, otherwise the dll psvince is not deleted
+  UnloadDLL(ExpandConstant('{app}\psvince.dll'));
+
 end;
