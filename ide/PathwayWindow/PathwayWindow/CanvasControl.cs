@@ -1100,7 +1100,7 @@ namespace EcellLib.PathwayWindow
             }
             else if (obj is PPathwayProcess)
             {
-                ((PPathwayProcess)obj).Delete();
+                ((PPathwayProcess)obj).NotifyRemoveToRelatedVariable();
                 m_processes.Remove(key);
             }
             else if (obj is PPathwayVariable)

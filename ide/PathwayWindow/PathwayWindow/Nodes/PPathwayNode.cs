@@ -192,73 +192,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
         #endregion
 
-        #region Inherited Methods
-        /// <summary>
-        /// Inherited method.
-        /// </summary>
-        public override void Delete()
-        {
-        }
-        /// <summary>
-        /// Inherited method.
-        /// </summary>
-        /// <param name="highlight"></param>
-        /// <returns></returns>
-        public override bool HighLighted(bool highlight)
-        {
-            return true;
-        }
-        /// <summary>
-        /// Inherited method.
-        /// </summary>
-        public override void Initialize()
-        {
-        }
-        /// <summary>
-        /// Inherited method.
-        /// </summary>
-        /// <param name="ecellObj"></param>
-        public override void DataChanged(EcellObject ecellObj)
-        {
-        }
-        /// <summary>
-        /// Inherited method.
-        /// </summary>
-        public override void DataDeleted()
-        {
-        }
-        /// <summary>
-        /// Inherited method.
-        /// </summary>
-        public override void SelectChanged()
-        {
-        }
-        /// <summary>
-        /// Inherited method.
-        /// </summary>
-        public override void Start()
-        {
-        }
-        /// <summary>
-        /// Inherited method.
-        /// </summary>
-        public override void Change()
-        {
-        }
-        /// <summary>
-        /// Inherited method.
-        /// </summary>
-        public override void Stop()
-        {
-        }
-        /// <summary>
-        /// Inherited method.
-        /// </summary>
-        public override void End()
-        {
-        }
-        #endregion
-
         #region EventHandlers
         /// <summary>
         /// event on visibility change.
@@ -366,25 +299,6 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void OffsetBy(float dx, float dy)
         {
             base.OffsetBy(dx, dy);
-        }
-
-        /// <summary>
-        /// clear the offset in all parent objects.
-        /// </summary>
-        public override void CancelAllParentOffsets()
-        {
-            PNode dummyParent = null;
-            do
-            {
-                if (dummyParent == null)
-                    dummyParent = this.Parent;
-                else
-                    dummyParent = dummyParent.Parent;
-                this.X += dummyParent.OffsetX;
-                this.Y += dummyParent.OffsetY;
-                RefreshText();
-
-            } while (dummyParent != this.Root);
         }
 
         /// <summary>

@@ -203,29 +203,5 @@ namespace EcellLib.PathwayWindow.Nodes
             }
             RefreshText();
         }
-
-        /// <summary>
-        /// start to move this Node by drag.
-        /// </summary>
-        public override void MoveStart()
-        {
-            foreach (PPathwayProcess process in m_relatedProcesses.Values)
-            {
-                process.DeleteEdge(this.EcellObject.key);
-                process.RefreshEdges();
-            }
-        }
-
-        /// <summary>
-        /// end to move this Node by drag.
-        /// </summary>
-        public override void MoveEnd()
-        {
-            foreach (PPathwayProcess p in m_relatedProcesses.Values)
-            {
-//                p.DeleteEdges();
-                p.MoveEnd();
-            }
-        }
     }
 }

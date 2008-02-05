@@ -176,7 +176,6 @@ namespace EcellLib.PathwayWindow.Handler
                 else
                     system.IsInvalid = false;
                 m_canvas.ResizeHandler.UpdateResizeHandlePositions();
-                system.MoveStart();
                 foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(system.EcellObject.key))
                 {
                     child.Offset = obj.Offset;
@@ -258,7 +257,6 @@ namespace EcellLib.PathwayWindow.Handler
                 {
                     TransferSystemTo(newSysKey, oldSysKey, system);
                 }
-                system.MoveEnd();
                 system.Refresh();
             }
             //SetBackToDefault();

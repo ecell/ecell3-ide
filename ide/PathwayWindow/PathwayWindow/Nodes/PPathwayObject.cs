@@ -477,49 +477,6 @@ namespace EcellLib.PathwayWindow.Nodes
         #endregion
 
         #region Abstract Methods
-        /// <summary>
-        /// Delete
-        /// </summary>
-        public abstract void Delete();
-        /// <summary>
-        /// Highlighted
-        /// </summary>
-        /// <param name="highlight"></param>
-        /// <returns></returns>
-        public abstract bool HighLighted(bool highlight);
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        public abstract void Initialize();
-        /// <summary>
-        /// DataChanged
-        /// </summary>
-        /// <param name="ecellObj"></param>
-        public abstract void DataChanged(EcellObject ecellObj);
-        /// <summary>
-        /// DataDeleted
-        /// </summary>
-        public abstract void DataDeleted();
-        /// <summary>
-        /// SelectChanged
-        /// </summary>
-        public abstract void SelectChanged();
-        /// <summary>
-        /// Start
-        /// </summary>
-        public abstract void Start();
-        /// <summary>
-        /// Change
-        /// </summary>
-        public abstract void Change();
-        /// <summary>
-        /// Stop
-        /// </summary>
-        public abstract void Stop();
-        /// <summary>
-        /// End
-        /// </summary>
-        public abstract void End();
 
         /// <summary>
         /// Create new instance of this object.
@@ -1032,25 +989,6 @@ namespace EcellLib.PathwayWindow.Nodes
             InvalidatePaint();
             RefreshText();
         }
-
-        /// <summary>
-        /// Cancel offsets of this object's all parent.
-        /// </summary>
-        public virtual void CancelAllParentOffsets()
-        {
-            PNode dummyParent = null;
-            do
-            {
-                if (dummyParent == null)
-                    dummyParent = this.Parent;
-                else
-                    dummyParent = dummyParent.Parent;
-                this.X += dummyParent.OffsetX;
-                this.Y += dummyParent.OffsetY;
-                
-            }while(dummyParent != this.Root);
-        }
-
         #endregion
 
         #region Messaging between subclasses
@@ -1115,20 +1053,6 @@ namespace EcellLib.PathwayWindow.Nodes
             
             this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
             this.m_pText.MoveToFront();
-        }
-        
-        /// <summary>
-        /// start to move this Node by drag.
-        /// </summary>
-        public virtual void MoveStart()
-        {
-        }
-
-        /// <summary>
-        /// end to move this Node by drag.
-        /// </summary>
-        public virtual void MoveEnd()
-        {
         }
 
         /// <summary>

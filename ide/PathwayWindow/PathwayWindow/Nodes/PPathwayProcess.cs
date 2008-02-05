@@ -266,14 +266,6 @@ namespace EcellLib.PathwayWindow.Nodes
                 foreach (PPathwayLine line in list)
                     line.Pen.Width = width;
         }
-        /// <summary>
-        /// delete all related process from list.
-        /// </summary>
-        public override void Delete()
-        {
-            NotifyRemoveToRelatedVariable();
-            DeleteEdges();
-        }
 
         /// <summary>
         /// delete the specified related variable from list.
@@ -333,6 +325,7 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 var.RemoveRelatedProcess(this.EcellObject.key);
             }
+            DeleteEdges();
         }
 
         /// <summary>
@@ -342,22 +335,6 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             RefreshEdges();
             RefreshText();
-        }
-
-        /// <summary>
-        /// start to move this Node by drag.
-        /// </summary>
-        public override void MoveStart()
-        {
-            RefreshEdges();
-        }
-
-        /// <summary>
-        /// end to move this Node by drag.
-        /// </summary>
-        public override void MoveEnd()
-        {
-            RefreshEdges();
         }
 
         /// <summary>
