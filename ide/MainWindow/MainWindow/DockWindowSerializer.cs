@@ -346,7 +346,7 @@ namespace EcellLib.MainWindow {
             catch (Exception e)
             {
                 Debug.Print(e.StackTrace);
-                throw e;
+                throw new Exception("Failed to load file: " + filename, e);
             }
             finally
             {

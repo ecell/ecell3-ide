@@ -377,7 +377,7 @@ namespace EcellLib.CircularLayout
             foreach (EcellObject node in nodeList)
             {
                 if (node is EcellVariable)
-                    varDict.Add(node.key, count);                
+                    varDict.Add(node.Key, count);                
                 count++;
             }
 
@@ -445,10 +445,10 @@ namespace EcellLib.CircularLayout
                 {
                     returnNodes.Add(node);
                     if (node is EcellVariable)
-                        inDict.Add(node.key, node);
+                        inDict.Add(node.Key, node);
                 }
                 else if (node is EcellVariable)
-                    outDict.Add(node.key, node);
+                    outDict.Add(node.Key, node);
 
             Dictionary<string, EcellObject> relatedOutDict = new Dictionary<string, EcellObject>();
 

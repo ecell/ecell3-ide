@@ -215,7 +215,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Called when the mouse enters a node
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="e"></param>
         public override void OnMouseEnter(PInputEventArgs e)
         {
@@ -239,7 +238,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Called when the mouse leaves a node
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="e"></param>
         public override void OnMouseLeave(PInputEventArgs e)
         {

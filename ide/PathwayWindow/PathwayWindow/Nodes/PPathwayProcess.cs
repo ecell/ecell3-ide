@@ -183,7 +183,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="path">PPath of the related variable.</param>
         private void AddRelatedVariable(PPathwayVariable var, PPathwayLine path)
         {
-            string key = var.EcellObject.key;
+            string key = var.EcellObject.Key;
             if (m_lines.ContainsKey(key))
             {
                 m_lines[key].Add(path);
@@ -210,7 +210,7 @@ namespace EcellLib.PathwayWindow.Nodes
             bool isEndNode = true;
             foreach (EcellReference er in list)
             {
-                if (er.coefficient != 1)
+                if (er.Coefficient != 1)
                     continue;
                 isEndNode = false;
                 break;
@@ -224,14 +224,14 @@ namespace EcellLib.PathwayWindow.Nodes
                         continue;
 
                     PPathwayVariable var = base.m_canvas.Variables[er.Key];
-                    EdgeInfo edge = new EdgeInfo(this.EcellObject.key, er);
+                    EdgeInfo edge = new EdgeInfo(this.EcellObject.Key, er);
                     PPathwayLine path = new PPathwayLine(m_canvas, edge);
                     
                     path.Brush = m_edgeBrush;
                     path.VarPoint = var.GetContactPoint(base.CenterPointF);
                     path.ProPoint = base.GetContactPoint(path.VarPoint);
                     path.SetLine();
-                    if (!m_isViewMode || isEndNode || er.coefficient == 1)
+                    if (!m_isViewMode || isEndNode || er.Coefficient == 1)
                         path.SetDirection();
                     path.Pickable = (var.Visible && this.Visible);
                     path.Visible = (var.Visible && this.Visible);
@@ -323,7 +323,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             foreach (PPathwayVariable var in m_relatedVariables.Values)
             {
-                var.RemoveRelatedProcess(this.EcellObject.key);
+                var.RemoveRelatedProcess(this.EcellObject.Key);
             }
             DeleteEdges();
         }
@@ -468,7 +468,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             m_proKey = processKey;
             // Set Relation
-            int l_coef = er.coefficient;
+            int l_coef = er.Coefficient;
             if (l_coef < 0)
             {
                 m_direction = EdgeDirection.Inward;

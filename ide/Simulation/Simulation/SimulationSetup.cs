@@ -164,10 +164,10 @@ namespace EcellLib.Simulation
             foreach (EcellObject obj in m_steppList)
             {
                 if (obj.Value == null) continue;
-                stepperListBox.Items.Add(obj.key);
+                stepperListBox.Items.Add(obj.Key);
                 if (j != 0) continue;
                 ChangeDataGrid(obj.Value);
-                int ind = stepCombo.Items.IndexOf(obj.classname);
+                int ind = stepCombo.Items.IndexOf(obj.Classname);
                 stepCombo.SelectedIndex = ind;
 
                 j++;
@@ -328,7 +328,7 @@ namespace EcellLib.Simulation
             foreach (EcellObject tmp in m_steppList)
             {
                 if (tmp.Value == null) continue;
-                if (tmp.key != stepperID) continue;
+                if (tmp.Key != stepperID) continue;
 
                 m_steppList.Remove(tmp);
                 break;
@@ -588,11 +588,11 @@ namespace EcellLib.Simulation
             foreach (EcellObject obj in m_steppList)
             {
                 if (obj.Value == null) continue;
-                if (obj.key != selectID) continue;
+                if (obj.Key != selectID) continue;
 
                 for (int i = 0; i < stepCombo.Items.Count; i++)
                 {
-                    if (obj.classname == (string)stepCombo.Items[i])
+                    if (obj.Classname == (string)stepCombo.Items[i])
                     {
                         stepCombo.SelectedIndex = i;
                         break;

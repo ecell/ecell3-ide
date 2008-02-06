@@ -180,9 +180,9 @@ namespace EcellLib.PathwayWindow
             bool isRecorded,
             bool isAnchor)
         {
-            if(oldKey == null || eo.type == null)
+            if(oldKey == null || eo.Type == null)
                 return;
-            m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, isRecorded, isAnchor);
+            m_dManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, isRecorded, isAnchor);
         }
 
         /// <summary>
@@ -346,9 +346,9 @@ namespace EcellLib.PathwayWindow
             string modelId = null;
             foreach (EcellObject eo in data)
             {
-                if (eo.type.Equals(EcellObject.MODEL))
+                if (eo.Type.Equals(EcellObject.MODEL))
                 {
-                    modelId = eo.modelID;
+                    modelId = eo.ModelID;
                     break;
                 }
             }
@@ -659,12 +659,12 @@ namespace EcellLib.PathwayWindow
             // Create Object dictionary.
             Dictionary<string, EcellObject> objDict = new Dictionary<string, EcellObject>();
             foreach (EcellObject eo in objList)
-                objDict.Add(eo.type + ":" + eo.key, eo);
+                objDict.Add(eo.Type + ":" + eo.Key, eo);
             // Set position.
             string dictKey;
             foreach (EcellObject eo in data)
             {
-                dictKey = eo.type + ":" + eo.key;
+                dictKey = eo.Type + ":" + eo.Key;
                 if (!objDict.ContainsKey(dictKey))
                     continue;
 
@@ -676,7 +676,7 @@ namespace EcellLib.PathwayWindow
                     continue;
                 foreach(EcellObject child in eo.Children)
                 {
-                    dictKey = child.type + ":" + child.key;
+                    dictKey = child.Type + ":" + child.Key;
                     if (!objDict.ContainsKey(dictKey))
                         continue;
 

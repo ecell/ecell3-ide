@@ -186,8 +186,8 @@ namespace EcellLib.PathwayWindow.Handler
             if (coefficient == 2)
             {
                 m_con.NotifyVariableReferenceChanged(
-                    process.EcellObject.key,
-                    variable.EcellObject.key,
+                    process.EcellObject.Key,
+                    variable.EcellObject.Key,
                     RefChangeType.BiDir,
                     0,
                     true);
@@ -195,8 +195,8 @@ namespace EcellLib.PathwayWindow.Handler
             else
             {
                 m_con.NotifyVariableReferenceChanged(
-                    process.EcellObject.key,
-                    variable.EcellObject.key,
+                    process.EcellObject.Key,
+                    variable.EcellObject.Key,
                     RefChangeType.SingleDir,
                     coefficient,
                     true);

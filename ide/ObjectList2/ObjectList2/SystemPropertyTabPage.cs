@@ -5,11 +5,16 @@ using System.Windows.Forms;
 
 namespace EcellLib.ObjectList2
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SystemPropertyTabPage : VPropertyTabPage
     {
 
         static private int s_columnNum = 7;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public override int ColumnNum
         {
             get
@@ -31,17 +36,22 @@ namespace EcellLib.ObjectList2
             VPropertyTabPage.s_indexSize
         };
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public SystemPropertyTabPage()
             : base()
         {
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         public override void DataAdd(EcellObject obj)
         {
             int startpos = SearchHeaderPos();
-            int index = SearchInsertIndex(startpos, obj.key);
+            int index = SearchInsertIndex(startpos, obj.Key);
             int len = m_propertyArray.Length;
             DataGridViewRow rs = new DataGridViewRow();
             for (int i = 0; i < len; i++)
@@ -63,7 +73,7 @@ namespace EcellLib.ObjectList2
                 {
                     if (name.Equals(m_propertyArray[i]))
                     {
-                        string entPath = Util.ConvertSystemEntityPath(obj.key, name);
+                        string entPath = Util.ConvertSystemEntityPath(obj.Key, name);
                         m_propDic.Add(entPath, c);
                         break;
                     }
@@ -80,7 +90,13 @@ namespace EcellLib.ObjectList2
             rs.Tag = obj;
             m_gridView.Rows.Insert(index, rs);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="id"></param>
+        /// <param name="isChanged"></param>
+        /// <param name="dType"></param>
         public override void DataDelete(string modelID, string id, bool isChanged, Type dType)
         {
             base.DataDelete(modelID, id, isChanged, dType);
@@ -97,7 +113,9 @@ namespace EcellLib.ObjectList2
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public override void CreateHeader()
         {
             int len = m_propertyArray.Length;

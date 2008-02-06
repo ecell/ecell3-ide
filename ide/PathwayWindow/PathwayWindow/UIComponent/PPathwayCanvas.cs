@@ -149,14 +149,14 @@ namespace EcellLib.PathwayWindow.UIComponent
             if (isPPathwayObject)
             {
                 PPathwayObject obj = (PPathwayObject)m_canvas.FocusNode;
-                m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuID].Text = obj.EcellObject.key;
+                m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuID].Text = obj.EcellObject.Key;
                 SetLoggerMenu(obj);
                 if (isPPathwaySystem)
                 {
                     m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuMerge].Text =
-                        m_resources.GetString(MenuControl.CanvasMenuMerge) + "(" + obj.EcellObject.parentSystemID + ")";
+                        m_resources.GetString(MenuControl.CanvasMenuMerge) + "(" + obj.EcellObject.ParentSystemID + ")";
                 }
-                if (obj.EcellObject.key.Equals("/"))
+                if (obj.EcellObject.Key.Equals("/"))
                     isRoot = true;
             }
 
@@ -199,7 +199,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             createLogger.DropDown.Items.Clear();
             deleteLogger.DropDown.Items.Clear();
 
-            if (obj.EcellObject == null || obj.EcellObject.modelID == null)
+            if (obj.EcellObject == null || obj.EcellObject.ModelID == null)
                 return;
             // set logger menu
             EcellObject eo = obj.EcellObject;

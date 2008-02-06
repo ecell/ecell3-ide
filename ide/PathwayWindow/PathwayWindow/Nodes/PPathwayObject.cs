@@ -848,7 +848,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void NotifyMovement()
         {
-            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(this.EcellObject.key))
+            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(this.EcellObject.Key))
             {
                 obj.NotifyMovement();
             }
@@ -880,7 +880,7 @@ namespace EcellLib.PathwayWindow.Nodes
             base.Width = this.m_originalWidth;
             base.Height = this.m_originalHeight;
             RefreshText();
-            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(this.EcellObject.key))
+            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(this.EcellObject.Key))
             {
                 child.ResetPosition();
             }
@@ -993,7 +993,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             if (m_ecellObj == null || m_canvas == null)
                 return;
-            EcellObject obj = m_canvas.PathwayControl.Window.GetEcellObject(m_ecellObj.modelID, m_ecellObj.key, m_ecellObj.type);
+            EcellObject obj = m_canvas.PathwayControl.Window.GetEcellObject(m_ecellObj.ModelID, m_ecellObj.Key, m_ecellObj.Type);
             PropertyEditor.Show(obj);
         }
 

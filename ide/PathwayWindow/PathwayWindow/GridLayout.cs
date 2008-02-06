@@ -130,9 +130,9 @@ namespace EcellLib.PathwayWindow
                 List<EcellObject> nodesOfTheSystem = new List<EcellObject>();
                 foreach (EcellObject node in nodeList)
                 {
-                    if (!string.IsNullOrEmpty(sys.key)
-                        && !string.IsNullOrEmpty(node.parentSystemID)
-                        && sys.key.Equals(node.parentSystemID))
+                    if (!string.IsNullOrEmpty(sys.Key)
+                        && !string.IsNullOrEmpty(node.ParentSystemID)
+                        && sys.Key.Equals(node.ParentSystemID))
                     {
                         nodesOfTheSystem.Add(node);
                     }
@@ -141,7 +141,7 @@ namespace EcellLib.PathwayWindow
                 List<EcellObject> childSystems = new List<EcellObject>();
                 foreach (EcellObject eachSys in systemList)
                 {
-                    if (eachSys.parentSystemID.Equals(sys.key))
+                    if (eachSys.ParentSystemID.Equals(sys.Key))
                         childSystems.Add(eachSys);
                 }
 
@@ -270,7 +270,7 @@ namespace EcellLib.PathwayWindow
             foreach (EcellObject node in nodeList)
             {
                 if (node is EcellVariable)
-                    keyDict.Add(node.key, num);
+                    keyDict.Add(node.Key, num);
                 num++;
             }
             num = 0;
@@ -365,7 +365,7 @@ namespace EcellLib.PathwayWindow
 
             Dictionary<string, EcellObject> sysDict = new Dictionary<string, EcellObject>();
             foreach (EcellObject sys in systemList)
-                sysDict.Add(sys.key, sys);
+                sysDict.Add(sys.Key, sys);
             Dictionary<string, SystemContainer> containerDict = new Dictionary<string, SystemContainer>();
             SystemContainer rootContainer = null;
             foreach (EcellObject sys in systemList)
@@ -379,15 +379,15 @@ namespace EcellLib.PathwayWindow
                 childDummyContainer.IsDummyContainer = true;
                 container.AddChildContainer(childDummyContainer);
 
-                if (sys.key.Equals("/"))
+                if (sys.Key.Equals("/"))
                     rootContainer = container;
-                containerDict.Add(sys.key, container);
+                containerDict.Add(sys.Key, container);
             }
             foreach (SystemContainer sysCon in containerDict.Values)
             {
-                if (containerDict.ContainsKey(sysCon.Self.parentSystemID))
+                if (containerDict.ContainsKey(sysCon.Self.ParentSystemID))
                 {
-                    containerDict[sysCon.Self.parentSystemID].AddChildContainer(sysCon);
+                    containerDict[sysCon.Self.ParentSystemID].AddChildContainer(sysCon);
                 }
             }
             // Settle system coordinates
@@ -1045,7 +1045,7 @@ namespace EcellLib.PathwayWindow
             {
                 float width = 2 * m_outlineWidth;
                 float height = 2 * m_outlineWidth;
-                if (m_self != null && m_self.key.Equals("/") && m_childSystems.Count == 0)
+                if (m_self != null && m_self.Key.Equals("/") && m_childSystems.Count == 0)
                 {
                     width = m_defaultRootSize;
                     height = m_defaultRootSize;

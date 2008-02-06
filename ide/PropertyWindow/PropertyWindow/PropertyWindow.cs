@@ -180,7 +180,7 @@ namespace EcellLib.PropertyWindow
             m_isChanging = true;
             try
             {
-                m_dManager.DataChanged(modelID, key, obj.type, obj);
+                m_dManager.DataChanged(modelID, key, obj.Type, obj);
             }
             catch (IgnoreException ex)
             {
@@ -228,10 +228,10 @@ namespace EcellLib.PropertyWindow
                 if (sysObj.Children == null) return;
                 foreach (EcellObject o in sysObj.Children)
                 {
-                    if (o.key.EndsWith(":SIZE"))
+                    if (o.Key.EndsWith(":SIZE"))
                     {
                         sysObj.Children.Remove(o);
-                        dManager.DataDelete(o.modelID, o.key, o.type);
+                        dManager.DataDelete(o.ModelID, o.Key, o.Type);
                         break;
                     }
                 }
@@ -243,7 +243,7 @@ namespace EcellLib.PropertyWindow
                 {
                     foreach (EcellObject o in sysObj.Children)
                     {
-                        if (!o.key.EndsWith(":SIZE")) continue;
+                        if (!o.Key.EndsWith(":SIZE")) continue;
                         foreach (EcellData d in o.Value)
                         {
                             if (!d.Name.EndsWith(Constants.xpathValue)) continue;
@@ -254,9 +254,9 @@ namespace EcellLib.PropertyWindow
                             o.Value.Remove(d);
                             o.Value.Add(p);
                             dManager.DataChanged(
-                                          o.modelID,
-                                          o.key,
-                                          o.type,
+                                          o.ModelID,
+                                          o.Key,
+                                          o.Type,
                                           o);
                             break;
                         }
@@ -281,8 +281,8 @@ namespace EcellLib.PropertyWindow
                             dlist.Add(plist[pname]);
                         }
                     }
-                    EcellObject obj = EcellObject.CreateObject(sysObj.modelID,
-                        sysObj.key + ":SIZE", Constants.xpathVariable, 
+                    EcellObject obj = EcellObject.CreateObject(sysObj.ModelID,
+                        sysObj.Key + ":SIZE", Constants.xpathVariable, 
                         Constants.xpathVariable, dlist);
                     List<EcellObject> rList = new List<EcellObject>();
                     rList.Add(obj);
@@ -319,11 +319,11 @@ namespace EcellLib.PropertyWindow
             List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
             foreach (EcellReference r in tmpList)
             {
-                list.Add(r.name + ".MolarConc");
+                list.Add(r.Name + ".MolarConc");
             }
             foreach (EcellReference r in tmpList)
             {
-                list.Add(r.name + ".Value");
+                list.Add(r.Name + ".Value");
             }
             m_cnt.AddReserveString(list);
 
@@ -441,10 +441,10 @@ namespace EcellLib.PropertyWindow
             {
                 c2 = new DataGridViewComboBoxCell();
                 List<EcellObject> slist;
-                slist = m_dManager.GetStepper(null, m_current.modelID);
+                slist = m_dManager.GetStepper(null, m_current.ModelID);
                 foreach (EcellObject obj in slist)
                 {
-                    ((DataGridViewComboBoxCell)c2).Items.AddRange(new object[] { obj.key });
+                    ((DataGridViewComboBoxCell)c2).Items.AddRange(new object[] { obj.Key });
                 }
                 m_stepperID = d.Value.ToString();
                 m_stepperID =  m_stepperID.Replace("(", "");
@@ -544,7 +544,7 @@ namespace EcellLib.PropertyWindow
 
             EcellData dClass = new EcellData();
             dClass.Name = "ClassName";
-            dClass.Value = new EcellValue(obj.classname);
+            dClass.Value = new EcellValue(obj.Classname);
             dClass.Settable = true;
             AddProperty(dClass, type);
             m_current = obj;
@@ -570,7 +570,7 @@ namespace EcellLib.PropertyWindow
                 {
                     foreach (EcellObject o in obj.Children)
                     {
-                        if (o.key.EndsWith(":SIZE"))
+                        if (o.Key.EndsWith(":SIZE"))
                         {
                             foreach (EcellData d in o.Value)
                             {
@@ -630,10 +630,10 @@ namespace EcellLib.PropertyWindow
             if (data == null) return;
             foreach (EcellObject obj in data)
             {
-                if (obj.type.Equals(Constants.xpathStepper))
+                if (obj.Type.Equals(Constants.xpathStepper))
                 {
                     if (m_stepperIDComboBox == null) return;
-                    m_stepperIDComboBox.Items.AddRange(new object[] { obj.key });
+                    m_stepperIDComboBox.Items.AddRange(new object[] { obj.Key });
                 }
             }
         }
@@ -649,7 +649,7 @@ namespace EcellLib.PropertyWindow
         {
             if (m_current == null) return;
             if (m_isChanging == true) return;
-            SelectChanged(data.modelID, data.key, data.type);
+            SelectChanged(data.ModelID, data.Key, data.Type);
         }
 
         /// <summary>
@@ -681,9 +681,9 @@ namespace EcellLib.PropertyWindow
                     m_stepperIDComboBox.Items.Remove(key);
                 }
             }
-            if (modelID.Equals(m_current.modelID) &&
-                key.Equals(m_current.key) &&
-                type.Equals(m_current.type))
+            if (modelID.Equals(m_current.ModelID) &&
+                key.Equals(m_current.Key) &&
+                type.Equals(m_current.Type))
             {
                 Clear();
             }
@@ -912,7 +912,7 @@ namespace EcellLib.PropertyWindow
                 }
                 try
                 {
-                    NotifyDataChanged(m_current.modelID, m_current.key, p);
+                    NotifyDataChanged(m_current.ModelID, m_current.Key, p);
                 }
                 catch (Exception ex)
                 {
@@ -943,9 +943,9 @@ namespace EcellLib.PropertyWindow
                     if (d.Name.Equals(s))
                     {
                         if (!d.Logable) break;
-                        EcellDragObject dobj = new EcellDragObject(m_current.modelID,
-                            m_current.key,
-                            m_current.type,
+                        EcellDragObject dobj = new EcellDragObject(m_current.ModelID,
+                            m_current.Key,
+                            m_current.Type,
                             d.EntityPath);
 
                         v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
@@ -1032,7 +1032,7 @@ namespace EcellLib.PropertyWindow
             m_win.Close();
             try
             {
-                NotifyDataChanged(m_current.modelID, m_current.key, obj);
+                NotifyDataChanged(m_current.ModelID, m_current.Key, obj);
                 m_refStr = refStr;
             }
             catch (Exception ex)
@@ -1063,7 +1063,7 @@ namespace EcellLib.PropertyWindow
             }
             try
             {
-                NotifyDataChanged(m_current.modelID, m_current.key, p);
+                NotifyDataChanged(m_current.ModelID, m_current.Key, p);
                 m_expression = tmp;
             }
             catch (Exception ex)
@@ -1123,8 +1123,8 @@ namespace EcellLib.PropertyWindow
                     DataGridViewRow row = new DataGridViewRow();
 
                     bool isAccessor = false;
-                    if (v.isAccessor == 1) isAccessor = true;
-                    m_win.dgv.Rows.Add(new object[] { v.name, v.fullID, v.coefficient, isAccessor });
+                    if (v.IsAccessor == 1) isAccessor = true;
+                    m_win.dgv.Rows.Add(new object[] { v.Name, v.FullID, v.Coefficient, isAccessor });
                 }
                 m_win.ShowDialog();
             }
@@ -1183,7 +1183,7 @@ namespace EcellLib.PropertyWindow
                     }
                     EcellObject p = m_current.Copy();
                     EcellData data = new EcellData(name, new EcellValue(0.0),
-                            "Process:" + m_current.key + ":" + name);
+                            "Process:" + m_current.Key + ":" + name);
                     data.Gettable = true;
                     data.Loadable = true;
                     data.Logable = true;
@@ -1194,7 +1194,7 @@ namespace EcellLib.PropertyWindow
                     m_dgv.Rows[e.RowIndex].Cells[1].Tag = data;
                     try
                     {
-                        NotifyDataChanged(m_current.modelID, m_current.key, p);
+                        NotifyDataChanged(m_current.ModelID, m_current.Key, p);
                         m_dgv.Rows[e.RowIndex].Cells[1].Value = 0.0;
                     }
                     catch (Exception ex)
@@ -1224,21 +1224,21 @@ namespace EcellLib.PropertyWindow
             if (tag.Name.Equals("ID"))
             {
                 String tmpID = editCell.Value.ToString();
-                if ((m_current.type == Constants.xpathSystem && Util.IsNGforSystemFullID(tmpID)) ||
-                    (m_current.type != Constants.xpathSystem && Util.IsNGforComponentFullID(tmpID)))
+                if ((m_current.Type == Constants.xpathSystem && Util.IsNGforSystemFullID(tmpID)) ||
+                    (m_current.Type != Constants.xpathSystem && Util.IsNGforComponentFullID(tmpID)))
                 {
-                    editCell.Value = m_current.key;
+                    editCell.Value = m_current.Key;
                     String errmes = m_resources.GetString("ErrID");
                     MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (editCell.Equals(m_current.key)) return;
+                if (editCell.Equals(m_current.Key)) return;
 
                 EcellObject p = m_current.Copy();
-                p.key = tmpID;
+                p.Key = tmpID;
                 try
                 {
-                    NotifyDataChanged(m_current.modelID, m_current.key, p);
+                    NotifyDataChanged(m_current.ModelID, m_current.Key, p);
                 }
                 catch (Exception ex)
                 {
@@ -1315,7 +1315,7 @@ namespace EcellLib.PropertyWindow
                 }
                 try
                 {
-                    NotifyDataChanged(m_current.modelID, m_current.key, p);
+                    NotifyDataChanged(m_current.ModelID, m_current.Key, p);
                 }
                 catch (Exception ex)
                 {
@@ -1339,7 +1339,7 @@ namespace EcellLib.PropertyWindow
                 (DataGridViewComboBoxEditingControl)sender;
             String tagName = cb.Tag as string;
             String cname = cb.SelectedItem.ToString();
-            if (cname.Equals(m_current.classname)) return;
+            if (cname.Equals(m_current.Classname)) return;
 
             List<EcellData> propList = new List<EcellData>();
             Dictionary<String, EcellData> propDict = m_dManager.GetProcessProperty(cname);
@@ -1356,9 +1356,9 @@ namespace EcellLib.PropertyWindow
             {
                 propList.Add(d);
             }
-            EcellObject obj = EcellObject.CreateObject(m_current.modelID,
-                m_current.key,
-                m_current.type,
+            EcellObject obj = EcellObject.CreateObject(m_current.ModelID,
+                m_current.Key,
+                m_current.Type,
                 cname,
                 propList);
             obj.X = m_current.X;
@@ -1369,7 +1369,7 @@ namespace EcellLib.PropertyWindow
             obj.Width = m_current.Width;
             try
             {
-                NotifyDataChanged(m_current.modelID, m_current.key, obj);
+                NotifyDataChanged(m_current.ModelID, m_current.Key, obj);
                 if (m_dManager.IsEnableAddProperty(cname))
                 {
                     m_dgv.AllowUserToAddRows = true;
@@ -1378,7 +1378,7 @@ namespace EcellLib.PropertyWindow
                 {
                     m_dgv.AllowUserToAddRows = false;
                 }
-                SelectChanged(m_current.modelID, m_current.key, m_current.type);
+                SelectChanged(m_current.ModelID, m_current.Key, m_current.Type);
             }
             catch (Exception ex)
             {
@@ -1410,10 +1410,10 @@ namespace EcellLib.PropertyWindow
                     d.Value = new EcellValue(cname);
                 }
             }
-            EcellObject obj = EcellObject.CreateObject(m_current.modelID,
-                m_current.key,
-                m_current.type,
-                m_current.classname,
+            EcellObject obj = EcellObject.CreateObject(m_current.ModelID,
+                m_current.Key,
+                m_current.Type,
+                m_current.Classname,
                 m_current.Value);
             obj.X = m_current.X;
             obj.Y = m_current.Y;
@@ -1423,7 +1423,7 @@ namespace EcellLib.PropertyWindow
             obj.Width = m_current.Width;
             try
             {
-                NotifyDataChanged(m_current.modelID, m_current.key, obj);
+                NotifyDataChanged(m_current.ModelID, m_current.Key, obj);
             }
             catch (Exception ex)
             {

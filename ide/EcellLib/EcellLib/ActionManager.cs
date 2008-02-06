@@ -410,10 +410,10 @@ namespace EcellLib
         /// <param name="m_obj">The wrote object.</param>
         static public void WriteObject(XmlTextWriter writer, EcellObject m_obj)
         {
-            writer.WriteAttributeString("model", null, m_obj.modelID);
-            writer.WriteAttributeString("type", null, m_obj.type);
-            writer.WriteAttributeString("key", null, m_obj.key);
-            writer.WriteAttributeString("classname", null, m_obj.classname);
+            writer.WriteAttributeString("model", null, m_obj.ModelID);
+            writer.WriteAttributeString("type", null, m_obj.Type);
+            writer.WriteAttributeString("key", null, m_obj.Key);
+            writer.WriteAttributeString("classname", null, m_obj.Classname);
             writer.WriteAttributeString("x", null, Convert.ToString(m_obj.X));
             writer.WriteAttributeString("y", null, Convert.ToString(m_obj.Y));
             writer.WriteAttributeString("offsetx", null, Convert.ToString(m_obj.OffsetX));
@@ -660,7 +660,7 @@ namespace EcellLib
             if (child == null) return;
             base.m_isAnchor = Convert.ToBoolean( child.InnerText );
             m_obj = UserAction.LoadObject(node);
-            if (m_obj != null && m_obj.key == "/") m_obj = null;
+            if (m_obj != null && m_obj.Key == "/") m_obj = null;
         }
         /// <summary>
         /// Execute to add the object using the information.
@@ -678,7 +678,7 @@ namespace EcellLib
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().DataDelete(m_obj.modelID, m_obj.key, m_obj.type, false, m_isAnchor);
+            DataManager.GetDataManager().DataDelete(m_obj.ModelID, m_obj.Key, m_obj.Type, false, m_isAnchor);
         }
     }
 
@@ -888,7 +888,7 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().DataChanged(m_modelID, m_oldObj.key, m_type, m_newObj, false, m_isAnchor);
+            DataManager.GetDataManager().DataChanged(m_modelID, m_oldObj.Key, m_type, m_newObj, false, m_isAnchor);
         }
         /// <summary>
         /// Unexecute this action.
@@ -896,7 +896,7 @@ namespace EcellLib
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().DataChanged(m_modelID, m_newObj.key, m_type, m_oldObj, false, m_isAnchor);
+            DataManager.GetDataManager().DataChanged(m_modelID, m_newObj.Key, m_type, m_oldObj, false, m_isAnchor);
         }
     }
 
@@ -1592,7 +1592,7 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().SystemDeleteAndMove(m_modelID, m_obj.key);
+            DataManager.GetDataManager().SystemDeleteAndMove(m_modelID, m_obj.Key);
         }
         /// <summary>
         /// Unexecute this action.

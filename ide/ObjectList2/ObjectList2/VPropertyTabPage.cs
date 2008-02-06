@@ -6,10 +6,19 @@ using System.Text;
 
 namespace EcellLib.ObjectList2
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class VPropertyTabPage
     {
         private Type m_Type;
+        /// <summary>
+        /// 
+        /// </summary>
         protected DataGridView m_gridView;
+        /// <summary>
+        /// 
+        /// </summary>
         protected TabPage m_tabPage;
         /// <summary>
         /// Color of header.
@@ -87,7 +96,9 @@ namespace EcellLib.ObjectList2
         };
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public VPropertyTabPage()
         {
             m_gridView = new DataGridView();
@@ -113,28 +124,46 @@ namespace EcellLib.ObjectList2
             CreateHeader();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Type Type
         {
             get { return this.m_Type; }
             set { this.m_Type = value; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public virtual void DataAdd(EcellObject data)
         {
             // nothing.
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="id"></param>
+        /// <param name="obj"></param>
         public void DataChanged(string modelID, string id, EcellObject obj)
         {
-            bool isIDChanged = !(id == obj.key);
+            bool isIDChanged = !(id == obj.Key);
             DataDelete(modelID, id, isIDChanged, m_Type);
             DataAdd(obj);
-            int index = SearchObjectIndex(obj.key);
+            int index = SearchObjectIndex(obj.Key);
             if (index < 0) return;
             m_gridView.Rows[index].Selected = true;
             m_gridView.FirstDisplayedScrollingRowIndex = index;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="id"></param>
+        /// <param name="isChanged"></param>
+        /// <param name="dType"></param>
         public virtual void DataDelete(string modelID, string id, bool isChanged, Type dType)
         {
             int ind = SearchObjectIndex(id);
@@ -154,7 +183,12 @@ namespace EcellLib.ObjectList2
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
         public void SelectChanged(string modelID, string id, string type)
         {
             int ind = SearchObjectIndex(id);
@@ -172,7 +206,9 @@ namespace EcellLib.ObjectList2
             m_propDic.Clear();
             CreateHeader();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual void CreateHeader()
         {
             // nothing.
@@ -218,7 +254,6 @@ namespace EcellLib.ObjectList2
         /// Search the position index of object.
         /// </summary>
         /// <param name="key">ID of object.</param>
-        /// <param name="type">Type of object</param>
         /// <returns>The position index of object.</returns>
         protected int SearchObjectIndex(string key)
         {
@@ -230,7 +265,11 @@ namespace EcellLib.ObjectList2
             }
             return -1;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         protected int SearchIncludeObjectIndex(string key)
         {
             int len = m_gridView.Rows.Count;
@@ -263,7 +302,6 @@ namespace EcellLib.ObjectList2
         /// <summary>
         /// Search the position of header by type.
         /// </summary>
-        /// <param name="type">Type to searched header.</param>
         /// <returns>The position index of header.</returns>
         protected int SearchHeaderPos()
         {
@@ -345,23 +383,23 @@ namespace EcellLib.ObjectList2
         {
             if (name.Equals(VPropertyTabPage.s_indexType))
             {
-                return obj.type;
+                return obj.Type;
             }
             else if (name.Equals(VPropertyTabPage.s_indexID))
             {
-                return obj.key;
+                return obj.Key;
             }
             else if (name.Equals(VPropertyTabPage.s_indexModel))
             {
-                return obj.modelID;
+                return obj.ModelID;
             }
             else if (name.Equals(VPropertyTabPage.s_indexClass))
             {
-                return obj.classname;
+                return obj.Classname;
             }
             else if (name.Equals(VPropertyTabPage.s_indexName))
             {
-                return obj.name;
+                return obj.Name;
             }
             else if (name.Equals(VPropertyTabPage.s_indexStepper))
             {
@@ -383,7 +421,9 @@ namespace EcellLib.ObjectList2
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual int ColumnNum
         {
             get { return 0; }
@@ -430,7 +470,7 @@ namespace EcellLib.ObjectList2
             EcellObject obj = m_gridView.Rows[index].Tag as EcellObject;
             if (obj == null) return;
             PluginManager manager = PluginManager.GetPluginManager();
-            manager.SelectChanged(obj.modelID, obj.key, obj.type);
+            manager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
         }
     }
 }

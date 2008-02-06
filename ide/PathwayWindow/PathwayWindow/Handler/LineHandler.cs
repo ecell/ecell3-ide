@@ -293,13 +293,13 @@ namespace EcellLib.PathwayWindow.Handler
                 m_con.NotifyVariableReferenceChanged(processKey, variableKey, RefChangeType.Delete, 0, false);
                 if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
                 {
-                    m_con.NotifyVariableReferenceChanged(obj.EcellObject.key, variableKey, RefChangeType.BiDir, 0, true);
+                    m_con.NotifyVariableReferenceChanged(obj.EcellObject.Key, variableKey, RefChangeType.BiDir, 0, true);
                 }
                 else
                 {
                     int coefficient = m_selectedLine.Info.Coefficient;
                     m_con.NotifyVariableReferenceChanged(
-                        obj.EcellObject.key,
+                        obj.EcellObject.Key,
                         variableKey,
                         RefChangeType.SingleDir,
                         coefficient,
@@ -311,14 +311,14 @@ namespace EcellLib.PathwayWindow.Handler
                 m_con.NotifyVariableReferenceChanged(processKey, variableKey, RefChangeType.Delete, 0, false);
                 if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
                 {
-                    m_con.NotifyVariableReferenceChanged(processKey, obj.EcellObject.key, RefChangeType.BiDir, 0, true);
+                    m_con.NotifyVariableReferenceChanged(processKey, obj.EcellObject.Key, RefChangeType.BiDir, 0, true);
                 }
                 else
                 {
                     int coefficient = m_selectedLine.Info.Coefficient;
                     m_con.NotifyVariableReferenceChanged(
                         processKey,
-                        obj.EcellObject.key,
+                        obj.EcellObject.Key,
                         RefChangeType.SingleDir,
                         coefficient,
                         true);

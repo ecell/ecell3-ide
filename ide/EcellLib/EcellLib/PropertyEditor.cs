@@ -122,7 +122,7 @@ namespace EcellLib
             {
                 editor.layoutPanel.SuspendLayout();
                 editor.SetCurrentObject(obj);
-                editor.SetDataType(obj.type);
+                editor.SetDataType(obj.Type);
                 editor.LayoutPropertyEditor();
                 editor.layoutPanel.ResumeLayout(false);
                 if (editor.ShowDialog() == DialogResult.OK)
@@ -160,9 +160,9 @@ namespace EcellLib
         {
             m_currentObj = obj;
             m_parentObj = null;
-            if (m_currentObj.type.Equals(EcellObject.PROCESS))
+            if (m_currentObj.Type.Equals(EcellObject.PROCESS))
             {
-                m_propName = m_currentObj.classname;
+                m_propName = m_currentObj.Classname;
                 m_refStr = m_currentObj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString();
             }
         }
@@ -461,7 +461,7 @@ namespace EcellLib
                 commitLayoutPanel.Controls.Add(t3, 4, i);
                 i++;
             }
-            else if (m_currentObj != null && m_currentObj.type.Equals(EcellObject.SYSTEM))
+            else if (m_currentObj != null && m_currentObj.Type.Equals(EcellObject.SYSTEM))
             {
                 commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
 
@@ -501,7 +501,7 @@ namespace EcellLib
                 {
                     foreach (EcellObject o in m_currentObj.Children)
                     {
-                        if (o.key.EndsWith(":SIZE"))
+                        if (o.Key.EndsWith(":SIZE"))
                         {
                             foreach (EcellData d in o.Value)
                             {
@@ -542,7 +542,7 @@ namespace EcellLib
             }
             else
             {
-                t.Text = m_currentObj.modelID;
+                t.Text = m_currentObj.ModelID;
                 t.ReadOnly = true;
             }
             m_idText = t;
@@ -577,9 +577,9 @@ namespace EcellLib
                 }
                 if (m_propName != null && m_propName.StartsWith("Expression"))
                 {
-                    tmpProcDict = m_dManager.GetProcessProperty(m_currentObj.classname);
+                    tmpProcDict = m_dManager.GetProcessProperty(m_currentObj.Classname);
                 }
-                this.Text = m_title + "  - " + m_currentObj.key;
+                this.Text = m_title + "  - " + m_currentObj.Key;
             }
 
             String preId = "";
@@ -609,7 +609,7 @@ namespace EcellLib
                 layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
                 layoutPanel.RowCount = m_propDict.Keys.Count + 5;
             }
-            else if (m_currentObj != null && m_currentObj.type.Equals(EcellObject.SYSTEM))
+            else if (m_currentObj != null && m_currentObj.Type.Equals(EcellObject.SYSTEM))
             {
                 layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
                 layoutPanel.RowCount = m_propDict.Keys.Count + 5;
@@ -631,8 +631,8 @@ namespace EcellLib
                 t1.Tag = "modelID";
                 t1.Dock = DockStyle.Fill;
                 t1.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                if (m_currentObj != null) t1.Text = m_currentObj.modelID;
-                else t1.Text = m_parentObj.modelID;
+                if (m_currentObj != null) t1.Text = m_currentObj.ModelID;
+                else t1.Text = m_parentObj.ModelID;
                 t1.ReadOnly = true;
                 layoutPanel.Controls.Add(t1, 2, i);
                 i++;
@@ -652,8 +652,8 @@ namespace EcellLib
                 else
                 {
 //                    t2.ReadOnly = true;
-                    t2.Text = m_currentObj.key;
-                    if (m_currentObj.key.Equals("/"))
+                    t2.Text = m_currentObj.Key;
+                    if (m_currentObj.Key.Equals("/"))
                     {
                         t2.ReadOnly = true;
                     }
@@ -779,10 +779,10 @@ namespace EcellLib
                     {
                         ComboBox t = new ComboBox();
                         List<EcellObject> slist;
-                        slist = m_dManager.GetStepper(null, m_currentObj.modelID);
+                        slist = m_dManager.GetStepper(null, m_currentObj.ModelID);
                         foreach (EcellObject obj in slist)
                         {
-                            t.Items.AddRange(new object[] { obj.key });
+                            t.Items.AddRange(new object[] { obj.Key });
                         }
 
                         t.Text = m_propDict[key].Value.ToString();
@@ -854,7 +854,7 @@ namespace EcellLib
                     t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                     layoutPanel.Controls.Add(t, 2, i);
                 }
-                else if (m_currentObj != null && m_currentObj.type.Equals(EcellObject.SYSTEM))
+                else if (m_currentObj != null && m_currentObj.Type.Equals(EcellObject.SYSTEM))
                 {
                     layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                     Label l = new Label();
@@ -873,7 +873,7 @@ namespace EcellLib
                     {
                         foreach (EcellObject o in m_currentObj.Children)
                         {
-                            if (o.key.EndsWith(":SIZE"))
+                            if (o.Key.EndsWith(":SIZE"))
                             {
                                 foreach (EcellData d in o.Value)
                                 {
@@ -908,9 +908,9 @@ namespace EcellLib
             string oldKey,
             EcellObject eo)
         {
-            if (modelID == null || oldKey == null || eo.key == null)
+            if (modelID == null || oldKey == null || eo.Key == null)
                 return;
-            m_dManager.DataChanged(eo.modelID, oldKey, eo.type, eo, true, true);
+            m_dManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, true, true);
         }
 
         /// <summary>
@@ -984,7 +984,7 @@ namespace EcellLib
                         }
                         else if (m_currentObj != null)
                         {
-                            if (m_currentObj.type == EcellObject.SYSTEM && Util.IsNGforSystemFullID(c.Text))
+                            if (m_currentObj.Type == EcellObject.SYSTEM && Util.IsNGforSystemFullID(c.Text))
                             {
                                 String errmes = m_resources.GetString("ErrInvalidID");
                                 MessageBox.Show(errmes,
@@ -993,7 +993,7 @@ namespace EcellLib
                                                 MessageBoxIcon.Warning);
                                 return null;
                             }
-                            if (m_currentObj.type != "System" && Util.IsNGforComponentFullID(c.Text))
+                            if (m_currentObj.Type != "System" && Util.IsNGforComponentFullID(c.Text))
                             {
                                 String errmes = m_resources.GetString("ErrInvalidID");
                                 MessageBox.Show(errmes,
@@ -1006,15 +1006,15 @@ namespace EcellLib
 
                         if (!m_type.Equals(EcellObject.SYSTEM))
                         {
-                            if (m_parentObj.key == "") key = c.Text;
-                            else if (m_parentObj.key == "/") key = "/:" + c.Text;
-                            else key = m_parentObj.key + ":" + c.Text;
+                            if (m_parentObj.Key == "") key = c.Text;
+                            else if (m_parentObj.Key == "/") key = "/:" + c.Text;
+                            else key = m_parentObj.Key + ":" + c.Text;
                         }
                         else
                         {
-                            if (m_parentObj.key == "") key = c.Text;
-                            else if (m_parentObj.key == "/") key = "/" + c.Text;
-                            else key = m_parentObj.key + "/" + c.Text;
+                            if (m_parentObj.Key == "") key = c.Text;
+                            else if (m_parentObj.Key == "/") key = "/" + c.Text;
+                            else key = m_parentObj.Key + "/" + c.Text;
 
                         }
                     }
@@ -1025,7 +1025,7 @@ namespace EcellLib
                         EcellData data = new EcellData();
                         data.Name = (string)c.Tag;
                         data.Value = EcellValue.ToVariableReferenceList(m_refStr);
-                        data.EntityPath = type + ":" + m_parentObj.key +
+                        data.EntityPath = type + ":" + m_parentObj.Key +
                             ":" + id + ":" + (string)c.Tag;
                         data.Settable = m_propDict[data.Name].Settable;
                         data.Saveable = m_propDict[data.Name].Saveable;
@@ -1071,7 +1071,7 @@ namespace EcellLib
                                 data.Value = EcellValue.ToList(c.Text);
                             else
                                 data.Value = new EcellValue(c.Text);
-                            data.EntityPath = type + ":" + m_parentObj.key +
+                            data.EntityPath = type + ":" + m_parentObj.Key +
                                 ":" + id + ":" + (string)c.Tag;
                             data.Settable = m_propDict[data.Name].Settable;
                             data.Saveable = m_propDict[data.Name].Saveable;
@@ -1152,22 +1152,22 @@ namespace EcellLib
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        else if (m_currentObj.type.Equals(EcellObject.SYSTEM) && Util.IsNGforSystemFullID(c.Text))
+                        else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) && Util.IsNGforSystemFullID(c.Text))
                         {
                             String errmes = m_resources.GetString("ErrInvalidID");
                             MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        else if (!m_currentObj.type.Equals(EcellObject.SYSTEM) && Util.IsNGforComponentFullID(c.Text))
+                        else if (!m_currentObj.Type.Equals(EcellObject.SYSTEM) && Util.IsNGforComponentFullID(c.Text))
                         {
                             String errmes = m_resources.GetString("ErrInvalidID");
                             MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        else if (m_currentObj.type.Equals(EcellObject.PROCESS) ||
-                                    m_currentObj.type.Equals(EcellObject.VARIABLE))
+                        else if (m_currentObj.Type.Equals(EcellObject.PROCESS) ||
+                                    m_currentObj.Type.Equals(EcellObject.VARIABLE))
                         {
                             int kpos = c.Text.IndexOf(':');
                             if (kpos < 0 || kpos == c.Text.Length - 1)
@@ -1217,7 +1217,7 @@ namespace EcellLib
                         {
                             foreach (EcellObject o in m_currentObj.Children)
                             {
-                                if (o.key.EndsWith(":SIZE"))
+                                if (o.Key.EndsWith(":SIZE"))
                                 {
                                     target = o;
                                     break;
@@ -1245,8 +1245,8 @@ namespace EcellLib
                                         dlist.Add(plist[pname]);
                                     }
                                 }
-                                EcellObject obj = EcellObject.CreateObject(m_currentObj.modelID,
-                                    m_currentObj.key + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, dlist);
+                                EcellObject obj = EcellObject.CreateObject(m_currentObj.ModelID,
+                                    m_currentObj.Key + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, dlist);
                                 List<EcellObject> rList = new List<EcellObject>();
                                 rList.Add(obj);
                                 m_dManager.DataAdd(rList);
@@ -1260,7 +1260,7 @@ namespace EcellLib
                         {
                             if (c.Text == "")
                             {
-                                m_dManager.DataDelete(target.modelID, target.key, target.type);
+                                m_dManager.DataDelete(target.ModelID, target.Key, target.Type);
                                 m_currentObj.Children.Remove(target);
                             }
                             else
@@ -1285,7 +1285,7 @@ namespace EcellLib
                                 }
                                 if (isChange)
                                 {
-                                    NotifyDataChanged(target.modelID, target.key, target);
+                                    NotifyDataChanged(target.ModelID, target.Key, target);
                                 }
                                 m_currentObj.Children.Remove(target);
                                 m_currentObj.Children.Add(target);
@@ -1390,7 +1390,7 @@ namespace EcellLib
                 obj.Width = m_currentObj.Width;
                 obj.Height = m_currentObj.Height;
                 obj.LayerID = m_currentObj.LayerID;
-                NotifyDataChanged(m_currentObj.modelID, m_currentObj.key, obj);
+                NotifyDataChanged(m_currentObj.ModelID, m_currentObj.Key, obj);
             }
             catch (IgnoreException)
             {
@@ -1442,7 +1442,7 @@ namespace EcellLib
             EcellData data;
             if (m_currentObj != null)
                 data = new EcellData(name, new EcellValue(0.0),
-                    "Process:" + m_currentObj.key + ":" + name);
+                    "Process:" + m_currentObj.Key + ":" + name);
             else
                 data = new EcellData(name, new EcellValue(0.0),
                     "Process:/dummy:" + name);
@@ -1566,11 +1566,11 @@ namespace EcellLib
             List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
             foreach (EcellReference r in tmpList)
             {
-                list.Add(r.name + ".MolarConc");
+                list.Add(r.Name + ".MolarConc");
             }
             foreach (EcellReference r in tmpList)
             {
-                list.Add(r.name + ".Value");
+                list.Add(r.Name + ".Value");
             }
             m_cnt.AddReserveString(list);
 
@@ -1669,9 +1669,9 @@ namespace EcellLib
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        if (m_parentObj.key == "") key = c.Text;
-                        else if (m_parentObj.key == "/") key = "/" + c.Text;
-                        else key = m_parentObj.key + "/" + c.Text;
+                        if (m_parentObj.Key == "") key = c.Text;
+                        else if (m_parentObj.Key == "/") key = "/" + c.Text;
+                        else key = m_parentObj.Key + "/" + c.Text;
                     }
                     else if ((string)c.Tag == "classname") classname = c.Text;
                     else if ((string)c.Tag == "type") type = c.Text;
@@ -1718,7 +1718,7 @@ namespace EcellLib
                             data.Logable = m_propDict[data.Name].Logable;
                             data.Logged = m_propDict[data.Name].Logged;
 
-                            data.EntityPath = type + ":" + m_parentObj.key +
+                            data.EntityPath = type + ":" + m_parentObj.Key +
                                 ":" + id + ":" + (string)c.Tag;
                         }
                         catch (Exception ex)
@@ -1862,9 +1862,9 @@ namespace EcellLib
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        if (m_parentObj.key == "") key = c.Text;
-                        else if (m_parentObj.key == "/") key = "/:" + c.Text;
-                        else key = m_parentObj.key + ":" + c.Text;
+                        if (m_parentObj.Key == "") key = c.Text;
+                        else if (m_parentObj.Key == "/") key = "/:" + c.Text;
+                        else key = m_parentObj.Key + ":" + c.Text;
                     }
                     else if ((string)c.Tag == "classname") classname = c.Text;
                     else if ((string)c.Tag == "type") type = c.Text;
@@ -1873,7 +1873,7 @@ namespace EcellLib
                         EcellData data = new EcellData();
                         data.Name = (string)c.Tag;
                         data.Value = EcellValue.ToVariableReferenceList(m_refStr);
-                        data.EntityPath = type + ":" + m_parentObj.key +
+                        data.EntityPath = type + ":" + m_parentObj.Key +
                             ":" + id + ":" + (string)c.Tag;
                         data.Settable = m_propDict[data.Name].Settable;
                         data.Saveable = m_propDict[data.Name].Saveable;
@@ -1903,7 +1903,7 @@ namespace EcellLib
                                 data.Value = EcellValue.ToList(c.Text);
                             else
                                 data.Value = new EcellValue(c.Text);
-                            data.EntityPath = type + ":" + m_parentObj.key +
+                            data.EntityPath = type + ":" + m_parentObj.Key +
                                 ":" + id + ":" + (string)c.Tag;
                             data.Settable = m_propDict[data.Name].Settable;
                             data.Saveable = m_propDict[data.Name].Saveable;
@@ -1960,8 +1960,8 @@ namespace EcellLib
                 DataGridViewRow row = new DataGridViewRow();
 
                 bool isAccessor = false;
-                if (v.isAccessor == 1) isAccessor = true;
-                m_win.dgv.Rows.Add(new object[] { v.name, v.fullID, v.coefficient, isAccessor });
+                if (v.IsAccessor == 1) isAccessor = true;
+                m_win.dgv.Rows.Add(new object[] { v.Name, v.FullID, v.Coefficient, isAccessor });
             }
 
             m_win.m_editor = this;

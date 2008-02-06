@@ -319,7 +319,7 @@ namespace EcellLib.PathwayWindow.Handler
             }
             system.Refresh();
 
-            string systemName = system.EcellObject.key;
+            string systemName = system.EcellObject.Key;
             List<PPathwayObject> objList = m_canvas.GetAllObjects();
             // Select PathwayObjects being moved into current system.
             Dictionary<string, PPathwayObject> currentDict = new Dictionary<string, PPathwayObject>();
@@ -329,13 +329,13 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 if (system.Rect.Contains(obj.Rect))
                 {
-                    if (!obj.EcellObject.parentSystemID.StartsWith(systemName) && !obj.EcellObject.key.Equals(systemName))
-                        currentDict.Add(obj.EcellObject.type + ":" + obj.EcellObject.key, obj);
+                    if (!obj.EcellObject.ParentSystemID.StartsWith(systemName) && !obj.EcellObject.Key.Equals(systemName))
+                        currentDict.Add(obj.EcellObject.Type + ":" + obj.EcellObject.Key, obj);
                 }
                 else
                 {
-                    if (obj.EcellObject.parentSystemID.StartsWith(systemName) && !obj.EcellObject.key.Equals(systemName))
-                        beforeDict.Add(obj.EcellObject.type + ":" + obj.EcellObject.key, obj);
+                    if (obj.EcellObject.ParentSystemID.StartsWith(systemName) && !obj.EcellObject.Key.Equals(systemName))
+                        beforeDict.Add(obj.EcellObject.Type + ":" + obj.EcellObject.Key, obj);
                 }
             }
 
@@ -343,26 +343,26 @@ namespace EcellLib.PathwayWindow.Handler
             foreach (PPathwayObject obj in currentDict.Values)
             {
                 // Check duplicated object.
-                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(systemName + "/" + obj.EcellObject.name))
+                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(systemName + "/" + obj.EcellObject.Name))
                     continue;
-                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(systemName + ":" + obj.EcellObject.name))
+                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(systemName + ":" + obj.EcellObject.Name))
                     continue;
-                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(systemName + ":" + obj.EcellObject.name))
+                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(systemName + ":" + obj.EcellObject.Name))
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize(system);
                 MessageBox.Show(m_resources.GetString("ErrSameObj"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            string parentKey = system.EcellObject.parentSystemID;
+            string parentKey = system.EcellObject.ParentSystemID;
             foreach (PPathwayObject obj in beforeDict.Values)
             {
                 // Check duplicated object.
-                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(parentKey + "/" + obj.EcellObject.name))
+                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(parentKey + "/" + obj.EcellObject.Name))
                     continue;
-                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(parentKey + ":" + obj.EcellObject.name))
+                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(parentKey + ":" + obj.EcellObject.Name))
                     continue;
-                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(parentKey + ":" + obj.EcellObject.name))
+                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(parentKey + ":" + obj.EcellObject.Name))
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize(system);
@@ -373,14 +373,14 @@ namespace EcellLib.PathwayWindow.Handler
             // Move objects.
             foreach (PPathwayObject obj in currentDict.Values)
             {
-                string oldKey = obj.EcellObject.key;
+                string oldKey = obj.EcellObject.Key;
                 string newKey = PathUtil.GetMovedKey(oldKey, parentKey, systemName);
                 // Set node change
                 m_canvas.PathwayControl.NotifyDataChanged(oldKey, newKey, obj, true, false);
             }
             foreach (PPathwayObject obj in beforeDict.Values)
             {
-                string oldKey = obj.EcellObject.key;
+                string oldKey = obj.EcellObject.Key;
                 string newKey = PathUtil.GetMovedKey(oldKey, systemName, parentKey);
                 // Set node change
                 m_canvas.PathwayControl.NotifyDataChanged(oldKey, newKey, obj, true, false);
@@ -393,8 +393,8 @@ namespace EcellLib.PathwayWindow.Handler
 
             // Update systems
             m_canvas.PathwayControl.NotifyDataChanged(
-                system.EcellObject.key,
-                system.EcellObject.key,
+                system.EcellObject.Key,
+                system.EcellObject.Key,
                 system,
                 true,
                 true);

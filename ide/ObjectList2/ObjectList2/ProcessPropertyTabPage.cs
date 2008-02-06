@@ -41,9 +41,9 @@ namespace EcellLib.ObjectList2
         public override void DataAdd(EcellObject obj)
         {
             int startpos = SearchHeaderPos();
-            int index = SearchInsertIndex(startpos, obj.key);
+            int index = SearchInsertIndex(startpos, obj.Key);
             int len = m_propertyArray.Length;
-            if (obj.key.EndsWith(":SIZE")) return;
+            if (obj.Key.EndsWith(":SIZE")) return;
             DataGridViewRow rs = new DataGridViewRow();
             for (int i = 0; i < len; i++)
             {
@@ -65,7 +65,7 @@ namespace EcellLib.ObjectList2
                     if (name.Equals(m_propertyArray[i]))
                     {
                         string entPath = Constants.xpathProcess +
-                            Constants.delimiterColon + obj.key +
+                            Constants.delimiterColon + obj.Key +
                             Constants.delimiterColon + name;
                         m_propDic.Add(entPath, c);
                         break;

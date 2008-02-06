@@ -33,11 +33,11 @@ namespace EcellLib
         private void WriteEntityElements(EcellObject l_ecellObject, string l_entityName)
         {
             m_tx.WriteStartElement(l_entityName.ToLower());
-            m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.classname);
+            m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.Classname);
             m_tx.WriteAttributeString(
                 Constants.xpathID.ToLower(),
                 null,
-                l_ecellObject.key.Substring(l_ecellObject.key.IndexOf(Constants.delimiterColon) + 1));
+                l_ecellObject.Key.Substring(l_ecellObject.Key.IndexOf(Constants.delimiterColon) + 1));
             if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
             {
                 foreach (EcellData l_ecellData in l_ecellObject.Value)
@@ -67,8 +67,8 @@ namespace EcellLib
         private void WriteStepperElements(EcellObject l_ecellObject)
         {
             m_tx.WriteStartElement(Constants.xpathStepper.ToLower());
-            m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.classname);
-            m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_ecellObject.key);
+            m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.Classname);
+            m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_ecellObject.Key);
             if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
             {
                 foreach (EcellData l_ecellData in l_ecellObject.Value)
@@ -102,8 +102,8 @@ namespace EcellLib
         private void WriteSystemElement(EcellObject l_ecellObject)
         {
             m_tx.WriteStartElement(Constants.xpathSystem.ToLower());
-            m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.classname);
-            m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_ecellObject.key);
+            m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.Classname);
+            m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_ecellObject.Key);
             if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
             {
                 foreach (EcellData l_ecellData in l_ecellObject.Value)
@@ -131,11 +131,11 @@ namespace EcellLib
                     List<EcellObject> l_variableList = new List<EcellObject>();
                     foreach (EcellObject l_childEcellObject in l_ecellObject.Children)
                     {
-                        if (l_childEcellObject.type.Equals(Constants.xpathProcess))
+                        if (l_childEcellObject.Type.Equals(Constants.xpathProcess))
                         {
                             l_processList.Add(l_childEcellObject);
                         }
-                        else if (l_childEcellObject.type.Equals(Constants.xpathVariable))
+                        else if (l_childEcellObject.Type.Equals(Constants.xpathVariable))
                         {
                             l_variableList.Add(l_childEcellObject);
                         }
@@ -169,11 +169,11 @@ namespace EcellLib
         {
             foreach (EcellObject ecellObject in storedList)
             {
-                if (ecellObject.type.Equals(Constants.xpathStepper))
+                if (ecellObject.Type.Equals(Constants.xpathStepper))
                 {
                     WriteStepperElements(ecellObject);
                 }
-                else if (ecellObject.type.Equals(Constants.xpathSystem))
+                else if (ecellObject.Type.Equals(Constants.xpathSystem))
                 {
                     WriteSystemElement(ecellObject);
                 }

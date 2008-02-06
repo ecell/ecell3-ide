@@ -94,10 +94,10 @@ namespace EcellLib.PathwayWindow {
                 foreach (EcellObject eo in list)
                 {
                     xmlOut.WriteStartElement("EcellObject");
-                    xmlOut.WriteAttributeString("Class", eo.classname);
-                    xmlOut.WriteAttributeString("ModelID", eo.modelID);
-                    xmlOut.WriteAttributeString("Type", eo.type);
-                    xmlOut.WriteAttributeString("Key", eo.key);
+                    xmlOut.WriteAttributeString("Class", eo.Classname);
+                    xmlOut.WriteAttributeString("ModelID", eo.ModelID);
+                    xmlOut.WriteAttributeString("Type", eo.Type);
+                    xmlOut.WriteAttributeString("Key", eo.Key);
                     xmlOut.WriteAttributeString("Layer", eo.LayerID);
                     xmlOut.WriteAttributeString("X", eo.X.ToString());
                     xmlOut.WriteAttributeString("Y", eo.Y.ToString());

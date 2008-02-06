@@ -446,8 +446,8 @@ namespace EcellLib.PathwayWindow
             m_isSelectChanged = true;
             m_con.Window.NotifySelectChanged(
                 this.m_modelId, 
-                obj.EcellObject.key, 
-                obj.EcellObject.type);
+                obj.EcellObject.Key, 
+                obj.EcellObject.Type);
         }
 
         /// <summary>
@@ -461,8 +461,8 @@ namespace EcellLib.PathwayWindow
                 return;
             m_con.Window.NotifyAddSelect(
                 this.m_modelId, 
-                obj.EcellObject.key, 
-                obj.EcellObject.type, 
+                obj.EcellObject.Key, 
+                obj.EcellObject.Type, 
                 isSelect);
         }
 
@@ -504,8 +504,8 @@ namespace EcellLib.PathwayWindow
         {
             bool isOverlaping = false;
             foreach (PPathwaySystem system in m_systems.Values)
-                if (system.EcellObject.key.StartsWith(systemName)
-                    && !system.EcellObject.key.Equals(systemName)
+                if (system.EcellObject.Key.StartsWith(systemName)
+                    && !system.EcellObject.Key.Equals(systemName)
                     && system.Overlaps(rect))
                     isOverlaping = true;
             return isOverlaping;
@@ -553,7 +553,7 @@ namespace EcellLib.PathwayWindow
                 {
                     float maxX = system.X + system.OffsetX;
                     float x = 0f;
-                    List<PPathwayObject> list = GetAllObjectUnder(system.EcellObject.key);
+                    List<PPathwayObject> list = GetAllObjectUnder(system.EcellObject.Key);
                     foreach (PPathwayObject ppo in list)
                     {
                         if (ppo == obj)
@@ -601,17 +601,17 @@ namespace EcellLib.PathwayWindow
             if (obj is PPathwaySystem)
             {
                 PPathwaySystem system = (PPathwaySystem)obj;
-                m_systems.Add(system.EcellObject.key, system);
+                m_systems.Add(system.EcellObject.Key, system);
             }
             else if (obj is PPathwayVariable)
             {
                 PPathwayVariable node = (PPathwayVariable)obj;
-                m_variables.Add(node.EcellObject.key, node);
+                m_variables.Add(node.EcellObject.Key, node);
             }
             else if (obj is PPathwayProcess)
             {
                 PPathwayProcess node = (PPathwayProcess)obj;
-                m_processes.Add(node.EcellObject.key, node);
+                m_processes.Add(node.EcellObject.Key, node);
             }
             if (obj.CanvasControl == null)
                 obj.CanvasControl = this;
@@ -651,7 +651,7 @@ namespace EcellLib.PathwayWindow
         public void SetLayer(PPathwayObject obj)
         {
             string layerID = obj.EcellObject.LayerID;
-            if (obj.EcellObject.key.Equals("/") && (layerID != null && !layerID.Equals("")))
+            if (obj.EcellObject.Key.Equals("/") && (layerID != null && !layerID.Equals("")))
             {
                 m_defLayerID = layerID;
             }
@@ -729,8 +729,8 @@ namespace EcellLib.PathwayWindow
             {
                 i++;
                 m_con.NotifyDataChanged(
-                    obj.EcellObject.key,
-                    obj.EcellObject.key,
+                    obj.EcellObject.Key,
+                    obj.EcellObject.Key,
                     obj,
                     true,
                     (i == list.Count));
@@ -803,8 +803,8 @@ namespace EcellLib.PathwayWindow
                 i++;
                 obj.Layer = newlayer;
                 m_con.NotifyDataChanged(
-                    obj.EcellObject.key,
-                    obj.EcellObject.key,
+                    obj.EcellObject.Key,
+                    obj.EcellObject.Key,
                     obj,
                     true,
                     (i == list.Count));
@@ -836,7 +836,7 @@ namespace EcellLib.PathwayWindow
             PPathwayObject obj = null;
 
             foreach (PPathwaySystem sys in this.m_systems.Values)
-                if (sys.Rect.Contains(point) && !sys.EcellObject.key.Equals(excludedSystem))
+                if (sys.Rect.Contains(point) && !sys.EcellObject.Key.Equals(excludedSystem))
                     obj = sys;
             return obj;
         }
@@ -863,7 +863,7 @@ namespace EcellLib.PathwayWindow
             PPathwayObject obj = GetSurroundingSystem(point, excludedSystem);
             if (obj == null)
                 return null;
-            return obj.EcellObject.key;
+            return obj.EcellObject.Key;
         }
 
         /// <summary>
@@ -967,7 +967,7 @@ namespace EcellLib.PathwayWindow
             List<PPathwayObject> returnList = new List<PPathwayObject>();
             foreach (PPathwayObject obj in this.GetAllObjects())
             {
-                if (obj.EcellObject.key.StartsWith(systemKey) && !obj.EcellObject.key.Equals(systemKey))
+                if (obj.EcellObject.Key.StartsWith(systemKey) && !obj.EcellObject.Key.Equals(systemKey))
                     returnList.Add(obj);
             }
             return returnList;
@@ -1128,7 +1128,7 @@ namespace EcellLib.PathwayWindow
         private void RemoveNodeUnder(string sysKey)
         {
             foreach (PPathwayObject obj in GetAllObjectUnder(sysKey))
-                DataDelete(obj.EcellObject.key, obj.EcellObject.type);
+                DataDelete(obj.EcellObject.Key, obj.EcellObject.Type);
         }
 
         /// <summary>
@@ -1294,7 +1294,7 @@ namespace EcellLib.PathwayWindow
             if (m_selectedNodes.Count == 0)
                 return;
             foreach (PPathwayObject obj in m_selectedNodes)
-                GetSelectedObject(obj.EcellObject.key, obj.EcellObject.type).IsHighLighted = false;
+                GetSelectedObject(obj.EcellObject.Key, obj.EcellObject.Type).IsHighLighted = false;
             lock (this)
                 m_selectedNodes.Clear();
         }
@@ -1359,9 +1359,9 @@ namespace EcellLib.PathwayWindow
             bool sysContains = false;
             bool childContains = false;
             foreach (PPathwaySystem sys in this.m_systems.Values)
-                if (sys.EcellObject.key.Equals(sysKey) && sys.Rect.Contains(point) && sys.Rect.Contains(center))
+                if (sys.EcellObject.Key.Equals(sysKey) && sys.Rect.Contains(point) && sys.Rect.Contains(center))
                     sysContains = true;
-                else if (sys.EcellObject.key.StartsWith(sysKey) && (sys.Rect.Contains(point) || sys.Rect.Contains(center) ) )
+                else if (sys.EcellObject.Key.StartsWith(sysKey) && (sys.Rect.Contains(point) || sys.Rect.Contains(center) ) )
                     childContains = true;
             return sysContains && !childContains;
         }

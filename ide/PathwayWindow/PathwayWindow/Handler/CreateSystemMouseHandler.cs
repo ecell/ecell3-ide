@@ -259,7 +259,7 @@ namespace EcellLib.PathwayWindow.Handler
                 eo.Height = m_rect.Height;
 
                 m_con.NotifyDataAdd(eo, false);
-                TransferNodeToByCreate(eo.key);
+                TransferNodeToByCreate(eo.Key);
             }
             else
             {
@@ -280,12 +280,12 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 if (obj == system || !system.Rect.Contains(obj.Rect))
                     continue;
-                if (obj.EcellObject.parentSystemID.StartsWith(systemName))
+                if (obj.EcellObject.ParentSystemID.StartsWith(systemName))
                     continue;
 
-                newKey = PathUtil.GetMovedKey(obj.EcellObject.key, system.EcellObject.parentSystemID, systemName);
+                newKey = PathUtil.GetMovedKey(obj.EcellObject.Key, system.EcellObject.ParentSystemID, systemName);
                 m_con.NotifyDataChanged(
-                    obj.EcellObject.key,
+                    obj.EcellObject.Key,
                     newKey,
                     obj,
                     true,
@@ -293,12 +293,12 @@ namespace EcellLib.PathwayWindow.Handler
             }
             foreach (PPathwayObject obj in m_canvas.GetNodeList())
             {
-                if (obj.EcellObject.parentSystemID.StartsWith(systemName) || !system.Rect.Contains(obj.Rect))
+                if (obj.EcellObject.ParentSystemID.StartsWith(systemName) || !system.Rect.Contains(obj.Rect))
                     continue;
 
-                newKey = PathUtil.GetMovedKey(obj.EcellObject.key, system.EcellObject.parentSystemID, systemName);
+                newKey = PathUtil.GetMovedKey(obj.EcellObject.Key, system.EcellObject.ParentSystemID, systemName);
                 m_con.NotifyDataChanged(
-                    obj.EcellObject.key,
+                    obj.EcellObject.Key,
                     newKey,
                     obj,
                     true,

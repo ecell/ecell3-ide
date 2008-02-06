@@ -114,6 +114,9 @@ namespace EcellLib.TracerWindow
         /// The drawing points on drawing area.
         /// </summary>
         static public double s_count = 10000.0;
+        /// <summary>
+        /// 
+        /// </summary>
         static public double s_duple = 1.25;
         /// <summary>
         /// The time interval to redraw.
@@ -625,7 +628,7 @@ namespace EcellLib.TracerWindow
                 {
                     if (d.Logged)
                     {
-                        AddToEntry(new TagData(obj.modelID, obj.key, obj.type, d.EntityPath, isContinue));
+                        AddToEntry(new TagData(obj.ModelID, obj.Key, obj.Type, d.EntityPath, isContinue));
                     }
                 }
             }

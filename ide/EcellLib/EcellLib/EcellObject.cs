@@ -166,7 +166,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_modelID.
         /// </summary>
-        public string modelID
+        public string ModelID
         {
             get { return m_modelID; }
             set { m_modelID = value; }
@@ -175,33 +175,33 @@ namespace EcellLib
         /// <summary>
         /// get / set name.
         /// </summary>
-        public string name
+        public string Name
         {
             get {
                 string name;
-                if (key == null || key.Equals("/"))
+                if (Key == null || Key.Equals("/"))
                     name = "/";
-                else if (key.Contains(":"))
-                    name = key.Substring(key.LastIndexOf(":") + 1);
+                else if (Key.Contains(":"))
+                    name = Key.Substring(Key.LastIndexOf(":") + 1);
                 else
-                    name = key.Substring(key.LastIndexOf("/") + 1);
+                    name = Key.Substring(Key.LastIndexOf("/") + 1);
                 return name;
             }
             set
             {
-                if (key == null || key.Equals("/"))
+                if (Key == null || Key.Equals("/"))
                     this.m_key = "/";
-                else if (key.Contains(":"))
-                    this.m_key = parentSystemID + ":" + value;
+                else if (Key.Contains(":"))
+                    this.m_key = ParentSystemID + ":" + value;
                 else
-                    this.m_key = parentSystemID + "/" + value;
+                    this.m_key = ParentSystemID + "/" + value;
             }
         }
 
         /// <summary>
         /// get/set m_keyID.
         /// </summary>
-        public string key
+        public string Key
         {
             get { return m_key; }
             set { m_key = value; }
@@ -210,25 +210,25 @@ namespace EcellLib
         /// <summary>
         /// get parent system ID.
         /// </summary>
-        public string parentSystemID
+        public string ParentSystemID
         {
-            get { return GetParentSystemId(key); }
+            get { return GetParentSystemId(Key); }
             set
             {
                 if (this.m_type == EcellObject.PROCESS || this.m_type == EcellObject.VARIABLE)
                 {
-                    this.m_key = value + ":" + this.name;
+                    this.m_key = value + ":" + this.Name;
                     return;
                 }
-                else if (key == null || key.Equals("/"))
+                else if (Key == null || Key.Equals("/"))
                     this.m_key = "/";
                 else if (value.Equals("/"))
-                    this.m_key = value + this.name;
+                    this.m_key = value + this.Name;
                 else
-                    this.m_key = value + "/" + this.name;
+                    this.m_key = value + "/" + this.Name;
 
                 foreach (EcellObject eo in m_children)
-                    eo.parentSystemID = this.m_key;
+                    eo.ParentSystemID = this.m_key;
             }
 
         }
@@ -240,7 +240,7 @@ namespace EcellLib
         {
             get
             {
-                string text = this.name;
+                string text = this.Name;
                 if (Logged)
                     text += " *";
 
@@ -251,7 +251,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_class.
         /// </summary>
-        public string classname
+        public string Classname
         {
             get { return m_class; }
             set { this.m_class = value; }
@@ -370,7 +370,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_type.
         /// </summary>
-        public string type
+        public string Type
         {
             get { return m_type; }
             set { this.m_type = value; }
@@ -649,7 +649,7 @@ namespace EcellLib
         /// </summary>
         protected void AddEcellValue(string name, EcellValue value)
         {
-            string entytyPath = this.type + ":" + this.key + ":" + name;
+            string entytyPath = this.Type + ":" + this.Key + ":" + name;
             EcellData data = new EcellData(name, value, entytyPath);
             AddValue(data);
         }
@@ -662,8 +662,8 @@ namespace EcellLib
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(type);
-            sb.Append("(name=" + name + ")");
+            sb.Append(Type);
+            sb.Append("(name=" + Name + ")");
             if (Children.Count > 0)
             {
                 sb.Append("{");
@@ -1048,10 +1048,10 @@ namespace EcellLib
         public EcellValue(EcellReference l_ref)
         {
             List<EcellValue> l_list = new List<EcellValue>();
-            EcellValue value1 = new EcellValue(l_ref.name);
-            EcellValue value2 = new EcellValue(l_ref.fullID);
-            EcellValue value3 = new EcellValue(l_ref.coefficient);
-            EcellValue value4 = new EcellValue(l_ref.isAccessor);
+            EcellValue value1 = new EcellValue(l_ref.Name);
+            EcellValue value2 = new EcellValue(l_ref.FullID);
+            EcellValue value3 = new EcellValue(l_ref.Coefficient);
+            EcellValue value4 = new EcellValue(l_ref.IsAccessor);
             l_list.Add(value1);
             l_list.Add(value2);
             l_list.Add(value3);
@@ -1569,7 +1569,7 @@ namespace EcellLib
         /// <summary>
         /// get / set name.
         /// </summary>
-        public string name
+        public string Name
         {
             get { return this.m_name; }
             set { this.m_name = value; }
@@ -1578,7 +1578,7 @@ namespace EcellLib
         /// <summary>
         /// get / set full ID.
         /// </summary>
-        public string fullID
+        public string FullID
         {
             get { return this.m_fullID; }
             set { this.m_fullID = value; }
@@ -1596,7 +1596,7 @@ namespace EcellLib
         /// <summary>
         /// get / set coefficient.
         /// </summary>
-        public int coefficient
+        public int Coefficient
         {
             get { return this.m_coeff; }
             set { this.m_coeff = value; }
@@ -1605,7 +1605,7 @@ namespace EcellLib
         /// <summary>
         /// get / set whether this properties is accessor.
         /// </summary>
-        public int isAccessor
+        public int IsAccessor
         {
             get { return this.m_accessor; }
             set { this.m_accessor = value; }
@@ -1785,10 +1785,10 @@ namespace EcellLib
         public EcellSystem(string l_modelID, string l_key,
             string l_type, string l_class, List<EcellData> l_data)
         {
-            this.modelID = l_modelID;
-            this.key = l_key;
-            this.type = l_type;
-            this.classname = l_class;
+            this.ModelID = l_modelID;
+            this.Key = l_key;
+            this.Type = l_type;
+            this.Classname = l_class;
             this.SetEcellDatas(l_data);
             this.Children = new List<EcellObject>();
         }
@@ -1799,7 +1799,7 @@ namespace EcellLib
         /// <summary>
         /// get / set size;
         /// </summary>
-        public double size
+        public double Size
         {
             get {
                 if (IsEcellValueExists(SIZE))
@@ -1818,7 +1818,7 @@ namespace EcellLib
         /// <summary>
         /// get / set Stepper ID.
         /// </summary>
-        public string stepperID
+        public string StepperID
         {
             get {
                 if (IsEcellValueExists("StepperID"))
@@ -1842,7 +1842,7 @@ namespace EcellLib
             get
             {
                 string text = base.Text;
-                if (size != 0.1d)
+                if (Size != 0.1d)
                     text += " (SIZE:" + GetEcellValue(SIZE).ToString() +")";
                 return text;
             }
@@ -1877,10 +1877,10 @@ namespace EcellLib
         public EcellVariable(string l_modelID, string l_key,
             string l_type, string l_class, List<EcellData> l_data)
         {
-            this.modelID = l_modelID;
-            this.key = l_key;
-            this.type = l_type;
-            this.classname = l_class;
+            this.ModelID = l_modelID;
+            this.Key = l_key;
+            this.Type = l_type;
+            this.Classname = l_class;
             this.SetEcellDatas(l_data);
         }
         #endregion
@@ -1889,7 +1889,7 @@ namespace EcellLib
         /// <summary>
         /// get / set the molar concentrate.
         /// </summary>
-        public double molarConc
+        public double MolarConc
         {
             get {
                 if (IsEcellValueExists("MolarConc"))
@@ -1908,7 +1908,7 @@ namespace EcellLib
         /// <summary>
         /// get / set the number of concentrate.
         /// </summary>
-        public double numberConc
+        public double NumberConc
         {
             get
             {
@@ -1929,7 +1929,7 @@ namespace EcellLib
         /// <summary>
         /// get / set total velocity.
         /// </summary>
-        public double totalVelocity
+        public double TotalVelocity
         {
             get
             {
@@ -1950,7 +1950,7 @@ namespace EcellLib
         /// <summary>
         /// get / set value.
         /// </summary>
-        public double value
+        public double Value
         {
             get
             {
@@ -1971,7 +1971,7 @@ namespace EcellLib
         /// <summary>
         /// get / set velocity.
         /// </summary>
-        public double velocity
+        public double Velocity
         {
             get
             {
@@ -2012,10 +2012,10 @@ namespace EcellLib
         public EcellModel(string l_modelID, string l_key,
              string l_type, string l_class, List<EcellData> l_data)
         {
-            this.modelID = l_modelID;
-            this.key = l_key;
-            this.type = l_type;
-            this.classname = l_class;
+            this.ModelID = l_modelID;
+            this.Key = l_key;
+            this.Type = l_type;
+            this.Classname = l_class;
             this.m_ecellDatas = l_data;
         }
         #endregion
@@ -2079,10 +2079,10 @@ namespace EcellLib
         public EcellProcess(string l_modelID, string l_key,
             string l_type, string l_class, List<EcellData> l_data)
         {
-            this.modelID = l_modelID;
-            this.key = l_key;
-            this.type = l_type;
-            this.classname = l_class;
+            this.ModelID = l_modelID;
+            this.Key = l_key;
+            this.Type = l_type;
+            this.Classname = l_class;
             this.SetEcellDatas(l_data);
         }
         #endregion
@@ -2091,7 +2091,7 @@ namespace EcellLib
         /// <summary>
         /// get /set the activity.
         /// </summary>
-        public double activity
+        public double Activity
         {
             get
             {
@@ -2112,7 +2112,7 @@ namespace EcellLib
         /// <summary>
         /// get /set the expression of process.
         /// </summary>
-        public string expression
+        public string Expression
         {
             get {
                 if ( IsEcellValueExists(EXPRESSION) )
@@ -2131,7 +2131,7 @@ namespace EcellLib
         /// <summary>
         /// get / set whether this property is continious.
         /// </summary>
-        public int isContinuous
+        public int IsContinuous
         {
             get
             {
@@ -2152,7 +2152,7 @@ namespace EcellLib
         /// <summary>
         /// get / set priority.
         /// </summary>
-        public int priority
+        public int Priority
         {
             get
             {
@@ -2173,7 +2173,7 @@ namespace EcellLib
         /// <summary>
         /// get / set stepperID.
         /// </summary>
-        public string stepperID
+        public string StepperID
         {
             get
             {

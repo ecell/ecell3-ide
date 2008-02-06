@@ -84,22 +84,22 @@ namespace EcellLib.StaticDebugWindow
 
             foreach (EcellObject obj in l_data)
             {
-                if (obj.type == Constants.xpathProcess)
+                if (obj.Type == Constants.xpathProcess)
                     m_existProcessList.Add(Constants.xpathProcess + 
-                        Constants.delimiterColon + obj.key, obj);
-                if (obj.type == Constants.xpathVariable)
+                        Constants.delimiterColon + obj.Key, obj);
+                if (obj.Type == Constants.xpathVariable)
                     m_existVariableList.Add(Constants.xpathVariable + 
-                        Constants.delimiterColon + obj.key, obj);
+                        Constants.delimiterColon + obj.Key, obj);
 
                 if (obj.Children == null) continue;
                 foreach (EcellObject cobj in obj.Children)
                 {
-                    if (cobj.type == Constants.xpathProcess)
+                    if (cobj.Type == Constants.xpathProcess)
                         m_existProcessList.Add(Constants.xpathProcess +
-                            Constants.delimiterColon + cobj.key, cobj);
-                    if (cobj.type == Constants.xpathVariable)
+                            Constants.delimiterColon + cobj.Key, cobj);
+                    if (cobj.Type == Constants.xpathVariable)
                         m_existVariableList.Add(Constants.xpathVariable +
-                            Constants.delimiterColon + cobj.key, cobj);
+                            Constants.delimiterColon + cobj.Key, cobj);
                 }
             }
             CheckNoConnect();
@@ -129,7 +129,7 @@ namespace EcellLib.StaticDebugWindow
                         string[] data = vData.ToString().Split(new char[] { ':' });
                         if (data[1].Equals("."))
                         {
-                            Util.GetNameFromPath(obj.key, ref systemPath);
+                            Util.GetNameFromPath(obj.Key, ref systemPath);
                         }
                         else
                         {
@@ -139,7 +139,7 @@ namespace EcellLib.StaticDebugWindow
                             systemPath + Constants.delimiterColon + data[2];
                         if (!m_existVariableList.ContainsKey(systemPath))
                         {
-                            ErrorMessage mes = new ErrorMessage(obj.modelID, obj.type,
+                            ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                                 d.EntityPath,
                                 StaticDebugWindow.s_resources.GetString("ErrNoVariable"));
                             m_errorList.Add(mes);
@@ -167,9 +167,9 @@ namespace EcellLib.StaticDebugWindow
             {
                 if (obj.Value == null)
                 {
-                    ErrorMessage mes = new ErrorMessage(obj.modelID, obj.type,
+                    ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                         Constants.xpathProcess + Constants.delimiterColon + 
-                        obj.key + Constants.delimiterColon + Constants.xpathVRL,
+                        obj.Key + Constants.delimiterColon + Constants.xpathVRL,
                         StaticDebugWindow.s_resources.GetString("ErrNoConnect"));
                     m_errorList.Add(mes);
                     continue;
@@ -181,7 +181,7 @@ namespace EcellLib.StaticDebugWindow
                     List<EcellValue> rList = d.Value.CastToList();
                     if (rList == null || rList.Count <= 0)
                     {
-                        ErrorMessage mes = new ErrorMessage(obj.modelID, obj.type,
+                        ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                             d.EntityPath,
                             StaticDebugWindow.s_resources.GetString("ErrNoConnect"));
                         m_errorList.Add(mes);
@@ -195,7 +195,7 @@ namespace EcellLib.StaticDebugWindow
                         string[] data = vData.ToString().Split(new char[] { ':' });
                         if (data[1].Equals("."))
                         {
-                            Util.GetNameFromPath(obj.key, ref systemPath);
+                            Util.GetNameFromPath(obj.Key, ref systemPath);
                         }
                         else
                         {
@@ -212,8 +212,8 @@ namespace EcellLib.StaticDebugWindow
             foreach (string key in valDic.Keys)
             {
                 EcellObject obj = valDic[key];
-                ErrorMessage mes = new ErrorMessage(obj.modelID, obj.type,
-                    Constants.xpathVariable + Constants.delimiterColon + obj.key + 
+                ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
+                    Constants.xpathVariable + Constants.delimiterColon + obj.Key + 
                     Constants.delimiterColon + Constants.xpathID,
                     StaticDebugWindow.s_resources.GetString("ErrNoConnect"));
                 m_errorList.Add(mes);

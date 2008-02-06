@@ -113,13 +113,13 @@ namespace EcellLib
                 EcellObject l_changedObject = null;
                 foreach (EcellObject l_systemObject in l_systemObjectList)
                 {
-                    if (!l_systemObject.type.Equals(Constants.xpathSystem))
+                    if (!l_systemObject.Type.Equals(Constants.xpathSystem))
                     {
                         continue;
                     }
                     if (l_fullIDs[0].Equals(Constants.xpathSystem))
                     {
-                        if (l_systemObject.key.Equals(l_fullIDs[2]))
+                        if (l_systemObject.Key.Equals(l_fullIDs[2]))
                         {
                             if (l_systemObject.Value == null || l_systemObject.Value.Count <= 0)
                             {
@@ -146,8 +146,8 @@ namespace EcellLib
                         }
                         foreach (EcellObject l_childObject in l_systemObject.Children)
                         {
-                            if (l_childObject.type.Equals(l_fullIDs[0])
-                                    && l_childObject.key.Equals(l_fullIDs[1] + Constants.delimiterColon + l_fullIDs[2]))
+                            if (l_childObject.Type.Equals(l_fullIDs[0])
+                                    && l_childObject.Key.Equals(l_fullIDs[1] + Constants.delimiterColon + l_fullIDs[2]))
                             {
                                 if (l_childObject.Value == null || l_childObject.Value.Count <= 0)
                                 {
@@ -349,13 +349,13 @@ namespace EcellLib
                 EcellObject l_changedObject = null;
                 foreach (EcellObject l_systemObject in l_systemObjectList)
                 {
-                    if (!l_systemObject.type.Equals(Constants.xpathSystem))
+                    if (!l_systemObject.Type.Equals(Constants.xpathSystem))
                     {
                         continue;
                     }
                     if (l_fullPNDivs[0].Equals(Constants.xpathSystem))
                     {
-                        if (l_systemObject.key.Equals(l_fullPNDivs[2]))
+                        if (l_systemObject.Key.Equals(l_fullPNDivs[2]))
                         {
                             if (l_systemObject.Value == null || l_systemObject.Value.Count <= 0)
                             {
@@ -383,8 +383,8 @@ namespace EcellLib
                         }
                         foreach (EcellObject l_childObject in l_systemObject.Children)
                         {
-                            if (l_childObject.type.Equals(l_fullPNDivs[0])
-                                    && l_childObject.key.Equals(l_fullPNDivs[1]
+                            if (l_childObject.Type.Equals(l_fullPNDivs[0])
+                                    && l_childObject.Key.Equals(l_fullPNDivs[1]
                                     + Constants.delimiterColon + l_fullPNDivs[2]))
                             {
                                 if (l_childObject.Value == null || l_childObject.Value.Count <= 0)
@@ -555,9 +555,9 @@ namespace EcellLib
                         }
                         foreach (EcellObject l_child in l_parent.Children)
                         {
-                            if (l_child.type.Equals(l_entityName))
+                            if (l_child.Type.Equals(l_entityName))
                             {
-                                l_list.Add(l_child.key.Split(Constants.delimiterColon.ToCharArray())[1]);
+                                l_list.Add(l_child.Key.Split(Constants.delimiterColon.ToCharArray())[1]);
                             }
                         }
                     }
@@ -632,8 +632,8 @@ namespace EcellLib
                         s_modelID, pathElements[1]))[0];
                 foreach (EcellObject l_entity in l_system.Children)
                 {
-                    if (l_entity.type.Equals(pathElements[0])
-                        && l_entity.key.Equals(pathElements[1] + Constants.delimiterColon + pathElements[2]))
+                    if (l_entity.Type.Equals(pathElements[0])
+                        && l_entity.Key.Equals(pathElements[1] + Constants.delimiterColon + pathElements[2]))
                     {
                         foreach (EcellData l_entityProperty in l_entity.Value)
                         {
@@ -753,7 +753,7 @@ namespace EcellLib
                 List<string> l_list = new List<string>();
                 foreach (EcellObject l_stepper in DataManager.GetDataManager().GetStepper(l_parameterID, s_modelID))
                 {
-                    l_list.Add(l_stepper.key);
+                    l_list.Add(l_stepper.Key);
                 }
                 return l_list;
             }
@@ -1194,7 +1194,7 @@ namespace EcellLib
                             {
                                 foreach (EcellObject l_entity in l_system.Children)
                                 {
-                                    if (l_entity.type.Equals(l_type) && l_entity.key.Equals(l_key))
+                                    if (l_entity.Type.Equals(l_type) && l_entity.Key.Equals(l_key))
                                     {
                                         this.m_ecellObject = l_entity;
                                         return;
@@ -1356,7 +1356,7 @@ namespace EcellLib
                 {
                     if (this.m_ecellObject != null)
                     {
-                        return this.m_ecellObject.classname;
+                        return this.m_ecellObject.Classname;
                     }
                     else
                     {
@@ -1505,7 +1505,7 @@ namespace EcellLib
                         {
                             foreach (EcellObject l_entity in l_system.Children)
                             {
-                                if (l_entity.type.Equals(l_type) && l_entity.key.Equals(l_key))
+                                if (l_entity.Type.Equals(l_type) && l_entity.Key.Equals(l_key))
                                 {
                                     this.m_ecellObject = l_entity;
                                     return;
@@ -1673,9 +1673,9 @@ namespace EcellLib
                                 // throw new Exception("The property named [" + l_propertyName + "]" + "isn't found.");
                             }
                             DataManager.GetDataManager().DataChanged(
-                                    this.m_ecellObject.modelID,
-                                    this.m_ecellObject.key,
-                                    this.m_ecellObject.type,
+                                    this.m_ecellObject.ModelID,
+                                    this.m_ecellObject.Key,
+                                    this.m_ecellObject.Type,
                                     this.m_ecellObject);
                         }
                     }
@@ -2112,7 +2112,7 @@ namespace EcellLib
                     List<string> l_stepperIDList = new List<string>();
                     foreach (EcellObject l_ecellObject in this.m_stepperList)
                     {
-                        l_stepperIDList.Add(l_ecellObject.key);
+                        l_stepperIDList.Add(l_ecellObject.Key);
                     }
                     return l_stepperIDList;
                 }
@@ -2247,7 +2247,7 @@ namespace EcellLib
                     foreach (EcellObject l_stepper
                             in DataManager.GetDataManager().GetStepper(this.m_parameterID, CommandManager.s_modelID))
                     {
-                        if (l_stepper.key.Equals(this.m_ID) && l_stepper.classname.Equals(l_className))
+                        if (l_stepper.Key.Equals(this.m_ID) && l_stepper.Classname.Equals(l_className))
                         {
                             this.m_stepper = l_stepper;
                             return;
@@ -2336,7 +2336,7 @@ namespace EcellLib
                     foreach (EcellObject l_stepper
                             in DataManager.GetDataManager().GetStepper(this.m_parameterID, CommandManager.s_modelID))
                     {
-                        if (l_stepper.key.Equals(this.m_ID))
+                        if (l_stepper.Key.Equals(this.m_ID))
                         {
                             return true;
                         }
@@ -2358,7 +2358,7 @@ namespace EcellLib
             {
                 if (this.m_stepper != null)
                 {
-                    return this.m_stepper.classname;
+                    return this.m_stepper.Classname;
                 }
                 else
                 {
@@ -2561,9 +2561,9 @@ namespace EcellLib
                             if (l_findFlag)
                             {
                                 DataManager.GetDataManager().DataChanged(
-                                        this.m_stepper.modelID,
-                                        this.m_stepper.key,
-                                        this.m_stepper.type,
+                                        this.m_stepper.ModelID,
+                                        this.m_stepper.Key,
+                                        this.m_stepper.Type,
                                         this.m_stepper);
                             }
                             else

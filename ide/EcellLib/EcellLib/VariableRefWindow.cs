@@ -95,12 +95,12 @@ namespace EcellLib
                     return null;
                 }
                 nameList.Add(name);
-                v.name = (string)this.dgv[0, i].Value;
-                v.fullID = (string)this.dgv[1, i].Value;
+                v.Name = (string)this.dgv[0, i].Value;
+                v.FullID = (string)this.dgv[1, i].Value;
                 try
                 {
-                    v.coefficient = Convert.ToInt32(this.dgv[2, i].Value);
-                    v.isAccessor = Convert.ToInt32(this.dgv[3, i].Value);
+                    v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
+                    v.IsAccessor = Convert.ToInt32(this.dgv[3, i].Value);
                 }
                 catch (Exception)
                 {
@@ -109,14 +109,14 @@ namespace EcellLib
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return null;
                 }
-                if (v.name == "")
+                if (v.Name == "")
                 {
                     String errmes = m_resources.GetString("ErrInvalidName");
                     MessageBox.Show(errmes + "(Name)",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return null;
                 }
-                if (v.fullID == "" || !v.fullID.StartsWith(":"))
+                if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
                     String errmes = m_resources.GetString("ErrInvalidName");
                     MessageBox.Show(errmes + "(FullID)",
@@ -143,23 +143,23 @@ namespace EcellLib
             List<EcellObject> objList = m_dManager.GetData(null, null);
             foreach (EcellObject obj in objList)
             {
-                if (obj.type == "Model")
+                if (obj.Type == "Model")
                 {
-                    TreeNode node = new TreeNode(obj.modelID);
-                    node.ImageIndex = m_pManager.GetImageIndex(obj.type);
+                    TreeNode node = new TreeNode(obj.ModelID);
+                    node.ImageIndex = m_pManager.GetImageIndex(obj.Type);
                     node.SelectedImageIndex = node.ImageIndex;
                     m_prjNode.Nodes.Add(node);
-                    dict.Add(obj.modelID, node);
+                    dict.Add(obj.ModelID, node);
                 }
-                else if (obj.type == "System")
+                else if (obj.Type == "System")
                 {
                     TreeNode node = null;
-                    TreeNode current = dict[obj.modelID];
+                    TreeNode current = dict[obj.ModelID];
                     TreeNode target = null;
-                    if (obj.key == "/")
+                    if (obj.Key == "/")
                     {
-                        node = new TreeNode(obj.key);
-                        node.ImageIndex = m_pManager.GetImageIndex(obj.type);
+                        node = new TreeNode(obj.Key);
+                        node.ImageIndex = m_pManager.GetImageIndex(obj.Type);
                         node.SelectedImageIndex = node.ImageIndex;
                         current.Nodes.Add(node);
                     }
@@ -167,7 +167,7 @@ namespace EcellLib
                     {
                         string path = "";
                         string[] elements;
-                        elements = obj.key.Split(new Char[] { '/' });
+                        elements = obj.Key.Split(new Char[] { '/' });
                         for (int i = 1; i < elements.Length - 1; i++)
                         {
                             path = path + "/" + elements[i];
@@ -177,7 +177,7 @@ namespace EcellLib
                         if (target != null)
                         {
                             node = new TreeNode(elements[elements.Length - 1]);
-                            node.ImageIndex = m_pManager.GetImageIndex(obj.type);
+                            node.ImageIndex = m_pManager.GetImageIndex(obj.Type);
                             node.SelectedImageIndex = node.ImageIndex;
                             target.Nodes.Add(node);
                         }
@@ -187,8 +187,8 @@ namespace EcellLib
                         if (obj.Children == null) continue;
                         foreach (EcellObject eo in obj.Children)
                         {
-                            if (eo.type != "Variable") continue;
-                            string[] names = eo.key.Split(new char[] { ':' });
+                            if (eo.Type != "Variable") continue;
+                            string[] names = eo.Key.Split(new char[] { ':' });
                             IEnumerator iter = node.Nodes.GetEnumerator();
                             bool isHit = false;
                             while (iter.MoveNext())
@@ -203,9 +203,9 @@ namespace EcellLib
                             if (isHit == true) continue;
 
                             TreeNode childNode = new TreeNode(names[names.Length - 1]);
-                            childNode.ImageIndex = m_pManager.GetImageIndex(eo.type);
+                            childNode.ImageIndex = m_pManager.GetImageIndex(eo.Type);
                             childNode.SelectedImageIndex = childNode.ImageIndex;
-                            childNode.Tag = eo.key;
+                            childNode.Tag = eo.Key;
                             node.Nodes.Add(childNode);
                         }
                     }
@@ -299,12 +299,12 @@ namespace EcellLib
                     return;
                 }
                 nameList.Add(name);
-                v.name = (string)this.dgv[0, i].Value;
-                v.fullID = (string)this.dgv[1, i].Value;
+                v.Name = (string)this.dgv[0, i].Value;
+                v.FullID = (string)this.dgv[1, i].Value;
                 try
                 {
-                    v.coefficient = Convert.ToInt32(this.dgv[2, i].Value);
-                    v.isAccessor = Convert.ToInt32(this.dgv[3, i].Value);
+                    v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
+                    v.IsAccessor = Convert.ToInt32(this.dgv[3, i].Value);
                 }
                 catch (Exception)
                 {
@@ -313,14 +313,14 @@ namespace EcellLib
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (v.name == "")
+                if (v.Name == "")
                 {
                     String errmes = m_resources.GetString("ErrInvalidName");
                     MessageBox.Show(errmes + "(Name)",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (v.fullID == "" || !v.fullID.StartsWith(":"))
+                if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
                     String errmes = m_resources.GetString("ErrInvalidName");
                     MessageBox.Show(errmes + "(FullID)",
@@ -359,12 +359,12 @@ namespace EcellLib
                     return;
                 }
                 nameList.Add(name);
-                v.name = (string)this.dgv[0, i].Value;
-                v.fullID = (string)this.dgv[1, i].Value;
+                v.Name = (string)this.dgv[0, i].Value;
+                v.FullID = (string)this.dgv[1, i].Value;
                 try
                 {
-                    v.coefficient = Convert.ToInt32(this.dgv[2, i].Value);
-                    v.isAccessor = Convert.ToInt32(this.dgv[3, i].Value);
+                    v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
+                    v.IsAccessor = Convert.ToInt32(this.dgv[3, i].Value);
                 }
                 catch (Exception)
                 {
@@ -373,14 +373,14 @@ namespace EcellLib
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (v.name == "")
+                if (v.Name == "")
                 {
                     String errmes = m_resources.GetString("ErrInvalidName");
                     MessageBox.Show(errmes + "(Name)",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (v.fullID == "" || !v.fullID.StartsWith(":"))
+                if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
                     String errmes = m_resources.GetString("ErrInvalidName");
                     MessageBox.Show(errmes + "(FullID)",

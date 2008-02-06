@@ -146,7 +146,7 @@ namespace EcellLib.ObjectList2
             {
                 m_tabList[typeof(EcellProcess)].DataAdd(obj);
             }
-            m_currentModelID = obj.modelID;
+            m_currentModelID = obj.ModelID;
         }
 
 
@@ -252,9 +252,9 @@ namespace EcellLib.ObjectList2
         {
             foreach (EcellObject obj in objList)
             {
-                if (obj.type.Equals(Constants.xpathModel)) continue;
-                if (obj.type.Equals(Constants.xpathProject)) continue;
-                if (m_currentModelID != null && !m_currentModelID.Equals(obj.modelID)) continue;
+                if (obj.Type.Equals(Constants.xpathModel)) continue;
+                if (obj.Type.Equals(Constants.xpathProject)) continue;
+                if (m_currentModelID != null && !m_currentModelID.Equals(obj.ModelID)) continue;
                 DataAdd(obj);
                 if (obj.Children == null) continue;
                 foreach (EcellObject cobj in obj.Children)
@@ -293,6 +293,7 @@ namespace EcellLib.ObjectList2
         /// <param name="modelID">ModelID of the deleted object.</param>
         /// <param name="id">ID of the deleted object.</param>
         /// <param name="type">Type of the deleted object.</param>
+        /// <param name="isChanged"></param>
         public void DataDelete(string modelID, string id, string type, bool isChanged)
         {
             foreach (Type t in m_tabList.Keys)

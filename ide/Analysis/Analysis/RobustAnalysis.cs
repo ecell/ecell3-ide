@@ -583,7 +583,7 @@ namespace EcellLib.Analysis
                     d.Committed = true;
                 }
                 DataManager dManager = DataManager.GetDataManager();
-                dManager.DataChanged(obj.modelID, obj.key, obj.type, obj);
+                dManager.DataChanged(obj.ModelID, obj.Key, obj.Type, obj);
             }
         }
 
@@ -865,7 +865,7 @@ namespace EcellLib.Analysis
                     break;
                 }
             }
-            dManager.DataChanged(t.modelID, t.key, t.type, t);
+            dManager.DataChanged(t.ModelID, t.Key, t.Type, t);
         }
 
         /// <summary>

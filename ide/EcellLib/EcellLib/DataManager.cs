@@ -269,8 +269,8 @@ namespace EcellLib
             string l_message = null;
             try
             {
-                l_message = "[" + l_parameterID + "][" + l_stepper.modelID + "][" + l_stepper.key + "]";
-                if (l_stepper != null && l_stepper.modelID != null && l_stepper.modelID.Length > 0)
+                l_message = "[" + l_parameterID + "][" + l_stepper.ModelID + "][" + l_stepper.Key + "]";
+                if (l_stepper != null && l_stepper.ModelID != null && l_stepper.ModelID.Length > 0)
                 {
                     if (!this.m_stepperDic[this.m_currentProjectID].ContainsKey(l_parameterID))
                     {
@@ -278,12 +278,12 @@ namespace EcellLib
                                 = new Dictionary<string, List<EcellObject>>();
                     }
                     if (this.m_stepperDic[this.m_currentProjectID][l_parameterID]
-                            .ContainsKey(l_stepper.modelID))
+                            .ContainsKey(l_stepper.ModelID))
                     {
                         foreach (EcellObject l_storedStepper in
-                            this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.modelID])
+                            this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.ModelID])
                         {
-                            if (l_stepper.key.Equals(l_storedStepper.key))
+                            if (l_stepper.Key.Equals(l_storedStepper.Key))
                             {
                                 throw new Exception(
                                     String.Format(
@@ -293,7 +293,7 @@ namespace EcellLib
                                 );
                             }
                         }
-                        this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.modelID]
+                        this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.ModelID]
                                 .Add(l_stepper);
                         if (m_currentParameterID.Equals(l_parameterID))
                         {
@@ -330,34 +330,34 @@ namespace EcellLib
             string l_message = null;
             if (l_parameterID != null && l_parameterID.Length > 0)
             {
-                l_message = "[" + l_parameterID + "][" + l_src.modelID + "][" + l_src.key + "]";
+                l_message = "[" + l_parameterID + "][" + l_src.ModelID + "][" + l_src.Key + "]";
             }
             else
             {
-                l_message = "[" + l_src.modelID + "][" + l_src.key + "]";
+                l_message = "[" + l_src.ModelID + "][" + l_src.Key + "]";
             }
-            if (!l_src.classname.Equals(l_dest.classname))
+            if (!l_src.Classname.Equals(l_dest.Classname))
             {
                 this.m_pManager.Message(
                     Constants.messageSimulation,
                     "Update Data: " + l_message + "[" + Constants.xpathClassName + "]"
                         + System.Environment.NewLine
-                        + "\t[" + l_src.classname + "]->[" + l_dest.classname + "]"
+                        + "\t[" + l_src.Classname + "]->[" + l_dest.Classname + "]"
                         + System.Environment.NewLine);
             }
-            if (!l_src.key.Equals(l_dest.key))
+            if (!l_src.Key.Equals(l_dest.Key))
             {
                 this.m_pManager.Message(
                     Constants.messageSimulation,
                     "Update Data: " + l_message + "[" + Constants.xpathKey + "]"
                         + System.Environment.NewLine
-                        + "\t[" + l_src.key + "]->[" + l_dest.key + "]"
+                        + "\t[" + l_src.Key + "]->[" + l_dest.Key + "]"
                         + System.Environment.NewLine);
             }
             //
             // Changes a className and not change a key.
             //
-            if (!l_src.classname.Equals(l_dest.classname) && l_src.key.Equals(l_dest.key))
+            if (!l_src.Classname.Equals(l_dest.Classname) && l_src.Key.Equals(l_dest.Key))
             {
                 foreach (EcellData l_srcEcellData in l_src.Value)
                 {
@@ -374,19 +374,19 @@ namespace EcellLib
                     //
                     // Changes the initial parameter.
                     //
-                    if (l_src.type.Equals(Constants.xpathSystem)
-                        || l_src.type.Equals(Constants.xpathProcess)
-                        || l_src.type.Equals(Constants.xpathVariable))
+                    if (l_src.Type.Equals(Constants.xpathSystem)
+                        || l_src.Type.Equals(Constants.xpathProcess)
+                        || l_src.Type.Equals(Constants.xpathVariable))
                     {
                         if (l_srcEcellData.IsInitialized())
                         {
                             if (l_parameterID != null && l_parameterID.Length > 0)
                             {
                                 if (this.m_initialCondition[this.m_currentProjectID][l_parameterID]
-                                    [l_src.modelID][l_src.type].ContainsKey(l_srcEcellData.EntityPath))
+                                    [l_src.ModelID][l_src.Type].ContainsKey(l_srcEcellData.EntityPath))
                                 {
                                     this.m_initialCondition[this.m_currentProjectID][l_parameterID]
-                                    [l_src.modelID][l_src.type].Remove(l_srcEcellData.EntityPath);
+                                    [l_src.ModelID][l_src.Type].Remove(l_srcEcellData.EntityPath);
                                 }
                             }
                             else
@@ -395,10 +395,10 @@ namespace EcellLib
                                     in this.m_initialCondition[this.m_currentProjectID].Keys)
                                 {
                                     if (this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                        [l_src.modelID][l_src.type].ContainsKey(l_srcEcellData.EntityPath))
+                                        [l_src.ModelID][l_src.Type].ContainsKey(l_srcEcellData.EntityPath))
                                     {
                                         this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                        [l_src.modelID][l_src.type].Remove(l_srcEcellData.EntityPath);
+                                        [l_src.ModelID][l_src.Type].Remove(l_srcEcellData.EntityPath);
                                     }
                                 }
                             }
@@ -410,9 +410,9 @@ namespace EcellLib
                     //
                     // Changes the initial parameter.
                     //
-                    if (l_dest.type.Equals(Constants.xpathSystem)
-                        || l_dest.type.Equals(Constants.xpathProcess)
-                        || l_dest.type.Equals(Constants.xpathVariable))
+                    if (l_dest.Type.Equals(Constants.xpathSystem)
+                        || l_dest.Type.Equals(Constants.xpathProcess)
+                        || l_dest.Type.Equals(Constants.xpathVariable))
                     {
                         if (l_destEcellData.IsInitialized())
                         {
@@ -421,13 +421,13 @@ namespace EcellLib
                                 if (l_destEcellData.Value.IsDouble())
                                 {
                                     this.m_initialCondition[this.m_currentProjectID][l_parameterID]
-                                        [l_dest.modelID][l_dest.type][l_destEcellData.EntityPath]
+                                        [l_dest.ModelID][l_dest.Type][l_destEcellData.EntityPath]
                                         = l_destEcellData.Value.CastToDouble();
                                 }
                                 else if (l_destEcellData.Value.IsInt())
                                 {
                                     this.m_initialCondition[this.m_currentProjectID][l_parameterID]
-                                        [l_dest.modelID][l_dest.type][l_destEcellData.EntityPath]
+                                        [l_dest.ModelID][l_dest.Type][l_destEcellData.EntityPath]
                                         = l_destEcellData.Value.CastToInt();
                                 }
                             }
@@ -439,7 +439,7 @@ namespace EcellLib
                                         in this.m_initialCondition[this.m_currentProjectID].Keys)
                                     {
                                         this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                            [l_dest.modelID][l_dest.type][l_destEcellData.EntityPath]
+                                            [l_dest.ModelID][l_dest.Type][l_destEcellData.EntityPath]
                                             = l_destEcellData.Value.CastToDouble();
                                     }
                                 }
@@ -449,7 +449,7 @@ namespace EcellLib
                                         in this.m_initialCondition[this.m_currentProjectID].Keys)
                                     {
                                         this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                            [l_dest.modelID][l_dest.type][l_destEcellData.EntityPath]
+                                            [l_dest.ModelID][l_dest.Type][l_destEcellData.EntityPath]
                                             = l_destEcellData.Value.CastToInt();
                                     }
                                 }
@@ -496,9 +496,9 @@ namespace EcellLib
                             //
                             // Changes the initial parameter.
                             //
-                            if (l_src.type.Equals(Constants.xpathSystem)
-                                || l_src.type.Equals(Constants.xpathProcess)
-                                || l_src.type.Equals(Constants.xpathVariable))
+                            if (l_src.Type.Equals(Constants.xpathSystem)
+                                || l_src.Type.Equals(Constants.xpathProcess)
+                                || l_src.Type.Equals(Constants.xpathVariable))
                             {
                                 if (!l_srcEcellData.Value.Equals(l_destEcellData.Value)
                                     && l_srcEcellData.IsInitialized())
@@ -506,18 +506,18 @@ namespace EcellLib
                                     if (l_parameterID != null && l_parameterID.Length > 0)
                                     {
                                         if (this.m_initialCondition[this.m_currentProjectID][l_parameterID]
-                                            [l_src.modelID][l_src.type].ContainsKey(l_srcEcellData.EntityPath))
+                                            [l_src.ModelID][l_src.Type].ContainsKey(l_srcEcellData.EntityPath))
                                         {
                                             if (l_destEcellData.Value.IsDouble())
                                             {
                                                 this.m_initialCondition[this.m_currentProjectID][l_parameterID]
-                                                        [l_src.modelID][l_src.type][l_srcEcellData.EntityPath]
+                                                        [l_src.ModelID][l_src.Type][l_srcEcellData.EntityPath]
                                                     = l_destEcellData.Value.CastToDouble();
                                             }
                                             else if (l_destEcellData.Value.IsInt())
                                             {
                                                 this.m_initialCondition[this.m_currentProjectID][l_parameterID]
-                                                        [l_src.modelID][l_src.type][l_srcEcellData.EntityPath]
+                                                        [l_src.ModelID][l_src.Type][l_srcEcellData.EntityPath]
                                                     = l_destEcellData.Value.CastToInt();
                                             }
                                         }
@@ -528,19 +528,19 @@ namespace EcellLib
                                                 in this.m_initialCondition[this.m_currentProjectID].Keys)
                                         {
                                             if (this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                                    [l_src.modelID][l_src.type].ContainsKey(
+                                                    [l_src.ModelID][l_src.Type].ContainsKey(
                                                     l_srcEcellData.EntityPath))
                                             {
                                                 if (l_destEcellData.Value.IsDouble())
                                                 {
                                                     this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                                            [l_src.modelID][l_src.type][l_srcEcellData.EntityPath]
+                                                            [l_src.ModelID][l_src.Type][l_srcEcellData.EntityPath]
                                                         = l_destEcellData.Value.CastToDouble();
                                                 }
                                                 else if (l_destEcellData.Value.IsInt())
                                                 {
                                                     this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                                            [l_src.modelID][l_src.type][l_srcEcellData.EntityPath]
+                                                            [l_src.ModelID][l_src.Type][l_srcEcellData.EntityPath]
                                                         = l_destEcellData.Value.CastToInt();
                                                 }
                                             }
@@ -561,18 +561,18 @@ namespace EcellLib
         /// <param name="l_ecellObject">The checked "EcellObject"</param>
         private void CheckEntityPath(EcellObject l_ecellObject)
         {
-            if (l_ecellObject.key == null)
+            if (l_ecellObject.Key == null)
             {
                 return;
             }
-            if (l_ecellObject.type.Equals(Constants.xpathSystem))
+            if (l_ecellObject.Type.Equals(Constants.xpathSystem))
             {
                 string l_entityPath = null;
                 string l_parentPath
-                    = l_ecellObject.key.Substring(0, l_ecellObject.key.LastIndexOf(Constants.delimiterPath));
+                    = l_ecellObject.Key.Substring(0, l_ecellObject.Key.LastIndexOf(Constants.delimiterPath));
                 string l_childPath
-                    = l_ecellObject.key.Substring(l_ecellObject.key.LastIndexOf(Constants.delimiterPath) + 1);
-                if (l_ecellObject.key.Equals(Constants.delimiterPath))
+                    = l_ecellObject.Key.Substring(l_ecellObject.Key.LastIndexOf(Constants.delimiterPath) + 1);
+                if (l_ecellObject.Key.Equals(Constants.delimiterPath))
                 {
                     if (l_childPath.Length == 0)
                     {
@@ -586,7 +586,7 @@ namespace EcellLib
                         l_parentPath = Constants.delimiterPath;
                     }
                 }
-                l_entityPath = l_ecellObject.type + Constants.delimiterColon
+                l_entityPath = l_ecellObject.Type + Constants.delimiterColon
                     + l_parentPath + Constants.delimiterColon
                     + l_childPath + Constants.delimiterColon;
                 if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
@@ -609,11 +609,11 @@ namespace EcellLib
                     }
                 }
             }
-            else if (l_ecellObject.type.Equals(Constants.xpathProcess) || l_ecellObject.type.Equals(Constants.xpathVariable))
+            else if (l_ecellObject.Type.Equals(Constants.xpathProcess) || l_ecellObject.Type.Equals(Constants.xpathVariable))
             {
                 string l_entityPath
-                    = l_ecellObject.type + Constants.delimiterColon
-                    + l_ecellObject.key + Constants.delimiterColon;
+                    = l_ecellObject.Type + Constants.delimiterColon
+                    + l_ecellObject.Key + Constants.delimiterColon;
                 if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
                 {
                     for (int i = 0; i < l_ecellObject.Value.Count; i++)
@@ -697,7 +697,7 @@ namespace EcellLib
                 foreach (EcellObject l_instance in l_system.Children)
                 {
                     EcellObject l_entity = l_instance.Copy();
-                    if (!l_entity.type.Equals(Constants.xpathProcess))
+                    if (!l_entity.Type.Equals(Constants.xpathProcess))
                     {
                         continue;
                     }
@@ -784,9 +784,9 @@ namespace EcellLib
                     {
                         foreach (EcellObject l_model in m_modelDic[l_str])
                         {
-                            if (this.m_loadDirList.ContainsKey(l_model.modelID))
+                            if (this.m_loadDirList.ContainsKey(l_model.ModelID))
                             {
-                                this.m_loadDirList.Remove(l_model.modelID);
+                                this.m_loadDirList.Remove(l_model.ModelID);
                             }
                         }
                         this.m_modelDic.Remove(l_str);
@@ -847,7 +847,7 @@ namespace EcellLib
                 bool l_foundFlag = false;
                 foreach (EcellObject l_ecellObject in this.m_modelDic[this.m_currentProjectID])
                 {
-                    if (l_ecellObject.modelID.Equals(l_modelID))
+                    if (l_ecellObject.ModelID.Equals(l_modelID))
                     {
                         l_foundFlag = true;
                         break;
@@ -1007,34 +1007,34 @@ namespace EcellLib
             {
                 foreach (EcellObject l_ecellObject in l_ecellObjectList)
                 {
-                    l_message = "[" + l_ecellObject.modelID + "][" + l_ecellObject.key + "]";
+                    l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
                     if (!this.IsUsable(l_ecellObject))
                     {
                         continue;
                     }
-                    if (l_ecellObject.type.Equals(Constants.xpathProcess))
+                    if (l_ecellObject.Type.Equals(Constants.xpathProcess))
                     {
                         this.DataAdd4Entity(l_ecellObject, true);
                         l_usableList.Add(l_ecellObject);
                     }
-                    else if (l_ecellObject.type.Equals(Constants.xpathStepper))
+                    else if (l_ecellObject.Type.Equals(Constants.xpathStepper))
                     {
                         // this.DataAdd4Stepper(l_ecellObject);
                         // l_usableList.Add(l_ecellObject);
                     }
-                    else if (l_ecellObject.type.Equals(Constants.xpathSystem))
+                    else if (l_ecellObject.Type.Equals(Constants.xpathSystem))
                     {
                         this.DataAdd4System(l_ecellObject, true);
-                        if ("/".Equals(l_ecellObject.key))
+                        if ("/".Equals(l_ecellObject.Key))
                             l_isUndoable = false;
                         l_usableList.Add(l_ecellObject);
                     }
-                    else if (l_ecellObject.type.Equals(Constants.xpathVariable))
+                    else if (l_ecellObject.Type.Equals(Constants.xpathVariable))
                     {
                         this.DataAdd4Entity(l_ecellObject, true);
                         l_usableList.Add(l_ecellObject);
                     }
-                    else if (l_ecellObject.type.Equals(Constants.xpathModel))
+                    else if (l_ecellObject.Type.Equals(Constants.xpathModel))
                     {
                         l_isUndoable = false;
                         this.DataAdd4Model(l_ecellObject, l_usableList);
@@ -1077,10 +1077,10 @@ namespace EcellLib
         /// <param name="l_messageFlag">The flag of the messages</param>
         private void DataAdd4Entity(EcellObject l_ecellObject, bool l_messageFlag)
         {
-            string l_message = "[" + l_ecellObject.modelID + "][" + l_ecellObject.key + "]";
+            string l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
             if (this.m_systemDic[this.m_currentProjectID] == null ||
                 this.m_systemDic[this.m_currentProjectID].Count <= 0 ||
-                !this.m_systemDic[this.m_currentProjectID].ContainsKey(l_ecellObject.modelID)
+                !this.m_systemDic[this.m_currentProjectID].ContainsKey(l_ecellObject.ModelID)
                 )
             {
                 throw new Exception(m_resources.GetString("ErrFindSuper"));
@@ -1088,17 +1088,17 @@ namespace EcellLib
 
             bool l_findFlag = false;
             string l_systemKey = Constants.delimiterPath;
-            if (l_ecellObject.key.IndexOf(Constants.delimiterColon) > 0)
+            if (l_ecellObject.Key.IndexOf(Constants.delimiterColon) > 0)
             {
-                l_systemKey = l_ecellObject.key.Substring(0, l_ecellObject.key.IndexOf(Constants.delimiterColon));
+                l_systemKey = l_ecellObject.Key.Substring(0, l_ecellObject.Key.IndexOf(Constants.delimiterColon));
                 if (!l_systemKey.Equals("/"))
                 {
                     l_systemKey.Substring(0, l_systemKey.Length - 1);
                 }
             }
-            foreach (EcellObject l_parentSystem in this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID])
+            foreach (EcellObject l_parentSystem in this.m_systemDic[this.m_currentProjectID][l_ecellObject.ModelID])
             {
-                if (l_parentSystem.modelID.Equals(l_ecellObject.modelID) && l_parentSystem.key.Equals(l_systemKey))
+                if (l_parentSystem.ModelID.Equals(l_ecellObject.ModelID) && l_parentSystem.Key.Equals(l_systemKey))
                 {
                     if (l_parentSystem.Children == null)
                     {
@@ -1110,7 +1110,7 @@ namespace EcellLib
                         {
                             this.m_pManager.Message(
                                 Constants.messageSimulation,
-                                "Create " + l_ecellObject.type + ": " + l_message + System.Environment.NewLine);
+                                "Create " + l_ecellObject.Type + ": " + l_message + System.Environment.NewLine);
                         }
                         break;
                     }
@@ -1118,13 +1118,13 @@ namespace EcellLib
                     {
                         foreach (EcellObject l_child in l_parentSystem.Children)
                         {
-                            if (l_child.key.Equals(l_ecellObject.key) && l_child.type.Equals(l_ecellObject.type))
+                            if (l_child.Key.Equals(l_ecellObject.Key) && l_child.Type.Equals(l_ecellObject.Type))
                             {
                                 throw new Exception(
                                     String.Format(
                                         m_resources.GetString("ErrExistObj"),
                                         new object[] {
-                                            l_message + " " + l_ecellObject.type.ToLower()
+                                            l_message + " " + l_ecellObject.Type.ToLower()
                                         }
                                     )
                                 );
@@ -1138,14 +1138,14 @@ namespace EcellLib
                         {
                             this.m_pManager.Message(
                             Constants.messageSimulation,
-                            "Create " + l_ecellObject.type + ": " + l_message + System.Environment.NewLine);
+                            "Create " + l_ecellObject.Type + ": " + l_message + System.Environment.NewLine);
                         }
                     }
                 }
             }
             if (!l_findFlag)
             {
-                l_message = l_message + " " + l_ecellObject.type.ToLower() + m_resources.GetString("ErrAddObj");
+                l_message = l_message + " " + l_ecellObject.Type.ToLower() + m_resources.GetString("ErrAddObj");
                 if (l_messageFlag)
                 {
                     this.m_pManager.Message(
@@ -1167,7 +1167,7 @@ namespace EcellLib
                                         in this.m_initialCondition[this.m_currentProjectID].Keys)
                                 {
                                     this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                            [l_ecellObject.modelID][l_ecellObject.type][l_data.EntityPath]
+                                            [l_ecellObject.ModelID][l_ecellObject.Type][l_data.EntityPath]
                                         = l_data.Value.CastToDouble();
                                 }
                             }
@@ -1177,7 +1177,7 @@ namespace EcellLib
                                         in this.m_initialCondition[this.m_currentProjectID].Keys)
                                 {
                                     this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                            [l_ecellObject.modelID][l_ecellObject.type][l_data.EntityPath]
+                                            [l_ecellObject.ModelID][l_ecellObject.Type][l_data.EntityPath]
                                         = l_data.Value.CastToInt();
                                 }
                             }
@@ -1194,10 +1194,10 @@ namespace EcellLib
         /// <param name="l_usableList">The list of the added "EcellObject"</param>
         private void DataAdd4Model(EcellObject l_ecellObject, List<EcellObject> l_usableList)
         {
-            string l_message = "[" + l_ecellObject.modelID + "]";
+            string l_message = "[" + l_ecellObject.ModelID + "]";
             foreach (EcellObject l_model in this.m_modelDic[this.m_currentProjectID])
             {
-                if (l_model.modelID.Equals(l_ecellObject.modelID))
+                if (l_model.ModelID.Equals(l_ecellObject.ModelID))
                 {
                     throw new Exception(
                         String.Format(
@@ -1223,13 +1223,13 @@ namespace EcellLib
             {
                 this.m_systemDic[this.m_currentProjectID] = new Dictionary<string, List<EcellObject>>();
             }
-            if (!this.m_systemDic[this.m_currentProjectID].ContainsKey(l_ecellObject.modelID))
+            if (!this.m_systemDic[this.m_currentProjectID].ContainsKey(l_ecellObject.ModelID))
             {
-                this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID] = new List<EcellObject>();
+                this.m_systemDic[this.m_currentProjectID][l_ecellObject.ModelID] = new List<EcellObject>();
             }
-            Dictionary<string, EcellObject> l_dic = GetDefaultSystem(l_ecellObject.modelID);
+            Dictionary<string, EcellObject> l_dic = GetDefaultSystem(l_ecellObject.ModelID);
             Debug.Assert(l_dic != null);
-            this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID].Add(l_dic[Constants.xpathSystem]);
+            this.m_systemDic[this.m_currentProjectID][l_ecellObject.ModelID].Add(l_dic[Constants.xpathSystem]);
             l_usableList.Add(l_dic[Constants.xpathSystem]);
             //
             // Sets the default parameter.
@@ -1241,9 +1241,9 @@ namespace EcellLib
                     = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID]
                     = new Dictionary<string, List<EcellObject>>();
-                this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID][l_ecellObject.modelID]
+                this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID][l_ecellObject.ModelID]
                     = new List<EcellObject>();
-                this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID][l_ecellObject.modelID]
+                this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID][l_ecellObject.ModelID]
                     .Add(l_dic[Constants.xpathStepper]);
                 this.m_loggerPolicyDic[this.m_currentProjectID] = new Dictionary<string, LoggerPolicy>();
                 this.m_loggerPolicyDic[this.m_currentProjectID][this.m_currentParameterID]
@@ -1262,13 +1262,13 @@ namespace EcellLib
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
                         = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_ecellObject.modelID] = new Dictionary<string, Dictionary<string, double>>();
+                        [l_ecellObject.ModelID] = new Dictionary<string, Dictionary<string, double>>();
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_ecellObject.modelID][Constants.xpathSystem] = new Dictionary<string, double>();
+                        [l_ecellObject.ModelID][Constants.xpathSystem] = new Dictionary<string, double>();
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_ecellObject.modelID][Constants.xpathProcess] = new Dictionary<string, double>();
+                        [l_ecellObject.ModelID][Constants.xpathProcess] = new Dictionary<string, double>();
                 this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_ecellObject.modelID][Constants.xpathVariable] = new Dictionary<string, double>();
+                        [l_ecellObject.ModelID][Constants.xpathVariable] = new Dictionary<string, double>();
             }
             //
             // Messages
@@ -1299,12 +1299,12 @@ namespace EcellLib
         /// <param name="l_messageFlag">The flag of the messages</param>
         private void DataAdd4System(EcellObject l_ecellObject, bool l_messageFlag)
         {
-            string l_message = "[" + l_ecellObject.modelID + "][" + l_ecellObject.key + "]";
-            if (this.m_systemDic[this.m_currentProjectID].ContainsKey(l_ecellObject.modelID))
+            string l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
+            if (this.m_systemDic[this.m_currentProjectID].ContainsKey(l_ecellObject.ModelID))
             {
-                foreach (EcellObject l_system in this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID])
+                foreach (EcellObject l_system in this.m_systemDic[this.m_currentProjectID][l_ecellObject.ModelID])
                 {
-                    if (l_system.key.Equals(l_ecellObject.key))
+                    if (l_system.Key.Equals(l_ecellObject.Key))
                     {
                         throw new Exception(l_message + m_resources.GetString("ErrAddObj"));
                     }
@@ -1312,10 +1312,10 @@ namespace EcellLib
             }
             else
             {
-                this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID] = new List<EcellObject>();
+                this.m_systemDic[this.m_currentProjectID][l_ecellObject.ModelID] = new List<EcellObject>();
             }
             this.CheckEntityPath(l_ecellObject);
-            this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID].Add(l_ecellObject.Copy());
+            this.m_systemDic[this.m_currentProjectID][l_ecellObject.ModelID].Add(l_ecellObject.Copy());
             if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
             {
                 foreach (EcellData l_data in l_ecellObject.Value)
@@ -1328,7 +1328,7 @@ namespace EcellLib
                                     in this.m_initialCondition[this.m_currentProjectID].Keys)
                             {
                                 this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                        [l_ecellObject.modelID][l_ecellObject.type][l_data.EntityPath]
+                                        [l_ecellObject.ModelID][l_ecellObject.Type][l_data.EntityPath]
                                     = l_data.Value.CastToDouble();
                             }
                         }
@@ -1338,7 +1338,7 @@ namespace EcellLib
                                     in this.m_initialCondition[this.m_currentProjectID].Keys)
                             {
                                 this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                        [l_ecellObject.modelID][l_ecellObject.type][l_data.EntityPath]
+                                        [l_ecellObject.ModelID][l_ecellObject.Type][l_data.EntityPath]
                                     = l_data.Value.CastToInt();
                             }
                         }
@@ -1370,7 +1370,7 @@ namespace EcellLib
         public void DataChanged(List<EcellObject> l_ecellObjectList, bool l_isRecorded, bool l_isAnchor)
         {
             foreach (EcellObject obj in l_ecellObjectList)
-                DataChanged(obj.modelID, obj.key, obj.type, obj, l_isRecorded, l_isAnchor);
+                DataChanged(obj.ModelID, obj.Key, obj.Type, obj, l_isRecorded, l_isAnchor);
         }
 
         /// <summary>
@@ -1419,7 +1419,7 @@ namespace EcellLib
             string l_message = null;
             try
             {
-                l_message = "[" + l_ecellObject.modelID + "][" + l_ecellObject.key + "]";
+                l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
                 if (l_modelID == null || l_modelID.Length <= 0)
                 {
                     throw new Exception(m_resources.GetString("ErrNullData") + l_message);
@@ -1453,26 +1453,26 @@ namespace EcellLib
                 //
                 // 4 System & Entity
                 //
-                if (l_ecellObject.type.Equals(Constants.xpathSystem))
+                if (l_ecellObject.Type.Equals(Constants.xpathSystem))
                 {
                     this.DataChanged4System(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                 }
-                else if (l_ecellObject.type.Equals(Constants.xpathProcess))
+                else if (l_ecellObject.Type.Equals(Constants.xpathProcess))
                 {
                     this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                 }
-                else if (l_ecellObject.type.Equals(Constants.xpathVariable))
+                else if (l_ecellObject.Type.Equals(Constants.xpathVariable))
                 {
                     this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
-                    if (!l_modelID.Equals(l_ecellObject.modelID) || !l_key.Equals(l_ecellObject.key))
+                    if (!l_modelID.Equals(l_ecellObject.ModelID) || !l_key.Equals(l_ecellObject.Key))
                     {
                         List<EcellObject> l_changedProcessList = new List<EcellObject>();
-                        this.CheckVariableReferenceList(l_modelID, l_ecellObject.key, l_key, l_changedProcessList);
+                        this.CheckVariableReferenceList(l_modelID, l_ecellObject.Key, l_key, l_changedProcessList);
                         foreach (EcellObject l_changedProcess in l_changedProcessList)
                         {
                             this.DataChanged4Entity(
-                                l_changedProcess.modelID, l_changedProcess.key,
-                                l_changedProcess.type, l_changedProcess, l_isRecorded, l_isAnchor);
+                                l_changedProcess.ModelID, l_changedProcess.Key,
+                                l_changedProcess.Type, l_changedProcess, l_isRecorded, l_isAnchor);
                         }
                     }
                 }
@@ -1481,8 +1481,8 @@ namespace EcellLib
             {
                 l_message = String.Format(
                     m_resources.GetString("ErrUpdate"),
-                    new object[] { l_ecellObject.type }
-                ) + l_message + " " + l_ecellObject.type;
+                    new object[] { l_ecellObject.Type }
+                ) + l_message + " " + l_ecellObject.Type;
                 this.m_pManager.Message(
                     Constants.messageSimulation,
                     l_message + System.Environment.NewLine
@@ -1503,7 +1503,7 @@ namespace EcellLib
         private void DataChanged4Entity(
             string l_modelID, string l_key, string l_type, EcellObject l_ecellObject, bool l_isRecorded, bool l_isAnchor)
         {
-            string l_message = "[" + l_ecellObject.modelID + "][" + l_ecellObject.key + "]";
+            string l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
             List<EcellObject> l_changedProcessList = new List<EcellObject>();
             List<EcellObject> l_systemList = this.m_systemDic[this.m_currentProjectID][l_modelID];
             for (int i = 0; i < l_systemList.Count; i++)
@@ -1513,14 +1513,14 @@ namespace EcellLib
 
                 for (int j = 0; j < l_systemList[i].Children.Count; j++)
                 {
-                    if (l_systemList[i].Children[j].modelID.Equals(l_modelID)
-                        && l_systemList[i].Children[j].key.Equals(l_key)
-                        && l_systemList[i].Children[j].type.Equals(l_type))
+                    if (l_systemList[i].Children[j].ModelID.Equals(l_modelID)
+                        && l_systemList[i].Children[j].Key.Equals(l_key)
+                        && l_systemList[i].Children[j].Type.Equals(l_type))
                     {
                         this.CheckDifferences(l_systemList[i].Children[j], l_ecellObject, null);
-                        if (l_modelID.Equals(l_ecellObject.modelID)
-                            && l_key.Equals(l_ecellObject.key)
-                            && l_type.Equals(l_ecellObject.type))
+                        if (l_modelID.Equals(l_ecellObject.ModelID)
+                            && l_key.Equals(l_ecellObject.Key)
+                            && l_type.Equals(l_ecellObject.Type))
                         {
                             l_systemList[i].Children[j] = l_ecellObject.Copy();
                             this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
@@ -1556,18 +1556,18 @@ namespace EcellLib
         /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
         private void DataChanged4System(string l_modelID, string l_key, string l_type, EcellObject l_ecellObject, bool l_isRecorded, bool l_isAnchor)
         {
-            string l_message = "[" + l_ecellObject.modelID + "][" + l_ecellObject.key + "]";
+            string l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
             List<EcellObject> l_systemList = this.m_systemDic[this.m_currentProjectID][l_modelID];
-            if (l_modelID.Equals(l_ecellObject.modelID)
-                && l_key.Equals(l_ecellObject.key)
-                && l_type.Equals(l_ecellObject.type))
+            if (l_modelID.Equals(l_ecellObject.ModelID)
+                && l_key.Equals(l_ecellObject.Key)
+                && l_type.Equals(l_ecellObject.Type))
             {
                 //
                 // Changes some properties.
                 //
                 for (int i = 0; i < l_systemList.Count; i++)
                 {
-                    if (l_systemList[i].modelID.Equals(l_modelID) && l_systemList[i].key.Equals(l_key))
+                    if (l_systemList[i].ModelID.Equals(l_modelID) && l_systemList[i].Key.Equals(l_key))
                     {
                         this.CheckDifferences(l_systemList[i], l_ecellObject, null);
                         l_systemList[i] = l_ecellObject.Copy();
@@ -1590,17 +1590,17 @@ namespace EcellLib
                 for (int i = 0; i < l_systemList.Count; i++)
                 {
                     bool l_deletedFlag = false;
-                    if (l_systemList[i].modelID.Equals(l_modelID)
-                        && (l_systemList[i].key.Equals(l_key)
-                            || l_systemList[i].key.StartsWith(l_key + Constants.delimiterPath)))
+                    if (l_systemList[i].ModelID.Equals(l_modelID)
+                        && (l_systemList[i].Key.Equals(l_key)
+                            || l_systemList[i].Key.StartsWith(l_key + Constants.delimiterPath)))
                     {
                         //
                         // Adds the new "System" object.
                         //
-                        string l_newKey = l_ecellObject.key + l_systemList[i].key.Substring(l_key.Length);
+                        string l_newKey = l_ecellObject.Key + l_systemList[i].Key.Substring(l_key.Length);
                         EcellObject l_createdSystem
                             = EcellObject.CreateObject(
-                                l_systemList[i].modelID, l_newKey, l_systemList[i].type, l_systemList[i].classname,
+                                l_systemList[i].ModelID, l_newKey, l_systemList[i].Type, l_systemList[i].Classname,
                                 l_systemList[i].Value);
                         l_createdSystem.X = l_systemList[i].X;
                         l_createdSystem.Y = l_systemList[i].Y;
@@ -1611,7 +1611,7 @@ namespace EcellLib
                         this.CheckEntityPath(l_createdSystem);
                         this.DataAdd4System(l_createdSystem, false);
                         this.CheckDifferences(l_systemList[i], l_createdSystem, null);
-                        this.m_pManager.DataChanged(l_modelID, l_systemList[i].key, l_type, l_createdSystem);
+                        this.m_pManager.DataChanged(l_modelID, l_systemList[i].Key, l_type, l_createdSystem);
                         /* deleted by m.ishikawa
                         this.m_aManager.AddAction(new DataChangeAction(
                             l_modelID, l_systemList[i].key, l_type, l_createdSystem)); */
@@ -1630,25 +1630,25 @@ namespace EcellLib
                             foreach (EcellObject l_childObject in l_instanceList)
                             {
                                 EcellObject l_copy = l_childObject.Copy();
-                                string l_childKey = l_copy.key;
+                                string l_childKey = l_copy.Key;
                                 string l_keyName = l_childKey.Split(Constants.delimiterColon.ToCharArray())[1];
-                                if ((l_systemList[i].key.Equals(l_key)))
+                                if ((l_systemList[i].Key.Equals(l_key)))
                                 {
-                                    l_copy.key = l_ecellObject.key + Constants.delimiterColon + l_keyName;
+                                    l_copy.Key = l_ecellObject.Key + Constants.delimiterColon + l_keyName;
                                 }
                                 else
                                 {
-                                    l_copy.key = l_ecellObject.key + l_copy.key.Substring(l_key.Length);
+                                    l_copy.Key = l_ecellObject.Key + l_copy.Key.Substring(l_key.Length);
                                 }
                                 this.CheckEntityPath(l_copy);
-                                if (l_copy.type.Equals(Constants.xpathVariable))
+                                if (l_copy.Type.Equals(Constants.xpathVariable))
                                 {
-                                    l_variableKeyDic[l_childKey] = l_copy.key;
-                                    this.DataChanged4Entity(l_copy.modelID, l_childKey, l_copy.type, l_copy, l_isRecorded, l_isAnchor);
+                                    l_variableKeyDic[l_childKey] = l_copy.Key;
+                                    this.DataChanged4Entity(l_copy.ModelID, l_childKey, l_copy.Type, l_copy, l_isRecorded, l_isAnchor);
                                 }
                                 else
                                 {
-                                    l_processKeyDic[l_childKey] = l_copy.key;
+                                    l_processKeyDic[l_childKey] = l_copy.Key;
                                 }
                             }
                         }
@@ -1658,7 +1658,7 @@ namespace EcellLib
                     //
                     if (l_deletedFlag)
                     {
-                        l_deletedSystemKeyList.Add(l_systemList[i].key);
+                        l_deletedSystemKeyList.Add(l_systemList[i].Key);
                     }
                 }
                 //
@@ -1667,7 +1667,7 @@ namespace EcellLib
                 l_systemList = this.m_systemDic[this.m_currentProjectID][l_modelID];
                 for (int i = 0; i < l_systemList.Count; i++)
                 {
-                    if (l_createdSystemKeyList.Contains(l_systemList[i].key))
+                    if (l_createdSystemKeyList.Contains(l_systemList[i].Key))
                     {
                         continue;
                     }
@@ -1679,7 +1679,7 @@ namespace EcellLib
                     l_instanceList.AddRange(l_systemList[i].Children);
                     foreach (EcellObject l_childObject in l_instanceList)
                     {
-                        if (!l_childObject.type.Equals(Constants.xpathProcess))
+                        if (!l_childObject.Type.Equals(Constants.xpathProcess))
                         {
                             continue;
                         }
@@ -1695,17 +1695,17 @@ namespace EcellLib
                         //
                         // 4 key
                         //
-                        string l_oldKey = l_dest.key;
+                        string l_oldKey = l_dest.Key;
                         string l_keyName = l_oldKey.Split(Constants.delimiterColon.ToCharArray())[1];
                         if (l_processKeyDic.ContainsKey(l_oldKey))
                         {
-                            l_dest.key = l_processKeyDic[l_oldKey];
+                            l_dest.Key = l_processKeyDic[l_oldKey];
                             this.CheckEntityPath(l_dest);
                             l_changedFlag = true;
                         }
                         if (l_changedFlag)
                         {
-                            this.DataChanged4Entity(l_dest.modelID, l_oldKey, l_dest.type, l_dest, l_isRecorded, l_isAnchor);
+                            this.DataChanged4Entity(l_dest.ModelID, l_oldKey, l_dest.Type, l_dest, l_isRecorded, l_isAnchor);
                         }
                     }
                 }
@@ -1807,7 +1807,7 @@ namespace EcellLib
             bool l_isDelete = false;
             foreach (EcellObject obj in m_modelDic[m_currentProjectID])
             {
-                if (obj.modelID == l_modelID)
+                if (obj.ModelID == l_modelID)
                 {
                     m_modelDic[m_currentProjectID].Remove(obj);
                     l_isDelete = true;
@@ -1867,11 +1867,11 @@ namespace EcellLib
                 foreach (EcellObject l_obj in m_systemDic[m_currentProjectID][l_model])
                 {
                     i++;
-                    if (l_obj.modelID != l_model || l_obj.key != keys[0]) continue;
+                    if (l_obj.ModelID != l_model || l_obj.Key != keys[0]) continue;
                     if (l_obj.Children == null) continue;
                     foreach (EcellObject l_v in l_obj.Children)
                     {
-                        if (l_v.key == l_key && l_v.type == l_type) l_delList.Add(l_v);
+                        if (l_v.Key == l_key && l_v.Type == l_type) l_delList.Add(l_v);
                     }
                     foreach (EcellObject l_v in l_delList)
                     {
@@ -1886,10 +1886,10 @@ namespace EcellLib
                                             in this.m_initialCondition[this.m_currentProjectID].Keys)
                                     {
                                         if (this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                                [l_v.modelID][l_v.type].ContainsKey(l_data.EntityPath))
+                                                [l_v.ModelID][l_v.Type].ContainsKey(l_data.EntityPath))
                                         {
                                             this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
-                                                    [l_v.modelID][l_v.type].Remove(l_data.EntityPath);
+                                                    [l_v.ModelID][l_v.Type].Remove(l_data.EntityPath);
                                         }
                                     }
                                 }
@@ -1924,17 +1924,17 @@ namespace EcellLib
 
             foreach (EcellObject l_del in l_delList)
             {
-                if (!l_del.type.Equals(EcellObject.VARIABLE))
+                if (!l_del.Type.Equals(EcellObject.VARIABLE))
                     continue;
 
-                string l_variableKey = l_del.key;
-                foreach (EcellObject l_system in this.m_systemDic[this.m_currentProjectID][l_del.modelID])
+                string l_variableKey = l_del.Key;
+                foreach (EcellObject l_system in this.m_systemDic[this.m_currentProjectID][l_del.ModelID])
                 {
                     List<EcellObject> changeList = new List<EcellObject>();
                     foreach (EcellObject l_child in l_system.Children)
                     {
                         bool l_changedFlag = false;
-                        if (!l_child.type.Equals(EcellObject.PROCESS))
+                        if (!l_child.Type.Equals(EcellObject.PROCESS))
                             continue;
 
                         EcellProcess l_process = (EcellProcess)l_child.Copy();
@@ -1953,7 +1953,7 @@ namespace EcellLib
                     }
                     foreach (EcellObject l_change in changeList)
                     {
-                        this.DataChanged(l_change.modelID, l_change.key, l_change.type, l_change, l_isRecorded, l_isAnchor);
+                        this.DataChanged(l_change.ModelID, l_change.Key, l_change.Type, l_change, l_isRecorded, l_isAnchor);
                     }
                 }
             }
@@ -1973,7 +1973,7 @@ namespace EcellLib
             foreach (EcellObject l_sys in l_list)
             {
                 // Check systems.
-                if (key.Equals(l_sys.key) && type.Equals(l_sys.type))
+                if (key.Equals(l_sys.Key) && type.Equals(l_sys.Type))
                     return true;
                 // Continue if system has no node.
                 if (l_sys.Children == null)
@@ -1981,7 +1981,7 @@ namespace EcellLib
                 // Check processes and variables
                 foreach (EcellObject subEo in l_sys.Children)
                 {
-                    if (key.Equals(subEo.key) && type.Equals(subEo.type))
+                    if (key.Equals(subEo.Key) && type.Equals(subEo.Type))
                         return true;
                 }
             }
@@ -2008,7 +2008,7 @@ namespace EcellLib
         {
 
             EcellObject system = GetEcellObject(modelID, key, EcellObject.SYSTEM);
-            if (system.key.Equals("/"))
+            if (system.Key.Equals("/"))
             {
                 MessageBox.Show(m_resources.GetString("ErrDelRoot"),
                                 "Error",
@@ -2020,12 +2020,12 @@ namespace EcellLib
             List<EcellObject> eoList = GetObjectUnder(modelID, key);
 
             // Check Object duplication.
-            string sysKey = system.key;
-            string parentSysKey = system.parentSystemID;
+            string sysKey = system.Key;
+            string parentSysKey = system.ParentSystemID;
             foreach (EcellObject eo in eoList)
             {
-                string newKey = Util.GetMovedKey(eo.key, sysKey, parentSysKey);
-                if (GetEcellObject(modelID, newKey, eo.type) != null)
+                string newKey = Util.GetMovedKey(eo.Key, sysKey, parentSysKey);
+                if (GetEcellObject(modelID, newKey, eo.Type) != null)
                 {
                     MessageBox.Show(newKey + m_resources.GetString("ErrExistObj"),
                                     "Error",
@@ -2046,14 +2046,14 @@ namespace EcellLib
             // Move systems and nodes under merged system.
             foreach (EcellObject eo in eoList)
             {
-                string oldKey = eo.key;
-                EcellObject obj = GetEcellObject(modelID, oldKey, eo.type);
+                string oldKey = eo.Key;
+                EcellObject obj = GetEcellObject(modelID, oldKey, eo.Type);
                 if (obj == null)
                     continue;
-                obj.key = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
-                DataChanged(modelID, oldKey, eo.type, obj, true, false);
+                obj.Key = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
+                DataChanged(modelID, oldKey, eo.Type, obj, true, false);
             }
-            DataDelete(modelID, sysKey, system.type, true, true);
+            DataDelete(modelID, sysKey, system.Type, true, true);
         }
         /// <summary>
         /// Get object list under the system.
@@ -2067,14 +2067,14 @@ namespace EcellLib
 
             foreach (EcellObject obj in m_systemDic[m_currentProjectID][modelID])
             {
-                if (obj.modelID != modelID || !obj.key.StartsWith(key))
+                if (obj.ModelID != modelID || !obj.Key.StartsWith(key))
                     continue;
-                if (!obj.key.Equals(key))
+                if (!obj.Key.Equals(key))
                     eoList.Add(obj.Copy());
 
                 foreach (EcellObject node in obj.Children)
                 {
-                    if (node.key.EndsWith(":SIZE"))
+                    if (node.Key.EndsWith(":SIZE"))
                         continue;
                     eoList.Add(node.Copy());
                 }
@@ -2106,20 +2106,20 @@ namespace EcellLib
             {
                 foreach (EcellObject obj in m_systemDic[m_currentProjectID][modelID])
                 {
-                    if (obj.modelID == modelID && obj.key.StartsWith(key) &&
-                        (obj.key.Length == key.Length || obj.key[key.Length] == '/'))
+                    if (obj.ModelID == modelID && obj.Key.StartsWith(key) &&
+                        (obj.Key.Length == key.Length || obj.Key[key.Length] == '/'))
                     {
-                        if (obj.key.Length == key.Length)
+                        if (obj.Key.Length == key.Length)
                         {
                             if (obj.Children == null) continue;
                             foreach (EcellObject ins in obj.Children)
                             {
-                                if (sizeKey.Equals(ins.key)) continue;
+                                if (sizeKey.Equals(ins.Key)) continue;
                                 targetObjList.Add(ins.Copy());
                                 saveObjList.Add(ins.Copy());
                             }
                         }
-                        else if (obj.type == "System")
+                        else if (obj.Type == "System")
                         {
                             targetSysList.Add(obj.Copy());
                             saveSysList.Add(obj.Copy());
@@ -2134,7 +2134,7 @@ namespace EcellLib
             List<EcellObject> list = new List<EcellObject>();
             foreach (EcellObject obj in targetSysList)
             {
-                String orgKey = obj.key;
+                String orgKey = obj.Key;
                 String newKey = "";
                 string[] nel = orgKey.Split(new char[] { '/' });
                 for (int i = 0; i < nel.Length; i++)
@@ -2150,21 +2150,21 @@ namespace EcellLib
                     {
                         saveObjList.Add(ins);
                         String iNewKey = "";
-                        if (sizeKey.Equals(ins.key)) continue;
-                        string[] iel = ins.key.Split(new char[] { '/' });
+                        if (sizeKey.Equals(ins.Key)) continue;
+                        string[] iel = ins.Key.Split(new char[] { '/' });
                         for (int j = 0; j < iel.Length; j++)
                         {
                             if (j == delPoint) continue;
                             if (iel[j] == "") iNewKey = "";
                             else iNewKey = iNewKey + "/" + iel[j];
                         }
-                        if (ins.type == "Variable")
-                            variableList.Add(ins.key, iNewKey);
-                        ins.key = iNewKey;
+                        if (ins.Type == "Variable")
+                            variableList.Add(ins.Key, iNewKey);
+                        ins.Key = iNewKey;
                         tmpList.Add(ins);
                     }
                 }
-                obj.key = newKey;
+                obj.Key = newKey;
                 obj.Children = new List<EcellObject>();
                 //                obj.Children = new List<EcellObject>();
                 //                DataChanged(modelID, orgKey, obj.type, obj);
@@ -2178,7 +2178,7 @@ namespace EcellLib
             foreach (EcellObject obj in targetObjList)
             {
                 String iNewKey = "";
-                string[] iel = obj.key.Split(new char[] { '/' });
+                string[] iel = obj.Key.Split(new char[] { '/' });
                 for (int j = 0; j < iel.Length; j++)
                 {
                     if (j == delPoint)
@@ -2189,9 +2189,9 @@ namespace EcellLib
                     else if (iel[j] == "") iNewKey = "";
                     else iNewKey = iNewKey + "/" + iel[j];
                 }
-                if (obj.type == "Variable")
-                    variableList.Add(obj.key, iNewKey);
-                obj.key = iNewKey;
+                if (obj.Type == "Variable")
+                    variableList.Add(obj.Key, iNewKey);
+                obj.Key = iNewKey;
                 list.Add(obj);
             }
             DataAdd(list, false, isAnchor);
@@ -2203,7 +2203,7 @@ namespace EcellLib
                 CheckVariableReferenceList(modelID, newKey, oldKey, changeProcList);
                 foreach (EcellObject cProcess in changeProcList)
                 {
-                    DataChanged4Entity(modelID, cProcess.key, cProcess.type, cProcess, isRecorded, isAnchor);
+                    DataChanged4Entity(modelID, cProcess.Key, cProcess.Type, cProcess, isRecorded, isAnchor);
                 }
             }
 
@@ -2228,14 +2228,14 @@ namespace EcellLib
         {
             // Temporary delete objects to be moved into a new system.
             foreach (EcellObject sys in l_sysList)
-                DataDelete(l_modelID, sys.key, "System", false, false);
+                DataDelete(l_modelID, sys.Key, "System", false, false);
 
-            string[] el = l_obj.key.Split(new char[] { '/' });
+            string[] el = l_obj.Key.Split(new char[] { '/' });
             int delPoint = el.Length - 1;
             List<EcellObject> list = new List<EcellObject>();
             foreach (EcellObject obj in l_sysList)
             {
-                String orgKey = obj.key;
+                String orgKey = obj.Key;
                 String newKey = "";
                 string[] nel = orgKey.Split(new char[] { '/' });
                 for (int i = 0; i < nel.Length; i++)
@@ -2249,7 +2249,7 @@ namespace EcellLib
             foreach (EcellObject obj in l_objList)
             {
                 String iNewKey = "";
-                string[] iel = obj.key.Split(new char[] { '/' });
+                string[] iel = obj.Key.Split(new char[] { '/' });
                 for (int j = 0; j < iel.Length; j++)
                 {
                     if (j == delPoint)
@@ -2260,7 +2260,7 @@ namespace EcellLib
                     else if (iel[j] == "") iNewKey = "";
                     else iNewKey = iNewKey + "/" + iel[j];
                 }
-                DataDelete(l_modelID, iNewKey, obj.type, false, false);
+                DataDelete(l_modelID, iNewKey, obj.Type, false, false);
             }
 
             // Add a system.
@@ -2291,14 +2291,14 @@ namespace EcellLib
             {
                 foreach (EcellObject obj in m_systemDic[m_currentProjectID][l_model])
                 {
-                    if (obj.modelID == l_model && obj.key.StartsWith(l_key) &&
-                        (obj.key.Length == l_key.Length || obj.key[l_key.Length] == '/')) l_delList.Add(obj);
+                    if (obj.ModelID == l_model && obj.Key.StartsWith(l_key) &&
+                        (obj.Key.Length == l_key.Length || obj.Key[l_key.Length] == '/')) l_delList.Add(obj);
                 }
             }
             foreach (EcellObject l_obj in l_delList)
             {
                 m_systemDic[m_currentProjectID][l_model].Remove(l_obj);
-                if (l_obj.type == "System")
+                if (l_obj.Type == "System")
                 {
                     foreach (string l_keyParamID in m_initialCondition[CurrentProjectID].Keys)
                     {
@@ -2322,8 +2322,8 @@ namespace EcellLib
                     }
                 }
                 // Record deletion of child system. 
-                if (!l_obj.key.Equals(l_key))
-                    m_aManager.AddAction(new DataDeleteAction(l_obj.modelID, l_obj.key, l_obj.type, l_obj, false));
+                if (!l_obj.Key.Equals(l_key))
+                    m_aManager.AddAction(new DataDeleteAction(l_obj.ModelID, l_obj.Key, l_obj.Type, l_obj, false));
                 if (l_messageFlag)
                 {
                     this.m_pManager.Message(
@@ -2344,11 +2344,11 @@ namespace EcellLib
                 EcellObject l_ecellObject,
                 Dictionary<string, Dictionary<string, double>> l_initialCondition)
         {
-            if (l_ecellObject.type.Equals(Constants.xpathStepper))
+            if (l_ecellObject.Type.Equals(Constants.xpathStepper))
             {
                 DataStored4Stepper(l_simulator, l_ecellObject);
             }
-            else if (l_ecellObject.type.Equals(Constants.xpathSystem))
+            else if (l_ecellObject.Type.Equals(Constants.xpathSystem))
             {
                 Dictionary<string, double> l_childInitialCondition = null;
                 if (l_initialCondition != null)
@@ -2360,7 +2360,7 @@ namespace EcellLib
                         l_ecellObject,
                         l_childInitialCondition);
             }
-            else if (l_ecellObject.type.Equals(Constants.xpathProcess))
+            else if (l_ecellObject.Type.Equals(Constants.xpathProcess))
             {
                 Dictionary<string, double> l_childInitialCondition = null;
                 if (l_initialCondition != null)
@@ -2372,7 +2372,7 @@ namespace EcellLib
                         l_ecellObject,
                         l_childInitialCondition);
             }
-            else if (l_ecellObject.type.Equals(Constants.xpathVariable))
+            else if (l_ecellObject.Type.Equals(Constants.xpathVariable))
             {
                 Dictionary<string, double> l_childInitialCondition = null;
                 if (l_initialCondition != null)
@@ -2409,7 +2409,7 @@ namespace EcellLib
                 Dictionary<string, double> l_initialCondition)
         {
             bool isCreated = true;
-            string l_key = Constants.xpathProcess + Constants.delimiterColon + l_ecellObject.key;
+            string l_key = Constants.xpathProcess + Constants.delimiterColon + l_ecellObject.Key;
             WrappedPolymorph l_wrappedPolymorph = null;
             try
             {
@@ -2551,7 +2551,7 @@ namespace EcellLib
                     if (d.Name == Constants.xpathVRL)
                     {
                         string systemPath = "";
-                        string name = Util.GetNameFromPath(l_ecellObject.key, ref systemPath);
+                        string name = Util.GetNameFromPath(l_ecellObject.Key, ref systemPath);
                         EcellValue v = EcellReference.ConvertReferenceInEml(systemPath, d.Value);
                         d.Value = v;
                         v.ToString();
@@ -2577,7 +2577,7 @@ namespace EcellLib
             //
             try
             {
-                l_wrappedPolymorph = l_simulator.GetStepperPropertyList(l_ecellObject.key);
+                l_wrappedPolymorph = l_simulator.GetStepperPropertyList(l_ecellObject.Key);
             }
             catch (Exception l_ex)
             {
@@ -2591,9 +2591,9 @@ namespace EcellLib
             //
             // Sets the class name.
             //
-            if (l_ecellObject.classname == null || l_ecellObject.classname.Length <= 0)
+            if (l_ecellObject.Classname == null || l_ecellObject.Classname.Length <= 0)
             {
-                l_ecellObject.classname = l_simulator.GetStepperClassName(l_ecellObject.key);
+                l_ecellObject.Classname = l_simulator.GetStepperClassName(l_ecellObject.Key);
             }
             //
             // Checks the stored "EcellData"
@@ -2633,7 +2633,7 @@ namespace EcellLib
                     continue;
                 }
                 string l_name = (l_stepperAllPropertyList[i]).CastToString();
-                List<bool> l_flag = l_simulator.GetStepperPropertyAttributes(l_ecellObject.key, l_name);
+                List<bool> l_flag = l_simulator.GetStepperPropertyAttributes(l_ecellObject.Key, l_name);
                 if (!l_flag[WrappedSimulator.s_flagGettable])
                 {
                     continue;
@@ -2641,7 +2641,7 @@ namespace EcellLib
                 EcellValue l_value = null;
                 try
                 {
-                    WrappedPolymorph l_property = l_simulator.GetStepperProperty(l_ecellObject.key, l_name);
+                    WrappedPolymorph l_property = l_simulator.GetStepperProperty(l_ecellObject.Key, l_name);
                     l_value = new EcellValue(l_property);
                 }
                 catch (Exception)
@@ -2701,9 +2701,9 @@ namespace EcellLib
             //
             // Creates an entityPath.
             //
-            string l_parentPath = l_ecellObject.key.Substring(0, l_ecellObject.key.LastIndexOf(
+            string l_parentPath = l_ecellObject.Key.Substring(0, l_ecellObject.Key.LastIndexOf(
                     Constants.delimiterPath));
-            string l_childPath = l_ecellObject.key.Substring(l_ecellObject.key.LastIndexOf(
+            string l_childPath = l_ecellObject.Key.Substring(l_ecellObject.Key.LastIndexOf(
                     Constants.delimiterPath) + 1);
             string l_key = null;
             if (l_parentPath.Length == 0)
@@ -2876,7 +2876,7 @@ namespace EcellLib
                 EcellObject l_ecellObject,
                 Dictionary<string, double> l_initialCondition)
         {
-            string l_key = Constants.xpathVariable + Constants.delimiterColon + l_ecellObject.key;
+            string l_key = Constants.xpathVariable + Constants.delimiterColon + l_ecellObject.Key;
             WrappedPolymorph l_wrappedPolymorph = l_simulator.GetEntityPropertyList(l_key);
             if (!l_wrappedPolymorph.IsList())
             {
@@ -3087,13 +3087,13 @@ namespace EcellLib
             string l_message = null;
             try
             {
-                l_message = "[" + l_parameterID + "][" + l_stepper.modelID + "][" + l_stepper.key + "]";
+                l_message = "[" + l_parameterID + "][" + l_stepper.ModelID + "][" + l_stepper.Key + "]";
                 int l_point = -1;
                 List<EcellObject> l_storedStepperList
-                    = this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.modelID];
+                    = this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.ModelID];
                 for (int i = 0; i < l_storedStepperList.Count; i++)
                 {
-                    if (l_storedStepperList[i].key.Equals(l_stepper.key))
+                    if (l_storedStepperList[i].Key.Equals(l_stepper.Key))
                     {
                         l_point = i;
                         break;
@@ -3111,7 +3111,7 @@ namespace EcellLib
                     m_aManager.AddAction(new DeleteStepperAction(l_parameterID, l_stepper));
                 if (m_currentParameterID.Equals(l_parameterID))
                 {
-                    m_pManager.DataDelete(l_stepper.modelID, l_stepper.key, l_stepper.type);
+                    m_pManager.DataDelete(l_stepper.ModelID, l_stepper.Key, l_stepper.Type);
                 }
             }
             catch (Exception l_ex)
@@ -3169,7 +3169,7 @@ namespace EcellLib
                 {
                     if (l_infos[0].Equals(Constants.xpathSystem))
                     {
-                        if (l_system.type.Equals(l_infos[0]) && l_system.key.Equals(l_key))
+                        if (l_system.Type.Equals(l_infos[0]) && l_system.Key.Equals(l_key))
                         {
                             return true;
                         }
@@ -3183,7 +3183,7 @@ namespace EcellLib
                         }
                         foreach (EcellObject l_entity in l_system.Children)
                         {
-                            if (l_entity.type.Equals(l_infos[0]) && l_entity.key.Equals(l_key))
+                            if (l_entity.Type.Equals(l_infos[0]) && l_entity.Key.Equals(l_key))
                             {
                                 return true;
                             }
@@ -3356,7 +3356,7 @@ namespace EcellLib
                     {
                         foreach (EcellObject l_model in this.m_modelDic[this.m_currentProjectID])
                         {
-                            if (l_model.modelID.Equals(l_modelID))
+                            if (l_model.ModelID.Equals(l_modelID))
                             {
                                 l_ecellObjectList.Add(l_model.Copy());
                                 break;
@@ -3370,7 +3370,7 @@ namespace EcellLib
                     {
                         if (l_key == null
                             || l_key.Length <= 0
-                            || (l_system.key != null && l_system.key.Equals(l_key)))
+                            || (l_system.Key != null && l_system.Key.Equals(l_key)))
                         {
                             l_ecellObjectList.Add(l_system.Copy());
                         }
@@ -3410,14 +3410,14 @@ namespace EcellLib
             }
             foreach (EcellObject eo in list)
             {
-                if (key.Equals(eo.key) && type.Equals(eo.type))
+                if (key.Equals(eo.Key) && type.Equals(eo.Type))
                 {
                     return eo;
                 }
                 if (eo.Children == null) continue;
                 foreach (EcellObject subEo in eo.Children)
                 {
-                    if (key.Equals(subEo.key) && type.Equals(subEo.type))
+                    if (key.Equals(subEo.Key) && type.Equals(subEo.Type))
                     {
                         return subEo;
                     }
@@ -3836,9 +3836,9 @@ namespace EcellLib
                 {
                     if (l_entityName.Equals(Constants.xpathSystem))
                     {
-                        string l_parentPath = l_system.key.Substring(0, l_system.key.LastIndexOf(Constants.delimiterPath));
-                        string l_childPath = l_system.key.Substring(l_system.key.LastIndexOf(Constants.delimiterPath) + 1);
-                        if (l_system.key.Equals(Constants.delimiterPath))
+                        string l_parentPath = l_system.Key.Substring(0, l_system.Key.LastIndexOf(Constants.delimiterPath));
+                        string l_childPath = l_system.Key.Substring(l_system.Key.LastIndexOf(Constants.delimiterPath) + 1);
+                        if (l_system.Key.Equals(Constants.delimiterPath))
                         {
                             if (l_childPath.Length == 0)
                             {
@@ -3864,9 +3864,9 @@ namespace EcellLib
                         }
                         foreach (EcellObject l_entity in l_system.Children)
                         {
-                            if (l_entity.type.Equals(l_entityName))
+                            if (l_entity.Type.Equals(l_entityName))
                             {
-                                l_entityList.Add(l_entity.type + Constants.delimiterColon + l_entity.key);
+                                l_entityList.Add(l_entity.Type + Constants.delimiterColon + l_entity.Key);
                             }
                         }
                     }
@@ -3922,7 +3922,7 @@ namespace EcellLib
             {
                 foreach (EcellObject obj in objList)
                 {
-                    list.Add(obj.modelID);
+                    list.Add(obj.ModelID);
                 }
             }
 
@@ -4081,7 +4081,7 @@ namespace EcellLib
                     List<string> l_modelIDList = new List<string>();
                     foreach (EcellObject l_model in this.m_modelDic[this.m_currentProjectID])
                     {
-                        l_modelIDList.Add(l_model.modelID);
+                        l_modelIDList.Add(l_model.ModelID);
                     }
                     return l_modelIDList;
                 }
@@ -4279,7 +4279,7 @@ namespace EcellLib
                 List<string> l_systemList = new List<string>();
                 foreach (EcellObject l_system in this.m_systemDic[this.m_currentProjectID][l_modelID])
                 {
-                    l_systemList.Add(l_system.key);
+                    l_systemList.Add(l_system.Key);
                 }
                 return l_systemList;
             }
@@ -4302,7 +4302,7 @@ namespace EcellLib
 
             foreach (EcellObject l_system in this.m_systemDic[this.m_currentProjectID][modelID])
             {
-                if (l_system.key.StartsWith(key))
+                if (l_system.Key.StartsWith(key))
                 {
                     list.Add(l_system);
                 }
@@ -4472,24 +4472,24 @@ namespace EcellLib
             {
                 return l_flag;
             }
-            else if (l_ecellObject.modelID == null || l_ecellObject.modelID.Length < 0)
+            else if (l_ecellObject.ModelID == null || l_ecellObject.ModelID.Length < 0)
             {
                 return l_flag;
             }
-            else if (l_ecellObject.type == null || l_ecellObject.type.Length < 0)
+            else if (l_ecellObject.Type == null || l_ecellObject.Type.Length < 0)
             {
                 return l_flag;
             }
             //
             // 4 "Process", "Stepper", "System" and "Variable"
             //
-            if (!l_ecellObject.type.Equals(Constants.xpathProject) && !l_ecellObject.type.Equals(Constants.xpathModel))
+            if (!l_ecellObject.Type.Equals(Constants.xpathProject) && !l_ecellObject.Type.Equals(Constants.xpathModel))
             {
-                if (l_ecellObject.key == null || l_ecellObject.key.Length < 0)
+                if (l_ecellObject.Key == null || l_ecellObject.Key.Length < 0)
                 {
                     return l_flag;
                 }
-                else if (l_ecellObject.classname == null || l_ecellObject.classname.Length < 0)
+                else if (l_ecellObject.Classname == null || l_ecellObject.Classname.Length < 0)
                 {
                     return l_flag;
                 }
@@ -4737,8 +4737,8 @@ namespace EcellLib
                 foreach (EcellObject l_entity in l_entityList)
                 {
                     l_simulator.CreateEntity(
-                        l_entity.classname,
-                        l_entity.type + Constants.delimiterColon + l_entity.key);
+                        l_entity.Classname,
+                        l_entity.Type + Constants.delimiterColon + l_entity.Key);
                     if (l_entity.Value == null || l_entity.Value.Count <= 0)
                     {
                         continue;
@@ -4806,24 +4806,24 @@ namespace EcellLib
             DataStored(
                 this.m_simulatorDic[this.m_currentProjectID],
                 l_ecellObject,
-                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID][l_ecellObject.modelID]);
+                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID][l_ecellObject.ModelID]);
             //
             // Sets the "EcellObject".
             //
-            if (l_ecellObject.type.Equals(Constants.xpathModel))
+            if (l_ecellObject.Type.Equals(Constants.xpathModel))
             {
                 this.m_modelDic[this.m_currentProjectID].Add(l_ecellObject);
             }
-            else if (l_ecellObject.type.Equals(Constants.xpathSystem))
+            else if (l_ecellObject.Type.Equals(Constants.xpathSystem))
             {
-                if (!this.m_systemDic[this.m_currentProjectID].ContainsKey(l_ecellObject.modelID))
+                if (!this.m_systemDic[this.m_currentProjectID].ContainsKey(l_ecellObject.ModelID))
                 {
-                    this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID]
+                    this.m_systemDic[this.m_currentProjectID][l_ecellObject.ModelID]
                             = new List<EcellObject>();
                 }
-                this.m_systemDic[this.m_currentProjectID][l_ecellObject.modelID].Add(l_ecellObject);
+                this.m_systemDic[this.m_currentProjectID][l_ecellObject.ModelID].Add(l_ecellObject);
             }
-            else if (l_ecellObject.type.Equals(Constants.xpathStepper))
+            else if (l_ecellObject.Type.Equals(Constants.xpathStepper))
             {
                 if (!this.m_stepperDic[this.m_currentProjectID]
                         .ContainsKey(this.m_currentParameterID))
@@ -4832,13 +4832,13 @@ namespace EcellLib
                         = new Dictionary<string, List<EcellObject>>();
                 }
                 if (!this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID]
-                        .ContainsKey(l_ecellObject.modelID))
+                        .ContainsKey(l_ecellObject.ModelID))
                 {
                     this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_ecellObject.modelID] = new List<EcellObject>();
+                        [l_ecellObject.ModelID] = new List<EcellObject>();
                 }
                 this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_ecellObject.modelID].Add(l_ecellObject);
+                        [l_ecellObject.ModelID].Add(l_ecellObject);
             }
             foreach (EcellObject l_childEcellObject in l_ecellObject.Children)
             {
@@ -4873,14 +4873,14 @@ namespace EcellLib
                 }
                 EcellObject l_modelObj = EmlReader.Parse(l_filename,
                         m_simulatorDic[m_currentProjectID]);
-                l_modelID = l_modelObj.modelID;
+                l_modelID = l_modelObj.ModelID;
 
                 //
                 // Checks the old model ID
                 //
                 foreach (EcellObject l_model in this.m_modelDic[this.m_currentProjectID])
                 {
-                    if (l_model.modelID.Equals(l_modelID))
+                    if (l_model.ModelID.Equals(l_modelID))
                     {
                         throw new Exception(
                             String.Format(
@@ -5230,9 +5230,9 @@ namespace EcellLib
                     foreach (EcellObject l_stepper in simParam.Steppers)
                     {
                         if (!this.m_stepperDic[this.m_currentProjectID][simParam.ID]
-                            .ContainsKey(l_stepper.modelID))
+                            .ContainsKey(l_stepper.ModelID))
                         {
-                            this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.modelID]
+                            this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.ModelID]
                                 = new List<EcellObject>();
                         }
                         foreach (EcellData l_data in l_stepper.Value)
@@ -5261,7 +5261,7 @@ namespace EcellLib
                             }
                             l_data.Value = new EcellValue(l_value);
                         }
-                        this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.modelID].Add(l_stepper);
+                        this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.ModelID].Add(l_stepper);
                     }
                 }
                 else
@@ -5269,21 +5269,21 @@ namespace EcellLib
                     foreach (EcellObject l_stepper in simParam.Steppers)
                     {
                         bool l_matchFlag = false;
-                        if (!this.m_stepperDic[this.m_currentProjectID][simParam.ID].ContainsKey(l_stepper.modelID))
+                        if (!this.m_stepperDic[this.m_currentProjectID][simParam.ID].ContainsKey(l_stepper.ModelID))
                         {
-                            this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.modelID]
+                            this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.ModelID]
                                 = new List<EcellObject>();
                         }
                         for (int j = 0;
-                            j < this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.modelID].Count;
+                            j < this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.ModelID].Count;
                             j++)
                         {
                             EcellObject l_storedStepper
-                                = this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.modelID][j];
-                            if (l_storedStepper.classname.Equals(l_stepper.classname)
-                                && l_storedStepper.key.Equals(l_stepper.key)
-                                && l_storedStepper.modelID.Equals(l_stepper.modelID)
-                                && l_storedStepper.type.Equals(l_stepper.type))
+                                = this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.ModelID][j];
+                            if (l_storedStepper.Classname.Equals(l_stepper.Classname)
+                                && l_storedStepper.Key.Equals(l_stepper.Key)
+                                && l_storedStepper.ModelID.Equals(l_stepper.ModelID)
+                                && l_storedStepper.Type.Equals(l_stepper.Type))
                             {
                                 List<EcellData> l_newDataList = new List<EcellData>();
                                 foreach (EcellData l_storedData in l_storedStepper.Value)
@@ -5342,12 +5342,12 @@ namespace EcellLib
                                         l_newDataList.Add(l_storedData);
                                     }
                                 }
-                                this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.modelID][j]
+                                this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.ModelID][j]
                                     = EcellObject.CreateObject(
-                                        l_stepper.modelID,
-                                        l_stepper.key,
-                                        l_stepper.type,
-                                        l_stepper.classname,
+                                        l_stepper.ModelID,
+                                        l_stepper.Key,
+                                        l_stepper.Type,
+                                        l_stepper.Classname,
                                         l_newDataList);
                                 l_matchFlag = true;
                                 break;
@@ -5355,7 +5355,7 @@ namespace EcellLib
                         }
                         if (!l_matchFlag)
                         {
-                            this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.modelID]
+                            this.m_stepperDic[this.m_currentProjectID][simParam.ID][l_stepper.ModelID]
                                 .Add(l_stepper);
                         }
                     }
@@ -5397,7 +5397,7 @@ namespace EcellLib
                     continue;
                 }
                 l_existStepper = true;
-                l_simulator.CreateStepper(l_stepper.classname, l_stepper.key);
+                l_simulator.CreateStepper(l_stepper.Classname, l_stepper.Key);
                 //
                 // 4 property
                 //
@@ -5446,7 +5446,7 @@ namespace EcellLib
                             continue;
                         }
                         l_simulator.LoadStepperProperty(
-                            l_stepper.key,
+                            l_stepper.Key,
                             l_ecellData.Name,
                             EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.Value));
                     }
@@ -5459,11 +5459,11 @@ namespace EcellLib
                         {
                             continue;
                         }
-                        if (!l_setStepperDic.ContainsKey(l_stepper.key))
+                        if (!l_setStepperDic.ContainsKey(l_stepper.Key))
                         {
-                            l_setStepperDic[l_stepper.key] = new Dictionary<string, WrappedPolymorph>();
+                            l_setStepperDic[l_stepper.Key] = new Dictionary<string, WrappedPolymorph>();
                         }
-                        l_setStepperDic[l_stepper.key][l_ecellData.Name]
+                        l_setStepperDic[l_stepper.Key][l_ecellData.Name]
                             = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.Value);
                     }
                 }
@@ -5504,9 +5504,9 @@ namespace EcellLib
                         continue;
                     }
                     l_existSystem = true;
-                    string l_parentPath = l_system.key.Substring(0, l_system.key.LastIndexOf(Constants.delimiterPath));
-                    string l_childPath = l_system.key.Substring(l_system.key.LastIndexOf(Constants.delimiterPath) + 1);
-                    if (l_system.key.Equals(Constants.delimiterPath))
+                    string l_parentPath = l_system.Key.Substring(0, l_system.Key.LastIndexOf(Constants.delimiterPath));
+                    string l_childPath = l_system.Key.Substring(l_system.Key.LastIndexOf(Constants.delimiterPath) + 1);
+                    if (l_system.Key.Equals(Constants.delimiterPath))
                     {
                         if (l_childPath.Length == 0)
                         {
@@ -5520,8 +5520,8 @@ namespace EcellLib
                             l_parentPath = Constants.delimiterPath;
                         }
                         l_simulator.CreateEntity(
-                            l_system.classname,
-                            l_system.classname + Constants.delimiterColon
+                            l_system.Classname,
+                            l_system.Classname + Constants.delimiterColon
                                 + l_parentPath + Constants.delimiterColon + l_childPath);
                     }
                     //
@@ -6235,7 +6235,7 @@ namespace EcellLib
                 WritePrefix(l_fileName, enc);
                 foreach (EcellObject modelObj in m_modelDic[m_currentProjectID])
                 {
-                    String modelName = modelObj.modelID;
+                    String modelName = modelObj.ModelID;
                     WriteModelEntry(l_fileName, enc, modelName);
                     WriteModelProperty(l_fileName, enc, modelName);
                     File.AppendAllText(l_fileName, "\n# System\n", enc);
@@ -6694,7 +6694,7 @@ namespace EcellLib
                         {
                             foreach (EcellObject l_new in l_newList)
                             {
-                                if (!l_current.classname.Equals(l_new.classname))
+                                if (!l_current.Classname.Equals(l_new.Classname))
                                 {
                                     continue;
                                 }
@@ -7203,17 +7203,17 @@ namespace EcellLib
                 List<EcellObject> l_oldStepperList = new List<EcellObject>();
                 foreach (EcellObject l_stepper in l_stepperList)
                 {
-                    l_message = "[" + l_parameterID + "][" + l_stepper.modelID + "][" + l_stepper.key + "]";
-                    if (!this.m_stepperDic[this.m_currentProjectID][l_parameterID].ContainsKey(l_stepper.modelID))
+                    l_message = "[" + l_parameterID + "][" + l_stepper.ModelID + "][" + l_stepper.Key + "]";
+                    if (!this.m_stepperDic[this.m_currentProjectID][l_parameterID].ContainsKey(l_stepper.ModelID))
                     {
                         throw new Exception(m_resources.GetString("ErrFindStepper") + l_message);
                     }
                     bool l_updateFlag = false;
                     List<EcellObject> l_storedStepperList
-                        = this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.modelID];
+                        = this.m_stepperDic[this.m_currentProjectID][l_parameterID][l_stepper.ModelID];
                     for (int i = 0; i < l_storedStepperList.Count; i++)
                     {
-                        if (l_storedStepperList[i].key.Equals(l_stepper.key))
+                        if (l_storedStepperList[i].Key.Equals(l_stepper.Key))
                         {
                             l_oldStepperList.Add(l_storedStepperList[i]);
                             this.CheckDifferences(l_storedStepperList[i], l_stepper, l_parameterID);
@@ -7379,9 +7379,9 @@ namespace EcellLib
             foreach (EcellObject stepObj in
                 m_stepperDic[m_currentProjectID][m_currentParameterID][modelName])
             {
-                File.AppendAllText(fileName, "stepperStub" + s_stepperCount + "=session.createStepperStub(\"" + stepObj.key + "\")\n", enc);
-                File.AppendAllText(fileName, "stepperStub" + s_stepperCount + ".create(\"" + stepObj.classname + "\")\n", enc);
-                s_exportStepper.Add(stepObj.key, s_stepperCount);
+                File.AppendAllText(fileName, "stepperStub" + s_stepperCount + "=session.createStepperStub(\"" + stepObj.Key + "\")\n", enc);
+                File.AppendAllText(fileName, "stepperStub" + s_stepperCount + ".create(\"" + stepObj.Classname + "\")\n", enc);
+                s_exportStepper.Add(stepObj.Key, s_stepperCount);
                 s_stepperCount++;
             }
         }
@@ -7398,7 +7398,7 @@ namespace EcellLib
             foreach (EcellObject stepObj in
                 m_stepperDic[m_currentProjectID][m_currentParameterID][modelName])
             {
-                int count = s_exportStepper[stepObj.key];
+                int count = s_exportStepper[stepObj.Key];
                 foreach (EcellData d in stepObj.Value)
                 {
                     if (!d.Settable) continue;
@@ -7422,17 +7422,17 @@ namespace EcellLib
         public void WriteSystemEntry(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
             if (sysObj == null) return;
-            s_exportSystem.Add(sysObj.key, s_sysCount);
+            s_exportSystem.Add(sysObj.Key, s_sysCount);
             string prefix = "";
             string data = "";
-            if (sysObj.key.Equals("/"))
+            if (sysObj.Key.Equals("/"))
             {
                 prefix = "";
                 data = "/";
             }
             else
             {
-                string[] ele = sysObj.key.Split(new char[] { '/' });
+                string[] ele = sysObj.Key.Split(new char[] { '/' });
                 if (ele.Length == 2)
                 {
                     prefix = "/";
@@ -7462,7 +7462,7 @@ namespace EcellLib
         public void WriteSystemProperty(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
             if (sysObj == null) return;
-            int count = s_exportSystem[sysObj.key];
+            int count = s_exportSystem[sysObj.Key];
             if (sysObj.Value == null) return;
             foreach (EcellData d in sysObj.Value)
             {
@@ -7537,32 +7537,32 @@ namespace EcellLib
             if (sysObj.Children == null) return;
             foreach (EcellObject obj in sysObj.Children)
             {
-                if (!obj.type.Equals("Variable")) continue;
-                string[] names = obj.key.Split(new char[] { ':' });
+                if (!obj.Type.Equals("Variable")) continue;
+                string[] names = obj.Key.Split(new char[] { ':' });
                 string name = names[names.Length - 1];
 
                 File.AppendAllText(fileName,
-                    "variableStub" + s_varCount + name + "= session.createEntityStub(\"Variable:" + obj.key + "\")\n",
+                    "variableStub" + s_varCount + name + "= session.createEntityStub(\"Variable:" + obj.Key + "\")\n",
                     enc);
                 File.AppendAllText(fileName,
                     "variableStub" + s_varCount + name + ".create(\"Variable\")\n", enc);
-                s_exportVariable.Add(obj.key, s_varCount);
+                s_exportVariable.Add(obj.Key, s_varCount);
                 s_varCount++;
             }
 
             File.AppendAllText(fileName, "\n# Process\n", enc);
             foreach (EcellObject obj in sysObj.Children)
             {
-                if (!obj.type.Equals("Process")) continue;
-                string[] names = obj.key.Split(new char[] { ':' });
+                if (!obj.Type.Equals("Process")) continue;
+                string[] names = obj.Key.Split(new char[] { ':' });
                 string name = names[names.Length - 1];
 
                 File.AppendAllText(fileName,
-                    "processStub" + s_proCount + name + "= session.createEntityStub(\"Process:" + obj.key + "\")\n",
+                    "processStub" + s_proCount + name + "= session.createEntityStub(\"Process:" + obj.Key + "\")\n",
                     enc);
                 File.AppendAllText(fileName,
-                    "processStub" + s_proCount + name + ".create(\"" + obj.classname + "\")\n", enc);
-                s_exportProcess.Add(obj.key, s_proCount);
+                    "processStub" + s_proCount + name + ".create(\"" + obj.Classname + "\")\n", enc);
+                s_exportProcess.Add(obj.Key, s_proCount);
                 s_proCount++;
             }
         }
@@ -7579,10 +7579,10 @@ namespace EcellLib
             if (sysObj.Children == null) return;
             foreach (EcellObject obj in sysObj.Children)
             {
-                if (!obj.type.Equals("Variable")) continue;
-                string[] names = obj.key.Split(new char[] { ':' });
+                if (!obj.Type.Equals("Variable")) continue;
+                string[] names = obj.Key.Split(new char[] { ':' });
                 string name = names[names.Length - 1];
-                int count = s_exportVariable[obj.key];
+                int count = s_exportVariable[obj.Key];
 
                 foreach (EcellData d in obj.Value)
                 {
@@ -7595,10 +7595,10 @@ namespace EcellLib
             File.AppendAllText(fileName, "\n# Process\n", enc);
             foreach (EcellObject obj in sysObj.Children)
             {
-                if (!obj.type.Equals("Process")) continue;
-                string[] names = obj.key.Split(new char[] { ':' });
+                if (!obj.Type.Equals("Process")) continue;
+                string[] names = obj.Key.Split(new char[] { ':' });
                 string name = names[names.Length - 1];
-                int count = s_exportProcess[obj.key];
+                int count = s_exportProcess[obj.Key];
 
                 foreach (EcellData d in obj.Value)
                 {

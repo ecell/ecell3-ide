@@ -401,7 +401,7 @@ namespace EcellLib.ObjectList
                 {
                     if (name.Equals(m_systemProp[i]))
                     {
-                        string entPath = Util.ConvertSystemEntityPath(obj.key, name);
+                        string entPath = Util.ConvertSystemEntityPath(obj.Key, name);
                         m_propDic.Add(entPath, c);
                         break;
                     }
@@ -427,7 +427,7 @@ namespace EcellLib.ObjectList
         private void AddVariable(int index, EcellObject obj)
         {
             int len = m_variableProp.Length;
-            if (obj.key.EndsWith(":SIZE")) return;
+            if (obj.Key.EndsWith(":SIZE")) return;
             DataGridViewRow rs = new DataGridViewRow();
             for (int i = 0; i < len; i++)
             {
@@ -449,7 +449,7 @@ namespace EcellLib.ObjectList
                     if (name.Equals(m_variableProp[i]))
                     {
                         string entPath = Constants.xpathVariable +
-                            Constants.delimiterColon + obj.key +
+                            Constants.delimiterColon + obj.Key +
                             Constants.delimiterColon + name;
                         m_propDic.Add(entPath, c);
                         break;
@@ -496,7 +496,7 @@ namespace EcellLib.ObjectList
                     if (name.Equals(m_processProp[i]))
                     {
                         string entPath = Constants.xpathProcess +
-                            Constants.delimiterColon + obj.key +
+                            Constants.delimiterColon + obj.Key +
                             Constants.delimiterColon + name;
                         m_propDic.Add(entPath, c);
                         break;
@@ -522,16 +522,16 @@ namespace EcellLib.ObjectList
         /// <param name="obj">The added object.</param>
         private void DataAdd(EcellObject obj)
         {
-            int pos = SearchHeaderPos(obj.type);
+            int pos = SearchHeaderPos(obj.Type);
             if (pos == -1) return;
-            int index = SearchInsertIndex(pos, obj.key);
-            if (obj.type.Equals(Constants.xpathSystem))
+            int index = SearchInsertIndex(pos, obj.Key);
+            if (obj.Type.Equals(Constants.xpathSystem))
                 AddSystem(index, obj);
-            else if (obj.type.Equals(Constants.xpathProcess))
+            else if (obj.Type.Equals(Constants.xpathProcess))
                 AddProcess(index, obj);
-            else if (obj.type.Equals(Constants.xpathVariable))
+            else if (obj.Type.Equals(Constants.xpathVariable))
                 AddVariable(index, obj);
-            m_currentModelID = obj.modelID;
+            m_currentModelID = obj.ModelID;
         }
 
         /// <summary>
@@ -544,23 +544,23 @@ namespace EcellLib.ObjectList
         {
             if (name.Equals(ModelTabPage.s_indexType))
             {
-                return obj.type;
+                return obj.Type;
             }
             else if (name.Equals(ModelTabPage.s_indexID))
             {
-                return obj.key;
+                return obj.Key;
             }
             else if (name.Equals(ModelTabPage.s_indexModel))
             {
-                return obj.modelID;
+                return obj.ModelID;
             }
             else if (name.Equals(ModelTabPage.s_indexClass))
             {
-                return obj.classname;
+                return obj.Classname;
             }
             else if (name.Equals(ModelTabPage.s_indexName))
             {
-                return obj.name;
+                return obj.Name;
             }
             else if (name.Equals(ModelTabPage.s_indexStepper))
             {
@@ -716,8 +716,8 @@ namespace EcellLib.ObjectList
         {
             foreach (EcellObject obj in objList)
             {
-                if (obj.type.Equals(Constants.xpathModel)) continue;
-                if (m_currentModelID != null && !m_currentModelID.Equals(obj.modelID)) continue;
+                if (obj.Type.Equals(Constants.xpathModel)) continue;
+                if (m_currentModelID != null && !m_currentModelID.Equals(obj.ModelID)) continue;
                 DataAdd(obj);
                 if (obj.Children == null) continue;
                 foreach (EcellObject cobj in obj.Children)
@@ -736,10 +736,10 @@ namespace EcellLib.ObjectList
         /// <param name="obj">The changed object.</param>
         public void DataChanged(string modelID, string id, string type, EcellObject obj)
         {
-            bool isIDChanged = !(id == obj.key);
+            bool isIDChanged = !(id == obj.Key);
             DataDelete(modelID, id, type, isIDChanged);
             DataAdd(obj);
-            int index = SearchObjectIndex(obj.key, obj.type);
+            int index = SearchObjectIndex(obj.Key, obj.Type);
             if (index < 0 || index > m_gridView.RowCount - 1) return;
             if (m_gridView.Rows[index].Visible == false ||
                 m_gridView.Rows[index].Frozen == true) return;
@@ -871,7 +871,7 @@ namespace EcellLib.ObjectList
             EcellObject obj = m_gridView.Rows[index].Tag as EcellObject;
             if (obj == null) return;
             PluginManager manager = PluginManager.GetPluginManager();
-            manager.SelectChanged(obj.modelID, obj.key, obj.type);
+            manager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
         }
 
         /// <summary>

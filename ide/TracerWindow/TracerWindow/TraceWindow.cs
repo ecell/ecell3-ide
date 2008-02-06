@@ -72,7 +72,7 @@ namespace EcellLib.TracerWindow
         /// The last time on drawing tracer.
         /// </summary>
         public double m_current;
-        /// <summary>
+        ///// <summary>
         ///// The dictionary of entity path and LineItem.
         ///// </summary>
         //public Dictionary<string, LineItem> m_paneDic;
@@ -165,7 +165,7 @@ namespace EcellLib.TracerWindow
                     break;
                 }
             }
-            m_dManager.DataChanged(t.modelID, t.key, t.type, t);
+            m_dManager.DataChanged(t.ModelID, t.Key, t.Type, t);
         }
 
         /// <summary>
@@ -188,7 +188,11 @@ namespace EcellLib.TracerWindow
                 dgv.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="isCont"></param>
         public void SetIsContinuous(string tag, bool isCont)
         {
             if (m_tagDic.ContainsKey(tag))
@@ -744,9 +748,9 @@ namespace EcellLib.TracerWindow
                 }
             }
 
-            m_dManager.DataChanged(m_currentObj.modelID,
-                m_currentObj.key,
-                m_currentObj.type,
+            m_dManager.DataChanged(m_currentObj.ModelID,
+                m_currentObj.Key,
+                m_currentObj.Type,
                 m_currentObj);
         }
 

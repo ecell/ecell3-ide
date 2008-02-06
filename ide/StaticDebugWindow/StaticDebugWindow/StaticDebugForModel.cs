@@ -93,25 +93,25 @@ namespace EcellLib.StaticDebugWindow
         /// <param name="obj">debug object.</param>
         private void ShareStaticDebug(EcellObject obj)
         {
-            if (obj.type == Constants.xpathSystem)
+            if (obj.Type == Constants.xpathSystem)
             {
                 DebugForSystem(obj);
             }
-            else if (obj.type == Constants.xpathVariable)
+            else if (obj.Type == Constants.xpathVariable)
             {
                 DebugForVariable(obj);
             }
-            else if (obj.type == Constants.xpathProcess)
+            else if (obj.Type == Constants.xpathProcess)
             {
                 DebugForProcess(obj);
             }
-            else if (obj.type == Constants.xpathStepper)
+            else if (obj.Type == Constants.xpathStepper)
             {
                 DebugForStepper(obj);
             }
-            else if (obj.type == Constants.xpathModel)
+            else if (obj.Type == Constants.xpathModel)
             {
-                Debug(m_dManager.GetStepper(null, obj.modelID));
+                Debug(m_dManager.GetStepper(null, obj.ModelID));
             }
         }
 
@@ -128,7 +128,7 @@ namespace EcellLib.StaticDebugWindow
             {
                 if (d.Name == Constants.xpathStepperID)
                 {
-                    IsExistStepperID(obj.modelID, obj.type, d);
+                    IsExistStepperID(obj.ModelID, obj.Type, d);
                 }
             }
         }
@@ -144,12 +144,12 @@ namespace EcellLib.StaticDebugWindow
             {
                 if (d.Name == Constants.xpathStepperID)
                 {
-                    IsExistStepperID(obj.modelID, obj.type, d);
+                    IsExistStepperID(obj.ModelID, obj.Type, d);
                 }
                 if (d.Name == Constants.xpathExpression ||
                     d.Name == Constants.xpathFireMethod)
                 {
-                    CheckBrackets(obj.modelID, obj.type, d);
+                    CheckBrackets(obj.ModelID, obj.Type, d);
                 }
             }
         }
@@ -166,11 +166,11 @@ namespace EcellLib.StaticDebugWindow
                 if (d.Name == Constants.xpathMolarConc ||
                     d.Name == Constants.xpathNumberConc)
                 {
-                    IsPositiveNumberWithZero(obj.modelID, obj.type, d);
+                    IsPositiveNumberWithZero(obj.ModelID, obj.Type, d);
                 }
                 if (d.Name == Constants.xpathFixed)
                 {
-                    IsBool(obj.modelID, obj.type, d);
+                    IsBool(obj.ModelID, obj.Type, d);
                 }
             }
         }
@@ -191,17 +191,17 @@ namespace EcellLib.StaticDebugWindow
                     d.Name == Constants.xpathStepInterval ||
                     d.Name == Constants.headerTolerable)
                 {
-                    IsPositiveNumber(obj.modelID, obj.type, d);
+                    IsPositiveNumber(obj.ModelID, obj.Type, d);
                 }
                 if (d.Name == Constants.xpathIsEpsilonChecked)
                 {
-                    IsBool(obj.modelID, obj.type, d);
+                    IsBool(obj.ModelID, obj.Type, d);
                 }
                 if (d.Name == Constants.headerMaximum) l_max = d;
                 if (d.Name == Constants.headerMinimum) l_min = d;
             }
             if (l_max != null && l_min != null)
-                CompareMaxAndMin(obj.modelID, obj.type, l_max, l_min);
+                CompareMaxAndMin(obj.ModelID, obj.Type, l_max, l_min);
         }
 
         #endregion
@@ -212,23 +212,23 @@ namespace EcellLib.StaticDebugWindow
         /// <param name="obj">The object to be checked.</param>
         private void IsInvalidComponentId(EcellObject obj)
         {
-            if (obj.type == Constants.xpathSystem)
+            if (obj.Type == Constants.xpathSystem)
             {
-                if (Util.IsNGforSystemFullID(obj.key))
+                if (Util.IsNGforSystemFullID(obj.Key))
                 {
-                    ErrorMessage mes = new ErrorMessage(obj.modelID, obj.type,
-                        obj.key + ":" + Constants.xpathID,
+                    ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
+                        obj.Key + ":" + Constants.xpathID,
                         StaticDebugWindow.s_resources.GetString("ErrInvalidID"));
                     m_errorList.Add(mes);
                 }
             }
-            else if (obj.type == Constants.xpathProcess ||
-                obj.type == Constants.xpathVariable)
+            else if (obj.Type == Constants.xpathProcess ||
+                obj.Type == Constants.xpathVariable)
             {
-                if (Util.IsNGforComponentFullID(obj.key))
+                if (Util.IsNGforComponentFullID(obj.Key))
                 {
-                    ErrorMessage mes = new ErrorMessage(obj.modelID, obj.type,
-                        obj.key + ":" + Constants.xpathID,
+                    ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
+                        obj.Key + ":" + Constants.xpathID,
                         StaticDebugWindow.s_resources.GetString("ErrInvalidID"));
                     m_errorList.Add(mes);
                 }
@@ -250,7 +250,7 @@ namespace EcellLib.StaticDebugWindow
             bool isHit = false;
             foreach (EcellObject step in stepList)
             {
-                if (step.key == l_stepperID)
+                if (step.Key == l_stepperID)
                 {
                     isHit = true;
                     break;

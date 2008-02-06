@@ -164,8 +164,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="pro">the related process.</param>
         public void NotifyAddRelatedProcess(PPathwayProcess pro)
         {
-            if (!m_relatedProcesses.ContainsKey(pro.EcellObject.key))
-                m_relatedProcesses.Add(pro.EcellObject.key, pro);
+            if (!m_relatedProcesses.ContainsKey(pro.EcellObject.Key))
+                m_relatedProcesses.Add(pro.EcellObject.Key, pro);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public void NotifyRemoveToRelatedProcess()
         {
             foreach (PPathwayProcess process in m_relatedProcesses.Values)
-                process.DeleteEdge(this.EcellObject.key);
+                process.DeleteEdge(this.EcellObject.Key);
             m_relatedProcesses.Clear();
         }
 

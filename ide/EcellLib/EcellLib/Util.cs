@@ -354,7 +354,7 @@ namespace EcellLib
         /// <returns></returns>
         public static string GetUserDir()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Application.ProductName);
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "E-Cell IDE");
         }
 
         /// <summary>

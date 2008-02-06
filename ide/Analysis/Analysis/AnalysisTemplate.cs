@@ -773,10 +773,10 @@ namespace EcellLib.Analysis
                 List<EcellObject> objList = m_manager.GetData(model, "");
                 foreach (EcellObject obj in objList)
                 {
-                    if (obj.type == Constants.xpathModel) continue;
+                    if (obj.Type == Constants.xpathModel) continue;
                     TreeNode parentNode;
                     TreeNode sysNode;
-                    if (obj.key.Equals("/"))
+                    if (obj.Key.Equals("/"))
                     {
                         parentNode = modelNode;
                         sysNode = new TreeNode("/");
@@ -784,7 +784,7 @@ namespace EcellLib.Analysis
                     }
                     else
                     {
-                        string[] keydata = obj.key.Split(new char[] { '/' });
+                        string[] keydata = obj.Key.Split(new char[] { '/' });
                         string resultKey = "";
                         
                         for (int i = 1 ; i < keydata.Length - 1; i++)
@@ -800,7 +800,7 @@ namespace EcellLib.Analysis
 
                     foreach (EcellObject child in obj.Children)
                     {
-                        string[] keydata = child.key.Split(new char[] { ':' });
+                        string[] keydata = child.Key.Split(new char[] { ':' });
                         TreeNode childNode = new TreeNode(keydata[keydata.Length - 1]);
                         childNode.Tag = null;
                         sysNode.Nodes.Add(childNode);

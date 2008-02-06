@@ -223,8 +223,8 @@ namespace EcellLib.ObjectList
             }
             foreach (EcellObject obj in data)
             {
-                if (obj.modelID.Equals("")) continue;
-                m_currentModelID = obj.modelID;
+                if (obj.ModelID.Equals("")) continue;
+                m_currentModelID = obj.ModelID;
                 break;
             }
             return;

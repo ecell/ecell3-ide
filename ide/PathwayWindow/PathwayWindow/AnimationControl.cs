@@ -368,7 +368,7 @@ namespace EcellLib.PathwayWindow
         /// <returns></returns>
         private float GetFloatValue(EcellObject eo ,string propName)
         {
-            string fullpath = eo.type + ":" + eo.key + ":" + propName;
+            string fullpath = eo.Type + ":" + eo.Key + ":" + propName;
             EcellValue value = null;
             float num = 0f;
             try

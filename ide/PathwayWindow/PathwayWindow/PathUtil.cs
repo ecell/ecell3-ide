@@ -100,7 +100,7 @@ namespace EcellLib.PathwayWindow
 
                 foreach(EcellReference reference in refList)
                 {
-                    if (null != reference.name && reference.name.Equals(newName))
+                    if (null != reference.Name && reference.Name.Equals(newName))
                         newName = null;
                 }
 

@@ -112,35 +112,35 @@ namespace EcellLib.SearchWindow
                 if (list == null) continue;
                 foreach (EcellObject obj in list)
                 {
-                    if (obj.key == null) continue;
-                    if (obj.key.Contains(searchId))
+                    if (obj.Key == null) continue;
+                    if (obj.Key.Contains(searchId))
                     {
                         String name = "";
                         if (obj.IsEcellValueExists("Name"))
                             name = obj.GetEcellValue("Name").ToString();
-                        dgv.Rows.Add(new Object[] { obj.key, name, model, obj.type });
+                        dgv.Rows.Add(new Object[] { obj.Key, name, model, obj.Type });
                     }
                     else
                     {
                         EcellValue value = obj.GetEcellValue("Name");
                         if (value != null && value.ToString().Contains(searchId))
-                            dgv.Rows.Add(new Object[] { obj.key, value.ToString(), model, obj.type });
+                            dgv.Rows.Add(new Object[] { obj.Key, value.ToString(), model, obj.Type });
                     }
 
                     if (obj.Children == null) continue;
                     foreach (EcellObject ins in obj.Children)
                     {
-                        if (ins.key.Contains(searchId)) {
+                        if (ins.Key.Contains(searchId)) {
                             String name = "";
                             if (ins.IsEcellValueExists("Name"))
                                 name = ins.GetEcellValue("Name").ToString();
-                            dgv.Rows.Add(new Object[] { ins.key, name, model, ins.type });
+                            dgv.Rows.Add(new Object[] { ins.Key, name, model, ins.Type });
                         }
                         else
                         {
                             EcellValue value = ins.GetEcellValue("Name");
                             if ( value != null && value.ToString().Contains(searchId))
-                                dgv.Rows.Add(new Object[] { ins.key, value.ToString(), model, ins.type });
+                                dgv.Rows.Add(new Object[] { ins.Key, value.ToString(), model, ins.Type });
                         }
                     }
                 }

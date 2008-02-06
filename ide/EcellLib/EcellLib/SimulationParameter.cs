@@ -161,8 +161,8 @@ namespace EcellLib
         private void WriteStepperElements(EcellObject l_ecellObject)
         {
             m_tx.WriteStartElement(Constants.xpathStepper.ToLower());
-            m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.classname);
-            m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_ecellObject.key);
+            m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.Classname);
+            m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_ecellObject.Key);
 
             if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
             {
@@ -299,13 +299,13 @@ namespace EcellLib
                 Dictionary<string, List<EcellObject>> l_dic = new Dictionary<string, List<EcellObject>>();
                 foreach (EcellObject l_stepper in sp.Steppers)
                 {
-                    if (l_stepper.type.Equals(Constants.xpathStepper))
+                    if (l_stepper.Type.Equals(Constants.xpathStepper))
                     {
-                        if (!l_dic.ContainsKey(l_stepper.modelID))
+                        if (!l_dic.ContainsKey(l_stepper.ModelID))
                         {
-                            l_dic[l_stepper.modelID] = new List<EcellObject>();
+                            l_dic[l_stepper.ModelID] = new List<EcellObject>();
                         }
-                        l_dic[l_stepper.modelID].Add(l_stepper);
+                        l_dic[l_stepper.ModelID].Add(l_stepper);
                     }
                 }
 

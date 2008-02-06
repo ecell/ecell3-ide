@@ -138,7 +138,7 @@ namespace EcellLib.PathwayWindow.Handler
                 m_canvas.Systems[systemName].BackgroundBrush = Brushes.White;
 
                 foreach (PPathwaySystem system in m_canvas.Systems.Values)
-                    if (!system.EcellObject.key.Equals(systemName))
+                    if (!system.EcellObject.Key.Equals(systemName))
                         system.BackgroundBrush = Brushes.Silver;
             }
             else
@@ -176,7 +176,7 @@ namespace EcellLib.PathwayWindow.Handler
                 else
                     system.IsInvalid = false;
                 m_canvas.ResizeHandler.UpdateResizeHandlePositions();
-                foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(system.EcellObject.key))
+                foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(system.EcellObject.Key))
                 {
                     child.Offset = obj.Offset;
                     child.Refresh();
@@ -227,15 +227,15 @@ namespace EcellLib.PathwayWindow.Handler
             else if (obj is PPathwaySystem)
             {
                 PPathwaySystem system = (PPathwaySystem)obj;
-                string oldSysKey = system.EcellObject.key;
+                string oldSysKey = system.EcellObject.Key;
                 string parentSysKey = m_canvas.GetSurroundingSystemKey(obj.PointF, oldSysKey);
                 string newSysKey = null;
                 if (parentSysKey == null)
                     newSysKey = "/";
                 else if (parentSysKey.Equals("/"))
-                    newSysKey = "/" + system.EcellObject.name;
+                    newSysKey = "/" + system.EcellObject.Name;
                 else
-                    newSysKey = parentSysKey + "/" + system.EcellObject.name;
+                    newSysKey = parentSysKey + "/" + system.EcellObject.Name;
 
                 // Reset system movement when the system is overlapping other system or out of root.
                 if (m_canvas.DoesSystemOverlaps(system) || !IsInsideRoot(system.Rect))
@@ -280,22 +280,22 @@ namespace EcellLib.PathwayWindow.Handler
                 m_canvas.SetLayer(node);
                 newPosition = new PointF(node.X + node.OffsetX, node.Y + node.OffsetY);
                 newSystem = m_canvas.GetSurroundingSystemKey(newPosition);
-                newKey = newSystem + ":" + node.EcellObject.name;
+                newKey = newSystem + ":" + node.EcellObject.Name;
 
                 // When node is out of root.
                 if (newSystem == null)
                 {
-                    MessageBox.Show(node.EcellObject.name + ":" + m_resources.GetString("ErrOutRoot"),
+                    MessageBox.Show(node.EcellObject.Name + ":" + m_resources.GetString("ErrOutRoot"),
                                     "Error", MessageBoxButtons.OK,
                                     MessageBoxIcon.Error);
                     isError = true;
                     continue;
                 }
                 // When node is duplicated.
-                else if (!newSystem.Equals(node.EcellObject.parentSystemID)
-                    && m_canvas.GetSelectedObject(newKey, node.EcellObject.type) != null)
+                else if (!newSystem.Equals(node.EcellObject.ParentSystemID)
+                    && m_canvas.GetSelectedObject(newKey, node.EcellObject.Type) != null)
                 {
-                    MessageBox.Show(node.EcellObject.name + ":" + m_resources.GetString("ErrAlrExist"),
+                    MessageBox.Show(node.EcellObject.Name + ":" + m_resources.GetString("ErrAlrExist"),
                                     "Error", MessageBoxButtons.OK,
                                     MessageBoxIcon.Error);
                     isError = true;
@@ -326,9 +326,9 @@ namespace EcellLib.PathwayWindow.Handler
                     i++;
                     node.Refresh();
                     newSystem = m_canvas.GetSurroundingSystemKey(node.PointF);
-                    newKey = newSystem + ":" + node.EcellObject.name;
+                    newKey = newSystem + ":" + node.EcellObject.Name;
                     m_canvas.PathwayControl.NotifyDataChanged(
-                        node.EcellObject.key,
+                        node.EcellObject.Key,
                         newKey,
                         node,
                         true,
@@ -357,8 +357,8 @@ namespace EcellLib.PathwayWindow.Handler
                 obj.Y = obj.Y + offset.Y;
                 obj.Offset = PointF.Empty;
                 m_canvas.PathwayControl.NotifyDataChanged(
-                    obj.EcellObject.key,
-                    obj.EcellObject.key,
+                    obj.EcellObject.Key,
+                    obj.EcellObject.Key,
                     obj,
                     true,
                     false);
@@ -376,17 +376,17 @@ namespace EcellLib.PathwayWindow.Handler
             RectangleF rect = system.Rect;
             rect.X = rect.X + offset.X;
             rect.Y = rect.Y + offset.Y;
-            string parentSystemName = system.EcellObject.parentSystemID;
+            string parentSystemName = system.EcellObject.ParentSystemID;
             foreach (PPathwayObject obj in m_canvas.GetAllObjects())
             {
                 if (obj == system || !system.Rect.Contains(rect))
                     continue;
-                if (obj.EcellObject.parentSystemID.StartsWith(newKey))
+                if (obj.EcellObject.ParentSystemID.StartsWith(newKey))
                     continue;
 
-                string newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.key, parentSystemName, newKey);
+                string newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.Key, parentSystemName, newKey);
                 m_canvas.PathwayControl.NotifyDataChanged(
-                    obj.EcellObject.key,
+                    obj.EcellObject.Key,
                     newNodeKey,
                     obj,
                     true,

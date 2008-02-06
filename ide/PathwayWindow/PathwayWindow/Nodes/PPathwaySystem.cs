@@ -369,7 +369,7 @@ namespace EcellLib.PathwayWindow.Nodes
             this.Reset();
             if (m_canvas == null)
                 return;
-            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(m_ecellObj.key))
+            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(m_ecellObj.Key))
             {
                 if (obj is PPathwayVariable)
                     ((PPathwayVariable)obj).Refresh();
@@ -451,20 +451,20 @@ namespace EcellLib.PathwayWindow.Nodes
                 base.Height = obj.Y + obj.Height + SYSTEM_MARGIN - base.Y;
 
             // Move child nodes position.
-            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(m_ecellObj.key))
+            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(m_ecellObj.Key))
             {
-                if (child.EcellObject.key.StartsWith(obj.EcellObject.key))
+                if (child.EcellObject.Key.StartsWith(obj.EcellObject.Key))
                     continue;
                 if (!obj.Rect.Contains(child.Rect) && !obj.Rect.IntersectsWith(child.Rect))
                     continue;
-                child.PointF = m_canvas.GetVacantPoint(m_ecellObj.key, child.Rect);
-                m_canvas.PathwayControl.NotifyDataChanged(child.EcellObject.key, child.EcellObject.key, child, isRecorded, false);
+                child.PointF = m_canvas.GetVacantPoint(m_ecellObj.Key, child.Rect);
+                m_canvas.PathwayControl.NotifyDataChanged(child.EcellObject.Key, child.EcellObject.Key, child, isRecorded, false);
             }
 
             // Make parent system create space for this system.
             if (m_parentSystem != null)
                 m_parentSystem.MakeSpace(this, isRecorded);
-            m_canvas.PathwayControl.NotifyDataChanged(m_ecellObj.key, m_ecellObj.key, this, isRecorded, false);
+            m_canvas.PathwayControl.NotifyDataChanged(m_ecellObj.Key, m_ecellObj.Key, this, isRecorded, false);
             this.Refresh();
         }
 
