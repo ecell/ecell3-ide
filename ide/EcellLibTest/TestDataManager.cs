@@ -3,10 +3,16 @@ namespace EcellLib
     using System;
     using System.Windows.Forms;
     using NUnit.Framework;
+    using System.IO;
+    using System.Diagnostics;
 
     [TestFixture()]
     public class TestDataManager
     {
+        private static readonly string ActionFile = Path.Combine(Util.GetUserDir(), "");
+        private static readonly string ActionFileUnCorrect = Path.Combine(Util.GetUserDir(), "");
+        private static readonly string EmlFile = "";
+
         private DataManager _unitUnderTest;
 
         [TestFixtureSetUp()]
@@ -38,10 +44,37 @@ namespace EcellLib
         [Test()]
         public void TestLoadUserActionFile()
         {
-            string filenName = "";
-            _unitUnderTest.LoadUserActionFile(filenName);
-            Assert.Fail("Create or modify test(s).");
+            // Test null
+            try
+            {
+                _unitUnderTest.LoadUserActionFile(null);
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Null error.");
+            }
+            // Test empty.
+            try
+            {
+                _unitUnderTest.LoadUserActionFile("");
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Empty error.");
+            }
+            
+            // Test uncorrect file
+            try
+            {
+                _unitUnderTest.LoadUserActionFile(ActionFileUnCorrect);
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("");
+            }
 
+            // Test correct file.
+            _unitUnderTest.LoadUserActionFile(ActionFile);
         }
 
         [Test()]

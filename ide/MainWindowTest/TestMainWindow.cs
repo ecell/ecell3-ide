@@ -32,8 +32,6 @@ namespace EcellLib.MainWindow
         public void TestLoadDefaultWindowSetting()
         {
             _unitUnderTest.LoadDefaultWindowSetting();
-            Assert.Fail("Create or modify test(s).");
-
         }
 
         [Test()]
@@ -42,7 +40,6 @@ namespace EcellLib.MainWindow
             string modelID = null;
             _unitUnderTest.LoadModelThread(modelID);
             Assert.Fail("Create or modify test(s).");
-
         }
 
         [Test()]
