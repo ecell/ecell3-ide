@@ -192,4 +192,16 @@
   <data name="NewStepperText" xml:space="preserve">
     <value>New Stepper</value>
   </data>
+  <data name="ToolTipRun" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="ToolTipStep" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="ToolTipStop" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ToolTipSuspend" xml:space="preserve">
+    <value>Suspend</value>
+  </data>
 </root>

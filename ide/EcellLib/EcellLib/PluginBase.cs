@@ -125,7 +125,13 @@ namespace EcellLib
         /// <param name="projectID">The current project ID.</param>
         /// <param name="parameterID">The deleted parameter ID.</param>
         void ParameterDelete(string projectID, string parameterID);
-     
+
+        /// <summary>
+        /// The event sequence when the user set the simulation parameter.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The set parameter ID.</param>
+        void ParameterSet(string projectID, string parameterID);
 
         /// <summary>
         /// The event sequence on changing value with the simulation.

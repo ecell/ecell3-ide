@@ -710,6 +710,16 @@ namespace EcellLib.PropertyWindow
         }
 
         /// <summary>
+        /// The event sequence when the simulation parameter is set.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The deleted parameter ID.</param>
+        public void ParameterSet(string projectID, string parameterID)
+        {
+            // nothing
+        }
+
+        /// <summary>
         /// The event sequence on changing value with the simulation.
         /// </summary>
         /// <param name="modelID">The model ID of object changed value.</param>

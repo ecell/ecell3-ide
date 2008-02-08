@@ -126,4 +126,7 @@
   <data name="MenuItemSearchText" xml:space="preserve">
     <value>検索(&amp;S)...</value>
   </data>
+  <data name="ToolTipSearch" xml:space="preserve">
+    <value>検索</value>
+  </data>
 </root>

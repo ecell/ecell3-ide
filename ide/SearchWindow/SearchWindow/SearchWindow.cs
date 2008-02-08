@@ -144,6 +144,8 @@ namespace EcellLib.SearchWindow
         /// <returns>null</returns>
         public List<ToolStripItem> GetToolBarMenuStripItems()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResSearch));
+
             List<ToolStripItem> list = new List<ToolStripItem>();
             m_text = new ToolStripTextBox();
             m_text.Name = "SearchText";
@@ -163,7 +165,7 @@ namespace EcellLib.SearchWindow
 
             button1.Size = new System.Drawing.Size(23, 22);
             button1.Text = "";
-            button1.ToolTipText = "Search";
+            button1.ToolTipText = resources.GetString("ToolTipSearch");
             button1.Click += new System.EventHandler(this.Search);
             list.Add(button1);
 
@@ -282,6 +284,16 @@ namespace EcellLib.SearchWindow
         /// <param name="projectID">The current project ID.</param>
         /// <param name="parameterID">The deleted parameter ID.</param>
         public void ParameterDelete(string projectID, string parameterID)
+        {
+            // nothing
+        }
+
+        /// <summary>
+        /// The event sequence when the simulation parameter is set.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The deleted parameter ID.</param>
+        public void ParameterSet(string projectID, string parameterID)
         {
             // nothing
         }

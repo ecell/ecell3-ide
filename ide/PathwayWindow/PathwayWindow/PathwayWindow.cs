@@ -432,6 +432,16 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// The event sequence when the simulation parameter is set.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The deleted parameter ID.</param>
+        public void ParameterSet(string projectID, string parameterID)
+        {
+            // nothing
+        }
+
+        /// <summary>
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true.</returns>

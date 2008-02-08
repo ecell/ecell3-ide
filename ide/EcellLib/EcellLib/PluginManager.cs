@@ -334,6 +334,19 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// The event sequence when the parameter is set.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="paramID">The set model ID.</param>
+        public void ParameterSet(string projectID, string paramID)
+        {
+            foreach (PluginBase p in m_pluginList.Values)
+            {
+                p.ParameterSet(projectID, paramID);
+            }
+        }
+
+        /// <summary>
         /// event sequence on generating warning data at other plugin.
         /// </summary>
         /// <param name="modelID">the model ID generating warning data</param>
@@ -361,6 +374,7 @@ namespace EcellLib
             {
                 this.ParameterAdd(prjID, paramID);
             }
+            this.ParameterSet(manager.CurrentProjectID, manager.GetCurrentSimulationParameterID());
         }
 
         /// <summary>

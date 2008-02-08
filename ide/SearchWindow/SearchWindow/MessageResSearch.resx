@@ -126,4 +126,7 @@
   <data name="MenuItemSearchText" xml:space="preserve">
     <value>&amp;Search</value>
   </data>
+  <data name="ToolTipSearch" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

@@ -192,4 +192,16 @@
   <data name="NewStepperText" xml:space="preserve">
     <value>新規Stepper</value>
   </data>
+  <data name="ToolTipRun" xml:space="preserve">
+    <value>シミュレーション実行</value>
+  </data>
+  <data name="ToolTipStep" xml:space="preserve">
+    <value>ステップ実行</value>
+  </data>
+  <data name="ToolTipStop" xml:space="preserve">
+    <value>シミュレーションリセット</value>
+  </data>
+  <data name="ToolTipSuspend" xml:space="preserve">
+    <value>シミュレーション停止</value>
+  </data>
 </root>

@@ -4229,7 +4229,8 @@ namespace EcellLib
                     l_stepperList.Add(l_dmInfoList[1].CastToString());
                 }
             }
-            l_stepperList.AddRange(this.m_dmDic[Constants.xpathStepper]);
+            if (m_dmDic != null)
+                l_stepperList.AddRange(this.m_dmDic[Constants.xpathStepper]);
             l_stepperList.Sort();
             return l_stepperList;
         }
@@ -5043,8 +5044,10 @@ namespace EcellLib
                     this.m_currentProjectID = l_prjID;
                     this.m_currentProjectPath = Path.GetDirectoryName(l_prjFile);
                     this.m_currentParameterID = l_parameter;
+                    m_pManager.ParameterSet(l_prjID, l_parameter);
                     this.m_simulatorDic[l_prjID] = CreateSimulatorInstance();
                     this.m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
+                    SetDMList();
                     this.m_projectList.Add(new Project(l_prjID, l_comment, DateTime.Now.ToString()));
                     this.m_loggerPolicyDic[l_prjID] = new Dictionary<string, LoggerPolicy>();
                     //this.m_stepperDic[l_prjID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
@@ -6742,6 +6745,7 @@ namespace EcellLib
                         }
                     }
                 }
+                m_pManager.ParameterSet(m_currentProjectID, l_parameterID);
                 this.m_pManager.Message(
                     Constants.messageSimulation,
                     "Set Simulation Parameter: " + l_message + System.Environment.NewLine);
