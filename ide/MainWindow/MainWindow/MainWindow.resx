@@ -121,97 +121,6 @@
     <value>0, 0</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 20</value>
-  </data>
-  <data name="MenuItemFile.Text" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
-  <data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="MenuItemEdit.Text" xml:space="preserve">
-    <value>&amp;Edit</value>
-  </data>
-  <data name="MenuItemSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 20</value>
-  </data>
-  <data name="MenuItemSetup.Text" xml:space="preserve">
-    <value>&amp;Setup</value>
-  </data>
-  <data name="MenuItemLayout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
-  </data>
-  <data name="MenuItemLayout.Text" xml:space="preserve">
-    <value>&amp;Layout</value>
-  </data>
-  <data name="showWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="showWindowToolStripMenuItem.Text" xml:space="preserve">
-    <value>Window</value>
-  </data>
-  <data name="jobStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="jobStatusToolStripMenuItem.Text" xml:space="preserve">
-    <value>Job status ...</value>
-  </data>
-  <data name="MenuItemView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 20</value>
-  </data>
-  <data name="MenuItemView.Text" xml:space="preserve">
-    <value>&amp;View</value>
-  </data>
-  <data name="MenuItemRun.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="MenuItemRun.Text" xml:space="preserve">
-    <value>&amp;Run</value>
-  </data>
-  <data name="MenuItemAnalysis.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 20</value>
-  </data>
-  <data name="MenuItemAnalysis.Text" xml:space="preserve">
-    <value>&amp;Analysis</value>
-  </data>
-  <data name="MenuItemDebug.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 20</value>
-  </data>
-  <data name="MenuItemDebug.Text" xml:space="preserve">
-    <value>&amp;Debug</value>
-  </data>
-  <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 20</value>
-  </data>
-  <data name="MenuItemHelp.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
-  <data name="menustrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="menustrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>994, 24</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="menustrip.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="menustrip.Text" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;menustrip.Name" xml:space="preserve">
-    <value>menustrip</value>
-  </data>
-  <data name="&gt;&gt;menustrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menustrip.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;menustrip.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="newProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>189, 22</value>
   </data>
@@ -314,6 +223,13 @@
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
+  <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 20</value>
+  </data>
+  <data name="MenuItemFile.Text" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="undoToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -322,7 +238,7 @@
     <value>Ctrl+Z</value>
   </data>
   <data name="undoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>139, 22</value>
   </data>
   <data name="undoToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Undo...</value>
@@ -334,10 +250,16 @@
     <value>Ctrl+Y</value>
   </data>
   <data name="redoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>139, 22</value>
   </data>
   <data name="redoToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Redo...</value>
+  </data>
+  <data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="MenuItemEdit.Text" xml:space="preserve">
+    <value>&amp;Edit</value>
   </data>
   <data name="modelEditorToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>203, 22</value>
@@ -360,11 +282,89 @@
   <data name="distributedEnvToolStripMenuItem.Text" xml:space="preserve">
     <value>Distributed Environment ...</value>
   </data>
+  <data name="MenuItemSetup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 20</value>
+  </data>
+  <data name="MenuItemSetup.Text" xml:space="preserve">
+    <value>&amp;Setup</value>
+  </data>
+  <data name="MenuItemLayout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 20</value>
+  </data>
+  <data name="MenuItemLayout.Text" xml:space="preserve">
+    <value>&amp;Layout</value>
+  </data>
+  <data name="showWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 22</value>
+  </data>
+  <data name="showWindowToolStripMenuItem.Text" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="jobStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 22</value>
+  </data>
+  <data name="jobStatusToolStripMenuItem.Text" xml:space="preserve">
+    <value>Job status ...</value>
+  </data>
+  <data name="MenuItemView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="MenuItemView.Text" xml:space="preserve">
+    <value>&amp;View</value>
+  </data>
+  <data name="MenuItemRun.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="MenuItemRun.Text" xml:space="preserve">
+    <value>&amp;Run</value>
+  </data>
+  <data name="MenuItemAnalysis.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 20</value>
+  </data>
+  <data name="MenuItemAnalysis.Text" xml:space="preserve">
+    <value>&amp;Analysis</value>
+  </data>
+  <data name="MenuItemDebug.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 20</value>
+  </data>
+  <data name="MenuItemDebug.Text" xml:space="preserve">
+    <value>&amp;Debug</value>
+  </data>
   <data name="ShowVersionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>114, 22</value>
   </data>
   <data name="ShowVersionMenuItem.Text" xml:space="preserve">
     <value>&amp;Add-on...</value>
+  </data>
+  <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 20</value>
+  </data>
+  <data name="MenuItemHelp.Text" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="menustrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="menustrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>994, 24</value>
+  </data>
+  <data name="menustrip.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="menustrip.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menustrip.Name" xml:space="preserve">
+    <value>menustrip</value>
+  </data>
+  <data name="&gt;&gt;menustrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menustrip.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;menustrip.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <metadata name="toolstrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>0, 24</value>
@@ -620,7 +620,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>E-CELL Integrated Development Environment</value>
+    <value>E-Cell Integrated Development Environment</value>
   </data>
   <data name="&gt;&gt;MenuItemFile.Name" xml:space="preserve">
     <value>MenuItemFile</value>
@@ -814,6 +814,12 @@
   <data name="&gt;&gt;showWindowToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;jobStatusToolStripMenuItem.Name" xml:space="preserve">
+    <value>jobStatusToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;jobStatusToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;MenuItemRun.Name" xml:space="preserve">
     <value>MenuItemRun</value>
   </data>
@@ -861,12 +867,6 @@
   </data>
   <data name="&gt;&gt;openScriptDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;jobStatusToolStripMenuItem.Name" xml:space="preserve">
-    <value>jobStatusToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;jobStatusToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainWindow</value>

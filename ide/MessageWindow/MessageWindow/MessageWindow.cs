@@ -65,8 +65,8 @@ namespace EcellLib.MessageWindow
         {
             TextBox curBox = null;
             if (type == Constants.messageSimulation) curBox = m_form.simText;
-            else if (type == Constants.messageAnalysis) curBox = m_form.anaText;
-            else if (type == Constants.messageDebug) curBox = m_form.debText;
+            else if (type == Constants.messageAnalysis) curBox = m_form.simText;
+            else if (type == Constants.messageDebug) curBox = m_form.simText;
             if (curBox == null) return;
 
             curBox.Text += System.Environment.NewLine + message;
@@ -263,8 +263,6 @@ namespace EcellLib.MessageWindow
         public void Clear()
         {
             m_form.simText.Text = "";
-            m_form.debText.Text = "";
-            m_form.anaText.Text = "";
         }
 
         /// <summary>
@@ -301,8 +299,8 @@ namespace EcellLib.MessageWindow
             {
                 TextBox curBox = null;
                 if (type == Constants.messageSimulation) curBox = m_form.simText;
-                else if (type == Constants.messageAnalysis) curBox = m_form.anaText;
-                else if (type == Constants.messageDebug) curBox = m_form.debText;
+                else if (type == Constants.messageAnalysis) curBox = m_form.simText;
+                else if (type == Constants.messageDebug) curBox = m_form.simText;
                 if (curBox == null) return;
 
                 curBox.Text += message;

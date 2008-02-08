@@ -4037,7 +4037,7 @@ namespace EcellLib
                     StreamReader l_reader = null;
                     try
                     {
-                        l_reader = new StreamReader(l_prjFile);
+                        l_reader = new StreamReader(l_prjFile, Encoding.UTF8);
                         l_list.Add(
                             new Project(
                                 Path.GetFileName(l_dirList[i]),
@@ -6172,7 +6172,7 @@ namespace EcellLib
                 StreamWriter l_writer = null;
                 try
                 {
-                    l_writer = new StreamWriter(l_prjFile);
+                    l_writer = new StreamWriter(l_prjFile, false, Encoding.UTF8);
                     l_writer.WriteLine(
                         Constants.xpathProject + Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace
                         + l_thisPrj.M_prjName);

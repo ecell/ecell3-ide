@@ -449,13 +449,13 @@
     <value>120, 41</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>255, 12</value>
+    <value>234, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>E-Cell Platform is distributed under the terms of </value>
+    <value>E-Cell IDE is distributed under the terms of </value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -500,7 +500,7 @@
     <value>Left</value>
   </data>
   <data name="CloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 140</value>
+    <value>10, 149</value>
   </data>
   <data name="CloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 23</value>
@@ -560,13 +560,13 @@
     <value>3, 0</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 12</value>
+    <value>60, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>E-Cell Platform</value>
+    <value>E-Cell IDE</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -584,7 +584,7 @@
     <value>True</value>
   </data>
   <data name="versionLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 0</value>
+    <value>80, 0</value>
   </data>
   <data name="versionLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 12</value>
@@ -617,7 +617,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 19</value>
+    <value>282, 19</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -635,7 +635,7 @@
     <value>7</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="versionLabel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,36.43411,Percent,63.56589" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="versionLabel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,27.51938,Percent,72.48062" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -647,7 +647,7 @@
     <value>9</value>
   </data>
   <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>388, 182</value>
+    <value>412, 192</value>
   </data>
   <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -665,10 +665,10 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pictureBox1" Row="1" RowSpan="6" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="ecellLink" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="gnuLink" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="copyLabel" Row="7" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="CloseButton" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="manualLink" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel1" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,7,Absolute,110,Percent,100,Absolute,7" /&gt;&lt;Rows Styles="Absolute,7,Absolute,25,Absolute,7,Absolute,17,Absolute,27,Absolute,28,Absolute,21,Absolute,40,Absolute,7" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pictureBox1" Row="1" RowSpan="6" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="ecellLink" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="gnuLink" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="copyLabel" Row="7" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;Control Name="CloseButton" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="manualLink" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel1" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,7,Absolute,110,Percent,100,Absolute,7" /&gt;&lt;Rows Styles="Absolute,7,Absolute,25,Absolute,7,Absolute,17,Absolute,27,Absolute,28,Absolute,21,Absolute,58,Absolute,8" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="copyLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>142, 146</value>
+    <value>154, 155</value>
   </data>
   <data name="copyLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 12</value>
@@ -698,7 +698,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>388, 182</value>
+    <value>412, 192</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

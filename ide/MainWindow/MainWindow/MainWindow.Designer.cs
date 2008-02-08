@@ -64,6 +64,7 @@ namespace EcellLib.MainWindow
             this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jobStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemAnalysis = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,7 +75,6 @@ namespace EcellLib.MainWindow
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.jobStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menustrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -314,6 +314,12 @@ namespace EcellLib.MainWindow
             this.showWindowToolStripMenuItem.Name = "showWindowToolStripMenuItem";
             resources.ApplyResources(this.showWindowToolStripMenuItem, "showWindowToolStripMenuItem");
             // 
+            // jobStatusToolStripMenuItem
+            // 
+            this.jobStatusToolStripMenuItem.Name = "jobStatusToolStripMenuItem";
+            resources.ApplyResources(this.jobStatusToolStripMenuItem, "jobStatusToolStripMenuItem");
+            this.jobStatusToolStripMenuItem.Click += new System.EventHandler(this.ClickJobStatusMenu);
+            // 
             // MenuItemRun
             // 
             this.MenuItemRun.Name = "MenuItemRun";
@@ -363,12 +369,6 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.dockPanel, "dockPanel");
             this.dockPanel.DocumentStyle = WeifenLuo.WinFormsUI.Docking.DocumentStyle.DockingWindow;
             this.dockPanel.Name = "dockPanel";
-            // 
-            // jobStatusToolStripMenuItem
-            // 
-            this.jobStatusToolStripMenuItem.Name = "jobStatusToolStripMenuItem";
-            resources.ApplyResources(this.jobStatusToolStripMenuItem, "jobStatusToolStripMenuItem");
-            this.jobStatusToolStripMenuItem.Click += new System.EventHandler(this.ClickJobStatusMenu);
             // 
             // MainWindow
             // 
