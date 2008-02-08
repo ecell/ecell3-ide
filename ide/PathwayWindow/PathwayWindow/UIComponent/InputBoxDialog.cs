@@ -41,7 +41,7 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// <summary>
     /// InputBoxDialog for PathwayWindow.
     /// </summary>
-    public partial class InputBoxDialog : Form
+    public partial class InputBoxDialog : PathwayDialog
     {
         #region Constructor
         /// <summary>

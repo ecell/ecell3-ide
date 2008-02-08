@@ -54,5 +54,19 @@ namespace EcellLib
             set { m_isSavable = value; }
         }
         #endregion
+
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EcellDockContent));
+            this.SuspendLayout();
+            // 
+            // EcellDockContent
+            // 
+            this.ClientSize = new System.Drawing.Size(292, 273);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "EcellDockContent";
+            this.ResumeLayout(false);
+
+        }
     }
 }

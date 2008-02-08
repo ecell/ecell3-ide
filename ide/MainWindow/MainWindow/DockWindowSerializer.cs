@@ -807,6 +807,8 @@ namespace EcellLib.MainWindow {
         private static DockContent SetDockContent(MainWindow window, ContentStruct content)
         {
             DockContent dock = window.GetDockContent(content.Name);
+            if (dock == null)
+                return null;
             dock.IsHidden = content.IsHidden;
             dock.IsFloat = content.IsFloat;
             dock.AutoHidePortion = content.AutoHidePortion;

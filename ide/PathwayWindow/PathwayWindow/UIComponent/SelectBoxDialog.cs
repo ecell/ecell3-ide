@@ -38,7 +38,7 @@ using System.Windows.Forms;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
-    public partial class SelectBoxDialog : Form
+    public partial class SelectBoxDialog : PathwayDialog
     {
         #region Constructor
         /// <summary>

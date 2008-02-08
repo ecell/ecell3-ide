@@ -147,6 +147,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>AddPropertyDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EcellDockContent.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EcellDockContent.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormulatorWindow.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FormulatorWindow.cs</DependentUpon>

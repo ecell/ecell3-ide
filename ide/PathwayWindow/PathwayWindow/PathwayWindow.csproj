@@ -138,6 +138,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PathUtil.cs" />
+    <Compile Include="UIComponent\PathwayDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIComponent\PathwayDialog.Designer.cs">
+      <DependentUpon>PathwayDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIComponent\POverviewCanvas.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -229,6 +235,10 @@
     <EmbeddedResource Include="UIComponent\OverView.resx">
       <SubType>Designer</SubType>
       <DependentUpon>OverView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIComponent\PathwayDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PathwayDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIComponent\PathwayView.resx">
       <DependentUpon>PathwayView.cs</DependentUpon>

@@ -38,7 +38,7 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// <summary>
     /// Form for progress bar
     /// </summary>
-    public partial class ProgressDialog : Form
+    public partial class ProgressDialog : PathwayDialog
     {
         /// <summary>
         /// Accessor for ProgressBar.

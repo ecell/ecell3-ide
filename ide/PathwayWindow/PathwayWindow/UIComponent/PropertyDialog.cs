@@ -41,7 +41,7 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// <summary>
     /// Tabbed PropertyDialog for PathwayWindow.
     /// </summary>
-    public partial class PropertyDialog : Form
+    public partial class PropertyDialog : PathwayDialog
     {
         /// <summary>
         /// Constructor

@@ -557,7 +557,10 @@ namespace EcellLib.MainWindow
         /// </summary>
         public DockContent GetDockContent(string name)
         {
-            return m_dockWindowDic[name];
+            if( m_dockWindowDic.ContainsKey(name))
+                return m_dockWindowDic[name];
+            else
+                return null;
         }
 
 
