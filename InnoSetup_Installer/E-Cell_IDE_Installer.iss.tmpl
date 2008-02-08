@@ -359,6 +359,9 @@ Name: "{group}\samples\Toy_Hybrid"; Filename: "{app}\bin\MainWindow.exe"; Parame
 [Run]
 Filename: "{app}\bin\test.bat"; Flags: runhidden; WorkingDir: "{app}\bin";
 
+[UnInstallDelete]
+Type: filesandordirs; Name: "{userappdata}\E-Cell IDE";
+
 [Code]
 function IsModuleLoaded(modulename: String ):  Boolean;
 external 'IsModuleLoaded@files:psvince.dll stdcall setuponly';
