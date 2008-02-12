@@ -100,85 +100,38 @@ namespace EcellLib.PathwayWindow.Figure
         {
             // Transform the coordinate system as the center of this ellipse is the original point
             // and this ellipse's radius is 1.
-            PointF centerPoint = new PointF(m_x + m_width / 2f, m_y + m_height / 2f);
-            float xFactor = m_width / 2f;
-            float yFactor = m_height / 2f;
+            float dx = innerPoint.X - outerPoint.X;
+            float dy = innerPoint.Y - outerPoint.Y;
+            float a = m_width / 2;
+            float b = m_height / 2;
+            float x = 0;
+            float y = 0;
 
-            if (xFactor == 0 || yFactor == 0)
-                return PointF.Empty;
-
-            PointF transOuterPoint = new PointF((outerPoint.X - centerPoint.X) / xFactor,
-                                                (outerPoint.Y - centerPoint.Y) / yFactor);
-            PointF transInnerPoint = new PointF((innerPoint.X - centerPoint.X) / xFactor,
-                                                (innerPoint.Y - centerPoint.Y) / yFactor);
-
-            // Add all candidates for a contact point excepts those in the same quadrant as innerPoint
-            List<PointF> candidates = new List<PointF>();
-            
-            candidates.Add(new PointF(1, 0) );
-            candidates.Add(new PointF(0.92f, -0.38f));
-            candidates.Add(new PointF(0.70f, -0.70f));
-            candidates.Add(new PointF(0.38f, -0.92f));
-            candidates.Add(new PointF(0, -1));
-            candidates.Add(new PointF(-0.38f, -0.92f));
-            candidates.Add(new PointF(-0.70f, -0.70f));
-            candidates.Add(new PointF(-0.92f, -0.38f));
-            candidates.Add(new PointF(-1, 0));
-            candidates.Add(new PointF(-0.92f, 0.38f));
-            candidates.Add(new PointF(-0.70f, 0.70f));
-            candidates.Add(new PointF(-0.38f, 0.92f));
-            candidates.Add(new PointF(0, 1));
-            candidates.Add(new PointF(0.38f, 0.92f));
-            candidates.Add(new PointF(0.70f, 0.70f));
-            candidates.Add(new PointF(0.92f, 0.38f));
-
-            // Calculate distances between a candidate point and transOuterPoint.
-            // Then pick up a point which has minimum distance and a point which has
-            // second minimum distance.
-            float minDistance = 0;
-            PointF minPoint = PointF.Empty;
-            float secondMinDistance = 0;
-            PointF secondMinPoint = PointF.Empty;
-                        
-            foreach(PointF candP in candidates)
+            if (dx == 0)
             {
-                float distance = PathUtil.GetDistance(transOuterPoint, candP);
-
-                if(minPoint == PointF.Empty || distance < minDistance)
-                {
-                    secondMinDistance = minDistance;
-                    secondMinPoint = minPoint;
-                    minDistance = distance;
-                    minPoint = candP;
-                }
-                else if(secondMinPoint == PointF.Empty || distance < secondMinDistance)
-                {
-                    secondMinDistance = distance;
-                    secondMinPoint = candP;
-                }
+                x = innerPoint.X;
+                float y1 = innerPoint.Y - b;
+                float y2 = innerPoint.Y + b;
+                y = (Math.Abs(y1 - outerPoint.Y) <= Math.Abs(y2 - outerPoint.Y)) ? y1 : y2;
             }
-
-            // Calculate the sum of the following two distances about above selected two points
-            //  the distance between the point and transOuterPoint
-            //  the distance between the point and transInnerPoint
-            // Then the point which has smaller sum will be contact point
-            float minPointSum = PathUtil.GetDistance(transOuterPoint, minPoint)
-                                + PathUtil.GetDistance(transInnerPoint, minPoint);
-            float secondPointSum = PathUtil.GetDistance(transOuterPoint, secondMinPoint)
-                                + PathUtil.GetDistance(transInnerPoint, secondMinPoint);
-
-            PointF contactPoint;
-
-            if (minPointSum <= secondPointSum)
-                contactPoint = minPoint;
+            else if (dy == 0)
+            {
+                y = innerPoint.Y;
+                float x1 = innerPoint.X - a;
+                float x2 = innerPoint.X + a;
+                x = (Math.Abs(x1 - outerPoint.X) <= Math.Abs(x2 - outerPoint.X)) ? x1 : x2;
+            }
             else
-                contactPoint = secondMinPoint;
+            {
+                float delta = dy / dx;
+                float xx = b * b / ((delta * delta) + (b * b) / (a * a));
+                float x1 = innerPoint.X - (float)Math.Sqrt(xx);
+                float x2 = innerPoint.X + (float)Math.Sqrt(xx);
+                x = (Math.Abs(x1 - outerPoint.X) <= Math.Abs(x2 - outerPoint.X)) ? x1 : x2;
+                y = delta * x + innerPoint.Y;
+            }
+            return new PointF(x, y);
 
-            // Transform the coordinate system to the default state.
-            contactPoint.X = contactPoint.X * xFactor + centerPoint.X;
-            contactPoint.Y = contactPoint.Y * yFactor + centerPoint.Y;
-            
-            return contactPoint;
         }
         #endregion
 

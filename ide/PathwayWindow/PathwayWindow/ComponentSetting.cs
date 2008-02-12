@@ -191,7 +191,9 @@ namespace EcellLib.PathwayWindow
             get { return this.m_figure; }
             set { this.m_figure = value; }
         }
-
+        /// <summary>
+        /// Getter for IconImage.
+        /// </summary>
         public Image IconImage
         {
             get { return CreateIconImage(); }
