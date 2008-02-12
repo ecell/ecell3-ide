@@ -1135,12 +1135,12 @@ namespace EcellLib.MainWindow
                     m_openPrjDialog = null;
                     return;
                 }
-                if (!!m_openPrjDialog.PrjID.Equals(prjID)
+                if (!m_openPrjDialog.PrjID.Equals(prjID)
                     ||!m_openPrjDialog.Comment.Equals(comment))
                 {
-                    File.WriteAllText(fileName, "Project = " + prjID + "\n", Encoding.Default);
-                    File.AppendAllText(fileName, "Comment = " + comment + "\n", Encoding.Default);
-                    File.AppendAllText(fileName, m_openPrjDialog.SimulationParam, Encoding.Default);
+                    File.WriteAllText(fileName, "Project = " + prjID + "\n", Encoding.UTF8);
+                    File.AppendAllText(fileName, "Comment = " + comment + "\n", Encoding.UTF8);
+                    File.AppendAllText(fileName, m_openPrjDialog.SimulationParam, Encoding.UTF8);
                 }
                 m_dManager.LoadProject(prjID, fileName);
                 m_isLoadProject = true;

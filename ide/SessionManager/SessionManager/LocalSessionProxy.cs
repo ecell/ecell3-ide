@@ -185,7 +185,7 @@ namespace EcellLib.SessionManager
             {
                 if (!extFileName.Contains(fileName)) continue;
                 System.IO.StreamReader hReader =
-                    new System.IO.StreamReader(extFileName, System.Text.Encoding.Default);
+                    new System.IO.StreamReader(extFileName, System.Text.Encoding.UTF8);
                 while (!hReader.EndOfStream)
                 {
                     string line = hReader.ReadLine();

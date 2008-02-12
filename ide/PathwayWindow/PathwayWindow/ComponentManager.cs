@@ -333,7 +333,7 @@ namespace EcellLib.PathwayWindow
                 // Create xml file
                 CheckFilePath();
                 fs = new FileStream(filepath, FileMode.Create);
-                xmlOut = new XmlTextWriter(fs, Encoding.Unicode);
+                xmlOut = new XmlTextWriter(fs, Encoding.UTF8);
 
                 // Use indenting for readability
                 xmlOut.Formatting = Formatting.Indented;

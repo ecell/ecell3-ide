@@ -73,7 +73,7 @@ namespace EcellLib.PathwayWindow {
             {
                 // Create xml file
                 fs = new FileStream(filename, FileMode.Create);
-                xmlOut = new XmlTextWriter(fs, Encoding.Unicode);
+                xmlOut = new XmlTextWriter(fs, Encoding.UTF8);
 
                 // Use indenting for readability
                 xmlOut.Formatting = Formatting.Indented;

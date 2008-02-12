@@ -246,7 +246,7 @@ namespace EcellLib.MainWindow
 
             string dirPathName = Path.GetDirectoryName(fileName);
             string prjName = Path.GetFileName(dirPathName);
-            StreamReader l_reader = new StreamReader(fileName);
+            TextReader l_reader = new StreamReader(fileName);
             while ((line = l_reader.ReadLine()) != null)
             {
                 if (line.IndexOf(Constants.textComment) == 0)
