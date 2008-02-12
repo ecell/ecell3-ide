@@ -256,12 +256,19 @@ namespace EcellLib.MainWindow
                 SelectWinSettingWindow win = new SelectWinSettingWindow();
                 try
                 {
-                    string filePath = win.ShowWindow();
-                    loadWindowSetting(filePath);
+                    string filePath = win.ShowWindow(true);
+                    if (filePath != null)
+                    {
+                        loadWindowSetting(filePath);
+                        return;
+                    }
                 }
                 catch (IgnoreException ex)
                 {
                     ex.ToString();
+                }
+                finally
+                {
                     loadWindowSetting(defaultWindowSettingPath);
                 }
             }
@@ -1789,8 +1796,21 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void SetupIDEMenuClick(object sender, EventArgs e)
         {
-            SetupIDEWindow win = new SetupIDEWindow();
-            win.ShowDialog();
+            SelectWinSettingWindow win = new SelectWinSettingWindow();
+            try
+            {
+                string path = win.ShowWindow(false);
+                if (path != null)
+                {
+                    loadWindowSetting(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                MessageBox.Show(s_resources.GetString("ErrLoadWindowSettings"),
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>

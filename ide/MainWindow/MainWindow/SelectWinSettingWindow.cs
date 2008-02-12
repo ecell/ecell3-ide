@@ -64,7 +64,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Load the list of window setting.
         /// </summary>
-        private void LoadSetting()
+        private void LoadSetting(bool isInitial)
         {
             int i = 1;
             string path = Util.GetWindowSettingDir();
@@ -88,28 +88,72 @@ namespace EcellLib.MainWindow
                 m_dicPath.Add(i, s);
                 i++;
             }
+            if (!isInitial)
+            {
+                WindowSetting sc = new WindowSetting(
+                    "Current",
+                    null, null, "not change.");
+                m_dicPath.Add(i, sc);
+            }
         }
 
         /// <summary>
         /// Layout the information of window setting.
         /// </summary>
-        private void LayoutSetting()
+        private void LayoutSetting(bool isInitial)
         {
+            int curId = 1;
+            if (!isInitial)
+            {
+                curId = m_dicPath.Count;
+            }
             foreach (int id in m_dicPath.Keys)
             {
                 RadioButton b = new RadioButton();
                 b.Tag = Convert.ToInt32(id);
                 b.Text = m_dicPath[id].Name;
-                if (id == 1)
+                if (id == curId)
                 {
                     b.Checked = true;
                     SWSNoteTextBox.Text = m_dicPath[id].Note;
-                    SWSPictureBox.Image = Image.FromFile(m_dicPath[id].Image);
+                    if (m_dicPath[id].Image != null)
+                    {
+                        SWSPictureBox.Image = Image.FromFile(m_dicPath[id].Image);
+                    }
+                    else
+                    {
+                        SWSPictureBox.Image = null;
+                    }
                 }
                 b.CheckedChanged += new EventHandler(ChangePatternRadioBox);
                 SWSPatternListLayoutPanel.Controls.Add(b, 0, id - 1);
                 m_patternList.Add(b);
+            }            
+        }
 
+        string m_lang;
+        private void LoadLanguage()
+        {
+            m_lang = Util.GetLang();
+            if (m_lang == null || m_lang.ToUpper() == "AUTO")
+            {
+                SIAutoRadioButton.Checked = true;
+                m_lang = "AUTO";
+            }
+            else if (m_lang.ToUpper() == "EN_US")
+            {
+                SIEnglishRadioButton.Checked = true;
+                m_lang = "EN_US";
+            }
+            else if (m_lang.ToUpper() == "JA")
+            {
+                SIJapaneseRadioButton.Checked = true;
+                m_lang = "JA";
+            }
+            else
+            {
+                SIAutoRadioButton.Checked = true;
+                m_lang = "AUTO";
             }
         }
 
@@ -117,11 +161,29 @@ namespace EcellLib.MainWindow
         /// Display this form.
         /// </summary>
         /// <returns>path of the selected window setting.</returns>
-        public string ShowWindow()
+        public string ShowWindow(bool isInitial)
         {
-            LoadSetting();
-            LayoutSetting();
+            LoadLanguage();
+            LoadSetting(isInitial);
+            LayoutSetting(isInitial);
             this.ShowDialog();
+
+            String tmpLang = "";
+            if (SIAutoRadioButton.Checked) tmpLang = "AUTO";
+            else if (SIEnglishRadioButton.Checked) tmpLang = "EN_US";
+            else tmpLang = "JA";
+
+            if (tmpLang != m_lang)
+            {
+                Util.SetLanguage(tmpLang);
+                if (tmpLang == "AUTO")
+                    MessageBox.Show(MainWindow.s_resources.GetString("ConfirmRestart"), "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else if (tmpLang == "EN_US")
+                    MessageBox.Show("The change will take effect after you restart this application.", "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Ç±ÇÃê›íËÇÕéüâÒãNìÆéûÇ©ÇÁóLå¯Ç…Ç»ÇËÇ‹Ç∑ÅB", "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
             return m_selectPath;
         }
 
@@ -155,7 +217,10 @@ namespace EcellLib.MainWindow
             Int32 id = (Int32)r.Tag;
 
             SWSNoteTextBox.Text = m_dicPath[id].Note;
-            SWSPictureBox.Image = Image.FromFile(m_dicPath[id].Image);            
+            if (m_dicPath[id].Image != null)
+                SWSPictureBox.Image = Image.FromFile(m_dicPath[id].Image);
+            else
+                SWSPictureBox.Image = null;
         }
     }
 

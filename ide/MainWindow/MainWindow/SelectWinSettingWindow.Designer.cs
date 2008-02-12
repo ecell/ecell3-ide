@@ -36,18 +36,24 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.SWSNoteTextBox = new System.Windows.Forms.TextBox();
             this.SWSSelectButton = new System.Windows.Forms.Button();
+            this.SILangGroupBox = new System.Windows.Forms.GroupBox();
+            this.SIEnglishRadioButton = new System.Windows.Forms.RadioButton();
+            this.SIJapaneseRadioButton = new System.Windows.Forms.RadioButton();
+            this.SIAutoRadioButton = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).BeginInit();
             this.SWSPatternListLayoutPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.SILangGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.SWSSelectButton, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.SWSSelectButton, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.SILangGroupBox, 0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // tableLayoutPanel2
@@ -66,7 +72,7 @@
             // SWSPatternListLayoutPanel
             // 
             resources.ApplyResources(this.SWSPatternListLayoutPanel, "SWSPatternListLayoutPanel");
-            this.SWSPatternListLayoutPanel.Controls.Add(this.groupBox1, 0, 6);
+            this.SWSPatternListLayoutPanel.Controls.Add(this.groupBox1, 0, 8);
             this.SWSPatternListLayoutPanel.Name = "SWSPatternListLayoutPanel";
             // 
             // groupBox1
@@ -91,6 +97,36 @@
             this.SWSSelectButton.UseVisualStyleBackColor = true;
             this.SWSSelectButton.Click += new System.EventHandler(this.ClickSWSSelectButton);
             // 
+            // SILangGroupBox
+            // 
+            this.SILangGroupBox.Controls.Add(this.SIEnglishRadioButton);
+            this.SILangGroupBox.Controls.Add(this.SIJapaneseRadioButton);
+            this.SILangGroupBox.Controls.Add(this.SIAutoRadioButton);
+            resources.ApplyResources(this.SILangGroupBox, "SILangGroupBox");
+            this.SILangGroupBox.Name = "SILangGroupBox";
+            this.SILangGroupBox.TabStop = false;
+            // 
+            // SIEnglishRadioButton
+            // 
+            resources.ApplyResources(this.SIEnglishRadioButton, "SIEnglishRadioButton");
+            this.SIEnglishRadioButton.Name = "SIEnglishRadioButton";
+            this.SIEnglishRadioButton.TabStop = true;
+            this.SIEnglishRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // SIJapaneseRadioButton
+            // 
+            resources.ApplyResources(this.SIJapaneseRadioButton, "SIJapaneseRadioButton");
+            this.SIJapaneseRadioButton.Name = "SIJapaneseRadioButton";
+            this.SIJapaneseRadioButton.TabStop = true;
+            this.SIJapaneseRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // SIAutoRadioButton
+            // 
+            resources.ApplyResources(this.SIAutoRadioButton, "SIAutoRadioButton");
+            this.SIAutoRadioButton.Name = "SIAutoRadioButton";
+            this.SIAutoRadioButton.TabStop = true;
+            this.SIAutoRadioButton.UseVisualStyleBackColor = true;
+            // 
             // SelectWinSettingWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -108,6 +144,8 @@
             this.SWSPatternListLayoutPanel.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.SILangGroupBox.ResumeLayout(false);
+            this.SILangGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -121,5 +159,9 @@
         private System.Windows.Forms.TableLayoutPanel SWSPatternListLayoutPanel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox SWSNoteTextBox;
+        private System.Windows.Forms.GroupBox SILangGroupBox;
+        private System.Windows.Forms.RadioButton SIAutoRadioButton;
+        private System.Windows.Forms.RadioButton SIEnglishRadioButton;
+        private System.Windows.Forms.RadioButton SIJapaneseRadioButton;
     }
 }
