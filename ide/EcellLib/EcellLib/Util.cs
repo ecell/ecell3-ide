@@ -244,10 +244,12 @@ namespace EcellLib
         {
             for (int i = 0; i < l_key.Length; i++)
             {
-                if (l_key[i] == '\\' || l_key[i] == '/' 
-                    || l_key[i] == '%' || l_key[i] == '$'
-                    || l_key[i] == '~' || l_key[i] == '*'
-                    || l_key[i] == '?')
+                if (l_key[i] == '\\' || l_key[i] == '/'
+                    || l_key[i] == ':' || l_key[i] == ';'
+                    || l_key[i] == '*' || l_key[i] == '?'
+                    || l_key[i] == '|' || l_key[i] == '\"'
+                    || l_key[i] == '<' || l_key[i] == '>'
+                    || l_key[i] == '~')
                 return true;
             }
             return false;
