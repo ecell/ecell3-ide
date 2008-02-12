@@ -298,28 +298,7 @@ namespace EcellLib.PathwayWindow.Nodes
             if (figure == null)
                 return base.CenterPointF;
 
-            PointF originalPoint = new PointF(0f,0f);
-            PointF centerPoint = base.CenterPointF;
-            
-            refPoint.X -= centerPoint.X;
-            refPoint.Y -= centerPoint.Y;
-
-            float minDistance = 0;
-            PointF minContactPoint = PointF.Empty;
-
-            PointF candPoint = figure.GetContactPoint(refPoint, originalPoint);
-            float distance = PathUtil.GetDistance(refPoint, candPoint)
-                            + PathUtil.GetDistance(originalPoint, candPoint);
-            if(minContactPoint == PointF.Empty || distance < minDistance)
-            {
-                minContactPoint = candPoint;
-                minDistance = distance;
-            }
-
-            minContactPoint.X += centerPoint.X;
-            minContactPoint.Y += centerPoint.Y;
-
-            return minContactPoint;
+            return figure.GetContactPoint(refPoint, CenterPointF);
         }
 
         /// <summary>

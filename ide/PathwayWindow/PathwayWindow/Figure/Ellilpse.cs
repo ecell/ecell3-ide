@@ -128,7 +128,7 @@ namespace EcellLib.PathwayWindow.Figure
                 float x1 = innerPoint.X - (float)Math.Sqrt(xx);
                 float x2 = innerPoint.X + (float)Math.Sqrt(xx);
                 x = (Math.Abs(x1 - outerPoint.X) <= Math.Abs(x2 - outerPoint.X)) ? x1 : x2;
-                y = delta * x + innerPoint.Y;
+                y = delta * (x - innerPoint.X) + innerPoint.Y;
             }
             return new PointF(x, y);
 
