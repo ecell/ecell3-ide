@@ -288,4 +288,34 @@
   <data name="ErrSystemOverlap" xml:space="preserve">
     <value>システムを作成するスペースがありません。</value>
   </data>
+  <data name="ToolButtonAddConstant" xml:space="preserve">
+    <value>定数の参照を加えます。</value>
+  </data>
+  <data name="ToolButtonAddMutualReaction" xml:space="preserve">
+    <value>可逆反応を作成します。</value>
+  </data>
+  <data name="ToolButtonAddOnewayReaction" xml:space="preserve">
+    <value>不可逆反応を作成します。</value>
+  </data>
+  <data name="ToolButtonCreateProcess" xml:space="preserve">
+    <value>プロセスを作成します。</value>
+  </data>
+  <data name="ToolButtonCreateSystem" xml:space="preserve">
+    <value>システムを作成します。</value>
+  </data>
+  <data name="ToolButtonCreateVariable" xml:space="preserve">
+    <value>バリアブルを作成します。</value>
+  </data>
+  <data name="ToolButtonMoveCanvas" xml:space="preserve">
+    <value>キャンバスを動かします。</value>
+  </data>
+  <data name="ToolButtonSelectMode" xml:space="preserve">
+    <value>オブジェクトを選択します。</value>
+  </data>
+  <data name="ToolButtonZoomIn" xml:space="preserve">
+    <value>ズームイン</value>
+  </data>
+  <data name="ToolButtonZoomOut" xml:space="preserve">
+    <value>ズームアウト</value>
+  </data>
 </root>

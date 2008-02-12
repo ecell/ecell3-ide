@@ -78,6 +78,86 @@ namespace EcellLib.PathwayWindow
         /// Class name of PPathwayVariable.
         /// </summary>
         public const string ClassPPathwayVariable = "PPathwayVariable";
+
+        #region XMLPath
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathFileHeader1 = "PathwayWindow configuration file.";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathFileHeader2 = "Automatically generated file. DO NOT modify!";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathComponentList = "ComponentList";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathFileVersion = "FileVersion";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathVersion = "1.0";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathComponent = "Component";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathType = "Type";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathIsDafault = "IsDefault";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathName = "Name";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathClass = "Class";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathFigure = "Figure";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathMode = "Mode";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathEdit = "Edit";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathView = "View";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathSize = "Size";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathLineBrush = "LineBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathFillBrush = "FillBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathNormal = "Normal";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathGradation = "Gradation";
+
+        #endregion
         #endregion
 
         #region Fields
@@ -223,18 +303,18 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void LoadComponentSettings(string filename)
         {
+            List<ComponentSetting> list = null;
             try
             {
                 // Load ComponentSettings information from xml file.
-                List<ComponentSetting> list = LoadFromXML(filename);
+                list = LoadFromXML(filename);
                 // Check and register ComponentSettings.
                 CheckAndRegisterComponent(list);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
-                MessageBox.Show(m_resources.GetString("ErrNotComXml"), "WARNING", MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+                //MessageBox.Show(m_resources.GetString("ErrNotComXml"), "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 CreateDefaultSettings();
                 return;
             }
@@ -260,30 +340,36 @@ namespace EcellLib.PathwayWindow
                 xmlOut.WriteStartDocument();
 
                 // Always begin file with identification and warning
-                xmlOut.WriteComment("PathwayWindow configuration file.");
-                xmlOut.WriteComment("Automatically generated file. DO NOT modify!");
+                xmlOut.WriteComment(xPathFileHeader1);
+                xmlOut.WriteComment(xPathFileHeader2);
 
                 // Application settings
-                xmlOut.WriteStartElement("ComponentList");
-                xmlOut.WriteAttributeString("Name", Application.ProductName);
-                xmlOut.WriteAttributeString("Version", Application.ProductVersion);
+                xmlOut.WriteStartElement(xPathComponentList);
+                xmlOut.WriteAttributeString(xPathName, Application.ProductName);
+                xmlOut.WriteAttributeString(xPathFileVersion, xPathVersion);
 
                 // Object settings
                 foreach (ComponentSetting setting in ComponentSettings)
                 {
-                    xmlOut.WriteStartElement("Component");
-                    xmlOut.WriteAttributeString("Type", ParseComponentTypeToString(setting.ComponentType));
-                    xmlOut.WriteAttributeString("isDefault", setting.IsDefault.ToString());
-                    xmlOut.WriteElementString("Name", setting.Name);
-                    xmlOut.WriteElementString("Class", setting.Class);
-                    xmlOut.WriteElementString("LineColor", BrushManager.ParseBrushToString(setting.LineBrush));
-                    xmlOut.WriteElementString("FillColor", BrushManager.ParseBrushToString(setting.FillBrush));
-                    xmlOut.WriteStartElement("Drawings");
-                    xmlOut.WriteStartElement("Draw");
-                    xmlOut.WriteAttributeString("Type", setting.Figure.Type);
-                    xmlOut.WriteValue(setting.Figure.Coordinates);
+                    xmlOut.WriteStartElement(xPathComponent);
+                    xmlOut.WriteAttributeString(xPathType, ParseComponentTypeToString(setting.ComponentType));
+                    xmlOut.WriteAttributeString(xPathIsDafault, setting.IsDefault.ToString());
+                    xmlOut.WriteElementString(xPathName, setting.Name);
+                    xmlOut.WriteElementString(xPathClass, setting.Class);
+                    xmlOut.WriteStartElement(xPathFigure);
+                    xmlOut.WriteAttributeString(xPathMode, xPathEdit);
+                    xmlOut.WriteAttributeString(xPathType, setting.Figure.Type);
+                    xmlOut.WriteElementString(xPathSize, setting.Figure.Coordinates);
+                    xmlOut.WriteElementString(xPathLineBrush, BrushManager.ParseBrushToString(setting.LineBrush));
+                    xmlOut.WriteElementString(xPathFillBrush, BrushManager.ParseBrushToString(setting.FillBrush));
                     xmlOut.WriteEndElement();
-                    xmlOut.WriteEndElement();
+                    //xmlOut.WriteStartElement(xPathFigure);
+                    //xmlOut.WriteAttributeString(xPathMode, xPathView);
+                    //xmlOut.WriteAttributeString(xPathType, setting.Figure.Type);
+                    //xmlOut.WriteElementString(xPathSize, setting.Figure.Coordinates);
+                    //xmlOut.WriteElementString(xPathLineBrush, BrushManager.ParseBrushToString(setting.LineBrush));
+                    //xmlOut.WriteElementString(xPathFillBrush, BrushManager.ParseBrushToString(setting.FillBrush));
+                    //xmlOut.WriteEndElement();
                     xmlOut.WriteEndElement();
                 }
                 xmlOut.WriteEndElement();
@@ -543,11 +629,10 @@ namespace EcellLib.PathwayWindow
             List<ComponentSetting> list = new List<ComponentSetting>();
             foreach (XmlNode node in xmlD.ChildNodes)
             {
-                if (node.Name.Equals("ComponentList"))
+                if (node.Name.Equals(xPathComponentList))
                     componentList = node;
             }
-            if (componentList == null)
-                return list;
+            CheckFileVersion(componentList);
 
             // Create component.
             foreach (XmlNode componentNode in componentList.ChildNodes)
@@ -555,8 +640,8 @@ namespace EcellLib.PathwayWindow
                 ComponentSetting cs = new ComponentSetting();
                 try
                 {
-                    string type = componentNode.Attributes["Type"].Value;
-                    string isDefault = componentNode.Attributes["isDefault"].Value;
+                    string type = componentNode.Attributes[xPathType].Value;
+                    string isDefault = componentNode.Attributes[xPathIsDafault].Value;
                     cs.ComponentType = ParseStringToComponentType(type);
                     cs.IsDefault = bool.Parse(isDefault);
                 }
@@ -568,42 +653,56 @@ namespace EcellLib.PathwayWindow
 
                 foreach (XmlNode parameterNode in componentNode.ChildNodes)
                 {
-                    if (parameterNode.Name.Equals("Name"))
+                    if (parameterNode.Name.Equals(xPathName))
                     {
                         cs.Name = parameterNode.InnerText;
                     }
-                    else if (parameterNode.Name.Equals("FillColor"))
-                    {
-                        Brush brush = BrushManager.ParseStringToBrush(parameterNode.InnerText);
-                        if (brush != null)
-                        {
-                            cs.FillBrush = brush;
-                        }
-                    }
-                    else if (parameterNode.Name.Equals("LineColor"))
-                    {
-                        Brush brush = BrushManager.ParseStringToBrush(parameterNode.InnerText);
-                        if (brush != null)
-                        {
-                            cs.LineBrush = brush;
-                        }
-                    }
-                    else if (parameterNode.Name.Equals("Drawings"))
-                    {
-                        foreach (XmlNode drawNode in parameterNode.ChildNodes)
-                        {
-                            if (drawNode.Attributes["Type"] != null)
-                                cs.Figure = FigureBase.CreateFigure(drawNode.Attributes["Type"].Value, drawNode.InnerText);
-                        }
-                    }
-                    else if (parameterNode.Name.Equals("Class"))
+                    else if (parameterNode.Name.Equals(xPathClass))
                     {
                         cs.AddComponentClass(parameterNode.InnerText);
+                    }
+                    else if (parameterNode.Name.Equals(xPathFigure))
+                    {
+                        foreach (XmlNode figureNode in parameterNode.ChildNodes)
+                        {
+                            if (figureNode.Name.Equals(xPathSize))
+                            {
+                                cs.Figure = FigureBase.CreateFigure(parameterNode.Attributes[xPathType].Value, figureNode.InnerText);
+                            }
+                            else if (figureNode.Name.Equals(xPathFillBrush))
+                            {
+                                Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
+                                if (brush != null)
+                                {
+                                    cs.FillBrush = brush;
+                                }
+                            }
+                            else if (figureNode.Name.Equals(xPathLineBrush))
+                            {
+                                Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
+                                if (brush != null)
+                                {
+                                    cs.LineBrush = brush;
+                                }
+                            }
+                        }
                     }
                 }
                 list.Add(cs);
             }
             return list;
+        }
+
+        /// <summary>
+        /// Returns true when the fie version is correct.
+        /// </summary>
+        /// <param name="xmlNode"></param>
+        private static void CheckFileVersion(XmlNode xmlNode)
+        {
+            if (xmlNode == null
+                || xmlNode.Attributes[xPathFileVersion] == null 
+                ||!xmlNode.Attributes[xPathFileVersion].Value.Equals(xPathVersion))
+                throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + xPathVersion);
         }
 
         /// <summary>
@@ -634,6 +733,7 @@ namespace EcellLib.PathwayWindow
         private void CheckAndRegisterComponent(List<ComponentSetting> list)
         {
             int csCount = 0;
+            string warnMessage = "";
             foreach (ComponentSetting cs in list)
             {
                 List<string> lackInfos = cs.Validate();
@@ -644,12 +744,17 @@ namespace EcellLib.PathwayWindow
                 else
                 {
                     string name = (cs.Name == null) ? cs.Name : "ComponentSetting No." + csCount.ToString();
-                    string warnMessage = m_resources.GetString("ErrCompInvalid") + "\n";
+                    warnMessage += m_resources.GetString("ErrCompInvalid") + "\n";
                     foreach (string lackInfo in lackInfos)
                         warnMessage += "    " + name + " lacks " + lackInfo + "\n";
-                    MessageBox.Show(warnMessage, "WARNING by PathwayWindow", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 csCount++;
+            }
+
+            if (!string.IsNullOrEmpty(warnMessage))
+            {
+                Debug.Print(warnMessage);
+                throw new ArgumentException(warnMessage);
             }
         }
         #endregion

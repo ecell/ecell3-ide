@@ -288,4 +288,34 @@
   <data name="ErrSystemOverlap" xml:space="preserve">
     <value>There is no space to create new system.</value>
   </data>
+  <data name="ToolButtonAddConstant" xml:space="preserve">
+    <value>Create constant references.</value>
+  </data>
+  <data name="ToolButtonAddMutualReaction" xml:space="preserve">
+    <value>Create mutual reactions.</value>
+  </data>
+  <data name="ToolButtonAddOnewayReaction" xml:space="preserve">
+    <value>Create oneway reactions.</value>
+  </data>
+  <data name="ToolButtonCreateProcess" xml:space="preserve">
+    <value>Create new processes.</value>
+  </data>
+  <data name="ToolButtonCreateSystem" xml:space="preserve">
+    <value>Create new systems.</value>
+  </data>
+  <data name="ToolButtonCreateVariable" xml:space="preserve">
+    <value>Create new variables.</value>
+  </data>
+  <data name="ToolButtonMoveCanvas" xml:space="preserve">
+    <value>Move canvas.</value>
+  </data>
+  <data name="ToolButtonSelectMode" xml:space="preserve">
+    <value>Select Mode.</value>
+  </data>
+  <data name="ToolButtonZoomIn" xml:space="preserve">
+    <value>Zoom in</value>
+  </data>
+  <data name="ToolButtonZoomOut" xml:space="preserve">
+    <value>Zoom out</value>
+  </data>
 </root>

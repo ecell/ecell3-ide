@@ -53,7 +53,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Type of component which this instance offers.
         /// </summary>
-        private ComponentType m_componentKind;
+        private ComponentType m_componentType;
 
         /// <summary>
         /// The name of this component.
@@ -109,8 +109,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public ComponentType ComponentType
         {
-            get { return this.m_componentKind; }
-            set { this.m_componentKind = value; }
+            get { return this.m_componentType; }
+            set { this.m_componentType = value; }
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace EcellLib.PathwayWindow
         {
             get
             {
-                switch(m_componentKind)
+                switch(m_componentType)
                 {
                     case ComponentType.System:
                         return ComponentManager.ClassPPathwaySystem;
@@ -191,6 +191,11 @@ namespace EcellLib.PathwayWindow
             get { return this.m_figure; }
             set { this.m_figure = value; }
         }
+
+        public Image IconImage
+        {
+            get { return CreateIconImage(); }
+        }
         #endregion
 
         #region Methods
@@ -202,7 +207,7 @@ namespace EcellLib.PathwayWindow
         {
             List<string> lackInfos = new List<string>();
             if (m_figure.GraphicsPath.PathData == null || m_figure.GraphicsPath.PointCount == 0)
-                if(m_componentKind != ComponentType.System)
+                if(m_componentType != ComponentType.System)
                     lackInfos.Add("Drawing");
 
             if (m_createMethod == null)
@@ -274,7 +279,7 @@ namespace EcellLib.PathwayWindow
             obj.Setting = this;
             obj.FillBrush = m_fillBrush;
             obj.LineBrush = m_lineBrush;
-            if (m_componentKind == ComponentType.System)
+            if (m_componentType == ComponentType.System)
             {
                 obj.Width = PPathwaySystem.MIN_X_LENGTH;
                 obj.Height = PPathwaySystem.MIN_Y_LENGTH;
@@ -287,6 +292,28 @@ namespace EcellLib.PathwayWindow
             }
 
             return obj;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private Image CreateIconImage()
+        {
+            Image icon = new Bitmap(256, 256);
+            Graphics gra = Graphics.FromImage(icon);
+            if (m_componentType == ComponentType.System)
+            {
+                Rectangle rect = new Rectangle(3, 3, 240, 240);
+                gra.DrawRectangle(new Pen(Brushes.Black, 16), rect);
+            }
+            else
+            {
+                GraphicsPath gp = m_figure.TransformedPath;
+                gra.FillPath(m_fillBrush, gp);
+                gra.DrawPath(new Pen(m_lineBrush, 16), gp);
+            }
+            return icon;
         }
         #endregion
     }

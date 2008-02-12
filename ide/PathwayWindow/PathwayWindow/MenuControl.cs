@@ -171,6 +171,49 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private static readonly string MenuItemView = "MenuItemView";
         #endregion
+
+        #region ToolButton
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonAddConstant
+        /// </summary>
+        private static readonly string ToolButtonAddConstant = "ToolButtonAddConstant";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonAddMutualReaction
+        /// </summary>
+        private static readonly string ToolButtonAddMutualReaction = "ToolButtonAddMutualReaction";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonAddOnewayReaction
+        /// </summary>
+        private static readonly string ToolButtonAddOnewayReaction = "ToolButtonAddOnewayReaction";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonCreateProcess
+        /// </summary>
+        private static readonly string ToolButtonCreateProcess = "ToolButtonCreateProcess";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonCreateSystem
+        /// </summary>
+        private static readonly string ToolButtonCreateSystem = "ToolButtonCreateSystem";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonCreateVariable
+        /// </summary>
+        private static readonly string ToolButtonCreateVariable = "ToolButtonCreateVariable";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonMoveCanvas
+        /// </summary>
+        private static readonly string ToolButtonMoveCanvas = "ToolButtonMoveCanvas";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonSelectMode
+        /// </summary>
+        private static readonly string ToolButtonSelectMode = "ToolButtonSelectMode";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonZoomIn
+        /// </summary>
+        private static readonly string ToolButtonZoomIn = "ToolButtonZoomIn";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonZoomOut
+        /// </summary>
+        private static readonly string ToolButtonZoomOut = "ToolButtonZoomOut";
+        #endregion
         #endregion
         
         #region Fields
@@ -546,25 +589,25 @@ namespace EcellLib.PathwayWindow
 
             PathwayToolStripButton handButton = new PathwayToolStripButton();
             handButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            handButton.Name = "MoveCanvas";
+            handButton.Name = ToolButtonMoveCanvas;
             handButton.Image = PathwayResource.move1;
             handButton.Text = "";
             handButton.CheckOnClick = true;
-            handButton.ToolTipText = "MoveCanvas";
+            handButton.ToolTipText = m_resources.GetString(ToolButtonMoveCanvas);
             handButton.Handle = new Handle(Mode.Pan, handleCount, new PPanEventHandler());
-            m_handleDict.Add("MoveCanvas", handButton.Handle);
+            m_handleDict.Add(ToolButtonMoveCanvas, handButton.Handle);
             handButton.Click += new EventHandler(m_con.ButtonStateChanged);
             list.Add(handButton);
 
             PathwayToolStripButton button0 = new PathwayToolStripButton();
             button0.ImageTransparentColor = System.Drawing.Color.Magenta;
-            button0.Name = "SelectMode";
+            button0.Name = ToolButtonSelectMode;
             button0.Image = PathwayResource.arrow;
             button0.Text = "";
             button0.CheckOnClick = true;
-            button0.ToolTipText = "SelectMode";
+            button0.ToolTipText = m_resources.GetString(ToolButtonSelectMode);
             button0.Handle = new Handle(Mode.Select, handleCount, new DefaultMouseHandler(m_con));
-            m_handleDict.Add("SelectMode", button0.Handle);
+            m_handleDict.Add(ToolButtonSelectMode, button0.Handle);
             button0.Click += new EventHandler(m_con.ButtonStateChanged);
             list.Add(button0);
 
@@ -573,37 +616,37 @@ namespace EcellLib.PathwayWindow
 
             PathwayToolStripButton arrowButton = new PathwayToolStripButton();
             arrowButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            arrowButton.Name = "reactionOneway";
+            arrowButton.Name = ToolButtonAddOnewayReaction;
             arrowButton.Image = PathwayResource.arrow_long_right_w;
             arrowButton.Text = "";
             arrowButton.CheckOnClick = true;
-            arrowButton.ToolTipText = "Add Oneway Reaction";
+            arrowButton.ToolTipText = m_resources.GetString(ToolButtonAddOnewayReaction);
             arrowButton.Handle = new Handle(Mode.CreateOneWayReaction, handleCount, new CreateReactionMouseHandler(m_con));
-            m_handleDict.Add("reactionOneway", arrowButton.Handle);
+            m_handleDict.Add(ToolButtonAddOnewayReaction, arrowButton.Handle);
             arrowButton.Click += new EventHandler(m_con.ButtonStateChanged);
             list.Add(arrowButton);
 
             PathwayToolStripButton bidirButton = new PathwayToolStripButton();
             bidirButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            bidirButton.Name = "reactionMutual";
+            bidirButton.Name = ToolButtonAddMutualReaction;
             bidirButton.Image = PathwayResource.arrow_long_bidir_w;
             bidirButton.Text = "";
             bidirButton.CheckOnClick = true;
-            bidirButton.ToolTipText = "Add Mutual Reaction";
+            bidirButton.ToolTipText = m_resources.GetString(ToolButtonAddMutualReaction);
             bidirButton.Handle = new Handle(Mode.CreateMutualReaction, handleCount, new CreateReactionMouseHandler(m_con));
-            m_handleDict.Add("reactionMutual", bidirButton.Handle);
+            m_handleDict.Add(ToolButtonAddMutualReaction, bidirButton.Handle);
             bidirButton.Click += new EventHandler(m_con.ButtonStateChanged);
             list.Add(bidirButton);
 
             PathwayToolStripButton constButton = new PathwayToolStripButton();
             constButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            constButton.Name = "constant";
+            constButton.Name = ToolButtonAddConstant;
             constButton.Image = PathwayResource.ten;
             constButton.Text = "";
             constButton.CheckOnClick = true;
-            constButton.ToolTipText = "Add Constant";
+            constButton.ToolTipText = m_resources.GetString(ToolButtonAddConstant);
             constButton.Handle = new Handle(Mode.CreateConstant, handleCount, new CreateReactionMouseHandler(m_con));
-            m_handleDict.Add("constant", constButton.Handle);
+            m_handleDict.Add(ToolButtonAddConstant, constButton.Handle);
             constButton.Click += new EventHandler(m_con.ButtonStateChanged);
             list.Add(constButton);
 
@@ -612,25 +655,23 @@ namespace EcellLib.PathwayWindow
                 PathwayToolStripButton button = new PathwayToolStripButton();
                 button.ImageTransparentColor = System.Drawing.Color.Magenta;
                 button.Name = cs.Name;
-                button.Image = new Bitmap(256, 256);
-                Graphics gra = Graphics.FromImage(button.Image);
-                if (cs.ComponentType == ComponentType.System)
-                {
-                    Rectangle rect = new Rectangle(3, 3, 240, 240);
-                    gra.DrawRectangle(new Pen(Brushes.Black, 16), rect);
-                    button.Handle = new Handle(Mode.CreateSystem, handleCount++, new CreateSystemMouseHandler(m_con), cs.ComponentType);
-                }
-                else
-                {
-                    GraphicsPath gp = cs.Figure.TransformedPath;
-                    gra.FillPath(cs.FillBrush, gp);
-                    gra.DrawPath(new Pen(Brushes.Black, 16), gp);
-                    button.Handle = new Handle(Mode.CreateNode, handleCount++, new CreateNodeMouseHandler(m_con, cs.ComponentType), cs.ComponentType);
-                }
+                button.Image = cs.IconImage;
                 button.Size = new System.Drawing.Size(256, 256);
                 button.Text = "";
                 button.CheckOnClick = true;
-                button.ToolTipText = cs.Name;
+                if (cs.ComponentType == ComponentType.System)
+                {
+                    button.Handle = new Handle(Mode.CreateSystem, handleCount++, new CreateSystemMouseHandler(m_con), cs.ComponentType);
+                    button.ToolTipText = m_resources.GetString(ToolButtonCreateSystem);
+                }
+                else
+                {
+                    button.Handle = new Handle(Mode.CreateNode, handleCount++, new CreateNodeMouseHandler(m_con, cs.ComponentType), cs.ComponentType);
+                    if (cs.ComponentType == ComponentType.Process)
+                        button.ToolTipText = m_resources.GetString(ToolButtonCreateProcess);
+                    else if(cs.ComponentType == ComponentType.Variable)
+                        button.ToolTipText = m_resources.GetString(ToolButtonCreateVariable);
+                }
 
                 m_handleDict.Add(cs.Name, button.Handle);
                 button.Click += new EventHandler(m_con.ButtonStateChanged);
@@ -639,22 +680,22 @@ namespace EcellLib.PathwayWindow
 
             PathwayToolStripButton zoominButton = new PathwayToolStripButton();
             zoominButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            zoominButton.Name = "zoomin";
+            zoominButton.Name = ToolButtonZoomIn;
             zoominButton.Image = PathwayResource.zoom_in;
             zoominButton.Text = "";
             zoominButton.CheckOnClick = false;
-            zoominButton.ToolTipText = "Zoom In";
+            zoominButton.ToolTipText = m_resources.GetString(ToolButtonZoomIn);
             zoominButton.Handle = new Handle(Mode.CreateConstant, handleCount, 2f);
             zoominButton.Click += new EventHandler(m_con.ZoomButton_Click);
             list.Add(zoominButton);
 
             PathwayToolStripButton zoomoutButton = new PathwayToolStripButton();
             zoomoutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            zoomoutButton.Name = "zoomout";
+            zoomoutButton.Name = ToolButtonZoomOut;
             zoomoutButton.Image = PathwayResource.zoom_out;
             zoomoutButton.Text = "";
             zoomoutButton.CheckOnClick = false;
-            zoomoutButton.ToolTipText = "Zoom Out";
+            zoomoutButton.ToolTipText = m_resources.GetString(ToolButtonZoomOut);
             zoomoutButton.Handle = new Handle(Mode.CreateConstant, handleCount, 0.5f);
             zoomoutButton.Click += new EventHandler(m_con.ZoomButton_Click);
             list.Add(zoomoutButton);

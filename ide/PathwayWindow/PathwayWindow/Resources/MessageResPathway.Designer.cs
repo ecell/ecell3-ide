@@ -572,5 +572,95 @@ namespace EcellLib.PathwayWindow.Resources {
                 return ResourceManager.GetString("MsgLayoutNoNode", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Create constant references. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ToolButtonAddConstant {
+            get {
+                return ResourceManager.GetString("ToolButtonAddConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create mutual reactions. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ToolButtonAddMutualReaction {
+            get {
+                return ResourceManager.GetString("ToolButtonAddMutualReaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create oneway reactions. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ToolButtonAddOnewayReaction {
+            get {
+                return ResourceManager.GetString("ToolButtonAddOnewayReaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create new processes. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ToolButtonCreateProcess {
+            get {
+                return ResourceManager.GetString("ToolButtonCreateProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create new systems. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ToolButtonCreateSystem {
+            get {
+                return ResourceManager.GetString("ToolButtonCreateSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create new variables. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ToolButtonCreateVariable {
+            get {
+                return ResourceManager.GetString("ToolButtonCreateVariable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move canvas. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ToolButtonMoveCanvas {
+            get {
+                return ResourceManager.GetString("ToolButtonMoveCanvas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select Mode. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ToolButtonSelectMode {
+            get {
+                return ResourceManager.GetString("ToolButtonSelectMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Zoom in に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ToolButtonZoomIn {
+            get {
+                return ResourceManager.GetString("ToolButtonZoomIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Zoom out に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ToolButtonZoomOut {
+            get {
+                return ResourceManager.GetString("ToolButtonZoomOut", resourceCulture);
+            }
+        }
     }
 }
