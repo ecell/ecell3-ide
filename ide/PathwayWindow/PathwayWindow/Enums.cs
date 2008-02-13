@@ -77,24 +77,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         Delete
     };
-    /// <summary>
-    /// Enumeration for restriction of movement
-    /// </summary>
-    public enum MovingRestriction
-    {
-        /// <summary>
-        /// Can move vertically only
-        /// </summary>
-        Vertical,
-        /// <summary>
-        /// Can move horizontally only
-        /// </summary>
-        Horizontal,
-        /// <summary>
-        /// Can move in every direction
-        /// </summary>
-        NoRestriction
-    }
+
     /// <summary>
     /// Direction of scrolling the canvas.
     /// </summary>

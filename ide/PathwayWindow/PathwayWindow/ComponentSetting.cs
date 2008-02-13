@@ -66,11 +66,6 @@ namespace EcellLib.PathwayWindow
         private FigureBase m_figure = null;
 
         /// <summary>
-        /// Whether NormalBrush is set or not.
-        /// </summary>
-        private bool isNormalBrushSet = false;
-
-        /// <summary>
         /// True if gradation Brush is available.
         /// </summary>
         private bool m_isGradation = false;
@@ -83,12 +78,17 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Brush for drawing this component when normal.
         /// </summary>
+        private Brush m_lineBrush = Brushes.White;
+
+        /// <summary>
+        /// Brush for drawing this component when normal.
+        /// </summary>
         private Brush m_fillBrush = Brushes.White;
 
         /// <summary>
         /// Brush for drawing this component when normal.
         /// </summary>
-        private Brush m_lineBrush = Brushes.White;
+        private Brush m_roundBrush = Brushes.White;
 
         /// <summary>
         /// Brush for drawing this component when highlighted.
@@ -179,9 +179,18 @@ namespace EcellLib.PathwayWindow
             set
             {
                 this.m_fillBrush = value;
-                isNormalBrushSet = true;
             }
         }
+
+        /// <summary>
+        /// Accessor for m_normalBrush.
+        /// </summary>
+        public Brush RoundBrush
+        {
+            get { return this.m_roundBrush; }
+            set { this.m_roundBrush = value; }
+        }
+
         /// <summary>
         /// Accessor for m_normalBrush.
         /// </summary>
@@ -199,7 +208,6 @@ namespace EcellLib.PathwayWindow
             set
             {
                 this.m_lineBrush = value;
-                isNormalBrushSet = true;
             }
         }
         /// <summary>
@@ -242,8 +250,17 @@ namespace EcellLib.PathwayWindow
             if (m_createMethod == null)
                 lackInfos.Add("Class");
 
-            if (!isNormalBrushSet)
-                lackInfos.Add("Color");
+            if (!(m_textBrush == null))
+                lackInfos.Add("TextBrush");
+
+            if (!(m_fillBrush == null))
+                lackInfos.Add("FillBrush");
+
+            if (!(m_lineBrush == null))
+                lackInfos.Add("LineBrush");
+
+            if (!(m_roundBrush == null))
+                lackInfos.Add("RoundBrush");
 
             if (lackInfos.Count == 0)
                 return null;

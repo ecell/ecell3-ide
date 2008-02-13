@@ -143,11 +143,23 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
+        private const string xPathTextBrush = "TextBrush";
+        /// <summary>
+        /// 
+        /// </summary>
         private const string xPathLineBrush = "LineBrush";
         /// <summary>
         /// 
         /// </summary>
         private const string xPathFillBrush = "FillBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathRoundBrush = "RoundBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        private const string xPathIsGradation = "IsGradation";
         /// <summary>
         /// 
         /// </summary>
@@ -360,8 +372,11 @@ namespace EcellLib.PathwayWindow
                     xmlOut.WriteAttributeString(xPathMode, xPathEdit);
                     xmlOut.WriteAttributeString(xPathType, setting.Figure.Type);
                     xmlOut.WriteElementString(xPathSize, setting.Figure.Coordinates);
+                    xmlOut.WriteElementString(xPathTextBrush, BrushManager.ParseBrushToString(setting.TextBrush));
                     xmlOut.WriteElementString(xPathLineBrush, BrushManager.ParseBrushToString(setting.LineBrush));
                     xmlOut.WriteElementString(xPathFillBrush, BrushManager.ParseBrushToString(setting.FillBrush));
+                    xmlOut.WriteElementString(xPathRoundBrush, BrushManager.ParseBrushToString(setting.RoundBrush));
+                    xmlOut.WriteElementString(xPathIsGradation, setting.IsGradation.ToString());
                     xmlOut.WriteEndElement();
                     //xmlOut.WriteStartElement(xPathFigure);
                     //xmlOut.WriteAttributeString(xPathMode, xPathView);
@@ -801,6 +816,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private class ComponentItem : GroupBox
         {
+            #region Fields
             private PropertyBrushItem textBrush;
             private PropertyBrushItem lineBrush;
             private PropertyBrushItem fillBrush;
@@ -809,7 +825,12 @@ namespace EcellLib.PathwayWindow
             private PropertyCheckBoxItem isGradation;
             private PropertyComboboxItem figureBox;
             private PToolBoxCanvas pCanvas;
+            #endregion
 
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="cs"></param>
             public ComponentItem(ComponentSetting cs)
             {
                 // Create UI Object
@@ -870,6 +891,9 @@ namespace EcellLib.PathwayWindow
                 this.Height = 170;
             }
 
+            /// <summary>
+            /// Apply changes to ComponentSettings.
+            /// </summary>
             public void ApplyChange()
             {
                 ComponentSetting cs = this.pCanvas.Setting;
@@ -880,22 +904,22 @@ namespace EcellLib.PathwayWindow
             }
 
             #region EventHandlers
-            void fillBrush_BrushChange(object sender, EventArgs e)
+            private void fillBrush_BrushChange(object sender, EventArgs e)
             {
                 this.pCanvas.PPathwayObject.FillBrush = fillBrush.Brush;
             }
 
-            void lineBrush_BrushChange(object sender, EventArgs e)
+            private void lineBrush_BrushChange(object sender, EventArgs e)
             {
                 this.pCanvas.PPathwayObject.LineBrush = lineBrush.Brush;
             }
 
-            void textBrush_BrushChange(object sender, EventArgs e)
+            private void textBrush_BrushChange(object sender, EventArgs e)
             {
                 this.pCanvas.PPathwayObject.PText.TextBrush = textBrush.Brush;
             }
 
-            void isGradation_CheckedChanged(object sender, EventArgs e)
+            private void isGradation_CheckedChanged(object sender, EventArgs e)
             {
                 roundBrush.ComboBox.Enabled = isGradation.Checked;
             }

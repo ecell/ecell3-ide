@@ -152,7 +152,7 @@ namespace EcellLib.PathwayWindow.Nodes
             }
             else
             {
-                m_pText.TextBrush = Brushes.Black;
+                m_pText.TextBrush = m_setting.TextBrush;
                 m_pPropertyText.Visible = false;
             }
             // Set gradient brush

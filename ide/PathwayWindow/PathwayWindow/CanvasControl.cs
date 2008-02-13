@@ -1413,9 +1413,8 @@ namespace EcellLib.PathwayWindow
         {
             foreach (PPathwayObject obj in GetAllObjects())
             {
+                obj.RefreshSettings();
                 obj.ViewMode = m_isViewMode;
-                obj.LineBrush = obj.Setting.LineBrush;
-                obj.FillBrush = obj.Setting.FillBrush;
             }
             if (m_isViewMode)
                 m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.AnimationControl.ViewBGBrush);

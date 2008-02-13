@@ -334,7 +334,11 @@ namespace EcellLib.PathwayWindow.Nodes
         public ComponentSetting Setting
         {
             get { return this.m_setting; }
-            set { this.m_setting = value; }
+            set 
+            {
+                this.m_setting = value;
+                RefreshSettings();
+            }
         }
 
         /// <summary>
@@ -354,18 +358,9 @@ namespace EcellLib.PathwayWindow.Nodes
         public Brush FillBrush
         {
             get { return this.m_fillBrush; }
-            set {
-                if (m_isViewMode)
-                {
-                    PathGradientBrush pthGrBrush = new PathGradientBrush(this.m_path);
-                    pthGrBrush.CenterColor = Color.White;
-                    pthGrBrush.SurroundColors = new Color[] { BrushManager.ParseBrushToColor(value) };
-                    this.m_fillBrush = pthGrBrush;
-                }
-                else
-                {
-                    this.m_fillBrush = value;
-                }
+            set
+            {
+                this.m_fillBrush = value;
                 base.Brush = this.m_fillBrush;
             }
         }
@@ -904,6 +899,16 @@ namespace EcellLib.PathwayWindow.Nodes
             
             this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
             this.m_pText.MoveToFront();
+        }
+
+        /// <summary>
+        /// RefreshComponentSettings
+        /// </summary>
+        public void RefreshSettings()
+        {
+            this.PText.TextBrush = m_setting.TextBrush;
+            this.FillBrush = m_setting.FillBrush;
+            this.LineBrush = m_setting.LineBrush;
         }
 
         /// <summary>
