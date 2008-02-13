@@ -1118,7 +1118,7 @@ namespace EcellLib.PathwayWindow
         {
             if (obj == null)
                 return;
-            obj.Text.RemoveFromParent();
+            obj.PText.RemoveFromParent();
             obj.Parent.RemoveChild(obj);
         }
         /// <summary>

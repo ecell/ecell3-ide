@@ -42,10 +42,27 @@ namespace EcellLib.PathwayWindow.UIComponent
     public partial class PropertyDialogTabPage : TabPage
     {
         /// <summary>
+        /// Constructor
+        /// </summary>
+        public PropertyDialogTabPage()
+        {
+            this.AutoScroll = true;
+        }
+        /// <summary>
         /// ApplyChange
         /// </summary>
         public virtual void ApplyChange()
         {
+        }
+
+        /// <summary>
+        /// OnMouseWheel
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            int pageCount = e.Delta / -120;
         }
     }
 
@@ -68,6 +85,15 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// size of the itembox.
         /// </summary>
         protected Size m_size = new Size(128, 20);
+
+        /// <summary>
+        /// Accessor for m_label.
+        /// </summary>
+        public Label Label
+        {
+            get { return m_label; }
+            set { m_label = value; }
+        }
 
         /// <summary>
         /// Constructor
@@ -115,10 +141,81 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// <summary>
     /// UI class for PropertyDialog
     /// </summary>
+    public class PropertyComboboxItem : PropertyDialogItem
+    {
+        private ComboBox m_comboBox;
+
+        /// <summary>
+        /// Get ComboBox.
+        /// </summary>
+        public ComboBox ComboBox
+        {
+            get {return m_comboBox;}
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="text"></param>
+        /// <param name="itemList"></param>
+        public PropertyComboboxItem(string label, string text, List<string> itemList)
+        {
+            // set Brushes
+            this.m_label.Text = label;
+
+            this.m_comboBox = new ComboBox();
+            this.SuspendLayout();
+            this.Controls.Add(this.m_comboBox);
+
+            // 
+            // m_comboBoxBrush
+            // 
+            this.m_comboBox.FormattingEnabled = true;
+            this.m_comboBox.Location = m_position;
+            this.m_comboBox.Size = m_size;
+            this.m_comboBox.TabIndex = 0;
+            this.m_comboBox.Text = text;
+            this.m_comboBox.Items.AddRange(itemList.ToArray());
+
+            this.ResumeLayout(false);
+            this.PerformLayout();
+        }
+    }
+
+    /// <summary>
+    /// UI class for PropertyDialog
+    /// </summary>
     public class PropertyBrushItem : PropertyDialogItem
     {
         private ComboBox m_comboBoxBrush;
         private Brush m_brush;
+
+        #region EventHandler for BrushChange
+        private EventHandler m_onBrushChange;
+        /// <summary>
+        /// Event on brush change.
+        /// </summary>
+        public event EventHandler BrushChange
+        {
+            add { m_onBrushChange += value; }
+            remove { m_onBrushChange -= value; }
+        }
+        /// <summary>
+        /// Event on brush change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnBrushChange(EventArgs e)
+        {
+            if (m_onBrushChange != null)
+                m_onBrushChange(this, e);
+        }
+        private void RaiseBrushChange()
+        {
+            EventArgs e = new EventArgs();
+            OnBrushChange(e);
+        }
+        #endregion
 
         /// <summary>
         /// Get/Set m_brush.
@@ -126,7 +223,20 @@ namespace EcellLib.PathwayWindow.UIComponent
         public Brush Brush
         {
             get { return m_brush; }
-            set { m_brush = value; }
+            set
+            { 
+                m_brush = value;
+                m_comboBoxBrush.Text = BrushManager.ParseBrushToString(m_brush);
+                RaiseBrushChange();
+            }
+        }
+
+        /// <summary>
+        /// Get ComboBox.
+        /// </summary>
+        public ComboBox ComboBox
+        {
+            get { return m_comboBoxBrush; }
         }
 
         /// <summary>
@@ -163,8 +273,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         void cBoxNomalBrush_TextChanged(object sender, EventArgs e)
         {
             ComboBox cBox = (ComboBox)sender;
-            Brush brush = BrushManager.ParseStringToBrush(cBox.Text);
-            m_brush = brush;
+            Brush = BrushManager.ParseStringToBrush(cBox.Text);
         }
     }
 
@@ -256,13 +365,52 @@ namespace EcellLib.PathwayWindow.UIComponent
         private CheckBox m_checkBox;
 
         /// <summary>
+        /// Get/Set m_checkBox.
+        /// </summary>
+        public CheckBox CheckBox
+        {
+            get { return m_checkBox; }
+            set { m_checkBox = value; }
+        }
+
+        /// <summary>
         /// Get/Set m_checkBox.Checked
         /// </summary>
         public bool Checked
         {
             get { return m_checkBox.Checked; }
-            set { m_checkBox.Checked = value; }
+            set 
+            { 
+                m_checkBox.Checked = value;
+                RaiseCheckedChanged();
+            }
         }
+
+        #region EventHandler for CheckedChanged
+        private EventHandler m_onCheckedChanged;
+        /// <summary>
+        /// Event on checked change.
+        /// </summary>
+        public event EventHandler CheckedChanged
+        {
+            add { m_onCheckedChanged += value; }
+            remove { m_onCheckedChanged -= value; }
+        }
+        /// <summary>
+        /// Event on brush change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnCheckedChanged(EventArgs e)
+        {
+            if (m_onCheckedChanged != null)
+                m_onCheckedChanged(this, e);
+        }
+        private void RaiseCheckedChanged()
+        {
+            EventArgs e = new EventArgs();
+            OnCheckedChanged(e);
+        }
+        #endregion
 
         /// <summary>
         /// Constructor
@@ -280,12 +428,18 @@ namespace EcellLib.PathwayWindow.UIComponent
             // m_checkBox
             // 
             this.m_checkBox.Location = m_position;
-            this.m_checkBox.Size = m_size;
+            this.m_checkBox.Size = new Size(20,20);
             this.m_checkBox.TabIndex = 0;
             this.m_checkBox.Checked = isChecked;
-
+            this.m_checkBox.CheckedChanged += new EventHandler(m_checkBox_CheckedChanged);
             this.ResumeLayout(false);
             this.PerformLayout();
+        }
+
+        private void m_checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox checkBox = (CheckBox)sender;
+            this.Checked = checkBox.Checked;
         }
     }
 }

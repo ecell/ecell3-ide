@@ -71,6 +71,16 @@ namespace EcellLib.PathwayWindow
         private bool isNormalBrushSet = false;
 
         /// <summary>
+        /// True if gradation Brush is available.
+        /// </summary>
+        private bool m_isGradation = false;
+
+        /// <summary>
+        /// TextBrush for drawing this component.
+        /// </summary>
+        private Brush m_textBrush = Brushes.Black;
+
+        /// <summary>
         /// Brush for drawing this component when normal.
         /// </summary>
         private Brush m_fillBrush = Brushes.White;
@@ -152,6 +162,15 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Accessor for m_isGradation.
+        /// </summary>
+        public bool IsGradation
+        {
+            get { return m_isGradation; }
+            set { m_isGradation = value; }
+        }
+
+        /// <summary>
         /// Accessor for m_normalBrush.
         /// </summary>
         public Brush FillBrush
@@ -162,6 +181,14 @@ namespace EcellLib.PathwayWindow
                 this.m_fillBrush = value;
                 isNormalBrushSet = true;
             }
+        }
+        /// <summary>
+        /// Accessor for m_normalBrush.
+        /// </summary>
+        public Brush TextBrush
+        {
+            get { return this.m_textBrush; }
+            set { this.m_textBrush = value; }
         }
         /// <summary>
         /// Accessor for m_normalBrush.

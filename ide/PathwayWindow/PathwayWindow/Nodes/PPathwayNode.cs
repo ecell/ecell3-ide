@@ -314,8 +314,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <returns></returns>
         public override string ToString()
         {
-            return base.ToString() + ", Text.X:" + Text.X + ", Text.Y:" + Text.Y
-                + ", Text.OffsetX:" + Text.OffsetX + ", Text.OffsetY:" + Text.OffsetY;
+            return base.ToString() + ", Text.X:" + PText.X + ", Text.Y:" + PText.Y
+                + ", Text.OffsetX:" + PText.OffsetX + ", Text.OffsetY:" + PText.OffsetY;
         }
         #endregion
     }

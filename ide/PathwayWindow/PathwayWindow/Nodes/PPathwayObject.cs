@@ -134,7 +134,7 @@ namespace EcellLib.PathwayWindow.Nodes
         protected static readonly object PROPERTY_KEY_PEN = new object();
 
         /// <summary>
-        /// A bit field that identifies a <see cref="PenChanged">PenChanged</see> event.
+        /// A bit field that identifies a PenChanged event.
         /// </summary>
         /// <remarks>
         /// This field is used to indicate whether PenChanged events should be forwarded to
@@ -145,7 +145,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public const int PROPERTY_CODE_PEN = 1 << 15;
 
         /// <summary>
-        /// The key that identifies a change in this node's <see cref="PathReference">Path</see>.
+        /// The key that identifies a change in this node's Path.
         /// </summary>
         /// <remarks>
         /// In a property change event the new value will be a reference to this node's path, but old
@@ -154,7 +154,7 @@ namespace EcellLib.PathwayWindow.Nodes
         protected static readonly object PROPERTY_KEY_PATH = new object();
 
         /// <summary>
-        /// A bit field that identifies a <see cref="PathChanged">PathChanged</see> event.
+        /// A bit field that identifies a PathChanged event.
         /// </summary>
         /// <remarks>
         /// This field is used to indicate whether PathChanged events should be forwarded to
@@ -340,7 +340,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for Text.
         /// </summary>
-        public PText Text
+        public PText PText
         {
             get
             {

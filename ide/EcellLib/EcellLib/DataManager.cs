@@ -6015,6 +6015,7 @@ namespace EcellLib
         /// Create the project directory.
         /// </summary>
         /// <param name="prjID">Project ID.</param>
+        /// <param name="dmList">A list of DM.</param>
         private void CreateProjectDir(string prjID, List<string> dmList)
         {
             SetDefaultDir();

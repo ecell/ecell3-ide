@@ -635,6 +635,11 @@ namespace EcellLib
             return val.Substring(startIdx, endIdx - startIdx + 1);
         }
 
+        /// <summary>
+        /// Copy Directory.
+        /// </summary>
+        /// <param name="sourceDirName"></param>
+        /// <param name="destDirName"></param>
         public static void CopyDirectory(string sourceDirName, string destDirName)
         {
             if (!System.IO.Directory.Exists(destDirName))
