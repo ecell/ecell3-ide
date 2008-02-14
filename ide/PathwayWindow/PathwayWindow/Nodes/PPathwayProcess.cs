@@ -353,7 +353,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 base.AddPath(m_setting.Figure.GraphicsPath, false);
             }
             base.CenterPointF = centerPos;
-            base.FillBrush = m_setting.FillBrush;
+            base.FillBrush = m_setting.GetFillBrush(m_path);
             Refresh();
         }
         /// <summary>

@@ -45,6 +45,7 @@ using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Figure;
 using System.Diagnostics;
 using EcellLib.PathwayWindow.UIComponent;
+using System.Drawing.Drawing2D;
 
 namespace EcellLib.PathwayWindow
 {
@@ -155,7 +156,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
-        private const string xPathRoundBrush = "RoundBrush";
+        private const string xPathCenterBrush = "CenterBrush";
         /// <summary>
         /// 
         /// </summary>
@@ -375,7 +376,7 @@ namespace EcellLib.PathwayWindow
                     xmlOut.WriteElementString(xPathTextBrush, BrushManager.ParseBrushToString(setting.TextBrush));
                     xmlOut.WriteElementString(xPathLineBrush, BrushManager.ParseBrushToString(setting.LineBrush));
                     xmlOut.WriteElementString(xPathFillBrush, BrushManager.ParseBrushToString(setting.FillBrush));
-                    xmlOut.WriteElementString(xPathRoundBrush, BrushManager.ParseBrushToString(setting.RoundBrush));
+                    xmlOut.WriteElementString(xPathCenterBrush, BrushManager.ParseBrushToString(setting.CenterBrush));
                     xmlOut.WriteElementString(xPathIsGradation, setting.IsGradation.ToString());
                     xmlOut.WriteEndElement();
                     //xmlOut.WriteStartElement(xPathFigure);
@@ -540,7 +541,9 @@ namespace EcellLib.PathwayWindow
             defSysCs.ComponentType = ComponentType.System;
             defSysCs.Name = DEFAULT_SYSTEM_NAME;
             defSysCs.IsDefault = true;
+            defSysCs.CenterBrush = Brushes.LightBlue;
             defSysCs.FillBrush = Brushes.LightBlue;
+            defSysCs.IsGradation = false;
             defSysCs.LineBrush = Brushes.Blue;
             defSysCs.Figure = FigureBase.CreateFigure("RoundCornerRectangle", "0,0,500,500");
             defSysCs.AddComponentClass(ClassPPathwaySystem);
@@ -551,9 +554,11 @@ namespace EcellLib.PathwayWindow
             defVarCs.ComponentType = ComponentType.Variable;
             defVarCs.Name = DEFAULT_VARIABLE_NAME;
             defVarCs.IsDefault = true;
-            defVarCs.FillBrush = Brushes.LightBlue;
             defVarCs.LineBrush = Brushes.Black;
-            defVarCs.Figure = FigureBase.CreateFigure("Ellipse", "-30,-20,60,40");
+            defVarCs.CenterBrush = Brushes.LightBlue;
+            defVarCs.FillBrush = Brushes.LightBlue;
+            defVarCs.IsGradation = false;
+            defVarCs.Figure = FigureBase.CreateFigure("Ellipse", "0,0,60,40");
             defVarCs.AddComponentClass(ClassPPathwayVariable);
             RegisterSetting(defVarCs);
 
@@ -562,9 +567,11 @@ namespace EcellLib.PathwayWindow
             defProCs.ComponentType = ComponentType.Process;
             defProCs.Name = DEFAULT_PROCESS_NAME;
             defProCs.IsDefault = true;
-            defProCs.FillBrush = Brushes.LightGreen;
             defProCs.LineBrush = Brushes.Black;
-            defProCs.Figure = FigureBase.CreateFigure("Rectangle", "-30,-20,60,40");
+            defProCs.CenterBrush = Brushes.LightGreen;
+            defProCs.FillBrush = Brushes.LightGreen;
+            defProCs.IsGradation = false;
+            defProCs.Figure = FigureBase.CreateFigure("Rectangle", "0,0,60,40");
             defProCs.AddComponentClass(ClassPPathwayProcess);
             RegisterSetting(defProCs);
         }
@@ -684,12 +691,12 @@ namespace EcellLib.PathwayWindow
                             {
                                 cs.Figure = FigureBase.CreateFigure(parameterNode.Attributes[xPathType].Value, figureNode.InnerText);
                             }
-                            else if (figureNode.Name.Equals(xPathFillBrush))
+                            else if (figureNode.Name.Equals(xPathTextBrush))
                             {
                                 Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
                                 if (brush != null)
                                 {
-                                    cs.FillBrush = brush;
+                                    cs.TextBrush = brush;
                                 }
                             }
                             else if (figureNode.Name.Equals(xPathLineBrush))
@@ -699,6 +706,26 @@ namespace EcellLib.PathwayWindow
                                 {
                                     cs.LineBrush = brush;
                                 }
+                            }
+                            else if (figureNode.Name.Equals(xPathFillBrush))
+                            {
+                                Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
+                                if (brush != null)
+                                {
+                                    cs.FillBrush = brush;
+                                }
+                            }
+                            else if (figureNode.Name.Equals(xPathCenterBrush))
+                            {
+                                Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
+                                if (brush != null)
+                                {
+                                    cs.CenterBrush = brush;
+                                }
+                            }
+                            else if (figureNode.Name.Equals(xPathIsGradation))
+                            {
+                                cs.IsGradation = bool.Parse(figureNode.InnerText);
                             }
                         }
                     }
@@ -820,7 +847,7 @@ namespace EcellLib.PathwayWindow
             private PropertyBrushItem textBrush;
             private PropertyBrushItem lineBrush;
             private PropertyBrushItem fillBrush;
-            private PropertyBrushItem roundBrush;
+            private PropertyBrushItem centerBrush;
 
             private PropertyCheckBoxItem isGradation;
             private PropertyComboboxItem figureBox;
@@ -840,12 +867,12 @@ namespace EcellLib.PathwayWindow
                 this.textBrush = new PropertyBrushItem("Text Brush", cs.TextBrush, brushList);
                 this.lineBrush = new PropertyBrushItem("Line Brush", cs.LineBrush, brushList);
                 this.fillBrush = new PropertyBrushItem("Fill Brush", cs.FillBrush, brushList);
-                this.roundBrush = new PropertyBrushItem("", cs.FillBrush, brushList);
-                this.isGradation = new PropertyCheckBoxItem("Gradation", false);
+                this.centerBrush = new PropertyBrushItem("", cs.CenterBrush, brushList);
+                this.isGradation = new PropertyCheckBoxItem("Gradation", cs.IsGradation);
                 this.pCanvas = new PToolBoxCanvas();
                 this.SuspendLayout();
                 // Set Gradation
-                this.roundBrush.ComboBox.Enabled = isGradation.Checked;
+                this.centerBrush.ComboBox.Enabled = isGradation.Checked;
 
                 // Set to GroupBox
                 this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left)| AnchorStyles.Right);
@@ -855,7 +882,7 @@ namespace EcellLib.PathwayWindow
                 this.Controls.Add(this.textBrush);
                 this.Controls.Add(this.lineBrush);
                 this.Controls.Add(this.fillBrush);
-                this.Controls.Add(this.roundBrush);
+                this.Controls.Add(this.centerBrush);
                 this.Controls.Add(this.pCanvas);
                 this.Name = "GroupBox";
                 this.Text = cs.Name;
@@ -865,7 +892,7 @@ namespace EcellLib.PathwayWindow
                 this.textBrush.Location = new Point(5, 40);
                 this.lineBrush.Location = new Point(5, 65);
                 this.fillBrush.Location = new Point(5, 90);
-                this.roundBrush.Location = new Point(5, 115);
+                this.centerBrush.Location = new Point(5, 115);
                 this.isGradation.Location = new Point(5, 115);
                 this.isGradation.CheckBox.Left = 90;
                 this.isGradation.Width = 120;
@@ -874,6 +901,7 @@ namespace EcellLib.PathwayWindow
                 this.textBrush.BrushChange += new EventHandler(textBrush_BrushChange);
                 this.lineBrush.BrushChange += new EventHandler(lineBrush_BrushChange);
                 this.fillBrush.BrushChange += new EventHandler(fillBrush_BrushChange);
+                this.centerBrush.BrushChange += new EventHandler(fillBrush_BrushChange);
                 this.isGradation.CheckedChanged += new EventHandler(isGradation_CheckedChanged);
                 // Set pCanvas
                 this.pCanvas.AllowDrop = true;
@@ -900,13 +928,14 @@ namespace EcellLib.PathwayWindow
                 cs.TextBrush = textBrush.Brush;
                 cs.LineBrush = lineBrush.Brush;
                 cs.FillBrush = fillBrush.Brush;
+                cs.CenterBrush = centerBrush.Brush;
                 cs.IsGradation = isGradation.Checked;
             }
 
             #region EventHandlers
-            private void fillBrush_BrushChange(object sender, EventArgs e)
+            private void textBrush_BrushChange(object sender, EventArgs e)
             {
-                this.pCanvas.PPathwayObject.FillBrush = fillBrush.Brush;
+                this.pCanvas.PPathwayObject.PText.TextBrush = textBrush.Brush;
             }
 
             private void lineBrush_BrushChange(object sender, EventArgs e)
@@ -914,14 +943,33 @@ namespace EcellLib.PathwayWindow
                 this.pCanvas.PPathwayObject.LineBrush = lineBrush.Brush;
             }
 
-            private void textBrush_BrushChange(object sender, EventArgs e)
+            private void fillBrush_BrushChange(object sender, EventArgs e)
             {
-                this.pCanvas.PPathwayObject.PText.TextBrush = textBrush.Brush;
+                PropertyBrushItem brushBox = (PropertyBrushItem)sender;
+                if (brushBox.Brush == null)
+                    return;
+                ChangeFillBrush();
             }
 
             private void isGradation_CheckedChanged(object sender, EventArgs e)
             {
-                roundBrush.ComboBox.Enabled = isGradation.Checked;
+                centerBrush.ComboBox.Enabled = isGradation.Checked;
+                ChangeFillBrush();
+            }
+
+            private void ChangeFillBrush()
+            {
+                if (isGradation.Checked)
+                {
+                    PathGradientBrush pthGrBrush = new PathGradientBrush(this.pCanvas.PPathwayObject.Path);
+                    pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(centerBrush.Brush);
+                    pthGrBrush.SurroundColors = new Color[] { BrushManager.ParseBrushToColor(fillBrush.Brush) };
+                    this.pCanvas.PPathwayObject.FillBrush = pthGrBrush;
+                }
+                else
+                {
+                    this.pCanvas.PPathwayObject.FillBrush = fillBrush.Brush;
+                }
             }
             #endregion
         }

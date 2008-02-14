@@ -83,12 +83,12 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Brush for drawing this component when normal.
         /// </summary>
-        private Brush m_fillBrush = Brushes.White;
+        private Brush m_centerBrush = Brushes.White;
 
         /// <summary>
         /// Brush for drawing this component when normal.
         /// </summary>
-        private Brush m_roundBrush = Brushes.White;
+        private Brush m_fillBrush = Brushes.White;
 
         /// <summary>
         /// Brush for drawing this component when highlighted.
@@ -171,28 +171,25 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_normalBrush.
+        /// Accessor for m_centerBrush.
+        /// </summary>
+        public Brush CenterBrush
+        {
+            get { return this.m_centerBrush; }
+            set { this.m_centerBrush = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_roundBrush.
         /// </summary>
         public Brush FillBrush
         {
             get { return this.m_fillBrush; }
-            set
-            {
-                this.m_fillBrush = value;
-            }
+            set { this.m_fillBrush = value; }
         }
 
         /// <summary>
-        /// Accessor for m_normalBrush.
-        /// </summary>
-        public Brush RoundBrush
-        {
-            get { return this.m_roundBrush; }
-            set { this.m_roundBrush = value; }
-        }
-
-        /// <summary>
-        /// Accessor for m_normalBrush.
+        /// Accessor for m_textBrush.
         /// </summary>
         public Brush TextBrush
         {
@@ -200,7 +197,7 @@ namespace EcellLib.PathwayWindow
             set { this.m_textBrush = value; }
         }
         /// <summary>
-        /// Accessor for m_normalBrush.
+        /// Accessor for m_lineBrush.
         /// </summary>
         public Brush LineBrush
         {
@@ -219,7 +216,7 @@ namespace EcellLib.PathwayWindow
             set { this.m_highlightBrush = value; }
         }
         /// <summary>
-        /// Accessor for m_figureList.
+        /// Accessor for m_figure.
         /// </summary>
         public FigureBase Figure
         {
@@ -250,16 +247,16 @@ namespace EcellLib.PathwayWindow
             if (m_createMethod == null)
                 lackInfos.Add("Class");
 
-            if (!(m_textBrush == null))
+            if (m_textBrush == null)
                 lackInfos.Add("TextBrush");
 
-            if (!(m_fillBrush == null))
+            if (m_centerBrush == null)
                 lackInfos.Add("FillBrush");
 
-            if (!(m_lineBrush == null))
+            if (m_lineBrush == null)
                 lackInfos.Add("LineBrush");
 
-            if (!(m_roundBrush == null))
+            if (m_fillBrush == null)
                 lackInfos.Add("RoundBrush");
 
             if (lackInfos.Count == 0)
@@ -322,9 +319,8 @@ namespace EcellLib.PathwayWindow
         public PPathwayObject CreateTemplate()
         {
             PPathwayObject obj = m_createMethod();
+            obj.AddPath(m_figure.GraphicsPath, false);
             obj.Setting = this;
-            obj.FillBrush = m_fillBrush;
-            obj.LineBrush = m_lineBrush;
             if (m_componentType == ComponentType.System)
             {
                 obj.Width = PPathwaySystem.MIN_X_LENGTH;
@@ -332,12 +328,31 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
-                obj.AddPath(m_figure.GraphicsPath, false);
                 obj.Width = PPathwayNode.DEFAULT_WIDTH;
                 obj.Height = PPathwayNode.DEFAULT_HEIGHT;
             }
 
             return obj;
+        }
+
+        /// <summary>
+        /// Get FillBrush
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public Brush GetFillBrush(GraphicsPath path)
+        {
+            if (m_isGradation)
+            {
+                PathGradientBrush pthGrBrush = new PathGradientBrush(path);
+                pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(m_centerBrush);
+                pthGrBrush.SurroundColors = new Color[] { BrushManager.ParseBrushToColor(m_fillBrush) };
+                return pthGrBrush;
+            }
+            else
+            {
+                return this.m_fillBrush;
+            }
         }
 
         /// <summary>
@@ -356,7 +371,7 @@ namespace EcellLib.PathwayWindow
             else
             {
                 GraphicsPath gp = m_figure.TransformedPath;
-                gra.FillPath(m_fillBrush, gp);
+                gra.FillPath(m_centerBrush, gp);
                 gra.DrawPath(new Pen(m_lineBrush, 16), gp);
             }
             return icon;

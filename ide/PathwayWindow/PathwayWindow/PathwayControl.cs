@@ -1179,12 +1179,14 @@ namespace EcellLib.PathwayWindow
                 animationPage.ApplyChange();
             }
             dialog.Dispose();
-
+            m_toolBox.ResetTemplate();
+           
+            if (m_canvasDict == null)
+                return;
             foreach (CanvasControl canvas in m_canvasDict.Values)
             {
                 canvas.ResetObjectSettings();
             }
-            m_toolBox.ResetTemplate();
         }
 
         /// <summary>

@@ -101,6 +101,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_object.Pickable = false;
             m_object.CenterPointF = center;
             m_object.Refresh();
+            m_object.RefreshSettings();
             base.Layer.AddChild(m_object);
         }
         

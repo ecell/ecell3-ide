@@ -907,7 +907,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public void RefreshSettings()
         {
             this.PText.TextBrush = m_setting.TextBrush;
-            this.FillBrush = m_setting.FillBrush;
+            this.FillBrush = m_setting.GetFillBrush(m_path);
             this.LineBrush = m_setting.LineBrush;
         }
 
@@ -949,6 +949,7 @@ namespace EcellLib.PathwayWindow.Nodes
             else
                 m_pText.Visible = false;
         }
+
         #endregion
 
         #region EventHandlers

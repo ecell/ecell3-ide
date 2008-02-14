@@ -156,7 +156,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 m_pPropertyText.Visible = false;
             }
             // Set gradient brush
-            base.FillBrush = m_setting.FillBrush;
+            base.FillBrush = m_setting.GetFillBrush(m_path);
         }
         /// <summary>
         /// notify to add the related process to list.
