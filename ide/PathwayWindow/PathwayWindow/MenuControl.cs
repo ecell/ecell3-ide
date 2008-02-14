@@ -591,7 +591,6 @@ namespace EcellLib.PathwayWindow
             handButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             handButton.Name = ToolButtonMoveCanvas;
             handButton.Image = PathwayResource.move1;
-            handButton.Text = "";
             handButton.CheckOnClick = true;
             handButton.ToolTipText = m_resources.GetString(ToolButtonMoveCanvas);
             handButton.Handle = new Handle(Mode.Pan, handleCount, new PPanEventHandler());
@@ -603,7 +602,6 @@ namespace EcellLib.PathwayWindow
             button0.ImageTransparentColor = System.Drawing.Color.Magenta;
             button0.Name = ToolButtonSelectMode;
             button0.Image = PathwayResource.arrow;
-            button0.Text = "";
             button0.CheckOnClick = true;
             button0.ToolTipText = m_resources.GetString(ToolButtonSelectMode);
             button0.Handle = new Handle(Mode.Select, handleCount, new DefaultMouseHandler(m_con));
@@ -618,7 +616,6 @@ namespace EcellLib.PathwayWindow
             arrowButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             arrowButton.Name = ToolButtonAddOnewayReaction;
             arrowButton.Image = PathwayResource.arrow_long_right_w;
-            arrowButton.Text = "";
             arrowButton.CheckOnClick = true;
             arrowButton.ToolTipText = m_resources.GetString(ToolButtonAddOnewayReaction);
             arrowButton.Handle = new Handle(Mode.CreateOneWayReaction, handleCount, new CreateReactionMouseHandler(m_con));
@@ -630,7 +627,6 @@ namespace EcellLib.PathwayWindow
             bidirButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             bidirButton.Name = ToolButtonAddMutualReaction;
             bidirButton.Image = PathwayResource.arrow_long_bidir_w;
-            bidirButton.Text = "";
             bidirButton.CheckOnClick = true;
             bidirButton.ToolTipText = m_resources.GetString(ToolButtonAddMutualReaction);
             bidirButton.Handle = new Handle(Mode.CreateMutualReaction, handleCount, new CreateReactionMouseHandler(m_con));
@@ -642,7 +638,6 @@ namespace EcellLib.PathwayWindow
             constButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             constButton.Name = ToolButtonAddConstant;
             constButton.Image = PathwayResource.ten;
-            constButton.Text = "";
             constButton.CheckOnClick = true;
             constButton.ToolTipText = m_resources.GetString(ToolButtonAddConstant);
             constButton.Handle = new Handle(Mode.CreateConstant, handleCount, new CreateReactionMouseHandler(m_con));
@@ -654,10 +649,10 @@ namespace EcellLib.PathwayWindow
             {
                 PathwayToolStripButton button = new PathwayToolStripButton();
                 button.ImageTransparentColor = System.Drawing.Color.Magenta;
+                button.ComponentSetting = cs;
                 button.Name = cs.Name;
                 button.Image = cs.IconImage;
-                button.Size = new System.Drawing.Size(256, 256);
-                button.Text = "";
+                button.Size = new System.Drawing.Size(32, 32);
                 button.CheckOnClick = true;
                 if (cs.ComponentType == ComponentType.System)
                 {

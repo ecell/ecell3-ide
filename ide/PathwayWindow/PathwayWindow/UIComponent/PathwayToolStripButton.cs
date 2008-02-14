@@ -44,6 +44,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Handle
         /// </summary>
         protected Handle m_handle = null;
+
+        protected ComponentSetting m_cs = null;
         #endregion
 
         #region Accessor
@@ -55,6 +57,26 @@ namespace EcellLib.PathwayWindow.UIComponent
             get { return m_handle; }
             set { m_handle = value; }
         }
+        /// <summary>
+        /// Handle
+        /// </summary>
+        public ComponentSetting ComponentSetting
+        {
+            get { return m_cs; }
+            set
+            {
+                m_cs = value;
+                m_cs.PropertyChange += new EventHandler(cs_PropertyChange);
+            }
+        }
         #endregion
+
+        #region EventHandler
+        void cs_PropertyChange(object sender, EventArgs e)
+        {
+            this.Image = m_cs.IconImage;
+        }
+        #endregion
+
     }
 }
