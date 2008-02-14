@@ -70,12 +70,5 @@ namespace EcellLib.PathwayWindow.UIComponent
             pCanvas3.AddInputEventListener(eventHandler);
             pCanvas3.Setting = m_con.ComponentManager.DefaultProcessSetting;
         }
-
-        internal void ResetTemplate()
-        {
-            pCanvas1.Setting = pCanvas1.Setting;
-            pCanvas2.Setting = pCanvas2.Setting;
-            pCanvas3.Setting = pCanvas3.Setting;
-        }
     }
 }

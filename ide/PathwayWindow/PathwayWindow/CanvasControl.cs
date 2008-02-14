@@ -1413,7 +1413,6 @@ namespace EcellLib.PathwayWindow
         {
             foreach (PPathwayObject obj in GetAllObjects())
             {
-                obj.RefreshSettings();
                 obj.ViewMode = m_isViewMode;
             }
             if (m_isViewMode)

@@ -112,14 +112,14 @@ namespace EcellLib.PathwayWindow.Figure
                 x = innerPoint.X;
                 float y1 = innerPoint.Y - b;
                 float y2 = innerPoint.Y + b;
-                y = (Math.Abs(y1 - outerPoint.Y) <= Math.Abs(y2 - outerPoint.Y)) ? y1 : y2;
+                y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
             }
             else if (dy == 0)
             {
                 y = innerPoint.Y;
                 float x1 = innerPoint.X - a;
                 float x2 = innerPoint.X + a;
-                x = (Math.Abs(x1 - outerPoint.X) <= Math.Abs(x2 - outerPoint.X)) ? x1 : x2;
+                x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
             }
             else
             {
@@ -127,8 +127,11 @@ namespace EcellLib.PathwayWindow.Figure
                 float xx = b * b / ((delta * delta) + (b * b) / (a * a));
                 float x1 = innerPoint.X - (float)Math.Sqrt(xx);
                 float x2 = innerPoint.X + (float)Math.Sqrt(xx);
-                x = (Math.Abs(x1 - outerPoint.X) <= Math.Abs(x2 - outerPoint.X)) ? x1 : x2;
-                y = delta * (x - innerPoint.X) + innerPoint.Y;
+                x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
+                float yy = b * b / (1 + (b * b) / (a * a) * (dx * dx) / (dy * dy) );
+                float y1 = innerPoint.Y - (float)Math.Sqrt(yy);
+                float y2 = innerPoint.Y + (float)Math.Sqrt(yy);
+                y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;
             }
             return new PointF(x, y);
 

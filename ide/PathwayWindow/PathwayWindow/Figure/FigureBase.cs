@@ -109,6 +109,8 @@ namespace EcellLib.PathwayWindow.Figure
         {
             get
             {
+                float width = 32;
+                float height = 32;
                 GraphicsPath transPath = (GraphicsPath)m_gp.Clone();
                 RectangleF rect = m_gp.GetBounds();
                 Matrix matrix = new Matrix();
@@ -121,13 +123,13 @@ namespace EcellLib.PathwayWindow.Figure
                 matrix = new Matrix();
                 if (rect.Width > rect.Height)
                 {
-                    matrix.Scale(240f / rect.Width, 240f / rect.Width);
-                    matrix.Translate(128f * rect.Width / 256f, 128f * rect.Width / 256f);
+                    matrix.Scale(30f / rect.Width, 30f / rect.Width);
+                    matrix.Translate(rect.Width / 2f, rect.Width / 2f);
                 }
                 else
                 {
-                    matrix.Scale(240f / rect.Height, 240f / rect.Height);
-                    matrix.Translate(128f * rect.Height / 256f, 128f * rect.Height / 256f);
+                    matrix.Scale(30f / rect.Height, 30f / rect.Height);
+                    matrix.Translate(rect.Height / 2f, rect.Height / 2f);
                 }
 
                 transPath.Transform(matrix);

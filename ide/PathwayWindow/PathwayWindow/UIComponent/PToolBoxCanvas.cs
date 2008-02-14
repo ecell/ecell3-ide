@@ -87,7 +87,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             base.AllowDrop = false;
             base.GridFitText = false;
         }
-        
         #endregion
 
         #region private Methods
@@ -101,10 +100,9 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_object.Pickable = false;
             m_object.CenterPointF = center;
             m_object.Refresh();
-            m_object.RefreshSettings();
+            m_object.SetFillBrush();
             base.Layer.AddChild(m_object);
         }
-        
         #endregion
     }
 }

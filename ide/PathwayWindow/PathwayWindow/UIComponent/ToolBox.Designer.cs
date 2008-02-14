@@ -57,7 +57,6 @@
             this.pCanvas1.Name = "pCanvas1";
             this.pCanvas1.PPathwayObject = null;
             this.pCanvas1.RegionManagement = true;
-            this.pCanvas1.Setting = null;
             this.pCanvas1.Size = new System.Drawing.Size(77, 65);
             this.pCanvas1.TabIndex = 0;
             this.pCanvas1.Text = "pCanvas1";
@@ -80,7 +79,6 @@
             this.pCanvas2.Name = "pCanvas2";
             this.pCanvas2.PPathwayObject = null;
             this.pCanvas2.RegionManagement = true;
-            this.pCanvas2.Setting = null;
             this.pCanvas2.Size = new System.Drawing.Size(78, 65);
             this.pCanvas2.TabIndex = 0;
             this.pCanvas2.Text = "pCanvas2";
@@ -103,7 +101,6 @@
             this.pCanvas3.Name = "pCanvas3";
             this.pCanvas3.PPathwayObject = null;
             this.pCanvas3.RegionManagement = true;
-            this.pCanvas3.Setting = null;
             this.pCanvas3.Size = new System.Drawing.Size(78, 65);
             this.pCanvas3.TabIndex = 0;
             this.pCanvas3.Text = "pCanvas3";

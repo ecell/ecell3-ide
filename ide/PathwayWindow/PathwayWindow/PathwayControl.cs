@@ -1179,7 +1179,6 @@ namespace EcellLib.PathwayWindow
                 animationPage.ApplyChange();
             }
             dialog.Dispose();
-            m_toolBox.ResetTemplate();
            
             if (m_canvasDict == null)
                 return;

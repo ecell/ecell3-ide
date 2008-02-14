@@ -120,7 +120,11 @@ namespace EcellLib.PathwayWindow
         public ComponentType ComponentType
         {
             get { return this.m_componentType; }
-            set { this.m_componentType = value; }
+            set 
+            { 
+                this.m_componentType = value;
+                RaisePropertyChange();
+            }
         }
 
         /// <summary>
@@ -158,7 +162,11 @@ namespace EcellLib.PathwayWindow
         public bool IsDefault
         {
             get { return m_isDefault; }
-            set { m_isDefault = value; }
+            set 
+            { 
+                m_isDefault = value;
+                RaisePropertyChange();
+            }
         }
 
         /// <summary>
@@ -167,7 +175,11 @@ namespace EcellLib.PathwayWindow
         public bool IsGradation
         {
             get { return m_isGradation; }
-            set { m_isGradation = value; }
+            set 
+            { 
+                m_isGradation = value;
+                RaisePropertyChange();
+            }
         }
 
         /// <summary>
@@ -176,7 +188,10 @@ namespace EcellLib.PathwayWindow
         public Brush CenterBrush
         {
             get { return this.m_centerBrush; }
-            set { this.m_centerBrush = value; }
+            set { 
+                this.m_centerBrush = value;
+                RaisePropertyChange();
+            }
         }
 
         /// <summary>
@@ -185,7 +200,11 @@ namespace EcellLib.PathwayWindow
         public Brush FillBrush
         {
             get { return this.m_fillBrush; }
-            set { this.m_fillBrush = value; }
+            set 
+            { 
+                this.m_fillBrush = value;
+                RaisePropertyChange();
+            }
         }
 
         /// <summary>
@@ -194,7 +213,11 @@ namespace EcellLib.PathwayWindow
         public Brush TextBrush
         {
             get { return this.m_textBrush; }
-            set { this.m_textBrush = value; }
+            set 
+            { 
+                this.m_textBrush = value;
+                RaisePropertyChange();
+            }
         }
         /// <summary>
         /// Accessor for m_lineBrush.
@@ -205,6 +228,7 @@ namespace EcellLib.PathwayWindow
             set
             {
                 this.m_lineBrush = value;
+                RaisePropertyChange();
             }
         }
         /// <summary>
@@ -213,7 +237,11 @@ namespace EcellLib.PathwayWindow
         public Brush HighlightBrush
         {
             get { return this.m_highlightBrush; }
-            set { this.m_highlightBrush = value; }
+            set 
+            { 
+                this.m_highlightBrush = value;
+                RaisePropertyChange();
+            }
         }
         /// <summary>
         /// Accessor for m_figure.
@@ -221,7 +249,11 @@ namespace EcellLib.PathwayWindow
         public FigureBase Figure
         {
             get { return this.m_figure; }
-            set { this.m_figure = value; }
+            set
+            { 
+                this.m_figure = value;
+                RaisePropertyChange();
+            }
         }
         /// <summary>
         /// Getter for IconImage.
@@ -229,6 +261,32 @@ namespace EcellLib.PathwayWindow
         public Image IconImage
         {
             get { return CreateIconImage(); }
+        }
+        #endregion
+
+        #region EventHandler for PropertyChange
+        private EventHandler m_onPropertyChange;
+        /// <summary>
+        /// Event on property change.
+        /// </summary>
+        public event EventHandler PropertyChange
+        {
+            add { m_onPropertyChange += value; }
+            remove { m_onPropertyChange -= value; }
+        }
+        /// <summary>
+        /// Event on property change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnPropertyChange(EventArgs e)
+        {
+            if (m_onPropertyChange != null)
+                m_onPropertyChange(this, e);
+        }
+        private void RaisePropertyChange()
+        {
+            EventArgs e = new EventArgs();
+            OnPropertyChange(e);
         }
         #endregion
 
@@ -361,18 +419,19 @@ namespace EcellLib.PathwayWindow
         /// <returns></returns>
         private Image CreateIconImage()
         {
-            Image icon = new Bitmap(256, 256);
+            Image icon = new Bitmap(32, 32);
             Graphics gra = Graphics.FromImage(icon);
             if (m_componentType == ComponentType.System)
             {
-                Rectangle rect = new Rectangle(3, 3, 240, 240);
-                gra.DrawRectangle(new Pen(Brushes.Black, 16), rect);
+                Rectangle rect = new Rectangle(1, 1, 30, 30);
+                gra.DrawRectangle(new Pen(Brushes.Black, 2), rect);
             }
             else
             {
                 GraphicsPath gp = m_figure.TransformedPath;
-                gra.FillPath(m_centerBrush, gp);
-                gra.DrawPath(new Pen(m_lineBrush, 16), gp);
+                Brush brush = GetFillBrush(gp);
+                gra.FillPath(brush, gp);
+                gra.DrawPath(new Pen(m_lineBrush, 2), gp);
             }
             return icon;
         }

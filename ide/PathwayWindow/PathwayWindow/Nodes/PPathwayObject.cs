@@ -337,6 +337,7 @@ namespace EcellLib.PathwayWindow.Nodes
             set 
             {
                 this.m_setting = value;
+                this.m_setting.PropertyChange += new EventHandler(m_setting_PropertyChange);
                 RefreshSettings();
             }
         }
@@ -361,7 +362,7 @@ namespace EcellLib.PathwayWindow.Nodes
             set
             {
                 this.m_fillBrush = value;
-                base.Brush = this.m_fillBrush;
+                base.Brush = m_fillBrush;
             }
         }
         /// <summary>
@@ -407,8 +408,6 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return m_isViewMode; }
             set
             {
-                if (m_isViewMode == value)
-                    return;
                 m_isViewMode = value;
                 RefreshView(value);
                 SetTextVisiblity();
@@ -902,13 +901,40 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// RefreshComponentSettings
+        /// Eventhandler on ComponentSetting.PropertyChange
         /// </summary>
-        public void RefreshSettings()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void m_setting_PropertyChange(object sender, EventArgs e)
+        {
+            RefreshSettings();
+        }
+
+        /// <summary>
+        /// Refresh ComponentSetting.
+        /// </summary>
+        protected void RefreshSettings()
         {
             this.PText.TextBrush = m_setting.TextBrush;
-            this.FillBrush = m_setting.GetFillBrush(m_path);
             this.LineBrush = m_setting.LineBrush;
+            SetFillBrush();
+        }
+        /// <summary>
+        /// Set FillBrush
+        /// </summary>
+        public void SetFillBrush()
+        {
+            if (m_setting.IsGradation)
+            {
+                PathGradientBrush pthGrBrush = new PathGradientBrush(m_path);
+                pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(m_setting.CenterBrush);
+                pthGrBrush.SurroundColors = new Color[] { BrushManager.ParseBrushToColor(m_setting.FillBrush) };
+                this.FillBrush = pthGrBrush;
+            }
+            else
+            {
+                this.FillBrush = m_setting.FillBrush;
+            }
         }
 
         /// <summary>
