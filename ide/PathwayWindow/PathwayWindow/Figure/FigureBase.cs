@@ -67,7 +67,7 @@ namespace EcellLib.PathwayWindow.Figure
         protected string m_type = "";
 
         /// <summary>
-        /// 
+        /// GraphicsPath
         /// </summary>
         protected GraphicsPath m_gp = null;
         #endregion
@@ -102,6 +102,20 @@ namespace EcellLib.PathwayWindow.Figure
             }
         }
 
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public FigureBase()
+        {
+            m_gp = new GraphicsPath();
+        }
+        
+        #endregion
+
+        #region Methods
         /// <summary>
         /// Accessor for resized m_gp for being used as ToolBox item.
         /// </summary>
@@ -136,16 +150,6 @@ namespace EcellLib.PathwayWindow.Figure
                 return transPath;
             }
         }
-        #endregion
-
-        #region Constructors
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public FigureBase()
-        {
-            m_gp = new GraphicsPath();
-        }
 
         /// <summary>
         /// Create figure.
@@ -167,7 +171,6 @@ namespace EcellLib.PathwayWindow.Figure
                     return null;
             }
         }
-        #endregion
 
         /// <summary>
         /// Change string to float array.
@@ -192,5 +195,8 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="innerPoint"></param>
         /// <returns></returns>
         public abstract PointF GetContactPoint(PointF outerPoint, PointF innerPoint);
+
+        #endregion
+
     }
 }

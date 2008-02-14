@@ -350,7 +350,7 @@ namespace EcellLib.PathwayWindow.Nodes
             }
             else
             {
-                base.AddPath(m_setting.Figure.GraphicsPath, false);
+                base.AddPath(m_setting.EditModeFigure.GraphicsPath, false);
             }
             base.CenterPointF = centerPos;
             SetFillBrush();

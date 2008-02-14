@@ -661,7 +661,7 @@ namespace EcellLib.PathwayWindow
                 }
                 else
                 {
-                    button.Handle = new Handle(Mode.CreateNode, handleCount++, new CreateNodeMouseHandler(m_con, cs.ComponentType), cs.ComponentType);
+                    button.Handle = new Handle(Mode.CreateNode, handleCount++, new CreateNodeMouseHandler(m_con, cs), cs.ComponentType);
                     if (cs.ComponentType == ComponentType.Process)
                         button.ToolTipText = m_resources.GetString(ToolButtonCreateProcess);
                     else if(cs.ComponentType == ComponentType.Variable)
@@ -677,7 +677,6 @@ namespace EcellLib.PathwayWindow
             zoominButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             zoominButton.Name = ToolButtonZoomIn;
             zoominButton.Image = PathwayResource.zoom_in;
-            zoominButton.Text = "";
             zoominButton.CheckOnClick = false;
             zoominButton.ToolTipText = m_resources.GetString(ToolButtonZoomIn);
             zoominButton.Handle = new Handle(Mode.CreateConstant, handleCount, 2f);
@@ -688,7 +687,6 @@ namespace EcellLib.PathwayWindow
             zoomoutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             zoomoutButton.Name = ToolButtonZoomOut;
             zoomoutButton.Image = PathwayResource.zoom_out;
-            zoomoutButton.Text = "";
             zoomoutButton.CheckOnClick = false;
             zoomoutButton.ToolTipText = m_resources.GetString(ToolButtonZoomOut);
             zoomoutButton.Handle = new Handle(Mode.CreateConstant, handleCount, 0.5f);

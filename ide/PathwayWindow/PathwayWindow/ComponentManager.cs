@@ -58,15 +58,15 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The default name of system.
         /// </summary>
-        public const string DEFAULT_SYSTEM_NAME = "DefaultSystem";
+        public const string NameOfDefaultSystem = "DefaultSystem";
         /// <summary>
         /// The default name of process.
         /// </summary>
-        public const string DEFAULT_PROCESS_NAME = "DefaultProcess";
+        public const string NameOfDefaultProcess = "DefaultProcess";
         /// <summary>
         /// The default name of variable.
         /// </summary>
-        public const string DEFAULT_VARIABLE_NAME = "DefaultVariable";
+        public const string NameOfDefaultVariable = "DefaultVariable";
         /// <summary>
         /// Class name of PPathwaySystem.
         /// </summary>
@@ -371,8 +371,8 @@ namespace EcellLib.PathwayWindow
                     xmlOut.WriteElementString(xPathClass, setting.Class);
                     xmlOut.WriteStartElement(xPathFigure);
                     xmlOut.WriteAttributeString(xPathMode, xPathEdit);
-                    xmlOut.WriteAttributeString(xPathType, setting.Figure.Type);
-                    xmlOut.WriteElementString(xPathSize, setting.Figure.Coordinates);
+                    xmlOut.WriteAttributeString(xPathType, setting.EditModeFigure.Type);
+                    xmlOut.WriteElementString(xPathSize, setting.EditModeFigure.Coordinates);
                     xmlOut.WriteElementString(xPathTextBrush, BrushManager.ParseBrushToString(setting.TextBrush));
                     xmlOut.WriteElementString(xPathLineBrush, BrushManager.ParseBrushToString(setting.LineBrush));
                     xmlOut.WriteElementString(xPathFillBrush, BrushManager.ParseBrushToString(setting.FillBrush));
@@ -454,20 +454,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Get an object template.
-        /// </summary>
-        /// <param name="cType"></param>
-        /// <returns></returns>
-        public PPathwayObject CreateTemplate(ComponentType cType)
-        {
-            ComponentSetting setting = GetDefaultComponentSetting(cType);
-            if (setting == null)
-                return null;
-            PPathwayObject obj = setting.CreateTemplate();
-            return obj;
-        }
-
-        /// <summary>
         /// Get
         /// </summary>
         /// <param name="cType"></param>
@@ -539,40 +525,40 @@ namespace EcellLib.PathwayWindow
             // Set hard coded default system ComponentSettings
             ComponentSetting defSysCs = new ComponentSetting();
             defSysCs.ComponentType = ComponentType.System;
-            defSysCs.Name = DEFAULT_SYSTEM_NAME;
+            defSysCs.Name = NameOfDefaultSystem;
+            defSysCs.Class = ClassPPathwaySystem;
             defSysCs.IsDefault = true;
+            defSysCs.EditModeFigure = FigureBase.CreateFigure("RoundCornerRectangle", "0,0,500,500");
             defSysCs.CenterBrush = Brushes.LightBlue;
             defSysCs.FillBrush = Brushes.LightBlue;
             defSysCs.IsGradation = false;
             defSysCs.LineBrush = Brushes.Blue;
-            defSysCs.Figure = FigureBase.CreateFigure("RoundCornerRectangle", "0,0,500,500");
-            defSysCs.AddComponentClass(ClassPPathwaySystem);
             RegisterSetting(defSysCs);
 
             // Set hard coded default variable ComponentSettings
             ComponentSetting defVarCs = new ComponentSetting();
             defVarCs.ComponentType = ComponentType.Variable;
-            defVarCs.Name = DEFAULT_VARIABLE_NAME;
+            defVarCs.Name = NameOfDefaultVariable;
+            defVarCs.Class = ClassPPathwayVariable;
             defVarCs.IsDefault = true;
+            defVarCs.EditModeFigure = FigureBase.CreateFigure("Ellipse", "0,0,60,40");
             defVarCs.LineBrush = Brushes.Black;
             defVarCs.CenterBrush = Brushes.LightBlue;
             defVarCs.FillBrush = Brushes.LightBlue;
             defVarCs.IsGradation = false;
-            defVarCs.Figure = FigureBase.CreateFigure("Ellipse", "0,0,60,40");
-            defVarCs.AddComponentClass(ClassPPathwayVariable);
             RegisterSetting(defVarCs);
 
             // Set hard coded default process ComponentSettings
             ComponentSetting defProCs = new ComponentSetting();
             defProCs.ComponentType = ComponentType.Process;
-            defProCs.Name = DEFAULT_PROCESS_NAME;
+            defProCs.Name = NameOfDefaultProcess;
+            defProCs.Class = ClassPPathwayProcess;
             defProCs.IsDefault = true;
+            defProCs.EditModeFigure = FigureBase.CreateFigure("Rectangle", "0,0,60,40");
             defProCs.LineBrush = Brushes.Black;
             defProCs.CenterBrush = Brushes.LightGreen;
             defProCs.FillBrush = Brushes.LightGreen;
             defProCs.IsGradation = false;
-            defProCs.Figure = FigureBase.CreateFigure("Rectangle", "0,0,60,40");
-            defProCs.AddComponentClass(ClassPPathwayProcess);
             RegisterSetting(defProCs);
         }
 
@@ -681,7 +667,7 @@ namespace EcellLib.PathwayWindow
                     }
                     else if (parameterNode.Name.Equals(xPathClass))
                     {
-                        cs.AddComponentClass(parameterNode.InnerText);
+                        cs.Class = parameterNode.InnerText;
                     }
                     else if (parameterNode.Name.Equals(xPathFigure))
                     {
@@ -689,7 +675,7 @@ namespace EcellLib.PathwayWindow
                         {
                             if (figureNode.Name.Equals(xPathSize))
                             {
-                                cs.Figure = FigureBase.CreateFigure(parameterNode.Attributes[xPathType].Value, figureNode.InnerText);
+                                cs.EditModeFigure = FigureBase.CreateFigure(parameterNode.Attributes[xPathType].Value, figureNode.InnerText);
                             }
                             else if (figureNode.Name.Equals(xPathTextBrush))
                             {
@@ -863,7 +849,7 @@ namespace EcellLib.PathwayWindow
                 // Create UI Object
                 List<string> brushList = BrushManager.GetBrushNameList();
 
-                this.figureBox = new PropertyComboboxItem("Figure", cs.Figure.Type, new List<string>());
+                this.figureBox = new PropertyComboboxItem("Figure", cs.EditModeFigure.Type, new List<string>());
                 this.textBrush = new PropertyBrushItem("Text Brush", cs.TextBrush, brushList);
                 this.lineBrush = new PropertyBrushItem("Line Brush", cs.LineBrush, brushList);
                 this.fillBrush = new PropertyBrushItem("Fill Brush", cs.FillBrush, brushList);

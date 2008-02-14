@@ -58,7 +58,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             set { m_handle = value; }
         }
         /// <summary>
-        /// Handle
+        /// ComponentSetting
         /// </summary>
         public ComponentSetting ComponentSetting
         {
@@ -72,7 +72,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         #endregion
 
         #region EventHandler
-        void cs_PropertyChange(object sender, EventArgs e)
+        private void cs_PropertyChange(object sender, EventArgs e)
         {
             this.Image = m_cs.IconImage;
         }

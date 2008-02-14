@@ -51,10 +51,11 @@ namespace EcellLib.PathwayWindow.Handler
     public class CreateNodeMouseHandler : PPathwayInputEventHandler
     {
         #region Fields
+        private ComponentSetting m_cs = null;
         /// <summary>
         /// Object template.
         /// </summary>
-        private PPathwayObject m_template;
+        private PPathwayObject m_template = null;
         #endregion
 
         #region Constructor
@@ -62,11 +63,12 @@ namespace EcellLib.PathwayWindow.Handler
         /// Constructor
         /// </summary>
         /// <param name="control">PathwayControl instance.</param>
-        /// <param name="cType">ComponentType</param>
-        public CreateNodeMouseHandler(PathwayControl control, ComponentType cType)
+        /// <param name="cs">ComponentSetting</param>
+        public CreateNodeMouseHandler(PathwayControl control, ComponentSetting cs)
         {
             this.m_con = control;
-            this.m_template = m_con.ComponentManager.CreateTemplate(cType);
+            this.m_cs = cs;
+            this.m_template = m_cs.CreateTemplate();
             m_template.Pickable = false;
         }
         #endregion
@@ -151,6 +153,7 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
             canvas.ControlLayer.AddChild(m_template);
             m_template.CenterPointF = e.Position;
+            m_template.SetFillBrush();
         }
         #endregion
     }

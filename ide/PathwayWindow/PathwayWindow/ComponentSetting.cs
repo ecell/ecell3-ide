@@ -61,9 +61,19 @@ namespace EcellLib.PathwayWindow
         private string m_name;
 
         /// <summary>
-        /// List of FigureBase, which will be used for getting contact point to edge.
+        /// The class name.
         /// </summary>
-        private FigureBase m_figure = null;
+        private string m_class;
+
+        /// <summary>
+        /// A FigureBase for Edit Mode.
+        /// </summary>
+        private FigureBase m_editFigure = null;
+
+        /// <summary>
+        /// A FigureBase for View Mode.
+        /// </summary>
+        private FigureBase m_viewFigure = null;
 
         /// <summary>
         /// True if gradation Brush is available.
@@ -132,18 +142,11 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public string Class
         {
-            get
+            get { return m_class; }
+            set 
             {
-                switch(m_componentType)
-                {
-                    case ComponentType.System:
-                        return ComponentManager.ClassPPathwaySystem;
-                    case ComponentType.Process:
-                        return ComponentManager.ClassPPathwayProcess;
-                    case ComponentType.Variable:
-                        return ComponentManager.ClassPPathwayVariable;
-                }
-                return null;
+                this.m_class = value;
+                AddClassCreateMethod(m_class);
             }
         }
 
@@ -246,12 +249,12 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_figure.
         /// </summary>
-        public FigureBase Figure
+        public FigureBase EditModeFigure
         {
-            get { return this.m_figure; }
+            get { return this.m_editFigure; }
             set
             { 
-                this.m_figure = value;
+                this.m_editFigure = value;
                 RaisePropertyChange();
             }
         }
@@ -298,7 +301,7 @@ namespace EcellLib.PathwayWindow
         public List<string> Validate()
         {
             List<string> lackInfos = new List<string>();
-            if (m_figure.GraphicsPath.PathData == null || m_figure.GraphicsPath.PointCount == 0)
+            if (m_editFigure.GraphicsPath.PathData == null || m_editFigure.GraphicsPath.PointCount == 0)
                 if(m_componentType != ComponentType.System)
                     lackInfos.Add("Drawing");
 
@@ -327,26 +330,26 @@ namespace EcellLib.PathwayWindow
         /// Add a E-cell class of this ComponentSetting.
         /// </summary>
         /// <param name="className">a name of class</param>
-        public void AddComponentClass(string className)
+        private void AddClassCreateMethod(string className)
         {
-            if(className == null || className.Equals(""))
-                throw new NoSuchComponentClassException();
-
+            PPathwayObject obj = null;
             if (className.Equals(ComponentManager.ClassPPathwayVariable))
             {
-                PPathwayVariable variable = new PPathwayVariable();
-                m_createMethod = variable.CreateNewObject;
+                obj = new PPathwayVariable();
             }
             else if (className.Equals(ComponentManager.ClassPPathwayProcess))
             {
-                PPathwayProcess process = new PPathwayProcess();
-                m_createMethod = process.CreateNewObject;
+                obj = new PPathwayProcess();
             }
             else if (className.Equals(ComponentManager.ClassPPathwaySystem))
             {
-                PPathwaySystem system = new PPathwaySystem();
-                m_createMethod = system.CreateNewObject;
+                obj = new PPathwaySystem();
             }
+            else
+            {
+                throw new NoSuchComponentClassException();
+            }
+            m_createMethod = obj.CreateNewObject;
         }
 
         /// <summary>
@@ -377,7 +380,7 @@ namespace EcellLib.PathwayWindow
         public PPathwayObject CreateTemplate()
         {
             PPathwayObject obj = m_createMethod();
-            obj.AddPath(m_figure.GraphicsPath, false);
+            obj.AddPath(m_editFigure.GraphicsPath, false);
             obj.Setting = this;
             if (m_componentType == ComponentType.System)
             {
@@ -394,27 +397,7 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Get FillBrush
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public Brush GetFillBrush(GraphicsPath path)
-        {
-            if (m_isGradation)
-            {
-                PathGradientBrush pthGrBrush = new PathGradientBrush(path);
-                pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(m_centerBrush);
-                pthGrBrush.SurroundColors = new Color[] { BrushManager.ParseBrushToColor(m_fillBrush) };
-                return pthGrBrush;
-            }
-            else
-            {
-                return this.m_fillBrush;
-            }
-        }
-
-        /// <summary>
-        /// 
+        /// Create IconImage
         /// </summary>
         /// <returns></returns>
         private Image CreateIconImage()
@@ -428,12 +411,32 @@ namespace EcellLib.PathwayWindow
             }
             else
             {
-                GraphicsPath gp = m_figure.TransformedPath;
+                GraphicsPath gp = m_editFigure.TransformedPath;
                 Brush brush = GetFillBrush(gp);
                 gra.FillPath(brush, gp);
                 gra.DrawPath(new Pen(m_lineBrush, 2), gp);
             }
             return icon;
+        }
+
+        /// <summary>
+        /// Get FillBrush
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private Brush GetFillBrush(GraphicsPath path)
+        {
+            if (m_isGradation)
+            {
+                PathGradientBrush pthGrBrush = new PathGradientBrush(path);
+                pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(m_centerBrush);
+                pthGrBrush.SurroundColors = new Color[] { BrushManager.ParseBrushToColor(m_fillBrush) };
+                return pthGrBrush;
+            }
+            else
+            {
+                return this.m_fillBrush;
+            }
         }
         #endregion
     }
