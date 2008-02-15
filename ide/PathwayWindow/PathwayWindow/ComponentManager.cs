@@ -124,6 +124,10 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
+        private const string xPathIconFile = "IconFile";
+        /// <summary>
+        /// 
+        /// </summary>
         private const string xPathFigure = "Figure";
         /// <summary>
         /// 
@@ -369,6 +373,7 @@ namespace EcellLib.PathwayWindow
                     xmlOut.WriteAttributeString(xPathIsDafault, setting.IsDefault.ToString());
                     xmlOut.WriteElementString(xPathName, setting.Name);
                     xmlOut.WriteElementString(xPathClass, setting.Class);
+                    xmlOut.WriteElementString(xPathIconFile, setting.IconFileName);
                     xmlOut.WriteStartElement(xPathFigure);
                     xmlOut.WriteAttributeString(xPathMode, xPathEdit);
                     xmlOut.WriteAttributeString(xPathType, setting.EditModeFigure.Type);
@@ -669,6 +674,10 @@ namespace EcellLib.PathwayWindow
                     {
                         cs.Class = parameterNode.InnerText;
                     }
+                    else if (parameterNode.Name.Equals(xPathIconFile))
+                    {
+                        cs.IconFileName = parameterNode.InnerText;
+                    }
                     else if (parameterNode.Name.Equals(xPathFigure))
                     {
                         foreach (XmlNode figureNode in parameterNode.ChildNodes)
@@ -830,13 +839,14 @@ namespace EcellLib.PathwayWindow
         private class ComponentItem : GroupBox
         {
             #region Fields
+            private PropertyComboboxItem figureBox;
             private PropertyBrushItem textBrush;
             private PropertyBrushItem lineBrush;
             private PropertyBrushItem fillBrush;
             private PropertyBrushItem centerBrush;
-
             private PropertyCheckBoxItem isGradation;
-            private PropertyComboboxItem figureBox;
+            private PropertyFileItem iconFile;
+
             private PToolBoxCanvas pCanvas;
             #endregion
 
@@ -855,6 +865,7 @@ namespace EcellLib.PathwayWindow
                 this.fillBrush = new PropertyBrushItem("Fill Brush", cs.FillBrush, brushList);
                 this.centerBrush = new PropertyBrushItem("", cs.CenterBrush, brushList);
                 this.isGradation = new PropertyCheckBoxItem("Gradation", cs.IsGradation);
+                this.iconFile = new PropertyFileItem("Icon File", cs.IconFileName);
                 this.pCanvas = new PToolBoxCanvas();
                 this.SuspendLayout();
                 // Set Gradation
@@ -869,6 +880,7 @@ namespace EcellLib.PathwayWindow
                 this.Controls.Add(this.lineBrush);
                 this.Controls.Add(this.fillBrush);
                 this.Controls.Add(this.centerBrush);
+                this.Controls.Add(this.iconFile);
                 this.Controls.Add(this.pCanvas);
                 this.Name = "GroupBox";
                 this.Text = cs.Name;
@@ -882,7 +894,7 @@ namespace EcellLib.PathwayWindow
                 this.isGradation.Location = new Point(5, 115);
                 this.isGradation.CheckBox.Left = 90;
                 this.isGradation.Width = 120;
-                this.isGradation.Refresh();
+                this.iconFile.Location = new Point(5, 140);
                 // Set EventHandler
                 this.textBrush.BrushChange += new EventHandler(textBrush_BrushChange);
                 this.lineBrush.BrushChange += new EventHandler(lineBrush_BrushChange);
@@ -900,9 +912,14 @@ namespace EcellLib.PathwayWindow
                 this.pCanvas.Setting = cs;
                 this.pCanvas.PPathwayObject.PText.Text = "Sample";
                 this.pCanvas.PPathwayObject.Refresh();
+                // Set FileDialog
+
+                this.iconFile.Dialog.Filter = "All Supported Format|*.BMP;*.DIB;*.RLE;*.JPG;*.JPEG;*.JPE;*.JFIF;*.GIF;*.PNG;*.ICO;*.EMF;*.WMF;*.TIF;*.TIFF|BMP File|*.BMP;*.DIB;*.RLE|JPEG File|*.JPG;*.JPEG;*.JPE;*.JFIF|GIF File|*.GIF|PNG File|*.PNG|ICO File|*.ICO|EMF File, WMF File|*.EMF;*.WMF|TIFF File|*.TIF;*.TIFF";
+                this.iconFile.Dialog.FilterIndex = 0;
+
                 this.ResumeLayout(false);
                 this.PerformLayout();
-                this.Height = 170;
+                this.Height = 200;
             }
 
             /// <summary>
@@ -916,6 +933,7 @@ namespace EcellLib.PathwayWindow
                 cs.FillBrush = fillBrush.Brush;
                 cs.CenterBrush = centerBrush.Brush;
                 cs.IsGradation = isGradation.Checked;
+                cs.IconFileName = iconFile.FileName;
             }
 
             #region EventHandlers

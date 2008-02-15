@@ -230,21 +230,6 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="persistString"></param>
-        /// <returns></returns>
-        private IDockContent GetContentFromPersistString(string persistString)
-        {
-            foreach (EcellDockContent content in m_dockWindowDic.Values)
-            {
-                if (persistString == content.GetType().ToString())
-                    return content;
-            }
-            return null;
-        }
-
-        /// <summary>
         /// Load default window settings.
         /// </summary>
         public void LoadDefaultWindowSetting()

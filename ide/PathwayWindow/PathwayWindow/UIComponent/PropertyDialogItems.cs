@@ -360,6 +360,75 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// <summary>
     /// UI class for PropertyDialog
     /// </summary>
+    public class PropertyFileItem : PropertyDialogItem
+    {
+        private TextBox m_textBox;
+        private Button m_button;
+        private FileDialog m_fileDialog;
+        /// <summary>
+        /// Get/Set m_textBox.Text
+        /// </summary>
+        public string FileName
+        {
+            get { return m_textBox.Text; }
+            set { m_textBox.Text = value; }
+        }
+
+        /// <summary>
+        /// Get m_fileDialog
+        /// </summary>
+        public FileDialog Dialog
+        {
+            get { return m_fileDialog; }
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="filename"></param>
+        public PropertyFileItem(string label, string filename)
+        {
+            this.m_label.Text = label;
+
+            // Create New Object.
+            this.m_textBox = new TextBox();
+            this.m_button = new Button();
+            this.m_fileDialog = new OpenFileDialog();
+
+            this.SuspendLayout();
+            this.Controls.Add(this.m_button);
+            this.Controls.Add(this.m_textBox);
+            // 
+            this.m_textBox.Location = m_position;
+            this.m_textBox.Size = m_size;
+            this.m_textBox.TabIndex = 0;
+            this.m_textBox.Text = filename;
+
+            this.m_button.Text = "File";
+            this.m_button.Top = m_textBox.Top;
+            this.m_button.Left = m_textBox.Left + m_textBox.Width;
+            this.m_button.Height = m_size.Height;
+            this.m_button.Width = m_size.Height;
+            this.m_button.Click += new EventHandler(m_button_Click);
+
+            this.ResumeLayout(false);
+            this.PerformLayout();
+        }
+
+        void m_button_Click(object sender, EventArgs e)
+        {
+            m_fileDialog.FileName = m_textBox.Text;
+            DialogResult result = m_fileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                m_textBox.Text = m_fileDialog.FileName;
+            }
+        }
+    }
+
+    /// <summary>
+    /// UI class for PropertyDialog
+    /// </summary>
     public class PropertyCheckBoxItem : PropertyDialogItem
     {
         private CheckBox m_checkBox;

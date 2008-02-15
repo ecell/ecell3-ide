@@ -40,6 +40,8 @@ using EcellLib.PathwayWindow.Figure;
 using EcellLib.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo.Util;
 using EcellLib.PathwayWindow.Exceptions;
+using System.IO;
+using System.Diagnostics;
 
 namespace EcellLib.PathwayWindow
 {
@@ -58,12 +60,17 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The name of this component.
         /// </summary>
-        private string m_name;
+        private string m_name = null;
 
         /// <summary>
         /// The class name.
         /// </summary>
-        private string m_class;
+        private string m_class = null;
+
+        /// <summary>
+        /// The icon file name.
+        /// </summary>
+        private string m_iconFileName = null;
 
         /// <summary>
         /// A FigureBase for Edit Mode.
@@ -261,6 +268,18 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Getter for IconImage.
         /// </summary>
+        public string IconFileName
+        {
+            get { return m_iconFileName; }
+            set 
+            {
+                m_iconFileName =  value;
+                RaisePropertyChange();
+            }
+        }
+        /// <summary>
+        /// Getter for IconImage.
+        /// </summary>
         public Image IconImage
         {
             get { return CreateIconImage(); }
@@ -397,12 +416,22 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Create IconImage
+        /// Create IconImage from file / FigureBase.
         /// </summary>
         /// <returns></returns>
         private Image CreateIconImage()
         {
-            Image icon = new Bitmap(32, 32);
+            // Create Icon from file.
+            Image icon = null;
+            if (!string.IsNullOrEmpty(m_iconFileName) && File.Exists(m_iconFileName))
+            {
+                icon = CreateIconImageFromFile(m_iconFileName);
+            }
+            if (icon != null)
+                return icon;
+
+            // Create Icon from FigureBase.
+            icon = new Bitmap(32, 32);
             Graphics gra = Graphics.FromImage(icon);
             if (m_componentType == ComponentType.System)
             {
@@ -415,6 +444,26 @@ namespace EcellLib.PathwayWindow
                 Brush brush = GetFillBrush(gp);
                 gra.FillPath(brush, gp);
                 gra.DrawPath(new Pen(m_lineBrush, 2), gp);
+            }
+            return icon;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private Image CreateIconImageFromFile(string fileName)
+        {
+            Image icon = null;
+            try
+            {
+                Bitmap bitmap = new Bitmap(fileName);
+                icon = new Bitmap(bitmap, 32, 32);
+            }
+            catch (Exception e)
+            {
+                m_iconFileName = null;
+                Debug.WriteLine(e);
             }
             return icon;
         }
