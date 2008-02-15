@@ -131,7 +131,7 @@ namespace EcellLib.PathwayWindow.Handler
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {            
             base.OnMouseDown(sender, e);
-            m_canvas = m_con.CanvasDictionary[e.Canvas.Name];
+            m_canvas = m_con.ActiveCanvas;
 
             if (e.PickedNode is PCamera)
             {

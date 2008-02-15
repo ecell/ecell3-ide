@@ -522,6 +522,8 @@ namespace EcellLib.PathwayWindow
         {
             // Set Layer
             SetLayer(obj);
+            obj.CanvasControl = this;
+            obj.ShowingID = m_showingId;
 
             RegisterObjToSet(obj);
             if (obj is PPathwayNode)

@@ -375,13 +375,10 @@ namespace EcellLib.PathwayWindow
         /// This method create a new component with information in this class.
         /// </summary>
         /// <param name="eo">EcellObject</param>
-        /// <param name="canvas">CanvasControl instance</param>
-        /// <returns>Created component</returns>
-        public PPathwayObject CreateNewComponent(EcellObject eo, CanvasControl canvas)
+        /// <returns>Created component object</returns>
+        public PPathwayObject CreateNewComponent(EcellObject eo)
         {
             PPathwayObject obj = CreateTemplate();
-            obj.CanvasControl = canvas;
-            obj.ShowingID = canvas.ShowingID;
             obj.EcellObject = eo;
             if (obj is PPathwaySystem)
             {

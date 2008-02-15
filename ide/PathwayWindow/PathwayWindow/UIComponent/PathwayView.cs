@@ -107,8 +107,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.m_tabControl.SelectedIndex = 0;
             this.m_tabControl.Size = new System.Drawing.Size(622, 491);
             this.m_tabControl.TabIndex = 0;
-            this.m_tabControl.SelectedIndexChanged += new System.EventHandler(this.m_tabControl_SelectedIndexChanged);
-            // 
+
             // PathwayView
             // 
             this.ClientSize = new System.Drawing.Size(622, 491);
@@ -118,23 +117,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.Text = this.Name;
             this.ResumeLayout(false);
 
-        }
-        /// <summary>
-        /// When change the focused tab control,
-        /// system show the selected model in overview.
-        /// </summary>
-        /// <param name="sender">TabControl.</param>
-        /// <param name="e">EventArgs.</param>
-        void m_tabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (((TabControl)sender).TabCount == 0)
-                return;
-
-            string modelID = ((TabControl)sender).TabPages[((TabControl)sender).SelectedIndex].Text;
-            CanvasControl canvas = m_con.CanvasDictionary[modelID];
-            m_con.OverView.SetCanvas(canvas.OverviewCanvas);
-            // TODO LayerView Setting
-            //m_dgv.DataMember = modelID;
         }
         #endregion
     }

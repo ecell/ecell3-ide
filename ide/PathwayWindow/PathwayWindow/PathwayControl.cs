@@ -124,12 +124,7 @@ namespace EcellLib.PathwayWindow
         ///  key: canvas ID
         ///  value: CanvasViewComponentSet
         /// </summary>
-        private Dictionary<string, CanvasControl> m_canvasDict;
-
-        /// <summary>
-        /// The CanvasID of currently active canvas.
-        /// </summary>
-        private string m_activeCanvasID;
+        private CanvasControl m_canvas;
 
         /// <summary>
         /// List of PPathwayNode for copied object.
@@ -234,25 +229,11 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        ///  get/set Dctionary of CanvasViewComponentSet.
-        /// </summary>
-        public Dictionary<string, CanvasControl> CanvasDictionary
-        {
-            get { return m_canvasDict; }
-        }
-
-        /// <summary>
         /// Accessor for currently active canvas.
         /// </summary>
         public CanvasControl ActiveCanvas
         {
-            get
-            {
-                if (m_activeCanvasID == null)
-                    return null;
-                else
-                    return m_canvasDict[m_activeCanvasID];
-            }
+            get { return m_canvas; }
         }
 
         /// <summary>
@@ -282,10 +263,9 @@ namespace EcellLib.PathwayWindow
             set
             {
                 m_showingId = value;
-                if (m_canvasDict == null)
+                if (m_canvas == null)
                     return;
-                foreach (CanvasControl canvas in m_canvasDict.Values)
-                    canvas.ShowingID = m_showingId;
+                m_canvas.ShowingID = m_showingId;
             }
         }
         /// <summary>
@@ -297,10 +277,9 @@ namespace EcellLib.PathwayWindow
             set
             {
                 m_isViewMode = value;
-                if (m_canvasDict == null)
+                if (m_canvas == null)
                     return;
-                foreach (CanvasControl canvas in m_canvasDict.Values)
-                    canvas.ViewMode = m_isViewMode;
+                m_canvas.ViewMode = m_isViewMode;
                 if (m_isViewMode)
                 {
                     if (m_status == ProjectStatus.Running)
@@ -342,7 +321,7 @@ namespace EcellLib.PathwayWindow
         {
             this.m_window = window;
             // Create Internal object.
-            m_canvasDict = new Dictionary<string, CanvasControl>();
+            m_canvas = null;
             m_csManager = new ComponentManager();
             m_layoutList = m_window.GetLayoutAlgorithms();
             // Create menus
@@ -387,17 +366,16 @@ namespace EcellLib.PathwayWindow
             // Error check.
             if (string.IsNullOrEmpty(eo.Key))
                 throw new PathwayException(m_resources.GetString("ErrKeyNot"));
-            if (string.IsNullOrEmpty(eo.ModelID) || !m_canvasDict.ContainsKey(eo.ModelID))
+            if (string.IsNullOrEmpty(eo.ModelID) || !m_canvas.ModelID.Equals(eo.ModelID))
                 throw new PathwayException(m_resources.GetString("ErrNotSetCanvas") + eo.Key);
             if (eo.Key.EndsWith(":SIZE"))
                 return;
 
             // Create PathwayObject and set to canvas.
-            CanvasControl canvas = m_canvasDict[eo.ModelID];
             ComponentType cType = ComponentManager.ParseStringToComponentType(eo.Type);
             ComponentSetting cs = m_csManager.GetDefaultComponentSetting(cType);
-            PPathwayObject obj = cs.CreateNewComponent(eo, canvas);
-            canvas.DataAdd(eo.ParentSystemID, obj, eo.IsPosSet, isFirst);
+            PPathwayObject obj = cs.CreateNewComponent(eo);
+            m_canvas.DataAdd(eo.ParentSystemID, obj, eo.IsPosSet, isFirst);
             NotifyDataChanged(eo.Key, eo.Key, obj, !isFirst, false);
         }
 
@@ -411,14 +389,13 @@ namespace EcellLib.PathwayWindow
         public void DataChanged(string modelID, string oldKey, string type, EcellObject eo)
         {
             // Select Canvas
-            CanvasControl canvas = m_canvasDict[modelID];
-            if (canvas == null)
+            if (m_canvas == null)
                 return;
             // If case SystemSize
             if (oldKey.EndsWith(":SIZE"))
                 return;
             // Select changed object.
-            PPathwayObject obj = canvas.GetSelectedObject(oldKey, type);
+            PPathwayObject obj = m_canvas.GetSelectedObject(oldKey, type);
             if (obj == null)
                 return;
 
@@ -432,7 +409,7 @@ namespace EcellLib.PathwayWindow
             }
             obj.ViewMode = m_isViewMode;
             obj.Refresh();
-            canvas.DataChanged(oldKey, eo.Key, obj);
+            m_canvas.DataChanged(oldKey, eo.Key, obj);
         }
 
         /// <summary>
@@ -443,15 +420,14 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">The object type of deleted object.</param>
         public void DataDelete(string modelID, string key, string type)
         {
-            CanvasControl canvas = m_canvasDict[modelID];
-            if (canvas == null)
+            if (m_canvas == null)
                 return;
             // If case SystemSize
             if (key.EndsWith(":SIZE"))
                 return;
 
             // Delete object.
-            canvas.DataDelete(key, type);
+            m_canvas.DataDelete(key, type);
         }
 
         /// <summary>
@@ -462,7 +438,7 @@ namespace EcellLib.PathwayWindow
         public List<EcellObject> GetSystemList(string modelID)
         {
             List<EcellObject> systemList = new List<EcellObject>();
-            foreach (PPathwayObject obj in m_canvasDict[modelID].GetSystemList())
+            foreach (PPathwayObject obj in m_canvas.GetSystemList())
                 systemList.Add(m_window.GetEcellObject(modelID, obj.EcellObject.Key, obj.EcellObject.Type));
             return systemList;
         }
@@ -475,7 +451,7 @@ namespace EcellLib.PathwayWindow
         public List<EcellObject> GetNodeList(string modelID)
         {
             List<EcellObject> nodeList = new List<EcellObject>();
-            foreach (PPathwayObject obj in m_canvasDict[modelID].GetNodeList())
+            foreach (PPathwayObject obj in m_canvas.GetNodeList())
                 nodeList.Add(m_window.GetEcellObject(modelID, obj.EcellObject.Key, obj.EcellObject.Type));
 
             return nodeList;
@@ -493,10 +469,9 @@ namespace EcellLib.PathwayWindow
             m_layerView.DataGridView.DataSource = null;
             m_animCon.StopSimulation();
             // Clear Canvas dictionary.
-            if (m_canvasDict != null)
-                foreach (CanvasControl set in m_canvasDict.Values)
-                    set.Dispose();
-            m_canvasDict = null;
+            if (m_canvas != null)
+                m_canvas.Dispose();
+            m_canvas = null;
         }
 
         /// <summary>
@@ -505,10 +480,10 @@ namespace EcellLib.PathwayWindow
         /// <returns>Bitmap of this pathway.</returns>
         public Bitmap Print()
         {
-            if (m_canvasDict == null || m_canvasDict.Count == 0)
+            if (m_canvas == null)
                 return new Bitmap(1, 1);
 
-            return ActiveCanvas.ToImage();
+            return m_canvas.ToImage();
         }
 
         /// <summary>
@@ -520,12 +495,11 @@ namespace EcellLib.PathwayWindow
         public void SelectChanged(string modelID, string key, string type)
         {
             // Error check.
-            if (modelID == null || !m_canvasDict.ContainsKey(modelID))
+            if (modelID == null || m_canvas == null)
                 return;
-            CanvasControl canvas = m_canvasDict[modelID];
-            if (canvas == null)
+            if (!m_canvas.ModelID.Equals(modelID))
                 return;
-            canvas.SelectChanged(key, type);
+            m_canvas.SelectChanged(key, type);
         }
 
         /// <summary>
@@ -536,11 +510,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">Type of object added to selected objects.</param>
         public void AddSelect(string modelID, string key, string type)
         {
-            // not implement
-            CanvasControl canvas = m_canvasDict[modelID];
-            if (canvas == null)
+            // Error check.
+            if (modelID == null || m_canvas == null)
                 return;
-            canvas.AddSelect(key, type);
+            if (!m_canvas.ModelID.Equals(modelID))
+                return;
+            m_canvas.AddSelect(key, type);
         }
 
         /// <summary>
@@ -1180,12 +1155,9 @@ namespace EcellLib.PathwayWindow
             }
             dialog.Dispose();
            
-            if (m_canvasDict == null)
+            if (m_canvas == null)
                 return;
-            foreach (CanvasControl canvas in m_canvasDict.Values)
-            {
-                canvas.ResetObjectSettings();
-            }
+            m_canvas.ResetObjectSettings();
         }
 
         /// <summary>
@@ -1237,12 +1209,9 @@ namespace EcellLib.PathwayWindow
                 return;
             PathwayToolStripButton button = (PathwayToolStripButton)sender;
             float rate = button.Handle.ZoomingRate;
-            if (this.CanvasDictionary == null)
+            if (this.ActiveCanvas == null)
                 return;
-            foreach(CanvasControl canvas in this.CanvasDictionary.Values)
-            {
-                canvas.Zoom(rate);
-            }
+            ActiveCanvas.Zoom(rate);
         }
         /// <summary>
         /// 
@@ -1266,22 +1235,18 @@ namespace EcellLib.PathwayWindow
         /// <param name="modelID">the model ID.</param>
         private void CreateCanvas(string modelID)
         {
-            // Clear current canvas (TODO: Remove when support multiple canvas).
-            m_canvasDict = new Dictionary<string, CanvasControl>();
-
             // Create canvas
-            CanvasControl canvas = new CanvasControl(this, modelID);
-            m_activeCanvasID = modelID;
-            m_canvasDict.Add(modelID, canvas);
-            canvas.PathwayCanvas.AddInputEventListener(m_selectedHandle.EventHandler);
+            m_canvas = new CanvasControl(this, modelID);
+
+            m_canvas.PathwayCanvas.AddInputEventListener(m_selectedHandle.EventHandler);
             // Set Pathwayview
             m_pathwayView.Clear();
-            m_pathwayView.TabControl.Controls.Add(canvas.TabPage);
+            m_pathwayView.TabControl.Controls.Add(m_canvas.TabPage);
             // Set Overview
-            m_overView.SetCanvas(canvas.OverviewCanvas);
-            canvas.UpdateOverview();
+            m_overView.SetCanvas(m_canvas.OverviewCanvas);
+            m_canvas.UpdateOverview();
             // Set Layerview
-            m_layerView.DataGridView.DataSource = canvas.LayerTable;
+            m_layerView.DataGridView.DataSource = m_canvas.LayerTable;
         }
 
         /// <summary>
@@ -1291,11 +1256,9 @@ namespace EcellLib.PathwayWindow
         {
             if (m_isFreezed)
                 return;
-            if (null != m_canvasDict)
-            {
-                foreach (CanvasControl canvas in m_canvasDict.Values)
-                    canvas.Freeze();
-            }
+            if (m_canvas != null)
+                m_canvas.Freeze();
+
             m_isFreezed = true;
         }
 
@@ -1306,11 +1269,9 @@ namespace EcellLib.PathwayWindow
         {
             if (!m_isFreezed)
                 return;
-            if (null != m_canvasDict)
-            {
-                foreach (CanvasControl canvas in m_canvasDict.Values)
-                    canvas.Unfreeze();
-            }
+            if (m_canvas != null)
+                m_canvas.Unfreeze();
+
             m_isFreezed = false;
         }
 
@@ -1584,11 +1545,9 @@ namespace EcellLib.PathwayWindow
         private void AddInputEventListener(PBasicInputEventHandler handler)
         {
             // Exception condition 
-            if (m_canvasDict == null)
+            if (m_canvas == null)
                 return;
-
-            foreach (CanvasControl canvas in m_canvasDict.Values)
-                canvas.PathwayCanvas.AddInputEventListener(handler);
+            m_canvas.PathwayCanvas.AddInputEventListener(handler);
         }
 
         /// <summary>
@@ -1598,11 +1557,10 @@ namespace EcellLib.PathwayWindow
         private void RemoveInputEventListener(PBasicInputEventHandler handler)
         {
             // Exception condition 
-            if (m_canvasDict == null)
+            if (m_canvas == null)
                 return;
 
-            foreach(CanvasControl canvas in m_canvasDict.Values)
-                canvas.PathwayCanvas.RemoveInputEventListener(handler);
+            m_canvas.PathwayCanvas.RemoveInputEventListener(handler);
         }
         #endregion
     }
