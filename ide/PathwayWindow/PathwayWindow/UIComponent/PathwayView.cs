@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
+using UMD.HCIL.PiccoloX.Components;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -50,11 +51,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         protected PathwayControl m_con;
 
-        /// <summary>
-        /// Tshi tabcontrol contains tab pages which represent different type of networks, such as 
-        /// metabolic networks, genetic networks.
-        /// </summary>
-        TabControl m_tabControl;
         #endregion
 
         #region Constructor
@@ -66,57 +62,58 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             base.m_isSavable = true;
             this.m_con = control;
+            this.m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
             InitializeComponent();
-        }
-        #endregion
-
-        #region Accessor
-        /// <summary>
-        ///  get TabControl related this object.
-        /// </summary>
-        public TabControl TabControl
-        {
-            get { return this.m_tabControl; }
-        }
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Clear the information managed by this object.
-        /// </summary>
-        public void Clear()
-        {
-            m_tabControl.TabPages.Clear();
         }
         #endregion
 
         #region Inner Methods
         /// <summary>
+        /// Change canvas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void m_con_CanvasChange(object sender, EventArgs e)
+        {
+            this.Controls.Clear();
+            if (m_con.CanvasControl == null)
+                return;
+            PCanvas canvas = m_con.CanvasControl.PathwayCanvas;
+
+            PScrollableControl scrolCtrl = new PScrollableControl(canvas);
+            scrolCtrl.Dock = DockStyle.Fill;
+            this.Controls.Add(canvas);
+            this.Controls.Add(scrolCtrl);
+            this.Text = m_con.CanvasControl.ModelID;
+            this.TabText = this.Text;
+        }
+
+        /// <summary>
         /// Initializer for PCanvas
         /// </summary>
         void InitializeComponent()
         {
-            this.m_tabControl = new System.Windows.Forms.TabControl();
             this.SuspendLayout();
             // 
-            // m_tabControl
-            // 
-            this.m_tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_tabControl.Location = new System.Drawing.Point(0, 0);
-            this.m_tabControl.Name = "m_tabControl";
-            this.m_tabControl.SelectedIndex = 0;
-            this.m_tabControl.Size = new System.Drawing.Size(622, 491);
-            this.m_tabControl.TabIndex = 0;
-
             // PathwayView
             // 
             this.ClientSize = new System.Drawing.Size(622, 491);
-            this.Controls.Add(this.m_tabControl);
             this.Name = "PathwayView";
             this.TabText = this.Name;
             this.Text = this.Name;
             this.ResumeLayout(false);
+        }
 
+        /// <summary>
+        /// Refresh the canvas on size changed.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            if (m_con.CanvasControl == null)
+                return;
+            m_con.CanvasControl.Zoom(1f);
         }
         #endregion
     }

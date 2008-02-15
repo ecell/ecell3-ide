@@ -247,7 +247,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             if (!m_dirtyEventProcessed)
             {
-                CanvasControl canvas = m_con.ActiveCanvas;
+                CanvasControl canvas = m_con.CanvasControl;
                 bool show = !(bool)((DataGridView)sender).CurrentRow.Cells["Show"].Value;
                 string layerName = (string)((DataGridView)sender).CurrentRow.Cells["Name"].Value;
 
@@ -302,7 +302,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void SelectNodesClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.ActiveCanvas;
+            CanvasControl canvas = m_con.CanvasControl;
             string name = (string)m_selectedRow.Cells[1].FormattedValue;
             canvas.SelectNodesUnderLayer(name);
         }
@@ -313,7 +313,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void CreateLayerClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.ActiveCanvas;
+            CanvasControl canvas = m_con.CanvasControl;
             string name = InputBoxDialog.Show(m_resources.GetString(DialogMessage), m_resources.GetString(DialogTitle), "");
             if (name == null || name.Equals(""))
                 return;
@@ -332,7 +332,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void DeleteLayerClick(object sender, EventArgs e)
         {
             string name = (string)m_selectedRow.Cells[1].FormattedValue;
-            CanvasControl canvas = m_con.ActiveCanvas;
+            CanvasControl canvas = m_con.CanvasControl;
             canvas.DeleteLayer(name);
         }
         /// <summary>
@@ -342,7 +342,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void RenameLayerClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.ActiveCanvas;
+            CanvasControl canvas = m_con.CanvasControl;
             string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
             string newName = InputBoxDialog.Show(m_resources.GetString(DialogMessage), m_resources.GetString(DialogTitle), oldName);
             if (newName == null || newName.Equals(""))
@@ -363,7 +363,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void MergeLayerClick(object sender, EventArgs e)
         {
             string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
-            CanvasControl canvas = m_con.ActiveCanvas;
+            CanvasControl canvas = m_con.CanvasControl;
             List<string> list = canvas.GetLayerNameList();
             string newName = SelectBoxDialog.Show(m_resources.GetString(DialogMessage), m_resources.GetString(DialogTitle), list);
             if (newName == null || newName.Equals(""))
@@ -404,7 +404,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             m_cMenuDict[MenuSelectNode].Visible = false;
             m_cMenuDict[MenuSepalator].Visible = false;
-            m_cMenuDict[MenuCreate].Visible = (m_con.ActiveCanvas != null);
+            m_cMenuDict[MenuCreate].Visible = (m_con.CanvasControl != null);
             m_cMenuDict[MenuRename].Visible = false;
             m_cMenuDict[MenuMerge].Visible = false;
             m_cMenuDict[MenuDelete].Visible = false;

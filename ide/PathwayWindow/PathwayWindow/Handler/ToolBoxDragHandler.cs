@@ -109,7 +109,7 @@ namespace EcellLib.PathwayWindow.Handler
             base.OnStartDrag(sender, e);
 
             // Set EventHandler for current canvas.
-            if (m_con.ActiveCanvas == null)
+            if (m_con.CanvasControl == null)
                 return;
             if (!(e.Canvas is PToolBoxCanvas))
                 return;
@@ -176,7 +176,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="canvas"></param>
         private void SetEventHandler(PToolBoxCanvas canvas)
         {
-            m_canvas = m_con.ActiveCanvas;
+            m_canvas = m_con.CanvasControl;
             m_canvas.PathwayCanvas.AddInputEventListener(this);
             m_object = canvas.Setting.CreateTemplate();
             m_object.Pickable = false;

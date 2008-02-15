@@ -97,7 +97,7 @@ namespace EcellLib.PathwayWindow.Handler
             if (!(e.PickedNode is PCamera))
                 return;
 
-            CanvasControl canvas = m_con.ActiveCanvas;
+            CanvasControl canvas = m_con.CanvasControl;
             string system = canvas.GetSurroundingSystemKey(e.Position);
 
             if (string.IsNullOrEmpty(system))
@@ -148,7 +148,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         private void SetTemplate(PInputEventArgs e)
         {
-            CanvasControl canvas = m_con.ActiveCanvas;
+            CanvasControl canvas = m_con.CanvasControl;
             if (canvas == null)
                 return;
             canvas.ControlLayer.AddChild(m_template);

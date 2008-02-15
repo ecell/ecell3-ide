@@ -515,7 +515,7 @@ namespace EcellLib.PathwayWindow
             // Error Check
             if(String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(directory))
                 return;
-            if (!m_con.ActiveCanvas.ModelID.Equals(modelID))
+            if (!m_con.CanvasControl.ModelID.Equals(modelID))
                 return;
 
             List<EcellObject> list = new List<EcellObject>();

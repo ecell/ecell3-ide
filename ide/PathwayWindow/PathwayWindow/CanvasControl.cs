@@ -753,7 +753,7 @@ namespace EcellLib.PathwayWindow
                 return;
             // Set Visibility.
             layer.Visible = isShown;
-            RefreshVisibility();
+            Refresh();
             m_con.OverView.Canvas.Refresh();
         }
 
@@ -1334,7 +1334,7 @@ namespace EcellLib.PathwayWindow
         /// If any object layer is visible, control layer is visible.
         /// Otherwise, a control layer is not visible
         /// </summary>
-        public void RefreshVisibility()
+        public void Refresh()
         {
             bool isAnyVisible = false;
             foreach (PLayer layer in Layers.Values)

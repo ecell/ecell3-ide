@@ -84,7 +84,7 @@ namespace EcellLib.PathwayWindow.Handler
         {
             base.OnMouseDown(sender, e);
 
-            CanvasControl canvas = m_con.ActiveCanvas;
+            CanvasControl canvas = m_con.CanvasControl;
             PPathwayNode newNode = e.PickedNode as PPathwayNode;
             // Reset node.
             if (newNode == null)

@@ -231,9 +231,14 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for currently active canvas.
         /// </summary>
-        public CanvasControl ActiveCanvas
+        public CanvasControl CanvasControl
         {
             get { return m_canvas; }
+            set
+            {
+                this.m_canvas = value;
+                RaiseCanvasChange();
+            }
         }
 
         /// <summary>
@@ -465,13 +470,12 @@ namespace EcellLib.PathwayWindow
         {
             // Reset Interfaces
             m_overView.Clear();
-            m_pathwayView.TabControl.TabPages.Clear();
             m_layerView.DataGridView.DataSource = null;
             m_animCon.StopSimulation();
             // Clear Canvas dictionary.
             if (m_canvas != null)
                 m_canvas.Dispose();
-            m_canvas = null;
+            CanvasControl = null;
         }
 
         /// <summary>
@@ -594,10 +598,10 @@ namespace EcellLib.PathwayWindow
                 m_pathwayView.Cursor = Cursors.Arrow;
                 Unfreeze();
             }
-            if (ActiveCanvas == null)
+            if (CanvasControl == null)
                 return;
-            ActiveCanvas.ResetNodeToBeConnected();
-            ActiveCanvas.LineHandler.SetLineVisibility(false);
+            CanvasControl.ResetNodeToBeConnected();
+            CanvasControl.LineHandler.SetLineVisibility(false);
         }
         #endregion
 
@@ -744,7 +748,7 @@ namespace EcellLib.PathwayWindow
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient, bool isAnchor)
         {
             // Get EcellObject of identified process.
-            EcellProcess ep = (EcellProcess)m_window.GetEcellObject(ActiveCanvas.ModelID, proKey, EcellObject.PROCESS);
+            EcellProcess ep = (EcellProcess)m_window.GetEcellObject(CanvasControl.ModelID, proKey, EcellObject.PROCESS);
             // End if obj is null.
             if (null == ep)
                 return;
@@ -825,6 +829,32 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
+        #region EventHandler for CanvasChange
+        private EventHandler m_onCanvasChange;
+        /// <summary>
+        /// Event on canvas change.
+        /// </summary>
+        public event EventHandler CanvasChange
+        {
+            add { m_onCanvasChange += value; }
+            remove { m_onCanvasChange -= value; }
+        }
+        /// <summary>
+        /// Event on canvas change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnCanvasChange(EventArgs e)
+        {
+            if (m_onCanvasChange != null)
+                m_onCanvasChange(this, e);
+        }
+        private void RaiseCanvasChange()
+        {
+            EventArgs e = new EventArgs();
+            OnCanvasChange(e);
+        }
+        #endregion
+
         #region EventHandlers for MenuClick
 #if DEBUG
         /// <summary>
@@ -860,14 +890,14 @@ namespace EcellLib.PathwayWindow
         public void MergeClick(object sender, EventArgs e)
         {
             // Check exception.
-            CanvasControl canvas = ActiveCanvas;
+            CanvasControl canvas = CanvasControl;
             if (canvas == null || canvas.SelectedSystem == null)
                 return;
 
             PPathwaySystem system = canvas.SelectedSystem;
             m_window.NotifyDataMerge(system.EcellObject.ModelID, system.EcellObject.Key);
             if (system.IsHighLighted)
-                ActiveCanvas.ResetSelectedSystem();
+                CanvasControl.ResetSelectedSystem();
         }
 
         /// <summary>
@@ -878,7 +908,7 @@ namespace EcellLib.PathwayWindow
         public void DeleteClick(object sender, EventArgs e)
         {
             // Check active canvas.
-            CanvasControl canvas = this.ActiveCanvas;
+            CanvasControl canvas = this.CanvasControl;
             if (canvas == null)
                 return;
 
@@ -937,11 +967,11 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void CreateLoggerClick(object sender, EventArgs e)
         {
-            if (!(ActiveCanvas.FocusNode is PPathwayObject))
+            if (!(CanvasControl.FocusNode is PPathwayObject))
                 return;
 
             string logger = ((ToolStripItem)sender).Text;
-            PPathwayObject obj = (PPathwayObject)ActiveCanvas.FocusNode;
+            PPathwayObject obj = (PPathwayObject)CanvasControl.FocusNode;
             Debug.WriteLine("Create " + obj.EcellObject.Type + " Logger:" + obj.EcellObject.Key);
             // set logger
             NotifyLoggerChanged(obj, logger, true);
@@ -954,11 +984,11 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void DeleteLoggerClick(object sender, EventArgs e)
         {
-            if (!(ActiveCanvas.FocusNode is PPathwayObject))
+            if (!(CanvasControl.FocusNode is PPathwayObject))
                 return;
             string logger = ((ToolStripItem)sender).Text;
 
-            PPathwayObject obj = (PPathwayObject)ActiveCanvas.FocusNode;
+            PPathwayObject obj = (PPathwayObject)CanvasControl.FocusNode;
             Debug.WriteLine("Delete " + obj.EcellObject.Type + " Logger:" + obj.EcellObject.Key);
             // delete logger
             NotifyLoggerChanged(obj, logger, false);
@@ -992,7 +1022,7 @@ namespace EcellLib.PathwayWindow
                 return;
             ToolStripItem item = (ToolStripItem)sender;
             // Selected Canvas
-            CanvasControl canvas = ActiveCanvas;
+            CanvasControl canvas = CanvasControl;
             if (canvas == null)
                 return;
             // Selected Line
@@ -1039,9 +1069,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void ChangeLeyerClick(object sender, EventArgs e)
         {
-            if (this.ActiveCanvas == null)
+            if (this.CanvasControl == null)
                 return;
-            CanvasControl canvas = this.ActiveCanvas;
+            CanvasControl canvas = this.CanvasControl;
             // Select Layer
             List<string> layerList = canvas.GetLayerNameList();
             string name = SelectBoxDialog.Show("Select Layer", null, layerList);
@@ -1074,7 +1104,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void CopyClick(object sender, EventArgs e)
         {
-            if (this.ActiveCanvas == null)
+            if (this.CanvasControl == null)
                 return;
             this.CopiedNodes.Clear();
             this.m_copyPos = this.m_mousePos;
@@ -1089,7 +1119,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void CutClick(object sender, EventArgs e)
         {
-            if (this.ActiveCanvas == null)
+            if (this.CanvasControl == null)
                 return;
             this.CopiedNodes.Clear();
             this.m_copyPos = this.m_mousePos;
@@ -1209,9 +1239,9 @@ namespace EcellLib.PathwayWindow
                 return;
             PathwayToolStripButton button = (PathwayToolStripButton)sender;
             float rate = button.Handle.ZoomingRate;
-            if (this.ActiveCanvas == null)
+            if (this.CanvasControl == null)
                 return;
-            ActiveCanvas.Zoom(rate);
+            CanvasControl.Zoom(rate);
         }
         /// <summary>
         /// 
@@ -1236,12 +1266,11 @@ namespace EcellLib.PathwayWindow
         private void CreateCanvas(string modelID)
         {
             // Create canvas
-            m_canvas = new CanvasControl(this, modelID);
+            CanvasControl = new CanvasControl(this, modelID);
+            RaiseCanvasChange();
 
             m_canvas.PathwayCanvas.AddInputEventListener(m_selectedHandle.EventHandler);
             // Set Pathwayview
-            m_pathwayView.Clear();
-            m_pathwayView.TabControl.Controls.Add(m_canvas.TabPage);
             // Set Overview
             m_overView.SetCanvas(m_canvas.OverviewCanvas);
             m_canvas.UpdateOverview();
@@ -1283,13 +1312,13 @@ namespace EcellLib.PathwayWindow
         {
             List<EcellObject> copyNodes = new List<EcellObject>();
             // Copy System
-            PPathwaySystem system = ActiveCanvas.SelectedSystem;
+            PPathwaySystem system = CanvasControl.SelectedSystem;
             EcellObject eo;
             if (system != null)
             {
                 eo = system.EcellObject;
                 copyNodes.Add(m_window.GetEcellObject(eo.ModelID, eo.Key, eo.Type));
-                foreach (PPathwayObject child in ActiveCanvas.GetAllObjectUnder(system.EcellObject.Key))
+                foreach (PPathwayObject child in CanvasControl.GetAllObjectUnder(system.EcellObject.Key))
                 {
                     if (child is PPathwaySystem)
                     {
@@ -1299,7 +1328,7 @@ namespace EcellLib.PathwayWindow
                 }
             }
             //Copy Variavles
-            foreach (PPathwayObject node in ActiveCanvas.SelectedNodes)
+            foreach (PPathwayObject node in CanvasControl.SelectedNodes)
             {
                 if (node is PPathwayVariable)
                 {
@@ -1308,7 +1337,7 @@ namespace EcellLib.PathwayWindow
                 }
             }
             //Copy Processes
-            foreach (PPathwayObject node in ActiveCanvas.SelectedNodes)
+            foreach (PPathwayObject node in CanvasControl.SelectedNodes)
             {
                 if (node is PPathwayProcess)
                 {
@@ -1328,7 +1357,7 @@ namespace EcellLib.PathwayWindow
         {
             List<EcellObject> copiedNodes = new List<EcellObject>();
             Dictionary<string, string> varKeys = new Dictionary<string, string>();
-            CanvasControl canvas = this.ActiveCanvas;
+            CanvasControl canvas = this.CanvasControl;
             if (canvas == null || nodeList == null)
                 return copiedNodes;
 
@@ -1409,7 +1438,7 @@ namespace EcellLib.PathwayWindow
         {
             List<EcellObject> copiedSystems = new List<EcellObject>();
             Dictionary<string, string> varKeys = new Dictionary<string, string>();
-            CanvasControl canvas = this.ActiveCanvas;
+            CanvasControl canvas = this.CanvasControl;
             if (canvas == null || systemList == null || systemList.Count == 0)
                 return copiedSystems;
 
@@ -1506,13 +1535,13 @@ namespace EcellLib.PathwayWindow
         /// <param name="isRecorded">Whether to record this change.</param>
         public void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool isRecorded)
         {
-            List<EcellObject> systemList = this.GetSystemList(ActiveCanvas.ModelID);
-            List<EcellObject> nodeList = this.GetNodeList(ActiveCanvas.ModelID);
+            List<EcellObject> systemList = this.GetSystemList(CanvasControl.ModelID);
+            List<EcellObject> nodeList = this.GetNodeList(CanvasControl.ModelID);
 
             // Check Selected nodes when the layout algorithm uses selected objects.
             if (algorithm.GetLayoutType() == LayoutType.Selected)
                 foreach (EcellObject node in nodeList)
-                    node.isFixed = this.ActiveCanvas.GetSelectedObject(node.Key, node.Type).IsHighLighted;
+                    node.isFixed = this.CanvasControl.GetSelectedObject(node.Key, node.Type).IsHighLighted;
             try
             {
                 algorithm.DoLayout(subIdx, false, systemList, nodeList);
