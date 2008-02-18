@@ -822,18 +822,6 @@ namespace EcellLib.PathwayWindow.Nodes
             UpdateBoundsFromPath();
             InvalidatePaint();
         }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.Reset">GraphicsPath.Reset</see>.
-        /// </summary>
-        public virtual void Reset()
-        {
-            m_path.Reset();
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, m_path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-            RefreshText();
-        }
         #endregion
 
         #region Messaging between subclasses

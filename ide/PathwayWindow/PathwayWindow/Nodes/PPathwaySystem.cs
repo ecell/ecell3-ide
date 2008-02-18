@@ -366,7 +366,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void Refresh()
         {
-            this.Reset();
             if (m_canvas == null)
                 return;
             foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(m_ecellObj.Key))
@@ -383,52 +382,6 @@ namespace EcellLib.PathwayWindow.Nodes
             base.RefreshText();
             base.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height - TEXT_LOWER_MARGIN);
             base.m_pText.MoveToFront();
-        }
-
-        /// <summary>
-        /// reset the view object of system in canvas.
-        /// </summary>
-        public override void Reset()
-        {
-            float prevX = base.X;
-            float prevY = base.Y;
-            float prevWidth = base.Width;
-            float prevHeight = base.Height;
-
-            base.Reset();
-
-            base.Width = prevWidth;
-            base.Height = prevHeight;
-
-            float thickness = OUTER_RADIUS - INNER_RADIUS;
-            float outerDiameter = OUTER_RADIUS * 2;
-            float innerDiameter = INNER_RADIUS * 2;
-            float horizontalRectWidth = base.Width - 2f * OUTER_RADIUS;
-            float verticalRectHeight = base.Height - 2f * OUTER_RADIUS;
-
-            GraphicsPath gp = new GraphicsPath();
-            gp.AddPie(0, 0, outerDiameter, outerDiameter, 180, 90);
-            gp.AddPie(thickness, thickness, innerDiameter, innerDiameter, 180, 90);
-            gp.AddRectangle(new RectangleF(OUTER_RADIUS, 0, base.Width - outerDiameter, thickness));
-            gp.AddPie(base.Width - outerDiameter, 0, outerDiameter, outerDiameter, 270, 90);
-            gp.AddPie(base.Width - outerDiameter + thickness, thickness, innerDiameter, innerDiameter, 270, 90);
-            gp.AddRectangle(new RectangleF(base.Width - thickness, OUTER_RADIUS, thickness, verticalRectHeight));
-            gp.AddPie(base.Width - outerDiameter, base.Height - outerDiameter, outerDiameter, outerDiameter, 0, 90);
-            gp.AddPie(base.Width - outerDiameter + thickness,
-                      base.Height - outerDiameter + thickness, innerDiameter, innerDiameter, 0, 90);
-            gp.AddRectangle(new RectangleF(OUTER_RADIUS, base.Height - thickness, horizontalRectWidth, thickness));
-            gp.AddPie(0, base.Height - outerDiameter, outerDiameter, outerDiameter, 90, 90);
-            gp.AddPie(thickness, base.Height - outerDiameter + thickness, innerDiameter, innerDiameter, 90, 90);
-            gp.AddRectangle(new RectangleF(0, OUTER_RADIUS, thickness, verticalRectHeight));
-            
-            AddPath(gp,false);
-
-            base.Width = prevWidth;
-            base.Height = prevHeight;
-            base.X = prevX;
-            base.Y = prevY;
-            SetGraphicsPath();
-            RefreshText();
         }
 
         /// <summary>
@@ -469,32 +422,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// event on paint this object.
-        /// </summary>
-        /// <param name="paintContext">PPaintContext</param>
-        protected override void Paint(PPaintContext paintContext)
-        {
-            if(m_prevX != (this.X + this.OffsetX) || m_prevY != (this.Y + this.OffsetY))
-            {
-                m_isChanged = true;
-            }
-            
-            if (m_isChanged)
-            {
-                this.SetGraphicsPath();
-                m_isChanged = false;
-            }
-
-            this.Brush = m_fillBrush;
-            if (m_fillBrush != null)
-                paintContext.Graphics.FillPath(m_fillBrush, base.m_path);
-            if(m_backBrush != null)
-                paintContext.Graphics.FillPath(m_backBrush, m_backGp);
-            Pen pen = (IsHighLighted) ? new Pen(m_highLightBrush, 1) : new Pen(m_lineBrush, 1);
-            paintContext.Graphics.DrawPath(pen, m_outlineGp);            
-        }
-
-        /// <summary>
         /// the event sequence of selecting the PNode of system in PathwayEditor.
         /// </summary>
         /// <param name="e">PInputEventArgs</param>
@@ -506,69 +433,6 @@ namespace EcellLib.PathwayWindow.Nodes
 
             m_canvas.ResetSelectedObjects();
             m_canvas.NotifySelectChanged(this);
-        }
-
-        /// <summary>
-        /// set GraphicsPath.
-        /// </summary>
-        public void SetGraphicsPath()
-        {
-            float thickness = OUTER_RADIUS - INNER_RADIUS;
-            float outerDiameter = OUTER_RADIUS * 2;
-            float innerDiameter = INNER_RADIUS * 2;
-            float horizontalRectWidth = base.Width - 2f * OUTER_RADIUS;
-            float verticalRectHeight = base.Height - 2f * OUTER_RADIUS;
-
-            m_backGp = new GraphicsPath();
-            m_backGp.FillMode = FillMode.Alternate;
-            m_backGp.AddRectangle(new RectangleF(base.X + thickness,
-                                               base.Y + thickness,
-                                               base.Width - 2 * thickness,
-                                               base.Height - 2 * thickness));
-            m_backGp.AddRectangle(new RectangleF(base.X + thickness,
-                                               base.Y + thickness,
-                                               INNER_RADIUS,
-                                               INNER_RADIUS));
-            m_backGp.AddRectangle(new RectangleF(base.X + base.Width - OUTER_RADIUS,
-                                               base.Y + thickness,
-                                               INNER_RADIUS,
-                                               INNER_RADIUS));
-            m_backGp.AddRectangle(new RectangleF(base.X + base.Width - OUTER_RADIUS,
-                                               base.Y + base.Height - OUTER_RADIUS,
-                                               INNER_RADIUS,
-                                               INNER_RADIUS));
-            m_backGp.AddRectangle(new RectangleF(base.X + thickness,
-                                               base.Y + base.Height - OUTER_RADIUS,
-                                               INNER_RADIUS,
-                                               INNER_RADIUS));
-            m_backGp.AddPie(base.X + thickness, base.Y + thickness, innerDiameter, innerDiameter, 180, 90);
-            m_backGp.AddPie(base.X + base.Width - OUTER_RADIUS - INNER_RADIUS, base.Y + thickness,
-                           innerDiameter, innerDiameter, 270, 90);
-            m_backGp.AddPie(base.X + base.Width - OUTER_RADIUS - INNER_RADIUS,
-                            base.Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
-                            innerDiameter, innerDiameter, 0, 90);
-            m_backGp.AddPie(base.X + thickness, base.Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
-                           innerDiameter, innerDiameter, 90, 90);
-
-
-            m_outlineGp = new GraphicsPath();
-            m_outlineGp.FillMode = FillMode.Alternate;
-            m_outlineGp.AddArc(base.X, base.Y, outerDiameter, outerDiameter, 180, 90);
-            m_outlineGp.AddArc(base.X + base.Width - outerDiameter, base.Y, outerDiameter, outerDiameter, 270, 90);
-            m_outlineGp.AddArc(base.X + base.Width - outerDiameter, base.Y + base.Height - outerDiameter,
-                      outerDiameter, outerDiameter, 0, 90);
-            m_outlineGp.AddArc(base.X, base.Y + base.Height - outerDiameter, outerDiameter, outerDiameter, 90, 90);
-            m_outlineGp.AddLine(base.X, base.Y + OUTER_RADIUS, base.X, base.Y + base.Height - OUTER_RADIUS);
-            m_outlineGp.CloseFigure();
-            m_outlineGp.AddArc(base.X + thickness, base.Y + thickness, innerDiameter, innerDiameter, 180, 90);
-            m_outlineGp.AddArc(base.X + base.Width - OUTER_RADIUS - INNER_RADIUS,
-                      base.Y + thickness, innerDiameter, innerDiameter, 270, 90);
-            m_outlineGp.AddArc(base.X + base.Width - OUTER_RADIUS - INNER_RADIUS,
-                      base.Y + base.Height - OUTER_RADIUS - INNER_RADIUS,
-                      innerDiameter, innerDiameter, 0, 90);
-            m_outlineGp.AddArc(base.X + thickness, base.Y + base.Height - OUTER_RADIUS - INNER_RADIUS, innerDiameter, innerDiameter, 90, 90);
-            m_outlineGp.AddLine(base.X + thickness, base.Y + OUTER_RADIUS, base.X + thickness, base.Y + base.Height - OUTER_RADIUS);
-
         }
 
         /// <summary>

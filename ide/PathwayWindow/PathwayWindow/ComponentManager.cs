@@ -533,7 +533,7 @@ namespace EcellLib.PathwayWindow
             defSysCs.Name = NameOfDefaultSystem;
             defSysCs.Class = ClassPPathwaySystem;
             defSysCs.IsDefault = true;
-            defSysCs.EditModeFigure = FigureBase.CreateFigure("RoundCornerRectangle", "0,0,500,500");
+            defSysCs.EditModeFigure = FigureBase.CreateFigure("SystemRectangle", "0,0,500,500");
             defSysCs.CenterBrush = Brushes.LightBlue;
             defSysCs.FillBrush = Brushes.LightBlue;
             defSysCs.IsGradation = false;
@@ -559,7 +559,7 @@ namespace EcellLib.PathwayWindow
             defProCs.Name = NameOfDefaultProcess;
             defProCs.Class = ClassPPathwayProcess;
             defProCs.IsDefault = true;
-            defProCs.EditModeFigure = FigureBase.CreateFigure("Rectangle", "0,0,60,40");
+            defProCs.EditModeFigure = FigureBase.CreateFigure("RoundedRectangle", "0,0,60,40");
             defProCs.LineBrush = Brushes.Black;
             defProCs.CenterBrush = Brushes.LightGreen;
             defProCs.FillBrush = Brushes.LightGreen;

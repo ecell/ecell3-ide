@@ -165,8 +165,10 @@ namespace EcellLib.PathwayWindow.Figure
                     return new EllipseFigure(StringToFloats(args));
                 case "Rectangle":
                     return new RectangleFigure(StringToFloats(args));
-                case "RoundCornerRectangle":
-                    return new RoundCornerRectangle(StringToFloats(args));
+                case "RoundedRectangle":
+                    return new RoundedRectangle(StringToFloats(args));
+                case "SystemRectangle":
+                    return new SystemRectangle(StringToFloats(args));
                 default:
                     return null;
             }
