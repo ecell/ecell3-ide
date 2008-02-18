@@ -351,7 +351,48 @@ namespace EcellLib.PathwayWindow
         /// <param name="data"></param>
         public void DataAdd(List<EcellObject> data)
         {
-            // Check Model.
+            // Load Model.
+            try
+            {
+                // Check New Model.
+                string modelId = CheckNewModel(data);
+                // Load layout information from LEML.
+                bool isFirst = (modelId != null);
+                bool layoutFlag = false;
+                if (isFirst)
+                {
+                    string fileName = m_window.GetLEMLFileName(modelId);
+                    if (File.Exists(fileName))
+                        this.LoadFromLeml(fileName, data);
+                    else
+                        layoutFlag = true;
+                }
+                // Load each EcellObject onto the canvas.
+                foreach (EcellObject obj in data)
+                {
+                    DataAdd(obj, true, isFirst);
+                    if (!(obj is EcellSystem))
+                        continue;
+                    foreach (EcellObject node in obj.Children)
+                        DataAdd(node, true, isFirst);
+                }
+                // Perform layout if layoutFlag is true.
+                if (layoutFlag)
+                    DoLayout(m_defAlgorithm, 0, false);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                throw new PathwayException(m_resources.GetString("ErrUnknowType") + "\n" + e.StackTrace);
+            }
+        }
+        /// <summary>
+        /// Check new model.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private static string CheckNewModel(List<EcellObject> data)
+        {
             string modelId = null;
             foreach (EcellObject eo in data)
             {
@@ -361,43 +402,7 @@ namespace EcellLib.PathwayWindow
                     break;
                 }
             }
-            // Load Model.
-            try
-            {
-                bool layoutFlag = false;
-                if (modelId != null)
-                {
-                    string fileName = m_window.DataManager.GetDirPath(modelId) + "\\" + modelId + ".leml";
-                    if (File.Exists(fileName))
-                        this.SetPositionFromLeml(fileName, data);
-                    else
-                        layoutFlag = true;
-                }
-                // Load each EcellObject onto the canvas currently displayed
-                foreach (EcellObject obj in data)
-                {
-                    try
-                    {
-                        bool isFirst = (modelId != null);
-                        DataAdd(obj, true, isFirst);
-                        if (obj is EcellSystem)
-                            foreach (EcellObject node in obj.Children)
-                                DataAdd(node, true, isFirst);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new PathwayException(m_resources.GetString("ErrUnknowType") + "\n" + ex.StackTrace);
-                    }
-                }
-                // Perform layout if layoutFlag is true.
-                if (layoutFlag)
-                    DoLayout(m_defAlgorithm, 0, false);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.StackTrace);
-            }
+            return modelId;
         }
 
         /// <summary>
@@ -406,7 +411,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="fileName">Leml file path</param>
         /// <param name="data">The same argument for DataAdd</param>
-        private void SetPositionFromLeml(string fileName, List<EcellObject> data)
+        private void LoadFromLeml(string fileName, List<EcellObject> data)
         {
             // Deserialize objects from a file
             List<EcellObject> objList = EcellSerializer.LoadFromXML(fileName);
@@ -441,6 +446,7 @@ namespace EcellLib.PathwayWindow
                 }
             }
         }
+
         /// <summary>
         /// Add new object to this canvas.
         /// </summary>
@@ -535,30 +541,20 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Get the list of system in the target mode.
+        /// When save the model, plugin save the specified information of model using only this plugin.
         /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <returns>The list of system.</returns>
-        public List<EcellObject> GetSystemList(string modelID)
+        /// <param name="modelID">the id of saved model.</param>
+        /// <param name="directory">the directory of save.</param>
+        public void SaveModel(string modelID, string directory)
         {
-            List<EcellObject> systemList = new List<EcellObject>();
-            foreach (PPathwayObject obj in m_canvas.GetSystemList())
-                systemList.Add(m_window.GetEcellObject(modelID, obj.EcellObject.Key, obj.EcellObject.Type));
-            return systemList;
-        }
+            if (!CanvasControl.ModelID.Equals(modelID))
+                return;
 
-        /// <summary>
-        /// Get the list of EcellObject in the target model.
-        /// </summary>
-        /// <param name="modelID">the model ID.</param>
-        /// <returns>the list of EcellObject.</returns>
-        public List<EcellObject> GetNodeList(string modelID)
-        {
-            List<EcellObject> nodeList = new List<EcellObject>();
-            foreach (PPathwayObject obj in m_canvas.GetNodeList())
-                nodeList.Add(m_window.GetEcellObject(modelID, obj.EcellObject.Key, obj.EcellObject.Type));
-
-            return nodeList;
+            List<EcellObject> list = new List<EcellObject>();
+            list.AddRange(GetSystemList());
+            list.AddRange(GetNodeList());
+            string fileName = directory + "\\" + modelID + ".leml";
+            EcellSerializer.SaveAsXML(list, fileName);
         }
 
         /// <summary>
@@ -1394,6 +1390,31 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Get the list of system in the target mode.
+        /// </summary>
+        /// <returns>The list of system.</returns>
+        private List<EcellObject> GetSystemList()
+        {
+            List<EcellObject> systemList = new List<EcellObject>();
+            foreach (PPathwayObject obj in m_canvas.GetSystemList())
+                systemList.Add(m_window.GetEcellObject(obj.EcellObject.ModelID, obj.EcellObject.Key, obj.EcellObject.Type));
+            return systemList;
+        }
+
+        /// <summary>
+        /// Get the list of EcellObject in the target model.
+        /// </summary>
+        /// <returns>the list of EcellObject.</returns>
+        private List<EcellObject> GetNodeList()
+        {
+            List<EcellObject> nodeList = new List<EcellObject>();
+            foreach (PPathwayObject obj in m_canvas.GetNodeList())
+                nodeList.Add(m_window.GetEcellObject(obj.EcellObject.ModelID, obj.EcellObject.Key, obj.EcellObject.Type));
+
+            return nodeList;
+        }
+
+        /// <summary>
         /// Set copied nodes.
         /// </summary>
         /// <returns>A list of copied nodes.</returns>
@@ -1622,10 +1643,10 @@ namespace EcellLib.PathwayWindow
         /// <param name="algorithm">ILayoutAlgorithm</param>
         /// <param name="subIdx">int</param>
         /// <param name="isRecorded">Whether to record this change.</param>
-        public void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool isRecorded)
+        private void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool isRecorded)
         {
-            List<EcellObject> systemList = this.GetSystemList(CanvasControl.ModelID);
-            List<EcellObject> nodeList = this.GetNodeList(CanvasControl.ModelID);
+            List<EcellObject> systemList = this.GetSystemList();
+            List<EcellObject> nodeList = this.GetNodeList();
 
             // Check Selected nodes when the layout algorithm uses selected objects.
             if (algorithm.GetLayoutType() == LayoutType.Selected)

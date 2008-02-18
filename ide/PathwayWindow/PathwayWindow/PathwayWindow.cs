@@ -91,14 +91,6 @@ namespace EcellLib.PathwayWindow
 
         #region Accessors
         /// <summary>
-        /// Accessor for default layout algorithm.
-        /// </summary>
-        public ILayoutAlgorithm DefaultLayoutAlgorithm
-        {
-            get { return new GridLayout(); }
-        }
-
-        /// <summary>
         /// Returns the DataManager instance associated to this plugin.
         /// </summary>
         public DataManager DataManager
@@ -137,6 +129,35 @@ namespace EcellLib.PathwayWindow
         public EcellObject GetEcellObject(string modelID, string key, string type)
         {
             return m_dManager.GetEcellObject(modelID, key ,type);
+        }
+        /// <summary>
+        /// Check layout algorithm's dlls in a plugin\pathway directory and register them
+        /// to m_layoutList
+        /// </summary>
+        /// <returns></returns>
+        public List<ILayoutAlgorithm> GetLayoutAlgorithms()
+        {
+            return m_pManager.GetLayoutPlugins();
+        }
+        /// <summary>
+        /// Get a temporary key of EcellObject.
+        /// </summary>
+        /// <param name="modelID">The model ID of EcellObject.</param>
+        /// <param name="type">The ID of parent system.</param>
+        /// <param name="systemID">The system ID include this object.</param>
+        /// <returns>"TemporaryID"</returns> 
+        public string GetTemporaryID(string modelID, string type, string systemID)
+        {
+            return m_dManager.GetTemporaryID(modelID, type, systemID);
+        }
+        /// <summary>
+        /// Get LEML file name.
+        /// </summary>
+        /// <param name="modelID">The model ID</param>
+        /// <returns>LEML file name.</returns>
+        public string GetLEMLFileName(string modelID)
+        {
+            return m_dManager.GetDirPath(modelID) + "\\" + modelID + ".leml";
         }
         #endregion
 
@@ -488,14 +509,7 @@ namespace EcellLib.PathwayWindow
             // Error Check
             if(String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(directory))
                 return;
-            if (!m_con.CanvasControl.ModelID.Equals(modelID))
-                return;
-
-            List<EcellObject> list = new List<EcellObject>();
-            list.AddRange(m_con.GetSystemList(modelID));
-            list.AddRange(m_con.GetNodeList(modelID));
-            string fileName = directory + "\\" + modelID + ".leml";
-            EcellSerializer.SaveAsXML(list, fileName);
+            m_con.SaveModel(modelID, directory);
         }
 
         /// <summary>
@@ -558,17 +572,6 @@ namespace EcellLib.PathwayWindow
         {
             return "PathwayWindow";
         }
-        /// <summary>
-        /// Get a temporary key of EcellObject.
-        /// </summary>
-        /// <param name="modelID">The mode ID of EcellObject.</param>
-        /// <param name="type">The ID of parent system.</param>
-        /// <param name="systemID">The system ID include this object.</param>
-        /// <returns>"TemporaryID"</returns> 
-        public string GetTemporaryID(string modelID, string type, string systemID)
-        {
-            return m_dManager.GetTemporaryID(modelID, type, systemID);
-        }
 
         /// <summary>
         /// Get version of this plugin.
@@ -586,15 +589,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="data">EcellObject, whose position will be set</param>
         public void SetPosition(EcellObject data)
         {
-        }
-        /// <summary>
-        /// Check layout algorithm's dlls in a plugin\pathway directory and register them
-        /// to m_layoutList
-        /// </summary>
-        /// <returns></returns>
-        public List<ILayoutAlgorithm> GetLayoutAlgorithms()
-        {
-            return m_pManager.GetLayoutPlugins();
         }
         #endregion
     }
