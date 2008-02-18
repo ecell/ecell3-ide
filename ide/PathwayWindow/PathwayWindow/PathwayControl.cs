@@ -236,8 +236,11 @@ namespace EcellLib.PathwayWindow
             get { return m_canvas; }
             set
             {
-                this.m_canvas = value;
+                m_canvas = value;
                 RaiseCanvasChange();
+                if (m_canvas == null)
+                    return;
+                m_canvas.PathwayCanvas.AddInputEventListener(m_selectedHandle.EventHandler);
             }
         }
 
@@ -335,7 +338,7 @@ namespace EcellLib.PathwayWindow
             m_animCon = new AnimationControl(this);
             // Preparing Interfaces
             m_pathwayView = new PathwayView(this);
-            m_overView = new OverView();
+            m_overView = new OverView(this);
             m_layerView = new LayerView(this);
             m_toolBox = new ToolBox(this);
         }
@@ -469,8 +472,6 @@ namespace EcellLib.PathwayWindow
         public void Clear()
         {
             // Reset Interfaces
-            m_overView.Clear();
-            m_layerView.DataGridView.DataSource = null;
             m_animCon.StopSimulation();
             // Clear Canvas dictionary.
             if (m_canvas != null)
@@ -1268,14 +1269,6 @@ namespace EcellLib.PathwayWindow
             // Create canvas
             CanvasControl = new CanvasControl(this, modelID);
             RaiseCanvasChange();
-
-            m_canvas.PathwayCanvas.AddInputEventListener(m_selectedHandle.EventHandler);
-            // Set Pathwayview
-            // Set Overview
-            m_overView.SetCanvas(m_canvas.OverviewCanvas);
-            m_canvas.UpdateOverview();
-            // Set Layerview
-            m_layerView.DataGridView.DataSource = m_canvas.LayerTable;
         }
 
         /// <summary>

@@ -45,17 +45,12 @@ namespace EcellLib.PathwayWindow.UIComponent
     {
         #region Fields
         /// <summary>
-        /// Brush for m_transparentNode
+        /// PathwayControl
         /// </summary>
-        private static readonly SolidBrush m_transparentBrush
-             = new SolidBrush(Color.FromArgb(0, Color.White));
-
+        private PathwayControl m_con;
         /// <summary>
-        /// PPath to show main pathway area in the overview.
-        /// Normally, this node is colored in red.
+        /// GroupBox
         /// </summary>
-        private PPath m_transparentNode;
-        private PCanvas m_canvas;
         private GroupBox groupBox;
 
         /// <summary>
@@ -68,56 +63,17 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <summary>
         /// Constructor
         /// </summary>
-        public OverView()
+        public OverView(PathwayControl control)
         {
             base.m_isSavable = true;
             InitializeComponent();
+            m_con = control;
+            m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
             m_area = new PDisplayedArea();
-            m_transparentNode = new PPath();
         }
-        #endregion
-
-        #region Accessor
-        /// <summary>
-        /// the canvas of overview.
-        /// </summary>
-        /// <summary>
-        /// Accessor for m_overviewCanvas.
-        /// </summary>
-        public PCanvas Canvas
-        {
-            get { return m_canvas; }
-        }
-
-        /// <summary>
-        /// Accessor for m_area.
-        /// </summary>
-        public PDisplayedArea DisplayedArea
-        {
-            get { return m_area; }
-        }
-
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Set PathwayCanvas.
-        /// </summary>
-        /// <param name="canvas">The display canvas.</param>
-        public void SetCanvas(PCanvas canvas)
-        {
-            this.groupBox.Controls.Clear();
-            this.groupBox.Controls.Add(canvas);
-            this.m_canvas = canvas;
-        }
-        /// <summary>
-        /// Set PathwayCanvas.
-        /// </summary>
-        public void Clear()
-        {
-            this.m_canvas = new PCanvas();
-        }
-
         /// <summary>
         /// Initializer for PCanvas
         /// </summary>
@@ -146,64 +102,20 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.Text = this.Name;
             this.groupBox.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
-        #endregion
 
-        #region Inner Class
         /// <summary>
-        /// Handler for an overview.
+        /// EventHandler to set canvas.
         /// </summary>
-        public class AreaDragHandler : PDragEventHandler
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void m_con_CanvasChange(object sender, EventArgs e)
         {
-            /// <summary>
-            /// PCamera of a main pathway canvas. When a displayed area in an overview window
-            /// is moved with a mouse drag, a main window's image will be changed for displaying
-            /// the area indicated in an overview window. This operation is done by moving this 
-            /// camera by this object (PDisplayedArea instance).
-            /// </summary>
-            private PCamera m_mainCamera;
-
-            private PointF startPoint;
-            private PointF prevPoint;
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="mainCamera"></param>
-            public AreaDragHandler(PCamera mainCamera)
-            {
-                this.m_mainCamera = mainCamera;
-            }
-
-            /// <summary>
-            /// Called when the mouse is dragged.
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            protected override void OnDrag(object sender, PInputEventArgs e)
-            {
-                if (e.PickedNode is PPath)
-                {
-                    return;
-                }
-                base.OnDrag(sender, e);
-                PointF newPoint = e.PickedNode.Offset;
-                m_mainCamera.TranslateViewBy(prevPoint.X - newPoint.X, prevPoint.Y - newPoint.Y);
-                m_mainCamera.Canvas.Refresh();
-                prevPoint = e.PickedNode.Offset;
-            }
-
-            /// <summary>
-            /// Called when the mouse is down.
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            public override void OnMouseDown(object sender, PInputEventArgs e)
-            {
-                base.OnMouseDown(sender, e);
-                startPoint = prevPoint = e.PickedNode.Offset;
-            }
+            this.groupBox.Controls.Clear();
+            if (m_con.CanvasControl == null)
+                return;
+            PCanvas canvas = m_con.CanvasControl.OverviewCanvas;
+            this.groupBox.Controls.Add(canvas);
         }
         #endregion
     }

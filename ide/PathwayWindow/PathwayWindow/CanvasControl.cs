@@ -742,6 +742,7 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// 
         /// Set Layer Visibility.
         /// </summary>
         /// <param name="layerName"></param>
@@ -754,7 +755,6 @@ namespace EcellLib.PathwayWindow
             // Set Visibility.
             layer.Visible = isShown;
             Refresh();
-            m_con.OverView.Canvas.Refresh();
         }
 
         /// <summary>

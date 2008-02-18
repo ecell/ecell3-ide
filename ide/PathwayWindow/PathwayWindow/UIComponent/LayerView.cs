@@ -107,21 +107,23 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             base.m_isSavable = true;
             this.m_con = control;
+            this.m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
             InitializeComponent();
             // Preparing context menus.
             m_dgv.ContextMenuStrip = GetPopUpMenus();
 
         }
+
+        void m_con_CanvasChange(object sender, EventArgs e)
+        {
+            m_dgv.DataSource = null;
+            if (m_con.CanvasControl == null)
+                return;
+            m_dgv.DataSource = m_con.CanvasControl.LayerTable;
+        }
         #endregion
 
         #region Accessor
-        /// <summary>
-        ///  get DataGridView of layer table.
-        /// </summary>
-        public DataGridView DataGridView
-        {
-            get { return this.m_dgv; }
-        }
         #endregion
 
         #region Methods
