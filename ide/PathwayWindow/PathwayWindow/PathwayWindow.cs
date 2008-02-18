@@ -342,34 +342,7 @@ namespace EcellLib.PathwayWindow
         {
             if (data == null || data.Count == 0)
                 return;
-            // Check Model.
-            string modelId = null;
-            foreach (EcellObject eo in data)
-            {
-                if (eo.Type.Equals(EcellObject.MODEL))
-                {
-                    modelId = eo.ModelID;
-                    break;
-                }
-            }
-            // Load Model.
-            try
-            {
-                bool layoutFlag = false;
-                if (modelId != null)
-                {
-                    string fileName = m_dManager.GetDirPath(modelId) + "\\" + modelId + ".leml";
-                    if (File.Exists(fileName))
-                        this.SetPositionFromLeml(fileName, data);
-                    else
-                        layoutFlag = true;
-                }
-                this.NewDataAddToModel(data, layoutFlag, (modelId != null) );
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.StackTrace);
-            }
+            m_con.DataAdd(data);
         }
 
         /// <summary>
@@ -622,79 +595,6 @@ namespace EcellLib.PathwayWindow
         public List<ILayoutAlgorithm> GetLayoutAlgorithms()
         {
             return m_pManager.GetLayoutPlugins();
-        }
-        #endregion
-
-        #region Internal use
-        /// <summary>
-        /// This method was made for dividing long and redundant DataAdd method.
-        /// So, used by DataAdd only.
-        /// </summary>
-        /// <param name="data">The same argument for DataAdd</param>
-        /// <param name="layoutFlag"></param>
-        /// <param name="isFirst"></param>
-        private void NewDataAddToModel(List<EcellObject> data, bool layoutFlag, bool isFirst)
-        {
-            // Load each EcellObject onto the canvas currently displayed
-            foreach (EcellObject obj in data)
-            {
-                try
-                {
-                    m_con.DataAdd(obj, true, isFirst);
-                    if (obj is EcellSystem)
-                        foreach (EcellObject node in obj.Children)
-                            m_con.DataAdd(node, true, isFirst);
-
-                } catch (Exception ex)
-                {
-                    throw new PathwayException(m_resources.GetString("ErrUnknowType") + "\n" + ex.StackTrace);
-                }
-            }
-            // Perform layout if layoutFlag is true.
-            if(layoutFlag)
-                m_con.DoLayout(DefaultLayoutAlgorithm, 0, false);
-        }
-
-        /// <summary>
-        /// This method was made for dividing long and redundant DataAdd method.
-        /// So, used by DataAdd only.
-        /// </summary>
-        /// <param name="fileName">Leml file path</param>
-        /// <param name="data">The same argument for DataAdd</param>
-        private void SetPositionFromLeml(string fileName, List<EcellObject> data)
-        {
-            // Deserialize objects from a file
-            List<EcellObject> objList = EcellSerializer.LoadFromXML(fileName);
-
-            // Create Object dictionary.
-            Dictionary<string, EcellObject> objDict = new Dictionary<string, EcellObject>();
-            foreach (EcellObject eo in objList)
-                objDict.Add(eo.Type + ":" + eo.Key, eo);
-            // Set position.
-            string dictKey;
-            foreach (EcellObject eo in data)
-            {
-                dictKey = eo.Type + ":" + eo.Key;
-                if (!objDict.ContainsKey(dictKey))
-                    continue;
-
-                eo.SetPosition(objDict[dictKey]);
-                if (!objDict[dictKey].LayerID.Equals(""))
-                    eo.LayerID = objDict[dictKey].LayerID;
-
-                if (eo.Children == null)
-                    continue;
-                foreach(EcellObject child in eo.Children)
-                {
-                    dictKey = child.Type + ":" + child.Key;
-                    if (!objDict.ContainsKey(dictKey))
-                        continue;
-
-                    child.SetPosition(objDict[dictKey]);
-                    if (!objDict[dictKey].LayerID.Equals(""))
-                        child.LayerID = objDict[dictKey].LayerID;
-                }
-            }
         }
         #endregion
     }

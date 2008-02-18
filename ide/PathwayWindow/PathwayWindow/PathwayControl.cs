@@ -346,6 +346,102 @@ namespace EcellLib.PathwayWindow
 
         #region Public Methods
         /// <summary>
+        /// Add new objects to this canvas.
+        /// </summary>
+        /// <param name="data"></param>
+        public void DataAdd(List<EcellObject> data)
+        {
+            // Check Model.
+            string modelId = null;
+            foreach (EcellObject eo in data)
+            {
+                if (eo.Type.Equals(EcellObject.MODEL))
+                {
+                    modelId = eo.ModelID;
+                    break;
+                }
+            }
+            // Load Model.
+            try
+            {
+                bool layoutFlag = false;
+                if (modelId != null)
+                {
+                    string fileName = m_window.DataManager.GetDirPath(modelId) + "\\" + modelId + ".leml";
+                    if (File.Exists(fileName))
+                        this.SetPositionFromLeml(fileName, data);
+                    else
+                        layoutFlag = true;
+                }
+                // Load each EcellObject onto the canvas currently displayed
+                foreach (EcellObject obj in data)
+                {
+                    try
+                    {
+                        bool isFirst = (modelId != null);
+                        DataAdd(obj, true, isFirst);
+                        if (obj is EcellSystem)
+                            foreach (EcellObject node in obj.Children)
+                                DataAdd(node, true, isFirst);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new PathwayException(m_resources.GetString("ErrUnknowType") + "\n" + ex.StackTrace);
+                    }
+                }
+                // Perform layout if layoutFlag is true.
+                if (layoutFlag)
+                    DoLayout(m_defAlgorithm, 0, false);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+
+        /// <summary>
+        /// This method was made for dividing long and redundant DataAdd method.
+        /// So, used by DataAdd only.
+        /// </summary>
+        /// <param name="fileName">Leml file path</param>
+        /// <param name="data">The same argument for DataAdd</param>
+        private void SetPositionFromLeml(string fileName, List<EcellObject> data)
+        {
+            // Deserialize objects from a file
+            List<EcellObject> objList = EcellSerializer.LoadFromXML(fileName);
+
+            // Create Object dictionary.
+            Dictionary<string, EcellObject> objDict = new Dictionary<string, EcellObject>();
+            foreach (EcellObject eo in objList)
+                objDict.Add(eo.Type + ":" + eo.Key, eo);
+            // Set position.
+            string dictKey;
+            foreach (EcellObject eo in data)
+            {
+                dictKey = eo.Type + ":" + eo.Key;
+                if (!objDict.ContainsKey(dictKey))
+                    continue;
+
+                eo.SetPosition(objDict[dictKey]);
+                if (!objDict[dictKey].LayerID.Equals(""))
+                    eo.LayerID = objDict[dictKey].LayerID;
+
+                if (eo.Children == null)
+                    continue;
+                foreach (EcellObject child in eo.Children)
+                {
+                    dictKey = child.Type + ":" + child.Key;
+                    if (!objDict.ContainsKey(dictKey))
+                        continue;
+
+                    child.SetPosition(objDict[dictKey]);
+                    if (!objDict[dictKey].LayerID.Equals(""))
+                        child.LayerID = objDict[dictKey].LayerID;
+                }
+            }
+        }
+        /// <summary>
         /// Add new object to this canvas.
         /// </summary>
         /// <param name="eo">EcellObject</param>
