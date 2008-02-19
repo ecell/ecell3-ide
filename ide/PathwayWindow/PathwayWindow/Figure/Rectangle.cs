@@ -26,6 +26,10 @@
 //
 // written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.Collections.Generic;
@@ -33,6 +37,7 @@ using System.Text;
 using EcellLib.PathwayWindow.Figure;
 using System.Drawing;
 using EcellLib.PathwayWindow;
+using System.Drawing.Drawing2D;
 
 namespace EcellLib.PathwayWindow.Figure
 {
@@ -82,15 +87,27 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        private void Initialize(float x, float y, float width, float height)
+        protected override void Initialize(float x, float y, float width, float height)
         {
-            m_x = x;
-            m_y = y;
-            m_width = width;
-            m_height = height;
             m_type = "Rectangle";
+            base.SetBounds(x, y, width, height);
+            m_gp = CreatePath(x, y, width, height);
+        }
+
+        /// <summary>
+        /// Create GraphicsPath
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public override GraphicsPath CreatePath(float x, float y, float width, float height)
+        {
+            GraphicsPath path = new GraphicsPath();
             RectangleF rect = new RectangleF(x, y, width, height);
-            m_gp.AddRectangle(rect);
+            path.AddRectangle(rect);
+            return path;
         }
         #endregion
     }

@@ -215,6 +215,16 @@ namespace EcellLib.PathwayWindow.Nodes
                     ((PPathwayVariable)obj).Refresh();
             }
         }
+
+        /// <summary>
+        /// Refresh View
+        /// </summary>
+        /// <param name="isViewMode"></param>
+        public override void RefreshView(bool isViewMode)
+        {
+            base.m_path = m_setting.EditModeFigure.CreatePath(X, Y, Width, Height);
+            base.RefreshView(isViewMode);
+        }
         /// <summary>
         /// Refresh Text contents of this object.
         /// </summary>

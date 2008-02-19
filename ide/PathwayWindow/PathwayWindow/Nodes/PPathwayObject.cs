@@ -931,6 +931,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="isViewMode"></param>
         public virtual void RefreshView(bool isViewMode)
         {
+            SetFillBrush();
+            Refresh();
         }
 
         #endregion

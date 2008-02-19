@@ -408,7 +408,7 @@ namespace EcellLib.PathwayWindow
                 obj.Width = PPathwayNode.DEFAULT_WIDTH;
                 obj.Height = PPathwayNode.DEFAULT_HEIGHT;
             }
-
+            obj.RefreshView(false);
             return obj;
         }
 
@@ -430,23 +430,15 @@ namespace EcellLib.PathwayWindow
             // Create Icon from FigureBase.
             icon = new Bitmap(32, 32);
             Graphics gra = Graphics.FromImage(icon);
-            if (m_componentType == ComponentType.System)
-            {
-                Rectangle rect = new Rectangle(1, 1, 30, 30);
-                gra.DrawRectangle(new Pen(Brushes.Black, 2), rect);
-            }
-            else
-            {
-                GraphicsPath gp = m_editFigure.TransformedPath;
-                Brush brush = GetFillBrush(gp);
-                gra.FillPath(brush, gp);
-                gra.DrawPath(new Pen(m_lineBrush, 2), gp);
-            }
+            GraphicsPath gp = m_editFigure.TransformedPath;
+            Brush brush = GetFillBrush(gp);
+            gra.FillPath(brush, gp);
+            gra.DrawPath(new Pen(m_lineBrush, 2), gp);
             return icon;
         }
 
         /// <summary>
-        /// 
+        /// Create icon image from file
         /// </summary>
         /// <returns></returns>
         private Image CreateIconImageFromFile(string fileName)

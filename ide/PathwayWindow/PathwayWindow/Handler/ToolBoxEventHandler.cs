@@ -89,8 +89,7 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
             m_canvas.ControlLayer.AddChild(m_object);
             m_object.CenterPointF = e.Position;
-            m_object.Refresh();
-            m_object.SetFillBrush();
+            m_object.RefreshView(m_canvas.ViewMode);
         }
 
         /// <summary>
@@ -190,7 +189,6 @@ namespace EcellLib.PathwayWindow.Handler
             m_canvas.PathwayCanvas.AddInputEventListener(this);
             m_object = canvas.Setting.CreateTemplate();
             m_object.Pickable = false;
-            m_object.Refresh();
             m_flag = true;
             // Set Icon
             //m_con.ToolBox.Icon = (Icon)PathwayResource.hand;

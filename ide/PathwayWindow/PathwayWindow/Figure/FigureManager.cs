@@ -26,59 +26,52 @@
 //
 // written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
-
+//
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace EcellLib.PathwayWindow.Figure
 {
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    public class PathwayToolStripButton : ToolStripButton
+    class FigureManager
     {
-        #region Fields
         /// <summary>
-        /// Handle
+        /// Create figure.
         /// </summary>
-        protected Handle m_handle = null;
-        /// <summary>
-        /// ComponentSetting
-        /// </summary>
-        protected ComponentSetting m_cs = null;
-        #endregion
-
-        #region Accessor
-        /// <summary>
-        /// Handle
-        /// </summary>
-        public Handle Handle
+        /// <param name="type"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static FigureBase CreateFigure(string type, string args)
         {
-            get { return m_handle; }
-            set { m_handle = value; }
-        }
-        /// <summary>
-        /// ComponentSetting
-        /// </summary>
-        public ComponentSetting ComponentSetting
-        {
-            get { return m_cs; }
-            set
+            switch (type)
             {
-                m_cs = value;
-                m_cs.PropertyChange += new EventHandler(cs_PropertyChange);
+                case "Ellipse":
+                    return new EllipseFigure(StringToFloats(args));
+                case "Rectangle":
+                    return new RectangleFigure(StringToFloats(args));
+                case "RoundedRectangle":
+                    return new RoundedRectangle(StringToFloats(args));
+                case "SystemRectangle":
+                    return new SystemRectangle(StringToFloats(args));
+                default:
+                    return new FigureBase(StringToFloats(args));
             }
         }
-        #endregion
 
-        #region EventHandler
-        private void cs_PropertyChange(object sender, EventArgs e)
+        /// <summary>
+        /// Change string to float array.
+        /// </summary>
+        /// <param name="argString"></param>
+        /// <returns></returns>
+        protected static float[] StringToFloats(string argString)
         {
-            this.Image = m_cs.IconImage;
+            string[] args = argString.Split(new Char[] { ',', ' ' });
+            float[] values = new float[args.Length];
+            for (int i = 0; i < args.Length; i++)
+            {
+                values[i] = float.Parse(args[i]);
+            }
+            return values;
         }
-        #endregion
-
     }
 }

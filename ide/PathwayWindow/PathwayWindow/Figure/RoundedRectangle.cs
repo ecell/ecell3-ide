@@ -1,7 +1,37 @@
-﻿using System;
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace EcellLib.PathwayWindow.Figure
 {
@@ -38,24 +68,42 @@ namespace EcellLib.PathwayWindow.Figure
             else
                 Initialize(0, 0, 1, 1);
         }
-
-        private void Initialize(float x, float y, float width, float height)
+        /// <summary>
+        /// Initializer
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        protected override void Initialize(float x, float y, float width, float height)
         {
-            m_x = x;
-            m_y = y;
-            m_width = width;
-            m_height = height;
             m_type = "RoundedRectangle";
+            base.SetBounds(x, y, width, height);
+            m_gp = CreatePath(x, y, width, height);
+        }
+
+        /// <summary>
+        /// Create GraphicsPath
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public override GraphicsPath CreatePath(float x, float y, float width, float height)
+        {
+            GraphicsPath path = new GraphicsPath();
             float marginX = width * 0.05f;
             float marginY = height * 0.05f;
-            m_gp.AddArc(x, y, marginX * 2, marginY * 2, 180, 90);
-            m_gp.AddLine(x + marginX, y, x + width - marginX, y);
-            m_gp.AddArc(x + width - marginX * 2, y, marginX * 2, marginY * 2, 270, 90);
-            m_gp.AddLine(x + width, y + marginY, x + width, y + height -marginY);
-            m_gp.AddArc(x + width - marginX * 2, y + height - marginY * 2, marginX * 2, marginY * 2, 0, 90);
-            m_gp.AddLine(x + marginX, y + height, x + width - marginX, y + height);
-            m_gp.AddArc(x, y + height - marginY * 2, marginX * 2, marginY * 2, 90, 90);
-            m_gp.AddLine(x, y + marginY, x, y + height -marginY);
+            path.AddArc(x, y, marginX * 2, marginY * 2, 180, 90);
+            path.AddLine(x + marginX, y, x + width - marginX, y);
+            path.AddArc(x + width - marginX * 2, y, marginX * 2, marginY * 2, 270, 90);
+            path.AddLine(x + width, y + marginY, x + width, y + height - marginY);
+            path.AddArc(x + width - marginX * 2, y + height - marginY * 2, marginX * 2, marginY * 2, 0, 90);
+            path.AddLine(x + marginX, y + height, x + width - marginX, y + height);
+            path.AddArc(x, y + height - marginY * 2, marginX * 2, marginY * 2, 90, 90);
+            path.AddLine(x, y + marginY, x, y + height - marginY);
+            return path;
         }
     }
 }

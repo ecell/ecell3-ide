@@ -26,6 +26,10 @@
 //
 // written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.Collections.Generic;
@@ -38,7 +42,7 @@ namespace EcellLib.PathwayWindow.Figure
     /// <summary>
     /// Concrete classe which extended FigureBase stands for 
     /// </summary>
-    public abstract class FigureBase
+    public class FigureBase
     {
         #region Fields
         /// <summary>
@@ -64,7 +68,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// <summary>
         /// Figure type.
         /// </summary>
-        protected string m_type = "";
+        protected string m_type;
 
         /// <summary>
         /// GraphicsPath
@@ -110,21 +114,31 @@ namespace EcellLib.PathwayWindow.Figure
         /// </summary>
         public FigureBase()
         {
-            m_gp = new GraphicsPath();
+            Initialize(0, 0, 1, 1);
         }
         
+        /// <summary>
+        /// Constructor with float array.
+        /// </summary>
+        /// <param name="vars"></param>
+        public FigureBase(float[] vars)
+        {
+            if (vars.Length >= 4)
+                Initialize(vars[0], vars[1], vars[2], vars[3]);
+            else
+                Initialize(0, 0, 1, 1);
+        }
+
         #endregion
 
         #region Methods
         /// <summary>
-        /// Accessor for resized m_gp for being used as ToolBox item.
+        /// Create new GraphicsPath for the icon image on ToolBar.
         /// </summary>
         public GraphicsPath TransformedPath
         {
             get
             {
-                float width = 32;
-                float height = 32;
                 GraphicsPath transPath = (GraphicsPath)m_gp.Clone();
                 RectangleF rect = m_gp.GetBounds();
                 Matrix matrix = new Matrix();
@@ -150,46 +164,48 @@ namespace EcellLib.PathwayWindow.Figure
                 return transPath;
             }
         }
+        #endregion
 
+        #region Virtual Methods
         /// <summary>
-        /// Create figure.
+        /// Initialize this figure.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static FigureBase CreateFigure(string type, string args)
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        protected virtual void Initialize(float x, float y, float width, float height)
         {
-            switch (type)
-            {
-                case "Ellipse":
-                    return new EllipseFigure(StringToFloats(args));
-                case "Rectangle":
-                    return new RectangleFigure(StringToFloats(args));
-                case "RoundedRectangle":
-                    return new RoundedRectangle(StringToFloats(args));
-                case "SystemRectangle":
-                    return new SystemRectangle(StringToFloats(args));
-                default:
-                    return null;
-            }
+            m_type = "FigureBase";
+            SetBounds(x, y, width, height);
+            m_gp = CreatePath(x, y, width, height);
+        }
+        /// <summary>
+        /// Set path bounds.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        protected virtual void SetBounds(float x, float y, float width, float height)
+        {
+            m_x = x;
+            m_y = y;
+            m_width = width;
+            m_height = height;
         }
 
         /// <summary>
-        /// Change string to float array.
+        /// Create new GraphicsPath
         /// </summary>
-        /// <param name="argString"></param>
-        /// <returns></returns>
-        protected static float[] StringToFloats(string argString)
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public virtual GraphicsPath CreatePath(float x, float y, float width, float height)
         {
-            string[] args = argString.Split(new Char[] { ',', ' ' });
-            float[] values = new float[args.Length];
-            for (int i = 0; i < args.Length; i++)
-            {
-                values[i] = float.Parse(args[i]);
-            }
-            return values;
+            return new GraphicsPath();
         }
-
         /// <summary>
         /// Return a contact point between an outer point and an inner point.
         /// </summary>

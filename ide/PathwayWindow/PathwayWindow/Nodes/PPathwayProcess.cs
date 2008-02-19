@@ -345,16 +345,11 @@ namespace EcellLib.PathwayWindow.Nodes
             m_path.Reset();
             PointF centerPos = this.CenterPointF;
             if (isViewMode)
-            {
                 base.AddPath(m_tempFigure.GraphicsPath, false);
-            }
             else
-            {
                 base.AddPath(m_setting.EditModeFigure.GraphicsPath, false);
-            }
             base.CenterPointF = centerPos;
-            SetFillBrush();
-            Refresh();
+            base.RefreshView(isViewMode);
         }
         /// <summary>
         /// SetTextVisiblity

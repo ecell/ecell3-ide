@@ -145,15 +145,10 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void RefreshView(bool isViewMode)
         {
             if (isViewMode)
-            {
                 m_pPropertyText.Visible = true;
-            }
             else
-            {
                 m_pPropertyText.Visible = false;
-            }
-            SetFillBrush();
-            Refresh();
+            base.RefreshView(isViewMode);
         }
         /// <summary>
         /// notify to add the related process to list.

@@ -99,8 +99,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_object = setting.CreateTemplate();
             m_object.Pickable = false;
             m_object.CenterPointF = center;
-            m_object.Refresh();
-            m_object.SetFillBrush();
+            m_object.RefreshView(false);
             base.Layer.AddChild(m_object);
         }
         #endregion
