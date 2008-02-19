@@ -252,9 +252,9 @@ namespace EcellLib.PathwayWindow.Handler
         private void ValidateSystem(PPathwaySystem system)
         {
             if (m_canvas.DoesSystemOverlaps(system))
-                system.Valid = false;
+                system.IsInvalid = true;
             else
-                system.Valid = true;
+                system.IsInvalid = false;
         }
 
         /// <summary>

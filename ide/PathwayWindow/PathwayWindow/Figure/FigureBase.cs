@@ -196,7 +196,37 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="outerPoint"></param>
         /// <param name="innerPoint"></param>
         /// <returns></returns>
-        public abstract PointF GetContactPoint(PointF outerPoint, PointF innerPoint);
+        public virtual PointF GetContactPoint(PointF outerPoint, PointF innerPoint)
+        {
+            // Transform the coordinate system as the center of this rectangle is the original point
+            // and this recntangle's width is 2.
+            float a = m_width / 2;
+            float b = m_height / 2;
+
+            float x1 = innerPoint.X - a;
+            float x2 = innerPoint.X + a;
+            float y1 = innerPoint.Y - b;
+            float y2 = innerPoint.Y + b;
+
+            float x = 0;
+            float y = 0;
+
+            if (outerPoint.X <= x1)
+                x = x1;
+            else if (outerPoint.X >= x2)
+                x = x2;
+            else
+                x = outerPoint.X;
+
+            if (outerPoint.Y <= y1)
+                y = y1;
+            else if (outerPoint.Y >= y2)
+                y = y2;
+            else
+                y = outerPoint.Y;
+
+            return new PointF(x, y);
+        }
 
         #endregion
 

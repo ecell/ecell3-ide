@@ -95,11 +95,6 @@ namespace EcellLib.PathwayWindow.Nodes
 
         #region Fields
         /// <summary>
-        /// Indicate whether this PSystem is valid or not.
-        /// </summary>
-        protected bool m_valid = true;
-
-        /// <summary>
         /// Brush for drawing back ground.
         /// </summary>
         protected Brush m_backBrush = null; //Brushes.White;
@@ -108,26 +103,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// the flag whether this system is changed.
         /// </summary>
         protected bool m_isChanged = true;
-        /// <summary>
-        /// graphics of system.
-        /// </summary>
-        protected Graphics m_g;
-        /// <summary>
-        /// position of x before moving.
-        /// </summary>
-        protected float m_prevX = 0;
-        /// <summary>
-        /// position of y before moving.
-        /// </summary>
-        protected float m_prevY = 0;
-        /// <summary>
-        /// GraphicPath of background.
-        /// </summary>
-        protected GraphicsPath m_backGp;
-        /// <summary>
-        /// GraohicsPath of outline.
-        /// </summary>
-        protected GraphicsPath m_outlineGp;
         #endregion
 
         #region Accessors
@@ -185,94 +160,6 @@ namespace EcellLib.PathwayWindow.Nodes
                     this.Brush = m_fillBrush;
             }
         }
-        
-        /// <summary>
-        /// get/set Pen.
-        /// </summary>
-        public override Pen Pen
-        {
-            get
-            {
-                return base.Pen;
-            }
-            set
-            {
-                base.m_pen = value;
-                this.Repaint();
-            }
-        }
-
-        /// <summary>
-        /// Accessor for width.
-        /// </summary>
-        public override float Width
-        {
-            get
-            {
-                return base.Width;
-            }
-            set
-            {
-                base.Width = value;
-                m_isChanged = true;
-            }
-        }
-
-        /// <summary>
-        /// Accessor for height.
-        /// </summary>
-        public override float Height
-        {
-            get
-            {
-                return base.Height;
-            }
-            set
-            {
-                base.Height = value;
-                m_isChanged = true;
-            }
-        }
-
-        /// <summary>
-        /// get/set the flag whether this system is valid.
-        /// </summary>
-        public bool Valid
-        {
-            get
-            {
-                return m_valid;
-            }
-            set
-            {
-                this.m_valid = value;
-                if (this.m_valid)
-                {
-                    if (this.m_isSelected)
-                        this.Brush = m_highLightBrush;
-                    else
-                        this.Brush = m_fillBrush;
-                }
-                else
-                    this.Brush = m_invalidBrush;
-                m_isChanged = true;
-            }
-        }
-        /// <summary>
-        /// Accessor for x coordinates of memorized position.
-        /// </summary>
-        public virtual float OriginalX
-        {
-            get { return m_originalX; }
-        }
-
-        /// <summary>
-        /// Accessor for y coordinates of memorized position.
-        /// </summary>
-        public virtual float OriginalY
-        {
-            get { return m_originalY; }
-        }
 
         /// <summary>
         /// Accessor for m_backBrush.
@@ -312,52 +199,6 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void AddChild(PNode child)
         {
             base.AddChild(child);
-        }
-
-        /// <summary>
-        /// convert the position at canvas to the position of system.
-        /// </summary>
-        /// <param name="canvasPos">the position at canvas.</param>
-        /// <returns>the position of system.</returns>
-        public virtual PointF CanvasPos2SystemPos(PointF canvasPos)
-        {      
-            canvasPos.X -= base.OffsetX;
-            canvasPos.Y -= base.OffsetY;
-            if (base.Parent is PLayer)
-                return canvasPos;
-            PNode dummyParent = null;
-            do
-            {
-                if (dummyParent == null)
-                    dummyParent = base.Parent;
-                else
-                    dummyParent = dummyParent.Parent;
-                canvasPos.X -= dummyParent.OffsetX;
-                canvasPos.Y -= dummyParent.OffsetY;
-            } while (!(dummyParent.Parent is PLayer));
-            return canvasPos;
-        }
-
-        /// <summary>
-        /// convert the position of system to the position at canvas.
-        /// </summary>
-        /// <param name="systemPos">the position of system.</param>
-        /// <returns>the position at canvas.</returns>
-        public virtual PointF SystemPos2CanvasPos(PointF systemPos)
-        {
-            PNode dummyParent = null;
-            systemPos.X += base.OffsetX;
-            systemPos.Y += base.OffsetY;
-            do
-            {
-                if (dummyParent == null)
-                    dummyParent = this.Parent;
-                else
-                    dummyParent = dummyParent.Parent;
-                systemPos.X += dummyParent.OffsetX;
-                systemPos.Y += dummyParent.OffsetY;
-            } while (!(dummyParent.Parent is PLayer));
-            return systemPos;
         }
 
         /// <summary>
@@ -446,19 +287,6 @@ namespace EcellLib.PathwayWindow.Nodes
             if (this.Rect.Contains(rect) && rect.Contains(this.Rect))
                 return true;
             return this.Rect.IntersectsWith(rect) && !(this.Rect.Contains(rect) || rect.Contains(this.Rect));
-        }
-
-        /// <summary>
-        /// Return to memorized position.
-        /// </summary>
-        public void ReturnToMemorizedPosition()
-        {
-            base.X = base.m_originalX;
-            base.Y = base.m_originalY;
-            base.OffsetX = base.m_originalOffsetX;
-            base.OffsetY = base.m_originalOffsetY;
-            //this.SystemWidth = this.m_originalWidth;
-            //this.SystemHeight = this.m_originalHeight;
         }
         #endregion
     }    
