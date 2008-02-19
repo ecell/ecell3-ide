@@ -89,7 +89,8 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
             m_canvas.ControlLayer.AddChild(m_object);
             m_object.CenterPointF = e.Position;
-            m_object.RefreshView(m_canvas.ViewMode);
+            m_object.ViewMode = m_canvas.ViewMode;
+            m_object.RefreshView();
         }
 
         /// <summary>

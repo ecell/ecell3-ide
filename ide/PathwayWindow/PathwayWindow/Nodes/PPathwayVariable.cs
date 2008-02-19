@@ -142,13 +142,13 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Change View Mode.
         /// </summary>
-        public override void RefreshView(bool isViewMode)
+        public override void RefreshView()
         {
-            if (isViewMode)
+            if (m_isViewMode)
                 m_pPropertyText.Visible = true;
             else
                 m_pPropertyText.Visible = false;
-            base.RefreshView(isViewMode);
+            base.RefreshView();
         }
         /// <summary>
         /// notify to add the related process to list.

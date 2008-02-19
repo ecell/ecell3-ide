@@ -38,7 +38,12 @@ namespace EcellLib.PathwayWindow.Figure
     class RoundedRectangle : FigureBase
     {
         /// <summary>
-        /// COnstructor without params.
+        /// Figure type.
+        /// </summary>
+        public new const string TYPE = "RoundedRectangle";
+
+        /// <summary>
+        /// Constructor without params.
         /// </summary>
         public RoundedRectangle()
         {
@@ -77,7 +82,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="height"></param>
         protected override void Initialize(float x, float y, float width, float height)
         {
-            m_type = "RoundedRectangle";
+            m_type = TYPE;
             base.SetBounds(x, y, width, height);
             m_gp = CreatePath(x, y, width, height);
         }

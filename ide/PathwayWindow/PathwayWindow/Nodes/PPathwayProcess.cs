@@ -340,16 +340,16 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Change View Mode.
         /// </summary>
-        public override void RefreshView(bool isViewMode)
+        public override void RefreshView()
         {
             m_path.Reset();
             PointF centerPos = this.CenterPointF;
-            if (isViewMode)
+            if (m_isViewMode)
                 base.AddPath(m_tempFigure.GraphicsPath, false);
             else
                 base.AddPath(m_setting.EditModeFigure.GraphicsPath, false);
             base.CenterPointF = centerPos;
-            base.RefreshView(isViewMode);
+            base.RefreshView();
         }
         /// <summary>
         /// SetTextVisiblity

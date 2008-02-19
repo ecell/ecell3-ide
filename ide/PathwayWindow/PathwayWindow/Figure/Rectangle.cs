@@ -46,6 +46,11 @@ namespace EcellLib.PathwayWindow.Figure
     /// </summary>
     public class RectangleFigure : FigureBase
     {
+        /// <summary>
+        /// Figure type.
+        /// </summary>
+        public new const string TYPE = "Rectangle";
+
         #region Constructors
         /// <summary>
         /// Constructor with no params.
@@ -89,7 +94,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="height"></param>
         protected override void Initialize(float x, float y, float width, float height)
         {
-            m_type = "Rectangle";
+            m_type = TYPE;
             base.SetBounds(x, y, width, height);
             m_gp = CreatePath(x, y, width, height);
         }

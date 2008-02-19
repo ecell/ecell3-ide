@@ -159,8 +159,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
-        #endregion
+        ComponentResourceManager m_resources;
 
         #region Accessors
         /// <summary>
@@ -211,6 +210,7 @@ namespace EcellLib.PathwayWindow
             get { return this.m_csManager; }
             set { this.m_csManager = value; }
         }
+
         /// <summary>
         /// get/set the MenuControl.
         /// </summary>
@@ -219,6 +219,7 @@ namespace EcellLib.PathwayWindow
             get { return m_menuCon; }
             set { m_menuCon = value; }
         }
+
         /// <summary>
         /// get/set the AnimationControl.
         /// </summary>
@@ -227,6 +228,16 @@ namespace EcellLib.PathwayWindow
             get { return m_animCon; }
             set { m_animCon = value; }
         }
+
+        /// <summary>
+        /// MessageResourses
+        /// </summary>
+        public ComponentResourceManager Resources
+        {
+            get { return m_resources; }
+            set { m_resources = value; }
+        }
+        #endregion
 
         /// <summary>
         /// Accessor for currently active canvas.
@@ -330,6 +341,7 @@ namespace EcellLib.PathwayWindow
             this.m_window = window;
             // Create Internal object.
             m_canvas = null;
+            m_resources = new ComponentResourceManager(typeof(MessageResPathway));
             m_csManager = new ComponentManager();
             m_layoutList = m_window.GetLayoutAlgorithms();
             // Create menus

@@ -205,7 +205,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+        ComponentResourceManager m_resources;
         #endregion
 
         #region Accessors
@@ -251,14 +251,6 @@ namespace EcellLib.PathwayWindow
         public PPathwayNode NodeToBeReconnected
         {
             get { return m_nodeToBeConnected; }
-        }
-
-        /// <summary>
-        /// Accessor for m_pathwayTabPages.
-        /// </summary>
-        public TabPage TabPage
-        {
-            get { return m_pathwayTabPage; }
         }
 
         /// <summary>
@@ -383,30 +375,20 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// the constructor with initial parameters.
         /// </summary>
-        /// <param name="view">PathwayView.</param>
+        /// <param name="control">PathwayControl.</param>
         /// <param name="modelID">Model id.</param>
-        public CanvasControl(PathwayControl view,
-            string modelID)
+        public CanvasControl(PathwayControl control, string modelID)
         {
-            m_con = view;
+            m_con = control;
             m_modelId = modelID;
+            m_resources = m_con.Resources;
 
-            // Preparing TabPage
-            m_pathwayTabPage = new TabPage(modelID);
-            m_pathwayTabPage.Name = modelID;
-            m_pathwayTabPage.AutoScroll = true;
-
-            // Preparing PathwayCanvas
+            // Preparing PathwayViewCanvas
             m_pCanvas = new PPathwayCanvas(this);
-
-            // Preparing overview
+            // Preparing OverviewCanvas
             m_overviewCanvas = new POverviewCanvas(m_pCanvas.Layer,
                                                   m_pCanvas.Camera);
             m_pCanvas.Camera.RemoveLayer(m_pCanvas.Layer);
-
-            PScrollableControl scrolCtrl = new PScrollableControl(m_pCanvas);
-            scrolCtrl.Dock = DockStyle.Fill;
-            m_pathwayTabPage.Controls.Add(scrolCtrl);
 
             // Preparing DataTable
             m_table = new DataTable(modelID);
@@ -1265,9 +1247,6 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void Dispose()
         {
-            if (m_pathwayTabPage != null)
-                m_pathwayTabPage.Dispose();
-
             if (m_pCanvas != null)
                 m_pCanvas.Dispose();
 

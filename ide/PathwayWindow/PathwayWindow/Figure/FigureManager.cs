@@ -45,13 +45,13 @@ namespace EcellLib.PathwayWindow.Figure
         {
             switch (type)
             {
-                case "Ellipse":
+                case EllipseFigure.TYPE:
                     return new EllipseFigure(StringToFloats(args));
-                case "Rectangle":
+                case RectangleFigure.TYPE:
                     return new RectangleFigure(StringToFloats(args));
-                case "RoundedRectangle":
+                case RoundedRectangle.TYPE:
                     return new RoundedRectangle(StringToFloats(args));
-                case "SystemRectangle":
+                case SystemRectangle.TYPE:
                     return new SystemRectangle(StringToFloats(args));
                 default:
                     return new FigureBase(StringToFloats(args));
@@ -59,11 +59,25 @@ namespace EcellLib.PathwayWindow.Figure
         }
 
         /// <summary>
+        /// Get Figure list.
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetFigureList()
+        {
+            List<string> list = new List<string>();
+            list.Add(EllipseFigure.TYPE);
+            list.Add(RectangleFigure.TYPE);
+            list.Add(RoundedRectangle.TYPE);
+            list.Add(SystemRectangle.TYPE);
+            return list;
+        }
+
+        /// <summary>
         /// Change string to float array.
         /// </summary>
         /// <param name="argString"></param>
         /// <returns></returns>
-        protected static float[] StringToFloats(string argString)
+        private static float[] StringToFloats(string argString)
         {
             string[] args = argString.Split(new Char[] { ',', ' ' });
             float[] values = new float[args.Length];

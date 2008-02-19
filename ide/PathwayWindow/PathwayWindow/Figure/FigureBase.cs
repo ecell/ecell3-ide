@@ -69,7 +69,10 @@ namespace EcellLib.PathwayWindow.Figure
         /// Figure type.
         /// </summary>
         protected string m_type;
-
+        /// <summary>
+        /// Figure type.
+        /// </summary>
+        public const string TYPE = "FigureBase";
         /// <summary>
         /// GraphicsPath
         /// </summary>
@@ -78,20 +81,56 @@ namespace EcellLib.PathwayWindow.Figure
 
         #region Accessors
         /// <summary>
-        /// Accessor for m_gp.
-        /// </summary>
-        public GraphicsPath GraphicsPath
-        {
-            get { return m_gp; }
-        }
-
-        /// <summary>
         /// type string.
         /// </summary>
         public string Type
         {
             get { return m_type; }
             set { m_type = value; }
+        }
+
+        /// <summary>
+        /// X coodinate.
+        /// </summary>
+        public float X
+        {
+            get { return m_x; }
+            set { m_x = value; }
+        }
+
+        /// <summary>
+        /// Y coodinate.
+        /// </summary>
+        public float Y
+        {
+            get { return m_y; }
+            set { m_y = value; }
+        }
+
+        /// <summary>
+        /// Width.
+        /// </summary>
+        public float Width
+        {
+            get { return m_width; }
+            set { m_width = value; }
+        }
+
+        /// <summary>
+        /// Height.
+        /// </summary>
+        public float Height
+        {
+            get { return m_height; }
+            set { m_height = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_gp.
+        /// </summary>
+        public GraphicsPath GraphicsPath
+        {
+            get { return m_gp; }
         }
 
         /// <summary>
@@ -176,7 +215,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="height"></param>
         protected virtual void Initialize(float x, float y, float width, float height)
         {
-            m_type = "FigureBase";
+            m_type = TYPE;
             SetBounds(x, y, width, height);
             m_gp = CreatePath(x, y, width, height);
         }

@@ -142,26 +142,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// get/set the flag whether this system is valid.
-        /// </summary>
-        public override bool IsInvalid
-        {
-            get { return this.m_isInvalid; }
-            set
-            {
-                this.m_isInvalid = value;
-                if (value)
-                {
-                    this.Brush = m_invalidBrush;
-                }
-                else if (m_isSelected)
-                    this.Brush = m_highLightBrush;
-                else
-                    this.Brush = m_fillBrush;
-            }
-        }
-
-        /// <summary>
         /// Accessor for m_backBrush.
         /// </summary>
         public virtual Brush BackgroundBrush
@@ -220,10 +200,10 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Refresh View
         /// </summary>
         /// <param name="isViewMode"></param>
-        public override void RefreshView(bool isViewMode)
+        public override void RefreshView()
         {
             base.m_path = m_setting.EditModeFigure.CreatePath(X, Y, Width, Height);
-            base.RefreshView(isViewMode);
+            base.RefreshView();
         }
         /// <summary>
         /// Refresh Text contents of this object.

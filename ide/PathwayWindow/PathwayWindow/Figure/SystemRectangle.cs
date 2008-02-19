@@ -37,6 +37,10 @@ namespace EcellLib.PathwayWindow.Figure
 {
     class SystemRectangle : FigureBase
     {
+        /// <summary>
+        /// Figure type.
+        /// </summary>
+        public new const string TYPE = "SystemRectangle";
 
         /// <summary>
         /// COnstructor without params.
@@ -79,7 +83,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="height"></param>
         protected override void Initialize(float x, float y, float width, float height)
         {
-            m_type = "SystemRectangle";
+            m_type = TYPE;
             base.SetBounds(x, y, width, height);
             m_gp = CreatePath(x, y, width, height);
 

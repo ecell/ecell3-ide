@@ -409,7 +409,7 @@ namespace EcellLib.PathwayWindow.Nodes
             set
             {
                 m_isViewMode = value;
-                RefreshView(value);
+                RefreshView();
                 SetTextVisiblity();
             }
         }
@@ -420,7 +420,18 @@ namespace EcellLib.PathwayWindow.Nodes
         public virtual bool IsInvalid
         {
             get { return this.m_isInvalid; }
-            set { this.m_isInvalid = value; }
+            set
+            {
+                this.m_isInvalid = value;
+                if (value)
+                {
+                    this.Brush = m_invalidBrush;
+                }
+                else if (m_isSelected)
+                    this.Brush = m_highLightBrush;
+                else
+                    this.Brush = m_fillBrush;
+            }
         }
         /// <summary>
         /// Accessor for m_layer.
@@ -928,8 +939,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Change View Mode.
         /// </summary>
-        /// <param name="isViewMode"></param>
-        public virtual void RefreshView(bool isViewMode)
+        public virtual void RefreshView()
         {
             SetFillBrush();
             Refresh();

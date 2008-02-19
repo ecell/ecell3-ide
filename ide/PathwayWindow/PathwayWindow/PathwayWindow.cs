@@ -74,11 +74,6 @@ namespace EcellLib.PathwayWindow
         PathwayControl m_con;
 
         /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
-
-        /// <summary>
         /// m_dManager (DataManager)
         /// </summary>
         private DataManager m_dManager;
@@ -225,18 +220,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="key"></param>
         public void NotifyDataMerge(string modelID, string key)
         {
-            try
-            {
-                m_dManager.SystemDeleteAndMove(modelID, key);
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                String errmes = m_resources.GetString("ErrMerge");
-                MessageBox.Show(errmes + "\n" + ex.ToString(),
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            }
+            m_dManager.SystemDeleteAndMove(modelID, key);
         }
 
         /// <summary>
