@@ -1057,7 +1057,6 @@ namespace EcellLib.PathwayWindow
         {
             if (!oldKey.Equals(newKey))
                 TransferObject(oldKey, newKey, obj);
-
             // Set Layer
             SetLayer(obj);
             // Set visibility
@@ -1152,7 +1151,7 @@ namespace EcellLib.PathwayWindow
             if (obj == null)
                 return;
             // Set select change.
-            this.ResetSelectedObjects();
+            ResetSelectedObjects();
             RectangleF centerBounds = new RectangleF();
             switch (type)
             {

@@ -51,6 +51,10 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         protected PathwayControl m_con;
 
+        /// <summary>
+        /// PScrollableControl
+        /// </summary>
+        protected PScrollableControl m_scrolCtrl;
         #endregion
 
         #region Constructor
@@ -63,6 +67,9 @@ namespace EcellLib.PathwayWindow.UIComponent
             base.m_isSavable = true;
             this.m_con = control;
             this.m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
+            this.m_scrolCtrl = new PScrollableControl();
+            this.m_scrolCtrl.Dock = DockStyle.Fill;
+
             InitializeComponent();
         }
         #endregion
@@ -80,10 +87,9 @@ namespace EcellLib.PathwayWindow.UIComponent
                 return;
             PCanvas canvas = m_con.CanvasControl.PathwayCanvas;
 
-            PScrollableControl scrolCtrl = new PScrollableControl(canvas);
-            scrolCtrl.Dock = DockStyle.Fill;
+            m_scrolCtrl.Canvas = canvas;
             this.Controls.Add(canvas);
-            this.Controls.Add(scrolCtrl);
+            this.Controls.Add(m_scrolCtrl);
             this.Text = m_con.CanvasControl.ModelID;
             this.TabText = this.Text;
         }
@@ -113,7 +119,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             base.OnSizeChanged(e);
             if (m_con.CanvasControl == null)
                 return;
-            m_con.CanvasControl.Zoom(1f);
+            this.PerformLayout();
         }
         #endregion
     }

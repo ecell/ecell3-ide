@@ -335,6 +335,7 @@ namespace EcellLib.PathwayWindow.Handler
                         (i == nodeList.Count));
                 }
             }
+            m_canvas.ResetSelectedObjects();
         }
 
         /// <summary>

@@ -187,6 +187,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void Refresh()
         {
+            RefreshText();
             if (m_canvas == null)
                 return;
             foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(m_ecellObj.Key))
