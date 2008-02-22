@@ -264,11 +264,6 @@ namespace EcellLib.PathwayWindow.Nodes
         protected bool m_isViewMode = false;
 
         /// <summary>
-        /// Canvas ID.
-        /// </summary>
-        protected string m_canvasID = null;
-
-        /// <summary>
         /// Parent object.
         /// </summary>
         protected PPathwaySystem m_parentSystem;
@@ -457,7 +452,10 @@ namespace EcellLib.PathwayWindow.Nodes
         public virtual PPathwaySystem ParentObject
         {
             get { return m_parentSystem; }
-            set { m_parentSystem = value; }
+            set 
+            { 
+                m_parentSystem = value; 
+            }
         }
         #endregion
 
@@ -894,7 +892,6 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             if (this.m_ecellObj != null)
                 this.m_pText.Text = this.m_ecellObj.Text;
-            
             this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
             this.m_pText.MoveToFront();
         }
@@ -980,27 +977,13 @@ namespace EcellLib.PathwayWindow.Nodes
 
         #region EventHandlers
         /// <summary>
-        /// Called when the mouse enters this object.
+        /// event on mouse drag on this node.
         /// </summary>
         /// <param name="e"></param>
-        public override void OnMouseEnter(PInputEventArgs e)
+        public override void OnMouseDrag(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
         {
-            base.OnMouseEnter(e);
-            if (m_canvas == null)
-                return;
-            m_canvas.FocusNode = this;
-        }
-
-        /// <summary>
-        /// Called when the mouse leaves this object.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseLeave(PInputEventArgs e)
-        {
-            base.OnMouseLeave(e);
-            if (m_canvas == null)
-                return;
-            m_canvas.FocusNode = null;
+            base.OnMouseDrag(e);
+            Refresh();
         }
 
         /// <summary>

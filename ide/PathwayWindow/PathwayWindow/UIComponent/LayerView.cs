@@ -326,6 +326,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             }
             canvas.AddLayer(name);
         }
+
         /// <summary>
         /// when click menu "Delete Layer"
         /// </summary>

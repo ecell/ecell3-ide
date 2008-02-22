@@ -65,16 +65,6 @@ namespace EcellLib.PathwayWindow.Nodes
         protected Dictionary<string, PPathwayVariable> m_relatedVariables = new Dictionary<string, PPathwayVariable>();
 
         /// <summary>
-        /// delta of moving this node.
-        /// </summary>
-        protected SizeF m_movingDelta = new SizeF(0,0);
-
-        /// <summary>
-        /// list of size.
-        /// </summary>
-        protected List<SizeF> m_sizes = new List<SizeF>();
-
-        /// <summary>
         /// edge brush.
         /// </summary>
         private Brush m_edgeBrush = Brushes.Black;
@@ -153,27 +143,6 @@ namespace EcellLib.PathwayWindow.Nodes
             foreach (List<PPathwayLine> list in m_lines.Values)
                 foreach (PPathwayLine line in list)
                     line.Pickable = true;
-        }
-
-        /// <summary>
-        /// event on mouse up on this node.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseUp(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            base.OnMouseUp(e);
-            m_movingDelta = new SizeF(0, 0);
-        }
-
-        /// <summary>
-        /// event on mouse drag on this node.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseDrag(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            base.OnMouseDrag(e);
-            this.RefreshText();
-            this.RefreshEdges();
         }
 
         /// <summary>

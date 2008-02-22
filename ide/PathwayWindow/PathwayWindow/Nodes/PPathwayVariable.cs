@@ -55,11 +55,6 @@ namespace EcellLib.PathwayWindow.Nodes
         #endregion
 
         /// <summary>
-        /// the delta of moving.
-        /// </summary>
-        protected SizeF m_movingDelta = new SizeF(0, 0);
-
-        /// <summary>
         /// list of related processes.
         /// </summary>
         protected Dictionary<string, PPathwayProcess> m_relatedProcesses = new Dictionary<string, PPathwayProcess>();
@@ -92,26 +87,6 @@ namespace EcellLib.PathwayWindow.Nodes
         public override PPathwayObject CreateNewObject()
         {
             return new PPathwayVariable();
-        }
-
-        /// <summary>
-        /// event on mouse drag on this node.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseDrag(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            base.OnMouseDrag(e);
-            this.Refresh();
-        }
-
-        /// <summary>
-        /// event on mouse up on this variable.
-        /// </summary>
-        /// <param name="e">PInputEventArgs.</param>
-        public override void OnMouseUp(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            base.OnMouseUp(e);
-            m_movingDelta = new SizeF(0, 0);
         }
 
         /// <summary>

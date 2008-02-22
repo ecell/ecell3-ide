@@ -268,7 +268,6 @@ namespace EcellLib.PathwayWindow.Nodes
             base.RefreshText();
             m_pPropertyText.X = base.X + 5;
             m_pPropertyText.Y = base.Y - 15;
-            m_pPropertyText.MoveToFront();
         }
         /// <summary>
         /// set the offset of this node.

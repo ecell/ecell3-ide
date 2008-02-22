@@ -48,7 +48,7 @@ namespace EcellLib.PathwayWindow
         {
             base.OnStartDrag(sender, e);
             e.Handled = true;
-            e.PickedNode.MoveToFront();
+            //e.PickedNode.MoveToFront();
         }
     }
 }

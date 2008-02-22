@@ -200,7 +200,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Refresh View
         /// </summary>
-        /// <param name="isViewMode"></param>
         public override void RefreshView()
         {
             base.m_path = m_setting.EditModeFigure.CreatePath(X, Y, Width, Height);

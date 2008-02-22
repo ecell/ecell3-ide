@@ -624,7 +624,24 @@ namespace EcellLib.PathwayWindow
             m_overviewCanvas.AddObservedLayer(layer);
             m_layers.Add(layer.Name, layer);
             RefreshLayerTable();
+            LayerMoveToFront(layer);
+        }
+        /// <summary>
+        /// LayerMoveToFront
+        /// </summary>
+        /// <param name="layer"></param>
+        public void LayerMoveToFront(PLayer layer)
+        {
             layer.MoveToFront();
+            m_ctrlLayer.MoveToFront();
+        }
+        /// <summary>
+        /// LayerMoveToBack
+        /// </summary>
+        /// <param name="layer"></param>
+        public void LayerMoveToBack(PLayer layer)
+        {
+            layer.MoveToBack();
             m_ctrlLayer.MoveToFront();
         }
 

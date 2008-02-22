@@ -281,31 +281,7 @@ namespace EcellLib.PathwayWindow.Nodes
 
         #region EventHandlers
         /// <summary>
-        /// Called when the mouse enters this object.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseEnter(PInputEventArgs e)
-        {
-            base.OnMouseEnter(e);
-            if (m_canvas == null)
-                return;
-            m_canvas.FocusNode = this;
-        }
-
-        /// <summary>
-        /// Called when the mouse leaves this object.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseLeave(PInputEventArgs e)
-        {
-            base.OnMouseLeave(e);
-            if (m_canvas == null)
-                return;
-            m_canvas.FocusNode = null;
-        }
-
-        /// <summary>
-        /// Called when the mouse leaves this object.
+        /// Called when the mouse up.
         /// </summary>
         /// <param name="e"></param>
         public override void OnMouseUp(PInputEventArgs e)
