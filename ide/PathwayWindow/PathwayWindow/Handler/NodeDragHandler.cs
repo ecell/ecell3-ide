@@ -257,7 +257,7 @@ namespace EcellLib.PathwayWindow.Handler
                 {
                     TransferSystemTo(newSysKey, oldSysKey, system);
                 }
-                system.Refresh();
+                system.RefreshView();
             }
             //SetBackToDefault();
             m_canvas.PathwayCanvas.Refresh();

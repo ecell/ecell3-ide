@@ -160,7 +160,12 @@ namespace EcellLib.PathwayWindow
         /// PLayer for control use.
         /// For example, resize handlers for System.
         /// </summary>
-        protected PLayer m_ctrlLayer;
+        protected PPathwayLayer m_ctrlLayer;
+
+        /// <summary>
+        /// PLayer for system.
+        /// </summary>
+        protected PPathwayLayer m_sysLayer;
 
         /// <summary>
         /// List of PPathwayNode for selected object.
@@ -233,7 +238,6 @@ namespace EcellLib.PathwayWindow
         public PLayer ControlLayer
         {
             get { return m_ctrlLayer; }
-            set { this.m_ctrlLayer = value; }
         }
 
         /// <summary>
@@ -402,9 +406,12 @@ namespace EcellLib.PathwayWindow
             m_layers = new Dictionary<string, PPathwayLayer>();
 
             // Preparing control layer
-            m_ctrlLayer = new PLayer();
+            m_ctrlLayer = new PPathwayLayer("ControlLayer");
             m_pCanvas.Root.AddChild(m_ctrlLayer);
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
+            // Preparing system layer
+            m_sysLayer = new PPathwayLayer("SystemLayer");
+            AddLayer(m_sysLayer);
 
             // Preparing system ResizeHandlers
             m_resizeHandler = new ResizeHandler(this);
@@ -618,22 +625,32 @@ namespace EcellLib.PathwayWindow
             }
             PPathwayLayer layer = new PPathwayLayer(name);
             layer.AddInputEventListener(new NodeDragHandler(this));
-
-            m_pCanvas.Root.AddChild(0, layer);
-            m_pCanvas.Camera.AddLayer(0, layer);
-            m_overviewCanvas.AddObservedLayer(layer);
+            AddLayer(layer);
+            AddLayer(m_ctrlLayer);
             m_layers.Add(layer.Name, layer);
             RefreshLayerTable();
-            LayerMoveToFront(layer);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layer"></param>
+        private void AddLayer(PLayer layer)
+        {
+            m_pCanvas.Root.AddChild(layer);
+            m_pCanvas.Camera.AddLayer(layer);
+            m_overviewCanvas.AddObservedLayer(layer);
+        }
+
         /// <summary>
         /// LayerMoveToFront
         /// </summary>
         /// <param name="layer"></param>
         public void LayerMoveToFront(PLayer layer)
         {
-            layer.MoveToFront();
-            m_ctrlLayer.MoveToFront();
+            AddLayer(layer);
+            AddLayer(m_ctrlLayer);
+            RefreshLayerTable();
         }
         /// <summary>
         /// LayerMoveToBack
@@ -641,8 +658,12 @@ namespace EcellLib.PathwayWindow
         /// <param name="layer"></param>
         public void LayerMoveToBack(PLayer layer)
         {
-            layer.MoveToBack();
-            m_ctrlLayer.MoveToFront();
+            AddLayer(layer);
+            foreach (PPathwayLayer obj in m_layers.Values)
+                if (obj != layer)
+                    AddLayer(obj);
+            AddLayer(m_ctrlLayer);
+            RefreshLayerTable();
         }
 
         /// <summary>
@@ -652,14 +673,15 @@ namespace EcellLib.PathwayWindow
         public void SetLayer(PPathwayObject obj)
         {
             string layerID = obj.EcellObject.LayerID;
-            if (obj.EcellObject.Key.Equals("/") && (layerID != null && !layerID.Equals("")))
+            // rule out root system
+            if (obj.EcellObject.Key.Equals("/"))
             {
-                m_defLayerID = layerID;
+                obj.Layer = m_sysLayer;
+                obj.Layer.AddChild(obj);
+                return;
             }
-            else if (layerID == null || layerID.Equals(""))
-            {
+            else if (string.IsNullOrEmpty(layerID))
                 layerID = m_defLayerID;
-            }
             if (!m_layers.ContainsKey(layerID))
             {
                 AddLayer(layerID);
@@ -689,11 +711,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="name"></param>
         public void DeleteLayer(string name)
         {
-            if (name.Equals(m_defLayerID))
-            {
-                MessageBox.Show(m_resources.GetString("ErrDelRoot"));
-                return;
-            }
             PPathwayLayer layer = m_layers[name];
             m_layers.Remove(name);
             m_overviewCanvas.RemoveObservedLayer(layer);

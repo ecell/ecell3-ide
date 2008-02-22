@@ -52,6 +52,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         private static string MenuMerge = "LayerMenuMerge";
         private static string MenuRename = "LayerMenuRename";
         private static string MenuSelectNode = "LayerMenuSelectNodes";
+        private static string MenuMoveFront = "LayerMenuMoveFront";
+        private static string MenuMoveBack = "LayerMenuMoveBack";
         private static string MenuSepalator = "Sepalator";
         private static string DialogTitle = "LayerDialogTitle";
         private static string DialogMessage = "LayerDialogMessage";
@@ -111,7 +113,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
             InitializeComponent();
             // Preparing context menus.
-            m_dgv.ContextMenuStrip = GetPopUpMenus();
+            m_dgv.ContextMenuStrip = CreatePopUpMenus();
 
         }
 
@@ -197,7 +199,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Get Popup Menus.
         /// </summary>
         ///<returns>ContextMenu.</returns>
-        private ContextMenuStrip GetPopUpMenus()
+        private ContextMenuStrip CreatePopUpMenus()
         {
             // Preparing a context menu.
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
@@ -207,6 +209,18 @@ namespace EcellLib.PathwayWindow.UIComponent
             menuSelectNodes.Click += new EventHandler(SelectNodesClick);
             nodeMenu.Items.Add(menuSelectNodes);
             m_cMenuDict.Add(MenuSelectNode, menuSelectNodes);
+
+            ToolStripItem menuMoveFront = new ToolStripMenuItem(MenuMoveFront);
+            menuMoveFront.Text = m_resources.GetString(MenuMoveFront);
+            menuMoveFront.Click += new EventHandler(MoveFrontClick);
+            nodeMenu.Items.Add(menuMoveFront);
+            m_cMenuDict.Add(MenuMoveFront, menuMoveFront);
+
+            ToolStripItem menuMoveBack = new ToolStripMenuItem(MenuMoveBack);
+            menuMoveBack.Text = m_resources.GetString(MenuMoveBack);
+            menuMoveBack.Click += new EventHandler(MoveBackClick);
+            nodeMenu.Items.Add(menuMoveBack);
+            m_cMenuDict.Add(MenuMoveBack, menuMoveBack);
 
             ToolStripSeparator separator = new ToolStripSeparator();
             m_cMenuDict.Add(MenuSepalator, separator);
@@ -310,6 +324,30 @@ namespace EcellLib.PathwayWindow.UIComponent
             canvas.SelectNodesUnderLayer(name);
         }
         /// <summary>
+        /// when click menu "Move Front"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MoveFrontClick(object sender, EventArgs e)
+        {
+            CanvasControl canvas = m_con.CanvasControl;
+            string name = (string)m_selectedRow.Cells[1].FormattedValue;
+            PLayer layer = canvas.Layers[name];
+            canvas.LayerMoveToFront(layer);
+        }
+        /// <summary>
+        /// when click menu "Move Back"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MoveBackClick(object sender, EventArgs e)
+        {
+            CanvasControl canvas = m_con.CanvasControl;
+            string name = (string)m_selectedRow.Cells[1].FormattedValue;
+            PLayer layer = canvas.Layers[name];
+            canvas.LayerMoveToBack(layer);
+        }
+        /// <summary>
         /// when click menu "Create Layer"
         /// </summary>
         /// <param name="sender"></param>
@@ -396,6 +434,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void m_dgv_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             m_cMenuDict[MenuSelectNode].Visible = true;
+            m_cMenuDict[MenuMoveFront].Visible = true;
+            m_cMenuDict[MenuMoveBack].Visible = true;
             m_cMenuDict[MenuSepalator].Visible = true;
             m_cMenuDict[MenuCreate].Visible = true;
             m_cMenuDict[MenuRename].Visible = true;
@@ -415,6 +455,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void m_dgv_MouseDown(object sender, MouseEventArgs e)
         {
             m_cMenuDict[MenuSelectNode].Visible = false;
+            m_cMenuDict[MenuMoveFront].Visible = false;
+            m_cMenuDict[MenuMoveBack].Visible = false;
             m_cMenuDict[MenuSepalator].Visible = false;
             m_cMenuDict[MenuCreate].Visible = (m_con.CanvasControl != null);
             m_cMenuDict[MenuRename].Visible = false;

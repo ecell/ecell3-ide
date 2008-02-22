@@ -180,8 +180,8 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuMerge].Visible = isPPathwaySystem && !isRoot;
             m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuSeparator4].Visible = isCopiedObject || (isPPathwayObject && !isRoot);
             // Show Layer menu.
-            m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuChangeLayer].Visible = isPPathwayNode;
-            m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuSeparator5].Visible = isPPathwayNode;
+            m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuChangeLayer].Visible = isPPathwayObject && !isRoot;
+            m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuSeparator5].Visible = isPPathwayObject && !isRoot;
             // Show Logger menu.
             m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuCreateLogger].Visible = isPPathwayObject;
             m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuDeleteLogger].Visible = isPPathwayObject;

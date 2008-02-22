@@ -107,7 +107,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="layer"></param>
         public void AddObservedLayer(PLayer layer)
         {
-            this.Camera.AddLayer(0, layer);
+            this.Camera.AddLayer(layer);
+            this.Camera.AddLayer(this.Layer);
         }
 
         /// <summary>

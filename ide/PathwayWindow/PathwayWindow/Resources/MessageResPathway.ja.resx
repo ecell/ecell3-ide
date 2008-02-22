@@ -318,4 +318,10 @@
   <data name="ToolButtonZoomOut" xml:space="preserve">
     <value>ズームアウト</value>
   </data>
+  <data name="LayerMenuMoveBack" xml:space="preserve">
+    <value>背面移動</value>
+  </data>
+  <data name="LayerMenuMoveFront" xml:space="preserve">
+    <value>前面移動</value>
+  </data>
 </root>

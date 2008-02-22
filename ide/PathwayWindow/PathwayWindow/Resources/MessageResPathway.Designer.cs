@@ -466,6 +466,24 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
+        ///   Move to back に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LayerMenuMoveBack {
+            get {
+                return ResourceManager.GetString("LayerMenuMoveBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to front に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LayerMenuMoveFront {
+            get {
+                return ResourceManager.GetString("LayerMenuMoveFront", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Rename Layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerMenuRename {
