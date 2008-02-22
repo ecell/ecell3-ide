@@ -609,7 +609,7 @@ namespace EcellLib.PathwayWindow
         public void AddLayer(string name)
         {
             // Error check.
-            if (name == null || name.Equals(""))
+            if (string.IsNullOrEmpty(name))
                 return;
             if (m_layers.ContainsKey(name))
             {

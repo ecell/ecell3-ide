@@ -256,7 +256,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+        ComponentResourceManager m_resources;
         #endregion
 
         #region Accessors
@@ -320,6 +320,7 @@ namespace EcellLib.PathwayWindow
         public MenuControl(PathwayControl control)
         {
             m_con = control;
+            m_resources = control.Resources;
             m_menuLayoutList = CreateLayoutMenus();
             m_menuList = CreateToolStripMenuItems();
             m_buttonList = CreateToolButtonItems();

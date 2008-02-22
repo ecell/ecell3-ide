@@ -306,7 +306,6 @@ namespace EcellLib.PathwayWindow
                 float activity = GetFloatValue(process.EcellObject, "MolarActivity");
                 process.EdgeBrush = GetEdgeBrush(activity);
                 process.SetLineWidth(GetEdgeWidth(activity));
-                process.MoveToFront();
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
@@ -315,7 +314,6 @@ namespace EcellLib.PathwayWindow
                 // Variable setting.
                 float molerConc = GetFloatValue(variable.EcellObject, "MolarConc");
                 variable.PPropertyText.Text = GetPropertyString(molerConc);
-                variable.MoveToFront();
             }
         }
 
@@ -336,7 +334,6 @@ namespace EcellLib.PathwayWindow
                     continue;
                 // Line setting.
                 process.EdgeBrush = m_normalLineBrush;
-                process.MoveToFront();
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
@@ -344,7 +341,6 @@ namespace EcellLib.PathwayWindow
                     continue;
                 // Line setting.
                 variable.PPropertyText.Text = "";
-                variable.MoveToFront();
             }
             m_canvas = null;
         }

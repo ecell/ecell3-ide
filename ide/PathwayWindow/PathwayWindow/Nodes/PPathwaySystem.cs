@@ -212,7 +212,6 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             base.RefreshText();
             base.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height - TEXT_LOWER_MARGIN);
-            base.m_pText.MoveToFront();
         }
 
         /// <summary>
