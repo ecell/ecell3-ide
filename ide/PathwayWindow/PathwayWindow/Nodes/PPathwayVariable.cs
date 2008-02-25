@@ -51,7 +51,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Edges will be refreshed every time when this process has moved by this distance.
         /// </summary>
-        protected static readonly float m_refreshDistance = 4;
+        protected const float m_refreshDistance = 4;
         #endregion
 
         /// <summary>

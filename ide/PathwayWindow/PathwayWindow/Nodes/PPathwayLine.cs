@@ -47,17 +47,17 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         ///  Arrow design settings
         /// </summary>
-        public static readonly float ARROW_RADIAN_A = 0.471f;
+        public const float ARROW_RADIAN_A = 0.471f;
 
         /// <summary>
         ///  Arrow design settings
         /// </summary>
-        public static readonly float ARROW_RADIAN_B = 5.812f;
+        public const float ARROW_RADIAN_B = 5.812f;
 
         /// <summary>
         ///  Arrow design settings
         /// </summary>        
-        public static readonly float ARROW_LENGTH = 15;
+        public const float ARROW_LENGTH = 15;
 
         /// <summary>
         /// On this CanvasViewComponentSet this PPathwayObject is drawn.

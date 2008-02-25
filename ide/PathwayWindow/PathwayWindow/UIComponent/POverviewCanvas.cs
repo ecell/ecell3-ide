@@ -49,7 +49,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <summary>
         /// Graphical content of m_canvas is scaled by m_reductionScale in overview canvas (m_overCanvas)
         /// </summary>
-        private static readonly float REDUCTION_SCALE = 0.05f;
+        private const float REDUCTION_SCALE = 0.05f;
 
         /// <summary>
         /// Display rectangles using overview.

@@ -54,7 +54,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Used to draw line to connect.
         /// </summary>
-        private static readonly Pen LINE_THICK_PEN = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 5);
+        private const Pen LINE_THICK_PEN = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 5);
 
         /// <summary>
         /// Currently selected node.

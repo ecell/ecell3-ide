@@ -61,37 +61,42 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class CanvasControl : IDisposable
     {
-        #region Static readonly fields
+        #region Constant
         /// <summary>
         /// Least canvas size when a node is focused.
         /// </summary>
-        protected static readonly float LEAST_FOCUS_SIZE = 500f;
+        private const float LEAST_FOCUS_SIZE = 500f;
 
         /// <summary>
         /// Duration for camera centering animation when a node is selected.
         /// this will be used for the argument of PCamera.AnimateViewToCenterBounds()
         /// </summary>
-        protected static readonly int CAMERA_ANIM_DURATION = 700;
+        private const int CAMERA_ANIM_DURATION = 700;
 
         /// <summary>
         /// Minimum scale.
         /// </summary>
-        public static readonly float MIN_SCALE = .1f;
+        private const float MIN_SCALE = .1f;
 
         /// <summary>
         /// Maximum scale
         /// </summary>
-        public static readonly float MAX_SCALE = 5;
+        private const float MAX_SCALE = 5;
 
         /// <summary>
         /// Name of DataColumn for setting layer visibilities (check box)
         /// </summary>
-        private static readonly string COLUMN_NAME4SHOW = "Show";
+        private const string COLUMN_NAME4SHOW = "Show";
 
         /// <summary>
         /// Name of DataColumn for indicating layer names (string)
         /// </summary>
-        private static readonly string COLUMN_NAME4NAME = "Name";
+        private const string COLUMN_NAME4NAME = "Name";
+
+        /// <summary>
+        /// Default LayerID
+        /// </summary>
+        private const string DEFAULT_LAYERID = "Layer0";
         #endregion
 
         #region Fields
@@ -99,32 +104,27 @@ namespace EcellLib.PathwayWindow
         /// The PathwayView, from which this class gets messages from the E-cell core and through which this class
         /// sends messages to the E-cell core.
         /// </summary>
-        protected PathwayControl m_con;
+        private PathwayControl m_con;
 
         /// <summary>
         /// The unique ID of this canvas.
         /// </summary>
-        protected string m_modelId;
+        private string m_modelId;
 
         /// <summary>
         /// Whether each node is showing it's ID or not;
         /// </summary>
-        protected bool m_showingId = true;
-
-        /// <summary>
-        /// Tab page for this canvas.
-        /// </summary>
-        protected TabPage m_pathwayTabPage;
+        private bool m_showingId = true;
 
         /// <summary>
         /// PCanvas for pathways.
         /// </summary>
-        protected PPathwayCanvas m_pCanvas;
+        private PPathwayCanvas m_pCanvas;
 
         /// <summary>
         /// the canvas of overview.
         /// </summary>
-        protected POverviewCanvas m_overviewCanvas;
+        private POverviewCanvas m_overviewCanvas;
 
         /// <summary>
         /// The dictionary for all systems on this canvas.
@@ -150,11 +150,6 @@ namespace EcellLib.PathwayWindow
         /// The dictionary for all layers.
         /// </summary>
         protected Dictionary<string, PPathwayLayer> m_layers;
-
-        /// <summary>
-        /// Default LayerID
-        /// </summary>
-        protected string m_defLayerID = "Layer0";
 
         /// <summary>
         /// PLayer for control use.
@@ -195,22 +190,22 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// PPathwayObject, which is to be connected.
         /// </summary>
-        PPathwayNode m_nodeToBeConnected;
+        private PPathwayNode m_nodeToBeConnected;
 
         /// <summary>
         /// Line handle on the end for a variable
         /// </summary>
-        LineHandler m_lineHandler = null;
+        private LineHandler m_lineHandler = null;
 
         /// <summary>
         /// Clicked PathwayObject.
         /// </summary>
-        PNode m_focusNode = null;
+        private PNode m_focusNode = null;
 
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
-        ComponentResourceManager m_resources;
+        private ComponentResourceManager m_resources;
         #endregion
 
         #region Accessors
@@ -681,7 +676,7 @@ namespace EcellLib.PathwayWindow
                 return;
             }
             else if (string.IsNullOrEmpty(layerID))
-                layerID = m_defLayerID;
+                layerID = DEFAULT_LAYERID;
             if (!m_layers.ContainsKey(layerID))
             {
                 AddLayer(layerID);

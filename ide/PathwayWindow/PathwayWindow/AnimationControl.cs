@@ -45,21 +45,66 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class AnimationControl
     {
-        #region Fields
-        private float m_thresholdHigh = 100f;
-        private float m_thresholdMin = 0f;
-        private float m_normalLineWidth = 0f;
-        private float m_maxLineWidth = 20f;
-        private Brush m_normalBGBrush = Brushes.White;
-        private Brush m_viewBGBrush = Brushes.White;
-        private Brush m_normalLineBrush = Brushes.Black;
-        private Brush m_viewLineBrush = Brushes.LightGreen;
-        private Brush m_minLineBrush = Brushes.Gray;
-        private Brush m_maxLineBrush = Brushes.Yellow;
-        private Brush m_ngLineBrush = Brushes.Red;
-        private bool m_isLogarithmic = true;
+        #region Constant
+        /// <summary>
+        /// 
+        /// </summary>
         private const string FormatLog = "E2";
+        /// <summary>
+        /// 
+        /// </summary>
         private const string FormatNatural = "0.000000";
+        #endregion
+
+        #region Fields
+        /// <summary>
+        /// High threshold of line animation.
+        /// </summary>
+        private float m_thresholdHigh = 100f;
+        /// <summary>
+        /// Low threshold of line animation.
+        /// </summary>
+        private float m_thresholdMin = 0f;
+        /// <summary>
+        /// Normal line width.
+        /// </summary>
+        private float m_normalLineWidth = 0f;
+        /// <summary>
+        /// Max line width on line animation.
+        /// </summary>
+        private float m_maxLineWidth = 20f;
+        /// <summary>
+        /// CanvasBrush on EditMode.
+        /// </summary>
+        private Brush m_normalBGBrush = Brushes.White;
+        /// <summary>
+        /// CanvasBrush on ViewMode.
+        /// </summary>
+        private Brush m_viewBGBrush = Brushes.White;
+        /// <summary>
+        /// Line brush on EditMode.
+        /// </summary>
+        private Brush m_normalLineBrush = Brushes.Black;
+        /// <summary>
+        /// Line brush on ViewMode.
+        /// </summary>
+        private Brush m_viewLineBrush = Brushes.LightGreen;
+        /// <summary>
+        /// Low threshold line brush on ViewMode.
+        /// </summary>
+        private Brush m_minLineBrush = Brushes.Gray;
+        /// <summary>
+        /// High threshold line brush on ViewMode.
+        /// </summary>
+        private Brush m_maxLineBrush = Brushes.Yellow;
+        /// <summary>
+        /// NG line brush on ViewMode.
+        /// </summary>
+        private Brush m_ngLineBrush = Brushes.Red;
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool m_isLogarithmic = true;
         #endregion
 
         #region Object Fields

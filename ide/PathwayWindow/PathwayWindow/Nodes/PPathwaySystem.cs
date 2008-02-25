@@ -55,42 +55,42 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// default width
         /// </summary>
-        public static readonly float DEFAULT_WIDTH = 500;
+        public const float DEFAULT_WIDTH = 500;
         /// <summary>
         /// default height
         /// </summary>
-        public static readonly float DEFAULT_HEIGHT = 500;
+        public const float DEFAULT_HEIGHT = 500;
         /// <summary>
         /// When new system will be added by other plugin, it will be positioned this length away from
         /// parent system boundary.
         /// </summary>
-        public static readonly float SYSTEM_MARGIN = 60;
+        public const float SYSTEM_MARGIN = 60;
 
         /// <summary>
         /// minimum width
         /// </summary>
-        public static readonly float MIN_X_LENGTH = 80;
+        public const float MIN_X_LENGTH = 80;
         /// <summary>
         /// minimum height
         /// </summary>
-        public static readonly float MIN_Y_LENGTH = 80;
+        public const float MIN_Y_LENGTH = 80;
         /// <summary>
         /// An outer radius of round-shaped corner of a system.
         /// </summary>
-        public static readonly float OUTER_RADIUS = 20f;
+        public const float OUTER_RADIUS = 20f;
 
         /// <summary>
         /// An inner radius of round-shaped corner of a system.
         /// </summary>
-        public static readonly float INNER_RADIUS = 10f;
+        public const float INNER_RADIUS = 10f;
         /// <summary>
         /// Thickness of system.
         /// </summary>
-        public static readonly float HALF_THICKNESS = (OUTER_RADIUS - INNER_RADIUS) / 2f;
+        public const float HALF_THICKNESS = (OUTER_RADIUS - INNER_RADIUS) / 2f;
         /// <summary>
         /// Margin between lower hem and PText for a name of a system.
         /// </summary>
-        public static readonly float TEXT_LOWER_MARGIN = 20f;
+        public const float TEXT_LOWER_MARGIN = 20f;
         #endregion
 
         #region Fields

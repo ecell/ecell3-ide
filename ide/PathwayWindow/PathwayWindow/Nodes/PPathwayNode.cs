@@ -53,11 +53,11 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// The default width of object.
         /// </summary>
-        public static readonly float DEFAULT_WIDTH = 60;
+        public const float DEFAULT_WIDTH = 60;
         /// <summary>
         /// The default height of object.
         /// </summary>
-        public static readonly float DEFAULT_HEIGHT = 40;
+        public const float DEFAULT_HEIGHT = 40;
         #endregion
 
         #region Fields
