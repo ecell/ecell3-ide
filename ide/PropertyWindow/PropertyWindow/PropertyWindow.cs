@@ -941,27 +941,27 @@ namespace EcellLib.PropertyWindow
         private void MouseDownOnDataGrid(object sender, MouseEventArgs e)
         {
             DataGridView v = sender as DataGridView;
-            if (e.Button == MouseButtons.Left)
-            {
-                DataGridView.HitTestInfo hti = v.HitTest(e.X, e.Y);
-                if (hti.ColumnIndex > 0) return;
-                if (hti.RowIndex <= 0) return;
-                string s = v[0, hti.RowIndex].Value as string;
-                if (s == null) return;
-                foreach (EcellData d in m_current.Value)
-                {
-                    if (d.Name.Equals(s))
-                    {
-                        if (!d.Logable) break;
-                        EcellDragObject dobj = new EcellDragObject(m_current.ModelID,
-                            m_current.Key,
-                            m_current.Type,
-                            d.EntityPath);
+            if (e.Button != MouseButtons.Left)
+                return;
 
-                        v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
-                        return;
-                    }
-                }
+            DataGridView.HitTestInfo hti = v.HitTest(e.X, e.Y);
+            if (hti.ColumnIndex > 0) return;
+            if (hti.RowIndex <= 0) return;
+            string s = v[0, hti.RowIndex].Value as string;
+            if (s == null) return;
+            foreach (EcellData d in m_current.Value)
+            {
+                if (!d.Name.Equals(s))
+                    continue;
+                if (!d.Logable)
+                    break;
+                EcellDragObject dobj = new EcellDragObject(m_current.ModelID,
+                    m_current.Key,
+                    m_current.Type,
+                    d.EntityPath);
+
+                v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+                return;
             }
         }
 
@@ -1001,25 +1001,20 @@ namespace EcellLib.PropertyWindow
         /// <param name="e">DataGridViewEditingControlShowingEventArgs</param>
         void ShowEditingControl(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (e.Control is DataGridViewComboBoxEditingControl)
+            if (!(e.Control is DataGridViewComboBoxEditingControl))
+                return;
+            if (!(m_dgv.CurrentCell is DataGridViewComboBoxCell))
+                return;
+
+            this.m_ComboControl = (DataGridViewComboBoxEditingControl)e.Control;
+            EcellData d = m_dgv.CurrentCell.Tag as EcellData;
+            if (d.Name.Equals(Constants.xpathClassName))
             {
-                DataGridView dgv = (DataGridView)sender;
-                if (dgv.CurrentCell is DataGridViewComboBoxCell)
-                {
-                    this.m_ComboControl =
-                        (DataGridViewComboBoxEditingControl)e.Control;
-                    EcellData d = dgv.CurrentCell.Tag as EcellData;
-                    if (d.Name.Equals(Constants.xpathClassName))
-                    {
-                        this.m_ComboControl.SelectedIndexChanged +=
-                            new EventHandler(ChangeSelectedIndexOfProcessClass);
-                    }
-                    else
-                    {
-                        this.m_ComboControl.SelectedIndexChanged +=
-                            new EventHandler(ChangeSelectedIndexOfStepperID);
-                    }
-                }
+                this.m_ComboControl.SelectedIndexChanged += new EventHandler(ChangeSelectedIndexOfProcessClass);
+            }
+            else
+            {
+                this.m_ComboControl.SelectedIndexChanged += new EventHandler(ChangeSelectedIndexOfStepperID);
             }
         }
 
@@ -1133,7 +1128,8 @@ namespace EcellLib.PropertyWindow
                     DataGridViewRow row = new DataGridViewRow();
 
                     bool isAccessor = false;
-                    if (v.IsAccessor == 1) isAccessor = true;
+                    if (v.IsAccessor == 1) 
+                        isAccessor = true;
                     m_win.dgv.Rows.Add(new object[] { v.Name, v.FullID, v.Coefficient, isAccessor });
                 }
                 m_win.ShowDialog();
@@ -1169,12 +1165,15 @@ namespace EcellLib.PropertyWindow
             {
                 if (e.ColumnIndex == 0)
                 {
-                    if (editCell.Value == null) return;
+                    if (editCell.Value == null) 
+                        return;
                     string name = editCell.Value.ToString();
                     for (int i = 0; i < m_dgv.Rows.Count; i++)
                     {
-                        if (e.RowIndex == i) continue;
-                        if (m_dgv[0, i].Value == null) continue;
+                        if (e.RowIndex == i) 
+                            continue;
+                        if (m_dgv[0, i].Value == null)
+                            continue;
                         if (name.Equals(m_dgv[0, i].Value.ToString()))
                         {
                             String errmes = m_resources.GetString("SameProp");
@@ -1242,7 +1241,8 @@ namespace EcellLib.PropertyWindow
                     MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (editCell.Equals(m_current.Key)) return;
+                if (editCell.Equals(m_current.Key))
+                    return;
 
                 EcellObject p = m_current.Copy();
                 p.Key = tmpID;
@@ -1282,7 +1282,8 @@ namespace EcellLib.PropertyWindow
                 try
                 {
                     String data = "";
-                    if (editCell.Value != null) data = editCell.Value.ToString();
+                    if (editCell.Value != null)
+                        data = editCell.Value.ToString();
                     m_isChanging = true;
                     UpdateSize(m_current, data);
                     m_isChanging = false;
@@ -1298,7 +1299,8 @@ namespace EcellLib.PropertyWindow
             }
             else
             {
-                if (editCell.Value == null) return;
+                if (editCell.Value == null)
+                    return;
                 String data = editCell.Value.ToString();
                 EcellObject p = m_current.Copy();
                 foreach (EcellData d in p.Value)
@@ -1359,7 +1361,8 @@ namespace EcellLib.PropertyWindow
                 {
                     continue;
                 }
-                if (!propDict[d.Name].Settable) continue;
+                if (!propDict[d.Name].Settable)
+                    continue;
                 propDict[d.Name].Value = d.Value;
             }
             foreach (EcellData d in propDict.Values)
@@ -1411,7 +1414,8 @@ namespace EcellLib.PropertyWindow
             DataGridViewComboBoxEditingControl cb =
                 (DataGridViewComboBoxEditingControl)sender;
             String cname = cb.SelectedItem.ToString();
-            if (cname.Equals(m_stepperID)) return;
+            if (cname.Equals(m_stepperID))
+                return;
 
             foreach (EcellData d in m_current.Value)
             {

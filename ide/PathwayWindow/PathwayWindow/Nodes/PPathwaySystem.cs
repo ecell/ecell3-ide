@@ -192,6 +192,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 return;
             foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(m_ecellObj.Key))
             {
+                obj.MoveToFront();
                 if (obj is PPathwayVariable)
                     ((PPathwayVariable)obj).Refresh();
             }

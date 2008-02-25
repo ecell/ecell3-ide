@@ -71,11 +71,55 @@ namespace EcellLib.PathwayWindow.Nodes
         }
         #endregion
 
-        #region Fields
+        #region Constant
         /// <summary>
         /// Font size of node object.
         /// </summary>
-        protected const int m_nodeTextFontSize = 10;
+        protected const int FONT_SIZE = 10;
+
+        /// <summary>
+        /// A bit field that identifies a PenChanged event.
+        /// </summary>
+        /// <remarks>
+        /// This field is used to indicate whether PenChanged events should be forwarded to
+        /// a node's parent.
+        /// <seealso cref="UMD.HCIL.Piccolo.Event.PPropertyEventArgs">PPropertyEventArgs</seealso>.
+        /// <seealso cref="UMD.HCIL.Piccolo.PNode.PropertyChangeParentMask">PropertyChangeParentMask</seealso>.
+        /// </remarks>
+        public const int PROPERTY_CODE_PEN = 1 << 15;
+
+        /// <summary>
+        /// A bit field that identifies a PathChanged event.
+        /// </summary>
+        /// <remarks>
+        /// This field is used to indicate whether PathChanged events should be forwarded to
+        /// a node's parent.
+        /// <seealso cref="UMD.HCIL.Piccolo.Event.PPropertyEventArgs">PPropertyEventArgs</seealso>.
+        /// <seealso cref="UMD.HCIL.Piccolo.PNode.PropertyChangeParentMask">PropertyChangeParentMask</seealso>.
+        /// </remarks>
+        public const int PROPERTY_CODE_PATH = 1 << 16;
+
+        /// <summary>
+        /// The key that identifies a change in this node's <see cref="Pen">Pen</see>.
+        /// </summary>
+        /// <remarks>
+        /// In a property change event both the old and new value will be set correctly
+        /// to Pen objects.
+        /// </remarks>
+        protected static readonly object PROPERTY_KEY_PEN = new object();
+
+        /// <summary>
+        /// The key that identifies a change in this node's Path.
+        /// </summary>
+        /// <remarks>
+        /// In a property change event the new value will be a reference to this node's path, but old
+        /// value will always be null.
+        /// </remarks>
+        protected static readonly object PROPERTY_KEY_PATH = new object();
+
+        #endregion
+
+        #region Fields
         /// <summary>
         /// From this ComponentSetting, this object was created.
         /// </summary>
@@ -104,7 +148,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Object will be painted with this Brush when object is selected.
         /// </summary>
         protected Brush m_highLightBrush = Brushes.Gold;
-        
         /// <summary>
         /// Object will be painted with this Brush when object is in invalid state.
         /// </summary>
@@ -125,49 +168,9 @@ namespace EcellLib.PathwayWindow.Nodes
         protected bool m_isPickableBeforeFreeze = false;
 
         /// <summary>
-        /// The key that identifies a change in this node's <see cref="Pen">Pen</see>.
-        /// </summary>
-        /// <remarks>
-        /// In a property change event both the old and new value will be set correctly
-        /// to Pen objects.
-        /// </remarks>
-        protected const object PROPERTY_KEY_PEN = new object();
-
-        /// <summary>
-        /// A bit field that identifies a PenChanged event.
-        /// </summary>
-        /// <remarks>
-        /// This field is used to indicate whether PenChanged events should be forwarded to
-        /// a node's parent.
-        /// <seealso cref="UMD.HCIL.Piccolo.Event.PPropertyEventArgs">PPropertyEventArgs</seealso>.
-        /// <seealso cref="UMD.HCIL.Piccolo.PNode.PropertyChangeParentMask">PropertyChangeParentMask</seealso>.
-        /// </remarks>
-        public const int PROPERTY_CODE_PEN = 1 << 15;
-
-        /// <summary>
-        /// The key that identifies a change in this node's Path.
-        /// </summary>
-        /// <remarks>
-        /// In a property change event the new value will be a reference to this node's path, but old
-        /// value will always be null.
-        /// </remarks>
-        protected const object PROPERTY_KEY_PATH = new object();
-
-        /// <summary>
-        /// A bit field that identifies a PathChanged event.
-        /// </summary>
-        /// <remarks>
-        /// This field is used to indicate whether PathChanged events should be forwarded to
-        /// a node's parent.
-        /// <seealso cref="UMD.HCIL.Piccolo.Event.PPropertyEventArgs">PPropertyEventArgs</seealso>.
-        /// <seealso cref="UMD.HCIL.Piccolo.PNode.PropertyChangeParentMask">PropertyChangeParentMask</seealso>.
-        /// </remarks>
-        public const int PROPERTY_CODE_PATH = 1 << 16;
-
-        /// <summary>
         /// tempolary GraphicsPath.
         /// </summary>
-        protected static GraphicsPath TEMP_PATH = new GraphicsPath();
+        protected static GraphicsPath m_tempPath = new GraphicsPath();
 
         /// <summary>
         /// tempolary region.
@@ -469,7 +472,7 @@ namespace EcellLib.PathwayWindow.Nodes
             m_path = new GraphicsPath();
             m_pText = new PText();
             m_pText.Pickable = false;
-            m_pText.Font = new Font("Gothics", m_nodeTextFontSize, System.Drawing.FontStyle.Bold);
+            m_pText.Font = new Font("Gothics", FONT_SIZE, System.Drawing.FontStyle.Bold);
             this.AddChild(m_pText);
         }
         #endregion
@@ -579,11 +582,11 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 try
                 {
-                    TEMP_PATH.Reset();
-                    TEMP_PATH.AddPath(m_path, false);
+                    m_tempPath.Reset();
+                    m_tempPath.AddPath(m_path, false);
 
-                    TEMP_PATH.Widen(m_pen);
-                    RectangleF penPathBounds = TEMP_PATH.GetBounds();
+                    m_tempPath.Widen(m_pen);
+                    RectangleF penPathBounds = m_tempPath.GetBounds();
 
                     float strokeOutset = Math.Max(penPathBounds.Width - pathBounds.Width,
                         penPathBounds.Height - pathBounds.Height);
@@ -701,24 +704,24 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         private void SetTempRegion(GraphicsPath path, PMatrix matrix, bool widen)
         {
-            TEMP_PATH.Reset();
+            m_tempPath.Reset();
 
             if (path.PointCount > 0)
             {
-                TEMP_PATH.AddPath(path, false);
+                m_tempPath.AddPath(path, false);
 
                 if (widen)
                 {
-                    TEMP_PATH.Widen(m_pen, matrix.MatrixReference);
+                    m_tempPath.Widen(m_pen, matrix.MatrixReference);
                 }
                 else
                 {
-                    TEMP_PATH.Transform(matrix.MatrixReference);
+                    m_tempPath.Transform(matrix.MatrixReference);
                 }
             }
 
             TEMP_REGION.MakeInfinite();
-            TEMP_REGION.Intersect(TEMP_PATH);
+            TEMP_REGION.Intersect(m_tempPath);
         }
 
         /// <summary>
@@ -735,10 +738,10 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 try
                 {
-                    TEMP_PATH.Reset();
-                    TEMP_PATH.AddPath(m_path, false);
-                    if (m_pen != null && TEMP_PATH.PointCount > 0) TEMP_PATH.Widen(m_pen);
-                    RectangleF b = TEMP_PATH.GetBounds();
+                    m_tempPath.Reset();
+                    m_tempPath.AddPath(m_path, false);
+                    if (m_pen != null && m_tempPath.PointCount > 0) m_tempPath.Widen(m_pen);
+                    RectangleF b = m_tempPath.GetBounds();
                     SetBounds(b.X, b.Y, b.Width, b.Height);
                 }
                 catch (OutOfMemoryException)

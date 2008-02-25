@@ -145,6 +145,12 @@ namespace EcellLib.PathwayWindow.UIComponent
             InitializeComponent();
             // Preparing context menus.
             m_dgv.ContextMenuStrip = CreatePopUpMenus();
+            m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(m_dgv_EditingControlShowing);
+
+        }
+
+        void m_dgv_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
 
         }
 

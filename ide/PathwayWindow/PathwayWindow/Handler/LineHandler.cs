@@ -51,14 +51,15 @@ namespace EcellLib.PathwayWindow.Handler
     {
         #region Static readonly fields
         /// <summary>
-        /// Used to draw line to reconnect.
-        /// </summary>
-        private const Brush LINE_BRUSH = new SolidBrush(Color.FromArgb(200, Color.Orange));
-
-        /// <summary>
         /// radius of a line handle
         /// </summary>
         private const float LINE_HANDLE_RADIUS = 5;
+
+        /// <summary>
+        /// Used to draw line to reconnect.
+        /// </summary>
+        private static readonly Brush LINE_BRUSH = new SolidBrush(Color.FromArgb(200, Color.Orange));
+
         #endregion
 
         #region Fields
