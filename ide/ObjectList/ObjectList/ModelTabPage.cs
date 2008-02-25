@@ -522,13 +522,13 @@ namespace EcellLib.ObjectList
         {
             int pos = SearchHeaderPos(obj.Type);
             if (pos == -1) return;
-            int index = SearchInsertIndex(pos, obj.Key);
+            int ind = SearchInsertIndex(pos, obj.Key);
             if (obj.Type.Equals(Constants.xpathSystem))
-                AddSystem(index, obj);
+                AddSystem(ind, obj);
             else if (obj.Type.Equals(Constants.xpathProcess))
-                AddProcess(index, obj);
+                AddProcess(ind, obj);
             else if (obj.Type.Equals(Constants.xpathVariable))
-                AddVariable(index, obj);
+                AddVariable(ind, obj);
             m_currentModelID = obj.ModelID;
         }
 
@@ -744,13 +744,13 @@ namespace EcellLib.ObjectList
             bool isIDChanged = !(id == obj.Key);
             DataDelete(modelID, id, type, isIDChanged);
             DataAdd(obj);
-            int index = SearchObjectIndex(obj.Key, obj.Type);
-            if (index < 0 || index > m_gridView.RowCount - 1)
+            int ind = SearchObjectIndex(obj.Key, obj.Type);
+            if (ind < 0 || ind > m_gridView.RowCount - 1)
                 return;
-            if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen)
+            if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen) 
                 return;
-            m_gridView.Rows[index].Selected = true;
-            m_gridView.FirstDisplayedScrollingRowIndex = index;
+            m_gridView.Rows[ind].Selected = true;
+            m_gridView.FirstDisplayedScrollingRowIndex = ind;
         }
 
         /// <summary>
@@ -872,9 +872,9 @@ namespace EcellLib.ObjectList
         /// <param name="e"></param>
         void ClickObjectCell(object sender, DataGridViewCellEventArgs e)
         {
-            int index = e.RowIndex;
-            if (index < 0) return;
-            EcellObject obj = m_gridView.Rows[index].Tag as EcellObject;
+            int ind = e.RowIndex;
+            if (ind < 0) return;
+            EcellObject obj = m_gridView.Rows[ind].Tag as EcellObject;
             if (obj == null) return;
             PluginManager manager = PluginManager.GetPluginManager();
             manager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
