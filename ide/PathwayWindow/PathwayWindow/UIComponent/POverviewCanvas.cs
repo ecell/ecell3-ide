@@ -57,12 +57,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         protected PDisplayedArea m_area;
 
         /// <summary>
-        /// Brush for m_transparentNode
-        /// </summary>
-        private static readonly SolidBrush m_transparentBrush
-             = new SolidBrush(Color.FromArgb(0, Color.White));
-
-        /// <summary>
         /// PPath to show main pathway area in the overview.
         /// Normally, this node is colored in red.
         /// </summary>
@@ -80,7 +74,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_area = new PDisplayedArea();
 
             m_transparentNode = PPath.CreateRectangle(-500, -500, 1300, 1300);
-            m_transparentNode.Brush = m_transparentBrush;
+            m_transparentNode.Brush = new SolidBrush(Color.FromArgb(0, Color.White));
             m_transparentNode.Pickable = true;
 
             this.Camera.AddLayer(observedLayer);

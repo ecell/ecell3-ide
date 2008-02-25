@@ -1177,13 +1177,24 @@ namespace EcellLib.PathwayWindow
             if (this.CanvasControl == null)
                 return;
             CanvasControl canvas = this.CanvasControl;
-            // Select Layer
-            List<string> layerList = canvas.GetLayerNameList();
-            string name = SelectBoxDialog.Show("Select Layer", null, layerList);
-            if (name == null || name.Equals(""))
-                return;
-            if (!canvas.Layers.ContainsKey(name))
-                canvas.AddLayer(name);
+            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+
+            // Get new layer name.
+            string name;
+            if (menu.Text.Equals(m_resources.GetString(MenuControl.CanvasMenuCreateLayer)))
+            {
+                // Select Layer
+                List<string> layerList = canvas.GetLayerNameList();
+                name = SelectBoxDialog.Show(m_resources.GetString(MenuControl.CanvasMenuCreateLayer), m_resources.GetString(MenuControl.CanvasMenuCreateLayer), layerList);
+                if (name == null || name.Equals(""))
+                    return;
+                if (!canvas.Layers.ContainsKey(name))
+                    canvas.AddLayer(name);
+            }
+            else
+            {
+                name = menu.Text;
+            }
 
             // Change layer of selected objects.
             PPathwayLayer layer = canvas.Layers[name];
@@ -1200,6 +1211,32 @@ namespace EcellLib.PathwayWindow
                     true,
                     (i == objList.Count));
             }
+        }
+
+        /// <summary>
+        /// Layer move to front
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void MoveToFrontClick(object sender, EventArgs e)
+        {
+            CanvasControl canvas = this.CanvasControl;
+            PPathwayObject obj = (PPathwayObject)canvas.FocusNode;
+            PLayer layer = canvas.Layers[obj.EcellObject.LayerID];
+            canvas.LayerMoveToFront(layer);
+        }
+
+        /// <summary>
+        /// Layer move to back
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void MoveToBackClick(object sender, EventArgs e)
+        {
+            CanvasControl canvas = this.CanvasControl;
+            PPathwayObject obj = (PPathwayObject)canvas.FocusNode;
+            PLayer layer = canvas.Layers[obj.EcellObject.LayerID];
+            canvas.LayerMoveToBack(layer);
         }
 
         /// <summary>

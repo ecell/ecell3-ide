@@ -26,6 +26,7 @@
 //
 // written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.Collections.Generic;
@@ -277,6 +278,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             }
             ((DataGridView)sender).CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
+
         /// <summary>
         /// When binding data in DataGridView,
         /// ...
@@ -312,6 +314,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 ((DataGridView)sender).Columns["Name"].ReadOnly = true;
             }
         }
+
         /// <summary>
         /// when click menu "Create Layer"
         /// </summary>
@@ -323,6 +326,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             string name = (string)m_selectedRow.Cells[1].FormattedValue;
             canvas.SelectNodesUnderLayer(name);
         }
+
         /// <summary>
         /// when click menu "Move Front"
         /// </summary>
@@ -335,6 +339,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             PLayer layer = canvas.Layers[name];
             canvas.LayerMoveToFront(layer);
         }
+
         /// <summary>
         /// when click menu "Move Back"
         /// </summary>
@@ -347,6 +352,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             PLayer layer = canvas.Layers[name];
             canvas.LayerMoveToBack(layer);
         }
+
         /// <summary>
         /// when click menu "Create Layer"
         /// </summary>
@@ -385,6 +391,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             CanvasControl canvas = m_con.CanvasControl;
             canvas.DeleteLayer(name);
         }
+
         /// <summary>
         /// when click menu "Rename Layer"
         /// </summary>
@@ -405,6 +412,7 @@ namespace EcellLib.PathwayWindow.UIComponent
 
             canvas.RenameLayer(oldName, newName);
         }
+
         /// <summary>
         /// when click menu "Merge Layer"
         /// </summary>
@@ -426,6 +434,7 @@ namespace EcellLib.PathwayWindow.UIComponent
 
             canvas.MergeLayer(oldName, newName);
         }
+
         /// <summary>
         /// when click DataGridRows.
         /// </summary>
@@ -447,6 +456,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 m_selectedRow.Selected = true;
             }
         }
+
         /// <summary>
         /// when click DataGridView.
         /// </summary>

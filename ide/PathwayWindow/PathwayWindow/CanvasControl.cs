@@ -696,11 +696,17 @@ namespace EcellLib.PathwayWindow
         private void RefreshLayerTable()
         {
             m_table.Clear();
-            foreach (KeyValuePair<string, PPathwayLayer> set in m_layers)
+            foreach (PNode obj in m_pCanvas.Root.ChildrenReference)
             {
+                if (!(obj is PPathwayLayer))
+                    continue;
+                PPathwayLayer layer = (PPathwayLayer)obj;
+                if (layer == m_ctrlLayer || layer == m_sysLayer)
+                    continue;
+
                 DataRow dr = m_table.NewRow();
-                dr[COLUMN_NAME4SHOW] = set.Value.Visible;
-                dr[COLUMN_NAME4NAME] = set.Key;
+                dr[COLUMN_NAME4SHOW] = layer.Visible;
+                dr[COLUMN_NAME4NAME] = layer.Name;
                 m_table.Rows.Add(dr);
             }
         }

@@ -86,7 +86,19 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for Change Layer
         /// </summary>
-        public static readonly string CanvasMenuChangeLayer = "CanvasMenuChangeLayer";
+        public static readonly string CanvasMenuChangeLayer = "LayerMenuChange";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Create Layer
+        /// </summary>
+        public static readonly string CanvasMenuCreateLayer = "LayerMenuCreate";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
+        /// </summary>
+        public static readonly string CanvasMenuMoveFront = "LayerMenuMoveFront";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
+        /// </summary>
+        public static readonly string CanvasMenuMoveBack = "LayerMenuMoveBack";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for rightArrow
         /// </summary>
@@ -449,11 +461,21 @@ namespace EcellLib.PathwayWindow
             nodeMenu.Items.Add(separator4);
             m_popMenuDict.Add(CanvasMenuSeparator4, separator4);
 
-            // Layer changer
+            // Add Layer Menu
             ToolStripItem changeLayer = new ToolStripMenuItem(m_resources.GetString(CanvasMenuChangeLayer));
-            changeLayer.Click += new EventHandler(m_con.ChangeLeyerClick);
+            //changeLayer.Click += new EventHandler(m_con.ChangeLeyerClick);
             nodeMenu.Items.Add(changeLayer);
             m_popMenuDict.Add(CanvasMenuChangeLayer, changeLayer);
+
+            ToolStripItem moveFront = new ToolStripMenuItem(m_resources.GetString(CanvasMenuMoveFront));
+            moveFront.Click += new EventHandler(m_con.MoveToFrontClick);
+            nodeMenu.Items.Add(moveFront);
+            m_popMenuDict.Add(CanvasMenuMoveFront, moveFront);
+
+            ToolStripItem moveBack = new ToolStripMenuItem(m_resources.GetString(CanvasMenuMoveBack));
+            moveBack.Click += new EventHandler(m_con.MoveToBackClick);
+            nodeMenu.Items.Add(moveBack);
+            m_popMenuDict.Add(CanvasMenuMoveBack, moveBack);
 
             ToolStripSeparator separator5 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator5);

@@ -151,6 +151,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 PPathwayObject obj = (PPathwayObject)m_canvas.FocusNode;
                 m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuID].Text = obj.EcellObject.Key;
                 SetLoggerMenu(obj);
+                SetLayerManu(obj);
                 if (isPPathwaySystem)
                 {
                     m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuMerge].Text =
@@ -223,6 +224,29 @@ namespace EcellLib.PathwayWindow.UIComponent
             }
             createLogger.Enabled = (createLogger.DropDown.Items.Count != 0);
             deleteLogger.Enabled = (deleteLogger.DropDown.Items.Count != 0);
+        }
+
+        /// <summary>
+        /// Set layer menu items.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void SetLayerManu(PPathwayObject obj)
+        {
+            ToolStripMenuItem layerMenu = (ToolStripMenuItem)m_con.MenuControl.PopupMenuDict[MenuControl.CanvasMenuChangeLayer];
+            layerMenu.DropDown.Items.Clear();
+            foreach (string layerName in m_canvas.GetLayerNameList())
+            {
+                ToolStripMenuItem layerItem = new ToolStripMenuItem(layerName);
+                layerItem.Checked = layerName.Equals(obj.Layer.Name);
+                layerItem.Click += new EventHandler(m_con.ChangeLeyerClick);
+                layerMenu.DropDown.Items.Add(layerItem);
+            }
+            ToolStripSeparator separator = new ToolStripSeparator();
+            layerMenu.DropDown.Items.Add(separator);
+
+            ToolStripMenuItem createNewLayer = new ToolStripMenuItem(m_resources.GetString(MenuControl.CanvasMenuCreateLayer));
+            createNewLayer.Click += new EventHandler(m_con.ChangeLeyerClick);
+            layerMenu.DropDown.Items.Add(createNewLayer);
         }
     }
 }
