@@ -48,16 +48,46 @@ namespace EcellLib.PathwayWindow.UIComponent
     public class LayerView: EcellDockContent
     {
         #region Static Fields
-        private static string MenuCreate = "LayerMenuCreate";
-        private static string MenuDelete = "LayerMenuDelete";
-        private static string MenuMerge = "LayerMenuMerge";
-        private static string MenuRename = "LayerMenuRename";
-        private static string MenuSelectNode = "LayerMenuSelectNodes";
-        private static string MenuMoveFront = "LayerMenuMoveFront";
-        private static string MenuMoveBack = "LayerMenuMoveBack";
-        private static string MenuSepalator = "Sepalator";
-        private static string DialogTitle = "LayerDialogTitle";
-        private static string DialogMessage = "LayerDialogMessage";
+        /// <summary>
+        /// PopupMenu to create layer.
+        /// </summary>
+        private const string MenuCreate = "LayerMenuCreate";
+        /// <summary>
+        /// PopupMenu to delete layer.
+        /// </summary>
+        private const string MenuDelete = "LayerMenuDelete";
+        /// <summary>
+        /// PopupMenu to merge layer.
+        /// </summary>
+        private const string MenuMerge = "LayerMenuMerge";
+        /// <summary>
+        /// PopupMenu to rename layer.
+        /// </summary>
+        private const string MenuRename = "LayerMenuRename";
+        /// <summary>
+        /// PopupMenu to select nodes under the layer.
+        /// </summary>
+        private const string MenuSelectNode = "LayerMenuSelectNodes";
+        /// <summary>
+        /// PopupMenu to move layer.
+        /// </summary>
+        private const string MenuMoveFront = "LayerMenuMoveFront";
+        /// <summary>
+        /// PopupMenu to move layer.
+        /// </summary>
+        private const string MenuMoveBack = "LayerMenuMoveBack";
+        /// <summary>
+        /// PopupMenu Sepalator.
+        /// </summary>
+        private const string MenuSepalator = "Sepalator";
+        /// <summary>
+        /// Dialog title.
+        /// </summary>
+        private const string DialogTitle = "LayerDialogTitle";
+        /// <summary>
+        /// Dialog message.
+        /// </summary>
+        private const string DialogMessage = "LayerDialogMessage";
         #endregion
 
         #region Fields

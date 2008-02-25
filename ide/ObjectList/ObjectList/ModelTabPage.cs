@@ -260,16 +260,16 @@ namespace EcellLib.ObjectList
             int typeNum = 0;
             for (int i = 0; i < m_gridView.Rows.Count; i++)
             {
-                if (m_gridView.Rows[i].Tag == null)
-                {
-                    if (type == Constants.xpathSystem && typeNum == 0)
-                        return i;
-                    else if (type == Constants.xpathVariable && typeNum == 1)
-                        return i;
-                    else if (type == Constants.xpathProcess && typeNum == 2)
-                        return i;
-                    typeNum++;
-                }
+                if (m_gridView.Rows[i].Tag != null)
+                    continue;
+
+                if (type == Constants.xpathSystem && typeNum == 0)
+                    return i;
+                else if (type == Constants.xpathVariable && typeNum == 1)
+                    return i;
+                else if (type == Constants.xpathProcess && typeNum == 2)
+                    return i;
+                typeNum++;
             }
             return -1;
         }
@@ -285,8 +285,10 @@ namespace EcellLib.ObjectList
             int preIndex = startpos + 1;
             for (int i = startpos + 1; i < m_gridView.Rows.Count; i++)
             {
-                if (m_gridView.Rows[i].Tag == null) return m_gridView.Rows[i].Index;
-                if (m_gridView[1, i].Value.ToString().CompareTo(id) > 0) return m_gridView.Rows[i].Index;
+                if (m_gridView.Rows[i].Tag == null) 
+                    return m_gridView.Rows[i].Index;
+                if (m_gridView[1, i].Value.ToString().CompareTo(id) > 0) 
+                    return m_gridView.Rows[i].Index;
                 preIndex = m_gridView.Rows[i].Index;
             }
             return preIndex;
@@ -303,8 +305,10 @@ namespace EcellLib.ObjectList
             int len = m_gridView.Rows.Count;
             for (int i = 0; i < len; i++)
             {
-                if (!type.Equals(m_gridView[0, i].Value)) continue;
-                if (!key.Equals(m_gridView[1, i].Value)) continue;
+                if (!type.Equals(m_gridView[0, i].Value)) 
+                    continue;
+                if (!key.Equals(m_gridView[1, i].Value)) 
+                    continue;
                 return i;
             }
             return -1;
@@ -391,20 +395,18 @@ namespace EcellLib.ObjectList
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
                 {
-                    if (name.Equals(m_systemProp[i]))
-                    {
-                        c.ReadOnly = true;
-                        break;
-                    }
+                    if (!name.Equals(m_systemProp[i]))
+                        continue;
+                    c.ReadOnly = true;
+                    break;
                 }
                 foreach (string name in m_simulationProp)
                 {
-                    if (name.Equals(m_systemProp[i]))
-                    {
-                        string entPath = Util.ConvertSystemEntityPath(obj.Key, name);
-                        m_propDic.Add(entPath, c);
-                        break;
-                    }
+                    if (!name.Equals(m_systemProp[i]))
+                        continue;
+                    string entPath = Util.ConvertSystemEntityPath(obj.Key, name);
+                    m_propDic.Add(entPath, c);
+                    break;
                 }
             }
             for (int i = len; i < ModelTabPage.s_columnNum; i++)
@@ -438,22 +440,20 @@ namespace EcellLib.ObjectList
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
                 {
-                    if (name.Equals(m_variableProp[i]))
-                    {
-                        c.ReadOnly = true;
-                        break;
-                    }
+                    if (!name.Equals(m_variableProp[i]))
+                        continue;
+                    c.ReadOnly = true;
+                    break;
                 }
                 foreach (string name in m_simulationProp)
                 {
-                    if (name.Equals(m_variableProp[i]))
-                    {
-                        string entPath = Constants.xpathVariable +
-                            Constants.delimiterColon + obj.Key +
-                            Constants.delimiterColon + name;
-                        m_propDic.Add(entPath, c);
-                        break;
-                    }
+                    if (!name.Equals(m_variableProp[i]))
+                        continue;
+                    string entPath = Constants.xpathVariable +
+                        Constants.delimiterColon + obj.Key +
+                        Constants.delimiterColon + name;
+                    m_propDic.Add(entPath, c);
+                    break;
                 }
             }
             for (int i = len; i < ModelTabPage.s_columnNum; i++)
@@ -485,22 +485,20 @@ namespace EcellLib.ObjectList
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
                 {
-                    if (name.Equals(m_processProp[i]))
-                    {
-                        c.ReadOnly = true;
-                        break;
-                    }
+                    if (!name.Equals(m_processProp[i]))
+                        continue;
+                    c.ReadOnly = true;
+                    break;
                 }
                 foreach (string name in m_simulationProp)
                 {
-                    if (name.Equals(m_processProp[i]))
-                    {
-                        string entPath = Constants.xpathProcess +
-                            Constants.delimiterColon + obj.Key +
-                            Constants.delimiterColon + name;
-                        m_propDic.Add(entPath, c);
-                        break;
-                    }
+                    if (!name.Equals(m_processProp[i]))
+                        continue;
+                    string entPath = Constants.xpathProcess +
+                        Constants.delimiterColon + obj.Key +
+                        Constants.delimiterColon + name;
+                    m_propDic.Add(entPath, c);
+                    break;
                 }
 
             }
@@ -566,7 +564,8 @@ namespace EcellLib.ObjectList
             {
                 foreach (EcellData d in obj.Value)
                 {
-                    if (d.Name.Equals(Constants.xpathStepperID)) return d.Value.ToString();
+                    if (d.Name.Equals(Constants.xpathStepperID))
+                        return d.Value.ToString();
                 }
             }
             else 
@@ -593,12 +592,12 @@ namespace EcellLib.ObjectList
                 foreach (string entPath in m_propDic.Keys)
                 {
                     DataGridViewCell c = m_propDic[entPath];
-                    if (c.RowIndex == index)
-                    {
-                        m_propDic.Remove(entPath);
-                        isHit = true;
-                        break;
-                    }
+                    if (c.RowIndex != index)
+                        continue;
+
+                    m_propDic.Remove(entPath);
+                    isHit = true;
+                    break;
                 }
                 if (isHit == false) break;
             }
@@ -621,17 +620,17 @@ namespace EcellLib.ObjectList
             {
                 for (int j = 0; j < s_columnNum; j++)
                 {
-                    if (m_gridView[j, i].Value.ToString().Contains(text))
-                    {
-                        ClearSelection();
-                        if (i < 0 || i > m_gridView.RowCount - 1) continue;
-                        if (m_gridView.Rows[i].Visible == false ||
-                            m_gridView.Rows[i].Frozen == true) continue;
-                        m_gridView.Rows[i].Selected = true;
-                        m_gridView.FirstDisplayedScrollingRowIndex = i;
-                        
-                        return;
-                    }
+                    if (!m_gridView[j, i].Value.ToString().Contains(text))
+                        continue;
+
+                    ClearSelection();
+                    if (i < 0 || i > m_gridView.RowCount - 1)
+                        continue;
+                    if (!m_gridView.Rows[i].Visible || m_gridView.Rows[i].Frozen)
+                        continue;
+                    m_gridView.Rows[i].Selected = true;
+                    m_gridView.FirstDisplayedScrollingRowIndex = i;
+                    return;
                 }
             }
             String mes = ObjectList.s_resources.GetString("ErrNotFindPage");
@@ -660,9 +659,10 @@ namespace EcellLib.ObjectList
         public void AddSelection(string modelID, string key, string type)
         {
             int ind = SearchObjectIndex(key, type);
-            if (ind < 0 || ind > m_gridView.RowCount - 1) return;
-            if (m_gridView.Rows[ind].Visible == false ||
-                m_gridView.Rows[ind].Frozen) return;
+            if (ind < 0 || ind > m_gridView.RowCount - 1)
+                return;
+            if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen)
+                return;
             m_gridView.Rows[ind].Selected = true;
             m_gridView.FirstDisplayedScrollingRowIndex = ind;
         }
@@ -676,9 +676,10 @@ namespace EcellLib.ObjectList
         public void RemoveSelection(string modelID, string key, string type)
         {
             int ind = SearchObjectIndex(key, type);
-            if (ind < 0 || ind > m_gridView.RowCount - 1) return;
-            if (m_gridView.Rows[ind].Visible == false ||
-                m_gridView.Rows[ind].Frozen == true) return;
+            if (ind < 0 || ind > m_gridView.RowCount - 1)
+                return;
+            if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen) 
+                return;
             m_gridView.Rows[ind].Selected = false;
             m_gridView.FirstDisplayedScrollingRowIndex = ind;
         }
@@ -701,9 +702,10 @@ namespace EcellLib.ObjectList
         {
             ClearSelection();
             int ind = SearchObjectIndex(id, type);
-            if (ind < 0 || ind > m_gridView.RowCount - 1) return;
-            if (m_gridView.Rows[ind].Frozen == true ||
-                m_gridView.Rows[ind].Visible == false) return;
+            if (ind < 0 || ind > m_gridView.RowCount - 1)
+                return;
+            if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen)
+                return;
             m_gridView[0, ind].Selected = true;
             m_gridView.FirstDisplayedScrollingRowIndex = ind;
         }
@@ -716,10 +718,13 @@ namespace EcellLib.ObjectList
         {
             foreach (EcellObject obj in objList)
             {
-                if (obj.Type.Equals(Constants.xpathModel)) continue;
-                if (m_currentModelID != null && !m_currentModelID.Equals(obj.ModelID)) continue;
+                if (obj.Type.Equals(Constants.xpathModel))
+                    continue;
+                if (m_currentModelID != null && !m_currentModelID.Equals(obj.ModelID))
+                    continue;
                 DataAdd(obj);
-                if (obj.Children == null) continue;
+                if (obj.Children == null)
+                    continue;
                 foreach (EcellObject cobj in obj.Children)
                 {
                     DataAdd(cobj);
@@ -740,9 +745,10 @@ namespace EcellLib.ObjectList
             DataDelete(modelID, id, type, isIDChanged);
             DataAdd(obj);
             int index = SearchObjectIndex(obj.Key, obj.Type);
-            if (index < 0 || index > m_gridView.RowCount - 1) return;
-            if (m_gridView.Rows[index].Visible == false ||
-                m_gridView.Rows[index].Frozen == true) return;
+            if (index < 0 || index > m_gridView.RowCount - 1)
+                return;
+            if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen)
+                return;
             m_gridView.Rows[index].Selected = true;
             m_gridView.FirstDisplayedScrollingRowIndex = index;
         }
