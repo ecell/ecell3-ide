@@ -263,7 +263,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
-        public override void RefreshText()
+        protected override void RefreshText()
         {
             base.RefreshText();
             m_pPropertyText.X = base.X + 5;

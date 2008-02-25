@@ -136,20 +136,20 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            this.groupBox = new GroupBox();
-            this.m_dgv = new DataGridView();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.groupBox = new System.Windows.Forms.GroupBox();
+            this.m_dgv = new System.Windows.Forms.DataGridView();
             this.groupBox.SuspendLayout();
-            ((ISupportInitialize)this.m_dgv).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox
             // 
             this.groupBox.Controls.Add(this.m_dgv);
-            this.groupBox.Dock = DockStyle.Fill;
-            this.groupBox.Location = new Point(0, 0);
+            this.groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox.Location = new System.Drawing.Point(0, 0);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new Size(275, 196);
+            this.groupBox.Size = new System.Drawing.Size(281, 243);
             this.groupBox.TabIndex = 1;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "LayerView";
@@ -158,40 +158,41 @@ namespace EcellLib.PathwayWindow.UIComponent
             // 
             this.m_dgv.AllowUserToAddRows = false;
             this.m_dgv.AllowUserToDeleteRows = false;
-            this.m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("MS UI Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            this.m_dgv.AllowUserToResizeRows = false;
+            this.m_dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.m_dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.m_dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.m_dgv.Dock = DockStyle.Fill;
-            this.m_dgv.Location = new Point(3, 15);
+            this.m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.m_dgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_dgv.Location = new System.Drawing.Point(3, 15);
             this.m_dgv.MultiSelect = false;
             this.m_dgv.Name = "m_dgv";
             this.m_dgv.RowHeadersVisible = false;
             this.m_dgv.RowTemplate.Height = 21;
-            this.m_dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            this.m_dgv.Size = new Size(269, 178);
+            this.m_dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.m_dgv.Size = new System.Drawing.Size(275, 225);
             this.m_dgv.TabIndex = 0;
-            this.m_dgv.MouseDown += new MouseEventHandler(this.m_dgv_MouseDown);
-            this.m_dgv.CellMouseDown += new DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
-            this.m_dgv.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
-            this.m_dgv.CurrentCellDirtyStateChanged += new EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
-            this.m_dgv.VisibleChanged += new EventHandler(this.m_dgv_VisibleChanged);
+            this.m_dgv.MouseDown += new System.Windows.Forms.MouseEventHandler(this.m_dgv_MouseDown);
+            this.m_dgv.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
+            this.m_dgv.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
+            this.m_dgv.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
+            this.m_dgv.VisibleChanged += new System.EventHandler(this.m_dgv_VisibleChanged);
             // 
             // LayerView
             // 
-            this.ClientSize = new Size(275, 196);
+            this.ClientSize = new System.Drawing.Size(281, 243);
             this.Controls.Add(this.groupBox);
             this.Name = "LayerView";
             this.TabText = this.Name;
             this.Text = this.Name;
             this.groupBox.ResumeLayout(false);
-            ((ISupportInitialize)this.m_dgv).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).EndInit();
             this.ResumeLayout(false);
 
         }

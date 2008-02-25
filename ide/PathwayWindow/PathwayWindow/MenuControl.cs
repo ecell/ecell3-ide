@@ -58,173 +58,173 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for ID
         /// </summary>
-        public static readonly string CanvasMenuID = "CanvasMenuID";
+        public const string CanvasMenuID = "CanvasMenuID";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for delete
         /// </summary>
-        public static readonly string CanvasMenuDelete = "CanvasMenuDelete";
+        public const string CanvasMenuDelete = "CanvasMenuDelete";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for copy
         /// </summary>
-        public static readonly string CanvasMenuCopy = "CanvasMenuCopy";
+        public const string CanvasMenuCopy = "CanvasMenuCopy";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for cut
         /// </summary>
-        public static readonly string CanvasMenuCut = "CanvasMenuCut";
+        public const string CanvasMenuCut = "CanvasMenuCut";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for paste
         /// </summary>
-        public static readonly string CanvasMenuPaste = "CanvasMenuPaste";
+        public const string CanvasMenuPaste = "CanvasMenuPaste";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for delete
         /// </summary>
-        public static readonly string CanvasMenuMerge = "CanvasMenuMerge";
+        public const string CanvasMenuMerge = "CanvasMenuMerge";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for Set Layout
         /// </summary>
-        public static readonly string CanvasMenuLayout = "CanvasMenuLayout";
+        public const string CanvasMenuLayout = "CanvasMenuLayout";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for Change Layer
         /// </summary>
-        public static readonly string CanvasMenuChangeLayer = "LayerMenuChange";
+        public const string CanvasMenuChangeLayer = "LayerMenuChange";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for Create Layer
         /// </summary>
-        public static readonly string CanvasMenuCreateLayer = "LayerMenuCreate";
+        public const string CanvasMenuCreateLayer = "LayerMenuCreate";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
         /// </summary>
-        public static readonly string CanvasMenuMoveFront = "LayerMenuMoveFront";
+        public const string CanvasMenuMoveFront = "LayerMenuMoveFront";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
         /// </summary>
-        public static readonly string CanvasMenuMoveBack = "LayerMenuMoveBack";
+        public const string CanvasMenuMoveBack = "LayerMenuMoveBack";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for rightArrow
         /// </summary>
-        public static readonly string CanvasMenuRightArrow = "CanvasMenuRightArrow";
+        public const string CanvasMenuRightArrow = "CanvasMenuRightArrow";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for leftArrow
         /// </summary>
-        public static readonly string CanvasMenuLeftArrow = "CanvasMenuLeftArrow";
+        public const string CanvasMenuLeftArrow = "CanvasMenuLeftArrow";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for bidirArrow
         /// </summary>
-        public static readonly string CanvasMenuBidirArrow = "CanvasMenuBidirArrow";
+        public const string CanvasMenuBidirArrow = "CanvasMenuBidirArrow";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for constantLine
         /// </summary>
-        public static readonly string CanvasMenuConstantLine = "CanvasMenuConstantLine";
+        public const string CanvasMenuConstantLine = "CanvasMenuConstantLine";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for Create Logger
         /// </summary>
-        public static readonly string CanvasMenuCreateLogger = "CanvasMenuCreateLogger";
+        public const string CanvasMenuCreateLogger = "CanvasMenuCreateLogger";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for delete Logger
         /// </summary>
-        public static readonly string CanvasMenuDeleteLogger = "CanvasMenuDeleteLogger";
+        public const string CanvasMenuDeleteLogger = "CanvasMenuDeleteLogger";
         /// <summary>
         /// Key definition of m_cMenuDict for separator1
         /// </summary>
-        public static readonly string CanvasMenuSeparator1 = "CanvasMenuSeparator1";
+        public const string CanvasMenuSeparator1 = "CanvasMenuSeparator1";
         /// <summary>
         /// Key definition of m_cMenuDict for separator2
         /// </summary>
-        public static readonly string CanvasMenuSeparator2 = "CanvasMenuSeparator2";
+        public const string CanvasMenuSeparator2 = "CanvasMenuSeparator2";
         /// <summary>
         /// Key definition of m_cMenuDict for separator3
         /// </summary>
-        public static readonly string CanvasMenuSeparator3 = "CanvasMenuSeparator3";
+        public const string CanvasMenuSeparator3 = "CanvasMenuSeparator3";
         /// <summary>
         /// Key definition of m_cMenuDict for separator4
         /// </summary>
-        public static readonly string CanvasMenuSeparator4 = "CanvasMenuSeparator4";
+        public const string CanvasMenuSeparator4 = "CanvasMenuSeparator4";
         /// <summary>
         /// Key definition of m_cMenuDict for separator5
         /// </summary>
-        public static readonly string CanvasMenuSeparator5 = "CanvasMenuSeparator5";
+        public const string CanvasMenuSeparator5 = "CanvasMenuSeparator5";
         #endregion
 
         #region ToolBarMenu
         /// <summary>
         /// Key definition of MessageResPathway for ShowID
         /// </summary>
-        private static readonly string MenuItemSetup = "MenuItemSetup";
+        private const string MenuItemSetup = "MenuItemSetup";
         /// <summary>
         /// Key definition of MessageResPathway for ToolTipShowID
         /// </summary>
-        private static readonly string MenuToolTipSetup = "MenuToolTipSetup";
+        private const string MenuToolTipSetup = "MenuToolTipSetup";
         /// <summary>
         /// Key definition of MessageResPathway for ShowID
         /// </summary>
-        private static readonly string MenuItemShowID = "MenuItemShowID";
+        private const string MenuItemShowID = "MenuItemShowID";
         /// <summary>
         /// Key definition of MessageResPathway for ToolTipShowID
         /// </summary>
-        private static readonly string MenuToolTipShowID = "MenuToolTipShowID";
+        private const string MenuToolTipShowID = "MenuToolTipShowID";
         /// <summary>
         /// Key definition of MessageResPathway for ViewMode
         /// </summary>
-        private static readonly string MenuItemViewMode = "MenuItemViewMode";
+        private const string MenuItemViewMode = "MenuItemViewMode";
         /// <summary>
         /// Key definition of MessageResPathway for ToolTipViewMode
         /// </summary>
-        private static readonly string MenuToolTipViewMode = "MenuToolTipViewMode";
+        private const string MenuToolTipViewMode = "MenuToolTipViewMode";
         /// <summary>
         /// Key definition of MessageResPathway for MenuItemLayout
         /// </summary>
-        private static readonly string MenuItemLayout = "MenuItemLayout";
+        private const string MenuItemLayout = "MenuItemLayout";
         /// <summary>
         /// Key definition of MessageResPathway for MenuItemLayout
         /// </summary>
-        private static readonly string MenuItemEdit = "MenuItemEdit";
+        private const string MenuItemEdit = "MenuItemEdit";
         /// <summary>
         /// Key definition of MessageResPathway for MenuItemLayout
         /// </summary>
-        private static readonly string MenuItemView = "MenuItemView";
+        private const string MenuItemView = "MenuItemView";
         #endregion
 
         #region ToolButton
         /// <summary>
         /// Key definition of MessageResPathway for ToolButtonAddConstant
         /// </summary>
-        private static readonly string ToolButtonAddConstant = "ToolButtonAddConstant";
+        private const string ToolButtonAddConstant = "ToolButtonAddConstant";
         /// <summary>
         /// Key definition of MessageResPathway for ToolButtonAddMutualReaction
         /// </summary>
-        private static readonly string ToolButtonAddMutualReaction = "ToolButtonAddMutualReaction";
+        private const string ToolButtonAddMutualReaction = "ToolButtonAddMutualReaction";
         /// <summary>
         /// Key definition of MessageResPathway for ToolButtonAddOnewayReaction
         /// </summary>
-        private static readonly string ToolButtonAddOnewayReaction = "ToolButtonAddOnewayReaction";
+        private const string ToolButtonAddOnewayReaction = "ToolButtonAddOnewayReaction";
         /// <summary>
         /// Key definition of MessageResPathway for ToolButtonCreateProcess
         /// </summary>
-        private static readonly string ToolButtonCreateProcess = "ToolButtonCreateProcess";
+        private const string ToolButtonCreateProcess = "ToolButtonCreateProcess";
         /// <summary>
         /// Key definition of MessageResPathway for ToolButtonCreateSystem
         /// </summary>
-        private static readonly string ToolButtonCreateSystem = "ToolButtonCreateSystem";
+        private const string ToolButtonCreateSystem = "ToolButtonCreateSystem";
         /// <summary>
         /// Key definition of MessageResPathway for ToolButtonCreateVariable
         /// </summary>
-        private static readonly string ToolButtonCreateVariable = "ToolButtonCreateVariable";
+        private const string ToolButtonCreateVariable = "ToolButtonCreateVariable";
         /// <summary>
         /// Key definition of MessageResPathway for ToolButtonMoveCanvas
         /// </summary>
-        private static readonly string ToolButtonMoveCanvas = "ToolButtonMoveCanvas";
+        private const string ToolButtonMoveCanvas = "ToolButtonMoveCanvas";
         /// <summary>
         /// Key definition of MessageResPathway for ToolButtonSelectMode
         /// </summary>
-        private static readonly string ToolButtonSelectMode = "ToolButtonSelectMode";
+        private const string ToolButtonSelectMode = "ToolButtonSelectMode";
         /// <summary>
         /// Key definition of MessageResPathway for ToolButtonZoomIn
         /// </summary>
-        private static readonly string ToolButtonZoomIn = "ToolButtonZoomIn";
+        private const string ToolButtonZoomIn = "ToolButtonZoomIn";
         /// <summary>
         /// Key definition of MessageResPathway for ToolButtonZoomOut
         /// </summary>
-        private static readonly string ToolButtonZoomOut = "ToolButtonZoomOut";
+        private const string ToolButtonZoomOut = "ToolButtonZoomOut";
         #endregion
         #endregion
         
@@ -233,7 +233,7 @@ namespace EcellLib.PathwayWindow
         /// The PathwayView, from which this class gets messages from the E-cell core and through which this class
         /// sends messages to the E-cell core.
         /// </summary>
-        protected PathwayControl m_con;
+        private PathwayControl m_con;
 
         /// <summary>
         /// A list of toolbox buttons.

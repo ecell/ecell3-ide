@@ -75,7 +75,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Font size of node object.
         /// </summary>
-        protected static readonly int m_nodeTextFontSize = 10;
+        protected const int m_nodeTextFontSize = 10;
         /// <summary>
         /// From this ComponentSetting, this object was created.
         /// </summary>
@@ -131,7 +131,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// In a property change event both the old and new value will be set correctly
         /// to Pen objects.
         /// </remarks>
-        protected static readonly object PROPERTY_KEY_PEN = new object();
+        protected const object PROPERTY_KEY_PEN = new object();
 
         /// <summary>
         /// A bit field that identifies a PenChanged event.
@@ -151,7 +151,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// In a property change event the new value will be a reference to this node's path, but old
         /// value will always be null.
         /// </remarks>
-        protected static readonly object PROPERTY_KEY_PATH = new object();
+        protected const object PROPERTY_KEY_PATH = new object();
 
         /// <summary>
         /// A bit field that identifies a PathChanged event.
@@ -885,10 +885,11 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             RefreshText();
         }
+
         /// <summary>
         /// Refresh Text contents of this object.
         /// </summary>
-        public virtual void RefreshText()
+        protected virtual void RefreshText()
         {
             if (this.m_ecellObj != null)
                 this.m_pText.Text = this.m_ecellObj.Text;

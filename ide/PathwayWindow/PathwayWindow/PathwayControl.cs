@@ -1214,7 +1214,7 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Layer move to front
+        /// Layer move to front.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1222,12 +1222,11 @@ namespace EcellLib.PathwayWindow
         {
             CanvasControl canvas = this.CanvasControl;
             PPathwayObject obj = (PPathwayObject)canvas.FocusNode;
-            PLayer layer = canvas.Layers[obj.EcellObject.LayerID];
-            canvas.LayerMoveToFront(layer);
+            canvas.LayerMoveToFront(obj.Layer);
         }
 
         /// <summary>
-        /// Layer move to back
+        /// Layer move to back.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1235,8 +1234,7 @@ namespace EcellLib.PathwayWindow
         {
             CanvasControl canvas = this.CanvasControl;
             PPathwayObject obj = (PPathwayObject)canvas.FocusNode;
-            PLayer layer = canvas.Layers[obj.EcellObject.LayerID];
-            canvas.LayerMoveToBack(layer);
+            canvas.LayerMoveToBack(obj.Layer);
         }
 
         /// <summary>

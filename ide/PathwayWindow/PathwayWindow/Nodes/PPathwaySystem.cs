@@ -208,7 +208,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Refresh Text contents of this object.
         /// </summary>
-        public override void RefreshText()
+        protected override void RefreshText()
         {
             base.RefreshText();
             base.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height - TEXT_LOWER_MARGIN);
