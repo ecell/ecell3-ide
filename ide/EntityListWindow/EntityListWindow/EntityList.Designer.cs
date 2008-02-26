@@ -33,26 +33,15 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityList));
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-//            this.treeView1 = new System.Windows.Forms.TreeView();
             this.treeView1 = new EcellLib.EntityListWindow.MultiSelectTreeView();
             this.SuspendLayout();
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "");
-            this.imageList1.Images.SetKeyName(1, "");
-            this.imageList1.Images.SetKeyName(2, "");
-            this.imageList1.Images.SetKeyName(3, "");
             // 
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.HideSelection = false;
             this.treeView1.ImageIndex = 0;
-            this.treeView1.ImageList = this.imageList1;
+            this.treeView1.ImageList = PluginManager.GetPluginManager().GetImageList();
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
@@ -71,8 +60,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ImageList imageList1;
         /// <summary>
         /// TreeView object in EntityListWindow.
         /// </summary>

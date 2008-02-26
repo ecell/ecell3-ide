@@ -35,7 +35,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableSelectWindow));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.selectTree = new System.Windows.Forms.TreeView();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.VSProductButton = new System.Windows.Forms.Button();
             this.VSCloseButton = new System.Windows.Forms.Button();
@@ -55,18 +54,9 @@
             // selectTree
             // 
             resources.ApplyResources(this.selectTree, "selectTree");
-            this.selectTree.ImageList = this.imageList1;
+            this.selectTree.ImageList = PluginManager.GetPluginManager().GetImageList();
             this.selectTree.Name = "selectTree";
             this.selectTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.SelectTreeDoubleClick);
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "subsystem.png");
-            this.imageList1.Images.SetKeyName(1, "process.png");
-            this.imageList1.Images.SetKeyName(2, "variable.png");
-            this.imageList1.Images.SetKeyName(3, "system.png");
             // 
             // tableLayoutPanel2
             // 
@@ -130,7 +120,6 @@
         /// Button to close this dialog.
         /// </summary>
         public System.Windows.Forms.Button VSCloseButton;
-        private System.Windows.Forms.ImageList imageList1;
         /// <summary>
         /// Button to add the source variable to VariableReferenceList.
         /// </summary>

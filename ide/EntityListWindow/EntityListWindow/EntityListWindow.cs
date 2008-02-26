@@ -1107,9 +1107,11 @@ namespace EcellLib.EntityListWindow
                 else if (obj.Type == Constants.xpathProcess || 
                     obj.Type ==Constants.xpathVariable)
                 {
-                    if (obj.Key.EndsWith(Constants.headerSize)) continue;
+                    if (obj.Key.EndsWith(Constants.headerSize))
+                        continue;
                     TreeNode current = GetTargetModel(obj.ModelID);
-                    if (current == null) return;
+                    if (current == null)
+                        return;
                     TreeNode node = GetTargetTreeNode(current, obj.Key, obj.Type);
                     if (node == null)
                     {

@@ -9,6 +9,9 @@ namespace EcellLib
     /// </summary>
     public class Constants
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public const string backFileExtension = ".bak";
         /// <summary>
         /// default project ID.

@@ -37,6 +37,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
+using System.ComponentModel;
 
 
 namespace EcellLib
@@ -91,6 +92,10 @@ namespace EcellLib
         /// </summary>
         private System.Windows.Forms.PrintDialog m_dialog;
         /// <summary>
+        /// m_imageList
+        /// </summary>
+        private ImageList m_imageList;
+        /// <summary>
         /// m_imageDict (image list against data type)
         /// </summary>
         private Dictionary<string, int> m_imageDict;
@@ -135,11 +140,20 @@ namespace EcellLib
             this.m_imageDict = new Dictionary<string, int>();
 
             // default image type
-            m_imageDict.Add("Project", 0);
-            m_imageDict.Add("System", 0);
-            m_imageDict.Add("Variable", 2);
-            m_imageDict.Add("Process", 1);
-            m_imageDict.Add("Model", 3);
+            m_imageList = new ImageList();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(VariableSelectWindow));
+            m_imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            m_imageList.TransparentColor = System.Drawing.Color.Transparent;
+            m_imageList.Images.SetKeyName(0, Constants.xpathProject);
+            m_imageList.Images.SetKeyName(1, Constants.xpathProcess);
+            m_imageList.Images.SetKeyName(2, Constants.xpathVariable);
+            m_imageList.Images.SetKeyName(3, Constants.xpathSystem);
+
+            m_imageDict.Add(Constants.xpathProject, 0);
+            m_imageDict.Add(Constants.xpathSystem, 0);
+            m_imageDict.Add(Constants.xpathVariable, 2);
+            m_imageDict.Add(Constants.xpathProcess, 1);
+            m_imageDict.Add(Constants.xpathModel, 3);
         }
 
         /// <summary>
@@ -413,7 +427,7 @@ namespace EcellLib
         /// <summary>
         /// print the display image of plugin using PrintDoc.
         /// </summary>
-        /// <param name="orintName">the plugin to print</param>
+        /// <param name="printName">the plugin to print</param>
         public void Print(string printName)
         {
             this.m_printBase = m_printDic[printName];
@@ -504,6 +518,20 @@ namespace EcellLib
         {
             if (!m_imageDict.ContainsKey(type))
                 m_imageDict.Add(type, imageIndex);
+            else
+            {
+                m_imageDict.Remove(type);
+                m_imageDict.Add(type, imageIndex);
+            }
+        }
+
+        /// <summary>
+        /// get ImageList
+        /// </summary>
+        /// <returns></returns>
+        public ImageList GetImageList()
+        {
+            return m_imageList;
         }
 
         /// <summary>
