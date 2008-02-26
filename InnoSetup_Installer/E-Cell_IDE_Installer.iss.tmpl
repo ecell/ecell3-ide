@@ -46,7 +46,7 @@ Name: "Japanese"; MessagesFile: "C:\Program Files\Inno Setup 5\Languages\Japanes
 ; ======================================================
 ; common
 ; ======================================================
-Source: "Win32\bin\*.py"; DestDir: "{app}\bin"; Components: extension
+;Source: "Win32\bin\*.py"; DestDir: "{app}\bin"; Components: extension
 
 Source: "samples\Arti_Class1\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Arti_Class1"; Components: extension
 Source: "samples\Arti_Class1\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\Arti_Class1"; Components: extension
@@ -137,20 +137,20 @@ Source: "samples\Toy_Hybrid\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\
 
 Source: "conf\*"; DestDir: "{app}\conf"; Components: extension
 
-Source: "lib\ironpython\*"; DestDir: "{app}\lib\ironpython"; Components: main
+;Source: "lib\ironpython\*"; DestDir: "{app}\lib\ironpython"; Components: main
 
 
 ; ======================================================
 ; bin/*.exe
 ; ======================================================
 Source: "Win32\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main
-Source: "Win32\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main
-Source: "Win32\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();Components: main
+;Source: "Win32\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main
+;Source: "Win32\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();Components: main
 Source: "MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();Components: main
 
 Source: "x64\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
-Source: "x64\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
-Source: "x64\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
+;Source: "x64\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
+;Source: "x64\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 
 ; ======================================================
@@ -185,8 +185,8 @@ Source: "x64\bin\IronMath.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin
 Source: "x64\bin\IronPython.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\cblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
-Source: "x64\bin\libgsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
-Source: "x64\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\cblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
