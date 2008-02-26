@@ -26,11 +26,15 @@ namespace EcellLib.MainWindow
         }
 
         #region Windows フォーム デザイナで生成されたコード
-[SecurityPermissionAttribute(SecurityAction.Demand, Unrestricted = true)]
-
+        /// <summary>
+        /// 
+        /// </summary>
+        [SecurityPermissionAttribute(SecurityAction.Demand, Unrestricted = true)]
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
+            this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
+            this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.menustrip = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,13 +74,30 @@ namespace EcellLib.MainWindow
             this.MenuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowVersionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolstrip = new System.Windows.Forms.ToolStrip();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.toolStripContainer.ContentPanel.SuspendLayout();
+            this.toolStripContainer.SuspendLayout();
             this.menustrip.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // toolStripContainer
+            // 
+            // 
+            // toolStripContainer.ContentPanel
+            // 
+            this.toolStripContainer.ContentPanel.Controls.Add(this.dockPanel);
+            resources.ApplyResources(this.toolStripContainer.ContentPanel, "toolStripContainer.ContentPanel");
+            resources.ApplyResources(this.toolStripContainer, "toolStripContainer");
+            this.toolStripContainer.Name = "toolStripContainer";
+            // 
+            // dockPanel
+            // 
+            this.dockPanel.ActiveAutoHideContent = null;
+            resources.ApplyResources(this.dockPanel, "dockPanel");
+            this.dockPanel.DocumentStyle = WeifenLuo.WinFormsUI.Docking.DocumentStyle.DockingWindow;
+            this.dockPanel.Name = "dockPanel";
             // 
             // menustrip
             // 
@@ -349,11 +370,6 @@ namespace EcellLib.MainWindow
             this.ShowVersionMenuItem.Tag = "100";
             this.ShowVersionMenuItem.Click += new System.EventHandler(this.ShowPluginVersionClick);
             // 
-            // toolstrip
-            // 
-            resources.ApplyResources(this.toolstrip, "toolstrip");
-            this.toolstrip.Name = "toolstrip";
-            // 
             // openFileDialog
             // 
             resources.ApplyResources(this.openFileDialog, "openFileDialog");
@@ -363,24 +379,20 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
             // 
-            // dockPanel
-            // 
-            this.dockPanel.ActiveAutoHideContent = null;
-            resources.ApplyResources(this.dockPanel, "dockPanel");
-            this.dockPanel.DocumentStyle = WeifenLuo.WinFormsUI.Docking.DocumentStyle.DockingWindow;
-            this.dockPanel.Name = "dockPanel";
-            // 
             // MainWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dockPanel);
-            this.Controls.Add(this.toolstrip);
+            this.Controls.Add(this.toolStripContainer);
             this.Controls.Add(this.menustrip);
             this.MainMenuStrip = this.menustrip;
             this.Name = "MainWindow";
             this.Disposed += new System.EventHandler(this.MainWindowDisposed);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindowFormClosing);
+            this.toolStripContainer.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer.ContentPanel.PerformLayout();
+            this.toolStripContainer.ResumeLayout(false);
+            this.toolStripContainer.PerformLayout();
             this.menustrip.ResumeLayout(false);
             this.menustrip.PerformLayout();
             this.ResumeLayout(false);
@@ -390,8 +402,8 @@ namespace EcellLib.MainWindow
 
         #endregion
 
+        private System.Windows.Forms.ToolStripContainer toolStripContainer;
         private System.Windows.Forms.MenuStrip menustrip;
-        private System.Windows.Forms.ToolStrip toolstrip;
         private System.Windows.Forms.ToolStripMenuItem MenuItemFile;
         /// <summary>
         /// MenuItem to create project.

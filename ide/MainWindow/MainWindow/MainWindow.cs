@@ -432,10 +432,6 @@ namespace EcellLib.MainWindow
         void LoadPlugin(string path)
         {
             PluginBase pb = null;
-            List<EcellDockContent> winList = null;
-            List<ToolStripMenuItem> menuList = null;
-            List<ToolStripItem> toolList = null;
-
             string pName = Path.GetFileNameWithoutExtension(path);
             string className = "EcellLib." + pName + "." + pName;
 
@@ -456,12 +452,13 @@ namespace EcellLib.MainWindow
                 return;
             }
             // Set DockContent.
-            winList = pb.GetWindowsForms();
+            List<EcellDockContent> winList = pb.GetWindowsForms();
             if (winList != null && winList.Count > 0)
                 foreach (EcellDockContent dock in winList)
                     SetDockContent(dock);
+
             // Set Menu.
-            menuList = pb.GetMenuStripItems();
+            List<ToolStripMenuItem> menuList = pb.GetMenuStripItems();
             if (menuList != null)
             {
                 foreach (ToolStripMenuItem menu in menuList)
@@ -501,13 +498,16 @@ namespace EcellLib.MainWindow
                 }
             }
             // Set ToolBar
-            toolList = pb.GetToolBarMenuStripItems();
+            List<ToolStripItem> toolList = pb.GetToolBarMenuStripItems();
             if (toolList != null)
             {
-                if (this.toolstrip.Items.Count > 0)
-                    this.toolstrip.Items.AddRange(new ToolStripItem[] { new ToolStripSeparator() });
-                foreach (ToolStripItem tool in toolList)
-                    this.toolstrip.Items.AddRange(new ToolStripItem[] { tool });
+                ToolStrip toolStrip = new ToolStrip();
+                toolStrip.Items.AddRange(toolList.ToArray());
+                this.toolStripContainer.TopToolStripPanel.Controls.Add(toolStrip);
+                //if (this.toolstrip.Items.Count > 0)
+                //    this.toolstrip.Items.AddRange(new ToolStripItem[] { new ToolStripSeparator() });
+                //foreach (ToolStripItem tool in toolList)
+                //    this.toolstrip.Items.AddRange(toolList.ToArray());
             }
         }
         
