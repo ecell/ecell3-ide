@@ -1,6 +1,6 @@
 ﻿namespace EcellLib.Analysis
 {
-    partial class RobustAnalysis
+    partial class AnalysisWindow
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RobustAnalysis));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnalysisWindow));
             this.robustTabControl = new System.Windows.Forms.TabControl();
             this.AnalysisTab = new System.Windows.Forms.TabPage();
             this.RAAnalysisTableLayout = new System.Windows.Forms.TableLayoutPanel();

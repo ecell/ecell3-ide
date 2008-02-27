@@ -48,7 +48,7 @@ namespace EcellLib.Analysis
     /// <summary>
     /// Analysis window for robust analysis.
     /// </summary>
-    public partial class RobustAnalysis : EcellDockContent
+    public partial class AnalysisWindow : EcellDockContent
     {
         /// <summary>
         /// The dictionary of the logging data to be observed.
@@ -90,7 +90,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RobustAnalysis()
+        public AnalysisWindow()
         {
             InitializeComponent();
             m_cntMenu = new ContextMenuStrip();
@@ -229,9 +229,9 @@ namespace EcellLib.Analysis
             int num = Convert.ToInt32(RASampleNumText.Text);
             double simTime = Convert.ToDouble(RASimTimeText.Text);
             int maxSize = Convert.ToInt32(RMAMaxData.Text);
-            if (maxSize > RobustAnalysis.MaxSize)
+            if (maxSize > AnalysisWindow.MaxSize)
             {
-                string errmes = Analysis.s_resources.GetString("ErrOverMax") + "[" + RobustAnalysis.MaxSize + "]";
+                string errmes = Analysis.s_resources.GetString("ErrOverMax") + "[" + AnalysisWindow.MaxSize + "]";
                 MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }

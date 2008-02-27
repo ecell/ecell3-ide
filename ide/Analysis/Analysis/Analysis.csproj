@@ -92,17 +92,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis.cs" />
-    <Compile Include="AnalysisTemplate.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="AnalysisTemplate.Designer.cs">
-      <DependentUpon>AnalysisTemplate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="RobustAnalysis.cs">
+    <Compile Include="AnalysisWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RobustAnalysis.Designer.cs">
-      <DependentUpon>RobustAnalysis.cs</DependentUpon>
+    <Compile Include="AnalysisWindow.Designer.cs">
+      <DependentUpon>AnalysisWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageResAnalysis.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -110,44 +104,8 @@
       <DependentUpon>MessageResAnalysis.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AnalysisResult.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AnalysisResult.Designer.cs">
-      <DependentUpon>AnalysisResult.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AnalysisSetup.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AnalysisSetup.Designer.cs">
-      <DependentUpon>AnalysisSetup.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AnalysisResult.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AnalysisResult.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AnalysisResult.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AnalysisResult.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AnalysisSetup.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AnalysisSetup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AnalysisSetup.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AnalysisSetup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AnalysisTemplate.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AnalysisTemplate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AnalysisTemplate.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AnalysisTemplate.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MessageResAnalysis.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -156,13 +114,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResAnalysis.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="RobustAnalysis.ja.resx">
+    <EmbeddedResource Include="AnalysisWindow.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>RobustAnalysis.cs</DependentUpon>
+      <DependentUpon>AnalysisWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RobustAnalysis.resx">
+    <EmbeddedResource Include="AnalysisWindow.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>RobustAnalysis.cs</DependentUpon>
+      <DependentUpon>AnalysisWindow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

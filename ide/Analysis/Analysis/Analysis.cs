@@ -58,7 +58,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Window to analysis the robustness of model.
         /// </summary>
-        private RobustAnalysis m_win = null;
+        private AnalysisWindow m_win = null;
 
         private SessionManager.SessionManager m_manager = SessionManager.SessionManager.GetManager();
         /// <summary>
@@ -89,7 +89,7 @@ namespace EcellLib.Analysis
 
             if (m_win == null)
             {
-                m_win = new RobustAnalysis();
+                m_win = new AnalysisWindow();
                 m_win.Control = this;
                 DockPanel panel = PluginManager.GetPluginManager().DockPanel;
                 m_win.DockHandler.DockPanel = panel;
