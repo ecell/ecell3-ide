@@ -96,10 +96,6 @@ namespace EcellLib
         /// </summary>
         private ImageList m_imageList;
         /// <summary>
-        /// m_imageDict (image list against data type)
-        /// </summary>
-        private Dictionary<string, int> m_imageDict;
-        /// <summary>
         /// s_instance (singleton instance)
         /// </summary>
         private static PluginManager s_instance = null;
@@ -137,23 +133,18 @@ namespace EcellLib
             this.m_pluginList = new Dictionary<string, PluginBase>();
             this.m_pluginDic = new Dictionary<PluginData,List<PluginBase>>();
             this.m_dialog = new System.Windows.Forms.PrintDialog();
-            this.m_imageDict = new Dictionary<string, int>();
 
             // default image type
             m_imageList = new ImageList();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(VariableSelectWindow));
-            m_imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(ImageResource));
+            m_imageList.ColorDepth = ColorDepth.Depth24Bit;
+            m_imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageStream")));
             m_imageList.TransparentColor = System.Drawing.Color.Transparent;
             m_imageList.Images.SetKeyName(0, Constants.xpathProject);
-            m_imageList.Images.SetKeyName(1, Constants.xpathProcess);
-            m_imageList.Images.SetKeyName(2, Constants.xpathVariable);
-            m_imageList.Images.SetKeyName(3, Constants.xpathSystem);
-
-            m_imageDict.Add(Constants.xpathProject, 0);
-            m_imageDict.Add(Constants.xpathSystem, 0);
-            m_imageDict.Add(Constants.xpathVariable, 2);
-            m_imageDict.Add(Constants.xpathProcess, 1);
-            m_imageDict.Add(Constants.xpathModel, 3);
+            m_imageList.Images.SetKeyName(1, Constants.xpathModel);
+            m_imageList.Images.SetKeyName(2, Constants.xpathSystem);
+            m_imageList.Images.SetKeyName(3, Constants.xpathProcess);
+            m_imageList.Images.SetKeyName(4, Constants.xpathVariable);
         }
 
         /// <summary>
@@ -181,6 +172,16 @@ namespace EcellLib
         {
             get { return this.m_copyright; }
             set { this.m_copyright = value; }
+        }
+
+        /// <summary>
+        /// get /set ImageList
+        /// </summary>
+        /// <returns></returns>
+        public ImageList NodeImageList
+        {
+            get { return m_imageList; }
+            set { this.m_imageList = value; }
         }
 
         /// <summary>
@@ -516,22 +517,6 @@ namespace EcellLib
         /// <param name="imageIndex">image type</param>
         public void ImageAdd(string type, int imageIndex)
         {
-            if (!m_imageDict.ContainsKey(type))
-                m_imageDict.Add(type, imageIndex);
-            else
-            {
-                m_imageDict.Remove(type);
-                m_imageDict.Add(type, imageIndex);
-            }
-        }
-
-        /// <summary>
-        /// get ImageList
-        /// </summary>
-        /// <returns></returns>
-        public ImageList GetImageList()
-        {
-            return m_imageList;
         }
 
         /// <summary>
@@ -541,14 +526,12 @@ namespace EcellLib
         /// <returns>image index</returns>
         public int GetImageIndex(string type)
         {
-            if (m_imageDict.ContainsKey(type))
-            {
-                return m_imageDict[type];
-            }
+            int i = m_imageList.Images.IndexOfKey(type);
+            if (m_imageList.Images.ContainsKey(type))
+                i = m_imageList.Images.IndexOfKey(type);
             else
-            {
-                return -1;
-            }
+                i = -1;
+            return i;
         }
 
         /// <summary>

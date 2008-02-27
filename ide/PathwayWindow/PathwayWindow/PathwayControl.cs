@@ -343,6 +343,7 @@ namespace EcellLib.PathwayWindow
             m_canvas = null;
             m_resources = new ComponentResourceManager(typeof(MessageResPathway));
             m_csManager = new ComponentManager();
+            SetNodeIcons();
             m_layoutList = m_window.GetLayoutAlgorithms();
             // Create menus
             m_menuCon = new MenuControl(this);
@@ -1316,8 +1317,8 @@ namespace EcellLib.PathwayWindow
             dialog.Text = "PathwaySettings";
             PropertyDialogTabPage componentPage = m_csManager.CreateTabPage();
             PropertyDialogTabPage animationPage = m_animCon.CreateTabPage();
-            dialog.TabControl.Controls.Add(componentPage);
             dialog.TabControl.Controls.Add(animationPage);
+            dialog.TabControl.Controls.Add(componentPage);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 componentPage.ApplyChange();
@@ -1328,6 +1329,7 @@ namespace EcellLib.PathwayWindow
             if (m_canvas == null)
                 return;
             m_canvas.ResetObjectSettings();
+            SetNodeIcons();
         }
 
         /// <summary>
@@ -1408,6 +1410,21 @@ namespace EcellLib.PathwayWindow
             // Create canvas
             CanvasControl = new CanvasControl(this, modelID);
             RaiseCanvasChange();
+        }
+
+        /// <summary>
+        /// Set NodeIconImages.
+        /// </summary>
+        private void SetNodeIcons()
+        {
+            ImageList list = m_window.PluginManager.NodeImageList;
+            list.Images.RemoveByKey(Constants.xpathSystem);
+            list.Images.RemoveByKey(Constants.xpathProcess);
+            list.Images.RemoveByKey(Constants.xpathVariable);
+
+            list.Images.Add(Constants.xpathSystem, m_csManager.DefaultSystemSetting.IconImage);
+            list.Images.Add(Constants.xpathProcess, m_csManager.DefaultProcessSetting.IconImage);
+            list.Images.Add(Constants.xpathVariable, m_csManager.DefaultVariableSetting.IconImage);
         }
 
         /// <summary>

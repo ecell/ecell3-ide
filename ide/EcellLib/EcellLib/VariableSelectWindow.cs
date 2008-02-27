@@ -57,6 +57,7 @@ namespace EcellLib
         public VariableSelectWindow()
         {
             InitializeComponent();
+            this.selectTree.ImageList = PluginManager.GetPluginManager().NodeImageList;
         }
 
         /// <summary>

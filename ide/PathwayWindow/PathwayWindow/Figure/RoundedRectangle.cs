@@ -37,6 +37,7 @@ namespace EcellLib.PathwayWindow.Figure
 {
     class RoundedRectangle : FigureBase
     {
+        private const float roundness = 0.1f;
         /// <summary>
         /// Figure type.
         /// </summary>
@@ -98,8 +99,8 @@ namespace EcellLib.PathwayWindow.Figure
         public override GraphicsPath CreatePath(float x, float y, float width, float height)
         {
             GraphicsPath path = new GraphicsPath();
-            float marginX = width * 0.05f;
-            float marginY = height * 0.05f;
+            float marginX = width * roundness;
+            float marginY = height * roundness;
             path.AddArc(x, y, marginX * 2, marginY * 2, 180, 90);
             path.AddLine(x + marginX, y, x + width - marginX, y);
             path.AddArc(x + width - marginX * 2, y, marginX * 2, marginY * 2, 270, 90);

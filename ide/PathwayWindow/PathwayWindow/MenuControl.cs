@@ -334,7 +334,7 @@ namespace EcellLib.PathwayWindow
             m_con = control;
             m_resources = control.Resources;
             m_menuLayoutList = CreateLayoutMenus();
-            m_menuList = CreateToolStripMenuItems();
+            m_menuList = CreateMenuItems();
             m_buttonList = CreateToolButtonItems();
             m_popupMenu = CreatePopUpMenus();
         }
@@ -514,7 +514,7 @@ namespace EcellLib.PathwayWindow
         /// Create Tool Menus.
         /// </summary>
         /// <returns></returns>
-        private List<ToolStripMenuItem> CreateToolStripMenuItems()
+        private List<ToolStripMenuItem> CreateMenuItems()
         {
             List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
 

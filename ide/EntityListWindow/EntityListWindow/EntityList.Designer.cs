@@ -41,7 +41,7 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.HideSelection = false;
             this.treeView1.ImageIndex = 0;
-            this.treeView1.ImageList = PluginManager.GetPluginManager().GetImageList();
+            this.treeView1.ImageList = PluginManager.GetPluginManager().NodeImageList;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;

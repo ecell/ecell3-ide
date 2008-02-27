@@ -92,6 +92,14 @@ namespace EcellLib.PathwayWindow
         {
             get { return m_dManager; }
         }
+
+        /// <summary>
+        /// Returns the PluginManager instance associated to this plugin.
+        /// </summary>
+        public PluginManager PluginManager
+        {
+            get { return m_pManager; }
+        }
         #endregion
 
         #region Constructor
