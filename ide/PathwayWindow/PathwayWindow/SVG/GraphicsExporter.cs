@@ -42,7 +42,6 @@ namespace EcellLib.PathwayWindow.SVG
     public class GraphicsExporter
     {
         private const string XML_HEADER = "<?xml version=\"1.0\"?>";
-        private const string SVG_HEADER = "<svg xmlns=\"http://www.w3.org/2000/svg\">";
         private const string SVG_FOOTER = "</svg>";
         /// <summary>
         /// Export SVG file.
@@ -53,7 +52,7 @@ namespace EcellLib.PathwayWindow.SVG
         {
             StreamWriter writer = new StreamWriter(filename);
             writer.WriteLine(XML_HEADER);
-            writer.WriteLine(SVG_HEADER);
+            writer.WriteLine(CreateSVGHeader(canvas));
             foreach (ComponentSetting setting in canvas.PathwayControl.ComponentManager.ComponentSettings)
             {
                 writer.WriteLine(GetGradationBrush(setting));
@@ -65,6 +64,26 @@ namespace EcellLib.PathwayWindow.SVG
             writer.WriteLine(SVG_FOOTER);
             writer.Flush();
             writer.Close();
+        }
+
+        private static string CreateSVGHeader(CanvasControl canvas)
+        {
+            PPathwaySystem system = canvas.Systems["/"];
+            float left = system.X - 50f;
+            float top = system.Y - 50f;
+            float width = system.Width + 100f;
+            float height = system.Height + 100f;
+            float viewWidth = width * 0.7f;
+            float viewHeight = height * 0.7f;
+            string header = "<svg xmlns=\"http://www.w3.org/2000/svg\""
+            + " width=\"" + viewWidth.ToString() + "\""
+            + " height=\"" + viewHeight.ToString() + "\""
+            + " viewBox=\"" 
+            + left.ToString() + " "
+            + top.ToString() + " "
+            + width.ToString() + " "
+            + height.ToString() + "\">";
+            return header;
         }
 
         private static string GetGradationBrush(ComponentSetting setting)

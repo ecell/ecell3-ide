@@ -130,7 +130,7 @@
     <Compile Include="Exceptions\NoSuchComponentKindException.cs" />
     <Compile Include="Exceptions\PathwayException.cs" />
     <Compile Include="Nodes\PPathwayLine.cs" />
-    <Compile Include="SVG\SVGExPorter.cs" />
+    <Compile Include="SVG\GraphicsExporter.cs" />
     <Compile Include="SVG\SVGUtil.cs" />
     <Compile Include="UIComponent\InputBoxDialog.cs">
       <SubType>Form</SubType>
