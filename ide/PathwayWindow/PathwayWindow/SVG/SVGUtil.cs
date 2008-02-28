@@ -55,7 +55,7 @@ namespace EcellLib.PathwayWindow.SVG
             + "\" height=\"" + rect.Height.ToString()
             + "\" fill=\"" + fillBrush
             + "\" stroke=\"" + lineBrush
-            + "\" stroke-width=\"1\"/>";
+            + "\" stroke-width=\"1\"/>\n";
             return obj;
         }
         /// <summary>
@@ -90,7 +90,7 @@ namespace EcellLib.PathwayWindow.SVG
             + "\" height=\"" + rect.Height.ToString()
             + "\" fill=\"" + fillBrush
             + "\" stroke=\"" + lineBrush
-            + "\" stroke-width=\"1\"/>";
+            + "\" stroke-width=\"1\"/>\n";
             return obj;
         }
         /// <summary>
@@ -112,7 +112,7 @@ namespace EcellLib.PathwayWindow.SVG
             + "\" ry=\"" + ry.ToString()
             + "\" fill=\"" + fillBrush
             + "\" stroke=\"" + lineBrush
-            + "\" stroke-width=\"1\"/>";
+            + "\" stroke-width=\"1\"/>\n";
             return obj;
         }
         /// <summary>
@@ -129,7 +129,7 @@ namespace EcellLib.PathwayWindow.SVG
             + "\" x2=\"" + end.X.ToString()
             + "\" y2=\"" + end.Y.ToString()
             + "\" stroke=\"" + brush
-            + "\" stroke-width=\"1\"/>";
+            + "\" stroke-width=\"1\"/>\n";
             return obj;
         }
         /// <summary>
@@ -147,7 +147,7 @@ namespace EcellLib.PathwayWindow.SVG
             + "\" y2=\"" + end.Y.ToString()
             + "\" stroke-dasharray=\"5"
             + "\" stroke=\"" + brush
-            + "\" stroke-width=\"1\"/>";
+            + "\" stroke-width=\"1\"/>\n";
             return obj;
         }
         /// <summary>
@@ -169,7 +169,7 @@ namespace EcellLib.PathwayWindow.SVG
                 if (i != points.Length - 1)
                     obj += ",";
             }
-            obj += "\"/>";
+            obj += "\"/>\n";
             return obj;
         }
         /// <summary>
@@ -184,9 +184,9 @@ namespace EcellLib.PathwayWindow.SVG
             string obj = "<line x=\"" + point.X.ToString()
             + "\" y=\"" + point.Y.ToString()
             + "\" font-family=\"MS-Gothic"
-            + "\" font-size=\"12" + end.Y.ToString()
+            + "\" font-size=\"12"
             + "\" fill=\"" + brush
-            + "\"/>" + text + "</text>";
+            + "\"/>" + text + "</text>\n";
             return obj;
         }
         /// <summary>
@@ -198,10 +198,10 @@ namespace EcellLib.PathwayWindow.SVG
         /// <returns></returns>
         public static string GradationBrush(string name, string centerBrush, string roundBrush)
         {
-            string obj = "<radialGradient id=\"" + name + "\">";
-            obj += "<stop offset=\"0%\" style=\"stop-color: " + centerBrush + "\"/>";
-            obj += "<stop offset=\"100%\" style=\"stop-color: " + roundBrush + "\"/>";
-            obj += "</radialGradient>";
+            string obj = "<radialGradient id=\"" + name + "\">\n";
+            obj += "<stop offset=\"0%\" style=\"stop-color: " + centerBrush + "\"/>\n";
+            obj += "<stop offset=\"100%\" style=\"stop-color: " + roundBrush + "\"/>\n";
+            obj += "</radialGradient>\n";
             return obj;
         }
     }

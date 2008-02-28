@@ -153,7 +153,7 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
             canvas.ControlLayer.AddChild(m_template);
             m_template.CenterPointF = e.Position;
-            m_template.SetFillBrush();
+            m_template.RefreshView();
         }
         #endregion
     }

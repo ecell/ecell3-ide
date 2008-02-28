@@ -460,6 +460,59 @@ namespace EcellLib.PathwayWindow.Nodes
                 m_parentSystem = value; 
             }
         }
+        /// <summary>
+        /// Gets or sets the pen used when rendering this node.
+        /// </summary>
+        /// <value>The pen used when rendering this node.</value>
+        public virtual Pen Pen
+        {
+            get { return m_pen; }
+            set
+            {
+                Pen old = m_pen;
+                m_pen = value;
+                UpdateBoundsFromPath();
+                InvalidatePaint();
+                FirePropertyChangedEvent(PROPERTY_KEY_PEN, PROPERTY_CODE_PEN, old, m_pen);
+            }
+        }
+        /// <summary>
+        /// get/set whether is shown ID.
+        /// </summary>
+        public bool ShowingID
+        {
+            get { return m_showingId; }
+            set { m_showingId = value;
+            SetTextVisiblity();
+            }
+        }
+        /// <summary>
+        /// See <see cref="GraphicsPath.PathData">GraphicsPath.PathData</see>.
+        /// </summary>
+        public virtual GraphicsPath Path
+        {
+            get { return m_path; }
+        }
+        /// <summary>
+        /// acessor for a rectangle of this system.
+        /// </summary>
+        public virtual RectangleF Rect
+        {
+            get
+            {
+                return new RectangleF(base.X + this.OffsetX,
+                                      base.Y + this.OffsetY,
+                                      base.Width,
+                                      base.Height);
+            }
+            set
+            {
+                base.X = value.X;
+                base.Y = value.Y;
+                base.Width = value.Width;
+                base.Height = value.Height;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -477,8 +530,8 @@ namespace EcellLib.PathwayWindow.Nodes
         }
         #endregion
 
+        #region Methods
         #region Abstract Methods
-
         /// <summary>
         /// Create new instance of this object.
         /// </summary>
@@ -486,47 +539,123 @@ namespace EcellLib.PathwayWindow.Nodes
         public abstract PPathwayObject CreateNewObject();
         #endregion
 
-        #region Pen
-        //****************************************************************
-        // Pen - Methods for changing the pen used when rendering the
-        // PProcess.
-        //****************************************************************
+        #region Virtual Methods
+        /// <summary>
+        /// Refresh graphical contents of this object.
+        /// ex) Edges of a process can be refreshed by using this.
+        /// </summary>
+        public virtual void Refresh()
+        {
+            RefreshText();
+        }
 
         /// <summary>
-        /// Gets or sets the pen used when rendering this node.
+        /// Refresh Text contents of this object.
         /// </summary>
-        /// <value>The pen used when rendering this node.</value>
-        public virtual Pen Pen
+        protected virtual void RefreshText()
         {
-            get { return m_pen; }
-            set
-            {
-                Pen old = m_pen;
-                m_pen = value;
-                UpdateBoundsFromPath();
-                InvalidatePaint();
-                FirePropertyChangedEvent(PROPERTY_KEY_PEN, PROPERTY_CODE_PEN, old, m_pen);
-            }
+            if (this.m_ecellObj != null)
+                this.m_pText.Text = this.m_ecellObj.Text;
+            this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
+            this.m_pText.MoveToFront();
         }
-        #endregion
 
-        #region Picking Mode
         /// <summary>
-        /// Gets or sets the mode used to pick this node.
-        /// <seealso cref="PathPickMode">PathPickMode</seealso>
+        /// Make this object freezed.
         /// </summary>
-        /// <value>The mode used to pick this node.</value>
-        public virtual PathPickMode PickMode
+        public virtual void Freeze()
         {
-            get { return pickMode; }
-            set
-            {
-                this.pickMode = value;
-            }
+            m_isPickableBeforeFreeze = this.Pickable;
+            this.Pickable = false;
         }
+
+        /// <summary>
+        /// Reset freeze status.
+        /// </summary>
+        public virtual void Unfreeze()
+        {
+            this.Pickable = m_isPickableBeforeFreeze;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void SetTextVisiblity()
+        {
+            if (m_showingId)
+                m_pText.Visible = true;
+            else
+                m_pText.Visible = false;
+        }
+
+        /// <summary>
+        /// Change View Mode.
+        /// </summary>
+        public virtual void RefreshView()
+        {
+            SetFillBrush();
+            Refresh();
+        }
+
         #endregion
 
-        #region Bounds
+        /// <summary>
+        /// Memorize a current position for returning to this position in the future in neccessary.
+        /// </summary>
+        public void MemorizePosition()
+        {
+            this.m_originalX = base.X;
+            this.m_originalY = base.Y;
+            this.m_originalOffsetX = base.OffsetX;
+            this.m_originalOffsetY = base.OffsetY;
+            this.m_originalWidth = this.Width;
+            this.m_originalHeight = this.Height;
+        }
+        /// <summary>
+        /// Reset a current position.
+        /// </summary>
+        public void ResetPosition()
+        {
+            base.X = this.m_originalX;
+            base.Y = this.m_originalY;
+            base.OffsetX = this.m_originalOffsetX;
+            base.OffsetY = this.m_originalOffsetY;
+            base.Width = this.m_originalWidth;
+            base.Height = this.m_originalHeight;
+            RefreshText();
+            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(this.EcellObject.Key))
+            {
+                child.ResetPosition();
+            }
+        }
+        /// <summary>
+        /// Set FillBrush
+        /// </summary>
+        private void SetFillBrush()
+        {
+            if (m_setting.IsGradation)
+            {
+                PathGradientBrush pthGrBrush = new PathGradientBrush(m_path);
+                pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(m_setting.CenterBrush);
+                pthGrBrush.SurroundColors = new Color[] { BrushManager.ParseBrushToColor(m_setting.FillBrush) };
+                this.FillBrush = pthGrBrush;
+            }
+            else
+            {
+                this.FillBrush = m_setting.FillBrush;
+            }
+        }
+        /// <summary>
+        /// Refresh ComponentSetting.
+        /// </summary>
+        private void RefreshSettings()
+        {
+            this.PText.TextBrush = m_setting.TextBrush;
+            this.LineBrush = m_setting.LineBrush;
+            SetFillBrush();
+        }
+
+        #region Methods to control Bounds
         //****************************************************************
         // Bounds - Methods for manipulating/updating the bounds of a
         // PProcess.
@@ -635,26 +764,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// Overridden.  Performs picking in canvas coordinates if <see cref="PickMode">PickMode</see>
-        /// is false.
-        /// </summary>
-        /// <remarks>
-        /// Due to the implementation of the GraphicsPath object, picking in canvas coordinates
-        /// is more accurate, but will introduce a significant performance hit.
-        /// </remarks>
-        protected override bool PickAfterChildren(PPickPath pickPath)
-        {
-            if (pickMode == PathPickMode.Fast)
-            {
-                return base.PickAfterChildren(pickPath);
-            }
-            else
-            {
-                return Intersects(pickPath.PickBounds, pickPath.GetPathTransformTo(this));
-            }
-        }
-
-        /// <summary>
         /// Returns true if this path intersects the given rectangle.
         /// </summary>
         /// <remarks>
@@ -694,8 +803,50 @@ namespace EcellLib.PathwayWindow.Nodes
                     return TEMP_REGION.IsVisible(bounds);
                 }
             }
-
             return false;
+        }
+        #endregion
+
+        #region Painting
+        //****************************************************************
+        // Painting - Methods for painting a PPathwayObject.
+        //****************************************************************
+        /// <summary>
+        /// Overridden.  See <see cref="PNode.Paint">PNode.Paint</see>.
+        /// </summary>
+        protected override void Paint(PPaintContext paintContext)
+        {
+            Brush b = this.Brush;
+            Graphics g = paintContext.Graphics;
+
+            if (b != null)
+            {
+                g.FillPath(b, m_path);
+            }
+
+            if (m_pen != null)
+            {
+                g.DrawPath(m_pen, m_path);
+            }
+        }
+        #endregion
+
+        #region Path Support
+        //****************************************************************
+        // Path Support - Methods for manipulating the underlying path.
+        // See System.Drawing.Drawing2D.GraphicsPath documentation for
+        // more information on using these methods.
+        //****************************************************************
+
+        /// <summary>
+        /// See <see cref="GraphicsPath.AddPath(GraphicsPath, bool)">GraphicsPath.AddPath</see>.
+        /// </summary>
+        public virtual void AddPath(GraphicsPath path, bool connect)
+        {
+            this.m_path.AddPath(path, connect);
+            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
+            UpdateBoundsFromPath();
+            InvalidatePaint();
         }
 
         /// <summary>
@@ -752,154 +903,8 @@ namespace EcellLib.PathwayWindow.Nodes
             updatingBoundsFromPath = false;
         }
         #endregion
-        
-        #region Painting
-        //****************************************************************
-        // Painting - Methods for painting a PPathwayObject.
-        //****************************************************************
-        /// <summary>
-        /// Overridden.  See <see cref="PNode.Paint">PNode.Paint</see>.
-        /// </summary>
-        protected override void Paint(PPaintContext paintContext)
-        {
-            Brush b = this.Brush;
-            Graphics g = paintContext.Graphics;
 
-            if (b != null)
-            {
-                g.FillPath(b, m_path);
-            }
-
-            if (m_pen != null)
-            {
-                g.DrawPath(m_pen, m_path);
-            }
-        }
-        #endregion
-
-        #region Path Support
-        //****************************************************************
-        // Path Support - Methods for manipulating the underlying path.
-        // See System.Drawing.Drawing2D.GraphicsPath documentation for
-        // more information on using these methods.
-        //****************************************************************
-
-        /// <summary>
-        /// get/set whether is shown ID.
-        /// </summary>
-        public bool ShowingID
-        {
-            get { return m_showingId; }
-            set { m_showingId = value;
-            SetTextVisiblity();
-            }
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.PathData">GraphicsPath.PathData</see>.
-        /// </summary>
-        public virtual GraphicsPath Path
-        {
-            get { return m_path; }
-        }
-
-        /// <summary>
-        /// acessor for a rectangle of this system.
-        /// </summary>
-        public virtual RectangleF Rect
-        {
-            get
-            {
-                return new RectangleF(base.X + this.OffsetX,
-                                      base.Y + this.OffsetY,
-                                      base.Width,
-                                      base.Height);
-            }
-            set
-            {
-                base.X = value.X;
-                base.Y = value.Y;
-                base.Width = value.Width;
-                base.Height = value.Height;
-            }
-        }
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.AddPath(GraphicsPath, bool)">GraphicsPath.AddPath</see>.
-        /// </summary>
-        public virtual void AddPath(GraphicsPath path, bool connect)
-        {
-            this.m_path.AddPath(path, connect);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
-        #endregion
-
-        #region Messaging between subclasses
-        /// <summary>
-        /// Notify children about movement.
-        /// </summary>
-        public virtual void NotifyMovement()
-        {
-            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(this.EcellObject.Key))
-            {
-                obj.NotifyMovement();
-            }
-        }
-        #endregion
-
-        #region Virtual Methods
-        /// <summary>
-        /// Memorize a current position for returning to this position in the future in neccessary.
-        /// </summary>
-        public virtual void MemorizePosition()
-        {
-            this.m_originalX = base.X;
-            this.m_originalY = base.Y;
-            this.m_originalOffsetX = base.OffsetX;
-            this.m_originalOffsetY = base.OffsetY;
-            this.m_originalWidth = this.Width;
-            this.m_originalHeight = this.Height;
-        }
-        /// <summary>
-        /// Reset a current position.
-        /// </summary>
-        public virtual void ResetPosition()
-        {
-            base.X = this.m_originalX;
-            base.Y = this.m_originalY;
-            base.OffsetX = this.m_originalOffsetX;
-            base.OffsetY = this.m_originalOffsetY;
-            base.Width = this.m_originalWidth;
-            base.Height = this.m_originalHeight;
-            RefreshText();
-            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(this.EcellObject.Key))
-            {
-                child.ResetPosition();
-            }
-        }
-
-        /// <summary>
-        /// Refresh graphical contents of this object.
-        /// ex) Edges of a process can be refreshed by using this.
-        /// </summary>
-        public virtual void Refresh()
-        {
-            RefreshText();
-        }
-
-        /// <summary>
-        /// Refresh Text contents of this object.
-        /// </summary>
-        protected virtual void RefreshText()
-        {
-            if (this.m_ecellObj != null)
-                this.m_pText.Text = this.m_ecellObj.Text;
-            this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
-            this.m_pText.MoveToFront();
-        }
-
+        #region EventHandlers
         /// <summary>
         /// Eventhandler on ComponentSetting.PropertyChange
         /// </summary>
@@ -910,76 +915,6 @@ namespace EcellLib.PathwayWindow.Nodes
             RefreshSettings();
         }
 
-        /// <summary>
-        /// Refresh ComponentSetting.
-        /// </summary>
-        protected void RefreshSettings()
-        {
-            this.PText.TextBrush = m_setting.TextBrush;
-            this.LineBrush = m_setting.LineBrush;
-            SetFillBrush();
-        }
-        /// <summary>
-        /// Set FillBrush
-        /// </summary>
-        public void SetFillBrush()
-        {
-            if (m_setting.IsGradation)
-            {
-                PathGradientBrush pthGrBrush = new PathGradientBrush(m_path);
-                pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(m_setting.CenterBrush);
-                pthGrBrush.SurroundColors = new Color[] { BrushManager.ParseBrushToColor(m_setting.FillBrush) };
-                this.FillBrush = pthGrBrush;
-            }
-            else
-            {
-                this.FillBrush = m_setting.FillBrush;
-            }
-        }
-
-        /// <summary>
-        /// Change View Mode.
-        /// </summary>
-        public virtual void RefreshView()
-        {
-            SetFillBrush();
-            Refresh();
-        }
-
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Make this object freezed.
-        /// </summary>
-        public virtual void Freeze()
-        {
-            m_isPickableBeforeFreeze = this.Pickable;
-            this.Pickable = false;
-        }
-
-        /// <summary>
-        /// Reset freeze status.
-        /// </summary>
-        public virtual void Unfreeze()
-        {
-            this.Pickable = m_isPickableBeforeFreeze;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected virtual void SetTextVisiblity()
-        {
-            if (m_showingId)
-                m_pText.Visible = true;
-            else
-                m_pText.Visible = false;
-        }
-
-        #endregion
-
-        #region EventHandlers
         /// <summary>
         /// event on mouse drag on this node.
         /// </summary>
@@ -1018,30 +953,6 @@ namespace EcellLib.PathwayWindow.Nodes
 
         #endregion
 
-        #region Serialization
-        //****************************************************************
-        // Serialization - Nodes conditionally serialize their parent.
-        // This means that only the parents that were unconditionally
-        // (using GetObjectData) serialized by someone else will be restored
-        // when the node is deserialized.
-        //****************************************************************
-        /// <summary>
-        /// Write this PProcess and all of its descendent nodes to the given SerializationInfo.
-        /// </summary>
-        /// <param name="info">The SerializationInfo to write to.</param>
-        /// <param name="context">The streaming context of this serialization operation.</param>
-        /// <remarks>
-        /// This node's parent is written out conditionally, that is it will only be written out
-        /// if someone else writes it out unconditionally.
-        /// </remarks>
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-
-            PUtil.WritePen(m_pen, info);
-        }
-
         #endregion
-
     }
 }

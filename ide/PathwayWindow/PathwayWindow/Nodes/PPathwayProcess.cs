@@ -277,15 +277,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// Notify this object is moved.
-        /// Will be called when parent system is moving
-        /// </summary>
-        public override void NotifyMovement()
-        {
-            RefreshEdges();
-        }
-
-        /// <summary>
         /// notify to remove all related process from list.
         /// </summary>
         public void NotifyRemoveToRelatedVariable()

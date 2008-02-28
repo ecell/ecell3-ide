@@ -104,17 +104,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// notify to move this node in canvas.
-        /// </summary>
-        public override void NotifyMovement()
-        {
-            foreach (PPathwayProcess process in m_relatedProcesses.Values)
-            {
-                process.RefreshEdges();
-            }
-        }
-
-        /// <summary>
         /// Change View Mode.
         /// </summary>
         public override void RefreshView()
