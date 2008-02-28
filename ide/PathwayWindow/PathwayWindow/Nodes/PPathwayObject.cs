@@ -44,6 +44,7 @@ using EcellLib;
 using System.ComponentModel;
 using UMD.HCIL.Piccolo.Event;
 using EcellLib.PathwayWindow.Resources;
+using EcellLib.PathwayWindow.SVG;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -597,6 +598,21 @@ namespace EcellLib.PathwayWindow.Nodes
             Refresh();
         }
 
+        /// <summary>
+        /// Create SVG object.
+        /// </summary>
+        /// <returns></returns>
+        public virtual string CreateSVGObject()
+        {
+            string textBrush = BrushManager.ParseBrushToString(m_setting.TextBrush);
+            string lineBrush = BrushManager.ParseBrushToString(m_setting.LineBrush);
+            string fillBrush = "url(#" + m_setting.Name + ")";
+            PointF textPos = new PointF(m_pText.X, m_pText.Y + m_pText.Height);
+            string svgObj = "";
+            svgObj += m_setting.EditModeFigure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
+            svgObj += SVGUtil.Text(textPos, m_pText.Text, textBrush);
+            return svgObj;
+        }
         #endregion
 
         /// <summary>

@@ -144,6 +144,19 @@ namespace EcellLib.PathwayWindow.Nodes
                 foreach (PPathwayLine line in list)
                     line.Pickable = true;
         }
+        
+        /// <summary>
+        /// Create SVG object.
+        /// </summary>
+        /// <returns></returns>
+        public override string CreateSVGObject()
+        {
+            string obj = base.CreateSVGObject();
+            foreach (List<PPathwayLine> list in m_lines.Values)
+                foreach (PPathwayLine line in list)
+                    obj += line.CreateSVGObject();
+            return obj;
+        }
 
         /// <summary>
         /// notify to add the related variable to list.

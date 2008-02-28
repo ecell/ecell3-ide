@@ -156,9 +156,9 @@ namespace EcellLib.PathwayWindow.SVG
         /// <param name="points"></param>
         /// <param name="brush"></param>
         /// <returns></returns>
-        public static string Poligon(PointF[] points, string brush)
+        public static string Polygon(PointF[] points, string brush)
         {
-            string obj = "<line stroke=\"" + brush
+            string obj = "<polygon stroke=\"" + brush
             + "\" stroke-width=\"1"
             + "\" fill=\"" + brush
             + "\" points=\"";
@@ -181,12 +181,13 @@ namespace EcellLib.PathwayWindow.SVG
         /// <returns></returns>
         public static string Text(PointF point, string text, string brush)
         {
-            string obj = "<line x=\"" + point.X.ToString()
+            string obj = "<text x=\"" + point.X.ToString()
             + "\" y=\"" + point.Y.ToString()
             + "\" font-family=\"MS-Gothic"
-            + "\" font-size=\"12"
+            + "\" font-size=\"16"
+            + "\" font-weight=\"bold"
             + "\" fill=\"" + brush
-            + "\"/>" + text + "</text>\n";
+            + "\">" + text + "</text>\n";
             return obj;
         }
         /// <summary>

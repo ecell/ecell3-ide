@@ -123,7 +123,7 @@ namespace EcellLib.PathwayWindow.Figure
             float marjin = rOut - rIn;
             RectangleF innerRect = new RectangleF(rect.X + marjin, rect.Y + marjin, rect.Width - marjin * 2f, rect.Height - marjin * 2f);
             string obj = SVGUtil.RoundedRectangle(rect, lineBrush, fillBrush, rOut, rOut);
-            obj += SVGUtil.RoundedRectangle(innerRect, lineBrush, "White");
+            obj += SVGUtil.RoundedRectangle(innerRect, lineBrush, "White", rIn, rIn);
             return obj;
         }
 

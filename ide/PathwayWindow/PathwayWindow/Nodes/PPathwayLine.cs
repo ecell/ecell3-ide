@@ -36,6 +36,7 @@ using System.Drawing;
 using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo.Event;
+using EcellLib.PathwayWindow.SVG;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -254,8 +255,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="arrowApex">an apex of an arrow</param>
         /// <param name="guidePoint">an arrow line goes direction from arrowApex to guidePoint</param>
         /// <returns></returns>
-        private PointF[] GetArrowPoints(PointF arrowApex,
-                                              PointF guidePoint)
+        private PointF[] GetArrowPoints(PointF arrowApex, PointF guidePoint)
         {
             guidePoint.X = guidePoint.X - arrowApex.X;
             guidePoint.Y = guidePoint.Y - arrowApex.Y;
@@ -277,6 +277,42 @@ namespace EcellLib.PathwayWindow.Nodes
             arrowPointB.Y = arrowPointB.Y * ARROW_LENGTH + arrowApex.Y;
 
             return new PointF[] { arrowApex, arrowPointA, arrowPointB };
+        }
+
+        /// <summary>
+        /// Create SVG object.
+        /// </summary>
+        /// <returns></returns>
+        public string CreateSVGObject()
+        {
+            string obj = "";
+            string brush = BrushManager.ParseBrushToString(this.Brush);
+            switch (this.m_edgeInfo.TypeOfLine)
+            {
+                case LineType.Solid:
+                case LineType.Unknown:
+                    obj += SVGUtil.Line(m_proPoint, m_varPoint, brush);
+                    break;
+                case LineType.Dashed:
+                    obj += SVGUtil.DashedLine(m_proPoint, m_varPoint, brush);
+                    break;
+            }
+            switch (this.m_edgeInfo.Direction)
+            {
+                case EdgeDirection.Bidirection:
+                    obj += SVGUtil.Polygon(GetArrowPoints(this.ProPoint, this.VarPoint), brush);
+                    obj += SVGUtil.Polygon(GetArrowPoints(this.VarPoint, this.ProPoint), brush);
+                    break;
+                case EdgeDirection.Inward:
+                    obj += SVGUtil.Polygon(GetArrowPoints(this.ProPoint, this.VarPoint), brush);
+                    break;
+                case EdgeDirection.Outward:
+                    obj += SVGUtil.Polygon(GetArrowPoints(this.VarPoint, this.ProPoint), brush);
+                    break;
+                case EdgeDirection.None:
+                    break;
+            }
+            return obj;
         }
 
         #region EventHandlers

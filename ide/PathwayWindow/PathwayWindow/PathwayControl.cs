@@ -53,6 +53,7 @@ using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Handler;
 using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Exceptions;
+using EcellLib.PathwayWindow.SVG;
 
 namespace EcellLib.PathwayWindow
 {
@@ -1329,6 +1330,7 @@ namespace EcellLib.PathwayWindow
             if (m_canvas == null)
                 return;
             m_canvas.ResetObjectSettings();
+            GraphicsExporter.ExportSVG(m_canvas, Util.GetUserDir() + "/" + m_canvas.ModelID + ".svg");
             SetNodeIcons();
         }
 

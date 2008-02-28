@@ -39,7 +39,7 @@ namespace EcellLib.PathwayWindow.SVG
     /// <summary>
     /// SVGExPorter
     /// </summary>
-    public class SVGExporter
+    public class GraphicsExporter
     {
         private const string XML_HEADER = "<?xml version=\"1.0\"?>";
         private const string SVG_HEADER = "<svg xmlns=\"http://www.w3.org/2000/svg\">";
@@ -49,7 +49,7 @@ namespace EcellLib.PathwayWindow.SVG
         /// </summary>
         /// <param name="canvas"></param>
         /// <param name="filename"></param>
-        public static void Export(CanvasControl canvas, string filename)
+        public static void ExportSVG(CanvasControl canvas, string filename)
         {
             StreamWriter writer = new StreamWriter(filename);
             writer.WriteLine(XML_HEADER);
@@ -58,55 +58,13 @@ namespace EcellLib.PathwayWindow.SVG
             {
                 writer.WriteLine(GetGradationBrush(setting));
             }
-            writer.WriteLine(SVG_FOOTER);
             foreach (PPathwayObject obj in canvas.GetAllObjects())
             {
+                writer.WriteLine(obj.CreateSVGObject());
             }
+            writer.WriteLine(SVG_FOOTER);
             writer.Flush();
             writer.Close();
-
-        }
-        private static string CreateSystemObject(PPathwayObject system)
-        {
-            string obj = "";
-            string textBrush = BrushManager.ParseBrushToString(system.PText.Brush);
-            string lineBrush = BrushManager.ParseBrushToString(system.LineBrush);
-            string fillBrush = GetBrushName(system.Setting.Name);
-            PointF textPos = new PointF(system.PText.X, system.PText.Y + system.PText.Height);
-            obj += SVGUtil.RoundedRectangle(system.Rect, lineBrush, fillBrush);
-            obj += SVGUtil.RoundedRectangle(system.Rect, lineBrush, "white");
-            obj += SVGUtil.Text(textPos, system.PText.Text, textBrush);
-            return obj;
-        }
-
-        private static string CreateProcessObject(PPathwayObject Process)
-        {
-            string obj = "";
-            string textBrush = BrushManager.ParseBrushToString(Process.PText.Brush);
-            string lineBrush = BrushManager.ParseBrushToString(Process.LineBrush);
-            string fillBrush = GetBrushName(Process.Setting.Name);
-            PointF textPos = new PointF(Process.PText.X, Process.PText.Y + Process.PText.Height);
-            obj += SVGUtil.RoundedRectangle(Process.Rect, lineBrush, fillBrush) + "\n";
-            obj += SVGUtil.Text(textPos, Process.PText.Text, textBrush) + "\n";
-            return obj;
-        }
-
-        private static string CreateVariableObject(PPathwayObject variable)
-        {
-            string obj = "";
-            string textBrush = BrushManager.ParseBrushToString(variable.PText.Brush);
-            string lineBrush = BrushManager.ParseBrushToString(variable.LineBrush);
-            string fillBrush = GetBrushName(variable.Setting.Name);
-            PointF textPos = new PointF(variable.PText.X, variable.PText.Y + variable.PText.Height);
-            obj += SVGUtil.Ellipse(variable.Rect, lineBrush, fillBrush);
-            obj += SVGUtil.Text(textPos, variable.PText.Text, textBrush);
-            return obj;
-        }
-
-        private static string GetBrushName(string settingName)
-        {
-            string gradationBrush = "url(#" + settingName + ")";
-            return gradationBrush;
         }
 
         private static string GetGradationBrush(ComponentSetting setting)
