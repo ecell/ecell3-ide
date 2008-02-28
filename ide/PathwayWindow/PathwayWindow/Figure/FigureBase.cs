@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using EcellLib.PathwayWindow.SVG;
 
 namespace EcellLib.PathwayWindow.Figure
 {
@@ -126,14 +127,6 @@ namespace EcellLib.PathwayWindow.Figure
         }
 
         /// <summary>
-        /// Accessor for m_gp.
-        /// </summary>
-        public GraphicsPath GraphicsPath
-        {
-            get { return m_gp; }
-        }
-
-        /// <summary>
         /// type string.
         /// </summary>
         public string Coordinates
@@ -145,48 +138,30 @@ namespace EcellLib.PathwayWindow.Figure
             }
         }
 
-        #endregion
-
-        #region Constructors
         /// <summary>
-        /// Constructor
+        /// Accessor for m_gp.
         /// </summary>
-        public FigureBase()
+        public GraphicsPath GraphicsPath
         {
-            Initialize(0, 0, 1, 1);
-        }
-        
-        /// <summary>
-        /// Constructor with float array.
-        /// </summary>
-        /// <param name="vars"></param>
-        public FigureBase(float[] vars)
-        {
-            if (vars.Length >= 4)
-                Initialize(vars[0], vars[1], vars[2], vars[3]);
-            else
-                Initialize(0, 0, 1, 1);
+            get { return m_gp; }
         }
 
-        #endregion
-
-        #region Methods
         /// <summary>
-        /// Create new GraphicsPath for the icon image on ToolBar.
+        /// Create new GraphicsPath for the icon image.
         /// </summary>
-        public GraphicsPath TransformedPath
+        public GraphicsPath IconPath
         {
             get
             {
-                GraphicsPath transPath = (GraphicsPath)m_gp.Clone();
+                GraphicsPath iconPath = (GraphicsPath)m_gp.Clone();
                 RectangleF rect = m_gp.GetBounds();
                 Matrix matrix = new Matrix();
-                float scale = 28f;
+                float scale = 14f;
 
                 matrix.Translate(-1f * (rect.X + rect.Width / 2f),
                                  -1f * (rect.Y + rect.Height / 2f));
 
-                transPath.Transform(matrix);
+                iconPath.Transform(matrix);
 
                 matrix = new Matrix();
                 if (rect.Width > rect.Height)
@@ -200,13 +175,32 @@ namespace EcellLib.PathwayWindow.Figure
                     matrix.Translate(rect.Height / 2f, rect.Height / 2f);
                 }
 
-                transPath.Transform(matrix);
-                return transPath;
+                iconPath.Transform(matrix);
+                return iconPath;
             }
         }
         #endregion
 
-        #region Virtual Methods
+        #region Constructors
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public FigureBase()
+        {
+            Initialize(0, 0, 1, 1, TYPE);
+        }
+        
+        /// <summary>
+        /// Constructor with float array.
+        /// </summary>
+        /// <param name="vars"></param>
+        public FigureBase(float[] vars)
+        {
+            if (vars.Length >= 4)
+                Initialize(vars[0], vars[1], vars[2], vars[3], TYPE);
+            else
+                Initialize(0, 0, 1, 1, TYPE);
+        }
         /// <summary>
         /// Initialize this figure.
         /// </summary>
@@ -214,9 +208,10 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        protected virtual void Initialize(float x, float y, float width, float height)
+        /// <param name="type"></param>
+        protected void Initialize(float x, float y, float width, float height, string type)
         {
-            m_type = TYPE;
+            m_type = type;
             SetBounds(x, y, width, height);
             m_gp = CreatePath(x, y, width, height);
         }
@@ -227,7 +222,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        protected virtual void SetBounds(float x, float y, float width, float height)
+        protected void SetBounds(float x, float y, float width, float height)
         {
             m_x = x;
             m_y = y;
@@ -235,6 +230,9 @@ namespace EcellLib.PathwayWindow.Figure
             m_height = height;
         }
 
+        #endregion
+
+        #region Virtual Methods
         /// <summary>
         /// Create new GraphicsPath
         /// </summary>
@@ -284,6 +282,19 @@ namespace EcellLib.PathwayWindow.Figure
             return new PointF(x, y);
         }
 
+        /// <summary>
+        /// Create SVG object.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="lineBrush"></param>
+        /// <param name="fillBrush"></param>
+        /// <returns></returns>
+        public virtual string CreateSVGObject(RectangleF rect, string lineBrush, string fillBrush)
+        {
+            string obj = "<!--FigureBase-->\n";
+            obj += SVGUtil.Rectangle(rect, lineBrush, fillBrush);
+            return obj;
+        }
         #endregion
 
     }

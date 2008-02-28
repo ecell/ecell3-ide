@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using EcellLib.PathwayWindow.SVG;
 
 namespace EcellLib.PathwayWindow.Figure
 {
@@ -55,7 +56,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// </summary>
         public EllipseFigure()
         {
-            Initialize(0, 0, 1, 1);
+            Initialize(0, 0, 1, 1, TYPE);
         }
         /// <summary>
         /// Constructor with params
@@ -66,7 +67,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="height"></param>
         public EllipseFigure(float x, float y, float width, float height)
         {
-            Initialize(x, y, width, height);
+            Initialize(x, y, width, height, TYPE);
         }
         /// <summary>
         /// Constructor with float array.
@@ -75,24 +76,11 @@ namespace EcellLib.PathwayWindow.Figure
         public EllipseFigure(float[] vars)
         {
             if (vars.Length >= 4)
-                Initialize(vars[0], vars[1], vars[2], vars[3]);
+                Initialize(vars[0], vars[1], vars[2], vars[3], TYPE);
             else
-                Initialize(0, 0, 1, 1);
+                Initialize(0, 0, 1, 1, TYPE);
         }
 
-        /// <summary>
-        /// Initializer
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        protected override void Initialize(float x, float y, float width, float height)
-        {
-            m_type = TYPE;
-            base.SetBounds(x, y, width, height);
-            m_gp = CreatePath(x, y, width, height);
-        }
         /// <summary>
         /// Create GraphicsPath
         /// </summary>
@@ -157,6 +145,20 @@ namespace EcellLib.PathwayWindow.Figure
             return new PointF(x, y);
 
         }
+
+        /// <summary>
+        /// Create SVG object.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="lineBrush"></param>
+        /// <param name="fillBrush"></param>
+        /// <returns></returns>
+        public override string CreateSVGObject(RectangleF rect, string lineBrush, string fillBrush)
+        {
+            string obj = SVGUtil.Ellipse(rect, lineBrush, fillBrush);
+            return obj;
+        }
+
         #endregion
 
     }

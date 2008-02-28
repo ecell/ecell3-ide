@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using EcellLib.PathwayWindow.SVG;
 
 namespace EcellLib.PathwayWindow.Figure
 {
@@ -42,12 +43,15 @@ namespace EcellLib.PathwayWindow.Figure
         /// </summary>
         public new const string TYPE = "SystemRectangle";
 
+        private const float rOut = 20f;
+        private const float rIn = 10f;
+
         /// <summary>
         /// COnstructor without params.
         /// </summary>
         public SystemRectangle()
         {
-            Initialize(0, 0, 1, 1);
+            Initialize(0, 0, 1, 1, TYPE);
         }
 
         /// <summary>
@@ -59,7 +63,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="height"></param>
         public SystemRectangle(float x, float y, float width, float height)
         {
-            Initialize(x, y, width, height);
+            Initialize(x, y, width, height, TYPE);
         }
 
         /// <summary>
@@ -69,25 +73,11 @@ namespace EcellLib.PathwayWindow.Figure
         public SystemRectangle(float[] vars)
         {
             if (vars.Length >= 4)
-                Initialize(vars[0], vars[1], vars[2], vars[3]);
+                Initialize(vars[0], vars[1], vars[2], vars[3], TYPE);
             else
-                Initialize(0, 0, 1, 1);
+                Initialize(0, 0, 1, 1, TYPE);
         }
 
-        /// <summary>
-        /// Initializer
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        protected override void Initialize(float x, float y, float width, float height)
-        {
-            m_type = TYPE;
-            base.SetBounds(x, y, width, height);
-            m_gp = CreatePath(x, y, width, height);
-
-        }
         /// <summary>
         /// Create GraphicsPath
         /// </summary>
@@ -100,29 +90,41 @@ namespace EcellLib.PathwayWindow.Figure
         {
             GraphicsPath path = new GraphicsPath();
 
-            float marginX1 = 20f;
-            float marginY1 = 20f;
-            path.AddArc(x, y, marginX1 * 2, marginY1 * 2, 180, 90);
-            path.AddLine(x + marginX1, y, x + width - marginX1, y);
-            path.AddArc(x + width - marginX1 * 2, y, marginX1 * 2, marginY1 * 2, 270, 90);
-            path.AddLine(x + width, y + marginY1, x + width, y + height - marginY1);
-            path.AddArc(x + width - marginX1 * 2, y + height - marginY1 * 2, marginX1 * 2, marginY1 * 2, 0, 90);
-            path.AddLine(x + marginX1, y + height, x + width - marginX1, y + height);
-            path.AddArc(x, y + height - marginY1 * 2, marginX1 * 2, marginY1 * 2, 90, 90);
-            path.AddLine(x, y + marginY1, x, y + height - marginY1);
+            path.AddArc(x, y, rOut * 2, rOut * 2, 180, 90);
+            path.AddLine(x + rOut, y, x + width - rOut, y);
+            path.AddArc(x + width - rOut * 2, y, rOut * 2, rOut * 2, 270, 90);
+            path.AddLine(x + width, y + rOut, x + width, y + height - rOut);
+            path.AddArc(x + width - rOut * 2, y + height - rOut * 2, rOut * 2, rOut * 2, 0, 90);
+            path.AddLine(x + rOut, y + height, x + width - rOut, y + height);
+            path.AddArc(x, y + height - rOut * 2, rOut * 2, rOut * 2, 90, 90);
+            path.AddLine(x, y + rOut, x, y + height - rOut);
             path.CloseFigure();
 
-            float marginX2 = 10f;
-            float marginY2 = 10f;
-            path.AddArc(x + marginX2, y + marginY2, marginX2 * 2, marginY2 * 2, 180, 90);
-            path.AddLine(x + marginX1, y + marginY2, x + width - marginX1, y + marginY2);
-            path.AddArc(x + width - marginX1 - marginX2, y + marginY2, marginX2 * 2, marginY2 * 2, 270, 90);
-            path.AddLine(x + width - marginX2, y + marginY1, x + width - marginX2, y + height - marginY1);
-            path.AddArc(x + width - marginX1 - marginX2, y + height - marginY1 - marginY2, marginX2 * 2, marginY2 * 2, 0, 90);
-            path.AddLine(x + width - marginX1, y + height - marginY2, x + marginX1, y + height - marginY2);
-            path.AddArc(x + marginX2, y + height - marginY1 - marginY2, marginX2 * 2, marginY2 * 2, 90, 90);
-            path.AddLine(x + marginX2, y + height - marginY1, x + marginX2, y + marginY1);
+            path.AddArc(x + rIn, y + rIn, rIn * 2, rIn * 2, 180, 90);
+            path.AddLine(x + rOut, y + rIn, x + width - rOut, y + rIn);
+            path.AddArc(x + width - rOut - rIn, y + rIn, rIn * 2, rIn * 2, 270, 90);
+            path.AddLine(x + width - rIn, y + rOut, x + width - rIn, y + height - rOut);
+            path.AddArc(x + width - rOut - rIn, y + height - rOut - rIn, rIn * 2, rIn * 2, 0, 90);
+            path.AddLine(x + width - rOut, y + height - rIn, x + rOut, y + height - rIn);
+            path.AddArc(x + rIn, y + height - rOut - rIn, rIn * 2, rIn * 2, 90, 90);
+            path.AddLine(x + rIn, y + height - rOut, x + rIn, y + rOut);
             return path;
+        }
+
+        /// <summary>
+        /// Create SVG object.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="lineBrush"></param>
+        /// <param name="fillBrush"></param>
+        /// <returns></returns>
+        public override string CreateSVGObject(RectangleF rect, string lineBrush, string fillBrush)
+        {
+            float marjin = rOut - rIn;
+            RectangleF innerRect = new RectangleF(rect.X + marjin, rect.Y + marjin, rect.Width - marjin * 2f, rect.Height - marjin * 2f);
+            string obj = SVGUtil.RoundedRectangle(rect, lineBrush, fillBrush, rOut, rOut);
+            obj += SVGUtil.RoundedRectangle(innerRect, lineBrush, "White");
+            return obj;
         }
 
     }

@@ -428,12 +428,12 @@ namespace EcellLib.PathwayWindow
                 return icon;
 
             // Create Icon from FigureBase.
-            icon = new Bitmap(32, 32);
+            icon = new Bitmap(16, 16);
             Graphics gra = Graphics.FromImage(icon);
-            GraphicsPath gp = m_editFigure.TransformedPath;
+            GraphicsPath gp = m_editFigure.IconPath;
             Brush brush = GetFillBrush(gp);
             gra.FillPath(brush, gp);
-            gra.DrawPath(new Pen(m_lineBrush, 2), gp);
+            gra.DrawPath(new Pen(m_lineBrush, 0), gp);
             return icon;
         }
 
@@ -447,7 +447,7 @@ namespace EcellLib.PathwayWindow
             try
             {
                 Bitmap bitmap = new Bitmap(fileName);
-                icon = new Bitmap(bitmap, 32, 32);
+                icon = new Bitmap(bitmap, 16, 16);
             }
             catch (Exception e)
             {

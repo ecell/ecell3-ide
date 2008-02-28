@@ -533,7 +533,7 @@ namespace EcellLib.PathwayWindow
             defSysCs.Name = NameOfDefaultSystem;
             defSysCs.Class = ClassPPathwaySystem;
             defSysCs.IsDefault = true;
-            defSysCs.EditModeFigure = FigureManager.CreateFigure("SystemRectangle", "0,0,500,500");
+            defSysCs.EditModeFigure = FigureManager.CreateFigure("SystemRectangle", "0,0,80,80");
             defSysCs.CenterBrush = Brushes.LightBlue;
             defSysCs.FillBrush = Brushes.LightBlue;
             defSysCs.IsGradation = false;
@@ -547,10 +547,11 @@ namespace EcellLib.PathwayWindow
             defVarCs.Class = ClassPPathwayVariable;
             defVarCs.IsDefault = true;
             defVarCs.EditModeFigure = FigureManager.CreateFigure("Ellipse", "0,0,60,40");
-            defVarCs.LineBrush = Brushes.Black;
-            defVarCs.CenterBrush = Brushes.LightBlue;
-            defVarCs.FillBrush = Brushes.LightBlue;
-            defVarCs.IsGradation = false;
+            defVarCs.TextBrush = Brushes.DarkBlue;
+            defVarCs.LineBrush = Brushes.CornflowerBlue;
+            defVarCs.CenterBrush = Brushes.White;
+            defVarCs.FillBrush = Brushes.CornflowerBlue;
+            defVarCs.IsGradation = true;
             RegisterSetting(defVarCs);
 
             // Set hard coded default process ComponentSettings
@@ -560,10 +561,11 @@ namespace EcellLib.PathwayWindow
             defProCs.Class = ClassPPathwayProcess;
             defProCs.IsDefault = true;
             defProCs.EditModeFigure = FigureManager.CreateFigure("RoundedRectangle", "0,0,60,40");
-            defProCs.LineBrush = Brushes.Black;
-            defProCs.CenterBrush = Brushes.LightGreen;
-            defProCs.FillBrush = Brushes.LightGreen;
-            defProCs.IsGradation = false;
+            defProCs.TextBrush = Brushes.DarkGreen;
+            defProCs.LineBrush = Brushes.LimeGreen;
+            defProCs.CenterBrush = Brushes.White;
+            defProCs.FillBrush = Brushes.LimeGreen;
+            defProCs.IsGradation = true;
             RegisterSetting(defProCs);
         }
 
