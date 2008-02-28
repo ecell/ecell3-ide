@@ -149,45 +149,45 @@ namespace EcellLib.PathwayWindow.UIComponent
             if (isPPathwayObject)
             {
                 PPathwayObject obj = (PPathwayObject)m_canvas.FocusNode;
-                m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuID].Text = obj.EcellObject.Key;
+                m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuID].Text = obj.EcellObject.Key;
                 SetLoggerMenu(obj);
                 SetLayerManu(obj);
                 if (isPPathwaySystem)
                 {
-                    m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuMerge].Text =
-                        m_resources.GetString(MenuControl.CanvasMenuMerge) + "(" + obj.EcellObject.ParentSystemID + ")";
+                    m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuMerge].Text =
+                        m_resources.GetString(MenuConstants.CanvasMenuMerge) + "(" + obj.EcellObject.ParentSystemID + ")";
                 }
                 if (obj.EcellObject.Key.Equals("/"))
                     isRoot = true;
             }
 
             // Show ObjectID(key).
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuID].Visible = isPPathwayObject;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuSeparator1].Visible = isPPathwayObject;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuID].Visible = isPPathwayObject;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuSeparator1].Visible = isPPathwayObject;
             // Show Layout menus.
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuLayout].Visible = isLayoutMenu;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuSeparator2].Visible = isLayoutMenu && (isPPathwayObject || isLine || isCopiedObject);
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuLayout].Visible = isLayoutMenu;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuSeparator2].Visible = isLayoutMenu && (isPPathwayObject || isLine || isCopiedObject);
             // Show Line menus.
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuRightArrow].Visible = isLine;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuLeftArrow].Visible = isLine;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuBidirArrow].Visible = isLine;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuConstantLine].Visible = isLine;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuSeparator3].Visible = isLine;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuRightArrow].Visible = isLine;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuLeftArrow].Visible = isLine;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuBidirArrow].Visible = isLine;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuConstantLine].Visible = isLine;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuSeparator3].Visible = isLine;
             // Show Node / System edit menus.
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuCut].Visible = isPPathwayObject && !isRoot;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuCopy].Visible = isPPathwayObject && !isRoot;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuPaste].Visible = isCopiedObject;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuDelete].Visible = isPPathwayObject && !isRoot;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuMerge].Visible = isPPathwaySystem && !isRoot;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuSeparator4].Visible = isCopiedObject || (isPPathwayObject && !isRoot);
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuCut].Visible = isPPathwayObject && !isRoot;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuCopy].Visible = isPPathwayObject && !isRoot;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuPaste].Visible = isCopiedObject;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuDelete].Visible = isPPathwayObject && !isRoot;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuMerge].Visible = isPPathwaySystem && !isRoot;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuSeparator4].Visible = isCopiedObject || (isPPathwayObject && !isRoot);
             // Show Layer menu.
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuChangeLayer].Visible = isPPathwayObject && !isRoot;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuMoveFront].Visible = isPPathwayObject && !isRoot;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuMoveBack].Visible = isPPathwayObject && !isRoot;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuSeparator5].Visible = isPPathwayObject && !isRoot;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuChangeLayer].Visible = isPPathwayObject && !isRoot;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuMoveFront].Visible = isPPathwayObject && !isRoot;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuMoveBack].Visible = isPPathwayObject && !isRoot;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuSeparator5].Visible = isPPathwayObject && !isRoot;
             // Show Logger menu.
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuCreateLogger].Visible = isPPathwayObject;
-            m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuDeleteLogger].Visible = isPPathwayObject;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuCreateLogger].Visible = isPPathwayObject;
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuDeleteLogger].Visible = isPPathwayObject;
         }
 
         /// <summary>
@@ -197,8 +197,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void SetLoggerMenu(PPathwayObject obj)
         {
 
-            ToolStripMenuItem createLogger = (ToolStripMenuItem)m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuCreateLogger];
-            ToolStripMenuItem deleteLogger = (ToolStripMenuItem)m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuDeleteLogger];
+            ToolStripMenuItem createLogger = (ToolStripMenuItem)m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuCreateLogger];
+            ToolStripMenuItem deleteLogger = (ToolStripMenuItem)m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuDeleteLogger];
             createLogger.DropDown.Items.Clear();
             deleteLogger.DropDown.Items.Clear();
 
@@ -234,7 +234,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="obj"></param>
         private void SetLayerManu(PPathwayObject obj)
         {
-            ToolStripMenuItem layerMenu = (ToolStripMenuItem)m_con.Menu.PopupMenuDict[MenuControl.CanvasMenuChangeLayer];
+            ToolStripMenuItem layerMenu = (ToolStripMenuItem)m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuChangeLayer];
             layerMenu.DropDown.Items.Clear();
             foreach (string layerName in m_canvas.GetLayerNameList())
             {
@@ -246,7 +246,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             ToolStripSeparator separator = new ToolStripSeparator();
             layerMenu.DropDown.Items.Add(separator);
 
-            ToolStripMenuItem createNewLayer = new ToolStripMenuItem(m_resources.GetString(MenuControl.CanvasMenuCreateLayer));
+            ToolStripMenuItem createNewLayer = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuCreateLayer));
             createNewLayer.Click += new EventHandler(m_con.Menu.ChangeLeyerClick);
             layerMenu.DropDown.Items.Add(createNewLayer);
         }

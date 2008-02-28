@@ -56,181 +56,6 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     public class MenuControl
     {
-        #region Static readonly fields
-        #region CanvasPopUpMenu
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for ID
-        /// </summary>
-        public const string CanvasMenuID = "CanvasMenuID";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for delete
-        /// </summary>
-        public const string CanvasMenuDelete = "CanvasMenuDelete";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for copy
-        /// </summary>
-        public const string CanvasMenuCopy = "CanvasMenuCopy";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for cut
-        /// </summary>
-        public const string CanvasMenuCut = "CanvasMenuCut";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for paste
-        /// </summary>
-        public const string CanvasMenuPaste = "CanvasMenuPaste";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for delete
-        /// </summary>
-        public const string CanvasMenuMerge = "CanvasMenuMerge";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Set Layout
-        /// </summary>
-        public const string CanvasMenuLayout = "CanvasMenuLayout";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Change Layer
-        /// </summary>
-        public const string CanvasMenuChangeLayer = "LayerMenuChange";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Create Layer
-        /// </summary>
-        public const string CanvasMenuCreateLayer = "LayerMenuCreate";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
-        /// </summary>
-        public const string CanvasMenuMoveFront = "LayerMenuMoveFront";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
-        /// </summary>
-        public const string CanvasMenuMoveBack = "LayerMenuMoveBack";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for rightArrow
-        /// </summary>
-        public const string CanvasMenuRightArrow = "CanvasMenuRightArrow";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for leftArrow
-        /// </summary>
-        public const string CanvasMenuLeftArrow = "CanvasMenuLeftArrow";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for bidirArrow
-        /// </summary>
-        public const string CanvasMenuBidirArrow = "CanvasMenuBidirArrow";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for constantLine
-        /// </summary>
-        public const string CanvasMenuConstantLine = "CanvasMenuConstantLine";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Create Logger
-        /// </summary>
-        public const string CanvasMenuCreateLogger = "CanvasMenuCreateLogger";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for delete Logger
-        /// </summary>
-        public const string CanvasMenuDeleteLogger = "CanvasMenuDeleteLogger";
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator1
-        /// </summary>
-        public const string CanvasMenuSeparator1 = "CanvasMenuSeparator1";
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator2
-        /// </summary>
-        public const string CanvasMenuSeparator2 = "CanvasMenuSeparator2";
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator3
-        /// </summary>
-        public const string CanvasMenuSeparator3 = "CanvasMenuSeparator3";
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator4
-        /// </summary>
-        public const string CanvasMenuSeparator4 = "CanvasMenuSeparator4";
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator5
-        /// </summary>
-        public const string CanvasMenuSeparator5 = "CanvasMenuSeparator5";
-        #endregion
-
-        #region ToolBarMenu
-        /// <summary>
-        /// Key definition of MessageResPathway for ShowID
-        /// </summary>
-        private const string MenuItemSetup = "MenuItemSetup";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolTipShowID
-        /// </summary>
-        private const string MenuToolTipSetup = "MenuToolTipSetup";
-        /// <summary>
-        /// Key definition of MessageResPathway for ShowID
-        /// </summary>
-        private const string MenuItemShowID = "MenuItemShowID";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolTipShowID
-        /// </summary>
-        private const string MenuToolTipShowID = "MenuToolTipShowID";
-        /// <summary>
-        /// Key definition of MessageResPathway for ViewMode
-        /// </summary>
-        private const string MenuItemViewMode = "MenuItemViewMode";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolTipViewMode
-        /// </summary>
-        private const string MenuToolTipViewMode = "MenuToolTipViewMode";
-        /// <summary>
-        /// Key definition of MessageResPathway for MenuItemLayout
-        /// </summary>
-        private const string MenuItemLayout = "MenuItemLayout";
-        /// <summary>
-        /// Key definition of MessageResPathway for MenuItemLayout
-        /// </summary>
-        private const string MenuItemEdit = "MenuItemEdit";
-        /// <summary>
-        /// Key definition of MessageResPathway for MenuItemLayout
-        /// </summary>
-        private const string MenuItemView = "MenuItemView";
-        #endregion
-
-        #region ToolButton
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonAddConstant
-        /// </summary>
-        private const string ToolButtonAddConstant = "ToolButtonAddConstant";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonAddMutualReaction
-        /// </summary>
-        private const string ToolButtonAddMutualReaction = "ToolButtonAddMutualReaction";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonAddOnewayReaction
-        /// </summary>
-        private const string ToolButtonAddOnewayReaction = "ToolButtonAddOnewayReaction";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonCreateProcess
-        /// </summary>
-        private const string ToolButtonCreateProcess = "ToolButtonCreateProcess";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonCreateSystem
-        /// </summary>
-        private const string ToolButtonCreateSystem = "ToolButtonCreateSystem";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonCreateVariable
-        /// </summary>
-        private const string ToolButtonCreateVariable = "ToolButtonCreateVariable";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonMoveCanvas
-        /// </summary>
-        private const string ToolButtonMoveCanvas = "ToolButtonMoveCanvas";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonSelectMode
-        /// </summary>
-        private const string ToolButtonSelectMode = "ToolButtonSelectMode";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonZoomIn
-        /// </summary>
-        private const string ToolButtonZoomIn = "ToolButtonZoomIn";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonZoomOut
-        /// </summary>
-        private const string ToolButtonZoomOut = "ToolButtonZoomOut";
-        #endregion
-        #endregion
-        
         #region Fields
         /// <summary>
         /// The PathwayView, from which this class gets messages from the E-cell core and through which this class
@@ -410,114 +235,114 @@ namespace EcellLib.PathwayWindow
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
 
             // Add ID checker
-            ToolStripItem idShow = new ToolStripMenuItem(CanvasMenuID);
-            idShow.Name = CanvasMenuID;
+            ToolStripItem idShow = new ToolStripMenuItem(MenuConstants.CanvasMenuID);
+            idShow.Name = MenuConstants.CanvasMenuID;
             nodeMenu.Items.Add(idShow);
-            m_popMenuDict.Add(CanvasMenuID, idShow);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuID, idShow);
 
             ToolStripSeparator separator1 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator1);
-            m_popMenuDict.Add(CanvasMenuSeparator1, separator1);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuSeparator1, separator1);
 
             // Add Line Changer
-            ToolStripItem rightArrow = new ToolStripMenuItem(m_resources.GetString(CanvasMenuRightArrow), PathwayResource.arrow_long_right_w);
-            rightArrow.Name = CanvasMenuRightArrow;
+            ToolStripItem rightArrow = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuRightArrow), PathwayResource.arrow_long_right_w);
+            rightArrow.Name = MenuConstants.CanvasMenuRightArrow;
             rightArrow.Click += new EventHandler(ChangeLineClick);
             nodeMenu.Items.Add(rightArrow);
-            m_popMenuDict.Add(CanvasMenuRightArrow, rightArrow);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuRightArrow, rightArrow);
 
-            ToolStripItem leftArrow = new ToolStripMenuItem(m_resources.GetString(CanvasMenuLeftArrow), PathwayResource.arrow_long_left_w);
-            leftArrow.Name = CanvasMenuLeftArrow;
+            ToolStripItem leftArrow = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuLeftArrow), PathwayResource.arrow_long_left_w);
+            leftArrow.Name = MenuConstants.CanvasMenuLeftArrow;
             leftArrow.Click += new EventHandler(ChangeLineClick);
             nodeMenu.Items.Add(leftArrow);
-            m_popMenuDict.Add(CanvasMenuLeftArrow, leftArrow);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuLeftArrow, leftArrow);
 
-            ToolStripItem bidirArrow = new ToolStripMenuItem(m_resources.GetString(CanvasMenuBidirArrow), PathwayResource.arrow_long_bidir_w);
-            bidirArrow.Name = CanvasMenuBidirArrow;
+            ToolStripItem bidirArrow = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuBidirArrow), PathwayResource.arrow_long_bidir_w);
+            bidirArrow.Name = MenuConstants.CanvasMenuBidirArrow;
             bidirArrow.Click += new EventHandler(ChangeLineClick);
             nodeMenu.Items.Add(bidirArrow);
-            m_popMenuDict.Add(CanvasMenuBidirArrow, bidirArrow);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuBidirArrow, bidirArrow);
 
-            ToolStripItem constant = new ToolStripMenuItem(m_resources.GetString(CanvasMenuConstantLine), PathwayResource.ten);
-            constant.Name = CanvasMenuConstantLine;
+            ToolStripItem constant = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuConstantLine), PathwayResource.ten);
+            constant.Name = MenuConstants.CanvasMenuConstantLine;
             constant.Click += new EventHandler(ChangeLineClick);
             nodeMenu.Items.Add(constant);
-            m_popMenuDict.Add(CanvasMenuConstantLine, constant);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuConstantLine, constant);
 
             ToolStripSeparator separator3 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator3);
-            m_popMenuDict.Add(CanvasMenuSeparator3, separator3);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuSeparator3, separator3);
 
             // Add Edit menus
-            ToolStripItem cut = new ToolStripMenuItem(m_resources.GetString(CanvasMenuCut));
+            ToolStripItem cut = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuCut));
             cut.Click += new EventHandler(CutClick);
             nodeMenu.Items.Add(cut);
-            m_popMenuDict.Add(CanvasMenuCut, cut);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuCut, cut);
 
-            ToolStripItem copy = new ToolStripMenuItem(m_resources.GetString(CanvasMenuCopy));
+            ToolStripItem copy = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuCopy));
             copy.Click += new EventHandler(CopyClick);
             nodeMenu.Items.Add(copy);
-            m_popMenuDict.Add(CanvasMenuCopy, copy);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuCopy, copy);
 
-            ToolStripItem paste = new ToolStripMenuItem(m_resources.GetString(CanvasMenuPaste));
+            ToolStripItem paste = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuPaste));
             paste.Click += new EventHandler(PasteClick);
             nodeMenu.Items.Add(paste);
-            m_popMenuDict.Add(CanvasMenuPaste, paste);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuPaste, paste);
 
-            ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString(CanvasMenuDelete));
+            ToolStripItem delete = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuDelete));
             delete.Click += new EventHandler(DeleteClick);
             nodeMenu.Items.Add(delete);
-            m_popMenuDict.Add(CanvasMenuDelete, delete);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuDelete, delete);
 
-            ToolStripItem merge = new ToolStripMenuItem(m_resources.GetString(CanvasMenuMerge));
+            ToolStripItem merge = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuMerge));
             merge.Click += new EventHandler(MergeClick);
             nodeMenu.Items.Add(merge);
-            m_popMenuDict.Add(CanvasMenuMerge, merge);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuMerge, merge);
 
             ToolStripSeparator separator4 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator4);
-            m_popMenuDict.Add(CanvasMenuSeparator4, separator4);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuSeparator4, separator4);
 
             // Add Layer Menu
-            ToolStripItem changeLayer = new ToolStripMenuItem(m_resources.GetString(CanvasMenuChangeLayer));
+            ToolStripItem changeLayer = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuChangeLayer));
             //changeLayer.Click += new EventHandler(m_con.ChangeLeyerClick);
             nodeMenu.Items.Add(changeLayer);
-            m_popMenuDict.Add(CanvasMenuChangeLayer, changeLayer);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuChangeLayer, changeLayer);
 
-            ToolStripItem moveFront = new ToolStripMenuItem(m_resources.GetString(CanvasMenuMoveFront));
+            ToolStripItem moveFront = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuMoveFront));
             moveFront.Click += new EventHandler(MoveToFrontClick);
             nodeMenu.Items.Add(moveFront);
-            m_popMenuDict.Add(CanvasMenuMoveFront, moveFront);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuMoveFront, moveFront);
 
-            ToolStripItem moveBack = new ToolStripMenuItem(m_resources.GetString(CanvasMenuMoveBack));
+            ToolStripItem moveBack = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuMoveBack));
             moveBack.Click += new EventHandler(MoveToBackClick);
             nodeMenu.Items.Add(moveBack);
-            m_popMenuDict.Add(CanvasMenuMoveBack, moveBack);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuMoveBack, moveBack);
 
             ToolStripSeparator separator5 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator5);
-            m_popMenuDict.Add(CanvasMenuSeparator5, separator5);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuSeparator5, separator5);
 
             // Add LayoutMenu
-            ToolStripMenuItem layout = new ToolStripMenuItem(m_resources.GetString(CanvasMenuLayout));
-            layout.Name = CanvasMenuLayout;
+            ToolStripMenuItem layout = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuLayout));
+            layout.Name = MenuConstants.CanvasMenuLayout;
             layout.DropDownItems.AddRange(CreateLayoutMenus().ToArray());
             nodeMenu.Items.Add(layout);
-            m_popMenuDict.Add(CanvasMenuLayout, layout);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuLayout, layout);
 
             ToolStripSeparator separator2 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator2);
-            m_popMenuDict.Add(CanvasMenuSeparator2, separator2);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuSeparator2, separator2);
 
             // Create Logger
-            ToolStripMenuItem createLogger = new ToolStripMenuItem(m_resources.GetString(CanvasMenuCreateLogger));
+            ToolStripMenuItem createLogger = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuCreateLogger));
             nodeMenu.Items.Add(createLogger);
-            m_popMenuDict.Add(CanvasMenuCreateLogger, createLogger);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuCreateLogger, createLogger);
 
             // Delete Logger
-            ToolStripMenuItem deleteLogger = new ToolStripMenuItem(m_resources.GetString(CanvasMenuDeleteLogger));
+            ToolStripMenuItem deleteLogger = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuDeleteLogger));
             nodeMenu.Items.Add(deleteLogger);
-            m_popMenuDict.Add(CanvasMenuDeleteLogger, deleteLogger);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuDeleteLogger, deleteLogger);
 
 #if DEBUG
             ToolStripItem debug = new ToolStripMenuItem("Debug");
@@ -537,14 +362,14 @@ namespace EcellLib.PathwayWindow
 
             // Setup menu
             ToolStripMenuItem setupItem = new ToolStripMenuItem();
-            setupItem.ToolTipText = m_resources.GetString(MenuToolTipSetup);
-            setupItem.Text = m_resources.GetString(MenuItemSetup);
+            setupItem.ToolTipText = m_resources.GetString(MenuConstants.MenuToolTipSetup);
+            setupItem.Text = m_resources.GetString(MenuConstants.MenuItemSetup);
             setupItem.Click += new EventHandler(ShowDialogClick);
 
             ToolStripMenuItem setupMenu = new ToolStripMenuItem();
             setupMenu.DropDownItems.AddRange(new ToolStripItem[] { setupItem });
-            setupMenu.Text = m_resources.GetString(MenuItemSetup);
-            setupMenu.Name = MenuItemSetup;
+            setupMenu.Text = m_resources.GetString(MenuConstants.MenuItemSetup);
+            setupMenu.Name = MenuConstants.MenuItemSetup;
 
             menuList.Add(setupMenu);
 
@@ -552,53 +377,53 @@ namespace EcellLib.PathwayWindow
             ToolStripMenuItem showIdItem = new ToolStripMenuItem();
             showIdItem.CheckOnClick = true;
             showIdItem.CheckState = CheckState.Checked;
-            showIdItem.ToolTipText = m_resources.GetString(MenuToolTipShowID);
-            showIdItem.Text = m_resources.GetString(MenuItemShowID);
+            showIdItem.ToolTipText = m_resources.GetString(MenuConstants.MenuToolTipShowID);
+            showIdItem.Text = m_resources.GetString(MenuConstants.MenuItemShowID);
             showIdItem.Click += new EventHandler(ShowIdClick);
 
             ToolStripMenuItem viewModeItem = new ToolStripMenuItem();
             viewModeItem.CheckOnClick = true;
             viewModeItem.CheckState = CheckState.Unchecked;
-            viewModeItem.ToolTipText = m_resources.GetString(MenuToolTipViewMode);
-            viewModeItem.Text = m_resources.GetString(MenuItemViewMode);
+            viewModeItem.ToolTipText = m_resources.GetString(MenuConstants.MenuToolTipViewMode);
+            viewModeItem.Text = m_resources.GetString(MenuConstants.MenuItemViewMode);
             viewModeItem.Click += new EventHandler(ViewModeClick);
 
             ToolStripMenuItem viewMenu = new ToolStripMenuItem();
             viewMenu.DropDownItems.AddRange(new ToolStripItem[] { showIdItem, viewModeItem });
-            viewMenu.Text = m_resources.GetString(MenuItemView);
-            viewMenu.Name = MenuItemView;
+            viewMenu.Text = m_resources.GetString(MenuConstants.MenuItemView);
+            viewMenu.Name = MenuConstants.MenuItemView;
 
             menuList.Add(viewMenu);
 
             // Edit menu
             ToolStripMenuItem editMenu = new ToolStripMenuItem();
-            editMenu.Text = m_resources.GetString(MenuItemEdit);
-            editMenu.Name = MenuItemEdit;
+            editMenu.Text = m_resources.GetString(MenuConstants.MenuItemEdit);
+            editMenu.Name = MenuConstants.MenuItemEdit;
 
             ToolStripMenuItem deleteMenu = new ToolStripMenuItem();
-            deleteMenu.Text = m_resources.GetString(CanvasMenuDelete);
-            deleteMenu.Name = CanvasMenuDelete;
+            deleteMenu.Text = m_resources.GetString(MenuConstants.CanvasMenuDelete);
+            deleteMenu.Name = MenuConstants.CanvasMenuDelete;
             deleteMenu.Click += new EventHandler(DeleteClick);
             deleteMenu.ShortcutKeys = Keys.Delete;
             deleteMenu.ShowShortcutKeys = true;
 
             ToolStripMenuItem cutMenu = new ToolStripMenuItem();
-            cutMenu.Text = m_resources.GetString(CanvasMenuCut);
-            cutMenu.Name = CanvasMenuCut;
+            cutMenu.Text = m_resources.GetString(MenuConstants.CanvasMenuCut);
+            cutMenu.Name = MenuConstants.CanvasMenuCut;
             cutMenu.Click += new EventHandler(CutClick);
             cutMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             cutMenu.ShowShortcutKeys = true;
 
             ToolStripMenuItem copyMenu = new ToolStripMenuItem();
-            copyMenu.Text = m_resources.GetString(CanvasMenuCopy);
-            copyMenu.Name = CanvasMenuCopy;
+            copyMenu.Text = m_resources.GetString(MenuConstants.CanvasMenuCopy);
+            copyMenu.Name = MenuConstants.CanvasMenuCopy;
             copyMenu.Click += new EventHandler(CopyClick);
             copyMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             copyMenu.ShowShortcutKeys = true;
 
             ToolStripMenuItem pasteMenu = new ToolStripMenuItem();
-            pasteMenu.Text = m_resources.GetString(CanvasMenuPaste);
-            pasteMenu.Name = CanvasMenuPaste;
+            pasteMenu.Text = m_resources.GetString(MenuConstants.CanvasMenuPaste);
+            pasteMenu.Name = MenuConstants.CanvasMenuPaste;
             pasteMenu.Click += new EventHandler(PasteClick);
             pasteMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             pasteMenu.ShowShortcutKeys = true;
@@ -608,8 +433,8 @@ namespace EcellLib.PathwayWindow
 
             // Layout menu
             ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
-            layoutMenu.Text = m_resources.GetString(MenuItemLayout);
-            layoutMenu.Name = MenuItemLayout;
+            layoutMenu.Text = m_resources.GetString(MenuConstants.MenuItemLayout);
+            layoutMenu.Name = MenuConstants.MenuItemLayout;
             layoutMenu.DropDownItems.AddRange(m_menuLayoutList.ToArray());
             menuList.Add(layoutMenu);
 
@@ -629,23 +454,23 @@ namespace EcellLib.PathwayWindow
 
             PathwayToolStripButton handButton = new PathwayToolStripButton();
             handButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            handButton.Name = ToolButtonMoveCanvas;
+            handButton.Name = MenuConstants.ToolButtonMoveCanvas;
             handButton.Image = PathwayResource.move1;
             handButton.CheckOnClick = true;
-            handButton.ToolTipText = m_resources.GetString(ToolButtonMoveCanvas);
+            handButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonMoveCanvas);
             handButton.Handle = new Handle(Mode.Pan, handleCount, new PPanEventHandler());
-            m_handleDict.Add(ToolButtonMoveCanvas, handButton.Handle);
+            m_handleDict.Add(MenuConstants.ToolButtonMoveCanvas, handButton.Handle);
             handButton.Click += new EventHandler(ButtonStateChanged);
             list.Add(handButton);
 
             PathwayToolStripButton button0 = new PathwayToolStripButton();
             button0.ImageTransparentColor = System.Drawing.Color.Magenta;
-            button0.Name = ToolButtonSelectMode;
+            button0.Name = MenuConstants.ToolButtonSelectMode;
             button0.Image = PathwayResource.arrow;
             button0.CheckOnClick = true;
-            button0.ToolTipText = m_resources.GetString(ToolButtonSelectMode);
+            button0.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonSelectMode);
             button0.Handle = new Handle(Mode.Select, handleCount, new DefaultMouseHandler(m_con));
-            m_handleDict.Add(ToolButtonSelectMode, button0.Handle);
+            m_handleDict.Add(MenuConstants.ToolButtonSelectMode, button0.Handle);
             button0.Click += new EventHandler(ButtonStateChanged);
             list.Add(button0);
 
@@ -654,34 +479,34 @@ namespace EcellLib.PathwayWindow
 
             PathwayToolStripButton arrowButton = new PathwayToolStripButton();
             arrowButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            arrowButton.Name = ToolButtonAddOnewayReaction;
+            arrowButton.Name = MenuConstants.ToolButtonAddOnewayReaction;
             arrowButton.Image = PathwayResource.arrow_long_right_w;
             arrowButton.CheckOnClick = true;
-            arrowButton.ToolTipText = m_resources.GetString(ToolButtonAddOnewayReaction);
+            arrowButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonAddOnewayReaction);
             arrowButton.Handle = new Handle(Mode.CreateOneWayReaction, handleCount, new CreateReactionMouseHandler(m_con));
-            m_handleDict.Add(ToolButtonAddOnewayReaction, arrowButton.Handle);
+            m_handleDict.Add(MenuConstants.ToolButtonAddOnewayReaction, arrowButton.Handle);
             arrowButton.Click += new EventHandler(ButtonStateChanged);
             list.Add(arrowButton);
 
             PathwayToolStripButton bidirButton = new PathwayToolStripButton();
             bidirButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            bidirButton.Name = ToolButtonAddMutualReaction;
+            bidirButton.Name = MenuConstants.ToolButtonAddMutualReaction;
             bidirButton.Image = PathwayResource.arrow_long_bidir_w;
             bidirButton.CheckOnClick = true;
-            bidirButton.ToolTipText = m_resources.GetString(ToolButtonAddMutualReaction);
+            bidirButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonAddMutualReaction);
             bidirButton.Handle = new Handle(Mode.CreateMutualReaction, handleCount, new CreateReactionMouseHandler(m_con));
-            m_handleDict.Add(ToolButtonAddMutualReaction, bidirButton.Handle);
+            m_handleDict.Add(MenuConstants.ToolButtonAddMutualReaction, bidirButton.Handle);
             bidirButton.Click += new EventHandler(ButtonStateChanged);
             list.Add(bidirButton);
 
             PathwayToolStripButton constButton = new PathwayToolStripButton();
             constButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            constButton.Name = ToolButtonAddConstant;
+            constButton.Name = MenuConstants.ToolButtonAddConstant;
             constButton.Image = PathwayResource.ten;
             constButton.CheckOnClick = true;
-            constButton.ToolTipText = m_resources.GetString(ToolButtonAddConstant);
+            constButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonAddConstant);
             constButton.Handle = new Handle(Mode.CreateConstant, handleCount, new CreateReactionMouseHandler(m_con));
-            m_handleDict.Add(ToolButtonAddConstant, constButton.Handle);
+            m_handleDict.Add(MenuConstants.ToolButtonAddConstant, constButton.Handle);
             constButton.Click += new EventHandler(ButtonStateChanged);
             list.Add(constButton);
 
@@ -697,15 +522,15 @@ namespace EcellLib.PathwayWindow
                 if (cs.ComponentType == ComponentType.System)
                 {
                     button.Handle = new Handle(Mode.CreateSystem, handleCount++, new CreateSystemMouseHandler(m_con), cs.ComponentType);
-                    button.ToolTipText = m_resources.GetString(ToolButtonCreateSystem);
+                    button.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonCreateSystem);
                 }
                 else
                 {
                     button.Handle = new Handle(Mode.CreateNode, handleCount++, new CreateNodeMouseHandler(m_con, cs), cs.ComponentType);
                     if (cs.ComponentType == ComponentType.Process)
-                        button.ToolTipText = m_resources.GetString(ToolButtonCreateProcess);
+                        button.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonCreateProcess);
                     else if(cs.ComponentType == ComponentType.Variable)
-                        button.ToolTipText = m_resources.GetString(ToolButtonCreateVariable);
+                        button.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonCreateVariable);
                 }
 
                 m_handleDict.Add(cs.Name, button.Handle);
@@ -715,20 +540,20 @@ namespace EcellLib.PathwayWindow
 
             PathwayToolStripButton zoominButton = new PathwayToolStripButton();
             zoominButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            zoominButton.Name = ToolButtonZoomIn;
+            zoominButton.Name = MenuConstants.ToolButtonZoomIn;
             zoominButton.Image = PathwayResource.zoom_in;
             zoominButton.CheckOnClick = false;
-            zoominButton.ToolTipText = m_resources.GetString(ToolButtonZoomIn);
+            zoominButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonZoomIn);
             zoominButton.Handle = new Handle(Mode.CreateConstant, handleCount, 2f);
             zoominButton.Click += new EventHandler(ZoomButton_Click);
             list.Add(zoominButton);
 
             PathwayToolStripButton zoomoutButton = new PathwayToolStripButton();
             zoomoutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            zoomoutButton.Name = ToolButtonZoomOut;
+            zoomoutButton.Name = MenuConstants.ToolButtonZoomOut;
             zoomoutButton.Image = PathwayResource.zoom_out;
             zoomoutButton.CheckOnClick = false;
-            zoomoutButton.ToolTipText = m_resources.GetString(ToolButtonZoomOut);
+            zoomoutButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonZoomOut);
             zoomoutButton.Handle = new Handle(Mode.CreateConstant, handleCount, 0.5f);
             zoomoutButton.Click += new EventHandler(ZoomButton_Click);
             list.Add(zoomoutButton);
@@ -920,17 +745,17 @@ namespace EcellLib.PathwayWindow
             // Change edgeInfo.
             RefChangeType changeType = RefChangeType.SingleDir;
             int coefficient = 0;
-            if (item.Name == MenuControl.CanvasMenuRightArrow)
+            if (item.Name == MenuConstants.CanvasMenuRightArrow)
             {
                 changeType = RefChangeType.SingleDir;
                 coefficient = 1;
             }
-            else if (item.Name == MenuControl.CanvasMenuLeftArrow)
+            else if (item.Name == MenuConstants.CanvasMenuLeftArrow)
             {
                 changeType = RefChangeType.SingleDir;
                 coefficient = -1;
             }
-            else if (item.Name == MenuControl.CanvasMenuBidirArrow)
+            else if (item.Name == MenuConstants.CanvasMenuBidirArrow)
             {
                 changeType = RefChangeType.BiDir;
                 coefficient = 0;
@@ -962,11 +787,12 @@ namespace EcellLib.PathwayWindow
 
             // Get new layer name.
             string name;
-            if (menu.Text.Equals(m_resources.GetString(MenuControl.CanvasMenuCreateLayer)))
+            if (menu.Text.Equals(m_resources.GetString(MenuConstants.CanvasMenuCreateLayer)))
             {
                 // Select Layer
                 List<string> layerList = canvas.GetLayerNameList();
-                name = SelectBoxDialog.Show(m_resources.GetString(MenuControl.CanvasMenuCreateLayer), m_resources.GetString(MenuControl.CanvasMenuCreateLayer), layerList);
+                string title = m_resources.GetString(MenuConstants.CanvasMenuCreateLayer);
+                name = SelectBoxDialog.Show(title, title, layerList);
                 if (name == null || name.Equals(""))
                     return;
                 if (!canvas.Layers.ContainsKey(name))
@@ -1141,5 +967,186 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
+    }
+
+    /// <summary>
+    /// Menu constants
+    /// </summary>
+    internal class MenuConstants
+    {
+        #region Menu Constants
+        #region CanvasPopUpMenu
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for ID
+        /// </summary>
+        internal const string CanvasMenuID = "CanvasMenuID";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for delete
+        /// </summary>
+        internal const string CanvasMenuDelete = "CanvasMenuDelete";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for copy
+        /// </summary>
+        internal const string CanvasMenuCopy = "CanvasMenuCopy";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for cut
+        /// </summary>
+        internal const string CanvasMenuCut = "CanvasMenuCut";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for paste
+        /// </summary>
+        internal const string CanvasMenuPaste = "CanvasMenuPaste";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for delete
+        /// </summary>
+        internal const string CanvasMenuMerge = "CanvasMenuMerge";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Set Layout
+        /// </summary>
+        internal const string CanvasMenuLayout = "CanvasMenuLayout";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Change Layer
+        /// </summary>
+        internal const string CanvasMenuChangeLayer = "LayerMenuChange";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Create Layer
+        /// </summary>
+        internal const string CanvasMenuCreateLayer = "LayerMenuCreate";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
+        /// </summary>
+        internal const string CanvasMenuMoveFront = "LayerMenuMoveFront";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
+        /// </summary>
+        internal const string CanvasMenuMoveBack = "LayerMenuMoveBack";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for rightArrow
+        /// </summary>
+        internal const string CanvasMenuRightArrow = "CanvasMenuRightArrow";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for leftArrow
+        /// </summary>
+        internal const string CanvasMenuLeftArrow = "CanvasMenuLeftArrow";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for bidirArrow
+        /// </summary>
+        internal const string CanvasMenuBidirArrow = "CanvasMenuBidirArrow";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for constantLine
+        /// </summary>
+        internal const string CanvasMenuConstantLine = "CanvasMenuConstantLine";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Create Logger
+        /// </summary>
+        internal const string CanvasMenuCreateLogger = "CanvasMenuCreateLogger";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for delete Logger
+        /// </summary>
+        internal const string CanvasMenuDeleteLogger = "CanvasMenuDeleteLogger";
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator1
+        /// </summary>
+        internal const string CanvasMenuSeparator1 = "CanvasMenuSeparator1";
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator2
+        /// </summary>
+        internal const string CanvasMenuSeparator2 = "CanvasMenuSeparator2";
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator3
+        /// </summary>
+        internal const string CanvasMenuSeparator3 = "CanvasMenuSeparator3";
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator4
+        /// </summary>
+        internal const string CanvasMenuSeparator4 = "CanvasMenuSeparator4";
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator5
+        /// </summary>
+        internal const string CanvasMenuSeparator5 = "CanvasMenuSeparator5";
+        #endregion
+
+        #region ToolBarMenu
+        /// <summary>
+        /// Key definition of MessageResPathway for ShowID
+        /// </summary>
+        internal const string MenuItemSetup = "MenuItemSetup";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolTipShowID
+        /// </summary>
+        internal const string MenuToolTipSetup = "MenuToolTipSetup";
+        /// <summary>
+        /// Key definition of MessageResPathway for ShowID
+        /// </summary>
+        internal const string MenuItemShowID = "MenuItemShowID";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolTipShowID
+        /// </summary>
+        internal const string MenuToolTipShowID = "MenuToolTipShowID";
+        /// <summary>
+        /// Key definition of MessageResPathway for ViewMode
+        /// </summary>
+        internal const string MenuItemViewMode = "MenuItemViewMode";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolTipViewMode
+        /// </summary>
+        internal const string MenuToolTipViewMode = "MenuToolTipViewMode";
+        /// <summary>
+        /// Key definition of MessageResPathway for MenuItemLayout
+        /// </summary>
+        internal const string MenuItemLayout = "MenuItemLayout";
+        /// <summary>
+        /// Key definition of MessageResPathway for MenuItemLayout
+        /// </summary>
+        internal const string MenuItemEdit = "MenuItemEdit";
+        /// <summary>
+        /// Key definition of MessageResPathway for MenuItemLayout
+        /// </summary>
+        internal const string MenuItemView = "MenuItemView";
+        #endregion
+
+        #region ToolButton
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonAddConstant
+        /// </summary>
+        internal const string ToolButtonAddConstant = "ToolButtonAddConstant";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonAddMutualReaction
+        /// </summary>
+        internal const string ToolButtonAddMutualReaction = "ToolButtonAddMutualReaction";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonAddOnewayReaction
+        /// </summary>
+        internal const string ToolButtonAddOnewayReaction = "ToolButtonAddOnewayReaction";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonCreateProcess
+        /// </summary>
+        internal const string ToolButtonCreateProcess = "ToolButtonCreateProcess";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonCreateSystem
+        /// </summary>
+        internal const string ToolButtonCreateSystem = "ToolButtonCreateSystem";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonCreateVariable
+        /// </summary>
+        internal const string ToolButtonCreateVariable = "ToolButtonCreateVariable";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonMoveCanvas
+        /// </summary>
+        internal const string ToolButtonMoveCanvas = "ToolButtonMoveCanvas";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonSelectMode
+        /// </summary>
+        internal const string ToolButtonSelectMode = "ToolButtonSelectMode";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonZoomIn
+        /// </summary>
+        internal const string ToolButtonZoomIn = "ToolButtonZoomIn";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonZoomOut
+        /// </summary>
+        internal const string ToolButtonZoomOut = "ToolButtonZoomOut";
+        #endregion
+        #endregion
     }
 }
