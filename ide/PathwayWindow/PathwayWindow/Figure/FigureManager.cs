@@ -36,7 +36,7 @@ namespace EcellLib.PathwayWindow.Figure
     class FigureManager
     {
         /// <summary>
-        /// Create figure.
+        /// FigureManager to create figure.
         /// </summary>
         /// <param name="type"></param>
         /// <param name="args"></param>

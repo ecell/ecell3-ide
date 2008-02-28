@@ -407,6 +407,7 @@ namespace EcellLib.PathwayWindow
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
             // Preparing system layer
             m_sysLayer = new PPathwayLayer("SystemLayer");
+            m_sysLayer.AddInputEventListener(new NodeDragHandler(this));
             AddLayer(m_sysLayer);
 
             // Preparing system ResizeHandlers
