@@ -157,9 +157,9 @@ namespace EcellLib.PathwayWindow.UIComponent
         void m_con_CanvasChange(object sender, EventArgs e)
         {
             m_dgv.DataSource = null;
-            if (m_con.CanvasControl == null)
+            if (m_con.Canvas == null)
                 return;
-            m_dgv.DataSource = m_con.CanvasControl.LayerTable;
+            m_dgv.DataSource = m_con.Canvas.LayerTable;
         }
         #endregion
 
@@ -302,7 +302,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             if (!m_dirtyEventProcessed)
             {
-                CanvasControl canvas = m_con.CanvasControl;
+                CanvasControl canvas = m_con.Canvas;
                 bool show = !(bool)((DataGridView)sender).CurrentRow.Cells["Show"].Value;
                 string layerName = (string)((DataGridView)sender).CurrentRow.Cells["Name"].Value;
 
@@ -359,7 +359,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void SelectNodesClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.CanvasControl;
+            CanvasControl canvas = m_con.Canvas;
             string name = (string)m_selectedRow.Cells[1].FormattedValue;
             canvas.SelectNodesUnderLayer(name);
         }
@@ -371,7 +371,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void MoveFrontClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.CanvasControl;
+            CanvasControl canvas = m_con.Canvas;
             string name = (string)m_selectedRow.Cells[1].FormattedValue;
             PLayer layer = canvas.Layers[name];
             canvas.LayerMoveToFront(layer);
@@ -384,7 +384,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void MoveBackClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.CanvasControl;
+            CanvasControl canvas = m_con.Canvas;
             string name = (string)m_selectedRow.Cells[1].FormattedValue;
             PLayer layer = canvas.Layers[name];
             canvas.LayerMoveToBack(layer);
@@ -397,7 +397,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void CreateLayerClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.CanvasControl;
+            CanvasControl canvas = m_con.Canvas;
             int i = 0;
             string name = null;
             do
@@ -425,7 +425,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void DeleteLayerClick(object sender, EventArgs e)
         {
             string name = (string)m_selectedRow.Cells[1].FormattedValue;
-            CanvasControl canvas = m_con.CanvasControl;
+            CanvasControl canvas = m_con.Canvas;
             canvas.DeleteLayer(name);
         }
 
@@ -436,7 +436,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void RenameLayerClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.CanvasControl;
+            CanvasControl canvas = m_con.Canvas;
             string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
             string newName = InputBoxDialog.Show(m_resources.GetString(DialogMessage), m_resources.GetString(DialogTitle), oldName);
             if (newName == null || newName.Equals(""))
@@ -458,7 +458,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void MergeLayerClick(object sender, EventArgs e)
         {
             string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
-            CanvasControl canvas = m_con.CanvasControl;
+            CanvasControl canvas = m_con.Canvas;
             List<string> list = canvas.GetLayerNameList();
             string newName = SelectBoxDialog.Show(m_resources.GetString(DialogMessage), m_resources.GetString(DialogTitle), list);
             if (newName == null || newName.Equals(""))
@@ -505,7 +505,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_cMenuDict[MenuMoveFront].Visible = false;
             m_cMenuDict[MenuMoveBack].Visible = false;
             m_cMenuDict[MenuSepalator].Visible = false;
-            m_cMenuDict[MenuCreate].Visible = (m_con.CanvasControl != null);
+            m_cMenuDict[MenuCreate].Visible = (m_con.Canvas != null);
             m_cMenuDict[MenuRename].Visible = false;
             m_cMenuDict[MenuMerge].Visible = false;
             m_cMenuDict[MenuDelete].Visible = false;

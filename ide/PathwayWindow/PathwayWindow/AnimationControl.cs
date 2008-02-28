@@ -329,9 +329,9 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void SetPropForSimulation()
         {
-            if (m_con.CanvasControl == null)
+            if (m_con.Canvas == null)
                 return;
-            m_canvas = m_con.CanvasControl;
+            m_canvas = m_con.Canvas;
             if (m_isPausing)
                 UpdatePropForSimulation();
         }

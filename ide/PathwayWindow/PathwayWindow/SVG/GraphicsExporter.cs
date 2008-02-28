@@ -50,17 +50,17 @@ namespace EcellLib.PathwayWindow.SVG
         /// <param name="filename"></param>
         public static void ExportSVG(CanvasControl canvas, string filename)
         {
+            // Start writing SVG format.
             StreamWriter writer = new StreamWriter(filename);
             writer.WriteLine(XML_HEADER);
             writer.WriteLine(CreateSVGHeader(canvas));
+            // Create brushes.
             foreach (ComponentSetting setting in canvas.PathwayControl.ComponentManager.ComponentSettings)
-            {
                 writer.WriteLine(GetGradationBrush(setting));
-            }
+            // Create SVG objects.
             foreach (PPathwayObject obj in canvas.GetAllObjects())
-            {
                 writer.WriteLine(obj.CreateSVGObject());
-            }
+            // Close SVG file.
             writer.WriteLine(SVG_FOOTER);
             writer.Flush();
             writer.Close();

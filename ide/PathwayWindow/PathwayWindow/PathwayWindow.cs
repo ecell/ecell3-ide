@@ -275,7 +275,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of menu.</returns>
         public List<ToolStripMenuItem> GetMenuStripItems()
         {
-            return m_con.MenuControl.ToolMenuList;
+            return m_con.Menu.ToolMenuList;
         }
 
         /// <summary>
@@ -284,7 +284,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of ToolBarMenu.</returns>
         public List<ToolStripItem> GetToolBarMenuStripItems()
         {
-            return m_con.MenuControl.ToolButtonList;
+            return m_con.Menu.ToolButtonList;
         }
 
         /// <summary>

@@ -112,9 +112,9 @@ namespace EcellLib.PathwayWindow.UIComponent
         void m_con_CanvasChange(object sender, EventArgs e)
         {
             this.groupBox.Controls.Clear();
-            if (m_con.CanvasControl == null)
+            if (m_con.Canvas == null)
                 return;
-            PCanvas canvas = m_con.CanvasControl.OverviewCanvas;
+            PCanvas canvas = m_con.Canvas.OverviewCanvas;
             this.groupBox.Controls.Add(canvas);
         }
         #endregion

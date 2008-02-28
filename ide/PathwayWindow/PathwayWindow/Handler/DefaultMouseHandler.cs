@@ -96,7 +96,7 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
 
             m_isDragged = true;
-            CanvasControl canvas = m_con.CanvasControl;
+            CanvasControl canvas = m_con.Canvas;
             canvas.FocusNode = null;
             canvas.ResetSelectedObjects();
             if (e.Button == MouseButtons.Left)
@@ -133,7 +133,7 @@ namespace EcellLib.PathwayWindow.Handler
             if (m_selectedPath == null || !m_isDragged)
                 return;
 
-            CanvasControl canvas = m_con.CanvasControl;
+            CanvasControl canvas = m_con.Canvas;
             m_selectedPath.Reset();
             RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
             m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);

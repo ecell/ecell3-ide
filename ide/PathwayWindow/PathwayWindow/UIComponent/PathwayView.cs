@@ -83,14 +83,14 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void m_con_CanvasChange(object sender, EventArgs e)
         {
             this.Controls.Clear();
-            if (m_con.CanvasControl == null)
+            if (m_con.Canvas == null)
                 return;
-            PCanvas canvas = m_con.CanvasControl.PathwayCanvas;
+            PCanvas canvas = m_con.Canvas.PathwayCanvas;
 
             m_scrolCtrl.Canvas = canvas;
             this.Controls.Add(canvas);
             this.Controls.Add(m_scrolCtrl);
-            this.Text = m_con.CanvasControl.ModelID;
+            this.Text = m_con.Canvas.ModelID;
             this.TabText = this.Text;
         }
 
@@ -117,7 +117,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
-            if (m_con.CanvasControl == null)
+            if (m_con.Canvas == null)
                 return;
             this.PerformLayout();
         }

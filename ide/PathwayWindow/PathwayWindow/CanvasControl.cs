@@ -1431,9 +1431,9 @@ namespace EcellLib.PathwayWindow
                 obj.ViewMode = m_isViewMode;
             }
             if (m_isViewMode)
-                m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.AnimationControl.ViewBGBrush);
+                m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.Animation.ViewBGBrush);
             else
-                m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.AnimationControl.NormalBGBrush);
+                m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.Animation.NormalBGBrush);
         }
     }
 }
