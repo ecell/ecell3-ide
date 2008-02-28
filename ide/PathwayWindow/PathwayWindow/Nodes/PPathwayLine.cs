@@ -36,7 +36,7 @@ using System.Drawing;
 using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo.Event;
-using EcellLib.PathwayWindow.SVG;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.Nodes
 {

@@ -98,8 +98,10 @@
     <Compile Include="Enums.cs" />
     <Compile Include="Exceptions\DuplicateKeyException.cs" />
     <Compile Include="Figure\FigureManager.cs" />
+    <Compile Include="Figure\IFigure.cs" />
     <Compile Include="Figure\RoundedRectangle.cs" />
     <Compile Include="Figure\SystemRectangle.cs" />
+    <Compile Include="Graphic\BrushManager.cs" />
     <Compile Include="Handler\CreateReactionMouseHandler.cs" />
     <Compile Include="CanvasControl.cs" />
     <Compile Include="ComponentSetting.cs" />
@@ -130,8 +132,8 @@
     <Compile Include="Exceptions\NoSuchComponentKindException.cs" />
     <Compile Include="Exceptions\PathwayException.cs" />
     <Compile Include="Nodes\PPathwayLine.cs" />
-    <Compile Include="SVG\GraphicsExporter.cs" />
-    <Compile Include="SVG\SVGUtil.cs" />
+    <Compile Include="Graphic\GraphicsExporter.cs" />
+    <Compile Include="Graphic\SVGUtil.cs" />
     <Compile Include="UIComponent\InputBoxDialog.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -41,7 +41,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="type"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static FigureBase CreateFigure(string type, string args)
+        public static IFigure CreateFigure(string type, string args)
         {
             switch (type)
             {

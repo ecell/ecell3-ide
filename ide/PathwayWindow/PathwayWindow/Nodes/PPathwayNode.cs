@@ -89,7 +89,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Figure List
         /// </summary>
-        protected FigureBase m_tempFigure = null;
+        protected IFigure m_tempFigure = null;
         #endregion
 
         #region Accessors
@@ -289,7 +289,7 @@ namespace EcellLib.PathwayWindow.Nodes
             // Set Figure List
             if (base.m_setting == null)
                 return base.CenterPointF;
-            FigureBase figure;
+            IFigure figure;
             if (m_isViewMode && this is PPathwayProcess)
                 figure = m_tempFigure;
             else

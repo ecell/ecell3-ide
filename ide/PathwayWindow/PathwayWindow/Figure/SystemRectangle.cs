@@ -32,11 +32,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.SVG;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.Figure
 {
-    class SystemRectangle : FigureBase
+    class SystemRectangle : FigureBase, IFigure
     {
         /// <summary>
         /// Figure type.

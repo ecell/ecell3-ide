@@ -32,18 +32,16 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.SVG;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.Figure
 {
     /// <summary>
     /// Concrete classe which extended FigureBase stands for 
     /// </summary>
-    public class FigureBase
+    public class FigureBase : IFigure
     {
         #region Fields
         /// <summary>
@@ -127,7 +125,7 @@ namespace EcellLib.PathwayWindow.Figure
         }
 
         /// <summary>
-        /// type string.
+        /// Coordinates string.
         /// </summary>
         public string Coordinates
         {

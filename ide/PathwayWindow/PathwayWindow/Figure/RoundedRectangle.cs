@@ -32,11 +32,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.SVG;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.Figure
 {
-    class RoundedRectangle : FigureBase
+    class RoundedRectangle : FigureBase, IFigure
     {
         private const float roundness = 0.1f;
         /// <summary>

@@ -34,7 +34,7 @@ using System.IO;
 using System.Text;
 using EcellLib.PathwayWindow.Nodes;
 
-namespace EcellLib.PathwayWindow.SVG
+namespace EcellLib.PathwayWindow.Graphic
 {
     /// <summary>
     /// SVGExPorter

@@ -47,7 +47,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using EcellLib.PathwayWindow.Nodes;
 using System.Diagnostics;
-using EcellLib.PathwayWindow.SVG;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow
 {

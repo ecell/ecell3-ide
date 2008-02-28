@@ -1,4 +1,4 @@
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
 //        This file is part of E-Cell Environment Application package
 //
@@ -32,75 +32,57 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using EcellLib.PathwayWindow.Figure;
 using System.Drawing;
-using EcellLib.PathwayWindow;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.Figure
 {
     /// <summary>
-    /// FigureBase for a rectangle
+    /// Interface class of Figure objects.
     /// </summary>
-    public class RectangleFigure : FigureBase, IFigure
+    public interface IFigure
     {
         /// <summary>
-        /// Figure type.
+        /// X coordinate of this figure.
         /// </summary>
-        public new const string TYPE = "Rectangle";
-
-        #region Constructors
-        /// <summary>
-        /// Constructor with no params.
-        /// </summary>
-        public RectangleFigure()
-        {
-            Initialize(0, 0, 1, 1, TYPE);
-        }
+        float X { get; set; }
 
         /// <summary>
-        /// Constructor with params.
+        /// Y coordinate of this figure.
+        /// </summary>
+        float Y { get; set; }
+        /// <summary>
+        /// Width of this figure.
+        /// </summary>
+        float Width { get; set; }
+        /// <summary>
+        /// Height of this figure.
+        /// </summary>
+        float Height { get; set; }
+        /// <summary>
+        /// Coordinates string.
+        /// </summary>
+        string Coordinates { get; }
+        /// <summary>
+        /// Type string.
+        /// </summary>
+        string Type { get; set; }
+        /// <summary>
+        /// Accessor for m_gp.
+        /// </summary>
+        GraphicsPath GraphicsPath { get; }
+        /// <summary>
+        /// Create new GraphicsPath for the icon image.
+        /// </summary>
+        GraphicsPath IconPath { get; }
+        /// <summary>
+        /// Create new GraphicsPath
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public RectangleFigure(float x, float y, float width, float height)
-        {
-            Initialize(x, y, width, height, TYPE);
-        }
-
-        /// <summary>
-        /// Constructor with float array.
-        /// </summary>
-        /// <param name="vars"></param>
-        public RectangleFigure(float[] vars)
-        {
-            if (vars.Length >= 4)
-                Initialize(vars[0], vars[1], vars[2], vars[3], TYPE);
-            else
-                Initialize(0, 0, 1, 1, TYPE);
-        }
-
-        /// <summary>
-        /// Create GraphicsPath
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <returns></returns>
-        public override GraphicsPath CreatePath(float x, float y, float width, float height)
-        {
-            GraphicsPath path = new GraphicsPath();
-            RectangleF rect = new RectangleF(x, y, width, height);
-            path.AddRectangle(rect);
-            return path;
-        }
-
+        GraphicsPath CreatePath(float x, float y, float width, float height);
         /// <summary>
         /// Create SVG object.
         /// </summary>
@@ -108,12 +90,13 @@ namespace EcellLib.PathwayWindow.Figure
         /// <param name="lineBrush"></param>
         /// <param name="fillBrush"></param>
         /// <returns></returns>
-        public override string CreateSVGObject(RectangleF rect, string lineBrush, string fillBrush)
-        {
-            string obj = SVGUtil.Rectangle(rect, lineBrush, fillBrush);
-            return obj;
-        }
-
-        #endregion
+        string CreateSVGObject(RectangleF rect, string lineBrush, string fillBrush);
+        /// <summary>
+        /// Return a contact point between an outer point and an inner point.
+        /// </summary>
+        /// <param name="outerPoint"></param>
+        /// <param name="innerPoint"></param>
+        /// <returns></returns>
+        PointF GetContactPoint(PointF outerPoint, PointF innerPoint);
     }
 }

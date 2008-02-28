@@ -37,6 +37,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using EcellLib.PathwayWindow.UIComponent;
 using System.Diagnostics;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow
 {

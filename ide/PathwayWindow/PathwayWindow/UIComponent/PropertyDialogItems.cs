@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {

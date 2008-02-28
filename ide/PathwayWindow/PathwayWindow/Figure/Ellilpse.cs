@@ -36,14 +36,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.SVG;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.Figure
 {
     /// <summary>
     /// FigureBase for an ellipse.
     /// </summary>
-    public class EllipseFigure : FigureBase
+    public class EllipseFigure : FigureBase, IFigure
     {
         /// <summary>
         /// Figure type.

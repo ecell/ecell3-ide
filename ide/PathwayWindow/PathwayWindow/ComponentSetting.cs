@@ -33,15 +33,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Drawing.Drawing2D;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.Text;
+using EcellLib.PathwayWindow.Exceptions;
 using EcellLib.PathwayWindow.Figure;
+using EcellLib.PathwayWindow.Graphic;
 using EcellLib.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo.Util;
-using EcellLib.PathwayWindow.Exceptions;
-using System.IO;
-using System.Diagnostics;
 
 namespace EcellLib.PathwayWindow
 {
@@ -75,12 +76,12 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// A FigureBase for Edit Mode.
         /// </summary>
-        private FigureBase m_editFigure = null;
+        private IFigure m_editFigure = null;
 
         /// <summary>
         /// A FigureBase for View Mode.
         /// </summary>
-        private FigureBase m_viewFigure = null;
+        private IFigure m_viewFigure = null;
 
         /// <summary>
         /// True if gradation Brush is available.
@@ -256,7 +257,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_figure.
         /// </summary>
-        public FigureBase EditModeFigure
+        public IFigure EditModeFigure
         {
             get { return this.m_editFigure; }
             set

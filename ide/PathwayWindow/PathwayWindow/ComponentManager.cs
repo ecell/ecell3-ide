@@ -46,6 +46,7 @@ using EcellLib.PathwayWindow.Figure;
 using System.Diagnostics;
 using EcellLib.PathwayWindow.UIComponent;
 using System.Drawing.Drawing2D;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow
 {
