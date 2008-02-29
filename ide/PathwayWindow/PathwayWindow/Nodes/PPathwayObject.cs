@@ -551,6 +551,15 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// Change View Mode.
+        /// </summary>
+        public virtual void RefreshView()
+        {
+            SetFillBrush();
+            Refresh();
+        }
+
+        /// <summary>
         /// Refresh Text contents of this object.
         /// </summary>
         protected virtual void RefreshText()
@@ -559,6 +568,17 @@ namespace EcellLib.PathwayWindow.Nodes
                 this.m_pText.Text = this.m_ecellObj.Text;
             this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
             this.m_pText.MoveToFront();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void SetTextVisiblity()
+        {
+            if (m_showingId)
+                m_pText.Visible = true;
+            else
+                m_pText.Visible = false;
         }
 
         /// <summary>
@@ -576,26 +596,6 @@ namespace EcellLib.PathwayWindow.Nodes
         public virtual void Unfreeze()
         {
             this.Pickable = m_isPickableBeforeFreeze;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected virtual void SetTextVisiblity()
-        {
-            if (m_showingId)
-                m_pText.Visible = true;
-            else
-                m_pText.Visible = false;
-        }
-
-        /// <summary>
-        /// Change View Mode.
-        /// </summary>
-        public virtual void RefreshView()
-        {
-            SetFillBrush();
-            Refresh();
         }
 
         /// <summary>

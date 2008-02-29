@@ -44,7 +44,7 @@ namespace EcellLib.Analysis
     /// <summary>
     /// Plugin class to manage the result and parameter of analysis.
     /// </summary>
-    public class Analysis : PluginBase
+    public class Analysis : IEcellPlugin
     {
         #region Fields
         /// <summary>

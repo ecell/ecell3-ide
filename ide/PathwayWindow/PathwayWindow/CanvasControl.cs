@@ -1097,8 +1097,8 @@ namespace EcellLib.PathwayWindow
             // Set Layer
             SetLayer(obj);
             // Set visibility
-            obj.Refresh();
             obj.ViewMode = m_isViewMode;
+            obj.RefreshView();
         }
         /// <summary>
         /// event sequence of deleting the object.

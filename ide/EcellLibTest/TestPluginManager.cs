@@ -3,6 +3,7 @@ namespace EcellLib
     using System;
     using NUnit.Framework;
     using System.Collections.Generic;
+    using EcellLib;
 
 
     [TestFixture()]
@@ -35,7 +36,7 @@ namespace EcellLib
         {
             string modelID = null;
             string key = null;
-            PluginBase pbase = null;
+            IEcellPlugin pbase = null;
             _unitUnderTest.FocusDataChanged(modelID, key, pbase);
             Assert.Fail("Create or modify test(s).");
 
@@ -178,7 +179,7 @@ namespace EcellLib
         [Test()]
         public void TestAddPlugin()
         {
-            PluginBase p = null;
+            IEcellPlugin p = null;
             _unitUnderTest.AddPlugin(p);
             Assert.Fail("Create or modify test(s).");
 
@@ -277,8 +278,8 @@ namespace EcellLib
         {
             string path = null;
             string className = null;
-            PluginBase expectedPluginBase = null;
-            PluginBase resultPluginBase = _unitUnderTest.LoadPlugin(path, className);
+            IEcellPlugin expectedPluginBase = null;
+            IEcellPlugin resultPluginBase = _unitUnderTest.LoadPlugin(path, className);
             Assert.AreEqual(expectedPluginBase, resultPluginBase, "LoadPlugin method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
@@ -287,7 +288,7 @@ namespace EcellLib
         [Test()]
         public void TestUnloadPlugin()
         {
-            PluginBase p = null;
+            IEcellPlugin p = null;
             _unitUnderTest.UnloadPlugin(p);
             Assert.Fail("Create or modify test(s).");
 
@@ -326,8 +327,8 @@ namespace EcellLib
         public void TestGetPlugin()
         {
             string name = null;
-            PluginBase expectedPluginBase = null;
-            PluginBase resultPluginBase = null;
+            IEcellPlugin expectedPluginBase = null;
+            IEcellPlugin resultPluginBase = null;
             resultPluginBase = _unitUnderTest.GetPlugin(name);
             Assert.AreEqual(expectedPluginBase, resultPluginBase, "GetPlugin method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");

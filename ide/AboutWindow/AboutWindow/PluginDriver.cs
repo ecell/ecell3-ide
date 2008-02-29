@@ -20,8 +20,8 @@ namespace EcellLib.AboutWindow
         public PluginDriver()
         {
             InitializeComponent();
-                        
-            PluginBase pb = new AboutWindow();
+
+            IEcellPlugin pb = new AboutWindow();
             
             //MenuÇâ¡Ç¶ÇÈÅB
             List<ToolStripMenuItem> menuList = pb.GetMenuStripItems();

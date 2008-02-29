@@ -37,7 +37,7 @@ using System.Reflection;
 
 namespace EcellLib.SearchWindow
 {
-    class SearchWindow : PluginBase
+    class SearchWindow : IEcellPlugin
     {
         #region Fields
         /// <summary>

@@ -48,7 +48,7 @@ namespace EcellLib.StaticDebugWindow
     /// <summary>
     /// Controls the static debug.
     /// </summary>
-    public class StaticDebugWindow : PluginBase
+    public class StaticDebugWindow : IEcellPlugin
     {
         #region Fields
         /// <summary>

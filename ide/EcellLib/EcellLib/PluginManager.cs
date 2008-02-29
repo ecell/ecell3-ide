@@ -78,11 +78,11 @@ namespace EcellLib
         /// <summary>
         /// m_pluginList (loaded plugin list)
         /// </summary>
-        private Dictionary<string, PluginBase> m_pluginList;
+        private Dictionary<string, IEcellPlugin> m_pluginList;
         /// <summary>
         /// m_pluginDic (map between plugin and data)
         /// </summary>
-        private Dictionary<PluginData, List<PluginBase>> m_pluginDic;
+        private Dictionary<PluginData, List<IEcellPlugin>> m_pluginDic;
         /// <summary>
         /// m_printDoc (Print Document with .NET framework)
         /// </summary>
@@ -130,8 +130,8 @@ namespace EcellLib
             this.m_printDoc = new PrintDocument();
             this.m_printDoc.PrintPage += 
                     new PrintPageEventHandler(this.printDoc_PrintPage);
-            this.m_pluginList = new Dictionary<string, PluginBase>();
-            this.m_pluginDic = new Dictionary<PluginData,List<PluginBase>>();
+            this.m_pluginList = new Dictionary<string, IEcellPlugin>();
+            this.m_pluginDic = new Dictionary<PluginData,List<IEcellPlugin>>();
             this.m_dialog = new System.Windows.Forms.PrintDialog();
 
             // default image type
@@ -190,12 +190,12 @@ namespace EcellLib
         /// <param name="modelID">the model ID of data that plugin focus on.</param>
         /// <param name="key">the key ID of data that plugin focus on.</param>
         /// <param name="pbase">the plugin that focus on data.</param>
-        public void FocusDataChanged(string modelID, string key, PluginBase pbase)
+        public void FocusDataChanged(string modelID, string key, IEcellPlugin pbase)
         {
             PluginData ent = new PluginData(modelID, key);
             if (m_pluginDic.ContainsKey(ent))
             {
-                List<PluginBase> pList = m_pluginDic[ent];
+                List<IEcellPlugin> pList = m_pluginDic[ent];
                 if (!pList.Contains(pbase))
                 {
                     pList.Add(pbase);
@@ -220,7 +220,7 @@ namespace EcellLib
         /// <param name="type">selected the data type</param>
         public void SelectChanged(string modelID, string key, string type)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.SelectChanged(modelID, key, type);
             }
@@ -234,7 +234,7 @@ namespace EcellLib
         /// <param name="type">Type of object added to selected objects.</param>
         public void AddSelect(string modelID, string key, string type)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.AddSelect(modelID, key, type);
             }
@@ -248,7 +248,7 @@ namespace EcellLib
         /// <param name="type">Type of object removed from selected objects.</param>
         public void RemoveSelect(string modelID, string key, string type)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.RemoveSelect(modelID, key, type);
             }
@@ -259,7 +259,7 @@ namespace EcellLib
         /// </summary>
         public void ResetSelect()
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.ResetSelect();
             }
@@ -275,7 +275,7 @@ namespace EcellLib
         /// <param name="data">the simulation result.</param>
         public void LogData(string modelID, string key, string type, string propName, List<LogData> data)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.LogData(modelID, key, type, propName, data);
             }
@@ -290,7 +290,7 @@ namespace EcellLib
         /// <param name="data">changed value of data</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.DataChanged(modelID, key, type, data);
             }
@@ -302,7 +302,7 @@ namespace EcellLib
         /// <param name="data">value of the adding object</param>
         public void DataAdd(List<EcellObject> data)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.DataAdd(data);
             }
@@ -316,7 +316,7 @@ namespace EcellLib
         /// <param name="type">the deleting data type</param>
         public void DataDelete(string modelID, string key, string type)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.DataDelete(modelID, key, type);
             }            
@@ -329,7 +329,7 @@ namespace EcellLib
         /// <param name="paramID">The added model ID.</param>
         public void ParameterAdd(string projectID, string paramID)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.ParameterAdd(projectID, paramID);
             }  
@@ -342,7 +342,7 @@ namespace EcellLib
         /// <param name="paramID">The deleted model ID.</param>
         public void ParameterDelete(string projectID, string paramID)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.ParameterDelete(projectID, paramID);
             }
@@ -355,7 +355,7 @@ namespace EcellLib
         /// <param name="paramID">The set model ID.</param>
         public void ParameterSet(string projectID, string paramID)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.ParameterSet(projectID, paramID);
             }
@@ -370,7 +370,7 @@ namespace EcellLib
         /// <param name="warntype">the type of warning data</param>
         public void WarnData(string modelID, string key, string type, string warntype)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.WarnData(modelID, key, type, warntype);
             }
@@ -396,7 +396,7 @@ namespace EcellLib
         /// add the plugin to plugin list.
         /// </summary>
         /// <param name="p">plugin</param>
-        public void AddPlugin(PluginBase p)
+        public void AddPlugin(IEcellPlugin p)
         {
             m_pluginList.Add(p.GetPluginName(), p);
         }
@@ -412,7 +412,7 @@ namespace EcellLib
             // plugin base list show
             PrintPluginDialog d = new PrintPluginDialog();
 
-            foreach (KeyValuePair<string, PluginBase> kvp in m_pluginList)
+            foreach (KeyValuePair<string, IEcellPlugin> kvp in m_pluginList)
             {
                 List<string> names = kvp.Value.GetEnablePrintNames();
                 foreach (string name in names)
@@ -448,7 +448,7 @@ namespace EcellLib
         /// </summary>
         public void Clear()
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.Clear();
             }
@@ -463,7 +463,7 @@ namespace EcellLib
         /// <param name="path">The property name of object changed value.</param>
         public void LoggerAdd(string modelID, string type, string key, string path)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.LoggerAdd(modelID, type, key, path);
             }
@@ -475,7 +475,7 @@ namespace EcellLib
         /// <param name="time">current simulation time</param>
         public void AdvancedTime(double time)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.AdvancedTime(time);
             }
@@ -488,7 +488,7 @@ namespace EcellLib
         /// <param name="message">message of executing simulation, debug, analysis and so on</param>
         public void Message(string type, string message)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 if (p.IsMessageWindow())
                 {
@@ -504,7 +504,7 @@ namespace EcellLib
         /// <param name="path">output directory.</param>
         public void SaveModel(string modelID, string path)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.SaveModel(modelID, path);
             }
@@ -539,7 +539,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="path">path of plugin dll.</param>
         /// <param name="className">class name.</param>
-        public PluginBase LoadPlugin(string path, string className)
+        public IEcellPlugin LoadPlugin(string path, string className)
         {
             Assembly handle = Assembly.LoadFile(path);
             Type aType = handle.GetType(className);
@@ -553,7 +553,7 @@ namespace EcellLib
                     null
                 );
 
-                PluginBase p = (PluginBase)anAllocator;
+                IEcellPlugin p = (IEcellPlugin)anAllocator;
                 if (!m_pluginList.ContainsKey(p.GetPluginName()))
                 {
                     m_pluginList.Add(p.GetPluginName(), p);
@@ -571,7 +571,7 @@ namespace EcellLib
         /// Unload the plugin and release the plugin.
         /// </summary>
         /// <param name="p">the unloading plugin data</param>
-        public void UnloadPlugin(PluginBase p)
+        public void UnloadPlugin(IEcellPlugin p)
         {
             if (m_pluginList.ContainsKey(p.GetPluginName()))
             {
@@ -595,7 +595,7 @@ namespace EcellLib
         /// <param name="type">system type</param>
         public void ChangeStatus(ProjectStatus type)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.ChangeStatus(type);
             }
@@ -607,7 +607,7 @@ namespace EcellLib
         /// <param name="status"></param>
         public void ChangeUndoStatus(UndoStatus status)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.ChangeUndoStatus(status);
             }
@@ -618,9 +618,9 @@ namespace EcellLib
         /// </summary>
         /// <param name="name">name of plugin</param>
         /// <returns>the plugin. if not find the plugin, return null.</returns>
-        public PluginBase GetPlugin(string name)
+        public IEcellPlugin GetPlugin(string name)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 if (p.GetPluginName().Equals(name))
                     return p;
@@ -695,7 +695,7 @@ namespace EcellLib
         public Dictionary<String, String> GetPluginVersionList()
         {
             Dictionary<String, String> result = new Dictionary<String, String>();
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 result.Add(p.GetPluginName(), p.GetVersionString());
             }
@@ -722,7 +722,7 @@ namespace EcellLib
         /// <param name="e"></param>
         private void printDoc_PrintPage(object sender, PrintPageEventArgs e)
         {
-            PluginBase p = m_pluginList[m_printBase];
+            IEcellPlugin p = m_pluginList[m_printBase];
             if (p != null)
             {
                 Bitmap bitmap = p.Print(m_printName);
@@ -740,7 +740,7 @@ namespace EcellLib
         /// <param name="data">EcellObject, whose position will be set</param>
         public void SetPosition(EcellObject data)
         {
-            foreach (PluginBase p in m_pluginList.Values)
+            foreach (IEcellPlugin p in m_pluginList.Values)
                 p.SetPosition(data);
         }
     }

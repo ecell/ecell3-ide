@@ -65,7 +65,7 @@ namespace EcellLib.PathwayWindow
     /// <summary>
     /// PathwayWindow plugin
     /// </summary>
-    public class PathwayWindow : PluginBase
+    public class PathwayWindow : IEcellPlugin
     {
         #region Fields
         /// <summary>

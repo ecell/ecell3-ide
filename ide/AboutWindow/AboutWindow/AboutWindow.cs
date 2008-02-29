@@ -42,7 +42,7 @@ namespace EcellLib.AboutWindow
     /// <summary>
     /// About window plguin.
     /// </summary>
-    public class AboutWindow : PluginBase
+    public class AboutWindow : IEcellPlugin
     {
         ToolStripMenuItem MenuItemAboutPlatform;
 

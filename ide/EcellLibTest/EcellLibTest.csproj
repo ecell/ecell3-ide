@@ -44,8 +44,8 @@
     <Compile Include="TestPluginManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="EcellLib" />
     <Reference Include="nunit.framework, Version=2.4.6.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="EcellLib" />
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>

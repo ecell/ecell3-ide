@@ -45,7 +45,7 @@ namespace EcellLib.TracerWindow
     /// <summary>
     /// Plugin Class of TracerWindow.
     /// </summary>
-    public class TracerWindow : PluginBase
+    public class TracerWindow : IEcellPlugin
     {
         #region Fields
         /// <summary>

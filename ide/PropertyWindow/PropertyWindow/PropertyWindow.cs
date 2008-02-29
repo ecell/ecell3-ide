@@ -46,7 +46,7 @@ namespace EcellLib.PropertyWindow
     /// <summary>
     /// The Plugin Class to show property of object.
     /// </summary>
-    public class PropertyWindow : PluginBase
+    public class PropertyWindow : IEcellPlugin
     {
         #region Fields
         /// <summary>

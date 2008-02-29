@@ -13,7 +13,7 @@ namespace EcellLib.Simulation
     /// </summary>
     public partial class PluginDriver : Form
     {
-        PluginBase pb = null;
+        IEcellPlugin pb = null;
 
         /// <summary>
         /// constructor.

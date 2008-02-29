@@ -41,7 +41,7 @@ namespace EcellLib.MessageWindow
     /// <summary>
     /// The plugin to show message.
     /// </summary>
-    public class MessageWindow : PluginBase
+    public class MessageWindow : IEcellPlugin
     {
         #region Fields
         /// <summary>

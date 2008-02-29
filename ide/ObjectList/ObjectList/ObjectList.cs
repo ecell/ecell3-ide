@@ -47,7 +47,7 @@ namespace EcellLib.ObjectList
     /// <summary>
     /// Plugin class to display object by list.
     /// </summary>
-    public class ObjectList : PluginBase
+    public class ObjectList : IEcellPlugin
     {
         #region Fields
         /// <summary>

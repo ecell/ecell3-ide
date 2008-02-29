@@ -18,7 +18,7 @@ namespace EcellLib.ObjectList
     {
         private PrintDocument printDocument1 = null;
 
-        private PluginBase pb = null;
+        private IEcellPlugin pb = null;
 
         /// <summary>
         /// Constructor.

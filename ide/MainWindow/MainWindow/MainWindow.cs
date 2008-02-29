@@ -53,7 +53,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace EcellLib.MainWindow
 {
-    public partial class MainWindow : Form, PluginBase
+    public partial class MainWindow : Form, IEcellPlugin
     {
         #region Readonly Fields 
         /// <summary>
@@ -431,7 +431,7 @@ namespace EcellLib.MainWindow
         /// <param name="path">path of plugin.</param>
         void LoadPlugin(string path)
         {
-            PluginBase pb = null;
+            IEcellPlugin pb = null;
             string pName = Path.GetFileNameWithoutExtension(path);
             string className = "EcellLib." + pName + "." + pName;
 

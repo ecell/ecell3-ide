@@ -44,7 +44,7 @@ namespace EcellLib.Simulation
     /// <summary>
     /// Plugin class to manager simulation.
     /// </summary>
-    public class Simulation : PluginBase
+    public class Simulation : IEcellPlugin
     {
         #region Fields
         /// <summary>

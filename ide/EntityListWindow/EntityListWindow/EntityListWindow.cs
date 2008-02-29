@@ -45,7 +45,7 @@ namespace EcellLib.EntityListWindow
     /// <summary>
     /// Plugin of EntityListWindow.
     /// </summary>
-    public class EntityListWindow : PluginBase
+    public class EntityListWindow : IEcellPlugin
     {
         #region Fields
         /// <summary>
