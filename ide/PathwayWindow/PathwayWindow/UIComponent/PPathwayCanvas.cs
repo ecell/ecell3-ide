@@ -259,7 +259,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="line"></param>
         private void SetLineMenu(PPathwayLine line)
         {
-
             m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuRightArrow].Enabled = !(line.Info.Direction == EdgeDirection.Outward);
             m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuLeftArrow].Enabled = !(line.Info.Direction == EdgeDirection.Inward);
             m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuBidirArrow].Enabled = !(line.Info.Direction == EdgeDirection.Bidirection);

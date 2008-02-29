@@ -121,6 +121,30 @@ namespace EcellLib.PathwayWindow.Handler
         {
             get { return m_line4reconnect; }
         }
+        /// <summary>
+        /// Set ProPoint of reconnectLine.
+        /// </summary>
+        public PointF ProPoint
+        {
+            get { return m_line4reconnect.ProPoint; }
+            set
+            {
+                m_lineHandle4P.Offset = value;
+                m_line4reconnect.ProPoint = value;
+            }
+        }
+        /// <summary>
+        /// Set VarPoint of reconnectLine.
+        /// </summary>
+        public PointF VarPoint
+        {
+            get { return m_line4reconnect.VarPoint; }
+            set
+            {
+                m_lineHandle4V.Offset = value;
+                m_line4reconnect.VarPoint = value;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -167,11 +191,11 @@ namespace EcellLib.PathwayWindow.Handler
             m_lineHandle4V.Offset = PointF.Empty;
             m_lineHandle4P.Offset = PointF.Empty;
 
-            m_lineHandle4V.X = m_selectedLine.VarPoint.X - LINE_HANDLE_RADIUS;
-            m_lineHandle4V.Y = m_selectedLine.VarPoint.Y - LINE_HANDLE_RADIUS;
+            m_lineHandle4V.OffsetX = m_selectedLine.VarPoint.X;
+            m_lineHandle4V.OffsetY = m_selectedLine.VarPoint.Y;
 
-            m_lineHandle4P.X = m_selectedLine.ProPoint.X - LINE_HANDLE_RADIUS;
-            m_lineHandle4P.Y = m_selectedLine.ProPoint.Y - LINE_HANDLE_RADIUS;
+            m_lineHandle4P.OffsetX = m_selectedLine.ProPoint.X;
+            m_lineHandle4P.OffsetY = m_selectedLine.ProPoint.Y;
 
             // Create Reconnect line
             m_line4reconnect.Reset();
@@ -199,23 +223,10 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         public void ResetLinePosition()
         {
-            if (null == m_selectedLine)
-                return;
-            PointF varPoint = m_selectedLine.VarPoint;
-            PointF proPoint = m_selectedLine.ProPoint;
-
-            m_lineHandle4V.Offset = PointF.Empty;
-            m_lineHandle4V.X = varPoint.X - LINE_HANDLE_RADIUS;
-            m_lineHandle4V.Y = varPoint.Y - LINE_HANDLE_RADIUS;
-
-            m_lineHandle4P.Offset = PointF.Empty;
-            m_lineHandle4P.X = proPoint.X - LINE_HANDLE_RADIUS;
-            m_lineHandle4P.Y = proPoint.Y - LINE_HANDLE_RADIUS;
-
             // Create line
             m_line4reconnect.Reset();
-            m_line4reconnect.VarPoint = varPoint;
-            m_line4reconnect.ProPoint = proPoint;
+            m_line4reconnect.VarPoint = m_lineHandle4V.Offset;
+            m_line4reconnect.ProPoint = m_lineHandle4P.Offset;
             m_line4reconnect.DrawLine();
             //m_canvas.Processes[m_selectedLine.Info.ProcessKey].Refresh();
         }
@@ -258,14 +269,8 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
 
             m_line4reconnect.Reset();
-            PointF ppoint = new PointF(
-                LINE_HANDLE_RADIUS + m_lineHandle4P.X + m_lineHandle4P.OffsetX,
-                LINE_HANDLE_RADIUS + m_lineHandle4P.Y + m_lineHandle4P.OffsetY);
-            PointF vpoint = new PointF(
-                LINE_HANDLE_RADIUS + m_lineHandle4V.X + m_lineHandle4V.OffsetX,
-                LINE_HANDLE_RADIUS + m_lineHandle4V.Y + m_lineHandle4V.OffsetY);
-            m_line4reconnect.ProPoint = ppoint;
-            m_line4reconnect.VarPoint = vpoint;
+            m_line4reconnect.ProPoint = m_lineHandle4P.Offset;
+            m_line4reconnect.VarPoint = m_lineHandle4V.Offset;
             m_line4reconnect.DrawLine();
         }
 
@@ -278,11 +283,10 @@ namespace EcellLib.PathwayWindow.Handler
         {
             // Check exception.
             PPathwayObject obj = m_canvas.GetPickedObject(e.Position);
-            if (m_selectedLine == null
-                || obj == null
-                || !(obj is PPathwayNode))
+            if (m_selectedLine == null || obj == null || !(obj is PPathwayNode))
             {
                 ResetLinePosition();
+                SetLineVisibility(false);
                 return;
             }
 
@@ -358,8 +362,8 @@ namespace EcellLib.PathwayWindow.Handler
                 base.Brush = new SolidBrush(Color.FromArgb(125, Color.Orange));
                 base.Pen = new Pen(Brushes.DarkCyan, 1);
                 base.AddEllipse(
-                    0,
-                    0,
+                    -LINE_HANDLE_RADIUS,
+                    -LINE_HANDLE_RADIUS,
                     2 * LINE_HANDLE_RADIUS,
                     2 * LINE_HANDLE_RADIUS);
             }

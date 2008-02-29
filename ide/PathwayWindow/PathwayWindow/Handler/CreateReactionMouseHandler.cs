@@ -54,7 +54,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Used to draw line to connect.
         /// </summary>
-        private static readonly Pen LINE_THICK_PEN = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 5);
+        private static readonly Pen LINE_THICK_PEN = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 3);
 
         /// <summary>
         /// Currently selected node.
@@ -85,7 +85,10 @@ namespace EcellLib.PathwayWindow.Handler
             base.OnMouseDown(sender, e);
 
             CanvasControl canvas = m_con.Canvas;
-            PPathwayNode newNode = e.PickedNode as PPathwayNode;
+            PPathwayObject picked = canvas.GetPickedObject(e.Position);
+            PPathwayNode newNode = null;
+            if (picked is PPathwayNode)
+                newNode = (PPathwayNode)picked;
             // Reset node.
             if (newNode == null)
             {
@@ -135,8 +138,17 @@ namespace EcellLib.PathwayWindow.Handler
                 this.CreateEdge(process, variable, 2);
             }
             SetCurrent(canvas, null);
+            canvas.LineHandler.SetLineVisibility(false);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void OnMouseDrag(object sender, PInputEventArgs e)
+        {
+            base.OnMouseDrag(sender, e);
+        }
         /// <summary>
         /// Called when the mouse is moving on the canvas
         /// </summary>
@@ -144,33 +156,35 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         public override void OnMouseMove(object sender, PInputEventArgs e)
         {
+            base.OnMouseMove(sender, e);
             if (m_current == null)
                 return;
 
-            base.OnMouseMove(sender, e);
-            PointF contactP = m_current.GetContactPoint(e.Position);
+            // Get Line Type
+            LineType type;
+            if (m_con.SelectedHandle.Mode == Mode.CreateConstant)
+                type = LineType.Dashed;
+            else
+                type = LineType.Solid;
 
+            // Get Line Direction
+            EdgeDirection direction;
+            if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
+                direction = EdgeDirection.Bidirection;
+            else if (m_con.SelectedHandle.Mode == Mode.CreateOneWayReaction)
+                direction = EdgeDirection.Outward;
+            else 
+                direction = EdgeDirection.None;
+
+            // Set Line
             CanvasControl canvas = m_current.CanvasControl;
             PPathwayLine line = canvas.LineHandler.Line4Reconnect;
-            line.Reset();
-
-            // Set Line Type
-            if (m_con.SelectedHandle.Mode == Mode.CreateConstant)
-                line.Info.TypeOfLine = LineType.Dashed;
-            else
-                line.Info.TypeOfLine = LineType.Solid;
-
-            // Set Line Direction
-            if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
-                line.Info.Direction = EdgeDirection.Bidirection;
-            else if (m_con.SelectedHandle.Mode == Mode.CreateOneWayReaction)
-                line.Info.Direction = EdgeDirection.Outward;
-            else 
-                line.Info.Direction = EdgeDirection.None;
-
-            line.ProPoint = contactP;
-            line.VarPoint = e.Position;
-            line.DrawLine();
+            line.Info.TypeOfLine = type;
+            line.Info.Direction = direction;
+            canvas.LineHandler.VarPoint = e.Position;
+            canvas.LineHandler.ProPoint = m_current.GetContactPoint(e.Position);
+            canvas.LineHandler.ResetLinePosition();
+            canvas.LineHandler.SetLineVisibility(true);
         }
         #endregion
 
@@ -214,14 +228,14 @@ namespace EcellLib.PathwayWindow.Handler
             if (node != null)
             {
                 canvas.AddNodeToBeConnected(node);
-                canvas.LineHandler.Line4Reconnect.Pen = LINE_THICK_PEN;
-                canvas.LineHandler.SetLineVisibility(true);
+                //canvas.LineHandler.Line4Reconnect.Pen = LINE_THICK_PEN;
+                //canvas.LineHandler.SetLineVisibility(true);
             }
             else
             {
-                canvas.LineHandler.Line4Reconnect.Reset();
                 canvas.ResetNodeToBeConnected();
-                canvas.LineHandler.SetLineVisibility(false);
+                //canvas.LineHandler.Line4Reconnect.Reset();
+                //canvas.LineHandler.SetLineVisibility(false);
             }
         }
         
