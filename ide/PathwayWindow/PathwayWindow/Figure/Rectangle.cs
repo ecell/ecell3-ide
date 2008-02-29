@@ -45,7 +45,7 @@ namespace EcellLib.PathwayWindow.Figure
     /// <summary>
     /// FigureBase for a rectangle
     /// </summary>
-    public class RectangleFigure : FigureBase, IFigure
+    public class RectangleFigure : FigureBase
     {
         /// <summary>
         /// Figure type.

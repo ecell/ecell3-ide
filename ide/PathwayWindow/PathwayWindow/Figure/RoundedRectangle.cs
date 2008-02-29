@@ -36,7 +36,7 @@ using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.Figure
 {
-    class RoundedRectangle : FigureBase, IFigure
+    class RoundedRectangle : FigureBase
     {
         private const float roundness = 0.1f;
         /// <summary>

@@ -65,41 +65,13 @@ namespace EcellLib.PathwayWindow
     /// <summary>
     /// PathwayWindow plugin
     /// </summary>
-    public class PathwayWindow : IEcellPlugin
+    public class PathwayWindow : PluginBase
     {
         #region Fields
         /// <summary>
         /// PathwayControl, which contains and controls all GUI-related objects.
         /// </summary>
         PathwayControl m_con;
-
-        /// <summary>
-        /// m_dManager (DataManager)
-        /// </summary>
-        private DataManager m_dManager;
-
-        /// <summary>
-        /// m_dManager (DataManager)
-        /// </summary>
-        private PluginManager m_pManager;
-        #endregion
-
-        #region Accessors
-        /// <summary>
-        /// Returns the DataManager instance associated to this plugin.
-        /// </summary>
-        public DataManager DataManager
-        {
-            get { return m_dManager; }
-        }
-
-        /// <summary>
-        /// Returns the PluginManager instance associated to this plugin.
-        /// </summary>
-        public PluginManager PluginManager
-        {
-            get { return m_pManager; }
-        }
         #endregion
 
         #region Constructor
@@ -270,10 +242,28 @@ namespace EcellLib.PathwayWindow
 
         #region Inherited from IEcellPlugin
         /// <summary>
+        /// Get the name of this plugin.
+        /// </summary>
+        /// <returns>"PathwayWindow"</returns> 
+        public override string GetPluginName()
+        {
+            return "PathwayWindow";
+        }
+
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
+        public override string GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
+        /// <summary>
         /// Get menustrips for PathwayWindow plugin.
         /// </summary>
         /// <returns>the list of menu.</returns>
-        public List<ToolStripMenuItem> GetMenuStripItems()
+        public override List<ToolStripMenuItem> GetMenuStripItems()
         {
             return m_con.Menu.ToolMenuList;
         }
@@ -282,7 +272,7 @@ namespace EcellLib.PathwayWindow
         /// Get toolbar buttons for PathwayWindow plugin.
         /// </summary>
         /// <returns>the list of ToolBarMenu.</returns>
-        public List<ToolStripItem> GetToolBarMenuStripItems()
+        public override List<ToolStripItem> GetToolBarMenuStripItems()
         {
             return m_con.Menu.ToolButtonList;
         }
@@ -293,7 +283,7 @@ namespace EcellLib.PathwayWindow
         /// PathwayWindow get it and attach some delegates to them and pass it to PluginManager.
         /// </summary>
         /// <returns>UserControl with pathway canvases, etc.</returns>
-        public List<EcellDockContent> GetWindowsForms()
+        public override List<EcellDockContent> GetWindowsForms()
         {
             List<EcellDockContent> list = new List<EcellDockContent>();
             list.Add(m_con.PathwayView);
@@ -304,54 +294,47 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// The event sequence on advancing time.
+        /// Check whether this plugin can print display image.
         /// </summary>
-        /// <param name="time">The current simulation time.</param>
-        public void AdvancedTime(double time)
+        /// <returns>true.</returns>
+        public override List<string> GetEnablePrintNames()
         {
+            List<string> names = new List<string>();
+            names.Add("Network of model.");
+            return names;
+        }
+
+        /// <summary>
+        /// Get bitmap that converts display image on this plugin.
+        /// </summary>
+        /// <returns>The bitmap data of plugin.</returns>
+        public override Bitmap Print(string name)
+        {
+            return m_con.Print();
         }
 
         /// <summary>
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="status">System status.</param>
-        public void ChangeStatus(ProjectStatus status)
+        public override void ChangeStatus(ProjectStatus status)
         {
             m_con.ChangeStatus(status);
         }
 
         /// <summary>
-        /// Change availability of undo/redo status
-        /// </summary>
-        /// <param name="status"></param>
-        public void ChangeUndoStatus(UndoStatus status)
-        {
-            // Nothing should be done.
-        }
-
-        /// <summary>
         /// The event sequence on closing project.
         /// </summary>
-        public void Clear()
+        public override void Clear()
         {
-            //if (!m_hasComponentSetting)
-            //    return;
-
-            try
-            {
-                m_con.Clear();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            m_con.Clear();
         }
 
         /// <summary>
         /// Called by PluginManager for newly added EcellObjects on the core.
         /// </summary>
         /// <param name="data">List of EcellObjects to be added</param>
-        public void DataAdd(List<EcellObject> data)
+        public override void DataAdd(List<EcellObject> data)
         {
             if (data == null || data.Count == 0)
                 return;
@@ -365,7 +348,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="key">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
         /// <param name="data">Changed value of object.</param>
-        public void DataChanged(string modelID, string key, string type, EcellObject data)
+        public override void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             // Null Check.
             if (String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(key) || String.IsNullOrEmpty(type))
@@ -388,7 +371,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="modelID">The model ID of deleted object.</param>
         /// <param name="key">The ID of deleted object.</param>
         /// <param name="type">The object type of deleted object.</param>
-        public void DataDelete(string modelID, string key, string type)
+        public override void DataDelete(string modelID, string key, string type)
         {
             if (type == null)
                 return;
@@ -398,105 +381,11 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// The event sequence when the simulation parameter is added.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The added parameter ID.</param>
-        public void ParameterAdd(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is deleted.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterDelete(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is set.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterSet(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>true.</returns>
-        public List<string> GetEnablePrintNames()
-        {
-            List<string> names = new List<string>();
-            names.Add("Network of model.");
-            return names;
-        }
-
-        /// <summary>
-        /// Check whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>false.</returns>
-        public bool IsMessageWindow()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// The event sequence on changing value with the simulation.
-        /// </summary>
-        /// <param name="modelID">The model ID of object changed value.</param>
-        /// <param name="key">The ID of object changed value.</param>
-        /// <param name="type">The object type of object changed value.</param>
-        /// <param name="propName">The property name of object changed value.</param>
-        /// <param name="log">a list of LogData</param>
-        public void LogData(string modelID, string key, string type, string propName, List<LogData> log)
-        {
-        }
-
-        /// <summary>
-        /// The event sequence on adding the logger at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="key">The ID.</param>
-        /// <param name="type">The data type.</param>
-        /// <param name="path">The path of entity.</param>
-        public void LoggerAdd(string modelID, string type, string key, string path)
-        {
-        }
-
-        /// <summary>
-        /// The execution log of simulation, debug and analysis.
-        /// </summary>
-        /// <param name="type">Log type.</param>
-        /// <param name="message">Message.</param>
-        public void Message(string type, string message)
-        {
-        }
-
-        /// <summary>
-        /// Get bitmap that converts display image on this plugin.
-        /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>
-        public Bitmap Print(string name)
-        {
-            if (m_con != null)
-                return m_con.Print();
-            else
-                return new Bitmap(1,1);
-        }
-
-        /// <summary>
         /// When save the model, plugin save the specified information of model using only this plugin.
         /// </summary>
         /// <param name="modelID">the id of saved model.</param>
         /// <param name="directory">the directory of save.</param>
-        public void SaveModel(string modelID, string directory)
+        public override void SaveModel(string modelID, string directory)
         {
             // Error Check
             if(String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(directory))
@@ -510,7 +399,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
         /// <param name="type">Selected the data type.</param>
-        public void SelectChanged(string modelID, string key, string type)
+        public override void SelectChanged(string modelID, string key, string type)
         {
             m_con.SelectChanged(modelID, key, type);
         }
@@ -521,66 +410,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="modelID">ModelID of object added to selected objects.</param>
         /// <param name="key">ID of object added to selected objects.</param>
         /// <param name="type">Type of object added to selected objects.</param>
-        public void AddSelect(string modelID, string key, string type)
+        public override void AddSelect(string modelID, string key, string type)
         {
             m_con.AddSelect(modelID, key, type);
-        }
-
-        /// <summary>
-        /// The event process when user remove object from the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
-        /// <param name="key">ID of object removed from selected objects.</param>
-        /// <param name="type">Type of object removed from selected objects.</param>
-        public void RemoveSelect(string modelID, string key, string type)
-        {
-            // not implement
-        }
-
-        /// <summary>
-        /// Reset all selected objects.
-        /// </summary>
-        public void ResetSelect()
-        {
-            // not implement
-        }
-
-        /// <summary>
-        /// The event sequence on generating warning data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID generating warning data.</param>
-        /// <param name="key">The ID generating warning data.</param>
-        /// <param name="type">The data type generating warning data.</param>
-        /// <param name="warntype">The type of waring data.</param>
-        public void WarnData(string modelID, string key, string type, string warntype)
-        {
-        }
-
-        /// <summary>
-        /// Get the name of this plugin.
-        /// </summary>
-        /// <returns>"PathwayWindow"</returns> 
-        public string GetPluginName()
-        {
-            return "PathwayWindow";
-        }
-
-        /// <summary>
-        /// Get version of this plugin.
-        /// </summary>
-        /// <returns>version</returns>
-        public String GetVersionString()
-        {
-            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-
-        /// <summary>
-        /// Set the position of EcellObject.
-        /// Actually, nothing will be done by this plugin.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        public void SetPosition(EcellObject data)
-        {
         }
         #endregion
     }

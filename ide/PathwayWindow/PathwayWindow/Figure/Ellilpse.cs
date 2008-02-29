@@ -43,7 +43,7 @@ namespace EcellLib.PathwayWindow.Figure
     /// <summary>
     /// FigureBase for an ellipse.
     /// </summary>
-    public class EllipseFigure : FigureBase, IFigure
+    public class EllipseFigure : FigureBase
     {
         /// <summary>
         /// Figure type.

@@ -27,6 +27,10 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -37,7 +41,7 @@ using System.Reflection;
 namespace EcellLib
 {
     /// <summary>
-    /// Interface of plugin.
+    /// Interface of plugins on ECell IDE.
     /// </summary>
     public abstract class PluginBase : IEcellPlugin
     {
@@ -83,7 +87,25 @@ namespace EcellLib
         #endregion
 
         #region Inherited methods from IEcellPlugin.
-        #region Methods to return plugin objects.
+        #region Methods to return objects or answer.
+        /// <summary>
+        /// Get the name of this plugin.
+        /// </summary>
+        /// <returns>""</returns>
+        public virtual string GetPluginName()
+        {
+            return "PluginBase";
+        }
+
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
+        public virtual string GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
         /// <summary>
         /// Get menustrips for each plugin.
         /// </summary>
@@ -114,15 +136,6 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// cCeck whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>false</returns>
-        public virtual bool IsMessageWindow()
-        {
-            return false; 
-        }
-
-        /// <summary>
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>false.</returns>
@@ -141,64 +154,24 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// Get the name of this plugin.
+        /// cCeck whether this plugin is MessageWindow.
         /// </summary>
-        /// <returns>""</returns>
-        public virtual string GetPluginName()
+        /// <returns>false</returns>
+        public virtual bool IsMessageWindow()
         {
-            return "PluginBase";
-        }
-
-        /// <summary>
-        /// Get the version of this plugin.
-        /// </summary>
-        /// <returns>version string.</returns>
-        public virtual string GetVersionString()
-        {
-            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            return false; 
         }
         #endregion
 
         #region Methods to receive events.
+        #region Methods to handle EcellObject.
         /// <summary>
-        /// The event sequence on changing selected object at other plugin.
+        /// The event sequence to add the object at other plugin.
         /// </summary>
-        /// <param name="modelID">Selected the model ID.</param>
-        /// <param name="key">Selected the ID.</param>
-        /// <param name="type">Selected the data type.</param>
-        public virtual void SelectChanged(string modelID, string key, string type)
+        /// <param name="data">The value of the adding object.</param>
+        public virtual void DataAdd(List<EcellObject> data)
         {
-            return;
-        }
-
-        /// <summary>
-        /// The event process when user add the object to the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object added to selected objects.</param>
-        /// <param name="key">ID of object added to selected objects.</param>
-        /// <param name="type">Type of object added to selected objects.</param>
-        public virtual void AddSelect(string modelID, string key, string type)
-        {
-            return;
-        }
-
-        /// <summary>
-        /// The event process when user remove object from the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
-        /// <param name="key">ID of object removed from selected objects.</param>
-        /// <param name="type">Type of object removed from selected objects.</param>
-        public virtual void RemoveSelect(string modelID, string key, string type)
-        {
-            return;
-        }
-
-        /// <summary>
-        /// Reset all selected objects.
-        /// </summary>
-        public virtual void ResetSelect()
-        {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -210,16 +183,7 @@ namespace EcellLib
         /// <param name="data">Changed value of object.</param>
         public virtual void DataChanged(string modelID, string key, string type, EcellObject data)
         {
-            return;
-        }
-
-        /// <summary>
-        /// The event sequence to add the object at other plugin.
-        /// </summary>
-        /// <param name="data">The value of the adding object.</param>
-        public virtual void DataAdd(List<EcellObject> data)
-        {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -230,7 +194,58 @@ namespace EcellLib
         /// <param name="type">The object type of deleted object.</param>
         public virtual void DataDelete(string modelID, string key, string type)
         {
-            return;
+            // not implement
+        }
+
+        /// <summary>
+        /// Set the position of EcellObject.
+        /// </summary>
+        /// <param name="data">EcellObject, whose position will be set</param>
+        public virtual void SetPosition(EcellObject data)
+        {
+            // not implement
+        }
+        #endregion
+
+        /// <summary>
+        /// The event sequence on changing selected object at other plugin.
+        /// </summary>
+        /// <param name="modelID">Selected the model ID.</param>
+        /// <param name="key">Selected the ID.</param>
+        /// <param name="type">Selected the data type.</param>
+        public virtual void SelectChanged(string modelID, string key, string type)
+        {
+            // not implement
+        }
+
+        /// <summary>
+        /// The event process when user add the object to the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object added to selected objects.</param>
+        /// <param name="key">ID of object added to selected objects.</param>
+        /// <param name="type">Type of object added to selected objects.</param>
+        public virtual void AddSelect(string modelID, string key, string type)
+        {
+            // not implement
+        }
+
+        /// <summary>
+        /// The event process when user remove object from the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
+        /// <param name="key">ID of object removed from selected objects.</param>
+        /// <param name="type">Type of object removed from selected objects.</param>
+        public virtual void RemoveSelect(string modelID, string key, string type)
+        {
+            // not implement
+        }
+
+        /// <summary>
+        /// Reset all selected objects.
+        /// </summary>
+        public virtual void ResetSelect()
+        {
+            // not implement
         }
 
         /// <summary>
@@ -240,7 +255,7 @@ namespace EcellLib
         /// <param name="parameterID">The added parameter ID/</param>
         public virtual void ParameterAdd(string projectID, string parameterID)
         {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -250,7 +265,7 @@ namespace EcellLib
         /// <param name="parameterID">The deleted parameter ID.</param>
         public virtual void ParameterDelete(string projectID, string parameterID)
         {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -260,7 +275,7 @@ namespace EcellLib
         /// <param name="parameterID">The set parameter ID.</param>
         public virtual void ParameterSet(string projectID, string parameterID)
         {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -273,7 +288,7 @@ namespace EcellLib
         /// <param name="data">Changed value of object.</param>
         public virtual void LogData(string modelID, string key, string type, string propName, List<LogData> data)
         {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -285,7 +300,7 @@ namespace EcellLib
         /// <param name="warntype">The type of waring data.</param>
         public virtual void WarnData(string modelID, string key, string type, string warntype)
         {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -297,7 +312,7 @@ namespace EcellLib
         /// <param name="path">The path of entity.</param>
         public virtual void LoggerAdd(string modelID, string type, string key, string path)
         {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -307,7 +322,7 @@ namespace EcellLib
         /// <param name="message">Message.</param>
         public virtual void Message(string type, string message)
         {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -316,7 +331,7 @@ namespace EcellLib
         /// <param name="time">The current simulation time.</param>
         public virtual void AdvancedTime(double time)
         {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -326,7 +341,7 @@ namespace EcellLib
         /// <param name="type">System status.</param>
         public virtual void ChangeStatus(ProjectStatus type)
         {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -335,7 +350,7 @@ namespace EcellLib
         /// <param name="status"></param>
         public virtual void ChangeUndoStatus(UndoStatus status)
         {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -345,7 +360,7 @@ namespace EcellLib
         /// <param name="directory">A saved file must be under this directory </param>
         public virtual void SaveModel(string modelID, string directory)
         {
-            return;
+            // not implement
         }
 
         /// <summary>
@@ -353,16 +368,7 @@ namespace EcellLib
         /// </summary>        
         public virtual void Clear()
         {
-            return;
-        }
-
-        /// <summary>
-        /// Set the position of EcellObject.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        public virtual void SetPosition(EcellObject data)
-        {
-            return;
+            // not implement
         }
         #endregion
         #endregion

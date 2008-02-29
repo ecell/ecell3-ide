@@ -36,7 +36,7 @@ using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.Figure
 {
-    class SystemRectangle : FigureBase, IFigure
+    class SystemRectangle : FigureBase
     {
         /// <summary>
         /// Figure type.

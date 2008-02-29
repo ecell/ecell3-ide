@@ -27,6 +27,10 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -40,6 +44,20 @@ namespace EcellLib
     /// </summary>
     public interface IEcellPlugin
     {
+        #region Methods to return answer or objects.
+        /// <summary>
+        /// Get the name of this plugin.
+        /// PluginName MUST BE unique.
+        /// </summary>
+        /// <returns>""</returns>
+        string GetPluginName();
+
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
+        string GetVersionString();
+
         /// <summary>
         /// Get menustrips for each plugin.
         /// </summary>
@@ -59,6 +77,55 @@ namespace EcellLib
         /// <returns>UserControl.</returns>
         //List<UserControl> GetWindowsForms();
         List<EcellDockContent> GetWindowsForms();
+
+        /// <summary>
+        /// Check whether this plugin can print display image.
+        /// </summary>
+        /// <returns>false.</returns>
+        List<String> GetEnablePrintNames();
+
+        /// <summary>
+        /// Get bitmap that converts display image on this plugin.
+        /// </summary>
+        /// <returns>The bitmap data of plugin.</returns>   
+        Bitmap Print(string name);
+
+        /// <summary>
+        /// cCeck whether this plugin is MessageWindow.
+        /// </summary>
+        /// <returns>false</returns>
+        bool IsMessageWindow();
+        #endregion
+
+        #region Methods to receive events.
+        /// <summary>
+        /// The event sequence to add the object at other plugin.
+        /// </summary>
+        /// <param name="data">The value of the adding object.</param>
+        void DataAdd(List<EcellObject> data);
+
+        /// <summary>
+        /// The event sequence on changing value of data at other plugin.
+        /// </summary>
+        /// <param name="modelID">The model ID before value change.</param>
+        /// <param name="key">The ID before value change.</param>
+        /// <param name="type">The data type before value change.</param>
+        /// <param name="data">Changed value of object.</param>
+        void DataChanged(string modelID, string key, string type, EcellObject data);
+
+        /// <summary>
+        /// The event sequence on deleting the object at other plugin.
+        /// </summary>
+        /// <param name="modelID">The model ID of deleted object.</param>
+        /// <param name="key">The ID of deleted object.</param>
+        /// <param name="type">The object type of deleted object.</param>
+        void DataDelete(string modelID, string key, string type);
+
+        /// <summary>
+        /// Set the position of EcellObject.
+        /// </summary>
+        /// <param name="data">EcellObject, whose position will be set</param>
+        void SetPosition(EcellObject data);
 
         /// <summary>
         /// The event sequence on changing selected object at other plugin.
@@ -88,29 +155,6 @@ namespace EcellLib
         /// Reset all selected objects.
         /// </summary>
         void ResetSelect();
-
-        /// <summary>
-        /// The event sequence on changing value of data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID before value change.</param>
-        /// <param name="key">The ID before value change.</param>
-        /// <param name="type">The data type before value change.</param>
-        /// <param name="data">Changed value of object.</param>
-        void DataChanged(string modelID, string key, string type, EcellObject data);
-
-        /// <summary>
-        /// The event sequence to add the object at other plugin.
-        /// </summary>
-        /// <param name="data">The value of the adding object.</param>
-        void DataAdd(List<EcellObject> data);
-
-        /// <summary>
-        /// The event sequence on deleting the object at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID of deleted object.</param>
-        /// <param name="key">The ID of deleted object.</param>
-        /// <param name="type">The object type of deleted object.</param>
-        void DataDelete(string modelID, string key, string type);
 
         /// <summary>
         /// The event sequence when the user add the simulation parameter.
@@ -197,42 +241,6 @@ namespace EcellLib
         /// The event sequence on closing project.
         /// </summary>        
         void Clear();
-
-        /// <summary>
-        /// cCeck whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>false</returns>
-        bool IsMessageWindow();
-
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>false.</returns>
-        List<String> GetEnablePrintNames();
-
-        /// <summary>
-        /// Get bitmap that converts display image on this plugin.
-        /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>   
-        Bitmap Print(string name);
-
-        /// <summary>
-        /// Get the name of this plugin.
-        /// PluginName MUST BE unique.
-        /// </summary>
-        /// <returns>""</returns>
-        string GetPluginName();
-
-        /// <summary>
-        /// Get the version of this plugin.
-        /// </summary>
-        /// <returns>version string.</returns>
-        string GetVersionString();
-
-        /// <summary>
-        /// Set the position of EcellObject.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        void SetPosition(EcellObject data);
+        #endregion
     }
 }

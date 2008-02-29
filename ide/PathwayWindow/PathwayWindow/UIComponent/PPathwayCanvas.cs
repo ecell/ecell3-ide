@@ -131,8 +131,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             base.OnMouseUp(e);
 
-            if (m_con == null)
-                return;
             if (e.Button != MouseButtons.Right)
                 return;
 
@@ -160,13 +158,18 @@ namespace EcellLib.PathwayWindow.UIComponent
                 if (obj.EcellObject.Key.Equals("/"))
                     isRoot = true;
             }
+            if (isLine)
+            {
+                PPathwayLine line = (PPathwayLine)m_canvas.FocusNode;
+                SetLineMenu(line);
+            }
 
             // Show ObjectID(key).
             m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuID].Visible = isPPathwayObject;
             m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuSeparator1].Visible = isPPathwayObject;
             // Show Layout menus.
             m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuLayout].Visible = isLayoutMenu;
-            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuSeparator2].Visible = isLayoutMenu && (isPPathwayObject || isLine || isCopiedObject);
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuSeparator2].Visible = isLayoutMenu && (isPPathwayObject || isCopiedObject);
             // Show Line menus.
             m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuRightArrow].Visible = isLine;
             m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuLeftArrow].Visible = isLine;
@@ -249,6 +252,18 @@ namespace EcellLib.PathwayWindow.UIComponent
             ToolStripMenuItem createNewLayer = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuCreateLayer));
             createNewLayer.Click += new EventHandler(m_con.Menu.ChangeLeyerClick);
             layerMenu.DropDown.Items.Add(createNewLayer);
+        }
+        /// <summary>
+        /// Set line menu.
+        /// </summary>
+        /// <param name="line"></param>
+        private void SetLineMenu(PPathwayLine line)
+        {
+
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuRightArrow].Enabled = !(line.Info.Direction == EdgeDirection.Outward);
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuLeftArrow].Enabled = !(line.Info.Direction == EdgeDirection.Inward);
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuBidirArrow].Enabled = !(line.Info.Direction == EdgeDirection.Bidirection);
+            m_con.Menu.PopupMenuDict[MenuConstants.CanvasMenuConstantLine].Enabled = !(line.Info.Direction == EdgeDirection.None);
         }
     }
 }
