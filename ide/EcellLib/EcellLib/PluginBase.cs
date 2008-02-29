@@ -32,25 +32,75 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace EcellLib
 {
     /// <summary>
     /// Interface of plugin.
     /// </summary>
-    public interface PluginBase
+    public abstract class PluginBase : IEcellPlugin
     {
+        #region Fields
+        /// <summary>
+        /// m_dManager (DataManager)
+        /// </summary>
+        protected DataManager m_dManager;
+
+        /// <summary>
+        /// m_dManager (DataManager)
+        /// </summary>
+        protected PluginManager m_pManager;
+        #endregion
+
+        #region Accessors
+        /// <summary>
+        /// Returns the DataManager instance associated to this plugin.
+        /// </summary>
+        public DataManager DataManager
+        {
+            get { return m_dManager; }
+        }
+
+        /// <summary>
+        /// Returns the PluginManager instance associated to this plugin.
+        /// </summary>
+        public PluginManager PluginManager
+        {
+            get { return m_pManager; }
+        }
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// The constructor
+        /// </summary>
+        public PluginBase()
+        {
+            m_dManager = DataManager.GetDataManager();
+            m_pManager = PluginManager.GetPluginManager();
+        }
+        #endregion
+
+        #region Inherited methods from IEcellPlugin.
+        #region Methods to return plugin objects.
         /// <summary>
         /// Get menustrips for each plugin.
         /// </summary>
         /// <returns>null.</returns>
-        List<ToolStripMenuItem> GetMenuStripItems();
+        public virtual List<ToolStripMenuItem> GetMenuStripItems()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Get toolbar buttons for each plugin.
         /// </summary>
         /// <returns>null</returns>
-        List<ToolStripItem> GetToolBarMenuStripItems();
+        public virtual List<ToolStripItem> GetToolBarMenuStripItems()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Get the window forms of each plugin.
@@ -58,15 +108,68 @@ namespace EcellLib
         /// </summary>
         /// <returns>UserControl.</returns>
         //List<UserControl> GetWindowsForms();
-        List<EcellDockContent> GetWindowsForms();
+        public virtual List<EcellDockContent> GetWindowsForms()
+        {
+            return null;
+        }
 
+        /// <summary>
+        /// cCeck whether this plugin is MessageWindow.
+        /// </summary>
+        /// <returns>false</returns>
+        public virtual bool IsMessageWindow()
+        {
+            return false; 
+        }
+
+        /// <summary>
+        /// Check whether this plugin can print display image.
+        /// </summary>
+        /// <returns>false.</returns>
+        public virtual List<String> GetEnablePrintNames()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Get bitmap that converts display image on this plugin.
+        /// </summary>
+        /// <returns>The bitmap data of plugin.</returns>   
+        public virtual Bitmap Print(string name)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Get the name of this plugin.
+        /// </summary>
+        /// <returns>""</returns>
+        public virtual string GetPluginName()
+        {
+            return "PluginBase";
+        }
+
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
+        public virtual string GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+        #endregion
+
+        #region Methods to receive events.
         /// <summary>
         /// The event sequence on changing selected object at other plugin.
         /// </summary>
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
         /// <param name="type">Selected the data type.</param>
-        void SelectChanged(string modelID, string key, string type);
+        public virtual void SelectChanged(string modelID, string key, string type)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event process when user add the object to the selected objects.
@@ -74,7 +177,10 @@ namespace EcellLib
         /// <param name="modelID">ModelID of object added to selected objects.</param>
         /// <param name="key">ID of object added to selected objects.</param>
         /// <param name="type">Type of object added to selected objects.</param>
-        void AddSelect(string modelID, string key, string type);
+        public virtual void AddSelect(string modelID, string key, string type)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event process when user remove object from the selected objects.
@@ -82,12 +188,18 @@ namespace EcellLib
         /// <param name="modelID">ModelID of object removed from seleted objects.</param>
         /// <param name="key">ID of object removed from selected objects.</param>
         /// <param name="type">Type of object removed from selected objects.</param>
-        void RemoveSelect(string modelID, string key, string type);
+        public virtual void RemoveSelect(string modelID, string key, string type)
+        {
+            return;
+        }
 
         /// <summary>
         /// Reset all selected objects.
         /// </summary>
-        void ResetSelect();
+        public virtual void ResetSelect()
+        {
+            return;
+        }
 
         /// <summary>
         /// The event sequence on changing value of data at other plugin.
@@ -96,13 +208,19 @@ namespace EcellLib
         /// <param name="key">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
         /// <param name="data">Changed value of object.</param>
-        void DataChanged(string modelID, string key, string type, EcellObject data);
+        public virtual void DataChanged(string modelID, string key, string type, EcellObject data)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event sequence to add the object at other plugin.
         /// </summary>
         /// <param name="data">The value of the adding object.</param>
-        void DataAdd(List<EcellObject> data);
+        public virtual void DataAdd(List<EcellObject> data)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event sequence on deleting the object at other plugin.
@@ -110,28 +228,40 @@ namespace EcellLib
         /// <param name="modelID">The model ID of deleted object.</param>
         /// <param name="key">The ID of deleted object.</param>
         /// <param name="type">The object type of deleted object.</param>
-        void DataDelete(string modelID, string key, string type);
+        public virtual void DataDelete(string modelID, string key, string type)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event sequence when the user add the simulation parameter.
         /// </summary>
         /// <param name="projectID">The current project ID.</param>
         /// <param name="parameterID">The added parameter ID/</param>
-        void ParameterAdd(string projectID, string parameterID);
+        public virtual void ParameterAdd(string projectID, string parameterID)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event sequence when the user delete the simulation parameter.
         /// </summary>
         /// <param name="projectID">The current project ID.</param>
         /// <param name="parameterID">The deleted parameter ID.</param>
-        void ParameterDelete(string projectID, string parameterID);
+        public virtual void ParameterDelete(string projectID, string parameterID)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event sequence when the user set the simulation parameter.
         /// </summary>
         /// <param name="projectID">The current project ID.</param>
         /// <param name="parameterID">The set parameter ID.</param>
-        void ParameterSet(string projectID, string parameterID);
+        public virtual void ParameterSet(string projectID, string parameterID)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event sequence on changing value with the simulation.
@@ -141,7 +271,10 @@ namespace EcellLib
         /// <param name="type">The object type of object changed value.</param>
         /// <param name="propName">The property name of object changed value.</param>
         /// <param name="data">Changed value of object.</param>
-        void LogData(string modelID, string key, string type, string propName, List<LogData> data);
+        public virtual void LogData(string modelID, string key, string type, string propName, List<LogData> data)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event sequence on generating warning data at other plugin.
@@ -150,7 +283,10 @@ namespace EcellLib
         /// <param name="key">The ID generating warning data.</param>
         /// <param name="type">The data type generating warning data.</param>
         /// <param name="warntype">The type of waring data.</param>
-        void WarnData(string modelID, string key, string type, string warntype);
+        public virtual void WarnData(string modelID, string key, string type, string warntype)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event sequence on adding the logger at other plugin.
@@ -159,79 +295,76 @@ namespace EcellLib
         /// <param name="key">The ID.</param>
         /// <param name="type">The data type.</param>
         /// <param name="path">The path of entity.</param>
-        void LoggerAdd(string modelID, string type, string key, string path);
+        public virtual void LoggerAdd(string modelID, string type, string key, string path)
+        {
+            return;
+        }
 
         /// <summary>
         /// The execution log of simulation, debug and analysis.
         /// </summary>
         /// <param name="type">Log type.</param>
         /// <param name="message">Message.</param>
-        void Message(string type, string message);
+        public virtual void Message(string type, string message)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event sequence on advancing time.
         /// </summary>
         /// <param name="time">The current simulation time.</param>
-        void AdvancedTime(double time);
+        public virtual void AdvancedTime(double time)
+        {
+            return;
+        }
 
         /// <summary>
         ///  When change system status, change menu enable/disable.
+        ///  0:initial 1:load 2:run 3:suspend
         /// </summary>
         /// <param name="type">System status.</param>
-        void ChangeStatus(ProjectStatus type); // 0:initial 1:load 2:run 3:suspend
+        public virtual void ChangeStatus(ProjectStatus type)
+        {
+            return;
+        }
 
         /// <summary>
         /// Change availability of undo/redo function.
         /// </summary>
         /// <param name="status"></param>
-        void ChangeUndoStatus(UndoStatus status);
+        public virtual void ChangeUndoStatus(UndoStatus status)
+        {
+            return;
+        }
 
         /// <summary>
         /// Notify a plugin that it should save model-related information if necessary.
         /// </summary>
         /// <param name="modelID">ModelID of a model which is going to be saved</param>
         /// <param name="directory">A saved file must be under this directory </param>
-        void SaveModel(string modelID, string directory);
+        public virtual void SaveModel(string modelID, string directory)
+        {
+            return;
+        }
 
         /// <summary>
         /// The event sequence on closing project.
         /// </summary>        
-        void Clear();
-
-        /// <summary>
-        /// cCeck whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>false</returns>
-        bool IsMessageWindow();
-
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>false.</returns>
-        List<String> GetEnablePrintNames();
-
-        /// <summary>
-        /// Get bitmap that converts display image on this plugin.
-        /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>   
-        Bitmap Print(string name);
-
-        /// <summary>
-        /// Get the name of this plugin.
-        /// </summary>
-        /// <returns>""</returns>
-        string GetPluginName();
-
-        /// <summary>
-        /// Get the version of this plugin.
-        /// </summary>
-        /// <returns>version string.</returns>
-        string GetVersionString();
+        public virtual void Clear()
+        {
+            return;
+        }
 
         /// <summary>
         /// Set the position of EcellObject.
         /// </summary>
         /// <param name="data">EcellObject, whose position will be set</param>
-        void SetPosition(EcellObject data);
+        public virtual void SetPosition(EcellObject data)
+        {
+            return;
+        }
+        #endregion
+        #endregion
     }
 }

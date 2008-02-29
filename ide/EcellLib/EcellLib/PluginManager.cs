@@ -415,6 +415,8 @@ namespace EcellLib
             foreach (KeyValuePair<string, IEcellPlugin> kvp in m_pluginList)
             {
                 List<string> names = kvp.Value.GetEnablePrintNames();
+                if (names == null)
+                    continue;
                 foreach (string name in names)
                 {
                     d.listBox1.Items.Add(name);

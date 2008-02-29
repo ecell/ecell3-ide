@@ -69,7 +69,7 @@ namespace EcellLib.PathwayWindow
     {
         #region Fields
         /// <summary>
-        /// PathwayView, which contains and controls all GUI-related objects.
+        /// PathwayControl, which contains and controls all GUI-related objects.
         /// </summary>
         PathwayControl m_con;
 
@@ -268,7 +268,7 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
-        #region Inherited from PluginBase
+        #region Inherited from IEcellPlugin
         /// <summary>
         /// Get menustrips for PathwayWindow plugin.
         /// </summary>

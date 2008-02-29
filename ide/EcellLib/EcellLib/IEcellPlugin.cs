@@ -218,6 +218,7 @@ namespace EcellLib
 
         /// <summary>
         /// Get the name of this plugin.
+        /// PluginName MUST BE unique.
         /// </summary>
         /// <returns>""</returns>
         string GetPluginName();
