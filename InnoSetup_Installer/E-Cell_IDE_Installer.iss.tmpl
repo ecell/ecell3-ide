@@ -25,10 +25,11 @@ DisableProgramGroupPage=Yes
 AllowNoIcons=Yes
 VersionInfoDescription=E-Cell IDE
 VersionInfoCompany=Keio University and Mitsubishi Space Software Co., LTD.
-ArchitecturesInstallIn64BitMode=x64
+;ArchitecturesInstallIn64BitMode=x64
 ArchitecturesAllowed=x86 x64
+;DefaultDirName={pf}\E-Cell IDE
 OutputBaseFilename=E-Cell_IDE_installer
-DefaultDirName={pf}\E-Cell IDE
+DefaultDirName=C:\Program Files\E-Cell IDE
 AppName = ECell_IDE
 AppID = ECell_IDE
 AppModifyPath="{app}\UninsHs.exe" /m0=ECell_IDE
@@ -363,18 +364,18 @@ Name: "{group}\samples\Simple"; Filename: "{app}\bin\MainWindow.exe"; Parameters
 Name: "{group}\samples\tauleap"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "tauleap.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\samples\tauleap\Model\";Components: extension
 Name: "{group}\samples\Toy_Hybrid"; Filename: "{app}\bin\MainWindow.exe"; Parameters: "Toy_Hybrid.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\samples\Toy_Hybrid\Model\";Components: extension
 
-[Dir]
+[Dirs]
 Name: "{userappdata}\$Inst$"; Attribs: hidden; Flags: uninsalwaysuninstall
 
 [Run]
 Filename: "{app}\bin\test.bat"; Flags: runhidden; WorkingDir: "{app}\bin";
-Filename: "{app}\UninsHs.exe"; Parameters: "/r0=ECell_IDE,{language},{srcexe},{userappdata}\$Inst$\Setup.exe"; WorkingDir: "{app}"; Flags: runhidden runminimized skipifdoesntexist
+Filename: "{app}\UninsHs.exe"; Parameters: "/r0=ECell_IDE,{language},{srcexe},{userappdata}\$Inst$\i.exe"; WorkingDir: "{app}"; Flags: runhidden runminimized skipifdoesntexist
 
 [InstallDelete]
 
 
 [UnInstallDelete]
-Type: files; Name: "{userappdata}\$Inst$\Setup.exe"
+Type: files; Name: "{userappdata}\$Inst$\i.exe"
 Type: dirifempty; Name: "{userappdata}\$Inst$"
 Type: filesandordirs; Name: "{userappdata}\E-Cell IDE";
 
