@@ -64,6 +64,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellCoreLibCLR.dll</HintPath>
     </Reference>
+    <Reference Include="Formulator">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\Formulator.dll</HintPath>
+    </Reference>
     <Reference Include="EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7d5574583093e55f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellLib.dll</HintPath>
@@ -103,7 +107,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResAnalysis.resx</DependentUpon>
     </Compile>
+    <Compile Include="PEAdvancedWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PEAdvancedWindow.Designer.cs">
+      <DependentUpon>PEAdvancedWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RobustAnalysis.cs" />
+    <Compile Include="RobustAnalysisJudgementParam.cs" />
+    <Compile Include="SimplexCrossoverParameter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MessageResAnalysis.ja.resx">
@@ -121,6 +134,10 @@
     <EmbeddedResource Include="AnalysisWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AnalysisWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PEAdvancedWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PEAdvancedWindow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

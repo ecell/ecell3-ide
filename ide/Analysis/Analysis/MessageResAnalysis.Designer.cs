@@ -223,6 +223,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   &amp;AnalysisWindow に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemAnalysisWindow {
+            get {
+                return ResourceManager.GetString("MenuItemAnalysisWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   &amp;Robust Analysis... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemRobustAnalysis {

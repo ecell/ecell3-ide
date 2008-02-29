@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnalysisWindow));
             this.robustTabControl = new System.Windows.Forms.TabControl();
-            this.AnalysisTab = new System.Windows.Forms.TabPage();
+            this.ResultTab = new System.Windows.Forms.TabPage();
             this.RAAnalysisTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.RAResultGridView = new System.Windows.Forms.DataGridView();
             this.JudgeColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -76,8 +76,37 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.RMAMaxData = new System.Windows.Forms.TextBox();
+            this.PETabPage = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.PEGenerationText = new System.Windows.Forms.TextBox();
+            this.PEPopulationText = new System.Windows.Forms.TextBox();
+            this.PEAdvancedButton = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.PESimulationText = new System.Windows.Forms.TextBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
+            this.PEEstmationFormula = new System.Windows.Forms.TextBox();
+            this.PEEstimationCombo = new System.Windows.Forms.ComboBox();
+            this.PEFormulaButton = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.PRIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PRValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.EstimationValue = new System.Windows.Forms.TextBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.PEParamGridView = new System.Windows.Forms.DataGridView();
+            this.PIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PMaxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PMinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.robustTabControl.SuspendLayout();
-            this.AnalysisTab.SuspendLayout();
+            this.ResultTab.SuspendLayout();
             this.RAAnalysisTableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RAResultGridView)).BeginInit();
             this.tableLayoutPanel5.SuspendLayout();
@@ -92,22 +121,35 @@
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel11.SuspendLayout();
+            this.PETabPage.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.tableLayoutPanel7.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.tableLayoutPanel8.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.tableLayoutPanel6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PEParamGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // robustTabControl
             // 
-            this.robustTabControl.Controls.Add(this.AnalysisTab);
+            this.robustTabControl.Controls.Add(this.ResultTab);
             this.robustTabControl.Controls.Add(this.settingTab);
+            this.robustTabControl.Controls.Add(this.PETabPage);
             resources.ApplyResources(this.robustTabControl, "robustTabControl");
             this.robustTabControl.Name = "robustTabControl";
             this.robustTabControl.SelectedIndex = 0;
             // 
-            // AnalysisTab
+            // ResultTab
             // 
-            this.AnalysisTab.Controls.Add(this.RAAnalysisTableLayout);
-            resources.ApplyResources(this.AnalysisTab, "AnalysisTab");
-            this.AnalysisTab.Name = "AnalysisTab";
-            this.AnalysisTab.UseVisualStyleBackColor = true;
+            this.ResultTab.Controls.Add(this.RAAnalysisTableLayout);
+            resources.ApplyResources(this.ResultTab, "ResultTab");
+            this.ResultTab.Name = "ResultTab";
+            this.ResultTab.UseVisualStyleBackColor = true;
             // 
             // RAAnalysisTableLayout
             // 
@@ -431,14 +473,227 @@
             resources.ApplyResources(this.RMAMaxData, "RMAMaxData");
             this.RMAMaxData.Name = "RMAMaxData";
             // 
-            // RobustAnalysis
+            // PETabPage
+            // 
+            this.PETabPage.Controls.Add(this.tableLayoutPanel3);
+            resources.ApplyResources(this.PETabPage, "PETabPage");
+            this.PETabPage.Name = "PETabPage";
+            this.PETabPage.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel3
+            // 
+            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.Controls.Add(this.groupBox4, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.groupBox5, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.groupBox6, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.groupBox7, 0, 2);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.tableLayoutPanel7);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
+            // tableLayoutPanel7
+            // 
+            resources.ApplyResources(this.tableLayoutPanel7, "tableLayoutPanel7");
+            this.tableLayoutPanel7.Controls.Add(this.label8, 0, 1);
+            this.tableLayoutPanel7.Controls.Add(this.label9, 0, 2);
+            this.tableLayoutPanel7.Controls.Add(this.PEGenerationText, 1, 1);
+            this.tableLayoutPanel7.Controls.Add(this.PEPopulationText, 1, 2);
+            this.tableLayoutPanel7.Controls.Add(this.PEAdvancedButton, 1, 3);
+            this.tableLayoutPanel7.Controls.Add(this.label10, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.PESimulationText, 1, 0);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // PEGenerationText
+            // 
+            resources.ApplyResources(this.PEGenerationText, "PEGenerationText");
+            this.PEGenerationText.Name = "PEGenerationText";
+            // 
+            // PEPopulationText
+            // 
+            resources.ApplyResources(this.PEPopulationText, "PEPopulationText");
+            this.PEPopulationText.Name = "PEPopulationText";
+            // 
+            // PEAdvancedButton
+            // 
+            resources.ApplyResources(this.PEAdvancedButton, "PEAdvancedButton");
+            this.PEAdvancedButton.Name = "PEAdvancedButton";
+            this.PEAdvancedButton.UseVisualStyleBackColor = true;
+            this.PEAdvancedButton.Click += new System.EventHandler(this.PEAdvancedButtonClicked);
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // PESimulationText
+            // 
+            resources.ApplyResources(this.PESimulationText, "PESimulationText");
+            this.PESimulationText.Name = "PESimulationText";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.tableLayoutPanel8);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.TabStop = false;
+            // 
+            // tableLayoutPanel8
+            // 
+            resources.ApplyResources(this.tableLayoutPanel8, "tableLayoutPanel8");
+            this.tableLayoutPanel8.Controls.Add(this.PEEstmationFormula, 1, 0);
+            this.tableLayoutPanel8.Controls.Add(this.PEEstimationCombo, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this.PEFormulaButton, 2, 0);
+            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
+            // 
+            // PEEstmationFormula
+            // 
+            resources.ApplyResources(this.PEEstmationFormula, "PEEstmationFormula");
+            this.PEEstmationFormula.Name = "PEEstmationFormula";
+            this.PEEstmationFormula.ReadOnly = true;
+            // 
+            // PEEstimationCombo
+            // 
+            resources.ApplyResources(this.PEEstimationCombo, "PEEstimationCombo");
+            this.PEEstimationCombo.FormattingEnabled = true;
+            this.PEEstimationCombo.Items.AddRange(new object[] {
+            resources.GetString("PEEstimationCombo.Items"),
+            resources.GetString("PEEstimationCombo.Items1"),
+            resources.GetString("PEEstimationCombo.Items2"),
+            resources.GetString("PEEstimationCombo.Items3"),
+            resources.GetString("PEEstimationCombo.Items4"),
+            resources.GetString("PEEstimationCombo.Items5")});
+            this.PEEstimationCombo.Name = "PEEstimationCombo";
+            // 
+            // PEFormulaButton
+            // 
+            resources.ApplyResources(this.PEFormulaButton, "PEFormulaButton");
+            this.PEFormulaButton.Name = "PEFormulaButton";
+            this.PEFormulaButton.UseVisualStyleBackColor = true;
+            this.PEFormulaButton.Click += new System.EventHandler(this.PEFormulaButtonClicked);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.tableLayoutPanel4);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.TabStop = false;
+            // 
+            // tableLayoutPanel4
+            // 
+            resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
+            this.tableLayoutPanel4.Controls.Add(this.dataGridView2, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel6, 0, 0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AllowUserToAddRows = false;
+            this.dataGridView2.AllowUserToDeleteRows = false;
+            this.dataGridView2.AllowUserToResizeColumns = false;
+            this.dataGridView2.AllowUserToResizeRows = false;
+            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PRIDColumn,
+            this.PRValueColumn});
+            resources.ApplyResources(this.dataGridView2, "dataGridView2");
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowHeadersVisible = false;
+            this.dataGridView2.RowTemplate.Height = 21;
+            // 
+            // PRIDColumn
+            // 
+            this.PRIDColumn.FillWeight = 40F;
+            resources.ApplyResources(this.PRIDColumn, "PRIDColumn");
+            this.PRIDColumn.Name = "PRIDColumn";
+            // 
+            // PRValueColumn
+            // 
+            this.PRValueColumn.FillWeight = 60F;
+            resources.ApplyResources(this.PRValueColumn, "PRValueColumn");
+            this.PRValueColumn.Name = "PRValueColumn";
+            // 
+            // tableLayoutPanel6
+            // 
+            resources.ApplyResources(this.tableLayoutPanel6, "tableLayoutPanel6");
+            this.tableLayoutPanel6.Controls.Add(this.label7, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.EstimationValue, 1, 0);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // EstimationValue
+            // 
+            resources.ApplyResources(this.EstimationValue, "EstimationValue");
+            this.EstimationValue.Name = "EstimationValue";
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.PEParamGridView);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.TabStop = false;
+            // 
+            // PEParamGridView
+            // 
+            this.PEParamGridView.AllowUserToAddRows = false;
+            this.PEParamGridView.AllowUserToDeleteRows = false;
+            this.PEParamGridView.AllowUserToResizeColumns = false;
+            this.PEParamGridView.AllowUserToResizeRows = false;
+            this.PEParamGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.PEParamGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.PEParamGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PIDColumn,
+            this.PMaxColumn,
+            this.PMinColumn});
+            resources.ApplyResources(this.PEParamGridView, "PEParamGridView");
+            this.PEParamGridView.Name = "PEParamGridView";
+            this.PEParamGridView.RowHeadersVisible = false;
+            this.PEParamGridView.RowTemplate.Height = 21;
+            // 
+            // PIDColumn
+            // 
+            resources.ApplyResources(this.PIDColumn, "PIDColumn");
+            this.PIDColumn.Name = "PIDColumn";
+            // 
+            // PMaxColumn
+            // 
+            this.PMaxColumn.FillWeight = 40F;
+            resources.ApplyResources(this.PMaxColumn, "PMaxColumn");
+            this.PMaxColumn.Name = "PMaxColumn";
+            // 
+            // PMinColumn
+            // 
+            this.PMinColumn.FillWeight = 40F;
+            resources.ApplyResources(this.PMinColumn, "PMinColumn");
+            this.PMinColumn.Name = "PMinColumn";
+            // 
+            // AnalysisWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.robustTabControl);
-            this.Name = "RobustAnalysis";
+            this.Name = "AnalysisWindow";
             this.robustTabControl.ResumeLayout(false);
-            this.AnalysisTab.ResumeLayout(false);
+            this.ResultTab.ResumeLayout(false);
             this.RAAnalysisTableLayout.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.RAResultGridView)).EndInit();
             this.tableLayoutPanel5.ResumeLayout(false);
@@ -458,6 +713,21 @@
             this.groupBox3.ResumeLayout(false);
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel11.PerformLayout();
+            this.PETabPage.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.tableLayoutPanel7.ResumeLayout(false);
+            this.tableLayoutPanel7.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.tableLayoutPanel8.ResumeLayout(false);
+            this.tableLayoutPanel8.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PEParamGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -468,14 +738,6 @@
         /// TabControl on RobustAnalysis Window.
         /// </summary>
         public System.Windows.Forms.TabControl robustTabControl;
-        /// <summary>
-        /// TabPage to display the result of robust analysis.
-        /// </summary>
-        public System.Windows.Forms.TabPage AnalysisTab;
-        /// <summary>
-        /// TabPage to set the condition of robust analysis.
-        /// </summary>
-        public System.Windows.Forms.TabPage settingTab;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label RASimLabel;
@@ -561,5 +823,36 @@
         /// TextBox to set the number of input data to calculate FFT.
         /// </summary>
         public System.Windows.Forms.TextBox RMAMaxData;
+        private System.Windows.Forms.TabPage PETabPage;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox EstimationValue;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox PEGenerationText;
+        private System.Windows.Forms.TextBox PEPopulationText;
+        private System.Windows.Forms.Button PEAdvancedButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PRIDColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PRValueColumn;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PIDColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PMaxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PMinColumn;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
+        private System.Windows.Forms.TextBox PEEstmationFormula;
+        private System.Windows.Forms.ComboBox PEEstimationCombo;
+        private System.Windows.Forms.Button PEFormulaButton;
+        private System.Windows.Forms.DataGridView PEParamGridView;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox PESimulationText;
+        private System.Windows.Forms.TabPage settingTab;
+        private System.Windows.Forms.TabPage ResultTab;
     }
 }

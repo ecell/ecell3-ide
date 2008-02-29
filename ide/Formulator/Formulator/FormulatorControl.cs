@@ -66,6 +66,10 @@ namespace Formulator
         /// Selected FNode is whether text or not.
         /// </summary>
         private bool m_isText = true;
+        /// <summary>
+        /// The flag whether this data is expression in process.
+        /// </summary>
+        private bool m_isExpression = true;
 
         /// <summary>
         /// Pen for writing input FNode.
@@ -162,6 +166,18 @@ namespace Formulator
         public Bitmap Image
         {
             get { return this.m_image; }
+        }
+
+        /// <summary>
+        /// Get/Set the flag whether this data is expression in process.
+        /// </summary>
+        public bool IsExpression
+        {
+            get { return this.m_isExpression; }
+            set { 
+                this.m_isExpression = value;
+                this.FunctionBox.Enabled = value;
+            }
         }
         #endregion
 
@@ -938,7 +954,7 @@ namespace Formulator
                     }
                     inOpe = false;
                 }
-                else if (text[i] == '/')
+                else if (text[i] == '/' && IsExpression)
                 {
                     FNode tmp = new FNode(FUtil.SPLIT, "");
 
@@ -1103,7 +1119,10 @@ namespace Formulator
             SplitButton.Enabled = false;
             ParentButton.Enabled = false;
             StringButton.Enabled = false;
-            AddFunctionButton.Enabled = true;
+            if (m_isExpression)
+                AddFunctionButton.Enabled = true;
+            else
+                AddFunctionButton.Enabled = false;
             DeleteButton.Enabled = true;
 
             reserveBox.Enabled = false;
@@ -1264,10 +1283,19 @@ namespace Formulator
                 PlusButton.Enabled = false;
                 MinusButton.Enabled = false;
                 MultiplyButton.Enabled = false;
-                SplitButton.Enabled = true;
-                ParentButton.Enabled = true;
                 StringButton.Enabled = true;
-                AddFunctionButton.Enabled = true;
+                if (m_isExpression)
+                {
+                    AddFunctionButton.Enabled = true;
+                    SplitButton.Enabled = true;
+                    ParentButton.Enabled = true;
+                }
+                else
+                {
+                    AddFunctionButton.Enabled = false;
+                    SplitButton.Enabled = false;
+                    ParentButton.Enabled =false;
+                }
                 DeleteButton.Enabled = true;
 
                 reserveBox.Enabled = true;

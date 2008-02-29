@@ -168,6 +168,9 @@
   <data name="MenuItemAnalysis" xml:space="preserve">
     <value>解析(&amp;A)...</value>
   </data>
+  <data name="MenuItemAnalysisWindow" xml:space="preserve">
+    <value>解析ウインドウ(&amp;A)...</value>
+  </data>
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
     <value>ロバスト解析(&amp;R)...</value>
   </data>

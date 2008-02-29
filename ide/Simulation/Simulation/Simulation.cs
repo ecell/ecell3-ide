@@ -419,7 +419,13 @@ namespace EcellLib.Simulation
             if (m_isChanged) return;
             if (!m_paramsCombo.Items.Contains(parameterID))
                 m_paramsCombo.Items.Add(parameterID);
-            m_paramsCombo.SelectedText = parameterID;
+            int ind = 0;
+            foreach (Object obj in m_paramsCombo.Items)
+            {
+                if (obj.ToString().Equals(parameterID))
+                    m_paramsCombo.SelectedIndex = ind;
+                ind++;
+            }
         }
 
         /// <summary>

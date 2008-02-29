@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2008 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -40,13 +40,14 @@ using System.Windows.Forms;
 using EcellLib;
 using EcellLib.SessionManager;
 using ZedGraph;
+using Formulator;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
 
 namespace EcellLib.Analysis
 {
     /// <summary>
-    /// Analysis window for robust analysis.
+    /// Form to display the setting and result of analysis.
     /// </summary>
     public partial class AnalysisWindow : EcellDockContent
     {
@@ -71,21 +72,33 @@ namespace EcellLib.Analysis
         /// </summary>
         private Analysis m_parent = null;
         /// <summary>
-        /// The flag whether the analysis is running.
-        /// </summary>
-        private bool m_isRunning = false;
-        /// <summary>
         /// SessionManager to manage the analysis session.
         /// </summary>
         private SessionManager.SessionManager m_manager;
         /// <summary>
-        /// Timer to update the status of jobs.
-        /// </summary>
-        private System.Windows.Forms.Timer m_timer;
-        /// <summary>
         /// The max number of input data to be executed FFT.
         /// </summary>
         public const int MaxSize = 2097152;
+        /// <summary>
+        /// The parameter of estimation parameter
+        /// </summary>
+        private SimplexCrossoverParameter m_peParam = new SimplexCrossoverParameter();
+        /// <summary>
+        /// The form to set the advanced parameter of parameter estimation.
+        /// </summary>
+        private PEAdvancedWindow m_awin;
+        /// <summary>
+        /// The form to set the estimation formulator.
+        /// </summary>
+        private FormulatorWindow m_fwin;
+        /// <summary>
+        /// The user control to set the estimation formulator.
+        /// </summary>
+        private FormulatorControl m_fcnt;
+        /// <summary>
+        /// The form to display the setting and result of analysis.
+        /// </summary>
+        private static AnalysisWindow s_win = null;
 
         /// <summary>
         /// Constructor.
@@ -101,11 +114,6 @@ namespace EcellLib.Analysis
             RAResultGridView.ContextMenuStrip = m_cntMenu;
             RARandomCheck.Checked = true;
             RAMatrixCheck.Checked = false;
-
-            m_timer = new System.Windows.Forms.Timer();
-            m_timer.Enabled = false;
-            m_timer.Interval = 5000;
-            m_timer.Tick += new EventHandler(FireTimer);
 
             m_zCnt = new ZedGraphControl();
             m_zCnt.Dock = DockStyle.Fill;
@@ -124,6 +132,7 @@ namespace EcellLib.Analysis
             this.FormClosed += new FormClosedEventHandler(CloseRobustAnalysisForm);
 
             InitializeData();
+            s_win = this;
         }
 
         #region accessor
@@ -137,12 +146,12 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// get/set the status of robust analysis.
+        /// get the AnalysisWindow.
         /// </summary>
-        public bool IsRunning
+        /// <returns></returns>
+        static public AnalysisWindow GetWindow()
         {
-            get { return this.m_isRunning; }
-            set { this.m_isRunning = value; }
+            return AnalysisWindow.s_win;
         }
         #endregion
 
@@ -196,11 +205,76 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Clear the entries in result data.
         /// </summary>
-        private void ClearResult()
+        public void ClearResult()
         {
+            RAXComboBox.Items.Clear();
+            RAYComboBox.Items.Clear();
             RAResultGridView.Rows.Clear();
             CurveList l = m_zCnt.GraphPane.CurveList;
             l.Clear();
+        }
+
+        /// <summary>
+        /// Set the parameter entry to display the result.
+        /// </summary>
+        /// <param name="name">the parameter name.</param>
+        /// <param name="isX">the flag whether this parameter is default parameter at X axis.</param>
+        /// <param name="isY">the flag whether this parameter is default parameter at Y axis.</param>
+        public void SetResultEntryBox(string name, bool isX, bool isY)
+        {
+            RAXComboBox.Items.Add(name);
+            RAYComboBox.Items.Add(name);
+            if (isX) RAXComboBox.SelectedText = name;
+            if (isY) RAYComboBox.SelectedText = name;
+        }
+
+        /// <summary>
+        /// Set the graph size of result.
+        /// </summary>
+        /// <param name="xmax">Max value of X axis.</param>
+        /// <param name="xmin">Min value of X axis.</param>
+        /// <param name="ymax">Max value of Y axis.</param>
+        /// <param name="ymin">Min value of Y axis.</param>
+        public void SetResultGraphSize(double xmax, double xmin, double ymax, double ymin)
+        {
+            m_zCnt.GraphPane.XAxis.Scale.Max = xmax;
+            m_zCnt.GraphPane.XAxis.Scale.Min = xmin;
+            m_zCnt.GraphPane.YAxis.Scale.Max = ymax;
+            m_zCnt.GraphPane.YAxis.Scale.Min = ymin;
+        }
+
+        /// <summary>
+        /// Get the robust analysis parameter set in this form.
+        /// </summary>
+        /// <returns>the parameter of robust analysis.</returns>
+        public RobustAnalysisParameter GetRobustAnalysisParameter()
+        {
+            RobustAnalysisParameter p = new RobustAnalysisParameter();
+            p.SampleNum = Convert.ToInt32(RASampleNumText.Text);
+            p.SimulationTime = Convert.ToDouble(RASimTimeText.Text);
+            p.IsRandomCheck = RARandomCheck.Checked;
+            p.MaxData = Convert.ToInt32(RMAMaxData.Text);
+            p.MaxFreq = Convert.ToDouble(RAMaxFreqText.Text);
+            p.MinFreq = Convert.ToDouble(RAMinFreqText.Text);
+            p.WinSize = Convert.ToDouble(RAWinSizeText.Text);
+
+            return p;
+        }
+
+        /// <summary>
+        /// Set the robust analysis parameter.
+        /// </summary>
+        /// <param name="p">the parameter of robust analysis.</param>
+        public void SetRobustAnalysisParameter(RobustAnalysisParameter p)
+        {
+            RASampleNumText.Text = Convert.ToString(p.SampleNum);
+            RASimTimeText.Text = Convert.ToString(p.SimulationTime);
+            RMAMaxData.Text = Convert.ToString(p.MaxData);
+            RAMaxFreqText.Text = Convert.ToString(p.MaxFreq);
+            RAMinFreqText.Text = Convert.ToString(p.MinFreq);
+            RAWinSizeText.Text = Convert.ToString(p.WinSize);
+            if (p.IsRandomCheck) RARandomCheck.Checked = true;
+            else RAMatrixCheck.Checked = true;
         }
 
         /// <summary>
@@ -218,262 +292,14 @@ namespace EcellLib.Analysis
             }
         }
 
-        /// <summary>
-        /// Execute the robust analysis.
-        /// Robust analysis include the simulation execution of parameter and 
-        /// judgement of simulation results.
-        /// </summary>
-        public void ExecuteAnalysis()
-        {
-            String tmpDir = m_manager.TmpRootDir;
-            int num = Convert.ToInt32(RASampleNumText.Text);
-            double simTime = Convert.ToDouble(RASimTimeText.Text);
-            int maxSize = Convert.ToInt32(RMAMaxData.Text);
-            if (maxSize > AnalysisWindow.MaxSize)
-            {
-                string errmes = Analysis.s_resources.GetString("ErrOverMax") + "[" + AnalysisWindow.MaxSize + "]";
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            string model = "";
-            List<string> modelList = DataManager.GetDataManager().GetModelList();
-            if (modelList.Count > 0) model = modelList[0];
-
-            List<ParameterRange> paramList = ExtractParameter();
-            if (paramList == null) return;
-            List<SaveLoggerProperty> saveList = GetObservedDataList();
-            if (saveList == null) return;
-
-            m_manager.SetParameterRange(paramList);
-            m_manager.SetLoggerData(saveList);
-            if (RARandomCheck.Checked == true)
-            {
-                m_manager.RunSimParameterRange(tmpDir, model, num, simTime, false);
-            }
-            else
-            {
-                m_manager.RunSimParameterMatrix(tmpDir, model, simTime, false);
-            }
-            m_isRunning = true;
-            m_timer.Enabled = true;
-            m_timer.Start();
-        }
-
-        /// <summary>
-        /// Update the status of session at intervals while program is running.
-        /// </summary>
-        /// <param name="sender">Timer.</param>
-        /// <param name="e">EventArgs.</param>
-        void FireTimer(object sender, EventArgs e)
-        {
-            if (!m_manager.IsFinished())
-            {
-                if (m_isRunning == false)
-                {
-                    m_manager.StopRunningJobs();
-                    m_timer.Enabled = false;
-                    m_timer.Stop();
-                }
-                return;
-            }
-            m_isRunning = false;
-            m_timer.Enabled = false;
-            m_timer.Stop();
-
-            if (m_manager.IsError())
-            {
-                String mes = Analysis.s_resources.GetString("ErrFindErrorJob");
-                DialogResult res = MessageBox.Show(mes, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (res == DialogResult.Cancel)
-                {
-                    return;
-                }
-            }
-            JudgeResult();
-            String finMes = Analysis.s_resources.GetString("FinishRAnalysis");
-            MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        /// <summary>
-        /// Stop the robust analysis.
-        /// </summary>
-        public void StopAnalysis()
-        {
-            m_manager.StopRunningJobs();
-            m_isRunning = false;
-        }
-
-        /// <summary>
-        /// Judge the robustness from the simulation result.
-        /// </summary>
-        private void JudgeResult()
-        {
-            string xPath = "";
-            string yPath = "";
-            double xmax = 0.0;
-            double xmin = 0.0;
-            double ymax = 0.0;
-            double ymin = 0.0;
-            RAXComboBox.Items.Clear();
-            RAYComboBox.Items.Clear();
-            List<ParameterRange> pList = ExtractParameter();
-            if (pList == null) return;
-            int count = 0;
-            foreach (ParameterRange r in pList)
-            {
-                RAXComboBox.Items.Add(r.FullPath);
-                RAYComboBox.Items.Add(r.FullPath);
-                if (count == 0) {
-                    RAXComboBox.SelectedText = r.FullPath;
-                    xPath = r.FullPath;
-                    xmax = r.Max;
-                    xmin = r.Min;
-                }
-                if (count == 1) {
-                    RAYComboBox.SelectedText = r.FullPath;
-                    yPath = r.FullPath;
-                    ymax = r.Max;
-                    ymin = r.Min;
-                }
-                count++;
-            }
-            m_zCnt.GraphPane.XAxis.Scale.Max = xmax;
-            m_zCnt.GraphPane.XAxis.Scale.Min = xmin;
-            m_zCnt.GraphPane.YAxis.Scale.Max = ymax;
-            m_zCnt.GraphPane.YAxis.Scale.Min = ymin;
-           
-            List<JudgementParam> judgeList = ExtractObserved();
-            foreach (int jobid in m_manager.SessionList.Keys)
-            {
-                if (m_manager.SessionList[jobid].Status != JobStatus.FINISHED)
-                    continue;
-                double x = m_manager.ParameterDic[jobid].GetParameter(xPath);
-                double y = m_manager.ParameterDic[jobid].GetParameter(yPath);
-                bool isOK = true;
-                foreach (JudgementParam p in judgeList)
-                {
-                    Dictionary<double, double> logList = 
-                        m_manager.SessionList[jobid].GetLogData(p.Path);
-
-                    double simTime = Convert.ToDouble(RASimTimeText.Text);
-                    double winSize = Convert.ToDouble(RAWinSizeText.Text);
-                    if (simTime > winSize)
-                    {
-                        Dictionary<double, double> tmpList = new Dictionary<double, double>();
-                        foreach (double t in logList.Keys)
-                        {
-                            if (simTime - winSize > t) continue;
-                            tmpList.Add(t, logList[t]);
-                        }
-                        logList.Clear();
-
-                        foreach (double t in tmpList.Keys)
-                        {
-                            logList.Add(t, tmpList[t]);
-                        }
-                    }
-
-                    bool rJudge = JudgeResultByRange(logList, p.Max, p.Min, p.Difference);
-                    bool pJudge = JudgeResultByFFT(logList, p.Rate);
-                    if (rJudge == false || pJudge == false)
-                    {
-                        isOK = false;
-                        break;
-                    }
-                }
-                AddJudgementData(jobid, x, y, isOK);
-            }
-        }
-
-        /// <summary>
-        /// Judge the range of log data for target property.
-        /// </summary>
-        /// <param name="resDic">log data.</param>
-        /// <param name="max">the maximum data of log data.</param>
-        /// <param name="min">the minimum data of log data.</param>
-        /// <param name="diff">the difference of log data.</param>
-        /// <returns>if all condition is OK, return true.</returns>
-        private bool JudgeResultByRange(Dictionary<double, double> resDic, double max, double min, double diff)
-        {
-            bool isFirst = true;
-            double minValue = 0.0;
-            double maxValue = 0.0;
-            foreach (double time in resDic.Keys)
-            {
-                if (resDic[time] > max || resDic[time] < min) return false;
-                if (isFirst)
-                {
-                    isFirst = false;
-                    minValue = resDic[time];
-                    maxValue = resDic[time];
-                    continue;
-                }
-                if (minValue > resDic[time]) minValue = resDic[time];
-                if (maxValue < resDic[time]) maxValue = resDic[time];
-            }
-
-            if (maxValue - minValue > diff) return false;
-            return true;
-        }
-
-        /// <summary>
-        /// judge the FFT result for log data.
-        /// </summary>
-        /// <param name="resDic">log data.</param>
-        /// <param name="rate">FFT rate.</param>
-        /// <returns>if all judgement is ok, return true.</returns>
-        private bool JudgeResultByFFT(Dictionary<double, double> resDic, double rate)
-        {
-            double maxFreq = Convert.ToDouble(RAMaxFreqText.Text);
-            double minFreq = Convert.ToDouble(RAMinFreqText.Text);
-            int maxSize = Convert.ToInt32(RMAMaxData.Text);
-
-            ComplexFourierTransformation cft = new ComplexFourierTransformation();
-            int size = 4;
-            int divide = 1;
-            while (true)
-            {
-                if (resDic.Count <= size) break;
-                if (size >= maxSize)
-                {
-                    divide = resDic.Count / maxSize + 1;
-                    break;
-                }
-                size = size * 2;
-            }
-            double[] data = new double[size * 2];
-            int i = 0;
-            foreach(double d in resDic.Keys)
-            {
-                if (i % divide != 0) continue;
-                data[i*2] = resDic[d];
-                data[i*2 + 1] = 0.0;
-                i++;
-            }
-
-            cft.Convention = TransformationConvention.Matlab; // so we can check MATLAB consistency
-            cft.TransformForward(data);
-
-            int count = 0;
-            for (int j = 0; j < size; j++)
-            {
-                double d = Math.Sqrt(data[j * 2] * data[j * 2] + data[j * 2 + 1] * data[j * 2 + 1]);
-                if (maxFreq > d && minFreq < d) count++;
-            }
-            if ((double)count / (double)resDic.Count > rate)
-                return true;
-
-            return false;
-        }
 
         /// <summary>
         /// Extract the judgement condition from DataGridView.
         /// </summary>
         /// <returns>the list of judgement condition.</returns>
-        private List<JudgementParam> ExtractObserved()
+        public List<RobustAnalysisJudgementParam> ExtractObserved()
         {
-            List<JudgementParam> resList = new List<JudgementParam>();
+            List<RobustAnalysisJudgementParam> resList = new List<RobustAnalysisJudgementParam>();
 
             for (int i = 0; i < RAObservGridView.Rows.Count; i++)
             {
@@ -483,7 +309,7 @@ namespace EcellLib.Analysis
                 double diff = Convert.ToDouble(RAObservGridView[3, i].Value);
                 double rate = Convert.ToDouble(RAObservGridView[4, i].Value);
 
-                JudgementParam p = new JudgementParam(path, max, min, diff, rate);
+                RobustAnalysisJudgementParam p = new RobustAnalysisJudgementParam(path, max, min, diff, rate);
                 resList.Add(p);
             }
 
@@ -641,13 +467,12 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// Add the parameter data.
+        /// Add the parameter entry to use at the robust analysis.
         /// </summary>
         /// <param name="obj">object include the parameter data.</param>
         /// <param name="d">the parameter data.</param>
-        private void AddParameterEntry(EcellObject obj, EcellData d)
+        private void AddRobustAnalysisParameterEntry(EcellObject obj, EcellData d)
         {
-            if (d.Committed) return;
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
             c1.Value = d.EntityPath;
@@ -664,6 +489,41 @@ namespace EcellLib.Analysis
             r.Tag = obj;
             AssignParamPopupMenu(r);
             RAParamGridView.Rows.Add(r);
+        }
+
+        /// <summary>
+        /// Add the parameter entry to use at parameter estimation.
+        /// </summary>
+        /// <param name="obj">object include the parameter data.</param>
+        /// <param name="d">the parameter data.</param>
+        private void AddParameterEstimateEntry(EcellObject obj, EcellData d)
+        {
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+            c1.Value = d.EntityPath;
+            r.Cells.Add(c1);
+            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+            c2.Value = d.Max;
+            r.Cells.Add(c2);
+            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
+            c3.Value = d.Min;
+            r.Cells.Add(c3);
+            r.Tag = obj;
+
+            PEParamGridView.Rows.Add(r);
+        }
+
+
+        /// <summary>
+        /// Add the parameter data.
+        /// </summary>
+        /// <param name="obj">object include the parameter data.</param>
+        /// <param name="d">the parameter data.</param>
+        private void AddParameterEntry(EcellObject obj, EcellData d)
+        {
+            if (d.Committed) return;
+            AddRobustAnalysisParameterEntry(obj, d);
+            AddParameterEstimateEntry(obj, d);
             m_paramList.Add(d.EntityPath, d);
         }
 
@@ -747,7 +607,7 @@ namespace EcellLib.Analysis
         {
             if (m_parent != null)
             {
-                m_parent.CloseRobustWindow();
+                m_parent.CloseAnalysisWindow();
             }
             m_parent = null;
         }
@@ -1060,86 +920,93 @@ namespace EcellLib.Analysis
 
             base.WndProc(ref m);
         }
+
+        /// <summary>
+        /// The event sequence when the parameter estimation setting window is shown..
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
+        private void PEAdvancedButtonClicked(object sender, EventArgs e)
+        {
+            m_awin = new PEAdvancedWindow();
+            m_peParam = new SimplexCrossoverParameter();
+            m_awin.SetParameter(m_peParam);
+
+            m_awin.PEAApplyButton.Click += new EventHandler(PEAApplyButtonClicked);
+
+            m_awin.ShowDialog();
+        }
+
+        /// <summary>
+        /// The event sequence when apply button in the parameter estimation setting 
+        /// window is clicked.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
+        void PEAApplyButtonClicked(object sender, EventArgs e)
+        {
+            m_peParam = m_awin.GetParam();
+            m_awin.Close();
+        }
+
+        /// <summary>
+        /// The event sequence when the formulator window is shown.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
+        private void PEFormulaButtonClicked(object sender, EventArgs e)
+        {
+            DataManager manager = DataManager.GetDataManager();
+            m_fwin = new FormulatorWindow();
+            m_fcnt = new FormulatorControl();
+            m_fwin.tableLayoutPanel.Controls.Add(m_fcnt, 0, 0);
+            m_fcnt.Dock = DockStyle.Fill;
+            m_fcnt.IsExpression = false;
+
+            List<string> list = new List<string>();
+            List<string> mlist = manager.GetModelList();
+            List<EcellObject> objList = manager.GetData(mlist[0], null);
+            if (objList != null)
+            {
+                foreach (EcellObject obj in objList)
+                {
+                    if (obj is EcellSystem)
+                    {
+                        if (obj.Children == null) continue;
+                        foreach (EcellObject data in obj.Children)
+                        {
+                            if (data is EcellProcess)
+                            {
+                                list.Add(data.Key + ":Activity");
+                            }
+                            else if (data is EcellVariable)
+                            {
+                                list.Add(data.Key + ":MolarConc");
+                            }
+                        }
+                    }
+                }
+            }
+            m_fcnt.AddReserveString(list);
+            m_fcnt.ImportFormulate(PEEstmationFormula.Text);
+
+            m_fwin.FApplyButton.Click += new EventHandler(FApplyButtonClicked);
+            m_fwin.FCloseButton.Click += new EventHandler(m_fwin.CancelButtonClick);
+            m_fwin.ShowDialog();
+        }
+
+        /// <summary>
+        /// The event sequence when apply button in the  formulator window 
+        /// to set estimation formulator is clicked.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
+        void FApplyButtonClicked(object sender, EventArgs e)
+        {
+            string ext = m_fcnt.ExportFormulate();
+            PEEstmationFormula.Text = ext;
+            m_fwin.Close();
+        }
     }
 
-    /// <summary>
-    /// Parameter to judge the robustness.
-    /// </summary>
-    public class JudgementParam
-    {
-        private string m_path = "";
-        private double m_max = 0.0;
-        private double m_min = 0.0;
-        private double m_difference = 0.0;
-        private double m_rate = 0.0;
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public JudgementParam()
-        {
-        }
-
-        /// <summary>
-        /// Constructor with initial parameters.
-        /// </summary>
-        /// <param name="path">entry path to judge the logger data.</param>
-        /// <param name="max">the maximum value of logger data.</param>
-        /// <param name="min">the minimum value of logger data.</param>
-        /// <param name="diff">the difference value of logger data.</param>
-        /// <param name="rate">the rate of FFT.</param>
-        public JudgementParam(string path, double max, double min, double diff, double rate)
-        {
-            m_path = path;
-            m_max = max;
-            m_min = min;
-            m_difference = diff;
-            m_rate = rate;
-        }
-
-        /// <summary>
-        /// get/set the entry path to use by the judgement of robustness.
-        /// </summary>
-        public string Path
-        {
-            get { return this.m_path; }
-            set { this.m_path = value; }
-        }
-
-        /// <summary>
-        /// get/set the maximum value of logger data.
-        /// </summary>
-        public double Max
-        {
-            get { return this.m_max; }
-            set { this.m_max = value; }
-        }
-
-        /// <summary>
-        /// get/set the minimum value of logger data.
-        /// </summary>
-        public double Min
-        {
-            get { return this.m_min; }
-            set { this.m_min = value; }
-        }
-
-        /// <summary>
-        /// get/set the differnce value of logger data.
-        /// </summary>
-        public double Difference
-        {
-            get { return this.m_difference; }
-            set { this.m_difference = value; }
-        }
-
-        /// <summary>
-        /// get/set the rate of FFT.
-        /// </summary>
-        public double Rate
-        {
-            get { return this.m_rate; }
-            set { this.m_rate = value; }
-        }
-    }
 }

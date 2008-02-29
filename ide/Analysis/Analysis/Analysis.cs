@@ -65,17 +65,29 @@ namespace EcellLib.Analysis
         /// ResourceManager for AnalysisTemplate.
         /// </summary>
         static public ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
+        /// <summary>
+        /// Robust Analysis Class.
+        /// </summary>
+        private RobustAnalysis m_robustAnalysis;
 
         #endregion
-
 
         /// <summary>
         /// Window is null when window is closed.
         /// </summary>
-        public void CloseRobustWindow()
+        public void CloseAnalysisWindow()
         {
             m_win = null;
+            m_robustAnalysis = null;
             m_robustAnalysisItem.Enabled = false;
+        }
+
+        /// <summary>
+        /// Stop the robust analysis.
+        /// </summary>
+        public void StopRobustAnalysis()
+        {
+            m_robustAnalysis = null;
         }
 
         #region Events
@@ -86,7 +98,6 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         private void ShowRobustAnalysisWindow(object sender, EventArgs e)
         {
-
             if (m_win == null)
             {
                 m_win = new AnalysisWindow();
@@ -117,18 +128,19 @@ namespace EcellLib.Analysis
         private void ExecuteRobustAnalysis(object sender, EventArgs e)
         {
             if (m_win == null) return;
-
-            if (m_win.IsRunning)
+            if (m_robustAnalysis != null && m_robustAnalysis.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
                 DialogResult res = MessageBox.Show(mes, "Question", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.OK)
                 {
-                    m_win.StopAnalysis();
+                    m_robustAnalysis.StopAnalysis();
                 }
                 return;
             }           
-            m_win.ExecuteAnalysis();
+            m_robustAnalysis = new RobustAnalysis();
+            m_robustAnalysis.Control = this;
+            m_robustAnalysis.ExecuteAnalysis();
         }
         #endregion
 
@@ -143,8 +155,8 @@ namespace EcellLib.Analysis
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
             m_robustAnalysisWinItem = new ToolStripMenuItem();
-            m_robustAnalysisWinItem.Text = resources.GetString("MenuItemRobustAnalysis");
-            m_robustAnalysisWinItem.ToolTipText = "Robust Analysis";
+            m_robustAnalysisWinItem.Text = resources.GetString("MenuItemAnalysisWindow");
+            m_robustAnalysisWinItem.ToolTipText = "Analysis Window";
             m_robustAnalysisWinItem.Tag = 50;
             m_robustAnalysisWinItem.Click += new EventHandler(ShowRobustAnalysisWindow);
 

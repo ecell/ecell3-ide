@@ -123,7 +123,10 @@
   <data name="AnalysisTab.Text" xml:space="preserve">
     <value>解析結果</value>
   </data>
+  <data name="PETabPage.Text" xml:space="preserve">
+    <value>パラメータ推定設定</value>
+  </data>
   <data name="settingTab.Text" xml:space="preserve">
-    <value>設定</value>
+    <value>ロバスト解析設定</value>
   </data>
 </root>
