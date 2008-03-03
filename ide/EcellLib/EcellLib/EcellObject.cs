@@ -1948,27 +1948,6 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// get / set value.
-        /// </summary>
-        public double Value
-        {
-            get
-            {
-                if (IsEcellValueExists("Value"))
-                    return GetEcellValue("Value").CastToDouble();
-                else
-                    return 0;
-            }
-            set
-            {
-                if (IsEcellValueExists("Value"))
-                    GetEcellValue("Value").Value = value;
-                else
-                    AddEcellValue("Value", new EcellValue(value));
-            }
-        }
-
-        /// <summary>
         /// get / set velocity.
         /// </summary>
         public double Velocity
