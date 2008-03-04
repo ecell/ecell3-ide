@@ -166,7 +166,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// This object.Pickable before freeze() method called.
         /// </summary>
-        protected bool m_isPickableBeforeFreeze = false;
+        protected bool m_isFreezed = true;
 
         /// <summary>
         /// tempolary GraphicsPath.
@@ -586,7 +586,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void Freeze()
         {
-            m_isPickableBeforeFreeze = this.Pickable;
+            m_isFreezed = this.Pickable;
             this.Pickable = false;
         }
 
@@ -595,7 +595,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public virtual void Unfreeze()
         {
-            this.Pickable = m_isPickableBeforeFreeze;
+            this.Pickable = m_isFreezed;
         }
 
         /// <summary>

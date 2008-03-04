@@ -48,6 +48,7 @@ using System.Drawing.Drawing2D;
 using EcellLib.PathwayWindow.Nodes;
 using System.Diagnostics;
 using EcellLib.PathwayWindow.Graphic;
+using UMD.HCIL.Piccolo;
 
 namespace EcellLib.PathwayWindow
 {
@@ -458,7 +459,7 @@ namespace EcellLib.PathwayWindow
             handButton.Image = PathwayResource.move1;
             handButton.CheckOnClick = true;
             handButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonMoveCanvas);
-            handButton.Handle = new Handle(Mode.Pan, handleCount, new PPanEventHandler());
+            handButton.Handle = new Handle(Mode.Pan, handleCount, new PPathwayPanEventHandler(m_con));
             m_handleDict.Add(MenuConstants.ToolButtonMoveCanvas, handButton.Handle);
             handButton.Click += new EventHandler(ButtonStateChanged);
             list.Add(handButton);
@@ -563,6 +564,143 @@ namespace EcellLib.PathwayWindow
             m_con.SelectedHandle = (Handle)button0.Handle;
 
             return list;
+        }
+
+        /// <summary>
+        /// SetPopupMenus
+        /// </summary>
+        public void SetPopupMenus()
+        {
+            // Set popup menu visibility flags.
+            PNode node = m_con.Canvas.FocusNode;
+            bool isPPathwayObject = (node is PPathwayObject);
+            bool isPPathwayNode = (node is PPathwayNode);
+            bool isPPathwaySystem = (node is PPathwaySystem);
+            bool isRoot = false;
+            bool isLine = (node is PPathwayLine);
+            bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
+            bool isLayoutMenu = (m_menuLayoutList.Count > 0);
+
+            // Set popup menu text.
+            if (isPPathwayObject)
+            {
+                PPathwayObject obj = (PPathwayObject)node;
+                m_popMenuDict[MenuConstants.CanvasMenuID].Text = obj.EcellObject.Key;
+                SetLoggerMenu(obj);
+                SetLayerManu(obj);
+                if (isPPathwaySystem)
+                {
+                    m_popMenuDict[MenuConstants.CanvasMenuMerge].Text =
+                        m_resources.GetString(MenuConstants.CanvasMenuMerge) + "(" + obj.EcellObject.ParentSystemID + ")";
+                }
+                if (obj.EcellObject.Key.Equals("/"))
+                    isRoot = true;
+            }
+            if (isLine)
+            {
+                PPathwayLine line = (PPathwayLine)node;
+                SetLineMenu(line);
+            }
+
+            // Show ObjectID(key).
+            m_popMenuDict[MenuConstants.CanvasMenuID].Visible = isPPathwayObject;
+            m_popMenuDict[MenuConstants.CanvasMenuSeparator1].Visible = isPPathwayObject;
+            // Show Line menus.
+            m_popMenuDict[MenuConstants.CanvasMenuRightArrow].Visible = isLine;
+            m_popMenuDict[MenuConstants.CanvasMenuLeftArrow].Visible = isLine;
+            m_popMenuDict[MenuConstants.CanvasMenuBidirArrow].Visible = isLine;
+            m_popMenuDict[MenuConstants.CanvasMenuConstantLine].Visible = isLine;
+            m_popMenuDict[MenuConstants.CanvasMenuSeparator3].Visible = isLine;
+            // Show Node / System edit menus.
+            m_popMenuDict[MenuConstants.CanvasMenuCut].Visible = isPPathwayObject && !isRoot;
+            m_popMenuDict[MenuConstants.CanvasMenuCopy].Visible = isPPathwayObject && !isRoot;
+            m_popMenuDict[MenuConstants.CanvasMenuPaste].Visible = isCopiedObject;
+            m_popMenuDict[MenuConstants.CanvasMenuDelete].Visible = (isPPathwayObject && !isRoot) || isLine;
+            m_popMenuDict[MenuConstants.CanvasMenuMerge].Visible = isPPathwaySystem && !isRoot;
+            m_popMenuDict[MenuConstants.CanvasMenuSeparator4].Visible = isCopiedObject || (isPPathwayObject && !isRoot);
+            // Show Layer menu.
+            m_popMenuDict[MenuConstants.CanvasMenuChangeLayer].Visible = isPPathwayObject && !isRoot;
+            m_popMenuDict[MenuConstants.CanvasMenuMoveFront].Visible = isPPathwayObject && !isRoot;
+            m_popMenuDict[MenuConstants.CanvasMenuMoveBack].Visible = isPPathwayObject && !isRoot;
+            m_popMenuDict[MenuConstants.CanvasMenuSeparator5].Visible = isPPathwayObject && !isRoot;
+            // Show Layout menus.
+            m_popMenuDict[MenuConstants.CanvasMenuLayout].Visible = isLayoutMenu && !isLine;
+            m_popMenuDict[MenuConstants.CanvasMenuSeparator2].Visible = isLayoutMenu && (isPPathwayObject);
+            // Show Logger menu.
+            m_popMenuDict[MenuConstants.CanvasMenuCreateLogger].Visible = isPPathwayObject;
+            m_popMenuDict[MenuConstants.CanvasMenuDeleteLogger].Visible = isPPathwayObject;
+        }
+
+        /// <summary>
+        /// Set logger menu items.
+        /// </summary>
+        /// <param name="obj">Selected PPathwayObject.</param>
+        private void SetLoggerMenu(PPathwayObject obj)
+        {
+
+            ToolStripMenuItem createLogger = (ToolStripMenuItem)m_popMenuDict[MenuConstants.CanvasMenuCreateLogger];
+            ToolStripMenuItem deleteLogger = (ToolStripMenuItem)m_popMenuDict[MenuConstants.CanvasMenuDeleteLogger];
+            createLogger.DropDown.Items.Clear();
+            deleteLogger.DropDown.Items.Clear();
+
+            if (obj.EcellObject == null || obj.EcellObject.ModelID == null)
+                return;
+            // set logger menu
+            EcellObject eo = obj.EcellObject;
+            foreach (EcellData data in eo.Value)
+            {
+                // Create "Create Logger" menu.
+                if (!data.Logable)
+                    continue;
+                ToolStripItem createItem = new ToolStripMenuItem(data.Name);
+                createItem.Text = data.Name;
+                createItem.Click += new EventHandler(m_con.Menu.CreateLoggerClick);
+                createLogger.DropDown.Items.Add(createItem);
+
+                // create "Delete Logger" menu.
+                if (!data.Logged)
+                    continue;
+                ToolStripItem deleteItem = new ToolStripMenuItem(data.Name);
+                deleteItem.Text = data.Name;
+                deleteItem.Click += new EventHandler(m_con.Menu.DeleteLoggerClick);
+                deleteLogger.DropDown.Items.Add(deleteItem);
+            }
+            createLogger.Enabled = (createLogger.DropDown.Items.Count != 0);
+            deleteLogger.Enabled = (deleteLogger.DropDown.Items.Count != 0);
+        }
+
+        /// <summary>
+        /// Set layer menu items.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void SetLayerManu(PPathwayObject obj)
+        {
+            ToolStripMenuItem layerMenu = (ToolStripMenuItem)m_popMenuDict[MenuConstants.CanvasMenuChangeLayer];
+            layerMenu.DropDown.Items.Clear();
+            foreach (string layerName in m_con.Canvas.GetLayerNameList())
+            {
+                ToolStripMenuItem layerItem = new ToolStripMenuItem(layerName);
+                layerItem.Checked = layerName.Equals(obj.Layer.Name);
+                layerItem.Click += new EventHandler(m_con.Menu.ChangeLeyerClick);
+                layerMenu.DropDown.Items.Add(layerItem);
+            }
+            ToolStripSeparator separator = new ToolStripSeparator();
+            layerMenu.DropDown.Items.Add(separator);
+
+            ToolStripMenuItem createNewLayer = new ToolStripMenuItem(m_resources.GetString(MenuConstants.CanvasMenuCreateLayer));
+            createNewLayer.Click += new EventHandler(m_con.Menu.ChangeLeyerClick);
+            layerMenu.DropDown.Items.Add(createNewLayer);
+        }
+        /// <summary>
+        /// Set line menu.
+        /// </summary>
+        /// <param name="line"></param>
+        private void SetLineMenu(PPathwayLine line)
+        {
+            m_popMenuDict[MenuConstants.CanvasMenuRightArrow].Enabled = !(line.Info.Direction == EdgeDirection.Outward);
+            m_popMenuDict[MenuConstants.CanvasMenuLeftArrow].Enabled = !(line.Info.Direction == EdgeDirection.Inward);
+            m_popMenuDict[MenuConstants.CanvasMenuBidirArrow].Enabled = !(line.Info.Direction == EdgeDirection.Bidirection);
+            m_popMenuDict[MenuConstants.CanvasMenuConstantLine].Enabled = !(line.Info.Direction == EdgeDirection.None);
         }
         #endregion
 

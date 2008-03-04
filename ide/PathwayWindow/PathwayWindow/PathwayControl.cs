@@ -147,11 +147,6 @@ namespace EcellLib.PathwayWindow
         private bool m_isViewMode = false;
 
         /// <summary>
-        /// Whether PathwayView is freezed or not.
-        /// </summary>
-        private bool m_isFreezed = false;
-
-        /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
         ComponentResourceManager m_resources;
@@ -658,8 +653,7 @@ namespace EcellLib.PathwayWindow
         {
             // Remove old EventHandler
             PBasicInputEventHandler handler = m_selectedHandle.EventHandler;
-            if (handler is PPathwayInputEventHandler)
-                ((PPathwayInputEventHandler)handler).Reset();
+            ((IPathwayEventHandler)handler).Reset();
             RemoveInputEventListener(handler);
 
             // Set new EventHandler 
@@ -675,20 +669,8 @@ namespace EcellLib.PathwayWindow
                 else
                     button.Checked = false;
             }
-            if (handler is PPathwayInputEventHandler)
-                ((PPathwayInputEventHandler)handler).Initialize();
+            ((IPathwayEventHandler)handler).Initialize();
             AddInputEventListener(handler);
-
-            if (m_selectedHandle.Mode == Mode.Pan)
-            {
-                m_pathwayView.Cursor = new Cursor(new MemoryStream(PathwayResource.move));
-                Freeze();
-            }
-            else
-            {
-                m_pathwayView.Cursor = Cursors.Arrow;
-                Unfreeze();
-            }
             if (Canvas == null)
                 return;
             Canvas.ResetNodeToBeConnected();
@@ -1019,33 +1001,28 @@ namespace EcellLib.PathwayWindow
         {
             // Create canvas
             Canvas = new CanvasControl(this, modelID);
+            SetEventHandler(m_selectedHandle);
             RaiseCanvasChange();
         }
 
         /// <summary>
         /// Freeze all objects to be unpickable.
         /// </summary>
-        private void Freeze()
+        internal void Freeze()
         {
-            if (m_isFreezed)
+            if (m_canvas == null)
                 return;
-            if (m_canvas != null)
-                m_canvas.Freeze();
-
-            m_isFreezed = true;
+            m_canvas.Freeze();
         }
 
         /// <summary>
         /// Cancel freezed status.
         /// </summary>
-        private void Unfreeze()
+        internal void Unfreeze()
         {
-            if (!m_isFreezed)
+            if (m_canvas == null)
                 return;
-            if (m_canvas != null)
-                m_canvas.Unfreeze();
-
-            m_isFreezed = false;
+            m_canvas.Unfreeze();
         }
 
         /// <summary>

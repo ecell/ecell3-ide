@@ -26,23 +26,24 @@
 //
 // written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.ComponentModel;
 using UMD.HCIL.Piccolo.Event;
-using System.Windows.Forms;
+using System.IO;
 using EcellLib.PathwayWindow.Resources;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace EcellLib.PathwayWindow.Handler
 {
     /// <summary>
-    /// PPathwayInputEventHandler
+    /// PPathwayPanEventHandler
     /// </summary>
-    public class PPathwayInputEventHandler : PBasicInputEventHandler, IPathwayEventHandler
+    class PPathwayPanEventHandler : PPanEventHandler, IPathwayEventHandler
     {
-        #region Fields
         /// <summary>
         /// PathwayControl
         /// </summary>
@@ -52,61 +53,43 @@ namespace EcellLib.PathwayWindow.Handler
         /// ResourceManager for PathwayWindow.
         /// </summary>
         protected ComponentResourceManager m_resources;
-        
-        #endregion
-
-        #region Accessors
-        
-        #endregion
-
-        #region EventHandlers
-        /// <summary>
-        /// Get the flag whether system accept this events.
-        /// </summary>
-        /// <param name="e">Target events.</param>
-        /// <returns>The judgement whether this event is accepted.</returns>
-        public override bool DoesAcceptEvent(PInputEventArgs e)
-        {
-            return e.Button != MouseButtons.Right;
-        }        
-        #endregion
 
         #region Constructors
         /// <summary>
         /// Constructor with PathwayView.
         /// </summary>
-        protected PPathwayInputEventHandler()
+        protected PPathwayPanEventHandler()
         {
         }
         /// <summary>
         /// Constructor with PathwayView.
         /// </summary>
         /// <param name="control">The control of PathwayView.</param>
-        public PPathwayInputEventHandler(PathwayControl control)
+        public PPathwayPanEventHandler(PathwayControl control)
         {
             this.m_con = control;
             this.m_resources = control.Resources;
         }
         #endregion
 
-        #region Public Methods
+        #region IPathwayEventHandler
         /// <summary>
-        /// Method to initialize EventHandler status.
+        /// 
         /// </summary>
-        public virtual void Initialize()
+        public void Initialize()
         {
+            m_con.Canvas.PathwayCanvas.Cursor = new Cursor(new MemoryStream(PathwayResource.move));
+            m_con.Canvas.ResetSelectedObjects();
+            m_con.Freeze();
         }
-
         /// <summary>
-        /// Method to reset EventHandler status.
+        /// 
         /// </summary>
-        public virtual void Reset()
+        public void Reset()
         {
+            m_con.Canvas.PathwayCanvas.Cursor = Cursors.Arrow;
+            m_con.Unfreeze();
         }
-        #endregion
-
-        #region Inner Methods
-        
         #endregion
     }
 }

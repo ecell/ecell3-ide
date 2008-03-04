@@ -184,9 +184,14 @@ namespace EcellLib.PathwayWindow
         bool m_isViewMode = false;
 
         /// <summary>
+        /// Whether PathwayView is freezed or not.
+        /// </summary>
+        private bool m_isFreezed = false;
+
+        /// <summary>
         /// ResizeHandler for resizing a system.
         /// </summary>
-        protected ResizeHandler m_resizeHandler;
+        protected SystemResizeHandler m_resizeHandler;
 
         /// <summary>
         /// PPathwayObject, which is to be connected.
@@ -365,7 +370,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
-        public ResizeHandler ResizeHandler
+        public SystemResizeHandler ResizeHandler
         {
             get { return m_resizeHandler; }
         }
@@ -411,7 +416,7 @@ namespace EcellLib.PathwayWindow
             AddLayer(m_sysLayer);
 
             // Preparing system ResizeHandlers
-            m_resizeHandler = new ResizeHandler(this);
+            m_resizeHandler = new SystemResizeHandler(this);
             m_lineHandler = new LineHandler(this);
 
             // Set ViewMode
@@ -921,19 +926,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Freeze objects on this canvas.
-        /// </summary>
-        public void Freeze()
-        {
-            foreach (PPathwaySystem system in m_systems.Values)
-                system.Freeze();
-            foreach (PPathwayVariable var in m_variables.Values)
-                var.Freeze();
-            foreach (PPathwayProcess pro in m_processes.Values)
-                pro.Freeze();
-        }
-
-        /// <summary>
         /// Get object under the point.
         /// </summary>
         /// <param name="pointF"></param>
@@ -1217,10 +1209,25 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         /// <summary>
+        /// Freeze objects on this canvas.
+        /// </summary>
+        internal void Freeze()
+        {
+            m_isFreezed = true;
+            foreach (PPathwaySystem system in m_systems.Values)
+                system.Freeze();
+            foreach (PPathwayVariable var in m_variables.Values)
+                var.Freeze();
+            foreach (PPathwayProcess pro in m_processes.Values)
+                pro.Freeze();
+        }
+
+        /// <summary>
         /// Cancel freeze status of this canvas.
         /// </summary>
-        public void Unfreeze()
+        internal void Unfreeze()
         {
+            m_isFreezed = false;
             foreach (PPathwaySystem system in m_systems.Values)
                 system.Unfreeze();
             foreach (PPathwayVariable var in m_variables.Values)
@@ -1339,6 +1346,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void ResetSelectedObjects()
         {
+            m_focusNode = null;
             ResetSelectedSystem();
             ResetSelectedNodes();
             ResetSelectedLine();

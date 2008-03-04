@@ -228,14 +228,10 @@ namespace EcellLib.PathwayWindow.Handler
             if (node != null)
             {
                 canvas.AddNodeToBeConnected(node);
-                //canvas.LineHandler.Line4Reconnect.Pen = LINE_THICK_PEN;
-                //canvas.LineHandler.SetLineVisibility(true);
             }
             else
             {
                 canvas.ResetNodeToBeConnected();
-                //canvas.LineHandler.Line4Reconnect.Reset();
-                //canvas.LineHandler.SetLineVisibility(false);
             }
         }
         

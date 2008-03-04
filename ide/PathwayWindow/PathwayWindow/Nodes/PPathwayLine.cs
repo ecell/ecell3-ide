@@ -325,8 +325,8 @@ namespace EcellLib.PathwayWindow.Nodes
             base.OnMouseUp(e);
             if (m_canvas == null)
                 return;
-            m_canvas.FocusNode = this;
             m_canvas.ResetSelectedObjects();
+            m_canvas.FocusNode = this;
             m_canvas.LineHandler.AddSelectedLine(this);
         }
         #endregion

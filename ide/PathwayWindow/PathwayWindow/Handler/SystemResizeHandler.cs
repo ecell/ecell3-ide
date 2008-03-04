@@ -49,7 +49,7 @@ namespace EcellLib.PathwayWindow.Handler
     /// <summary>
     /// ResizeHandler
     /// </summary>
-    public class ResizeHandler
+    public class SystemResizeHandler
     {
 
         /// <summary>
@@ -77,6 +77,11 @@ namespace EcellLib.PathwayWindow.Handler
         /// List of PNodes, which are currently surrounded by the system.
         /// </summary>
         PNodeList m_surroundedBySystem = null;
+
+        /// <summary>
+        /// Cursor
+        /// </summary>
+        private Cursor m_cursor;
         #endregion
 
         #region Constructor
@@ -84,7 +89,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// Constructor
         /// </summary>
         /// <param name="canvas"></param>
-        public ResizeHandler(CanvasControl canvas)
+        public SystemResizeHandler(CanvasControl canvas)
         {
             this.m_canvas = canvas;
             this.m_resources = m_canvas.PathwayControl.Resources;
@@ -362,7 +367,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_MouseLeave(object sender, PInputEventArgs e)
         {
-            e.Canvas.Cursor = Cursors.Default;
+            e.Canvas.Cursor = m_cursor;
         }
 
         /// <summary>
@@ -605,6 +610,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_CursorSizeNWSE(object sender, PInputEventArgs e)
         {
+            m_cursor = e.Canvas.Cursor;
             e.Canvas.Cursor = Cursors.SizeNWSE;
         }
 
@@ -615,6 +621,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_CursorSizeNS(object sender, PInputEventArgs e)
         {
+            m_cursor = e.Canvas.Cursor;
             e.Canvas.Cursor = Cursors.SizeNS;
         }
 
@@ -625,6 +632,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_CursorSizeNESW(object sender, PInputEventArgs e)
         {
+            m_cursor = e.Canvas.Cursor;
             e.Canvas.Cursor = Cursors.SizeNESW;
         }
 
@@ -635,6 +643,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         void ResizeHandle_CursorSizeWE(object sender, PInputEventArgs e)
         {
+            m_cursor = e.Canvas.Cursor;
             e.Canvas.Cursor = Cursors.SizeWE;
         }
         #endregion

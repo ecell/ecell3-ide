@@ -361,6 +361,7 @@ namespace EcellLib.PathwayWindow
                 float molerConc = GetFloatValue(variable.EcellObject, "MolarConc");
                 variable.PPropertyText.Text = GetPropertyString(molerConc);
             }
+            m_canvas.PathwayCanvas.Refresh();
         }
 
         /// <summary>
