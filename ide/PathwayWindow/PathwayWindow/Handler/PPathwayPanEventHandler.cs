@@ -36,6 +36,8 @@ using System.IO;
 using EcellLib.PathwayWindow.Resources;
 using System.ComponentModel;
 using System.Windows.Forms;
+using EcellLib.PathwayWindow.Nodes;
+using UMD.HCIL.Piccolo;
 
 namespace EcellLib.PathwayWindow.Handler
 {
@@ -53,7 +55,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// ResourceManager for PathwayWindow.
         /// </summary>
         protected ComponentResourceManager m_resources;
-
+        
         #region Constructors
         /// <summary>
         /// Constructor with PathwayView.
@@ -80,7 +82,8 @@ namespace EcellLib.PathwayWindow.Handler
         {
             m_con.Canvas.PathwayCanvas.Cursor = new Cursor(new MemoryStream(PathwayResource.move));
             m_con.Canvas.ResetSelectedObjects();
-            m_con.Freeze();
+            PCanvas canvas = m_con.Canvas.PathwayCanvas;
+            canvas.Camera.Pickable = false;
         }
         /// <summary>
         /// 
@@ -88,7 +91,8 @@ namespace EcellLib.PathwayWindow.Handler
         public void Reset()
         {
             m_con.Canvas.PathwayCanvas.Cursor = Cursors.Arrow;
-            m_con.Unfreeze();
+            PCanvas canvas = m_con.Canvas.PathwayCanvas;
+            canvas.Camera.Pickable = true;
         }
         #endregion
     }

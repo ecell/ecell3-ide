@@ -1006,26 +1006,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Freeze all objects to be unpickable.
-        /// </summary>
-        internal void Freeze()
-        {
-            if (m_canvas == null)
-                return;
-            m_canvas.Freeze();
-        }
-
-        /// <summary>
-        /// Cancel freezed status.
-        /// </summary>
-        internal void Unfreeze()
-        {
-            if (m_canvas == null)
-                return;
-            m_canvas.Unfreeze();
-        }
-
-        /// <summary>
         /// Get the list of system in the target mode.
         /// </summary>
         /// <returns>The list of system.</returns>

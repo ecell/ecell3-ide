@@ -1209,34 +1209,6 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         /// <summary>
-        /// Freeze objects on this canvas.
-        /// </summary>
-        internal void Freeze()
-        {
-            m_isFreezed = true;
-            foreach (PPathwaySystem system in m_systems.Values)
-                system.Freeze();
-            foreach (PPathwayVariable var in m_variables.Values)
-                var.Freeze();
-            foreach (PPathwayProcess pro in m_processes.Values)
-                pro.Freeze();
-        }
-
-        /// <summary>
-        /// Cancel freeze status of this canvas.
-        /// </summary>
-        internal void Unfreeze()
-        {
-            m_isFreezed = false;
-            foreach (PPathwaySystem system in m_systems.Values)
-                system.Unfreeze();
-            foreach (PPathwayVariable var in m_variables.Values)
-                var.Unfreeze();
-            foreach (PPathwayProcess pro in m_processes.Values)
-                pro.Unfreeze();
-        }
-
-        /// <summary>
         /// Call the UpdateOverview() method after a certain time passed
         /// </summary>
         /// <param name="miliSec">Called after this time passed</param>

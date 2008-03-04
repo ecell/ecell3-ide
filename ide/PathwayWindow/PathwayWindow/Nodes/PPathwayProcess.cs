@@ -124,28 +124,6 @@ namespace EcellLib.PathwayWindow.Nodes
 
         #region Methods
         /// <summary>
-        /// Freeze this object and related lines.
-        /// </summary>
-        public override void Freeze()
-        {
-            base.Freeze();
-            foreach (List<PPathwayLine> list in m_lines.Values)
-                foreach (PPathwayLine line in list)
-                    line.Pickable = false;
-        }
-
-        /// <summary>
-        /// Unfreeze this object and related lines.
-        /// </summary>
-        public override void Unfreeze()
-        {
-            base.Unfreeze();
-            foreach (List<PPathwayLine> list in m_lines.Values)
-                foreach (PPathwayLine line in list)
-                    line.Pickable = true;
-        }
-        
-        /// <summary>
         /// Create SVG object.
         /// </summary>
         /// <returns></returns>
