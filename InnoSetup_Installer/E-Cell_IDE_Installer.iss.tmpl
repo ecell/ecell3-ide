@@ -42,12 +42,14 @@ Name: extension; Description: "Extension"; Types: full compact; Flags: DisableNo
 Name: "English"; MessagesFile: "C:\Program Files\Inno Setup 5\Default.isl";
 Name: "Japanese"; MessagesFile: "C:\Program Files\Inno Setup 5\Languages\Japanese.isl";
 
+[LangOptions]
+Japanese.LanguageName = "<65e5><672c><8a9e>"
 
 [Files]
 ; ======================================================
 ; common
 ; ======================================================
-Source: "Win32\bin\*.py"; DestDir: "{app}\bin"; Components: extension
+Source: "lib\ironpython\*.py"; DestDir: "{app}\bin"; Components: extension
 
 Source: "samples\Arti_Class1\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Arti_Class1"; Components: extension
 Source: "samples\Arti_Class1\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\Arti_Class1"; Components: extension
