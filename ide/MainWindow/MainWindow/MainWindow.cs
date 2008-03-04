@@ -481,6 +481,8 @@ namespace EcellLib.MainWindow
                         int i = 0;
                         while (iter.MoveNext())
                         {
+                            if (!(iter.Current is ToolStripMenuItem))
+                                continue;
                             ToolStripMenuItem t = (ToolStripMenuItem)iter.Current;
                             if (Convert.ToInt32(t.Tag) > Convert.ToInt32(item.Tag))
                             {
