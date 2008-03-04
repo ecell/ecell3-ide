@@ -361,18 +361,38 @@ namespace EcellLib.PathwayWindow
         {
             List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
 
+            // ExportGraphics menu.
+            ToolStripMenuItem exportSVGItem = new ToolStripMenuItem();
+            exportSVGItem.ToolTipText = m_resources.GetString(MenuConstants.MenuToolTipExportSVG);
+            exportSVGItem.Text = m_resources.GetString(MenuConstants.MenuItemExportSVG);
+            exportSVGItem.Click += new EventHandler(ExportSVG);
+
+            ToolStripMenuItem exportMenu = new ToolStripMenuItem();
+            exportMenu.DropDownItems.AddRange(new ToolStripItem[] { exportSVGItem });
+            exportMenu.ToolTipText = m_resources.GetString(MenuConstants.MenuToolTipExport);
+            exportMenu.Text = m_resources.GetString(MenuConstants.MenuItemExport);
+            exportMenu.Name = MenuConstants.MenuItemExport;
+            exportMenu.Tag = 5;
+
+            ToolStripMenuItem fileMenu = new ToolStripMenuItem();
+            fileMenu.DropDownItems.AddRange(new ToolStripItem[] { exportMenu });
+            fileMenu.Text = m_resources.GetString(MenuConstants.MenuItemFile);
+            fileMenu.Name = MenuConstants.MenuItemFile;
+
+            menuList.Add(fileMenu);
+
             // Setup menu
             ToolStripMenuItem setupItem = new ToolStripMenuItem();
             setupItem.ToolTipText = m_resources.GetString(MenuConstants.MenuToolTipSetup);
             setupItem.Text = m_resources.GetString(MenuConstants.MenuItemSetup);
             setupItem.Click += new EventHandler(ShowDialogClick);
 
-            ToolStripMenuItem setupMenu = new ToolStripMenuItem();
-            setupMenu.DropDownItems.AddRange(new ToolStripItem[] { setupItem });
-            setupMenu.Text = m_resources.GetString(MenuConstants.MenuItemSetup);
-            setupMenu.Name = MenuConstants.MenuItemSetup;
+            ToolStripMenuItem setup = new ToolStripMenuItem();
+            setup.DropDownItems.AddRange(new ToolStripItem[] { setupItem });
+            setup.Text = m_resources.GetString(MenuConstants.MenuItemSetup);
+            setup.Name = MenuConstants.MenuItemSetup;
 
-            menuList.Add(setupMenu);
+            menuList.Add(setup);
 
             // View menu
             ToolStripMenuItem showIdItem = new ToolStripMenuItem();
@@ -1103,6 +1123,25 @@ namespace EcellLib.PathwayWindow
                 return;
             m_con.Canvas.Zoom(rate);
         }
+        /// <summary>
+        /// Export SVG format.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ExportSVG(object sender, EventArgs e)
+        {
+            if (m_con.Canvas == null)
+                return;
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "SVG File|*.svg";
+            sfd.CheckPathExists = true;
+            sfd.CreatePrompt = true;
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                // Save window settings.
+                GraphicsExporter.ExportSVG(m_con.Canvas, sfd.FileName);
+            }
+        }
         #endregion
 
     }
@@ -1206,7 +1245,27 @@ namespace EcellLib.PathwayWindow
 
         #region ToolBarMenu
         /// <summary>
-        /// Key definition of MessageResPathway for ShowID
+        /// Key definition of MessageResPathway for File
+        /// </summary>
+        internal const string MenuItemFile = "MenuItemFile";
+        /// <summary>
+        /// Key definition of MessageResPathway for Export
+        /// </summary>
+        internal const string MenuItemExport = "MenuItemExport";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolTipExport
+        /// </summary>
+        internal const string MenuToolTipExport = "MenuToolTipExport";
+        /// <summary>
+        /// Key definition of MessageResPathway for ExportSVG
+        /// </summary>
+        internal const string MenuItemExportSVG = "MenuItemExportSVG";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolTipExportSVG
+        /// </summary>
+        internal const string MenuToolTipExportSVG = "MenuToolTipExportSVG";
+        /// <summary>
+        /// Key definition of MessageResPathway for Setup
         /// </summary>
         internal const string MenuItemSetup = "MenuItemSetup";
         /// <summary>

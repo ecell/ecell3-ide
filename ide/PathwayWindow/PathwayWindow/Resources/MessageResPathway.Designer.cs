@@ -511,6 +511,33 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
+        ///   Export Graphics. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemExport {
+            get {
+                return ResourceManager.GetString("MenuItemExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Export SVG format. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemExportSVG {
+            get {
+                return ResourceManager.GetString("MenuItemExportSVG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemFile {
+            get {
+                return ResourceManager.GetString("MenuItemFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   &amp;Layout に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemLayout {
@@ -552,6 +579,24 @@ namespace EcellLib.PathwayWindow.Resources {
         internal static string MenuItemViewMode {
             get {
                 return ResourceManager.GetString("MenuItemViewMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Export Graphics. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipExport {
+            get {
+                return ResourceManager.GetString("MenuToolTipExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Export SVG format. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipExportSVG {
+            get {
+                return ResourceManager.GetString("MenuToolTipExportSVG", resourceCulture);
             }
         }
         

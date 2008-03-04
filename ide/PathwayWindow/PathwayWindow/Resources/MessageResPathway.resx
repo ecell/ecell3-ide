@@ -324,4 +324,19 @@
   <data name="LayerMenuMoveFront" xml:space="preserve">
     <value>Move to front</value>
   </data>
+  <data name="MenuItemExport" xml:space="preserve">
+    <value>Export Graphics.</value>
+  </data>
+  <data name="MenuItemExportSVG" xml:space="preserve">
+    <value>Export SVG format.</value>
+  </data>
+  <data name="MenuToolTipExport" xml:space="preserve">
+    <value>Export Graphics.</value>
+  </data>
+  <data name="MenuToolTipExportSVG" xml:space="preserve">
+    <value>Export SVG format.</value>
+  </data>
+  <data name="MenuItemFile" xml:space="preserve">
+    <value>File</value>
+  </data>
 </root>
