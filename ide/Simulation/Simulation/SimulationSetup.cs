@@ -257,7 +257,7 @@ namespace EcellLib.Simulation
 
             Dictionary<string, double> initList =
                 m_dManager.GetInitialCondition(currentParam,
-                                modelName, Constants.xpathProcess);
+                                modelName, type);
             foreach (string key in initList.Keys)
             {
                 DataGridViewRow row = new DataGridViewRow();
