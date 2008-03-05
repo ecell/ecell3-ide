@@ -476,14 +476,11 @@ namespace EcellLib.MainWindow
                         ToolStripItem[] tmp = this.menustrip.Items.Find(menu.Name, false);
                         ToolStripMenuItem menuItem = (ToolStripMenuItem)tmp[0];
                         ToolStripItem item = menu.DropDownItems[0];
-
                         IEnumerator iter = menuItem.DropDownItems.GetEnumerator();
                         int i = 0;
                         while (iter.MoveNext())
                         {
-                            if (!(iter.Current is ToolStripMenuItem))
-                                continue;
-                            ToolStripMenuItem t = (ToolStripMenuItem)iter.Current;
+                            ToolStripItem t = (ToolStripItem)iter.Current;
                             if (Convert.ToInt32(t.Tag) > Convert.ToInt32(item.Tag))
                             {
                                 menuItem.DropDownItems.Insert(i, item);
@@ -506,10 +503,6 @@ namespace EcellLib.MainWindow
                 ToolStrip toolStrip = new ToolStrip();
                 toolStrip.Items.AddRange(toolList.ToArray());
                 this.toolStripContainer.TopToolStripPanel.Controls.Add(toolStrip);
-                //if (this.toolstrip.Items.Count > 0)
-                //    this.toolstrip.Items.AddRange(new ToolStripItem[] { new ToolStripSeparator() });
-                //foreach (ToolStripItem tool in toolList)
-                //    this.toolstrip.Items.AddRange(toolList.ToArray());
             }
         }
         

@@ -166,7 +166,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_modelID.
         /// </summary>
-        public string ModelID
+        public virtual string ModelID
         {
             get { return m_modelID; }
             set { m_modelID = value; }
@@ -175,7 +175,7 @@ namespace EcellLib
         /// <summary>
         /// get / set name.
         /// </summary>
-        public string Name
+        public virtual string Name
         {
             get {
                 string name;
@@ -201,7 +201,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_keyID.
         /// </summary>
-        public string Key
+        public virtual string Key
         {
             get { return m_key; }
             set { m_key = value; }
@@ -210,7 +210,7 @@ namespace EcellLib
         /// <summary>
         /// get parent system ID.
         /// </summary>
-        public string ParentSystemID
+        public virtual string ParentSystemID
         {
             get { return GetParentSystemId(Key); }
             set
@@ -236,7 +236,7 @@ namespace EcellLib
         /// <summary>
         /// get text.
         /// </summary>
-        public string Text
+        public virtual string Text
         {
             get
             {
@@ -251,7 +251,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_class.
         /// </summary>
-        public string Classname
+        public virtual string Classname
         {
             get { return m_class; }
             set { this.m_class = value; }
@@ -260,7 +260,7 @@ namespace EcellLib
         /// <summary>
         /// get/set the layer property.
         /// </summary>
-        public string LayerID
+        public virtual string LayerID
         {
             get { return this.m_layerID; }
             set { this.m_layerID = value; }
@@ -269,7 +269,7 @@ namespace EcellLib
         /// <summary>
         /// PointF
         /// </summary>
-        public PointF PointF
+        public virtual PointF PointF
         {
             get { return new PointF(m_x, m_y); }
             set
@@ -281,7 +281,7 @@ namespace EcellLib
         /// <summary>
         /// PointF
         /// </summary>
-        public RectangleF Rect
+        public virtual RectangleF Rect
         {
             get { return new RectangleF(m_x, m_y, m_width, m_height); }
         }
@@ -289,7 +289,7 @@ namespace EcellLib
         /// <summary>
         /// X coordinate
         /// </summary>
-        public float X
+        public virtual float X
         {
             get { return m_x; }
             set
@@ -301,7 +301,7 @@ namespace EcellLib
         /// <summary>
         /// Y coordinate
         /// </summary>
-        public float Y
+        public virtual float Y
         {
             get { return m_y; }
             set {
@@ -312,7 +312,7 @@ namespace EcellLib
         /// <summary>
         /// X offset
         /// </summary>
-        public float OffsetX
+        public virtual float OffsetX
         {
             get { return m_offsetX; }
             set { m_offsetX = value; }
@@ -321,7 +321,7 @@ namespace EcellLib
         /// <summary>
         /// Y offset
         /// </summary>
-        public float OffsetY
+        public virtual float OffsetY
         {
             get { return m_offsetY; }
             set { m_offsetY = value; }
@@ -330,7 +330,7 @@ namespace EcellLib
         /// <summary>
         /// Width
         /// </summary>
-        public float Width
+        public virtual float Width
         {
             get { return m_width; }
             set {
@@ -341,7 +341,7 @@ namespace EcellLib
         /// <summary>
         /// Height
         /// </summary>
-        public float Height
+        public virtual float Height
         {
             get { return m_height; }
             set {
@@ -352,7 +352,7 @@ namespace EcellLib
         /// <summary>
         /// get isLogger.
         /// </summary>
-        public bool Logged
+        public virtual bool Logged
         {
             get
             {
@@ -370,7 +370,7 @@ namespace EcellLib
         /// <summary>
         /// get/set m_type.
         /// </summary>
-        public string Type
+        public virtual string Type
         {
             get { return m_type; }
             set { this.m_type = value; }
@@ -380,7 +380,7 @@ namespace EcellLib
         /// get/set Value.
         /// </summary>
         [Browsable(false)]
-        public List<EcellData> Value
+        public virtual List<EcellData> Value
         {
             get { return m_ecellDatas; }
             // set { this.Value = value; }
@@ -390,7 +390,7 @@ namespace EcellLib
         /// get/set Children.
         /// </summary>
         [Browsable(false)]
-        public List<EcellObject> Children
+        public virtual List<EcellObject> Children
         {
             get
             {
@@ -406,7 +406,7 @@ namespace EcellLib
         /// <summary>
         /// Whether position for this object has been set or not.
         /// </summary>
-        public bool IsPosSet
+        public virtual bool IsPosSet
         {
             get
             {
@@ -423,7 +423,7 @@ namespace EcellLib
         /// <summary>
         /// get / set whether this parameter is fix.
         /// </summary>
-        public bool isFixed
+        public virtual bool isFixed
         {
             get { return m_isFixed; }
             set { this.m_isFixed = value; }
@@ -435,7 +435,7 @@ namespace EcellLib
         /// Create the copy "EcellObject".
         /// </summary>
         /// <returns>The copy "EcellObject"</returns>
-        public EcellObject Copy()
+        public virtual EcellObject Copy()
         {
             try
             {
@@ -1886,87 +1886,6 @@ namespace EcellLib
         #endregion
 
         #region Accessors
-        /// <summary>
-        /// get / set the molar concentrate.
-        /// </summary>
-        public double MolarConc
-        {
-            get {
-                if (IsEcellValueExists("MolarConc"))
-                    return GetEcellValue("MolarConc").CastToDouble();
-                else
-                    return 0;
-                }
-            set {
-                if (IsEcellValueExists("MolarConc"))
-                    GetEcellValue("MolarConc").Value = value;
-                else
-                    AddEcellValue("MolarConc", new EcellValue(value));
-            }
-        }
-
-        /// <summary>
-        /// get / set the number of concentrate.
-        /// </summary>
-        public double NumberConc
-        {
-            get
-            {
-                if (IsEcellValueExists("NumberConc"))
-                    return GetEcellValue("NumberConc").CastToDouble();
-                else
-                    return 0;
-            }
-            set
-            {
-                if (IsEcellValueExists("NumberConc"))
-                    GetEcellValue("NumberConc").Value = value;
-                else
-                    AddEcellValue("NumberConc", new EcellValue(value));
-            }
-        }
-
-        /// <summary>
-        /// get / set total velocity.
-        /// </summary>
-        public double TotalVelocity
-        {
-            get
-            {
-                if (IsEcellValueExists("TotalVelocity"))
-                    return GetEcellValue("TotalVelocity").CastToDouble();
-                else
-                    return 0;
-            }
-            set
-            {
-                if (IsEcellValueExists("TotalVelocity"))
-                    GetEcellValue("TotalVelocity").Value = value;
-                else
-                    AddEcellValue("TotalVelocity", new EcellValue(value));
-            }
-        }
-
-        /// <summary>
-        /// get / set velocity.
-        /// </summary>
-        public double Velocity
-        {
-            get
-            {
-                if (IsEcellValueExists("Velocity"))
-                    return GetEcellValue("Velocity").CastToDouble();
-                else
-                    return 0;
-            }
-            set
-            {
-                if (IsEcellValueExists("Velocity"))
-                    GetEcellValue("Velocity").Value = value;
-                else
-                    AddEcellValue("Velocity", new EcellValue(value));
-            }
-        }
         #endregion
 
         #region Methods

@@ -145,6 +145,7 @@ namespace EcellLib.MainWindow
             this.newProjectToolStripMenuItem.MergeIndex = 0;
             this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
             resources.ApplyResources(this.newProjectToolStripMenuItem, "newProjectToolStripMenuItem");
+            this.newProjectToolStripMenuItem.Tag = "1";
             this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.NewProjectMenuClick);
             // 
             // openProjectToolStripMenuItem
@@ -152,6 +153,7 @@ namespace EcellLib.MainWindow
             this.openProjectToolStripMenuItem.MergeIndex = 1;
             this.openProjectToolStripMenuItem.Name = "openProjectToolStripMenuItem";
             resources.ApplyResources(this.openProjectToolStripMenuItem, "openProjectToolStripMenuItem");
+            this.openProjectToolStripMenuItem.Tag = "2";
             this.openProjectToolStripMenuItem.Click += new System.EventHandler(this.OpenProjectMenuClick);
             // 
             // saveProjectToolStripMenuItem
@@ -159,6 +161,7 @@ namespace EcellLib.MainWindow
             this.saveProjectToolStripMenuItem.MergeIndex = 2;
             this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
             resources.ApplyResources(this.saveProjectToolStripMenuItem, "saveProjectToolStripMenuItem");
+            this.saveProjectToolStripMenuItem.Tag = "3";
             this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.SaveProjectMenuClick);
             // 
             // closeProjectToolStripMenuItem
@@ -166,18 +169,21 @@ namespace EcellLib.MainWindow
             this.closeProjectToolStripMenuItem.MergeIndex = 3;
             this.closeProjectToolStripMenuItem.Name = "closeProjectToolStripMenuItem";
             resources.ApplyResources(this.closeProjectToolStripMenuItem, "closeProjectToolStripMenuItem");
+            this.closeProjectToolStripMenuItem.Tag = "4";
             this.closeProjectToolStripMenuItem.Click += new System.EventHandler(this.CloseProjectMenuClick);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            this.toolStripSeparator1.Tag = "5";
             // 
             // importModelToolStripMenuItem
             // 
             this.importModelToolStripMenuItem.MergeIndex = 4;
             this.importModelToolStripMenuItem.Name = "importModelToolStripMenuItem";
             resources.ApplyResources(this.importModelToolStripMenuItem, "importModelToolStripMenuItem");
+            this.importModelToolStripMenuItem.Tag = "6";
             this.importModelToolStripMenuItem.Click += new System.EventHandler(this.ImportModelMenuClick);
             // 
             // exportModelToolStripMenuItem
@@ -185,17 +191,20 @@ namespace EcellLib.MainWindow
             this.exportModelToolStripMenuItem.MergeIndex = 5;
             this.exportModelToolStripMenuItem.Name = "exportModelToolStripMenuItem";
             resources.ApplyResources(this.exportModelToolStripMenuItem, "exportModelToolStripMenuItem");
+            this.exportModelToolStripMenuItem.Tag = "7";
             this.exportModelToolStripMenuItem.Click += new System.EventHandler(this.ExportModelMenuClick);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            this.toolStripSeparator2.Tag = "8";
             // 
             // importScriptToolStripMenuItem
             // 
             this.importScriptToolStripMenuItem.Name = "importScriptToolStripMenuItem";
             resources.ApplyResources(this.importScriptToolStripMenuItem, "importScriptToolStripMenuItem");
+            this.importScriptToolStripMenuItem.Tag = "9";
             this.importScriptToolStripMenuItem.Click += new System.EventHandler(this.ImportScriptMenuClick);
             // 
             // saveScriptToolStripMenuItem
@@ -203,64 +212,75 @@ namespace EcellLib.MainWindow
             this.saveScriptToolStripMenuItem.MergeIndex = 6;
             this.saveScriptToolStripMenuItem.Name = "saveScriptToolStripMenuItem";
             resources.ApplyResources(this.saveScriptToolStripMenuItem, "saveScriptToolStripMenuItem");
+            this.saveScriptToolStripMenuItem.Tag = "10";
             this.saveScriptToolStripMenuItem.Click += new System.EventHandler(this.SaveScriptMenuClick);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
+            this.toolStripSeparator5.Tag = "11";
             // 
             // importActionMenuItem
             // 
             this.importActionMenuItem.Name = "importActionMenuItem";
             resources.ApplyResources(this.importActionMenuItem, "importActionMenuItem");
+            this.importActionMenuItem.Tag = "12";
             this.importActionMenuItem.Click += new System.EventHandler(this.ImportActionMenuClick);
             // 
             // saveActionMenuItem
             // 
             this.saveActionMenuItem.Name = "saveActionMenuItem";
             resources.ApplyResources(this.saveActionMenuItem, "saveActionMenuItem");
+            this.saveActionMenuItem.Tag = "13";
             this.saveActionMenuItem.Click += new System.EventHandler(this.SaveActionMenuClick);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
+            this.toolStripSeparator6.Tag = "14";
             // 
             // saveWindowSettingsToolStripMenuItem
             // 
             this.saveWindowSettingsToolStripMenuItem.Name = "saveWindowSettingsToolStripMenuItem";
             resources.ApplyResources(this.saveWindowSettingsToolStripMenuItem, "saveWindowSettingsToolStripMenuItem");
+            this.saveWindowSettingsToolStripMenuItem.Tag = "15";
             this.saveWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.SaveWindowSettingsClick);
             // 
             // loadWindowSettingsToolStripMenuItem
             // 
             this.loadWindowSettingsToolStripMenuItem.Name = "loadWindowSettingsToolStripMenuItem";
             resources.ApplyResources(this.loadWindowSettingsToolStripMenuItem, "loadWindowSettingsToolStripMenuItem");
+            this.loadWindowSettingsToolStripMenuItem.Tag = "16";
             this.loadWindowSettingsToolStripMenuItem.Click += new System.EventHandler(this.LoadWindowSettingsClick);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
+            this.toolStripSeparator3.Tag = "17";
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.MergeIndex = 7;
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
             resources.ApplyResources(this.printToolStripMenuItem, "printToolStripMenuItem");
+            this.printToolStripMenuItem.Tag = "18";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.PrintMenuClick);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
+            this.toolStripSeparator4.Tag = "19";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.MergeIndex = 100;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
+            this.exitToolStripMenuItem.Tag = "20";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenuClick);
             // 
             // MenuItemEdit

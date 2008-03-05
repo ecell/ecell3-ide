@@ -372,7 +372,7 @@ namespace EcellLib.PathwayWindow
             exportMenu.ToolTipText = m_resources.GetString(MenuConstants.MenuToolTipExport);
             exportMenu.Text = m_resources.GetString(MenuConstants.MenuItemExport);
             exportMenu.Name = MenuConstants.MenuItemExport;
-            exportMenu.Tag = 5;
+            exportMenu.Tag = 17;
 
             ToolStripMenuItem fileMenu = new ToolStripMenuItem();
             fileMenu.DropDownItems.AddRange(new ToolStripItem[] { exportMenu });
