@@ -69,6 +69,7 @@ namespace EcellLib.PathwayWindow.Handler
         public ToolBoxEventHandler(PathwayControl control)
         {
             base.m_con = control;
+            base.m_resources = control.Resources;
         }
         #endregion
 

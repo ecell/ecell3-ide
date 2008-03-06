@@ -502,7 +502,7 @@ namespace EcellLib.MainWindow
             {
                 ToolStrip toolStrip = new ToolStrip();
                 toolStrip.Items.AddRange(toolList.ToArray());
-                this.toolStripContainer.TopToolStripPanel.Controls.Add(toolStrip);
+                this.toolStripContainer.TopToolStripPanel.Join(toolStrip);
             }
         }
         
