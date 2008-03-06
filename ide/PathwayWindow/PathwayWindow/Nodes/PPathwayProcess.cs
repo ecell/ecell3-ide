@@ -43,6 +43,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Figure;
 using System.Drawing.Drawing2D;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -129,10 +130,22 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <returns></returns>
         public override string CreateSVGObject()
         {
-            string obj = base.CreateSVGObject();
+            string obj;
+            if (!m_isViewMode)
+            {
+                obj = base.CreateSVGObject();
+            }
+            else
+            {
+                string lineBrush = BrushManager.ParseBrushToString(m_setting.LineBrush);
+                string fillBrush = "url(#" + m_setting.Name + ")";
+                obj = m_tempFigure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
+            }
+
             foreach (List<PPathwayLine> list in m_lines.Values)
                 foreach (PPathwayLine line in list)
-                    obj += line.CreateSVGObject();
+                    if(line.Visible)
+                        obj += line.CreateSVGObject();
             return obj;
         }
 

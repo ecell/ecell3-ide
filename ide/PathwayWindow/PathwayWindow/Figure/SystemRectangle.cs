@@ -120,10 +120,7 @@ namespace EcellLib.PathwayWindow.Figure
         /// <returns></returns>
         public override string CreateSVGObject(RectangleF rect, string lineBrush, string fillBrush)
         {
-            float marjin = rOut - rIn;
-            RectangleF innerRect = new RectangleF(rect.X + marjin, rect.Y + marjin, rect.Width - marjin * 2f, rect.Height - marjin * 2f);
-            string obj = SVGUtil.RoundedRectangle(rect, lineBrush, fillBrush, rOut, rOut);
-            obj += SVGUtil.RoundedRectangle(innerRect, lineBrush, "White", rIn, rIn);
+            string obj = SVGUtil.SystemRectangle(rect, lineBrush, fillBrush, rOut, rIn);
             return obj;
         }
 

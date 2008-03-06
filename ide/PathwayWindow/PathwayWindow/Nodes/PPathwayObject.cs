@@ -586,9 +586,13 @@ namespace EcellLib.PathwayWindow.Nodes
             string lineBrush = BrushManager.ParseBrushToString(m_setting.LineBrush);
             string fillBrush = "url(#" + m_setting.Name + ")";
             PointF textPos = new PointF(m_pText.X, m_pText.Y + m_pText.Height);
-            string svgObj = "";
+            string svgObj = "<!--" + this.m_ecellObj.Key + "-->\n";
+            if (!base.Visible)
+                return svgObj;
+
             svgObj += m_setting.EditModeFigure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
-            svgObj += SVGUtil.Text(textPos, m_pText.Text, textBrush);
+            if(m_showingId)
+                svgObj += SVGUtil.Text(textPos, m_pText.Text, textBrush);
             return svgObj;
         }
         #endregion

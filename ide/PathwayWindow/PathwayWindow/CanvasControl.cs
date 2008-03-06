@@ -184,11 +184,6 @@ namespace EcellLib.PathwayWindow
         bool m_isViewMode = false;
 
         /// <summary>
-        /// Whether PathwayView is freezed or not.
-        /// </summary>
-        private bool m_isFreezed = false;
-
-        /// <summary>
         /// ResizeHandler for resizing a system.
         /// </summary>
         protected SystemResizeHandler m_resizeHandler;
@@ -773,9 +768,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="isShown"></param>
         public void ChangeLayerVisibility(string layerName, bool isShown)
         {
-            PPathwayLayer layer = m_layers[layerName];
-            if (layer == null)
+            if (!m_layers.ContainsKey(layerName))
                 return;
+            PPathwayLayer layer = m_layers[layerName];
             // Set Visibility.
             layer.Visible = isShown;
             Refresh();

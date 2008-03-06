@@ -33,6 +33,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using EcellLib.PathwayWindow.Nodes;
+using UMD.HCIL.Piccolo;
 
 namespace EcellLib.PathwayWindow.Graphic
 {
@@ -58,8 +59,14 @@ namespace EcellLib.PathwayWindow.Graphic
             foreach (ComponentSetting setting in canvas.PathwayControl.ComponentManager.ComponentSettings)
                 writer.WriteLine(GetGradationBrush(setting));
             // Create SVG objects.
-            foreach (PPathwayObject obj in canvas.GetAllObjects())
-                writer.WriteLine(obj.CreateSVGObject());
+            foreach (PNode node in canvas.PathwayCanvas.Root.ChildrenReference)
+            {
+                if (!(node is PPathwayLayer) || !node.Visible)
+                    continue;
+                PPathwayLayer layer = (PPathwayLayer)node;
+                foreach(PPathwayObject obj in layer.NodeList)
+                    writer.WriteLine(obj.CreateSVGObject());
+            }
             // Close SVG file.
             writer.WriteLine(SVG_FOOTER);
             writer.Flush();

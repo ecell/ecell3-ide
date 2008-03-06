@@ -94,6 +94,43 @@ namespace EcellLib.PathwayWindow.Graphic
             return obj;
         }
         /// <summary>
+        /// Create SystemRectangle object.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="lineBrush"></param>
+        /// <param name="fillBrush"></param>
+        /// <param name="rOut"></param>
+        /// <param name="rIn"></param>
+        /// <returns></returns>
+        public static string SystemRectangle(RectangleF rect, string lineBrush, string fillBrush, float rOut, float rIn)
+        {
+            string pos = "  M " + rect.X.ToString() + " " + rect.Y.ToString() + "\n";
+            string outerPath = "  a " + rOut.ToString() + " " + rOut.ToString() + " 0 0 1 ";
+            string innerPath = "  a " + rIn.ToString() + " " + rIn.ToString() + " 0 0 0 ";
+            string outerR = rOut.ToString();
+            string innerR = rIn.ToString();
+            float width = rect.Width - rOut * 2f;
+            float height = rect.Height - rOut * 2f;
+            string sWidth = width.ToString();
+            string sHeight = height.ToString();
+
+            string obj ="<path d=\"" + pos
+            + "  m 0 " + outerR + "\n"
+            + outerPath + outerR + " -" + outerR + " l " + sWidth + " 0" + "\n"
+            + outerPath + outerR + " " + outerR + " l " + "0 " + sHeight + "\n"
+            + outerPath + " -" + outerR + " " + outerR + " l -" + sWidth + " 0" + "\n"
+            + outerPath + " -" + outerR + " -" + outerR + " l " + "0 -" + sHeight + "\n"
+            + pos
+            + "  m " + outerR + " " + innerR + "\n"
+            + innerPath + " -" + innerR + " " + innerR + " l " + "0 " + sHeight + "\n"
+            + innerPath + innerR + " " + innerR + " l " + sWidth + " 0" + "\n"
+            + innerPath + innerR + " -" + innerR + " l " + "0 -" + sHeight + "\n"
+            + innerPath + " -" + innerR + " -" + innerR + " l -" + sWidth + " 0" + " Z\"\n"
+            + "fill=\"" + fillBrush + "\" stroke=\"" + lineBrush + "\" stroke-width=\"1\"/>";
+            return obj;
+
+        }
+        /// <summary>
         /// Create Ellipse object.
         /// </summary>
         /// <param name="rect"></param>
