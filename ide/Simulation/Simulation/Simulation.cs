@@ -417,6 +417,7 @@ namespace EcellLib.Simulation
         public void ParameterSet(string projectID, string parameterID)
         {
             if (m_isChanged) return;
+            if (parameterID == null) return;
             if (!m_paramsCombo.Items.Contains(parameterID))
                 m_paramsCombo.Items.Add(parameterID);
             int ind = 0;
