@@ -81,6 +81,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             base.Root.AddChild(layer);
             base.Camera.AddLayer(layer);
             base.Camera.ScaleViewBy(0.7f);
+            base.Camera.Pickable = false;
             base.RemoveInputEventListener(base.PanEventHandler);
             base.RemoveInputEventListener(base.ZoomEventHandler);
             base.BackColor = Color.Silver;
