@@ -330,9 +330,16 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return this.m_setting; }
             set 
             {
-                this.m_setting = value;
-                this.m_setting.PropertyChange += new EventHandler(m_setting_PropertyChange);
-                RefreshSettings();
+                if (m_setting != null)
+                {
+                    this.m_setting.PropertyChange -= m_setting_PropertyChange;
+                }
+                if (value != null)
+                {
+                    this.m_setting = value;
+                    this.m_setting.PropertyChange += new EventHandler(m_setting_PropertyChange);
+                    RefreshSettings();
+                }
             }
         }
 

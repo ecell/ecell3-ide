@@ -261,6 +261,7 @@ namespace EcellLib.MainWindow {
         public static void LoadFromXML(MainWindow window, string filename)
         {
             DockPanel dockPanel = window.dockPanel;
+            CloseUnSavableWindows(dockPanel);
             FileStream fs = null;
             XmlTextReader xmlIn = null;
             try

@@ -83,6 +83,10 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private Brush m_viewBGBrush = Brushes.White;
         /// <summary>
+        /// CanvasBrush on ViewMode.
+        /// </summary>
+        private Brush m_propBrush = Brushes.Blue;
+        /// <summary>
         /// Line brush on EditMode.
         /// </summary>
         private Brush m_normalLineBrush = Brushes.Black;
@@ -333,6 +337,22 @@ namespace EcellLib.PathwayWindow
             if (m_con.Canvas == null)
                 return;
             m_canvas = m_con.Canvas;
+            foreach (PPathwayProcess process in m_canvas.Processes.Values)
+            {
+                if (!process.Visible)
+                    continue;
+                // Line setting.
+                float activity = GetFloatValue(process.EcellObject, "MolarActivity");
+                process.EdgeBrush = GetEdgeBrush(activity);
+            }
+            foreach (PPathwayVariable variable in m_canvas.Variables.Values)
+            {
+                if (!variable.Visible)
+                    continue;
+                variable.MoveToFront();
+                variable.PPropertyText.TextBrush = m_propBrush;
+                variable.PPropertyText.MoveToFront();
+            }
             if (m_isPausing)
                 UpdatePropForSimulation();
         }
@@ -380,7 +400,8 @@ namespace EcellLib.PathwayWindow
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                process.EdgeBrush = m_normalLineBrush;
+                float activity = GetFloatValue(process.EcellObject, "MolarActivity");
+                process.EdgeBrush = GetEdgeBrush(activity);
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
