@@ -192,6 +192,14 @@ namespace EcellLib.SessionManager
         }
 
         /// <summary>
+        /// reset the number of job ID.
+        /// </summary>
+        static public void ClearJobID()
+        {
+            s_jobID = 0;
+        }
+
+        /// <summary>
         /// Constructor wirh no parameters.
         /// </summary>
         public SessionProxy()

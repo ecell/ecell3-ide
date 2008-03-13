@@ -137,7 +137,6 @@ namespace EcellLib.StaticDebugWindow
             // SSDebugButton
             // 
             resources.ApplyResources(this.SSDebugButton, "SSDebugButton");
-            this.SSDebugButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.SSDebugButton.Name = "SSDebugButton";
             this.SSDebugButton.UseVisualStyleBackColor = true;
             this.SSDebugButton.Click += new System.EventHandler(this.debugButton_Click);
@@ -163,7 +162,6 @@ namespace EcellLib.StaticDebugWindow
             // 
             // StaticDebugSetupWindow
             // 
-            this.AcceptButton = this.SSDebugButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.SSCloseButton;

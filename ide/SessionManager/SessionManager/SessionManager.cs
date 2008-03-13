@@ -53,7 +53,7 @@ namespace EcellLib.SessionManager
         private SystemProxy m_proxy;
         private Dictionary<string, SystemProxy> m_proxyList = new Dictionary<string, SystemProxy>();
         private Dictionary<int, SessionProxy> m_sessionList = new Dictionary<int, SessionProxy>();
-        private Dictionary<int, ExecuteParameter> m_paramerDic = new Dictionary<int, ExecuteParameter>();
+        private Dictionary<int, ExecuteParameter> m_parameterDic = new Dictionary<int, ExecuteParameter>();
 
         private Timer m_timer;
 
@@ -188,8 +188,8 @@ namespace EcellLib.SessionManager
         /// </summary>
         public Dictionary<int, ExecuteParameter> ParameterDic
         {
-            get { return this.m_paramerDic; }
-            set { this.m_paramerDic = value; }
+            get { return this.m_parameterDic; }
+            set { this.m_parameterDic = value; }
         }
 
         /// <summary>
@@ -359,6 +359,7 @@ namespace EcellLib.SessionManager
             if (jobID == 0)
             {
                 m_sessionList.Clear();
+                SessionProxy.ClearJobID();
             }
             else
             {
@@ -770,6 +771,17 @@ namespace EcellLib.SessionManager
             }
         }
 
+
+        public Dictionary<int, ExecuteParameter> RunSimParameterSet(string topDir, string modelName, 
+            double count, bool isStep, Dictionary<int, ExecuteParameter> setparam)
+        {
+            Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
+
+            // not implement
+
+            return resList;
+        }
+
         /// <summary>
         /// Run the simulation by using the initial parameter within the range of parameters.
         /// The number of sample is set. SetLoggerData and SetParameterRange should be called, before this function use.
@@ -779,8 +791,10 @@ namespace EcellLib.SessionManager
         /// <param name="num">the number of sample.</param>
         /// <param name="count">simulation time or simulation step.</param>
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
-        public void RunSimParameterRange(string topDir, string modelName, int num, double count, bool isStep)
+        /// <returns>Dictionary of jobid and the execution parameter.</returns>
+        public Dictionary<int, ExecuteParameter> RunSimParameterRange(string topDir, string modelName, int num, double count, bool isStep)
         {
+            Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             DataManager manager = DataManager.GetDataManager();
             List<EcellObject> sysList = manager.GetData(modelName, null);
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
@@ -866,10 +880,12 @@ namespace EcellLib.SessionManager
                 manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
                 List<string> extFileList = ExtractExtFileList(m_logList);
                 int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
-                m_paramerDic.Add(job, new ExecuteParameter(paramDic));
+                m_parameterDic.Add(job, new ExecuteParameter(paramDic));
+                resList.Add(job, new ExecuteParameter(paramDic));
                 Application.DoEvents();
             }
             Run();
+            return resList;
         }
 
         /// <summary>
@@ -918,16 +934,18 @@ namespace EcellLib.SessionManager
         /// <param name="modelName">model name executed the simulation.</param>
         /// <param name="count">simulation time or simulation step.</param>
         /// <param name="isStep">the flag use simulation time or simulation step.</param>
-        public void RunSimParameterMatrix(string topDir, string modelName, double count, bool isStep)
+        /// <returns>Dictionary of jobid and the execution parameter.</returns>
+        public Dictionary<int, ExecuteParameter> RunSimParameterMatrix(string topDir, string modelName, double count, bool isStep)
         {
-            m_paramerDic.Clear();
+            Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
+            m_parameterDic.Clear();
             DataManager manager = DataManager.GetDataManager();
             List<EcellObject> sysList = manager.GetData(modelName, null);
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             if (m_paramList.Count != 2)
             {
                 MessageBox.Show("ERROR", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return resList; 
             }
             ParameterRange x = m_paramList[0];
             ParameterRange y = m_paramList[1];
@@ -1007,13 +1025,15 @@ namespace EcellLib.SessionManager
                     manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
                     List<string> extFileList = ExtractExtFileList(m_logList);
                     int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
-                    m_paramerDic.Add(job, new ExecuteParameter(paramDic));
+                    m_parameterDic.Add(job, new ExecuteParameter(paramDic));
+                    resList.Add(job, new ExecuteParameter(paramDic));
                     Application.DoEvents();
                     j++;
                 }
                 i++;
             }
             Run();
+            return resList;
         }
     }
 

@@ -53,17 +53,9 @@ namespace EcellLib.TracerWindow
         /// </summary>
         TracerWindow m_control;
         /// <summary>
-        /// The parent form of this form.
-        /// </summary>
-        public Form m_parent;
-        /// <summary>
         /// The flag whether simulation suspends.
         /// </summary>
         bool isSuspend = false;
-        /// <summary>
-        /// TextBox of output directory.
-        /// </summary>
-        string m_text;
         /// <summary>
         /// Graph control for tracer.
         /// </summary>
@@ -210,21 +202,6 @@ namespace EcellLib.TracerWindow
             Bitmap b = new Bitmap(m_zCnt.Width, m_zCnt.Height);
             m_zCnt.DrawToBitmap(b, m_zCnt.ClientRectangle);
             return b;
-        }
-
-        /// <summary>
-        /// Display directory selection dialog.
-        /// </summary>
-        void ShowSelectDialog()
-        {
-            if (DialogResult.Cancel == m_folderDialog.ShowDialog())
-            {
-                m_text = "";
-            }
-            else
-            {
-                m_text = m_folderDialog.SelectedPath;
-            }
         }
 
         /// <summary>

@@ -432,7 +432,6 @@ namespace EcellLib.TracerWindow
         {
             ToolStripItem item = (ToolStripItem)sender;
             m_win = new TraceWindow();
-            m_win.m_parent = Form.ActiveForm;
             m_win.Disposed += new EventHandler(FormDisposed);
             m_win.Shown += new EventHandler(m_win.ShownEvent);
             m_win.m_entry = new List<TagData>();
