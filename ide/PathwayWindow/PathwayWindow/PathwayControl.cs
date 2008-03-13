@@ -372,6 +372,8 @@ namespace EcellLib.PathwayWindow
                 // Perform layout if layoutFlag is true.
                 if (layoutFlag)
                     DoLayout(m_defAlgorithm, 0, false);
+                else if(m_canvas != null)
+                    m_canvas.Refresh();
             }
             catch (Exception e)
             {

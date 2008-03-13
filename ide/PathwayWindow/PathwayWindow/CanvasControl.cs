@@ -1335,6 +1335,10 @@ namespace EcellLib.PathwayWindow
                     break;
                 }
             }
+            foreach (PPathwayObject obj in GetAllObjects())
+            {
+                obj.Refresh();
+            }
             m_ctrlLayer.Visible = isAnyVisible;
             m_pCanvas.Refresh();
         }

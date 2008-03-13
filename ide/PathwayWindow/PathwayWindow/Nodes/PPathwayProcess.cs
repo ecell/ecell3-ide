@@ -309,9 +309,14 @@ namespace EcellLib.PathwayWindow.Nodes
             m_path.Reset();
             PointF centerPos = this.CenterPointF;
             if (m_isViewMode)
+            {
                 base.AddPath(m_tempFigure.GraphicsPath, false);
+            }
             else
+            {
                 base.AddPath(m_setting.EditModeFigure.GraphicsPath, false);
+                this.EdgeBrush = Brushes.Black;
+            }
             base.CenterPointF = centerPos;
             base.RefreshView();
         }

@@ -83,10 +83,12 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void m_con_CanvasChange(object sender, EventArgs e)
         {
             this.Controls.Clear();
+            this.TabText = this.Name;
+            this.Text = this.Name;
             if (m_con.Canvas == null)
                 return;
-            PCanvas canvas = m_con.Canvas.PathwayCanvas;
 
+            PCanvas canvas = m_con.Canvas.PathwayCanvas;
             m_scrolCtrl.Canvas = canvas;
             this.Controls.Add(canvas);
             this.Controls.Add(m_scrolCtrl);
