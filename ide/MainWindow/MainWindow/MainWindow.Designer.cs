@@ -74,7 +74,7 @@ namespace EcellLib.MainWindow
             this.MenuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowVersionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
             this.toolStripContainer.ContentPanel.SuspendLayout();
@@ -392,7 +392,7 @@ namespace EcellLib.MainWindow
             // 
             // openFileDialog
             // 
-            resources.ApplyResources(this.openFileDialog, "openFileDialog");
+            resources.ApplyResources(this.m_openFileDialog, "openFileDialog");
             // 
             // openScriptDialog
             // 
@@ -468,7 +468,7 @@ namespace EcellLib.MainWindow
         /// MenuItem to exit this program.
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        System.Windows.Forms.OpenFileDialog openFileDialog;
+        System.Windows.Forms.OpenFileDialog m_openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem MenuItemSetup;
         /// <summary>

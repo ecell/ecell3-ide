@@ -314,7 +314,7 @@ namespace EcellLib.MainWindow
             Util.InitialLanguage();
             try
             {
-                string modelID = m_dManager.LoadModel(openFileDialog.FileName, true);
+                string modelID = m_dManager.LoadModel(m_openFileDialog.FileName, true);
                 if (this.InvokeRequired)
                 {
                     LoadModelDelegate dlg = new LoadModelDelegate(LoadModelThread);
@@ -1028,39 +1028,35 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void OpenProjectMenuClick(object sender, EventArgs e)
         {
+            // Check the modification and confirm save.
             if (m_editCount > 0)
             {
                 String mes = MainWindow.s_resources.GetString("SaveConfirm");
-                DialogResult res = MessageBox.Show(mes,
-                    "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                DialogResult res = MessageBox.Show(mes, "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
                     m_isClose = true;
                     SaveProjectMenuClick(sender, e);
                     m_editCount = 0;
                 }
-                else if (res == DialogResult.No)
+            }
+            // Show OpenProjectDialog.
+            try
+            {
+                m_openPrjDialog = new OpenProjectDialog();
+                m_openPrjDialog.CreateProjectTreeView(null, m_currentDir, false);
+                if (m_openPrjDialog.ShowDialog() == DialogResult.OK)
                 {
-                    CloseProject(m_project);
+                    // Close current project.
+                    if (m_project != null)
+                        CloseProject(m_project);
+                    // Load new project.
+                    OpenProject();
                 }
                 else
                 {
-                    return;
+                    CloseOpenProjectDialog();
                 }
-            }
-            if (m_project != null)
-            {
-                CloseProject(m_project);
-            }
-
-            m_openPrjDialog = new OpenProjectDialog();
-            m_openPrjDialog.OPOpenButton.Click += new System.EventHandler(this.OpenProject);
-            m_openPrjDialog.OPCancelButton.Click += new System.EventHandler(this.OpenProjectCancel);
-
-            try
-            {
-                m_openPrjDialog.CreateProjectTreeView(null, m_currentDir, false);
-                m_openPrjDialog.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -1074,9 +1070,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Cancel to open project.
         /// </summary>
-        /// <param name="sender">Cancel Button.</param>
-        /// <param name="e">EventArgs.</param>
-        public void OpenProjectCancel(object sender, EventArgs e)
+        public void CloseOpenProjectDialog()
         {
             m_openPrjDialog.Close();
             m_openPrjDialog.Dispose();
@@ -1087,9 +1081,7 @@ namespace EcellLib.MainWindow
         /// The action when you click OK or Cancel in OpenProjectDialog.
         /// If you don't select the project, system show warning message.
         /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void OpenProject(object sender, EventArgs e)
+        public void OpenProject()
         {
             try
             {
@@ -1097,8 +1089,8 @@ namespace EcellLib.MainWindow
                 String comment = m_openPrjDialog.OPCommentText.Text;
                 String fileName = m_openPrjDialog.FileName;
 
-                if (!CheckProjectID(prjID)) return;
-
+                if (!CheckProjectID(prjID))
+                    return;
                 
                 if (fileName.EndsWith("eml"))
                 {
@@ -1110,9 +1102,7 @@ namespace EcellLib.MainWindow
                     CreateProject(prjID, modelDir, comment, new List<string>());
                     LoadModel(fileName);
 
-                    m_openPrjDialog.Close();
-                    m_openPrjDialog.Dispose();
-                    m_openPrjDialog = null;
+                    CloseOpenProjectDialog();
                     return;
                 }
                 if (!m_openPrjDialog.PrjID.Equals(prjID)
@@ -1136,9 +1126,7 @@ namespace EcellLib.MainWindow
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            m_openPrjDialog.Close();
-            m_openPrjDialog.Dispose();
-            m_openPrjDialog = null;
+            CloseOpenProjectDialog();
         }
 
         /// <summary>
@@ -1329,39 +1317,41 @@ namespace EcellLib.MainWindow
                     SaveProjectMenuClick(sender, e);
                     m_editCount = 0;
                 }
-                else if (res == DialogResult.No)
-                {
-                    CloseProject(m_project);
-                }
-                else
-                {
-                    return;
-                }
             }
-            if (m_project != null)
+            // Show OpenProjectDialog.
+            try
             {
-                CloseProject(m_project);
-            }
-
-            openFileDialog.RestoreDirectory = true;
-            openFileDialog.Filter = Constants.extEmlFile; ;
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                if (m_isLoadProject == false)
+                m_openFileDialog.RestoreDirectory = true; 
+                m_openFileDialog.Filter = Constants.extEmlFile;
+                if (m_openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    String fName = openFileDialog.FileName;
-                    string modelDir = Path.GetDirectoryName(fName);
-                    if (modelDir.EndsWith(Constants.xpathModel))
+                    // Close old project.
+                    if (m_project != null)
+                        CloseProject(m_project);
+                    // Load new project.
+                    if (m_isLoadProject == false)
                     {
-                        modelDir = modelDir.Substring(0, modelDir.Length - 5);
+                        String fName = m_openFileDialog.FileName;
+                        string modelDir = Path.GetDirectoryName(fName);
+                        if (modelDir.EndsWith(Constants.xpathModel))
+                        {
+                            modelDir = modelDir.Substring(0, modelDir.Length - 5);
+                        }
+                        CreateProject(Constants.defaultPrjID, modelDir, Constants.defaultComment, new List<string>());
                     }
-                    CreateProject(Constants.defaultPrjID, modelDir, Constants.defaultComment, new List<string>());
+
+                    Thread t = new Thread(new ThreadStart(LoadModelData));
+                    t.Start();
                 }
-                
-                Thread t = new Thread(new ThreadStart(LoadModelData));
-                t.Start();
             }
+            catch (Exception ex)
+            {
+                String errmes = MainWindow.s_resources.GetString("ErrLoadModel");
+                MessageBox.Show(errmes + "\n\n" + ex,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
         }
 
         /// <summary>
@@ -1379,7 +1369,7 @@ namespace EcellLib.MainWindow
                 }
                 CreateProject(Constants.defaultPrjID, modelDir, Constants.defaultComment, new List<string>());
             }
-            openFileDialog.FileName = path;
+            m_openFileDialog.FileName = path;
             Thread t = new Thread(new ThreadStart(LoadModelData));
             t.Start();
         }
@@ -1625,14 +1615,14 @@ namespace EcellLib.MainWindow
         {
             try
             {
-                openFileDialog.RestoreDirectory = true;
-                openFileDialog.Filter = Constants.extActionFile;
+                m_openFileDialog.RestoreDirectory = true;
+                m_openFileDialog.Filter = Constants.extActionFile;
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                if (m_openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (File.Exists(openFileDialog.FileName))
+                    if (File.Exists(m_openFileDialog.FileName))
                     {
-                        m_dManager.LoadUserActionFile(openFileDialog.FileName);
+                        m_dManager.LoadUserActionFile(m_openFileDialog.FileName);
                     }
                     else
                     {

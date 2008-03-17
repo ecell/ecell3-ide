@@ -95,6 +95,7 @@ namespace EcellLib.MainWindow
             // 
             // OPOpenButton
             // 
+            this.OPOpenButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.OPOpenButton, "OPOpenButton");
             this.OPOpenButton.Name = "OPOpenButton";
             this.OPOpenButton.UseVisualStyleBackColor = true;
