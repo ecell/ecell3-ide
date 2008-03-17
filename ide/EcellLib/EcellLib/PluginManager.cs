@@ -119,6 +119,10 @@ namespace EcellLib
         /// Dictionary of plugin and pirnt target.
         /// </summary>
         private Dictionary<string, string> m_printDic = new Dictionary<string, string>();
+        /// <summary>
+        /// Status of the current project.
+        /// </summary>
+        private ProjectStatus m_status;
         #endregion
 
         /// <summary>
@@ -133,6 +137,7 @@ namespace EcellLib
             this.m_pluginList = new Dictionary<string, IEcellPlugin>();
             this.m_pluginDic = new Dictionary<PluginData,List<IEcellPlugin>>();
             this.m_dialog = new System.Windows.Forms.PrintDialog();
+            this.m_status = ProjectStatus.Uninitialized;
 
             // default image type
             m_imageList = new ImageList();
@@ -182,6 +187,14 @@ namespace EcellLib
         {
             get { return m_imageList; }
             set { this.m_imageList = value; }
+        }
+
+        /// <summary>
+        /// get status of the current project.
+        /// </summary>
+        public ProjectStatus Status
+        {
+            get { return this.m_status; }
         }
 
         /// <summary>
@@ -601,6 +614,7 @@ namespace EcellLib
             {
                 p.ChangeStatus(type);
             }
+            m_status = type;
         }
 
         /// <summary>

@@ -1752,7 +1752,6 @@ namespace EcellLib
                 }
                 SimulationStop();
                 m_pManager.ChangeStatus(ProjectStatus.Loaded);
-
             }
 
             string l_message = null;
