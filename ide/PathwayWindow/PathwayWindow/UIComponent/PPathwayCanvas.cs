@@ -115,12 +115,13 @@ namespace EcellLib.PathwayWindow.UIComponent
             }
         }
         /// <summary>
+        /// 
         /// </summary>
-        /// <param name="e">EventArgs.</param>
-        protected override void OnMouseEnter(EventArgs e)
+        /// <param name="e">MouseEventArgs.</param>
+        protected override void OnMouseDown(MouseEventArgs e)
         {
-            base.OnMouseEnter(e);
             this.Focus();
+            base.OnMouseDown(e);
         }
 
         /// <summary>

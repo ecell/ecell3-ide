@@ -171,7 +171,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// tempolary region.
         /// </summary>
-        protected static Region TEMP_REGION = new Region();
+        protected static Region m_tempRegion = new Region();
 
         /// <summary>
         /// tempolary matrix.
@@ -194,12 +194,6 @@ namespace EcellLib.PathwayWindow.Nodes
         protected GraphicsPath m_path;
 
         /// <summary>
-        /// GraphicsPath for resize.
-        /// </summary>
-        [NonSerialized]
-        protected GraphicsPath m_resizePath;
-
-        /// <summary>
         /// Pen written this node.
         /// </summary>
         [NonSerialized]
@@ -209,7 +203,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// the flag whether bound from path.
         /// </summary>
         [NonSerialized]
-        protected bool updatingBoundsFromPath;
+        protected bool m_updatingBoundsFromPath;
 
         /// <summary>
         /// mode to pick this node.
@@ -667,23 +661,6 @@ namespace EcellLib.PathwayWindow.Nodes
         //****************************************************************
 
         /// <summary>
-        /// Overridden.  See <see cref="PNode.StartResizeBounds">PNode.StartResizeBounds</see>.
-        /// </summary>
-        public override void StartResizeBounds()
-        {
-            m_resizePath = new GraphicsPath();
-            m_resizePath.AddPath(m_path, false);
-        }
-
-        /// <summary>
-        /// Overridden.  See <see cref="PNode.EndResizeBounds">PNode.EndResizeBounds</see>.
-        /// </summary>
-        public override void EndResizeBounds()
-        {
-            m_resizePath = null;
-        }
-
-        /// <summary>
         /// Overridden.  Set the bounds of this path.
         /// </summary>
         /// <param name="x">The new x-coordinate of the bounds/</param>
@@ -699,16 +676,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </remarks>
         protected override void InternalUpdateBounds(float x, float y, float width, float height)
         {
-            if (updatingBoundsFromPath || m_path == null)
-            {
+            if (m_updatingBoundsFromPath)
                 return;
-            }
-
-            if (m_resizePath != null)
-            {
-                m_path.Reset();
-                m_path.AddPath(m_resizePath, false);
-            }
 
             RectangleF pathBounds = m_path.GetBounds();
 
@@ -765,30 +734,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override bool Intersects(RectangleF bounds)
         {
             // Call intersects with the identity matrix.
-            return Intersects(bounds, new PMatrix());
-        }
-
-        /// <summary>
-        /// Returns true if this path intersects the given rectangle.
-        /// </summary>
-        /// <remarks>
-        /// This method first checks if the interior of the path intersects with the rectangle.
-        /// If not, the method then checks if the path bounding the pen stroke intersects with
-        /// the rectangle.  If either of these cases are true, this method returns true.
-        /// <para>
-        /// <b>Performance Note</b>:  For some paths, this method can be very slow.  This is due
-        /// to the implementation of IsVisible.  The problem usually occurs when many lines are
-        /// joined at very steep angles.  
-        /// </para>
-        /// </remarks>
-        /// <param name="bounds">The rectangle to check for intersection.</param>
-        /// <param name="matrix">
-        /// A matrix object that specifies a transform to apply to the path and bounds before
-        /// checking for an intersection.
-        /// </param>
-        /// <returns>True if this path intersects the given rectangle; otherwise, false.</returns>
-        public virtual bool Intersects(RectangleF bounds, PMatrix matrix)
-        {
+            PMatrix matrix = new PMatrix();
             if (base.Intersects(bounds))
             {
                 // Transform the bounds.
@@ -797,7 +743,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 // Set the temp region to the transformed path.
                 SetTempRegion(m_path, matrix, false);
 
-                if (Brush != null && TEMP_REGION.IsVisible(bounds))
+                if (Brush != null && m_tempRegion.IsVisible(bounds))
                 {
                     return true;
                 }
@@ -805,10 +751,36 @@ namespace EcellLib.PathwayWindow.Nodes
                 {
                     // Set the temp region to the transformed, widened path.
                     SetTempRegion(m_path, matrix, true);
-                    return TEMP_REGION.IsVisible(bounds);
+                    return m_tempRegion.IsVisible(bounds);
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Sets the temp region to the transformed path, widening the path if
+        /// requested to do so.
+        /// </summary>
+        private void SetTempRegion(GraphicsPath path, PMatrix matrix, bool widen)
+        {
+            m_tempPath.Reset();
+
+            if (path.PointCount > 0)
+            {
+                m_tempPath.AddPath(path, false);
+
+                if (widen)
+                {
+                    m_tempPath.Widen(m_pen, matrix.MatrixReference);
+                }
+                else
+                {
+                    m_tempPath.Transform(matrix.MatrixReference);
+                }
+            }
+
+            m_tempRegion.MakeInfinite();
+            m_tempRegion.Intersect(m_tempPath);
         }
         #endregion
 
@@ -855,37 +827,11 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// Sets the temp region to the transformed path, widening the path if
-        /// requested to do so.
-        /// </summary>
-        private void SetTempRegion(GraphicsPath path, PMatrix matrix, bool widen)
-        {
-            m_tempPath.Reset();
-
-            if (path.PointCount > 0)
-            {
-                m_tempPath.AddPath(path, false);
-
-                if (widen)
-                {
-                    m_tempPath.Widen(m_pen, matrix.MatrixReference);
-                }
-                else
-                {
-                    m_tempPath.Transform(matrix.MatrixReference);
-                }
-            }
-
-            TEMP_REGION.MakeInfinite();
-            TEMP_REGION.Intersect(m_tempPath);
-        }
-
-        /// <summary>
         /// This method is called to update the bounds whenever the underlying path changes.
         /// </summary>
         public virtual void UpdateBoundsFromPath()
         {
-            updatingBoundsFromPath = true;
+            m_updatingBoundsFromPath = true;
             if (m_path == null || m_path.PointCount == 0)
             {
                 ResetBounds();
@@ -896,7 +842,8 @@ namespace EcellLib.PathwayWindow.Nodes
                 {
                     m_tempPath.Reset();
                     m_tempPath.AddPath(m_path, false);
-                    if (m_pen != null && m_tempPath.PointCount > 0) m_tempPath.Widen(m_pen);
+                    if (m_pen != null && m_tempPath.PointCount > 0)
+                        m_tempPath.Widen(m_pen);
                     RectangleF b = m_tempPath.GetBounds();
                     SetBounds(b.X, b.Y, b.Width, b.Height);
                 }
@@ -905,7 +852,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     //Catch the case where the path is a single point
                 }
             }
-            updatingBoundsFromPath = false;
+            m_updatingBoundsFromPath = false;
         }
         #endregion
 
