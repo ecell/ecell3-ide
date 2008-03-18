@@ -114,6 +114,7 @@ namespace EcellLib.Analysis
             m_estimation.Clear();
             m_param = m_win.GetParameterEstimationParameter();
             m_mutation = m_param.Param.Initial;
+            m_win.ClearResult();
             m_manager.ClearJob(0);
 
             if (m_param.Population <= 0)
@@ -151,6 +152,7 @@ namespace EcellLib.Analysis
             m_saveList = m_win.GetParameterObservedDataList();
             if (m_saveList == null) return;
             m_manager.SetLoggerData(m_saveList);
+            m_win.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
 
             m_generation = 0;
             m_isRunning = true;
@@ -268,6 +270,7 @@ namespace EcellLib.Analysis
             m_estimation.Add(m_generation, value);
             m_elite = m_execParamList[elite];
             m_win.AddEstimateParameter(m_elite, value, m_generation);
+            m_win.AddEstimationData(m_generation, value);
             m_eliteNum = elite;
         }
 

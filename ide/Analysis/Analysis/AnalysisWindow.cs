@@ -99,6 +99,8 @@ namespace EcellLib.Analysis
         /// The form to display the setting and result of analysis.
         /// </summary>
         private static AnalysisWindow s_win = null;
+        private LineItem m_line;
+
 
         /// <summary>
         /// Constructor.
@@ -137,6 +139,7 @@ namespace EcellLib.Analysis
             m_zCnt.Refresh();
             m_manager = SessionManager.SessionManager.GetManager();
             this.FormClosed += new FormClosedEventHandler(CloseRobustAnalysisForm);
+            m_line = null;
 
             InitializeData();
             s_win = this;
@@ -217,6 +220,7 @@ namespace EcellLib.Analysis
             RAXComboBox.Items.Clear();
             RAYComboBox.Items.Clear();
             RAResultGridView.Rows.Clear();
+            m_line = null;
             CurveList l = m_zCnt.GraphPane.CurveList;
             l.Clear();
         }
@@ -242,12 +246,17 @@ namespace EcellLib.Analysis
         /// <param name="xmin">Min value of X axis.</param>
         /// <param name="ymax">Max value of Y axis.</param>
         /// <param name="ymin">Min value of Y axis.</param>
-        public void SetResultGraphSize(double xmax, double xmin, double ymax, double ymin)
+        /// <param name="isAutoX">The flag whether X axis is auto scale.</param>
+        /// <param name="isAutoY">The flag whether Y axis is auto scale.</param>
+        public void SetResultGraphSize(double xmax, double xmin, double ymax, double ymin,
+            bool isAutoX, bool isAutoY)
         {
             m_zCnt.GraphPane.XAxis.Scale.Max = xmax;
             m_zCnt.GraphPane.XAxis.Scale.Min = xmin;
             m_zCnt.GraphPane.YAxis.Scale.Max = ymax;
             m_zCnt.GraphPane.YAxis.Scale.Min = ymin;
+            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = isAutoX;
+            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = isAutoY;
         }
 
         /// <summary>
@@ -628,6 +637,34 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
+        /// Add the judgement data of parameter estimation into graph.
+        /// </summary>
+        /// <param name="x">the number of generation.</param>
+        /// <param name="y">the value of estimation.</param>
+        public void AddEstimationData(int x, double y)
+        {
+            RAXComboBox.Enabled = false;
+            RAYComboBox.Enabled = false;
+            RAResultGridView.Enabled = false;
+
+            if (m_line == null)
+            {
+                m_line = m_zCnt.GraphPane.AddCurve(
+                        "Result",
+                        new PointPairList(),
+                        Color.Blue,
+                        SymbolType.Circle);
+
+                Fill f = new Fill(Color.Blue);
+                m_line.Symbol.Fill = f;
+            }
+            m_line.AddPoint(new PointPair(x, y));
+
+            m_zCnt.AxisChange();
+            m_zCnt.Refresh();
+        }
+
+        /// <summary>
         /// Add the judgement data into GridView.
         /// </summary>
         /// <param name="jobid">the jobidof this parameters.</param>
@@ -636,6 +673,10 @@ namespace EcellLib.Analysis
         /// <param name="isOK">the flag whether this parameter is robustness.</param>
         public void AddJudgementData(int jobid, double x, double y, bool isOK)
         {
+            RAXComboBox.Enabled = true;
+            RAYComboBox.Enabled = true;
+            RAResultGridView.Enabled = true;
+
             LineItem line = null;
             Color drawColor = Color.Blue;
             Color styleColor = Color.White;
@@ -666,9 +707,12 @@ namespace EcellLib.Analysis
                 "Result",
                 new PointPairList(),
                 drawColor,
-                SymbolType.TriangleDown);
+                SymbolType.Circle);
 
-            line.Line.Width = 3;
+            Fill f = new Fill(drawColor);
+            line.Symbol.Fill = f;
+
+            line.Line.Width = 5;
             line.AddPoint(new PointPair(x, y));
 
             m_zCnt.AxisChange();

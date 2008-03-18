@@ -247,7 +247,7 @@ namespace EcellLib.Analysis
                 m_win.SetResultEntryBox(r.FullPath, isX, isY);
                 count++;
             }
-            m_win.SetResultGraphSize(xmax, xmin, ymax, ymin);
+            m_win.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
 
             List<RobustAnalysisJudgementParam> judgeList = m_win.ExtractObserved();
             foreach (int jobid in m_manager.SessionList.Keys)
