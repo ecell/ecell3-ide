@@ -38,7 +38,7 @@ namespace EcellLib.Analysis
     /// </summary>
     public class SimplexCrossoverParameter
     {
-        private double m;
+        private Int32 m;
         private double m0;
         private double mmax;
         private double k;
@@ -49,7 +49,7 @@ namespace EcellLib.Analysis
         /// </summary>
         public SimplexCrossoverParameter()
         {
-            m = 3.0;
+            m = 3;
             m0 = 1.05;
             mmax = 50.0;
             k = 1.8;
@@ -64,7 +64,7 @@ namespace EcellLib.Analysis
         /// <param name="mmax"></param>
         /// <param name="k"></param>
         /// <param name="upsilon"></param>
-        public SimplexCrossoverParameter(double m, double m0, double mmax, 
+        public SimplexCrossoverParameter(int m, double m0, double mmax, 
                                         double k, double upsilon)
         {
             this.m = m;
@@ -77,7 +77,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// get / set the number of choosed parameter.
         /// </summary>
-        public double M
+        public int M
         {
             get { return this.m; }
             set { this.m = value; }

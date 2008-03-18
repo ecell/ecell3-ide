@@ -97,6 +97,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   The number of generation is lager than 0. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrGenerationNumPositive {
+            get {
+                return ResourceManager.GetString("ErrGenerationNumPositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   There are invalid properties in execution parameters. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInputReflect {
@@ -160,11 +169,29 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   Can&apos;t get the parameter of property. Please set at least one property. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrParamProp1 {
+            get {
+                return ResourceManager.GetString("ErrParamProp1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can&apos;t get the parameter of property. Please set at least two property. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrParamProp {
+        internal static string ErrParamProp2 {
             get {
-                return ResourceManager.GetString("ErrParamProp", resourceCulture);
+                return ResourceManager.GetString("ErrParamProp2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The numner of population is lager than 0. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrPopulationNumPositive {
+            get {
+                return ResourceManager.GetString("ErrPopulationNumPositive", resourceCulture);
             }
         }
         
@@ -196,6 +223,24 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   The number of samples is larger than 0, に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSampleNumPositive {
+            get {
+                return ResourceManager.GetString("ErrSampleNumPositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The simulation time is lager than 0.0. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSimTimeUnder {
+            get {
+                return ResourceManager.GetString("ErrSimTimeUnder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Finished to execute the robust analysis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FinishRAnalysis {
@@ -223,7 +268,7 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
-        ///   &amp;AnalysisWindow に類似しているローカライズされた文字列を検索します。
+        ///   &amp;AnalysisWindow... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemAnalysisWindow {
             get {
@@ -232,7 +277,16 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
-        ///   &amp;Robust Analysis... に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Parameter Estimation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemParameterEstimation {
+            get {
+                return ResourceManager.GetString("MenuItemParameterEstimation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &amp;Robust Analysis に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemRobustAnalysis {
             get {

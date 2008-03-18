@@ -94,17 +94,19 @@
             this.PEFormulaButton = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.PEEstimateView = new System.Windows.Forms.DataGridView();
             this.PRIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PRValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
-            this.EstimationValue = new System.Windows.Forms.TextBox();
+            this.PEEstimationValue = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.PEParamGridView = new System.Windows.Forms.DataGridView();
             this.PIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PMaxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PMinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label11 = new System.Windows.Forms.Label();
+            this.PEGenerateValue = new System.Windows.Forms.TextBox();
             this.robustTabControl.SuspendLayout();
             this.ResultTab.SuspendLayout();
             this.RAAnalysisTableLayout.SuspendLayout();
@@ -129,7 +131,7 @@
             this.tableLayoutPanel8.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PEEstimateView)).BeginInit();
             this.tableLayoutPanel6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PEParamGridView)).BeginInit();
@@ -596,25 +598,25 @@
             // tableLayoutPanel4
             // 
             resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
-            this.tableLayoutPanel4.Controls.Add(this.dataGridView2, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.PEEstimateView, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel6, 0, 0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             // 
-            // dataGridView2
+            // PEEstimateView
             // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.AllowUserToResizeColumns = false;
-            this.dataGridView2.AllowUserToResizeRows = false;
-            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PEEstimateView.AllowUserToAddRows = false;
+            this.PEEstimateView.AllowUserToDeleteRows = false;
+            this.PEEstimateView.AllowUserToResizeColumns = false;
+            this.PEEstimateView.AllowUserToResizeRows = false;
+            this.PEEstimateView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.PEEstimateView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.PEEstimateView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PRIDColumn,
             this.PRValueColumn});
-            resources.ApplyResources(this.dataGridView2, "dataGridView2");
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.RowTemplate.Height = 21;
+            resources.ApplyResources(this.PEEstimateView, "PEEstimateView");
+            this.PEEstimateView.Name = "PEEstimateView";
+            this.PEEstimateView.RowHeadersVisible = false;
+            this.PEEstimateView.RowTemplate.Height = 21;
             // 
             // PRIDColumn
             // 
@@ -632,7 +634,9 @@
             // 
             resources.ApplyResources(this.tableLayoutPanel6, "tableLayoutPanel6");
             this.tableLayoutPanel6.Controls.Add(this.label7, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.EstimationValue, 1, 0);
+            this.tableLayoutPanel6.Controls.Add(this.PEEstimationValue, 1, 0);
+            this.tableLayoutPanel6.Controls.Add(this.label11, 2, 0);
+            this.tableLayoutPanel6.Controls.Add(this.PEGenerateValue, 3, 0);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             // 
             // label7
@@ -640,10 +644,10 @@
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
-            // EstimationValue
+            // PEEstimationValue
             // 
-            resources.ApplyResources(this.EstimationValue, "EstimationValue");
-            this.EstimationValue.Name = "EstimationValue";
+            resources.ApplyResources(this.PEEstimationValue, "PEEstimationValue");
+            this.PEEstimationValue.Name = "PEEstimationValue";
             // 
             // groupBox7
             // 
@@ -686,6 +690,16 @@
             resources.ApplyResources(this.PMinColumn, "PMinColumn");
             this.PMinColumn.Name = "PMinColumn";
             // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // PEGenerateValue
+            // 
+            resources.ApplyResources(this.PEGenerateValue, "PEGenerateValue");
+            this.PEGenerateValue.Name = "PEGenerateValue";
+            // 
             // AnalysisWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -723,7 +737,7 @@
             this.tableLayoutPanel8.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PEEstimateView)).EndInit();
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel6.PerformLayout();
             this.groupBox7.ResumeLayout(false);
@@ -827,12 +841,12 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView PEEstimateView;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox EstimationValue;
+        private System.Windows.Forms.TextBox PEEstimationValue;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
@@ -854,5 +868,7 @@
         private System.Windows.Forms.TextBox PESimulationText;
         private System.Windows.Forms.TabPage settingTab;
         private System.Windows.Forms.TabPage ResultTab;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox PEGenerateValue;
     }
 }

@@ -148,6 +148,7 @@ namespace EcellLib
             }
             catch (IgnoreException ex)
             {
+                ex.ToString();
                 return;
             }
             catch (Exception ex)

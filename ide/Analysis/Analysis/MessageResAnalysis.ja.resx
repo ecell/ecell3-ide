@@ -129,6 +129,9 @@
   <data name="ErrFindErrorJob" xml:space="preserve">
     <value>エラーの発生したパラメータがあります。結果を表示してよろしいですか？</value>
   </data>
+  <data name="ErrGenerationNumPositive" xml:space="preserve">
+    <value>世代数は0より大きい値に設定してください。</value>
+  </data>
   <data name="ErrInputReflect" xml:space="preserve">
     <value>実行パラメータの中に異常なパラメータが存在します。確認してください。</value>
   </data>
@@ -150,8 +153,14 @@
   <data name="ErrOverMax" xml:space="preserve">
     <value>最大入力数に規定以上の値が設定されています</value>
   </data>
-  <data name="ErrParamProp" xml:space="preserve">
+  <data name="ErrParamProp1" xml:space="preserve">
+    <value>解析対象のプロパティが設定されていません。少なくとも1つのプロパティを設定してください。</value>
+  </data>
+  <data name="ErrParamProp2" xml:space="preserve">
     <value>解析対象のプロパティが設定されていません。少なくとも2つのプロパティを設定してください。</value>
+  </data>
+  <data name="ErrPopulationNumPositive" xml:space="preserve">
+    <value>個体数は0より大きい値に設定してください。</value>
   </data>
   <data name="ErrPosValue" xml:space="preserve">
     <value>Number of sample、Simulation Time、Check Window Sizeには整数を入力してください。</value>
@@ -162,6 +171,12 @@
   <data name="ErrSameAxis" xml:space="preserve">
     <value>X軸とＹ軸に設定したパラメータが同じです。</value>
   </data>
+  <data name="ErrSampleNumPositive" xml:space="preserve">
+    <value>サンプル数は0より大きい値に設定してください。</value>
+  </data>
+  <data name="ErrSimTimeUnder" xml:space="preserve">
+    <value>シミュレーション時間が0.0より大きい値に設定してください。</value>
+  </data>
   <data name="FinishRAnalysis" xml:space="preserve">
     <value>ロバスト解析の実行が終了しました。</value>
   </data>
@@ -171,8 +186,11 @@
   <data name="MenuItemAnalysisWindow" xml:space="preserve">
     <value>解析ウインドウ(&amp;A)...</value>
   </data>
+  <data name="MenuItemParameterEstimation" xml:space="preserve">
+    <value>パラメータ推定(&amp;P)</value>
+  </data>
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
-    <value>ロバスト解析(&amp;R)...</value>
+    <value>ロバスト解析(&amp;R)</value>
   </data>
   <data name="ReflectMenuText" xml:space="preserve">
     <value>反映</value>

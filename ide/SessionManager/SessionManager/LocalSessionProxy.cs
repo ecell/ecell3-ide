@@ -120,7 +120,8 @@ namespace EcellLib.SessionManager
         {
             try
             {
-                if (m_currentProcess != null && Status == JobStatus.RUNNING)
+                if (m_currentProcess != null && Status == JobStatus.RUNNING &&
+                    m_currentProcess.HasExited)
                 {
                     int exitCode = m_currentProcess.ExitCode;
                     if (exitCode == 0)
@@ -184,6 +185,7 @@ namespace EcellLib.SessionManager
             foreach (string extFileName in ExtraFileList)
             {
                 if (!extFileName.Contains(fileName)) continue;
+                if (!System.IO.File.Exists(extFileName)) return result;
                 System.IO.StreamReader hReader =
                     new System.IO.StreamReader(extFileName, System.Text.Encoding.UTF8);
                 while (!hReader.EndOfStream)

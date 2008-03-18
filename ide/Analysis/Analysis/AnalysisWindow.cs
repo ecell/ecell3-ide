@@ -115,6 +115,13 @@ namespace EcellLib.Analysis
             RARandomCheck.Checked = true;
             RAMatrixCheck.Checked = false;
 
+            ContextMenuStrip peCntMenu = new ContextMenuStrip();
+            ToolStripMenuItem peit = new ToolStripMenuItem();
+            peit.Text = Analysis.s_resources.GetString("ReflectMenuText");
+            peit.Click += new EventHandler(ClickPEReflectMenu);
+            peCntMenu.Items.AddRange(new ToolStripItem[] { peit });
+            PEEstimateView.ContextMenuStrip = peCntMenu;
+
             m_zCnt = new ZedGraphControl();
             m_zCnt.Dock = DockStyle.Fill;
             m_zCnt.GraphPane.Title.Text = "";
@@ -277,6 +284,59 @@ namespace EcellLib.Analysis
             else RAMatrixCheck.Checked = true;
         }
 
+        private EstimationFormulatorType GetFormulatorType()
+        {
+            EstimationFormulatorType type = EstimationFormulatorType.Max;
+            if (PEEstimationCombo.SelectedIndex == 1)
+            {
+                type = EstimationFormulatorType.SumMax;
+            }
+            else if (PEEstimationCombo.SelectedIndex == 2)
+            {
+                type = EstimationFormulatorType.Min;
+            }
+            else if (PEEstimationCombo.SelectedIndex == 3)
+            {
+                type = EstimationFormulatorType.SumMin;
+            }
+            else if (PEEstimationCombo.SelectedIndex == 4)
+            {
+                type = EstimationFormulatorType.EqualZero;
+            }
+            else if (PEEstimationCombo.SelectedIndex == 5)
+            {
+                type = EstimationFormulatorType.SumEqualZero;
+            }
+            return type;
+        }
+
+        /// <summary>
+        /// Get the parameter of parameter estimation.
+        /// </summary>
+        /// <returns>the parameter of parameter estimation.</returns>
+        public ParameterEstimationParameter GetParameterEstimationParameter()
+        {
+            string estForm = PEEstmationFormula.Text;
+            double simTime = Convert.ToDouble(PESimulationText.Text);
+            int popNum = Convert.ToInt32(PEPopulationText.Text);
+            int genNum = Convert.ToInt32(PEGenerationText.Text);
+            EstimationFormulatorType type = GetFormulatorType();
+
+            return new ParameterEstimationParameter(estForm, simTime, popNum, genNum, type, m_peParam);
+        }
+
+        /// <summary>
+        /// Set the parameter of parameter estimation.
+        /// </summary>
+        /// <param name="param">the parameter of parameter estimation.</param>
+        public void SetParameterEstimationParameter(ParameterEstimationParameter param)
+        {
+            PESimulationText.Text = Convert.ToString(param.SimulationTime);
+            PEPopulationText.Text = Convert.ToString(param.Population);
+            PEGenerationText.Text = Convert.ToString(param.Generation);
+            m_peParam = param.Param;
+        }
+
         /// <summary>
         /// Add the parameter entry into Parameter DataGridView.
         /// If this parameter alrady exists, system don't insert the entry.
@@ -337,12 +397,7 @@ namespace EcellLib.Analysis
                 resList.Add(p);
             }
 
-            if (resList.Count < 2)
-            {
-                String mes = Analysis.s_resources.GetString("ErrParamProp");
-                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
+
             return resList;
         }
 
@@ -351,7 +406,7 @@ namespace EcellLib.Analysis
         /// If there are any problems, this function return null. 
         /// </summary>
         /// <returns>the list of observed property.</returns>
-        public List<SaveLoggerProperty> GetObservedDataList()
+        public List<SaveLoggerProperty> GetRobustObservedDataList()
         {
             SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
             List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
@@ -377,6 +432,30 @@ namespace EcellLib.Analysis
             return resList;
         }
 
+        /// <summary>
+        /// Get the list of observed property to judge for analysis.
+        /// If there are any problems, this function return null. 
+        /// </summary>
+        /// <returns>the list of observed property.</returns>
+        public List<SaveLoggerProperty> GetParameterObservedDataList()
+        {
+            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+
+            String dir = manager.TmpDir;
+            double start = 0.0;
+            double end = Convert.ToDouble(RASimTimeText.Text);
+            string formulator = PEEstmationFormula.Text;
+            string[] ele = formulator.Split(new char[] { '+', '-', '*' });
+            for ( int i = 0 ; i < ele.Length ; i++ )
+            {
+                string element = ele[i].Replace(" ", "");
+                if (element.StartsWith("Variable") ||
+                    element.StartsWith("Process"))
+                    resList.Add(new SaveLoggerProperty(element, start, end, dir));
+            }
+            return resList;
+        }
 
         /// <summary>
         /// Remove the entry of parameter value.
@@ -596,6 +675,33 @@ namespace EcellLib.Analysis
             m_zCnt.Refresh();
         }
 
+        /// <summary>
+        /// Set the estimated parameter.
+        /// </summary>
+        /// <param name="param">the execution parameter.</param>
+        /// <param name="result">the estimated value.</param>
+        /// <param name="generation">the generation.</param>
+        public void AddEstimateParameter(ExecuteParameter param, double result, int generation)
+        {
+            PEEstimateView.Rows.Clear();
+            foreach (string key in param.ParamDic.Keys)
+            {
+                DataGridViewRow r = new DataGridViewRow();
+
+                DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+                c1.Value = Convert.ToString(key);
+                r.Cells.Add(c1);
+
+                DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+                c2.Value = Convert.ToString(param.ParamDic[key]);
+                r.Cells.Add(c2);
+
+                PEEstimateView.Rows.Add(r);
+            }
+            PEEstimationValue.Text = Convert.ToString(result);
+            PEGenerateValue.Text = Convert.ToString(generation);
+        }
+
 
         #region Events
         /// <summary>
@@ -664,6 +770,36 @@ namespace EcellLib.Analysis
                     manager.DataChanged(modelList[0], objId, ele[0], obj);
                 }
                 break;
+            }
+        }
+
+        /// <summary>
+        /// Reflect the parameter condition to the model property.
+        /// </summary>
+        /// <param name="sender">MenuItem.</param>
+        /// <param name="e">EventArgs.</param>
+        private void ClickPEReflectMenu(object sender, EventArgs e)
+        {
+            DataManager manager = DataManager.GetDataManager();
+            foreach (DataGridViewRow r in PEEstimateView.Rows)
+            {
+                string path = Convert.ToString(r.Cells[0].Value);
+                double v = Convert.ToDouble(r.Cells[1].Value);
+                String[] ele = path.Split(new char[] { ':' });
+                String objId = ele[1] + ":" + ele[2];
+                List<string> modelList = manager.GetModelList();
+                EcellObject obj = manager.GetEcellObject(modelList[0], objId, ele[0]);
+                if (obj == null) continue;
+                foreach (EcellData d in obj.Value)
+                {
+                    if (d.EntityPath.Equals(path))
+                    {
+                        d.Value = new EcellValue(v);
+                        d.Committed = true;
+                        break;
+                    }
+                }
+                manager.DataChanged(modelList[0], objId, ele[0], obj);
             }
         }
 
@@ -977,11 +1113,11 @@ namespace EcellLib.Analysis
                         {
                             if (data is EcellProcess)
                             {
-                                list.Add(data.Key + ":Activity");
+                                list.Add("Process:" + data.Key + ":Activity");
                             }
                             else if (data is EcellVariable)
                             {
-                                list.Add(data.Key + ":MolarConc");
+                                list.Add("Variable:" + data.Key + ":MolarConc");
                             }
                         }
                     }

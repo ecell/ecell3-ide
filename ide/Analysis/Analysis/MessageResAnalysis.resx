@@ -129,6 +129,9 @@
   <data name="ErrFindErrorJob" xml:space="preserve">
     <value>There are any error job. Do you want to show the result?</value>
   </data>
+  <data name="ErrGenerationNumPositive" xml:space="preserve">
+    <value>The number of generation is lager than 0.</value>
+  </data>
   <data name="ErrInputReflect" xml:space="preserve">
     <value>There are invalid properties in execution parameters.</value>
   </data>
@@ -150,8 +153,14 @@
   <data name="ErrOverMax" xml:space="preserve">
     <value>The max number of input is over</value>
   </data>
-  <data name="ErrParamProp" xml:space="preserve">
+  <data name="ErrParamProp1" xml:space="preserve">
+    <value>Can't get the parameter of property. Please set at least one property.</value>
+  </data>
+  <data name="ErrParamProp2" xml:space="preserve">
     <value>Can't get the parameter of property. Please set at least two property.</value>
+  </data>
+  <data name="ErrPopulationNumPositive" xml:space="preserve">
+    <value>The numner of population is lager than 0.</value>
   </data>
   <data name="ErrPosValue" xml:space="preserve">
     <value>Number of sample, Simulation Time or Check window size should be positive number.</value>
@@ -161,6 +170,12 @@
   </data>
   <data name="ErrSameAxis" xml:space="preserve">
     <value>The selected data on X axis is same as the one on Y axis.</value>
+  </data>
+  <data name="ErrSampleNumPositive" xml:space="preserve">
+    <value>The number of samples is larger than 0,</value>
+  </data>
+  <data name="ErrSimTimeUnder" xml:space="preserve">
+    <value>The simulation time is lager than 0.0.</value>
   </data>
   <data name="FinishRAnalysis" xml:space="preserve">
     <value>Finished to execute the robust analysis.</value>
@@ -172,10 +187,13 @@
     <value>&amp;Analysis...</value>
   </data>
   <data name="MenuItemAnalysisWindow" xml:space="preserve">
-    <value>&amp;AnalysisWindow</value>
+    <value>&amp;AnalysisWindow...</value>
+  </data>
+  <data name="MenuItemParameterEstimation" xml:space="preserve">
+    <value>&amp;Parameter Estimation</value>
   </data>
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
-    <value>&amp;Robust Analysis...</value>
+    <value>&amp;Robust Analysis</value>
   </data>
   <data name="ReflectMenuText" xml:space="preserve">
     <value>Reflect</value>

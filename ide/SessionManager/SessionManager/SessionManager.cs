@@ -772,13 +772,94 @@ namespace EcellLib.SessionManager
         }
 
 
+        /// <summary>
+        /// Execute the simulation with using the set parameters.
+        /// </summary>
+        /// <param name="topDir">top directory include the script file and result data.</param>
+        /// <param name="modelName">model name executed the simulation.</param>
+        /// <param name="count">simulation time or simulation step.</param>
+        /// <param name="isStep">the flag use simulation time or simulation step.</param>
+        /// <param name="setparam">the set parameters.</param>
+        /// <returns>Dictionary of jobid and the execution parameter.</returns>
         public Dictionary<int, ExecuteParameter> RunSimParameterSet(string topDir, string modelName, 
             double count, bool isStep, Dictionary<int, ExecuteParameter> setparam)
         {
+            DataManager manager = DataManager.GetDataManager();
+            List<EcellObject> sysList = manager.GetData(modelName, null);
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
+            foreach (int i in setparam.Keys)
+            {
+                Dictionary<string, double> paramDic = setparam[i].ParamDic;
 
-            // not implement
+                string dirName = topDir + "/" + i;
+                string fileName = topDir + "/" + i + ".ess";
+                Encoding enc = Encoding.GetEncoding(932);
+                SetLogTopDirectory(dirName);
+                if (!Directory.Exists(dirName))
+                {
+                    Directory.CreateDirectory(dirName);
+                }
 
+                manager.ClearScriptInfo();
+                File.WriteAllText(fileName, "", enc);
+                manager.WritePrefix(fileName, enc);
+                manager.WriteModelEntry(fileName, enc, modelName);
+                manager.WriteModelProperty(fileName, enc, modelName);
+                File.AppendAllText(fileName, "\n# System\n", enc);
+                foreach (EcellObject sysObj in sysList)
+                {
+                    foreach (string path in paramDic.Keys)
+                    {
+                        if (sysObj.Value == null) continue;
+                        foreach (EcellData v in sysObj.Value)
+                        {
+                            if (!path.Equals(v.EntityPath)) continue;
+                            v.Value.Value = paramDic[path];
+                            break;
+                        }
+                    }
+                    manager.WriteSystemEntry(fileName, enc, modelName, sysObj);
+                    manager.WriteSystemProperty(fileName, enc, modelName, sysObj);
+                }
+                Application.DoEvents();
+                foreach (EcellObject sysObj in sysList)
+                {
+                    foreach (string path in paramDic.Keys)
+                    {
+                        foreach (EcellObject obj in sysObj.Children)
+                        {
+                            if (obj.Value == null) continue;
+                            foreach (EcellData v in obj.Value)
+                            {
+                                if (!path.Equals(v.EntityPath)) continue;
+                                v.Value.Value = paramDic[path];
+                                break;
+                            }
+                        }
+                    }
+                    manager.WriteComponentEntry(fileName, enc, sysObj);
+                    manager.WriteComponentProperty(fileName, enc, sysObj);
+                }
+                Application.DoEvents();
+                File.AppendAllText(fileName, "session.initialize()\n", enc);
+                List<string> sList = new List<string>();
+                foreach (SaveLoggerProperty s in m_logList)
+                {
+                    sList.Add(s.FullPath);
+                }
+                manager.WriteLoggerProperty(fileName, enc, sList);
+                if (isStep)
+                    manager.WriteSimulationForStep(fileName, (int)count, enc);
+                else
+                    manager.WriteSimulationForTime(fileName, count, enc);
+                manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
+                List<string> extFileList = ExtractExtFileList(m_logList);
+                int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
+                m_parameterDic.Add(job, new ExecuteParameter(paramDic));
+                resList.Add(job, new ExecuteParameter(paramDic));
+                Application.DoEvents();
+            }
+            Run();
             return resList;
         }
 
@@ -924,6 +1005,25 @@ namespace EcellLib.SessionManager
                 resList.Add(fileName);
             }
             return resList;
+        }
+
+        /// <summary>
+        /// Create the parameter set with random of ParameterRange.
+        /// </summary>
+        /// <returns>the parameter set.</returns>
+        public ExecuteParameter CreateExecuteParameter()
+        {
+            Dictionary<string, double> paramDic = new Dictionary<string, double>();
+            Random hRandom = new Random();
+            paramDic.Clear();
+            foreach (ParameterRange p in m_paramList)
+            {
+                double data = 0.0;
+                double d = hRandom.NextDouble();
+                data = d * (p.Max - p.Min) + p.Min;
+                paramDic.Add(p.FullPath, data);
+            }
+            return new ExecuteParameter(paramDic);
         }
 
         /// <summary>

@@ -71,7 +71,7 @@ namespace EcellLib.Analysis
         public SimplexCrossoverParameter GetParam()
         {
             return new SimplexCrossoverParameter(
-                Convert.ToDouble(PEMTextBox.Text),
+                Convert.ToInt32(PEMTextBox.Text),
                 Convert.ToDouble(PEM0TextBox.Text),
                 Convert.ToDouble(PEMaxRateTextBox.Text),
                 Convert.ToDouble(PEKTextBox.Text),

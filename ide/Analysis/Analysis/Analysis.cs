@@ -56,10 +56,16 @@ namespace EcellLib.Analysis
         /// </summary>
         private ToolStripMenuItem m_robustAnalysisItem;
         /// <summary>
+        /// MenuItem to display the window for parameter estimation.
+        /// </summary>
+        private ToolStripMenuItem m_parameterEstimationItem;
+        /// <summary>
         /// Window to analysis the robustness of model.
         /// </summary>
         private AnalysisWindow m_win = null;
-
+        /// <summary>
+        /// SessionManager.
+        /// </summary>
         private SessionManager.SessionManager m_manager = SessionManager.SessionManager.GetManager();
         /// <summary>
         /// ResourceManager for AnalysisTemplate.
@@ -69,6 +75,10 @@ namespace EcellLib.Analysis
         /// Robust Analysis Class.
         /// </summary>
         private RobustAnalysis m_robustAnalysis;
+        /// <summary>
+        /// Parameter Estimation Class.
+        /// </summary>
+        private ParameterEstimation m_parameterEstimation;
 
         #endregion
 
@@ -88,6 +98,14 @@ namespace EcellLib.Analysis
         public void StopRobustAnalysis()
         {
             m_robustAnalysis = null;
+        }
+
+        /// <summary>
+        /// Stop the parameter estimation.
+        /// </summary>
+        public void StopParameterEstimation()
+        {
+            m_parameterEstimation = null;
         }
 
         #region Events
@@ -142,6 +160,30 @@ namespace EcellLib.Analysis
             m_robustAnalysis.Control = this;
             m_robustAnalysis.ExecuteAnalysis();
         }
+
+        /// <summary>
+        /// Event when parameter estimation menu is clicked.
+        /// This program execute the program of parameter estimation.
+        /// </summary>
+        /// <param name="sender">MenuItem</param>
+        /// <param name="e">EventArgs.</param>
+        private void ExecuteParameterEstimation(object sender, EventArgs e)
+        {
+            if (m_win == null) return;
+            if (m_parameterEstimation != null && m_parameterEstimation.IsRunning)
+            {
+                string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
+                DialogResult res = MessageBox.Show(mes, "Question", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.OK)
+                {
+                    m_parameterEstimation.StopAnalysis();
+                }
+                return;
+            }  
+            m_parameterEstimation = new ParameterEstimation();
+            m_parameterEstimation.Control = this;
+            m_parameterEstimation.ExecuteAnalysis();
+        }
         #endregion
 
         #region Inherited from PluginBase
@@ -174,8 +216,15 @@ namespace EcellLib.Analysis
             m_robustAnalysisItem.Enabled = false;
             m_robustAnalysisItem.Click += new EventHandler(ExecuteRobustAnalysis);
 
+            m_parameterEstimationItem = new ToolStripMenuItem();
+            m_parameterEstimationItem.Text = resources.GetString("MenuItemParameterEstimation");
+            m_parameterEstimationItem.ToolTipText = "Parameter Estimation";
+            m_parameterEstimationItem.Tag = 50;
+            m_parameterEstimationItem.Enabled = false;
+            m_parameterEstimationItem.Click += new EventHandler(ExecuteParameterEstimation);
+
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
-            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem });
+            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem, m_parameterEstimationItem });
             analysisMenu.Text = "Analysis";
             analysisMenu.Name = "MenuItemAnalysis";
 
@@ -217,9 +266,15 @@ namespace EcellLib.Analysis
         public void ChangeStatus(ProjectStatus type)
         {
             if (ProjectStatus.Loaded == type)
+            {
                 m_robustAnalysisWinItem.Enabled = true;
+                m_parameterEstimationItem.Enabled = true;
+            }
             else
+            {
                 m_robustAnalysisWinItem.Enabled = false;
+                m_parameterEstimationItem.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -444,5 +499,37 @@ namespace EcellLib.Analysis
         {
         }
         #endregion
+    }
+
+
+    /// <summary>
+    /// Enum of type of the estimation formulators.
+    /// </summary>
+    public enum EstimationFormulatorType
+    {
+        /// <summary>
+        /// Use max value at the finished simulation time.
+        /// </summary>
+        Max = 0,
+        /// <summary>
+        /// Use min value at the finished simulation time.
+        /// </summary>
+        Min = 1,
+        /// <summary>
+        /// Use neally 0 at the finished simulation time.
+        /// </summary>
+        EqualZero = 2,
+        /// <summary>
+        /// Use max value while simulation is executed.
+        /// </summary>
+        SumMax = 3,
+        /// <summary>
+        /// Use min value while simulation is executed.
+        /// </summary>
+        SumMin = 4,
+        /// <summary>
+        /// Use neally 0 while simulation is executed.
+        /// </summary>
+        SumEqualZero = 5
     }
 }

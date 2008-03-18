@@ -102,11 +102,13 @@
     <Compile Include="AnalysisWindow.Designer.cs">
       <DependentUpon>AnalysisWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Calculator.cs" />
     <Compile Include="MessageResAnalysis.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResAnalysis.resx</DependentUpon>
     </Compile>
+    <Compile Include="ParameterEstimation.cs" />
     <Compile Include="PEAdvancedWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +136,10 @@
     <EmbeddedResource Include="AnalysisWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AnalysisWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PEAdvancedWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PEAdvancedWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PEAdvancedWindow.resx">
       <SubType>Designer</SubType>

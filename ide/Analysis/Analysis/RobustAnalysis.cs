@@ -44,11 +44,22 @@ namespace EcellLib.Analysis
     /// </summary>
     public class RobustAnalysis
     {
+        /// <summary>
+        /// Parameter object of robust analysis.
+        /// </summary>
         private RobustAnalysisParameter m_param;
+        /// <summary>
+        /// Manage of session.
+        /// </summary>
         private SessionManager.SessionManager m_manager;
+        /// <summary>
+        /// Form to display the setting and result of analysis.
+        /// </summary>
         private AnalysisWindow m_win;
+        /// <summary>
+        /// Plugin controller.
+        /// </summary>
         private Analysis m_control;
-
         /// <summary>
         /// Timer to update the status of jobs.
         /// </summary>
@@ -99,6 +110,18 @@ namespace EcellLib.Analysis
             int num = m_param.SampleNum;
             double simTime = m_param.SimulationTime;;
             int maxSize = Convert.ToInt32(m_param.MaxData);
+            if (num <= 0)
+            {
+                string errmes = Analysis.s_resources.GetString("ErrSampleNumPositive");
+                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (simTime <= 0.0)
+            {
+                string errmes = Analysis.s_resources.GetString("ErrSimTimeUnder");
+                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (maxSize > AnalysisWindow.MaxSize)
             {
                 string errmes = Analysis.s_resources.GetString("ErrOverMax") + "[" + AnalysisWindow.MaxSize + "]";
@@ -112,7 +135,13 @@ namespace EcellLib.Analysis
 
             List<ParameterRange> paramList = m_win.ExtractParameter();
             if (paramList == null) return;
-            List<SaveLoggerProperty> saveList = m_win.GetObservedDataList();
+            if (paramList.Count < 2)
+            {
+                String mes = Analysis.s_resources.GetString("ErrParamProp2");
+                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            List<SaveLoggerProperty> saveList = m_win.GetRobustObservedDataList();
             if (saveList == null) return;
 
             m_manager.SetParameterRange(paramList);
@@ -190,6 +219,12 @@ namespace EcellLib.Analysis
             double ymin = 0.0;
             List<ParameterRange> pList = m_win.ExtractParameter();
             if (pList == null) return;
+            if (pList.Count < 2)
+            {
+                String mes = Analysis.s_resources.GetString("ErrParamProp2");
+                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             int count = 0;
             foreach (ParameterRange r in pList)
             {

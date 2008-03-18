@@ -1632,32 +1632,32 @@
   <data name="PRValueColumn.HeaderText" xml:space="preserve">
     <value>Parameter</value>
   </data>
-  <data name="dataGridView2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="PEEstimateView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="dataGridView2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="PEEstimateView.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 33</value>
   </data>
-  <data name="dataGridView2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="PEEstimateView.Size" type="System.Drawing.Size, System.Drawing">
     <value>395, 90</value>
   </data>
-  <data name="dataGridView2.TabIndex" type="System.Int32, mscorlib">
+  <data name="PEEstimateView.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;dataGridView2.Name" xml:space="preserve">
-    <value>dataGridView2</value>
+  <data name="&gt;&gt;PEEstimateView.Name" xml:space="preserve">
+    <value>PEEstimateView</value>
   </data>
-  <data name="&gt;&gt;dataGridView2.Type" xml:space="preserve">
+  <data name="&gt;&gt;PEEstimateView.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;dataGridView2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;PEEstimateView.Parent" xml:space="preserve">
     <value>tableLayoutPanel4</value>
   </data>
-  <data name="&gt;&gt;dataGridView2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;PEEstimateView.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="tableLayoutPanel6.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="label7.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
@@ -1669,7 +1669,7 @@
     <value>3, 6</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 12</value>
+    <value>74, 12</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1689,32 +1689,89 @@
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="EstimationValue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="PEEstimationValue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
-  <data name="EstimationValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 3</value>
+  <data name="PEEstimationValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>83, 3</value>
   </data>
-  <data name="EstimationValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>298, 19</value>
+  <data name="PEEstimationValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 19</value>
   </data>
-  <data name="EstimationValue.TabIndex" type="System.Int32, mscorlib">
+  <data name="PEEstimationValue.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="EstimationValue.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+  <data name="PEEstimationValue.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Right</value>
   </data>
-  <data name="&gt;&gt;EstimationValue.Name" xml:space="preserve">
-    <value>EstimationValue</value>
+  <data name="&gt;&gt;PEEstimationValue.Name" xml:space="preserve">
+    <value>PEEstimationValue</value>
   </data>
-  <data name="&gt;&gt;EstimationValue.Type" xml:space="preserve">
+  <data name="&gt;&gt;PEEstimationValue.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;EstimationValue.Parent" xml:space="preserve">
+  <data name="&gt;&gt;PEEstimationValue.Parent" xml:space="preserve">
     <value>tableLayoutPanel6</value>
   </data>
-  <data name="&gt;&gt;EstimationValue.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;PEEstimationValue.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="label11.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 6</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 12</value>
+  </data>
+  <data name="label11.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Generation</value>
+  </data>
+  <data name="&gt;&gt;label11.Name" xml:space="preserve">
+    <value>label11</value>
+  </data>
+  <data name="&gt;&gt;label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
+    <value>tableLayoutPanel6</value>
+  </data>
+  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="PEGenerateValue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="PEGenerateValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>280, 3</value>
+  </data>
+  <data name="PEGenerateValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 19</value>
+  </data>
+  <data name="PEGenerateValue.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="PEGenerateValue.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;PEGenerateValue.Name" xml:space="preserve">
+    <value>PEGenerateValue</value>
+  </data>
+  <data name="&gt;&gt;PEGenerateValue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PEGenerateValue.Parent" xml:space="preserve">
+    <value>tableLayoutPanel6</value>
+  </data>
+  <data name="&gt;&gt;PEGenerateValue.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="tableLayoutPanel6.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1744,7 +1801,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel6.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label7" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="EstimationValue" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,91,Percent,100" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label7" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="PEEstimationValue" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label11" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="PEGenerateValue" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,80,Percent,50,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel4.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1774,7 +1831,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel4.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="dataGridView2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel6" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,30,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="PEEstimateView" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel6" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,30,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="groupBox6.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
