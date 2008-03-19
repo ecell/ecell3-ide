@@ -109,7 +109,8 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="control">PathwayControl instance</param>
         public CreateSystemMouseHandler(PathwayControl control)
         {
-            this.m_con = control;
+            base.m_con = control;
+            base.m_resources = control.Resources;
         }
 
         /// <summary>
@@ -214,7 +215,8 @@ namespace EcellLib.PathwayWindow.Handler
 
         public override void OnMouseUp(object sender, PInputEventArgs e)
         {
-            if (m_isNode) return;
+            if (m_isNode)
+                return;
             base.OnMouseUp(sender, e);
 
             if (m_startPoint == PointF.Empty || m_selectedPath == null)
