@@ -85,10 +85,7 @@ namespace EcellLib.PathwayWindow.Handler
             base.OnMouseDown(sender, e);
 
             CanvasControl canvas = m_con.Canvas;
-            PPathwayObject picked = canvas.GetPickedObject(e.Position);
-            PPathwayNode newNode = null;
-            if (picked is PPathwayNode)
-                newNode = (PPathwayNode)picked;
+            PPathwayNode newNode = canvas.GetPickedNode(e.Position);
             // Reset node.
             if (newNode == null)
             {
@@ -139,15 +136,6 @@ namespace EcellLib.PathwayWindow.Handler
             }
             SetCurrent(canvas, null);
             canvas.LineHandler.SetLineVisibility(false);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public override void OnMouseDrag(object sender, PInputEventArgs e)
-        {
-            base.OnMouseDrag(sender, e);
         }
         /// <summary>
         /// Called when the mouse is moving on the canvas

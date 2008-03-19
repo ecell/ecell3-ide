@@ -735,6 +735,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             // Call intersects with the identity matrix.
             PMatrix matrix = new PMatrix();
+            bool isIntersects = false;
             if (base.Intersects(bounds))
             {
                 // Transform the bounds.
@@ -745,16 +746,16 @@ namespace EcellLib.PathwayWindow.Nodes
 
                 if (Brush != null && m_tempRegion.IsVisible(bounds))
                 {
-                    return true;
+                    isIntersects = true;
                 }
                 else if (m_pen != null)
                 {
                     // Set the temp region to the transformed, widened path.
                     SetTempRegion(m_path, matrix, true);
-                    return m_tempRegion.IsVisible(bounds);
+                    isIntersects = m_tempRegion.IsVisible(bounds);
                 }
             }
-            return false;
+            return isIntersects;
         }
 
         /// <summary>
@@ -881,9 +882,9 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Called when the mouse leaves this object.
         /// </summary>
         /// <param name="e"></param>
-        public override void OnMouseUp(PInputEventArgs e)
+        public override void OnMouseDown(PInputEventArgs e)
         {
-            base.OnMouseUp(e);
+            base.OnMouseDown(e);
             if (m_canvas == null)
                 return;
             m_canvas.FocusNode = this;

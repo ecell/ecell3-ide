@@ -925,13 +925,20 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="pointF"></param>
         /// <returns></returns>
-        public PPathwayObject GetPickedObject(PointF pointF)
+        public PPathwayNode GetPickedNode(PointF pointF)
         {
-            PPathwayObject pickedObj = null;
+            PPathwayNode pickedObj = null;
             foreach (PPathwayLayer layer in m_layers.Values)
+            {
                 foreach (PPathwayObject obj in layer.NodeList)
-                    if (obj.Visible && obj.Rect.Contains(pointF))
-                        pickedObj = obj;
+                {
+                    if (obj is PPathwaySystem)
+                        continue;
+                    if (!obj.Visible || !obj.Rect.Contains(pointF))
+                        continue;
+                    pickedObj = (PPathwayNode)obj;
+                }
+            }
             return pickedObj;
         }
 
@@ -1295,7 +1302,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void ResetNodeToBeConnected()
         {
-            if (null != m_nodeToBeConnected)
+            if (m_nodeToBeConnected != null)
                 m_nodeToBeConnected.IsToBeConnected = false;
             m_nodeToBeConnected = null;
         }

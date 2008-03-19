@@ -258,12 +258,11 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="e">PInputEventArgs</param>
         public override void OnMouseDown(PInputEventArgs e)
         {
-            base.OnMouseDown(e);
             if (m_canvas == null)
                 return;
-
             m_canvas.ResetSelectedObjects();
             m_canvas.NotifySelectChanged(this);
+            base.OnMouseDown(e);
         }
 
         /// <summary>

@@ -190,8 +190,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="e">PInputEventArgs.</param>
         public override void OnMouseDown(PInputEventArgs e)
         {
-            base.OnMouseDown(e);
-            //
             Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
             if (mode == Mode.CreateOneWayReaction
                 || mode == Mode.CreateMutualReaction
@@ -210,6 +208,7 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 m_canvas.NotifySelectChanged(this);
             }
+            base.OnMouseDown(e);
         }
 
         /// <summary>

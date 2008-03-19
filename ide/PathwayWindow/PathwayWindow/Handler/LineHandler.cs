@@ -282,8 +282,8 @@ namespace EcellLib.PathwayWindow.Handler
         void m_lineHandle_MouseUp(object sender, PInputEventArgs e)
         {
             // Check exception.
-            PPathwayObject obj = m_canvas.GetPickedObject(e.Position);
-            if (m_selectedLine == null || obj == null || !(obj is PPathwayNode))
+            PPathwayNode obj = m_canvas.GetPickedNode(e.Position);
+            if (m_selectedLine == null || obj == null)
             {
                 ResetLinePosition();
                 SetLineVisibility(false);

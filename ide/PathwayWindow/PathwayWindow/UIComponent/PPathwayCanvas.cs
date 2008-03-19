@@ -121,6 +121,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         protected override void OnMouseDown(MouseEventArgs e)
         {
             this.Focus();
+            m_canvas.FocusNode = null;
             base.OnMouseDown(e);
         }
 
