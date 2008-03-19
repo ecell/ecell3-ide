@@ -80,12 +80,12 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <summary>
         /// position of itembox.
         /// </summary>
-        protected Point m_position = new Point(150, 5);
+        protected Point m_position = new Point(120, 5);
         
         /// <summary>
         /// size of the itembox.
         /// </summary>
-        protected Size m_size = new Size(128, 20);
+        protected Size m_size = new Size(100, 20);
 
         /// <summary>
         /// Accessor for m_label.

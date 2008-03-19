@@ -196,6 +196,114 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
+        ///   Animation Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextAnimationSetting {
+            get {
+                return ResourceManager.GetString("DialogTextAnimationSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Background Brush に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextBackgroundBrush {
+            get {
+                return ResourceManager.GetString("DialogTextBackgroundBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Edge Brush に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextEdgeBrush {
+            get {
+                return ResourceManager.GetString("DialogTextEdgeBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Edge Width に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextEdgeWidth {
+            get {
+                return ResourceManager.GetString("DialogTextEdgeWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Edit Mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextEditMode {
+            get {
+                return ResourceManager.GetString("DialogTextEditMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Logarithmic に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextLogarithmic {
+            get {
+                return ResourceManager.GetString("DialogTextLogarithmic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Max Edge Width に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextMaxEdgeWidth {
+            get {
+                return ResourceManager.GetString("DialogTextMaxEdgeWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   NG Brush に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextNGBrush {
+            get {
+                return ResourceManager.GetString("DialogTextNGBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Normal Edge に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextNormalEdge {
+            get {
+                return ResourceManager.GetString("DialogTextNormalEdge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Threshold High に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextThresholdHigh {
+            get {
+                return ResourceManager.GetString("DialogTextThresholdHigh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Threshold Low に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextThresholdLow {
+            get {
+                return ResourceManager.GetString("DialogTextThresholdLow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View Mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextViewMode {
+            get {
+                return ResourceManager.GetString("DialogTextViewMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can not add the object. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAddObj {

@@ -126,7 +126,7 @@
     <value>0, 0</value>
   </data>
   <data name="tabControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>422, 404</value>
+    <value>531, 486</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tabControl.TabIndex" type="System.Int32, mscorlib">
@@ -151,7 +151,7 @@
     <value>NoControl</value>
   </data>
   <data name="buttonCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>231, 6</value>
+    <value>285, 6</value>
   </data>
   <data name="buttonCancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 31</value>
@@ -181,7 +181,7 @@
     <value>NoControl</value>
   </data>
   <data name="buttonOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>121, 6</value>
+    <value>175, 6</value>
   </data>
   <data name="buttonOK.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 32</value>
@@ -208,10 +208,10 @@
     <value>Bottom</value>
   </data>
   <data name="panel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 410</value>
+    <value>0, 492</value>
   </data>
   <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>422, 44</value>
+    <value>531, 44</value>
   </data>
   <data name="panel.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -235,7 +235,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>422, 454</value>
+    <value>531, 536</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>PropertyDialog</value>
@@ -244,6 +244,6 @@
     <value>PropertyDialog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>EcellLib.PathwayWindow.UIComponent.PathwayDialog, PathwayWindow, Version=1.1.1020.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

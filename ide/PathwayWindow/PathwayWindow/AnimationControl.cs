@@ -38,6 +38,7 @@ using System.Drawing.Drawing2D;
 using EcellLib.PathwayWindow.UIComponent;
 using System.Diagnostics;
 using EcellLib.PathwayWindow.Graphic;
+using System.ComponentModel;
 
 namespace EcellLib.PathwayWindow
 {
@@ -118,6 +119,10 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         protected PathwayControl m_con = null;
         /// <summary>
+        /// ResourceManager for PathwayWindow.
+        /// </summary>
+        private ComponentResourceManager m_resources;
+        /// <summary>
         /// CanvasControl.
         /// </summary>
         protected CanvasControl m_canvas = null;
@@ -137,6 +142,15 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// MessageResourses
+        /// </summary>
+        public ComponentResourceManager Resources
+        {
+            get { return m_resources; }
+            set { m_resources = value; }
+        }
+
         /// <summary>
         /// Get/Set m_thresholdHigh
         /// </summary>
@@ -254,6 +268,7 @@ namespace EcellLib.PathwayWindow
         public AnimationControl(PathwayControl control)
         {
             m_con = control;
+            m_resources = control.Resources;
             m_dManager = m_con.Window.DataManager;
             // Set Timer.
             m_time = new Timer();
@@ -297,6 +312,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void StepSimulation()
         {
+            SetPropForSimulation();
             UpdatePropForSimulation();
             m_isPausing = true;
         }
@@ -343,7 +359,7 @@ namespace EcellLib.PathwayWindow
                     continue;
                 // Line setting.
                 float activity = GetFloatValue(process.EcellObject, "MolarActivity");
-                process.EdgeBrush = GetEdgeBrush(activity);
+                process.EdgeBrush = m_viewLineBrush;
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
@@ -400,8 +416,7 @@ namespace EcellLib.PathwayWindow
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                float activity = GetFloatValue(process.EcellObject, "MolarActivity");
-                process.EdgeBrush = GetEdgeBrush(activity);
+                process.EdgeBrush = m_normalLineBrush;
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
@@ -494,19 +509,19 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private class AnimationTabPage : PropertyDialogTabPage
         {
-            private AnimationBackGroundItem m_boxBackGroundBrush;
-            private AnimationLineItem m_boxLineSettings;
+            private AnimationEditModeItem m_editModeItem;
+            private AnimationViewModeItem m_viewModeItem;
             public AnimationTabPage(AnimationControl control)
             {
-                m_boxBackGroundBrush = new AnimationBackGroundItem(control);
-                m_boxLineSettings = new AnimationLineItem(control);
+                m_editModeItem = new AnimationEditModeItem(control);
+                m_viewModeItem = new AnimationViewModeItem(control);
 
-                this.Text = "AnimationSettings";
+                this.Text = "Pathway Setting";
                 this.SuspendLayout();
-                this.Controls.Add(m_boxBackGroundBrush);
-                this.Controls.Add(m_boxLineSettings);
+                this.Controls.Add(m_editModeItem);
+                this.Controls.Add(m_viewModeItem);
                 
-                m_boxLineSettings.Top = m_boxBackGroundBrush.Top + m_boxBackGroundBrush.Height;
+                m_viewModeItem.Top = m_editModeItem.Top + m_editModeItem.Height;
                 this.ResumeLayout();
                 this.PerformLayout();
             }
@@ -514,55 +529,47 @@ namespace EcellLib.PathwayWindow
             public override void ApplyChange()
             {
                 base.ApplyChange();
-                m_boxBackGroundBrush.ApplyChanges();
-                m_boxLineSettings.ApplyChanges();
+                m_editModeItem.ApplyChanges();
+                m_viewModeItem.ApplyChanges();
             }
         }
 
         /// <summary>
         /// private class for AnimationSettingDialog
         /// </summary>
-        private class AnimationBackGroundItem : GroupBox
+        private class AnimationEditModeItem : GroupBox
         {
-            private PropertyBrushItem m_normalBrushItem;
-            private PropertyBrushItem m_viewBrushItem;
+            private PropertyBrushItem m_bgBrushItem;
+            private PropertyBrushItem m_edgeBrushItem;
+            private PropertyTextItem m_edgeWidth;
+
             private AnimationControl m_control;
 
-            public Brush NomalBrush
-            {
-                get { return m_normalBrushItem.Brush; }
-                set { m_normalBrushItem.Brush = value; }
-            }
-
-            public Brush ViewBrush
-            {
-                get { return m_viewBrushItem.Brush; }
-                set { m_viewBrushItem.Brush = value; }
-            }
-
-            public AnimationBackGroundItem(AnimationControl control)
+            public AnimationEditModeItem(AnimationControl control)
             {
                 m_control = control;
 
                 // set Brushes
                 List<string> list = BrushManager.GetBrushNameList();
-                m_normalBrushItem = new PropertyBrushItem("Nomal Mode", control.NormalBGBrush, list);
-                m_viewBrushItem = new PropertyBrushItem("View Mode", control.ViewBGBrush, list);
-
+                this.m_bgBrushItem = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextBackgroundBrush), control.NormalBGBrush, list);
+                this.m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextEdgeWidth), control.NormalLineWidth.ToString());
+                this.m_edgeBrushItem = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextEdgeBrush), control.NormalLineBrush, list);
                 this.SuspendLayout();
                 // 
                 // Initialize
                 // 
                 this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right);
                 this.AutoSize = true;
-                this.Controls.Add(this.m_normalBrushItem);
-                this.Controls.Add(this.m_viewBrushItem);
-                this.Text = "BackGroundBrush";
+                this.Controls.Add(this.m_bgBrushItem);
+                this.Controls.Add(this.m_edgeBrushItem);
+                this.Controls.Add(this.m_edgeWidth);
+                this.Text = m_control.Resources.GetString(PathwayDialogConstant.DialogTextEditMode);
                 this.TabStop = false;
 
                 // Set Position
-                this.m_normalBrushItem.Location = new System.Drawing.Point(5, 20);
-                this.m_viewBrushItem.Location = new System.Drawing.Point(5, 50);
+                this.m_bgBrushItem.Location = new Point(5, 20);
+                this.m_edgeBrushItem.Location = new Point(5, 50);
+                this.m_edgeWidth.Location = new Point(230, 50);
 
                 this.ResumeLayout(false);
                 this.PerformLayout();
@@ -570,45 +577,48 @@ namespace EcellLib.PathwayWindow
 
             public void ApplyChanges()
             {
-                m_control.NormalBGBrush = this.m_normalBrushItem.Brush;
-                m_control.ViewBGBrush = this.m_viewBrushItem.Brush;
+                m_control.NormalBGBrush = this.m_bgBrushItem.Brush;
+                m_control.NormalLineBrush = this.m_edgeBrushItem.Brush;
+                m_control.NormalLineWidth = float.Parse(this.m_edgeWidth.Text);
             }
         }
 
         /// <summary>
         /// private class for AnimationSettingDialog
         /// </summary>
-        private class AnimationLineItem : GroupBox
+        private class AnimationViewModeItem : GroupBox
         {
-            private PropertyBrushItem m_lineNormalBrush;
-            private PropertyBrushItem m_lineViewBrush;
-            private PropertyTextItem m_lineNormalWidth;
-            private PropertyTextItem m_lineViewWidth;
+            private PropertyBrushItem m_bgBrush;
+            private PropertyDialogItem m_animation;
+            private PropertyBrushItem m_edgeBrush;
+            private PropertyTextItem m_edgeWidth;
+
+            private PropertyBrushItem m_edgeHighBrush;
+            private PropertyBrushItem m_edgeLowBrush;
+            private PropertyBrushItem m_edgeNGBrush;
+            private PropertyTextItem m_thresholdHigh;
+            private PropertyTextItem m_thresholdLow;
             private PropertyCheckBoxItem m_lineCheckBox;
-            private PropertyTextItem m_lineThresholdHigh;
-            private PropertyTextItem m_lineThresholdLow;
-            private PropertyBrushItem m_lineHighBrush;
-            private PropertyBrushItem m_lineLowBrush;
-            private PropertyBrushItem m_lineNGBrush;
+
             private AnimationControl m_control;
 
-            public AnimationLineItem(AnimationControl control)
+            public AnimationViewModeItem(AnimationControl control)
             {
                 m_control = control;
                 // set Brushes
                 List<string> list = BrushManager.GetBrushNameList();
-                this.m_lineNormalBrush = new PropertyBrushItem("Normal Line Brush", control.NormalLineBrush, list);
-                this.m_lineViewBrush = new PropertyBrushItem("View Mode Line Brush", control.ViewLineBrush, list);
-                this.m_lineHighBrush = new PropertyBrushItem("High Threshold Brush", control.MaxLineBrush, list);
-                this.m_lineLowBrush = new PropertyBrushItem("Low Threshold Brush", control.MinLineBrush, list);
-                this.m_lineNGBrush = new PropertyBrushItem("NG Brush", control.NgLineBrush, list);
+                m_bgBrush = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextBackgroundBrush), control.ViewBGBrush, list);
+                m_animation = new PropertyDialogItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextAnimationSetting));
+                m_edgeBrush = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextEdgeBrush), control.ViewLineBrush, list);
+                m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextMaxEdgeWidth), control.MaxLineWidth.ToString());
 
-                this.m_lineNormalWidth = new PropertyTextItem("Normal Line Width", control.NormalLineWidth.ToString());
-                this.m_lineViewWidth = new PropertyTextItem("View Mode Line Width", control.MaxLineWidth.ToString());
-                this.m_lineThresholdHigh = new PropertyTextItem("High Threshold", control.ThresholdHigh.ToString());
-                this.m_lineThresholdLow = new PropertyTextItem("Low Threshold", control.ThresholdMin.ToString());
+                m_edgeHighBrush = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextThresholdHigh), control.MaxLineBrush, list);
+                m_edgeLowBrush = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextThresholdLow), control.MinLineBrush, list);
+                m_edgeNGBrush = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextNGBrush), control.NgLineBrush, list);
 
-                this.m_lineCheckBox = new PropertyCheckBoxItem("logarithmic display", control.IsLogarithmic);
+                m_thresholdHigh = new PropertyTextItem("", control.ThresholdHigh.ToString());
+                m_thresholdLow = new PropertyTextItem("", control.ThresholdMin.ToString());
+                m_lineCheckBox = new PropertyCheckBoxItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextLogarithmic), control.IsLogarithmic);
 
                 this.SuspendLayout();
                 // 
@@ -616,30 +626,31 @@ namespace EcellLib.PathwayWindow
                 // 
                 this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right);
                 this.AutoSize = true;
-                this.Controls.Add(this.m_lineNormalBrush);
-                this.Controls.Add(this.m_lineViewBrush);
-                this.Controls.Add(this.m_lineHighBrush);
-                this.Controls.Add(this.m_lineLowBrush);
-                this.Controls.Add(this.m_lineNGBrush);
-                this.Controls.Add(this.m_lineNormalWidth);
-                this.Controls.Add(this.m_lineViewWidth);
-                this.Controls.Add(this.m_lineThresholdHigh);
-                this.Controls.Add(this.m_lineThresholdLow);
-                this.Controls.Add(this.m_lineCheckBox);
-                this.Text = "LineSettings";
+                this.Controls.Add(m_bgBrush);
+                this.Controls.Add(m_animation);
+                this.Controls.Add(m_edgeBrush);
+                this.Controls.Add(m_edgeHighBrush);
+                this.Controls.Add(m_edgeLowBrush);
+                this.Controls.Add(m_edgeWidth);
+                this.Controls.Add(m_thresholdHigh);
+                this.Controls.Add(m_thresholdLow);
+                this.Controls.Add(m_edgeNGBrush);
+                this.Controls.Add(m_lineCheckBox);
+                this.Text = m_control.Resources.GetString(PathwayDialogConstant.DialogTextViewMode);
                 this.TabStop = false;
 
                 // SetPosition 
-                this.m_lineNormalBrush.Location = new System.Drawing.Point(5, 20);
-                this.m_lineViewBrush.Location = new System.Drawing.Point(5, 50);
-                this.m_lineNormalWidth.Location = new System.Drawing.Point(5, 80);
-                this.m_lineViewWidth.Location = new System.Drawing.Point(5, 110);
-                this.m_lineCheckBox.Location = new System.Drawing.Point(5, 140);
-                this.m_lineThresholdHigh.Location = new System.Drawing.Point(5, 170);
-                this.m_lineThresholdLow.Location = new System.Drawing.Point(5, 200);
-                this.m_lineHighBrush.Location = new System.Drawing.Point(5, 230);
-                this.m_lineLowBrush.Location = new System.Drawing.Point(5, 260);
-                this.m_lineNGBrush.Location = new System.Drawing.Point(5, 290);
+                m_bgBrush.Location = new Point(5, 20);
+                m_edgeBrush.Location = new Point(5, 50);
+                m_edgeWidth.Location = new Point(230, 50);
+                m_animation.Location = new Point(5, 80);
+
+                m_edgeHighBrush.Location = new Point(5, 110);
+                m_edgeLowBrush.Location = new Point(5, 140);
+                m_thresholdHigh.Location = new Point(170, 110);
+                m_thresholdLow.Location = new Point(170, 140);
+                m_edgeNGBrush.Location = new Point(5, 170);
+                m_lineCheckBox.Location = new Point(5, 200);
 
                 this.ResumeLayout(false);
                 this.PerformLayout();
@@ -647,17 +658,71 @@ namespace EcellLib.PathwayWindow
 
             public void ApplyChanges()
             {
-                m_control.NormalLineBrush = this.m_lineNormalBrush.Brush;
-                m_control.ViewLineBrush = this.m_lineViewBrush.Brush;
-                m_control.MaxLineBrush = this.m_lineHighBrush.Brush;
-                m_control.MinLineBrush = this.m_lineLowBrush.Brush;
-                m_control.NgLineBrush = this.m_lineNGBrush.Brush;
-                m_control.NormalLineWidth = float.Parse(this.m_lineNormalWidth.Text);
-                m_control.MaxLineWidth = float.Parse(this.m_lineViewWidth.Text);
-                m_control.ThresholdHigh = float.Parse(this.m_lineThresholdHigh.Text);
-                m_control.ThresholdMin = float.Parse(this.m_lineThresholdLow.Text);
-                m_control.IsLogarithmic = this.m_lineCheckBox.Checked;
+                m_control.ViewBGBrush = m_bgBrush.Brush;
+                m_control.MaxLineWidth = float.Parse(m_edgeWidth.Text);
+                m_control.ViewLineBrush = m_edgeBrush.Brush;
+                m_control.ThresholdHigh = float.Parse(m_thresholdHigh.Text);
+                m_control.ThresholdMin = float.Parse(m_thresholdLow.Text);
+                m_control.MaxLineBrush = m_edgeHighBrush.Brush;
+                m_control.MinLineBrush = m_edgeLowBrush.Brush;
+                m_control.NgLineBrush = m_edgeNGBrush.Brush;
+                m_control.IsLogarithmic = m_lineCheckBox.Checked;
             }
         }
+    }
+
+    /// <summary>
+    /// PathwayDialogConstant
+    /// </summary>
+    public class PathwayDialogConstant
+    {
+        /// <summary>
+        /// DialogTextAnimationSetting
+        /// </summary>
+        public const string DialogTextAnimationSetting = "DialogTextAnimationSetting";
+        /// <summary>
+        /// DialogTextBackgroundBrush
+        /// </summary>
+        public const string DialogTextBackgroundBrush = "DialogTextBackgroundBrush";
+        /// <summary>
+        /// DialogTextEdgeBrush
+        /// </summary>
+        public const string DialogTextEdgeBrush = "DialogTextEdgeBrush";
+        /// <summary>
+        /// DialogTextEditMode
+        /// </summary>
+        public const string DialogTextEditMode = "DialogTextEditMode";
+        /// <summary>
+        /// DialogTextEdgeWidth
+        /// </summary>
+        public const string DialogTextEdgeWidth = "DialogTextEdgeWidth";
+        /// <summary>
+        /// DialogTextMaxEdgeWidth
+        /// </summary>
+        public const string DialogTextMaxEdgeWidth = "DialogTextMaxEdgeWidth";
+        /// <summary>
+        /// DialogTextNGBrush
+        /// </summary>
+        public const string DialogTextNGBrush = "DialogTextNGBrush";
+        /// <summary>
+        /// DialogTextNormalEdge
+        /// </summary>
+        public const string DialogTextNormalEdge = "DialogTextNormalEdge";
+        /// <summary>
+        /// DialogTextThresholdHigh
+        /// </summary>
+        public const string DialogTextThresholdHigh = "DialogTextThresholdHigh";
+        /// <summary>
+        /// DialogTextThresholdLow
+        /// </summary>
+        public const string DialogTextThresholdLow = "DialogTextThresholdLow";
+        /// <summary>
+        /// DialogTextViewMode
+        /// </summary>
+        public const string DialogTextViewMode = "DialogTextViewMode";
+        /// <summary>
+        /// DialogTextLogarithmic
+        /// </summary>
+        public const string DialogTextLogarithmic = "DialogTextLogarithmic";
     }
 }

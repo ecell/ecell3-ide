@@ -315,7 +315,6 @@ namespace EcellLib.PathwayWindow.Nodes
             else
             {
                 base.AddPath(m_setting.EditModeFigure.GraphicsPath, false);
-                this.EdgeBrush = Brushes.Black;
             }
             base.CenterPointF = centerPos;
             base.RefreshView();

@@ -339,4 +339,40 @@
   <data name="MenuItemFile" xml:space="preserve">
     <value>ファイル</value>
   </data>
+  <data name="DialogTextAnimationSetting" xml:space="preserve">
+    <value>アニメーション設定</value>
+  </data>
+  <data name="DialogTextBackgroundBrush" xml:space="preserve">
+    <value>背景色</value>
+  </data>
+  <data name="DialogTextEdgeBrush" xml:space="preserve">
+    <value>線の色</value>
+  </data>
+  <data name="DialogTextEdgeWidth" xml:space="preserve">
+    <value>線の太さ</value>
+  </data>
+  <data name="DialogTextEditMode" xml:space="preserve">
+    <value>編集モード</value>
+  </data>
+  <data name="DialogTextLogarithmic" xml:space="preserve">
+    <value>対数表示</value>
+  </data>
+  <data name="DialogTextMaxEdgeWidth" xml:space="preserve">
+    <value>線の最大の太さ</value>
+  </data>
+  <data name="DialogTextNGBrush" xml:space="preserve">
+    <value>NG色</value>
+  </data>
+  <data name="DialogTextNormalEdge" xml:space="preserve">
+    <value>通常線</value>
+  </data>
+  <data name="DialogTextThresholdHigh" xml:space="preserve">
+    <value>しきい値最大</value>
+  </data>
+  <data name="DialogTextThresholdLow" xml:space="preserve">
+    <value>しきい値最小</value>
+  </data>
+  <data name="DialogTextViewMode" xml:space="preserve">
+    <value>ビューモード</value>
+  </data>
 </root>

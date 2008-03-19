@@ -339,4 +339,40 @@
   <data name="MenuItemFile" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="DialogTextAnimationSetting" xml:space="preserve">
+    <value>Animation Setting</value>
+  </data>
+  <data name="DialogTextBackgroundBrush" xml:space="preserve">
+    <value>Background Brush</value>
+  </data>
+  <data name="DialogTextEdgeBrush" xml:space="preserve">
+    <value>Edge Brush</value>
+  </data>
+  <data name="DialogTextEdgeWidth" xml:space="preserve">
+    <value>Edge Width</value>
+  </data>
+  <data name="DialogTextEditMode" xml:space="preserve">
+    <value>Edit Mode</value>
+  </data>
+  <data name="DialogTextLogarithmic" xml:space="preserve">
+    <value>Logarithmic</value>
+  </data>
+  <data name="DialogTextMaxEdgeWidth" xml:space="preserve">
+    <value>Max Edge Width</value>
+  </data>
+  <data name="DialogTextNGBrush" xml:space="preserve">
+    <value>NG Brush</value>
+  </data>
+  <data name="DialogTextNormalEdge" xml:space="preserve">
+    <value>Normal Edge</value>
+  </data>
+  <data name="DialogTextThresholdHigh" xml:space="preserve">
+    <value>Threshold High</value>
+  </data>
+  <data name="DialogTextThresholdLow" xml:space="preserve">
+    <value>Threshold Low</value>
+  </data>
+  <data name="DialogTextViewMode" xml:space="preserve">
+    <value>View Mode</value>
+  </data>
 </root>
