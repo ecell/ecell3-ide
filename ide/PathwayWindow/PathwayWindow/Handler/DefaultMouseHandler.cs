@@ -91,19 +91,18 @@ namespace EcellLib.PathwayWindow.Handler
             m_startPoint = e.Position;
             m_con.MousePosition = e.Position;
 
-            base.OnMouseDown(sender, e);
             if (!(e.PickedNode is PCamera))
                 return;
 
             m_isDragged = true;
             CanvasControl canvas = m_con.Canvas;
-            canvas.FocusNode = null;
             canvas.ResetSelectedObjects();
             if (e.Button == MouseButtons.Left)
             {
                 m_selectedPath = new PPath();
                 canvas.ControlLayer.AddChild(m_selectedPath);
             }
+            base.OnMouseDown(sender, e);
         }
 
         /// <summary>
