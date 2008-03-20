@@ -45,21 +45,13 @@ namespace EcellLib.EntityListWindow
     /// <summary>
     /// Plugin of EntityListWindow.
     /// </summary>
-    public class EntityListWindow : IEcellPlugin
+    public class EntityListWindow : PluginBase
     {
         #region Fields
         /// <summary>
         /// m_form (EntityList form) 
         /// </summary>
         private EntityList m_form = null;
-        /// <summary>
-        /// m_pManager (PluginManager)
-        /// </summary>
-        private PluginManager m_pManager;
-        /// <summary>
-        /// m_dManager (DataManager)
-        /// </summary>
-        private DataManager m_dManager;
         /// <summary>
         /// Dictionary of tree node for Models.
         /// </summary>
@@ -162,6 +154,7 @@ namespace EcellLib.EntityListWindow
         static public ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResEntList));
         #endregion
 
+        #region Constructors
         /// <summary>
         /// Constructor for EntityListWindow.
         /// </summary>
@@ -188,12 +181,354 @@ namespace EcellLib.EntityListWindow
             m_delVarLogger = new MenuItem();
             m_merge = new MenuItem();
         }
+        #endregion
 
+        #region Inherited from PluginBase
+        /// <summary>
+        /// Get the window form for EntityListWindow.
+        /// This user control add the NodeMouseClick event action.
+        /// </summary>
+        /// <returns>UserControl.</returns>
+        public override List<EcellDockContent> GetWindowsForms()
+        {
+            List<EcellDockContent> list = new List<EcellDockContent>();
+            m_form = new EntityList();
+            m_form.treeView1.NodeMouseClick +=
+                new TreeNodeMouseClickEventHandler(this.NodeMouseClick);
+            m_form.treeView1.NodeMouseDoubleClick +=
+                new TreeNodeMouseClickEventHandler(this.NodeDoubleClick);
+            m_form.treeView1.TreeViewNodeSorter = new TypeSorter();
+
+            CreatePopupMenu();
+            m_form.Text = "EntityList";
+            list.Add(m_form);
+
+            return list;
+        }
+
+        /// <summary>
+        /// The event sequence on changing selected object at other plugin.
+        /// </summary>
+        /// <param name="modelID">Selected the model ID.</param>
+        /// <param name="key">Selected the ID.</param>
+        /// <param name="type">Selected the data type.</param>
+        public override void SelectChanged(string modelID, string key, string type)
+        {
+            ChangeObject(modelID, key, type);
+        }
+
+        /// <summary>
+        /// The event process when user add the object to the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object added to selected objects.</param>
+        /// <param name="key">ID of object added to selected objects.</param>
+        /// <param name="type">Type of object added to selected objects.</param>
+        public override void AddSelect(string modelID, string key, string type)
+        {
+            ChangeObject(modelID, key, type);
+        }
+
+        /// <summary>
+        /// The event sequence to add the object at other plugin.
+        /// </summary>
+        /// <param name="data">The value of the adding object.</param>
+        public override void DataAdd(List<EcellObject> data)
+        {
+            if (data == null) return;
+            foreach (EcellObject obj in data)
+            {
+                if (obj.Type == Constants.xpathProject)
+                {
+                    m_prjNode = new TreeNode(obj.ModelID);
+                    m_prjNode.Tag = new TagData("", "", Constants.xpathProject);
+                    m_form.treeView1.Nodes.Add(m_prjNode);
+                    TreeNode modelNode = new TreeNode("Models");
+                    modelNode.Tag = null;
+                    TreeNode paramNode = new TreeNode("Parameters");
+                    paramNode.Tag = null;
+                    m_prjNode.Nodes.Add(modelNode);
+                    m_prjNode.Nodes.Add(paramNode);
+                    m_modelNodeDic.Add(obj.ModelID, modelNode);
+                    m_paramNodeDic.Add(obj.ModelID, paramNode);
+                    continue;
+                }
+                else if (obj.Type == Constants.xpathModel)
+                {
+                    if (GetTargetModel(obj.ModelID) != null) continue;
+                    TreeNode node = new TreeNode(obj.ModelID);
+                    node.ImageIndex = m_pManager.GetImageIndex(obj.Type);
+                    node.SelectedImageIndex = node.ImageIndex;
+                    node.Tag = new TagData(obj.ModelID, "", Constants.xpathModel);
+                    string currentPrj = m_dManager.CurrentProjectID;
+                    if (m_modelNodeDic.ContainsKey(currentPrj))
+                        m_modelNodeDic[currentPrj].Nodes.Add(node);
+                    continue;
+                }
+                else if (obj.Type == Constants.xpathProcess || 
+                    obj.Type ==Constants.xpathVariable)
+                {
+                    if (obj.Key.EndsWith(Constants.headerSize))
+                        continue;
+                    TreeNode current = GetTargetModel(obj.ModelID);
+                    if (current == null)
+                        return;
+                    TreeNode node = GetTargetTreeNode(current, obj.Key, obj.Type);
+                    if (node == null)
+                    {
+                        string path = "";
+                        string name = Util.GetNameFromPath(obj.Key, ref path);
+                        node = GetTargetTreeNode(current, path, null);
+
+                        TreeNode childNode = AddTreeNode(name, obj, node);
+                    }
+                }
+                else if (obj.Type == Constants.xpathSystem)
+                {
+                    TreeNode current = GetTargetModel(obj.ModelID);
+                    if (current == null) return;
+                    TreeNode node = GetTargetTreeNode(current, obj.Key, obj.Type);
+                    if (node == null)
+                    {
+                        if (obj.Key == "/")
+                        {
+                            node = AddTreeNode(obj.Key, obj, current);
+                        }
+                        else
+                        {
+                            TreeNode target = null;
+                            string path = "";
+                            string name = Util.GetNameFromPath(obj.Key, ref path);
+                            target = GetTargetTreeNode(current, path, null);
+
+                            if (target != null)
+                            {
+                                node = AddTreeNode(name, obj, target);
+                            }
+                        }
+                    }
+                    if (node != null)
+                    {
+                        if (obj.Children == null) continue;
+                        foreach (EcellObject eo in obj.Children)
+                        {
+                            if (eo.Type != Constants.xpathVariable && eo.Type != Constants.xpathProcess) continue;
+                            if (eo.Key.EndsWith(Constants.headerSize)) continue;
+                            string[] names = eo.Key.Split(new char[] { ':' });
+                            IEnumerator iter = node.Nodes.GetEnumerator();
+                            bool isHit = false;
+                            while (iter.MoveNext())
+                            {
+                                TreeNode tmp = (TreeNode)iter.Current;
+                                TagData tag = (TagData)tmp.Tag;
+                                if (tmp.Text == names[names.Length - 1] &&
+                                    tag.m_type == eo.Type)
+                                {
+                                    isHit = true;
+                                    break;
+                                }
+                            }
+                            if (isHit == true) continue;
+
+                            TreeNode childNode = null;
+                            childNode = AddTreeNode(names[names.Length - 1], eo, node);
+                        }
+                    }
+                }
+            }
+            m_form.treeView1.Sort();
+        }
+
+        /// <summary>
+        /// The event sequence on changing value of data at other plugin.
+        /// </summary>
+        /// <param name="modelID">The model ID before value change.</param>
+        /// <param name="key">The ID before value change.</param>
+        /// <param name="type">The data type before value change.</param>
+        /// <param name="data">Changed value of object.</param>
+        public override void DataChanged(string modelID, string key, string type, EcellObject data)
+        {
+            TreeNode current = GetTargetModel(modelID);
+            if (current == null) return;
+            TreeNode target = GetTargetTreeNode(current, key, type);
+            if (target != null)
+            {
+                string path = "";
+                string targetText = Util.GetNameFromPath(data.Key, ref path);
+
+                if (target.Text != targetText)
+                {
+                    target.Text = targetText;
+                }
+                bool isLog = Util.IsLogged(data);
+                if (isLog)
+                {
+                    target.Text = target.Text + "[logged]";
+                }
+
+                if (key != data.Key)
+                {
+                    TreeNode change = GetTargetTreeNode(current, path, Constants.xpathSystem);
+                    if (change == null) return;
+                    target.Parent.Nodes.Remove(target);
+                    change.Nodes.Add(target);
+                    TagData tag = (TagData)target.Tag;
+                    tag.m_key = data.Key;
+                    target.Tag = tag;
+                    if (tag.m_type == Constants.xpathSystem)
+                    {
+                        IDChangeProvide(key, data.Key, target);
+                    }
+                    m_form.treeView1.Sort();
+                }
+            }
+        }
+
+        /// <summary>
+        /// The event sequence on deleting the object at other plugin.
+        /// </summary>
+        /// <param name="modelID">The model ID of deleted object.</param>
+        /// <param name="key">The ID of deleted object.</param>
+        /// <param name="type">The object type of deleted object.</param>
+        public override void DataDelete(string modelID, string key, string type)
+        {
+            TreeNode current = GetTargetModel(modelID);
+            if (current == null) return;
+            TreeNode target = GetTargetTreeNode(current, key, type);
+            if (target != null)
+            {
+                target.Remove();
+            }
+            return;
+        }
+
+        /// <summary>
+        /// The event sequence when the simulation parameter is added.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The added parameter ID.</param>
+        public override void ParameterAdd(string projectID, string parameterID)
+        {
+            TreeNode paramsNode = null;
+            if (m_paramNodeDic.ContainsKey(projectID))
+            {
+                paramsNode = m_paramNodeDic[projectID];
+            }
+            else
+            {
+                IEnumerator nodeEnumerator = m_form.treeView1.Nodes.GetEnumerator();
+                while (nodeEnumerator.MoveNext())
+                {
+                    TreeNode project = (TreeNode)nodeEnumerator.Current;
+                    if (project.Text.Equals(projectID))
+                    {
+                        paramsNode = new TreeNode(Constants.xpathParameters);
+                        paramsNode.Tag = null;
+                        project.Nodes.Add(paramsNode);
+                        m_paramNodeDic.Add(projectID, paramsNode);
+                        break;
+                    }
+                }
+                if (paramsNode == null)
+                {
+                    return;
+                }
+            }
+
+            foreach (TreeNode t in paramsNode.Nodes)
+            {
+                if (t.Text == parameterID) return;
+            }
+            TreeNode paramNode = new TreeNode(parameterID);
+            paramNode.Tag = new TagData("", "", Constants.xpathParameters);
+            paramsNode.Nodes.Add(paramNode);
+
+            return;
+        }
+
+        /// <summary>
+        /// The event sequence on closing project.
+        /// </summary>
+        public override void Clear()
+        {
+            IEnumerator nodeEnumerator = m_form.treeView1.Nodes.GetEnumerator();
+            while (nodeEnumerator.MoveNext())
+            {
+                TreeNode project = (TreeNode)nodeEnumerator.Current;
+                if (project != null)
+                    project.Remove();
+            }
+            m_modelNodeDic.Clear();
+            m_paramNodeDic.Clear();
+        }
+
+        /// <summary>
+        ///  When change system status, change menu enable/disable.
+        /// </summary>
+        /// <param name="type">System status.</param>
+        public override void ChangeStatus(ProjectStatus type)
+        {
+            m_type = type;
+        }
+
+        /// <summary>
+        /// Get bitmap that converts display image on this plugin.
+        /// </summary>
+        /// <returns>The bitmap data of plugin.</returns>        
+        public override Bitmap Print(string name)
+        {
+            if (m_form == null) return null;
+
+            try
+            {
+                Bitmap bitmap = new Bitmap(m_form.treeView1.Width, m_form.treeView1.Height);
+                m_form.treeView1.DrawToBitmap(bitmap, m_form.treeView1.ClientRectangle);
+                return bitmap;
+            }
+            catch (Exception ex)
+            {
+                String errmese = EntityListWindow.s_resources.GetString("ErrPrintData");
+                MessageBox.Show(errmese + "\n\n" + ex,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get the name of this plugin.
+        /// </summary>
+        /// <returns>"EntityListWindow"</returns>
+        public override string GetPluginName()
+        {
+            return "EntityListWindow";
+        }
+
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
+        public override String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
+        /// <summary>
+        /// Check whether this plugin can print display image.
+        /// </summary>
+        /// <returns>true</returns>
+        public override List<string> GetEnablePrintNames()
+        {
+            List<string> names = new List<string>();
+            names.Add("TreeView of entity.");
+            return names;
+        }
+        #endregion
+
+        #region internal methods
         /// <summary>
         /// Get EntityList usercontrol.
         /// </summary>
         /// <returns>EntityList.</returns>
-        public EntityList GetForm()
+        internal EntityList GetForm()
         {
             return m_form;
         }
@@ -350,16 +685,40 @@ namespace EcellLib.EntityListWindow
         /// Show property window displayed the selected object.
         /// </summary>
         /// <param name="obj">the selected object</param>
-        public void ShowPropEditWindow(EcellObject obj)
+        private void ShowPropEditWindow(EcellObject obj)
         {
             PropertyEditor.Show(obj);
+        }
+
+        /// <summary>
+        /// Change selected Object
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        private void ChangeObject(string modelID, string key, string type)
+        {
+            TreeNode current = GetTargetModel(modelID);
+            if (current == null) return;
+            if (key == "")
+            {
+                m_form.treeView1.SelectedNode = current;
+                return;
+            }
+            TreeNode target = GetTargetTreeNode(current, key, type);
+            if (target == null)
+            {
+                m_form.treeView1.SelectedNode = current;
+                return;
+            }
+            m_form.treeView1.SelectedNode = target;
         }
 
         /// <summary>
         /// Get the current selected tree node.
         /// </summary>
         /// <returns></returns>
-        public TreeNode GetSelectedNode()
+        internal TreeNode GetSelectedNode()
         {
             return m_form.treeView1.SelectedNode;
         }
@@ -367,7 +726,7 @@ namespace EcellLib.EntityListWindow
         /// <summary>
         /// Select the current selected tree node.
         /// </summary>
-        public void SetSelectedNode()
+        internal void SetSelectedNode()
         {
             TreeNode node = m_form.treeView1.SelectedNode;
             TagData tag = (TagData)node.Tag;
@@ -402,7 +761,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="node">current node</param>
         /// <param name="text">search condition</param>
         /// <returns></returns>
-        public bool SearchNode(TreeNode node, string text)
+        internal bool SearchNode(TreeNode node, string text)
         {
             bool result = false;
             foreach (TreeNode t in node.Nodes) // childs
@@ -464,7 +823,7 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         /// <param name="node">Target TreeNode.</param>
         /// <returns>EcellObject.</returns>
-        public EcellObject GetObjectFromNode(TreeNode node)
+        internal EcellObject GetObjectFromNode(TreeNode node)
         {
             TagData t = (TagData)node.Tag;
             if (t == null) return null;
@@ -479,7 +838,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="path">Target node path.</param>
         /// <param name="src">Target node.</param>
         /// <returns>string(path)</returns>
-        public string GetCurrentPath(string path, TreeNode src)
+        internal string GetCurrentPath(string path, TreeNode src)
         {
             if (src.Parent == null) return null;
             TagData tag = (TagData)src.Parent.Tag;
@@ -498,7 +857,7 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         /// <param name="src">Target node</param>
         /// <returns>string(model name)</returns>
-        public string GetParentModelName(TreeNode src)
+        internal string GetParentModelName(TreeNode src)
         {
             if (src.Parent == null) return null;
             TreeNode node = src;
@@ -521,7 +880,7 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         /// <param name="modelID">Target model ID.</param>
         /// <returns>TreeNode</returns>
-        public TreeNode GetTargetModel(string modelID)
+        internal TreeNode GetTargetModel(string modelID)
         {
             string currentPrj = m_dManager.CurrentProjectID;
             if (m_modelNodeDic.ContainsKey(currentPrj))
@@ -545,7 +904,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="key">Target ID.</param>
         /// <param name="type">Target data type.</param>
         /// <returns>TreeNode(target node)</returns>
-        public TreeNode GetTargetTreeNode(TreeNode current, string key, string type)
+        internal TreeNode GetTargetTreeNode(TreeNode current, string key, string type)
         {
             string[] keydata;
             if (current.Nodes.Count <= 0) return null;
@@ -607,6 +966,7 @@ namespace EcellLib.EntityListWindow
                 tag.m_key = newKey + ":" + t.Text;
             }
         }
+        #endregion
 
         #region Event
         /// <summary>
@@ -970,508 +1330,6 @@ namespace EcellLib.EntityListWindow
                     m_form.treeView1.SelectedNode = node;
                 }
             }
-        }
-        #endregion
-
-        #region PluginBase
-        /// <summary>
-        /// Get menustrips for EntityListWindow plugin.
-        /// </summary>
-        /// <returns>null.</returns>
-        public List<ToolStripMenuItem> GetMenuStripItems()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Get toolbar buttons for EntityListWindow plugin.
-        /// </summary>
-        /// <returns>null</returns>
-        public List<ToolStripItem> GetToolBarMenuStripItems()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Get the window form for EntityListWindow.
-        /// This user control add the NodeMouseClick event action.
-        /// </summary>
-        /// <returns>UserControl.</returns>
-        public List<EcellDockContent> GetWindowsForms()
-        {
-            List<EcellDockContent> list = new List<EcellDockContent>();
-            m_form = new EntityList();
-            m_form.treeView1.NodeMouseClick +=
-                new TreeNodeMouseClickEventHandler(this.NodeMouseClick);
-            m_form.treeView1.NodeMouseDoubleClick +=
-                new TreeNodeMouseClickEventHandler(this.NodeDoubleClick);
-            m_form.treeView1.TreeViewNodeSorter = new TypeSorter();
-
-            CreatePopupMenu();
-            m_form.Text = "EntityList";
-            list.Add(m_form);
-
-            return list;
-        }
-
-        /// <summary>
-        /// The event sequence on changing selected object at other plugin.
-        /// </summary>
-        /// <param name="modelID">Selected the model ID.</param>
-        /// <param name="key">Selected the ID.</param>
-        /// <param name="type">Selected the data type.</param>
-        public void SelectChanged(string modelID, string key, string type)
-        {
-            TreeNode current = GetTargetModel(modelID);
-            if (current == null) return;
-            if (key == "")
-            {
-                m_form.treeView1.SelectedNode = current;
-                return;
-            }
-            TreeNode target = GetTargetTreeNode(current, key, type);
-            if (target == null)
-            {
-                m_form.treeView1.SelectedNode = current;
-                return;
-            }
-            m_form.treeView1.SelectedNode = target;
-        }
-
-        /// <summary>
-        /// The event process when user add the object to the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object added to selected objects.</param>
-        /// <param name="key">ID of object added to selected objects.</param>
-        /// <param name="type">Type of object added to selected objects.</param>
-        public void AddSelect(string modelID, string key, string type)
-        {
-            // not implement
-        }
-
-        /// <summary>
-        /// The event process when user remove object from the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
-        /// <param name="key">ID of object removed from selected objects.</param>
-        /// <param name="type">Type of object removed from selected objects.</param>
-        public void RemoveSelect(string modelID, string key, string type)
-        {
-            // not implement
-        }
-
-        /// <summary>
-        /// Reset all selected objects.
-        /// </summary>
-        public void ResetSelect()
-        {
-            // not implement
-        }
-
-        /// <summary>
-        /// The event sequence to add the object at other plugin.
-        /// </summary>
-        /// <param name="data">The value of the adding object.</param>
-        public void DataAdd(List<EcellObject> data)
-        {
-            if (data == null) return;
-            foreach (EcellObject obj in data)
-            {
-                if (obj.Type == Constants.xpathProject)
-                {
-                    m_prjNode = new TreeNode(obj.ModelID);
-                    m_prjNode.Tag = new TagData("", "", Constants.xpathProject);
-                    m_form.treeView1.Nodes.Add(m_prjNode);
-                    TreeNode modelNode = new TreeNode("Models");
-                    modelNode.Tag = null;
-                    TreeNode paramNode = new TreeNode("Parameters");
-                    paramNode.Tag = null;
-                    m_prjNode.Nodes.Add(modelNode);
-                    m_prjNode.Nodes.Add(paramNode);
-                    m_modelNodeDic.Add(obj.ModelID, modelNode);
-                    m_paramNodeDic.Add(obj.ModelID, paramNode);
-                    continue;
-                }
-                else if (obj.Type == Constants.xpathModel)
-                {
-                    if (GetTargetModel(obj.ModelID) != null) continue;
-                    TreeNode node = new TreeNode(obj.ModelID);
-                    node.ImageIndex = m_pManager.GetImageIndex(obj.Type);
-                    node.SelectedImageIndex = node.ImageIndex;
-                    node.Tag = new TagData(obj.ModelID, "", Constants.xpathModel);
-                    string currentPrj = m_dManager.CurrentProjectID;
-                    if (m_modelNodeDic.ContainsKey(currentPrj))
-                        m_modelNodeDic[currentPrj].Nodes.Add(node);
-                    continue;
-                }
-                else if (obj.Type == Constants.xpathProcess || 
-                    obj.Type ==Constants.xpathVariable)
-                {
-                    if (obj.Key.EndsWith(Constants.headerSize))
-                        continue;
-                    TreeNode current = GetTargetModel(obj.ModelID);
-                    if (current == null)
-                        return;
-                    TreeNode node = GetTargetTreeNode(current, obj.Key, obj.Type);
-                    if (node == null)
-                    {
-                        string path = "";
-                        string name = Util.GetNameFromPath(obj.Key, ref path);
-                        node = GetTargetTreeNode(current, path, null);
-
-                        TreeNode childNode = AddTreeNode(name, obj, node);
-                    }
-                }
-                else if (obj.Type == Constants.xpathSystem)
-                {
-                    TreeNode current = GetTargetModel(obj.ModelID);
-                    if (current == null) return;
-                    TreeNode node = GetTargetTreeNode(current, obj.Key, obj.Type);
-                    if (node == null)
-                    {
-                        if (obj.Key == "/")
-                        {
-                            node = AddTreeNode(obj.Key, obj, current);
-                        }
-                        else
-                        {
-                            TreeNode target = null;
-                            string path = "";
-                            string name = Util.GetNameFromPath(obj.Key, ref path);
-                            target = GetTargetTreeNode(current, path, null);
-
-                            if (target != null)
-                            {
-                                node = AddTreeNode(name, obj, target);
-                            }
-                        }
-                    }
-                    if (node != null)
-                    {
-                        if (obj.Children == null) continue;
-                        foreach (EcellObject eo in obj.Children)
-                        {
-                            if (eo.Type != Constants.xpathVariable && eo.Type != Constants.xpathProcess) continue;
-                            if (eo.Key.EndsWith(Constants.headerSize)) continue;
-                            string[] names = eo.Key.Split(new char[] { ':' });
-                            IEnumerator iter = node.Nodes.GetEnumerator();
-                            bool isHit = false;
-                            while (iter.MoveNext())
-                            {
-                                TreeNode tmp = (TreeNode)iter.Current;
-                                TagData tag = (TagData)tmp.Tag;
-                                if (tmp.Text == names[names.Length - 1] &&
-                                    tag.m_type == eo.Type)
-                                {
-                                    isHit = true;
-                                    break;
-                                }
-                            }
-                            if (isHit == true) continue;
-
-                            TreeNode childNode = null;
-                            childNode = AddTreeNode(names[names.Length - 1], eo, node);
-                        }
-                    }
-                }
-            }
-            m_form.treeView1.Sort();
-        }
-
-        /// <summary>
-        /// The event sequence on changing value of data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID before value change.</param>
-        /// <param name="key">The ID before value change.</param>
-        /// <param name="type">The data type before value change.</param>
-        /// <param name="data">Changed value of object.</param>
-        public void DataChanged(string modelID, string key, string type, EcellObject data)
-        {
-            TreeNode current = GetTargetModel(modelID);
-            if (current == null) return;
-            TreeNode target = GetTargetTreeNode(current, key, type);
-            if (target != null)
-            {
-                string path = "";
-                string targetText = Util.GetNameFromPath(data.Key, ref path);
-
-                if (target.Text != targetText)
-                {
-                    target.Text = targetText;
-                }
-                bool isLog = Util.IsLogged(data);
-                if (isLog)
-                {
-                    target.Text = target.Text + "[logged]";
-                }
-
-                if (key != data.Key)
-                {
-                    TreeNode change = GetTargetTreeNode(current, path, Constants.xpathSystem);
-                    if (change == null) return;
-                    target.Parent.Nodes.Remove(target);
-                    change.Nodes.Add(target);
-                    TagData tag = (TagData)target.Tag;
-                    tag.m_key = data.Key;
-                    target.Tag = tag;
-                    if (tag.m_type == Constants.xpathSystem)
-                    {
-                        IDChangeProvide(key, data.Key, target);
-                    }
-                    m_form.treeView1.Sort();
-                }
-            }
-        }
-
-        /// <summary>
-        /// The event sequence on adding the logger at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="key">The ID.</param>
-        /// <param name="type">The data type.</param>
-        /// <param name="path">The path of entity.</param>
-        public void LoggerAdd(string modelID, string key, string type, string path)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on deleting the object at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID of deleted object.</param>
-        /// <param name="key">The ID of deleted object.</param>
-        /// <param name="type">The object type of deleted object.</param>
-        public void DataDelete(string modelID, string key, string type)
-        {
-            TreeNode current = GetTargetModel(modelID);
-            if (current == null) return;
-            TreeNode target = GetTargetTreeNode(current, key, type);
-            if (target != null)
-            {
-                target.Remove();
-            }
-            return;
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is added.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The added parameter ID.</param>
-        public void ParameterAdd(string projectID, string parameterID)
-        {
-            TreeNode paramsNode = null;
-            if (m_paramNodeDic.ContainsKey(projectID))
-            {
-                paramsNode = m_paramNodeDic[projectID];
-            }
-            else
-            {
-                IEnumerator nodeEnumerator = m_form.treeView1.Nodes.GetEnumerator();
-                while (nodeEnumerator.MoveNext())
-                {
-                    TreeNode project = (TreeNode)nodeEnumerator.Current;
-                    if (project.Text.Equals(projectID))
-                    {
-                        paramsNode = new TreeNode(Constants.xpathParameters);
-                        paramsNode.Tag = null;
-                        project.Nodes.Add(paramsNode);
-                        m_paramNodeDic.Add(projectID, paramsNode);
-                        break;
-                    }
-                }
-                if (paramsNode == null)
-                {
-                    return;
-                }
-            }
-
-            foreach (TreeNode t in paramsNode.Nodes)
-            {
-                if (t.Text == parameterID) return;
-            }
-            TreeNode paramNode = new TreeNode(parameterID);
-            paramNode.Tag = new TagData("", "", Constants.xpathParameters);
-            paramsNode.Nodes.Add(paramNode);
-
-            return;
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is deleted.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterDelete(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is set.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterSet(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on changing value with the simulation.
-        /// </summary>
-        /// <param name="modelID">The model ID of object changed value.</param>
-        /// <param name="key">The ID of object changed value.</param>
-        /// <param name="type">The object type of object changed value.</param>
-        /// <param name="propName">The property name of object changed value.</param>
-        /// <param name="data">Changed value of object.</param>
-        public void LogData(string modelID, string key, string type, string propName, List<LogData> data)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on closing project.
-        /// </summary>
-        public void Clear()
-        {
-            IEnumerator nodeEnumerator = m_form.treeView1.Nodes.GetEnumerator();
-            while (nodeEnumerator.MoveNext())
-            {
-                TreeNode project = (TreeNode)nodeEnumerator.Current;
-                if (project != null)
-                    project.Remove();
-            }
-            m_modelNodeDic.Clear();
-            m_paramNodeDic.Clear();
-        }
-
-        /// <summary>
-        /// The event sequence on generating warning data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID generating warning data.</param>
-        /// <param name="key">The ID generating warning data.</param>
-        /// <param name="type">The data type generating warning data.</param>
-        /// <param name="warntype">The type of waring data.</param>
-        public void WarnData(string modelID, string key, string type, string warntype)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The execution log of simulation, debug and analysis.
-        /// </summary>
-        /// <param name="type">Log type.</param>
-        /// <param name="message">Message.</param>
-        public void Message(string type, string message)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on advancing time.
-        /// </summary>
-        /// <param name="time">The current simulation time.</param>
-        public void AdvancedTime(double time)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        ///  When change system status, change menu enable/disable.
-        /// </summary>
-        /// <param name="type">System status.</param>
-        public void ChangeStatus(ProjectStatus type)
-        {
-            m_type = type;
-        }
-
-        /// <summary>
-        /// Change availability of undo/redo status.
-        /// </summary>
-        /// <param name="status"></param>
-        public void ChangeUndoStatus(UndoStatus status)
-        {
-            // Nothing should be done.
-        }
-
-        /// <summary>
-        /// Save the selected model to directory.
-        /// </summary>
-        /// <param name="modelID">selected model.</param>
-        /// <param name="directory">output directory.</param>
-        public void SaveModel(string modelID, string directory)
-        {
-        }
-
-        /// <summary>
-        /// Get bitmap that converts display image on this plugin.
-        /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>        
-        public Bitmap Print(string name)
-        {
-            if (m_form == null) return null;
-
-            try
-            {
-                Bitmap bitmap = new Bitmap(m_form.treeView1.Width, m_form.treeView1.Height);
-                m_form.treeView1.DrawToBitmap(bitmap, m_form.treeView1.ClientRectangle);
-                return bitmap;
-            }
-            catch (Exception ex)
-            {
-                String errmese = EntityListWindow.s_resources.GetString("ErrPrintData");
-                MessageBox.Show(errmese + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Get the name of this plugin.
-        /// </summary>
-        /// <returns>"EntityListWindow"</returns>
-        public string GetPluginName()
-        {
-            return "EntityListWindow";
-        }
-
-        /// <summary>
-        /// Get the version of this plugin.
-        /// </summary>
-        /// <returns>version string.</returns>
-        public String GetVersionString()
-        {
-            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-
-        /// <summary>
-        /// cCeck whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>false(this plugin is EntityListWindow)</returns>
-        public bool IsMessageWindow()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>true</returns>
-        public List<string> GetEnablePrintNames()
-        {
-            List<string> names = new List<string>();
-            names.Add("TreeView of entity.");
-            return names;
-        }
-
-        /// <summary>
-        /// Set the position of EcellObject.
-        /// Actually, nothing will be done by this plugin.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        public void SetPosition(EcellObject data)
-        {
         }
         #endregion
     }
