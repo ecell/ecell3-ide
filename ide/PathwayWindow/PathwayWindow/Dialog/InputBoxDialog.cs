@@ -36,9 +36,12 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace EcellLib.PathwayWindow.Dialog
 {
-    public partial class SelectBoxDialog : PathwayDialog
+    /// <summary>
+    /// InputBoxDialog for PathwayWindow.
+    /// </summary>
+    public partial class InputBoxDialog : PathwayDialog
     {
         #region Constructor
         /// <summary>
@@ -46,16 +49,16 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="message"></param>
         /// <param name="title"></param>
-        /// <param name="options"></param>
-        public SelectBoxDialog(string message, string title, List<string> options)
+        /// <param name="defaultAns"></param>
+        private InputBoxDialog(string message, string title, string defaultAns)
         {
             InitializeComponent();
             if (message != null)
                 this.message.Text = message;
             if (title != null)
                 this.Text = title;
-            if (options != null)
-                this.comboBox.Items.AddRange(options.ToArray());
+            if (defaultAns != null)
+                this.answer.Text = defaultAns;
         }
         #endregion
 
@@ -65,15 +68,36 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// It returns the input string. And returns null when canceled.
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="title"></param>
-        /// <param name="options"></param>
         /// <returns></returns>
-        public static string Show(string message, string title, List<string> options)
+        public static string Show(string message)
         {
-            SelectBoxDialog dialog = new SelectBoxDialog(message, title, options);
+            return Show(message, null, null);
+        }
+        /// <summary>
+        /// Show InputBoxDialog.
+        /// It returns the input string. And returns null when canceled.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public static string Show(string message, string title)
+        {
+            return Show(message, title, null);
+        }
+        /// <summary>
+        /// Show InputBoxDialog.
+        /// It returns the input string. And returns null when canceled.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="title"></param>
+        /// <param name="defaultAns"></param>
+        /// <returns></returns>
+        public static string Show(string message, string title, string defaultAns)
+        {
+            InputBoxDialog dialog = new InputBoxDialog(message, title, defaultAns);
             string ans = null;
             if (dialog.ShowDialog() == DialogResult.OK)
-                ans = dialog.comboBox.Text;
+                ans = dialog.answer.Text;
             dialog.Dispose();
             return ans;
         }

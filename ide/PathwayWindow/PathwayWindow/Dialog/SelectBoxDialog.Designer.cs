@@ -1,4 +1,4 @@
-﻿namespace EcellLib.PathwayWindow.UIComponent
+﻿namespace EcellLib.PathwayWindow.Dialog
 {
     /// <summary>
     /// UI class for PathwayWindow

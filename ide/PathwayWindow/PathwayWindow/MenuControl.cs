@@ -49,6 +49,7 @@ using EcellLib.PathwayWindow.Nodes;
 using System.Diagnostics;
 using EcellLib.PathwayWindow.Graphic;
 using UMD.HCIL.Piccolo;
+using EcellLib.PathwayWindow.Dialog;
 
 namespace EcellLib.PathwayWindow
 {
@@ -1066,7 +1067,6 @@ namespace EcellLib.PathwayWindow
             if (canvas == null)
                 return;
             canvas.ResetObjectSettings();
-            GraphicsExporter.ExportSVG(canvas, Util.GetUserDir() + "/" + canvas.ModelID + ".svg");
             m_con.SetNodeIcons();
         }
 

@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationControl.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="EcellSerializer.cs" />
     <Compile Include="Enums.cs" />
@@ -136,20 +137,20 @@
     <Compile Include="Nodes\PPathwayLine.cs" />
     <Compile Include="Graphic\GraphicsExporter.cs" />
     <Compile Include="Graphic\SVGUtil.cs" />
-    <Compile Include="UIComponent\InputBoxDialog.cs">
+    <Compile Include="Dialog\InputBoxDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UIComponent\InputBoxDialog.Designer.cs">
+    <Compile Include="Dialog\InputBoxDialog.Designer.cs">
       <DependentUpon>InputBoxDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UIComponent\OverView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PathUtil.cs" />
-    <Compile Include="UIComponent\PathwayDialog.cs">
+    <Compile Include="Dialog\PathwayDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UIComponent\PathwayDialog.Designer.cs">
+    <Compile Include="Dialog\PathwayDialog.Designer.cs">
       <DependentUpon>PathwayDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UIComponent\POverviewCanvas.cs">
@@ -187,28 +188,28 @@
     <Compile Include="UIComponent\LayerView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UIComponent\ProgressDialog.cs">
+    <Compile Include="Dialog\ProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UIComponent\ProgressDialog.designer.cs">
+    <Compile Include="Dialog\ProgressDialog.designer.cs">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UIComponent\PropertyDialog.cs">
+    <Compile Include="Dialog\PropertyDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UIComponent\PropertyDialog.Designer.cs">
+    <Compile Include="Dialog\PropertyDialog.Designer.cs">
       <DependentUpon>PropertyDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UIComponent\PropertyDialogItems.cs">
+    <Compile Include="Dialog\PropertyDialogItems.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UIComponent\PToolBoxCanvas.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UIComponent\SelectBoxDialog.cs">
+    <Compile Include="Dialog\SelectBoxDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UIComponent\SelectBoxDialog.Designer.cs">
+    <Compile Include="Dialog\SelectBoxDialog.Designer.cs">
       <DependentUpon>SelectBoxDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UIComponent\ToolBox.cs">
@@ -236,7 +237,7 @@
       <LastGenOutput>PathwayResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\hand.gif" />
-    <EmbeddedResource Include="UIComponent\InputBoxDialog.resx">
+    <EmbeddedResource Include="Dialog\InputBoxDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>InputBoxDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -244,7 +245,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>OverView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UIComponent\PathwayDialog.resx">
+    <EmbeddedResource Include="Dialog\PathwayDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PathwayDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -256,15 +257,15 @@
       <DependentUpon>LayerView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UIComponent\ProgressDialog.resx">
+    <EmbeddedResource Include="Dialog\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UIComponent\PropertyDialog.resx">
+    <EmbeddedResource Include="Dialog\PropertyDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PropertyDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UIComponent\SelectBoxDialog.resx">
+    <EmbeddedResource Include="Dialog\SelectBoxDialog.resx">
       <DependentUpon>SelectBoxDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

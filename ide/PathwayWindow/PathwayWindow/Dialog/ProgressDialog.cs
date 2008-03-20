@@ -1,6 +1,3 @@
-﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-//
-//        This file is part of E-Cell Environment Application package
 //
 //                Copyright (C) 1996-2006 Keio University
 //
@@ -36,26 +33,31 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace EcellLib.PathwayWindow.Dialog
 {
     /// <summary>
-    /// Tabbed PropertyDialog for PathwayWindow.
+    /// Form for progress bar
     /// </summary>
-    public partial class PropertyDialog : PathwayDialog
+    public partial class ProgressDialog : PathwayDialog
     {
+        /// <summary>
+        /// Accessor for ProgressBar.
+        /// </summary>
+        public ProgressBar Bar
+        {
+            get { return this.progressBar; }
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
-        public PropertyDialog()
+        public ProgressDialog(int min, int max)
         {
             InitializeComponent();
-        }
-        /// <summary>
-        /// Get tabControl.
-        /// </summary>
-        public TabControl TabControl
-        {
-            get { return this.tabControl; }
+            Bar.Minimum = min;
+            Bar.Maximum = max;
+            Bar.Value = min;
+            Bar.Step = 1;
         }
     }
 }

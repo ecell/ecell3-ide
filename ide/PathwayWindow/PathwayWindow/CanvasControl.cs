@@ -1417,11 +1417,14 @@ namespace EcellLib.PathwayWindow
             foreach (PPathwayObject obj in GetAllObjects())
             {
                 obj.ViewMode = m_isViewMode;
+                if (obj is PPathwayProcess)
+                    ((PPathwayProcess)obj).EdgeBrush = (m_isViewMode)? m_con.Animation.ViewEdgeBrush: m_con.Animation.EditEdgeBrush;
             }
+
             if (m_isViewMode)
                 m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.Animation.ViewBGBrush);
             else
-                m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.Animation.NormalBGBrush);
+                m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.Animation.EditBGBrush);
         }
     }
 }

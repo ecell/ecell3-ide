@@ -35,7 +35,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using EcellLib.PathwayWindow.Graphic;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace EcellLib.PathwayWindow.Dialog
 {
     /// <summary>
     /// PropertyDialogTabPage for PropertyDialog

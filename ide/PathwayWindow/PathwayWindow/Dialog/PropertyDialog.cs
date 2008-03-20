@@ -36,19 +36,26 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace EcellLib.PathwayWindow.Dialog
 {
     /// <summary>
-    /// A base object of pathway dialog. 
+    /// Tabbed PropertyDialog for PathwayWindow.
     /// </summary>
-    public partial class PathwayDialog : Form
+    public partial class PropertyDialog : PathwayDialog
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        public PathwayDialog()
+        public PropertyDialog()
         {
             InitializeComponent();
+        }
+        /// <summary>
+        /// Get tabControl.
+        /// </summary>
+        public TabControl TabControl
+        {
+            get { return this.tabControl; }
         }
     }
 }

@@ -39,6 +39,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using EcellLib.PathwayWindow.Resources;
+using EcellLib.PathwayWindow.Dialog;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {

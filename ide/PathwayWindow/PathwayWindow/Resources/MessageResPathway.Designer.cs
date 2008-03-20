@@ -277,6 +277,15 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
+        ///   Property Brush に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextPropertyBrush {
+            get {
+                return ResourceManager.GetString("DialogTextPropertyBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Threshold High に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextThresholdHigh {

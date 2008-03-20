@@ -375,4 +375,7 @@
   <data name="DialogTextViewMode" xml:space="preserve">
     <value>View Mode</value>
   </data>
+  <data name="DialogTextPropertyBrush" xml:space="preserve">
+    <value>Property Brush</value>
+  </data>
 </root>

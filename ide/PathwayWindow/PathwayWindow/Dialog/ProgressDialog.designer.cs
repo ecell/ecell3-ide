@@ -1,4 +1,4 @@
-﻿namespace EcellLib.PathwayWindow.UIComponent
+﻿namespace EcellLib.PathwayWindow.Dialog
 {
     partial class ProgressDialog
     {
