@@ -198,7 +198,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 m_canvas.AddNodeToBeConnected(this);
             }
 
-            if (e.Modifiers == Keys.Shift)
+            if (e.Modifiers == Keys.Shift || m_isSelected)
                 m_canvas.NotifyAddSelect(this, true);
             else
                 m_canvas.NotifySelectChanged(this);

@@ -46,7 +46,7 @@ namespace EcellLib.PropertyWindow
     /// <summary>
     /// The Plugin Class to show property of object.
     /// </summary>
-    public class PropertyWindow : IEcellPlugin
+    public class PropertyWindow : PluginBase
     {
         #region Fields
         /// <summary>
@@ -80,11 +80,11 @@ namespace EcellLib.PropertyWindow
         /// <summary>
         /// Timer for executing redraw event at each 0.5 minutes.
         /// </summary>
-        System.Windows.Forms.Timer m_time;
+        Timer m_time;
         /// <summary>
         /// Timer to delete the property.
         /// </summary>
-        System.Windows.Forms.Timer m_deletetime;
+        Timer m_deletetime;
         /// <summary>
         /// Current status of project.
         /// </summary>
@@ -94,17 +94,13 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         private String m_expression = null;
         /// <summary>
-        /// data manager.
-        /// </summary>
-        private DataManager m_dManager;
-        /// <summary>
         /// Dictionary of property of displayed object.
         /// </summary>
         private Dictionary<String, EcellData> m_propDic;
         /// <summary>
         /// ResourceManager for PropertyWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResProperty));
+        private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResProperty));
         /// <summary>
         /// Flag whether this properties is changing.
         /// </summary>
@@ -123,6 +119,7 @@ namespace EcellLib.PropertyWindow
         private DataGridViewComboBoxCell m_stepperIDComboBox = null;
         #endregion
 
+        #region Constructors
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -168,6 +165,7 @@ namespace EcellLib.PropertyWindow
             m_deletetime.Interval = 100;
             m_deletetime.Tick += new EventHandler(DeleteTimerFire);
         }
+        #endregion
 
         /// <summary>
         /// Change the property of data. 
@@ -480,28 +478,10 @@ namespace EcellLib.PropertyWindow
 
         #region PluginBase
         /// <summary>
-        /// Get the list of menu item for PropertyWindow.
-        /// </summary>
-        /// <returns>null.</returns>
-        public List<ToolStripMenuItem> GetMenuStripItems()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Get the list of tool bar item for PropertyWindow.
-        /// </summary>
-        /// <returns>null.</returns>
-        public List<ToolStripItem> GetToolBarMenuStripItems()
-        {
-            return null;
-        }
-
-        /// <summary>
         /// Get the window form for PropertyWindow.
         /// </summary>
         /// <returns>UserControl</returns>
-        public List<EcellDockContent> GetWindowsForms()
+        public override List<EcellDockContent> GetWindowsForms()
         {
             EcellDockContent dock = new EcellDockContent();
             dock.Dock = DockStyle.Fill;
@@ -520,10 +500,21 @@ namespace EcellLib.PropertyWindow
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
         /// <param name="type">Selected the data type.</param>
-        public void SelectChanged(string modelID, string key, string type)
+        public override void SelectChanged(string modelID, string key, string type)
+        {
+            ChangeObject(modelID, key, type);
+        }
+
+        /// <summary>
+        /// Change the displayed object.
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        private void ChangeObject(string modelID, string key, string type)
         {
             // When called with illegal arguments, this method will do nothing;
-            if (modelID == null || key == null) 
+            if (modelID == null || key == null)
             {
                 return;
             }
@@ -548,7 +539,7 @@ namespace EcellLib.PropertyWindow
             dClass.Settable = true;
             AddProperty(dClass, type);
             m_current = obj;
-            
+
             foreach (EcellData d in obj.Value)
             {
                 if (d.Name.Equals(Constants.xpathSize))
@@ -597,35 +588,16 @@ namespace EcellLib.PropertyWindow
         /// <param name="modelID">ModelID of object added to selected objects.</param>
         /// <param name="key">ID of object added to selected objects.</param>
         /// <param name="type">Type of object added to selected objects.</param>
-        public void AddSelect(string modelID, string key, string type)
+        public override void AddSelect(string modelID, string key, string type)
         {
-            // not implement
-        }
-
-        /// <summary>
-        /// The event process when user remove object from the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
-        /// <param name="key">ID of object removed from selected objects.</param>
-        /// <param name="type">Type of object removed from selected objects.</param>
-        public void RemoveSelect(string modelID, string key, string type)
-        {
-            // not implement
-        }
-
-        /// <summary>
-        /// Reset all selected objects.
-        /// </summary>
-        public void ResetSelect()
-        {
-            // not implement
+            ChangeObject(modelID, key, type);
         }
 
         /// <summary>
         /// The event sequence to add the object at other plugin.
         /// </summary>
         /// <param name="data">The value of the adding object.</param>
-        public void DataAdd(List<EcellObject> data)
+        public override void DataAdd(List<EcellObject> data)
         {
             if (data == null) return;
             foreach (EcellObject obj in data)
@@ -645,23 +617,11 @@ namespace EcellLib.PropertyWindow
         /// <param name="key">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
         /// <param name="data">Changed value of object.</param>
-        public void DataChanged(string modelID, string key, string type, EcellObject data)
+        public override void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             if (m_current == null) return;
             if (m_isChanging == true) return;
-            SelectChanged(data.ModelID, data.Key, data.Type);
-        }
-
-        /// <summary>
-        /// The event sequence on adding the logger at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="key">The ID.</param>
-        /// <param name="type">The data type.</param>
-        /// <param name="path">The path of entity.</param>
-        public void LoggerAdd(string modelID, string key, string type, string path)
-        {
-            // nothing
+            ChangeObject(data.ModelID, data.Key, data.Type);
         }
 
         /// <summary>
@@ -670,7 +630,7 @@ namespace EcellLib.PropertyWindow
         /// <param name="modelID">The model ID of deleted object.</param>
         /// <param name="key">The ID of deleted object.</param>
         /// <param name="type">The object type of deleted object.</param>
-        public void DataDelete(string modelID, string key, string type)
+        public override void DataDelete(string modelID, string key, string type)
         {
             if (m_current == null) return;
             if (type.Equals(Constants.xpathStepper))
@@ -690,52 +650,9 @@ namespace EcellLib.PropertyWindow
         }
 
         /// <summary>
-        /// The event sequence when the simulation parameter is added.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The added parameter ID.</param>
-        public void ParameterAdd(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is deleted.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterDelete(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is set.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterSet(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on changing value with the simulation.
-        /// </summary>
-        /// <param name="modelID">The model ID of object changed value.</param>
-        /// <param name="key">The ID of object changed value.</param>
-        /// <param name="type">The object type of object changed value.</param>
-        /// <param name="propName">The property name of object changed value.</param>
-        /// <param name="data">Changed value of object.</param>
-        public void LogData(string modelID, string key, string type, string propName, List<LogData> data)
-        {
-            // not implement
-        }
-
-        /// <summary>
         /// The event sequence on closing project.
         /// </summary>
-        public void Clear()
+        public override void Clear()
         {
             m_current = null;
             m_dgv.Rows.Clear();
@@ -745,41 +662,10 @@ namespace EcellLib.PropertyWindow
         }
 
         /// <summary>
-        /// The event sequence on generating warning data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID generating warning data.</param>
-        /// <param name="key">The ID generating warning data.</param>
-        /// <param name="type">The data type generating warning data.</param>
-        /// <param name="warntype">The type of waring data.</param>
-        public void WarnData(string modelID, string key, string type, string warntype)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The execution log of simulation, debug and analysis.
-        /// </summary>
-        /// <param name="type">Log type.</param>
-        /// <param name="message">Message.</param>
-        public void Message(string type, string message)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on advancing time.
-        /// </summary>
-        /// <param name="time">The current simulation time.</param>
-        public void AdvancedTime(double time)
-        {
-            // nothing
-        }
-
-        /// <summary>
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(ProjectStatus type)
+        public override void ChangeStatus(ProjectStatus type)
         {
             if (type == ProjectStatus.Running)
             {
@@ -807,28 +693,10 @@ namespace EcellLib.PropertyWindow
         }
 
         /// <summary>
-        /// Change availability of undo/redo status.
-        /// </summary>
-        /// <param name="status"></param>
-        public void ChangeUndoStatus(UndoStatus status)
-        {
-            // Nothing should be done.
-        }
-
-        /// <summary>
-        /// Save the selected model to directory.
-        /// </summary>
-        /// <param name="modelID">selected model.</param>
-        /// <param name="directory">output directory.</param>
-        public void SaveModel(string modelID, string directory)
-        {
-        }
-
-        /// <summary>
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>
-        public Bitmap Print(string name)
+        public override Bitmap Print(string name)
         {
             try
             {
@@ -849,7 +717,7 @@ namespace EcellLib.PropertyWindow
         /// Get the name of this plugin.
         /// </summary>
         /// <returns>"PropertyWindow"</returns>
-        public string GetPluginName()
+        public override string GetPluginName()
         {
             return "PropertyWindow";
         }
@@ -858,38 +726,20 @@ namespace EcellLib.PropertyWindow
         /// Get the version of this plugin.
         /// </summary>
         /// <returns>version string.</returns>
-        public String GetVersionString()
+        public override String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-
-        /// <summary>
-        /// Check whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>false</returns>
-        public bool IsMessageWindow()
-        {
-            return false;
         }
 
         /// <summary>
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true</returns>
-        public List<string> GetEnablePrintNames()
+        public override List<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
             names.Add("Property of entiry.");
             return names;
-        }
-
-        /// <summary>
-        /// Set the position of EcellObject.
-        /// Actually, nothing will be done by this plugin.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        public void SetPosition(EcellObject data)
-        {
         }
         #endregion
 
