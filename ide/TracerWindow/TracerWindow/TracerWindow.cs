@@ -45,7 +45,7 @@ namespace EcellLib.TracerWindow
     /// <summary>
     /// Plugin Class of TracerWindow.
     /// </summary>
-    public class TracerWindow : IEcellPlugin
+    public class TracerWindow : PluginBase
     {
         #region Fields
         /// <summary>
@@ -53,7 +53,6 @@ namespace EcellLib.TracerWindow
         /// </summary>
         /// <param name="r">system status.</param>
         delegate void ChangeStatusCallBack(int r);
-        DataManager m_dManager = DataManager.GetDataManager();
         /// <summary>
         /// The menu item for [Show] -> [Show TraceWindow].
         /// </summary>
@@ -129,11 +128,11 @@ namespace EcellLib.TracerWindow
         /// ResourceManager for TraceWindow.
         /// </summary>
         public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResTrace));
-
         #endregion
 
+        #region Constructor
         /// <summary>
-        /// Construcot for TracerWindow.
+        /// Constructor for TracerWindow.
         /// </summary>
         public TracerWindow()
         {
@@ -147,7 +146,334 @@ namespace EcellLib.TracerWindow
             m_time.Interval = 100;
             m_time.Tick += new EventHandler(TimerFire);
         }
+        #endregion
 
+        #region Inherited from PluginBase
+        /// <summary>
+        /// Get menustrips for TracerWindow.
+        /// </summary>
+        /// <returns>MenuStripItems</returns>
+        public override List<ToolStripMenuItem> GetMenuStripItems()
+        {
+            List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
+
+            m_showWin = new ToolStripMenuItem();
+            m_showWin.Text = TracerWindow.s_resources.GetString("MenuItemShowTraceText");
+            m_showWin.Name = "MenuItemShowTrace";
+            m_showWin.Size = new Size(96, 22);
+            m_showWin.Enabled = false;
+            m_showWin.Click += new EventHandler(this.ShowTracerWindow);
+
+            m_showSaveWin = new ToolStripMenuItem();
+            m_showSaveWin.Text = TracerWindow.s_resources.GetString("MenuItemShowSaveTraceText");
+            m_showSaveWin.Name = "MenuItemShowSaveTrace";
+            m_showSaveWin.Size = new Size(96, 22);
+            m_showSaveWin.Enabled = false;
+            m_showSaveWin.Click += new EventHandler(this.ShowSaveTracerWindow);
+
+            ToolStripMenuItem view = new ToolStripMenuItem();
+            view.DropDownItems.AddRange(new ToolStripItem[] {
+                m_showWin,
+                m_showSaveWin
+            });
+            view.Name = "MenuItemView";
+            view.Size = new Size(36, 20);
+            view.Text = "View";
+            tmp.Add(view);
+
+            m_setupWin = new ToolStripMenuItem();
+            m_setupWin.Name = "MenuItemShowTraceSetup";
+            m_setupWin.Size = new Size(96, 22);
+            m_setupWin.Text = TracerWindow.s_resources.GetString("MenuItemShowTraceSetupText");
+            //            m_setupWin.Text = "TracerWindow";
+            m_setupWin.Enabled = true;
+            m_setupWin.Click += new EventHandler(this.ShowSetupTracerWindow);
+
+            ToolStripMenuItem setup = new ToolStripMenuItem();
+            setup.DropDownItems.AddRange(new ToolStripItem[] {
+                m_setupWin
+            });
+            setup.Name = "MenuItemSetup";
+            setup.Size = new Size(36, 20);
+            setup.Text = "Setup";
+            tmp.Add(setup);
+
+            return tmp;
+        }
+
+        /// <summary>
+        /// The event sequence to add the object at other plugin.
+        /// </summary>
+        /// <param name="data">The value of the adding object.</param>
+        public override void DataAdd(List<EcellObject> data)
+        {
+            if (data == null) return;
+            foreach (EcellObject obj in data)
+            {
+                if (obj.Value == null) continue;
+                bool isContinue = true;
+                foreach (EcellData d in obj.Value)
+                {
+                    if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
+                    {
+                        if (d.Value.CastToInt() == 1) isContinue = true;
+                        else isContinue = false;
+                    }
+                }
+                foreach (EcellData d in obj.Value)
+                {
+                    if (d.Logged)
+                    {
+                        AddToEntry(new TagData(obj.ModelID, obj.Key, obj.Type, d.EntityPath, isContinue));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// The event sequence on changing value of data at other plugin.
+        /// </summary>
+        /// <param name="modelID">The model ID before value change.</param>
+        /// <param name="key">The ID before value change.</param>
+        /// <param name="type">The data type before value change.</param>
+        /// <param name="data">Changed value of object.</param>
+        public override void DataChanged(string modelID, string key, string type, EcellObject data)
+        {
+            if (data.Value == null) return;
+
+            List<TagData> tagList = new List<TagData>();
+            foreach (TagData t in m_entry.Keys)
+            {
+                if (t.M_modelID != modelID ||
+                    t.M_key != key ||
+                    t.Type != type) continue;
+
+                bool isHit = false;
+                foreach (EcellData d in data.Value)
+                {
+                    if (!d.Logable) continue;
+                    if (t.M_path == d.EntityPath)
+                    {
+                        isHit = true;
+                        if (!d.Logged)
+                        {
+                            tagList.Add(t);
+                        }
+                        break;
+                    }
+                }
+                if (isHit == false)
+                {
+                    tagList.Add(t);
+                }
+            }
+
+            foreach (TagData t in tagList)
+            {
+                RemoveFromEntry(t);
+            }
+        }
+
+        /// <summary>
+        /// The event sequence on adding the logger at other plugin.
+        /// </summary>
+        /// <param name="modelID">The model ID.</param>
+        /// <param name="key">The ID.</param>
+        /// <param name="type">The data type.</param>
+        /// <param name="path">The path of entity.</param>
+        public override void LoggerAdd(string modelID, string key, string type, string path)
+        {
+            if (isLogAdding) return;
+            EcellObject obj = m_dManager.GetEcellObject(modelID, key, type);
+            if (obj == null) return;
+            bool isContinue = true;
+            foreach (EcellData d in obj.Value)
+            {
+                if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
+                {
+                    if (d.Value.CastToInt() == 1) isContinue = true;
+                    else isContinue = false;
+                    break;
+                }
+            }
+            TagData tag = new TagData(modelID, key, type, path, isContinue);
+            AddToEntry(tag);
+        }
+
+        /// <summary>
+        /// The event sequence on deleting the object at other plugin.
+        /// </summary>
+        /// <param name="modelID">The model ID of deleted object.</param>
+        /// <param name="key">The ID of deleted object.</param>
+        /// <param name="type">The object type of deleted object.</param>
+        public override void DataDelete(string modelID, string key, string type)
+        {
+            List<TagData> removeList = new List<TagData>();
+            foreach (TagData t in m_entry.Keys)
+            {
+                if (type == EcellObject.SYSTEM)
+                {
+                    if (modelID == t.M_modelID && t.M_key.StartsWith(key)) removeList.Add(t);
+                }
+                else
+                {
+                    if (modelID == t.M_modelID && t.M_key == key) removeList.Add(t);
+                }
+            }
+            foreach (TagData t in removeList)
+                RemoveFromEntry(t);
+        }
+
+        /// <summary>
+        /// The event sequence on closing project.
+        /// </summary>
+        public override void Clear()
+        {
+            foreach (TagData t in m_tagList.Values)
+            {
+                foreach (TraceWindow win in m_entry[t])
+                {
+                    if (!m_winList.Contains(win)) continue;
+                    win.RemoveLoggerEntry(t);
+                }
+            }
+            m_tagList.Clear();
+            m_entry.Clear();
+        }
+
+        /// <summary>
+        ///  When change system status, change menu enable/disable.
+        /// </summary>
+        /// <param name="type">System status.</param>
+        public override void ChangeStatus(ProjectStatus type)
+        {
+            if (type == ProjectStatus.Uninitialized)
+            {
+                isStep = false;
+                m_showWin.Enabled = false;
+                m_showSaveWin.Enabled = false;
+                m_setupWin.Enabled = true;
+            }
+            else if (type == ProjectStatus.Loaded)
+            {
+                isStep = false;
+                m_showWin.Enabled = true;
+                m_showSaveWin.Enabled = true;
+                m_setupWin.Enabled = true;
+            }
+            else if (type == ProjectStatus.Running)
+            {
+                m_currentMax = 1.0;
+                isStep = false;
+                m_showWin.Enabled = false;
+                m_showSaveWin.Enabled = false;
+                m_setupWin.Enabled = false;
+            }
+            else if (type == ProjectStatus.Stepping)
+            {
+                if (isStep == false && m_type != ProjectStatus.Suspended)
+                {
+                    m_current = 0.0;
+                    m_currentMax = 1.0;
+                    foreach (TraceWindow t in m_winList)
+                    {
+                        t.ClearTime();
+                        t.m_current = 0.0;
+                    }
+                }
+                isStep = true;
+                UpdateGraphDelegate();
+            }
+            else
+            {
+                isStep = false;
+                m_showWin.Enabled = false;
+                m_showSaveWin.Enabled = false;
+                m_setupWin.Enabled = false;
+            }
+
+            if (type == ProjectStatus.Running)
+            {
+                this.StartSimulation();
+            }
+            else if ((m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping) &&
+                type == ProjectStatus.Loaded)
+            {
+                UpdateGraphDelegate(); // vomit the remainder log.
+                this.StopSimulation();
+            }
+            else if (type == ProjectStatus.Suspended)
+            {
+                UpdateGraphDelegate(); // vomit the remainder log.
+                this.SuspendSimulation();
+            }
+            else if (type == ProjectStatus.Stepping)
+            {
+                if (m_type == ProjectStatus.Stepping)
+                {
+                    UpdateGraphDelegate(); // vomit the remainder log.
+                    this.SuspendSimulation();
+                    type = ProjectStatus.Suspended;
+                }
+                else
+                {
+                    //                    this.StartSimulation();
+                }
+            }
+
+            m_type = type;
+        }
+
+        /// <summary>
+        /// Get bitmap that converts display image on this plugin.
+        /// </summary>
+        /// <returns>The bitmap data of plugin.</returns>
+        public override Bitmap Print(string name)
+        {
+            foreach (TraceWindow t in m_winList)
+            {
+                if (name.Equals(t.Text))
+                {
+                    return t.GetBitmap();
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Get the name of this plugin.
+        /// </summary>
+        /// <returns>"TracerWindow"</returns>
+        public override string GetPluginName()
+        {
+            return "TracerWindow";
+        }
+
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
+        public override String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
+        /// <summary>
+        /// Check whether this plugin can print display image.
+        /// </summary>
+        /// <returns>true</returns>
+        public override List<string> GetEnablePrintNames()
+        {
+            List<string> names = new List<string>();
+            foreach (TraceWindow t in m_winList)
+            {
+                names.Add(t.Text);
+            }
+            return names;
+        }
+        #endregion
+
+        #region Internal Methods
         /// <summary>
         /// get/set the current TraceWindow.
         /// </summary>
@@ -356,7 +682,7 @@ namespace EcellLib.TracerWindow
 
             isSuspend = true;
         }
-
+        #endregion
 
         #region Event
         /// <summary>
@@ -488,501 +814,6 @@ namespace EcellLib.TracerWindow
             {
                 m_win = m_winList[m_winList.Count - 1];
             }
-        }
-        #endregion
-
-        #region PluginBase
-        /// <summary>
-        /// Get menustrips for TracerWindow.
-        /// </summary>
-        /// <returns>MenuStripItems</returns>
-        public List<ToolStripMenuItem> GetMenuStripItems()
-        {
-            List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
-
-            m_showWin = new ToolStripMenuItem();
-            m_showWin.Text = TracerWindow.s_resources.GetString( "MenuItemShowTraceText");
-            m_showWin.Name = "MenuItemShowTrace";
-            m_showWin.Size = new Size(96, 22);
-            m_showWin.Enabled = false;
-            m_showWin.Click += new EventHandler(this.ShowTracerWindow);
-
-            m_showSaveWin = new ToolStripMenuItem();
-            m_showSaveWin.Text = TracerWindow.s_resources.GetString("MenuItemShowSaveTraceText");
-            m_showSaveWin.Name = "MenuItemShowSaveTrace";
-            m_showSaveWin.Size = new Size(96, 22);
-            m_showSaveWin.Enabled = false;
-            m_showSaveWin.Click += new EventHandler(this.ShowSaveTracerWindow);
-
-            ToolStripMenuItem view = new ToolStripMenuItem();
-            view.DropDownItems.AddRange(new ToolStripItem[] {
-                m_showWin,
-                m_showSaveWin
-            });
-            view.Name = "MenuItemView";
-            view.Size = new Size(36, 20);
-            view.Text = "View";
-            tmp.Add(view);
-
-            m_setupWin = new ToolStripMenuItem();
-            m_setupWin.Name = "MenuItemShowTraceSetup";
-            m_setupWin.Size = new Size(96, 22);
-            m_setupWin.Text = TracerWindow.s_resources.GetString("MenuItemShowTraceSetupText");
-//            m_setupWin.Text = "TracerWindow";
-            m_setupWin.Enabled = true;
-            m_setupWin.Click += new EventHandler(this.ShowSetupTracerWindow);
-
-            ToolStripMenuItem setup = new ToolStripMenuItem();
-            setup.DropDownItems.AddRange(new ToolStripItem[] {
-                m_setupWin
-            });
-            setup.Name = "MenuItemSetup";
-            setup.Size = new Size(36, 20);
-            setup.Text = "Setup";
-            tmp.Add(setup);
-
-            return tmp;
-        }
-
-        /// <summary>
-        /// Get toolbar buttons for TracerWindow
-        /// </summary>
-        /// <returns>null</returns>
-        public List<ToolStripItem> GetToolBarMenuStripItems()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Get the window form for TracerWindow plugin.
-        /// </summary>
-        /// <returns>null</returns>
-        public List<EcellDockContent> GetWindowsForms()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// The event sequence on changing selected object at other plugin.
-        /// </summary>
-        /// <param name="modelID">Selected the model ID.</param>
-        /// <param name="key">Selected the ID.</param>
-        /// <param name="type">Selected the data type.</param>
-        public void SelectChanged(string modelID, string key, string type)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event process when user add the object to the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object added to selected objects.</param>
-        /// <param name="key">ID of object added to selected objects.</param>
-        /// <param name="type">Type of object added to selected objects.</param>
-        public void AddSelect(string modelID, string key, string type)
-        {
-            // not implement
-        }
-
-        /// <summary>
-        /// The event process when user remove object from the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
-        /// <param name="key">ID of object removed from selected objects.</param>
-        /// <param name="type">Type of object removed from selected objects.</param>
-        public void RemoveSelect(string modelID, string key, string type)
-        {
-            // not implement
-        }
-
-        /// <summary>
-        /// Reset all selected objects.
-        /// </summary>
-        public void ResetSelect()
-        {
-            // not implement
-        }
-
-
-        /// <summary>
-        /// The event sequence to add the object at other plugin.
-        /// </summary>
-        /// <param name="data">The value of the adding object.</param>
-        public void DataAdd(List<EcellObject> data)
-        {
-            if (data == null) return;
-            foreach (EcellObject obj in data)
-            {
-                if (obj.Value == null) continue;
-                bool isContinue = true;
-                foreach (EcellData d in obj.Value)
-                {
-                    if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
-                    {
-                        if (d.Value.CastToInt() == 1) isContinue = true;
-                        else isContinue = false;
-                    }
-                }
-                foreach (EcellData d in obj.Value)
-                {
-                    if (d.Logged)
-                    {
-                        AddToEntry(new TagData(obj.ModelID, obj.Key, obj.Type, d.EntityPath, isContinue));
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// The event sequence on changing value of data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID before value change.</param>
-        /// <param name="key">The ID before value change.</param>
-        /// <param name="type">The data type before value change.</param>
-        /// <param name="data">Changed value of object.</param>
-        public void DataChanged(string modelID, string key, string type, EcellObject data)
-        {
-            if (data.Value == null) return;
-
-            List<TagData> tagList = new List<TagData>();
-            foreach (TagData t in m_entry.Keys)
-            {
-                if (t.M_modelID != modelID ||
-                    t.M_key != key ||
-                    t.Type != type) continue;
-
-                bool isHit = false;
-                foreach (EcellData d in data.Value)
-                {
-                    if (!d.Logable) continue;
-                    if (t.M_path == d.EntityPath)
-                    {
-                        isHit = true;
-                        if (!d.Logged)
-                        {
-                            tagList.Add(t);
-                        }
-                        break;
-                    }
-                }
-                if (isHit == false)
-                {
-                    tagList.Add(t);
-                }
-            }
-
-            foreach (TagData t in tagList)
-            {
-                RemoveFromEntry(t);
-            }
-        }
-
-        /// <summary>
-        /// The event sequence on adding the logger at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="key">The ID.</param>
-        /// <param name="type">The data type.</param>
-        /// <param name="path">The path of entity.</param>
-        public void LoggerAdd(string modelID, string key, string type, string path)
-        {
-            if (isLogAdding) return;
-            EcellObject obj = m_dManager.GetEcellObject(modelID, key, type);
-            if (obj == null) return;
-            bool isContinue = true;
-            foreach (EcellData d in obj.Value)
-            {
-                if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
-                {
-                    if (d.Value.CastToInt() == 1) isContinue = true;
-                    else isContinue = false;
-                    break;
-                }
-            }
-            TagData tag = new TagData(modelID, key, type, path, isContinue);
-            AddToEntry(tag);
-        }
-
-        /// <summary>
-        /// The event sequence on deleting the object at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID of deleted object.</param>
-        /// <param name="key">The ID of deleted object.</param>
-        /// <param name="type">The object type of deleted object.</param>
-        public void DataDelete(string modelID, string key, string type)
-        {
-            List<TagData> removeList = new List<TagData>();
-            foreach (TagData t in m_entry.Keys)
-            {
-                if (type == EcellObject.SYSTEM)
-                {
-                    if (modelID == t.M_modelID && t.M_key.StartsWith(key)) removeList.Add(t);
-                }
-                else
-                {
-                    if (modelID == t.M_modelID && t.M_key == key) removeList.Add(t);
-                }
-            }
-            foreach (TagData t in removeList)
-                RemoveFromEntry(t);
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is added.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The added parameter ID.</param>
-        public void ParameterAdd(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is deleted.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterDelete(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is set.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterSet(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on changing value with the simulation.
-        /// </summary>
-        /// <param name="modelID">The model ID of object changed value.</param>
-        /// <param name="key">The ID of object changed value.</param>
-        /// <param name="type">The object type of object changed value.</param>
-        /// <param name="propName">The property name of object changed value.</param>
-        /// <param name="data">Changed value of object.</param>
-        public void LogData(string modelID, string key, string type, string propName, List<LogData> data)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on closing project.
-        /// </summary>
-        public void Clear()
-        {
-            foreach (TagData t in m_tagList.Values)
-            {
-                foreach (TraceWindow win in m_entry[t]) 
-                {
-                    if (!m_winList.Contains(win)) continue;
-                    win.RemoveLoggerEntry(t);
-                }
-            }
-            m_tagList.Clear();
-            m_entry.Clear();
-        }
-
-        /// <summary>
-        /// The event sequence on generating warning data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID generating warning data.</param>
-        /// <param name="key">The ID generating warning data.</param>
-        /// <param name="type">The data type generating warning data.</param>
-        /// <param name="warntype">The type of waring data.</param>
-        public void WarnData(string modelID, string key, string type, string warntype)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The execution log of simulation, debug and analysis.
-        /// </summary>
-        /// <param name="type">Log type.</param>
-        /// <param name="message">Message.</param>
-        public void Message(string type, string message)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on advancing time.
-        /// </summary>
-        /// <param name="time">The current simulation time.</param>
-        public void AdvancedTime(double time)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        ///  When change system status, change menu enable/disable.
-        /// </summary>
-        /// <param name="type">System status.</param>
-        public void ChangeStatus(ProjectStatus type)
-        {
-            if (type == ProjectStatus.Uninitialized)
-            {
-                isStep = false;
-                m_showWin.Enabled = false;
-                m_showSaveWin.Enabled = false;
-                m_setupWin.Enabled = true;
-            }
-            else if (type == ProjectStatus.Loaded)
-            {
-                isStep = false;
-                m_showWin.Enabled = true;
-                m_showSaveWin.Enabled = true;
-                m_setupWin.Enabled = true;
-            }
-            else if (type == ProjectStatus.Running)
-            {
-                m_currentMax = 1.0;
-                isStep = false;
-                m_showWin.Enabled = false;
-                m_showSaveWin.Enabled = false;
-                m_setupWin.Enabled = false;
-            }
-            else if (type == ProjectStatus.Stepping)
-            {
-                if (isStep == false && m_type != ProjectStatus.Suspended)
-                {
-                    m_current = 0.0;
-                    m_currentMax = 1.0;
-                    foreach (TraceWindow t in m_winList)
-                    {
-                        t.ClearTime();
-                        t.m_current = 0.0;
-                    }
-                }
-                isStep = true;
-                UpdateGraphDelegate();
-            }
-            else
-            {
-                isStep = false;
-                m_showWin.Enabled = false;
-                m_showSaveWin.Enabled = false;
-                m_setupWin.Enabled = false;
-            }
-
-            if (type == ProjectStatus.Running)
-            {
-                this.StartSimulation();
-            }
-            else if ((m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping) &&
-                type == ProjectStatus.Loaded)
-            {
-                UpdateGraphDelegate(); // vomit the remainder log.
-                this.StopSimulation();
-            }
-            else if (type == ProjectStatus.Suspended)
-            {
-                UpdateGraphDelegate(); // vomit the remainder log.
-                this.SuspendSimulation();
-            }
-            else if (type == ProjectStatus.Stepping)
-            {
-                if (m_type == ProjectStatus.Stepping)
-                {
-                    UpdateGraphDelegate(); // vomit the remainder log.
-                    this.SuspendSimulation();
-                    type = ProjectStatus.Suspended;
-                }
-                else
-                {
-//                    this.StartSimulation();
-                }
-            }
-
-            m_type = type;
-        }
-
-        /// <summary>
-        /// Change availability of undo/redo function
-        /// </summary>
-        /// <param name="status"></param>
-        public void ChangeUndoStatus(UndoStatus status)
-        {
-            // Nothing should be done.
-        }
-
-        /// <summary>
-        /// Save the selected model to directory.
-        /// </summary>
-        /// <param name="modelID">selected model.</param>
-        /// <param name="directory">output directory.</param>
-        public void SaveModel(string modelID, string directory)
-        {
-        }
-
-        /// <summary>
-        /// Get bitmap that converts display image on this plugin.
-        /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>
-        public Bitmap Print(string name)
-        {
-            foreach (TraceWindow t in m_winList)
-            {
-                if (name.Equals(t.Text))
-                {
-                    return t.GetBitmap();
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Get the name of this plugin.
-        /// </summary>
-        /// <returns>"TracerWindow"</returns>
-        public string GetPluginName()
-        {
-            return "TracerWindow";
-        }
-
-        /// <summary>
-        /// Get the version of this plugin.
-        /// </summary>
-        /// <returns>version string.</returns>
-        public String GetVersionString()
-        {
-            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-
-        /// <summary>
-        /// Check whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>false</returns>
-        public bool IsMessageWindow()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>true</returns>
-        public List<string> GetEnablePrintNames()
-        {
-            List<string> names = new List<string>();
-            foreach (TraceWindow t in m_winList)
-            {
-                names.Add(t.Text);
-            }
-            return names;
-        }
-
-        /// <summary>
-        /// Set the position of EcellObject.
-        /// Actually, nothing will be done by this plugin.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        public void SetPosition(EcellObject data)
-        {
         }
         #endregion
     }

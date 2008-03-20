@@ -37,7 +37,7 @@ using System.Reflection;
 
 namespace EcellLib.SearchWindow
 {
-    class SearchWindow : IEcellPlugin
+    class SearchWindow : PluginBase
     {
         #region Fields
         /// <summary>
@@ -53,7 +53,6 @@ namespace EcellLib.SearchWindow
         /// </summary>
         ToolStripTextBox m_text;
         #endregion
-
 
         #region Events
         /// <summary>
@@ -106,13 +105,12 @@ namespace EcellLib.SearchWindow
         }
         #endregion
 
-
-        #region PluginBase
+        #region Inherited from PluginBase
         /// <summary>
         /// Get menustrips for SearchWindow plugin.
         /// </summary>
         /// <returns>null.</returns>
-        public List<ToolStripMenuItem> GetMenuStripItems()
+        public override List<ToolStripMenuItem> GetMenuStripItems()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResSearch));
 
@@ -142,7 +140,7 @@ namespace EcellLib.SearchWindow
         /// Get toolbar buttons for SearchWindow plugin.
         /// </summary>
         /// <returns>null</returns>
-        public List<ToolStripItem> GetToolBarMenuStripItems()
+        public override List<ToolStripItem> GetToolBarMenuStripItems()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResSearch));
 
@@ -174,216 +172,20 @@ namespace EcellLib.SearchWindow
         }
 
         /// <summary>
-        /// Get the window form for SearchWindow.
-        /// </summary>
-        /// <returns>UserControl.</returns>
-        public List<EcellDockContent> GetWindowsForms()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// The event sequence on changing selected object at other plugin.
-        /// </summary>
-        /// <param name="modelID">Selected the model ID.</param>
-        /// <param name="key">Selected the ID.</param>
-        /// <param name="type">Selected the data type.</param>
-        public void SelectChanged(string modelID, string key, string type)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event process when user add the object to the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object added to selected objects.</param>
-        /// <param name="key">ID of object added to selected objects.</param>
-        /// <param name="type">Type of object added to selected objects.</param>
-        public void AddSelect(string modelID, string key, string type)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event process when user remove object from the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
-        /// <param name="key">ID of object removed from selected objects.</param>
-        /// <param name="type">Type of object removed from selected objects.</param>
-        public void RemoveSelect(string modelID, string key, string type)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// Reset all selected objects.
-        /// </summary>
-        public void ResetSelect()
-        {
-            // nothing
-        }
-
-
-        /// <summary>
-        /// The event sequence to add the object at other plugin.
-        /// </summary>
-        /// <param name="data">The value of the adding object.</param>
-        public void DataAdd(List<EcellObject> data)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on changing value of data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID before value change.</param>
-        /// <param name="key">The ID before value change.</param>
-        /// <param name="type">The data type before value change.</param>
-        /// <param name="data">Changed value of object.</param>
-        public void DataChanged(string modelID, string key, string type, EcellObject data)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on adding the logger at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="key">The ID.</param>
-        /// <param name="type">The data type.</param>
-        /// <param name="path">The path of entity.</param>
-        public void LoggerAdd(string modelID, string key, string type, string path)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on deleting the object at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID of deleted object.</param>
-        /// <param name="key">The ID of deleted object.</param>
-        /// <param name="type">The object type of deleted object.</param>
-        public void DataDelete(string modelID, string key, string type)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is added.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The added parameter ID.</param>
-        public void ParameterAdd(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is deleted.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterDelete(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is set.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterSet(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on changing value with the simulation.
-        /// </summary>
-        /// <param name="modelID">The model ID of object changed value.</param>
-        /// <param name="key">The ID of object changed value.</param>
-        /// <param name="type">The object type of object changed value.</param>
-        /// <param name="propName">The property name of object changed value.</param>
-        /// <param name="data">Changed value of object.</param>
-        public void LogData(string modelID, string key, string type, string propName, List<LogData> data)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on closing project.
-        /// </summary>
-        public void Clear()
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on generating warning data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID generating warning data.</param>
-        /// <param name="key">The ID generating warning data.</param>
-        /// <param name="type">The data type generating warning data.</param>
-        /// <param name="warntype">The type of waring data.</param>
-        public void WarnData(string modelID, string key, string type, string warntype)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The execution log of simulation, debug and analysis.
-        /// </summary>
-        /// <param name="type">Log type.</param>
-        /// <param name="message">Message.</param>
-        public void Message(string type, string message)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on advancing time.
-        /// </summary>
-        /// <param name="time">The current simulation time.</param>
-        public void AdvancedTime(double time)
-        {
-            // nothing
-        }
-
-        /// <summary>
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(ProjectStatus type)
+        public override void ChangeStatus(ProjectStatus type)
         {
             if (type == ProjectStatus.Uninitialized) m_searchMenu.Enabled = false;
             else m_searchMenu.Enabled = true;
         }
 
         /// <summary>
-        /// Change availability of undo/redo function
-        /// </summary>
-        /// <param name="status"></param>
-        public void ChangeUndoStatus(UndoStatus status)
-        {
-            // Nothing should be done.
-        }
-
-        /// <summary>
-        /// Save the model in this directory.
-        /// </summary>
-        /// <param name="modelID">the saved model.</param>
-        /// <param name="directory">the save directory.</param>
-        public void SaveModel(string modelID, string directory)
-        {
-            // nothing.
-        }
-
-        /// <summary>
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>        
-        public Bitmap Print(string name)
+        public override Bitmap Print(string name)
         {
              if (m_cnd != null)
                  return m_cnd.Print();
@@ -394,7 +196,7 @@ namespace EcellLib.SearchWindow
         /// Get the name of this plugin.
         /// </summary>
         /// <returns>"EntityListWindow"</returns>
-        public string GetPluginName()
+        public override string GetPluginName()
         {
             return "SearchWindow";
         }
@@ -403,39 +205,21 @@ namespace EcellLib.SearchWindow
         /// Get the version of this plugin.
         /// </summary>
         /// <returns>the plugin version.</returns>
-        public String GetVersionString()
+        public override String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-
-        /// <summary>
-        /// cCeck whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>false(this plugin is EntityListWindow)</returns>
-        public bool IsMessageWindow()
-        {
-            return false;
         }
 
         /// <summary>
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true</returns>
-        public List<string> GetEnablePrintNames()
+        public override List<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
             if (m_cnd != null && m_cnd.Visible)
                 names.Add("Search result.");
             return names;
-        }
-
-        /// <summary>
-        /// Set the position of EcellObject.
-        /// Actually, nothing will be done by this plugin.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        public void SetPosition(EcellObject data)
-        {
         }
         #endregion
     }

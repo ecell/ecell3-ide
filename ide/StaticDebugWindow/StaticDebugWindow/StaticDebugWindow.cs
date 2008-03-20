@@ -48,13 +48,9 @@ namespace EcellLib.StaticDebugWindow
     /// <summary>
     /// Controls the static debug.
     /// </summary>
-    public class StaticDebugWindow : IEcellPlugin
+    public class StaticDebugWindow : PluginBase
     {
         #region Fields
-        /// <summary>
-        /// The "DataMenager"
-        /// </summary>
-        DataManager m_dManager;
         /// <summary>
         /// The list of the error message
         /// </summary>
@@ -86,100 +82,20 @@ namespace EcellLib.StaticDebugWindow
 
         #region PluginBase
         /// <summary>
-        /// The event sequence on advancing time.
-        /// </summary>
-        /// <param name="time">the current simulation time</param>
-        public void AdvancedTime(double time)
-        {
-            // nothing
-        }
-
-        /// <summary>
         ///  When the system status is changed, the menu is changed to enable/disable.
         /// </summary>
         /// <param name="type">the status type</param>
-        public void ChangeStatus(ProjectStatus type)
+        public override void ChangeStatus(ProjectStatus type)
         {
             if (type == ProjectStatus.Loaded) m_staticDebug.Enabled = true;
             else m_staticDebug.Enabled = false;
         }
 
         /// <summary>
-        /// Change availability of undo/redo function.
-        /// </summary>
-        /// <param name="status"></param>
-        public void ChangeUndoStatus(UndoStatus status)
-        {
-            // Nothing should be done.
-        }
-
-        /// <summary>
-        /// The event sequence to add the object at other plugin.
-        /// </summary>
-        /// <param name="data">The list of the adding object.</param>
-        public void DataAdd(List<EcellObject> data)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on changing value of data at other plugin.
-        /// </summary>
-        /// <param name="modelID">the model ID before values are changed</param>
-        /// <param name="key">the ID before values are changed</param>
-        /// <param name="type">the data type before values are changed</param>
-        /// <param name="data">the data after values are changed</param>
-        public void DataChanged(string modelID, string key, string type, EcellObject data)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on deleting the object at other plugin.
-        /// </summary>
-        /// <param name="modelID">the model ID of the deleted object</param>
-        /// <param name="key">the ID of the deleted object</param>
-        /// <param name="type">the data type of the deleted object</param>
-        public void DataDelete(string modelID, string key, string type)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is added.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The added parameter ID.</param>
-        public void ParameterAdd(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is deleted.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterDelete(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is set.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterSet(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
         /// Returns items of the menu strip used on the main menu.
         /// </summary>
         /// <returns>items of the menu strip</returns>
-        public List<ToolStripMenuItem> GetMenuStripItems()
+        public override List<ToolStripMenuItem> GetMenuStripItems()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StaticDebugWindow));
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
@@ -208,7 +124,7 @@ namespace EcellLib.StaticDebugWindow
         /// Returns the name of this plugin.
         /// </summary>
         /// <returns>"StaticDebugWindow"(Fixed)</returns>        
-        public string GetPluginName()
+        public override string GetPluginName()
         {
             return "StaticDebugWindow";
         }
@@ -217,173 +133,31 @@ namespace EcellLib.StaticDebugWindow
         /// Get the version of this plugin.
         /// </summary>
         /// <returns>version string.</returns>
-        public String GetVersionString()
+        public override String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-
-        /// <summary>
-        /// Returns items of the menu strip used on the toolbar.
-        /// </summary>
-        /// <returns>items of the menu strip</returns>
-        public List<ToolStripItem> GetToolBarMenuStripItems()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Returns window forms used on the main window.
-        /// </summary>
-        /// <returns>window forms</returns>
-        public List<EcellDockContent> GetWindowsForms()
-        {
-            return null;
         }
 
         /// <summary>
         /// Checks whether this plugin can print the display image.
         /// </summary>
         /// <returns>false(Fixed)</returns>
-        public List<string> GetEnablePrintNames()
+        public override List<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
             return names;
         }
 
         /// <summary>
-        /// Checks whether this plugin is the "MessageWindow".
-        /// </summary>
-        /// <returns>false(Fixed)</returns>
-        public bool IsMessageWindow()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// The event sequence on changing value with the simulation.
-        /// </summary>
-        /// <param name="modelID">the model ID of the object to which values are changed</param>
-        /// <param name="key">the ID of the object to which values are changed</param>
-        /// <param name="type">the data type of the object to which values are changed</param>
-        /// <param name="propName">the property name of the object to which values are changed</param>
-        /// <param name="data">changed values of the object</param>
-        public void LogData(string modelID, string key, string type, string propName, List<LogData> data)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on adding the logger at other plugin.
-        /// </summary>
-        /// <param name="modelID">the model ID</param>
-        /// <param name="key">the IDt</param>
-        /// <param name="type">the data type</param>
-        /// <param name="path">the path of the entity</param>
-        public void LoggerAdd(string modelID, string key, string type, string path)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The execution log of simulation, debug and analysis.
-        /// </summary>
-        /// <param name="type">the log type</param>
-        /// <param name="message">the message</param>
-        public void Message(string type, string message)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// Returns the bitmap image that converts the display image on this plugin.
-        /// </summary>
-        /// <returns>the bitmap image</returns>
-        public Bitmap Print(string name)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Saves the model to the selected directory.
-        /// </summary>
-        /// <param name="modelID">the model ID</param>
-        /// <param name="directory">the selected directory</param>
-        public void SaveModel(string modelID, string directory)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on changing selected object at other plugin.
-        /// </summary>
-        /// <param name="modelID">the selected model ID</param>
-        /// <param name="key">the selected ID</param>
-        /// <param name="type">the selected data type</param>
-        public void SelectChanged(string modelID, string key, string type)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event process when user add the object to the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object added to selected objects.</param>
-        /// <param name="key">ID of object added to selected objects.</param>
-        /// <param name="type">Type of object added to selected objects.</param>
-        public void AddSelect(string modelID, string key, string type)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event process when user remove object from the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
-        /// <param name="key">ID of object removed from selected objects.</param>
-        /// <param name="type">Type of object removed from selected objects.</param>
-        public void RemoveSelect(string modelID, string key, string type)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// Reset all selected objects.
-        /// </summary>
-        public void ResetSelect()
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence on generating warning data at other plugin.
-        /// </summary>
-        /// <param name="modelID">the model ID generating warning data</param>
-        /// <param name="key">the ID generating warning data</param>
-        /// <param name="type">the data type generating warning data</param>
-        /// <param name="warntype">the type of warning data</param>
-        public void WarnData(string modelID, string key, string type, string warntype)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// Set the position of EcellObject.
-        /// Actually, nothing will be done by this plugin.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        public void SetPosition(EcellObject data)
-        {
-        }
-
-        /// <summary>
         /// Close the current project..
         /// </summary>
-        public void Clear()
+        public override void Clear()
         {
             this.m_errorMessageList.Clear();
         }
         #endregion
 
+        #region Internal Methods
         /// <summary>
         /// Initializes validated patterns.
         /// </summary>
@@ -477,6 +251,7 @@ namespace EcellLib.StaticDebugWindow
             }
 
         }
+        #endregion
     }
 }
 
