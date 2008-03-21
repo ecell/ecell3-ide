@@ -1070,7 +1070,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Cancel to open project.
         /// </summary>
-        public void CloseOpenProjectDialog()
+        private void CloseOpenProjectDialog()
         {
             m_openPrjDialog.Close();
             m_openPrjDialog.Dispose();
@@ -1081,7 +1081,7 @@ namespace EcellLib.MainWindow
         /// The action when you click OK or Cancel in OpenProjectDialog.
         /// If you don't select the project, system show warning message.
         /// </summary>
-        public void OpenProject()
+        private void OpenProject()
         {
             try
             {

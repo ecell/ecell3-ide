@@ -4,36 +4,49 @@ namespace EcellLib.MainWindow
     using NUnit.Framework;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Test code for MainWindow
+    /// </summary>
     [TestFixture()]
     public class TestMainWindow
     {
 
         private MainWindow _unitUnderTest;
-
+        /// <summary>
+        /// SetUp
+        /// </summary>
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
             _unitUnderTest = new MainWindow();
         }
-
+        /// <summary>
+        /// TearDown
+        /// </summary>
         [TestFixtureTearDown()]
         public void TestFixtureTearDown()
         {
             _unitUnderTest = null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [NUnit.Framework.Test()]
         public void TestConstructorMainWindow()
         {
             Assert.IsNotNull(_unitUnderTest, "Constructor of type, MainWindow failed to create instance.");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoadDefaultWindowSetting()
         {
             _unitUnderTest.LoadDefaultWindowSetting();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoadModelThread()
         {
@@ -41,7 +54,9 @@ namespace EcellLib.MainWindow
             _unitUnderTest.LoadModelThread(modelID);
             Assert.Fail("Create or modify test(s).");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetDockContent()
         {
@@ -53,7 +68,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestCheckWindowMenu()
         {
@@ -63,7 +80,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetMenuStripItems()
         {
@@ -74,7 +93,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetToolBarMenuStripItems()
         {
@@ -85,7 +106,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetWindowsForms()
         {
@@ -96,7 +119,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSelectChanged()
         {
@@ -107,7 +132,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestAddSelect()
         {
@@ -118,7 +145,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestRemoveSelect()
         {
@@ -129,7 +158,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestResetSelect()
         {
@@ -137,7 +168,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataAdd()
         {
@@ -146,7 +179,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataChanged()
         {
@@ -158,7 +193,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoggerAdd()
         {
@@ -170,7 +207,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataDelete()
         {
@@ -181,7 +220,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestParameterAdd()
         {
@@ -191,7 +232,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestParameterDelete()
         {
@@ -201,7 +244,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLogData()
         {
@@ -214,7 +259,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestClear()
         {
@@ -222,7 +269,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestWarnData()
         {
@@ -234,7 +283,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestMessage()
         {
@@ -244,7 +295,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestAdvancedTime()
         {
@@ -253,7 +306,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestChangeStatus()
         {
@@ -262,7 +317,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestChangeUndoStatus()
         {
@@ -271,7 +328,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSaveModel()
         {
@@ -281,7 +340,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestPrint()
         {
@@ -292,7 +353,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetPluginName()
         {
@@ -303,7 +366,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetVersionString()
         {
@@ -314,7 +379,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestIsMessageWindow()
         {
@@ -325,7 +392,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestIsEnablePrint()
         {
@@ -336,7 +405,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetPosition()
         {
@@ -345,7 +416,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestNewProject()
         {
@@ -355,7 +428,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestNewProjectCancel()
         {
@@ -365,27 +440,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
-        [Test()]
-        public void TestOpenProjectCancel()
-        {
-            object sender = null;
-            System.EventArgs e = null;
-            _unitUnderTest.OpenProjectCancel(sender, e);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-
-        [Test()]
-        public void TestOpenProject()
-        {
-            object sender = null;
-            System.EventArgs e = null;
-            _unitUnderTest.OpenProject(sender, e);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoadModel()
         {
@@ -394,7 +451,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestExportModelCancel()
         {
@@ -404,7 +463,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestExportModel()
         {
@@ -414,7 +475,9 @@ namespace EcellLib.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetProcessWorkingSetSize()
         {

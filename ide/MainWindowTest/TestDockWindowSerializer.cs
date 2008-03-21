@@ -35,26 +35,34 @@ namespace EcellLib.MainWindow
     using NUnit.Framework;
     using System.Diagnostics;
 
-
+    /// <summary>
+    /// Test code for DockWindowSerializer
+    /// </summary>
     [TestFixture()]
     public class TestDockWindowSerializer
     {
         MainWindow _window;
         private DockWindowSerializer _unitUnderTest;
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TestFixtureSetUp()]
         public void SetUp()
         {
             _window = new MainWindow();
             _unitUnderTest = new DockWindowSerializer();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TestFixtureTearDown()]
         public void TearDown()
         {
             _unitUnderTest = null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSaveAsXML()
         {
@@ -62,7 +70,9 @@ namespace EcellLib.MainWindow
             DockWindowSerializer.SaveAsXML(_window, modelFile);
             Assert.IsNotNull(_window);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoadFromXML()
         {
