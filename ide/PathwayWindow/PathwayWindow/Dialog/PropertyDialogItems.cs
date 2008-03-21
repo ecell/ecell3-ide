@@ -38,36 +38,6 @@ using EcellLib.PathwayWindow.Graphic;
 namespace EcellLib.PathwayWindow.Dialog
 {
     /// <summary>
-    /// PropertyDialogTabPage for PropertyDialog
-    /// </summary>
-    public partial class PropertyDialogTabPage : TabPage
-    {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public PropertyDialogTabPage()
-        {
-            this.AutoScroll = true;
-        }
-        /// <summary>
-        /// ApplyChange
-        /// </summary>
-        public virtual void ApplyChange()
-        {
-        }
-
-        /// <summary>
-        /// OnMouseWheel
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnMouseWheel(MouseEventArgs e)
-        {
-            base.OnMouseWheel(e);
-            int pageCount = e.Delta / -120;
-        }
-    }
-
-    /// <summary>
     /// UI class for PropertyDialog
     /// </summary>
     public partial class PropertyDialogItem : Panel

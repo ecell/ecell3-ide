@@ -95,6 +95,9 @@
     <Compile Include="AnimationControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Dialog\PropertyDialogTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="EcellSerializer.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Exceptions\DuplicateKeyException.cs" />

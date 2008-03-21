@@ -679,6 +679,18 @@ namespace EcellLib.PathwayWindow
             Canvas.LineHandler.SetLineVisibility(false);
         }
         /// <summary>
+        /// Reset object settings.
+        /// </summary>
+        public void ResetObjectSettings()
+        {
+            if (m_canvas == null)
+                return;
+            m_canvas.ResetObjectSettings();
+            SetNodeIcons();
+            if (m_isViewMode)
+                m_animCon.SetPropForSimulation();
+        }
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="model"></param>
@@ -994,7 +1006,7 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
-        #region private Methods.
+        #region internal Methods.
         /// <summary>
         /// Create pathway canvas.
         /// </summary>

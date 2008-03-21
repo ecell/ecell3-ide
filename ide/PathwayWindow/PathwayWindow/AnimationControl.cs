@@ -40,6 +40,8 @@ using System.Diagnostics;
 using EcellLib.PathwayWindow.Graphic;
 using System.ComponentModel;
 using EcellLib.PathwayWindow.Dialog;
+using System.IO;
+using System.Xml;
 
 namespace EcellLib.PathwayWindow
 {
@@ -278,6 +280,7 @@ namespace EcellLib.PathwayWindow
         public AnimationControl(PathwayControl control)
         {
             m_con = control;
+            LoadSettings();
             m_resources = control.Resources;
             m_dManager = m_con.Window.DataManager;
             // Set Timer.
@@ -437,6 +440,7 @@ namespace EcellLib.PathwayWindow
             }
             m_canvas = null;
         }
+        #endregion
 
         /// <summary>
         /// Create TabPage for PathwaySettingDialog
@@ -447,8 +451,159 @@ namespace EcellLib.PathwayWindow
             PropertyDialogTabPage page = new AnimationTabPage(this);
             return page;
         }
-        #endregion
 
+        /// <summary>
+        /// Save Settings
+        /// </summary>
+        public void SaveSettings()
+        {
+            string filename = Path.Combine(Util.GetUserDir(), AnimationConstants.xPathFileName);
+
+            FileStream fs = null;
+            XmlTextWriter xmlOut = null;
+            try
+            {
+                // Create xml file
+                fs = new FileStream(filename, FileMode.Create);
+                xmlOut = new XmlTextWriter(fs, Encoding.UTF8);
+
+                // Use indenting for readability
+                xmlOut.Formatting = Formatting.Indented;
+                xmlOut.WriteStartDocument();
+
+                // Always begin file with identification and warning
+                xmlOut.WriteComment(ComponentConstants.xPathFileHeader1);
+                xmlOut.WriteComment(ComponentConstants.xPathFileHeader2);
+
+                xmlOut.WriteStartElement(AnimationConstants.xPathAnimationSettings);
+                // Application settings.
+                xmlOut.WriteAttributeString(ComponentConstants.xPathName, Application.ProductName);
+                xmlOut.WriteAttributeString(ComponentConstants.xPathFileVersion, AnimationConstants.xPathVersion);
+                // Save settings.
+                xmlOut.WriteElementString(AnimationConstants.xPathEditBGBrush, BrushManager.ParseBrushToString(m_editBGBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathEditEdgeBrush, BrushManager.ParseBrushToString(m_editEdgeBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathNormalEdgeWidth, m_normalEdgeWidth.ToString());
+
+                xmlOut.WriteElementString(AnimationConstants.xPathViewBGBrush, BrushManager.ParseBrushToString(m_viewBGBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathViewEdgeBrush, BrushManager.ParseBrushToString(m_viewEdgeBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathMaxEdgeWidth, m_maxEdgeWidth.ToString());
+
+                xmlOut.WriteElementString(AnimationConstants.xPathHighEdgeBrush, BrushManager.ParseBrushToString(m_highEdgeBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathLowEdgeBrush, BrushManager.ParseBrushToString(m_lowEdgeBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathThresholdHigh, m_thresholdHigh.ToString());
+                xmlOut.WriteElementString(AnimationConstants.xPathThresholdLow, m_thresholdLow.ToString());
+
+                xmlOut.WriteElementString(AnimationConstants.xPathNGEdgeBrush, BrushManager.ParseBrushToString(m_ngEdgeBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathPropertyBrush, BrushManager.ParseBrushToString(m_propBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathIsLogarithmic, m_isLogarithmic.ToString());
+
+                xmlOut.WriteEndElement();
+                xmlOut.WriteEndDocument();
+            }
+            catch (Exception ex)
+            {
+                string errmsg = m_resources.GetString("ErrCompInvalid") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (xmlOut != null) xmlOut.Close();
+                if (fs != null) fs.Close();
+            }
+        }
+
+        /// <summary>
+        /// Load Settings.
+        /// </summary>
+        public void LoadSettings()
+        {
+            string filename = Path.Combine(Util.GetUserDir(), AnimationConstants.xPathFileName);
+            if (!File.Exists(filename))
+                return;
+
+            // Get Animation settings.
+            XmlDocument xmlD = new XmlDocument();
+            xmlD.Load(filename);
+            XmlNode settings = GetAnimationSettings(xmlD);
+            if (settings == null)
+                return;
+
+            // Load settings.
+            foreach (XmlNode setting in settings.ChildNodes)
+            {
+                switch (setting.Name)
+                {
+                    // EditBGBrush
+                    case AnimationConstants.xPathEditBGBrush:
+                        m_editBGBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        break;
+                    // EditEdgeBrush
+                    case AnimationConstants.xPathEditEdgeBrush:
+                        m_editEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        break;
+                    // NormalEdgeWidth
+                    case AnimationConstants.xPathNormalEdgeWidth:
+                        m_normalEdgeWidth = float.Parse(setting.InnerText);
+                        break;
+                    // ViewBGBrush
+                    case AnimationConstants.xPathViewBGBrush:
+                        m_viewBGBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        break;
+                    // ViewEdgeBrush
+                    case AnimationConstants.xPathViewEdgeBrush:
+                        m_viewEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        break;
+                    // MaxEdgeWidth
+                    case AnimationConstants.xPathMaxEdgeWidth:
+                        m_maxEdgeWidth = float.Parse(setting.InnerText);
+                        break;
+                    // HighEdgeBrush
+                    case AnimationConstants.xPathHighEdgeBrush:
+                        m_highEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        break;
+                    // LowEdgeBrush
+                    case AnimationConstants.xPathLowEdgeBrush:
+                        m_lowEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        break;
+                    // ThresholdHigh
+                    case AnimationConstants.xPathThresholdHigh:
+                        m_thresholdHigh = float.Parse(setting.InnerText);
+                        break;
+                    // ThresholdLow
+                    case AnimationConstants.xPathThresholdLow:
+                        m_thresholdLow = float.Parse(setting.InnerText);
+                        break;
+                    // NGEdgeBrush
+                    case AnimationConstants.xPathNGEdgeBrush:
+                        m_ngEdgeBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        break;
+                    // PropertyBrush
+                    case AnimationConstants.xPathPropertyBrush:
+                        m_propBrush = BrushManager.ParseStringToBrush(setting.InnerText);
+                        break;
+                    // ThresholdHigh
+                    case AnimationConstants.xPathIsLogarithmic:
+                        m_isLogarithmic = bool.Parse(setting.InnerText);
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlD"></param>
+        /// <returns></returns>
+        private static XmlNode GetAnimationSettings(XmlDocument xmlD)
+        {
+            XmlNode settings = null;
+            foreach (XmlNode node in xmlD.ChildNodes)
+            {
+                if (node.Name.Equals(AnimationConstants.xPathAnimationSettings))
+                    settings = node;
+            }
+            return settings;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -518,8 +673,9 @@ namespace EcellLib.PathwayWindow
     /// <summary>
     /// PathwayDialogConstant
     /// </summary>
-    internal class PathwayDialogConstant
+    internal class AnimationConstants
     {
+        #region Constants for dialog text.
         /// <summary>
         /// DialogTextAnimationSetting
         /// </summary>
@@ -572,6 +728,74 @@ namespace EcellLib.PathwayWindow
         /// DialogTextLogarithmic
         /// </summary>
         public const string DialogTextLogarithmic = "DialogTextLogarithmic";
+        #endregion
+
+        #region Constants for XML.
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathFileName = "AnimationSettings.xml";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathAnimationSettings = "AnimationSettings";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathVersion = "1.0";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathThresholdHigh = "ThresholdHigh";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathThresholdLow = "ThresholdLow";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathNormalEdgeWidth = "NormalEdgeWidth";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathMaxEdgeWidth = "MaxEdgeWidth";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathEditBGBrush = "EditBGBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathEditEdgeBrush = "EditEdgeBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathViewBGBrush = "ViewBGBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathViewEdgeBrush = "ViewEdgeBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathLowEdgeBrush = "LowEdgeBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathHighEdgeBrush = "HighEdgeBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathNGEdgeBrush = "NGEdgeBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathPropertyBrush = "PropertyBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathIsLogarithmic = "IsLogarithmic";
+        #endregion
     }
 
     /// <summary>
@@ -579,10 +803,13 @@ namespace EcellLib.PathwayWindow
     /// </summary>
     internal class AnimationTabPage : PropertyDialogTabPage
     {
+        private AnimationControl m_con;
         private AnimationEditModeItem m_editModeItem;
         private AnimationViewModeItem m_viewModeItem;
+
         public AnimationTabPage(AnimationControl control)
         {
+            m_con = control;
             m_editModeItem = new AnimationEditModeItem(control);
             m_viewModeItem = new AnimationViewModeItem(control);
 
@@ -601,6 +828,7 @@ namespace EcellLib.PathwayWindow
             base.ApplyChange();
             m_editModeItem.ApplyChanges();
             m_viewModeItem.ApplyChanges();
+            m_con.SaveSettings();
         }
     }
 
@@ -621,9 +849,9 @@ namespace EcellLib.PathwayWindow
 
             // set Brushes
             List<string> list = BrushManager.GetBrushNameList();
-            this.m_bgBrushItem = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextBackgroundBrush), control.EditBGBrush, list);
-            this.m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextEdgeWidth), control.EdgeWidth.ToString());
-            this.m_edgeBrushItem = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextEdgeBrush), control.EditEdgeBrush, list);
+            this.m_bgBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.EditBGBrush, list);
+            this.m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeWidth), control.EdgeWidth.ToString());
+            this.m_edgeBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.EditEdgeBrush, list);
             this.SuspendLayout();
             // 
             // Initialize
@@ -633,7 +861,7 @@ namespace EcellLib.PathwayWindow
             this.Controls.Add(this.m_bgBrushItem);
             this.Controls.Add(this.m_edgeBrushItem);
             this.Controls.Add(this.m_edgeWidth);
-            this.Text = m_control.Resources.GetString(PathwayDialogConstant.DialogTextEditMode);
+            this.Text = m_control.Resources.GetString(AnimationConstants.DialogTextEditMode);
             this.TabStop = false;
 
             // Set Position
@@ -679,18 +907,18 @@ namespace EcellLib.PathwayWindow
             m_control = control;
             // set Brushes
             List<string> list = BrushManager.GetBrushNameList();
-            m_bgBrush = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextBackgroundBrush), control.ViewBGBrush, list);
-            m_animation = new PropertyDialogItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextAnimationSetting));
-            m_edgeBrush = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextEdgeBrush), control.ViewEdgeBrush, list);
-            m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextMaxEdgeWidth), control.MaxEdgeWidth.ToString());
+            m_bgBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.ViewBGBrush, list);
+            m_animation = new PropertyDialogItem(m_control.Resources.GetString(AnimationConstants.DialogTextAnimationSetting));
+            m_edgeBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.ViewEdgeBrush, list);
+            m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextMaxEdgeWidth), control.MaxEdgeWidth.ToString());
 
-            m_edgeHighBrush = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextThresholdHigh), control.HighEdgeBrush, list);
-            m_edgeLowBrush = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextThresholdLow), control.LowEdgeBrush, list);
-            m_edgeNGBrush = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextNGBrush), control.NgEdgeBrush, list);
+            m_edgeHighBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdHigh), control.HighEdgeBrush, list);
+            m_edgeLowBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdLow), control.LowEdgeBrush, list);
+            m_edgeNGBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextNGBrush), control.NgEdgeBrush, list);
             m_thresholdHigh = new PropertyTextItem("", control.ThresholdHigh.ToString());
             m_thresholdLow = new PropertyTextItem("", control.ThresholdLow.ToString());
-            m_propBrush = new PropertyBrushItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextPropertyBrush), control.PropertyBrush, list);
-            m_lineCheckBox = new PropertyCheckBoxItem(m_control.Resources.GetString(PathwayDialogConstant.DialogTextLogarithmic), control.IsLogarithmic);
+            m_propBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextPropertyBrush), control.PropertyBrush, list);
+            m_lineCheckBox = new PropertyCheckBoxItem(m_control.Resources.GetString(AnimationConstants.DialogTextLogarithmic), control.IsLogarithmic);
 
             this.SuspendLayout();
             // 
@@ -709,7 +937,7 @@ namespace EcellLib.PathwayWindow
             this.Controls.Add(m_edgeNGBrush);
             this.Controls.Add(m_propBrush);
             this.Controls.Add(m_lineCheckBox);
-            this.Text = m_control.Resources.GetString(PathwayDialogConstant.DialogTextViewMode);
+            this.Text = m_control.Resources.GetString(AnimationConstants.DialogTextViewMode);
             this.TabStop = false;
 
             // SetPosition 

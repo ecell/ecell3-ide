@@ -353,15 +353,15 @@ namespace EcellLib.PathwayWindow
         private void AddClassCreateMethod(string className)
         {
             PPathwayObject obj = null;
-            if (className.Equals(ComponentManager.ClassPPathwayVariable))
+            if (className.Equals(ComponentConstants.ClassPPathwayVariable))
             {
                 obj = new PPathwayVariable();
             }
-            else if (className.Equals(ComponentManager.ClassPPathwayProcess))
+            else if (className.Equals(ComponentConstants.ClassPPathwayProcess))
             {
                 obj = new PPathwayProcess();
             }
-            else if (className.Equals(ComponentManager.ClassPPathwaySystem))
+            else if (className.Equals(ComponentConstants.ClassPPathwaySystem))
             {
                 obj = new PPathwaySystem();
             }

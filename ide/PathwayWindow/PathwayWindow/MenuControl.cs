@@ -1062,12 +1062,7 @@ namespace EcellLib.PathwayWindow
                 animationPage.ApplyChange();
             }
             dialog.Dispose();
-
-            CanvasControl canvas = m_con.Canvas;
-            if (canvas == null)
-                return;
-            canvas.ResetObjectSettings();
-            m_con.SetNodeIcons();
+            m_con.ResetObjectSettings();
         }
 
         /// <summary>
