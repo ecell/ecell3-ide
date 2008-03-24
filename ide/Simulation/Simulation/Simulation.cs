@@ -527,7 +527,6 @@ namespace EcellLib.Simulation
                     double timeCount = Convert.ToDouble(m_stepText.Text);
                     if (timeCount < 0) return;
                     m_dManager.SimulationStartKeepSetting(timeCount); // m_dManager.SimulationStart(timeCount);
-                    m_pManager.ChangeStatus(ProjectStatus.Stepping);
                 }
                 m_pManager.ChangeStatus(ProjectStatus.Stepping);
             }

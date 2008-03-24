@@ -51,6 +51,7 @@ namespace EcellLib.Analysis
     /// </summary>
     public partial class AnalysisWindow : EcellDockContent
     {
+        #region Fields
         /// <summary>
         /// The dictionary of the logging data to be observed.
         /// </summary>
@@ -99,8 +100,12 @@ namespace EcellLib.Analysis
         /// The form to display the setting and result of analysis.
         /// </summary>
         private static AnalysisWindow s_win = null;
+        /// <summary>
+        /// The line information of dot plot.
+        /// </summary>
         private LineItem m_line;
-
+        private Color m_headerColor;
+        #endregion
 
         /// <summary>
         /// Constructor.
@@ -143,6 +148,7 @@ namespace EcellLib.Analysis
 
             InitializeData();
             s_win = this;
+            m_headerColor = Color.LightCyan;
         }
 
         #region accessor
@@ -165,6 +171,7 @@ namespace EcellLib.Analysis
         }
         #endregion
 
+        #region Commons
         /// <summary>
         /// Refresh the value of parameters.
         /// </summary>
@@ -260,39 +267,9 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// Get the robust analysis parameter set in this form.
+        /// Get the estimation type.
         /// </summary>
-        /// <returns>the parameter of robust analysis.</returns>
-        public RobustAnalysisParameter GetRobustAnalysisParameter()
-        {
-            RobustAnalysisParameter p = new RobustAnalysisParameter();
-            p.SampleNum = Convert.ToInt32(RASampleNumText.Text);
-            p.SimulationTime = Convert.ToDouble(RASimTimeText.Text);
-            p.IsRandomCheck = RARandomCheck.Checked;
-            p.MaxData = Convert.ToInt32(RMAMaxData.Text);
-            p.MaxFreq = Convert.ToDouble(RAMaxFreqText.Text);
-            p.MinFreq = Convert.ToDouble(RAMinFreqText.Text);
-            p.WinSize = Convert.ToDouble(RAWinSizeText.Text);
-
-            return p;
-        }
-
-        /// <summary>
-        /// Set the robust analysis parameter.
-        /// </summary>
-        /// <param name="p">the parameter of robust analysis.</param>
-        public void SetRobustAnalysisParameter(RobustAnalysisParameter p)
-        {
-            RASampleNumText.Text = Convert.ToString(p.SampleNum);
-            RASimTimeText.Text = Convert.ToString(p.SimulationTime);
-            RMAMaxData.Text = Convert.ToString(p.MaxData);
-            RAMaxFreqText.Text = Convert.ToString(p.MaxFreq);
-            RAMinFreqText.Text = Convert.ToString(p.MinFreq);
-            RAWinSizeText.Text = Convert.ToString(p.WinSize);
-            if (p.IsRandomCheck) RARandomCheck.Checked = true;
-            else RAMatrixCheck.Checked = true;
-        }
-
+        /// <returns>Estimation type.</returns>
         private EstimationFormulatorType GetFormulatorType()
         {
             EstimationFormulatorType type = EstimationFormulatorType.Max;
@@ -320,72 +297,6 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// Get the parameter of parameter estimation.
-        /// </summary>
-        /// <returns>the parameter of parameter estimation.</returns>
-        public ParameterEstimationParameter GetParameterEstimationParameter()
-        {
-            string estForm = PEEstmationFormula.Text;
-            double simTime = Convert.ToDouble(PESimulationText.Text);
-            int popNum = Convert.ToInt32(PEPopulationText.Text);
-            int genNum = Convert.ToInt32(PEGenerationText.Text);
-            EstimationFormulatorType type = GetFormulatorType();
-
-            return new ParameterEstimationParameter(estForm, simTime, popNum, genNum, type, m_peParam);
-        }
-
-        /// <summary>
-        /// Set the parameter of parameter estimation.
-        /// </summary>
-        /// <param name="param">the parameter of parameter estimation.</param>
-        public void SetParameterEstimationParameter(ParameterEstimationParameter param)
-        {
-            PESimulationText.Text = Convert.ToString(param.SimulationTime);
-            PEPopulationText.Text = Convert.ToString(param.Population);
-            PEGenerationText.Text = Convert.ToString(param.Generation);
-            m_peParam = param.Param;
-        }
-
-        /// <summary>
-        /// Add the parameter entry into Parameter DataGridView.
-        /// If this parameter alrady exists, system don't insert the entry.
-        /// </summary>
-        /// <param name="obj">parameter object.</param>
-        private void SearchAndAddParamEntry(EcellObject obj)
-        {
-            if (obj.Value == null) return;
-            foreach (EcellData d in obj.Value)
-            {
-                if (m_paramList.ContainsKey(d.EntityPath)) continue;
-                AddParameterEntry(obj, d);
-            }
-        }
-
-
-        /// <summary>
-        /// Extract the judgement condition from DataGridView.
-        /// </summary>
-        /// <returns>the list of judgement condition.</returns>
-        public List<RobustAnalysisJudgementParam> ExtractObserved()
-        {
-            List<RobustAnalysisJudgementParam> resList = new List<RobustAnalysisJudgementParam>();
-
-            for (int i = 0; i < RAObservGridView.Rows.Count; i++)
-            {
-                string path = RAObservGridView[0, i].Value.ToString();
-                double max = Convert.ToDouble(RAObservGridView[1, i].Value);
-                double min = Convert.ToDouble(RAObservGridView[2, i].Value);
-                double diff = Convert.ToDouble(RAObservGridView[3, i].Value);
-                double rate = Convert.ToDouble(RAObservGridView[4, i].Value);
-
-                RobustAnalysisJudgementParam p = new RobustAnalysisJudgementParam(path, max, min, diff, rate);
-                resList.Add(p);
-            }
-
-            return resList;
-        }
-
-        /// <summary>
         /// Get the list of property to set the initial value for analysis.
         /// If there are any problems, this function return null.
         /// </summary>
@@ -406,122 +317,7 @@ namespace EcellLib.Analysis
                 resList.Add(p);
             }
 
-
             return resList;
-        }
-
-        /// <summary>
-        /// Get the list of observed property to judge for analysis.
-        /// If there are any problems, this function return null. 
-        /// </summary>
-        /// <returns>the list of observed property.</returns>
-        public List<SaveLoggerProperty> GetRobustObservedDataList()
-        {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
-
-            for (int i = 0; i < RAObservGridView.Rows.Count; i++)
-            {
-                String dir = manager.TmpDir;
-                string path = RAObservGridView[0, i].Value.ToString();
-                double start = 0.0;
-                double end = Convert.ToDouble(RASimTimeText.Text);
-                SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
-
-                resList.Add(p);
-            }
-
-            if (resList.Count < 1)
-            {
-                String mes = Analysis.s_resources.GetString("ErrObservProp");
-                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-
-            return resList;
-        }
-
-        /// <summary>
-        /// Get the list of observed property to judge for analysis.
-        /// If there are any problems, this function return null. 
-        /// </summary>
-        /// <returns>the list of observed property.</returns>
-        public List<SaveLoggerProperty> GetParameterObservedDataList()
-        {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
-
-            String dir = manager.TmpDir;
-            double start = 0.0;
-            double end = Convert.ToDouble(RASimTimeText.Text);
-            string formulator = PEEstmationFormula.Text;
-            string[] ele = formulator.Split(new char[] { '+', '-', '*' });
-            for ( int i = 0 ; i < ele.Length ; i++ )
-            {
-                string element = ele[i].Replace(" ", "");
-                if (element.StartsWith("Variable") ||
-                    element.StartsWith("Process"))
-                    resList.Add(new SaveLoggerProperty(element, start, end, dir));
-            }
-            return resList;
-        }
-
-        /// <summary>
-        /// Remove the entry of parameter value.
-        /// </summary>
-        /// <param name="key">the key of parameter value.</param>
-        public void RemoveParamEntry(string key)
-        {
-            if (m_paramList.ContainsKey(key))
-                m_paramList.Remove(key);
-            else
-                return;
-
-            for (int i = 0; i < RAParamGridView.Rows.Count; i++)
-            {
-                string pData = RAParamGridView[0, i].Value.ToString();
-                if (!pData.Equals(key))
-                    continue;
-                EcellObject obj = RAParamGridView.Rows[i].Tag as EcellObject;
-                if (obj == null)
-                    continue;
-
-                RAParamGridView.Rows.RemoveAt(i);
-                m_paramList.Remove(key);
-
-                foreach (EcellData d in obj.Value)
-                {
-                    if (!key.Equals(d.EntityPath))
-                        continue;
-
-                    d.Committed = true;
-                }
-                DataManager dManager = DataManager.GetDataManager();
-                dManager.DataChanged(obj.ModelID, obj.Key, obj.Type, obj);
-            }
-        }
-
-        /// <summary>
-        /// Remove the entry of observed value.
-        /// </summary>
-        /// <param name="key">the key of observed value.</param>
-        public void RemoveObservEntry(string key)
-        {
-            if (m_observList.ContainsKey(key))
-                m_observList.Remove(key);
-            else
-                return;
-
-            for (int i = 0; i < RAObservGridView.Rows.Count; i++)
-            {
-                String ind = RAObservGridView[0, i].Value.ToString();
-                if (ind.Equals(key))
-                {
-                    RAObservGridView.Rows.RemoveAt(i);
-                    continue;
-                }
-            }
-
         }
 
         /// <summary>
@@ -552,53 +348,6 @@ namespace EcellLib.Analysis
                 }
                 AddParameterEntry(obj, d);
             }
-        }
-
-        /// <summary>
-        /// Add the parameter entry to use at the robust analysis.
-        /// </summary>
-        /// <param name="obj">object include the parameter data.</param>
-        /// <param name="d">the parameter data.</param>
-        private void AddRobustAnalysisParameterEntry(EcellObject obj, EcellData d)
-        {
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            c1.Value = d.EntityPath;
-            r.Cells.Add(c1);
-            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-            c2.Value = d.Max;
-            r.Cells.Add(c2);
-            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-            c3.Value = d.Min;
-            r.Cells.Add(c3);
-            DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
-            c4.Value = d.Step;
-            r.Cells.Add(c4);
-            r.Tag = obj;
-            AssignParamPopupMenu(r);
-            RAParamGridView.Rows.Add(r);
-        }
-
-        /// <summary>
-        /// Add the parameter entry to use at parameter estimation.
-        /// </summary>
-        /// <param name="obj">object include the parameter data.</param>
-        /// <param name="d">the parameter data.</param>
-        private void AddParameterEstimateEntry(EcellObject obj, EcellData d)
-        {
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            c1.Value = d.EntityPath;
-            r.Cells.Add(c1);
-            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-            c2.Value = d.Max;
-            r.Cells.Add(c2);
-            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-            c3.Value = d.Min;
-            r.Cells.Add(c3);
-            r.Tag = obj;
-
-            PEParamGridView.Rows.Add(r);
         }
 
 
@@ -633,6 +382,22 @@ namespace EcellLib.Analysis
 
                 r.Cells[1].Value = m_manager.ParameterDic[jobid].ParamDic[xPath];
                 r.Cells[2].Value = m_manager.ParameterDic[jobid].ParamDic[yPath];
+            }
+        }
+
+
+        /// <summary>
+        /// Add the parameter entry into Parameter DataGridView.
+        /// If this parameter alrady exists, system don't insert the entry.
+        /// </summary>
+        /// <param name="obj">parameter object.</param>
+        private void SearchAndAddParamEntry(EcellObject obj)
+        {
+            if (obj.Value == null) return;
+            foreach (EcellData d in obj.Value)
+            {
+                if (m_paramList.ContainsKey(d.EntityPath)) continue;
+                AddParameterEntry(obj, d);
             }
         }
 
@@ -718,6 +483,331 @@ namespace EcellLib.Analysis
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
         }
+        #endregion
+
+
+        #region SensitivityAnalysis
+        /// <summary>
+        /// Get the sensitivity analysis parameter set in this form.
+        /// </summary>
+        /// <returns>the parameter of sensitivity analysis.</returns>
+        public SensitivityAnalysisParameter GetSensitivityAnalysisParameter()
+        {
+            SensitivityAnalysisParameter p = new SensitivityAnalysisParameter();
+            p.Step = Convert.ToInt32(SAStepTextBox.Text);
+            p.RelativePerturbation = Convert.ToDouble(SARelativePertTextBox.Text);
+            p.AbsolutePerturbation = Convert.ToDouble(SAAbsolutePertTextBox.Text);
+
+            return p;
+        }
+
+        /// <summary>
+        /// Set the parameter of sensitivity analysis to this form.
+        /// </summary>
+        /// <param name="p">the parameter of sensitivity analysis.</param>
+        public void SetSensitivityAnalysis(SensitivityAnalysisParameter p)
+        {
+            SAStepTextBox.Text = Convert.ToString(p.Step);
+            SARelativePertTextBox.Text = Convert.ToString(p.RelativePerturbation);
+            SAAbsolutePertTextBox.Text = Convert.ToString(p.AbsolutePerturbation);
+        }
+
+        /// <summary>
+        /// Create the header of sensitivity matrix.
+        /// </summary>
+        /// <param name="gridView">DataGridView.</param>
+        /// <param name="data">Header List.</param>
+        private void CreateSensitivityHeader(DataGridView gridView, List<string> data)
+        {
+            DataGridViewTextBoxColumn c = new DataGridViewTextBoxColumn();
+            gridView.Columns.Add(c);
+            foreach (string key in data)
+            {
+                c = new DataGridViewTextBoxColumn();
+                c.Name = key;
+                c.HeaderText = key;
+                gridView.Columns.Add(c);
+            }
+
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+            c1.Style.BackColor = m_headerColor;
+            r.Cells.Add(c1);
+            c1.ReadOnly = true;
+
+            foreach (string key in data)
+            {
+                c1 = new DataGridViewTextBoxCell();
+                c1.Style.BackColor = m_headerColor;
+                c1.Value = key;
+                r.Cells.Add(c1);
+                c1.ReadOnly = true;
+            }
+            gridView.Rows.Add(r);
+        }
+
+        /// <summary>
+        /// Set the header string of sensitivity matrix.
+        /// </summary>
+        /// <param name="valueList">the list of value.</param>
+        /// <param name="activityList">the list of activity.</param>
+        public void SetSensitivityHeader(List<string> valueList, List<string> activityList)
+        {
+            SACCCGridView.Columns.Clear();
+            SACCCGridView.Rows.Clear();
+            SAFCCGridView.Columns.Clear();
+            SAFCCGridView.Rows.Clear();
+
+            RAXComboBox.Enabled = false;
+            RAYComboBox.Enabled = false;
+            RAResultGridView.Enabled = false;
+
+            CreateSensitivityHeader(SACCCGridView, valueList);
+            CreateSensitivityHeader(SAFCCGridView, activityList);
+        }
+
+        /// <summary>
+        /// Create the the row data of analysis result for variable.
+        /// </summary>
+        /// <param name="key">the property name of parameter.</param>
+        /// <param name="sensList">the list of sensitivity analysis result.</param>
+        public void AddSensitivityDataOfCCC(string key, List<double> sensList)
+        {
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+            c.Value = key;
+            c.Style.BackColor = m_headerColor;
+            r.Cells.Add(c);
+            c.ReadOnly = true;
+
+            foreach (double d in sensList)
+            {
+                c = new DataGridViewTextBoxCell();
+                c.Value = d;
+                c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                r.Cells.Add(c);
+                c.ReadOnly = true;
+            }
+            SACCCGridView.Rows.Add(r);
+        }
+
+        /// <summary>
+        /// Create the row data of analysis result for process
+        /// </summary>
+        /// <param name="key">the property name of parameter.</param>
+        /// <param name="sensList">the list of sensitivity analysis result.</param>
+        public void AddSensitivityDataOfFCC(string key, List<double> sensList)
+        {
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+            c.Value = key;
+            c.Style.BackColor = m_headerColor;
+            r.Cells.Add(c);
+            c.ReadOnly = true;
+
+            foreach (double d in sensList)
+            {
+                c = new DataGridViewTextBoxCell();
+                c.Value = d;
+                r.Cells.Add(c);
+                c.ReadOnly = true;
+            }
+            SAFCCGridView.Rows.Add(r);
+        }
+        #endregion
+
+        #region RobustAnalysis
+        /// <summary>
+        /// Get the robust analysis parameter set in this form.
+        /// </summary>
+        /// <returns>the parameter of robust analysis.</returns>
+        public RobustAnalysisParameter GetRobustAnalysisParameter()
+        {
+            RobustAnalysisParameter p = new RobustAnalysisParameter();
+            p.SampleNum = Convert.ToInt32(RASampleNumText.Text);
+            p.SimulationTime = Convert.ToDouble(RASimTimeText.Text);
+            p.IsRandomCheck = RARandomCheck.Checked;
+            p.MaxData = Convert.ToInt32(RMAMaxData.Text);
+            p.MaxFreq = Convert.ToDouble(RAMaxFreqText.Text);
+            p.MinFreq = Convert.ToDouble(RAMinFreqText.Text);
+            p.WinSize = Convert.ToDouble(RAWinSizeText.Text);
+
+            return p;
+        }
+
+        /// <summary>
+        /// Set the robust analysis parameter.
+        /// </summary>
+        /// <param name="p">the parameter of robust analysis.</param>
+        public void SetRobustAnalysisParameter(RobustAnalysisParameter p)
+        {
+            RASampleNumText.Text = Convert.ToString(p.SampleNum);
+            RASimTimeText.Text = Convert.ToString(p.SimulationTime);
+            RMAMaxData.Text = Convert.ToString(p.MaxData);
+            RAMaxFreqText.Text = Convert.ToString(p.MaxFreq);
+            RAMinFreqText.Text = Convert.ToString(p.MinFreq);
+            RAWinSizeText.Text = Convert.ToString(p.WinSize);
+            if (p.IsRandomCheck) RARandomCheck.Checked = true;
+            else RAMatrixCheck.Checked = true;
+        }
+
+        /// <summary>
+        /// Extract the judgement condition from DataGridView.
+        /// </summary>
+        /// <returns>the list of judgement condition.</returns>
+        public List<RobustAnalysisJudgementParam> ExtractObserved()
+        {
+            List<RobustAnalysisJudgementParam> resList = new List<RobustAnalysisJudgementParam>();
+
+            for (int i = 0; i < RAObservGridView.Rows.Count; i++)
+            {
+                string path = RAObservGridView[0, i].Value.ToString();
+                double max = Convert.ToDouble(RAObservGridView[1, i].Value);
+                double min = Convert.ToDouble(RAObservGridView[2, i].Value);
+                double diff = Convert.ToDouble(RAObservGridView[3, i].Value);
+                double rate = Convert.ToDouble(RAObservGridView[4, i].Value);
+
+                RobustAnalysisJudgementParam p = new RobustAnalysisJudgementParam(path, max, min, diff, rate);
+                resList.Add(p);
+            }
+
+            return resList;
+        }
+
+        /// <summary>
+        /// Get the list of observed property to judge for analysis.
+        /// If there are any problems, this function return null. 
+        /// </summary>
+        /// <returns>the list of observed property.</returns>
+        public List<SaveLoggerProperty> GetRobustObservedDataList()
+        {
+            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+
+            for (int i = 0; i < RAObservGridView.Rows.Count; i++)
+            {
+                String dir = manager.TmpDir;
+                string path = RAObservGridView[0, i].Value.ToString();
+                double start = 0.0;
+                double end = Convert.ToDouble(RASimTimeText.Text);
+                SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
+
+                resList.Add(p);
+            }
+
+            if (resList.Count < 1)
+            {
+                String mes = Analysis.s_resources.GetString("ErrObservProp");
+                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            return resList;
+        }
+
+        /// <summary>
+        /// Add the parameter entry to use at the robust analysis.
+        /// </summary>
+        /// <param name="obj">object include the parameter data.</param>
+        /// <param name="d">the parameter data.</param>
+        private void AddRobustAnalysisParameterEntry(EcellObject obj, EcellData d)
+        {
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+            c1.Value = d.EntityPath;
+            r.Cells.Add(c1);
+            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+            c2.Value = d.Max;
+            r.Cells.Add(c2);
+            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
+            c3.Value = d.Min;
+            r.Cells.Add(c3);
+            DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
+            c4.Value = d.Step;
+            r.Cells.Add(c4);
+            r.Tag = obj;
+
+            RAParamGridView.Rows.Add(r);
+        }
+
+        #endregion
+
+        #region ParameterEstimation
+        /// <summary>
+        /// Get the parameter of parameter estimation.
+        /// </summary>
+        /// <returns>the parameter of parameter estimation.</returns>
+        public ParameterEstimationParameter GetParameterEstimationParameter()
+        {
+            string estForm = PEEstmationFormula.Text;
+            double simTime = Convert.ToDouble(PESimulationText.Text);
+            int popNum = Convert.ToInt32(PEPopulationText.Text);
+            int genNum = Convert.ToInt32(PEGenerationText.Text);
+            EstimationFormulatorType type = GetFormulatorType();
+
+            return new ParameterEstimationParameter(estForm, simTime, popNum, genNum, type, m_peParam);
+        }
+
+        /// <summary>
+        /// Set the parameter of parameter estimation.
+        /// </summary>
+        /// <param name="param">the parameter of parameter estimation.</param>
+        public void SetParameterEstimationParameter(ParameterEstimationParameter param)
+        {
+            PESimulationText.Text = Convert.ToString(param.SimulationTime);
+            PEPopulationText.Text = Convert.ToString(param.Population);
+            PEGenerationText.Text = Convert.ToString(param.Generation);
+            m_peParam = param.Param;
+        }
+
+        /// <summary>
+        /// Get the list of observed property to judge for analysis.
+        /// If there are any problems, this function return null. 
+        /// </summary>
+        /// <returns>the list of observed property.</returns>
+        public List<SaveLoggerProperty> GetParameterObservedDataList()
+        {
+            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+
+            String dir = manager.TmpDir;
+            double start = 0.0;
+            double end = Convert.ToDouble(RASimTimeText.Text);
+            string formulator = PEEstmationFormula.Text;
+            string[] ele = formulator.Split(new char[] { '+', '-', '*' });
+            for (int i = 0; i < ele.Length; i++)
+            {
+                string element = ele[i].Replace(" ", "");
+                if (element.StartsWith("Variable") ||
+                    element.StartsWith("Process"))
+                    resList.Add(new SaveLoggerProperty(element, start, end, dir));
+            }
+            return resList;
+        }
+
+        /// <summary>
+        /// Add the parameter entry to use at parameter estimation.
+        /// </summary>
+        /// <param name="obj">object include the parameter data.</param>
+        /// <param name="d">the parameter data.</param>
+        private void AddParameterEstimateEntry(EcellObject obj, EcellData d)
+        {
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+            c1.Value = d.EntityPath;
+            r.Cells.Add(c1);
+            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+            c2.Value = d.Max;
+            r.Cells.Add(c2);
+            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
+            c3.Value = d.Min;
+            r.Cells.Add(c3);
+            r.Tag = obj;
+
+            PEParamGridView.Rows.Add(r);
+        }
+
+
 
         /// <summary>
         /// Set the estimated parameter.
@@ -744,6 +834,66 @@ namespace EcellLib.Analysis
             }
             PEEstimationValue.Text = Convert.ToString(result);
             PEGenerateValue.Text = Convert.ToString(generation);
+        }
+        #endregion
+
+
+        /// <summary>
+        /// Remove the entry of parameter value.
+        /// </summary>
+        /// <param name="key">the key of parameter value.</param>
+        public void RemoveParamEntry(string key)
+        {
+            if (m_paramList.ContainsKey(key))
+                m_paramList.Remove(key);
+            else
+                return;
+
+            for (int i = 0; i < RAParamGridView.Rows.Count; i++)
+            {
+                string pData = RAParamGridView[0, i].Value.ToString();
+                if (!pData.Equals(key))
+                    continue;
+                EcellObject obj = RAParamGridView.Rows[i].Tag as EcellObject;
+                if (obj == null)
+                    continue;
+
+                RAParamGridView.Rows.RemoveAt(i);
+                m_paramList.Remove(key);
+
+                foreach (EcellData d in obj.Value)
+                {
+                    if (!key.Equals(d.EntityPath))
+                        continue;
+
+                    d.Committed = true;
+                }
+                DataManager dManager = DataManager.GetDataManager();
+                dManager.DataChanged(obj.ModelID, obj.Key, obj.Type, obj);
+            }
+        }
+
+        /// <summary>
+        /// Remove the entry of observed value.
+        /// </summary>
+        /// <param name="key">the key of observed value.</param>
+        public void RemoveObservEntry(string key)
+        {
+            if (m_observList.ContainsKey(key))
+                m_observList.Remove(key);
+            else
+                return;
+
+            for (int i = 0; i < RAObservGridView.Rows.Count; i++)
+            {
+                String ind = RAObservGridView[0, i].Value.ToString();
+                if (ind.Equals(key))
+                {
+                    RAObservGridView.Rows.RemoveAt(i);
+                    continue;
+                }
+            }
+
         }
 
 
@@ -1077,7 +1227,6 @@ namespace EcellLib.Analysis
                 }
             }
         }
-        #endregion
 
         /// <summary>
         /// Process when user click close button on Window.
@@ -1187,6 +1336,7 @@ namespace EcellLib.Analysis
             PEEstmationFormula.Text = ext;
             m_fwin.Close();
         }
+        #endregion
     }
 
 }

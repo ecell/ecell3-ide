@@ -52,13 +52,17 @@ namespace EcellLib.Analysis
         /// </summary>
         private ToolStripMenuItem m_robustAnalysisWinItem;
         /// <summary>
-        /// MenuItem to display the window for robust analysis.
+        /// MenuItem to execute robust analysis.
         /// </summary>
         private ToolStripMenuItem m_robustAnalysisItem;
         /// <summary>
-        /// MenuItem to display the window for parameter estimation.
+        /// MenuItem to execute parameter estimation.
         /// </summary>
         private ToolStripMenuItem m_parameterEstimationItem;
+        /// <summary>
+        /// MenuItem to execute sensitivity analysis.
+        /// </summary>
+        private ToolStripMenuItem m_sensitivityAnalysisItem;
         /// <summary>
         /// Window to analysis the robustness of model.
         /// </summary>
@@ -79,6 +83,10 @@ namespace EcellLib.Analysis
         /// Parameter Estimation Class.
         /// </summary>
         private ParameterEstimation m_parameterEstimation;
+        /// <summary>
+        /// Sensitivity Analysis Class.
+        /// </summary>
+        private SensitivityAnalysis m_sensitivityAnalysis;
 
         #endregion
 
@@ -106,6 +114,14 @@ namespace EcellLib.Analysis
         public void StopParameterEstimation()
         {
             m_parameterEstimation = null;
+        }
+
+        /// <summary>
+        /// Stop the sensitivity analysis.
+        /// </summary>
+        public void StopSensitivityAnalysis()
+        {
+            m_sensitivityAnalysis = null;
         }
 
         #region Events
@@ -138,7 +154,7 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// Event when robust analysis menu is clicked.
+        /// Event when the menu to execute robust analysis is clicked.
         /// This program execute the program of robust analysis.
         /// </summary>
         /// <param name="sender">MenuItem</param>
@@ -162,7 +178,7 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// Event when parameter estimation menu is clicked.
+        /// Event when the menu to execute parameter estimation is clicked.
         /// This program execute the program of parameter estimation.
         /// </summary>
         /// <param name="sender">MenuItem</param>
@@ -184,6 +200,30 @@ namespace EcellLib.Analysis
             m_parameterEstimation.Control = this;
             m_parameterEstimation.ExecuteAnalysis();
         }
+
+        /// <summary>
+        /// Event when the menu to execute sensitivity analysis is clicked.
+        /// This program execute the program of parameter estimation.
+        /// </summary>
+        /// <param name="sender">MenuItem</param>
+        /// <param name="e">EventArgs.</param>
+        private void ExecuteSensitivityAnalysis(object sender, EventArgs e)
+        {
+            if (m_win == null) return;
+            if (m_sensitivityAnalysis != null && m_sensitivityAnalysis.IsRunning)
+            {
+                string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
+                DialogResult res = MessageBox.Show(mes, "Question", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.OK)
+                {
+                    m_sensitivityAnalysis.StopAnalysis();
+                }
+                return;
+            }
+            m_sensitivityAnalysis = new SensitivityAnalysis();
+            m_sensitivityAnalysis.Control = this;
+            m_sensitivityAnalysis.ExecuteAnalysis();
+        }
         #endregion
 
         #region Inherited from PluginBase
@@ -198,7 +238,7 @@ namespace EcellLib.Analysis
 
             m_robustAnalysisWinItem = new ToolStripMenuItem();
             m_robustAnalysisWinItem.Text = resources.GetString("MenuItemAnalysisWindow");
-            m_robustAnalysisWinItem.ToolTipText = "Analysis Window";
+            m_robustAnalysisWinItem.ToolTipText = resources.GetString("MenuItemAnalysisWindow");
             m_robustAnalysisWinItem.Tag = 50;
             m_robustAnalysisWinItem.Click += new EventHandler(ShowRobustAnalysisWindow);
 
@@ -211,20 +251,27 @@ namespace EcellLib.Analysis
 
             m_robustAnalysisItem = new ToolStripMenuItem();
             m_robustAnalysisItem.Text = resources.GetString("MenuItemRobustAnalysis");
-            m_robustAnalysisItem.ToolTipText = "Robust Analysis";
+            m_robustAnalysisItem.ToolTipText = resources.GetString("MenuItemRobustAnalysis");
             m_robustAnalysisItem.Tag = 50;
             m_robustAnalysisItem.Enabled = false;
             m_robustAnalysisItem.Click += new EventHandler(ExecuteRobustAnalysis);
 
             m_parameterEstimationItem = new ToolStripMenuItem();
             m_parameterEstimationItem.Text = resources.GetString("MenuItemParameterEstimation");
-            m_parameterEstimationItem.ToolTipText = "Parameter Estimation";
-            m_parameterEstimationItem.Tag = 50;
+            m_parameterEstimationItem.ToolTipText = resources.GetString("MenuItemParameterEstimation");
+            m_parameterEstimationItem.Tag = 60;
             m_parameterEstimationItem.Enabled = false;
             m_parameterEstimationItem.Click += new EventHandler(ExecuteParameterEstimation);
 
+            m_sensitivityAnalysisItem = new ToolStripMenuItem();
+            m_sensitivityAnalysisItem.Text = resources.GetString("MenuItemSensitivityAnalysis");
+            m_sensitivityAnalysisItem.ToolTipText = resources.GetString("MenuItemSensitivityAnalysis");
+            m_sensitivityAnalysisItem.Tag = 70;
+            m_sensitivityAnalysisItem.Enabled = false;
+            m_sensitivityAnalysisItem.Click += new EventHandler(ExecuteSensitivityAnalysis);
+
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
-            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem, m_parameterEstimationItem });
+            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem, m_parameterEstimationItem, m_sensitivityAnalysisItem });
             analysisMenu.Text = "Analysis";
             analysisMenu.Name = "MenuItemAnalysis";
 
@@ -269,11 +316,13 @@ namespace EcellLib.Analysis
             {
                 m_robustAnalysisWinItem.Enabled = true;
                 m_parameterEstimationItem.Enabled = true;
+                m_sensitivityAnalysisItem.Enabled = true;
             }
             else
             {
                 m_robustAnalysisWinItem.Enabled = false;
                 m_parameterEstimationItem.Enabled = false;
+                m_sensitivityAnalysisItem.Enabled = false;
             }
         }
 

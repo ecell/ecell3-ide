@@ -79,6 +79,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   The absolute perturbation is lager than 0.0. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrAbsolutePert {
+            get {
+                return ResourceManager.GetString("ErrAbsolutePert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Fail to execute the robust analysis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAnalysis {
@@ -214,6 +223,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   The relative perturbation is lager than 0.0. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrRelativePert {
+            get {
+                return ResourceManager.GetString("ErrRelativePert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The selected data on X axis is same as the one on Y axis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSameAxis {
@@ -241,6 +259,24 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   The step is lager than and equal 1. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrStepUnder {
+            get {
+                return ResourceManager.GetString("ErrStepUnder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Finished to execute the parameter estimation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string FinishPAnalysis {
+            get {
+                return ResourceManager.GetString("FinishPAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Finished to execute the robust analysis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FinishRAnalysis {
@@ -250,11 +286,11 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
-        ///   aa に類似しているローカライズされた文字列を検索します。
+        ///   Finished to execute the sensitivity analysis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string FinishRobust {
+        internal static string FinishSAnalysis {
             get {
-                return ResourceManager.GetString("FinishRobust", resourceCulture);
+                return ResourceManager.GetString("FinishSAnalysis", resourceCulture);
             }
         }
         
@@ -291,6 +327,15 @@ namespace EcellLib.Analysis {
         internal static string MenuItemRobustAnalysis {
             get {
                 return ResourceManager.GetString("MenuItemRobustAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &amp;Sensitivity Analysis に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemSensitivityAnalysis {
+            get {
+                return ResourceManager.GetString("MenuItemSensitivityAnalysis", resourceCulture);
             }
         }
         

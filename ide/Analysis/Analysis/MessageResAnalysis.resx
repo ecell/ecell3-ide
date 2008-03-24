@@ -123,6 +123,9 @@
   <data name="ConfirmStopAnalysis" xml:space="preserve">
     <value>Do you want to stop the analysis?</value>
   </data>
+  <data name="ErrAbsolutePert" xml:space="preserve">
+    <value>The absolute perturbation is lager than 0.0.</value>
+  </data>
   <data name="ErrAnalysis" xml:space="preserve">
     <value>Fail to execute the robust analysis.</value>
   </data>
@@ -168,6 +171,9 @@
   <data name="ErrRandParam" xml:space="preserve">
     <value>Can't find the parameter as random parameter.</value>
   </data>
+  <data name="ErrRelativePert" xml:space="preserve">
+    <value>The relative perturbation is lager than 0.0.</value>
+  </data>
   <data name="ErrSameAxis" xml:space="preserve">
     <value>The selected data on X axis is same as the one on Y axis.</value>
   </data>
@@ -177,11 +183,17 @@
   <data name="ErrSimTimeUnder" xml:space="preserve">
     <value>The simulation time is lager than 0.0.</value>
   </data>
+  <data name="ErrStepUnder" xml:space="preserve">
+    <value>The step is lager than and equal 1.</value>
+  </data>
+  <data name="FinishPAnalysis" xml:space="preserve">
+    <value>Finished to execute the parameter estimation.</value>
+  </data>
   <data name="FinishRAnalysis" xml:space="preserve">
     <value>Finished to execute the robust analysis.</value>
   </data>
-  <data name="FinishRobust" xml:space="preserve">
-    <value>aa</value>
+  <data name="FinishSAnalysis" xml:space="preserve">
+    <value>Finished to execute the sensitivity analysis.</value>
   </data>
   <data name="MenuItemAnalysis" xml:space="preserve">
     <value>&amp;Analysis...</value>
@@ -194,6 +206,9 @@
   </data>
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
     <value>&amp;Robust Analysis</value>
+  </data>
+  <data name="MenuItemSensitivityAnalysis" xml:space="preserve">
+    <value>&amp;Sensitivity Analysis</value>
   </data>
   <data name="ReflectMenuText" xml:space="preserve">
     <value>Reflect</value>

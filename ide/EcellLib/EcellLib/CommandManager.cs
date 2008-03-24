@@ -591,6 +591,7 @@ namespace EcellLib
                 }
                 else
                 {
+                    EcellValue v = this.GetEntityPropertyFromSimulator(l_fullPN);
                     return this.GetEntityPropertyFromSimulator(l_fullPN);
                 }
             }

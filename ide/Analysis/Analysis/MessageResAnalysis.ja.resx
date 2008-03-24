@@ -123,6 +123,9 @@
   <data name="ConfirmStopAnalysis" xml:space="preserve">
     <value>この解析を終了してよろしいですか？</value>
   </data>
+  <data name="ErrAbsolutePert" xml:space="preserve">
+    <value>Absolute Partubationは0以上の値に設定してください。</value>
+  </data>
   <data name="ErrAnalysis" xml:space="preserve">
     <value>ロバスト解析に失敗しました。</value>
   </data>
@@ -168,6 +171,9 @@
   <data name="ErrRandParam" xml:space="preserve">
     <value>ランダムパラメータとして設定されたパラメータが存在しません。</value>
   </data>
+  <data name="ErrRelativePert" xml:space="preserve">
+    <value>Relative Partubationは0以上の値に設定してください。</value>
+  </data>
   <data name="ErrSameAxis" xml:space="preserve">
     <value>X軸とＹ軸に設定したパラメータが同じです。</value>
   </data>
@@ -177,8 +183,17 @@
   <data name="ErrSimTimeUnder" xml:space="preserve">
     <value>シミュレーション時間が0.0より大きい値に設定してください。</value>
   </data>
+  <data name="ErrStepUnder" xml:space="preserve">
+    <value>ステップ数を１以上の値に設定してください。</value>
+  </data>
+  <data name="FinishPAnalysis" xml:space="preserve">
+    <value>パラメータ推定の実行が終了しました。</value>
+  </data>
   <data name="FinishRAnalysis" xml:space="preserve">
     <value>ロバスト解析の実行が終了しました。</value>
+  </data>
+  <data name="FinishSAnalysis" xml:space="preserve">
+    <value>感度解析の実行が終了しました。</value>
   </data>
   <data name="MenuItemAnalysis" xml:space="preserve">
     <value>解析(&amp;A)...</value>
@@ -191,6 +206,9 @@
   </data>
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
     <value>ロバスト解析(&amp;R)</value>
+  </data>
+  <data name="MenuItemSensitivityAnalysis" xml:space="preserve">
+    <value>感度解析(&amp;S)</value>
   </data>
   <data name="ReflectMenuText" xml:space="preserve">
     <value>反映</value>

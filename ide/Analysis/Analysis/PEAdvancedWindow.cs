@@ -78,6 +78,7 @@ namespace EcellLib.Analysis
                 Convert.ToDouble(PEUpsilonTextBox.Text));
         }
 
+        #region Events
         /// <summary>
         /// The event sequence when close button is clicked.
         /// </summary>
@@ -87,5 +88,6 @@ namespace EcellLib.Analysis
         {
             this.Close();
         }
+        #endregion
     }
 }

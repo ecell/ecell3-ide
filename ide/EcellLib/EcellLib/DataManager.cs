@@ -7352,9 +7352,12 @@ namespace EcellLib
         /// <param name="enc">encoding(SJIS)</param>
         public void WriteSimulationForStep(string fileName, int count, Encoding enc)
         {
-            File.AppendAllText(fileName, "session.step(" + count + ")\n", enc);
-            File.AppendAllText(fileName, "while session.isActive():\n", enc);
-            File.AppendAllText(fileName, "    System.Threading.Thread.Sleep(1000)\n", enc);
+            for (int i = 0; i < count; i++)
+            {
+                File.AppendAllText(fileName, "session.step(" + 1 + ")\n", enc);
+                File.AppendAllText(fileName, "while session.isActive():\n", enc);
+                File.AppendAllText(fileName, "    System.Threading.Thread.Sleep(1000)\n", enc);
+            }
         }
 
         /// <summary>
@@ -7523,7 +7526,7 @@ namespace EcellLib
                 File.AppendAllText(
                     fileName,
                     "session.saveLoggerData(\"" + s.FullPath + "\",\"" + s.DirName + "\"," +
-                    s.Start + "," + s.End + ")",
+                    s.Start + "," + s.End + ")\n",
                     enc);
             }
         }
@@ -7593,6 +7596,7 @@ namespace EcellLib
                     if (!d.Settable) continue;
                     File.AppendAllText(fileName,
                         "variableStub" + count + name + ".setProperty(\"" + d.Name + "\",\"" + d.Value.ToString() + "\")\n", enc);
+//                        "variableStub" + count + name + ".setProperty(\"" + d.Name + "\",\"" + GetEntityProperty(d.EntityPath).ToString() + "\")\n", enc);
                 }
             }
 
@@ -7609,6 +7613,7 @@ namespace EcellLib
                     if (!d.Settable) continue;
                     File.AppendAllText(fileName,
                         "processStub" + count + name + ".setProperty(\"" + d.Name + "\",\"" + d.Value.ToString().Replace("\"", "\\\"") + "\")\n", enc);
+//                        "processStub" + count + name + ".setProperty(\"" + d.Name + "\",\"" + GetEntityProperty(d.EntityPath).ToString().Replace("\"", "\\\"") + "\")\n", enc);
                 }
             }
         }

@@ -785,7 +785,7 @@ namespace EcellLib.SessionManager
             double count, bool isStep, Dictionary<int, ExecuteParameter> setparam)
         {
             DataManager manager = DataManager.GetDataManager();
-            List<EcellObject> sysList = manager.GetData(modelName, null);
+            List<EcellObject> sysList = manager.GetData(modelName, null); 
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             foreach (int i in setparam.Keys)
             {
@@ -824,9 +824,10 @@ namespace EcellLib.SessionManager
                 Application.DoEvents();
                 foreach (EcellObject sysObj in sysList)
                 {
+                    EcellObject tmpObj = sysObj.Copy();
                     foreach (string path in paramDic.Keys)
                     {
-                        foreach (EcellObject obj in sysObj.Children)
+                        foreach (EcellObject obj in tmpObj.Children)
                         {
                             if (obj.Value == null) continue;
                             foreach (EcellData v in obj.Value)
@@ -837,8 +838,8 @@ namespace EcellLib.SessionManager
                             }
                         }
                     }
-                    manager.WriteComponentEntry(fileName, enc, sysObj);
-                    manager.WriteComponentProperty(fileName, enc, sysObj);
+                    manager.WriteComponentEntry(fileName, enc, tmpObj);
+                    manager.WriteComponentProperty(fileName, enc, tmpObj);
                 }
                 Application.DoEvents();
                 File.AppendAllText(fileName, "session.initialize()\n", enc);
@@ -849,7 +850,7 @@ namespace EcellLib.SessionManager
                 }
                 manager.WriteLoggerProperty(fileName, enc, sList);
                 if (isStep)
-                    manager.WriteSimulationForStep(fileName, (int)count, enc);
+                    manager.WriteSimulationForStep(fileName, (int)(count), enc);
                 else
                     manager.WriteSimulationForTime(fileName, count, enc);
                 manager.WriteLoggerSaveEntry(fileName, enc, m_logList);

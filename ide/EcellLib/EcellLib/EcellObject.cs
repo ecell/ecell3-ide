@@ -920,7 +920,7 @@ namespace EcellLib
         {
             try
             {
-                EcellData l_newData = new EcellData(this.m_name, this.Value, this.m_entityPath);
+                EcellData l_newData = new EcellData(this.m_name, this.Value.Copy(), this.m_entityPath);
                 l_newData.Gettable = this.m_isGettable;
                 l_newData.Loadable = this.m_isLoadable;
                 l_newData.Logable = this.m_isLogable;

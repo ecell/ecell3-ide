@@ -43,7 +43,8 @@ namespace EcellLib.Analysis
     /// Class to manage the robust analysis.
     /// </summary>
     public class RobustAnalysis
-    {
+    {        
+        #region Fields
         /// <summary>
         /// Parameter object of robust analysis.
         /// </summary>
@@ -68,6 +69,7 @@ namespace EcellLib.Analysis
         /// The flag whether the analysis is running.
         /// </summary>
         private bool m_isRunning = false;
+        #endregion
 
         /// <summary>
         /// Constructor.
@@ -83,6 +85,7 @@ namespace EcellLib.Analysis
             m_timer.Tick += new EventHandler(FireTimer);
         }
 
+        #region accessors
         /// <summary>
         /// get / set the parent plugin.
         /// </summary>
@@ -99,6 +102,46 @@ namespace EcellLib.Analysis
         {
             get { return this.m_isRunning; }
         }
+        #endregion
+
+
+        #region Events
+        /// <summary>
+        /// Update the status of session at intervals while program is running.
+        /// </summary>
+        /// <param name="sender">Timer.</param>
+        /// <param name="e">EventArgs.</param>
+        void FireTimer(object sender, EventArgs e)
+        {
+            if (!m_manager.IsFinished())
+            {
+                if (m_isRunning == false)
+                {
+                    m_manager.StopRunningJobs();
+                    m_timer.Enabled = false;
+                    m_timer.Stop();
+                }
+                return;
+            }
+            m_isRunning = false;
+            m_timer.Enabled = false;
+            m_timer.Stop();
+            Control.StopRobustAnalysis();
+
+            if (m_manager.IsError())
+            {
+                String mes = Analysis.s_resources.GetString("ErrFindErrorJob");
+                DialogResult res = MessageBox.Show(mes, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+            JudgeRobustAnalysis();
+            String finMes = Analysis.s_resources.GetString("FinishRAnalysis");
+            MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        #endregion
 
         /// <summary>
         /// Execute the robust analysis.
@@ -108,7 +151,7 @@ namespace EcellLib.Analysis
             m_param = m_win.GetRobustAnalysisParameter();
             String tmpDir = m_manager.TmpRootDir;
             int num = m_param.SampleNum;
-            double simTime = m_param.SimulationTime;;
+            double simTime = m_param.SimulationTime; ;
             int maxSize = Convert.ToInt32(m_param.MaxData);
             if (num <= 0)
             {
@@ -167,42 +210,6 @@ namespace EcellLib.Analysis
             m_manager.StopRunningJobs();
             m_isRunning = false;
             Control.StopRobustAnalysis();
-        }
-
-        /// <summary>
-        /// Update the status of session at intervals while program is running.
-        /// </summary>
-        /// <param name="sender">Timer.</param>
-        /// <param name="e">EventArgs.</param>
-        void FireTimer(object sender, EventArgs e)
-        {
-            if (!m_manager.IsFinished())
-            {
-                if (m_isRunning == false)
-                {
-                    m_manager.StopRunningJobs();
-                    m_timer.Enabled = false;
-                    m_timer.Stop();
-                }
-                return;
-            }
-            m_isRunning = false;
-            m_timer.Enabled = false;
-            m_timer.Stop();
-            Control.StopRobustAnalysis();
-
-            if (m_manager.IsError())
-            {
-                String mes = Analysis.s_resources.GetString("ErrFindErrorJob");
-                DialogResult res = MessageBox.Show(mes, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (res == DialogResult.Cancel)
-                {
-                    return;
-                }
-            }
-            JudgeRobustAnalysis();
-            String finMes = Analysis.s_resources.GetString("FinishRAnalysis");
-            MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>

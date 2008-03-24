@@ -42,6 +42,7 @@ namespace EcellLib.Analysis
     /// </summary>
     public class ParameterEstimation
     {
+        #region Fields
         /// <summary>
         /// Form to display the setting and result of analysis.
         /// </summary>
@@ -62,17 +63,51 @@ namespace EcellLib.Analysis
         /// Plugin controller.
         /// </summary>
         private Analysis m_control;
+        /// <summary>
+        /// Model name to execute parameter estimation.
+        /// </summary>
         private string m_model;
+        /// <summary>
+        /// Parameter data of parameter estimation.
+        /// </summary>
         private ParameterEstimationParameter m_param;
+        /// <summary>
+        /// Range of pameter to use parameter estimation.
+        /// </summary>
         private List<ParameterRange> m_paramList;
+        /// <summary>
+        /// Obserbed data list to calculate the estimation.
+        /// </summary>
         private List<SaveLoggerProperty> m_saveList;
+        /// <summary>
+        /// The current number of generations.
+        /// </summary>
         private int m_generation;
+        /// <summary>
+        /// The current parameter list.
+        /// </summary>
         private Dictionary<int, ExecuteParameter> m_execParamList;
+        /// <summary>
+        /// The parameter data of elitem.
+        /// </summary>
         private ExecuteParameter m_elite;
+        /// <summary>
+        /// The parameter number of elite.
+        /// </summary>
         private int m_eliteNum;
+        /// <summary>
+        /// Object to make the random value.
+        /// </summary>
         private Random hRandom = new Random();
+        /// <summary>
+        /// The probability of mutation.
+        /// </summary>
         private double m_mutation;
+        /// <summary>
+        /// The dictionary of estimation.
+        /// </summary>
         private Dictionary<int, double> m_estimation;
+        #endregion
 
         /// <summary>
         /// Constructor.
@@ -89,6 +124,7 @@ namespace EcellLib.Analysis
             m_estimation = new Dictionary<int, double>();
         }
 
+        #region Accessors
         /// <summary>
         /// get / set the flag whether the robust analysis is running.
         /// </summary>
@@ -105,8 +141,9 @@ namespace EcellLib.Analysis
             get { return this.m_control; }
             set { this.m_control = value; }
         }
+        #endregion
 
-                /// <summary>
+        /// <summary>
         /// Execute the robust analysis.
         /// </summary>
         public void ExecuteAnalysis()
@@ -171,6 +208,64 @@ namespace EcellLib.Analysis
             m_control.StopParameterEstimation();
         }
 
+
+        /// <summary>
+        /// Get the estimation value of job.
+        /// </summary>
+        /// <param name="jobid">the ID of calcuated job.</param>
+        /// <returns>the value of job.</returns>
+        private double Judgement(int jobid)
+        {
+            double value;
+            String f = m_param.EstimationFormulator;
+            List<String> fList = new List<string>();
+
+            if (m_param.Type == EstimationFormulatorType.Max ||
+                m_param.Type == EstimationFormulatorType.Min ||
+                m_param.Type == EstimationFormulatorType.EqualZero)
+            {
+                foreach (SaveLoggerProperty p in m_saveList)
+                {
+                    Dictionary<double, double> logList =
+                        m_manager.SessionList[jobid].GetLogData(p.FullPath);
+                    value = 0.0;
+                    if (logList.Count <= 0)
+                    {
+                        return 0.0;
+                    }
+                    foreach (double v in logList.Values)
+                    {
+                        value = v;
+                    }
+                    f = f.Replace(p.FullPath, Convert.ToString(value));
+                }
+                Calculator c = new Calculator(f);
+                return c.Calculate();
+            }
+
+            foreach (SaveLoggerProperty p in m_saveList)
+            {
+                int i = 0;
+                Dictionary<double, double> logList =
+                       m_manager.SessionList[jobid].GetLogData(p.FullPath);
+                foreach (double v in logList.Values)
+                {
+                    if (fList.Count <= i) fList.Add(f);
+                    fList[i] = fList[i].Replace(p.FullPath, Convert.ToString(v));
+                    i++;
+                }
+            }
+            value = 0.0;
+            foreach (String form in fList)
+            {
+                Calculator c = new Calculator(form);
+                value += c.Calculate();
+            }
+
+            return value;
+        }
+
+        #region Events
         /// <summary>
         /// Update the status of session at intervals while program is running.
         /// </summary>
@@ -198,7 +293,8 @@ namespace EcellLib.Analysis
                 Control.StopParameterEstimation();
 
                 FindElite();
-                String finMes = Analysis.s_resources.GetString("FinishRAnalysis");
+
+                String finMes = Analysis.s_resources.GetString("FinishPAnalysis");
                 MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -220,9 +316,10 @@ namespace EcellLib.Analysis
             m_generation++;
             m_timer.Enabled = true;
             m_timer.Start();
-
         }
+        #endregion
 
+        #region Algorithm
         /// <summary>
         /// Find the elite sample in this generation.
         /// </summary>
@@ -400,6 +497,9 @@ namespace EcellLib.Analysis
             }
         }
 
+        /// <summary>
+        /// Mutation.
+        /// </summary>
         private void Mutate()
         {
             Dictionary<int, ExecuteParameter> tmpList = new Dictionary<int, ExecuteParameter>();
@@ -427,7 +527,6 @@ namespace EcellLib.Analysis
                         double maxV = range.Max;
                         double minV = range.Min;
                         double V = (maxV - minV) * hRandom.NextDouble() + minV;
-//                        m_execParamList[j].ParamDic[path] = V;
                         tmpPramDic.Add(path, V);
                     }
                 }
@@ -443,64 +542,7 @@ namespace EcellLib.Analysis
             if (m_mutation > m_param.Param.Max)
                 m_mutation = m_param.Param.Max;
         }
-
-
-        /// <summary>
-        /// Get the estimation value of job.
-        /// </summary>
-        /// <param name="jobid">the ID of calcuated job.</param>
-        /// <returns>the value of job.</returns>
-        private double Judgement(int jobid)
-        {
-            double value;
-            String f = m_param.EstimationFormulator;
-            List<String> fList = new List<string>();
-
-            if (m_param.Type == EstimationFormulatorType.Max ||
-                m_param.Type == EstimationFormulatorType.Min ||
-                m_param.Type == EstimationFormulatorType.EqualZero)
-            {
-                foreach (SaveLoggerProperty p in m_saveList)
-                {
-                    Dictionary<double, double> logList = 
-                        m_manager.SessionList[jobid].GetLogData(p.FullPath);
-                    value = 0.0;
-                    if (logList.Count <= 0)
-                    {
-                        return 0.0;
-                    }
-                    foreach (double v in logList.Values)
-                    {
-                        value = v;
-                    }
-                    f = f.Replace(p.FullPath, Convert.ToString(value));   
-                }
-                Calculator c = new Calculator(f);
-                return c.Calculate();
-            }
-
-            foreach (SaveLoggerProperty p in m_saveList)
-            {
-                int i = 0;
-                Dictionary<double, double> logList = 
-                       m_manager.SessionList[jobid].GetLogData(p.FullPath);
-                foreach (double v in logList.Values)
-                {
-                    if (fList.Count <= i) fList.Add(f);
-                    fList[i] = fList[i].Replace(p.FullPath, Convert.ToString(v));
-                    i++;
-                }
-            }
-            value = 0.0;
-            foreach (String form in fList)
-            {
-                Calculator c = new Calculator(form);
-                value += c.Calculate();
-            }
-            
-            return value;
-        }
-
+        #endregion
     }
 
 
@@ -541,9 +583,9 @@ namespace EcellLib.Analysis
         public ParameterEstimationParameter()
         {
             m_estimationFormulator = "";
-            m_simulationTime = 100.0;
-            m_population = 30;
-            m_generation = 10;
+            m_simulationTime = 10.0;
+            m_population = 10;
+            m_generation = 20;
             m_type = EstimationFormulatorType.Max;
             m_param = new SimplexCrossoverParameter();
         }
