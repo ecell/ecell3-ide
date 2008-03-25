@@ -349,17 +349,7 @@ namespace EcellLib.PathwayWindow
             {
                 // Check New Model.
                 string modelId = CheckNewModel(data);
-                // Load layout information from LEML.
                 bool isFirst = (modelId != null);
-                bool layoutFlag = false;
-                if (isFirst)
-                {
-                    string fileName = m_window.GetLEMLFileName(modelId);
-                    if (File.Exists(fileName))
-                        this.LoadFromLeml(fileName, data);
-                    else
-                        layoutFlag = true;
-                }
                 // Load each EcellObject onto the canvas.
                 foreach (EcellObject obj in data)
                 {
@@ -369,11 +359,8 @@ namespace EcellLib.PathwayWindow
                     foreach (EcellObject node in obj.Children)
                         DataAdd(node, true, isFirst);
                 }
-                // Perform layout if layoutFlag is true.
-                if (layoutFlag)
-                    DoLayout(m_defAlgorithm, 0, false);
-                else if(m_canvas != null)
-                    m_canvas.Refresh();
+                // Set layout.
+                SetLayout(data, modelId, isFirst);
             }
             catch (Exception e)
             {
@@ -399,16 +386,36 @@ namespace EcellLib.PathwayWindow
             }
             return modelId;
         }
+        /// <summary>
+        /// Set layout.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modelId"></param>
+        /// <param name="isFirst"></param>
+        private void SetLayout(List<EcellObject> data, string modelId, bool isFirst)
+        {
+            // Load layout information from LEML.
+            if (isFirst)
+            {
+                string fileName = m_window.GetLEMLFileName(modelId);
+                if (File.Exists(fileName))
+                    this.LoadFromLeml(fileName);
+                else
+                    DoLayout(m_defAlgorithm, 0, false);
+            }
+            if(m_canvas != null)
+                m_canvas.Refresh();
+        }
 
         /// <summary>
         /// This method was made for dividing long and redundant DataAdd method.
         /// So, used by DataAdd only.
         /// </summary>
         /// <param name="fileName">Leml file path</param>
-        /// <param name="data">The same argument for DataAdd</param>
-        private void LoadFromLeml(string fileName, List<EcellObject> data)
+        private void LoadFromLeml(string fileName)
         {
             // Deserialize objects from a file
+            List<EcellObject> data = GetObjectList();
             List<EcellObject> objList = EcellSerializer.LoadFromXML(fileName);
 
             // Create Object dictionary.
@@ -439,6 +446,10 @@ namespace EcellLib.PathwayWindow
                     if (!objDict[dictKey].LayerID.Equals(""))
                         child.LayerID = objDict[dictKey].LayerID;
                 }
+            }
+            foreach (EcellObject node in data)
+            {
+                this.NotifyDataChanged(node.Key, node, false, false);
             }
         }
 
@@ -1020,7 +1031,19 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Get the list of system in the target mode.
+        /// Get the list of EcellObject in the target model.
+        /// </summary>
+        /// <returns></returns>
+        private List<EcellObject> GetObjectList()
+        {
+            List<EcellObject> list = new List<EcellObject>();
+            list.AddRange(GetSystemList());
+            list.AddRange(GetNodeList());
+            return list;
+        }
+
+        /// <summary>
+        /// Get the list of system in the target model.
         /// </summary>
         /// <returns>The list of system.</returns>
         private List<EcellObject> GetSystemList()

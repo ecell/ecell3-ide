@@ -496,6 +496,31 @@ namespace EcellLib.PathwayWindow
                     isOverlaping = true;
             return isOverlaping;
         }
+        /// <summary>
+        /// Convert CanvasPos to SystemPos
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public Point CanvasPosToSystemPos(PointF pos)
+        {
+            int width = m_pCanvas.Size.Width;
+            int height = m_pCanvas.Size.Height;
+            RectangleF canvasRect = m_pCanvas.Camera.ViewBounds;
+            int x = m_pCanvas.Location.X + (int)((pos.X - canvasRect.X) / canvasRect.Width * width);
+            int y = m_pCanvas.Location.Y + (int)((pos.Y - canvasRect.Y) / canvasRect.Height * height);
+            //Point systemPos = m_pCanvas.PointToScreen(pos);
+            return new Point(x, y);
+        }
+        /// <summary>
+        /// Convert SystemPos to CanvasPos
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public PointF SystemPosToCanvasPos(Point pos)
+        {
+            //PointF canvasPos = m_pCanvas.PointToClient(pos);
+            return new PointF();
+        }
 
         /// <summary>
         /// Add PPathwayObject to this canvas.
@@ -604,6 +629,25 @@ namespace EcellLib.PathwayWindow
             if (obj.CanvasControl == null)
                 obj.CanvasControl = this;
         }
+        #region Methods to control texts.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        public void AddText(PPathwayText text)
+        {
+            m_ctrlLayer.AddChild(text);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        public void RemoveText(PPathwayText text)
+        {
+            if(m_ctrlLayer.ChildrenReference.Contains(text))
+                m_ctrlLayer.RemoveChild(text);
+        }
+        #endregion
 
         #region Methods to control Layer.
         /// <summary>

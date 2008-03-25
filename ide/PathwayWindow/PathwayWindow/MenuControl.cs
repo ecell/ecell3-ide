@@ -535,7 +535,7 @@ namespace EcellLib.PathwayWindow
             foreach (ComponentSetting cs in m_con.ComponentManager.ComponentSettings)
             {
                 PathwayToolStripButton button = new PathwayToolStripButton();
-                button.ImageTransparentColor = System.Drawing.Color.Magenta;
+                button.ImageTransparentColor = Color.Magenta;
                 button.ComponentSetting = cs;
                 button.Name = cs.Name;
                 button.Image = cs.IconImage;
@@ -559,9 +559,18 @@ namespace EcellLib.PathwayWindow
                 button.Click += new EventHandler(ButtonStateChanged);
                 list.Add(button);
             }
+            PathwayToolStripButton textButton = new PathwayToolStripButton();
+            textButton.ImageTransparentColor = Color.Magenta;
+            textButton.Name = MenuConstants.ToolButtonCreateText;
+            textButton.Image = PathwayResource.zoom_in;
+            textButton.CheckOnClick = false;
+            textButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonCreateText);
+            textButton.Handle = new Handle(Mode.CreateText, handleCount, new CreateTextMouseHandler(m_con));
+            textButton.Click += new EventHandler(ButtonStateChanged);
+            list.Add(textButton);
 
             PathwayToolStripButton zoominButton = new PathwayToolStripButton();
-            zoominButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            zoominButton.ImageTransparentColor = Color.Magenta;
             zoominButton.Name = MenuConstants.ToolButtonZoomIn;
             zoominButton.Image = PathwayResource.zoom_in;
             zoominButton.CheckOnClick = false;
@@ -571,7 +580,7 @@ namespace EcellLib.PathwayWindow
             list.Add(zoominButton);
 
             PathwayToolStripButton zoomoutButton = new PathwayToolStripButton();
-            zoomoutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            zoomoutButton.ImageTransparentColor = Color.Magenta;
             zoomoutButton.Name = MenuConstants.ToolButtonZoomOut;
             zoomoutButton.Image = PathwayResource.zoom_out;
             zoomoutButton.CheckOnClick = false;
@@ -597,6 +606,7 @@ namespace EcellLib.PathwayWindow
             bool isPPathwayObject = (node is PPathwayObject);
             bool isPPathwayNode = (node is PPathwayNode);
             bool isPPathwaySystem = (node is PPathwaySystem);
+            bool isPPathwayText = (node is PPathwayText);
             bool isRoot = false;
             bool isLine = (node is PPathwayLine);
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
@@ -636,7 +646,7 @@ namespace EcellLib.PathwayWindow
             m_popMenuDict[MenuConstants.CanvasMenuCut].Visible = isPPathwayObject && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuCopy].Visible = isPPathwayObject && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuPaste].Visible = isCopiedObject;
-            m_popMenuDict[MenuConstants.CanvasMenuDelete].Visible = (isPPathwayObject && !isRoot) || isLine;
+            m_popMenuDict[MenuConstants.CanvasMenuDelete].Visible = (isPPathwayObject && !isRoot) || isLine || isPPathwayText;
             m_popMenuDict[MenuConstants.CanvasMenuMerge].Visible = isPPathwaySystem && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuSeparator4].Visible = isCopiedObject || (isPPathwayObject && !isRoot);
             // Show Layer menu.
@@ -645,7 +655,7 @@ namespace EcellLib.PathwayWindow
             m_popMenuDict[MenuConstants.CanvasMenuMoveBack].Visible = isPPathwayObject && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuSeparator5].Visible = isPPathwayObject && !isRoot;
             // Show Layout menus.
-            m_popMenuDict[MenuConstants.CanvasMenuLayout].Visible = isLayoutMenu && !isLine;
+            m_popMenuDict[MenuConstants.CanvasMenuLayout].Visible = isLayoutMenu && !(isLine || isPPathwayText);
             m_popMenuDict[MenuConstants.CanvasMenuSeparator2].Visible = isLayoutMenu && (isPPathwayObject);
             // Show Logger menu.
             m_popMenuDict[MenuConstants.CanvasMenuCreateLogger].Visible = isPPathwayObject;
@@ -781,7 +791,9 @@ namespace EcellLib.PathwayWindow
             CanvasControl canvas = m_con.Canvas;
             if (canvas == null)
                 return;
-
+            // Delete Selected Text
+            if (canvas.FocusNode is PPathwayText)
+                canvas.RemoveText((PPathwayText)canvas.FocusNode);
             // Delete Selected Line
             PPathwayLine line = canvas.LineHandler.SelectedLine;
             if (line != null)
@@ -1060,9 +1072,9 @@ namespace EcellLib.PathwayWindow
             {
                 componentPage.ApplyChange();
                 animationPage.ApplyChange();
+                m_con.ResetObjectSettings();
             }
-            dialog.Dispose();
-            m_con.ResetObjectSettings();
+            dialog.Close();
         }
 
         /// <summary>
@@ -1310,6 +1322,10 @@ namespace EcellLib.PathwayWindow
         /// Key definition of MessageResPathway for ToolButtonAddOnewayReaction
         /// </summary>
         internal const string ToolButtonAddOnewayReaction = "ToolButtonAddOnewayReaction";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonCreateText
+        /// </summary>
+        internal const string ToolButtonCreateText = "ToolButtonCreateText";
         /// <summary>
         /// Key definition of MessageResPathway for ToolButtonCreateProcess
         /// </summary>

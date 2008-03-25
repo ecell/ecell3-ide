@@ -111,6 +111,7 @@
     <Compile Include="ComponentSetting.cs" />
     <Compile Include="ComponentManager.cs" />
     <Compile Include="Handler\CreateNodeMouseHandler.cs" />
+    <Compile Include="Handler\CreateTextMouseHandler.cs" />
     <Compile Include="Handler\DefaultMouseHandler.cs" />
     <Compile Include="Figure\Ellilpse.cs" />
     <Compile Include="Figure\FigureBase.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Handler\ToolBoxEventHandler.cs" />
     <Compile Include="Handler\ToolBoxDragHandler.cs" />
     <Compile Include="MenuControl.cs" />
+    <Compile Include="Nodes\PPathwayText.cs" />
     <Compile Include="Resources\MessageResPathway.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

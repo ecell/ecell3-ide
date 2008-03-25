@@ -522,7 +522,7 @@ namespace EcellLib.PathwayWindow.Nodes
             m_path = new GraphicsPath();
             m_pText = new PText();
             m_pText.Pickable = false;
-            m_pText.Font = new Font("Gothics", FONT_SIZE, System.Drawing.FontStyle.Bold);
+            m_pText.Font = new Font("Gothics", FONT_SIZE, FontStyle.Bold);
             this.AddChild(m_pText);
         }
         #endregion

@@ -129,6 +129,10 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Create node
         /// </summary>
-        CreateNode
+        CreateNode,
+        /// <summary>
+        /// Create text
+        /// </summary>
+        CreateText
     };
 }
