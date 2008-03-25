@@ -355,12 +355,7 @@ namespace EcellLib.Analysis
 
         private void CreateEpsilonElastictyMatrix()
         {
-            double[][] eMatrix = new double[m_vNum][];
-            for (int k = 0; k < m_vNum; k++)
-            {
-                eMatrix[k] = new double[m_pNum];
-            }
-
+            double[,] eMatrix = new double[m_vNum, m_pNum];
             List<string> headerList = new List<string>();
             foreach (SaveLoggerProperty p in m_saveList)
             {
@@ -386,7 +381,7 @@ namespace EcellLib.Analysis
                     foreach (double t in logList.Keys)
                         value = logList[t];
                     double value1 = (value - m_currentData[path]) / m_pertubateData[paramName];
-                    eMatrix[i][j] = value1;
+                    eMatrix[i, j] = value1;
                     Console.WriteLine(i + " : " + j + " === " + value + " ==> " + m_currentData[path]);
 
                     j++;
@@ -553,11 +548,7 @@ namespace EcellLib.Analysis
             int proNum = proList.Count;
             int varNum = varList.Count;
 
-            double[][] res = new double[varNum][];
-            for (int i = 0; i < varNum; i++)
-            {
-                res[i] = new double[proNum];
-            }
+            double[,] res = new double[varNum,proNum];
 
             foreach (EcellObject obj in proList.Keys)
             {
@@ -583,7 +574,7 @@ namespace EcellLib.Analysis
                             Console.WriteLine("Not Fount : " + r.FullID);
                             continue;
                         }
-                        res[vIndex][pIndex] += r.Coefficient;
+                        res[vIndex,pIndex] += r.Coefficient;
                     }
                 }
             }
