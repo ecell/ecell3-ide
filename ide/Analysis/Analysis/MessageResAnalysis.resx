@@ -147,6 +147,9 @@
   <data name="ErrObservProp" xml:space="preserve">
     <value>Can't get the observed parameter. Please set at least one property.</value>
   </data>
+  <data name="ErrorSAnalysis" xml:space="preserve">
+    <value>Fail to execute the sensitivity analysis.</value>
+  </data>
   <data name="ErrOutParam" xml:space="preserve">
     <value>There are invalid parameters. Please check Number of sample, Simulation Time or Check window size.</value>
   </data>
@@ -182,6 +185,9 @@
   </data>
   <data name="ErrSimTimeUnder" xml:space="preserve">
     <value>The simulation time is lager than 0.0.</value>
+  </data>
+  <data name="ErrSingular" xml:space="preserve">
+    <value>Can not find the singular matrix. Please confirm whether the value of variable is set.</value>
   </data>
   <data name="ErrStepUnder" xml:space="preserve">
     <value>The step is lager than and equal 1.</value>

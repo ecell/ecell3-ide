@@ -147,6 +147,9 @@
   <data name="ErrObservProp" xml:space="preserve">
     <value>監視対象パラメータが設定されていません。１つの監視パラメータは設定してください。</value>
   </data>
+  <data name="ErrorSAnalysis" xml:space="preserve">
+    <value>感度解析の実行に失敗しました。</value>
+  </data>
   <data name="ErrOutParam" xml:space="preserve">
     <value>異常なパラメータが存在します。Number of sample、Simulation Time、Check window sizeをチェックしてください。</value>
   </data>
@@ -182,6 +185,9 @@
   </data>
   <data name="ErrSimTimeUnder" xml:space="preserve">
     <value>シミュレーション時間が0.0より大きい値に設定してください。</value>
+  </data>
+  <data name="ErrSingular" xml:space="preserve">
+    <value>感度解析の計算に失敗しました。VariableのValueの値が設定されているか確認してください。</value>
   </data>
   <data name="ErrStepUnder" xml:space="preserve">
     <value>ステップ数を１以上の値に設定してください。</value>

@@ -549,9 +549,8 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Set the header string of sensitivity matrix.
         /// </summary>
-        /// <param name="valueList">the list of value.</param>
         /// <param name="activityList">the list of activity.</param>
-        public void SetSensitivityHeader(List<string> valueList, List<string> activityList)
+        public void SetSensitivityHeader(List<string> activityList)
         {
             SACCCGridView.Columns.Clear();
             SACCCGridView.Rows.Clear();
@@ -562,7 +561,7 @@ namespace EcellLib.Analysis
             RAYComboBox.Enabled = false;
             RAResultGridView.Enabled = false;
 
-            CreateSensitivityHeader(SACCCGridView, valueList);
+            CreateSensitivityHeader(SACCCGridView, activityList);
             CreateSensitivityHeader(SAFCCGridView, activityList);
         }
 

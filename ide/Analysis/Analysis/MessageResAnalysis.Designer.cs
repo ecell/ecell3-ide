@@ -151,6 +151,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   Fail to execute the sensitivity analysis. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrorSAnalysis {
+            get {
+                return ResourceManager.GetString("ErrorSAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   There are invalid parameters. Please check Number of sample, Simulation Time or Check window size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrOutParam {
@@ -255,6 +264,15 @@ namespace EcellLib.Analysis {
         internal static string ErrSimTimeUnder {
             get {
                 return ResourceManager.GetString("ErrSimTimeUnder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not find the singular matrix. Please confirm whether the value of variable is set. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSingular {
+            get {
+                return ResourceManager.GetString("ErrSingular", resourceCulture);
             }
         }
         

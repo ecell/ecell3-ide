@@ -74,10 +74,82 @@ namespace EcellLib.Analysis
         /// The current model.
         /// </summary>
         private string m_model;
+        /// <summary>
+        /// The list of property value when the step is executed without changing the property.
+        /// </summary>
         private Dictionary<string, double> m_currentData;
+        /// <summary>
+        /// The list of changed the property.
+        /// </summary>
         private Dictionary<string, double> m_pertubateData;
+        /// <summary>
+        /// The list of property to get the property value after the step is executed.
+        /// </summary>
         private List<SaveLoggerProperty> m_saveList;
+        /// <summary>
+        /// The list of job and execute parameters.
+        /// </summary>
         private Dictionary<int, ExecuteParameter> m_execParam;
+        /// <summary>
+        /// The number of variable.
+        /// </summary>
+        int m_vNum;
+        /// <summary>
+        /// The number of process.
+        /// </summary>
+        int m_pNum;
+        /// <summary>
+        /// Stoichiometry Matrix(temporary data).
+        /// </summary>
+        Matrix m_sMatrix;
+        /// <summary>
+        /// Elasticity Matrix(temporary data).
+        /// </summary>
+        Matrix m_eMatrix;
+        /// <summary>
+        /// Kernel Matrix(temporary data).
+        /// </summary>
+        Matrix m_kernelMatrix;
+        /// <summary>
+        /// Linkage Matrix(temporary data).
+        /// </summary>
+        Matrix m_linkMatrix;
+        /// <summary>
+        /// CCC Matrix of unscaled data.
+        /// </summary>
+        Matrix m_unscaledCCCMatrix;
+        /// <summary>
+        /// FCC Matrix of unscaled data.
+        /// </summary>
+        Matrix m_unscaledFCCMatrix;
+        /// <summary>
+        /// CCC Matrix of scaled data.
+        /// </summary>
+        Matrix m_scaledCCCMatrix;
+        /// <summary>
+        /// FCC Matrix of scaled data.
+        /// </summary>
+        Matrix m_scaledFCCMatrix;
+        /// <summary>
+        /// The list of independ data.
+        /// </summary>
+        List<int> m_independList = new List<int>();
+        /// <summary>
+        /// The list of value data of Variable after one step.
+        /// </summary>
+        List<double> m_valueBuffer = new List<double>();
+        /// <summary>
+        /// The list of activity data of Process after one step.
+        /// </summary>
+        List<double> m_activityBuffer = new List<double>();
+        /// <summary>
+        /// The list of entity path of value data.
+        /// </summary>
+        List<string> m_valueList = new List<string>();
+        /// <summary>
+        /// The list of entity path of activity data.
+        /// </summary>
+        List<string> m_activityList = new List<string>();
         #endregion
 
         /// <summary>
@@ -117,46 +189,6 @@ namespace EcellLib.Analysis
             get { return this.m_isRunning; }
         }
         #endregion
-
-
-        //public void ExecuteAnalysis()
-        //{
-        //    double[,] a1 = new double[2, 2];
-        //    a1[0, 0] = 0;
-        //    a1[1, 0] = 2;
-        //    a1[0, 1] = 1;
-        //    a1[1, 1] = 3;
-        //    double[,] a2 = new double[2, 2];
-        //    a2[0, 0] = 1;
-        //    a2[1, 0] = 0;
-        //    a2[0, 1] = 2;
-        //    a2[1, 1] = -1;
-        //    double[,] a3 = new double[2, 5];
-
-        //    MathNet.Numerics.LinearAlgebra.Matrix m1 = new MathNet.Numerics.LinearAlgebra.Matrix(a1);
-        //    MathNet.Numerics.LinearAlgebra.Matrix m2 = new MathNet.Numerics.LinearAlgebra.Matrix(a2);
-        //    MathNet.Numerics.LinearAlgebra.Matrix m3 = MathNet.Numerics.LinearAlgebra.Matrix.ArrayMultiply(m1, m2);
-        //    Console.WriteLine("Multiply :");
-        //    Console.WriteLine(m3);
-
-        //    Matrix m4 = Matrix.Ones(3);
-        //    Console.WriteLine("Ones :");
-        //    Console.WriteLine(m4);
-
-        //    Matrix m5 = m1 * m2;
-        //    Console.WriteLine("A*B :");
-        //    Console.WriteLine(m5);
-
-        //    double d = m1.Determinant();
-        //    Console.WriteLine("Determinant : " + d);
-
-        //    Matrix m6 = new Matrix(a3);
-        //    Console.WriteLine("Column : " + m6.ColumnCount + " : Row : " + m6.RowCount);
-
-            
-
-        //    return;
-        //}
 
         /// <summary>
         /// Execute the sensitivity analysis.
@@ -338,6 +370,7 @@ namespace EcellLib.Analysis
                 foreach (EcellObject obj in sObj.Children)
                 {
                     if (!(obj is EcellVariable)) continue;
+                    if (obj.Key.EndsWith(":SIZE")) continue;
                     resList.Add(obj, i);
                     i++;
                 }
@@ -346,13 +379,10 @@ namespace EcellLib.Analysis
         }
 
 
-
-
-
-
-
-
-
+        #region Analysis
+        /// <summary>
+        /// Create the epsilon elasticty matrix.
+        /// </summary>
         private void CreateEpsilonElastictyMatrix()
         {
             double[,] eMatrix = new double[m_vNum, m_pNum];
@@ -388,9 +418,12 @@ namespace EcellLib.Analysis
                 }
                 i++;
             }
-            m_eMatrix = new Matrix(eMatrix);
+            m_eMatrix = Matrix.Create(eMatrix);
         }
 
+        /// <summary>
+        /// Create the generate full rank matrix.
+        /// </summary>
         private void GenerateFullRankMatrix()
         {
             Matrix rMatrix = m_sMatrix.Clone();
@@ -497,6 +530,9 @@ namespace EcellLib.Analysis
             m_linkMatrix = PyTake(tmplinkMatrix, m_independList, false);            
         }
 
+        /// <summary>
+        /// Calculate the unscaled control coefficient.
+        /// </summary>
         private void CalculateUnScaledControlCoefficient()
         {
             Matrix eMatrix = m_eMatrix.Clone();
@@ -504,9 +540,14 @@ namespace EcellLib.Analysis
             GenerateFullRankMatrix();
             Matrix reduceMatrix = PyTake(m_sMatrix, m_independList, true);
 
-            Matrix epsilonMatrix = eMatrix * m_linkMatrix;
-            Matrix jocobianMatrix = reduceMatrix * epsilonMatrix;
-            
+            Matrix epsilonMatrix = reduceMatrix * eMatrix;
+            Matrix jocobianMatrix = epsilonMatrix * m_linkMatrix;
+            if (jocobianMatrix.Determinant() == 0.0)
+            {
+                string mes = Analysis.s_resources.GetString("ErrSingular");
+                MessageBox.Show(mes, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new IgnoreException("Can't find Singular Matrix");
+            }
             Matrix invJacobian = jocobianMatrix.Inverse();
 
             m_unscaledCCCMatrix = -1.0 * m_linkMatrix * invJacobian;
@@ -515,6 +556,9 @@ namespace EcellLib.Analysis
             m_unscaledFCCMatrix = Identity(m_pNum) + eMatrix * m_unscaledCCCMatrix;
         }
 
+        /// <summary>
+        /// Calculate the scaled control coefficient.
+        /// </summary>
         private void CalculateScaledControlCoefficient()
         {
             m_scaledCCCMatrix = InvDiag(m_valueBuffer) * m_unscaledCCCMatrix;
@@ -524,24 +568,11 @@ namespace EcellLib.Analysis
             m_scaledFCCMatrix = m_scaledFCCMatrix * Diag(m_activityBuffer);
         }
 
-        int m_vNum, m_pNum;
-        Matrix m_sMatrix;
-        Matrix m_eMatrix;
-        Matrix m_kernelMatrix;
-        Matrix m_linkMatrix;
-        Matrix m_unscaledCCCMatrix, m_unscaledFCCMatrix;
-        Matrix m_scaledCCCMatrix, m_scaledFCCMatrix;
-        List<int> m_independList = new List<int>();
-        List<double> m_valueBuffer = new List<double>();
-        List<double> m_activityBuffer = new List<double>();
-        List<string> m_valueList = new List<string>();
-        List<string> m_activityList = new List<string>();
-
-
-
-
-
-
+        /// <summary>
+        /// Create the stoichiomatry matrix.
+        /// </summary>
+        /// <param name="varList">the list of value data of variable.</param>
+        /// <param name="proList">the list of activity data of process.</param>
         private void CreateStoichiomatryMatrix(Dictionary<EcellObject, int> varList,
                                                Dictionary<EcellObject, int> proList)
         {
@@ -579,16 +610,26 @@ namespace EcellLib.Analysis
                 }
             }
 
-            m_sMatrix =  new Matrix(res);
+            m_sMatrix =  Matrix.Create(res);
         }
-
+        #endregion
 
         #region Matrix
+        /// <summary>
+        /// Returns the identity 2-d array of shape n x n.
+        /// </summary>
+        /// <param name="n">the number of matrix.</param>
+        /// <returns>Identity matrix.</returns>
         private Matrix Identity(int n)
         {
             return Matrix.Identity(n, n);
         }
 
+        /// <summary>
+        /// Returns the list of sequece values.
+        /// </summary>
+        /// <param name="n">the number of sequece values.</param>
+        /// <returns>the list of sequence values.</returns>
         private List<int> IntRange(int n)
         {
             List<int> res = new List<int>();
@@ -599,6 +640,13 @@ namespace EcellLib.Analysis
             return res;
         }
 
+        /// <summary>
+        /// Returns the matrix that extract the column data by using the list of column from original matrix.
+        /// </summary>
+        /// <param name="org">the original matrix.</param>
+        /// <param name="extractList">the list of extracted column.</param>
+        /// <param name="isRow">the flag whether row is extracted.</param>
+        /// <returns>The extracted matrix.</returns>
         private Matrix PyTake(Matrix org, List<int> extractList, bool isRow)
         {
             Matrix result;
@@ -631,6 +679,11 @@ namespace EcellLib.Analysis
             return result;
         }
 
+        /// <summary>
+        /// Returns matrix that inverse and copy the diagonal from the list of data.
+        /// </summary>
+        /// <param name="data">the list of data.</param>
+        /// <returns>The convert matrix.</returns>
         private Matrix InvDiag(List<double> data)
         {
             int size = data.Count;
@@ -645,6 +698,11 @@ namespace EcellLib.Analysis
             return m;
         }
 
+        /// <summary>
+        /// Returns a copy of the the k-th diagonal if v is a 2-d array.
+        /// </summary>
+        /// <param name="data">the list of data.</param>
+        /// <returns>The convert matrix.</returns>
         private Matrix Diag(List<double> data)
         {
             int size = data.Count;
@@ -665,47 +723,59 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         void FireTimer(object sender, EventArgs e)
         {
-            if (!m_manager.IsFinished())
+            try
             {
-                if (m_isRunning == false)
+                if (!m_manager.IsFinished())
                 {
-                    m_manager.StopRunningJobs();
-                    m_timer.Enabled = false;
-                    m_timer.Stop();
+                    if (m_isRunning == false)
+                    {
+                        m_manager.StopRunningJobs();
+                        m_timer.Enabled = false;
+                        m_timer.Stop();
+                    }
+                    return;
                 }
-                return;
-            }
-            m_isRunning = false;
-            m_timer.Enabled = false;
-            m_timer.Stop();
-            Control.StopSensitivityAnalysis();
+                m_isRunning = false;
+                m_timer.Enabled = false;
+                m_timer.Stop();
+                Control.StopSensitivityAnalysis();
 
-            CreateEpsilonElastictyMatrix();
-            CalculateUnScaledControlCoefficient();
-            CalculateScaledControlCoefficient();
+                CreateEpsilonElastictyMatrix();
+                CalculateUnScaledControlCoefficient();
+                CalculateScaledControlCoefficient();
 
-            m_win.SetSensitivityHeader(m_valueList, m_activityList);
-            for (int i = 0; i < m_scaledCCCMatrix.RowCount; i++)
-            {
-                List<double> res = new List<double>();
-                for (int j = 0; j < m_scaledCCCMatrix.ColumnCount; j++)
+                m_win.SetSensitivityHeader(m_activityList);
+                for (int i = 0; i < m_scaledCCCMatrix.RowCount; i++)
                 {
-                    res.Add(m_scaledCCCMatrix[i, j]);
+                    List<double> res = new List<double>();
+                    for (int j = 0; j < m_scaledCCCMatrix.ColumnCount; j++)
+                    {
+                        res.Add(m_scaledCCCMatrix[i, j]);
+                    }
+                    m_win.AddSensitivityDataOfCCC(m_valueList[i], res);
                 }
-                m_win.AddSensitivityDataOfCCC(m_valueList[i], res);
-            }
-            for (int i = 0; i < m_scaledFCCMatrix.RowCount; i++)
-            {
-                List<double> res = new List<double>();
-                for (int j = 0; j < m_scaledFCCMatrix.ColumnCount; j++)
+                for (int i = 0; i < m_scaledFCCMatrix.RowCount; i++)
                 {
-                    res.Add(m_scaledFCCMatrix[i, j]);
+                    List<double> res = new List<double>();
+                    for (int j = 0; j < m_scaledFCCMatrix.ColumnCount; j++)
+                    {
+                        res.Add(m_scaledFCCMatrix[i, j]);
+                    }
+                    m_win.AddSensitivityDataOfFCC(m_activityList[i], res);
                 }
-                m_win.AddSensitivityDataOfFCC(m_activityList[i], res);
+
+                String finMes = Analysis.s_resources.GetString("FinishSAnalysis");
+                MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            
-            String finMes = Analysis.s_resources.GetString("FinishSAnalysis");
-            MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            catch (IgnoreException ie)
+            {
+                ie.ToString();
+            }
+            catch (Exception ex)
+            {
+                String errMes = Analysis.s_resources.GetString("ErrorSAnalysis");
+                MessageBox.Show(errMes + "\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
         #endregion
