@@ -627,7 +627,7 @@ namespace EcellLib.Simulation
             if (paramCombo.SelectedItem == null) return;
             string param = paramCombo.SelectedItem.ToString();
 
-            m_dManager.SetSimulationParameter(param);
+            m_dManager.SetSimulationParameter(param, false, false);
         }
 
         /// <summary>

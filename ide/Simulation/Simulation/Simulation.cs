@@ -577,7 +577,7 @@ namespace EcellLib.Simulation
             if (m_paramsCombo.Text != "")
             {
                 m_isChanged = true;
-                m_dManager.SetSimulationParameter(m_paramsCombo.Text);
+                m_dManager.SetSimulationParameter(m_paramsCombo.Text,false,false);
                 m_isChanged = false;
             }
         }
