@@ -560,6 +560,10 @@ namespace EcellCoreLib {
         {
 			throw gcnew WrappedLibecsException(l_ex);
         }
+		catch (const std::exception& l_ex)
+        {
+            throw gcnew WrappedStdException(l_ex);
+        }
     }
 
     void WrappedSimulator::LoadEntityProperty(String^ l_fullPNString, WrappedPolymorph^ l_wrappedPolymorph)
@@ -573,6 +577,10 @@ namespace EcellCoreLib {
         catch(const libecs::Exception& l_ex)
         {
 			throw gcnew WrappedLibecsException(l_ex);
+        }
+		catch (const std::exception& l_ex)
+        {
+            throw gcnew WrappedStdException(l_ex);
         }
     }
 
