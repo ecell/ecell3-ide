@@ -799,6 +799,15 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
+        ///   Create Text objent. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ToolButtonCreateText {
+            get {
+                return ResourceManager.GetString("ToolButtonCreateText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Create new variables. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolButtonCreateVariable {

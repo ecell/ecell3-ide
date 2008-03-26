@@ -378,4 +378,7 @@
   <data name="DialogTextPropertyBrush" xml:space="preserve">
     <value>プロパティ色</value>
   </data>
+  <data name="ToolButtonCreateText" xml:space="preserve">
+    <value>テキストを作成します。</value>
+  </data>
 </root>

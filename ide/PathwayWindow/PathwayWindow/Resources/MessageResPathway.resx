@@ -378,4 +378,7 @@
   <data name="DialogTextPropertyBrush" xml:space="preserve">
     <value>Property Brush</value>
   </data>
+  <data name="ToolButtonCreateText" xml:space="preserve">
+    <value>Create Text objent.</value>
+  </data>
 </root>
