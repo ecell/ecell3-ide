@@ -1002,6 +1002,7 @@ namespace EcellLib.MainWindow
                 String errmes = MainWindow.s_resources.GetString("ErrCreatePrj");
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CloseProject(m_newPrjDialog.textName.Text);
             }
             m_newPrjDialog.Close();
             m_newPrjDialog.Dispose();

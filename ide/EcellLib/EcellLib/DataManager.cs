@@ -6662,6 +6662,7 @@ namespace EcellLib
         /// <summary>
         /// Sets the parameter of the simulator.
         /// </summary>
+        /// <param name="l_parameterID">the set parameter ID</param>
         public void SetSimulationParameter(string l_parameterID)
         {
             SetSimulationParameter(l_parameterID, true, true);
@@ -6670,7 +6671,7 @@ namespace EcellLib
         /// <summary>
         /// Sets the parameter of the simulator.
         /// </summary>
-        /// <param name="l_parameterID"></param>
+        /// <param name="l_parameterID">the set parameter ID</param>
         /// <param name="l_isRecorded">Whether this action is recorded or not</param>
         /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
         public void SetSimulationParameter(string l_parameterID, bool l_isRecorded, bool l_isAnchor)
