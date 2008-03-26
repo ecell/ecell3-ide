@@ -125,7 +125,6 @@
     <Compile Include="Handler\PPathwayInputEventHandler.cs" />
     <Compile Include="Handler\PPathwayPanEventHandler.cs" />
     <Compile Include="Handler\SystemResizeHandler.cs" />
-    <Compile Include="Handler\ToolBoxEventHandler.cs" />
     <Compile Include="Handler\ToolBoxDragHandler.cs" />
     <Compile Include="MenuControl.cs" />
     <Compile Include="Nodes\PPathwayText.cs" />

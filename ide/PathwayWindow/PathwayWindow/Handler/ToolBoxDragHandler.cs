@@ -88,14 +88,30 @@ namespace EcellLib.PathwayWindow.Handler
             if (m_object == null)
                 return;
 
-            Point canvasPos = GetDesktopLocation(e.Canvas);
-            float scale = e.Canvas.Camera.ViewScale;
-            Point systemPos = new Point(canvasPos.X + (int)(e.Position.X * scale), canvasPos.Y + (int)(e.Position.Y * scale));
+            Point systemPos = GetSystemPos(e);
             m_object.CenterPointF = m_canvas.SystemPosToCanvasPos(systemPos);
             m_object.RefreshView();
             m_canvas.ControlLayer.AddChild(m_object);
         }
 
+        /// <summary>
+        /// Get system position.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private Point GetSystemPos(PInputEventArgs e)
+        {
+            Point canvasPos = GetDesktopLocation(e.Canvas);
+            float scale = e.Canvas.Camera.ViewScale;
+            Point systemPos = new Point(canvasPos.X + (int)(e.Position.X * scale), canvasPos.Y + (int)(e.Position.Y * scale));
+            return systemPos;
+        }
+
+        /// <summary>
+        /// Get desktop location.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
         private Point GetDesktopLocation(Control control)
         {
             Point pos = control.Location;
@@ -107,15 +123,6 @@ namespace EcellLib.PathwayWindow.Handler
             return pos;
         }
 
-        /// <summary>
-        /// Event on MouseDown
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public override void OnMouseDown(object sender, PInputEventArgs e)
-        {
-            base.OnMouseDown(sender, e);
-        }
         /// <summary>
         /// Event on MouseStartDrag
         /// </summary>
@@ -145,8 +152,11 @@ namespace EcellLib.PathwayWindow.Handler
             if (m_canvas == null)
                 return;
 
+            Point systemPos = GetSystemPos(e);
             // Add new object and reset EventHandler.
-            AddObject(e);
+            if (m_canvas.PathwayCanvas.Bounds.Contains(systemPos))
+                AddObject(e);
+
             ResetEventHandler();
        }
         #endregion
@@ -193,12 +203,8 @@ namespace EcellLib.PathwayWindow.Handler
         private void SetEventHandler(PToolBoxCanvas canvas)
         {
             m_canvas = m_con.Canvas;
-            m_canvas.PathwayCanvas.AddInputEventListener(this);
             m_object = canvas.Setting.CreateTemplate();
             m_object.Pickable = false;
-            // Set Icon
-            //m_con.ToolBox.Icon = (Icon)PathwayResource.hand;
-            //m_con.PathwayView.Icon = (Icon)PathwayResource.hand;
         }
 
         /// <summary>
@@ -206,14 +212,10 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         private void ResetEventHandler()
         {
-            m_canvas.PathwayCanvas.RemoveInputEventListener(this);
             if(m_canvas.ControlLayer.ChildrenReference.Contains(m_object))
                 m_canvas.ControlLayer.RemoveChild(m_object);
             m_canvas = null;
             m_object = null;
-            // Set Icon
-            //m_con.ToolBox.Icon = (Icon)PathwayResource.arrow;
-            //m_con.PathwayView.Icon = (Icon)PathwayResource.arrow;
         }
         #endregion
     }
