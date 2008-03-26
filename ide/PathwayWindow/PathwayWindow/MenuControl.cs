@@ -562,7 +562,7 @@ namespace EcellLib.PathwayWindow
             PathwayToolStripButton textButton = new PathwayToolStripButton();
             textButton.ImageTransparentColor = Color.Magenta;
             textButton.Name = MenuConstants.ToolButtonCreateText;
-            textButton.Image = PathwayResource.zoom_in;
+            textButton.Image = PathwayResource.Text;
             textButton.CheckOnClick = false;
             textButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonCreateText);
             textButton.Handle = new Handle(Mode.CreateText, handleCount, new CreateTextMouseHandler(m_con));

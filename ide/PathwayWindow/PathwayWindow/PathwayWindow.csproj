@@ -285,6 +285,7 @@
     <Content Include="Resources\move.cur" />
     <Content Include="Resources\move.gif" />
     <Content Include="Resources\ten.GIF" />
+    <Content Include="Resources\Text.png" />
     <Content Include="Resources\zoom_in.png" />
     <Content Include="Resources\zoom_out.png" />
   </ItemGroup>
