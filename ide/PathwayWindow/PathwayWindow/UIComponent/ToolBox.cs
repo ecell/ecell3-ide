@@ -59,8 +59,7 @@ namespace EcellLib.PathwayWindow.UIComponent
 
         private void SetToolBoxItems()
         {
-            ToolBoxEventHandler eventHandler = new ToolBoxEventHandler(m_con);
-            //ToolBoxDragHandler eventHandler = new ToolBoxDragHandler(m_con);
+            ToolBoxDragHandler eventHandler = new ToolBoxDragHandler(m_con);
             pCanvas1.AddInputEventListener(eventHandler);
             pCanvas1.Setting = m_con.ComponentManager.DefaultSystemSetting;
             

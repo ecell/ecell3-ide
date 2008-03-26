@@ -31,6 +31,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using WeifenLuo.WinFormsUI.Docking;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace EcellLib
 {
@@ -67,6 +69,33 @@ namespace EcellLib
             this.Name = "EcellDockContent";
             this.ResumeLayout(false);
 
+        }
+
+        /// <summary>
+        /// Get DesktopBounds
+        /// </summary>
+        /// <returns></returns>
+        public Point GetDesktopLocation()
+        {
+            if (this.Pane.FloatWindow != null)
+            {
+                return this.Pane.FloatWindow.DesktopLocation; 
+            }
+            else
+            {
+                return GetDesktopLocation(this);
+            }
+        }
+
+        private Point GetDesktopLocation(Control control)
+        {
+            Point pos = control.Location;
+            if (control.Parent != null)
+            {
+                Point temp = GetDesktopLocation(control.Parent);
+                pos = new Point(temp.X + pos.X, temp.Y + pos.Y);
+            }
+            return pos;
         }
     }
 }

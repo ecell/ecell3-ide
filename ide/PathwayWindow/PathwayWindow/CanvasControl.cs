@@ -508,7 +508,6 @@ namespace EcellLib.PathwayWindow
             RectangleF canvasRect = m_pCanvas.Camera.ViewBounds;
             int x = m_pCanvas.Location.X + (int)((pos.X - canvasRect.X) / canvasRect.Width * width);
             int y = m_pCanvas.Location.Y + (int)((pos.Y - canvasRect.Y) / canvasRect.Height * height);
-            //Point systemPos = m_pCanvas.PointToScreen(pos);
             return new Point(x, y);
         }
         /// <summary>
@@ -518,8 +517,13 @@ namespace EcellLib.PathwayWindow
         /// <returns></returns>
         public PointF SystemPosToCanvasPos(Point pos)
         {
-            //PointF canvasPos = m_pCanvas.PointToClient(pos);
-            return new PointF();
+            int width = m_pCanvas.Width;
+            int height = m_pCanvas.Height;
+            Point location = m_con.PathwayView.GetDesktopLocation();
+            RectangleF canvasRect = m_pCanvas.Camera.ViewBounds;
+            float x = canvasRect.X + ((float)(pos.X - location.X) / (float)width * canvasRect.Width);
+            float y = canvasRect.Y + ((float)(pos.Y - location.Y) / (float)height * canvasRect.Height);
+            return new PointF(x, y);
         }
 
         /// <summary>

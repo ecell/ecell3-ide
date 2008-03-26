@@ -88,8 +88,25 @@ namespace EcellLib.PathwayWindow.Handler
             if (m_object == null)
                 return;
 
-            m_object.CenterPointF = e.Position;
+            Point canvasPos = GetDesktopLocation(e.Canvas);
+            float scale = e.Canvas.Camera.ViewScale;
+            Point systemPos = new Point(canvasPos.X + (int)(e.Position.X * scale), canvasPos.Y + (int)(e.Position.Y * scale));
+            m_object.CenterPointF = m_canvas.SystemPosToCanvasPos(systemPos);
+            m_object.RefreshView();
+            m_canvas.ControlLayer.AddChild(m_object);
         }
+
+        private Point GetDesktopLocation(Control control)
+        {
+            Point pos = control.Location;
+            if (control.Parent != null)
+            {
+                Point temp = GetDesktopLocation(control.Parent);
+                pos = new Point(temp.X + pos.X, temp.Y + pos.Y);
+            }
+            return pos;
+        }
+
         /// <summary>
         /// Event on MouseDown
         /// </summary>
@@ -128,11 +145,8 @@ namespace EcellLib.PathwayWindow.Handler
             if (m_canvas == null)
                 return;
 
-            if (e.Canvas == m_canvas.PathwayCanvas)
-            {
-                // Add new object and reset EventHandler.
-                AddObject(e);
-            }
+            // Add new object and reset EventHandler.
+            AddObject(e);
             ResetEventHandler();
        }
         #endregion
@@ -144,7 +158,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         private void AddObject(PInputEventArgs e)
         {
-            string systemKey = m_canvas.GetSurroundingSystemKey(e.Position);
+            string systemKey = m_canvas.GetSurroundingSystemKey(m_object.PointF);
+            if (string.IsNullOrEmpty(systemKey))
+                return;
             string type = GetType(m_object);
             EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, systemKey, type, false);
             eo.X = m_object.X;
@@ -180,7 +196,6 @@ namespace EcellLib.PathwayWindow.Handler
             m_canvas.PathwayCanvas.AddInputEventListener(this);
             m_object = canvas.Setting.CreateTemplate();
             m_object.Pickable = false;
-            m_canvas.ControlLayer.AddChild(m_object);
             // Set Icon
             //m_con.ToolBox.Icon = (Icon)PathwayResource.hand;
             //m_con.PathwayView.Icon = (Icon)PathwayResource.hand;
@@ -192,7 +207,8 @@ namespace EcellLib.PathwayWindow.Handler
         private void ResetEventHandler()
         {
             m_canvas.PathwayCanvas.RemoveInputEventListener(this);
-            m_canvas.ControlLayer.RemoveChild(m_object);
+            if(m_canvas.ControlLayer.ChildrenReference.Contains(m_object))
+                m_canvas.ControlLayer.RemoveChild(m_object);
             m_canvas = null;
             m_object = null;
             // Set Icon
