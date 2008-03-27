@@ -12,25 +12,33 @@ namespace EcellLib.PathwayWindow
     {
 
         private PathwayWindow _unitUnderTest;
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
             _unitUnderTest = new PathwayWindow();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TestFixtureTearDown()]
         public void TestFixtureTearDown()
         {
             _unitUnderTest = null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestConstructorPathwayWindow()
         {
             Assert.IsNotNull(_unitUnderTest, "Constructor of type, PathwayWindow failed to create instance.");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetData()
         {
@@ -40,7 +48,9 @@ namespace EcellLib.PathwayWindow
             resultList = _unitUnderTest.GetData(modelID);
             Assert.AreEqual(expectedList, resultList, "GetData method returned unexpected result.");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetEcellObject()
         {
@@ -52,7 +62,9 @@ namespace EcellLib.PathwayWindow
             Assert.AreEqual(expectedEcellObject, resultEcellObject, "GetEcellObject method returned unexpected result.");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestNotifyDataAdd()
         {
@@ -62,7 +74,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestNotifyLoggerAdd()
         {
@@ -74,7 +88,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestNotifyDataChanged()
         {
@@ -86,7 +102,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestNotifyDataDelete()
         {
@@ -98,7 +116,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestNotifyDataMerge()
         {
@@ -108,7 +128,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestNotifySelectChanged()
         {
@@ -119,7 +141,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestNotifyAddSelect()
         {
@@ -131,7 +155,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetMenuStripItems()
         {
@@ -142,7 +168,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetToolBarMenuStripItems()
         {
@@ -153,7 +181,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetWindowsForms()
         {
@@ -164,7 +194,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestAdvancedTime()
         {
@@ -173,7 +205,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestChangeStatus()
         {
@@ -182,7 +216,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestChangeUndoStatus()
         {
@@ -191,7 +227,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestClear()
         {
@@ -199,7 +237,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataAdd()
         {
@@ -208,7 +248,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataChanged()
         {
@@ -220,7 +262,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataDelete()
         {
@@ -231,7 +275,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestParameterAdd()
         {
@@ -241,7 +287,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestParameterDelete()
         {
@@ -251,7 +299,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestIsEnablePrint()
         {
@@ -262,7 +312,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestIsMessageWindow()
         {
@@ -273,7 +325,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLogData()
         {
@@ -286,7 +340,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoggerAdd()
         {
@@ -298,7 +354,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestMessage()
         {
@@ -308,7 +366,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestPrint()
         {
@@ -319,7 +379,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSaveModel()
         {
@@ -329,7 +391,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSelectChanged()
         {
@@ -340,7 +404,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestAddSelect()
         {
@@ -351,7 +417,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestRemoveSelect()
         {
@@ -362,7 +430,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestResetSelect()
         {
@@ -370,7 +440,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestWarnData()
         {
@@ -382,7 +454,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetPluginName()
         {
@@ -393,7 +467,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetTemporaryID()
         {
@@ -407,7 +483,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetVersionString()
         {
@@ -418,7 +496,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetPosition()
         {
@@ -427,7 +507,9 @@ namespace EcellLib.PathwayWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetLayoutAlgorithms()
         {

@@ -55,7 +55,7 @@ namespace EcellLib.PathwayWindow {
         /// <summary>
         /// Version of config file.
         /// </summary>
-        private const string ConfigFileVersion = "1.0";
+        private const string CONFIG_FILE_VERSION = "1.0";
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
@@ -87,7 +87,7 @@ namespace EcellLib.PathwayWindow {
                 xmlOut.WriteStartElement("Application");
                 xmlOut.WriteAttributeString("Name", Application.ProductName);
                 xmlOut.WriteAttributeString("Version", Application.ProductVersion);
-                xmlOut.WriteAttributeString("ConfigFileVersion", ConfigFileVersion);
+                xmlOut.WriteAttributeString("ConfigFileVersion", CONFIG_FILE_VERSION);
 
                 // Object settings
                 xmlOut.WriteStartElement("EcellObjectList");
@@ -158,7 +158,7 @@ namespace EcellLib.PathwayWindow {
                 // version check
                 string formatVersion = xmlIn.GetAttribute("ConfigFileVersion");
                 if (formatVersion == null || !IsFormatVersionValid(formatVersion))
-                    throw new ArgumentException("Pathway setting file version error." + Environment.NewLine + "Current version is " + ConfigFileVersion);
+                    throw new ArgumentException("Pathway setting file version error." + Environment.NewLine + "Current version is " + CONFIG_FILE_VERSION);
 
                 // Load EcellObject
                 MoveToNextElement(xmlIn);
@@ -195,7 +195,7 @@ namespace EcellLib.PathwayWindow {
 
         private static bool IsFormatVersionValid(string formatVersion)
         {
-            if (formatVersion == ConfigFileVersion)
+            if (formatVersion == CONFIG_FILE_VERSION)
                 return true;
 
             return false;
