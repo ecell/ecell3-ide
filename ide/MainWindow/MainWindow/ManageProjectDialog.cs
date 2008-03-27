@@ -35,6 +35,7 @@ using System.IO;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace EcellLib.MainWindow
 {
@@ -360,5 +361,21 @@ namespace EcellLib.MainWindow
             }
             return new Project(prjName, comment, time);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlD"></param>
+        /// <returns></returns>
+        private static XmlNode GetProjectSetting(XmlDocument xmlD)
+        {
+            XmlNode settings = null;
+            foreach (XmlNode node in xmlD.ChildNodes)
+            {
+                if (node.Name.Equals("ECellProject"))
+                    settings = node;
+            }
+            return settings;
+        }
+
     }
 }
