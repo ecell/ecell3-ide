@@ -622,6 +622,22 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// The event process when user add the object to the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object added to selected objects.</param>
+        /// <param name="key">ID of object added to selected objects.</param>
+        /// <param name="type">Type of object added to selected objects.</param>
+        public void RemoveSelect(string modelID, string key, string type)
+        {
+            // Error check.
+            if (modelID == null || m_canvas == null)
+                return;
+            if (!m_canvas.ModelID.Equals(modelID))
+                return;
+            m_canvas.RemoveSelect(key, type);
+        }
+
+        /// <summary>
         ///  When change project status, change menu enable/disable.
         /// </summary>
         /// <param name="status">System status.</param>

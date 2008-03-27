@@ -1216,6 +1216,30 @@ namespace EcellLib.PathwayWindow
                 AddSelectedNode(obj);
             }
         }
+        
+        /// <summary>
+        /// event sequence of changing the information of object.
+        /// </summary>
+        /// <param name="key">the key of selected object.</param>
+        /// <param name="type">the type of selected object.</param>
+        public void RemoveSelect(string key, string type)
+        {
+            PPathwayObject obj = GetSelectedObject(key, type);
+            if (obj == null)
+                return;
+
+            if (type.Equals(EcellObject.SYSTEM))
+            {
+                ResetSelectedObjects();
+            }
+            if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE))
+            {
+                if (m_selectedNodes.Contains(obj))
+                    m_selectedNodes.Remove(obj);
+                obj.IsHighLighted = false;
+            }
+        }
+
         /// <summary>
         /// event sequence of changing the information of object.
         /// </summary>

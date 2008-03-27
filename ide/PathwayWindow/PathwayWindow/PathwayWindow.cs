@@ -414,6 +414,17 @@ namespace EcellLib.PathwayWindow
         {
             m_con.AddSelect(modelID, key, type);
         }
+
+        /// <summary>
+        /// The event process when user add the object to the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object added to selected objects.</param>
+        /// <param name="key">ID of object added to selected objects.</param>
+        /// <param name="type">Type of object added to selected objects.</param>
+        public override void RemoveSelect(string modelID, string key, string type)
+        {
+            m_con.RemoveSelect(modelID, key, type);
+        }
         #endregion
     }
 }

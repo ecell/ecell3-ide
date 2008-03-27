@@ -62,11 +62,6 @@ namespace EcellLib.PathwayWindow.Handler
         private PPath m_selectedPath;
 
         /// <summary>
-        /// One PPathwayObject of currently selected objects.
-        /// </summary>
-        private PPathwayObject m_lastSelectedObj;
-
-        /// <summary>
         /// Flag to show dragged state.
         /// </summary>
         private bool m_isDragged = false;
@@ -117,7 +112,6 @@ namespace EcellLib.PathwayWindow.Handler
             if (m_selectedPath != null && m_selectedPath.Parent != null)
                 m_selectedPath.Parent.RemoveChild(m_selectedPath);
             m_selectedPath = null;
-            m_lastSelectedObj = null;
             m_isDragged = false;
         }
 
@@ -137,9 +131,8 @@ namespace EcellLib.PathwayWindow.Handler
             RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
             m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
 
-            canvas.ResetSelectedObjects();
+            // Select object.
             PNodeList newlySelectedList = new PNodeList();
-
             foreach (PLayer layer in canvas.Layers.Values)
             {
                 if (!layer.Visible)
@@ -148,24 +141,23 @@ namespace EcellLib.PathwayWindow.Handler
                 layer.FindIntersectingNodes(rect, list);
                 newlySelectedList.AddRange(list);
             }
-
-            bool isAlreadySelected = false;
-            PPathwayNode lastNode = null;
-
-            foreach (PNode node in newlySelectedList)
+            // Add/Remove select for each object.
+            List<PPathwayObject> objlist = new List<PPathwayObject>();
+            objlist.AddRange(canvas.SelectedNodes);
+            foreach (PPathwayObject obj in objlist)
             {
-                if (node is PPathwayNode)
-                {
-                    lastNode = (PPathwayNode)node;
-                    canvas.NotifyAddSelect(lastNode, true);
-                }
-                if (node == m_lastSelectedObj)
-                    isAlreadySelected = true;
+                if (!(obj is PPathwayNode))
+                    continue;
+                if (!newlySelectedList.Contains(obj))
+                    canvas.NotifyAddSelect(obj, false);
             }
-            if (!isAlreadySelected && lastNode != null)
+            foreach (PNode obj in newlySelectedList)
             {
-                canvas.NotifySelectChanged(lastNode);
-                m_lastSelectedObj = lastNode;
+                if (!(obj is PPathwayNode))
+                    continue;
+                PPathwayNode node = (PPathwayNode)obj;
+                if(!canvas.SelectedNodes.Contains(node))
+                    canvas.NotifyAddSelect(node, true);
             }
         }
 
