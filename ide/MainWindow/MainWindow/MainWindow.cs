@@ -1138,46 +1138,13 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void SaveProjectMenuClick(object sender, EventArgs e)
         {
-            m_savePrjDialog = new SaveProjectDialog();
-            m_savePrjDialog.SPSaveButton.Click += new System.EventHandler(this.SaveProject);
-            m_savePrjDialog.SPCancelButton.Click += new System.EventHandler(this.SaveProjectCancel);
-
             try
             {
-                CheckedListBox box = m_savePrjDialog.checkedListBox1;
-                List<string> list = m_dManager.GetSavableModel();
-                if (list != null)
-                {
-                    foreach (string s in list)
-                    {
-                        box.Items.Add(s + " : [Model]");
-                    }
-                }
-
-                list = m_dManager.GetSavableSimulationParameter();
-                if (list != null)
-                {
-                    foreach (string s in list)
-                    {
-                        box.Items.Add(s + " : [SimulationParameter]");
-                    }
-                }
-
-                String res = m_dManager.GetSavableSimulationResult();
-                if (res != null)
-                {
-                    box.Items.Add(res + " : [SimulationResult]");
-                }
-
-                int i = 0, count = box.Items.Count;
-                box.CheckOnClick = true;
-                
-                for ( i = 0 ; i < count ; i++ )
-                {
-                    box.SetItemChecked(i, true);
-                }
-
-                m_savePrjDialog.ShowDialog();
+                SetUpSaveProjectDialog();
+                if (m_savePrjDialog.ShowDialog() == DialogResult.OK)
+                    SaveProject();
+                else
+                    CloseSaveProjectDialog();
 
             }
             catch (Exception ex)
@@ -1189,12 +1156,47 @@ namespace EcellLib.MainWindow
             }
         }
 
+        private void SetUpSaveProjectDialog()
+        {
+            m_savePrjDialog = new SaveProjectDialog();
+            CheckedListBox box = m_savePrjDialog.CheckedListBox;
+            List<string> list = m_dManager.GetSavableModel();
+            if (list != null)
+            {
+                foreach (string s in list)
+                {
+                    box.Items.Add(s + " : [Model]");
+                }
+            }
+
+            list = m_dManager.GetSavableSimulationParameter();
+            if (list != null)
+            {
+                foreach (string s in list)
+                {
+                    box.Items.Add(s + " : [SimulationParameter]");
+                }
+            }
+
+            String res = m_dManager.GetSavableSimulationResult();
+            if (res != null)
+            {
+                box.Items.Add(res + " : [SimulationResult]");
+            }
+
+            int i = 0, count = box.Items.Count;
+            box.CheckOnClick = true;
+
+            for (i = 0; i < count; i++)
+            {
+                box.SetItemChecked(i, true);
+            }
+        }
+
         /// <summary>
         /// Event when to save the project is canceled.
         /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void SaveProjectCancel(object sender, EventArgs e)
+        private void CloseSaveProjectDialog()
         {
             m_savePrjDialog.Close();
             m_savePrjDialog.Dispose();
@@ -1210,43 +1212,41 @@ namespace EcellLib.MainWindow
         /// The action when you click OK or Cancel in SaveProjectDialog.
         /// If you don't select one instance, system do nothing.
         /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        private void SaveProject(object sender, EventArgs e)
+        private void SaveProject()
         {
             try
             {
-                    CheckedListBox box = m_savePrjDialog.checkedListBox1;
-                    if (box.CheckedItems.Count <= 0)
+                CheckedListBox box = m_savePrjDialog.CheckedListBox;
+                if (box.CheckedItems.Count <= 0)
+                {
+                    String errmes = MainWindow.s_resources.GetString("ErrSelectSave");
+                    MessageBox.Show(errmes,
+                        "Warning", MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+                foreach (string s in box.CheckedItems)
+                {
+                    if (s.EndsWith(" : [Model]"))
                     {
-                        String errmes = MainWindow.s_resources.GetString("ErrSelectSave");
-                        MessageBox.Show(errmes,
-                            "Warning", MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
-                        return;
-                    }
-                    foreach (string s in box.CheckedItems)
-                    {
-                        if (s.EndsWith(" : [Model]"))
-                        {
-                            int end = s.LastIndexOf(" : [Model]");
-                            string p = s.Substring(0, end);
-                            m_dManager.SaveModel(p);
+                        int end = s.LastIndexOf(" : [Model]");
+                        string p = s.Substring(0, end);
+                        m_dManager.SaveModel(p);
 
-                        }
-                        else if (s.EndsWith(" : [SimulationParameter]"))
-                        {
-                            int end = s.LastIndexOf(" : [SimulationParameter]");
-                            string p = s.Substring(0, end);
-                            m_dManager.SaveSimulationParameter(p);
-                        }
-                        else if (s.EndsWith(" : [SimulationResult]"))
-                        {
-                            m_dManager.SaveSimulationResult(
-                                    null, 0.0, m_dManager.GetCurrentSimulationTime(), null, m_dManager.GetLoggerList());
-                        }
                     }
-                    m_editCount = 0;
+                    else if (s.EndsWith(" : [SimulationParameter]"))
+                    {
+                        int end = s.LastIndexOf(" : [SimulationParameter]");
+                        string p = s.Substring(0, end);
+                        m_dManager.SaveSimulationParameter(p);
+                    }
+                    else if (s.EndsWith(" : [SimulationResult]"))
+                    {
+                        m_dManager.SaveSimulationResult(
+                                null, 0.0, m_dManager.GetCurrentSimulationTime(), null, m_dManager.GetLoggerList());
+                    }
+                }
+                m_editCount = 0;
             }
             catch (Exception ex)
             {
@@ -1255,14 +1255,7 @@ namespace EcellLib.MainWindow
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            m_savePrjDialog.Close();
-            m_savePrjDialog.Dispose();
-            m_savePrjDialog = null;
-            if (m_isClose)
-            {
-                CloseProject(m_project);
-                m_isClose = false;
-            }
+            CloseSaveProjectDialog();
         }
 
         /// <summary>
@@ -1390,7 +1383,7 @@ namespace EcellLib.MainWindow
             m_savePrjDialog.SPCancelButton.Click += new EventHandler(ExportModelCancel);
 
             List<string> list = m_dManager.GetModelList();
-            CheckedListBox box = m_savePrjDialog.checkedListBox1;
+            CheckedListBox box = m_savePrjDialog.CheckedListBox;
             foreach (string s in list)
             {
                 box.Items.Add(s);
@@ -1418,7 +1411,7 @@ namespace EcellLib.MainWindow
         public void ExportModel(object sender, EventArgs e)
         {
                 List<string> list = new List<string>();
-                CheckedListBox box = m_savePrjDialog.checkedListBox1;
+                CheckedListBox box = m_savePrjDialog.CheckedListBox;
                 foreach (string s in box.CheckedItems)
                     list.Add(s);
 

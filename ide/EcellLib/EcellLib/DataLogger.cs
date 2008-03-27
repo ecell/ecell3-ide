@@ -191,7 +191,7 @@ namespace EcellLib
         /// <summary>
         /// get/set the project name
         /// </summary>
-        public string M_prjName
+        public string Name
         {
             get { return m_prjName; }
             set { this.m_prjName = value; }
@@ -200,7 +200,7 @@ namespace EcellLib
         /// <summary>
         /// get/set the comment
         /// </summary>
-        public string M_comment
+        public string Comment
         {
             get { return m_comment; }
             set { this.m_comment = value; }
@@ -209,7 +209,7 @@ namespace EcellLib
         /// <summary>
         /// get/set the update time
         /// </summary>
-        public string M_updateTime
+        public string UpdateTime
         {
             get { return m_updateTime; }
             set { this.m_updateTime = value; }

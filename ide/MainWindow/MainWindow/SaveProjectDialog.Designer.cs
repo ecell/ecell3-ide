@@ -58,31 +58,32 @@ namespace EcellLib.MainWindow
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SaveProjectDialog));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.SPLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.SPButtonPanel = new System.Windows.Forms.TableLayoutPanel();
             this.SPSaveButton = new System.Windows.Forms.Button();
             this.SPCancelButton = new System.Windows.Forms.Button();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.CheckedListBox = new System.Windows.Forms.CheckedListBox();
+            this.SPLayoutPanel.SuspendLayout();
+            this.SPButtonPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // SPLayoutPanel
             // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.checkedListBox1, 0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            resources.ApplyResources(this.SPLayoutPanel, "SPLayoutPanel");
+            this.SPLayoutPanel.Controls.Add(this.SPButtonPanel, 0, 1);
+            this.SPLayoutPanel.Controls.Add(this.CheckedListBox, 0, 0);
+            this.SPLayoutPanel.Name = "SPLayoutPanel";
             // 
-            // tableLayoutPanel2
+            // SPButtonPanel
             // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.SPSaveButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.SPCancelButton, 3, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            resources.ApplyResources(this.SPButtonPanel, "SPButtonPanel");
+            this.SPButtonPanel.Controls.Add(this.SPSaveButton, 1, 0);
+            this.SPButtonPanel.Controls.Add(this.SPCancelButton, 3, 0);
+            this.SPButtonPanel.Name = "SPButtonPanel";
             // 
             // SPSaveButton
             // 
+            this.SPSaveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.SPSaveButton, "SPSaveButton");
             this.SPSaveButton.Name = "SPSaveButton";
             this.SPSaveButton.UseVisualStyleBackColor = true;
@@ -94,11 +95,11 @@ namespace EcellLib.MainWindow
             this.SPCancelButton.Name = "SPCancelButton";
             this.SPCancelButton.UseVisualStyleBackColor = true;
             // 
-            // checkedListBox1
+            // CheckedListBox
             // 
-            resources.ApplyResources(this.checkedListBox1, "checkedListBox1");
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Name = "checkedListBox1";
+            resources.ApplyResources(this.CheckedListBox, "CheckedListBox");
+            this.CheckedListBox.FormattingEnabled = true;
+            this.CheckedListBox.Name = "CheckedListBox";
             // 
             // SaveProjectDialog
             // 
@@ -106,19 +107,19 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.SPCancelButton;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.SPLayoutPanel);
             this.Name = "SaveProjectDialog";
             this.Shown += new System.EventHandler(this.SaveProjectDialogShown);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
+            this.SPLayoutPanel.ResumeLayout(false);
+            this.SPButtonPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel SPLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel SPButtonPanel;
         /// <summary>
         /// Button to save the selected data.
         /// </summary>
@@ -130,6 +131,6 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// CheckBox to select the saved data.
         /// </summary>
-        public System.Windows.Forms.CheckedListBox checkedListBox1;
+        public System.Windows.Forms.CheckedListBox CheckedListBox;
     }
 }

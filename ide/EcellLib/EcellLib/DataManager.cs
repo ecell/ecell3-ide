@@ -758,7 +758,7 @@ namespace EcellLib
                 {
                     foreach (Project prj in m_projectList)
                     {
-                        l_tmpList.Add(prj.M_prjName);
+                        l_tmpList.Add(prj.Name);
                     }
                 }
                 else
@@ -803,7 +803,7 @@ namespace EcellLib
 
                     foreach (Project prj in m_projectList)
                     {
-                        if (prj.M_prjName == l_str)
+                        if (prj.Name == l_str)
                         {
                             m_projectList.Remove(prj);
                             break;
@@ -6147,7 +6147,7 @@ namespace EcellLib
                 {
                     foreach (Project l_prj in this.m_projectList)
                     {
-                        if (l_prj.M_prjName.Equals(l_prjID))
+                        if (l_prj.Name.Equals(l_prjID))
                         {
                             l_thisPrj = l_prj;
                             break;
@@ -6178,10 +6178,10 @@ namespace EcellLib
                     l_writer = new StreamWriter(l_prjFile, false, Encoding.UTF8);
                     l_writer.WriteLine(
                         Constants.xpathProject + Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace
-                        + l_thisPrj.M_prjName);
+                        + l_thisPrj.Name);
                     l_writer.WriteLine(
                         Constants.textComment + Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace
-                            + l_thisPrj.M_comment);
+                            + l_thisPrj.Comment);
                     l_writer.WriteLine(
                         Constants.textParameter + Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace
                             + this.m_currentParameterID);
@@ -6193,7 +6193,7 @@ namespace EcellLib
                         l_writer.Close();
                     }
                 }
-                l_thisPrj.M_updateTime = File.GetLastAccessTime(l_prjFile).ToString();
+                l_thisPrj.UpdateTime = File.GetLastAccessTime(l_prjFile).ToString();
                 this.m_pManager.Message(
                     Constants.messageSimulation,
                     "Save Project: " + l_message + System.Environment.NewLine);

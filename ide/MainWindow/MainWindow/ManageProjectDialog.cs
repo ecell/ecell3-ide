@@ -126,7 +126,7 @@ namespace EcellLib.MainWindow
             if (File.Exists(prjXMLFileName))
             {
                 Project prj = GetProjectXML(prjXMLFileName);
-                TreeNode p = new TreeNode(prj.M_prjName);
+                TreeNode p = new TreeNode(prj.Name);
                 p.Tag = prjFileName;
                 p.ImageIndex = 1;
                 p.SelectedImageIndex = p.ImageIndex;
@@ -137,7 +137,7 @@ namespace EcellLib.MainWindow
             else if (File.Exists(prjFileName))
             {
                 Project prj = GetProject(prjInfo);
-                TreeNode p = new TreeNode(prj.M_prjName);
+                TreeNode p = new TreeNode(prj.Name);
                 p.Tag = prjInfo;
                 p.ImageIndex = 1;
                 p.SelectedImageIndex = p.ImageIndex;
@@ -235,9 +235,9 @@ namespace EcellLib.MainWindow
             {
                 Project prj = GetProject(filename);
                 m_fileName = filename;
-                MPPrjIDText.Text = prj.M_prjName;
-                MPPrjDateText.Text = prj.M_updateTime;
-                MPPrjCommentText.Text = prj.M_comment;
+                MPPrjIDText.Text = prj.Name;
+                MPPrjDateText.Text = prj.UpdateTime;
+                MPPrjCommentText.Text = prj.Comment;
 
                 MPPrjIDText.BackColor = Color.White;
                 MPPrjDateText.BackColor = Color.White;
