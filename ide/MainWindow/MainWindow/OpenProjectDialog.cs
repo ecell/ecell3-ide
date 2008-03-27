@@ -35,6 +35,7 @@ using System.IO;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace EcellLib.MainWindow
 {
@@ -43,6 +44,9 @@ namespace EcellLib.MainWindow
     /// </summary>
     public partial class OpenProjectDialog : Form
     {
+        private const string PROJECT_FILE = "project.info";
+        private const string PROJECT_XML = "project.xml";
+
         private string m_prjID = "";
         private string m_fileName = "";
         private string m_simName = "";
@@ -104,6 +108,7 @@ namespace EcellLib.MainWindow
         /// <param name="isProject">The flag whether the current path is in the project directory.</param>
         public void CreateProjectTreeView(TreeNode node, string path, bool isProject)
         {
+            //Set node.
             if (node == null)
             {
                 node = new TreeNode(path);
@@ -113,19 +118,31 @@ namespace EcellLib.MainWindow
                 OPPrjTreeView.Nodes.Add(node);
             }
 
-            string prjInfo = path + Constants.delimiterPath + "project.info";
-            if (File.Exists(prjInfo))
+            string prjFileName = Path.Combine(path, PROJECT_FILE);
+            string prjXMLFileName = Path.Combine(path, PROJECT_XML);
+            // Check project.xml and load.
+            if (File.Exists(prjXMLFileName))
             {
-                Project prj = GetProject(prjInfo);
+                Project prj = GetProjectXML(prjXMLFileName);
                 TreeNode p = new TreeNode(prj.M_prjName);
-                p.Tag = prjInfo;
+                p.Tag = prjFileName;
                 p.ImageIndex = 1;
                 p.SelectedImageIndex = p.ImageIndex;
                 node.Nodes.Add(p);
                 isProject = true;
             }
-
-            if (isProject == false)
+            // Check project.info and load.
+            else if (File.Exists(prjFileName))
+            {
+                Project prj = GetProject(prjFileName);
+                TreeNode p = new TreeNode(prj.M_prjName);
+                p.Tag = prjFileName;
+                p.ImageIndex = 1;
+                p.SelectedImageIndex = p.ImageIndex;
+                node.Nodes.Add(p);
+                isProject = true;
+            }
+            else if (isProject == false)
             {
                 string[] files = Directory.GetFiles(path, "*.eml");
                 foreach (string file in files)
@@ -284,6 +301,78 @@ namespace EcellLib.MainWindow
             m_comment = comment;
             m_prjID = prjName;
             return new Project(prjName, comment, File.GetLastWriteTime(fileName).ToString());
+        }
+
+        /// <summary>
+        /// Get the project information from the project file.
+        /// </summary>
+        /// <param name="fileName">the project file name.</param>
+        /// <returns>project information.</returns>
+        private Project GetProjectXML(string fileName)
+        {
+            if (!File.Exists(fileName))
+                return null;
+
+            string dirPathName = Path.GetDirectoryName(fileName);
+            string prjName = Path.GetFileName(dirPathName);
+            string comment = "";
+            string time = "";
+            string param = "";
+
+            try
+            {
+                // Load XML file
+                XmlDocument xmlD = new XmlDocument();
+                xmlD.Load(fileName);
+
+                XmlNode settings = GetProjectSetting(xmlD);
+                if (settings == null)
+                    return null;
+                // Load settings.
+                foreach (XmlNode setting in settings.ChildNodes)
+                {
+                    switch (setting.Name)
+                    {
+                        // Project
+                        case "Project":
+                            prjName = setting.InnerText;
+                            break;
+                        // Date
+                        case "Date":
+                            time = setting.InnerText;
+                            break;
+                        // Comment
+                        case "Comment":
+                            comment = setting.InnerText;
+                            break;
+                        // SimulationParameter
+                        case "SimulationParameter":
+                            param = setting.InnerText;
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string errmsg = "ErrLoadProjectSettings" + Environment.NewLine + fileName + Environment.NewLine + ex.Message;
+                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return new Project(prjName, comment, time);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlD"></param>
+        /// <returns></returns>
+        private static XmlNode GetProjectSetting(XmlDocument xmlD)
+        {
+            XmlNode settings = null;
+            foreach (XmlNode node in xmlD.ChildNodes)
+            {
+                if (node.Name.Equals("ECellProject"))
+                    settings = node;
+            }
+            return settings;
         }
     }
 }

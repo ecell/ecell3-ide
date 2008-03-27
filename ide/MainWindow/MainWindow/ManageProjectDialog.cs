@@ -43,6 +43,9 @@ namespace EcellLib.MainWindow
     /// </summary>
     public partial class ManageProjectDialog : Form
     {
+        private const string PROJECT_FILE = "project.info";
+        private const string PROJECT_XML = "project.xml";
+
         private string m_prjID = "";
         private string m_fileName = "";
         private string m_simName = "";
@@ -114,7 +117,23 @@ namespace EcellLib.MainWindow
             }
 
             string prjInfo = path + Constants.delimiterPath + "project.info";
-            if (File.Exists(prjInfo))
+
+            string prjFileName = Path.Combine(path, PROJECT_FILE);
+            string prjXMLFileName = Path.Combine(path, PROJECT_XML);
+
+            // Check project.xml and load.
+            if (File.Exists(prjXMLFileName))
+            {
+                Project prj = GetProjectXML(prjXMLFileName);
+                TreeNode p = new TreeNode(prj.M_prjName);
+                p.Tag = prjFileName;
+                p.ImageIndex = 1;
+                p.SelectedImageIndex = p.ImageIndex;
+                node.Nodes.Add(p);
+                isProject = true;
+            }
+            // Check project.info and load.
+            else if (File.Exists(prjFileName))
             {
                 Project prj = GetProject(prjInfo);
                 TreeNode p = new TreeNode(prj.M_prjName);
@@ -124,8 +143,7 @@ namespace EcellLib.MainWindow
                 node.Nodes.Add(p);
                 isProject = true;
             }
-
-            if (isProject == false)
+            else if (isProject == false)
             {
                 string[] files = Directory.GetFiles(path, "*.eml");
                 foreach (string file in files)
@@ -284,6 +302,63 @@ namespace EcellLib.MainWindow
             m_comment = comment;
             m_prjID = prjName;
             return new Project(prjName, comment, File.GetLastWriteTime(fileName).ToString());
+        }
+
+        /// <summary>
+        /// Get the project information from the project file.
+        /// </summary>
+        /// <param name="fileName">the project file name.</param>
+        /// <returns>project information.</returns>
+        private Project GetProjectXML(string fileName)
+        {
+            if (!File.Exists(fileName))
+                return null;
+
+            string dirPathName = Path.GetDirectoryName(fileName);
+            string prjName = Path.GetFileName(dirPathName);
+            string comment = "";
+            string time = "";
+            string param = "";
+
+            try
+            {
+                // Load XML file
+                XmlDocument xmlD = new XmlDocument();
+                xmlD.Load(fileName);
+
+                XmlNode settings = GetProjectSetting(xmlD);
+                if (settings == null)
+                    return null;
+                // Load settings.
+                foreach (XmlNode setting in settings.ChildNodes)
+                {
+                    switch (setting.Name)
+                    {
+                        // Project
+                        case "Project":
+                            prjName = setting.InnerText;
+                            break;
+                        // Date
+                        case "Date":
+                            time = setting.InnerText;
+                            break;
+                        // Comment
+                        case "Comment":
+                            comment = setting.InnerText;
+                            break;
+                        // SimulationParameter
+                        case "SimulationParameter":
+                            param = setting.InnerText;
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string errmsg = "ErrLoadProjectSettings" + Environment.NewLine + fileName + Environment.NewLine + ex.Message;
+                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return new Project(prjName, comment, time);
         }
     }
 }
