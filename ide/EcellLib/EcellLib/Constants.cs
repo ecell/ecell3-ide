@@ -98,6 +98,10 @@ namespace EcellLib
         /// </summary>
         public const string fileProject = "project.info";
         /// <summary>
+        /// Reserved the name of file..
+        /// </summary>
+        public const string fileProjectXML = "project.xml";
+        /// <summary>
         /// Reserved the file name of window setting list.
         /// </summary>
         public const string fileWinSetting = "settinglist.conf";
@@ -233,6 +237,10 @@ namespace EcellLib
         /// Reserved XML path name for comment.
         /// </summary>
         public const string textComment = "Comment";
+        /// <summary>
+        /// Reserved XML path name for comment.
+        /// </summary>
+        public const string textDate = "Date";
         /// <summary>
         /// Reserved XML path name for default stepper.
         /// </summary>

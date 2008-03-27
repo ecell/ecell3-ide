@@ -6166,25 +6166,20 @@ namespace EcellLib
                 //
                 // Saves the project.
                 //
-                if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + l_prjID))
+                string path = Path.Combine(this.m_defaultDir, l_prjID);
+                if (!Directory.Exists(path))
                 {
-                    Directory.CreateDirectory(this.m_defaultDir + Constants.delimiterPath + l_prjID);
+                    Directory.CreateDirectory(path);
                 }
-                string l_prjFile = this.m_defaultDir + Constants.delimiterPath +
-                    l_prjID + Constants.delimiterPath + Constants.fileProject;
+                string l_prjFile = Path.Combine(path, Constants.fileProject);
+                string sepalator = Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace;
                 StreamWriter l_writer = null;
                 try
                 {
                     l_writer = new StreamWriter(l_prjFile, false, Encoding.UTF8);
-                    l_writer.WriteLine(
-                        Constants.xpathProject + Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace
-                        + l_thisPrj.Name);
-                    l_writer.WriteLine(
-                        Constants.textComment + Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace
-                            + l_thisPrj.Comment);
-                    l_writer.WriteLine(
-                        Constants.textParameter + Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace
-                            + this.m_currentParameterID);
+                    l_writer.WriteLine(Constants.xpathProject + sepalator + l_thisPrj.Name);
+                    l_writer.WriteLine(Constants.textComment + sepalator + l_thisPrj.Comment);
+                    l_writer.WriteLine(Constants.textParameter + sepalator + this.m_currentParameterID);
                 }
                 finally
                 {

@@ -1312,7 +1312,7 @@ namespace EcellLib.MainWindow
                     m_editCount = 0;
                 }
             }
-            // Show OpenProjectDialog.
+            // Show OpenFileDialog.
             try
             {
                 m_openFileDialog.RestoreDirectory = true; 
@@ -1325,13 +1325,14 @@ namespace EcellLib.MainWindow
                     // Load new project.
                     if (m_isLoadProject == false)
                     {
-                        String fName = m_openFileDialog.FileName;
-                        string modelDir = Path.GetDirectoryName(fName);
+                        string filepath = m_openFileDialog.FileName;
+                        string modelDir = Path.GetDirectoryName(filepath);
+                        string modelName = Path.GetFileNameWithoutExtension(filepath);
                         if (modelDir.EndsWith(Constants.xpathModel))
                         {
                             modelDir = modelDir.Substring(0, modelDir.Length - 5);
                         }
-                        CreateProject(Constants.defaultPrjID, modelDir, Constants.defaultComment, new List<string>());
+                        CreateProject(modelName, modelDir, Constants.defaultComment, new List<string>());
                     }
 
                     Thread t = new Thread(new ThreadStart(LoadModelData));
