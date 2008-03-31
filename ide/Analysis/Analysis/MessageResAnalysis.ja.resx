@@ -165,6 +165,9 @@
   <data name="ErrParamProp2" xml:space="preserve">
     <value>解析対象のプロパティが設定されていません。少なくとも2つのプロパティを設定してください。</value>
   </data>
+  <data name="ErrParamPropEqual2" xml:space="preserve">
+    <value>解析対象のプロパティは2つである必要があります。</value>
+  </data>
   <data name="ErrPopulationNumPositive" xml:space="preserve">
     <value>個体数は0より大きい値に設定してください。</value>
   </data>
@@ -192,6 +195,9 @@
   <data name="ErrStepUnder" xml:space="preserve">
     <value>ステップ数を１以上の値に設定してください。</value>
   </data>
+  <data name="FinishBAnalysis" xml:space="preserve">
+    <value>分岐解析の実行が終了しました。</value>
+  </data>
   <data name="FinishPAnalysis" xml:space="preserve">
     <value>パラメータ推定の実行が終了しました。</value>
   </data>
@@ -206,6 +212,9 @@
   </data>
   <data name="MenuItemAnalysisWindow" xml:space="preserve">
     <value>解析ウインドウ(&amp;A)...</value>
+  </data>
+  <data name="MenuItemBifurcationAnalysis" xml:space="preserve">
+    <value>分岐解析(&amp;B)</value>
   </data>
   <data name="MenuItemParameterEstimation" xml:space="preserve">
     <value>パラメータ推定(&amp;P)</value>

@@ -34,9 +34,9 @@ using System.Text;
 namespace EcellLib.Analysis
 {
     /// <summary>
-    /// Class managed the parameter to judge the result of robust analysis.
+    /// Class managed the parameter to judge the result of analysis.
     /// </summary>
-    public class RobustAnalysisJudgementParam
+    public class AnalysisJudgementParam
     {
         private string m_path = "";
         private double m_max = 0.0;
@@ -47,7 +47,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RobustAnalysisJudgementParam()
+        public AnalysisJudgementParam()
         {
         }
 
@@ -59,7 +59,7 @@ namespace EcellLib.Analysis
         /// <param name="min">the minimum value of logger data.</param>
         /// <param name="diff">the difference value of logger data.</param>
         /// <param name="rate">the rate of FFT.</param>
-        public RobustAnalysisJudgementParam(string path, double max, double min, double diff, double rate)
+        public AnalysisJudgementParam(string path, double max, double min, double diff, double rate)
         {
             m_path = path;
             m_max = max;

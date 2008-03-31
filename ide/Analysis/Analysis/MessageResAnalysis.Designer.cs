@@ -205,6 +205,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   Parameter should be two data. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrParamPropEqual2 {
+            get {
+                return ResourceManager.GetString("ErrParamPropEqual2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The numner of population is lager than 0. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrPopulationNumPositive {
@@ -327,6 +336,15 @@ namespace EcellLib.Analysis {
         internal static string MenuItemAnalysisWindow {
             get {
                 return ResourceManager.GetString("MenuItemAnalysisWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &amp;Bifurcation Analysis に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemBifurcationAnalysis {
+            get {
+                return ResourceManager.GetString("MenuItemBifurcationAnalysis", resourceCulture);
             }
         }
         

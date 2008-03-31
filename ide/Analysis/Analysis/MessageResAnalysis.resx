@@ -165,6 +165,9 @@
   <data name="ErrParamProp2" xml:space="preserve">
     <value>Can't get the parameter of property. Please set at least two property.</value>
   </data>
+  <data name="ErrParamPropEqual2" xml:space="preserve">
+    <value>Parameter should be two data.</value>
+  </data>
   <data name="ErrPopulationNumPositive" xml:space="preserve">
     <value>The numner of population is lager than 0.</value>
   </data>
@@ -206,6 +209,9 @@
   </data>
   <data name="MenuItemAnalysisWindow" xml:space="preserve">
     <value>&amp;AnalysisWindow...</value>
+  </data>
+  <data name="MenuItemBifurcationAnalysis" xml:space="preserve">
+    <value>&amp;Bifurcation Analysis</value>
   </data>
   <data name="MenuItemParameterEstimation" xml:space="preserve">
     <value>&amp;Parameter Estimation</value>

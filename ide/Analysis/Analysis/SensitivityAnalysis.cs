@@ -93,63 +93,63 @@ namespace EcellLib.Analysis
         /// <summary>
         /// The number of variable.
         /// </summary>
-        int m_vNum;
+        private int m_vNum;
         /// <summary>
         /// The number of process.
         /// </summary>
-        int m_pNum;
+        private int m_pNum;
         /// <summary>
         /// Stoichiometry Matrix(temporary data).
         /// </summary>
-        Matrix m_sMatrix;
+        private Matrix m_sMatrix;
         /// <summary>
         /// Elasticity Matrix(temporary data).
         /// </summary>
-        Matrix m_eMatrix;
+        private Matrix m_eMatrix;
         /// <summary>
         /// Kernel Matrix(temporary data).
         /// </summary>
-        Matrix m_kernelMatrix;
+        private Matrix m_kernelMatrix;
         /// <summary>
         /// Linkage Matrix(temporary data).
         /// </summary>
-        Matrix m_linkMatrix;
+        private Matrix m_linkMatrix;
         /// <summary>
         /// CCC Matrix of unscaled data.
         /// </summary>
-        Matrix m_unscaledCCCMatrix;
+        private Matrix m_unscaledCCCMatrix;
         /// <summary>
         /// FCC Matrix of unscaled data.
         /// </summary>
-        Matrix m_unscaledFCCMatrix;
+        private Matrix m_unscaledFCCMatrix;
         /// <summary>
         /// CCC Matrix of scaled data.
         /// </summary>
-        Matrix m_scaledCCCMatrix;
+        private Matrix m_scaledCCCMatrix;
         /// <summary>
         /// FCC Matrix of scaled data.
         /// </summary>
-        Matrix m_scaledFCCMatrix;
+        private Matrix m_scaledFCCMatrix;
         /// <summary>
         /// The list of independ data.
         /// </summary>
-        List<int> m_independList = new List<int>();
+        private List<int> m_independList = new List<int>();
         /// <summary>
         /// The list of value data of Variable after one step.
         /// </summary>
-        List<double> m_valueBuffer = new List<double>();
+        private List<double> m_valueBuffer = new List<double>();
         /// <summary>
         /// The list of activity data of Process after one step.
         /// </summary>
-        List<double> m_activityBuffer = new List<double>();
+        private List<double> m_activityBuffer = new List<double>();
         /// <summary>
         /// The list of entity path of value data.
         /// </summary>
-        List<string> m_valueList = new List<string>();
+        private List<string> m_valueList = new List<string>();
         /// <summary>
         /// The list of entity path of activity data.
         /// </summary>
-        List<string> m_activityList = new List<string>();
+        private List<string> m_activityList = new List<string>();
         #endregion
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace EcellLib.Analysis
             m_saveList = new List<SaveLoggerProperty>();
         }
 
-        #region accessors
+        #region Accessors
         /// <summary>
         /// get / set the parent plugin.
         /// </summary>
@@ -182,7 +182,7 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// get / set the flag whether the robust analysis is running.
+        /// get / set the flag whether the sensitivity analysis is running.
         /// </summary>
         public bool IsRunning
         {
@@ -195,7 +195,6 @@ namespace EcellLib.Analysis
         /// </summary>
         public void ExecuteAnalysis()
         {
-
             DataManager dManager = DataManager.GetDataManager();
             m_param = m_win.GetSensitivityAnalysisParameter();
             m_model = "";

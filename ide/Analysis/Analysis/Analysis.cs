@@ -64,6 +64,10 @@ namespace EcellLib.Analysis
         /// </summary>
         private ToolStripMenuItem m_sensitivityAnalysisItem;
         /// <summary>
+        /// MenuItem to execute bifurcation analysis.
+        /// </summary>
+        private ToolStripMenuItem m_bifurcationAnalysisItem;
+        /// <summary>
         /// Window to analysis the robustness of model.
         /// </summary>
         private AnalysisWindow m_win = null;
@@ -84,10 +88,13 @@ namespace EcellLib.Analysis
         /// </summary>
         private ParameterEstimation m_parameterEstimation;
         /// <summary>
+        /// Bifurcation Analysis Calss.
+        /// </summary>
+        private BifurcationAnalysis m_bifurcationAnalysis;
+        /// <summary>
         /// Sensitivity Analysis Class.
         /// </summary>
         private SensitivityAnalysis m_sensitivityAnalysis;
-
         #endregion
 
         /// <summary>
@@ -122,6 +129,14 @@ namespace EcellLib.Analysis
         public void StopSensitivityAnalysis()
         {
             m_sensitivityAnalysis = null;
+        }
+
+        /// <summary>
+        /// Stop the bifurcation analysis.
+        /// </summary>
+        public void StopBifurcationAnalysis()
+        {
+            m_bifurcationAnalysis = null;
         }
 
         #region Events
@@ -203,7 +218,7 @@ namespace EcellLib.Analysis
 
         /// <summary>
         /// Event when the menu to execute sensitivity analysis is clicked.
-        /// This program execute the program of parameter estimation.
+        /// This program execute the program of sensitivity analysis.
         /// </summary>
         /// <param name="sender">MenuItem</param>
         /// <param name="e">EventArgs.</param>
@@ -223,6 +238,30 @@ namespace EcellLib.Analysis
             m_sensitivityAnalysis = new SensitivityAnalysis();
             m_sensitivityAnalysis.Control = this;
             m_sensitivityAnalysis.ExecuteAnalysis();
+        }
+
+        /// <summary>
+        /// Event when the menu to execute bifurcation analysis is clicked.
+        /// This program execute the program of bifurcation analysis.
+        /// </summary>
+        /// <param name="sender">MenuItem</param>
+        /// <param name="e">EventArgs.</param>
+        private void ExecuteBifurcationAnalysis(object sender, EventArgs e)
+        {
+            if (m_win == null) return;
+            if (m_bifurcationAnalysis != null && m_bifurcationAnalysis.IsRunning)
+            {
+                string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
+                DialogResult res = MessageBox.Show(mes, "Question", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.OK)
+                {
+                    m_bifurcationAnalysis.StopAnalysis();
+                }
+                return;
+            }
+            m_bifurcationAnalysis = new BifurcationAnalysis();
+            m_bifurcationAnalysis.Control = this;
+            m_bifurcationAnalysis.ExecuteAnalysis();
         }
         #endregion
 
@@ -269,6 +308,13 @@ namespace EcellLib.Analysis
             m_sensitivityAnalysisItem.Tag = 70;
             m_sensitivityAnalysisItem.Enabled = false;
             m_sensitivityAnalysisItem.Click += new EventHandler(ExecuteSensitivityAnalysis);
+
+            m_bifurcationAnalysisItem = new ToolStripMenuItem();
+            m_bifurcationAnalysisItem.Text = resources.GetString("MenuItemBifurcationAnalysis");
+            m_bifurcationAnalysisItem.ToolTipText = resources.GetString("MenuItemBifurcationAnalysis");
+            m_bifurcationAnalysisItem.Tag = 80;
+            m_bifurcationAnalysisItem.Enabled = false;
+            m_bifurcationAnalysisItem.Click += new EventHandler(ExecuteBifurcationAnalysis);
 
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem, m_parameterEstimationItem, m_sensitivityAnalysisItem });

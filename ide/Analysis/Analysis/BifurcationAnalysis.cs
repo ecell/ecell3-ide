@@ -40,15 +40,11 @@ using MathNet.Numerics.Transformations;
 namespace EcellLib.Analysis
 {
     /// <summary>
-    /// Class to manage the robust analysis.
+    /// Class to manage the bifurcation analysis.
     /// </summary>
-    public class RobustAnalysis
-    {        
+    class BifurcationAnalysis
+    {
         #region Fields
-        /// <summary>
-        /// Parameter object of robust analysis.
-        /// </summary>
-        private RobustAnalysisParameter m_param;
         /// <summary>
         /// Manage of session.
         /// </summary>
@@ -58,23 +54,24 @@ namespace EcellLib.Analysis
         /// </summary>
         private AnalysisWindow m_win;
         /// <summary>
-        /// Plugin controller.
-        /// </summary>
-        private Analysis m_control;
-        /// <summary>
         /// Timer to update the status of jobs.
         /// </summary>
         private System.Windows.Forms.Timer m_timer;
         /// <summary>
+        /// Plugin controller.
+        /// </summary>
+        private Analysis m_control;
+        /// <summary>
         /// The flag whether the analysis is running.
         /// </summary>
         private bool m_isRunning = false;
+        private BifurcationAnalysisParameter m_param;
         #endregion
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RobustAnalysis()
+        public BifurcationAnalysis()
         {
             m_win = AnalysisWindow.GetWindow();
             m_manager = SessionManager.SessionManager.GetManager();
@@ -85,7 +82,7 @@ namespace EcellLib.Analysis
             m_timer.Tick += new EventHandler(FireTimer);
         }
 
-        #region accessors
+        #region Accessors
         /// <summary>
         /// get / set the parent plugin.
         /// </summary>
@@ -96,7 +93,7 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// get / set the flag whether the robust analysis is running.
+        /// get / set the flag whether the bifurcation analysis is running.
         /// </summary>
         public bool IsRunning
         {
@@ -104,61 +101,16 @@ namespace EcellLib.Analysis
         }
         #endregion
 
-
-        #region Events
         /// <summary>
-        /// Update the status of session at intervals while program is running.
-        /// </summary>
-        /// <param name="sender">Timer.</param>
-        /// <param name="e">EventArgs.</param>
-        void FireTimer(object sender, EventArgs e)
-        {
-            if (!m_manager.IsFinished())
-            {
-                if (m_isRunning == false)
-                {
-                    m_manager.StopRunningJobs();
-                    m_timer.Enabled = false;
-                    m_timer.Stop();
-                }
-                return;
-            }
-            m_isRunning = false;
-            m_timer.Enabled = false;
-            m_timer.Stop();
-            Control.StopRobustAnalysis();
-
-            if (m_manager.IsError())
-            {
-                String mes = Analysis.s_resources.GetString("ErrFindErrorJob");
-                DialogResult res = MessageBox.Show(mes, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (res == DialogResult.Cancel)
-                {
-                    return;
-                }
-            }
-            JudgeRobustAnalysis();
-            String finMes = Analysis.s_resources.GetString("FinishRAnalysis");
-            MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-        #endregion
-
-        /// <summary>
-        /// Execute the robust analysis.
+        /// Execute the bifurcation analysis.
         /// </summary>
         public void ExecuteAnalysis()
         {
-            m_param = m_win.GetRobustAnalysisParameter();
+            m_param = m_win.GetBifurcationAnalysisPrameter();
             String tmpDir = m_manager.TmpRootDir;
-            int num = m_param.SampleNum;
-            double simTime = m_param.SimulationTime; ;
-            int maxSize = Convert.ToInt32(m_param.MaxData);
-            if (num <= 0)
-            {
-                string errmes = Analysis.s_resources.GetString("ErrSampleNumPositive");
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            double simTime = m_param.SimulationTime;
+            int maxSize = Convert.ToInt32(m_param.MaxInput);
+
             if (simTime <= 0.0)
             {
                 string errmes = Analysis.s_resources.GetString("ErrSimTimeUnder");
@@ -178,7 +130,7 @@ namespace EcellLib.Analysis
 
             List<ParameterRange> paramList = m_win.ExtractParameter();
             if (paramList == null) return;
-            if (paramList.Count < 2)
+            if (paramList.Count != 2)
             {
                 String mes = Analysis.s_resources.GetString("ErrParamProp2");
                 MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -189,33 +141,26 @@ namespace EcellLib.Analysis
 
             m_manager.SetParameterRange(paramList);
             m_manager.SetLoggerData(saveList);
-            if (m_param.IsRandomCheck == true)
-            {
-                m_manager.RunSimParameterRange(tmpDir, model, num, simTime, false);
-            }
-            else
-            {
-                m_manager.RunSimParameterMatrix(tmpDir, model, simTime, false);
-            }
+            m_manager.RunSimParameterMatrix(tmpDir, model, simTime, false);
             m_isRunning = true;
             m_timer.Enabled = true;
             m_timer.Start();
         }
 
         /// <summary>
-        /// Stop the robust analysis.
+        /// Stop the bifurcation analysis.
         /// </summary>
         public void StopAnalysis()
         {
             m_manager.StopRunningJobs();
             m_isRunning = false;
-            Control.StopRobustAnalysis();
+            Control.StopSensitivityAnalysis();
         }
 
         /// <summary>
-        /// Judge the robustness from the simulation result.
+        /// Judge the bifurcation from the simulation result.
         /// </summary>
-        private void JudgeRobustAnalysis()
+        private void JudgeBifurcationAnalysis()
         {
             m_win.ClearResult();
             string xPath = "";
@@ -256,21 +201,20 @@ namespace EcellLib.Analysis
             }
             m_win.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
 
-            List<AnalysisJudgementParam> judgeList = m_win.ExtractObserved();
+            List<AnalysisJudgementParam> judgeList = m_win.ExtractBifurcationObserved();
             foreach (int jobid in m_manager.SessionList.Keys)
             {
                 if (m_manager.SessionList[jobid].Status != JobStatus.FINISHED)
                     continue;
                 double x = m_manager.ParameterDic[jobid].GetParameter(xPath);
                 double y = m_manager.ParameterDic[jobid].GetParameter(yPath);
-                bool isOK = true;
                 foreach (AnalysisJudgementParam p in judgeList)
                 {
                     Dictionary<double, double> logList =
                         m_manager.SessionList[jobid].GetLogData(p.Path);
 
                     double simTime = Convert.ToDouble(m_param.SimulationTime);
-                    double winSize = Convert.ToDouble(m_param.WinSize);
+                    double winSize = Convert.ToDouble(m_param.WindowSize);
                     if (simTime > winSize)
                     {
                         Dictionary<double, double> tmpList = new Dictionary<double, double>();
@@ -287,15 +231,13 @@ namespace EcellLib.Analysis
                         }
                     }
 
-                    bool rJudge = JudgeRobustAnalysisByRange(logList, p.Max, p.Min, p.Difference);
-                    bool pJudge = JudgeRobustAnalysisByFFT(logList, p.Rate);
+                    bool rJudge = JudgeBifurcationAnalysisByRange(logList, p.Max, p.Min, p.Difference);
+                    bool pJudge = JudgeBifurcationAnalysisByFFT(logList, p.Rate);
                     if (rJudge == false || pJudge == false)
                     {
-                        isOK = false;
                         break;
                     }
                 }
-                m_win.AddJudgementData(jobid, x, y, isOK);
             }
         }
 
@@ -307,7 +249,7 @@ namespace EcellLib.Analysis
         /// <param name="min">the minimum data of log data.</param>
         /// <param name="diff">the difference of log data.</param>
         /// <returns>if all condition is OK, return true.</returns>
-        private bool JudgeRobustAnalysisByRange(Dictionary<double, double> resDic, double max, double min, double diff)
+        private bool JudgeBifurcationAnalysisByRange(Dictionary<double, double> resDic, double max, double min, double diff)
         {
             bool isFirst = true;
             double minValue = 0.0;
@@ -336,11 +278,11 @@ namespace EcellLib.Analysis
         /// <param name="resDic">log data.</param>
         /// <param name="rate">FFT rate.</param>
         /// <returns>if all judgement is ok, return true.</returns>
-        private bool JudgeRobustAnalysisByFFT(Dictionary<double, double> resDic, double rate)
+        private bool JudgeBifurcationAnalysisByFFT(Dictionary<double, double> resDic, double rate)
         {
             double maxFreq = m_param.MaxFreq;
             double minFreq = m_param.MinFreq;
-            int maxSize = m_param.MaxData;
+            int maxSize = m_param.MaxInput;
 
             ComplexFourierTransformation cft = new ComplexFourierTransformation();
             int size = 4;
@@ -379,99 +321,149 @@ namespace EcellLib.Analysis
 
             return false;
         }
+
+        #region Events
+        /// <summary>
+        /// Update the status of session at intervals while program is running.
+        /// </summary>
+        /// <param name="sender">Timer.</param>
+        /// <param name="e">EventArgs.</param>
+        void FireTimer(object sender, EventArgs e)
+        {
+            if (!m_manager.IsFinished())
+            {
+                if (m_isRunning == false)
+                {
+                    m_manager.StopRunningJobs();
+                    m_timer.Enabled = false;
+                    m_timer.Stop();
+                }
+                return;
+            }
+            m_isRunning = false;
+            m_timer.Enabled = false;
+            m_timer.Stop();
+            Control.StopRobustAnalysis();
+
+            if (m_manager.IsError())
+            {
+                String mes = Analysis.s_resources.GetString("ErrFindErrorJob");
+                DialogResult res = MessageBox.Show(mes, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+            JudgeBifurcationAnalysis();
+            String finMes = Analysis.s_resources.GetString("FinishRAnalysis");
+            MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        #endregion
     }
 
-
     /// <summary>
-    /// Class to manage the parameter of robust analysis.
+    /// The parameter object of bifurcation analysis.
     /// </summary>
-    public class RobustAnalysisParameter
+    public class BifurcationAnalysisParameter
     {
-        private int m_sampleNum;
-        private double m_simulationTime;
-        private int m_maxData;
-        private bool m_isRandomCheck;
+        /// <summary>
+        /// Simulation time to create the data for analysis.
+        /// </summary>
+        private double m_simTime;
+        /// <summary>
+        /// Window size to use the data for analysis.
+        /// </summary>
         private double m_winSize;
+        /// <summary>
+        /// The max number of input to calculate FFT.
+        /// </summary>
+        private int m_maxInput;
+        /// <summary>
+        /// Max frequency of FFT.
+        /// </summary>
         private double m_maxFreq;
+        /// <summary>
+        /// Min frequency of FFT.
+        /// </summary>
         private double m_minFreq;
 
-
+        #region Constructor
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RobustAnalysisParameter()
+        public BifurcationAnalysisParameter()
         {
-            m_sampleNum = 10;
-            m_simulationTime = 100.0;
+            m_simTime = 100.0;
             m_winSize = 10.0;
-            m_isRandomCheck = true;
-            m_maxData = 65536;
-            m_maxFreq = 50;
-            m_minFreq = 30;
+            m_maxInput = 65535;
+            m_maxFreq = 50.0;
+            m_minFreq = 30.0;
         }
 
         /// <summary>
-        /// get / set the number of samples.
+        /// Constructor with the initial parameters.
         /// </summary>
-        public int SampleNum
+        /// <param name="simTime"></param>
+        /// <param name="winSize"></param>
+        /// <param name="maxInput"></param>
+        /// <param name="maxFreq"></param>
+        /// <param name="minFreq"></param>
+        public BifurcationAnalysisParameter(double simTime, double winSize,
+            int maxInput, double maxFreq, double minFreq)
         {
-            get { return m_sampleNum; }
-            set { m_sampleNum = value; }
+            m_simTime = simTime;
+            m_winSize = winSize;
+            m_maxInput = maxInput;
+            m_maxFreq = maxFreq;
+            m_minFreq = minFreq;
         }
+        #endregion
 
+        #region Accsessor
         /// <summary>
         /// get / set the simulation time.
         /// </summary>
         public double SimulationTime
         {
-            get { return m_simulationTime; }
-            set { m_simulationTime = value; }
+            get { return this.m_simTime; }
+            set { this.m_simTime = value; }
         }
 
         /// <summary>
-        /// get / set the max number of samples to calculate FFT.
+        /// get / set the window size.
         /// </summary>
-        public int MaxData
+        public double WindowSize
         {
-            get { return m_maxData; }
-            set { m_maxData = value; }
+            get { return this.m_winSize; }
+            set { this.m_winSize = value; }
         }
 
         /// <summary>
-        /// get / set the flag whether the parameter of this samples is random.
+        /// get / set the max number of input for FFT.
         /// </summary>
-        public bool IsRandomCheck
+        public int MaxInput
         {
-            get { return m_isRandomCheck; }
-            set { m_isRandomCheck = value; }
+            get { return this.m_maxInput; }
+            set { this.m_maxInput = value; }
         }
 
         /// <summary>
-        /// get / set the window size to check.
-        /// </summary>
-        public double WinSize
-        {
-            get { return m_winSize; }
-            set { m_winSize = value; }
-        }
-
-        /// <summary>
-        /// get / set the max frequency of FFT.
+        /// get / set the max frequency to use FFT.
         /// </summary>
         public double MaxFreq
         {
-            get { return m_maxFreq; }
-            set { m_maxFreq = value; }
+            get { return this.m_maxFreq; }
+            set { this.m_maxFreq = value; }
         }
 
         /// <summary>
-        /// get /set the min frequency of FFT.
+        /// get / set the min frequency to use FFT.
         /// </summary>
         public double MinFreq
         {
-            get { return m_minFreq; }
-            set { m_minFreq = value; }
+            get { return this.m_minFreq; }
+            set { this.m_minFreq = value; }
         }
+        #endregion
     }
-
 }

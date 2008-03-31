@@ -55,7 +55,11 @@ namespace EcellLib.Analysis
         /// <summary>
         /// The dictionary of the logging data to be observed.
         /// </summary>
-        private Dictionary<string, EcellData> m_observList = new Dictionary<string, EcellData>();
+        private Dictionary<string, EcellData> m_robustObservList = new Dictionary<string, EcellData>();
+        /// <summary>
+        /// The dictionary of the logging data to be observed.
+        /// </summary>
+        private Dictionary<string, EcellData> m_bifurcationObservList = new Dictionary<string, EcellData>();
         /// <summary>
         /// The dictionary of the data to be set by random.
         /// </summary>
@@ -214,9 +218,14 @@ namespace EcellLib.Analysis
         {
             RAObservGridView.Rows.Clear();
             RAParamGridView.Rows.Clear();
+            PEParamGridView.Rows.Clear();
+
+            BAParameterGridView.Rows.Clear();
+            BAObservedGridView.Rows.Clear();
 
             m_paramList.Clear();
-            m_observList.Clear();
+            m_robustObservList.Clear();
+            m_bifurcationObservList.Clear();
         }
 
         /// <summary>
@@ -227,6 +236,11 @@ namespace EcellLib.Analysis
             RAXComboBox.Items.Clear();
             RAYComboBox.Items.Clear();
             RAResultGridView.Rows.Clear();
+
+            PEEstimateView.Rows.Clear();
+            SACCCGridView.Rows.Clear();
+            SAFCCGridView.Rows.Clear();
+
             m_line = null;
             CurveList l = m_zCnt.GraphPane.CurveList;
             l.Clear();
@@ -361,6 +375,7 @@ namespace EcellLib.Analysis
             if (d.Committed) return;
             AddRobustAnalysisParameterEntry(obj, d);
             AddParameterEstimateEntry(obj, d);
+            AddBifurcationAnalysisParameterEntry(obj, d);
             m_paramList.Add(d.EntityPath, d);
         }
 
@@ -615,6 +630,117 @@ namespace EcellLib.Analysis
         }
         #endregion
 
+        #region BifurcationAnalysis
+        /// <summary>
+        /// Get the parameter set of bifurcation analysis in this form.
+        /// </summary>
+        /// <returns>the parameter set of bifurcation analysis.</returns>
+        public BifurcationAnalysisParameter GetBifurcationAnalysisPrameter()
+        {
+            BifurcationAnalysisParameter p = new BifurcationAnalysisParameter();
+            p.SimulationTime = Convert.ToDouble(BASimTimeText.Text);
+            p.WindowSize = Convert.ToDouble(BAWinSizeText.Text);
+            p.MaxInput = Convert.ToInt32(BAMaxInputText.Text);
+            p.MaxFreq = Convert.ToDouble(BAMaxFreqText.Text);
+            p.MinFreq = Convert.ToDouble(BAMinFreqText.Text);
+
+            return p;
+        }
+
+        /// <summary>
+        /// Set the parameter set of bifurcation analysis in this form.
+        /// </summary>
+        /// <param name="p">the parameter set of bifurcation analysis.</param>
+        public void SetBifurcationAnalysisParameter(BifurcationAnalysisParameter p)
+        {
+            BASimTimeText.Text = Convert.ToString(p.SimulationTime);
+            BAWinSizeText.Text = Convert.ToString(p.WindowSize);
+            BAMaxInputText.Text = Convert.ToString(p.MaxInput);
+            BAMaxFreqText.Text = Convert.ToString(p.MaxFreq);
+            BAMinFreqText.Text = Convert.ToString(p.MinFreq);
+        }
+
+
+        /// <summary>
+        /// Add the parameter entry to use at the bifurcation analysis.
+        /// </summary>
+        /// <param name="obj">object include the parameter data.</param>
+        /// <param name="d">the parameter data.</param>
+        private void AddBifurcationAnalysisParameterEntry(EcellObject obj, EcellData d)
+        {
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+            c1.Value = d.EntityPath;
+            r.Cells.Add(c1);
+            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+            c2.Value = d.Max;
+            r.Cells.Add(c2);
+            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
+            c3.Value = d.Min;
+            r.Cells.Add(c3);
+            DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
+            c4.Value = d.Step;
+            r.Cells.Add(c4);
+            r.Tag = obj;
+
+            BAParameterGridView.Rows.Add(r);
+        }
+
+        /// <summary>
+        /// Extract the judgement condition from DataGridView.
+        /// </summary>
+        /// <returns>the list of judgement condition.</returns>
+        public List<AnalysisJudgementParam> ExtractBifurcationObserved()
+        {
+            List<AnalysisJudgementParam> resList = new List<AnalysisJudgementParam>();
+
+            for (int i = 0; i < BAObservedGridView.Rows.Count; i++)
+            {
+                string path = BAObservedGridView[0, i].Value.ToString();
+                double max = Convert.ToDouble(BAObservedGridView[1, i].Value);
+                double min = Convert.ToDouble(BAObservedGridView[2, i].Value);
+                double diff = Convert.ToDouble(BAObservedGridView[3, i].Value);
+                double rate = Convert.ToDouble(BAObservedGridView[4, i].Value);
+
+                AnalysisJudgementParam p = new AnalysisJudgementParam(path, max, min, diff, rate);
+                resList.Add(p);
+            }
+
+            return resList;
+        }
+
+        /// <summary>
+        /// Get the list of observed property to judge for analysis.
+        /// If there are any problems, this function return null. 
+        /// </summary>
+        /// <returns>the list of observed property.</returns>
+        public List<SaveLoggerProperty> GetBifurcationObservedDataList()
+        {
+            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+
+            for (int i = 0; i < BAObservedGridView.Rows.Count; i++)
+            {
+                String dir = manager.TmpDir;
+                string path = BAObservedGridView[0, i].Value.ToString();
+                double start = 0.0;
+                double end = Convert.ToDouble(BASimTimeText.Text);
+                SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
+
+                resList.Add(p);
+            }
+
+            if (resList.Count < 1)
+            {
+                String mes = Analysis.s_resources.GetString("ErrObservProp");
+                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            return resList;
+        }
+        #endregion
+
         #region RobustAnalysis
         /// <summary>
         /// Get the robust analysis parameter set in this form.
@@ -654,9 +780,9 @@ namespace EcellLib.Analysis
         /// Extract the judgement condition from DataGridView.
         /// </summary>
         /// <returns>the list of judgement condition.</returns>
-        public List<RobustAnalysisJudgementParam> ExtractObserved()
+        public List<AnalysisJudgementParam> ExtractObserved()
         {
-            List<RobustAnalysisJudgementParam> resList = new List<RobustAnalysisJudgementParam>();
+            List<AnalysisJudgementParam> resList = new List<AnalysisJudgementParam>();
 
             for (int i = 0; i < RAObservGridView.Rows.Count; i++)
             {
@@ -666,7 +792,7 @@ namespace EcellLib.Analysis
                 double diff = Convert.ToDouble(RAObservGridView[3, i].Value);
                 double rate = Convert.ToDouble(RAObservGridView[4, i].Value);
 
-                RobustAnalysisJudgementParam p = new RobustAnalysisJudgementParam(path, max, min, diff, rate);
+                AnalysisJudgementParam p = new AnalysisJudgementParam(path, max, min, diff, rate);
                 resList.Add(p);
             }
 
@@ -878,8 +1004,8 @@ namespace EcellLib.Analysis
         /// <param name="key">the key of observed value.</param>
         public void RemoveObservEntry(string key)
         {
-            if (m_observList.ContainsKey(key))
-                m_observList.Remove(key);
+            if (m_robustObservList.ContainsKey(key))
+                m_robustObservList.Remove(key);
             else
                 return;
 
@@ -1076,7 +1202,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DragEventArgs</param>
-        private void DragDropObserv(object sender, DragEventArgs e)
+        private void DragDropObservForRobust(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
             if (obj == null) return;
@@ -1128,7 +1254,7 @@ namespace EcellLib.Analysis
                     r.Tag = t;
                     AssignObservPopupMenu(r);
                     RAObservGridView.Rows.Add(r);
-                    m_observList.Add(d.EntityPath, d);
+                    m_robustObservList.Add(d.EntityPath, d);
                 }
             }
         }
@@ -1138,7 +1264,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DragEventArgs</param>
-        private void DragEnterObserv(object sender, DragEventArgs e)
+        private void DragEnterObservForRobust(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
             if (obj != null)
@@ -1146,6 +1272,83 @@ namespace EcellLib.Analysis
             else
                 e.Effect = DragDropEffects.None;
         }
+
+        /// <summary>
+        /// Event to drop the object on the observe DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DragEventArgs</param>
+        private void DragDropObservForBifurcation(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            if (obj == null) return;
+            EcellDragObject dobj = obj as EcellDragObject;
+
+            DataManager dManager = DataManager.GetDataManager();
+            EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
+            foreach (EcellData d in t.Value)
+            {
+                if (d.EntityPath.Equals(dobj.Path))
+                {
+                    DataGridViewRow r = new DataGridViewRow();
+                    DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+                    c1.Value = d.EntityPath;
+                    r.Cells.Add(c1);
+                    DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+                    if (d.Max == 0.0)
+                    {
+                        c2.Value = Convert.ToDouble(d.Value.ToString()) * 1.5;
+                    }
+                    else
+                    {
+                        c2.Value = d.Max;
+                    }
+                    r.Cells.Add(c2);
+                    DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
+                    if (d.Min == 0.0)
+                    {
+                        c3.Value = Convert.ToDouble(d.Value.ToString()) * 0.5;
+                    }
+                    else
+                    {
+                        c3.Value = d.Min;
+                    }
+                    r.Cells.Add(c3);
+                    DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
+                    if (d.Max == 0.0 && d.Min == 0.0)
+                    {
+                        c4.Value = Convert.ToDouble(d.Value.ToString());
+                    }
+                    else
+                    {
+                        c4.Value = d.Max - d.Min;
+                    }
+                    r.Cells.Add(c4);
+                    DataGridViewTextBoxCell c5 = new DataGridViewTextBoxCell();
+                    c5.Value = 0.5;
+                    r.Cells.Add(c5);
+                    r.Tag = t;
+//                    AssignObservPopupMenu(r);
+                    BAObservedGridView.Rows.Add(r);
+                    m_bifurcationObservList.Add(d.EntityPath, d);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event to enter in the observe DataGridView.
+        /// </summary>
+        /// <param name="sender">DataGridView.</param>
+        /// <param name="e">DragEventArgs</param>
+        private void DragEnterObservForBifurcation(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            if (obj != null)
+                e.Effect = DragDropEffects.Move;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
 
         /// <summary>
         /// Event to delete the item on the observe DataGridView.
