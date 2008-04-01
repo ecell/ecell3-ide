@@ -348,7 +348,7 @@ namespace EcellLib.PathwayWindow
 
 #if DEBUG
             ToolStripItem debug = new ToolStripMenuItem("Debug");
-            debug.Click += new EventHandler(m_con.DebugClick);
+            debug.Click += new EventHandler(DebugClick);
             nodeMenu.Items.Add(debug);
 #endif
             return nodeMenu;
@@ -744,11 +744,11 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         public void DebugClick(object sender, EventArgs e)
         {
-            if (ActiveCanvas.FocusNode is PPathwayObject)
+            if (m_con.Canvas.FocusNode is PPathwayObject)
             {
-                PPathwayObject obj = (PPathwayObject)m_con.CanvasControl.FocusNode;
+                PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
                 MessageBox.Show(
-                    "Name:" + obj.EcellObject.key
+                    "Name:" + obj.EcellObject.Key
                     + "\nLayer:" + obj.EcellObject.LayerID
                     + "\nX:" + obj.X + "\nY:" + obj.Y
                     + "\nWidth:" + obj.Width + "\nHeight:" + obj.Height
@@ -758,7 +758,7 @@ namespace EcellLib.PathwayWindow
             else
             {
                 ToolStripMenuItem item = (ToolStripMenuItem)sender;
-                MessageBox.Show("X:" + m_mousePos.X + "Y:" + m_mousePos.Y);
+                MessageBox.Show("X:" + m_con.MousePosition.X + "Y:" + m_con.MousePosition.Y);
             }
         }
 #endif

@@ -414,42 +414,21 @@ namespace EcellLib.PathwayWindow
         /// <param name="fileName">Leml file path</param>
         private void LoadFromLeml(string fileName)
         {
-            // Deserialize objects from a file
-            List<EcellObject> data = GetObjectList();
+            // Load Object Settings.
             List<EcellObject> objList = EcellSerializer.LoadFromXML(fileName);
 
-            // Create Object dictionary.
-            Dictionary<string, EcellObject> objDict = new Dictionary<string, EcellObject>();
-            foreach (EcellObject eo in objList)
-                objDict.Add(eo.Type + ":" + eo.Key, eo);
             // Set position.
-            string dictKey;
-            foreach (EcellObject eo in data)
+            foreach (EcellObject eo in objList)
             {
-                dictKey = eo.Type + ":" + eo.Key;
-                if (!objDict.ContainsKey(dictKey))
+                PPathwayObject obj = m_canvas.GetSelectedObject(eo.Key, eo.Type);
+                if (obj == null)
                     continue;
 
-                eo.SetPosition(objDict[dictKey]);
-                if (!objDict[dictKey].LayerID.Equals(""))
-                    eo.LayerID = objDict[dictKey].LayerID;
+                obj.EcellObject.SetPosition(eo);
+                if (!string.IsNullOrEmpty(eo.LayerID))
+                    obj.EcellObject.LayerID = eo.LayerID;
 
-                if (eo.Children == null)
-                    continue;
-                foreach (EcellObject child in eo.Children)
-                {
-                    dictKey = child.Type + ":" + child.Key;
-                    if (!objDict.ContainsKey(dictKey))
-                        continue;
-
-                    child.SetPosition(objDict[dictKey]);
-                    if (!objDict[dictKey].LayerID.Equals(""))
-                        child.LayerID = objDict[dictKey].LayerID;
-                }
-            }
-            foreach (EcellObject node in data)
-            {
-                this.NotifyDataChanged(node.Key, node, false, false);
+                this.NotifyDataChanged(eo.Key, obj.EcellObject, false, false);
             }
         }
 
@@ -678,7 +657,7 @@ namespace EcellLib.PathwayWindow
         /// Set EventHandler.
         /// </summary>
         /// <param name="handle"></param>
-        public void SetEventHandler(Handle handle)
+        internal void SetEventHandler(Handle handle)
         {
             // Remove old EventHandler
             PBasicInputEventHandler handler = m_selectedHandle.EventHandler;
@@ -708,7 +687,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Reset object settings.
         /// </summary>
-        public void ResetObjectSettings()
+        internal void ResetObjectSettings()
         {
             if (m_canvas == null)
                 return;
@@ -1054,7 +1033,7 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
-        #region internal Methods.
+        #region private Methods.
         /// <summary>
         /// Create pathway canvas.
         /// </summary>
