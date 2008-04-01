@@ -793,12 +793,18 @@ namespace EcellLib.PathwayWindow
         {
             List<EcellObject> list = new List<EcellObject>();
             list.Add(eo);
-            if (m_window != null)
+            try
+            {
                 m_window.NotifyDataAdd(list, isAnchor);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
         }
         
         /// <summary>
-        /// Notify DataChanged event to outside (PathwayView -> PathwayWindow -> DataManager)
+        /// Notify DataChanged event to outside (PathwayControl -> PathwayWindow -> DataManager)
         /// To notify position or size change.
         /// </summary>
         /// <param name="oldKey">the key before adding.</param>
@@ -811,21 +817,11 @@ namespace EcellLib.PathwayWindow
             bool isRecorded,
             bool isAnchor)
         {
-            try
-            {
-                m_window.NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                DataChanged(eo.ModelID, oldKey, eo.Type, eo);
-                if (m_isViewMode && m_status == ProjectStatus.Running)
-                    m_animCon.UpdatePropForSimulation();
-            }
-
+            m_window.NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
         }
+
         /// <summary>
-        /// Notify DataChanged event to outside (PathwayView -> PathwayWindow -> DataManager)
+        /// Notify DataChanged event to outside (PathwayControl -> PathwayWindow -> DataManager)
         /// To notify position or size change.
         /// </summary>
         /// <param name="oldKey">the key before adding.</param>
@@ -893,7 +889,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="isLogger">The flag whether the entity is logged.</param>
         public void NotifyLoggerChanged(PPathwayObject obj, string logger, bool isLogger)
         {
-            EcellObject eo = m_window.GetEcellObject(obj.EcellObject.ModelID, obj.EcellObject.Key, obj.EcellObject.Type);
+            EcellObject eo = obj.EcellObject;
 
             // set logger
             foreach (EcellData d in eo.Value)
@@ -912,7 +908,14 @@ namespace EcellLib.PathwayWindow
                     eo.Type,
                     d.EntityPath);
             }
-            NotifyDataChanged(eo.Key, eo, true, true);
+            try
+            {
+                NotifyDataChanged(eo.Key, eo.Key, obj, true, true);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
@@ -926,7 +929,9 @@ namespace EcellLib.PathwayWindow
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient, bool isAnchor)
         {
             // Get EcellObject of identified process.
-            EcellProcess ep = (EcellProcess)m_window.GetEcellObject(Canvas.ModelID, proKey, EcellObject.PROCESS);
+            PPathwayObject node = m_canvas.GetSelectedObject(proKey, EcellObject.PROCESS);
+            EcellProcess ep = (EcellProcess)node.EcellObject;
+
             // End if obj is null.
             if (null == ep)
                 return;
@@ -993,7 +998,15 @@ namespace EcellLib.PathwayWindow
                 }
             }
             ep.ReferenceList = newList;
-            NotifyDataChanged(ep.Key, ep, true, isAnchor);
+            try
+            {
+                NotifyDataChanged(proKey, proKey, node, true, isAnchor);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
         }
 
         /// <summary>
@@ -1003,7 +1016,15 @@ namespace EcellLib.PathwayWindow
         /// <param name="isAnchor">the type of deleted object.</param>
         public void NotifyDataDelete(PPathwayObject obj, bool isAnchor)
         {
-            NotifyDataDelete(obj.EcellObject, isAnchor);
+            try
+            {
+                NotifyDataDelete(obj.EcellObject, isAnchor);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
         }
         #endregion
 

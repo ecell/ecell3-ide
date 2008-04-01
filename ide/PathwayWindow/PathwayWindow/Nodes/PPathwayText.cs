@@ -93,10 +93,11 @@ namespace EcellLib.PathwayWindow.Nodes
             base.OnDoubleClick(e);
             PointF pos = new PointF(base.X + base.OffsetX, base.Y + base.OffsetY);
             m_canvas.PathwayCanvas.Controls.Add(m_tbox);
+            float viewScale = m_canvas.PathwayCanvas.Camera.ViewScale;
             m_tbox.Text = base.Text;
             m_tbox.Location = m_canvas.CanvasPosToSystemPos(pos);
-            m_tbox.Width = (int)base.Width;
-            m_tbox.Height = (int)base.Height;
+            m_tbox.Width = (int)(base.Width * viewScale);
+            m_tbox.Height = (int)(base.Height * viewScale);
             m_tbox.Focus();
         }
 
