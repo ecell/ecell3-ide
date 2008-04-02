@@ -124,7 +124,7 @@ namespace EcellLib.MainWindow
             ZipOutputStream zos = null;
             Crc32 crc = new Crc32();
 
-            string[] filePaths = Directory.GetFiles(folderPath);
+            string[] filePaths = Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories);
 
             try
             {
@@ -142,7 +142,7 @@ namespace EcellLib.MainWindow
                     if (!File.Exists(filePath))
                         return;
 
-                    string filename = GetRelativePath(filePath, folderPath);
+                    string filename = GetRelativePath(folderPath, filePath);
                     ZipEntry ze = new ZipEntry(filename);
 
                     FileStream fs = new FileStream(

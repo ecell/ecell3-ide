@@ -77,6 +77,7 @@ namespace EcellLib.MainWindow
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
+            this.manageProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
             this.menustrip.SuspendLayout();
@@ -121,6 +122,7 @@ namespace EcellLib.MainWindow
             this.openProjectToolStripMenuItem,
             this.saveProjectToolStripMenuItem,
             this.closeProjectToolStripMenuItem,
+            this.manageProjectToolStripMenuItem,
             this.toolStripSeparator1,
             this.importModelToolStripMenuItem,
             this.exportModelToolStripMenuItem,
@@ -176,7 +178,7 @@ namespace EcellLib.MainWindow
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
-            this.toolStripSeparator1.Tag = "5";
+            this.toolStripSeparator1.Tag = "6";
             // 
             // importModelToolStripMenuItem
             // 
@@ -390,14 +392,17 @@ namespace EcellLib.MainWindow
             this.ShowVersionMenuItem.Tag = "100";
             this.ShowVersionMenuItem.Click += new System.EventHandler(this.ShowPluginVersionClick);
             // 
-            // openFileDialog
-            // 
-            resources.ApplyResources(this.m_openFileDialog, "openFileDialog");
-            // 
             // openScriptDialog
             // 
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
+            // 
+            // manageProjectToolStripMenuItem
+            // 
+            this.manageProjectToolStripMenuItem.Name = "manageProjectToolStripMenuItem";
+            resources.ApplyResources(this.manageProjectToolStripMenuItem, "manageProjectToolStripMenuItem");
+            this.manageProjectToolStripMenuItem.Tag = "5";
+            this.manageProjectToolStripMenuItem.Click += new System.EventHandler(this.ManageProjectMenuClick);
             // 
             // MainWindow
             // 
@@ -516,6 +521,7 @@ namespace EcellLib.MainWindow
         /// MenuItem to display the list of jobs.
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem jobStatusToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manageProjectToolStripMenuItem;
     }
 }
 

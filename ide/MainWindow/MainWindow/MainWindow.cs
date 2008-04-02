@@ -1129,6 +1129,52 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ManageProjectMenuClick(object sender, EventArgs e)
+        {
+            // Check the modification and confirm save.
+            if (m_editCount > 0)
+            {
+                String mes = MainWindow.s_resources.GetString("SaveConfirm");
+                DialogResult res = MessageBox.Show(mes, "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    m_isClose = true;
+                    SaveProjectMenuClick(sender, e);
+                    m_editCount = 0;
+                }
+            }
+            // Show OpenProjectDialog.
+            ManageProjectDialog dialog = null;
+            try
+            {
+                dialog = new ManageProjectDialog();
+                dialog.CreateProjectTreeView(null, m_currentDir, false);
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                }
+                else
+                {
+                }
+            }
+            catch (Exception ex)
+            {
+                String errmes = MainWindow.s_resources.GetString("ErrShowOpenPrj");
+                MessageBox.Show(errmes + "\n\n" + ex,
+                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            finally
+            {
+                if (dialog != null)
+                    dialog.Dispose();
+            }
+        }
+
+        /// <summary>
         /// The action of [save project] menu click.
         /// Show SaveProjectDialog and select the save instance.
         /// </summary>

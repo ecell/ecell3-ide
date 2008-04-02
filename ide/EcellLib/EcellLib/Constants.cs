@@ -94,6 +94,10 @@ namespace EcellLib
         /// </summary>
         public const string extWinSetFile = "Window Setting File(*.xml)|*.xml|all(*.*)|*.*";
         /// <summary>
+        /// File extention of the zip file.
+        /// </summary>
+        public const string extZipFile = "Zip File(*.zip)|*.zip";
+        /// <summary>
         /// Reserved the name of file..
         /// </summary>
         public const string fileProject = "project.info";
@@ -429,6 +433,10 @@ namespace EcellLib
         /// Reserved XML path name for xml.
         /// </summary>
         public const string xpathXml = "xml";
+        /// <summary>
+        /// Reserved XML path name for xml.
+        /// </summary>
+        public const string xpathInfo = "info";
     }
 
     /// <summary>
