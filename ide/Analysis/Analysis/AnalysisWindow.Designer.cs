@@ -142,6 +142,15 @@
             this.BAParameterGridView = new System.Windows.Forms.DataGridView();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.BAObservedGridView = new System.Windows.Forms.DataGridView();
+            this.BAIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BAMaxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BAMinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BAStepColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BAOIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BAOMaxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BAOMinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BAODifferColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BAORateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.robustTabControl.SuspendLayout();
             this.ResultTab.SuspendLayout();
             this.RAAnalysisTableLayout.SuspendLayout();
@@ -971,9 +980,19 @@
             // 
             // BAParameterGridView
             // 
+            this.BAParameterGridView.AllowDrop = true;
+            this.BAParameterGridView.AllowUserToAddRows = false;
+            this.BAParameterGridView.AllowUserToDeleteRows = false;
+            this.BAParameterGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.BAParameterGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.BAParameterGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.BAIDColumn,
+            this.BAMaxColumn,
+            this.BAMinColumn,
+            this.BAStepColumn});
             resources.ApplyResources(this.BAParameterGridView, "BAParameterGridView");
             this.BAParameterGridView.Name = "BAParameterGridView";
+            this.BAParameterGridView.RowHeadersVisible = false;
             this.BAParameterGridView.RowTemplate.Height = 21;
             this.BAParameterGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterParam);
             this.BAParameterGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropParam);
@@ -987,12 +1006,81 @@
             // 
             // BAObservedGridView
             // 
+            this.BAObservedGridView.AllowDrop = true;
+            this.BAObservedGridView.AllowUserToAddRows = false;
+            this.BAObservedGridView.AllowUserToDeleteRows = false;
+            this.BAObservedGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.BAObservedGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.BAObservedGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.BAOIDColumn,
+            this.BAOMaxColumn,
+            this.BAOMinColumn,
+            this.BAODifferColumn,
+            this.BAORateColumn});
             resources.ApplyResources(this.BAObservedGridView, "BAObservedGridView");
             this.BAObservedGridView.Name = "BAObservedGridView";
+            this.BAObservedGridView.ReadOnly = true;
+            this.BAObservedGridView.RowHeadersVisible = false;
             this.BAObservedGridView.RowTemplate.Height = 21;
             this.BAObservedGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterObservForBifurcation);
             this.BAObservedGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropObservForBifurcation);
+            // 
+            // BAIDColumn
+            // 
+            resources.ApplyResources(this.BAIDColumn, "BAIDColumn");
+            this.BAIDColumn.Name = "BAIDColumn";
+            // 
+            // BAMaxColumn
+            // 
+            this.BAMaxColumn.FillWeight = 30F;
+            resources.ApplyResources(this.BAMaxColumn, "BAMaxColumn");
+            this.BAMaxColumn.Name = "BAMaxColumn";
+            // 
+            // BAMinColumn
+            // 
+            this.BAMinColumn.FillWeight = 30F;
+            resources.ApplyResources(this.BAMinColumn, "BAMinColumn");
+            this.BAMinColumn.Name = "BAMinColumn";
+            // 
+            // BAStepColumn
+            // 
+            this.BAStepColumn.FillWeight = 30F;
+            resources.ApplyResources(this.BAStepColumn, "BAStepColumn");
+            this.BAStepColumn.Name = "BAStepColumn";
+            // 
+            // BAOIDColumn
+            // 
+            resources.ApplyResources(this.BAOIDColumn, "BAOIDColumn");
+            this.BAOIDColumn.Name = "BAOIDColumn";
+            this.BAOIDColumn.ReadOnly = true;
+            // 
+            // BAOMaxColumn
+            // 
+            this.BAOMaxColumn.FillWeight = 30F;
+            resources.ApplyResources(this.BAOMaxColumn, "BAOMaxColumn");
+            this.BAOMaxColumn.Name = "BAOMaxColumn";
+            this.BAOMaxColumn.ReadOnly = true;
+            // 
+            // BAOMinColumn
+            // 
+            this.BAOMinColumn.FillWeight = 30F;
+            resources.ApplyResources(this.BAOMinColumn, "BAOMinColumn");
+            this.BAOMinColumn.Name = "BAOMinColumn";
+            this.BAOMinColumn.ReadOnly = true;
+            // 
+            // BAODifferColumn
+            // 
+            this.BAODifferColumn.FillWeight = 30F;
+            resources.ApplyResources(this.BAODifferColumn, "BAODifferColumn");
+            this.BAODifferColumn.Name = "BAODifferColumn";
+            this.BAODifferColumn.ReadOnly = true;
+            // 
+            // BAORateColumn
+            // 
+            this.BAORateColumn.FillWeight = 30F;
+            resources.ApplyResources(this.BAORateColumn, "BAORateColumn");
+            this.BAORateColumn.Name = "BAORateColumn";
+            this.BAORateColumn.ReadOnly = true;
             // 
             // AnalysisWindow
             // 
@@ -1223,5 +1311,14 @@
         private System.Windows.Forms.TextBox BAMaxInputText;
         private System.Windows.Forms.TextBox BAMaxFreqText;
         private System.Windows.Forms.TextBox BAMinFreqText;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BAIDColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BAMaxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BAMinColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BAStepColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BAOIDColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BAOMaxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BAOMinColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BAODifferColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BAORateColumn;
     }
 }

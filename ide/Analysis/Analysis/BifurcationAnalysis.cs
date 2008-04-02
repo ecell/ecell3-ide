@@ -65,7 +65,9 @@ namespace EcellLib.Analysis
         /// The flag whether the analysis is running.
         /// </summary>
         private bool m_isRunning = false;
+        private string m_model;
         private BifurcationAnalysisParameter m_param;
+        private List<ParameterRange> m_paramList;
         #endregion
 
         /// <summary>
@@ -75,6 +77,9 @@ namespace EcellLib.Analysis
         {
             m_win = AnalysisWindow.GetWindow();
             m_manager = SessionManager.SessionManager.GetManager();
+
+            m_result = new BifurcationResult[s_num + 1, s_num + 1];
+
 
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
@@ -124,24 +129,87 @@ namespace EcellLib.Analysis
                 return;
             }
 
-            string model = "";
+            m_model = "";
             List<string> modelList = DataManager.GetDataManager().GetModelList();
-            if (modelList.Count > 0) model = modelList[0];
+            if (modelList.Count > 0) m_model = modelList[0];
 
-            List<ParameterRange> paramList = m_win.ExtractParameter();
-            if (paramList == null) return;
-            if (paramList.Count != 2)
+            m_paramList = m_win.ExtractParameter();
+            if (m_paramList == null) return;
+            if (m_paramList.Count != 2)
             {
                 String mes = Analysis.s_resources.GetString("ErrParamProp2");
                 MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            List<SaveLoggerProperty> saveList = m_win.GetRobustObservedDataList();
+            List<SaveLoggerProperty> saveList = m_win.GetBifurcationObservedDataList();
             if (saveList == null) return;
 
-            m_manager.SetParameterRange(paramList);
+            int count = 0;
+            for (int i = 0; i <= s_num; i++)
+            {
+                for (int j = 0; j <= s_num; j++)
+                {
+                    m_result[i, j] = BifurcationResult.None;
+                }
+            }
+
+            Dictionary<int, ExecuteParameter> tmpDic = new Dictionary<int, ExecuteParameter>();
+            int jobid = 0;
+            foreach (ParameterRange p in m_paramList)
+            {
+                double step = (p.Max - p.Min) / (double)s_num;
+                bool isX = false;
+                bool isY = false;
+                if (count == 0)
+                {
+                    isX = true;
+                    m_xPath = p.FullPath;
+                    m_xMax = p.Max;
+                    m_xMin = p.Min;
+                    m_xList.Clear();
+                    for (int i = 0  ; i <= s_num ; i++ )
+                    {
+                        double d = p.Min + step * i;
+                        m_xList.Add(d);
+                    }
+                }
+                else if (count == 1)
+                {
+                    isY = true;
+                    m_yPath = p.FullPath;
+                    m_yMax = p.Max;
+                    m_yMin = p.Min;
+                    m_yList.Clear();
+                    for (int i = 0; i <= s_num; i++)
+                    {
+                        double d = p.Min + step * i;
+                        m_yList.Add(d);
+                    }
+                }
+                m_win.SetResultEntryBox(p.FullPath, isX, isY);
+                count++;
+            }
+            m_win.SetResultGraphSize(m_xMax, m_xMin, m_yMax, m_yMin, false, false);
+
+            for (int i = 0; i <= s_num; i = i + 10)
+            {
+                double xd = m_xList[i];
+                for (int j = 0; j <= s_num; j = j + 10)
+                {
+                    double yd = m_yList[j];
+                    Dictionary<string, double> paramDic = new Dictionary<string,double>();
+                    paramDic.Add(m_xPath, xd);
+                    paramDic.Add(m_yPath, yd);
+                    tmpDic.Add(jobid, new ExecuteParameter(paramDic));
+                    jobid++;
+                }
+            }
+
+//            m_manager.SetParameterRange(tmpList);
             m_manager.SetLoggerData(saveList);
-            m_manager.RunSimParameterMatrix(tmpDir, model, simTime, false);
+//            m_execParam = m_manager.RunSimParameterMatrix(tmpDir, m_model, simTime, false);
+            m_execParam = m_manager.RunSimParameterSet(tmpDir, m_model, simTime, false, tmpDic);
+            m_win.ClearResult();
             m_isRunning = true;
             m_timer.Enabled = true;
             m_timer.Start();
@@ -157,57 +225,144 @@ namespace EcellLib.Analysis
             Control.StopSensitivityAnalysis();
         }
 
+        private void AddPoint(double x, double y, BifurcationResult res)
+        {
+            int i, j;
+            for (i = 0; i < m_xList.Count; i++)
+            {
+                if (m_xList[i] == x) break;
+            }
+            for (j = 0; j < m_yList.Count; j++)
+            {
+                if (m_yList[j] == y) break;
+            }
+            m_result[i, j] = res;
+        }
+
+        private int[,] SearchPoint()
+        {
+            int[,] res = new int[s_num + 1, s_num + 1];
+
+            for (int i = 0; i <= s_num; i++)
+            {
+                for (int j = 0; j <= s_num; j++)
+                {
+                    if (m_result[i, j] == BifurcationResult.OK)
+                        res[i, j] = 1;
+                }
+            }
+            return res;
+        }
+
+        private Dictionary<int, ExecuteParameter> CreateExecuteParameter(int[,] pos)
+        {
+            int jobid = 0;
+            Dictionary<int, ExecuteParameter> res = new Dictionary<int, ExecuteParameter>();
+            for (int i = 0; i <= s_num; i++)
+            {
+                for (int j = 0; j <= s_num; j++)
+                {
+                    Dictionary<string, double> paramDic = new Dictionary<string, double>();
+                    if (pos[i, j] == 0) continue;
+                    int acount = 0;
+                    int ncount = 0;
+                    int gcount = 0;
+                    int ocount = 0;
+                    for (int m = -1; m <= 1; m = m + 2)
+                    {
+                        if (i + m < 0 || i + m > s_num) continue;
+                        for (int n = -1; n <= 1; n = n + 2)
+                        {
+                            if (j + n < 0 || j + n > s_num) continue;
+                            acount++;
+                            if (m_result[i + m, j + n] == BifurcationResult.None)
+                                ncount++;
+                            else if (m_result[i + m, j + n] == BifurcationResult.OK ||
+                                m_result[i + m, j + n] == BifurcationResult.FindOk)
+                                ocount++;
+                            else
+                                gcount++;
+
+                        }
+                    }
+                    if (acount == ocount)
+                    {
+                        // nothing
+                    }
+                    else
+                    {
+                        // ncount == acount and gcount > 0 and so on.
+                        paramDic.Add(m_xPath, m_xList[i]);
+                        paramDic.Add(m_yPath, m_yList[j]);
+                        res.Add(jobid, new ExecuteParameter(paramDic));
+                        jobid++;
+                    }
+
+                    if (m_result[i, j] == BifurcationResult.OK)
+                        m_result[i, j] = BifurcationResult.FindOk;
+
+                }
+            }
+            return res;
+        }
+
+        private void PrintResultData()
+        {
+            for (int i = 0; i <= s_num; i++)
+            {
+                for (int j = 0; j <= s_num; j++)
+                {
+                    if (m_result[i, j] != BifurcationResult.OK &&
+                        m_result[i, j] != BifurcationResult.FindOk)
+                        continue;
+                    bool isEdge = false;
+                    for (int m = -1; m <= 1; m = m + 2)
+                    {
+                        if (i + m >= 0 && i + m <= s_num)
+                            if (m_result[i + m, j] == BifurcationResult.NG)
+                            {
+                                isEdge = true;
+                                break;
+                            }
+                        if (j + m >= 0 && j + m <= s_num)
+                            if (m_result[i, j + m] == BifurcationResult.NG)
+                            {
+                                isEdge = true;
+                                break;
+                            }
+                    }
+                    if (isEdge)
+                        m_win.AddJudgementDataForBifurcation(m_xList[i], m_yList[j]);
+                }
+            }
+        }
+
+        private string m_xPath;
+        private string m_yPath;
+        private double m_xMax;
+        private double m_xMin;
+        private double m_yMax;
+        private double m_yMin;
+        private BifurcationResult[,] m_result;
+        private List<double> m_xList = new List<double>();
+        private List<double> m_yList = new List<double>();
+        private Dictionary<int, ExecuteParameter> m_execParam;
+        private static int s_num = 50;
+
         /// <summary>
         /// Judge the bifurcation from the simulation result.
         /// </summary>
         private void JudgeBifurcationAnalysis()
         {
-            m_win.ClearResult();
-            string xPath = "";
-            string yPath = "";
-            double xmax = 0.0;
-            double xmin = 0.0;
-            double ymax = 0.0;
-            double ymin = 0.0;
-            List<ParameterRange> pList = m_win.ExtractParameter();
-            if (pList == null) return;
-            if (pList.Count < 2)
-            {
-                String mes = Analysis.s_resources.GetString("ErrParamProp2");
-                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            int count = 0;
-            foreach (ParameterRange r in pList)
-            {
-                bool isX = false;
-                bool isY = false;
-                if (count == 0)
-                {
-                    isX = true;
-                    xPath = r.FullPath;
-                    xmax = r.Max;
-                    xmin = r.Min;
-                }
-                else if (count == 1)
-                {
-                    isY = true;
-                    yPath = r.FullPath;
-                    ymax = r.Max;
-                    ymin = r.Min;
-                }
-                m_win.SetResultEntryBox(r.FullPath, isX, isY);
-                count++;
-            }
-            m_win.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
-
             List<AnalysisJudgementParam> judgeList = m_win.ExtractBifurcationObserved();
-            foreach (int jobid in m_manager.SessionList.Keys)
+            foreach (int jobid in m_execParam.Keys)
             {
                 if (m_manager.SessionList[jobid].Status != JobStatus.FINISHED)
                     continue;
-                double x = m_manager.ParameterDic[jobid].GetParameter(xPath);
-                double y = m_manager.ParameterDic[jobid].GetParameter(yPath);
+                double x = m_manager.ParameterDic[jobid].GetParameter(m_xPath);
+                double y = m_manager.ParameterDic[jobid].GetParameter(m_yPath);
+
+                bool isOK = true;
                 foreach (AnalysisJudgementParam p in judgeList)
                 {
                     Dictionary<double, double> logList =
@@ -235,9 +390,14 @@ namespace EcellLib.Analysis
                     bool pJudge = JudgeBifurcationAnalysisByFFT(logList, p.Rate);
                     if (rJudge == false || pJudge == false)
                     {
+                        isOK = false;
                         break;
                     }
                 }
+                if (isOK)
+                    AddPoint(x, y, BifurcationResult.OK);
+                else
+                    AddPoint(x, y, BifurcationResult.NG);
             }
         }
 
@@ -340,10 +500,8 @@ namespace EcellLib.Analysis
                 }
                 return;
             }
-            m_isRunning = false;
             m_timer.Enabled = false;
             m_timer.Stop();
-            Control.StopRobustAnalysis();
 
             if (m_manager.IsError())
             {
@@ -355,8 +513,22 @@ namespace EcellLib.Analysis
                 }
             }
             JudgeBifurcationAnalysis();
-            String finMes = Analysis.s_resources.GetString("FinishRAnalysis");
-            MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            int[,] respos = SearchPoint();
+            Dictionary<int, ExecuteParameter> paramList = CreateExecuteParameter(respos);
+            if (paramList.Count <= 0)
+            {
+                PrintResultData();
+                m_isRunning = false;
+                Control.StopBifurcationAnalysis();
+                String finMes = Analysis.s_resources.GetString("FinishBAnalysis");
+                MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            String tmpDir = m_manager.TmpRootDir;
+            m_execParam = m_manager.RunSimParameterSet(tmpDir, m_model, m_param.SimulationTime, false, paramList);
+
+            m_timer.Enabled = true;
+            m_timer.Start();
         }
         #endregion
     }
@@ -465,5 +637,28 @@ namespace EcellLib.Analysis
             set { this.m_minFreq = value; }
         }
         #endregion
+    }
+
+    /// <summary>
+    /// The result information for Bifurcation.
+    /// </summary>
+    public enum BifurcationResult
+    {
+        /// <summary>
+        /// This data is not done the analysis yet.
+        /// </summary>
+        None = -5,
+        /// <summary>
+        /// This data is NG for judgement.
+        /// </summary>
+        NG = 0,
+        /// <summary>
+        /// This data is OK for judgement.
+        /// </summary>
+        OK = 1,
+        /// <summary>
+        /// Data around this data is already judgement.
+        /// </summary>
+        FindOk = 2
     }
 }

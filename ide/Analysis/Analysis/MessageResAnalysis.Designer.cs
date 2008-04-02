@@ -295,6 +295,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   Finished to execute the bifurcation analysis. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string FinishBAnalysis {
+            get {
+                return ResourceManager.GetString("FinishBAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Finished to execute the parameter estimation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FinishPAnalysis {

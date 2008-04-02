@@ -498,6 +498,37 @@ namespace EcellLib.Analysis
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
         }
+
+        /// <summary>
+        /// Add the judgement data into GridView.
+        /// </summary>
+        /// <param name="x">the value of parameter.</param>
+        /// <param name="y">the value of parameter.</param>
+        public void AddJudgementDataForBifurcation(double x, double y)
+        {
+            RAXComboBox.Enabled = false;
+            RAYComboBox.Enabled = false;
+            RAResultGridView.Enabled = false;
+
+            LineItem line = null;
+            Color drawColor = Color.Blue;
+            Color styleColor = Color.White;
+
+            line = m_zCnt.GraphPane.AddCurve(
+                "Result",
+                new PointPairList(),
+                drawColor,
+                SymbolType.Circle);
+
+            Fill f = new Fill(drawColor);
+            line.Symbol.Fill = f;
+
+            line.Line.Width = 5;
+            line.AddPoint(new PointPair(x, y));
+
+            m_zCnt.AxisChange();
+            m_zCnt.Refresh();
+        }
         #endregion
 
 
@@ -703,6 +734,33 @@ namespace EcellLib.Analysis
                 double rate = Convert.ToDouble(BAObservedGridView[4, i].Value);
 
                 AnalysisJudgementParam p = new AnalysisJudgementParam(path, max, min, diff, rate);
+                resList.Add(p);
+            }
+
+            return resList;
+        }
+
+        /// <summary>
+        /// Get the list of property to set the initial value for analysis.
+        /// If there are any problems, this function return null.
+        /// </summary>
+        /// <returns>the list of parameter property.</returns>
+        public List<ParameterRange> ExtractParameterForBifurcation()
+        {
+            List<ParameterRange> resList = new List<ParameterRange>();
+
+            for (int i = 0; i < RAParamGridView.Rows.Count; i++)
+            {
+                string path = RAParamGridView[0, i].Value.ToString();
+                double max = Convert.ToDouble(RAParamGridView[1, i].Value);
+                double min = Convert.ToDouble(RAParamGridView[2, i].Value);
+                double step = Convert.ToDouble(RAParamGridView[3, i].Value);
+
+                if (step <= 0.0)
+                    step = (max - min) / 10.0;
+
+                if (min > max) continue;
+                ParameterRange p = new ParameterRange(path, min, max, step);
                 resList.Add(p);
             }
 

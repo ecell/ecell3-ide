@@ -317,7 +317,8 @@ namespace EcellLib.Analysis
             m_bifurcationAnalysisItem.Click += new EventHandler(ExecuteBifurcationAnalysis);
 
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
-            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem, m_parameterEstimationItem, m_sensitivityAnalysisItem });
+            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem, m_parameterEstimationItem, 
+                m_sensitivityAnalysisItem, m_bifurcationAnalysisItem });
             analysisMenu.Text = "Analysis";
             analysisMenu.Name = "MenuItemAnalysis";
 
@@ -363,12 +364,14 @@ namespace EcellLib.Analysis
                 m_robustAnalysisWinItem.Enabled = true;
                 m_parameterEstimationItem.Enabled = true;
                 m_sensitivityAnalysisItem.Enabled = true;
+                m_bifurcationAnalysisItem.Enabled = true;
             }
             else
             {
                 m_robustAnalysisWinItem.Enabled = false;
                 m_parameterEstimationItem.Enabled = false;
                 m_sensitivityAnalysisItem.Enabled = false;
+                m_bifurcationAnalysisItem.Enabled = false;
             }
         }
 

@@ -1076,13 +1076,13 @@ namespace EcellLib.SessionManager
                             {
                                 if (d.EntityPath.Equals(x.FullPath))
                                 {
-                                    d.Value.Value = xd * x.Step + x.Min;
-                                    paramDic.Add(x.FullPath, xd * x.Step + x.Min);
+                                    d.Value.Value = xd;
+                                    paramDic.Add(x.FullPath, xd);
                                 }
                                 else if (d.EntityPath.Equals(y.FullPath))
                                 {
-                                    d.Value.Value = yd * y.Step + y.Min;
-                                    paramDic.Add(y.FullPath, yd * y.Step + y.Min);
+                                    d.Value.Value = yd;
+                                    paramDic.Add(y.FullPath, yd);
                                 }
                             }
                         }
@@ -1098,13 +1098,13 @@ namespace EcellLib.SessionManager
                             {
                                 if (d.EntityPath.Equals(x.FullPath))
                                 {
-                                    d.Value.Value = xd * x.Step + x.Min;
-                                    paramDic.Add(x.FullPath, xd * x.Step + x.Min);
+                                    d.Value.Value = xd;
+                                    paramDic.Add(x.FullPath, xd);
                                 }
                                 else if (d.EntityPath.Equals(y.FullPath))
                                 {
-                                    d.Value.Value = yd * y.Step + y.Min;
-                                    paramDic.Add(y.FullPath, yd * y.Step + y.Min);
+                                    d.Value.Value = yd;
+                                    paramDic.Add(y.FullPath, yd);
                                 }
                             }
                         }

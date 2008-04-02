@@ -195,6 +195,9 @@
   <data name="ErrStepUnder" xml:space="preserve">
     <value>The step is lager than and equal 1.</value>
   </data>
+  <data name="FinishBAnalysis" xml:space="preserve">
+    <value>Finished to execute the bifurcation analysis.</value>
+  </data>
   <data name="FinishPAnalysis" xml:space="preserve">
     <value>Finished to execute the parameter estimation.</value>
   </data>
