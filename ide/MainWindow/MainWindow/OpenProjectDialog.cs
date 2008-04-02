@@ -118,14 +118,14 @@ namespace EcellLib.MainWindow
                 OPPrjTreeView.Nodes.Add(node);
             }
 
-            string prjFileName = Path.Combine(path, PROJECT_FILE);
-            string prjXMLFileName = Path.Combine(path, PROJECT_XML);
+            string prjFileName = Path.Combine(path, Constants.fileProject);
+            string prjXMLFileName = Path.Combine(path, Constants.fileProjectXML);
             // Check project.xml and load.
             if (File.Exists(prjXMLFileName))
             {
                 Project prj = GetProjectXML(prjXMLFileName);
                 TreeNode p = new TreeNode(prj.Name);
-                p.Tag = prjFileName;
+                p.Tag = prjXMLFileName;
                 p.ImageIndex = 1;
                 p.SelectedImageIndex = p.ImageIndex;
                 node.Nodes.Add(p);

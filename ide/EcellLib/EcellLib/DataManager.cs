@@ -6172,20 +6172,46 @@ namespace EcellLib
                     Directory.CreateDirectory(path);
                 }
                 string l_prjFile = Path.Combine(path, Constants.fileProject);
+                string xmlfile = Path.Combine(path, Constants.fileProjectXML);
                 string sepalator = Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace;
                 StreamWriter l_writer = null;
+                XmlTextWriter xmlOut = null;
                 try
                 {
                     l_writer = new StreamWriter(l_prjFile, false, Encoding.UTF8);
                     l_writer.WriteLine(Constants.xpathProject + sepalator + l_thisPrj.Name);
                     l_writer.WriteLine(Constants.textComment + sepalator + l_thisPrj.Comment);
                     l_writer.WriteLine(Constants.textParameter + sepalator + this.m_currentParameterID);
+
+                    // Create xml file
+                    xmlOut = new XmlTextWriter(xmlfile, Encoding.UTF8);
+
+                    // Use indenting for readability
+                    xmlOut.Formatting = Formatting.Indented;
+                    xmlOut.WriteStartDocument();
+
+                    // Always begin file with identification and warning
+                    xmlOut.WriteComment(Constants.xPathFileHeader1);
+                    xmlOut.WriteComment(Constants.xPathFileHeader2);
+
+                    // Save settings.
+                    xmlOut.WriteStartElement(Constants.xPathEcellProject);
+                    xmlOut.WriteElementString(Constants.xpathProject, l_thisPrj.Name);
+                    xmlOut.WriteElementString(Constants.textDate, DateTime.Now.ToString());
+                    xmlOut.WriteElementString(Constants.textComment, l_thisPrj.Comment);
+                    xmlOut.WriteElementString(Constants.textParameter, this.m_currentParameterID);
+                    xmlOut.WriteEndElement();
+                    xmlOut.WriteEndDocument();
                 }
                 finally
                 {
                     if (l_writer != null)
                     {
                         l_writer.Close();
+                    }
+                    if (xmlOut != null)
+                    {
+                        xmlOut.Close();
                     }
                 }
                 l_thisPrj.UpdateTime = File.GetLastAccessTime(l_prjFile).ToString();
@@ -6350,6 +6376,14 @@ namespace EcellLib
                     );
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
+        }
+
+        /// <summary>
+        /// Saves the simulation result.
+        /// </summary>
+        public void SaveSimulationResult()
+        {
+            SaveSimulationResult(null, 0.0, GetCurrentSimulationTime(), null, GetLoggerList());
         }
 
         /// <summary>

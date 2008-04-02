@@ -65,21 +65,21 @@ namespace EcellLib.MainWindow
             this.textComment = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textModelName = new System.Windows.Forms.TextBox();
-            this.CPCreateButton = new System.Windows.Forms.Button();
-            this.CPCancelButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.CPAddButton = new System.Windows.Forms.Button();
             this.CPRemoveButton = new System.Windows.Forms.Button();
             this.CPListBox = new System.Windows.Forms.ListBox();
+            this.CPCreateButton = new System.Windows.Forms.Button();
+            this.CPCancelButton = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -128,33 +128,6 @@ namespace EcellLib.MainWindow
             this.textModelName.Name = "textModelName";
             this.textModelName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
-            // CPCreateButton
-            // 
-            resources.ApplyResources(this.CPCreateButton, "CPCreateButton");
-            this.CPCreateButton.Name = "CPCreateButton";
-            this.CPCreateButton.UseVisualStyleBackColor = true;
-            // 
-            // CPCancelButton
-            // 
-            this.CPCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            resources.ApplyResources(this.CPCancelButton, "CPCancelButton");
-            this.CPCancelButton.Name = "CPCancelButton";
-            this.CPCancelButton.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 1);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
-            // tableLayoutPanel3
-            // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.CPCancelButton, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.CPCreateButton, 1, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            // 
             // label4
             // 
             resources.ApplyResources(this.label4, "label4");
@@ -194,6 +167,34 @@ namespace EcellLib.MainWindow
             this.CPListBox.FormattingEnabled = true;
             this.CPListBox.Name = "CPListBox";
             // 
+            // CPCreateButton
+            // 
+            this.CPCreateButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            resources.ApplyResources(this.CPCreateButton, "CPCreateButton");
+            this.CPCreateButton.Name = "CPCreateButton";
+            this.CPCreateButton.UseVisualStyleBackColor = true;
+            // 
+            // CPCancelButton
+            // 
+            this.CPCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            resources.ApplyResources(this.CPCancelButton, "CPCancelButton");
+            this.CPCancelButton.Name = "CPCancelButton";
+            this.CPCancelButton.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel2
+            // 
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 1);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            // 
+            // tableLayoutPanel3
+            // 
+            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.Controls.Add(this.CPCancelButton, 3, 0);
+            this.tableLayoutPanel3.Controls.Add(this.CPCreateButton, 1, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            // 
             // NewProjectDialog
             // 
             this.AcceptButton = this.CPCreateButton;
@@ -205,10 +206,10 @@ namespace EcellLib.MainWindow
             this.Shown += new System.EventHandler(this.NewProjectDialogShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

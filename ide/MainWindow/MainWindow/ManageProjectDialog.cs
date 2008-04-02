@@ -39,13 +39,16 @@ using System.Xml;
 
 namespace EcellLib.MainWindow
 {
+
     /// <summary>
     /// Dialog to select the opened project.
     /// </summary>
     public partial class ManageProjectDialog : Form
     {
-        private const string PROJECT_FILE = "project.info";
-        private const string PROJECT_XML = "project.xml";
+        /// <summary>
+        /// ResourceManager for MainWindow.
+        /// </summary>
+        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResMain));
 
         private string m_prjID = "";
         private string m_fileName = "";
@@ -64,7 +67,27 @@ namespace EcellLib.MainWindow
         public ManageProjectDialog()
         {
             InitializeComponent();
+            MPPrjTreeView.ContextMenuStrip = CreatePopupMenus();
             MPOpenButton.Enabled = false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private ContextMenuStrip CreatePopupMenus()
+        {
+            // Preparing a context menu.
+            ContextMenuStrip menus = new ContextMenuStrip();
+
+            // SaveZip
+            ToolStripItem savezip = new ToolStripMenuItem(MenuConstants.SaveZip);
+            savezip.Name = MenuConstants.SaveZip;
+            savezip.Text = s_resources.GetString(MenuConstants.SaveZip);
+            savezip.Click += new EventHandler(SaveZipClick);
+            menus.Items.Add(savezip);
+
+            return menus;
         }
 
         /// <summary>
@@ -117,10 +140,8 @@ namespace EcellLib.MainWindow
                 MPPrjTreeView.Nodes.Add(node);
             }
 
-            string prjInfo = path + Constants.delimiterPath + "project.info";
-
-            string prjFileName = Path.Combine(path, PROJECT_FILE);
-            string prjXMLFileName = Path.Combine(path, PROJECT_XML);
+            string prjFileName = Path.Combine(path, Constants.fileProject);
+            string prjXMLFileName = Path.Combine(path, Constants.fileProjectXML);
 
             // Check project.xml and load.
             if (File.Exists(prjXMLFileName))
@@ -136,9 +157,9 @@ namespace EcellLib.MainWindow
             // Check project.info and load.
             else if (File.Exists(prjFileName))
             {
-                Project prj = GetProject(prjInfo);
+                Project prj = GetProject(prjFileName);
                 TreeNode p = new TreeNode(prj.Name);
-                p.Tag = prjInfo;
+                p.Tag = prjFileName;
                 p.ImageIndex = 1;
                 p.SelectedImageIndex = p.ImageIndex;
                 node.Nodes.Add(p);
@@ -371,11 +392,26 @@ namespace EcellLib.MainWindow
             XmlNode settings = null;
             foreach (XmlNode node in xmlD.ChildNodes)
             {
-                if (node.Name.Equals("ECellProject"))
+                if (node.Name.Equals(Constants.xPathEcellProject))
                     settings = node;
             }
             return settings;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveZipClick(object sender, EventArgs e)
+        {
+
+        }
+
+    }
+
+    internal class MenuConstants
+    {
+        public const string SaveZip = "SaveZip";
     }
 }

@@ -234,6 +234,18 @@ namespace EcellLib
         /// </summary>
         public const string registryWinSetDir = "E-CELL IDE WINDOW SETTING";
         /// <summary>
+        /// Reserved XML path name for file header.
+        /// </summary>
+        public const string xPathFileHeader1 = "PathwayWindow configuration file.";
+        /// <summary>
+        /// Reserved XML path name for file header.
+        /// </summary>
+        public const string xPathFileHeader2 = "Automatically generated file. DO NOT modify!";
+        /// <summary>
+        /// Reserved XML path name for file header.
+        /// </summary>
+        public const string xPathEcellProject = "ECellProject";
+        /// <summary>
         /// Reserved XML path name for comment.
         /// </summary>
         public const string textComment = "Comment";

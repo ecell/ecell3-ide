@@ -816,9 +816,7 @@ namespace EcellLib.PathwayWindow
             bool isAnchor)
         {
             obj.ViewMode = false;
-            EcellObject eo = m_window.GetEcellObject(obj.EcellObject.ModelID, oldKey, obj.EcellObject.Type);
-            if (eo == null)
-                throw new Exception();
+            EcellObject eo = obj.EcellObject;
 
             eo.Key = newKey;
             eo.LayerID = obj.Layer.Name;

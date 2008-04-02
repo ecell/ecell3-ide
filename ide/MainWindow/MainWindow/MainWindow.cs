@@ -353,7 +353,8 @@ namespace EcellLib.MainWindow
         /// <param name="l_prjID"></param>
         private void CloseProject(String l_prjID)
         {
-            if (l_prjID == null) return;
+            if (l_prjID == null)
+                return;
             m_isLoadProject = false;
             m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
             m_dManager.CloseProject(l_prjID);
@@ -971,22 +972,23 @@ namespace EcellLib.MainWindow
                 }
             }
             m_newPrjDialog = new NewProjectDialog();
-            m_newPrjDialog.CPCreateButton.Click += new System.EventHandler(this.NewProject);
-            m_newPrjDialog.CPCancelButton.Click += new System.EventHandler(this.NewProjectCancel);
+            if (m_newPrjDialog.ShowDialog() == DialogResult.OK)
+                CreateNewProject();
+            else
+                CancelNewProject();
 
-            m_newPrjDialog.ShowDialog();
         }
 
         /// <summary>
         /// The action when you click OK or Cancel in NewProjectDialog.
         /// If you don't set name or model name, system show warning message.
         /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void NewProject(object sender, EventArgs e)
+        public void CreateNewProject()
         {
-            if (!CheckProjectID(m_newPrjDialog.textName.Text)) return;
-            if (!CheckModelID(m_newPrjDialog.textModelName.Text)) return;
+            if (!CheckProjectID(m_newPrjDialog.textName.Text)) 
+                return;
+            if (!CheckModelID(m_newPrjDialog.textModelName.Text)) 
+                return;
 
             try
             {
@@ -1004,17 +1006,13 @@ namespace EcellLib.MainWindow
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 CloseProject(m_newPrjDialog.textName.Text);
             }
-            m_newPrjDialog.Close();
-            m_newPrjDialog.Dispose();
-            m_newPrjDialog = null;
+            CancelNewProject();
         }
 
         /// <summary>
         /// Cancel to create project.
         /// </summary>
-        /// <param name="sender">Cancel Button.</param>
-        /// <param name="e">EventArgs.</param>
-        public void NewProjectCancel(object sender, EventArgs e)
+        public void CancelNewProject()
         {
             m_newPrjDialog.Close();
             m_newPrjDialog.Dispose();
@@ -1242,8 +1240,7 @@ namespace EcellLib.MainWindow
                     }
                     else if (s.EndsWith(" : [SimulationResult]"))
                     {
-                        m_dManager.SaveSimulationResult(
-                                null, 0.0, m_dManager.GetCurrentSimulationTime(), null, m_dManager.GetLoggerList());
+                        m_dManager.SaveSimulationResult();
                     }
                 }
                 m_editCount = 0;
