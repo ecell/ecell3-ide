@@ -405,7 +405,16 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void SaveZipClick(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(m_prjID))
+                return;
 
+            SaveFileDialog dialog = new SaveFileDialog();
+            if(dialog.ShowDialog() != DialogResult.OK)
+                return;
+            string filename = dialog.FileName;
+
+
+            dialog.Dispose();
         }
 
     }

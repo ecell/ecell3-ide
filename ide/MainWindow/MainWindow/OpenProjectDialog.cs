@@ -44,9 +44,6 @@ namespace EcellLib.MainWindow
     /// </summary>
     public partial class OpenProjectDialog : Form
     {
-        private const string PROJECT_FILE = "project.info";
-        private const string PROJECT_XML = "project.xml";
-
         private string m_prjID = "";
         private string m_fileName = "";
         private string m_simName = "";
