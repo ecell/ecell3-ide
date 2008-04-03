@@ -749,12 +749,12 @@ namespace EcellLib.Analysis
         {
             List<ParameterRange> resList = new List<ParameterRange>();
 
-            for (int i = 0; i < RAParamGridView.Rows.Count; i++)
+            for (int i = 0; i < BAParamGridView.Rows.Count; i++)
             {
-                string path = RAParamGridView[0, i].Value.ToString();
-                double max = Convert.ToDouble(RAParamGridView[1, i].Value);
-                double min = Convert.ToDouble(RAParamGridView[2, i].Value);
-                double step = Convert.ToDouble(RAParamGridView[3, i].Value);
+                string path = BAParamGridView[0, i].Value.ToString();
+                double max = Convert.ToDouble(BAParamGridView[1, i].Value);
+                double min = Convert.ToDouble(BAParamGridView[2, i].Value);
+                double step = Convert.ToDouble(BAParamGridView[3, i].Value);
 
                 if (step <= 0.0)
                     step = (max - min) / 10.0;
@@ -1362,6 +1362,7 @@ namespace EcellLib.Analysis
                         c2.Value = d.Max;
                     }
                     r.Cells.Add(c2);
+                    c2.ReadOnly = false;
                     DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
                     if (d.Min == 0.0)
                     {
@@ -1372,6 +1373,7 @@ namespace EcellLib.Analysis
                         c3.Value = d.Min;
                     }
                     r.Cells.Add(c3);
+                    c3.ReadOnly = false;
                     DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
                     if (d.Max == 0.0 && d.Min == 0.0)
                     {
@@ -1382,10 +1384,12 @@ namespace EcellLib.Analysis
                         c4.Value = d.Max - d.Min;
                     }
                     r.Cells.Add(c4);
+                    c4.ReadOnly = false;
                     DataGridViewTextBoxCell c5 = new DataGridViewTextBoxCell();
                     c5.Value = 0.5;
                     r.Cells.Add(c5);
                     r.Tag = t;
+                    c5.ReadOnly = false;                  
 //                    AssignObservPopupMenu(r);
                     BAObservedGridView.Rows.Add(r);
                     m_bifurcationObservList.Add(d.EntityPath, d);

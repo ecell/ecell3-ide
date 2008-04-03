@@ -140,12 +140,12 @@
             this.BAMinFreqText = new System.Windows.Forms.TextBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.BAParameterGridView = new System.Windows.Forms.DataGridView();
-            this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.BAObservedGridView = new System.Windows.Forms.DataGridView();
             this.BAIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BAMaxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BAMinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BAStepColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.BAObservedGridView = new System.Windows.Forms.DataGridView();
             this.BAOIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BAOMaxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BAOMinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -997,34 +997,6 @@
             this.BAParameterGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterParam);
             this.BAParameterGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropParam);
             // 
-            // groupBox13
-            // 
-            this.groupBox13.Controls.Add(this.BAObservedGridView);
-            resources.ApplyResources(this.groupBox13, "groupBox13");
-            this.groupBox13.Name = "groupBox13";
-            this.groupBox13.TabStop = false;
-            // 
-            // BAObservedGridView
-            // 
-            this.BAObservedGridView.AllowDrop = true;
-            this.BAObservedGridView.AllowUserToAddRows = false;
-            this.BAObservedGridView.AllowUserToDeleteRows = false;
-            this.BAObservedGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.BAObservedGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.BAObservedGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.BAOIDColumn,
-            this.BAOMaxColumn,
-            this.BAOMinColumn,
-            this.BAODifferColumn,
-            this.BAORateColumn});
-            resources.ApplyResources(this.BAObservedGridView, "BAObservedGridView");
-            this.BAObservedGridView.Name = "BAObservedGridView";
-            this.BAObservedGridView.ReadOnly = true;
-            this.BAObservedGridView.RowHeadersVisible = false;
-            this.BAObservedGridView.RowTemplate.Height = 21;
-            this.BAObservedGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterObservForBifurcation);
-            this.BAObservedGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropObservForBifurcation);
-            // 
             // BAIDColumn
             // 
             resources.ApplyResources(this.BAIDColumn, "BAIDColumn");
@@ -1048,6 +1020,33 @@
             resources.ApplyResources(this.BAStepColumn, "BAStepColumn");
             this.BAStepColumn.Name = "BAStepColumn";
             // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.BAObservedGridView);
+            resources.ApplyResources(this.groupBox13, "groupBox13");
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.TabStop = false;
+            // 
+            // BAObservedGridView
+            // 
+            this.BAObservedGridView.AllowDrop = true;
+            this.BAObservedGridView.AllowUserToAddRows = false;
+            this.BAObservedGridView.AllowUserToDeleteRows = false;
+            this.BAObservedGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.BAObservedGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.BAObservedGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.BAOIDColumn,
+            this.BAOMaxColumn,
+            this.BAOMinColumn,
+            this.BAODifferColumn,
+            this.BAORateColumn});
+            resources.ApplyResources(this.BAObservedGridView, "BAObservedGridView");
+            this.BAObservedGridView.Name = "BAObservedGridView";
+            this.BAObservedGridView.RowHeadersVisible = false;
+            this.BAObservedGridView.RowTemplate.Height = 21;
+            this.BAObservedGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterObservForBifurcation);
+            this.BAObservedGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropObservForBifurcation);
+            // 
             // BAOIDColumn
             // 
             resources.ApplyResources(this.BAOIDColumn, "BAOIDColumn");
@@ -1059,28 +1058,24 @@
             this.BAOMaxColumn.FillWeight = 30F;
             resources.ApplyResources(this.BAOMaxColumn, "BAOMaxColumn");
             this.BAOMaxColumn.Name = "BAOMaxColumn";
-            this.BAOMaxColumn.ReadOnly = true;
             // 
             // BAOMinColumn
             // 
             this.BAOMinColumn.FillWeight = 30F;
             resources.ApplyResources(this.BAOMinColumn, "BAOMinColumn");
             this.BAOMinColumn.Name = "BAOMinColumn";
-            this.BAOMinColumn.ReadOnly = true;
             // 
             // BAODifferColumn
             // 
             this.BAODifferColumn.FillWeight = 30F;
             resources.ApplyResources(this.BAODifferColumn, "BAODifferColumn");
             this.BAODifferColumn.Name = "BAODifferColumn";
-            this.BAODifferColumn.ReadOnly = true;
             // 
             // BAORateColumn
             // 
             this.BAORateColumn.FillWeight = 30F;
             resources.ApplyResources(this.BAORateColumn, "BAORateColumn");
             this.BAORateColumn.Name = "BAORateColumn";
-            this.BAORateColumn.ReadOnly = true;
             // 
             // AnalysisWindow
             // 

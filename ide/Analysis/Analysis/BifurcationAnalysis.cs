@@ -65,9 +65,60 @@ namespace EcellLib.Analysis
         /// The flag whether the analysis is running.
         /// </summary>
         private bool m_isRunning = false;
+        /// <summary>
+        /// Model name to execute bifurcation analysis.
+        /// </summary>
         private string m_model;
+        /// <summary>
+        /// The parameter for bifurcation analysis.
+        /// </summary>
         private BifurcationAnalysisParameter m_param;
-        private List<ParameterRange> m_paramList;
+        /// <summary>
+        /// The path of data for X Axis.
+        /// </summary>
+        private string m_xPath;
+        /// <summary>
+        /// The path of data for Y Axis.
+        /// </summary>
+        private string m_yPath;
+        /// <summary>
+        /// The max data for X Axis.
+        /// </summary>
+        private double m_xMax;
+        /// <summary>
+        /// The min data for Y Axis.
+        /// </summary>
+        private double m_xMin;
+        /// <summary>
+        /// The max data for Y Axis.
+        /// </summary>
+        private double m_yMax;
+        /// <summary>
+        /// The min data for Y Axis.
+        /// </summary>
+        private double m_yMin;
+        /// <summary>
+        /// The dictionary of result data.
+        /// </summary>
+        private BifurcationResult[,] m_result;
+        private int[,] m_region;
+        /// <summary>
+        /// The candidate data for X Axis.
+        /// </summary>
+        private List<double> m_xList = new List<double>();
+        /// <summary>
+        /// The candidate data for Y Axis.
+        /// </summary>
+        private List<double> m_yList = new List<double>();
+        /// <summary>
+        /// Dictionary the jobid and the parameter of analysis.
+        /// </summary>
+        private Dictionary<int, ExecuteParameter> m_execParam;
+        /// <summary>
+        /// The number of data for Axis.
+        /// </summary>
+        private static int s_num = 50;
+        private static int s_skip = 10;
         #endregion
 
         /// <summary>
@@ -79,7 +130,7 @@ namespace EcellLib.Analysis
             m_manager = SessionManager.SessionManager.GetManager();
 
             m_result = new BifurcationResult[s_num + 1, s_num + 1];
-
+            m_region = new int[(int)(s_num / s_skip) + 1, (int)(s_num / s_skip) + 1];
 
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
@@ -133,9 +184,9 @@ namespace EcellLib.Analysis
             List<string> modelList = DataManager.GetDataManager().GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];
 
-            m_paramList = m_win.ExtractParameter();
-            if (m_paramList == null) return;
-            if (m_paramList.Count != 2)
+            List<ParameterRange> paramList = m_win.ExtractParameter();
+            if (paramList == null) return;
+            if (paramList.Count != 2)
             {
                 String mes = Analysis.s_resources.GetString("ErrParamProp2");
                 MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -152,10 +203,18 @@ namespace EcellLib.Analysis
                     m_result[i, j] = BifurcationResult.None;
                 }
             }
+            for (int i = 0; i <= (int)(s_num / s_skip ) ; i++)
+            {
+                for (int j = 0; j <= (int)(s_num / s_skip) ; j++)
+                {
+                    m_region[i, j] = 1;
+                }
+            }
+            
 
             Dictionary<int, ExecuteParameter> tmpDic = new Dictionary<int, ExecuteParameter>();
             int jobid = 0;
-            foreach (ParameterRange p in m_paramList)
+            foreach (ParameterRange p in paramList)
             {
                 double step = (p.Max - p.Min) / (double)s_num;
                 bool isX = false;
@@ -191,10 +250,10 @@ namespace EcellLib.Analysis
             }
             m_win.SetResultGraphSize(m_xMax, m_xMin, m_yMax, m_yMin, false, false);
 
-            for (int i = 0; i <= s_num; i = i + 10)
+            for (int i = 0; i <= s_num; i = i + s_skip)
             {
                 double xd = m_xList[i];
-                for (int j = 0; j <= s_num; j = j + 10)
+                for (int j = 0; j <= s_num; j = j + s_skip)
                 {
                     double yd = m_yList[j];
                     Dictionary<string, double> paramDic = new Dictionary<string,double>();
@@ -205,9 +264,7 @@ namespace EcellLib.Analysis
                 }
             }
 
-//            m_manager.SetParameterRange(tmpList);
             m_manager.SetLoggerData(saveList);
-//            m_execParam = m_manager.RunSimParameterMatrix(tmpDir, m_model, simTime, false);
             m_execParam = m_manager.RunSimParameterSet(tmpDir, m_model, simTime, false, tmpDic);
             m_win.ClearResult();
             m_isRunning = true;
@@ -225,6 +282,12 @@ namespace EcellLib.Analysis
             Control.StopSensitivityAnalysis();
         }
 
+        /// <summary>
+        /// Add the result of bifurcation analysis.
+        /// </summary>
+        /// <param name="x">The candidate data for X Axis.</param>
+        /// <param name="y">The candidate data for Y Axis.</param>
+        /// <param name="res">The result of bifurcation analysis.</param>
         private void AddPoint(double x, double y, BifurcationResult res)
         {
             int i, j;
@@ -236,9 +299,20 @@ namespace EcellLib.Analysis
             {
                 if (m_yList[j] == y) break;
             }
+            if (i > s_num || j > s_num) return;
+            if (res == BifurcationResult.NG)
+            {
+                int resX = i / s_skip;
+                int resY = j / s_skip;
+                m_region[resX, resY] = 0;
+            }
             m_result[i, j] = res;
         }
 
+        /// <summary>
+        /// Search the points to execute analysis at next step.
+        /// </summary>
+        /// <returns>the list of point.</returns>
         private int[,] SearchPoint()
         {
             int[,] res = new int[s_num + 1, s_num + 1];
@@ -254,6 +328,11 @@ namespace EcellLib.Analysis
             return res;
         }
 
+        /// <summary>
+        /// Create the parameter data by using the points to execute analysis.
+        /// </summary>
+        /// <param name="pos">the list of points.</param>
+        /// <returns>the parameter data.</returns>
         private Dictionary<int, ExecuteParameter> CreateExecuteParameter(int[,] pos)
         {
             int jobid = 0;
@@ -282,16 +361,41 @@ namespace EcellLib.Analysis
                                 ocount++;
                             else
                                 gcount++;
-
                         }
                     }
                     if (acount == ocount)
                     {
                         // nothing
                     }
+                    else if (ncount == acount)
+                    {
+                        int resX = i / s_skip;
+                        int resY = i / s_skip;
+
+                        bool isEnableEdge = false;
+                        if (resX != 0)
+                            if (m_region[resX - 1, resY] == 0)
+                                isEnableEdge = true;
+                        if (resY != 0)
+                            if (m_region[resX, resY - 1] == 0)
+                                isEnableEdge = true;
+                        if (resX != (int)(s_num / s_skip))
+                            if (m_region[resX + 1, resY] == 0)
+                                isEnableEdge = true;
+                        if (resY != (int)(s_num / s_skip))
+                            if (m_region[resX, resY + 1] == 0)
+                                isEnableEdge = true;
+                        if (isEnableEdge)
+                        {
+                            paramDic.Add(m_xPath, m_xList[i]);
+                            paramDic.Add(m_yPath, m_yList[j]);
+                            res.Add(jobid, new ExecuteParameter(paramDic));
+                            jobid++;
+                        }
+                    }
                     else
                     {
-                        // ncount == acount and gcount > 0 and so on.
+                        // gcount > 0 and so on.
                         paramDic.Add(m_xPath, m_xList[i]);
                         paramDic.Add(m_yPath, m_yList[j]);
                         res.Add(jobid, new ExecuteParameter(paramDic));
@@ -306,6 +410,9 @@ namespace EcellLib.Analysis
             return res;
         }
 
+        /// <summary>
+        /// Print the edge data of bifurcation analysis.
+        /// </summary>
         private void PrintResultData()
         {
             for (int i = 0; i <= s_num; i++)
@@ -336,18 +443,6 @@ namespace EcellLib.Analysis
                 }
             }
         }
-
-        private string m_xPath;
-        private string m_yPath;
-        private double m_xMax;
-        private double m_xMin;
-        private double m_yMax;
-        private double m_yMin;
-        private BifurcationResult[,] m_result;
-        private List<double> m_xList = new List<double>();
-        private List<double> m_yList = new List<double>();
-        private Dictionary<int, ExecuteParameter> m_execParam;
-        private static int s_num = 50;
 
         /// <summary>
         /// Judge the bifurcation from the simulation result.
