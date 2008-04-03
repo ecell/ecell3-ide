@@ -336,7 +336,10 @@ namespace EcellLib.MainWindow {
 
                 // Activate the Contents, Panes and DockWindows.
                 for (int i = 0; i < panes.Length; i++)
-                    paneList[i].ActiveContent = (panes[i].IndexActiveContent == -1) ? null : contentList[panes[i].IndexActiveContent];
+                    if (panes[i].IndexActiveContent < 0 || panes[i].IndexActiveContent >= contentList.Count)
+                        paneList[i].ActiveContent = null;
+                    else
+                        paneList[i].ActiveContent = contentList[panes[i].IndexActiveContent];
                 if (dockPanelStruct.IndexActiveDocumentPane != -1)
                     paneList[dockPanelStruct.IndexActiveDocumentPane].Activate();
                 if (dockPanelStruct.IndexActivePane != -1)

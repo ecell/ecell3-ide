@@ -39,6 +39,8 @@ using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.ComponentModel;
 using WeifenLuo.WinFormsUI.Docking;
+using EcellLib.Plugin;
+using EcellLib.Objects;
 
 namespace EcellLib.TracerWindow
 {

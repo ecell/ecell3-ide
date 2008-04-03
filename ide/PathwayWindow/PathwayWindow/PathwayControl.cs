@@ -54,6 +54,7 @@ using EcellLib.PathwayWindow.Handler;
 using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Exceptions;
 using EcellLib.Layout;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow
 {

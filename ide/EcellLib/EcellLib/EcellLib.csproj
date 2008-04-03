@@ -93,7 +93,7 @@
     </Compile>
     <Compile Include="CommandManager.cs" />
     <Compile Include="DataManager.cs" />
-    <Compile Include="EcellObject.cs" />
+    <Compile Include="Objects\EcellObject.cs" />
     <Compile Include="FormulatorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,7 +108,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResLib.resx</DependentUpon>
     </Compile>
-    <Compile Include="PluginBase.cs" />
+    <Compile Include="Plugin\PluginBase.cs" />
     <Compile Include="PluginManager.cs">
     </Compile>
     <Compile Include="PrintPluginDialog.cs">
@@ -210,8 +210,16 @@
     <Compile Include="EcellDockContent.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Objects\EcellData.cs" />
+    <Compile Include="Objects\EcellDragObject.cs" />
+    <Compile Include="Objects\EcellModel.cs" />
+    <Compile Include="Objects\EcellProcess.cs" />
+    <Compile Include="Objects\EcellReference.cs" />
+    <Compile Include="Objects\EcellSystem.cs" />
+    <Compile Include="Objects\EcellValue.cs" />
+    <Compile Include="Objects\EcellVariable.cs" />
     <Compile Include="EcellXml.cs" />
-    <Compile Include="IEcellPlugin.cs" />
+    <Compile Include="Plugin\IEcellPlugin.cs" />
     <Compile Include="ImageResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -34,6 +34,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
 using EcellLib.Layout;
+using EcellLib.Objects;
 
 namespace EcellLib.CircularLayout
 {

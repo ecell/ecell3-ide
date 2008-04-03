@@ -51,6 +51,7 @@ using EcellLib.PathwayWindow.Graphic;
 using UMD.HCIL.Piccolo;
 using EcellLib.PathwayWindow.Dialog;
 using EcellLib.Layout;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow
 {

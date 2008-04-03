@@ -41,6 +41,8 @@ using System.Reflection;
 using System.ComponentModel;
 
 using EcellLib;
+using EcellLib.Plugin;
+using EcellLib.Objects;
 
 namespace EcellLib.ObjectList
 {

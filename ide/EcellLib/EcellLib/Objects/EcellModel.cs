@@ -1,4 +1,4 @@
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
 //        This file is part of E-Cell Environment Application package
 //
@@ -27,30 +27,42 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
-
+// modified by Takeshi Yuasa <yuasa@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 using System;
 using System.Collections.Generic;
 using System.Text;
-using EcellLib.Objects;
 
-namespace EcellLib.StaticDebugWindow
+namespace EcellLib.Objects
 {
-    /// <summary>
-    /// The interface of static debug algorithm .
-    /// </summary>
-    public interface StaticDebugPlugin
-    {
-        /// <summary>
-        /// get the name of this debug.
-        /// </summary>
-        /// <returns></returns>
-        string GetDebugName();
 
+    /// <summary>
+    /// Object class for Model.
+    /// </summary>
+    public class EcellModel : EcellObject
+    {
+        #region Constractors
         /// <summary>
-        /// exevute debug.
+        /// constructor with initial parameter.
         /// </summary>
-        /// <param name="data">The list of object to be checked.</param>
-        /// <returns>The list of error message.</returns>
-        List<ErrorMessage> Debug(List<EcellObject> data);
+        /// <param name="l_modelID">modelID.</param>
+        /// <param name="l_key">key.</param>
+        /// <param name="l_type">type(="Model")</param>
+        /// <param name="l_class">class name</param>
+        /// <param name="l_data">properties of object.</param>
+        public EcellModel(string l_modelID, string l_key,
+             string l_type, string l_class, List<EcellData> l_data)
+        {
+            this.ModelID = l_modelID;
+            this.Key = l_key;
+            this.Type = l_type;
+            this.Classname = l_class;
+            this.m_ecellDatas = l_data;
+        }
+        #endregion
     }
 }

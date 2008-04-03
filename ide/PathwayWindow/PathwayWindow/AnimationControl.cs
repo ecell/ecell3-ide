@@ -42,6 +42,7 @@ using System.ComponentModel;
 using EcellLib.PathwayWindow.Dialog;
 using System.IO;
 using System.Xml;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow
 {

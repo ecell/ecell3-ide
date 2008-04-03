@@ -35,6 +35,7 @@ using System.Text;
 using System.Security.AccessControl;
 using System.Threading;
 using System.Windows.Forms;
+using EcellLib.Objects;
 
 namespace EcellLib
 {

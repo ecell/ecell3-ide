@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using System.Reflection;
 
 using EcellLib;
+using EcellLib.Plugin;
 
 namespace EcellLib.MessageWindow
 {

@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using EcellLib.Objects;
 
 namespace EcellLib.Layout
 {

@@ -35,6 +35,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using EcellLib.Objects;
 
 namespace EcellLib.Simulation
 {

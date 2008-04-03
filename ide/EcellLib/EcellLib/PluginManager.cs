@@ -27,6 +27,9 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,7 +42,8 @@ using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using System.ComponentModel;
 using EcellLib.Layout;
-
+using EcellLib.Plugin;
+using EcellLib.Objects;
 
 namespace EcellLib
 {

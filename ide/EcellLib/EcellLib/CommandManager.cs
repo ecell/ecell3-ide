@@ -42,6 +42,7 @@ using System.Xml;
 using IronPython.Hosting;
 using IronPython.Runtime;
 using EcellCoreLib;
+using EcellLib.Objects;
 
 namespace EcellLib
 {

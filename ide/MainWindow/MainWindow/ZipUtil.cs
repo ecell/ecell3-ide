@@ -125,7 +125,7 @@ namespace EcellLib.MainWindow
             Crc32 crc = new Crc32();
 
             string[] filePaths = Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories);
-
+            folderPath = Path.GetDirectoryName(folderPath);
             try
             {
                 zipwriter = new FileStream(
@@ -182,9 +182,7 @@ namespace EcellLib.MainWindow
         /// <returns></returns>
         public static string GetRelativePath(string targetPath, string filePath)
         {
-            Uri targetUri = new Uri(targetPath);
-            Uri fileUri = new Uri(targetUri, filePath);
-            string relativePath = targetUri.MakeRelativeUri(fileUri).ToString();
+            string relativePath = filePath.Replace(targetPath, "");
             return relativePath;
         }
     }

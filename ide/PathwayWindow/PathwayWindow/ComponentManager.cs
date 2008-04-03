@@ -48,6 +48,7 @@ using EcellLib.PathwayWindow.UIComponent;
 using System.Drawing.Drawing2D;
 using EcellLib.PathwayWindow.Graphic;
 using EcellLib.PathwayWindow.Dialog;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow
 {

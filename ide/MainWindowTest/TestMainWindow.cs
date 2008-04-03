@@ -174,7 +174,7 @@ namespace EcellLib.MainWindow
         [Test()]
         public void TestDataAdd()
         {
-            System.Collections.Generic.List<EcellLib.EcellObject> data = null;
+            System.Collections.Generic.List<EcellLib.Objects.EcellObject> data = null;
             _unitUnderTest.DataAdd(data);
             Assert.Fail("Create or modify test(s).");
 
@@ -188,7 +188,7 @@ namespace EcellLib.MainWindow
             string modelID = null;
             string key = null;
             string type = null;
-            EcellLib.EcellObject data = null;
+            EcellLib.Objects.EcellObject data = null;
             _unitUnderTest.DataChanged(modelID, key, type, data);
             Assert.Fail("Create or modify test(s).");
 
@@ -411,32 +411,8 @@ namespace EcellLib.MainWindow
         [Test()]
         public void TestSetPosition()
         {
-            EcellLib.EcellObject data = null;
+            EcellLib.Objects.EcellObject data = null;
             _unitUnderTest.SetPosition(data);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestNewProject()
-        {
-            object sender = null;
-            System.EventArgs e = null;
-            _unitUnderTest.NewProject(sender, e);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestNewProjectCancel()
-        {
-            object sender = null;
-            System.EventArgs e = null;
-            _unitUnderTest.NewProjectCancel(sender, e);
             Assert.Fail("Create or modify test(s).");
 
         }

@@ -39,6 +39,8 @@ using System.Text.RegularExpressions;
 using System.ComponentModel;
 
 using EcellLib;
+using EcellLib.Plugin;
+using EcellLib.Objects;
 
 namespace EcellLib.EntityListWindow
 {

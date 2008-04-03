@@ -33,6 +33,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Drawing;
 using EcellLib.Layout;
+using EcellLib.Objects;
 
 namespace EcellLib.AlignLayout
 {

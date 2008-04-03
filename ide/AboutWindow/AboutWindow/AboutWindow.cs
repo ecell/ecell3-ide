@@ -37,6 +37,7 @@ using System.Drawing;
 using System.Reflection;
 using EcellLib;
 using System.ComponentModel;
+using EcellLib.Plugin;
 
 namespace EcellLib.AboutWindow
 {

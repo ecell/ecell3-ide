@@ -34,6 +34,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using EcellLib;
+using EcellLib.Objects;
 
 namespace EcellLib.SessionManager
 {

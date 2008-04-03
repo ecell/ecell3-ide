@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using EcellLib.Objects;
 
 namespace EcellLib.Layout
 {

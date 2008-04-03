@@ -3,6 +3,7 @@ namespace EcellLib.PathwayWindow
     using System;
     using NUnit.Framework;
     using System.Collections.Generic;
+    using EcellLib.Objects;
 
     /// <summary>
     /// Auto Generated TestCase of PathwayWindow
@@ -43,8 +44,8 @@ namespace EcellLib.PathwayWindow
         public void TestGetData()
         {
             string modelID = "project";
-            List<EcellLib.EcellObject> expectedList = null;
-            List<EcellLib.EcellObject> resultList = null;
+            List<EcellLib.Objects.EcellObject> expectedList = null;
+            List<EcellLib.Objects.EcellObject> resultList = null;
             resultList = _unitUnderTest.GetData(modelID);
             Assert.AreEqual(expectedList, resultList, "GetData method returned unexpected result.");
         }
@@ -68,7 +69,7 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestNotifyDataAdd()
         {
-            System.Collections.Generic.List<EcellLib.EcellObject> list = null;
+            System.Collections.Generic.List<EcellLib.Objects.EcellObject> list = null;
             bool isAnchor = false;
             _unitUnderTest.NotifyDataAdd(list, isAnchor);
             Assert.Fail("Create or modify test(s).");
@@ -95,7 +96,7 @@ namespace EcellLib.PathwayWindow
         public void TestNotifyDataChanged()
         {
             string oldKey = null;
-            EcellLib.EcellObject eo = null;
+            EcellLib.Objects.EcellObject eo = null;
             bool isRecorded = false;
             bool isAnchor = false;
             _unitUnderTest.NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
@@ -243,7 +244,7 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestDataAdd()
         {
-            System.Collections.Generic.List<EcellLib.EcellObject> data = null;
+            System.Collections.Generic.List<EcellLib.Objects.EcellObject> data = null;
             _unitUnderTest.DataAdd(data);
             Assert.Fail("Create or modify test(s).");
 
@@ -257,7 +258,7 @@ namespace EcellLib.PathwayWindow
             string modelID = null;
             string key = null;
             string type = null;
-            EcellLib.EcellObject data = null;
+            EcellObject data = null;
             _unitUnderTest.DataChanged(modelID, key, type, data);
             Assert.Fail("Create or modify test(s).");
 
@@ -502,7 +503,7 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestSetPosition()
         {
-            EcellLib.EcellObject data = null;
+            EcellLib.Objects.EcellObject data = null;
             _unitUnderTest.SetPosition(data);
             Assert.Fail("Create or modify test(s).");
 
@@ -513,8 +514,8 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestGetLayoutAlgorithms()
         {
-            System.Collections.Generic.List<EcellLib.ILayoutAlgorithm> expectedList = null;
-            System.Collections.Generic.List<EcellLib.ILayoutAlgorithm> resultList = null;
+            System.Collections.Generic.List<EcellLib.Layout.ILayoutAlgorithm> expectedList = null;
+            System.Collections.Generic.List<EcellLib.Layout.ILayoutAlgorithm> resultList = null;
             resultList = _unitUnderTest.GetLayoutAlgorithms();
             Assert.AreEqual(expectedList, resultList, "GetLayoutAlgorithms method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");

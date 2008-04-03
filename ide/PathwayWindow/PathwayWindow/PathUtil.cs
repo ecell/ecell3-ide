@@ -40,6 +40,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using EcellLib;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow
 {

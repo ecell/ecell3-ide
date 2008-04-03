@@ -34,6 +34,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Text;
 using System.Reflection;
+using EcellLib.Plugin;
 
 namespace EcellLib.SearchWindow
 {

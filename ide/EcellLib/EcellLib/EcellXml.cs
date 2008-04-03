@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Xml;
+using EcellLib.Objects;
 
 namespace EcellLib
 {

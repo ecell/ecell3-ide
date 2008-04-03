@@ -43,6 +43,7 @@ using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow.Nodes
 {

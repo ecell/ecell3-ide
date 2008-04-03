@@ -38,6 +38,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using ZedGraph;
+using EcellLib.Objects;
 
 namespace EcellLib.TracerWindow
 {

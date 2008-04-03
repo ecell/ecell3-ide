@@ -53,6 +53,7 @@ using EcellLib.PathwayWindow.Handler;
 using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Graphic;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow
 {

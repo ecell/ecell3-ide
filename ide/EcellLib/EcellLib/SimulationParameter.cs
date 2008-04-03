@@ -4,6 +4,7 @@ using System.Xml;
 using System.IO;
 
 using EcellCoreLib;
+using EcellLib.Objects;
 
 namespace EcellLib
 {

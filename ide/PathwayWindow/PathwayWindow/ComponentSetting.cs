@@ -43,6 +43,7 @@ using EcellLib.PathwayWindow.Figure;
 using EcellLib.PathwayWindow.Graphic;
 using EcellLib.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo.Util;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow
 {

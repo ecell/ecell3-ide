@@ -38,6 +38,7 @@ using System.Reflection;
 using System.ComponentModel;
 
 using EcellLib;
+using EcellLib.Plugin;
 
 namespace EcellLib.Simulation
 {

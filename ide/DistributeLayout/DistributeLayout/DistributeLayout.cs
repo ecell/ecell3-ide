@@ -33,6 +33,7 @@ using System.Text;
 using System.Drawing;
 using System.ComponentModel;
 using EcellLib.Layout;
+using EcellLib.Objects;
 
 namespace EcellLib.DistributeLayout
 {

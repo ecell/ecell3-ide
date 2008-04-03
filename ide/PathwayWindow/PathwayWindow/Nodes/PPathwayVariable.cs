@@ -39,6 +39,7 @@ using System.Drawing;
 using System.Text;
 using System.Threading;
 using System.Drawing.Drawing2D;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow.Nodes
 {

@@ -33,6 +33,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using EcellLib;
+using EcellLib.Objects;
 
 namespace EcellLib.StaticDebugWindow
 {

@@ -40,6 +40,8 @@ using System.Text.RegularExpressions;
 using System.ComponentModel;
 
 using Formulator;
+using EcellLib.Plugin;
+using EcellLib.Objects;
 
 namespace EcellLib.PropertyWindow
 {

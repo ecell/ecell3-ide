@@ -38,6 +38,8 @@ using System.Reflection;
 
 using EcellLib.SessionManager;
 using WeifenLuo.WinFormsUI.Docking;
+using EcellLib.Plugin;
+using EcellLib.Objects;
 
 namespace EcellLib.Analysis
 {

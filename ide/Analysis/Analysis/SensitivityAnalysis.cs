@@ -37,6 +37,7 @@ using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 
 using EcellLib.SessionManager;
+using EcellLib.Objects;
 
 namespace EcellLib.Analysis
 {

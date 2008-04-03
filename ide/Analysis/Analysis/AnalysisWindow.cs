@@ -43,6 +43,7 @@ using ZedGraph;
 using Formulator;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
+using EcellLib.Objects;
 
 namespace EcellLib.Analysis
 {

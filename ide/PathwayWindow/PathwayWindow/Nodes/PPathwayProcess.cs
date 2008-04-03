@@ -44,6 +44,7 @@ using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Figure;
 using System.Drawing.Drawing2D;
 using EcellLib.PathwayWindow.Graphic;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow.Nodes
 {

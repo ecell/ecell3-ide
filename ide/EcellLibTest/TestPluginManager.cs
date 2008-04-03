@@ -4,6 +4,8 @@ namespace EcellLib
     using NUnit.Framework;
     using System.Collections.Generic;
     using EcellLib;
+    using EcellLib.Plugin;
+    using EcellLib.Objects;
 
 
     [TestFixture()]
@@ -338,8 +340,8 @@ namespace EcellLib
         [Test()]
         public void TestGetLayoutPlugins()
         {
-            List<EcellLib.ILayoutAlgorithm> expectedList = null;
-            List<EcellLib.ILayoutAlgorithm> resultList = _unitUnderTest.GetLayoutPlugins();
+            List<EcellLib.Layout.ILayoutAlgorithm> expectedList = null;
+            List<EcellLib.Layout.ILayoutAlgorithm> resultList = _unitUnderTest.GetLayoutPlugins();
             Assert.AreEqual(expectedList, resultList, "GetLayoutPlugins method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 

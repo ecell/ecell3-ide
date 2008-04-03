@@ -54,6 +54,7 @@ namespace EcellLib.MainWindow
         /// </summary>
         public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResMain));
 
+        private ProjectTreeNode m_node = null;
         private string m_prjID = "";
         private string m_fileName = "";
         private string m_simName = "";
@@ -132,8 +133,7 @@ namespace EcellLib.MainWindow
         /// </summary>
         /// <param name="node">The current TreeNode.</param>
         /// <param name="path">The current path.</param>
-        /// <param name="isProject">The flag whether the current path is in the project directory.</param>
-        public void CreateProjectTreeView(TreeNode node, string path, bool isProject)
+        public void CreateProjectTreeView(TreeNode node, string path)
         {
             if (node == null)
             {
@@ -149,16 +149,14 @@ namespace EcellLib.MainWindow
             {
                 TreeNode childNode = new ProjectTreeNode(prjXMLFileName);
                 node.Nodes.Add(childNode);
-                isProject = true;
             }
             // Check project.info and load.
             else if (File.Exists(prjFileName))
             {
                 TreeNode childNode = new ProjectTreeNode(prjFileName);
                 node.Nodes.Add(childNode);
-                isProject = true;
             }
-            else if (isProject == false)
+            else
             {
                 string[] files = Directory.GetFiles(path, "*.eml");
                 foreach (string file in files)
@@ -187,7 +185,7 @@ namespace EcellLib.MainWindow
                 ProjectTreeNode childNode = new ProjectTreeNode(dir);
                 node.Nodes.Add(childNode);
 
-                CreateProjectTreeView(childNode, dir, isProject);
+                CreateProjectTreeView(childNode, dir);
             }
         }
 
@@ -199,18 +197,18 @@ namespace EcellLib.MainWindow
         private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeView tView = (TreeView)sender;
-            ProjectTreeNode node = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
+            m_node = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
 
             // Reset selected project if project is null.
-            if (node == null || node.Project == null)
+            if (m_node == null || m_node.Project == null)
             {
                 ResetSelectedProject();
                 return;
             }
 
             // Reflect Project parameters.
-            Project prj = node.Project;
-            m_fileName = node.FileName;
+            Project prj = m_node.Project;
+            m_fileName = m_node.FileName;
             MPPrjIDText.Text = prj.Name;
             MPPrjDateText.Text = prj.UpdateTime;
             MPPrjCommentText.Text = prj.Comment;
@@ -250,9 +248,10 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void SaveZipClick(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(m_prjID))
+            if (m_node == null)
                 return;
 
+            // Show SaveFileDialog and get saving filename.
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = Constants.FilterZipFile;
             if(dialog.ShowDialog() != DialogResult.OK)
@@ -260,8 +259,20 @@ namespace EcellLib.MainWindow
             string filename = dialog.FileName;
             if (string.IsNullOrEmpty(filename))
                 return;
-            string foldername = Path.Combine(Util.GetBaseDir(), m_prjID);
-            ZipUtil.ZipFolder(filename, foldername);
+
+            switch (m_node.NodeType)
+            {
+                case MngPrjDlgConstants.NodeGraphicsFolder:
+                    ZipUtil.ZipFolder(filename, m_node.FileName);
+                    break;
+                case MngPrjDlgConstants.NodeGraphicsProject:
+                    ZipUtil.ZipFolder(filename, Path.GetDirectoryName(m_node.FileName));
+                    break;
+                case MngPrjDlgConstants.NodeGraphicsModel:
+                    ZipUtil.ZipFile(filename, m_node.FileName);
+                    break;
+            }
+            
             dialog.Dispose();
         }
 

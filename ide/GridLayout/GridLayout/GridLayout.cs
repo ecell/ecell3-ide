@@ -39,6 +39,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using GridLayout;
 using EcellLib.Layout;
+using EcellLib.Objects;
 
 namespace EcellLib.GridLayout
 {

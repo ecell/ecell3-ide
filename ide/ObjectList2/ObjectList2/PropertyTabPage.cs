@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Text;
+using EcellLib.Objects;
 
 namespace EcellLib.ObjectList2
 {

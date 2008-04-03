@@ -38,6 +38,7 @@ using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.Resources;
 using System.Drawing;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow.Handler
 {

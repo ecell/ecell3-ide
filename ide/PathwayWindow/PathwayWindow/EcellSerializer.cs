@@ -44,6 +44,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using EcellLib.PathwayWindow.Resources;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow {
     /// <summary>

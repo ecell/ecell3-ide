@@ -49,7 +49,9 @@ using IronPython.Hosting;
 using IronPython.Runtime;
 
 using EcellLib;
+using EcellLib.Plugin;
 using WeifenLuo.WinFormsUI.Docking;
+using EcellLib.Objects;
 
 namespace EcellLib.MainWindow
 {
@@ -983,7 +985,7 @@ namespace EcellLib.MainWindow
         /// The action when you click OK or Cancel in NewProjectDialog.
         /// If you don't set name or model name, system show warning message.
         /// </summary>
-        public void CreateNewProject()
+        private void CreateNewProject()
         {
             if (!CheckProjectID(m_newPrjDialog.textName.Text)) 
                 return;
@@ -1012,7 +1014,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Cancel to create project.
         /// </summary>
-        public void CancelNewProject()
+        private void CancelNewProject()
         {
             m_newPrjDialog.Close();
             m_newPrjDialog.Dispose();
@@ -1152,7 +1154,7 @@ namespace EcellLib.MainWindow
             try
             {
                 dialog = new ManageProjectDialog();
-                dialog.CreateProjectTreeView(null, m_currentDir, false);
+                dialog.CreateProjectTreeView(null, m_currentDir);
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                 }
