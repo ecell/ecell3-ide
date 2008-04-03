@@ -10,6 +10,9 @@ using EcellCoreLib;
 
 namespace EcellLib
 {
+    /// <summary>
+    /// Exception on treating the "eml" formatted file.
+    /// </summary>
     internal class EmlParseException : EcellXmlReaderException
     {
         public EmlParseException(string msg)
@@ -23,6 +26,9 @@ namespace EcellLib
         }
     }
 
+    /// <summary>
+    /// Treats the "eml" formatted file.
+    /// </summary>
     internal class EmlWriter: EcellXmlWriter
     {
         /// <summary>
@@ -204,7 +210,7 @@ namespace EcellLib
                 l_date = l_date.Replace(Constants.delimiterSpace, Constants.delimiterUnderbar);
                 string l_destFileName
                     = Path.GetDirectoryName(l_fileName) + Constants.delimiterPath
-                    + Constants.delimiterUnderbar + l_date + Constants.delimiterUnderbar + Path.GetFileName(l_fileName) + Constants.backFileExtension;
+                    + Constants.delimiterUnderbar + l_date + Constants.delimiterUnderbar + Path.GetFileName(l_fileName) + Constants.FileExtBackUp;
                 File.Move(l_fileName, l_destFileName);
             }
 
@@ -229,7 +235,7 @@ namespace EcellLib
                             l_date = l_date.Replace(Constants.delimiterSpace, Constants.delimiterUnderbar);
                             string l_destFileName
                                 = Path.GetDirectoryName(l_model) + Constants.delimiterPath
-                                + Constants.delimiterUnderbar + l_date + Constants.delimiterUnderbar + Path.GetFileName(fileName) + Constants.backFileExtension;
+                                + Constants.delimiterUnderbar + l_date + Constants.delimiterUnderbar + Path.GetFileName(fileName) + Constants.FileExtBackUp;
                             File.Move(l_model, l_destFileName);
                         }
                     }

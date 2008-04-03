@@ -9,30 +9,87 @@ namespace EcellLib
     /// </summary>
     public class Constants
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string backFileExtension = ".bak";
-        /// <summary>
-        /// default project ID.
-        /// </summary>
-        public const string defaultPrjID = "project";
-        /// <summary>
-        /// default comment.
-        /// </summary>
-        public const string defaultComment = "comment";
-        /// <summary>
-        /// DM directory name
-        /// </summary>
-        public const string DMDirName = "DMs";
+        #region File Extentions
         /// <summary>
         /// Reserved extension for DM's.
         /// </summary>
-        public const string dmFileExtension = ".dll";
+        public const string FileExtDM = ".dll";
         /// <summary>
         /// Reserved extension for plugins.
         /// </summary>
-        public const string pluginFileExtension = ".dll";
+        public const string FileExtPlugin = ".dll";
+        /// <summary>
+        /// The extention of EML file.
+        /// </summary>
+        public const string FileExtEML = ".eml";
+        /// <summary>
+        /// The extention of LEML file.
+        /// </summary>
+        public const string FileExtLEML = ".leml";
+        /// <summary>
+        /// The extention of XML file.
+        /// </summary>
+        public const string FileExtXML = ".xml";
+        /// <summary>
+        /// The extention of XML file.
+        /// </summary>
+        public const string FileExtINFO = ".info";
+        /// <summary>
+        /// The extention of png file.
+        /// </summary>
+        public const string FileExtPNG = ".png";
+        /// <summary>
+        /// The extention of png file.
+        /// </summary>
+        public const string FileExtSVG = ".svg";
+        /// <summary>
+        /// The extention of BackUp file.
+        /// </summary>
+        public const string FileExtBackUp = ".bak";
+
+        #endregion
+
+        #region Default Setting Files
+        /// <summary>
+        /// Reserved the name of file..
+        /// </summary>
+        public const string fileProject = "project.info";
+        /// <summary>
+        /// Reserved the name of file..
+        /// </summary>
+        public const string fileProjectXML = "project.xml";
+        /// <summary>
+        /// Reserved the file name of window setting list.
+        /// </summary>
+        public const string fileWinSetting = "settinglist.conf";
+
+        #endregion
+
+        #region Filters
+        /// <summary>
+        /// File Filter for the action file.
+        /// </summary>
+        public const string FilterActionFile = "Action File(*.xml)|*.xml";
+        /// <summary>
+        /// File Filter for the model file.
+        /// </summary>
+        public const string FilterEmlFile = "Model File(*.eml)|*.eml|all(*.*)|*.*";
+        /// <summary>
+        /// File Filter for the script file.
+        /// </summary>
+        public const string FilterEssFile = "Script File(*.ess)|*.ess|all(*.*)|*.*";
+        /// <summary>
+        /// File Filter for the window setting file.
+        /// </summary>
+        public const string FilterWinSetFile = "Window Setting File(*.xml)|*.xml|all(*.*)|*.*";
+        /// <summary>
+        /// File Filter for the zip file.
+        /// </summary>
+        public const string FilterZipFile = "Zip File(*.zip)|*.zip";
+
+        #endregion
+
+        #region Delimiters
         /// <summary>
         /// Reserved char for colon.
         /// </summary>
@@ -77,122 +134,10 @@ namespace EcellLib
         /// Reserved char for wild card.
         /// </summary>
         public const string delimiterWildcard = "*";
-        /// <summary>
-        /// File extention of the action file.
-        /// </summary>
-        public const string extActionFile = "Action File(*.xml)|*.xml";
-        /// <summary>
-        /// File extention of the model file.
-        /// </summary>
-        public const string extEmlFile = "Model File(*.eml)|*.eml|all(*.*)|*.*";
-        /// <summary>
-        /// File extention of the script file.
-        /// </summary>
-        public const string extEssFile = "Script File(*.ess)|*.ess|all(*.*)|*.*";
-        /// <summary>
-        /// File extention of the window setting file.
-        /// </summary>
-        public const string extWinSetFile = "Window Setting File(*.xml)|*.xml|all(*.*)|*.*";
-        /// <summary>
-        /// File extention of the zip file.
-        /// </summary>
-        public const string extZipFile = "Zip File(*.zip)|*.zip";
-        /// <summary>
-        /// Reserved the name of file..
-        /// </summary>
-        public const string fileProject = "project.info";
-        /// <summary>
-        /// Reserved the name of file..
-        /// </summary>
-        public const string fileProjectXML = "project.xml";
-        /// <summary>
-        /// Reserved the file name of window setting list.
-        /// </summary>
-        public const string fileWinSetting = "settinglist.conf";
-        /// <summary>
-        /// Reserved the header of average.
-        /// </summary>
-        public const string headerAverage = "avg";
-        /// <summary>
-        /// Reserved the number of header.
-        /// </summary>
-        public const string headerColumn = "5";
-        /// <summary>
-        /// Reserved the header of data.
-        /// </summary>
-        public const string headerData = "DATA";
-        /// <summary>
-        /// Reserved the header of label.
-        /// </summary>
-        public const string headerLabel = "LABEL";
-        /// <summary>
-        /// Reserved the header of  max.
-        /// </summary>
-        public const string headerMaximum = "Max";
-        /// <summary>
-        /// Reserved the header of min.
-        /// </summary>
-        public const string headerMinimum = "Min";
-        /// <summary>
-        /// Reserved the header of note.
-        /// </summary>
-        public const string headerNote = "NOTE";
-        /// <summary>
-        /// Reserved the header of Size.
-        /// </summary>
-        public const string headerSize = "SIZE";
-        /// <summary>
-        /// Reserved the header of Time.
-        /// </summary>
-        public const string headerTime = "t";
-        /// <summary>
-        /// Reserved the header of tolerable.
-        /// </summary>
-        public const string headerTolerable = "Tolerable";
-        /// <summary>
-        /// Reserved the header of value.
-        /// </summary>
-        public const string headerValue = "value";
-        /// <summary>
-        /// Reserved the message of analysis.
-        /// </summary>
-        public const string messageAnalysis = "Analysis";
-        /// <summary>
-        /// Reserved the message of debug.
-        /// </summary>
-        public const string messageDebug = "Debug";
-        /// <summary>
-        /// Reserved the message of simulation.
-        /// </summary>
-        public const string messageSimulation = "Simulation";
-        /// <summary>
-        /// Reserved XML path name for DefalutParameter.
-        /// </summary>
-        public const string parameterKey = "DefaultParameter";
-        /// <summary>
-        /// Reserved the extention of XML file.
-        /// </summary>
-        public const string postfixXML = ".xml";
-        /// <summary>
-        /// Reserved the extention of png file.
-        /// </summary>
-        public const string postfixPNG = ".png";
-        /// <summary>
-        /// Property name of ReadVariableList.
-        /// </summary>
-        public const string propReadVariableList = "ReadVariableList";
-        /// <summary>
-        /// Property name of ProcessList.
-        /// </summary>
-        public const string propProcessList = "ProcessList";
-        /// <summary>
-        /// Property name of SystemList.
-        /// </summary>
-        public const string propSystemList = "SystemList";
-        /// <summary>
-        /// Property name of WriteProcessList.
-        /// </summary>
-        public const string propWriteVariableList = "WriteVariableList";
+
+        #endregion
+
+        #region Regstry Keys
         /// <summary>
         /// Reserved XML path name for name of "E-CELL IDE ANALYSIS".
         /// </summary>
@@ -237,50 +182,22 @@ namespace EcellLib
         /// Reserved the key of registry for E-CELL WINDOW SETTING.
         /// </summary>
         public const string registryWinSetDir = "E-CELL IDE WINDOW SETTING";
-        /// <summary>
-        /// Reserved XML path name for file header.
-        /// </summary>
-        public const string xPathFileHeader1 = "PathwayWindow configuration file.";
-        /// <summary>
-        /// Reserved XML path name for file header.
-        /// </summary>
-        public const string xPathFileHeader2 = "Automatically generated file. DO NOT modify!";
+
+        #endregion
+
+        #region XML Path
         /// <summary>
         /// Reserved XML path name for file header.
         /// </summary>
         public const string xPathEcellProject = "ECellProject";
         /// <summary>
-        /// Reserved XML path name for comment.
+        /// Reserved XML path name for file header.
         /// </summary>
-        public const string textComment = "Comment";
+        public const string xPathFileHeader1 = "ECell-IDE configuration file.";
         /// <summary>
-        /// Reserved XML path name for comment.
+        /// Reserved XML path name for file header.
         /// </summary>
-        public const string textDate = "Date";
-        /// <summary>
-        /// Reserved XML path name for default stepper.
-        /// </summary>
-        public const string textKey = "DefaultStepper";
-        /// <summary>
-        /// Reserved XML path name for parameter of simulation.
-        /// </summary>
-        public const string textParameter = "SimulationParameter";
-        /// <summary>
-        /// Reserved XML path name for the type of double.
-        /// </summary>
-        public const string typeDouble = "double";
-        /// <summary>
-        /// Reserved XML path name for the type of int.
-        /// </summary>
-        public const string typeInt = "int";
-        /// <summary>
-        /// Reserved XML path name for the type of list.
-        /// </summary>
-        public const string typeList = "list";
-        /// <summary>
-        /// Reserved XML path name for string.
-        /// </summary>
-        public const string typeString = "string";
+        public const string xPathFileHeader2 = "Automatically generated file. DO NOT modify!";
         /// <summary>
         /// Reserved XML path name for action.
         /// </summary>
@@ -429,14 +346,130 @@ namespace EcellLib
         /// Reserved XML path name for VariableReferenceList.
         /// </summary>
         public const string xpathVRL = EcellProcess.VARIABLEREFERENCELIST;
+
+        #endregion
+
         /// <summary>
-        /// Reserved XML path name for xml.
+        /// default project ID.
         /// </summary>
-        public const string xpathXml = "xml";
+        public const string defaultPrjID = "project";
         /// <summary>
-        /// Reserved XML path name for xml.
+        /// default comment.
         /// </summary>
-        public const string xpathInfo = "info";
+        public const string defaultComment = "comment";
+        /// <summary>
+        /// DM directory name
+        /// </summary>
+        public const string DMDirName = "DMs";
+        /// <summary>
+        /// Reserved the header of average.
+        /// </summary>
+        public const string headerAverage = "avg";
+        /// <summary>
+        /// Reserved the number of header.
+        /// </summary>
+        public const string headerColumn = "5";
+        /// <summary>
+        /// Reserved the header of data.
+        /// </summary>
+        public const string headerData = "DATA";
+        /// <summary>
+        /// Reserved the header of label.
+        /// </summary>
+        public const string headerLabel = "LABEL";
+        /// <summary>
+        /// Reserved the header of  max.
+        /// </summary>
+        public const string headerMaximum = "Max";
+        /// <summary>
+        /// Reserved the header of min.
+        /// </summary>
+        public const string headerMinimum = "Min";
+        /// <summary>
+        /// Reserved the header of note.
+        /// </summary>
+        public const string headerNote = "NOTE";
+        /// <summary>
+        /// Reserved the header of Size.
+        /// </summary>
+        public const string headerSize = "SIZE";
+        /// <summary>
+        /// Reserved the header of Time.
+        /// </summary>
+        public const string headerTime = "t";
+        /// <summary>
+        /// Reserved the header of tolerable.
+        /// </summary>
+        public const string headerTolerable = "Tolerable";
+        /// <summary>
+        /// Reserved the header of value.
+        /// </summary>
+        public const string headerValue = "value";
+        /// <summary>
+        /// Reserved the message of analysis.
+        /// </summary>
+        public const string messageAnalysis = "Analysis";
+        /// <summary>
+        /// Reserved the message of debug.
+        /// </summary>
+        public const string messageDebug = "Debug";
+        /// <summary>
+        /// Reserved the message of simulation.
+        /// </summary>
+        public const string messageSimulation = "Simulation";
+        /// <summary>
+        /// Reserved XML path name for DefalutParameter.
+        /// </summary>
+        public const string parameterKey = "DefaultParameter";
+        /// <summary>
+        /// Property name of ReadVariableList.
+        /// </summary>
+        public const string propReadVariableList = "ReadVariableList";
+        /// <summary>
+        /// Property name of ProcessList.
+        /// </summary>
+        public const string propProcessList = "ProcessList";
+        /// <summary>
+        /// Property name of SystemList.
+        /// </summary>
+        public const string propSystemList = "SystemList";
+        /// <summary>
+        /// Property name of WriteProcessList.
+        /// </summary>
+        public const string propWriteVariableList = "WriteVariableList";
+
+        /// <summary>
+        /// Reserved XML path name for comment.
+        /// </summary>
+        public const string textComment = "Comment";
+        /// <summary>
+        /// Reserved XML path name for comment.
+        /// </summary>
+        public const string textDate = "Date";
+        /// <summary>
+        /// Reserved XML path name for default stepper.
+        /// </summary>
+        public const string textKey = "DefaultStepper";
+        /// <summary>
+        /// Reserved XML path name for parameter of simulation.
+        /// </summary>
+        public const string textParameter = "SimulationParameter";
+        /// <summary>
+        /// Reserved XML path name for the type of double.
+        /// </summary>
+        public const string typeDouble = "double";
+        /// <summary>
+        /// Reserved XML path name for the type of int.
+        /// </summary>
+        public const string typeInt = "int";
+        /// <summary>
+        /// Reserved XML path name for the type of list.
+        /// </summary>
+        public const string typeList = "list";
+        /// <summary>
+        /// Reserved XML path name for string.
+        /// </summary>
+        public const string typeString = "string";
     }
 
     /// <summary>

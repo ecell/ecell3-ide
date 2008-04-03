@@ -101,8 +101,8 @@
       <DependentUpon>FormulatorWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="IgnoreException.cs" />
-    <Compile Include="ILayoutAlgorithm.cs" />
-    <Compile Include="LayoutBase.cs" />
+    <Compile Include="Layout\ILayoutAlgorithm.cs" />
+    <Compile Include="Layout\LayoutBase.cs" />
     <Compile Include="MessageResLib.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

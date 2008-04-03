@@ -39,6 +39,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Dialog;
+using EcellLib.Layout;
 
 namespace EcellLib.PathwayWindow
 {

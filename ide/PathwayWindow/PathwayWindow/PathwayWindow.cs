@@ -59,6 +59,7 @@ using UMD.HCIL.PiccoloX.Nodes;
 using EcellLib;
 using EcellLib.PathwayWindow.Exceptions;
 using EcellLib.PathwayWindow.Resources;
+using EcellLib.Layout;
 
 namespace EcellLib.PathwayWindow
 {

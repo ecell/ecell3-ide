@@ -27,6 +27,10 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -133,10 +137,7 @@ namespace EcellLib.MainWindow
         {
             if (node == null)
             {
-                node = new TreeNode(path);
-                node.Tag = null;
-                node.ImageIndex = 0;
-                node.SelectedImageIndex = node.ImageIndex;
+                node = new ProjectTreeNode(path);
                 MPPrjTreeView.Nodes.Add(node);
             }
 
@@ -198,21 +199,16 @@ namespace EcellLib.MainWindow
         private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeView tView = (TreeView)sender;
-            TreeNode obj = tView.GetNodeAt(e.X, e.Y);
+            ProjectTreeNode node = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
 
             // Reset selected project if project is null.
-            if (obj == null || !(obj is ProjectTreeNode))
-            {
-                ResetSelectedProject();
-                return;
-            }
-            ProjectTreeNode node = (ProjectTreeNode)obj;
-            if (node.Project == null)
+            if (node == null || node.Project == null)
             {
                 ResetSelectedProject();
                 return;
             }
 
+            // Reflect Project parameters.
             Project prj = node.Project;
             m_fileName = node.FileName;
             MPPrjIDText.Text = prj.Name;
@@ -248,62 +244,6 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// Get the project information from the project file.
-        /// </summary>
-        /// <param name="fileName">the project file name.</param>
-        /// <returns>project information.</returns>
-        private Project GetProject(string fileName)
-        {
-            if (!File.Exists(fileName))
-            {
-                return null;
-            }
-            string line = "";
-            string comment = "";
-
-            string dirPathName = Path.GetDirectoryName(fileName);
-            string prjName = Path.GetFileName(dirPathName);
-            TextReader l_reader = new StreamReader(fileName);
-            while ((line = l_reader.ReadLine()) != null)
-            {
-                if (line.IndexOf(Constants.textComment) == 0)
-                {
-                    if (line.IndexOf(Constants.delimiterEqual) != -1)
-                    {
-                        comment = line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
-                    }
-                    else
-                    {
-                        comment = line.Substring(line.IndexOf(Constants.textComment));
-                    }
-                }
-                else if (line.IndexOf(Constants.textParameter) == 0)
-                {
-                    m_simName = line;
-                }
-                else if (!comment.Equals(""))
-                {
-                    comment = comment + "\n" + line;
-                }
-                else if (line.IndexOf(Constants.xpathProject) == 0)
-                {
-                    if (line.IndexOf(Constants.delimiterEqual) != -1)
-                    {
-                        prjName = line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
-                    }
-                    else
-                    {
-                        prjName = line.Substring(line.IndexOf(Constants.textComment));
-                    }
-                }
-            }
-            l_reader.Close();
-            m_comment = comment;
-            m_prjID = prjName;
-            return new Project(prjName, comment, File.GetLastWriteTime(fileName).ToString());
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
@@ -314,7 +254,7 @@ namespace EcellLib.MainWindow
                 return;
 
             SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = Constants.extZipFile;
+            dialog.Filter = Constants.FilterZipFile;
             if(dialog.ShowDialog() != DialogResult.OK)
                 return;
             string filename = dialog.FileName;
@@ -328,7 +268,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// ProjectTreeNode
         /// </summary>
-        private class ProjectTreeNode : TreeNode
+        internal class ProjectTreeNode : TreeNode
         {
             private string m_fileName = null;
             private int m_nodeType = 0;
@@ -360,13 +300,22 @@ namespace EcellLib.MainWindow
             /// <summary>
             /// Constructor
             /// </summary>
+            public ProjectTreeNode()
+            {
+            }
+            /// <summary>
+            /// Constructor
+            /// </summary>
             /// <param name="filepath"></param>
             public ProjectTreeNode(string filepath)
             {
-                this.m_fileName =filepath;
+                this.m_fileName = filepath;
                 this.m_nodeType = GetNodeType(filepath);
                 this.m_project = GetProject(m_nodeType, filepath);
-                this.Text = Path.GetFileNameWithoutExtension(filepath);
+                if (m_project == null)
+                    this.Text = Path.GetFileNameWithoutExtension(filepath);
+                else
+                    this.Text = m_project.Name;
                 this.ImageIndex = m_nodeType;
                 this.SelectedImageIndex = m_nodeType;
                 this.Tag = filepath;
@@ -380,11 +329,11 @@ namespace EcellLib.MainWindow
             private int GetNodeType(string filepath)
             {
                 string ext = Path.GetExtension(filepath);
-                if (ext.EndsWith(Constants.xpathXml))
+                if (ext.Equals(Constants.FileExtXML))
                     return MngPrjDlgConstants.NodeGraphicsProject;
-                else if (ext.EndsWith(Constants.xpathInfo))
+                else if (ext.Equals(Constants.FileExtINFO))
                     return MngPrjDlgConstants.NodeGraphicsProject;
-                else if (ext.EndsWith(Constants.xpathEml))
+                else if (ext.Equals(Constants.FileExtEML))
                     return MngPrjDlgConstants.NodeGraphicsModel;
                 else
                     return MngPrjDlgConstants.NodeGraphicsFolder;
@@ -406,7 +355,7 @@ namespace EcellLib.MainWindow
                         project = GetProjectFromEml(filepath);
                         break;
                     case MngPrjDlgConstants.NodeGraphicsProject:
-                        if (Path.GetExtension(filepath).Equals(Constants.xpathXml))
+                        if (Path.GetExtension(filepath).Equals(Constants.FileExtXML))
                             project = GetProjectFromXML(filepath);
                         else
                             project = GetProjectFromInfo(filepath);

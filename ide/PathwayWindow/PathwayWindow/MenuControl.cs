@@ -50,6 +50,7 @@ using System.Diagnostics;
 using EcellLib.PathwayWindow.Graphic;
 using UMD.HCIL.Piccolo;
 using EcellLib.PathwayWindow.Dialog;
+using EcellLib.Layout;
 
 namespace EcellLib.PathwayWindow
 {

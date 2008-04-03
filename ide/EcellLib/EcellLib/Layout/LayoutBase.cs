@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace EcellLib
+namespace EcellLib.Layout
 {
     /// <summary>
     /// Common algorithm of Layout algorithm.

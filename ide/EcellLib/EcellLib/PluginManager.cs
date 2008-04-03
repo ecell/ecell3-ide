@@ -38,6 +38,7 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using System.ComponentModel;
+using EcellLib.Layout;
 
 
 namespace EcellLib
@@ -664,7 +665,7 @@ namespace EcellLib
                 foreach (string pluginName in Directory.GetFiles(pathwayPluginDir))
                 {
                     // Only dlls will be loaded (NOT xml)!
-                    if (string.IsNullOrEmpty(pluginName) || !pluginName.EndsWith(Constants.pluginFileExtension))
+                    if (string.IsNullOrEmpty(pluginName) || !pluginName.EndsWith(Constants.FileExtPlugin))
                         continue;
                     if (loadedPlugins.Contains(pluginName)) continue;
                     loadedPlugins.Add(pluginName);

@@ -590,7 +590,7 @@ namespace EcellLib.MainWindow
             {
                 string[] files = Directory.GetFiles(
                     pluginDir,
-                    Constants.delimiterWildcard + Constants.pluginFileExtension);
+                    Constants.delimiterWildcard + Constants.FileExtPlugin);
                 foreach (string fileName in files)
                 {
                     pluginList.Add(fileName);
@@ -1358,8 +1358,8 @@ namespace EcellLib.MainWindow
             // Show OpenFileDialog.
             try
             {
-                m_openFileDialog.RestoreDirectory = true; 
-                m_openFileDialog.Filter = Constants.extEmlFile;
+                m_openFileDialog.RestoreDirectory = true;
+                m_openFileDialog.Filter = Constants.FilterEmlFile;
                 if (m_openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     // Close old project.
@@ -1471,7 +1471,7 @@ namespace EcellLib.MainWindow
                     {
                         saveFileDialog.RestoreDirectory = true;
                         //                    saveFileDialog.Filter = "model file(*.eml,*.sbml)|*.eml;*.sbml|model file(*.sbml)|*.sbml|model file(*.eml)|*.eml|all(*.*)|*.*";
-                        saveFileDialog.Filter = Constants.extEmlFile;
+                        saveFileDialog.Filter = Constants.FilterEmlFile;
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         {
                             m_dManager.ExportModel(list, saveFileDialog.FileName);
@@ -1499,7 +1499,7 @@ namespace EcellLib.MainWindow
             try
             {
                 saveFileDialog.RestoreDirectory = true;
-                saveFileDialog.Filter = Constants.extEssFile;
+                saveFileDialog.Filter = Constants.FilterEssFile;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     m_dManager.SaveScript(saveFileDialog.FileName);
@@ -1654,7 +1654,7 @@ namespace EcellLib.MainWindow
             try
             {
                 m_openFileDialog.RestoreDirectory = true;
-                m_openFileDialog.Filter = Constants.extActionFile;
+                m_openFileDialog.Filter = Constants.FilterActionFile;
 
                 if (m_openFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -1689,7 +1689,7 @@ namespace EcellLib.MainWindow
             try
             {
                 saveFileDialog.RestoreDirectory = true;
-                saveFileDialog.Filter = Constants.extActionFile;
+                saveFileDialog.Filter = Constants.FilterActionFile;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     m_dManager.SaveUserAction(saveFileDialog.FileName);
@@ -1744,7 +1744,7 @@ namespace EcellLib.MainWindow
         private void SaveWindowSettingsClick(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = Constants.extWinSetFile;
+            sfd.Filter = Constants.FilterWinSetFile;
             sfd.CheckPathExists = true;
             sfd.CreatePrompt = true;
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -1765,7 +1765,7 @@ namespace EcellLib.MainWindow
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
-            ofd.Filter = Constants.extWinSetFile;
+            ofd.Filter = Constants.FilterWinSetFile;
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {

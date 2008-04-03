@@ -82,8 +82,8 @@ namespace EcellLib.MainWindow
                 string[] ele = line.Split(new char[] { '\t' });
                 WindowSetting s = new WindowSetting(
                     ele[0],
-                    path + "/" + ele[0] + Constants.postfixXML,
-                    path + "/" + ele[0] + Constants.postfixPNG,
+                    path + "/" + ele[0] + Constants.FileExtXML,
+                    path + "/" + ele[0] + Constants.FileExtPNG,
                     ele[1]);
                 m_dicPath.Add(i, s);
                 i++;

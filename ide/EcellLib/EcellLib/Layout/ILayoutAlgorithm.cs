@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib
+namespace EcellLib.Layout
 {
     /// <summary>
     /// Type of layout.

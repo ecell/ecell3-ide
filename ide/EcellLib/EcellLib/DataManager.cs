@@ -3027,7 +3027,7 @@ namespace EcellLib
                             = this.m_defaultDir + Constants.delimiterPath
                             + this.m_currentProjectID + Constants.delimiterPath + Constants.xpathParameters;
                     string l_pattern
-                            = "_????_??_??_??_??_??_" + l_parameterID + Constants.delimiterPeriod + Constants.xpathXml;
+                            = "_????_??_??_??_??_??_" + l_parameterID + Constants.FileExtXML;
                     if (Directory.Exists(l_simulationDirName))
                     {
                         foreach (string l_fileName in Directory.GetFiles(l_simulationDirName, l_pattern))
@@ -3035,8 +3035,7 @@ namespace EcellLib
                             File.Delete(l_fileName);
                         }
                         string l_simulationFileName
-                                = l_simulationDirName + Constants.delimiterPath + l_parameterID + Constants.delimiterPeriod
-                                + Constants.xpathXml;
+                                = l_simulationDirName + Constants.delimiterPath + l_parameterID + Constants.FileExtXML;
                         File.Delete(l_simulationFileName);
                     }
                     this.m_loggerPolicyDic[m_currentProjectID].Remove(l_parameterID);
@@ -5086,7 +5085,7 @@ namespace EcellLib
                         {
                             string l_fileName = Path.GetFileName(l_model);
                             if (l_fileName.IndexOf(Constants.delimiterUnderbar) != 0 &&
-                                !l_fileName.EndsWith(Constants.backFileExtension))
+                                !l_fileName.EndsWith(Constants.FileExtBackUp))
                             {
                                 this.LoadModel(l_model, false);
                             }
@@ -5116,8 +5115,7 @@ namespace EcellLib
                 {
                     l_parameters = Directory.GetFileSystemEntries(
                         l_simulationDirName,
-                        Constants.delimiterWildcard + Constants.delimiterPeriod + Constants.xpathXml
-                        );
+                        Constants.delimiterWildcard + Constants.FileExtXML);
                     if (l_parameters != null && l_parameters.Length > 0)
                     {
                         foreach (string l_parameter in l_parameters)
@@ -5195,6 +5193,8 @@ namespace EcellLib
                 m_loadingProject = null;
             }
         }
+
+
 
         /// <summary>
         /// Loads the simulation parameter.
@@ -6328,7 +6328,7 @@ namespace EcellLib
                     Directory.CreateDirectory(l_simulationDirName);
                 }
                 string l_simulationFileName
-                    = l_simulationDirName + Constants.delimiterPath + l_paramID + Constants.delimiterPeriod + Constants.xpathXml;
+                    = l_simulationDirName + Constants.delimiterPath + l_paramID + Constants.FileExtXML;
                 //
                 // Picks the "Stepper" up.
                 //
@@ -6548,7 +6548,7 @@ namespace EcellLib
                 // 4 Process
                 string[] l_processDMArray = Directory.GetFiles(
                     dmPath,
-                    Constants.delimiterWildcard + Constants.xpathProcess + Constants.dmFileExtension
+                    Constants.delimiterWildcard + Constants.xpathProcess + Constants.FileExtDM
                     );
                 foreach (string l_processDM in l_processDMArray)
                 {
@@ -6557,7 +6557,7 @@ namespace EcellLib
                 // 4 Stepper
                 string[] l_stepperDMArray = Directory.GetFiles(
                     dmPath,
-                    Constants.delimiterWildcard + Constants.xpathStepper + Constants.dmFileExtension
+                    Constants.delimiterWildcard + Constants.xpathStepper + Constants.FileExtDM
                     );
                 foreach (string l_stepperDM in l_stepperDMArray)
                 {
@@ -6566,7 +6566,7 @@ namespace EcellLib
                 // 4 System
                 string[] l_systemDMArray = Directory.GetFiles(
                     dmPath,
-                    Constants.delimiterWildcard + Constants.xpathSystem + Constants.dmFileExtension
+                    Constants.delimiterWildcard + Constants.xpathSystem + Constants.FileExtDM
                     );
                 foreach (string l_systemDM in l_systemDMArray)
                 {
@@ -6575,7 +6575,7 @@ namespace EcellLib
                 // 4 Variable
                 string[] l_variableDMArray = Directory.GetFiles(
                     dmPath,
-                    Constants.delimiterWildcard + Constants.xpathVariable + Constants.dmFileExtension
+                    Constants.delimiterWildcard + Constants.xpathVariable + Constants.FileExtDM
                     );
                 foreach (string l_variableDM in l_variableDMArray)
                 {

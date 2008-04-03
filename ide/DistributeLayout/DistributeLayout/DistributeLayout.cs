@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.ComponentModel;
+using EcellLib.Layout;
 
 namespace EcellLib.DistributeLayout
 {
