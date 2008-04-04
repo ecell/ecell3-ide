@@ -733,6 +733,7 @@
             // 
             // PEParamGridView
             // 
+            this.PEParamGridView.AllowDrop = true;
             this.PEParamGridView.AllowUserToAddRows = false;
             this.PEParamGridView.AllowUserToDeleteRows = false;
             this.PEParamGridView.AllowUserToResizeColumns = false;

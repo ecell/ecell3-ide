@@ -1244,7 +1244,7 @@ namespace EcellLib.Analysis
         /// <param name="e">DragEventArgs</param>
         private void DragDropParam(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
 
@@ -1273,7 +1273,7 @@ namespace EcellLib.Analysis
         /// <param name="e">DragEventArgs</param>
         private void DragEnterParam(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
             if (obj != null)
                 e.Effect = DragDropEffects.Move;
             else
@@ -1287,7 +1287,7 @@ namespace EcellLib.Analysis
         /// <param name="e">DragEventArgs</param>
         private void DragDropObservForRobust(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
 
@@ -1349,7 +1349,7 @@ namespace EcellLib.Analysis
         /// <param name="e">DragEventArgs</param>
         private void DragEnterObservForRobust(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
             if (obj != null)
                 e.Effect = DragDropEffects.Move;
             else
@@ -1363,7 +1363,8 @@ namespace EcellLib.Analysis
         /// <param name="e">DragEventArgs</param>
         private void DragDropObservForBifurcation(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
+            
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
 
@@ -1429,7 +1430,7 @@ namespace EcellLib.Analysis
         /// <param name="e">DragEventArgs</param>
         private void DragEnterObservForBifurcation(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
             if (obj != null)
                 e.Effect = DragDropEffects.Move;
             else

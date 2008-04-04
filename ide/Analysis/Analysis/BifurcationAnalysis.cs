@@ -117,7 +117,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// The number of data for Axis.
         /// </summary>
-        private static int s_num = 50;
+        private static int s_num = 30;
         private static int s_skip = 10;
         #endregion
 
