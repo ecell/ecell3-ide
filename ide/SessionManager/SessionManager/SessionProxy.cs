@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace EcellLib.SessionManager
 {
@@ -308,6 +309,18 @@ namespace EcellLib.SessionManager
         public virtual void PrepareProcess()
         {
             this.Status = JobStatus.QUEUED;
+        }
+
+        /// <summary>
+        /// Clear the file used in this job.
+        /// </summary>
+        public virtual void Clear()
+        {
+            foreach (string name in m_extraFile)
+                if (File.Exists(name))
+                    File.Delete(name);
+            if (Directory.Exists(m_jobDirectory))
+                Directory.Delete(m_jobDirectory, true);
         }
     }
 }

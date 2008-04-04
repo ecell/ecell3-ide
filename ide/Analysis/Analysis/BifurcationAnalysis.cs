@@ -184,7 +184,7 @@ namespace EcellLib.Analysis
             List<string> modelList = DataManager.GetDataManager().GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];
 
-            List<ParameterRange> paramList = m_win.ExtractParameter();
+            List<ParameterRange> paramList = m_win.ExtractParameterForBifurcation();
             if (paramList == null) return;
             if (paramList.Count != 2)
             {
@@ -415,6 +415,7 @@ namespace EcellLib.Analysis
         /// </summary>
         private void PrintResultData()
         {
+            m_win.ClearResult();
             for (int i = 0; i <= s_num; i++)
             {
                 for (int j = 0; j <= s_num; j++)
@@ -619,6 +620,8 @@ namespace EcellLib.Analysis
                 MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+            PrintResultData();
+            m_manager.ClearFinishedJobs();
             String tmpDir = m_manager.TmpRootDir;
             m_execParam = m_manager.RunSimParameterSet(tmpDir, m_model, m_param.SimulationTime, false, paramList);
 
@@ -626,6 +629,7 @@ namespace EcellLib.Analysis
             m_timer.Start();
         }
         #endregion
+
     }
 
     /// <summary>

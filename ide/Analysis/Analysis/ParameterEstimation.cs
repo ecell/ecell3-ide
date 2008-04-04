@@ -176,7 +176,7 @@ namespace EcellLib.Analysis
             List<string> modelList = DataManager.GetDataManager().GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];
 
-            m_paramList = m_win.ExtractParameter();
+            m_paramList = m_win.ExtractParameterForParameterEstimation();
             if (m_paramList == null) return;
             if (m_paramList.Count < 1)
             {

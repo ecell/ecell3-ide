@@ -176,7 +176,7 @@ namespace EcellLib.Analysis
             List<string> modelList = DataManager.GetDataManager().GetModelList();
             if (modelList.Count > 0) model = modelList[0];
 
-            List<ParameterRange> paramList = m_win.ExtractParameter();
+            List<ParameterRange> paramList = m_win.ExtractParameterForRobustAnalysis();
             if (paramList == null) return;
             if (paramList.Count < 2)
             {
@@ -224,7 +224,7 @@ namespace EcellLib.Analysis
             double xmin = 0.0;
             double ymax = 0.0;
             double ymin = 0.0;
-            List<ParameterRange> pList = m_win.ExtractParameter();
+            List<ParameterRange> pList = m_win.ExtractParameterForRobustAnalysis();
             if (pList == null) return;
             if (pList.Count < 2)
             {

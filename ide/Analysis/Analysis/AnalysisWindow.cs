@@ -316,7 +316,7 @@ namespace EcellLib.Analysis
         /// If there are any problems, this function return null.
         /// </summary>
         /// <returns>the list of parameter property.</returns>
-        public List<ParameterRange> ExtractParameter()
+        public List<ParameterRange> ExtractParameterForRobustAnalysis()
         {
             List<ParameterRange> resList = new List<ParameterRange>();
 
@@ -750,12 +750,12 @@ namespace EcellLib.Analysis
         {
             List<ParameterRange> resList = new List<ParameterRange>();
 
-            for (int i = 0; i < BAParamGridView.Rows.Count; i++)
+            for (int i = 0; i < BAParameterGridView.Rows.Count; i++)
             {
-                string path = BAParamGridView[0, i].Value.ToString();
-                double max = Convert.ToDouble(BAParamGridView[1, i].Value);
-                double min = Convert.ToDouble(BAParamGridView[2, i].Value);
-                double step = Convert.ToDouble(BAParamGridView[3, i].Value);
+                string path = BAParameterGridView[0, i].Value.ToString();
+                double max = Convert.ToDouble(BAParameterGridView[1, i].Value);
+                double min = Convert.ToDouble(BAParameterGridView[2, i].Value);
+                double step = Convert.ToDouble(BAParameterGridView[3, i].Value);
 
                 if (step <= 0.0)
                     step = (max - min) / 10.0;
@@ -942,6 +942,30 @@ namespace EcellLib.Analysis
             PEPopulationText.Text = Convert.ToString(param.Population);
             PEGenerationText.Text = Convert.ToString(param.Generation);
             m_peParam = param.Param;
+        }
+
+        /// <summary>
+        /// Get the list of property to set the initial value for analysis.
+        /// If there are any problems, this function return null.
+        /// </summary>
+        /// <returns>the list of parameter property.</returns>
+        public List<ParameterRange> ExtractParameterForParameterEstimation()
+        {
+            List<ParameterRange> resList = new List<ParameterRange>();
+
+            for (int i = 0; i < PEParamGridView.Rows.Count; i++)
+            {
+                string path = PEParamGridView[0, i].Value.ToString();
+                double max = Convert.ToDouble(PEParamGridView[1, i].Value);
+                double min = Convert.ToDouble(PEParamGridView[2, i].Value);
+                double step = 0.0;
+
+                if (min > max) continue;
+                ParameterRange p = new ParameterRange(path, min, max, step);
+                resList.Add(p);
+            }
+
+            return resList;
         }
 
         /// <summary>

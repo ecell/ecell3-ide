@@ -325,7 +325,7 @@ namespace EcellLib.SessionManager
             s.Argument = arg;
             s.ExtraFileList = extFile;
             // search dmpath
-            s.JobDirectory = TmpDir + "/" + s.JobID;
+            s.JobDirectory = TmpRootDir + "/" + s.JobID;
             m_sessionList.Add(s.JobID, s);
 
             return s.JobID;
@@ -359,14 +359,21 @@ namespace EcellLib.SessionManager
         {
             if (jobID == 0)
             {
+                foreach (int job in m_sessionList.Keys)
+                    m_sessionList[job].Clear();
                 m_sessionList.Clear();
-                SessionProxy.ClearJobID();
             }
             else
             {
-                if (m_sessionList.ContainsKey(jobID))
-                    m_sessionList.Remove(jobID);
+                if (m_sessionList.ContainsKey(jobID))                
+                    RemoveJob(jobID);            
             }
+        }
+
+        private void RemoveJob(int jobID)
+        {
+            m_sessionList[jobID].Clear();
+            m_sessionList.Remove(jobID);
         }
 
         /// <summary>
@@ -382,9 +389,7 @@ namespace EcellLib.SessionManager
             }
 
             foreach (int job in delList)
-            {
-                m_sessionList.Remove(job);
-            }
+                RemoveJob(job);            
         }
 
         /// <summary>
@@ -400,9 +405,7 @@ namespace EcellLib.SessionManager
             }
 
             foreach (int job in delList)
-            {
-                m_sessionList.Remove(job);
-            }
+                RemoveJob(job);
         }
 
         /// <summary>
@@ -418,9 +421,7 @@ namespace EcellLib.SessionManager
             }
 
             foreach (int job in delList)
-            {
-                m_sessionList.Remove(job);
-            }
+                RemoveJob(job);
         }
 
         /// <summary>
@@ -436,9 +437,7 @@ namespace EcellLib.SessionManager
             }
 
             foreach (int job in delList)
-            {
-                m_sessionList.Remove(job);
-            }
+                RemoveJob(job);
         }
 
         /// <summary>
