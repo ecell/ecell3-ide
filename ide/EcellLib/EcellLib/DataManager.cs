@@ -56,6 +56,10 @@ namespace EcellLib
     {
         #region Fields
         /// <summary>
+        /// The current Project.
+        /// </summary>
+        private Project m_currentProject = null;
+        /// <summary>
         /// The current parameter ID
         /// </summary>
         private string m_currentParameterID = null;
@@ -1235,7 +1239,7 @@ namespace EcellLib
             //
             // Sets the default parameter.
             //
-            if (this.m_currentParameterID == null || this.m_currentParameterID.Length <= 0)
+            if (string.IsNullOrEmpty(this.m_currentParameterID))
             {
                 this.m_currentParameterID = Constants.defaultSimParam;
                 this.m_stepperDic[this.m_currentProjectID]

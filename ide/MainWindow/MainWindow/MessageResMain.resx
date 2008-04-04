@@ -201,6 +201,24 @@
   <data name="FileNotFound" xml:space="preserve">
     <value>Can not find the file.</value>
   </data>
+  <data name="MenuCopy" xml:space="preserve">
+    <value>Copy.</value>
+  </data>
+  <data name="MenuCreateNewProject" xml:space="preserve">
+    <value>Create new project.</value>
+  </data>
+  <data name="MenuCreateNewRevision" xml:space="preserve">
+    <value>Create new revision.</value>
+  </data>
+  <data name="MenuDelete" xml:space="preserve">
+    <value>Delete.</value>
+  </data>
+  <data name="MenuPaste" xml:space="preserve">
+    <value>Paste.</value>
+  </data>
+  <data name="MenuSaveZip" xml:space="preserve">
+    <value>Compress to ZIP.</value>
+  </data>
   <data name="SaveConfirm" xml:space="preserve">
     <value>Do you want to save the project before the project is closed?</value>
   </data>

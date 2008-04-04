@@ -58,7 +58,12 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Selected Node.
         /// </summary>
-        private ProjectTreeNode m_node = null;
+        private ProjectTreeNode m_selectedNode = null;
+
+        /// <summary>
+        /// Copied Node.
+        /// </summary>
+        private ProjectTreeNode m_copiedNode = null;
 
         /// <summary>
         /// List of ToolStripMenuItems for ContextMenu
@@ -128,25 +133,6 @@ namespace EcellLib.MainWindow
 
         #region Methods
         /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private ContextMenuStrip CreatePopupMenus()
-        {
-            // Preparing a context menu.
-            ContextMenuStrip menus = new ContextMenuStrip();
-
-            // SaveZip
-            ToolStripItem savezip = new ToolStripMenuItem(MngPrjDlgConstants.SaveZip);
-            savezip.Name = MngPrjDlgConstants.SaveZip;
-            savezip.Text = s_resources.GetString(MngPrjDlgConstants.SaveZip);
-            savezip.Click += new EventHandler(SaveZipClick);
-            menus.Items.Add(savezip);
-
-            return menus;
-        }
-
-        /// <summary>
         /// Create the project tree.
         /// Add the project file and directory on path to node TreeNode.
         /// </summary>
@@ -209,7 +195,28 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// ResetSelectedProject
+        /// Set selected Project
+        /// </summary>
+        private void SetSelectedProject()
+        {
+            // Reflect Project parameters.
+            Project prj = m_selectedNode.Project;
+            m_fileName = m_selectedNode.FileName;
+            MPPrjIDText.Text = prj.Name;
+            MPPrjDateText.Text = prj.UpdateTime;
+            MPPrjCommentText.Text = prj.Comment;
+
+            MPPrjIDText.BackColor = Color.White;
+            MPPrjDateText.BackColor = Color.White;
+            MPPrjCommentText.BackColor = Color.White;
+
+            MPOpenButton.Enabled = true;
+            MPPrjCommentText.ReadOnly = false;
+            MPPrjIDText.ReadOnly = false;
+        }
+
+        /// <summary>
+        /// Reset selected Project
         /// </summary>
         private void ResetSelectedProject()
         {
@@ -227,18 +234,137 @@ namespace EcellLib.MainWindow
             m_fileName = "";
         }
 
+        #endregion
+
+        #region Menu Event
+
         /// <summary>
-        /// 
+        /// Constants
+        /// </summary>
+        internal class MenuConstants
+        {
+            /// <summary>
+            /// Save zip
+            /// </summary>
+            public const string MenuSaveZip = "MenuSaveZip";
+            /// <summary>
+            /// Delete
+            /// </summary>
+            public const string MenuDelete = "MenuDelete";
+            /// <summary>
+            /// CreateNewProject
+            /// </summary>
+            public const string MenuCreateNewProject = "MenuCreateNewProject";
+            /// <summary>
+            /// CreateNewRevision
+            /// </summary>
+            public const string MenuCreateNewRevision = "MenuCreateNewRevision";
+            /// <summary>
+            /// CopyProject
+            /// </summary>
+            public const string MenuCopy = "MenuCopy";
+            /// <summary>
+            /// PasteProject
+            /// </summary>
+            public const string MenuPaste = "MenuPaste";
+        }
+
+        /// <summary>
+        /// CreatePopupMenus
+        /// </summary>
+        /// <returns></returns>
+        private ContextMenuStrip CreatePopupMenus()
+        {
+            // Preparing a context menu.
+            ContextMenuStrip menus = new ContextMenuStrip();
+
+            // SaveZip
+            ToolStripItem savezip = new ToolStripMenuItem(MenuConstants.MenuSaveZip);
+            savezip.Name = MenuConstants.MenuSaveZip;
+            savezip.Text = s_resources.GetString(MenuConstants.MenuSaveZip);
+            savezip.Click += new EventHandler(SaveZipClick);
+            menus.Items.Add(savezip);
+            m_popMenuDict.Add(MenuConstants.MenuSaveZip, savezip);
+
+            // Delete
+            ToolStripItem delete = new ToolStripMenuItem(MenuConstants.MenuDelete);
+            delete.Name = MenuConstants.MenuDelete;
+            delete.Text = s_resources.GetString(MenuConstants.MenuDelete);
+            delete.Click += new EventHandler(DeleteClick);
+            menus.Items.Add(delete);
+            m_popMenuDict.Add(MenuConstants.MenuDelete, delete);
+
+            // CreateNewProject
+            ToolStripItem createProject = new ToolStripMenuItem(MenuConstants.MenuCreateNewProject);
+            createProject.Name = MenuConstants.MenuCreateNewProject;
+            createProject.Text = s_resources.GetString(MenuConstants.MenuCreateNewProject);
+            createProject.Click += new EventHandler(CreateNewProjectClick);
+            menus.Items.Add(createProject);
+            m_popMenuDict.Add(MenuConstants.MenuCreateNewProject, createProject);
+
+            // CreateNewRevision
+            ToolStripItem createRevision = new ToolStripMenuItem(MenuConstants.MenuCreateNewRevision);
+            createRevision.Name = MenuConstants.MenuCreateNewRevision;
+            createRevision.Text = s_resources.GetString(MenuConstants.MenuCreateNewRevision);
+            createRevision.Click += new EventHandler(CreateNewRevisionClick);
+            menus.Items.Add(createRevision);
+            m_popMenuDict.Add(MenuConstants.MenuCreateNewRevision, createRevision);
+
+            // Copy
+            ToolStripItem copy = new ToolStripMenuItem(MenuConstants.MenuCopy);
+            copy.Name = MenuConstants.MenuCopy;
+            copy.Text = s_resources.GetString(MenuConstants.MenuCopy);
+            copy.Click += new EventHandler(CopyClick);
+            menus.Items.Add(copy);
+            m_popMenuDict.Add(MenuConstants.MenuCopy, copy);
+
+            // Delete
+            ToolStripItem paste = new ToolStripMenuItem(MenuConstants.MenuPaste);
+            paste.Name = MenuConstants.MenuPaste;
+            paste.Text = s_resources.GetString(MenuConstants.MenuPaste);
+            paste.Click += new EventHandler(PasteClick);
+            menus.Items.Add(paste);
+            m_popMenuDict.Add(MenuConstants.MenuPaste, paste);
+
+            return menus;
+        }
+
+        /// <summary>
+        /// Set Popup menu visibility.
         /// </summary>
         /// <param name="m_node"></param>
         private void ResetPopupMenus(ProjectTreeNode m_node)
         {
+            // Set Visibility flags.
+            bool isVisible = (m_node != null);
+            bool isProject = false;
+            bool isFolder = false;
+            bool isCopied = (m_copiedNode != null);
+            if(isVisible)
+            {
+                isProject = (m_node.Type == NodeType.Project);
+                isFolder = (m_node.Type == NodeType.Folder);
+            }
 
+            // Set visibility.
+            m_popMenuDict[MenuConstants.MenuSaveZip].Visible = isVisible;
+            m_popMenuDict[MenuConstants.MenuCreateNewProject].Visible = isVisible && isFolder;
+            m_popMenuDict[MenuConstants.MenuCreateNewRevision].Visible = isVisible && isProject;
+            m_popMenuDict[MenuConstants.MenuDelete].Visible = isVisible;
+            m_popMenuDict[MenuConstants.MenuCopy].Visible = isVisible;
+            m_popMenuDict[MenuConstants.MenuPaste].Visible = isVisible && isFolder && isCopied;
         }
 
-        #endregion
+        /// <summary>
+        /// Reset popup menus on MouseDown.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MPPrjTreeView_MouseDown(object sender, MouseEventArgs e)
+        {
+            ResetPopupMenus(null);
+        }
 
-        #region Event
         /// <summary>
         /// Event to click the node by mouse.
         /// </summary>
@@ -247,40 +373,27 @@ namespace EcellLib.MainWindow
         private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeView tView = (TreeView)sender;
-            m_node = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
+            m_selectedNode = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
+            
+            // Set menus.
+            ResetPopupMenus(m_selectedNode);
+            tView.SelectedNode = m_selectedNode;
 
             // Reset selected project if project is null.
-            if (m_node == null || m_node.Project == null)
-            {
+            if (m_selectedNode.Project == null)
                 ResetSelectedProject();
-                return;
-            }
-            ResetPopupMenus(m_node);
-
-            // Reflect Project parameters.
-            Project prj = m_node.Project;
-            m_fileName = m_node.FileName;
-            MPPrjIDText.Text = prj.Name;
-            MPPrjDateText.Text = prj.UpdateTime;
-            MPPrjCommentText.Text = prj.Comment;
-
-            MPPrjIDText.BackColor = Color.White;
-            MPPrjDateText.BackColor = Color.White;
-            MPPrjCommentText.BackColor = Color.White;
-
-            MPOpenButton.Enabled = true;
-            MPPrjCommentText.ReadOnly = false;
-            MPPrjIDText.ReadOnly = false;
+            else
+                SetSelectedProject();
         }
 
         /// <summary>
-        /// 
+        /// SaveZip
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void SaveZipClick(object sender, EventArgs e)
         {
-            if (m_node == null)
+            if (m_selectedNode == null)
                 return;
 
             // Show SaveFileDialog and get saving filename.
@@ -292,20 +405,134 @@ namespace EcellLib.MainWindow
             if (string.IsNullOrEmpty(filename))
                 return;
 
-            switch (m_node.NodeType)
+            switch (m_selectedNode.Type)
             {
-                case MngPrjDlgConstants.NodeTypeFolder:
-                    ZipUtil.ZipFolder(filename, m_node.FileName);
+                case NodeType.Folder:
+                    ZipUtil.ZipFolder(filename, m_selectedNode.FileName);
                     break;
-                case MngPrjDlgConstants.NodeTypeProject:
-                    ZipUtil.ZipFolder(filename, Path.GetDirectoryName(m_node.FileName));
+                case NodeType.Project:
+                    ZipUtil.ZipFolder(filename, Path.GetDirectoryName(m_selectedNode.FileName));
                     break;
-                case MngPrjDlgConstants.NodeTypeModel:
-                    ZipUtil.ZipFile(filename, m_node.FileName);
+                case NodeType.Model:
+                    ZipUtil.ZipFile(filename, m_selectedNode.FileName);
                     break;
             }
             
             dialog.Dispose();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CreateNewProjectClick(object sender, EventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CreateNewRevisionClick(object sender, EventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Copy node.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CopyClick(object sender, EventArgs e)
+        {
+            m_copiedNode = m_selectedNode;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PasteClick(object sender, EventArgs e)
+        {
+            string targetFolder = m_selectedNode.FileName;
+            string path = m_copiedNode.FileName;
+
+            // Copy Directory/File 
+            NodeType type = m_copiedNode.Type;
+            if (type == NodeType.Folder)
+            {
+                CopyDirectory(path, targetFolder);
+            }
+            else if (type == NodeType.Project)
+            {
+                path = Path.GetDirectoryName(path);
+                CopyDirectory(path, targetFolder);
+            }
+            else if (type == NodeType.Model)
+            {
+                CopyFile(path, targetFolder);
+            }
+
+            // Create new node
+            path = Path.Combine(targetFolder, Path.GetFileName(path));
+            TreeNode childNode = new ProjectTreeNode(path);
+            m_selectedNode.Nodes.Add(childNode);
+            if (type != NodeType.Model)
+            {
+                CreateProjectTreeView(childNode, path);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteClick(object sender, EventArgs e)
+        {
+            if (m_selectedNode.Type == NodeType.Folder)
+                Directory.Delete(m_selectedNode.FileName, true);
+            else if (m_selectedNode.Type == NodeType.Project)
+                Directory.Delete(Path.GetDirectoryName(m_selectedNode.FileName), true);
+            else if (m_selectedNode.Type == NodeType.Model)
+                File.Delete(m_selectedNode.FileName);
+            m_selectedNode.Remove();
+            m_selectedNode = null;
+        }
+
+        /// <summary>
+        /// Copy Directory
+        /// </summary>
+        /// <param name="sourceDir"></param>
+        /// <param name="targetDir"></param>
+        public static void CopyDirectory(string sourceDir, string targetDir)
+        {
+            targetDir = Path.Combine(targetDir, Path.GetFileName(sourceDir));
+            if (!Directory.Exists(targetDir))
+            {
+                Directory.CreateDirectory(targetDir);
+                File.SetAttributes(targetDir, File.GetAttributes(sourceDir));
+            }
+
+            string[] files = Directory.GetFiles(sourceDir);
+            foreach (string file in files)
+                CopyFile(file, targetDir);
+
+            string[] dirs = System.IO.Directory.GetDirectories(sourceDir);
+            foreach (string dir in dirs)
+                CopyDirectory(dir, Path.Combine(targetDir, Path.GetFileName(dir)));
+        }
+
+        /// <summary>
+        /// Copy File
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="targetDir"></param>
+        public static void CopyFile(string filename, string targetDir)
+        {
+            File.Copy(filename, Path.Combine(targetDir, Path.GetFileName(filename)), true);
         }
 
         #endregion
@@ -317,7 +544,7 @@ namespace EcellLib.MainWindow
         {
             #region Fields
             private string m_fileName = null;
-            private int m_nodeType = 0;
+            private NodeType m_nodeType = NodeType.Folder;
             private Project m_project = null;
             #endregion
 
@@ -339,7 +566,7 @@ namespace EcellLib.MainWindow
             /// <summary>
             /// Type of node.
             /// </summary>
-            public int NodeType
+            public NodeType Type
             {
                 get { return m_nodeType; }
                 set { m_nodeType = value; }
@@ -360,8 +587,8 @@ namespace EcellLib.MainWindow
                     this.Text = Path.GetFileNameWithoutExtension(filepath);
                 else
                     this.Text = m_project.Name;
-                this.ImageIndex = m_nodeType;
-                this.SelectedImageIndex = m_nodeType;
+                this.ImageIndex = (int)m_nodeType;
+                this.SelectedImageIndex = ImageIndex;
                 this.Tag = filepath;
             }
             
@@ -373,42 +600,38 @@ namespace EcellLib.MainWindow
             /// </summary>
             /// <param name="filepath"></param>
             /// <returns></returns>
-            private int GetNodeType(string filepath)
+            private NodeType GetNodeType(string filepath)
             {
                 string ext = Path.GetExtension(filepath);
                 if (ext.Equals(Constants.FileExtXML))
-                    return MngPrjDlgConstants.NodeTypeProject;
+                    return NodeType.Project;
                 else if (ext.Equals(Constants.FileExtINFO))
-                    return MngPrjDlgConstants.NodeTypeProject;
+                    return NodeType.Project;
                 else if (ext.Equals(Constants.FileExtEML))
-                    return MngPrjDlgConstants.NodeTypeModel;
+                    return NodeType.Model;
                 else
-                    return MngPrjDlgConstants.NodeTypeFolder;
+                    return NodeType.Folder;
             }
             #endregion
         }
-
         /// <summary>
-        /// Constants
+        /// NodeType
         /// </summary>
-        internal class MngPrjDlgConstants
+        internal enum NodeType
         {
             /// <summary>
             /// Index of FolderIcon on TreeNode.
             /// </summary>
-            public const int NodeTypeFolder = 0;
+            Folder = 0,
             /// <summary>
             /// Index of ProjectIcon on TreeNode.
             /// </summary>
-            public const int NodeTypeProject = 1;
+            Project = 1,
             /// <summary>
             /// Index of ModelIcon on TreeNode.
             /// </summary>
-            public const int NodeTypeModel = 2;
-            /// <summary>
-            /// 
-            /// </summary>
-            public const string SaveZip = "SaveZip";
+            Model = 2
         }
+
     }
 }

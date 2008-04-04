@@ -122,6 +122,7 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.MPPrjTreeView, "MPPrjTreeView");
             this.MPPrjTreeView.ImageList = this.MPImageList;
             this.MPPrjTreeView.Name = "MPPrjTreeView";
+            this.MPPrjTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MPPrjTreeView_MouseDown);
             this.MPPrjTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             // 
             // MPImageList

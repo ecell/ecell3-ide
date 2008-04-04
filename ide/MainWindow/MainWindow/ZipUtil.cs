@@ -120,6 +120,8 @@ namespace EcellLib.MainWindow
         /// <param name="folderPath"></param>
         public static void ZipFolder(string zipname, string folderPath)
         {
+            FastZip fz = new FastZip();
+            fz.CreateZip(zipname, folderPath, true, "", "");
             FileStream zipwriter = null;
             ZipOutputStream zos = null;
             Crc32 crc = new Crc32();

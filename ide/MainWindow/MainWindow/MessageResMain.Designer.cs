@@ -313,6 +313,60 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
+        ///   Copy. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuCopy {
+            get {
+                return ResourceManager.GetString("MenuCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create new project. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuCreateNewProject {
+            get {
+                return ResourceManager.GetString("MenuCreateNewProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create new revision. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuCreateNewRevision {
+            get {
+                return ResourceManager.GetString("MenuCreateNewRevision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuDelete {
+            get {
+                return ResourceManager.GetString("MenuDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Paste. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuPaste {
+            get {
+                return ResourceManager.GetString("MenuPaste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Compress to ZIP. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuSaveZip {
+            get {
+                return ResourceManager.GetString("MenuSaveZip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Do you want to save the project before the project is closed? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SaveConfirm {
