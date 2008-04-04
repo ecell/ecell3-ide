@@ -49,12 +49,22 @@ namespace EcellLib.MainWindow
     /// </summary>
     public partial class ManageProjectDialog : Form
     {
+        #region Fields
         /// <summary>
         /// ResourceManager for MainWindow.
         /// </summary>
-        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResMain));
+        private static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResMain));
 
+        /// <summary>
+        /// Selected Node.
+        /// </summary>
         private ProjectTreeNode m_node = null;
+
+        /// <summary>
+        /// List of ToolStripMenuItems for ContextMenu
+        /// </summary>
+        private Dictionary<string, ToolStripItem> m_popMenuDict = new Dictionary<string, ToolStripItem>();
+
         private string m_prjID = "";
         private string m_fileName = "";
         private string m_simName = "";
@@ -65,7 +75,10 @@ namespace EcellLib.MainWindow
             "Parameters",
             Constants.DMDirName
         };
+        
+        #endregion
 
+        #region Constructor
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -75,26 +88,10 @@ namespace EcellLib.MainWindow
             MPPrjTreeView.ContextMenuStrip = CreatePopupMenus();
             MPOpenButton.Enabled = false;
         }
+        
+        #endregion
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private ContextMenuStrip CreatePopupMenus()
-        {
-            // Preparing a context menu.
-            ContextMenuStrip menus = new ContextMenuStrip();
-
-            // SaveZip
-            ToolStripItem savezip = new ToolStripMenuItem(MngPrjDlgConstants.SaveZip);
-            savezip.Name = MngPrjDlgConstants.SaveZip;
-            savezip.Text = s_resources.GetString(MngPrjDlgConstants.SaveZip);
-            savezip.Click += new EventHandler(SaveZipClick);
-            menus.Items.Add(savezip);
-
-            return menus;
-        }
-
+        #region Accessors
         /// <summary>
         /// get the project ID.
         /// </summary>
@@ -125,6 +122,28 @@ namespace EcellLib.MainWindow
         public string Comment
         {
             get { return this.m_comment; }
+        }
+        
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private ContextMenuStrip CreatePopupMenus()
+        {
+            // Preparing a context menu.
+            ContextMenuStrip menus = new ContextMenuStrip();
+
+            // SaveZip
+            ToolStripItem savezip = new ToolStripMenuItem(MngPrjDlgConstants.SaveZip);
+            savezip.Name = MngPrjDlgConstants.SaveZip;
+            savezip.Text = s_resources.GetString(MngPrjDlgConstants.SaveZip);
+            savezip.Click += new EventHandler(SaveZipClick);
+            menus.Items.Add(savezip);
+
+            return menus;
         }
 
         /// <summary>
@@ -190,39 +209,6 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// Event to click the node by mouse.
-        /// </summary>
-        /// <param name="sender">TreeView.</param>
-        /// <param name="e">TreeNodeMouseClickEventArgs.</param>
-        private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            TreeView tView = (TreeView)sender;
-            m_node = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
-
-            // Reset selected project if project is null.
-            if (m_node == null || m_node.Project == null)
-            {
-                ResetSelectedProject();
-                return;
-            }
-
-            // Reflect Project parameters.
-            Project prj = m_node.Project;
-            m_fileName = m_node.FileName;
-            MPPrjIDText.Text = prj.Name;
-            MPPrjDateText.Text = prj.UpdateTime;
-            MPPrjCommentText.Text = prj.Comment;
-
-            MPPrjIDText.BackColor = Color.White;
-            MPPrjDateText.BackColor = Color.White;
-            MPPrjCommentText.BackColor = Color.White;
-
-            MPOpenButton.Enabled = true;
-            MPPrjCommentText.ReadOnly = false;
-            MPPrjIDText.ReadOnly = false;
-        }
-
-        /// <summary>
         /// ResetSelectedProject
         /// </summary>
         private void ResetSelectedProject()
@@ -239,6 +225,52 @@ namespace EcellLib.MainWindow
             MPPrjCommentText.ReadOnly = true;
             MPPrjIDText.ReadOnly = true;
             m_fileName = "";
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m_node"></param>
+        private void ResetPopupMenus(ProjectTreeNode m_node)
+        {
+
+        }
+
+        #endregion
+
+        #region Event
+        /// <summary>
+        /// Event to click the node by mouse.
+        /// </summary>
+        /// <param name="sender">TreeView.</param>
+        /// <param name="e">TreeNodeMouseClickEventArgs.</param>
+        private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeView tView = (TreeView)sender;
+            m_node = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
+
+            // Reset selected project if project is null.
+            if (m_node == null || m_node.Project == null)
+            {
+                ResetSelectedProject();
+                return;
+            }
+            ResetPopupMenus(m_node);
+
+            // Reflect Project parameters.
+            Project prj = m_node.Project;
+            m_fileName = m_node.FileName;
+            MPPrjIDText.Text = prj.Name;
+            MPPrjDateText.Text = prj.UpdateTime;
+            MPPrjCommentText.Text = prj.Comment;
+
+            MPPrjIDText.BackColor = Color.White;
+            MPPrjDateText.BackColor = Color.White;
+            MPPrjCommentText.BackColor = Color.White;
+
+            MPOpenButton.Enabled = true;
+            MPPrjCommentText.ReadOnly = false;
+            MPPrjIDText.ReadOnly = false;
         }
 
         /// <summary>
@@ -262,13 +294,13 @@ namespace EcellLib.MainWindow
 
             switch (m_node.NodeType)
             {
-                case MngPrjDlgConstants.NodeGraphicsFolder:
+                case MngPrjDlgConstants.NodeTypeFolder:
                     ZipUtil.ZipFolder(filename, m_node.FileName);
                     break;
-                case MngPrjDlgConstants.NodeGraphicsProject:
+                case MngPrjDlgConstants.NodeTypeProject:
                     ZipUtil.ZipFolder(filename, Path.GetDirectoryName(m_node.FileName));
                     break;
-                case MngPrjDlgConstants.NodeGraphicsModel:
+                case MngPrjDlgConstants.NodeTypeModel:
                     ZipUtil.ZipFile(filename, m_node.FileName);
                     break;
             }
@@ -276,15 +308,20 @@ namespace EcellLib.MainWindow
             dialog.Dispose();
         }
 
+        #endregion
+
         /// <summary>
         /// ProjectTreeNode
         /// </summary>
         internal class ProjectTreeNode : TreeNode
         {
+            #region Fields
             private string m_fileName = null;
             private int m_nodeType = 0;
             private Project m_project = null;
+            #endregion
 
+            #region Accessors
             /// <summary>
             /// filename
             /// </summary>
@@ -307,13 +344,9 @@ namespace EcellLib.MainWindow
                 get { return m_nodeType; }
                 set { m_nodeType = value; }
             }
+            #endregion
 
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            public ProjectTreeNode()
-            {
-            }
+            #region Constructor
             /// <summary>
             /// Constructor
             /// </summary>
@@ -322,7 +355,7 @@ namespace EcellLib.MainWindow
             {
                 this.m_fileName = filepath;
                 this.m_nodeType = GetNodeType(filepath);
-                this.m_project = GetProject(m_nodeType, filepath);
+                this.m_project = Project.LoadProject(filepath);
                 if (m_project == null)
                     this.Text = Path.GetFileNameWithoutExtension(filepath);
                 else
@@ -331,7 +364,10 @@ namespace EcellLib.MainWindow
                 this.SelectedImageIndex = m_nodeType;
                 this.Tag = filepath;
             }
+            
+            #endregion
 
+            #region Methods
             /// <summary>
             /// Get NodeType
             /// </summary>
@@ -341,174 +377,15 @@ namespace EcellLib.MainWindow
             {
                 string ext = Path.GetExtension(filepath);
                 if (ext.Equals(Constants.FileExtXML))
-                    return MngPrjDlgConstants.NodeGraphicsProject;
+                    return MngPrjDlgConstants.NodeTypeProject;
                 else if (ext.Equals(Constants.FileExtINFO))
-                    return MngPrjDlgConstants.NodeGraphicsProject;
+                    return MngPrjDlgConstants.NodeTypeProject;
                 else if (ext.Equals(Constants.FileExtEML))
-                    return MngPrjDlgConstants.NodeGraphicsModel;
+                    return MngPrjDlgConstants.NodeTypeModel;
                 else
-                    return MngPrjDlgConstants.NodeGraphicsFolder;
+                    return MngPrjDlgConstants.NodeTypeFolder;
             }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="nodeType"></param>
-            /// <param name="filepath"></param>
-            private Project GetProject(int nodeType, string filepath)
-            {
-                Project project = null;
-                switch (nodeType)
-                {
-                    case MngPrjDlgConstants.NodeGraphicsFolder:
-                        break;
-                    case MngPrjDlgConstants.NodeGraphicsModel:
-                        project = GetProjectFromEml(filepath);
-                        break;
-                    case MngPrjDlgConstants.NodeGraphicsProject:
-                        if (Path.GetExtension(filepath).Equals(Constants.FileExtXML))
-                            project = GetProjectFromXML(filepath);
-                        else
-                            project = GetProjectFromInfo(filepath);
-                        break;
-                }
-
-                return project;
-            }
-
-            /// <summary>
-            /// Get Project from XML file.
-            /// </summary>
-            /// <param name="filepath"></param>
-            /// <returns></returns>
-            private static Project GetProjectFromXML(string filepath)
-            {
-                if (!File.Exists(filepath))
-                    return null;
-
-                string dirPathName = Path.GetDirectoryName(filepath);
-                string prjName = Path.GetFileName(dirPathName);
-                string comment = "";
-                string time = "";
-                string param = "";
-
-                try
-                {
-                    // Load XML file
-                    XmlDocument xmlD = new XmlDocument();
-                    xmlD.Load(filepath);
-
-                    XmlNode settings = null;
-                    foreach (XmlNode node in xmlD.ChildNodes)
-                    {
-                        if (node.Name.Equals(Constants.xPathEcellProject))
-                            settings = node;
-                    }
-                    if (settings == null)
-                        return null;
-
-                    // Load settings.
-                    foreach (XmlNode setting in settings.ChildNodes)
-                    {
-                        switch (setting.Name)
-                        {
-                            // Project
-                            case "Project":
-                                prjName = setting.InnerText;
-                                break;
-                            // Date
-                            case "Date":
-                                time = setting.InnerText;
-                                break;
-                            // Comment
-                            case "Comment":
-                                comment = setting.InnerText;
-                                break;
-                            // SimulationParameter
-                            case "SimulationParameter":
-                                param = setting.InnerText;
-                                break;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    string errmsg = "ErrLoadProjectSettings" + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
-                    MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                return new Project(prjName, comment, time);
-            }
-
-            /// <summary>
-            /// Get Project from Info file.
-            /// </summary>
-            /// <param name="filepath"></param>
-            /// <returns></returns>
-            private static Project GetProjectFromInfo(string filepath)
-            {
-                if (!File.Exists(filepath))
-                {
-                    return null;
-                }
-                string line = "";
-                string comment = "";
-                string simname = "";
-                string time = File.GetLastWriteTime(filepath).ToString();
-
-                string dirPathName = Path.GetDirectoryName(filepath);
-                string prjName = Path.GetFileName(dirPathName);
-                TextReader l_reader = new StreamReader(filepath);
-                while ((line = l_reader.ReadLine()) != null)
-                {
-                    if (line.IndexOf(Constants.textComment) == 0)
-                    {
-                        if (line.IndexOf(Constants.delimiterEqual) != -1)
-                        {
-                            comment = line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
-                        }
-                        else
-                        {
-                            comment = line.Substring(line.IndexOf(Constants.textComment));
-                        }
-                    }
-                    else if (line.IndexOf(Constants.textParameter) == 0)
-                    {
-                        simname = line;
-                    }
-                    else if (!comment.Equals(""))
-                    {
-                        comment = comment + "\n" + line;
-                    }
-                    else if (line.IndexOf(Constants.xpathProject) == 0)
-                    {
-                        if (line.IndexOf(Constants.delimiterEqual) != -1)
-                        {
-                            prjName = line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
-                        }
-                        else
-                        {
-                            prjName = line.Substring(line.IndexOf(Constants.textComment));
-                        }
-                    }
-                }
-                l_reader.Close();
-                return new Project(prjName, comment, time);
-            }
-
-            /// <summary>
-            /// Get Project from Eml file.
-            /// </summary>
-            /// <param name="filepath"></param>
-            /// <returns></returns>
-            private static Project GetProjectFromEml(string filepath)
-            {
-                string name = Path.GetFileNameWithoutExtension(filepath);
-                string comment = "";
-                string time = File.GetLastWriteTime(filepath).ToString();
-
-                return new Project(name, comment, time);
-            }
-
+            #endregion
         }
 
         /// <summary>
@@ -519,15 +396,15 @@ namespace EcellLib.MainWindow
             /// <summary>
             /// Index of FolderIcon on TreeNode.
             /// </summary>
-            public const int NodeGraphicsFolder = 0;
+            public const int NodeTypeFolder = 0;
             /// <summary>
             /// Index of ProjectIcon on TreeNode.
             /// </summary>
-            public const int NodeGraphicsProject = 1;
+            public const int NodeTypeProject = 1;
             /// <summary>
             /// Index of ModelIcon on TreeNode.
             /// </summary>
-            public const int NodeGraphicsModel = 2;
+            public const int NodeTypeModel = 2;
             /// <summary>
             /// 
             /// </summary>

@@ -1237,7 +1237,7 @@ namespace EcellLib
             //
             if (this.m_currentParameterID == null || this.m_currentParameterID.Length <= 0)
             {
-                this.m_currentParameterID = Constants.parameterKey;
+                this.m_currentParameterID = Constants.defaultSimParam;
                 this.m_stepperDic[this.m_currentProjectID]
                     = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID]
@@ -4906,7 +4906,7 @@ namespace EcellLib
                 //
                 if (this.m_currentParameterID == null || this.m_currentParameterID.Length <= 0)
                 {
-                    this.m_currentParameterID = Constants.parameterKey;
+                    this.m_currentParameterID = Constants.defaultSimParam;
                 }
                 //
                 // Sets initial conditions.

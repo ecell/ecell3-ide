@@ -142,7 +142,7 @@ namespace EcellLib.MainWindow
                     if (!File.Exists(filePath))
                         return;
 
-                    string filename = GetRelativePath(folderPath, filePath);
+                    string filename = filePath.Replace(folderPath, "");
                     ZipEntry ze = new ZipEntry(filename);
 
                     FileStream fs = new FileStream(
@@ -172,18 +172,6 @@ namespace EcellLib.MainWindow
                     zipwriter.Close();
             }
 
-        }
-
-        /// <summary>
-        /// Get Relative Path.
-        /// </summary>
-        /// <param name="targetPath"></param>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        public static string GetRelativePath(string targetPath, string filePath)
-        {
-            string relativePath = filePath.Replace(targetPath, "");
-            return relativePath;
         }
     }
 }

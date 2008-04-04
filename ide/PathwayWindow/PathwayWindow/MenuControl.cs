@@ -68,7 +68,7 @@ namespace EcellLib.PathwayWindow
         private PathwayControl m_con;
 
         /// <summary>
-        /// A list of toolbox buttons.
+        /// A list of menu items.
         /// </summary>
         private List<ToolStripMenuItem> m_menuList;
 

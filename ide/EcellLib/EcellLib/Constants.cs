@@ -42,6 +42,22 @@ namespace EcellLib
     /// </summary>
     public class Constants
     {
+        #region Default Setting Files
+        /// <summary>
+        /// Reserved the name of file..
+        /// </summary>
+        public const string fileProject = "project.info";
+        /// <summary>
+        /// Reserved the name of file..
+        /// </summary>
+        public const string fileProjectXML = "project.xml";
+        /// <summary>
+        /// Reserved the file name of window setting list.
+        /// </summary>
+        public const string fileWinSetting = "settinglist.conf";
+
+        #endregion
+
         #region File Extentions
         /// <summary>
         /// Reserved extension for DM's.
@@ -82,23 +98,7 @@ namespace EcellLib
 
         #endregion
 
-        #region Default Setting Files
-        /// <summary>
-        /// Reserved the name of file..
-        /// </summary>
-        public const string fileProject = "project.info";
-        /// <summary>
-        /// Reserved the name of file..
-        /// </summary>
-        public const string fileProjectXML = "project.xml";
-        /// <summary>
-        /// Reserved the file name of window setting list.
-        /// </summary>
-        public const string fileWinSetting = "settinglist.conf";
-
-        #endregion
-
-        #region Filters
+        #region File Filters
         /// <summary>
         /// File Filter for the action file.
         /// </summary>
@@ -391,6 +391,10 @@ namespace EcellLib
         /// </summary>
         public const string defaultComment = "comment";
         /// <summary>
+        /// default comment.
+        /// </summary>
+        public const string defaultSimParam = "DefaultParameter";
+        /// <summary>
         /// DM directory name
         /// </summary>
         public const string DMDirName = "DMs";
@@ -450,10 +454,6 @@ namespace EcellLib
         /// Reserved the message of simulation.
         /// </summary>
         public const string messageSimulation = "Simulation";
-        /// <summary>
-        /// Reserved XML path name for DefalutParameter.
-        /// </summary>
-        public const string parameterKey = "DefaultParameter";
         /// <summary>
         /// Property name of ReadVariableList.
         /// </summary>

@@ -148,75 +148,6 @@ namespace EcellLib
     }
 
     /// <summary>
-    /// Stores the project information.
-    /// </summary>
-    public class Project
-    {
-        /// <summary>
-        /// The comment
-        /// </summary>
-        private string m_comment;
-        /// <summary>
-        /// The project name
-        /// </summary>
-        private string m_prjName;
-        /// <summary>
-        /// The update time
-        /// </summary>
-        private string m_updateTime;
-
-        /// <summary>
-        /// Creates the new "Project" instance with no argument.
-        /// </summary>
-        public Project()
-        {
-            this.m_prjName = "";
-            this.m_comment = "";
-            this.m_updateTime = "";
-        }
-
-        /// <summary>
-        /// Creates the new "Project" instance with initialized arguments.
-        /// </summary>
-        /// <param name="l_prjName">The project name</param>
-        /// <param name="l_comment">The comment</param>
-        /// <param name="l_time">The update time</param>
-        public Project(string l_prjName, string l_comment, string l_time)
-        {
-            this.m_prjName = l_prjName;
-            this.m_comment = l_comment;
-            this.m_updateTime = l_time;
-        }
-
-        /// <summary>
-        /// get/set the project name
-        /// </summary>
-        public string Name
-        {
-            get { return m_prjName; }
-            set { this.m_prjName = value; }
-        }
-
-        /// <summary>
-        /// get/set the comment
-        /// </summary>
-        public string Comment
-        {
-            get { return m_comment; }
-            set { this.m_comment = value; }
-        }
-
-        /// <summary>
-        /// get/set the update time
-        /// </summary>
-        public string UpdateTime
-        {
-            get { return m_updateTime; }
-            set { this.m_updateTime = value; }
-        }
-    }
-
-    /// <summary>
     /// Stores the simulation results.
     /// </summary>
     public class LogData
@@ -317,7 +248,6 @@ namespace EcellLib
             // set { this.m_logValueList = value; }
         }
     }
-
 
     /// <summary>
     /// Stores the logger policy.
