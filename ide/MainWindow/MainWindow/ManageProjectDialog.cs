@@ -201,7 +201,7 @@ namespace EcellLib.MainWindow
         {
             // Reflect Project parameters.
             Project prj = m_selectedNode.Project;
-            m_fileName = m_selectedNode.FileName;
+            m_fileName = m_selectedNode.FilePath;
             MPPrjIDText.Text = prj.Name;
             MPPrjDateText.Text = prj.UpdateTime;
             MPPrjCommentText.Text = prj.Comment;
@@ -236,12 +236,44 @@ namespace EcellLib.MainWindow
 
         #endregion
 
+
+
         #region Menu Event
+        /// <summary>
+        /// Reset popup menus on MouseDown.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MPPrjTreeView_MouseDown(object sender, MouseEventArgs e)
+        {
+            ResetPopupMenus(null);
+        }
+
+        /// <summary>
+        /// Event to click the node by mouse.
+        /// </summary>
+        /// <param name="sender">TreeView.</param>
+        /// <param name="e">TreeNodeMouseClickEventArgs.</param>
+        private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeView tView = (TreeView)sender;
+            m_selectedNode = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
+
+            // Set menus.
+            ResetPopupMenus(m_selectedNode);
+            tView.SelectedNode = m_selectedNode;
+
+            // Reset selected project if project is null.
+            if (m_selectedNode.Project == null)
+                ResetSelectedProject();
+            else
+                SetSelectedProject();
+        }
 
         /// <summary>
         /// Constants
         /// </summary>
-        internal class MenuConstants
+        internal class PrjDlgConstants
         {
             /// <summary>
             /// Save zip
@@ -279,52 +311,52 @@ namespace EcellLib.MainWindow
             ContextMenuStrip menus = new ContextMenuStrip();
 
             // SaveZip
-            ToolStripItem savezip = new ToolStripMenuItem(MenuConstants.MenuSaveZip);
-            savezip.Name = MenuConstants.MenuSaveZip;
-            savezip.Text = s_resources.GetString(MenuConstants.MenuSaveZip);
+            ToolStripItem savezip = new ToolStripMenuItem(PrjDlgConstants.MenuSaveZip);
+            savezip.Name = PrjDlgConstants.MenuSaveZip;
+            savezip.Text = s_resources.GetString(PrjDlgConstants.MenuSaveZip);
             savezip.Click += new EventHandler(SaveZipClick);
             menus.Items.Add(savezip);
-            m_popMenuDict.Add(MenuConstants.MenuSaveZip, savezip);
+            m_popMenuDict.Add(PrjDlgConstants.MenuSaveZip, savezip);
 
             // Delete
-            ToolStripItem delete = new ToolStripMenuItem(MenuConstants.MenuDelete);
-            delete.Name = MenuConstants.MenuDelete;
-            delete.Text = s_resources.GetString(MenuConstants.MenuDelete);
+            ToolStripItem delete = new ToolStripMenuItem(PrjDlgConstants.MenuDelete);
+            delete.Name = PrjDlgConstants.MenuDelete;
+            delete.Text = s_resources.GetString(PrjDlgConstants.MenuDelete);
             delete.Click += new EventHandler(DeleteClick);
             menus.Items.Add(delete);
-            m_popMenuDict.Add(MenuConstants.MenuDelete, delete);
+            m_popMenuDict.Add(PrjDlgConstants.MenuDelete, delete);
 
             // CreateNewProject
-            ToolStripItem createProject = new ToolStripMenuItem(MenuConstants.MenuCreateNewProject);
-            createProject.Name = MenuConstants.MenuCreateNewProject;
-            createProject.Text = s_resources.GetString(MenuConstants.MenuCreateNewProject);
+            ToolStripItem createProject = new ToolStripMenuItem(PrjDlgConstants.MenuCreateNewProject);
+            createProject.Name = PrjDlgConstants.MenuCreateNewProject;
+            createProject.Text = s_resources.GetString(PrjDlgConstants.MenuCreateNewProject);
             createProject.Click += new EventHandler(CreateNewProjectClick);
             menus.Items.Add(createProject);
-            m_popMenuDict.Add(MenuConstants.MenuCreateNewProject, createProject);
+            m_popMenuDict.Add(PrjDlgConstants.MenuCreateNewProject, createProject);
 
             // CreateNewRevision
-            ToolStripItem createRevision = new ToolStripMenuItem(MenuConstants.MenuCreateNewRevision);
-            createRevision.Name = MenuConstants.MenuCreateNewRevision;
-            createRevision.Text = s_resources.GetString(MenuConstants.MenuCreateNewRevision);
+            ToolStripItem createRevision = new ToolStripMenuItem(PrjDlgConstants.MenuCreateNewRevision);
+            createRevision.Name = PrjDlgConstants.MenuCreateNewRevision;
+            createRevision.Text = s_resources.GetString(PrjDlgConstants.MenuCreateNewRevision);
             createRevision.Click += new EventHandler(CreateNewRevisionClick);
             menus.Items.Add(createRevision);
-            m_popMenuDict.Add(MenuConstants.MenuCreateNewRevision, createRevision);
+            m_popMenuDict.Add(PrjDlgConstants.MenuCreateNewRevision, createRevision);
 
             // Copy
-            ToolStripItem copy = new ToolStripMenuItem(MenuConstants.MenuCopy);
-            copy.Name = MenuConstants.MenuCopy;
-            copy.Text = s_resources.GetString(MenuConstants.MenuCopy);
+            ToolStripItem copy = new ToolStripMenuItem(PrjDlgConstants.MenuCopy);
+            copy.Name = PrjDlgConstants.MenuCopy;
+            copy.Text = s_resources.GetString(PrjDlgConstants.MenuCopy);
             copy.Click += new EventHandler(CopyClick);
             menus.Items.Add(copy);
-            m_popMenuDict.Add(MenuConstants.MenuCopy, copy);
+            m_popMenuDict.Add(PrjDlgConstants.MenuCopy, copy);
 
             // Delete
-            ToolStripItem paste = new ToolStripMenuItem(MenuConstants.MenuPaste);
-            paste.Name = MenuConstants.MenuPaste;
-            paste.Text = s_resources.GetString(MenuConstants.MenuPaste);
+            ToolStripItem paste = new ToolStripMenuItem(PrjDlgConstants.MenuPaste);
+            paste.Name = PrjDlgConstants.MenuPaste;
+            paste.Text = s_resources.GetString(PrjDlgConstants.MenuPaste);
             paste.Click += new EventHandler(PasteClick);
             menus.Items.Add(paste);
-            m_popMenuDict.Add(MenuConstants.MenuPaste, paste);
+            m_popMenuDict.Add(PrjDlgConstants.MenuPaste, paste);
 
             return menus;
         }
@@ -340,6 +372,7 @@ namespace EcellLib.MainWindow
             bool isProject = false;
             bool isFolder = false;
             bool isCopied = (m_copiedNode != null);
+            bool unfinished = false;
             if(isVisible)
             {
                 isProject = (m_node.Type == NodeType.Project);
@@ -347,43 +380,12 @@ namespace EcellLib.MainWindow
             }
 
             // Set visibility.
-            m_popMenuDict[MenuConstants.MenuSaveZip].Visible = isVisible;
-            m_popMenuDict[MenuConstants.MenuCreateNewProject].Visible = isVisible && isFolder;
-            m_popMenuDict[MenuConstants.MenuCreateNewRevision].Visible = isVisible && isProject;
-            m_popMenuDict[MenuConstants.MenuDelete].Visible = isVisible;
-            m_popMenuDict[MenuConstants.MenuCopy].Visible = isVisible;
-            m_popMenuDict[MenuConstants.MenuPaste].Visible = isVisible && isFolder && isCopied;
-        }
-
-        /// <summary>
-        /// Reset popup menus on MouseDown.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MPPrjTreeView_MouseDown(object sender, MouseEventArgs e)
-        {
-            ResetPopupMenus(null);
-        }
-
-        /// <summary>
-        /// Event to click the node by mouse.
-        /// </summary>
-        /// <param name="sender">TreeView.</param>
-        /// <param name="e">TreeNodeMouseClickEventArgs.</param>
-        private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            TreeView tView = (TreeView)sender;
-            m_selectedNode = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
-            
-            // Set menus.
-            ResetPopupMenus(m_selectedNode);
-            tView.SelectedNode = m_selectedNode;
-
-            // Reset selected project if project is null.
-            if (m_selectedNode.Project == null)
-                ResetSelectedProject();
-            else
-                SetSelectedProject();
+            m_popMenuDict[PrjDlgConstants.MenuSaveZip].Visible = isVisible;
+            m_popMenuDict[PrjDlgConstants.MenuCreateNewProject].Visible = isVisible && isFolder && unfinished;
+            m_popMenuDict[PrjDlgConstants.MenuCreateNewRevision].Visible = isVisible && isProject;
+            m_popMenuDict[PrjDlgConstants.MenuDelete].Visible = isVisible;
+            m_popMenuDict[PrjDlgConstants.MenuCopy].Visible = isVisible;
+            m_popMenuDict[PrjDlgConstants.MenuPaste].Visible = isVisible && isFolder && isCopied;
         }
 
         /// <summary>
@@ -408,13 +410,13 @@ namespace EcellLib.MainWindow
             switch (m_selectedNode.Type)
             {
                 case NodeType.Folder:
-                    ZipUtil.ZipFolder(filename, m_selectedNode.FileName);
+                    ZipUtil.ZipFolder(filename, m_selectedNode.FilePath);
                     break;
                 case NodeType.Project:
-                    ZipUtil.ZipFolder(filename, Path.GetDirectoryName(m_selectedNode.FileName));
+                    ZipUtil.ZipFolder(filename, Path.GetDirectoryName(m_selectedNode.FilePath));
                     break;
                 case NodeType.Model:
-                    ZipUtil.ZipFile(filename, m_selectedNode.FileName);
+                    ZipUtil.ZipFile(filename, m_selectedNode.FilePath);
                     break;
             }
             
@@ -428,6 +430,8 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void CreateNewProjectClick(object sender, EventArgs e)
         {
+            string path = m_selectedNode.FilePath;
+
         }
 
         /// <summary>
@@ -437,6 +441,33 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void CreateNewRevisionClick(object sender, EventArgs e)
         {
+            string sourceDir = Path.GetDirectoryName(m_selectedNode.FilePath);
+            string targetDir = Path.Combine(sourceDir, GetRevNo(sourceDir));
+            foreach (string dir in ignoredDirList)
+            {
+                string tempdir = Path.Combine(sourceDir, dir);
+                if (Directory.Exists(tempdir))
+                    CopyDirectory(tempdir, Path.Combine(targetDir, dir));
+            }
+            string[] files = Directory.GetFiles(sourceDir, "project.*");
+            foreach (string file in files)
+                CopyFile(file, targetDir);
+
+            TreeNode childNode = new ProjectTreeNode(targetDir);
+            m_selectedNode.Nodes.Add(childNode);
+            CreateProjectTreeView(childNode, targetDir);
+        }
+
+        private string GetRevNo(string sourceDir)
+        {
+            int revNo = 0;
+            string revision = "";
+            do
+            {
+                revNo++;
+                revision = "Revision" + revNo.ToString();
+            } while (Directory.Exists(Path.Combine(sourceDir, revision)));
+            return revision;
         }
 
         /// <summary>
@@ -456,19 +487,19 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void PasteClick(object sender, EventArgs e)
         {
-            string targetFolder = m_selectedNode.FileName;
-            string path = m_copiedNode.FileName;
+            string targetFolder = m_selectedNode.FilePath;
+            string path = m_copiedNode.FilePath;
 
             // Copy Directory/File 
             NodeType type = m_copiedNode.Type;
             if (type == NodeType.Folder)
             {
-                CopyDirectory(path, targetFolder);
+                CopyDirectory(path, Path.Combine(targetFolder, Path.GetFileName(path)));
             }
             else if (type == NodeType.Project)
             {
                 path = Path.GetDirectoryName(path);
-                CopyDirectory(path, targetFolder);
+                CopyDirectory(path, Path.Combine(targetFolder, Path.GetFileName(path)));
             }
             else if (type == NodeType.Model)
             {
@@ -479,7 +510,7 @@ namespace EcellLib.MainWindow
             path = Path.Combine(targetFolder, Path.GetFileName(path));
             TreeNode childNode = new ProjectTreeNode(path);
             m_selectedNode.Nodes.Add(childNode);
-            if (type != NodeType.Model)
+            if (m_copiedNode.Type != NodeType.Model)
             {
                 CreateProjectTreeView(childNode, path);
             }
@@ -493,11 +524,11 @@ namespace EcellLib.MainWindow
         private void DeleteClick(object sender, EventArgs e)
         {
             if (m_selectedNode.Type == NodeType.Folder)
-                Directory.Delete(m_selectedNode.FileName, true);
+                Directory.Delete(m_selectedNode.FilePath, true);
             else if (m_selectedNode.Type == NodeType.Project)
-                Directory.Delete(Path.GetDirectoryName(m_selectedNode.FileName), true);
+                Directory.Delete(Path.GetDirectoryName(m_selectedNode.FilePath), true);
             else if (m_selectedNode.Type == NodeType.Model)
-                File.Delete(m_selectedNode.FileName);
+                File.Delete(m_selectedNode.FilePath);
             m_selectedNode.Remove();
             m_selectedNode = null;
         }
@@ -509,20 +540,22 @@ namespace EcellLib.MainWindow
         /// <param name="targetDir"></param>
         public static void CopyDirectory(string sourceDir, string targetDir)
         {
-            targetDir = Path.Combine(targetDir, Path.GetFileName(sourceDir));
+            // List up directories and files.
+            string[] dirs = System.IO.Directory.GetDirectories(sourceDir, "*.*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories);
+
+            // Create directory if necessary.
             if (!Directory.Exists(targetDir))
             {
                 Directory.CreateDirectory(targetDir);
                 File.SetAttributes(targetDir, File.GetAttributes(sourceDir));
             }
-
-            string[] files = Directory.GetFiles(sourceDir);
-            foreach (string file in files)
-                CopyFile(file, targetDir);
-
-            string[] dirs = System.IO.Directory.GetDirectories(sourceDir);
+            // Copy directories.
             foreach (string dir in dirs)
-                CopyDirectory(dir, Path.Combine(targetDir, Path.GetFileName(dir)));
+                Directory.CreateDirectory(dir.Replace(sourceDir, targetDir));
+            // Copy Files.
+            foreach (string file in files)
+                File.Copy(file, file.Replace(sourceDir, targetDir));
         }
 
         /// <summary>
@@ -543,7 +576,7 @@ namespace EcellLib.MainWindow
         internal class ProjectTreeNode : TreeNode
         {
             #region Fields
-            private string m_fileName = null;
+            private string m_filePath = null;
             private NodeType m_nodeType = NodeType.Folder;
             private Project m_project = null;
             #endregion
@@ -552,10 +585,10 @@ namespace EcellLib.MainWindow
             /// <summary>
             /// filename
             /// </summary>
-            public string FileName
+            public string FilePath
             {
-                get { return m_fileName; }
-                set { m_fileName = value; }
+                get { return m_filePath; }
+                set { m_filePath = value; }
             }
 
             public Project Project
@@ -580,7 +613,7 @@ namespace EcellLib.MainWindow
             /// <param name="filepath"></param>
             public ProjectTreeNode(string filepath)
             {
-                this.m_fileName = filepath;
+                this.m_filePath = filepath;
                 this.m_nodeType = GetNodeType(filepath);
                 this.m_project = Project.LoadProject(filepath);
                 if (m_project == null)
