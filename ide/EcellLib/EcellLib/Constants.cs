@@ -550,4 +550,23 @@ namespace EcellLib
         /// </summary>
         Stepping = 4
     }
+
+    /// <summary>
+    /// FileType
+    /// </summary>
+    public enum FileType
+    {
+        /// <summary>
+        /// Index of FolderIcon on TreeNode.
+        /// </summary>
+        Folder = 0,
+        /// <summary>
+        /// Index of ProjectIcon on TreeNode.
+        /// </summary>
+        Project = 1,
+        /// <summary>
+        /// Index of ModelIcon on TreeNode.
+        /// </summary>
+        Model = 2
+    }
 }

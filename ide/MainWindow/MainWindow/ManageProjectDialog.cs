@@ -70,6 +70,8 @@ namespace EcellLib.MainWindow
         /// </summary>
         private Dictionary<string, ToolStripItem> m_popMenuDict = new Dictionary<string, ToolStripItem>();
 
+        private Project m_selectedProject = null;
+
         private string m_prjID = "";
         private string m_fileName = "";
         private string m_simName = "";
@@ -106,27 +108,11 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// get the project ID.
+        /// get the project.
         /// </summary>
-        public string PrjID
+        public Project Project
         {
-            get { return this.m_prjID; }
-        }
-
-        /// <summary>
-        /// get the comment of this project.
-        /// </summary>
-        public string Comment
-        {
-            get { return this.m_comment; }
-        }
-        
-        /// <summary>
-        /// get the simulation parameter for this project.
-        /// </summary>
-        public string SimulationParam
-        {
-            get { return this.m_simName; }
+            get { return this.m_selectedProject; }
         }
 
         #endregion
@@ -382,9 +368,9 @@ namespace EcellLib.MainWindow
             bool unfinished = false;
             if(isVisible)
             {
-                isProject = (m_node.Type == NodeType.Project);
-                isModel = (m_node.Type == NodeType.Model);
-                isFolder = (m_node.Type == NodeType.Folder);
+                isProject = (m_node.Type == FileType.Project);
+                isModel = (m_node.Type == FileType.Model);
+                isFolder = (m_node.Type == FileType.Folder);
             }
 
             // Set visibility.
@@ -417,13 +403,13 @@ namespace EcellLib.MainWindow
 
             switch (m_selectedNode.Type)
             {
-                case NodeType.Folder:
+                case FileType.Folder:
                     ZipUtil.ZipFolder(filename, m_selectedNode.FilePath);
                     break;
-                case NodeType.Project:
+                case FileType.Project:
                     ZipUtil.ZipFolder(filename, Path.GetDirectoryName(m_selectedNode.FilePath));
                     break;
-                case NodeType.Model:
+                case FileType.Model:
                     ZipUtil.ZipFile(filename, m_selectedNode.FilePath);
                     break;
             }
@@ -527,10 +513,10 @@ namespace EcellLib.MainWindow
         private void PasteClick(object sender, EventArgs e)
         {
             // Set NodeType. 
-            NodeType type = m_copiedNode.Type;
+            FileType type = m_copiedNode.Type;
             // Set sourcePath.
             string path = m_copiedNode.FilePath;
-            if(type == NodeType.Project)
+            if(type == FileType.Project)
                 path = Path.GetDirectoryName(path);
             // Set targetPath.
             string targetPath = Path.Combine(m_selectedNode.FilePath, Path.GetFileName(path));
@@ -540,11 +526,11 @@ namespace EcellLib.MainWindow
             // Copy Directory / File.
             switch (type)
             {
-                case NodeType.Project:
-                case NodeType.Folder:
+                case FileType.Project:
+                case FileType.Folder:
                     CopyDirectory(path, targetPath);
                     break;
-                case NodeType.Model:
+                case FileType.Model:
                     File.Copy(path, targetPath, true);
                     break;
             }
@@ -552,7 +538,7 @@ namespace EcellLib.MainWindow
             // Create new node
             TreeNode childNode = new ProjectTreeNode(targetPath);
             m_selectedNode.Nodes.Add(childNode);
-            if (m_copiedNode.Type != NodeType.Model)
+            if (m_copiedNode.Type != FileType.Model)
             {
                 CreateProjectTreeView(childNode, targetPath);
             }
@@ -565,11 +551,11 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void DeleteClick(object sender, EventArgs e)
         {
-            if (m_selectedNode.Type == NodeType.Folder)
+            if (m_selectedNode.Type == FileType.Folder)
                 Directory.Delete(m_selectedNode.FilePath, true);
-            else if (m_selectedNode.Type == NodeType.Project)
+            else if (m_selectedNode.Type == FileType.Project)
                 Directory.Delete(Path.GetDirectoryName(m_selectedNode.FilePath), true);
-            else if (m_selectedNode.Type == NodeType.Model)
+            else if (m_selectedNode.Type == FileType.Model)
                 File.Delete(m_selectedNode.FilePath);
             m_selectedNode.Remove();
             m_selectedNode = null;
@@ -639,7 +625,7 @@ namespace EcellLib.MainWindow
         {
             #region Fields
             private string m_filePath = null;
-            private NodeType m_nodeType = NodeType.Folder;
+            private FileType m_nodeType = FileType.Folder;
             private Project m_project = null;
             #endregion
 
@@ -661,7 +647,7 @@ namespace EcellLib.MainWindow
             /// <summary>
             /// Type of node.
             /// </summary>
-            public NodeType Type
+            public FileType Type
             {
                 get { return m_nodeType; }
                 set { m_nodeType = value; }
@@ -695,37 +681,19 @@ namespace EcellLib.MainWindow
             /// </summary>
             /// <param name="filepath"></param>
             /// <returns></returns>
-            private NodeType GetNodeType(string filepath)
+            private FileType GetNodeType(string filepath)
             {
                 string ext = Path.GetExtension(filepath);
                 if (ext.Equals(Constants.FileExtXML))
-                    return NodeType.Project;
+                    return FileType.Project;
                 else if (ext.Equals(Constants.FileExtINFO))
-                    return NodeType.Project;
+                    return FileType.Project;
                 else if (ext.Equals(Constants.FileExtEML))
-                    return NodeType.Model;
+                    return FileType.Model;
                 else
-                    return NodeType.Folder;
+                    return FileType.Folder;
             }
             #endregion
-        }
-        /// <summary>
-        /// NodeType
-        /// </summary>
-        internal enum NodeType
-        {
-            /// <summary>
-            /// Index of FolderIcon on TreeNode.
-            /// </summary>
-            Folder = 0,
-            /// <summary>
-            /// Index of ProjectIcon on TreeNode.
-            /// </summary>
-            Project = 1,
-            /// <summary>
-            /// Index of ModelIcon on TreeNode.
-            /// </summary>
-            Model = 2
         }
 
     }

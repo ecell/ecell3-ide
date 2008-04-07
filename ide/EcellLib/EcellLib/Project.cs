@@ -14,6 +14,10 @@ namespace EcellLib
     {
         #region Field
         /// <summary>
+        /// File Path.
+        /// </summary>
+        private string m_filePath;
+        /// <summary>
         /// The comment
         /// </summary>
         private string m_comment;
@@ -132,6 +136,16 @@ namespace EcellLib
                     this.m_simParam = value;
             }
         }
+
+        /// <summary>
+        /// get/set the filePath
+        /// </summary>
+        public string FilePath
+        {
+            get { return m_filePath; }
+            set { this.m_filePath = value; }
+        }
+
         #endregion
 
         #region Loader
@@ -190,19 +204,19 @@ namespace EcellLib
                     switch (setting.Name)
                     {
                         // Project
-                        case "Project":
+                        case Constants.xpathProject:
                             prjName = setting.InnerText;
                             break;
                         // Date
-                        case "Date":
+                        case Constants.textDate:
                             time = setting.InnerText;
                             break;
                         // Comment
-                        case "Comment":
+                        case Constants.textComment:
                             comment = setting.InnerText;
                             break;
                         // SimulationParameter
-                        case "SimulationParameter":
+                        case Constants.textParameter:
                             param = setting.InnerText;
                             break;
                     }
@@ -295,8 +309,86 @@ namespace EcellLib
         /// <param name="filepath"></param>
         public static void SaveProject(Project project, string filepath)
         {
+            string message = "[" + project.Name + "]";
+            string saveDir = Path.GetDirectoryName(filepath);
+            string projectInfo = Path.Combine(saveDir, Constants.fileProject);
+            string projectXML = Path.Combine(saveDir, Constants.fileProjectXML);
+            try
+            {
+                SaveProjectINFO(project, projectInfo);
+                SaveProjectXML(project, projectXML);
 
+            }
+            catch (Exception l_ex)
+            {
+                throw new Exception(message + " {" + l_ex.ToString() + "}");
+            }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="filePath"></param>
+        public static void SaveProjectINFO(Project project, string filePath)
+        {
+            StreamWriter writer = null;
+            string sepalator = Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace;
+            try
+            {
+                writer = new StreamWriter(filePath, false, Encoding.UTF8);
+                writer.WriteLine(Constants.xpathProject + sepalator + project.Name);
+                writer.WriteLine(Constants.textComment + sepalator + project.Comment);
+                writer.WriteLine(Constants.textParameter + sepalator + project.SimulationParam);
+            }
+            finally
+            {
+                if (writer != null)
+                {
+                    writer.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// SaveProjectXML
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="filePath"></param>
+        public static void SaveProjectXML(Project project, string filePath)
+        {
+            XmlTextWriter xmlOut = null;
+            try
+            {
+                // Create xml file
+                xmlOut = new XmlTextWriter(filePath, Encoding.UTF8);
+
+                // Use indenting for readability
+                xmlOut.Formatting = Formatting.Indented;
+                xmlOut.WriteStartDocument();
+
+                // Always begin file with identification and warning
+                xmlOut.WriteComment(Constants.xPathFileHeader1);
+                xmlOut.WriteComment(Constants.xPathFileHeader2);
+
+                // Save settings.
+                xmlOut.WriteStartElement(Constants.xPathEcellProject);
+                xmlOut.WriteElementString(Constants.xpathProject, project.Name);
+                xmlOut.WriteElementString(Constants.textDate, DateTime.Now.ToString());
+                xmlOut.WriteElementString(Constants.textComment, project.Comment);
+                xmlOut.WriteElementString(Constants.textParameter, project.SimulationParam);
+                xmlOut.WriteEndElement();
+                xmlOut.WriteEndDocument();
+            }
+            finally
+            {
+                if (xmlOut != null)
+                {
+                    xmlOut.Close();
+                }
+            }
+        }
+
         #endregion
     }
 }
