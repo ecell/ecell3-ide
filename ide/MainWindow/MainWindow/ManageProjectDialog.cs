@@ -361,7 +361,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Set Popup menu visibility.
         /// </summary>
-        /// <param name="m_node"></param>
+        /// <param name="node">The tree node of project.</param>
         private void ResetPopupMenus(ProjectTreeNode node)
         {
             // Set Visibility flags.

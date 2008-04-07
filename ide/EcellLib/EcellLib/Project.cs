@@ -61,6 +61,7 @@ namespace EcellLib
         /// <param name="l_prjName">The project name</param>
         /// <param name="l_comment">The comment</param>
         /// <param name="l_time">The update time</param>
+        /// <param name="l_simParam">The name of simulation parameter.</param>
         public Project(string l_prjName, string l_comment, string l_time, string l_simParam)
         {
             SetParams(l_prjName, l_comment, l_time, l_simParam);

@@ -56,10 +56,6 @@ namespace EcellLib
     {
         #region Fields
         /// <summary>
-        /// The current Project.
-        /// </summary>
-        private Project m_currentProject = null;
-        /// <summary>
         /// The current parameter ID
         /// </summary>
         private string m_currentParameterID = null;
