@@ -443,23 +443,10 @@ namespace EcellLib.Analysis
         private void PrintResultData()
         {
             m_win.ClearResult();
-//            Console.Write("###################\n");
             for (int i = 0; i <= s_num; i++)
             {
                 for (int j = 0; j <= s_num; j++)
                 {
-                    //if (m_result[i, j] == BifurcationResult.None)
-                    //    Console.Write(" ");
-                    //else
-                    //{
-                    //    int r = 0;
-                    //    if (m_result[i, j] == BifurcationResult.OK)
-                    //        r = 1;
-                    //    else if (m_result[i, j] == BifurcationResult.FindOk)
-                    //        r = 2;
-                    //    Console.Write(r);
-                    //}
-
                     if (m_result[i, j] != BifurcationResult.OK &&
                         m_result[i, j] != BifurcationResult.FindOk)
                         continue;
@@ -482,7 +469,6 @@ namespace EcellLib.Analysis
                     if (isEdge)
                         m_win.AddJudgementDataForBifurcation(m_xList[i], m_yList[j]);
                 }
-                //Console.Write("\n");
             }
         }
 
@@ -522,7 +508,7 @@ namespace EcellLib.Analysis
                             logList.Add(t, tmpList[t]);
                         }
                     }
-
+                    Application.DoEvents();
                     bool rJudge = JudgeBifurcationAnalysisByRange(logList, p.Max, p.Min, p.Difference);
                     bool pJudge = JudgeBifurcationAnalysisByFFT(logList, p.Rate);
                     if (rJudge == false || pJudge == false)
@@ -531,6 +517,7 @@ namespace EcellLib.Analysis
                         break;
                     }
                 }
+                Application.DoEvents();
                 if (isOK)
                     AddPoint(x, y, BifurcationResult.OK);
                 else

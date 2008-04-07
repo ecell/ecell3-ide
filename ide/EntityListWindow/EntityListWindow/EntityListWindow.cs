@@ -248,10 +248,21 @@ namespace EcellLib.EntityListWindow
                     modelNode.Tag = null;
                     TreeNode paramNode = new TreeNode("Parameters");
                     paramNode.Tag = null;
+                    TreeNode dmNode = new TreeNode("DMs");
+                    dmNode.Tag = null;
                     m_prjNode.Nodes.Add(modelNode);
                     m_prjNode.Nodes.Add(paramNode);
+                    m_prjNode.Nodes.Add(dmNode);
                     m_modelNodeDic.Add(obj.ModelID, modelNode);
                     m_paramNodeDic.Add(obj.ModelID, paramNode);
+
+                    List<string> fileList = m_dManager.GetDMDirData();
+                    foreach (string d in fileList)
+                    {
+                        TreeNode dNode = new TreeNode(d);
+                        dmNode.Nodes.Add(dNode);
+                    }
+
                     continue;
                 }
                 else if (obj.Type == Constants.xpathModel)

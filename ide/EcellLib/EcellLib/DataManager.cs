@@ -4239,6 +4239,34 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Get the dm file and the source file for dm in the directory of current project.
+        /// </summary>
+        /// <returns>The list of dm in the directory of current project.</returns>
+        public List<string> GetDMDirData()
+        {
+            List<string> resultList = new List<string>();
+            string path = m_currentProjectPath;
+            path = path + Constants.delimiterPath + Constants.DMDirName;
+            if (!Directory.Exists(path)) return resultList;
+
+            string[] files = Directory.GetFiles(path, "*" + Constants.FileExtDM);
+            for (int i = 0; i < files.Length; i++)
+            {
+                string name = Path.GetFileNameWithoutExtension(files[i]);
+                if (!resultList.Contains(name))
+                    resultList.Add(name);
+            }
+            files = Directory.GetFiles(path, "*" + Constants.FileExtSource);
+            for (int i = 0; i < files.Length; i++)
+            {
+                string name = Path.GetFileNameWithoutExtension(files[i]);
+                if (!resultList.Contains(name))
+                    resultList.Add(name);
+            }
+            return resultList;
+        }
+
+        /// <summary>
         /// Returns the list of the "Stepper" property. 
         /// </summary>
         /// <param name="l_dmName">The DM name</param>

@@ -95,7 +95,10 @@ namespace EcellLib
         /// The extention of BackUp file.
         /// </summary>
         public const string FileExtBackUp = ".bak";
-
+        /// <summary>
+        /// The extention of source file.
+        /// </summary>
+        public const string FileExtSource = ".cs";
         #endregion
 
         #region File Filters
