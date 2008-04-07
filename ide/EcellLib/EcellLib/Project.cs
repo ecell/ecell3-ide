@@ -311,7 +311,10 @@ namespace EcellLib
         public static void SaveProject(Project project, string filepath)
         {
             string message = "[" + project.Name + "]";
-            string saveDir = Path.GetDirectoryName(filepath);
+            string saveDir = GetSaveDir(filepath);
+            if (!Directory.Exists(saveDir))
+                Directory.CreateDirectory(saveDir);
+
             string projectInfo = Path.Combine(saveDir, Constants.fileProject);
             string projectXML = Path.Combine(saveDir, Constants.fileProjectXML);
             try
@@ -324,6 +327,25 @@ namespace EcellLib
             {
                 throw new Exception(message + " {" + l_ex.ToString() + "}");
             }
+        }
+
+        /// <summary>
+        /// GetSaveDir
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <returns></returns>
+        private static string GetSaveDir(string filepath)
+        {
+            if (Directory.Exists(filepath))
+                return filepath;
+            
+            string ext = Path.GetExtension(filepath);
+            if (ext.Equals(Constants.FileExtINFO) || ext.Equals(Constants.FileExtXML))
+                return Path.GetDirectoryName(filepath);
+            else if (ext.Equals(Constants.FileExtEML))
+                return Path.Combine(Util.GetBaseDir(), Path.GetFileNameWithoutExtension(filepath));
+            else
+                return filepath;
         }
 
         /// <summary>

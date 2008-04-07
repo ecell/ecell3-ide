@@ -6160,99 +6160,44 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Get Project.
+        /// </summary>
+        /// <param name="l_prjID"></param>
+        /// <returns></returns>
+        private Project GetProject(string l_prjID)
+        {
+            if (string.IsNullOrEmpty(l_prjID))
+                throw new Exception(m_resources.GetString("ErrNullData"));
+            if (this.m_projectList == null || this.m_projectList.Count <= 0)
+                throw new Exception(m_resources.GetString("ErrFindPrj"));
+
+            foreach (Project l_prj in this.m_projectList)
+                if (l_prj.Name.Equals(l_prjID))
+                    return l_prj;
+
+            throw new Exception(m_resources.GetString("ErrFindPrj"));
+        }
+        /// <summary>
         /// Saves only the project using the project ID.
         /// </summary>
         /// <param name="l_prjID">The saved project ID</param>
         public void SaveProject(string l_prjID)
         {
-            Project l_thisPrj = null;
             string l_message = null;
+            Project l_thisPrj = null;
             try
             {
-                l_message = "[" + l_prjID + "]";
-                //
                 // Initializes
-                //
-                if (l_prjID == null || l_prjID.Length <= 0)
-                {
-                    throw new Exception(m_resources.GetString("ErrNullData"));
-                }
-                if (this.m_projectList == null || this.m_projectList.Count <= 0)
-                {
-                    throw new Exception(m_resources.GetString("ErrFindPrj"));
-                }
-                else
-                {
-                    foreach (Project l_prj in this.m_projectList)
-                    {
-                        if (l_prj.Name.Equals(l_prjID))
-                        {
-                            l_thisPrj = l_prj;
-                            break;
-                        }
-                    }
-                    if (l_thisPrj == null)
-                    {
-                        throw new Exception(m_resources.GetString("ErrFindPrj"));
-                    }
-                }
+                l_message = "[" + l_prjID + "]";
+                l_thisPrj = GetProject(l_prjID);
                 this.SetDefaultDir();
-                if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
-                {
+                if (string.IsNullOrEmpty(m_defaultDir))
                     throw new Exception(m_resources.GetString("ErrBaseDir"));
-                }
-                //
+
                 // Saves the project.
-                //
-                string path = Path.Combine(this.m_defaultDir, l_prjID);
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                string l_prjFile = Path.Combine(path, Constants.fileProject);
-                string xmlfile = Path.Combine(path, Constants.fileProjectXML);
-                string sepalator = Constants.delimiterSpace + Constants.delimiterEqual + Constants.delimiterSpace;
-                StreamWriter l_writer = null;
-                XmlTextWriter xmlOut = null;
-                try
-                {
-                    l_writer = new StreamWriter(l_prjFile, false, Encoding.UTF8);
-                    l_writer.WriteLine(Constants.xpathProject + sepalator + l_thisPrj.Name);
-                    l_writer.WriteLine(Constants.textComment + sepalator + l_thisPrj.Comment);
-                    l_writer.WriteLine(Constants.textParameter + sepalator + this.m_currentParameterID);
+                string l_prjFile = Path.Combine(this.m_defaultDir, l_prjID);
+                Project.SaveProject(l_thisPrj, l_prjFile);
 
-                    // Create xml file
-                    xmlOut = new XmlTextWriter(xmlfile, Encoding.UTF8);
-
-                    // Use indenting for readability
-                    xmlOut.Formatting = Formatting.Indented;
-                    xmlOut.WriteStartDocument();
-
-                    // Always begin file with identification and warning
-                    xmlOut.WriteComment(Constants.xPathFileHeader1);
-                    xmlOut.WriteComment(Constants.xPathFileHeader2);
-
-                    // Save settings.
-                    xmlOut.WriteStartElement(Constants.xPathEcellProject);
-                    xmlOut.WriteElementString(Constants.xpathProject, l_thisPrj.Name);
-                    xmlOut.WriteElementString(Constants.textDate, DateTime.Now.ToString());
-                    xmlOut.WriteElementString(Constants.textComment, l_thisPrj.Comment);
-                    xmlOut.WriteElementString(Constants.textParameter, this.m_currentParameterID);
-                    xmlOut.WriteEndElement();
-                    xmlOut.WriteEndDocument();
-                }
-                finally
-                {
-                    if (l_writer != null)
-                    {
-                        l_writer.Close();
-                    }
-                    if (xmlOut != null)
-                    {
-                        xmlOut.Close();
-                    }
-                }
-                l_thisPrj.UpdateTime = File.GetLastAccessTime(l_prjFile).ToString();
                 this.m_pManager.Message(
                     Constants.messageSimulation,
                     "Save Project: " + l_message + System.Environment.NewLine);
