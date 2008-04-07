@@ -4262,6 +4262,15 @@ namespace EcellLib
             return resultList;
         }
 
+        public string GetDMFileName(string indexName)
+        {
+            string path = m_currentProjectPath;
+            path = path + Constants.delimiterPath + Constants.DMDirName +
+                Constants.delimiterPath + indexName + Constants.FileExtSource;
+            if (!File.Exists(path)) return null;
+            return path;
+        }
+
         /// <summary>
         /// Returns the list of the "Stepper" property. 
         /// </summary>

@@ -132,6 +132,9 @@
   <data name="ErrShowPropEditor" xml:space="preserve">
     <value>Fail to show property editor.\nPlease confirm the property of object.\n</value>
   </data>
+  <data name="ErrStartupApp" xml:space="preserve">
+    <value>Can't start up the application assciated with this file.</value>
+  </data>
   <data name="PopAddModelText" xml:space="preserve">
     <value>Add model</value>
   </data>

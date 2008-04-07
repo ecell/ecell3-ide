@@ -98,7 +98,7 @@ namespace EcellLib
         /// <summary>
         /// The extention of source file.
         /// </summary>
-        public const string FileExtSource = ".cs";
+        public const string FileExtSource = ".cpp";
         #endregion
 
         #region File Filters
@@ -258,6 +258,10 @@ namespace EcellLib
         /// Reserved XML path name for CSV.
         /// </summary>
         public const string xpathCsv = "csv";
+        /// <summary>
+        /// Reserved XML path name for DM.
+        /// </summary>
+        public const string xpathDM = "dm";
         /// <summary>
         /// Reserved XML path name for EML.
         /// </summary>

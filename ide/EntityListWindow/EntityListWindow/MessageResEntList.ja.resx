@@ -133,6 +133,9 @@
     <value>プロパティ編集ダイアログの表示に失敗しました。
 表示するオブジェクトを確認してください。</value>
   </data>
+  <data name="ErrStartupApp" xml:space="preserve">
+    <value>このファイルに関連付けられたアプリケーションが起動できませんでした。ファイルタイプへの関連付けを行ってください。</value>
+  </data>
   <data name="PopAddModelText" xml:space="preserve">
     <value>モデル追加</value>
   </data>

@@ -30,6 +30,7 @@
 
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
@@ -260,6 +261,7 @@ namespace EcellLib.EntityListWindow
                     foreach (string d in fileList)
                     {
                         TreeNode dNode = new TreeNode(d);
+                        dNode.Tag = new TagData("", "", Constants.xpathDM);
                         dmNode.Nodes.Add(dNode);
                     }
 
@@ -1224,6 +1226,24 @@ namespace EcellLib.EntityListWindow
             if (tag.m_type == Constants.xpathParameters)
             {
                 m_pManager.SelectChanged("", node.Text, tag.m_type);
+                return;
+            }
+            if (tag.m_type == Constants.xpathDM)
+            {
+                string path = m_dManager.GetDMFileName(node.Text);
+                if (path == null) return;
+                try
+                {
+                    Process p = Process.Start(path);
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                    String errmes = s_resources.GetString("ErrStartupApp");
+                    MessageBox.Show(errmes + "\n\n" + path,
+                        "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 return;
             }
 
