@@ -101,6 +101,9 @@ namespace EcellLib.Analysis
         /// The dictionary of result data.
         /// </summary>
         private BifurcationResult[,] m_result;
+        /// <summary>
+        /// The dictionary of result and parameter region.
+        /// </summary>
         private int[,] m_region;
         /// <summary>
         /// The candidate data for X Axis.
@@ -122,6 +125,7 @@ namespace EcellLib.Analysis
         /// The number of the interval of skip.
         /// </summary>
         private static int s_skip =10;
+        private bool m_isDone = false;
         #endregion
 
         /// <summary>
@@ -169,6 +173,7 @@ namespace EcellLib.Analysis
             String tmpDir = m_manager.TmpRootDir;
             double simTime = m_param.SimulationTime;
             int maxSize = Convert.ToInt32(m_param.MaxInput);
+            m_isDone = false;
 
             if (simTime <= 0.0)
             {
@@ -319,7 +324,7 @@ namespace EcellLib.Analysis
         private int[,] SearchPoint()
         {
             int[,] res = new int[s_num + 1, s_num + 1];
-
+            int count = 0;
             for (int i = 0; i <= s_num; i++)
             {
                 for (int j = 0; j <= s_num; j++)
@@ -331,10 +336,24 @@ namespace EcellLib.Analysis
                             res[i + k, j] = 1;
                         if (j + k >= 0 && j + k <= s_num)
                             res[i, j + k] = 1;
+                        count++;
                     }
                     m_result[i, j] = BifurcationResult.FindOk;
                 }
             }
+            if (count == 0 && m_isDone == false)
+            {
+                for (int i = s_skip / 2; i <= s_num; i = i + s_skip)
+                {
+                    for (int j = s_skip / 2; j <= s_num; j = j + s_skip)
+                    {
+                        res[i, j] = 1;
+                    }
+                }
+                m_isDone = true;
+            }
+
+
             return res;
         }
 
@@ -424,10 +443,23 @@ namespace EcellLib.Analysis
         private void PrintResultData()
         {
             m_win.ClearResult();
+//            Console.Write("###################\n");
             for (int i = 0; i <= s_num; i++)
             {
                 for (int j = 0; j <= s_num; j++)
                 {
+                    //if (m_result[i, j] == BifurcationResult.None)
+                    //    Console.Write(" ");
+                    //else
+                    //{
+                    //    int r = 0;
+                    //    if (m_result[i, j] == BifurcationResult.OK)
+                    //        r = 1;
+                    //    else if (m_result[i, j] == BifurcationResult.FindOk)
+                    //        r = 2;
+                    //    Console.Write(r);
+                    //}
+
                     if (m_result[i, j] != BifurcationResult.OK &&
                         m_result[i, j] != BifurcationResult.FindOk)
                         continue;
@@ -450,6 +482,7 @@ namespace EcellLib.Analysis
                     if (isEdge)
                         m_win.AddJudgementDataForBifurcation(m_xList[i], m_yList[j]);
                 }
+                //Console.Write("\n");
             }
         }
 
