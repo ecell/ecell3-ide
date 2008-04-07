@@ -72,10 +72,7 @@ namespace EcellLib.MainWindow
 
         private Project m_selectedProject = null;
 
-        private string m_prjID = "";
         private string m_fileName = "";
-        private string m_simName = "";
-        private string m_comment = "";
         private static string[] ignoredDirList = {
             "Model",
             "Simulation",
@@ -187,13 +184,12 @@ namespace EcellLib.MainWindow
         {
             // Reflect Project parameters.
             Project prj = m_selectedNode.Project;
+            m_selectedProject = prj;
             m_fileName = m_selectedNode.FilePath;
             MPPrjIDText.Text = prj.Name;
             MPPrjDateText.Text = prj.UpdateTime;
             MPPrjCommentText.Text = prj.Comment;
-            
-            m_prjID = prj.Name;
-            m_comment = prj.Comment;
+
 
             MPPrjIDText.BackColor = Color.White;
             MPPrjDateText.BackColor = Color.White;
@@ -209,12 +205,11 @@ namespace EcellLib.MainWindow
         /// </summary>
         private void ResetSelectedProject()
         {
+            m_selectedProject = null;
+
             MPPrjIDText.Text = "";
             MPPrjDateText.Text = "";
             MPPrjCommentText.Text = "";
-
-            m_prjID = "";
-            m_comment = "";
 
             MPPrjIDText.BackColor = Color.Silver;
             MPPrjDateText.BackColor = Color.Silver;
