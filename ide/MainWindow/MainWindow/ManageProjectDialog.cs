@@ -98,14 +98,6 @@ namespace EcellLib.MainWindow
 
         #region Accessors
         /// <summary>
-        /// get the project ID.
-        /// </summary>
-        public string PrjID
-        {
-            get { return this.m_prjID; }
-        }
-
-        /// <summary>
         /// get the project file name.
         /// </summary>
         public string FileName
@@ -114,11 +106,11 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// get the simulation parameter for this project.
+        /// get the project ID.
         /// </summary>
-        public string SimulationParam
+        public string PrjID
         {
-            get { return this.m_simName; }
+            get { return this.m_prjID; }
         }
 
         /// <summary>
@@ -129,6 +121,14 @@ namespace EcellLib.MainWindow
             get { return this.m_comment; }
         }
         
+        /// <summary>
+        /// get the simulation parameter for this project.
+        /// </summary>
+        public string SimulationParam
+        {
+            get { return this.m_simName; }
+        }
+
         #endregion
 
         #region Methods
@@ -205,6 +205,9 @@ namespace EcellLib.MainWindow
             MPPrjIDText.Text = prj.Name;
             MPPrjDateText.Text = prj.UpdateTime;
             MPPrjCommentText.Text = prj.Comment;
+            
+            m_prjID = prj.Name;
+            m_comment = prj.Comment;
 
             MPPrjIDText.BackColor = Color.White;
             MPPrjDateText.BackColor = Color.White;
@@ -223,6 +226,9 @@ namespace EcellLib.MainWindow
             MPPrjIDText.Text = "";
             MPPrjDateText.Text = "";
             MPPrjCommentText.Text = "";
+
+            m_prjID = "";
+            m_comment = "";
 
             MPPrjIDText.BackColor = Color.Silver;
             MPPrjDateText.BackColor = Color.Silver;
@@ -370,12 +376,14 @@ namespace EcellLib.MainWindow
             // Set Visibility flags.
             bool isVisible = (m_node != null);
             bool isProject = false;
+            bool isModel = false;
             bool isFolder = false;
             bool isCopied = (m_copiedNode != null);
             bool unfinished = false;
             if(isVisible)
             {
                 isProject = (m_node.Type == NodeType.Project);
+                isModel = (m_node.Type == NodeType.Model);
                 isFolder = (m_node.Type == NodeType.Folder);
             }
 
@@ -383,7 +391,7 @@ namespace EcellLib.MainWindow
             m_popMenuDict[PrjDlgConstants.MenuSaveZip].Visible = isVisible;
             m_popMenuDict[PrjDlgConstants.MenuCreateNewProject].Visible = isVisible && isFolder && unfinished;
             m_popMenuDict[PrjDlgConstants.MenuCreateNewRevision].Visible = isVisible && isProject;
-            m_popMenuDict[PrjDlgConstants.MenuDelete].Visible = isVisible;
+            m_popMenuDict[PrjDlgConstants.MenuDelete].Visible = isVisible && (isFolder || isModel);
             m_popMenuDict[PrjDlgConstants.MenuCopy].Visible = isVisible;
             m_popMenuDict[PrjDlgConstants.MenuPaste].Visible = isVisible && isFolder && isCopied;
         }
@@ -431,7 +439,34 @@ namespace EcellLib.MainWindow
         private void CreateNewProjectClick(object sender, EventArgs e)
         {
             string path = m_selectedNode.FilePath;
+            NewProjectDialog newPrjDialog = new NewProjectDialog();
+            if (newPrjDialog.ShowDialog() != DialogResult.OK)
+                return;
 
+            string name = newPrjDialog.textName.Text;
+            string model = newPrjDialog.textModelName.Text;
+            string comment = newPrjDialog.textComment.Text;
+            List<string> dmList = newPrjDialog.GetDmList();
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(model))
+                return;
+
+            Project project = new Project(name, comment, DateTime.Now.ToString());
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="path"></param>
+        /// <param name="modelName"></param>
+        /// <param name="dmList"></param>
+        private void CreateNewProject(Project project, string path, string modelName, List<string> dmList)
+        {
+            Project.SaveProject(project, path);
+            // DataManagerに新規プロジェクトを作成する関数を追加する。
+            // 
         }
 
         /// <summary>
@@ -457,8 +492,12 @@ namespace EcellLib.MainWindow
             m_selectedNode.Nodes.Add(childNode);
             CreateProjectTreeView(childNode, targetDir);
         }
-
-        private string GetRevNo(string sourceDir)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDir"></param>
+        /// <returns></returns>
+        private static string GetRevNo(string sourceDir)
         {
             int revNo = 0;
             string revision = "";
@@ -487,32 +526,35 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void PasteClick(object sender, EventArgs e)
         {
-            string targetFolder = m_selectedNode.FilePath;
-            string path = m_copiedNode.FilePath;
-
-            // Copy Directory/File 
+            // Set NodeType. 
             NodeType type = m_copiedNode.Type;
-            if (type == NodeType.Folder)
-            {
-                CopyDirectory(path, Path.Combine(targetFolder, Path.GetFileName(path)));
-            }
-            else if (type == NodeType.Project)
-            {
+            // Set sourcePath.
+            string path = m_copiedNode.FilePath;
+            if(type == NodeType.Project)
                 path = Path.GetDirectoryName(path);
-                CopyDirectory(path, Path.Combine(targetFolder, Path.GetFileName(path)));
-            }
-            else if (type == NodeType.Model)
+            // Set targetPath.
+            string targetPath = Path.Combine(m_selectedNode.FilePath, Path.GetFileName(path));
+            if (path.Equals(targetPath))
+                targetPath = GetNewDir(targetPath);
+
+            // Copy Directory / File.
+            switch (type)
             {
-                CopyFile(path, targetFolder);
+                case NodeType.Project:
+                case NodeType.Folder:
+                    CopyDirectory(path, targetPath);
+                    break;
+                case NodeType.Model:
+                    File.Copy(path, targetPath, true);
+                    break;
             }
 
             // Create new node
-            path = Path.Combine(targetFolder, Path.GetFileName(path));
-            TreeNode childNode = new ProjectTreeNode(path);
+            TreeNode childNode = new ProjectTreeNode(targetPath);
             m_selectedNode.Nodes.Add(childNode);
             if (m_copiedNode.Type != NodeType.Model)
             {
-                CreateProjectTreeView(childNode, path);
+                CreateProjectTreeView(childNode, targetPath);
             }
         }
 
@@ -540,6 +582,9 @@ namespace EcellLib.MainWindow
         /// <param name="targetDir"></param>
         public static void CopyDirectory(string sourceDir, string targetDir)
         {
+            if (sourceDir.Equals(targetDir))
+                targetDir = GetNewDir(targetDir);
+
             // List up directories and files.
             string[] dirs = System.IO.Directory.GetDirectories(sourceDir, "*.*", SearchOption.AllDirectories);
             string[] files = Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories);
@@ -556,6 +601,23 @@ namespace EcellLib.MainWindow
             // Copy Files.
             foreach (string file in files)
                 File.Copy(file, file.Replace(sourceDir, targetDir));
+        }
+
+        /// <summary>
+        /// Get New Directory name.
+        /// </summary>
+        /// <param name="targetDir"></param>
+        /// <returns></returns>
+        private static string GetNewDir(string targetDir)
+        {
+            int revNo = 0;
+            string newDir = "";
+            do
+            {
+                revNo++;
+                newDir = targetDir + revNo.ToString();
+            } while (Directory.Exists(newDir));
+            return newDir;
         }
 
         /// <summary>

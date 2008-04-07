@@ -97,7 +97,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// m_openPrjDialog (OpenProjectDialog)
         /// </summary>
-        private OpenProjectDialog m_openPrjDialog;
+        private ManageProjectDialog m_managePrjDialog;
         /// <summary>
         /// m_savePrjDialog (SaveProjectDialog)
         /// </summary>
@@ -1044,9 +1044,9 @@ namespace EcellLib.MainWindow
             // Show OpenProjectDialog.
             try
             {
-                m_openPrjDialog = new OpenProjectDialog();
-                m_openPrjDialog.CreateProjectTreeView(null, m_currentDir, false);
-                if (m_openPrjDialog.ShowDialog() == DialogResult.OK)
+                m_managePrjDialog = new ManageProjectDialog();
+                m_managePrjDialog.CreateProjectTreeView(null, m_currentDir);
+                if (m_managePrjDialog.ShowDialog() == DialogResult.OK)
                 {
                     // Close current project.
                     if (m_project != null)
@@ -1073,9 +1073,9 @@ namespace EcellLib.MainWindow
         /// </summary>
         private void CloseOpenProjectDialog()
         {
-            m_openPrjDialog.Close();
-            m_openPrjDialog.Dispose();
-            m_openPrjDialog = null;
+            m_managePrjDialog.Close();
+            m_managePrjDialog.Dispose();
+            m_managePrjDialog = null;
         }
 
         /// <summary>
@@ -1086,9 +1086,9 @@ namespace EcellLib.MainWindow
         {
             try
             {
-                String prjID = m_openPrjDialog.OPPrjIDText.Text;
-                String comment = m_openPrjDialog.OPCommentText.Text;
-                String fileName = m_openPrjDialog.FileName;
+                String prjID = m_managePrjDialog.MPPrjIDText.Text;
+                String comment = m_managePrjDialog.MPPrjCommentText.Text;
+                String fileName = m_managePrjDialog.FileName;
 
                 if (!CheckProjectID(prjID))
                     return;
@@ -1106,12 +1106,12 @@ namespace EcellLib.MainWindow
                     CloseOpenProjectDialog();
                     return;
                 }
-                if (!m_openPrjDialog.PrjID.Equals(prjID)
-                    ||!m_openPrjDialog.Comment.Equals(comment))
+                if (!m_managePrjDialog.PrjID.Equals(prjID)
+                    ||!m_managePrjDialog.Comment.Equals(comment))
                 {
                     File.WriteAllText(fileName, "Project = " + prjID + "\n", Encoding.UTF8);
                     File.AppendAllText(fileName, "Comment = " + comment + "\n", Encoding.UTF8);
-                    File.AppendAllText(fileName, m_openPrjDialog.SimulationParam, Encoding.UTF8);
+                    File.AppendAllText(fileName, m_managePrjDialog.SimulationParam, Encoding.UTF8);
                 }
                 m_dManager.LoadProject(prjID, fileName);
                 m_isLoadProject = true;
@@ -1157,9 +1157,11 @@ namespace EcellLib.MainWindow
                 dialog.CreateProjectTreeView(null, m_currentDir);
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+
                 }
                 else
                 {
+
                 }
             }
             catch (Exception ex)

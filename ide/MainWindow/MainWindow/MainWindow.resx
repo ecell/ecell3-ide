@@ -267,12 +267,6 @@
   <data name="closeProjectToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Close Project</value>
   </data>
-  <data name="manageProjectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
-  </data>
-  <data name="manageProjectToolStripMenuItem.Text" xml:space="preserve">
-    <value>Manage Project...</value>
-  </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 6</value>
   </data>
@@ -930,12 +924,6 @@
   </data>
   <data name="&gt;&gt;openScriptDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;manageProjectToolStripMenuItem.Name" xml:space="preserve">
-    <value>manageProjectToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;manageProjectToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainWindow</value>
