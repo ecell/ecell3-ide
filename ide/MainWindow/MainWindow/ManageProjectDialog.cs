@@ -362,10 +362,13 @@ namespace EcellLib.MainWindow
         /// Set Popup menu visibility.
         /// </summary>
         /// <param name="m_node"></param>
-        private void ResetPopupMenus(ProjectTreeNode m_node)
+        private void ResetPopupMenus(ProjectTreeNode node)
         {
             // Set Visibility flags.
-            bool isVisible = (m_node != null);
+            if (node == MPPrjTreeView.Nodes[0])
+                node = null;
+
+            bool isVisible = (node != null);
             bool isProject = false;
             bool isModel = false;
             bool isFolder = false;
@@ -373,9 +376,9 @@ namespace EcellLib.MainWindow
             bool unfinished = false;
             if(isVisible)
             {
-                isProject = (m_node.Type == FileType.Project);
-                isModel = (m_node.Type == FileType.Model);
-                isFolder = (m_node.Type == FileType.Folder);
+                isProject = (node.Type == FileType.Project);
+                isModel = (node.Type == FileType.Model);
+                isFolder = (node.Type == FileType.Folder);
             }
 
             // Set visibility.
@@ -383,7 +386,7 @@ namespace EcellLib.MainWindow
             m_popMenuDict[PrjDlgConstants.MenuCreateNewProject].Visible = isVisible && isFolder && unfinished;
             m_popMenuDict[PrjDlgConstants.MenuCreateNewRevision].Visible = isVisible && isProject;
             m_popMenuDict[PrjDlgConstants.MenuDelete].Visible = isVisible && (isFolder || isModel);
-            m_popMenuDict[PrjDlgConstants.MenuCopy].Visible = isVisible && !isModel;
+            m_popMenuDict[PrjDlgConstants.MenuCopy].Visible = isVisible && isProject;
             m_popMenuDict[PrjDlgConstants.MenuPaste].Visible = isVisible && isFolder && isCopied && unfinished;
         }
 
