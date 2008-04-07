@@ -70,9 +70,19 @@ namespace EcellLib.MainWindow
         /// </summary>
         private Dictionary<string, ToolStripItem> m_popMenuDict = new Dictionary<string, ToolStripItem>();
 
+        /// <summary>
+        /// Selected Project
+        /// </summary>
         private Project m_selectedProject = null;
 
+        /// <summary>
+        /// FileName
+        /// </summary>
         private string m_fileName = "";
+
+        /// <summary>
+        /// Ignored directory names.
+        /// </summary>
         private static string[] ignoredDirList = {
             "Model",
             "Simulation",
@@ -373,8 +383,8 @@ namespace EcellLib.MainWindow
             m_popMenuDict[PrjDlgConstants.MenuCreateNewProject].Visible = isVisible && isFolder && unfinished;
             m_popMenuDict[PrjDlgConstants.MenuCreateNewRevision].Visible = isVisible && isProject;
             m_popMenuDict[PrjDlgConstants.MenuDelete].Visible = isVisible && (isFolder || isModel);
-            m_popMenuDict[PrjDlgConstants.MenuCopy].Visible = isVisible;
-            m_popMenuDict[PrjDlgConstants.MenuPaste].Visible = isVisible && isFolder && isCopied;
+            m_popMenuDict[PrjDlgConstants.MenuCopy].Visible = isVisible && !isModel;
+            m_popMenuDict[PrjDlgConstants.MenuPaste].Visible = isVisible && isFolder && isCopied && unfinished;
         }
 
         /// <summary>
@@ -498,6 +508,42 @@ namespace EcellLib.MainWindow
         private void CopyClick(object sender, EventArgs e)
         {
             m_copiedNode = m_selectedNode;
+
+            // RootNode.
+            m_selectedNode = (ProjectTreeNode)MPPrjTreeView.Nodes[0];
+
+            // Set NodeType. 
+            FileType type = m_copiedNode.Type;
+            // Set sourcePath.
+            string path = m_copiedNode.FilePath;
+            if (type == FileType.Project)
+                path = Path.GetDirectoryName(path);
+            // Set targetPath.
+            string targetPath = Path.Combine(m_selectedNode.FilePath, Path.GetFileName(path));
+            if (path.Equals(targetPath))
+                targetPath = GetNewDir(targetPath);
+            else if (Directory.Exists(targetPath))
+                targetPath = GetNewDir(targetPath);
+
+            // Copy Directory / File.
+            switch (type)
+            {
+                case FileType.Project:
+                case FileType.Folder:
+                    CopyDirectory(path, targetPath);
+                    break;
+                case FileType.Model:
+                    File.Copy(path, targetPath, true);
+                    break;
+            }
+
+            // Create new node
+            TreeNode childNode = new ProjectTreeNode(targetPath);
+            m_selectedNode.Nodes.Add(childNode);
+            if (m_copiedNode.Type != FileType.Model)
+            {
+                CreateProjectTreeView(childNode, targetPath);
+            }
         }
 
         /// <summary>
@@ -516,6 +562,8 @@ namespace EcellLib.MainWindow
             // Set targetPath.
             string targetPath = Path.Combine(m_selectedNode.FilePath, Path.GetFileName(path));
             if (path.Equals(targetPath))
+                targetPath = GetNewDir(targetPath);
+            else if (Directory.Exists(targetPath))
                 targetPath = GetNewDir(targetPath);
 
             // Copy Directory / File.
@@ -564,6 +612,8 @@ namespace EcellLib.MainWindow
         public static void CopyDirectory(string sourceDir, string targetDir)
         {
             if (sourceDir.Equals(targetDir))
+                targetDir = GetNewDir(targetDir);
+            else if (Directory.Exists(targetDir))
                 targetDir = GetNewDir(targetDir);
 
             // List up directories and files.

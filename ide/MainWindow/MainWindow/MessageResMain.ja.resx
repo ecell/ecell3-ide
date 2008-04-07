@@ -202,7 +202,7 @@
     <value>指定したファイルが存在しません。確認してください。</value>
   </data>
   <data name="MenuCopy" xml:space="preserve">
-    <value>コピー</value>
+    <value>コピープロジェクトの作成</value>
   </data>
   <data name="MenuCreateNewProject" xml:space="preserve">
     <value>新規プロジェクトの作成</value>

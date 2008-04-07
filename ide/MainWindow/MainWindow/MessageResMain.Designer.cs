@@ -313,7 +313,7 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
-        ///   Copy. に類似しているローカライズされた文字列を検索します。
+        ///   Create Copied Project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuCopy {
             get {

@@ -202,7 +202,7 @@
     <value>Can not find the file.</value>
   </data>
   <data name="MenuCopy" xml:space="preserve">
-    <value>Copy.</value>
+    <value>Create Copied Project.</value>
   </data>
   <data name="MenuCreateNewProject" xml:space="preserve">
     <value>Create new project.</value>
