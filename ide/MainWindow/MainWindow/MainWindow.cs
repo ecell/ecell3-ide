@@ -1000,6 +1000,12 @@ namespace EcellLib.MainWindow
                 List<EcellObject> list = new List<EcellObject>();
                 list.Add(EcellObject.CreateObject(m_newPrjDialog.textModelName.Text, null, "Model", null, null));
                 m_dManager.DataAdd(list);
+                foreach (string paramID in m_dManager.GetSimulationParameterIDs())
+                {
+                    m_pManager.ParameterAdd(m_newPrjDialog.textName.Text, paramID);
+                }
+                m_pManager.ParameterSet(m_dManager.CurrentProjectID, m_dManager.GetCurrentSimulationParameterID());
+
             }
             catch (Exception ex)
             {
