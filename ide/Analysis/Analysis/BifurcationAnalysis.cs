@@ -117,8 +117,11 @@ namespace EcellLib.Analysis
         /// <summary>
         /// The number of data for Axis.
         /// </summary>
-        private static int s_num = 30;
-        private static int s_skip = 10;
+        private static int s_num = 50;
+        /// <summary>
+        /// The number of the interval of skip.
+        /// </summary>
+        private static int s_skip =10;
         #endregion
 
         /// <summary>
@@ -321,8 +324,15 @@ namespace EcellLib.Analysis
             {
                 for (int j = 0; j <= s_num; j++)
                 {
-                    if (m_result[i, j] == BifurcationResult.OK)
-                        res[i, j] = 1;
+                    if (m_result[i, j] != BifurcationResult.OK) continue;
+                    for (int k = -1; k <= 1; k = k + 2)
+                    {
+                        if (i + k >= 0 && i + k <= s_num)
+                            res[i + k, j] = 1;
+                        if (j + k >= 0 && j + k <= s_num)
+                            res[i, j + k] = 1;
+                    }
+                    m_result[i, j] = BifurcationResult.FindOk;
                 }
             }
             return res;
@@ -343,6 +353,7 @@ namespace EcellLib.Analysis
                 {
                     Dictionary<string, double> paramDic = new Dictionary<string, double>();
                     if (pos[i, j] == 0) continue;
+                    if (m_result[i, j] != BifurcationResult.None) continue;
                     int acount = 0;
                     int ncount = 0;
                     int gcount = 0;
@@ -401,9 +412,6 @@ namespace EcellLib.Analysis
                         res.Add(jobid, new ExecuteParameter(paramDic));
                         jobid++;
                     }
-
-                    if (m_result[i, j] == BifurcationResult.OK)
-                        m_result[i, j] = BifurcationResult.FindOk;
 
                 }
             }
