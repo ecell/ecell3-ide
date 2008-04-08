@@ -126,6 +126,9 @@
   <data name="ErrNotFind" xml:space="preserve">
     <value>Can't find the object by input search condition.</value>
   </data>
+  <data name="ErrNotInstallSDK" xml:space="preserve">
+    <value>Can't find the installed E-Cell SDK.</value>
+  </data>
   <data name="ErrPrintData" xml:space="preserve">
     <value>Fail to create the bitmap of this window.</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="PopAddVariableText" xml:space="preserve">
     <value>Add variable</value>
+  </data>
+  <data name="PopCompileText" xml:space="preserve">
+    <value>Compile DM</value>
   </data>
   <data name="PopCreLoggerText" xml:space="preserve">
     <value>Create logger</value>

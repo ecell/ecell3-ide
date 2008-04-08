@@ -88,6 +88,15 @@ namespace EcellLib.EntityListWindow {
         }
         
         /// <summary>
+        ///   Can&apos;t find the installed E-Cell SDK. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNotInstallSDK {
+            get {
+                return ResourceManager.GetString("ErrNotInstallSDK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Fail to create the bitmap of this window. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrPrintData {
@@ -147,6 +156,15 @@ namespace EcellLib.EntityListWindow {
         internal static string PopAddVariableText {
             get {
                 return ResourceManager.GetString("PopAddVariableText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Compile DM に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PopCompileText {
+            get {
+                return ResourceManager.GetString("PopCompileText", resourceCulture);
             }
         }
         

@@ -92,6 +92,10 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         private ContextMenu m_procMenu;
         /// <summary>
+        /// m_dmMenu (popup menu for tree node for dm)
+        /// </summary>
+        private ContextMenu m_dmMenu;
+        /// <summary>
         /// m_targetNode (selected tree node when show popup menu)
         /// </summary>
         private TreeNode m_targetNode;
@@ -118,39 +122,43 @@ namespace EcellLib.EntityListWindow
         /// <summary>
         /// Cotext menu for create logger of process on popup menu.
         /// </summary>
-        MenuItem m_creProcLogger;
+        private MenuItem m_creProcLogger;
         /// <summary>
         /// Context menu for create logger of variable on popup menu.
         /// </summary>
-        MenuItem m_creVarLogger;
+        private MenuItem m_creVarLogger;
         /// <summary>
         /// Context menu for delete logger of process on popup menu.
         /// </summary>
-        MenuItem m_delProcLogger;
+        private MenuItem m_delProcLogger;
         /// <summary>
         /// Context menu for delete logger of variable on popup menu.
         /// </summary>
-        MenuItem m_delVarLogger;
+        private MenuItem m_delVarLogger;
         /// <summary>
         /// Context menu for create logger of system on popup menu.
         /// </summary>
-        MenuItem m_creSysLogger;
+        private MenuItem m_creSysLogger;
         /// <summary>
         /// Context menu for delete logger of system on popup menu.
         /// </summary>
-        MenuItem m_delSysLogger;
+        private MenuItem m_delSysLogger;
         /// <summary>
         /// Context menu for create logger of root system on popup menu.
         /// </summary>
-        MenuItem m_creTopSysLogger;
+        private MenuItem m_creTopSysLogger;
         /// <summary>
         /// Context menu for delete logger of root system on popup menu.
         /// </summary>
-        MenuItem m_delTopSysLogger;
+        private MenuItem m_delTopSysLogger;
         /// <summary>
         /// Cotext menu for merge of system on popup menu.
         /// </summary>
-        MenuItem m_merge;
+        private MenuItem m_merge;
+        /// <summary>
+        /// Cotext menu to compile dm on popup menu.
+        /// </summary>
+        private MenuItem m_compileDM;
         /// <summary>
         /// ComponentResourceManager for EntityListWindow.
         /// </summary>
@@ -174,6 +182,7 @@ namespace EcellLib.EntityListWindow
             m_topSystemMenu = new ContextMenu();
             m_procMenu = new ContextMenu();
             m_varMenu = new ContextMenu();
+            m_dmMenu = new ContextMenu();
             m_creSysLogger = new MenuItem();
             m_delSysLogger = new MenuItem();
             m_creTopSysLogger = new MenuItem();
@@ -183,6 +192,7 @@ namespace EcellLib.EntityListWindow
             m_creVarLogger = new MenuItem();
             m_delVarLogger = new MenuItem();
             m_merge = new MenuItem();
+            m_compileDM = new MenuItem();
         }
         #endregion
 
@@ -549,6 +559,15 @@ namespace EcellLib.EntityListWindow
         }
 
         /// <summary>
+        /// Check whether E-Cell SDK is already installed.
+        /// </summary>
+        /// <returns>if E-Cell SDK is installed, retur true.</returns>
+        private bool CheckInstalledSDK()
+        {
+            return false;
+        }
+
+        /// <summary>
         /// Create popup menu of each tree node type.
         /// </summary>
         private void CreatePopupMenu()
@@ -572,6 +591,7 @@ namespace EcellLib.EntityListWindow
             m_creVarLogger.Text = EntityListWindow.s_resources.GetString("PopCreLoggerText");
             m_delVarLogger.Text = EntityListWindow.s_resources.GetString("PopDelLoggerText");
             m_merge.Text = EntityListWindow.s_resources.GetString("PopMergeText");
+            m_compileDM.Text = EntityListWindow.s_resources.GetString("PopCompileText");
             addModel.Text = EntityListWindow.s_resources.GetString("PopAddModelText");
             addSystem.Text = EntityListWindow.s_resources.GetString("PopAddSystemText");
             addVar.Text = EntityListWindow.s_resources.GetString("PopAddVariableText");
@@ -587,6 +607,7 @@ namespace EcellLib.EntityListWindow
             addProc.Click += new EventHandler(TreeviewAddProcess);
             del.Click += new EventHandler(TreeviewDelete);
             m_merge.Click += new EventHandler(TreeviewMerge);
+            m_compileDM.Click += new EventHandler(TreeViewCompile);
             searchMenu.Click += new EventHandler(TreeviewSearch);
             sortNameMenu.Click += new EventHandler(TreeViewSortName);
             sortTypeMenu.Click += new EventHandler(TreeViewSortType);
@@ -666,6 +687,10 @@ namespace EcellLib.EntityListWindow
                     sortNameMenu.CloneMenu(),
                     sortTypeMenu.CloneMenu()
                 });
+            m_dmMenu.MenuItems.AddRange(new MenuItem[]
+            {
+                m_compileDM.CloneMenu()
+            });
         }
 
         /// <summary>
@@ -1170,6 +1195,23 @@ namespace EcellLib.EntityListWindow
             }
         }
 
+        /// <summary>
+        /// The action of clicking [Compile] menu on popup menu.
+        /// </summary>
+        /// <param name="sender">object(MenuItem)</param>
+        /// <param name="e">EventArgs.</param>
+        private void TreeViewCompile(object sender, EventArgs e)
+        {
+            string path = m_dManager.GetDMFileName(m_targetNode.Text);
+            if (!CheckInstalledSDK())
+            {
+                String errmes = EntityListWindow.s_resources.GetString("ErrNotInstallSDK");
+                MessageBox.Show(errmes + "\n",
+                    "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            // not implement.
+        }
 
         /// <summary>
         /// The action of clicking [Sort by Name] menu on popup menu.
@@ -1296,6 +1338,16 @@ namespace EcellLib.EntityListWindow
                 if (m_type != ProjectStatus.Loaded && m_type != ProjectStatus.Stepping)
                 {
                     m_form.treeView1.ContextMenu = null;
+                    return;
+                }
+                if (tag.m_type == Constants.xpathDM)
+                {
+                    m_targetNode = node;
+                    string file = m_dManager.GetDMFileName(node.Text);
+                    if (file != null)
+                        m_form.treeView1.ContextMenu = m_dmMenu;
+                    else
+                        m_form.treeView1.ContextMenu = null;
                     return;
                 }
                 
