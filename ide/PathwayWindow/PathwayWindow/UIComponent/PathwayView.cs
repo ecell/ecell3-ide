@@ -94,6 +94,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.Controls.Add(m_scrolCtrl);
             this.Text = m_con.Canvas.ModelID;
             this.TabText = this.Text;
+            this.Activate();
         }
 
         /// <summary>

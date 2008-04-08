@@ -483,7 +483,7 @@ namespace EcellLib.MainWindow
                 CopyFile(file, targetDir);
 
             TreeNode childNode = new ProjectTreeNode(targetDir);
-            m_selectedNode.Nodes.Add(childNode);
+            m_selectedNode.Parent.Nodes.Add(childNode);
             CreateProjectTreeView(childNode, targetDir);
         }
         /// <summary>

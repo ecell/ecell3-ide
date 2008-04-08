@@ -176,8 +176,10 @@ namespace EcellLib.MainWindow
             LoadPlugins();
             //Load default window settings.
             setFilePath();
-//            LoadDefaultWindowSetting();
+            LoadDefaultWindowSetting();
+            SetStartUpWindow();
         }
+
         /// <summary>
         /// Set window setting file path.
         /// </summary>
@@ -508,7 +510,16 @@ namespace EcellLib.MainWindow
                 this.toolStripContainer.TopToolStripPanel.Join(toolStrip);
             }
         }
-        
+
+        private void SetStartUpWindow()
+        {
+            EcellDockContent content = new StartUpWindow();
+            content.Name = "StartUpWindow";
+            content.Text = "StartUpWindow";
+            content.DockHandler.DockPanel = this.dockPanel;
+            content.Show(this.dockPanel, DockState.Document);
+        }
+
         /// <summary>
         /// set DockContent
         /// </summary>

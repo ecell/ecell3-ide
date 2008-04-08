@@ -111,7 +111,6 @@ namespace EcellLib.MainWindow
 
                 me.MainForm = frmMainWnd;
                 frmSplash.Close();
-                frmMainWnd.LoadDefaultWindowSetting();
                 frmMainWnd.Show();
                 DataManager manager = DataManager.GetDataManager();
                 foreach (string fPath in fileList)
