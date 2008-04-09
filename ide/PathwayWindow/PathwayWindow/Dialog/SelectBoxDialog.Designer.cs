@@ -91,6 +91,7 @@
             this.Controls.Add(this.message);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
+            this.Enabled = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SelectBoxDialog";

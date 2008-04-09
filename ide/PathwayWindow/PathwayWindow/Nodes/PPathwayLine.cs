@@ -287,27 +287,28 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             string obj = "";
             string brush = BrushManager.ParseBrushToString(this.Brush);
+            string width = this.Pen.Width.ToString();
             switch (this.m_edgeInfo.TypeOfLine)
             {
                 case LineType.Solid:
                 case LineType.Unknown:
-                    obj += SVGUtil.Line(m_proPoint, m_varPoint, brush);
+                    obj += SVGUtil.Line(m_proPoint, m_varPoint, brush, width);
                     break;
                 case LineType.Dashed:
-                    obj += SVGUtil.DashedLine(m_proPoint, m_varPoint, brush);
+                    obj += SVGUtil.DashedLine(m_proPoint, m_varPoint, brush, width);
                     break;
             }
             switch (this.m_edgeInfo.Direction)
             {
                 case EdgeDirection.Bidirection:
-                    obj += SVGUtil.Polygon(GetArrowPoints(this.ProPoint, this.VarPoint), brush);
-                    obj += SVGUtil.Polygon(GetArrowPoints(this.VarPoint, this.ProPoint), brush);
+                    obj += SVGUtil.Polygon(GetArrowPoints(this.ProPoint, this.VarPoint), brush, width);
+                    obj += SVGUtil.Polygon(GetArrowPoints(this.VarPoint, this.ProPoint), brush, width);
                     break;
                 case EdgeDirection.Inward:
-                    obj += SVGUtil.Polygon(GetArrowPoints(this.ProPoint, this.VarPoint), brush);
+                    obj += SVGUtil.Polygon(GetArrowPoints(this.ProPoint, this.VarPoint), brush, width);
                     break;
                 case EdgeDirection.Outward:
-                    obj += SVGUtil.Polygon(GetArrowPoints(this.VarPoint, this.ProPoint), brush);
+                    obj += SVGUtil.Polygon(GetArrowPoints(this.VarPoint, this.ProPoint), brush, width);
                     break;
                 case EdgeDirection.None:
                     break;

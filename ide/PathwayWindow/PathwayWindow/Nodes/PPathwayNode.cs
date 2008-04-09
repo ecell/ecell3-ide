@@ -42,6 +42,7 @@ using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
 using EcellLib.PathwayWindow.Figure;
 using EcellLib.Objects;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -311,6 +312,23 @@ namespace EcellLib.PathwayWindow.Nodes
             return base.ToString() + ", Text.X:" + PText.X + ", Text.Y:" + PText.Y
                 + ", Text.OffsetX:" + PText.OffsetX + ", Text.OffsetY:" + PText.OffsetY;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string CreateSVGObject()
+        {
+            string obj = base.CreateSVGObject();
+            PText text = m_pPropertyText;
+            if (!string.IsNullOrEmpty(text.Text) && text.Visible)
+            {
+                PointF pos = new PointF(text.X, text.Y + text.Height);
+                obj += SVGUtil.Text(pos, text.Text, BrushManager.ParseBrushToString(text.TextBrush));
+            }
+            return obj;
+        }
+
         #endregion
     }
 }

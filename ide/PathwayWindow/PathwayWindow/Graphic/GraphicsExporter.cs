@@ -76,20 +76,24 @@ namespace EcellLib.PathwayWindow.Graphic
         private static string CreateSVGHeader(CanvasControl canvas)
         {
             PPathwaySystem system = canvas.Systems["/"];
-            float left = system.X - 50f;
-            float top = system.Y - 50f;
-            float width = system.Width + 100f;
-            float height = system.Height + 100f;
-            float viewWidth = width * 0.7f;
-            float viewHeight = height * 0.7f;
+            RectangleF rect = system.Rect;
+            rect.X -= 50f;
+            rect.Y -= 50f;
+            rect.Width += 100f;
+            rect.Height += 100f;
+            float viewWidth = rect.Width * 0.7f;
+            float viewHeight = rect.Height * 0.7f;
             string header = "<svg xmlns=\"http://www.w3.org/2000/svg\""
             + " width=\"" + viewWidth.ToString() + "\""
             + " height=\"" + viewHeight.ToString() + "\""
-            + " viewBox=\"" 
-            + left.ToString() + " "
-            + top.ToString() + " "
-            + width.ToString() + " "
-            + height.ToString() + "\">";
+            + " viewBox=\""
+            + rect.X.ToString() + " "
+            + rect.Y.ToString() + " "
+            + rect.Width.ToString() + " "
+            + rect.Height.ToString() + "\">\n";
+            // Set BackGround
+            string brush = BrushManager.ParseBrushToString(canvas.BackGroundBrush);
+            header += SVGUtil.Rectangle(rect, brush, brush);
             return header;
         }
 

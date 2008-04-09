@@ -204,6 +204,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private PNode m_focusNode = null;
 
+        private Brush m_bgBrush = null;
+
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
@@ -354,6 +356,17 @@ namespace EcellLib.PathwayWindow
             {
                 m_isViewMode = value;
                 ResetObjectSettings();
+            }
+        }
+        public Brush BackGroundBrush
+        {
+            get { return m_bgBrush; }
+            set
+            {
+                if (m_pCanvas == null)
+                    return;
+                m_bgBrush = value;
+                m_pCanvas.BackColor = BrushManager.ParseBrushToColor(value);
             }
         }
         /// <summary>
@@ -1495,9 +1508,9 @@ namespace EcellLib.PathwayWindow
             }
 
             if (m_isViewMode)
-                m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.Animation.ViewBGBrush);
+                this.BackGroundBrush = m_con.Animation.ViewBGBrush;
             else
-                m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_con.Animation.EditBGBrush);
+                this.BackGroundBrush = m_con.Animation.EditBGBrush;
         }
     }
 }

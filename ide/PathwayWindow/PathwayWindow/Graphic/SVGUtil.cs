@@ -157,17 +157,49 @@ namespace EcellLib.PathwayWindow.Graphic
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
+        /// <returns></returns>
+        public static string Line(PointF start, PointF end)
+        {
+            return Line(start, end, "Black", "1");
+        }
+        /// <summary>
+        /// Create Line object.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <param name="brush"></param>
         /// <returns></returns>
         public static string Line(PointF start, PointF end, string brush)
+        {
+            return Line(start, end, brush, "1");
+        }
+        /// <summary>
+        /// Create Line object.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="brush"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public static string Line(PointF start, PointF end, string brush, string width)
         {
             string obj = "<line x1=\"" + start.X.ToString()
             + "\" y1=\"" + start.Y.ToString()
             + "\" x2=\"" + end.X.ToString()
             + "\" y2=\"" + end.Y.ToString()
             + "\" stroke=\"" + brush
-            + "\" stroke-width=\"1\"/>\n";
+            + "\" stroke-width=\"" + width + "\"/>\n";
             return obj;
+        }
+        /// <summary>
+        /// Create DashedLine object.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static string DashedLine(PointF start, PointF end)
+        {
+            return DashedLine(start, end, "Black", "1");
         }
         /// <summary>
         /// Create DashedLine object.
@@ -178,13 +210,25 @@ namespace EcellLib.PathwayWindow.Graphic
         /// <returns></returns>
         public static string DashedLine(PointF start, PointF end, string brush)
         {
+            return DashedLine(start, end, brush, "1");
+        }
+        /// <summary>
+        /// Create DashedLine object.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="brush"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public static string DashedLine(PointF start, PointF end, string brush, string width)
+        {
             string obj = "<line x1=\"" + start.X.ToString()
             + "\" y1=\"" + start.Y.ToString()
             + "\" x2=\"" + end.X.ToString()
             + "\" y2=\"" + end.Y.ToString()
             + "\" stroke-dasharray=\"5"
             + "\" stroke=\"" + brush
-            + "\" stroke-width=\"1\"/>\n";
+            + "\" stroke-width=\"" + width + "\"/>\n";
             return obj;
         }
         /// <summary>
@@ -193,10 +237,10 @@ namespace EcellLib.PathwayWindow.Graphic
         /// <param name="points"></param>
         /// <param name="brush"></param>
         /// <returns></returns>
-        public static string Polygon(PointF[] points, string brush)
+        public static string Polygon(PointF[] points, string brush, string width)
         {
             string obj = "<polygon stroke=\"" + brush
-            + "\" stroke-width=\"1"
+            + "\" stroke-width=\"" + width
             + "\" fill=\"" + brush
             + "\" points=\"";
             for ( int i = 0; i < points.Length; i++)
