@@ -123,20 +123,20 @@
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="PVOKButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
+    <value>Right</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="PVOKButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 198</value>
+    <value>434, 203</value>
   </data>
   <data name="PVOKButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 29</value>
+    <value>75, 24</value>
   </data>
   <data name="PVOKButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="PVOKButton.Text" xml:space="preserve">
-    <value>OK</value>
+    <value>Close</value>
   </data>
   <data name="&gt;&gt;PVOKButton.Name" xml:space="preserve">
     <value>PVOKButton</value>
@@ -172,7 +172,7 @@
     <value>3, 3</value>
   </data>
   <data name="versionListView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>506, 189</value>
+    <value>506, 194</value>
   </data>
   <data name="versionListView.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -217,7 +217,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="PVOKButton" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="versionListView" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,100,Absolute,35" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="PVOKButton" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="versionListView" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,100,Absolute,30" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

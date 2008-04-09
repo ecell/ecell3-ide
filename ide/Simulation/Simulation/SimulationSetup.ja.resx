@@ -127,10 +127,10 @@
     <value>キャンセル</value>
   </data>
   <data name="SSCreateButton.Text" xml:space="preserve">
-    <value>作成(&amp;N)...</value>
+    <value>+</value>
   </data>
   <data name="SSDeleteButton.Text" xml:space="preserve">
-    <value>削除(&amp;D)</value>
+    <value>-</value>
   </data>
   <data name="SSSetButton.Text" xml:space="preserve">
     <value>設定(&amp;S)</value>

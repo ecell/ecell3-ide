@@ -139,6 +139,9 @@
   <data name="ModelColumn.HeaderText" xml:space="preserve">
     <value>ModelID</value>
   </data>
+  <data name="ModelColumn.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <metadata name="TypeColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -151,7 +154,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="debugResultView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 292</value>
+    <value>3, 63</value>
   </data>
   <data name="debugResultView.Size" type="System.Drawing.Size, System.Drawing">
     <value>546, 194</value>
@@ -172,13 +175,13 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="SSDebugButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom</value>
   </data>
   <data name="SSDebugButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>191, 3</value>
+    <value>379, 3</value>
   </data>
   <data name="SSDebugButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -205,7 +208,7 @@
     <value>Top, Bottom</value>
   </data>
   <data name="SSCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>281, 3</value>
+    <value>469, 3</value>
   </data>
   <data name="SSCloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -232,7 +235,7 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 492</value>
+    <value>3, 263</value>
   </data>
   <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
@@ -256,7 +259,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SSDebugButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="SSCloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SSDebugButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="SSCloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,80,Absolute,10,Absolute,80,Absolute,20" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="panel1.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -298,7 +301,7 @@
     <value>3, 3</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>546, 283</value>
+    <value>546, 54</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -325,7 +328,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>552, 529</value>
+    <value>552, 300</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -352,7 +355,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>552, 529</value>
+    <value>552, 300</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

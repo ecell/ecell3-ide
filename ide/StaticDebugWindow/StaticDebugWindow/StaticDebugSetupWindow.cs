@@ -83,7 +83,7 @@ namespace EcellLib.StaticDebugWindow
 
             layoutPanel.Controls.Clear();
             layoutPanel.RowStyles.Clear();
-            layoutPanel.Size = new Size(width, 30 * (checkList.Count / 2 + 1));
+            layoutPanel.Size = new Size(width, 25 * (checkList.Count + 1) / 2 );
             layoutPanel.RowCount = checkList.Count / 2 + 1;
 
             try

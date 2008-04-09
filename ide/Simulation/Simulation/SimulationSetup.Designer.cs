@@ -93,6 +93,7 @@
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.SSApplyButton = new System.Windows.Forms.Button();
             this.SSCloseButton = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -121,6 +122,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.InitProDGV)).BeginInit();
             this.tableLayoutPanel11.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -134,7 +136,7 @@
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
             this.tableLayoutPanel2.Controls.Add(this.tabControl1, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel11, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.groupBox4, 0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // tabControl1
@@ -529,10 +531,10 @@
             // tableLayoutPanel11
             // 
             resources.ApplyResources(this.tableLayoutPanel11, "tableLayoutPanel11");
-            this.tableLayoutPanel11.Controls.Add(this.SSCreateButton, 2, 0);
-            this.tableLayoutPanel11.Controls.Add(this.SSDeleteButton, 3, 0);
+            this.tableLayoutPanel11.Controls.Add(this.SSCreateButton, 1, 0);
             this.tableLayoutPanel11.Controls.Add(this.paramCombo, 0, 0);
-            this.tableLayoutPanel11.Controls.Add(this.SSSetButton, 1, 0);
+            this.tableLayoutPanel11.Controls.Add(this.SSDeleteButton, 2, 0);
+            this.tableLayoutPanel11.Controls.Add(this.SSSetButton, 3, 0);
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
             // 
             // SSCreateButton
@@ -579,6 +581,14 @@
             this.SSCloseButton.Name = "SSCloseButton";
             this.SSCloseButton.UseVisualStyleBackColor = true;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.tableLayoutPanel11);
+            this.groupBox4.Cursor = System.Windows.Forms.Cursors.No;
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
             // SimulationSetup
             // 
             this.AcceptButton = this.SSApplyButton;
@@ -624,6 +634,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.InitProDGV)).EndInit();
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel12.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -703,5 +714,6 @@
         private System.Windows.Forms.DataGridView InitProDGV;
         private System.Windows.Forms.DataGridView InitVarDGV;
         private System.Windows.Forms.ComboBox paramCombo;
+        private System.Windows.Forms.GroupBox groupBox4;
     }
 }

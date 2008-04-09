@@ -67,8 +67,8 @@
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.DEApplyButton, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.DECloseButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.DEApplyButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.DECloseButton, 3, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // DEApplyButton
@@ -81,6 +81,7 @@
             // DECloseButton
             // 
             resources.ApplyResources(this.DECloseButton, "DECloseButton");
+            this.DECloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.DECloseButton.Name = "DECloseButton";
             this.DECloseButton.UseVisualStyleBackColor = true;
             this.DECloseButton.Click += new System.EventHandler(this.DECloseButton_Click);
@@ -179,8 +180,10 @@
             // 
             // DistributedEnvSetupWindow
             // 
+            this.AcceptButton = this.DEApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.DECloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DistributedEnvSetupWindow";
             this.tableLayoutPanel1.ResumeLayout(false);

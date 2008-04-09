@@ -58,7 +58,7 @@ namespace EcellLib.MainWindow
         /// </summary>
         public DistributedEnvWindow()
         {
-            InitializeComponent();
+            InitializeComponent();               
             JobGridView.CellDoubleClick += new DataGridViewCellEventHandler(JobGridViewDoubleClick);
         }
 

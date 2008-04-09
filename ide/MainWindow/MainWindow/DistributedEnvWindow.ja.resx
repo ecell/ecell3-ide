@@ -120,22 +120,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>分散環境ジョブリスト</value>
   </data>
-  <data name="DEWClearButton.Text" xml:space="preserve">
-    <value>クリア</value>
-  </data>
   <data name="DEWCloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
-  </data>
-  <data name="DEWDeleteButton.Text" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="DEWStartButton.Text" xml:space="preserve">
-    <value>開始</value>
-  </data>
-  <data name="DEWStopButton.Text" xml:space="preserve">
-    <value>停止</value>
-  </data>
-  <data name="DEWUpdateButton.Text" xml:space="preserve">
-    <value>更新</value>
   </data>
 </root>

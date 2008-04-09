@@ -142,7 +142,7 @@
     <value>3, 33</value>
   </data>
   <data name="stepperListBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 208</value>
+    <value>108, 184</value>
   </data>
   <data name="stepperListBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -247,7 +247,7 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 250</value>
+    <value>3, 230</value>
   </data>
   <data name="tableLayoutPanel15.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
@@ -283,7 +283,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 282</value>
+    <value>114, 262</value>
   </data>
   <data name="tableLayoutPanel4.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -430,7 +430,7 @@
     <value>3, 33</value>
   </data>
   <data name="dgv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>383, 246</value>
+    <value>383, 226</value>
   </data>
   <data name="dgv.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -457,7 +457,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>389, 282</value>
+    <value>389, 262</value>
   </data>
   <data name="tableLayoutPanel5.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -541,7 +541,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>515, 318</value>
+    <value>515, 298</value>
   </data>
   <data name="tableLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -568,7 +568,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="stepperPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>521, 324</value>
+    <value>521, 304</value>
   </data>
   <data name="stepperPage.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1474,10 +1474,10 @@
     <value>Fill</value>
   </data>
   <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 38</value>
+    <value>3, 58</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>529, 349</value>
+    <value>529, 329</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1497,20 +1497,17 @@
   <data name="tableLayoutPanel11.ColumnCount" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="SSCreateButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
   <data name="SSCreateButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 3</value>
+    <value>356, 3</value>
   </data>
   <data name="SSCreateButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 23</value>
+    <value>34, 23</value>
   </data>
   <data name="SSCreateButton.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="SSCreateButton.Text" xml:space="preserve">
-    <value>&amp;New</value>
+    <value>+</value>
   </data>
   <data name="&gt;&gt;SSCreateButton.Name" xml:space="preserve">
     <value>SSCreateButton</value>
@@ -1524,41 +1521,14 @@
   <data name="&gt;&gt;SSCreateButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="SSDeleteButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="SSDeleteButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 3</value>
-  </data>
-  <data name="SSDeleteButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 23</value>
-  </data>
-  <data name="SSDeleteButton.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="SSDeleteButton.Text" xml:space="preserve">
-    <value>&amp;Delete</value>
-  </data>
-  <data name="&gt;&gt;SSDeleteButton.Name" xml:space="preserve">
-    <value>SSDeleteButton</value>
-  </data>
-  <data name="&gt;&gt;SSDeleteButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SSDeleteButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel11</value>
-  </data>
-  <data name="&gt;&gt;SSDeleteButton.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="paramCombo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="paramCombo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 4</value>
+    <value>3, 5</value>
   </data>
   <data name="paramCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>253, 20</value>
+    <value>347, 20</value>
   </data>
   <data name="paramCombo.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1573,13 +1543,34 @@
     <value>tableLayoutPanel11</value>
   </data>
   <data name="&gt;&gt;paramCombo.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SSDeleteButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>396, 3</value>
+  </data>
+  <data name="SSDeleteButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 23</value>
+  </data>
+  <data name="SSDeleteButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="SSSetButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="SSDeleteButton.Text" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="&gt;&gt;SSDeleteButton.Name" xml:space="preserve">
+    <value>SSDeleteButton</value>
+  </data>
+  <data name="&gt;&gt;SSDeleteButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SSDeleteButton.Parent" xml:space="preserve">
+    <value>tableLayoutPanel11</value>
+  </data>
+  <data name="&gt;&gt;SSDeleteButton.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="SSSetButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>262, 3</value>
+    <value>436, 3</value>
   </data>
   <data name="SSSetButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 23</value>
@@ -1606,13 +1597,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>3, 15</value>
   </data>
   <data name="tableLayoutPanel11.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="tableLayoutPanel11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>529, 29</value>
+    <value>523, 31</value>
   </data>
   <data name="tableLayoutPanel11.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1624,13 +1615,40 @@
     <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel11.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
+    <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel11.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="tableLayoutPanel11.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SSCreateButton" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="SSDeleteButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="paramCombo" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="SSSetButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,90,Absolute,90,Absolute,90" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SSCreateButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="paramCombo" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="SSDeleteButton" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="SSSetButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,40,Absolute,40,Absolute,90" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="groupBox4.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>529, 49</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1660,16 +1678,16 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tabControl1" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel11" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,35,Percent,100,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tabControl1" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="groupBox4" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,55,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel12.ColumnCount" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="SSApplyButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="SSApplyButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>185, 3</value>
+    <value>373, 3</value>
   </data>
   <data name="SSApplyButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -1696,7 +1714,7 @@
     <value>Fill</value>
   </data>
   <data name="SSCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>275, 3</value>
+    <value>458, 3</value>
   </data>
   <data name="SSCloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -1747,7 +1765,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel12.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SSApplyButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="SSCloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SSApplyButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="SSCloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,80,Absolute,5,Absolute,80,Absolute,20" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>

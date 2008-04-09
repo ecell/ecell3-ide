@@ -66,8 +66,8 @@
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.PEAApplyButton, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.PEACloseButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.PEAApplyButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.PEACloseButton, 2, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // PEAApplyButton
@@ -79,6 +79,7 @@
             // PEACloseButton
             // 
             resources.ApplyResources(this.PEACloseButton, "PEACloseButton");
+            this.PEACloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.PEACloseButton.Name = "PEACloseButton";
             this.PEACloseButton.UseVisualStyleBackColor = true;
             this.PEACloseButton.Click += new System.EventHandler(this.PEACloseButtonClicked);
@@ -169,8 +170,10 @@
             // 
             // PEAdvancedWindow
             // 
+            this.AcceptButton = this.PEAApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.PEACloseButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "PEAdvancedWindow";
             this.tableLayoutPanel1.ResumeLayout(false);

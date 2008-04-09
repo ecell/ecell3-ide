@@ -61,15 +61,15 @@ namespace EcellLib.StaticDebugWindow
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StaticDebugSetupWindow));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.debugResultView = new System.Windows.Forms.DataGridView();
-            this.MessageColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PathColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ModelColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.SSDebugButton = new System.Windows.Forms.Button();
             this.SSCloseButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.layoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.MessageColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PathColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ModelColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.debugResultView)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -99,33 +99,6 @@ namespace EcellLib.StaticDebugWindow
             this.debugResultView.Name = "debugResultView";
             this.debugResultView.RowHeadersVisible = false;
             this.debugResultView.RowTemplate.Height = 21;
-            // 
-            // MessageColumn
-            // 
-            resources.ApplyResources(this.MessageColumn, "MessageColumn");
-            this.MessageColumn.Name = "MessageColumn";
-            this.MessageColumn.ReadOnly = true;
-            // 
-            // PathColumn
-            // 
-            this.PathColumn.FillWeight = 40F;
-            resources.ApplyResources(this.PathColumn, "PathColumn");
-            this.PathColumn.Name = "PathColumn";
-            this.PathColumn.ReadOnly = true;
-            // 
-            // ModelColumn
-            // 
-            this.ModelColumn.FillWeight = 15F;
-            resources.ApplyResources(this.ModelColumn, "ModelColumn");
-            this.ModelColumn.Name = "ModelColumn";
-            this.ModelColumn.ReadOnly = true;
-            // 
-            // TypeColumn
-            // 
-            this.TypeColumn.FillWeight = 15F;
-            resources.ApplyResources(this.TypeColumn, "TypeColumn");
-            this.TypeColumn.Name = "TypeColumn";
-            this.TypeColumn.ReadOnly = true;
             // 
             // tableLayoutPanel2
             // 
@@ -160,6 +133,33 @@ namespace EcellLib.StaticDebugWindow
             resources.ApplyResources(this.layoutPanel, "layoutPanel");
             this.layoutPanel.Name = "layoutPanel";
             // 
+            // MessageColumn
+            // 
+            resources.ApplyResources(this.MessageColumn, "MessageColumn");
+            this.MessageColumn.Name = "MessageColumn";
+            this.MessageColumn.ReadOnly = true;
+            // 
+            // PathColumn
+            // 
+            this.PathColumn.FillWeight = 40F;
+            resources.ApplyResources(this.PathColumn, "PathColumn");
+            this.PathColumn.Name = "PathColumn";
+            this.PathColumn.ReadOnly = true;
+            // 
+            // ModelColumn
+            // 
+            this.ModelColumn.FillWeight = 1F;
+            resources.ApplyResources(this.ModelColumn, "ModelColumn");
+            this.ModelColumn.Name = "ModelColumn";
+            this.ModelColumn.ReadOnly = true;
+            // 
+            // TypeColumn
+            // 
+            this.TypeColumn.FillWeight = 15F;
+            resources.ApplyResources(this.TypeColumn, "TypeColumn");
+            this.TypeColumn.Name = "TypeColumn";
+            this.TypeColumn.ReadOnly = true;
+            // 
             // StaticDebugSetupWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -192,11 +192,11 @@ namespace EcellLib.StaticDebugWindow
         /// The button to close this window.
         /// </summary>
         public System.Windows.Forms.Button SSCloseButton;
+        private System.Windows.Forms.TableLayoutPanel layoutPanel;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn MessageColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn PathColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ModelColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn TypeColumn;
-        private System.Windows.Forms.TableLayoutPanel layoutPanel;
-        private System.Windows.Forms.Panel panel1;
     }
 }
