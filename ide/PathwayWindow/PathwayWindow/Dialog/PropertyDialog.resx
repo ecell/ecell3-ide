@@ -151,7 +151,7 @@
     <value>NoControl</value>
   </data>
   <data name="buttonCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 6</value>
+    <value>452, 6</value>
   </data>
   <data name="buttonCancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 31</value>
@@ -181,7 +181,7 @@
     <value>NoControl</value>
   </data>
   <data name="buttonOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 6</value>
+    <value>373, 6</value>
   </data>
   <data name="buttonOK.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 32</value>
@@ -190,7 +190,7 @@
     <value>1</value>
   </data>
   <data name="buttonOK.Text" xml:space="preserve">
-    <value>OK</value>
+    <value>Apply</value>
   </data>
   <data name="&gt;&gt;buttonOK.Name" xml:space="preserve">
     <value>buttonOK</value>
@@ -244,6 +244,6 @@
     <value>PropertyDialog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>EcellLib.PathwayWindow.UIComponent.PathwayDialog, PathwayWindow, Version=1.1.1020.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>EcellLib.PathwayWindow.Dialog.PathwayDialog, PathwayWindow, Version=1.1.1079.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

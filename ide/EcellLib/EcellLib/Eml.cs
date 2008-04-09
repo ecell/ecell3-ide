@@ -41,10 +41,7 @@ namespace EcellLib
         {
             m_tx.WriteStartElement(l_entityName.ToLower());
             m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.Classname);
-            m_tx.WriteAttributeString(
-                Constants.xpathID.ToLower(),
-                null,
-                l_ecellObject.Key.Substring(l_ecellObject.Key.IndexOf(Constants.delimiterColon) + 1));
+            m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_ecellObject.Name);
             if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
             {
                 foreach (EcellData l_ecellData in l_ecellObject.Value)

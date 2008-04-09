@@ -375,7 +375,7 @@ namespace EcellLib.PathwayWindow.Dialog
             this.m_textBox.TabIndex = 0;
             this.m_textBox.Text = filename;
 
-            this.m_button.Text = "File";
+            this.m_button.Text = "...";
             this.m_button.Top = m_textBox.Top;
             this.m_button.Left = m_textBox.Left + m_textBox.Width;
             this.m_button.Height = m_size.Height;

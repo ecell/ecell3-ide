@@ -41,7 +41,7 @@
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(205, 12);
+            this.buttonOK.Location = new System.Drawing.Point(110, 87);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 1;
@@ -52,7 +52,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(205, 50);
+            this.buttonCancel.Location = new System.Drawing.Point(191, 87);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
@@ -64,11 +64,11 @@
             this.message.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.message.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.message.Location = new System.Drawing.Point(14, 16);
+            this.message.Location = new System.Drawing.Point(12, 12);
             this.message.Multiline = true;
             this.message.Name = "message";
             this.message.ReadOnly = true;
-            this.message.Size = new System.Drawing.Size(185, 57);
+            this.message.Size = new System.Drawing.Size(267, 43);
             this.message.TabIndex = 4;
             this.message.TabStop = false;
             // 
@@ -76,7 +76,7 @@
             // 
             this.comboBox.FormattingEnabled = true;
             this.comboBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.comboBox.Location = new System.Drawing.Point(12, 91);
+            this.comboBox.Location = new System.Drawing.Point(12, 61);
             this.comboBox.Name = "comboBox";
             this.comboBox.Size = new System.Drawing.Size(267, 20);
             this.comboBox.TabIndex = 0;
