@@ -129,7 +129,10 @@
   <data name="SILangGroupBox.Text" xml:space="preserve">
     <value>言語</value>
   </data>
+  <data name="SWSCloseButton.Text" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
   <data name="SWSSelectButton.Text" xml:space="preserve">
-    <value>選択</value>
+    <value>OK</value>
   </data>
 </root>

@@ -40,20 +40,23 @@
             this.SIEnglishRadioButton = new System.Windows.Forms.RadioButton();
             this.SIJapaneseRadioButton = new System.Windows.Forms.RadioButton();
             this.SIAutoRadioButton = new System.Windows.Forms.RadioButton();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.SWSCloseButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).BeginInit();
             this.SWSPatternListLayoutPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SILangGroupBox.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.SWSSelectButton, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.SILangGroupBox, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // tableLayoutPanel2
@@ -127,10 +130,26 @@
             this.SIAutoRadioButton.TabStop = true;
             this.SIAutoRadioButton.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanel3
+            // 
+            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.Controls.Add(this.SWSSelectButton, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.SWSCloseButton, 3, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            // 
+            // SWSCloseButton
+            // 
+            resources.ApplyResources(this.SWSCloseButton, "SWSCloseButton");
+            this.SWSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.SWSCloseButton.Name = "SWSCloseButton";
+            this.SWSCloseButton.UseVisualStyleBackColor = true;
+            // 
             // SelectWinSettingWindow
             // 
+            this.AcceptButton = this.SWSSelectButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.SWSCloseButton;
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
             this.MaximizeBox = false;
@@ -146,6 +165,7 @@
             this.groupBox1.PerformLayout();
             this.SILangGroupBox.ResumeLayout(false);
             this.SILangGroupBox.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -163,5 +183,7 @@
         private System.Windows.Forms.RadioButton SIAutoRadioButton;
         private System.Windows.Forms.RadioButton SIEnglishRadioButton;
         private System.Windows.Forms.RadioButton SIJapaneseRadioButton;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Button SWSCloseButton;
     }
 }
