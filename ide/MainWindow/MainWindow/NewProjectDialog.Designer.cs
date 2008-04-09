@@ -143,8 +143,8 @@ namespace EcellLib.MainWindow
             // tableLayoutPanel5
             // 
             resources.ApplyResources(this.tableLayoutPanel5, "tableLayoutPanel5");
-            this.tableLayoutPanel5.Controls.Add(this.CPAddButton, 0, 1);
-            this.tableLayoutPanel5.Controls.Add(this.CPRemoveButton, 0, 2);
+            this.tableLayoutPanel5.Controls.Add(this.CPAddButton, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.CPRemoveButton, 0, 1);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             // 
             // CPAddButton

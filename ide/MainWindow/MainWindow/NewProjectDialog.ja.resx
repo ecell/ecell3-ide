@@ -121,7 +121,7 @@
     <value>新規プロジェクト</value>
   </data>
   <data name="CPAddButton.Text" xml:space="preserve">
-    <value>追加</value>
+    <value>+</value>
   </data>
   <data name="CPCancelButton.Text" xml:space="preserve">
     <value>キャンセル</value>
@@ -130,6 +130,6 @@
     <value>作成</value>
   </data>
   <data name="CPRemoveBurron.Text" xml:space="preserve">
-    <value>削除</value>
+    <value>-</value>
   </data>
 </root>

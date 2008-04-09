@@ -126,14 +126,14 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="SPButtonPanel.ColumnCount" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="SPSaveButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="SPSaveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 3</value>
+    <value>66, 3</value>
   </data>
   <data name="SPSaveButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -160,7 +160,7 @@
     <value>Fill</value>
   </data>
   <data name="SPCancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>122, 3</value>
+    <value>151, 3</value>
   </data>
   <data name="SPCancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -184,7 +184,7 @@
     <value>1</value>
   </data>
   <data name="SPButtonPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 271</value>
+    <value>3, 136</value>
   </data>
   <data name="SPButtonPanel.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
@@ -208,7 +208,7 @@
     <value>0</value>
   </data>
   <data name="SPButtonPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SPSaveButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="SPCancelButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SPSaveButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="SPCancelButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,80,Absolute,5,Absolute,80,Absolute,20" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="CheckedListBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -217,7 +217,7 @@
     <value>3, 3</value>
   </data>
   <data name="CheckedListBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 256</value>
+    <value>228, 116</value>
   </data>
   <data name="CheckedListBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -244,7 +244,7 @@
     <value>2</value>
   </data>
   <data name="SPLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 303</value>
+    <value>234, 168</value>
   </data>
   <data name="SPLayoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -271,7 +271,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>234, 303</value>
+    <value>234, 168</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
