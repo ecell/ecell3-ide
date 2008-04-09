@@ -594,7 +594,7 @@ namespace EcellLib.PathwayWindow.Nodes
 
             svgObj += m_setting.EditModeFigure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
             if(m_showingId)
-                svgObj += SVGUtil.Text(textPos, m_pText.Text, textBrush);
+                svgObj += SVGUtil.Text(textPos, m_pText.Text, textBrush, "bold");
             return svgObj;
         }
         #endregion

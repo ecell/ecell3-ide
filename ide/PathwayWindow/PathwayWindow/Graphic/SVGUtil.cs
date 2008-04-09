@@ -262,11 +262,23 @@ namespace EcellLib.PathwayWindow.Graphic
         /// <returns></returns>
         public static string Text(PointF point, string text, string brush)
         {
+            return Text(point, text, brush, "");
+        }
+        /// <summary>
+        /// Create Text object.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="text"></param>
+        /// <param name="brush"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public static string Text(PointF point, string text, string brush, string weight)
+        {
             string obj = "<text x=\"" + point.X.ToString()
             + "\" y=\"" + point.Y.ToString()
             + "\" font-family=\"MS-Gothic"
             + "\" font-size=\"16"
-            + "\" font-weight=\"bold"
+            + "\" font-weight=\"" + weight
             + "\" fill=\"" + brush
             + "\">" + text + "</text>\n";
             return obj;
