@@ -637,7 +637,7 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
-        ///   Export SVG format. に類似しているローカライズされた文字列を検索します。
+        ///   Export SVG format... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemExportSVG {
             get {
@@ -664,7 +664,7 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
-        ///   Pathway Setting に類似しているローカライズされた文字列を検索します。
+        ///   Pathway Settings... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemSetup {
             get {

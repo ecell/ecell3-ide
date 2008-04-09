@@ -277,7 +277,7 @@
     <value>表示(&amp;V)</value>
   </data>
   <data name="MenuItemSetup" xml:space="preserve">
-    <value>Pathway設定ダイアログ</value>
+    <value>Pathway設定ダイアログ...</value>
   </data>
   <data name="MenuToolTipSetup" xml:space="preserve">
     <value>PathwayWindowの設定ダイアログを開きます。</value>
@@ -328,7 +328,7 @@
     <value>画像出力</value>
   </data>
   <data name="MenuItemExportSVG" xml:space="preserve">
-    <value>SVG出力</value>
+    <value>SVG出力...</value>
   </data>
   <data name="MenuToolTipExport" xml:space="preserve">
     <value>画像を保存します。</value>

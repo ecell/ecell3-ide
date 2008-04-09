@@ -277,7 +277,7 @@
     <value>&amp;View</value>
   </data>
   <data name="MenuItemSetup" xml:space="preserve">
-    <value>Pathway Setting</value>
+    <value>Pathway Settings...</value>
   </data>
   <data name="MenuToolTipSetup" xml:space="preserve">
     <value>Show PropertyDialog of PathwayWindow.</value>
@@ -328,7 +328,7 @@
     <value>Export Graphics.</value>
   </data>
   <data name="MenuItemExportSVG" xml:space="preserve">
-    <value>Export SVG format.</value>
+    <value>Export SVG format...</value>
   </data>
   <data name="MenuToolTipExport" xml:space="preserve">
     <value>Export Graphics.</value>
