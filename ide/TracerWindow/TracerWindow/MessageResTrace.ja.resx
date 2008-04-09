@@ -136,7 +136,7 @@
     <value>削除</value>
   </data>
   <data name="MenuItemShowSaveTraceText" xml:space="preserve">
-    <value>トレース保存</value>
+    <value>トレース保存...</value>
   </data>
   <data name="MenuItemShowTraceSetupText" xml:space="preserve">
     <value>トレーサー設定(&amp;T)...</value>

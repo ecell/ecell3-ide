@@ -124,7 +124,7 @@
     <value>Get exception while system show the property editor.</value>
   </data>
   <data name="MenuItemSearchText" xml:space="preserve">
-    <value>&amp;Search</value>
+    <value>&amp;Search...</value>
   </data>
   <data name="ToolTipSearch" xml:space="preserve">
     <value>Search</value>

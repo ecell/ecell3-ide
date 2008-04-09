@@ -358,10 +358,10 @@
     <value>Ctrl+Z</value>
   </data>
   <data name="undoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="undoToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Undo...</value>
+    <value>&amp;Undo</value>
   </data>
   <data name="redoToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -370,10 +370,10 @@
     <value>Ctrl+Y</value>
   </data>
   <data name="redoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="redoToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Redo...</value>
+    <value>&amp;Redo</value>
   </data>
   <data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 20</value>
@@ -415,13 +415,13 @@
     <value>&amp;Layout</value>
   </data>
   <data name="showWindowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="showWindowToolStripMenuItem.Text" xml:space="preserve">
     <value>Window</value>
   </data>
   <data name="jobStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="jobStatusToolStripMenuItem.Text" xml:space="preserve">
     <value>Job status ...</value>
@@ -451,7 +451,7 @@
     <value>&amp;Debug</value>
   </data>
   <data name="ShowVersionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="ShowVersionMenuItem.Text" xml:space="preserve">
     <value>&amp;Add-on...</value>

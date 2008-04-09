@@ -250,7 +250,7 @@ namespace EcellLib.Simulation {
         }
         
         /// <summary>
-        ///   &amp;Simulation に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Simulation... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemSetupSim {
             get {

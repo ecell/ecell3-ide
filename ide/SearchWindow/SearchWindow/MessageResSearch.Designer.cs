@@ -79,7 +79,7 @@ namespace EcellLib.SearchWindow {
         }
         
         /// <summary>
-        ///   &amp;Search に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Search... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemSearchText {
             get {

@@ -181,7 +181,7 @@
     <value>&amp;Run</value>
   </data>
   <data name="MenuItemSetupSim" xml:space="preserve">
-    <value>&amp;Simulation</value>
+    <value>&amp;Simulation...</value>
   </data>
   <data name="MenuItemStop" xml:space="preserve">
     <value>R&amp;eset</value>

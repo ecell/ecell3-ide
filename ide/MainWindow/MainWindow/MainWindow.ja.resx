@@ -179,7 +179,7 @@
     <value>190, 22</value>
   </data>
   <data name="importActionMenuItem.Text" xml:space="preserve">
-    <value>アクションのインポート(&amp;P)</value>
+    <value>アクションのインポート(&amp;P)...</value>
   </data>
   <data name="saveActionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>190, 22</value>
@@ -444,13 +444,13 @@
     <value>IDEの設定(&amp;I)...</value>
   </data>
   <data name="redoToolStripMenuItem.Text" xml:space="preserve">
-    <value>やり直す(&amp;Y)...</value>
+    <value>やり直す(&amp;Y)</value>
   </data>
   <data name="undoToolStripMenuItem.Text" xml:space="preserve">
-    <value>元に戻す(&amp;Z)...</value>
+    <value>元に戻す(&amp;Z)</value>
   </data>
   <data name="distributedEnvToolStripMenuItem.Text" xml:space="preserve">
-    <value>分散環境設定</value>
+    <value>分散環境設定...</value>
   </data>
   <data name="jobStatusToolStripMenuItem.Text" xml:space="preserve">
     <value>スクリプトの状態表示 ...</value>
