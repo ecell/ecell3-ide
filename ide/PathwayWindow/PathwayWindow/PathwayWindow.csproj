@@ -106,6 +106,9 @@
     <Compile Include="Figure\RoundedRectangle.cs" />
     <Compile Include="Figure\SystemRectangle.cs" />
     <Compile Include="Graphic\BrushManager.cs" />
+    <Compile Include="Graphic\ImageComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Handler\CreateReactionMouseHandler.cs" />
     <Compile Include="CanvasControl.cs" />
     <Compile Include="ComponentSetting.cs" />

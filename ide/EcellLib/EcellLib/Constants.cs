@@ -311,6 +311,10 @@ namespace EcellLib
         /// </summary>
         public const string xpathMolarConc = "MolarConc";
         /// <summary>
+        /// Reserved XML path name for MolarConc.
+        /// </summary>
+        public const string xpathMolarActivity = "MolarActivity";
+        /// <summary>
         /// Reserved XML path name for Name.
         /// </summary>
         public const string xpathName = "Name";

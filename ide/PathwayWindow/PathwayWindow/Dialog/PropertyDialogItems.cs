@@ -159,7 +159,7 @@ namespace EcellLib.PathwayWindow.Dialog
     /// </summary>
     public class PropertyBrushItem : PropertyDialogItem
     {
-        private ComboBox m_comboBoxBrush;
+        private ImageComboBox m_comboBoxBrush;
         private Brush m_brush;
 
         #region EventHandler for BrushChange
@@ -215,17 +215,16 @@ namespace EcellLib.PathwayWindow.Dialog
         /// </summary>
         /// <param name="label"></param>
         /// <param name="brush"></param>
-        /// <param name="brushList"></param>
-        public PropertyBrushItem(string label, Brush brush, List<string> brushList)
+        public PropertyBrushItem(string label, Brush brush)
         {
             // set Brushes
-            m_brush = brush;
+            this.m_brush = brush;
             this.m_label.Text = label;
 
-            this.m_comboBoxBrush = new ComboBox();
+            this.m_comboBoxBrush = new ImageComboBox();
             this.SuspendLayout();
             this.Controls.Add(this.m_comboBoxBrush);
-
+            
             // 
             // m_comboBoxBrush
             // 
@@ -234,7 +233,8 @@ namespace EcellLib.PathwayWindow.Dialog
             this.m_comboBoxBrush.Size = m_size;
             this.m_comboBoxBrush.TabIndex = 0;
             this.m_comboBoxBrush.Text = BrushManager.ParseBrushToString(m_brush);
-            this.m_comboBoxBrush.Items.AddRange(brushList.ToArray());
+            this.m_comboBoxBrush.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
+            this.m_comboBoxBrush.ImageList = BrushManager.GetBrushImageList();
             this.m_comboBoxBrush.TextChanged += new EventHandler(cBoxNomalBrush_TextChanged);
 
             this.ResumeLayout(false);

@@ -372,7 +372,7 @@ namespace EcellLib.PathwayWindow
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                float activity = GetFloatValue(process.EcellObject, "MolarActivity");
+                float activity = GetFloatValue(process.EcellObject, Constants.xpathMolarActivity);
                 process.EdgeBrush = m_viewEdgeBrush;
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
@@ -399,7 +399,7 @@ namespace EcellLib.PathwayWindow
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                float activity = GetFloatValue(process.EcellObject, "MolarActivity");
+                float activity = GetFloatValue(process.EcellObject, Constants.xpathMolarActivity);
                 process.EdgeBrush = GetEdgeBrush(activity);
                 process.SetLineWidth(GetEdgeWidth(activity));
             }
@@ -408,7 +408,7 @@ namespace EcellLib.PathwayWindow
                 if (!variable.Visible)
                     continue;
                 // Variable setting.
-                float molerConc = GetFloatValue(variable.EcellObject, "MolarConc");
+                float molerConc = GetFloatValue(variable.EcellObject, Constants.xpathMolarConc);
                 variable.PPropertyText.Text = GetPropertyString(molerConc);
             }
             m_canvas.PathwayCanvas.Refresh();
@@ -850,9 +850,9 @@ namespace EcellLib.PathwayWindow
 
             // set Brushes
             List<string> list = BrushManager.GetBrushNameList();
-            this.m_bgBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.EditBGBrush, list);
+            this.m_bgBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.EditBGBrush);
             this.m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeWidth), control.EdgeWidth.ToString());
-            this.m_edgeBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.EditEdgeBrush, list);
+            this.m_edgeBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.EditEdgeBrush);
             this.SuspendLayout();
             // 
             // Initialize
@@ -908,17 +908,17 @@ namespace EcellLib.PathwayWindow
             m_control = control;
             // set Brushes
             List<string> list = BrushManager.GetBrushNameList();
-            m_bgBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.ViewBGBrush, list);
+            m_bgBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.ViewBGBrush);
             m_animation = new PropertyDialogItem(m_control.Resources.GetString(AnimationConstants.DialogTextAnimationSetting));
-            m_edgeBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.ViewEdgeBrush, list);
+            m_edgeBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.ViewEdgeBrush);
             m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextMaxEdgeWidth), control.MaxEdgeWidth.ToString());
 
-            m_edgeHighBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdHigh), control.HighEdgeBrush, list);
-            m_edgeLowBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdLow), control.LowEdgeBrush, list);
-            m_edgeNGBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextNGBrush), control.NgEdgeBrush, list);
+            m_edgeHighBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdHigh), control.HighEdgeBrush);
+            m_edgeLowBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdLow), control.LowEdgeBrush);
+            m_edgeNGBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextNGBrush), control.NgEdgeBrush);
             m_thresholdHigh = new PropertyTextItem("", control.ThresholdHigh.ToString());
             m_thresholdLow = new PropertyTextItem("", control.ThresholdLow.ToString());
-            m_propBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextPropertyBrush), control.PropertyBrush, list);
+            m_propBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextPropertyBrush), control.PropertyBrush);
             m_lineCheckBox = new PropertyCheckBoxItem(m_control.Resources.GetString(AnimationConstants.DialogTextLogarithmic), control.IsLogarithmic);
 
             this.SuspendLayout();

@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace EcellLib.PathwayWindow.Graphic
 {
@@ -51,6 +52,14 @@ namespace EcellLib.PathwayWindow.Graphic
         /// Brush Dictionary.
         /// </summary>
         private static Dictionary<string, Color> m_colorDic = null;
+        /// <summary>
+        /// Brush name list.
+        /// </summary>
+        private static List<string> m_nameList = null;
+        /// <summary>
+        /// ImageList of brush colors.
+        /// </summary>
+        private static ImageList m_imageList = null;
 
         /// <summary>
         /// Returns a list of Brush names.
@@ -58,15 +67,38 @@ namespace EcellLib.PathwayWindow.Graphic
         /// <returns></returns>
         public static List<string> GetBrushNameList()
         {
-            List<string> list = new List<string>();
             if (m_brushDic == null)
                 m_brushDic = CreateBrushDictionary();
+            if (m_nameList != null)
+                return m_nameList;
 
+            m_nameList = new List<string>();
+            foreach (string key in m_brushDic.Keys)
+                m_nameList.Add(key);
+            return m_nameList;
+        }
+
+        /// <summary>
+        /// Returns a list of Brush ImageList.
+        /// </summary>
+        /// <returns></returns>
+        public static ImageList GetBrushImageList()
+        {
+            if (m_brushDic == null)
+                m_brushDic = CreateBrushDictionary();
+            if (m_imageList != null)
+                return m_imageList;
+
+            m_imageList = new ImageList();
             foreach (string key in m_brushDic.Keys)
             {
-                list.Add(key);
+                Brush brush = m_brushDic[key];
+                Image image = new Bitmap(16, 16);
+                Graphics gra = Graphics.FromImage(image);
+                gra.FillRectangle(brush, 0, 0, 15, 15);
+                m_imageList.Images.Add(key, image);
             }
-            return list;
+            return m_imageList;
         }
 
         /// <summary>
