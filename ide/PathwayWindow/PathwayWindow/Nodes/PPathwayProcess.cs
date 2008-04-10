@@ -315,7 +315,7 @@ namespace EcellLib.PathwayWindow.Nodes
             }
             else
             {
-                base.AddPath(m_setting.EditModeFigure.GraphicsPath, false);
+                base.AddPath(m_figure.GraphicsPath, false);
             }
             base.CenterPointF = centerPos;
             base.RefreshView();

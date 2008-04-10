@@ -307,6 +307,9 @@ namespace EcellLib.PathwayWindow
             if (m_onPropertyChange != null)
                 m_onPropertyChange(this, e);
         }
+        /// <summary>
+        /// Event on property change.
+        /// </summary>
         private void RaisePropertyChange()
         {
             EventArgs e = new EventArgs();

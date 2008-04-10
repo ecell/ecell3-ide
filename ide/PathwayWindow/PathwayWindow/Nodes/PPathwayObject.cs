@@ -46,6 +46,7 @@ using UMD.HCIL.Piccolo.Event;
 using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Graphic;
 using EcellLib.Objects;
+using EcellLib.PathwayWindow.Figure;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -126,6 +127,10 @@ namespace EcellLib.PathwayWindow.Nodes
         /// From this ComponentSetting, this object was created.
         /// </summary>
         protected ComponentSetting m_setting;
+        /// <summary>
+        /// Figure
+        /// </summary>
+        protected IFigure m_figure;
         /// <summary>
         /// On this CanvasViewComponentSet this PPathwayObject is drawn.
         /// </summary>
@@ -337,7 +342,18 @@ namespace EcellLib.PathwayWindow.Nodes
                 }
             }
         }
-
+        /// <summary>
+        /// Accessor for m_figure.
+        /// </summary>
+        public IFigure Figure
+        {
+            get { return this.m_figure; }
+            set
+            {
+                this.m_figure = value;
+                RefreshView();
+            }
+        }
         /// <summary>
         /// Accessor for Text.
         /// </summary>
@@ -592,7 +608,7 @@ namespace EcellLib.PathwayWindow.Nodes
             if (!base.Visible)
                 return svgObj;
 
-            svgObj += m_setting.EditModeFigure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
+            svgObj += m_figure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
             if(m_showingId)
                 svgObj += SVGUtil.Text(textPos, m_pText.Text, textBrush, "bold");
             return svgObj;
@@ -652,7 +668,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             this.PText.TextBrush = m_setting.TextBrush;
             this.LineBrush = m_setting.LineBrush;
-            SetFillBrush();
+            this.Figure = m_setting.EditModeFigure;
         }
 
         #region Methods to control Bounds

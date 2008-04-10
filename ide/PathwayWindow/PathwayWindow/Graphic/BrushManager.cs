@@ -105,7 +105,7 @@ namespace EcellLib.PathwayWindow.Graphic
         /// Parse argument string into Brush
         /// For example, when an argument is "white", Brushes.White will be returned.
         /// </summary>
-        /// <param name="color">A color you want</param>
+        /// <param name="color">A name of color you want</param>
         /// <returns>Brush, which has a color indicated by argument.
         ///          Null will be returned when an argument can't be parsed.
         /// </returns>

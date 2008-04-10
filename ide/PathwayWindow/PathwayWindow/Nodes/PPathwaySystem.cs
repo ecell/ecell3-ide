@@ -204,7 +204,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public override void RefreshView()
         {
-            base.m_path = m_setting.EditModeFigure.CreatePath(X, Y, Width, Height);
+            base.m_path = m_figure.CreatePath(X, Y, Width, Height);
             base.RefreshView();
         }
         /// <summary>

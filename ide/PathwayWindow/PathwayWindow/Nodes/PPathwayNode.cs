@@ -289,7 +289,7 @@ namespace EcellLib.PathwayWindow.Nodes
             if (m_isViewMode && this is PPathwayProcess)
                 figure = m_tempFigure;
             else
-                figure = base.m_setting.EditModeFigure;
+                figure = base.m_figure;
             if (figure == null)
                 return base.CenterPointF;
 

@@ -124,6 +124,35 @@ namespace EcellLib.PathwayWindow.Dialog
             get {return m_comboBox;}
         }
 
+        #region EventHandler for ComboBoxChange
+        private EventHandler m_onTextChange;
+        /// <summary>
+        /// Event on text change.
+        /// </summary>
+        public event EventHandler TextChange
+        {
+            add { m_onTextChange += value; }
+            remove { m_onTextChange -= value; }
+        }
+        /// <summary>
+        /// Event on text change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnTextChange(EventArgs e)
+        {
+            if (m_onTextChange != null)
+                m_onTextChange(this, e);
+        }
+        /// <summary>
+        /// Event on text change.
+        /// </summary>
+        private void RaiseTextChange()
+        {
+            EventArgs e = new EventArgs();
+            OnTextChange(e);
+        }
+        #endregion
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -148,10 +177,22 @@ namespace EcellLib.PathwayWindow.Dialog
             this.m_comboBox.TabIndex = 0;
             this.m_comboBox.Text = text;
             this.m_comboBox.Items.AddRange(itemList.ToArray());
+            this.m_comboBox.TextChanged += new EventHandler(ComboBox_TextChanged);
 
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        /// <summary>
+        /// Event on text changed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ComboBox_TextChanged(object sender, EventArgs e)
+        {
+            RaiseTextChange();
+        }
+
     }
 
     /// <summary>

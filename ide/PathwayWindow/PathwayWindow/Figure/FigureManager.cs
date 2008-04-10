@@ -33,7 +33,7 @@ using System.Text;
 
 namespace EcellLib.PathwayWindow.Figure
 {
-    class FigureManager
+    public class FigureManager
     {
         /// <summary>
         /// FigureManager to create figure.
@@ -87,5 +87,14 @@ namespace EcellLib.PathwayWindow.Figure
             }
             return values;
         }
+    }
+
+    public enum FigureType
+    {
+        FigureBase = 0,
+        EllipseFigure = 1,
+        RectangleFigure = 2,
+        RoundedRectangle = 3,
+        SystemRectangle = 4
     }
 }

@@ -739,8 +739,6 @@ namespace EcellLib.PathwayWindow
             public ComponentItem(ComponentSetting cs)
             {
                 // Create UI Object
-                List<string> brushList = BrushManager.GetBrushNameList();
-
                 this.m_figureBox = new PropertyComboboxItem("Figure", cs.EditModeFigure.Type, new List<string>());
                 this.m_textBrush = new PropertyBrushItem("Text Brush", cs.TextBrush);
                 this.m_lineBrush = new PropertyBrushItem("Line Brush", cs.LineBrush);
@@ -778,6 +776,8 @@ namespace EcellLib.PathwayWindow
                 this.m_isGradation.Width = 120;
                 this.m_iconFile.Location = new Point(5, 140);
                 // Set EventHandler
+                this.m_figureBox.ComboBox.Items.AddRange(FigureManager.GetFigureList().ToArray());
+                this.m_figureBox.TextChange += new EventHandler(figureBox_TextChange);
                 this.m_textBrush.BrushChange += new EventHandler(textBrush_BrushChange);
                 this.m_lineBrush.BrushChange += new EventHandler(lineBrush_BrushChange);
                 this.m_fillBrush.BrushChange += new EventHandler(fillBrush_BrushChange);
@@ -816,19 +816,35 @@ namespace EcellLib.PathwayWindow
                 cs.CenterBrush = m_centerBrush.Brush;
                 cs.IsGradation = m_isGradation.Checked;
                 cs.IconFileName = m_iconFile.FileName;
+                string type = m_figureBox.ComboBox.Text;
+                string args = cs.EditModeFigure.Coordinates;
+                cs.EditModeFigure = FigureManager.CreateFigure(type, args);
             }
 
             #region EventHandlers
+            /// <summary>
+            /// Event on ChangeTextBrush
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
             private void textBrush_BrushChange(object sender, EventArgs e)
             {
                 this.pCanvas.PPathwayObject.PText.TextBrush = m_textBrush.Brush;
             }
-
+            /// <summary>
+            /// Event on ChangeLineBrush
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
             private void lineBrush_BrushChange(object sender, EventArgs e)
             {
                 this.pCanvas.PPathwayObject.LineBrush = m_lineBrush.Brush;
             }
-
+            /// <summary>
+            /// Event on ChangeFillBrush
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
             private void fillBrush_BrushChange(object sender, EventArgs e)
             {
                 PropertyBrushItem brushBox = (PropertyBrushItem)sender;
@@ -836,13 +852,19 @@ namespace EcellLib.PathwayWindow
                     return;
                 ChangeFillBrush();
             }
-
+            /// <summary>
+            /// Event on ChangeIsGradation
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
             private void isGradation_CheckedChanged(object sender, EventArgs e)
             {
                 m_centerBrush.ComboBox.Enabled = m_isGradation.Checked;
                 ChangeFillBrush();
             }
-
+            /// <summary>
+            /// ChangeFillBrush
+            /// </summary>
             private void ChangeFillBrush()
             {
                 if (m_isGradation.Checked)
@@ -857,6 +879,19 @@ namespace EcellLib.PathwayWindow
                     this.pCanvas.PPathwayObject.FillBrush = m_fillBrush.Brush;
                 }
             }
+            /// <summary>
+            /// Event on ChangeFigure
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            void figureBox_TextChange(object sender, EventArgs e)
+            {
+                string type = m_figureBox.ComboBox.Text;
+                string args = this.pCanvas.Setting.EditModeFigure.Coordinates;
+                IFigure figure = FigureManager.CreateFigure(type, args);
+                this.pCanvas.PPathwayObject.Figure = figure;
+            }
+
             #endregion
         }
     }

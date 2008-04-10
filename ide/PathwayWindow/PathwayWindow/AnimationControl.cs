@@ -849,7 +849,6 @@ namespace EcellLib.PathwayWindow
             m_control = control;
 
             // set Brushes
-            List<string> list = BrushManager.GetBrushNameList();
             this.m_bgBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.EditBGBrush);
             this.m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeWidth), control.EdgeWidth.ToString());
             this.m_edgeBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.EditEdgeBrush);
@@ -907,7 +906,6 @@ namespace EcellLib.PathwayWindow
         {
             m_control = control;
             // set Brushes
-            List<string> list = BrushManager.GetBrushNameList();
             m_bgBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.ViewBGBrush);
             m_animation = new PropertyDialogItem(m_control.Resources.GetString(AnimationConstants.DialogTextAnimationSetting));
             m_edgeBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.ViewEdgeBrush);
