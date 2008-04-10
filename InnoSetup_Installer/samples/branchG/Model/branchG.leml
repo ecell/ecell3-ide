@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--PathwayWindow configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<Application Name="E-Cell IDE" Version="1.1.1081.0" ConfigFileVersion="1.0">
+  <EcellObjectList>
+    <EcellObject Class="System" ModelID="branchG" Type="System" Key="/" Layer="SystemLayer" X="-0.5000005" Y="-0.5000006" OffsetX="0" OffsetY="0" Width="740" Height="740" />
+    <EcellObject Class="System" ModelID="branchG" Type="System" Key="/CELL" Layer="Layer0" X="59.5" Y="59.5" OffsetX="0" OffsetY="0" Width="620" Height="620" />
+    <EcellObject Class="System" ModelID="branchG" Type="System" Key="/CELL/CYTOPLASM" Layer="Layer0" X="119.5" Y="119.5" OffsetX="0" OffsetY="0" Width="500" Height="500" />
+    <EcellObject Class="GMAProcess" ModelID="branchG" Type="Process" Key="/CELL/CYTOPLASM:GMASystem" Layer="Layer0" X="387.6074" Y="387.6074" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="Variable" ModelID="branchG" Type="Variable" Key="/CELL/CYTOPLASM:X1" Layer="Layer0" X="149.5" Y="466.9765" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="branchG" Type="Variable" Key="/CELL/CYTOPLASM:X2" Layer="Layer0" X="466.9765" Y="149.5" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="branchG" Type="Variable" Key="/CELL/CYTOPLASM:X3" Layer="Layer0" X="149.5" Y="149.5" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+  </EcellObjectList>
+</Application>

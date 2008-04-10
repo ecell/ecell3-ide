@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--PathwayWindow configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<Application Name="E-Cell IDE" Version="1.1.1087.0" ConfigFileVersion="1.0">
+  <EcellObjectList>
+    <EcellObject Class="System" ModelID="SSystem" Type="System" Key="/" Layer="SystemLayer" X="-0.5000005" Y="-0.5000006" OffsetX="0" OffsetY="0" Width="740" Height="740" />
+    <EcellObject Class="System" ModelID="SSystem" Type="System" Key="/CELL" Layer="Layer0" X="59.5" Y="59.5" OffsetX="0" OffsetY="0" Width="620" Height="620" />
+    <EcellObject Class="System" ModelID="SSystem" Type="System" Key="/CELL/CYTOPLASM" Layer="Layer0" X="119.5" Y="119.5" OffsetX="0" OffsetY="0" Width="500" Height="500" />
+    <EcellObject Class="SSystemProcess" ModelID="SSystem" Type="Process" Key="/CELL/CYTOPLASM:SSystem" Layer="Layer0" X="269.4948" Y="329.4922" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="Variable" ModelID="SSystem" Type="Variable" Key="/CELL/CYTOPLASM:A" Layer="Layer0" X="509.4845" Y="329.4922" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="SSystem" Type="Variable" Key="/CELL/CYTOPLASM:B" Layer="Layer0" X="389.4897" Y="149.5" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="SSystem" Type="Variable" Key="/CELL/CYTOPLASM:C" Layer="Layer0" X="389.4897" Y="509.4845" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="SSystem" Type="Variable" Key="/CELL/CYTOPLASM:D" Layer="Layer0" X="149.5" Y="509.4845" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="SSystem" Type="Variable" Key="/CELL/CYTOPLASM:E" Layer="Layer0" X="149.5" Y="149.5" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+  </EcellObjectList>
+</Application>

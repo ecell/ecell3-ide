@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--ECell-IDE configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<ECellProject>
+  <Project>Arti_Class1</Project>
+  <Date>2008/04/09 16:59:34</Date>
+  <Comment>calcium oscillations by A.Arti et. al(1993, Biophysical Journal 65:1727-1739). - JST:2006 Poster -</Comment>
+  <SimulationParameter>DefaultParameter</SimulationParameter>
+</ECellProject>

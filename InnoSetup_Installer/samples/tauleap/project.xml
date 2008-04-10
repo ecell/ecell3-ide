@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--ECell-IDE configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<ECellProject>
+  <Project>tauleap</Project>
+  <Date>2008/04/10 13:23:27</Date>
+  <Comment>a numerical example model using tau-leap method(J. Chemical Physics 119 (24), 12784-94)</Comment>
+  <SimulationParameter>DefaultParameter</SimulationParameter>
+</ECellProject>

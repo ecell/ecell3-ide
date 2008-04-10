@@ -2,2346 +2,1348 @@
 <eml>
 <stepper class="FixedODE1Stepper" id="DefaultStepper">
 <property name="MaxStepInterval">
-<value>
-INF
-</value>
+<value>INF</value>
 </property>
 <property name="MinStepInterval">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepInterval">
-<value>
-0.001
-</value>
+<value>0.001</value>
 </property>
 </stepper>
 <system class="System" id="/">
 <property name="Name">
-<value>
-The Root System
-</value>
+<value>The Root System</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <variable class="Variable" id="SIZE">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-1E-10
-</value>
+<value>1E-10</value>
 </property>
 </variable>
 <variable class="Variable" id="AHL">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="CellNum">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-cellnum
-</value>
+<value>cellnum</value>
 </property>
 <property name="Value">
-<value>
-10
-</value>
+<value>10</value>
 </property>
 </variable>
 <process class="ExpressionFluxProcess" id="Degrade_AHL">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/:AHL
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/:AHL</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 </process>
 </system>
 <system class="System" id="/Cell1">
 <property name="Name">
-<value>
-E. coli cell
-</value>
+<value>E. coli cell</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <variable class="Variable" id="TetR">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-Tetracycline repressor
-</value>
+<value>Tetracycline repressor</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="tetR">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-TetR transcripts
-</value>
+<value>TetR transcripts</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="cI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-CI transcripts
-</value>
+<value>CI transcripts</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="lacI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-LacI transcripts
-</value>
+<value>LacI transcripts</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="SIZE">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-1E-15
-</value>
+<value>1E-15</value>
 </property>
 </variable>
 <variable class="Variable" id="LacI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-LacI protain
-</value>
+<value>LacI protain</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="luxI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="LuxI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="CI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-CI protain
-</value>
+<value>CI protain</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <process class="ExpressionFluxProcess" id="Degrade_TetR">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of TetR protain
-</value>
+<value>Degradation of TetR protain</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell1:TetR
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell1:TetR</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_tetR">
 <property name="Expression">
-<value>
-( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A 
-</value>
+<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Transcription of TetR gene
-</value>
+<value>Transcription of TetR gene</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell1:LacI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell1:LacI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell1:tetR
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell1:tetR</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="alpha">
-<value>
-50
-</value>
+<value>50</value>
 </property>
 <property name="n">
-<value>
-2.1
-</value>
+<value>2.1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Translate_TetR">
 <property name="Expression">
-<value>
-Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Translation of TetR
-</value>
+<value>Translation of TetR</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell1:tetR</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell1:tetR
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell1:TetR
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell1:TetR</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_tetR">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of tetR transcripts
-</value>
+<value>Degradation of tetR transcripts</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell1:tetR
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell1:tetR</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_cI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of CI transcripts
-</value>
+<value>Degradation of CI transcripts</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell1:cI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell1:cI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Translate_CI">
 <property name="Expression">
-<value>
-Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Translation of CI
-</value>
+<value>Translation of CI</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell1:cI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell1:cI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell1:CI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell1:CI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_LacI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of LacI protain
-</value>
+<value>Degradation of LacI protain</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell1:LacI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell1:LacI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_lacI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of LacI transcripts
-</value>
+<value>Degradation of LacI transcripts</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell1:lacI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell1:lacI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Translate_Lacl">
 <property name="Expression">
-<value>
-Ks* C0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks* C0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Translation of LacI
-</value>
+<value>Translation of LacI</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell1:lacI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell1:lacI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell1:LacI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell1:LacI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_CI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of CI protain
-</value>
+<value>Degradation of CI protain</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell1:CI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell1:CI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_cI">
 <property name="Expression">
-<value>
-( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A 
-</value>
+<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Transcription of CI
-</value>
+<value>Transcription of CI</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell1:TetR</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell1:TetR
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell1:cI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell1:cI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="alpha">
-<value>
-49
-</value>
+<value>49</value>
 </property>
 <property name="n">
-<value>
-2.1
-</value>
+<value>2.1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_lacI">
 <property name="Expression">
-<value>
-( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A 
-</value>
+<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Transctiption of LacI
-</value>
+<value>Transctiption of LacI</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell1:CI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell1:CI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell1:lacI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell1:lacI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="alpha">
-<value>
-50
-</value>
+<value>50</value>
 </property>
 <property name="n">
-<value>
-2.1
-</value>
+<value>2.1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_luxI">
 <property name="Expression">
-<value>
-( Vs ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A 
-</value>
+<value>( Vs ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell1:CI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell1:CI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell1:luxI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell1:luxI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="KI">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 <property name="Vs">
-<value>
-50
-</value>
+<value>50</value>
 </property>
 <property name="n">
-<value>
-2.1
-</value>
+<value>2.1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Translatet_LuxI">
 <property name="Expression">
-<value>
-Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell1:luxI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell1:luxI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell1:LuxI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell1:LuxI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Produce_AHL">
 <property name="Expression">
-<value>
-Ks* C0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks* C0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell1:LuxI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell1:LuxI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/:AHL
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/:AHL</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-100
-</value>
+<value>100</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Induce_tetR">
 <property name="Expression">
-<value>
-Ks* C0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks* C0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/:AHL</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/:AHL
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell1:lacI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell1:lacI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-50
-</value>
+<value>50</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_luxI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell1:luxI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell1:luxI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_LuxI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell1:LuxI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell1:LuxI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 </system>
 <system class="System" id="/Cell2">
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <variable class="Variable" id="LuxI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="luxI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="LacI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-LacI protain
-</value>
+<value>LacI protain</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="lacI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-LacI transcripts
-</value>
+<value>LacI transcripts</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="CI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-CI protain
-</value>
+<value>CI protain</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="cI">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-CI transcripts
-</value>
+<value>CI transcripts</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="tetR">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-TetR transcripts
-</value>
+<value>TetR transcripts</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="TetR">
 <property name="DiffusionCoeff">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-Tetracycline repressor
-</value>
+<value>Tetracycline repressor</value>
 </property>
 <property name="Value">
-<value>
-0.1
-</value>
+<value>0.1</value>
 </property>
 </variable>
 <variable class="Variable" id="SIZE">
 <property name="DiffusionCoeff">
-<value>
-1.64064430285867E-306
-</value>
+<value>1.64064430285867E-306</value>
 </property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-1E-15
-</value>
+<value>1E-15</value>
 </property>
 </variable>
 <process class="ExpressionFluxProcess" id="Degrade_LuxI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell2:LuxI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell2:LuxI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_luxI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell2:luxI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell2:luxI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Induce_tetR">
 <property name="Expression">
-<value>
-Ks* C0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks* C0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/:AHL</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/:AHL
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell2:lacI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell2:lacI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-50
-</value>
+<value>50</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Produce_AHL">
 <property name="Expression">
-<value>
-Ks * C1.Value * C0.MolarConc * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks * C1.Value * C0.MolarConc * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell2:LuxI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell2:LuxI
+<value>C1</value>
+<value>:/:CellNum</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-C1
-</value>
-<value>
-:/:CellNum
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/:AHL
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/:AHL</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-100
-</value>
+<value>100</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Translatet_LuxI">
 <property name="Expression">
-<value>
-Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell2:luxI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell2:luxI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell2:LuxI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell2:LuxI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_luxI">
 <property name="Expression">
-<value>
-( Vs ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A 
-</value>
+<value>( Vs ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell2:CI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell2:CI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell2:luxI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell2:luxI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="KI">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 <property name="Vs">
-<value>
-50
-</value>
+<value>50</value>
 </property>
 <property name="n">
-<value>
-2.1
-</value>
+<value>2.1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_lacI">
 <property name="Expression">
-<value>
-( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A 
-</value>
+<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Transctiption of LacI
-</value>
+<value>Transctiption of LacI</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell2:CI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell2:CI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell2:lacI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell2:lacI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="alpha">
-<value>
-50
-</value>
+<value>50</value>
 </property>
 <property name="n">
-<value>
-2.1
-</value>
+<value>2.1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_cI">
 <property name="Expression">
-<value>
-( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A 
-</value>
+<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Transcription of CI
-</value>
+<value>Transcription of CI</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell2:TetR</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell2:TetR
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell2:cI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell2:cI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="alpha">
-<value>
-49
-</value>
+<value>49</value>
 </property>
 <property name="n">
-<value>
-2.1
-</value>
+<value>2.1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_CI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of CI protain
-</value>
+<value>Degradation of CI protain</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell2:CI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell2:CI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Translate_Lacl">
 <property name="Expression">
-<value>
-Ks* C0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks* C0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Translation of LacI
-</value>
+<value>Translation of LacI</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell2:lacI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell2:lacI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell2:LacI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell2:LacI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_lacI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of LacI transcripts
-</value>
+<value>Degradation of LacI transcripts</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell2:lacI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell2:lacI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_LacI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of LacI protain
-</value>
+<value>Degradation of LacI protain</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell2:LacI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell2:LacI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Translate_CI">
 <property name="Expression">
-<value>
-Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Translation of CI
-</value>
+<value>Translation of CI</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell2:cI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell2:cI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell2:CI
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell2:CI</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_cI">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of CI transcripts
-</value>
+<value>Degradation of CI transcripts</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell2:cI
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell2:cI</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_tetR">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of tetR transcripts
-</value>
+<value>Degradation of tetR transcripts</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell2:tetR
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell2:tetR</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Translate_TetR">
 <property name="Expression">
-<value>
-Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Ks * C0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Translation of TetR
-</value>
+<value>Translation of TetR</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell2:tetR</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell2:tetR
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell2:TetR
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell2:TetR</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Ks">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_tetR">
 <property name="Expression">
-<value>
-( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A 
-</value>
+<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Transcription of TetR gene
-</value>
+<value>Transcription of TetR gene</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>:/Cell2:LacI</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-:/Cell2:LacI
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-:/Cell2:tetR
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>P0</value>
+<value>:/Cell2:tetR</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="alpha">
-<value>
-50
-</value>
+<value>50</value>
 </property>
 <property name="n">
-<value>
-2.1
-</value>
+<value>2.1</value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="Degrade_TetR">
 <property name="Expression">
-<value>
-Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A 
-</value>
+<value>Kd * S0.MolarConc  * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
-<value>
-Degradation of TetR protain
-</value>
+<value>Degradation of TetR protain</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-S0
-</value>
-<value>
-:/Cell2:TetR
-</value>
-<value>
--1
-</value>
-<value>
-1
-</value>
+<value>S0</value>
+<value>:/Cell2:TetR</value>
+<value>-1</value>
+<value>1</value>
 </value>
 </property>
 <property name="Kd">
-<value>
-5
-</value>
+<value>5</value>
 </property>
 </process>
 </system>

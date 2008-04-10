@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--PathwayWindow configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<Application Name="E-Cell IDE" Version="1.1.1081.0" ConfigFileVersion="1.0">
+  <EcellObjectList>
+    <EcellObject Class="System" ModelID="Atri_Class2" Type="System" Key="/" Layer="SystemLayer" X="-0.5000005" Y="-0.5000006" OffsetX="0" OffsetY="0" Width="1000" Height="1000" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Atri_Class2" Type="Process" Key="/:c_p" Layer="Layer0" X="421.0851" Y="421.0851" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Atri_Class2" Type="Process" Key="/:ce_p" Layer="Layer0" X="421.0851" Y="486.3493" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Atri_Class2" Type="Process" Key="/:p_p" Layer="Layer0" X="812.6702" Y="355.8209" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:alpha" Layer="Layer0" X="877.9344" Y="551.6135" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:alpha1" Layer="Layer0" X="290.5567" Y="616.8776" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:alpha2" Layer="Layer0" X="486.3493" Y="160.0284" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:b" Layer="Layer0" X="160.0284" Y="421.0851" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:betaosc" Layer="Layer0" X="877.9344" Y="160.0284" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:c" Layer="Layer0" X="616.8776" Y="355.8209" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:ce" Layer="Layer0" X="225.2925" Y="355.8209" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:delta" Layer="Layer0" X="486.3493" Y="616.8776" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:gamma" Layer="Layer0" X="355.8209" Y="682.1418" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:k1" Layer="Layer0" X="290.5567" Y="225.2925" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:k2" Layer="Layer0" X="421.0851" Y="225.2925" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:k4" Layer="Layer0" X="747.406" Y="94.76418" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:Ke" Layer="Layer0" X="551.6135" Y="290.5567" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:kflux" Layer="Layer0" X="682.1418" Y="486.3493" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:kmu" Layer="Layer0" X="551.6135" Y="682.1418" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:Kp" Layer="Layer0" X="421.0851" Y="682.1418" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:mu0" Layer="Layer0" X="616.8776" Y="551.6135" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:mu1" Layer="Layer0" X="225.2925" Y="486.3493" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:p" Layer="Layer0" X="616.8776" Y="421.0851" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:V1" Layer="Layer0" X="225.2925" Y="290.5567" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:v4" Layer="Layer0" X="616.8776" Y="225.2925" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:Ve" Layer="Layer0" X="225.2925" Y="551.6135" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Atri_Class2" Type="Variable" Key="/:Vp" Layer="Layer0" X="355.8209" Y="160.0284" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+  </EcellObjectList>
+</Application>

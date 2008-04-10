@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--ECell-IDE configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<ECellProject>
+  <Project>Oscillation</Project>
+  <Date>2008/04/10 13:40:43</Date>
+  <Comment>A synthetic oscillatory network model. Elowitz, M. B. &amp; Leibler, S.(2000) Nature 403, 335--338.</Comment>
+  <SimulationParameter>DefaultParameter</SimulationParameter>
+</ECellProject>

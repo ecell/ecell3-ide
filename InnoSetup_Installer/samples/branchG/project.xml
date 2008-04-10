@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--ECell-IDE configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<ECellProject>
+  <Project>branchG</Project>
+  <Date>2008/04/09 17:03:11</Date>
+  <Comment>a sample model for GMAProcess</Comment>
+  <SimulationParameter>DefaultParameter</SimulationParameter>
+</ECellProject>

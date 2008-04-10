@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--PathwayWindow configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<Application Name="E-Cell IDE" Version="1.1.1087.0" ConfigFileVersion="1.0">
+  <EcellObjectList>
+    <EcellObject Class="System" ModelID="heatshock" Type="System" Key="/" Layer="SystemLayer" X="-0.5000005" Y="-0.5000006" OffsetX="0" OffsetY="0" Width="1200" Height="1200" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:DnaJ_degradation" Layer="Layer0" X="619.2718" Y="862.0275" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:DnaJ_expression" Layer="Layer0" X="470.8018" Y="512.1543" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:E_S32_association" Layer="Layer0" X="466.44" Y="390.8526" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:E_S32_dissociation" Layer="Layer0" X="492.1035" Y="366.5415" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:FtsH_degradation" Layer="Layer0" X="128.0461" Y="536.5162" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:FtsH_expression" Layer="Layer0" X="327.97" Y="437.9193" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:GroEL_degradation" Layer="Layer0" X="343.659" Y="123.7858" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:GroEL_expression" Layer="Layer0" X="542.205" Y="272.2557" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:mRNAS32_degradation" Layer="Layer0" X="953.5069" Y="259.4747" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="MassActionFluxProcess" ModelID="heatshock" Type="Process" Key="/:Refold" Layer="Layer0" X="270.8525" Y="834.9608" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:S32_degradation" Layer="Layer0" X="326.4653" Y="606.44" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:S32_DnaJ_association" Layer="Layer0" X="592.1543" Y="640.7004" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:S32_DnaJ_dissociation" Layer="Layer0" X="637.8432" Y="656.3893" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:S32_transcription" Layer="Layer0" X="970.5484" Y="439.3479" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="GillespieProcess" ModelID="heatshock" Type="Process" Key="/:S32_translation" Layer="Layer0" X="733.5068" Y="407.8939" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="MassActionFluxProcess" ModelID="heatshock" Type="Process" Key="/:Unfold" Layer="Layer0" X="166.5921" Y="1057.691" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="MassActionFluxProcess" ModelID="heatshock" Type="Process" Key="/:UnProteinBinding" Layer="Layer0" X="449.2971" Y="920.5989" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:DNADnaJ" Layer="Layer0" X="363.7349" Y="557.8939" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:DNAFtsH" Layer="Layer0" X="205.1382" Y="367.8432" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:DNAGroEL" Layer="Layer0" X="653.5828" Y="189.4746" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:DnaJ" Layer="Layer0" X="452.205" Y="766.364" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:DnaJ_Nothing" Layer="Layer0" X="779.1957" Y="953.4814" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:DnaJ_UnProtein" Layer="Layer0" X="289.3986" Y="960.5736" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:DNAS32" Layer="Layer0" X="1061.977" Y="530.7004" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:E_S32" Layer="Layer0" X="419.2971" Y="336.4653" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:FtsH" Layer="Layer0" X="226.5161" Y="502.2557" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:FtsH_Nothing" Layer="Layer0" X="29.5" Y="577.8686" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:GroEL" Layer="Layer0" X="439.424" Y="210.8525" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:GroEL_Nothing" Layer="Layer0" X="243.7604" Y="62.35715" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:mRNAS32" Layer="Layer0" X="869.1957" Y="345.1129" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:mRNAS32_Nothing" Layer="Layer0" X="1057.691" Y="166.5921" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:Protein" Layer="Layer0" X="109.4746" Y="850.6243" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:S32" Layer="Layer0" X="577.8686" Y="440.7764" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:S32_DnaJ" Layer="Layer0" X="727.7927" Y="803.5828" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="heatshock" Type="Variable" Key="/:UnProtein" Layer="Layer0" X="469.3479" Y="1064.834" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+  </EcellObjectList>
+</Application>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--ECell-IDE configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<ECellProject>
+  <Project>heatshock</Project>
+  <Date>2008/04/10 10:46:43</Date>
+  <Comment>a simple model of E.coli heat shock</Comment>
+  <SimulationParameter>DefaultParameter</SimulationParameter>
+</ECellProject>
