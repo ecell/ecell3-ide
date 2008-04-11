@@ -44,6 +44,16 @@ namespace EcellLib.PathwayWindow.Nodes
     {
         private CanvasControl m_canvas;
         private TextBox m_tbox = new TextBox();
+        private string m_name;
+
+        /// <summary>
+        /// Name
+        /// </summary>
+        public string Name
+        {
+            get { return m_name; }
+            set { m_name = value; }
+        }
 
         /// <summary>
         /// PointF
@@ -63,9 +73,10 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public PPathwayText(CanvasControl canvas)
         {
+            this.m_name = "Text";
+            base.Text = "Text";
             this.m_canvas = canvas;
             base.Brush = Brushes.Beige;
-            base.Text = "Text";
             base.AddInputEventListener(new ObjectDragHandler());
             this.m_tbox.LostFocus += new EventHandler(m_tbox_LostFocus);
             this.m_tbox.KeyPress += new KeyPressEventHandler(m_tbox_KeyPress);

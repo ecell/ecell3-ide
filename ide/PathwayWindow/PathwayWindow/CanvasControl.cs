@@ -144,6 +144,11 @@ namespace EcellLib.PathwayWindow
         protected SortedDictionary<string, PPathwayProcess> m_processes = new SortedDictionary<string, PPathwayProcess>();
 
         /// <summary>
+        /// Comments
+        /// </summary>
+        protected List<PPathwayText> m_comments = new List<PPathwayText>();
+
+        /// <summary>
         /// DataTable for DataGridView displayed layer list.
         /// </summary>
         protected DataTable m_table;
@@ -326,6 +331,15 @@ namespace EcellLib.PathwayWindow
         public SortedDictionary<string, PPathwayProcess> Processes
         {
             get { return m_processes; }
+        }
+
+        /// <summary>
+        /// Accessor for m_comments.
+        /// </summary>
+        public List<PPathwayText> Comments
+        {
+            get { return m_comments; }
+            set { m_comments = value; }
         }
 
         /// <summary>
@@ -656,6 +670,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="text"></param>
         public void AddText(PPathwayText text)
         {
+            m_comments.Add(text);
             m_ctrlLayer.AddChild(text);
         }
         /// <summary>
@@ -664,8 +679,10 @@ namespace EcellLib.PathwayWindow
         /// <param name="text"></param>
         public void RemoveText(PPathwayText text)
         {
-            if(m_ctrlLayer.ChildrenReference.Contains(text))
-                m_ctrlLayer.RemoveChild(text);
+            if (!m_ctrlLayer.ChildrenReference.Contains(text))
+                return;
+            m_ctrlLayer.RemoveChild(text);
+            m_comments.Remove(text);
         }
         #endregion
 

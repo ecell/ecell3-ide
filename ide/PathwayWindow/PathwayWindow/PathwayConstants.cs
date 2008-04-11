@@ -111,6 +111,14 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
+        public const string xPathCommentList = "CommentList";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathComment = "Comment";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string xPathLayerList = "LayerList";
         /// <summary>
         /// 
