@@ -131,6 +131,7 @@
     <Compile Include="Handler\ToolBoxDragHandler.cs" />
     <Compile Include="MenuControl.cs" />
     <Compile Include="Nodes\PPathwayText.cs" />
+    <Compile Include="PathwayConstants.cs" />
     <Compile Include="Resources\MessageResPathway.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

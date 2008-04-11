@@ -237,32 +237,32 @@ namespace EcellLib.PathwayWindow
                 xmlOut.WriteStartDocument();
 
                 // Always begin file with identification and warning
-                xmlOut.WriteComment(ComponentConstants.xPathFileHeader1);
-                xmlOut.WriteComment(ComponentConstants.xPathFileHeader2);
+                xmlOut.WriteComment(PathwayConstants.xPathFileHeader1);
+                xmlOut.WriteComment(PathwayConstants.xPathFileHeader2);
 
                 // Application settings
-                xmlOut.WriteStartElement(ComponentConstants.xPathComponentList);
-                xmlOut.WriteAttributeString(ComponentConstants.xPathName, Application.ProductName);
-                xmlOut.WriteAttributeString(ComponentConstants.xPathFileVersion, ComponentConstants.xPathVersion);
+                xmlOut.WriteStartElement(PathwayConstants.xPathComponentList);
+                xmlOut.WriteAttributeString(PathwayConstants.xPathName, Application.ProductName);
+                xmlOut.WriteAttributeString(PathwayConstants.xPathFileVersion, PathwayConstants.xPathVersion);
 
                 // Object settings
                 foreach (ComponentSetting setting in ComponentSettings)
                 {
-                    xmlOut.WriteStartElement(ComponentConstants.xPathComponent);
-                    xmlOut.WriteAttributeString(ComponentConstants.xPathType, ParseComponentTypeToString(setting.ComponentType));
-                    xmlOut.WriteAttributeString(ComponentConstants.xPathIsDafault, setting.IsDefault.ToString());
-                    xmlOut.WriteElementString(ComponentConstants.xPathName, setting.Name);
-                    xmlOut.WriteElementString(ComponentConstants.xPathClass, setting.Class);
-                    xmlOut.WriteElementString(ComponentConstants.xPathIconFile, setting.IconFileName);
-                    xmlOut.WriteStartElement(ComponentConstants.xPathFigure);
-                    xmlOut.WriteAttributeString(ComponentConstants.xPathMode, ComponentConstants.xPathEdit);
-                    xmlOut.WriteAttributeString(ComponentConstants.xPathType, setting.EditModeFigure.Type);
-                    xmlOut.WriteElementString(ComponentConstants.xPathSize, setting.EditModeFigure.Coordinates);
-                    xmlOut.WriteElementString(ComponentConstants.xPathTextBrush, BrushManager.ParseBrushToString(setting.TextBrush));
-                    xmlOut.WriteElementString(ComponentConstants.xPathLineBrush, BrushManager.ParseBrushToString(setting.LineBrush));
-                    xmlOut.WriteElementString(ComponentConstants.xPathFillBrush, BrushManager.ParseBrushToString(setting.FillBrush));
-                    xmlOut.WriteElementString(ComponentConstants.xPathCenterBrush, BrushManager.ParseBrushToString(setting.CenterBrush));
-                    xmlOut.WriteElementString(ComponentConstants.xPathIsGradation, setting.IsGradation.ToString());
+                    xmlOut.WriteStartElement(PathwayConstants.xPathComponent);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathType, ParseComponentTypeToString(setting.ComponentType));
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathIsDafault, setting.IsDefault.ToString());
+                    xmlOut.WriteElementString(PathwayConstants.xPathName, setting.Name);
+                    xmlOut.WriteElementString(PathwayConstants.xPathClass, setting.Class);
+                    xmlOut.WriteElementString(PathwayConstants.xPathIconFile, setting.IconFileName);
+                    xmlOut.WriteStartElement(PathwayConstants.xPathFigure);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathMode, PathwayConstants.xPathEdit);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathType, setting.Figure.Type);
+                    xmlOut.WriteElementString(PathwayConstants.xPathSize, setting.Figure.Coordinates);
+                    xmlOut.WriteElementString(PathwayConstants.xPathTextBrush, BrushManager.ParseBrushToString(setting.TextBrush));
+                    xmlOut.WriteElementString(PathwayConstants.xPathLineBrush, BrushManager.ParseBrushToString(setting.LineBrush));
+                    xmlOut.WriteElementString(PathwayConstants.xPathFillBrush, BrushManager.ParseBrushToString(setting.FillBrush));
+                    xmlOut.WriteElementString(PathwayConstants.xPathCenterBrush, BrushManager.ParseBrushToString(setting.CenterBrush));
+                    xmlOut.WriteElementString(PathwayConstants.xPathIsGradation, setting.IsGradation.ToString());
                     xmlOut.WriteEndElement();
                     //xmlOut.WriteStartElement(xPathFigure);
                     //xmlOut.WriteAttributeString(xPathMode, xPathView);
@@ -410,10 +410,10 @@ namespace EcellLib.PathwayWindow
             // Set hard coded default system ComponentSettings
             ComponentSetting defSysCs = new ComponentSetting();
             defSysCs.ComponentType = ComponentType.System;
-            defSysCs.Name = ComponentConstants.NameOfDefaultSystem;
-            defSysCs.Class = ComponentConstants.ClassPPathwaySystem;
+            defSysCs.Name = PathwayConstants.NameOfDefaultSystem;
+            defSysCs.Class = PathwayConstants.ClassPPathwaySystem;
             defSysCs.IsDefault = true;
-            defSysCs.EditModeFigure = FigureManager.CreateFigure("SystemRectangle", "0,0,80,80");
+            defSysCs.Figure = FigureManager.CreateFigure("SystemRectangle", "0,0,80,80");
             defSysCs.CenterBrush = Brushes.LightBlue;
             defSysCs.FillBrush = Brushes.LightBlue;
             defSysCs.IsGradation = false;
@@ -423,10 +423,10 @@ namespace EcellLib.PathwayWindow
             // Set hard coded default variable ComponentSettings
             ComponentSetting defVarCs = new ComponentSetting();
             defVarCs.ComponentType = ComponentType.Variable;
-            defVarCs.Name = ComponentConstants.NameOfDefaultVariable;
-            defVarCs.Class = ComponentConstants.ClassPPathwayVariable;
+            defVarCs.Name = PathwayConstants.NameOfDefaultVariable;
+            defVarCs.Class = PathwayConstants.ClassPPathwayVariable;
             defVarCs.IsDefault = true;
-            defVarCs.EditModeFigure = FigureManager.CreateFigure("Ellipse", "0,0,60,40");
+            defVarCs.Figure = FigureManager.CreateFigure("Ellipse", "0,0,60,40");
             defVarCs.TextBrush = Brushes.DarkBlue;
             defVarCs.LineBrush = Brushes.CornflowerBlue;
             defVarCs.CenterBrush = Brushes.White;
@@ -437,10 +437,10 @@ namespace EcellLib.PathwayWindow
             // Set hard coded default process ComponentSettings
             ComponentSetting defProCs = new ComponentSetting();
             defProCs.ComponentType = ComponentType.Process;
-            defProCs.Name = ComponentConstants.NameOfDefaultProcess;
-            defProCs.Class = ComponentConstants.ClassPPathwayProcess;
+            defProCs.Name = PathwayConstants.NameOfDefaultProcess;
+            defProCs.Class = PathwayConstants.ClassPPathwayProcess;
             defProCs.IsDefault = true;
-            defProCs.EditModeFigure = FigureManager.CreateFigure("RoundedRectangle", "0,0,60,40");
+            defProCs.Figure = FigureManager.CreateFigure("RoundedRectangle", "0,0,60,40");
             defProCs.TextBrush = Brushes.DarkGreen;
             defProCs.LineBrush = Brushes.LimeGreen;
             defProCs.CenterBrush = Brushes.White;
@@ -524,7 +524,7 @@ namespace EcellLib.PathwayWindow
             List<ComponentSetting> list = new List<ComponentSetting>();
             foreach (XmlNode node in xmlD.ChildNodes)
             {
-                if (node.Name.Equals(ComponentConstants.xPathComponentList))
+                if (node.Name.Equals(PathwayConstants.xPathComponentList))
                     componentList = node;
             }
             CheckFileVersion(componentList);
@@ -535,8 +535,8 @@ namespace EcellLib.PathwayWindow
                 ComponentSetting cs = new ComponentSetting();
                 try
                 {
-                    string type = componentNode.Attributes[ComponentConstants.xPathType].Value;
-                    string isDefault = componentNode.Attributes[ComponentConstants.xPathIsDafault].Value;
+                    string type = componentNode.Attributes[PathwayConstants.xPathType].Value;
+                    string isDefault = componentNode.Attributes[PathwayConstants.xPathIsDafault].Value;
                     cs.ComponentType = ParseStringToComponentType(type);
                     cs.IsDefault = bool.Parse(isDefault);
                 }
@@ -548,27 +548,27 @@ namespace EcellLib.PathwayWindow
 
                 foreach (XmlNode parameterNode in componentNode.ChildNodes)
                 {
-                    if (parameterNode.Name.Equals(ComponentConstants.xPathName))
+                    if (parameterNode.Name.Equals(PathwayConstants.xPathName))
                     {
                         cs.Name = parameterNode.InnerText;
                     }
-                    else if (parameterNode.Name.Equals(ComponentConstants.xPathClass))
+                    else if (parameterNode.Name.Equals(PathwayConstants.xPathClass))
                     {
                         cs.Class = parameterNode.InnerText;
                     }
-                    else if (parameterNode.Name.Equals(ComponentConstants.xPathIconFile))
+                    else if (parameterNode.Name.Equals(PathwayConstants.xPathIconFile))
                     {
                         cs.IconFileName = parameterNode.InnerText;
                     }
-                    else if (parameterNode.Name.Equals(ComponentConstants.xPathFigure))
+                    else if (parameterNode.Name.Equals(PathwayConstants.xPathFigure))
                     {
                         foreach (XmlNode figureNode in parameterNode.ChildNodes)
                         {
-                            if (figureNode.Name.Equals(ComponentConstants.xPathSize))
+                            if (figureNode.Name.Equals(PathwayConstants.xPathSize))
                             {
-                                cs.EditModeFigure = FigureManager.CreateFigure(parameterNode.Attributes[ComponentConstants.xPathType].Value, figureNode.InnerText);
+                                cs.Figure = FigureManager.CreateFigure(parameterNode.Attributes[PathwayConstants.xPathType].Value, figureNode.InnerText);
                             }
-                            else if (figureNode.Name.Equals(ComponentConstants.xPathTextBrush))
+                            else if (figureNode.Name.Equals(PathwayConstants.xPathTextBrush))
                             {
                                 Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
                                 if (brush != null)
@@ -576,7 +576,7 @@ namespace EcellLib.PathwayWindow
                                     cs.TextBrush = brush;
                                 }
                             }
-                            else if (figureNode.Name.Equals(ComponentConstants.xPathLineBrush))
+                            else if (figureNode.Name.Equals(PathwayConstants.xPathLineBrush))
                             {
                                 Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
                                 if (brush != null)
@@ -584,7 +584,7 @@ namespace EcellLib.PathwayWindow
                                     cs.LineBrush = brush;
                                 }
                             }
-                            else if (figureNode.Name.Equals(ComponentConstants.xPathFillBrush))
+                            else if (figureNode.Name.Equals(PathwayConstants.xPathFillBrush))
                             {
                                 Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
                                 if (brush != null)
@@ -592,7 +592,7 @@ namespace EcellLib.PathwayWindow
                                     cs.FillBrush = brush;
                                 }
                             }
-                            else if (figureNode.Name.Equals(ComponentConstants.xPathCenterBrush))
+                            else if (figureNode.Name.Equals(PathwayConstants.xPathCenterBrush))
                             {
                                 Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
                                 if (brush != null)
@@ -600,7 +600,7 @@ namespace EcellLib.PathwayWindow
                                     cs.CenterBrush = brush;
                                 }
                             }
-                            else if (figureNode.Name.Equals(ComponentConstants.xPathIsGradation))
+                            else if (figureNode.Name.Equals(PathwayConstants.xPathIsGradation))
                             {
                                 cs.IsGradation = bool.Parse(figureNode.InnerText);
                             }
@@ -619,9 +619,9 @@ namespace EcellLib.PathwayWindow
         private static void CheckFileVersion(XmlNode xmlNode)
         {
             if (xmlNode == null
-                || xmlNode.Attributes[ComponentConstants.xPathFileVersion] == null
-                || !xmlNode.Attributes[ComponentConstants.xPathFileVersion].Value.Equals(ComponentConstants.xPathVersion))
-                throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + ComponentConstants.xPathVersion);
+                || xmlNode.Attributes[PathwayConstants.xPathFileVersion] == null
+                || !xmlNode.Attributes[PathwayConstants.xPathFileVersion].Value.Equals(PathwayConstants.xPathVersion))
+                throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + PathwayConstants.xPathVersion);
         }
 
         /// <summary>
@@ -739,7 +739,7 @@ namespace EcellLib.PathwayWindow
             public ComponentItem(ComponentSetting cs)
             {
                 // Create UI Object
-                this.m_figureBox = new PropertyComboboxItem("Figure", cs.EditModeFigure.Type, new List<string>());
+                this.m_figureBox = new PropertyComboboxItem("Figure", cs.Figure.Type, new List<string>());
                 this.m_textBrush = new PropertyBrushItem("Text Brush", cs.TextBrush);
                 this.m_lineBrush = new PropertyBrushItem("Line Brush", cs.LineBrush);
                 this.m_fillBrush = new PropertyBrushItem("Fill Brush", cs.FillBrush);
@@ -817,8 +817,8 @@ namespace EcellLib.PathwayWindow
                 cs.IsGradation = m_isGradation.Checked;
                 cs.IconFileName = m_iconFile.FileName;
                 string type = m_figureBox.ComboBox.Text;
-                string args = cs.EditModeFigure.Coordinates;
-                cs.EditModeFigure = FigureManager.CreateFigure(type, args);
+                string args = cs.Figure.Coordinates;
+                cs.Figure = FigureManager.CreateFigure(type, args);
             }
 
             #region EventHandlers
@@ -887,141 +887,12 @@ namespace EcellLib.PathwayWindow
             void figureBox_TextChange(object sender, EventArgs e)
             {
                 string type = m_figureBox.ComboBox.Text;
-                string args = this.pCanvas.Setting.EditModeFigure.Coordinates;
+                string args = this.pCanvas.Setting.Figure.Coordinates;
                 IFigure figure = FigureManager.CreateFigure(type, args);
                 this.pCanvas.PPathwayObject.Figure = figure;
             }
 
             #endregion
         }
-    }
-
-    /// <summary>
-    /// ComponentConstants
-    /// </summary>
-    internal class ComponentConstants
-    {
-        #region Constants
-        /// <summary>
-        /// The default name of system.
-        /// </summary>
-        public const string NameOfDefaultSystem = "DefaultSystem";
-        /// <summary>
-        /// The default name of process.
-        /// </summary>
-        public const string NameOfDefaultProcess = "DefaultProcess";
-        /// <summary>
-        /// The default name of variable.
-        /// </summary>
-        public const string NameOfDefaultVariable = "DefaultVariable";
-        /// <summary>
-        /// Class name of PPathwaySystem.
-        /// </summary>
-        public const string ClassPPathwaySystem = "PPathwaySystem";
-        /// <summary>
-        /// Class name of PPathwayProcess.
-        /// </summary>
-        public const string ClassPPathwayProcess = "PPathwayProcess";
-        /// <summary>
-        /// Class name of PPathwayVariable.
-        /// </summary>
-        public const string ClassPPathwayVariable = "PPathwayVariable";
-
-        #region XMLPath
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathFileHeader1 = "PathwayWindow configuration file.";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathFileHeader2 = "Automatically generated file. DO NOT modify!";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathComponentList = "ComponentList";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathFileVersion = "FileVersion";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathVersion = "1.0";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathComponent = "Component";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathType = "Type";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathIsDafault = "IsDefault";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathName = "Name";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathClass = "Class";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathIconFile = "IconFile";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathFigure = "Figure";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathMode = "Mode";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathEdit = "Edit";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathView = "View";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathSize = "Size";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathTextBrush = "TextBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathLineBrush = "LineBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathFillBrush = "FillBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathCenterBrush = "CenterBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathIsGradation = "IsGradation";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathNormal = "Normal";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathGradation = "Gradation";
-
-        #endregion
-        #endregion
     }
 }

@@ -77,12 +77,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// A FigureBase for Edit Mode.
         /// </summary>
-        private IFigure m_editFigure = null;
-
-        /// <summary>
-        /// A FigureBase for View Mode.
-        /// </summary>
-        private IFigure m_viewFigure = null;
+        private IFigure m_figure = null;
 
         /// <summary>
         /// True if gradation Brush is available.
@@ -258,12 +253,12 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_figure.
         /// </summary>
-        public IFigure EditModeFigure
+        public IFigure Figure
         {
-            get { return this.m_editFigure; }
+            get { return this.m_figure; }
             set
             { 
-                this.m_editFigure = value;
+                this.m_figure = value;
                 RaisePropertyChange();
             }
         }
@@ -325,7 +320,7 @@ namespace EcellLib.PathwayWindow
         public List<string> Validate()
         {
             List<string> lackInfos = new List<string>();
-            if (m_editFigure.GraphicsPath.PathData == null || m_editFigure.GraphicsPath.PointCount == 0)
+            if (m_figure.GraphicsPath.PathData == null || m_figure.GraphicsPath.PointCount == 0)
                 if(m_componentType != ComponentType.System)
                     lackInfos.Add("Drawing");
 
@@ -357,15 +352,15 @@ namespace EcellLib.PathwayWindow
         private void AddClassCreateMethod(string className)
         {
             PPathwayObject obj = null;
-            if (className.Equals(ComponentConstants.ClassPPathwayVariable))
+            if (className.Equals(PathwayConstants.ClassPPathwayVariable))
             {
                 obj = new PPathwayVariable();
             }
-            else if (className.Equals(ComponentConstants.ClassPPathwayProcess))
+            else if (className.Equals(PathwayConstants.ClassPPathwayProcess))
             {
                 obj = new PPathwayProcess();
             }
-            else if (className.Equals(ComponentConstants.ClassPPathwaySystem))
+            else if (className.Equals(PathwayConstants.ClassPPathwaySystem))
             {
                 obj = new PPathwaySystem();
             }
@@ -401,7 +396,7 @@ namespace EcellLib.PathwayWindow
         public PPathwayObject CreateTemplate()
         {
             PPathwayObject obj = m_createMethod();
-            obj.AddPath(m_editFigure.GraphicsPath, false);
+            obj.AddPath(m_figure.GraphicsPath, false);
             obj.Setting = this;
             if (m_componentType == ComponentType.System)
             {
@@ -435,7 +430,7 @@ namespace EcellLib.PathwayWindow
             // Create Icon from FigureBase.
             icon = new Bitmap(16, 16);
             Graphics gra = Graphics.FromImage(icon);
-            GraphicsPath gp = m_editFigure.IconPath;
+            GraphicsPath gp = m_figure.IconPath;
             Brush brush = GetFillBrush(gp);
             gra.FillPath(brush, gp);
             gra.DrawPath(new Pen(m_lineBrush, 0), gp);

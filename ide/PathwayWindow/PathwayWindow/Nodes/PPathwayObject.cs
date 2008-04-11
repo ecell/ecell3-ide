@@ -668,7 +668,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             this.PText.TextBrush = m_setting.TextBrush;
             this.LineBrush = m_setting.LineBrush;
-            this.Figure = m_setting.EditModeFigure;
+            this.Figure = m_setting.Figure;
         }
 
         #region Methods to control Bounds

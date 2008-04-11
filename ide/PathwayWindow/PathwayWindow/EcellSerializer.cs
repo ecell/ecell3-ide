@@ -45,6 +45,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using EcellLib.PathwayWindow.Resources;
 using EcellLib.Objects;
+using EcellLib.PathwayWindow.Nodes;
 
 namespace EcellLib.PathwayWindow {
     /// <summary>
@@ -63,10 +64,15 @@ namespace EcellLib.PathwayWindow {
         private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
 
         /// <summary>
-        /// Save ECell window settings.
+        /// Save EcellObjects in LEML format.
         /// </summary>
-        public static void SaveAsXML(List<EcellObject> list, string filename)
+        /// <param name="control"></param>
+        /// <param name="filename"></param>
+        public static void SaveAsLEML(PathwayControl control, string filename)
         {
+            CanvasControl canvas = control.Canvas;
+            List<EcellObject> list = control.GetObjectList();
+
             CheckFilePath(filename);
             FileStream fs = null;
             XmlTextWriter xmlOut = null;
@@ -81,31 +87,41 @@ namespace EcellLib.PathwayWindow {
                 xmlOut.WriteStartDocument();
 
                 // Always begin file with identification and warning
-                xmlOut.WriteComment("PathwayWindow configuration file.");
-                xmlOut.WriteComment("Automatically generated file. DO NOT modify!");
+                xmlOut.WriteComment(PathwayConstants.xPathFileHeader1);
+                xmlOut.WriteComment(PathwayConstants.xPathFileHeader2);
 
                 // Application settings
-                xmlOut.WriteStartElement("Application");
-                xmlOut.WriteAttributeString("Name", Application.ProductName);
-                xmlOut.WriteAttributeString("Version", Application.ProductVersion);
-                xmlOut.WriteAttributeString("ConfigFileVersion", CONFIG_FILE_VERSION);
+                xmlOut.WriteStartElement(PathwayConstants.xPathApplication);
+                xmlOut.WriteAttributeString(PathwayConstants.xPathName, Application.ProductName);
+                xmlOut.WriteAttributeString(PathwayConstants.xPathApplicationVersion, Application.ProductVersion);
+                xmlOut.WriteAttributeString(PathwayConstants.xPathConfigFileVersion, CONFIG_FILE_VERSION);
 
+                // Layer settings
+                xmlOut.WriteStartElement(PathwayConstants.xPathLayerList);
+                foreach (PPathwayLayer layer in canvas.Layers.Values)
+                {
+                    xmlOut.WriteStartElement(PathwayConstants.xPathLayer);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathName, layer.Name);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathVisible, layer.Visible.ToString());
+                    xmlOut.WriteEndElement();
+                }
+                xmlOut.WriteEndElement();
                 // Object settings
-                xmlOut.WriteStartElement("EcellObjectList");
+                xmlOut.WriteStartElement(PathwayConstants.xPathEcellObjectList);
                 foreach (EcellObject eo in list)
                 {
-                    xmlOut.WriteStartElement("EcellObject");
-                    xmlOut.WriteAttributeString("Class", eo.Classname);
-                    xmlOut.WriteAttributeString("ModelID", eo.ModelID);
-                    xmlOut.WriteAttributeString("Type", eo.Type);
-                    xmlOut.WriteAttributeString("Key", eo.Key);
-                    xmlOut.WriteAttributeString("Layer", eo.LayerID);
-                    xmlOut.WriteAttributeString("X", eo.X.ToString());
-                    xmlOut.WriteAttributeString("Y", eo.Y.ToString());
-                    xmlOut.WriteAttributeString("OffsetX", eo.OffsetX.ToString());
-                    xmlOut.WriteAttributeString("OffsetY", eo.OffsetY.ToString());
-                    xmlOut.WriteAttributeString("Width", eo.Width.ToString());
-                    xmlOut.WriteAttributeString("Height", eo.Height.ToString());
+                    xmlOut.WriteStartElement(PathwayConstants.xPathEcellObject);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathClass, eo.Classname);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathModelID, eo.ModelID);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathType, eo.Type);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathKey, eo.Key);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathLayer, eo.LayerID);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathX, eo.X.ToString());
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathY, eo.Y.ToString());
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathOffsetX, eo.OffsetX.ToString());
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathOffsetY, eo.OffsetY.ToString());
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathWidth, eo.Width.ToString());
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathHeight, eo.Height.ToString());
                     xmlOut.WriteEndElement();
                 }
                 xmlOut.WriteEndElement();
@@ -132,109 +148,139 @@ namespace EcellLib.PathwayWindow {
             string path = Path.GetDirectoryName(filename);
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            //if (File.Exists(filename))
         }
 
         /// <summary>
-        /// Load EcellObject position settings.
+        /// LoadFromLEML
         /// </summary>
-        public static List<EcellObject> LoadFromXML(string filename)
+        /// <param name="control"></param>
+        /// <param name="filename"></param>
+        public static void LoadFromLEML(PathwayControl control, string filename)
         {
-            FileStream fs = null;
-            XmlTextReader xmlIn = null;
-            List<EcellObject> list = null;
+            // Set CanvasControl
+            CanvasControl canvas = control.Canvas;
+            if(canvas == null)
+                return;
+
+            XmlDocument xmlD = new XmlDocument();
             try
             {
-                // Load XML file
-                fs = new FileStream(filename, FileMode.Open);
-                xmlIn = new XmlTextReader(fs);
-                xmlIn.WhitespaceHandling = WhitespaceHandling.None;
-                xmlIn.MoveToContent();
-                // Check XML file
-                while (!xmlIn.Name.Equals("Application"))
-                {
-                    if (!MoveToNextElement(xmlIn))
-                        throw new ArgumentException();
-                }
-                // version check
-                string formatVersion = xmlIn.GetAttribute("ConfigFileVersion");
-                if (formatVersion == null || !IsFormatVersionValid(formatVersion))
-                    throw new ArgumentException("Pathway setting file version error." + Environment.NewLine + "Current version is " + CONFIG_FILE_VERSION);
-
-                // Load EcellObject
-                MoveToNextElement(xmlIn);
-                if (xmlIn.Name != "EcellObjectList")
-                    throw new ArgumentException("No EcellObjects.");
-                list = LoadEcellObjects(xmlIn);
+                xmlD.Load(filename);
+                XmlNode applicationData = GetNodeByKey(xmlD, PathwayConstants.xPathApplication);
+                // Load EcellObjects
+                XmlNode ecellObjects = GetNodeByKey(applicationData, PathwayConstants.xPathEcellObjectList);
+                SetEcellObjects(canvas, ecellObjects);
+                // Load Layers
+                XmlNode layers = GetNodeByKey(applicationData, PathwayConstants.xPathLayerList);
+                SetLayers(canvas, layers);
+                // Load Comments
             }
             catch (Exception ex)
             {
                 string errmsg = m_resources.GetString("ErrLoadWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
                 MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally
+        }
+
+        /// <summary>
+        /// GetNodeByKey
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <param name="key"></param>
+        /// <returns>Selected XmlNode</returns>
+        private static XmlNode GetNodeByKey(XmlNode xml, string key)
+        {
+            XmlNode selected = null;
+            foreach (XmlNode node in xml.ChildNodes)
             {
-                if (xmlIn != null) xmlIn.Close();
-                if (fs != null) fs.Close();
+                if (node.Name.Equals(key))
+                    selected = node;
             }
-            return list;
+            return selected;
         }
 
-        private static bool MoveToNextElement(XmlTextReader xmlIn)
+        /// <summary>
+        /// Set Layers.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="layers"></param>
+        private static void SetLayers(CanvasControl canvas, XmlNode layers)
         {
-            if (!xmlIn.Read())
-                return false;
+            if (layers == null || layers.ChildNodes.Count <= 0)
+                return;
 
-            while (xmlIn.NodeType == XmlNodeType.EndElement)
+            foreach (XmlNode node in layers.ChildNodes)
             {
-                if (!xmlIn.Read())
-                    return false;
+                if (!PathwayConstants.xPathLayer.Equals(node.Name))
+                    continue;
+
+                string name = GetStringAttribute(node, PathwayConstants.xPathName);
+                string visible = GetStringAttribute(node, PathwayConstants.xPathVisible);
+                if (canvas.Layers.ContainsKey(name))
+                    canvas.LayerMoveToBack(name);
+                else
+                    canvas.AddLayer(name);
+                canvas.ChangeLayerVisibility(name, bool.Parse(visible));
             }
-            
-            return true;
         }
 
-        private static bool IsFormatVersionValid(string formatVersion)
+        /// <summary>
+        /// Set EcellObjects.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="ecellObjects"></param>
+        private static void SetEcellObjects(CanvasControl canvas, XmlNode ecellObjects)
         {
-            if (formatVersion == CONFIG_FILE_VERSION)
-                return true;
+            if (ecellObjects == null || ecellObjects.ChildNodes.Count <= 0)
+                return;
 
-            return false;
-        }
-
-        private static List<EcellObject> LoadEcellObjects(XmlTextReader xmlIn)
-        {
-            List<EcellObject> list = new List<EcellObject>();
-            while (MoveToNextElement(xmlIn) && xmlIn.Name == "EcellObject")
+            foreach (XmlNode node in ecellObjects.ChildNodes)
             {
-                string modelID = GetXMLAttributeString(xmlIn, "ModelID");
-                string key = GetXMLAttributeString(xmlIn, "Key");
-                string type = GetXMLAttributeString(xmlIn, "Type");
-                string classname = GetXMLAttributeString(xmlIn, "Class");
-                EcellObject eo = EcellObject.CreateObject(modelID, key, type, classname, null);
-                eo.LayerID = GetXMLAttributeString(xmlIn, "Layer");
-                eo.X = GetXMLAttributeFloat(xmlIn, "X");
-                eo.Y = GetXMLAttributeFloat(xmlIn, "Y");
-                eo.OffsetX = GetXMLAttributeFloat(xmlIn, "OffsetX");
-                eo.OffsetY = GetXMLAttributeFloat(xmlIn, "OffsetY");
-                eo.Width = GetXMLAttributeFloat(xmlIn, "Width");
-                eo.Height = GetXMLAttributeFloat(xmlIn, "Height");
-                list.Add(eo);
+                if (!node.Name.Equals(PathwayConstants.xPathEcellObject))
+                    continue;
+
+                string modelID = GetStringAttribute(node, PathwayConstants.xPathModelID);
+                string key = GetStringAttribute(node, PathwayConstants.xPathKey);
+                string type = GetStringAttribute(node, PathwayConstants.xPathType);
+                string classname = GetStringAttribute(node, PathwayConstants.xPathClass);
+                PPathwayObject obj = canvas.GetSelectedObject(key, type);
+                if (obj == null)
+                    continue;
+
+                EcellObject eo = obj.EcellObject;
+                eo.LayerID = GetStringAttribute(node, PathwayConstants.xPathLayer);
+                eo.X = GetFloatAttribute(node, PathwayConstants.xPathX);
+                eo.Y = GetFloatAttribute(node, PathwayConstants.xPathY);
+                eo.OffsetX = GetFloatAttribute(node, PathwayConstants.xPathOffsetX);
+                eo.OffsetY = GetFloatAttribute(node, PathwayConstants.xPathOffsetY);
+                eo.Width = GetFloatAttribute(node, PathwayConstants.xPathWidth);
+                eo.Height = GetFloatAttribute(node, PathwayConstants.xPathHeight);
             }
-            return list;
         }
 
-        private static string GetXMLAttributeString(XmlTextReader xmlIn, string key)
+        /// <summary>
+        /// GetStringAttribute
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private static string GetStringAttribute(XmlNode node, string key)
         {
-            string value = xmlIn.GetAttribute(key);
+            string value = node.Attributes[key].Value;
             if (value == null)
                 return "";
             else
                 return value;
         }
-        private static float GetXMLAttributeFloat(XmlTextReader xmlIn, string key)
+        /// <summary>
+        /// GetXMLAttributeFloat
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private static float GetFloatAttribute(XmlNode node, string key)
         {
-            string value = GetXMLAttributeString(xmlIn, key);
+            string value = GetStringAttribute(node, key);
             try
             {
                 return (float)Convert.ToDouble(value, CultureInfo.InvariantCulture);

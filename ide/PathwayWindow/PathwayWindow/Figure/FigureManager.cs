@@ -33,6 +33,9 @@ using System.Text;
 
 namespace EcellLib.PathwayWindow.Figure
 {
+    /// <summary>
+    /// FigureManager
+    /// </summary>
     public class FigureManager
     {
         /// <summary>
@@ -88,13 +91,30 @@ namespace EcellLib.PathwayWindow.Figure
             return values;
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public enum FigureType
     {
+        /// <summary>
+        /// 
+        /// </summary>
         FigureBase = 0,
+        /// <summary>
+        /// 
+        /// </summary>
         EllipseFigure = 1,
+        /// <summary>
+        /// 
+        /// </summary>
         RectangleFigure = 2,
+        /// <summary>
+        /// 
+        /// </summary>
         RoundedRectangle = 3,
+        /// <summary>
+        /// 
+        /// </summary>
         SystemRectangle = 4
     }
 }

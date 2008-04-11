@@ -473,13 +473,13 @@ namespace EcellLib.PathwayWindow
                 xmlOut.WriteStartDocument();
 
                 // Always begin file with identification and warning
-                xmlOut.WriteComment(ComponentConstants.xPathFileHeader1);
-                xmlOut.WriteComment(ComponentConstants.xPathFileHeader2);
+                xmlOut.WriteComment(PathwayConstants.xPathFileHeader1);
+                xmlOut.WriteComment(PathwayConstants.xPathFileHeader2);
 
                 xmlOut.WriteStartElement(AnimationConstants.xPathAnimationSettings);
                 // Application settings.
-                xmlOut.WriteAttributeString(ComponentConstants.xPathName, Application.ProductName);
-                xmlOut.WriteAttributeString(ComponentConstants.xPathFileVersion, AnimationConstants.xPathVersion);
+                xmlOut.WriteAttributeString(PathwayConstants.xPathName, Application.ProductName);
+                xmlOut.WriteAttributeString(PathwayConstants.xPathFileVersion, AnimationConstants.xPathVersion);
                 // Save settings.
                 xmlOut.WriteElementString(AnimationConstants.xPathEditBGBrush, BrushManager.ParseBrushToString(m_editBGBrush));
                 xmlOut.WriteElementString(AnimationConstants.xPathEditEdgeBrush, BrushManager.ParseBrushToString(m_editEdgeBrush));

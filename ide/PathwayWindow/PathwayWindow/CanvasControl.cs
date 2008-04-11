@@ -358,6 +358,9 @@ namespace EcellLib.PathwayWindow
                 ResetObjectSettings();
             }
         }
+        /// <summary>
+        /// BackGroundBrush
+        /// </summary>
         public Brush BackGroundBrush
         {
             get { return m_bgBrush; }
@@ -431,7 +434,6 @@ namespace EcellLib.PathwayWindow
             // Set ViewMode
             this.ViewMode = m_con.ViewMode;
             this.ShowingID = m_con.ShowingID;
-
         }
         #endregion
 
@@ -704,6 +706,18 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// LayerMoveToFront
         /// </summary>
+        /// <param name="name"></param>
+        public void LayerMoveToFront(string name)
+        {
+            if (!m_layers.ContainsKey(name))
+                return;
+            PLayer layer = m_layers[name];
+            LayerMoveToFront(layer);
+        }
+
+        /// <summary>
+        /// LayerMoveToFront
+        /// </summary>
         /// <param name="layer"></param>
         public void LayerMoveToFront(PLayer layer)
         {
@@ -711,6 +725,19 @@ namespace EcellLib.PathwayWindow
             AddLayer(m_ctrlLayer);
             RefreshLayerTable();
         }
+
+        /// <summary>
+        /// LayerMoveToBack
+        /// </summary>
+        /// <param name="name"></param>
+        public void LayerMoveToBack(string name)
+        {
+            if (!m_layers.ContainsKey(name))
+                return;
+            PLayer layer = m_layers[name];
+            LayerMoveToBack(layer);
+        }
+
         /// <summary>
         /// LayerMoveToBack
         /// </summary>

@@ -236,6 +236,7 @@ namespace EcellLib.PathwayWindow.Graphic
         /// </summary>
         /// <param name="points"></param>
         /// <param name="brush"></param>
+        /// <param name="width"></param>
         /// <returns></returns>
         public static string Polygon(PointF[] points, string brush, string width)
         {

@@ -80,7 +80,7 @@ namespace EcellLib.PathwayWindow.Graphic
                     e.Graphics.DrawString(s, e.Font, brush, bounds.Left, bounds.Top);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 e.Graphics.DrawString(s, e.Font, brush, bounds.Left, bounds.Top);
             }

@@ -389,7 +389,7 @@ namespace EcellLib.PathwayWindow
         public override void SaveModel(string modelID, string directory)
         {
             // Error Check
-            if(String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(directory))
+            if(string.IsNullOrEmpty(modelID) || string.IsNullOrEmpty(directory))
                 return;
             m_con.SaveModel(modelID, directory);
         }

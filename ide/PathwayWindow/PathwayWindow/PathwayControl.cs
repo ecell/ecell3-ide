@@ -417,20 +417,12 @@ namespace EcellLib.PathwayWindow
         private void LoadFromLeml(string fileName)
         {
             // Load Object Settings.
-            List<EcellObject> objList = EcellSerializer.LoadFromXML(fileName);
+            EcellSerializer.LoadFromLEML(this, fileName);
 
-            // Set position.
-            foreach (EcellObject eo in objList)
+            // Set to DataManager.
+            foreach (EcellObject eo in GetObjectList())
             {
-                PPathwayObject obj = m_canvas.GetSelectedObject(eo.Key, eo.Type);
-                if (obj == null)
-                    continue;
-
-                obj.EcellObject.SetPosition(eo);
-                if (!string.IsNullOrEmpty(eo.LayerID))
-                    obj.EcellObject.LayerID = eo.LayerID;
-
-                this.NotifyDataChanged(eo.Key, obj.EcellObject, false, false);
+                this.NotifyDataChanged(eo.Key, eo, false, false);
             }
         }
 
@@ -534,14 +526,11 @@ namespace EcellLib.PathwayWindow
         /// <param name="directory">the directory of save.</param>
         public void SaveModel(string modelID, string directory)
         {
-            if (!Canvas.ModelID.Equals(modelID))
+            if (m_canvas == null || !m_canvas.ModelID.Equals(modelID))
                 return;
 
-            List<EcellObject> list = new List<EcellObject>();
-            list.AddRange(GetSystemList());
-            list.AddRange(GetNodeList());
-            string fileName = directory + "\\" + modelID + ".leml";
-            EcellSerializer.SaveAsXML(list, fileName);
+            string fileName = Path.Combine(directory, modelID + Constants.FileExtLEML);
+            EcellSerializer.SaveAsLEML(this, fileName);
         }
 
         /// <summary>
@@ -1050,7 +1039,7 @@ namespace EcellLib.PathwayWindow
         /// Get the list of EcellObject in the target model.
         /// </summary>
         /// <returns></returns>
-        private List<EcellObject> GetObjectList()
+        internal List<EcellObject> GetObjectList()
         {
             List<EcellObject> list = new List<EcellObject>();
             list.AddRange(GetSystemList());
@@ -1066,7 +1055,7 @@ namespace EcellLib.PathwayWindow
         {
             List<EcellObject> systemList = new List<EcellObject>();
             foreach (PPathwayObject obj in m_canvas.GetSystemList())
-                systemList.Add(m_window.GetEcellObject(obj.EcellObject.ModelID, obj.EcellObject.Key, obj.EcellObject.Type));
+                systemList.Add(obj.EcellObject);
             return systemList;
         }
 
@@ -1078,7 +1067,7 @@ namespace EcellLib.PathwayWindow
         {
             List<EcellObject> nodeList = new List<EcellObject>();
             foreach (PPathwayObject obj in m_canvas.GetNodeList())
-                nodeList.Add(m_window.GetEcellObject(obj.EcellObject.ModelID, obj.EcellObject.Key, obj.EcellObject.Type));
+                nodeList.Add(obj.EcellObject);
 
             return nodeList;
         }
