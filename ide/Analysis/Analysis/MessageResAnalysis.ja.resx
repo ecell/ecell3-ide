@@ -211,7 +211,7 @@
     <value>解析(&amp;A)...</value>
   </data>
   <data name="MenuItemAnalysisWindow" xml:space="preserve">
-    <value>解析ウインドウ(&amp;A)...</value>
+    <value>解析(&amp;A)...</value>
   </data>
   <data name="MenuItemBifurcationAnalysis" xml:space="preserve">
     <value>分岐解析(&amp;B)</value>
@@ -224,6 +224,9 @@
   </data>
   <data name="MenuItemSensitivityAnalysis" xml:space="preserve">
     <value>感度解析(&amp;S)</value>
+  </data>
+  <data name="MenuItemStopAnalysis" xml:space="preserve">
+    <value>解析停止</value>
   </data>
   <data name="ReflectMenuText" xml:space="preserve">
     <value>反映</value>

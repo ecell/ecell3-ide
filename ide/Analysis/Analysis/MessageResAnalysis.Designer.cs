@@ -340,7 +340,7 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
-        ///   &amp;AnalysisWindow... に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Analysis... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemAnalysisWindow {
             get {
@@ -381,6 +381,15 @@ namespace EcellLib.Analysis {
         internal static string MenuItemSensitivityAnalysis {
             get {
                 return ResourceManager.GetString("MenuItemSensitivityAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stop Analysis に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemStopAnalysis {
+            get {
+                return ResourceManager.GetString("MenuItemStopAnalysis", resourceCulture);
             }
         }
         

@@ -139,7 +139,7 @@
     <value>0</value>
   </data>
   <data name="PEAApplyButton.Text" xml:space="preserve">
-    <value>Apply</value>
+    <value>OK</value>
   </data>
   <data name="&gt;&gt;PEAApplyButton.Name" xml:space="preserve">
     <value>PEAApplyButton</value>

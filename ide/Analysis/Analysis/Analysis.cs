@@ -46,13 +46,13 @@ namespace EcellLib.Analysis
     /// <summary>
     /// Plugin class to manage the result and parameter of analysis.
     /// </summary>
-    public class Analysis : IEcellPlugin
+    public class Analysis : PluginBase
     {
         #region Fields
         /// <summary>
         /// MenuItem to display the window for robust analysis.
         /// </summary>
-        private ToolStripMenuItem m_robustAnalysisWinItem;
+        private ToolStripMenuItem m_showAnalysisSetupItem;
         /// <summary>
         /// MenuItem to execute robust analysis.
         /// </summary>
@@ -73,10 +73,7 @@ namespace EcellLib.Analysis
         /// Window to analysis the robustness of model.
         /// </summary>
         private AnalysisWindow m_win = null;
-        /// <summary>
-        /// SessionManager.
-        /// </summary>
-        private SessionManager.SessionManager m_manager = SessionManager.SessionManager.GetManager();
+        private AnalysisResultWindow m_rWin = null;
         /// <summary>
         /// ResourceManager for AnalysisTemplate.
         /// </summary>
@@ -97,7 +94,101 @@ namespace EcellLib.Analysis
         /// Sensitivity Analysis Class.
         /// </summary>
         private SensitivityAnalysis m_sensitivityAnalysis;
+
+        private BifurcationAnalysisParameter m_bifurcateParameter;
+        private ParameterEstimationParameter m_estimationParameter;
+        private RobustAnalysisParameter m_robustParameter;
+        private SensitivityAnalysisParameter m_sensitivityParameter;
+        /// <summary>
+        /// The dictionary of the data to be set by random.
+        /// </summary>
+        private Dictionary<string, EcellData> m_paramList = new Dictionary<string, EcellData>();
+
         #endregion
+
+        /// <summary>
+        /// Set the parameter set of bifurcation analysis in this form.
+        /// </summary>
+        /// <param name="p">the parameter set of bifurcation analysis.</param>
+        public void SetBifurcationAnalysisParameter(BifurcationAnalysisParameter p)
+        {
+            m_bifurcateParameter = p;
+        }
+
+        /// <summary>
+        /// Get the parameter set of bifurcation analysis in this form.
+        /// </summary>
+        /// <returns>the parameter set of bifurcation analysis.</returns>
+        public BifurcationAnalysisParameter GetBifurcationAnalysisPrameter()
+        {
+            if (m_win != null)
+                m_bifurcateParameter = m_win.GetBifurcationAnalysisPrameter();
+
+            return m_bifurcateParameter;
+        }
+
+        /// <summary>
+        /// Set the parameter of parameter estimation.
+        /// </summary>
+        /// <param name="p">the parameter of parameter estimation.</param>
+        public void SetParameterEstimationParameter(ParameterEstimationParameter p)
+        {
+            m_estimationParameter = p;
+        }
+
+        /// <summary>
+        /// Get the parameter of parameter estimation.
+        /// </summary>
+        /// <returns>the parameter of parameter estimation.</returns>
+        public ParameterEstimationParameter GetParameterEstimationParameter()
+        {
+            if (m_win != null)
+                m_estimationParameter = m_win.GetParameterEstimationParameter();
+
+            return m_estimationParameter;
+        }
+
+        /// <summary>
+        /// Set the robust analysis parameter.
+        /// </summary>
+        /// <param name="p">the parameter of robust analysis.</param>
+        public void SetRobustAnalysisParameter(RobustAnalysisParameter p)
+        {
+            m_robustParameter = p;
+        }
+
+        /// <summary>
+        /// Get the robust analysis parameter set in this form.
+        /// </summary>
+        /// <returns>the parameter of robust analysis.</returns>
+        public RobustAnalysisParameter GetRobustAnalysisParameter()
+        {
+            if (m_win != null)
+                m_robustParameter = m_win.GetRobustAnalysisParameter();
+
+            return m_robustParameter;
+        }
+
+        /// <summary>
+        /// Set the parameter of sensitivity analysis to this form.
+        /// </summary>
+        /// <param name="p">the parameter of sensitivity analysis.</param>
+        public void SetSensitivityAnalysisParameter(SensitivityAnalysisParameter p)
+        {
+            m_sensitivityParameter = p;
+        }
+
+        /// <summary>
+        /// Get the sensitivity analysis parameter set in this form.
+        /// </summary>
+        /// <returns>the parameter of sensitivity analysis.</returns>
+        public SensitivityAnalysisParameter GetSensitivityAnalysisParameter()
+        {
+            if (m_win != null)
+                m_sensitivityParameter = m_win.GetSensitivityAnalysisParameter();
+
+            return m_sensitivityParameter;
+        }
 
         /// <summary>
         /// Window is null when window is closed.
@@ -105,15 +196,30 @@ namespace EcellLib.Analysis
         public void CloseAnalysisWindow()
         {
             m_win = null;
-            m_robustAnalysis = null;
-            m_robustAnalysisItem.Enabled = false;
+            StopBifurcationAnalysis();
+            StopParameterEstimation();
+            StopRobustAnalysis();
+            StopSensitivityAnalysis();
+
+            m_bifurcateParameter = new BifurcationAnalysisParameter();
+            m_estimationParameter = new ParameterEstimationParameter();
+            m_robustParameter = new RobustAnalysisParameter();
+            m_sensitivityParameter = new SensitivityAnalysisParameter();
+        }
+
+        /// <summary>
+        /// Close the analysis result window.
+        /// </summary>
+        public void CloseAnalysisResultWindow()
+        {
+            m_rWin = null;
         }
 
         /// <summary>
         /// Stop the robust analysis.
         /// </summary>
         public void StopRobustAnalysis()
-        {
+        {            
             m_robustAnalysis = null;
         }
 
@@ -139,6 +245,78 @@ namespace EcellLib.Analysis
         public void StopBifurcationAnalysis()
         {
             m_bifurcationAnalysis = null;
+        }
+
+        /// <summary>
+        /// Add the judgement data into GridView.
+        /// </summary>
+        /// <param name="x">the value of parameter.</param>
+        /// <param name="y">the value of parameter.</param>
+        public void AddJudgementDataForBifurcation(double x, double y)
+        {
+            if (m_rWin != null)
+                m_rWin.AddJudgementDataForBifurcation(x, y);
+        }
+
+        /// <summary>
+        /// Add the judgement data into GridView.
+        /// </summary>
+        /// <param name="jobid">the jobidof this parameters.</param>
+        /// <param name="x">the value of parameter.</param>
+        /// <param name="y">the value of parameter.</param>
+        /// <param name="isOK">the flag whether this parameter is robustness.</param>
+        public void AddJudgementData(int jobid, double x, double y, bool isOK)
+        {
+            if (m_rWin != null)
+                m_rWin.AddJudgementData(jobid, x, y, isOK);
+        }
+
+        /// <summary>
+        /// Add the judgement data of parameter estimation into graph.
+        /// </summary>
+        /// <param name="x">the number of generation.</param>
+        /// <param name="y">the value of estimation.</param>
+        public void AddEstimationData(int x, double y)
+        {
+            if (m_rWin != null)
+                m_rWin.AddEstimationData(x, y);
+        }
+
+        /// <summary>
+        /// Clear the result of analysis.
+        /// </summary>
+        public void ClearResult()
+        {
+            if (m_rWin != null)
+                m_rWin.ClearResult();
+        }
+
+        /// <summary>
+        /// Set the parameter entry to display the result.
+        /// </summary>
+        /// <param name="name">the parameter name.</param>
+        /// <param name="isX">the flag whether this parameter is default parameter at X axis.</param>
+        /// <param name="isY">the flag whether this parameter is default parameter at Y axis.</param>
+        public void SetResultEntryBox(string name, bool isX, bool isY)
+        {
+            if (m_rWin != null)
+                m_rWin.SetResultEntryBox(name, isX, isY);
+        }
+
+        /// <summary>
+        /// Set the graph size of result.
+        /// </summary>
+        /// <param name="xmax">Max value of X axis.</param>
+        /// <param name="xmin">Min value of X axis.</param>
+        /// <param name="ymax">Max value of Y axis.</param>
+        /// <param name="ymin">Min value of Y axis.</param>
+        /// <param name="isAutoX">The flag whether X axis is auto scale.</param>
+        /// <param name="isAutoY">The flag whether Y axis is auto scale.</param>
+        public void SetResultGraphSize(double xmax, double xmin, double ymax, double ymin,
+            bool isAutoX, bool isAutoY)
+        {
+            if (m_rWin != null)
+                m_rWin.SetResultGraphSize(xmax, xmin, ymax, ymin, isAutoX, isAutoY);
         }
 
         #region Events
@@ -242,6 +420,18 @@ namespace EcellLib.Analysis
             m_sensitivityAnalysis.ExecuteAnalysis();
         }
 
+        private void StopAnalysis(object sender, EventArgs e)
+        {
+            if (m_bifurcationAnalysis != null)
+                m_bifurcationAnalysis.StopAnalysis();
+            if (m_parameterEstimation != null)
+                m_parameterEstimation.StopAnalysis();
+            if (m_robustAnalysis != null)
+                m_robustAnalysis.StopAnalysis();
+            if (m_sensitivityAnalysis != null)
+                m_sensitivityAnalysis.StopAnalysis();
+        }
+
         /// <summary>
         /// Event when the menu to execute bifurcation analysis is clicked.
         /// This program execute the program of bifurcation analysis.
@@ -272,23 +462,23 @@ namespace EcellLib.Analysis
         /// Get menustrips for Analysis plugin.
         /// </summary>
         /// <returns>the list of menu.</returns>
-        public List<ToolStripMenuItem> GetMenuStripItems()
+        public override List<ToolStripMenuItem> GetMenuStripItems()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResAnalysis));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
-            m_robustAnalysisWinItem = new ToolStripMenuItem();
-            m_robustAnalysisWinItem.Text = resources.GetString("MenuItemAnalysisWindow");
-            m_robustAnalysisWinItem.ToolTipText = resources.GetString("MenuItemAnalysisWindow");
-            m_robustAnalysisWinItem.Tag = 50;
-            m_robustAnalysisWinItem.Click += new EventHandler(ShowRobustAnalysisWindow);
+            m_showAnalysisSetupItem = new ToolStripMenuItem();
+            m_showAnalysisSetupItem.Text = resources.GetString("MenuItemAnalysisWindow");
+            m_showAnalysisSetupItem.ToolTipText = resources.GetString("MenuItemAnalysisWindow");
+            m_showAnalysisSetupItem.Tag = 50;
+            m_showAnalysisSetupItem.Click += new EventHandler(ShowRobustAnalysisWindow);
 
-            ToolStripMenuItem viewMenu = new ToolStripMenuItem();
-            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisWinItem });
-            viewMenu.Text = "View";
-            viewMenu.Name = "MenuItemView";
+            ToolStripMenuItem setupMenu = new ToolStripMenuItem();
+            setupMenu.DropDownItems.AddRange(new ToolStripItem[] { m_showAnalysisSetupItem });
+            setupMenu.Text = "Setup";
+            setupMenu.Name = "MenuItemSetup";
 
-            list.Add(viewMenu);
+            list.Add(setupMenu);
 
             m_robustAnalysisItem = new ToolStripMenuItem();
             m_robustAnalysisItem.Text = resources.GetString("MenuItemRobustAnalysis");
@@ -318,6 +508,14 @@ namespace EcellLib.Analysis
             m_bifurcationAnalysisItem.Enabled = false;
             m_bifurcationAnalysisItem.Click += new EventHandler(ExecuteBifurcationAnalysis);
 
+            ToolStripMenuItem stopAnalysisItem = new ToolStripMenuItem();
+            m_bifurcationAnalysisItem.Text = resources.GetString("MenuItemStopAnalysis");
+            m_bifurcationAnalysisItem.ToolTipText = resources.GetString("MenuItemStopAnalysis");
+            m_bifurcationAnalysisItem.Tag = 80;
+            m_bifurcationAnalysisItem.Enabled = true;
+            m_bifurcationAnalysisItem.Click += new EventHandler(StopAnalysis);
+
+
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem, m_parameterEstimationItem, 
                 m_sensitivityAnalysisItem, m_bifurcationAnalysisItem });
@@ -330,47 +528,33 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// Get toolbar buttons for Analysis plugin.
-        /// </summary>
-        /// <returns>the list of ToolBarMenu.</returns>
-        public List<System.Windows.Forms.ToolStripItem> GetToolBarMenuStripItems()
-        {
-            return null;
-        }
-
-        /// <summary>
         /// Called by PluginManager for getting UseControl.
         /// </summary>
         /// <returns>nothing.</returns>
-        public List<EcellDockContent> GetWindowsForms()
+        public override List<EcellDockContent> GetWindowsForms()
         {
-            return null;
-        }
-
-        /// <summary>
-        /// The event sequence on advancing time.
-        /// </summary>
-        /// <param name="time">The current simulation time.</param>
-        public void AdvancedTime(double time)
-        {
+            List<EcellDockContent> list = new List<EcellDockContent>();
+            m_rWin = new AnalysisResultWindow();
+            list.Add(m_rWin);
+            return list;
         }
 
         /// <summary>
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(ProjectStatus type)
+        public override void ChangeStatus(ProjectStatus type)
         {
             if (ProjectStatus.Loaded == type)
             {
-                m_robustAnalysisWinItem.Enabled = true;
+                m_showAnalysisSetupItem.Enabled = true;
                 m_parameterEstimationItem.Enabled = true;
                 m_sensitivityAnalysisItem.Enabled = true;
                 m_bifurcationAnalysisItem.Enabled = true;
             }
             else
             {
-                m_robustAnalysisWinItem.Enabled = false;
+                m_showAnalysisSetupItem.Enabled = false;
                 m_parameterEstimationItem.Enabled = false;
                 m_sensitivityAnalysisItem.Enabled = false;
                 m_bifurcationAnalysisItem.Enabled = false;
@@ -378,40 +562,83 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// Change availability of undo/redo function
-        /// </summary>
-        /// <param name="status"></param>
-        public void ChangeUndoStatus(UndoStatus status)
-        {
-            // Nothing should be done.
-        }
-
-        /// <summary>
         /// The event sequence on closing project.
         /// </summary>
-        public void Clear()
+        public override void Clear()
         {
+            m_paramList.Clear();
+            if (m_win != null)
+                m_win.Clear();
+            ClearResult();
         }
 
         /// <summary>
-        /// Called by PluginManager for newly added EcellObjects on the core.
+        /// The event sequence to add the object at other plugin.
         /// </summary>
-        /// <param name="data">List of EcellObjects to be added</param>
-        public void DataAdd(List<EcellObject> data)
+        /// <param name="data">The value of the adding object.</param>
+        public override void DataAdd(List<EcellObject> data)
         {
+            foreach (EcellObject obj in data)
+            {
+                if (obj.Children != null)
+                {
+                    foreach (EcellObject child in obj.Children)
+                    {
+                        if (child.Value == null) continue;
+
+                        foreach (EcellData d in child.Value)
+                        {
+                            if (d.Committed) continue;
+                            m_paramList.Add(d.EntityPath, d);
+                            if (m_win != null)
+                                m_win.AddParameterEntry(child, d);
+                        }
+                        
+                    }
+                }
+                if (obj.Value == null) continue;
+
+                foreach (EcellData d in obj.Value)
+                {
+                    if (d.Committed) continue;
+                    m_paramList.Add(d.EntityPath, d);
+                    if (m_win != null)
+                        m_win.AddParameterEntry(obj, d);
+                }
+            }
         }
 
         /// <summary>
-        /// The event sequence on changing value of data at other plugin.
+        ///  The event sequence on changing value of data at other plugin.
         /// </summary>
         /// <param name="modelID">The model ID before value change.</param>
         /// <param name="key">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
-        /// <param name="data">Changed value of object.</param>
-        public void DataChanged(string modelID, string key, string type, EcellObject data)
+        /// <param name="obj">Changed value of object.</param>
+        public override void DataChanged(string modelID, string key, string type, EcellObject obj)
         {
-            if (m_win != null)
-                m_win.DataChanged(modelID, key, type, data);
+            if (obj.Value == null) return;
+            foreach (EcellData d in obj.Value)
+            {
+                if (d.Committed)
+                {
+                    if (m_paramList.ContainsKey(d.EntityPath))
+                    {
+                        m_paramList.Remove(d.EntityPath);
+                        if (m_win != null)
+                            m_win.RemoveParameterEntry(d.EntityPath);
+                    }
+                }
+                else
+                {
+                    if (!m_paramList.ContainsKey(d.EntityPath))
+                    {
+                        m_paramList.Add(d.EntityPath, d);
+                        if (m_win != null)
+                            m_win.AddParameterEntry(obj, d);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -420,99 +647,22 @@ namespace EcellLib.Analysis
         /// <param name="modelID">The model ID of deleted object.</param>
         /// <param name="key">The ID of deleted object.</param>
         /// <param name="type">The object type of deleted object.</param>
-        public void DataDelete(string modelID, string key, string type)
+        public override void DataDelete(string modelID, string key, string type)
         {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is added.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The added parameter ID.</param>
-        public void ParameterAdd(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is deleted.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterDelete(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the simulation parameter is set.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        public void ParameterSet(string projectID, string parameterID)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>true.</returns>
-        public List<String> GetEnablePrintNames()
-        {
-            List<string> names = new List<string>();
-            return names;
-        }
-
-        /// <summary>
-        /// Check whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>false.</returns>
-        public bool IsMessageWindow()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// The event sequence on changing value with the simulation.
-        /// </summary>
-        /// <param name="modelID">The model ID of object changed value.</param>
-        /// <param name="key">The ID of object changed value.</param>
-        /// <param name="type">The object type of object changed value.</param>
-        /// <param name="propName">The property name of object changed value.</param>
-        /// <param name="log">Changed value of object.</param>
-        public void LogData(string modelID, string key, string type, string propName, List<LogData> log)
-        {
-        }
-
-        /// <summary>
-        /// The event sequence on adding the logger at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="key">The ID.</param>
-        /// <param name="type">The data type.</param>
-        /// <param name="path">The path of entity.</param>
-        public void LoggerAdd(string modelID, string type, string key, string path)
-        {
-        }
-
-        /// <summary>
-        /// The execution log of simulation, debug and analysis.
-        /// </summary>
-        /// <param name="type">Log type.</param>
-        /// <param name="message">Message.</param>
-        public void Message(string type, string message)
-        {
-        }
-
-        /// <summary>
-        /// Get bitmap that converts display image on this plugin.
-        /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>
-        public Bitmap Print(string name)
-        {
-            return null;
+            List<string> delList = new List<string>();
+            foreach (string data in m_paramList.Keys)
+            {
+                int pos = data.IndexOf(':');
+                string p = data.Substring(pos + 1);
+                if (p.StartsWith(key))
+                    delList.Add(data);
+            }
+            foreach (string data in delList)
+            {
+                m_paramList.Remove(data);
+                if (m_win != null)
+                    m_win.RemoveParameterEntry(data);
+            }
         }
 
         /// <summary>
@@ -520,55 +670,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="modelID">the id of saved model.</param>
         /// <param name="directory">the directory of save.</param>
-        public void SaveModel(string modelID, string directory)
-        {
-        }
-
-        /// <summary>
-        /// The event sequence on changing selected object at other plugin.
-        /// </summary>
-        /// <param name="modelID">Selected the model ID.</param>
-        /// <param name="key">Selected the ID.</param>
-        /// <param name="type">Selected the data type.</param>
-        public void SelectChanged(string modelID, string key, string type)
-        {
-        }
-
-        /// <summary>
-        /// The event process when user add the object to the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object added to selected objects.</param>
-        /// <param name="key">ID of object added to selected objects.</param>
-        /// <param name="type">Type of object added to selected objects.</param>
-        public void AddSelect(string modelID, string key, string type)
-        {
-        }
-
-        /// <summary>
-        /// The event process when user remove object from the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
-        /// <param name="key">ID of object removed from selected objects.</param>
-        /// <param name="type">Type of object removed from selected objects.</param>
-        public void RemoveSelect(string modelID, string key, string type)
-        {
-        }
-
-        /// <summary>
-        /// Reset all selected objects.
-        /// </summary>
-        public void ResetSelect()
-        {
-        }
-
-        /// <summary>
-        /// The event sequence on generating warning data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID generating warning data.</param>
-        /// <param name="key">The ID generating warning data.</param>
-        /// <param name="type">The data type generating warning data.</param>
-        /// <param name="warntype">The type of waring data.</param>
-        public void WarnData(string modelID, string key, string type, string warntype)
+        public override void SaveModel(string modelID, string directory)
         {
         }
 
@@ -576,7 +678,7 @@ namespace EcellLib.Analysis
         /// Get the name of this plugin.
         /// </summary>
         /// <returns>"PathwayWindow"</returns> 
-        public string GetPluginName()
+        public override string GetPluginName()
         {
             return "Analysis";
         }
@@ -585,18 +687,9 @@ namespace EcellLib.Analysis
         /// Get the version of this plugin.
         /// </summary>
         /// <returns>version string.</returns>
-        public String GetVersionString()
+        public override String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-
-        /// <summary>
-        /// Set the position of EcellObject.
-        /// Actually, nothing will be done by this plugin.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        public void SetPosition(EcellObject data)
-        {
         }
         #endregion
     }

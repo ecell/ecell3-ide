@@ -197,7 +197,7 @@ namespace EcellLib.Analysis
         public void ExecuteAnalysis()
         {
             DataManager dManager = DataManager.GetDataManager();
-            m_param = m_win.GetSensitivityAnalysisParameter();
+            m_param = m_control.GetSensitivityAnalysisParameter();
             m_model = "";
             List<string> modelList = DataManager.GetDataManager().GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];

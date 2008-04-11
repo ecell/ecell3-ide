@@ -30,17 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnalysisWindow));
             this.robustTabControl = new System.Windows.Forms.TabControl();
-            this.ResultTab = new System.Windows.Forms.TabPage();
-            this.RAAnalysisTableLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.RAResultGridView = new System.Windows.Forms.DataGridView();
-            this.JudgeColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.XColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.YColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.RAXComboBox = new System.Windows.Forms.ComboBox();
-            this.RAYComboBox = new System.Windows.Forms.ComboBox();
             this.AWRobustTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.RAParamGridView = new System.Windows.Forms.DataGridView();
@@ -151,11 +140,11 @@
             this.BAOMinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BAODifferColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BAORateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
+            this.AEOKButton = new System.Windows.Forms.Button();
+            this.AECancelButton = new System.Windows.Forms.Button();
             this.robustTabControl.SuspendLayout();
-            this.ResultTab.SuspendLayout();
-            this.RAAnalysisTableLayout.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RAResultGridView)).BeginInit();
-            this.tableLayoutPanel5.SuspendLayout();
             this.AWRobustTabPage.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RAParamGridView)).BeginInit();
@@ -198,11 +187,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.BAParameterGridView)).BeginInit();
             this.groupBox13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BAObservedGridView)).BeginInit();
+            this.tableLayoutPanel5.SuspendLayout();
+            this.tableLayoutPanel19.SuspendLayout();
             this.SuspendLayout();
             // 
             // robustTabControl
             // 
-            this.robustTabControl.Controls.Add(this.ResultTab);
             this.robustTabControl.Controls.Add(this.AWRobustTabPage);
             this.robustTabControl.Controls.Add(this.AWParameterTabPage);
             this.robustTabControl.Controls.Add(this.AWSensitivityTabPage);
@@ -210,91 +200,6 @@
             resources.ApplyResources(this.robustTabControl, "robustTabControl");
             this.robustTabControl.Name = "robustTabControl";
             this.robustTabControl.SelectedIndex = 0;
-            // 
-            // ResultTab
-            // 
-            this.ResultTab.Controls.Add(this.RAAnalysisTableLayout);
-            resources.ApplyResources(this.ResultTab, "ResultTab");
-            this.ResultTab.Name = "ResultTab";
-            this.ResultTab.UseVisualStyleBackColor = true;
-            // 
-            // RAAnalysisTableLayout
-            // 
-            resources.ApplyResources(this.RAAnalysisTableLayout, "RAAnalysisTableLayout");
-            this.RAAnalysisTableLayout.Controls.Add(this.RAResultGridView, 0, 2);
-            this.RAAnalysisTableLayout.Controls.Add(this.tableLayoutPanel5, 0, 1);
-            this.RAAnalysisTableLayout.Name = "RAAnalysisTableLayout";
-            // 
-            // RAResultGridView
-            // 
-            this.RAResultGridView.AllowDrop = true;
-            this.RAResultGridView.AllowUserToAddRows = false;
-            this.RAResultGridView.AllowUserToDeleteRows = false;
-            this.RAResultGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.RAResultGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.RAResultGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.JudgeColumn,
-            this.XColumn,
-            this.YColumn});
-            resources.ApplyResources(this.RAResultGridView, "RAResultGridView");
-            this.RAResultGridView.MultiSelect = false;
-            this.RAResultGridView.Name = "RAResultGridView";
-            this.RAResultGridView.RowHeadersVisible = false;
-            this.RAResultGridView.RowTemplate.Height = 21;
-            this.RAResultGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            // 
-            // JudgeColumn
-            // 
-            this.JudgeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.JudgeColumn.Frozen = true;
-            resources.ApplyResources(this.JudgeColumn, "JudgeColumn");
-            this.JudgeColumn.Name = "JudgeColumn";
-            this.JudgeColumn.ReadOnly = true;
-            // 
-            // XColumn
-            // 
-            resources.ApplyResources(this.XColumn, "XColumn");
-            this.XColumn.Name = "XColumn";
-            this.XColumn.ReadOnly = true;
-            // 
-            // YColumn
-            // 
-            resources.ApplyResources(this.YColumn, "YColumn");
-            this.YColumn.Name = "YColumn";
-            this.YColumn.ReadOnly = true;
-            // 
-            // tableLayoutPanel5
-            // 
-            resources.ApplyResources(this.tableLayoutPanel5, "tableLayoutPanel5");
-            this.tableLayoutPanel5.Controls.Add(this.label2, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.label3, 2, 0);
-            this.tableLayoutPanel5.Controls.Add(this.RAXComboBox, 1, 0);
-            this.tableLayoutPanel5.Controls.Add(this.RAYComboBox, 3, 0);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // RAXComboBox
-            // 
-            resources.ApplyResources(this.RAXComboBox, "RAXComboBox");
-            this.RAXComboBox.FormattingEnabled = true;
-            this.RAXComboBox.Name = "RAXComboBox";
-            this.RAXComboBox.SelectedIndexChanged += new System.EventHandler(this.ChangeXIndex);
-            // 
-            // RAYComboBox
-            // 
-            resources.ApplyResources(this.RAYComboBox, "RAYComboBox");
-            this.RAYComboBox.FormattingEnabled = true;
-            this.RAYComboBox.Name = "RAYComboBox";
-            this.RAYComboBox.SelectedIndexChanged += new System.EventHandler(this.ChangeYIndex);
             // 
             // AWRobustTabPage
             // 
@@ -1078,18 +983,44 @@
             resources.ApplyResources(this.BAORateColumn, "BAORateColumn");
             this.BAORateColumn.Name = "BAORateColumn";
             // 
+            // tableLayoutPanel5
+            // 
+            resources.ApplyResources(this.tableLayoutPanel5, "tableLayoutPanel5");
+            this.tableLayoutPanel5.Controls.Add(this.robustTabControl, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel19, 0, 1);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            // 
+            // tableLayoutPanel19
+            // 
+            resources.ApplyResources(this.tableLayoutPanel19, "tableLayoutPanel19");
+            this.tableLayoutPanel19.Controls.Add(this.AEOKButton, 1, 0);
+            this.tableLayoutPanel19.Controls.Add(this.AECancelButton, 3, 0);
+            this.tableLayoutPanel19.Name = "tableLayoutPanel19";
+            // 
+            // AEOKButton
+            // 
+            resources.ApplyResources(this.AEOKButton, "AEOKButton");
+            this.AEOKButton.Name = "AEOKButton";
+            this.AEOKButton.UseVisualStyleBackColor = true;
+            this.AEOKButton.Click += new System.EventHandler(this.AEOKButtonClicked);
+            // 
+            // AECancelButton
+            // 
+            resources.ApplyResources(this.AECancelButton, "AECancelButton");
+            this.AECancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.AECancelButton.Name = "AECancelButton";
+            this.AECancelButton.UseVisualStyleBackColor = true;
+            this.AECancelButton.Click += new System.EventHandler(this.AECancelButtonClicked);
+            // 
             // AnalysisWindow
             // 
+            this.AcceptButton = this.AEOKButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.robustTabControl);
+            this.CancelButton = this.AECancelButton;
+            this.Controls.Add(this.tableLayoutPanel5);
             this.Name = "AnalysisWindow";
             this.robustTabControl.ResumeLayout(false);
-            this.ResultTab.ResumeLayout(false);
-            this.RAAnalysisTableLayout.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.RAResultGridView)).EndInit();
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel5.PerformLayout();
             this.AWRobustTabPage.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.RAParamGridView)).EndInit();
@@ -1144,6 +1075,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.BAParameterGridView)).EndInit();
             this.groupBox13.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.BAObservedGridView)).EndInit();
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel19.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1169,22 +1102,6 @@
         /// DataGridView to set the observed property.
         /// </summary>
         public System.Windows.Forms.DataGridView RAObservGridView;
-        /// <summary>
-        /// DataGridView to display the property that become OK because of the judgement.
-        /// </summary>
-        public System.Windows.Forms.DataGridView RAResultGridView;
-        private System.Windows.Forms.TableLayoutPanel RAAnalysisTableLayout;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        /// <summary>
-        /// ComboBox to set the property to X axis.
-        /// </summary>
-        public System.Windows.Forms.ComboBox RAXComboBox;
-        /// <summary>
-        /// ComboBox to set the property to Y axis.
-        /// </summary>
-        public System.Windows.Forms.ComboBox RAYComboBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MaxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MinColumn;
@@ -1204,9 +1121,6 @@
         /// TextBox to set the window size.
         /// </summary>
         public System.Windows.Forms.TextBox RAWinSizeText;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn JudgeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn XColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn YColumn;
         private System.Windows.Forms.Label label1;
         /// <summary>
         /// TextBox to set the max frequency for FFT.
@@ -1269,7 +1183,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox PESimulationText;
         private System.Windows.Forms.TabPage AWRobustTabPage;
-        private System.Windows.Forms.TabPage ResultTab;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox PEGenerateValue;
         private System.Windows.Forms.TabPage AWSensitivityTabPage;
@@ -1316,5 +1229,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn BAOMinColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn BAODifferColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn BAORateColumn;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel19;
+        private System.Windows.Forms.Button AEOKButton;
+        private System.Windows.Forms.Button AECancelButton;
     }
 }

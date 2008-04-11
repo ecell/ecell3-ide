@@ -148,7 +148,7 @@ namespace EcellLib.Analysis
         /// </summary>
         public void ExecuteAnalysis()
         {
-            m_param = m_win.GetRobustAnalysisParameter();
+            m_param = m_control.GetRobustAnalysisParameter();
             String tmpDir = m_manager.TmpRootDir;
             int num = m_param.SampleNum;
             double simTime = m_param.SimulationTime; ;
@@ -217,7 +217,7 @@ namespace EcellLib.Analysis
         /// </summary>
         private void JudgeRobustAnalysis()
         {
-            m_win.ClearResult();
+            m_control.ClearResult();
             string xPath = "";
             string yPath = "";
             double xmax = 0.0;
@@ -251,10 +251,10 @@ namespace EcellLib.Analysis
                     ymax = r.Max;
                     ymin = r.Min;
                 }
-                m_win.SetResultEntryBox(r.FullPath, isX, isY);
+                m_control.SetResultEntryBox(r.FullPath, isX, isY);
                 count++;
             }
-            m_win.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
+            m_control.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
 
             List<AnalysisJudgementParam> judgeList = m_win.ExtractObserved();
             foreach (int jobid in m_manager.SessionList.Keys)
@@ -295,7 +295,7 @@ namespace EcellLib.Analysis
                         break;
                     }
                 }
-                m_win.AddJudgementData(jobid, x, y, isOK);
+                m_control.AddJudgementData(jobid, x, y, isOK);
             }
         }
 

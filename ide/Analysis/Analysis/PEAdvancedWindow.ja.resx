@@ -121,7 +121,7 @@
     <value>パラメータ推定（詳細）</value>
   </data>
   <data name="PEAApplyButton.Text" xml:space="preserve">
-    <value>適応</value>
+    <value>OK</value>
   </data>
   <data name="PEACloseButton.Text" xml:space="preserve">
     <value>閉じる</value>

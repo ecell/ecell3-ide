@@ -62,18 +62,6 @@ namespace EcellLib.Analysis
         /// </summary>
         private Dictionary<string, EcellData> m_bifurcationObservList = new Dictionary<string, EcellData>();
         /// <summary>
-        /// The dictionary of the data to be set by random.
-        /// </summary>
-        private Dictionary<string, EcellData> m_paramList = new Dictionary<string, EcellData>();
-        /// <summary>
-        /// Graph control to display the matrix of analysis result.
-        /// </summary>
-        private ZedGraphControl m_zCnt = null;
-        /// <summary>
-        /// Popup menu to be displayed in DataGridView.
-        /// </summary>
-        private ContextMenuStrip m_cntMenu = null;
-        /// <summary>
         /// The parent plugin include this form.
         /// </summary>
         private Analysis m_parent = null;
@@ -105,10 +93,7 @@ namespace EcellLib.Analysis
         /// The form to display the setting and result of analysis.
         /// </summary>
         private static AnalysisWindow s_win = null;
-        /// <summary>
-        /// The line information of dot plot.
-        /// </summary>
-        private LineItem m_line;
+
         private Color m_headerColor;
         #endregion
 
@@ -118,12 +103,7 @@ namespace EcellLib.Analysis
         public AnalysisWindow()
         {
             InitializeComponent();
-            m_cntMenu = new ContextMenuStrip();
-            ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = Analysis.s_resources.GetString("ReflectMenuText");
-            it.Click += new EventHandler(ClickReflectMenu);
-            m_cntMenu.Items.AddRange(new ToolStripItem[] { it });
-            RAResultGridView.ContextMenuStrip = m_cntMenu;
+
             RARandomCheck.Checked = true;
             RAMatrixCheck.Checked = false;
 
@@ -134,22 +114,9 @@ namespace EcellLib.Analysis
             peCntMenu.Items.AddRange(new ToolStripItem[] { peit });
             PEEstimateView.ContextMenuStrip = peCntMenu;
 
-            m_zCnt = new ZedGraphControl();
-            m_zCnt.Dock = DockStyle.Fill;
-            m_zCnt.GraphPane.Title.Text = "";
-            m_zCnt.GraphPane.XAxis.Title.Text = "X";
-            m_zCnt.GraphPane.YAxis.Title.Text = "Y";
-            m_zCnt.GraphPane.Legend.IsVisible = false;
-            m_zCnt.GraphPane.XAxis.Scale.Max = 100;
-            m_zCnt.GraphPane.XAxis.Scale.Min = 0;
-            m_zCnt.GraphPane.YAxis.Scale.Max = 100;
-            m_zCnt.GraphPane.YAxis.Scale.Min = 0;
-            RAAnalysisTableLayout.Controls.Add(m_zCnt, 0, 0);
-            m_zCnt.AxisChange();
-            m_zCnt.Refresh();
+
             m_manager = SessionManager.SessionManager.GetManager();
             this.FormClosed += new FormClosedEventHandler(CloseRobustAnalysisForm);
-            m_line = null;
 
             InitializeData();
             s_win = this;
@@ -209,7 +176,6 @@ namespace EcellLib.Analysis
         public void Clear()
         {
             ClearEntry();
-            ClearResult();
         }
 
         /// <summary>
@@ -224,61 +190,8 @@ namespace EcellLib.Analysis
             BAParameterGridView.Rows.Clear();
             BAObservedGridView.Rows.Clear();
 
-            m_paramList.Clear();
             m_robustObservList.Clear();
             m_bifurcationObservList.Clear();
-        }
-
-        /// <summary>
-        /// Clear the entries in result data.
-        /// </summary>
-        public void ClearResult()
-        {
-            RAXComboBox.Items.Clear();
-            RAYComboBox.Items.Clear();
-            RAResultGridView.Rows.Clear();
-
-            PEEstimateView.Rows.Clear();
-            SACCCGridView.Rows.Clear();
-            SAFCCGridView.Rows.Clear();
-
-            m_line = null;
-            CurveList l = m_zCnt.GraphPane.CurveList;
-            l.Clear();
-        }
-
-        /// <summary>
-        /// Set the parameter entry to display the result.
-        /// </summary>
-        /// <param name="name">the parameter name.</param>
-        /// <param name="isX">the flag whether this parameter is default parameter at X axis.</param>
-        /// <param name="isY">the flag whether this parameter is default parameter at Y axis.</param>
-        public void SetResultEntryBox(string name, bool isX, bool isY)
-        {
-            RAXComboBox.Items.Add(name);
-            RAYComboBox.Items.Add(name);
-            if (isX) RAXComboBox.SelectedText = name;
-            if (isY) RAYComboBox.SelectedText = name;
-        }
-
-        /// <summary>
-        /// Set the graph size of result.
-        /// </summary>
-        /// <param name="xmax">Max value of X axis.</param>
-        /// <param name="xmin">Min value of X axis.</param>
-        /// <param name="ymax">Max value of Y axis.</param>
-        /// <param name="ymin">Min value of Y axis.</param>
-        /// <param name="isAutoX">The flag whether X axis is auto scale.</param>
-        /// <param name="isAutoY">The flag whether Y axis is auto scale.</param>
-        public void SetResultGraphSize(double xmax, double xmin, double ymax, double ymin,
-            bool isAutoX, bool isAutoY)
-        {
-            m_zCnt.GraphPane.XAxis.Scale.Max = xmax;
-            m_zCnt.GraphPane.XAxis.Scale.Min = xmin;
-            m_zCnt.GraphPane.YAxis.Scale.Max = ymax;
-            m_zCnt.GraphPane.YAxis.Scale.Min = ymin;
-            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = isAutoX;
-            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = isAutoY;
         }
 
         /// <summary>
@@ -336,70 +249,28 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        ///  The event sequence on changing value of data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID before value change.</param>
-        /// <param name="key">The ID before value change.</param>
-        /// <param name="type">The data type before value change.</param>
-        /// <param name="obj">Changed value of object.</param>
-        public void DataChanged(string modelID, string key, string type, EcellObject obj)
-        {
-            if (obj.Value == null) return;
-            foreach (EcellData d in obj.Value)
-            {
-                if (m_paramList.ContainsKey(d.EntityPath))
-                {
-                    if (!d.Committed) continue;
-                    for (int i = 0; i < RAParamGridView.Rows.Count; i++)
-                    {
-                        String pData = RAParamGridView[0, i].Value.ToString();
-                        if (pData.Equals(d.EntityPath))
-                        {
-                            m_paramList.Remove(d.EntityPath);
-                            RAParamGridView.Rows.RemoveAt(i);
-                            break;
-                        }
-                    }
-                }
-                AddParameterEntry(obj, d);
-            }
-        }
-
-
-        /// <summary>
         /// Add the parameter data.
         /// </summary>
         /// <param name="obj">object include the parameter data.</param>
         /// <param name="d">the parameter data.</param>
-        private void AddParameterEntry(EcellObject obj, EcellData d)
+        public void AddParameterEntry(EcellObject obj, EcellData d)
         {
             if (d.Committed) return;
             AddRobustAnalysisParameterEntry(obj, d);
             AddParameterEstimateEntry(obj, d);
             AddBifurcationAnalysisParameterEntry(obj, d);
-            m_paramList.Add(d.EntityPath, d);
         }
 
         /// <summary>
-        /// Redraw the result table and graph when axis data is changed.
+        /// Add the parameter data.
         /// </summary>
-        public void ChangeAxisIndex()
+        /// <param name="key">the entry key of entry data.</param>
+        public void RemoveParameterEntry(string key)
         {
-            if (RAXComboBox.Text.Equals(RAYComboBox.Text))
-                return;
-
-            string xPath = RAXComboBox.Text;
-            string yPath = RAYComboBox.Text;
-
-            foreach (DataGridViewRow r in RAResultGridView.Rows)
-            {
-                if (r.Tag == null) continue;
-                int jobid = (int)r.Tag;
-
-                r.Cells[1].Value = m_manager.ParameterDic[jobid].ParamDic[xPath];
-                r.Cells[2].Value = m_manager.ParameterDic[jobid].ParamDic[yPath];
-            }
-        }
+            RemoveRobustAnalysisParameterEntry(key);
+            RemoveParameterEstimateEntry(key);
+            RemoveBifurcationAnalysisParameterEntry(key);
+        }       
 
 
         /// <summary>
@@ -412,124 +283,20 @@ namespace EcellLib.Analysis
             if (obj.Value == null) return;
             foreach (EcellData d in obj.Value)
             {
-                if (m_paramList.ContainsKey(d.EntityPath)) continue;
                 AddParameterEntry(obj, d);
             }
         }
 
         /// <summary>
-        /// Add the judgement data of parameter estimation into graph.
+        /// Clear the entries in result data.
         /// </summary>
-        /// <param name="x">the number of generation.</param>
-        /// <param name="y">the value of estimation.</param>
-        public void AddEstimationData(int x, double y)
+        public void ClearResult()
         {
-            RAXComboBox.Enabled = false;
-            RAYComboBox.Enabled = false;
-            RAResultGridView.Enabled = false;
-
-            if (m_line == null)
-            {
-                m_line = m_zCnt.GraphPane.AddCurve(
-                        "Result",
-                        new PointPairList(),
-                        Color.Blue,
-                        SymbolType.Circle);
-
-                Fill f = new Fill(Color.Blue);
-                m_line.Symbol.Fill = f;
-            }
-            m_line.AddPoint(new PointPair(x, y));
-
-            m_zCnt.AxisChange();
-            m_zCnt.Refresh();
+            PEEstimateView.Rows.Clear();
+            SACCCGridView.Rows.Clear();
+            SAFCCGridView.Rows.Clear();
         }
 
-        /// <summary>
-        /// Add the judgement data into GridView.
-        /// </summary>
-        /// <param name="jobid">the jobidof this parameters.</param>
-        /// <param name="x">the value of parameter.</param>
-        /// <param name="y">the value of parameter.</param>
-        /// <param name="isOK">the flag whether this parameter is robustness.</param>
-        public void AddJudgementData(int jobid, double x, double y, bool isOK)
-        {
-            RAXComboBox.Enabled = true;
-            RAYComboBox.Enabled = true;
-            RAResultGridView.Enabled = true;
-
-            LineItem line = null;
-            Color drawColor = Color.Blue;
-            Color styleColor = Color.White;
-            if (!isOK)
-            {
-                drawColor = Color.Red;
-                styleColor = Color.Silver;
-            }
-
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewCheckBoxCell c0 = new DataGridViewCheckBoxCell();
-            c0.Value = isOK;
-            r.Cells.Add(c0);
-
-            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            c1.Value = Convert.ToString(x);
-            c1.Style.BackColor = styleColor;
-            r.Cells.Add(c1);
-
-            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-            c2.Value = Convert.ToString(y);
-            c2.Style.BackColor = styleColor;
-            r.Cells.Add(c2);
-
-            r.Tag = jobid;
-            RAResultGridView.Rows.Add(r);
-            line = m_zCnt.GraphPane.AddCurve(
-                "Result",
-                new PointPairList(),
-                drawColor,
-                SymbolType.Circle);
-
-            Fill f = new Fill(drawColor);
-            line.Symbol.Fill = f;
-
-            line.Line.Width = 5;
-            line.AddPoint(new PointPair(x, y));
-
-            m_zCnt.AxisChange();
-            m_zCnt.Refresh();
-        }
-
-        /// <summary>
-        /// Add the judgement data into GridView.
-        /// </summary>
-        /// <param name="x">the value of parameter.</param>
-        /// <param name="y">the value of parameter.</param>
-        public void AddJudgementDataForBifurcation(double x, double y)
-        {
-            RAXComboBox.Enabled = false;
-            RAYComboBox.Enabled = false;
-            RAResultGridView.Enabled = false;
-
-            LineItem line = null;
-            Color drawColor = Color.Blue;
-            Color styleColor = Color.White;
-
-            line = m_zCnt.GraphPane.AddCurve(
-                "Result",
-                new PointPairList(),
-                drawColor,
-                SymbolType.Circle);
-
-            Fill f = new Fill(drawColor);
-            line.Symbol.Fill = f;
-
-            line.Line.Width = 5;
-            line.AddPoint(new PointPair(x, y));
-
-            m_zCnt.AxisChange();
-            m_zCnt.Refresh();
-        }
         #endregion
 
 
@@ -603,10 +370,6 @@ namespace EcellLib.Analysis
             SACCCGridView.Rows.Clear();
             SAFCCGridView.Columns.Clear();
             SAFCCGridView.Rows.Clear();
-
-            RAXComboBox.Enabled = false;
-            RAYComboBox.Enabled = false;
-            RAResultGridView.Enabled = false;
 
             CreateSensitivityHeader(SACCCGridView, activityList);
             CreateSensitivityHeader(SAFCCGridView, activityList);
@@ -1045,18 +808,50 @@ namespace EcellLib.Analysis
         }
         #endregion
 
+        /// <summary>
+        /// Remove the entry of parameter value.
+        /// </summary>
+        /// <param name="key">the key of parameter value.</param>
+        public void RemoveBifurcationAnalysisParameterEntry(string key)
+        {
+            for (int i = 0; i < BAParameterGridView.Rows.Count; i++)
+            {
+                string pData = BAParameterGridView[0, i].Value.ToString();
+                if (!pData.Equals(key))
+                    continue;
+                EcellObject obj = BAParameterGridView.Rows[i].Tag as EcellObject;
+                if (obj == null)
+                    continue;
+
+                BAParameterGridView.Rows.RemoveAt(i);
+            }
+        }
 
         /// <summary>
         /// Remove the entry of parameter value.
         /// </summary>
         /// <param name="key">the key of parameter value.</param>
-        public void RemoveParamEntry(string key)
+        public void RemoveParameterEstimateEntry(string key)
         {
-            if (m_paramList.ContainsKey(key))
-                m_paramList.Remove(key);
-            else
-                return;
+            for (int i = 0; i < PEParamGridView.Rows.Count; i++)
+            {
+                string pData = PEParamGridView[0, i].Value.ToString();
+                if (!pData.Equals(key))
+                    continue;
+                EcellObject obj = PEParamGridView.Rows[i].Tag as EcellObject;
+                if (obj == null)
+                    continue;
 
+                PEParamGridView.Rows.RemoveAt(i);
+            }
+        }
+
+        /// <summary>
+        /// Remove the entry of parameter value.
+        /// </summary>
+        /// <param name="key">the key of parameter value.</param>
+        public void RemoveRobustAnalysisParameterEntry(string key)
+        {
             for (int i = 0; i < RAParamGridView.Rows.Count; i++)
             {
                 string pData = RAParamGridView[0, i].Value.ToString();
@@ -1067,17 +862,6 @@ namespace EcellLib.Analysis
                     continue;
 
                 RAParamGridView.Rows.RemoveAt(i);
-                m_paramList.Remove(key);
-
-                foreach (EcellData d in obj.Value)
-                {
-                    if (!key.Equals(d.EntityPath))
-                        continue;
-
-                    d.Committed = true;
-                }
-                DataManager dManager = DataManager.GetDataManager();
-                dManager.DataChanged(obj.ModelID, obj.Key, obj.Type, obj);
             }
         }
 
@@ -1104,7 +888,6 @@ namespace EcellLib.Analysis
 
         }
 
-
         #region Events
         /// <summary>
         /// Event to close this window.
@@ -1118,61 +901,6 @@ namespace EcellLib.Analysis
                 m_parent.CloseAnalysisWindow();
             }
             m_parent = null;
-        }
-
-        /// <summary>
-        /// Event to change the Y axis.
-        /// </summary>
-        /// <param name="sender">ComboBox.</param>
-        /// <param name="e">EventArgs.</param>
-        private void ChangeYIndex(object sender, EventArgs e)
-        {
-            ChangeAxisIndex();
-        }
-
-        /// <summary>
-        /// Event to change the X axis.
-        /// </summary>
-        /// <param name="sender">ComboBox.</param>
-        /// <param name="e">EventArgs.</param>
-        private void ChangeXIndex(object sender, EventArgs e)
-        {
-            ChangeAxisIndex();
-        }
-
-        /// <summary>
-        /// Reflect the parameter condition to the model property.
-        /// </summary>
-        /// <param name="sender">MenuItem.</param>
-        /// <param name="e">EventArgs.</param>
-        private void ClickReflectMenu(object sender, EventArgs e)
-        {
-            DataManager manager = DataManager.GetDataManager();
-            foreach (DataGridViewRow r in RAResultGridView.SelectedRows)
-            {
-                if (r.Tag == null) continue;
-                int jobid = (int)r.Tag;
-                foreach (string path in m_manager.ParameterDic[jobid].ParamDic.Keys)
-                {
-                    double param = m_manager.ParameterDic[jobid].ParamDic[path];
-                    String[] ele = path.Split(new char[] { ':' });
-                    String objId = ele[1] + ":" + ele[2];
-                    List<string> modelList = manager.GetModelList();
-                    EcellObject obj = manager.GetEcellObject(modelList[0], objId, ele[0]);
-                    if (obj == null) continue;
-                    foreach (EcellData d in obj.Value)
-                    {
-                        if (d.EntityPath.Equals(path))
-                        {
-                            d.Value = new EcellValue(param);
-                            d.Committed = true;
-                            break;
-                        }
-                    }
-                    manager.DataChanged(modelList[0], objId, ele[0], obj);
-                }
-                break;
-            }
         }
 
         /// <summary>
@@ -1203,22 +931,6 @@ namespace EcellLib.Analysis
                 }
                 manager.DataChanged(modelList[0], objId, ele[0], obj);
             }
-        }
-
-        /// <summary>
-        /// Show the popup menu on the parameter DataGridView.
-        /// </summary>
-        /// <param name="r">The row of popup menu.</param>
-        private void AssignParamPopupMenu(DataGridViewRow r)
-        {
-            ContextMenuStrip contextStrip = new ContextMenuStrip();
-            ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = "Delete ";
-            it.ShortcutKeys = Keys.Control | Keys.D;
-            it.Click += new EventHandler(DeleteParamItem);
-            it.Tag = r;
-            contextStrip.Items.AddRange(new ToolStripItem[] { it });
-            r.ContextMenuStrip = contextStrip;
         }
 
         /// <summary>
@@ -1416,7 +1128,6 @@ namespace EcellLib.Analysis
                     r.Cells.Add(c5);
                     r.Tag = t;
                     c5.ReadOnly = false;                  
-//                    AssignObservPopupMenu(r);
                     BAObservedGridView.Rows.Add(r);
                     m_bifurcationObservList.Add(d.EntityPath, d);
                 }
@@ -1450,20 +1161,6 @@ namespace EcellLib.Analysis
 
             string key = r.Cells[0].Value.ToString();
             RemoveObservEntry(key);
-        }
-
-        /// <summary>
-        /// Event to delete the item on the parameter DataGridView.
-        /// </summary>
-        /// <param name="sender">MenuItem.</param>
-        /// <param name="e">EventArgs.</param>
-        private void DeleteParamItem(object sender, EventArgs e)
-        {
-            DataGridViewRow r = ((ToolStripMenuItem)sender).Tag as DataGridViewRow;
-            if (r == null) return;
-
-            string key = r.Cells[0].Value.ToString();
-            RemoveParamEntry(key);
         }
 
         /// <summary>
@@ -1625,6 +1322,22 @@ namespace EcellLib.Analysis
             string ext = m_fcnt.ExportFormulate();
             PEEstmationFormula.Text = ext;
             m_fwin.Close();
+        }
+
+
+        private void AECancelButtonClicked(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void AEOKButtonClicked(object sender, EventArgs e)
+        {
+            m_parent.SetBifurcationAnalysisParameter(GetBifurcationAnalysisPrameter());
+            m_parent.SetParameterEstimationParameter(GetParameterEstimationParameter());
+            m_parent.SetRobustAnalysisParameter(GetRobustAnalysisParameter());
+            m_parent.SetSensitivityAnalysisParameter(GetSensitivityAnalysisParameter());
+
+            this.Close();
         }
         #endregion
     }

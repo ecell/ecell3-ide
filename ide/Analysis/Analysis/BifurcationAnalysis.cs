@@ -169,7 +169,7 @@ namespace EcellLib.Analysis
         /// </summary>
         public void ExecuteAnalysis()
         {
-            m_param = m_win.GetBifurcationAnalysisPrameter();
+            m_param = m_control.GetBifurcationAnalysisPrameter();
             String tmpDir = m_manager.TmpRootDir;
             double simTime = m_param.SimulationTime;
             int maxSize = Convert.ToInt32(m_param.MaxInput);
@@ -253,10 +253,10 @@ namespace EcellLib.Analysis
                         m_yList.Add(d);
                     }
                 }
-                m_win.SetResultEntryBox(p.FullPath, isX, isY);
+                m_control.SetResultEntryBox(p.FullPath, isX, isY);
                 count++;
             }
-            m_win.SetResultGraphSize(m_xMax, m_xMin, m_yMax, m_yMin, false, false);
+            m_control.SetResultGraphSize(m_xMax, m_xMin, m_yMax, m_yMin, false, false);
 
             for (int i = 0; i <= s_num; i = i + s_skip)
             {
@@ -274,7 +274,7 @@ namespace EcellLib.Analysis
 
             m_manager.SetLoggerData(saveList);
             m_execParam = m_manager.RunSimParameterSet(tmpDir, m_model, simTime, false, tmpDic);
-            m_win.ClearResult();
+            m_control.ClearResult();
             m_isRunning = true;
             m_timer.Enabled = true;
             m_timer.Start();
@@ -442,7 +442,7 @@ namespace EcellLib.Analysis
         /// </summary>
         private void PrintResultData()
         {
-            m_win.ClearResult();
+            m_control.ClearResult();
             for (int i = 0; i <= s_num; i++)
             {
                 for (int j = 0; j <= s_num; j++)
@@ -467,7 +467,7 @@ namespace EcellLib.Analysis
                             }
                     }
                     if (isEdge)
-                        m_win.AddJudgementDataForBifurcation(m_xList[i], m_yList[j]);
+                        m_control.AddJudgementDataForBifurcation(m_xList[i], m_yList[j]);
                 }
             }
         }
