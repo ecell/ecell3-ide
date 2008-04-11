@@ -979,6 +979,8 @@ namespace EcellLib.PathwayWindow
             // Change layer of selected objects.
             PPathwayLayer layer = canvas.Layers[name];
             List<PPathwayObject> objList = canvas.SelectedNodes;
+            if (canvas.SelectedSystem != null)
+                objList.Add(canvas.SelectedSystem);
             int i = 0;
             foreach (PPathwayObject obj in objList)
             {

@@ -217,7 +217,7 @@ namespace EcellLib.PathwayWindow {
                 string name = GetStringAttribute(node, PathwayConstants.xPathName);
                 string visible = GetStringAttribute(node, PathwayConstants.xPathVisible);
                 if (canvas.Layers.ContainsKey(name))
-                    canvas.LayerMoveToBack(name);
+                    canvas.LayerMoveToFront(name);
                 else
                     canvas.AddLayer(name);
                 canvas.ChangeLayerVisibility(name, bool.Parse(visible));
