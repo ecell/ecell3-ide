@@ -1163,7 +1163,7 @@ namespace EcellLib.MainWindow
                 {
                     project.Name = prjID;
                     project.Comment = comment;
-                    Project.SaveProject(m_managePrjDialog.Project, m_managePrjDialog.FileName);
+                    Project.SaveProject(project, m_managePrjDialog.FileName);
                 }
                 m_dManager.LoadProject(prjID, fileName);
                 m_isLoadProject = true;
@@ -1375,6 +1375,7 @@ namespace EcellLib.MainWindow
                     m_isClose = true;
                     SaveProjectMenuClick(sender, e);
                     m_editCount = 0;
+                    CloseProject(m_project);
                 }
                 else if (res == DialogResult.No)
                 {

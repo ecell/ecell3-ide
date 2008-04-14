@@ -330,15 +330,13 @@ namespace EcellLib
         {
             Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_initialCondition[this.m_currentProjectID];
 
+            // Set Message
             string l_message = null;
-            if (l_parameterID != null && l_parameterID.Length > 0)
-            {
-                l_message = "[" + l_parameterID + "][" + l_src.ModelID + "][" + l_src.Key + "]";
-            }
-            else
-            {
+            if (string.IsNullOrEmpty( l_parameterID))
                 l_message = "[" + l_src.ModelID + "][" + l_src.Key + "]";
-            }
+            else
+                l_message = "[" + l_parameterID + "][" + l_src.ModelID + "][" + l_src.Key + "]";
+
             if (!l_src.Classname.Equals(l_dest.Classname))
             {
                 this.m_pManager.Message(
@@ -4920,19 +4918,12 @@ namespace EcellLib
                 //
                 // Sets initial conditions.
                 //
-                this.m_initialCondition[this.m_currentProjectID]
-                        = new Dictionary<string, Dictionary<string, Dictionary<string,
-                                Dictionary<string, double>>>>();
-                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
-                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_modelID] = new Dictionary<string, Dictionary<string, double>>();
-                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_modelID][Constants.xpathSystem] = new Dictionary<string, double>();
-                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_modelID][Constants.xpathProcess] = new Dictionary<string, double>();
-                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID]
-                        [l_modelID][Constants.xpathVariable] = new Dictionary<string, double>();
+                this.m_initialCondition[this.m_currentProjectID] = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
+                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID] = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
+                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID][l_modelID] = new Dictionary<string, Dictionary<string, double>>();
+                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID][l_modelID][Constants.xpathSystem] = new Dictionary<string, double>();
+                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID][l_modelID][Constants.xpathProcess] = new Dictionary<string, double>();
+                this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID][l_modelID][Constants.xpathVariable] = new Dictionary<string, double>();
                 InitializeModel(l_modelObj);
                 //
                 // Stores the "LoggerPolicy"
@@ -4995,68 +4986,23 @@ namespace EcellLib
                 }
 
                 List<EcellData> l_ecellDataList = new List<EcellData>();
-                StreamReader l_reader = null;
                 try
                 {
-                    l_reader = new StreamReader(l_prjFile);
-                    string l_line = "";
-                    string l_comment = "";
-                    string l_parameter = null;
-                    while ((l_line = l_reader.ReadLine()) != null)
-                    {
-                        if (l_line.IndexOf(Constants.textComment) == 0)
-                        {
-                            if (l_line.IndexOf(Constants.delimiterEqual) != -1)
-                            {
-                                l_comment = l_line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
-                            }
-                            else
-                            {
-                                l_comment = l_line.Substring(l_line.IndexOf(Constants.textComment));
-                            }
-                        }
-                        else if (l_line.IndexOf(Constants.textParameter) == 0)
-                        {
-                            if (l_line.IndexOf(Constants.delimiterEqual) != -1)
-                            {
-                                l_parameter = l_line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
-                            }
-                            else
-                            {
-                                l_parameter = l_line.Substring(l_line.IndexOf(Constants.textParameter));
-                            }
-                        }
-                        else if (!l_comment.Equals(""))
-                        {
-                            l_comment = l_comment + "\n" + l_line;
-                        }
-                        else if (l_line.IndexOf(Constants.xpathProject) == 0)
-                        {
-                            if (l_line.IndexOf(Constants.delimiterEqual) != -1)
-                            {
-                                l_prjID = l_line.Split(Constants.delimiterEqual.ToCharArray())[1].Trim();
-                            }
-                            else
-                            {
-                                l_prjID = l_line.Substring(l_line.IndexOf(Constants.textComment));
-                            }
-                        }
-                    }
-                    l_prj = new Project(l_prjID, l_comment, File.GetLastWriteTime(l_prjFile).ToString());
+                    l_prj = Project.LoadProject(l_prjFile);
+                    l_prj.Name = l_prjID;
                     this.m_projectList.Add(l_prj);
-                    l_ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(l_comment), null));
+                    l_ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(l_prj.Comment), null));
                     l_passList.Add(EcellObject.CreateObject(l_prjID, "", Constants.xpathProject, "", l_ecellDataList));
                     //
                     // Initializes.
                     //
                     this.m_currentProjectID = l_prjID;
                     this.m_currentProjectPath = Path.GetDirectoryName(l_prjFile);
-                    this.m_currentParameterID = l_parameter;
-                    m_pManager.ParameterSet(l_prjID, l_parameter);
+                    this.m_currentParameterID = l_prj.SimulationParam;
+                    m_pManager.ParameterSet(l_prjID, m_currentParameterID);
                     this.m_simulatorDic[l_prjID] = CreateSimulatorInstance();
                     this.m_simulatorExeFlagDic[l_prjID] = s_simulationWait;
                     SetDMList();
-                    this.m_projectList.Add(new Project(l_prjID, l_comment, DateTime.Now.ToString()));
                     this.m_loggerPolicyDic[l_prjID] = new Dictionary<string, LoggerPolicy>();
                     //this.m_stepperDic[l_prjID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                     m_stepperDic.Add(l_prjID, new Dictionary<string, Dictionary<string, List<EcellObject>>>());
@@ -5068,10 +5014,6 @@ namespace EcellLib
                 }
                 finally
                 {
-                    if (l_reader != null)
-                    {
-                        l_reader.Close();
-                    }
                 }
 
                 if (l_prj == null)
@@ -5081,39 +5023,30 @@ namespace EcellLib
                 //
                 // Loads the model.
                 //
-                string l_modelDirName =
-                    Path.GetDirectoryName(l_prjFile) + Constants.delimiterPath + Constants.xpathModel;
-                if (Directory.Exists(l_modelDirName))
+                string l_modelDirName = Path.GetDirectoryName(l_prjFile) + Constants.delimiterPath + Constants.xpathModel;
+                if (!Directory.Exists(l_modelDirName))
+                    throw new Exception(m_resources.GetString("ErrFindModel"));
+
+                string[] l_models = Directory.GetFileSystemEntries(
+                    l_modelDirName,
+                    Constants.delimiterWildcard + Constants.FileExtEML
+                    );
+                if (l_models == null || l_models.Length <= 0)
+                    throw new Exception(m_resources.GetString("ErrFindModel"));
+
+                foreach (string l_model in l_models)
                 {
-                    string[] l_models = Directory.GetFileSystemEntries(
-                        l_modelDirName,
-                        Constants.delimiterWildcard + Constants.delimiterPeriod + Constants.xpathEml
-                        );
-                    if (l_models != null && l_models.Length > 0)
+                    string l_fileName = Path.GetFileName(l_model);
+                    if (l_fileName.IndexOf(Constants.delimiterUnderbar) != 0 &&
+                        !l_fileName.EndsWith(Constants.FileExtBackUp))
                     {
-                        foreach (string l_model in l_models)
-                        {
-                            string l_fileName = Path.GetFileName(l_model);
-                            if (l_fileName.IndexOf(Constants.delimiterUnderbar) != 0 &&
-                                !l_fileName.EndsWith(Constants.FileExtBackUp))
-                            {
-                                this.LoadModel(l_model, false);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception(m_resources.GetString("ErrFindModel"));
-                    }
-                    l_passList.AddRange(this.m_modelDic[this.m_currentProjectID]);
-                    foreach (string l_storedModelID in this.m_systemDic[this.m_currentProjectID].Keys)
-                    {
-                        l_passList.AddRange(this.m_systemDic[this.m_currentProjectID][l_storedModelID]);
+                        this.LoadModel(l_model, false);
                     }
                 }
-                else
+                l_passList.AddRange(this.m_modelDic[this.m_currentProjectID]);
+                foreach (string l_storedModelID in this.m_systemDic[this.m_currentProjectID].Keys)
                 {
-                    throw new Exception(m_resources.GetString("ErrFindModel"));
+                    l_passList.AddRange(this.m_systemDic[this.m_currentProjectID][l_storedModelID]);
                 }
                 //
                 // Loads the simulation parameter.
