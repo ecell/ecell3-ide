@@ -93,19 +93,6 @@ namespace EcellLib
         }
 
         [Test()]
-        public void TestLogData()
-        {
-            string modelID = null;
-            string key = null;
-            string type = null;
-            string propName = null;
-            List<LogData> data = null;
-            _unitUnderTest.LogData(modelID, key, type, propName, data);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-
-        [Test()]
         public void TestDataChanged()
         {
             string modelID = null;

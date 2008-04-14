@@ -167,6 +167,7 @@ namespace EcellLib
         private int m_processNumbering = 0;
         private int m_systemNumbering = 0;
         private int m_variableNumbering = 0;
+        private Dictionary<string, EcellObservedData> m_observedList;
         /// <summary>
         /// ResourceManager for StaticDebugSetupWindow.
         /// </summary>
@@ -193,6 +194,7 @@ namespace EcellLib
             this.m_stepperDic = new Dictionary<string, Dictionary<string, Dictionary<string, List<EcellObject>>>>();
             this.m_systemDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
             this.m_loadDirList = new Dictionary<string, string>();
+            this.m_observedList = new Dictionary<string, EcellObservedData>();
             m_aManager = ActionManager.GetActionManager();
         }
 
@@ -1924,6 +1926,37 @@ namespace EcellLib
                     }
                 }
             }
+        }
+
+        public bool IsContainsObservedData(string key)
+        {
+            return m_observedList.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// The event sequence when the user set and change the observed data.
+        /// </summary>
+        /// <param name="data">The observed data.</param>
+        public void SetObservedData(EcellObservedData data)
+        {
+            if (m_observedList.ContainsKey(data.Key))
+            {
+                m_observedList[data.Key] = data;
+            }
+            else
+                m_observedList.Add(data.Key, data);
+            m_pManager.SetObservedData(data);
+        }
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of observed data.
+        /// </summary>
+        /// <param name="data">The removed observed data.</param>
+        public void RemoveObservedData(EcellObservedData data)
+        {
+            if (m_observedList.ContainsKey(data.Key))
+                m_observedList.Remove(data.Key);
+            m_pManager.RemoveObservedData(data);
         }
 
         /// <summary>

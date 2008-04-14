@@ -330,21 +330,6 @@ namespace EcellLib.PathwayWindow
         /// 
         /// </summary>
         [Test()]
-        public void TestLogData()
-        {
-            string modelID = null;
-            string key = null;
-            string type = null;
-            string propName = null;
-            System.Collections.Generic.List<EcellLib.LogData> log = null;
-            _unitUnderTest.LogData(modelID, key, type, propName, log);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestLoggerAdd()
         {
             string modelID = null;

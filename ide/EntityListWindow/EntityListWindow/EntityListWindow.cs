@@ -151,6 +151,10 @@ namespace EcellLib.EntityListWindow
         /// Context menu for delete logger of root system on popup menu.
         /// </summary>
         private MenuItem m_delTopSysLogger;
+        private MenuItem m_creVarObservedData;
+        private MenuItem m_delVarObservedData;
+        private MenuItem m_creProObservedData;
+        private MenuItem m_delProObservedData;
         /// <summary>
         /// Cotext menu for merge of system on popup menu.
         /// </summary>
@@ -191,6 +195,10 @@ namespace EcellLib.EntityListWindow
             m_delProcLogger = new MenuItem();
             m_creVarLogger = new MenuItem();
             m_delVarLogger = new MenuItem();
+            m_creVarObservedData = new MenuItem();
+            m_delVarObservedData = new MenuItem();
+            m_creProObservedData = new MenuItem();
+            m_delProObservedData = new MenuItem();
             m_merge = new MenuItem();
             m_compileDM = new MenuItem();
         }
@@ -592,6 +600,10 @@ namespace EcellLib.EntityListWindow
             m_delVarLogger.Text = EntityListWindow.s_resources.GetString("PopDelLoggerText");
             m_merge.Text = EntityListWindow.s_resources.GetString("PopMergeText");
             m_compileDM.Text = EntityListWindow.s_resources.GetString("PopCompileText");
+            m_creVarObservedData.Text = "Create observed";
+            m_creProObservedData.Text = "Create observed";
+            m_delVarObservedData.Text = "Remove observed";
+            m_delProObservedData.Text = "Remove observed";
             addModel.Text = EntityListWindow.s_resources.GetString("PopAddModelText");
             addSystem.Text = EntityListWindow.s_resources.GetString("PopAddSystemText");
             addVar.Text = EntityListWindow.s_resources.GetString("PopAddVariableText");
@@ -672,6 +684,9 @@ namespace EcellLib.EntityListWindow
                     m_creVarLogger, 
                     m_delVarLogger,
                     separator.CloneMenu(), 
+                    m_creVarObservedData,
+                    m_delVarObservedData,
+                    separator.CloneMenu(),
                     searchMenu.CloneMenu(),
                     sortNameMenu.CloneMenu(),
                     sortTypeMenu.CloneMenu()
@@ -682,6 +697,9 @@ namespace EcellLib.EntityListWindow
                     separator.CloneMenu(),
                     m_creProcLogger, 
                     m_delProcLogger,
+                    separator.CloneMenu(), 
+                    m_creProObservedData,
+                    m_delProObservedData,
                     separator.CloneMenu(), 
                     searchMenu.CloneMenu(),
                     sortNameMenu.CloneMenu(),
@@ -717,6 +735,29 @@ namespace EcellLib.EntityListWindow
                     MenuItem item = new MenuItem(d.Name);
                     item.Click += new EventHandler(TreeViewDelLogger);
                     delLogger.MenuItems.Add(item.CloneMenu());
+                }
+            }
+        }
+
+        private void CreateObservedPopupMenu(MenuItem creLogger, MenuItem delLogger, EcellObject obj)
+        {
+            creLogger.MenuItems.Clear();
+            delLogger.MenuItems.Clear();
+
+            foreach (EcellData d in obj.Value)
+            {
+                if (!d.Logable) continue;
+                MenuItem item = new MenuItem(d.Name);
+                item.Tag = d.EntityPath;
+                if (m_dManager.IsContainsObservedData(d.EntityPath))
+                {
+                    item.Click += new EventHandler(TreeViewDelObservedData);
+                    delLogger.MenuItems.Add(item);
+                }
+                else
+                {
+                    item.Click += new EventHandler(TreeViewCreObservedData);
+                    creLogger.MenuItems.Add(item);
                 }
             }
         }
@@ -1009,6 +1050,47 @@ namespace EcellLib.EntityListWindow
         #endregion
 
         #region Event
+        /// <summary>
+        /// The action of selecting [Create Observed] menu on popup menu.
+        /// </summary>
+        /// <param name="sender">object(MenuItem)</param>
+        /// <param name="e">EventArgs</param>
+        void TreeViewCreObservedData(object sender, EventArgs e)
+        {
+            MenuItem m = sender as MenuItem;
+            string key = m.Tag as string;
+            if (key == null) return;
+
+            EcellObject obj = m_dManager.GetEcellObject(
+                    m_currentObj.ModelID,
+                    m_currentObj.Key,
+                    m_currentObj.Type);
+
+            // set logger
+            foreach (EcellData d in obj.Value)
+            {
+                if (key.Equals(d.EntityPath))
+                {
+                    m_dManager.SetObservedData(new EcellObservedData(key, Convert.ToDouble(d.Value.ToString())));
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The action of selecting [Delete Observed] menu on popup menu.
+        /// </summary>
+        /// <param name="sender">object(MenuItem)</param>
+        /// <param name="e">EventArgs</param>
+        void TreeViewDelObservedData(object sender, EventArgs e)
+        {
+            MenuItem m = sender as MenuItem;
+            string key = m.Tag as string;
+            if (key == null) return;
+
+            m_dManager.RemoveObservedData(new EcellObservedData(key, 0.0));
+        }
+
         /// <summary>
         /// The action of selecting [Create Logger] menu on popup menu.
         /// </summary>
@@ -1391,6 +1473,7 @@ namespace EcellLib.EntityListWindow
                     m_targetNode = node;
                     EcellObject obj = GetObjectFromNode(node);
                     CrateLoggerPopupMenu(m_creVarLogger, m_delVarLogger, obj);
+                    CreateObservedPopupMenu(m_creVarObservedData, m_delVarObservedData, obj);
                     m_currentObj = obj;
                     m_form.treeView1.ContextMenu = m_varMenu;
                 }
@@ -1399,6 +1482,7 @@ namespace EcellLib.EntityListWindow
                     m_targetNode = node;
                     EcellObject obj = GetObjectFromNode(node);
                     CrateLoggerPopupMenu(m_creProcLogger, m_delProcLogger, obj);
+                    CreateObservedPopupMenu(m_creProObservedData, m_delProObservedData, obj);
                     m_currentObj = obj;
                     m_form.treeView1.ContextMenu = m_procMenu;
                 }

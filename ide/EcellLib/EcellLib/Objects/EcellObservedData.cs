@@ -147,5 +147,14 @@ namespace EcellLib.Objects
             if (d.Key == this.Key) return true;
             return false;
         }
+
+        /// <summary>
+        /// Get the hash code of this object.
+        /// </summary>
+        /// <returns>the hash code.</returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

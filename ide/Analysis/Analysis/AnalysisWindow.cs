@@ -56,11 +56,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// The dictionary of the logging data to be observed.
         /// </summary>
-        private Dictionary<string, EcellData> m_robustObservList = new Dictionary<string, EcellData>();
-        /// <summary>
-        /// The dictionary of the logging data to be observed.
-        /// </summary>
-        private Dictionary<string, EcellData> m_bifurcationObservList = new Dictionary<string, EcellData>();
+        private Dictionary<string, EcellObservedData> m_observList = new Dictionary<string, EcellObservedData>();
         /// <summary>
         /// The parent plugin include this form.
         /// </summary>
@@ -69,6 +65,7 @@ namespace EcellLib.Analysis
         /// SessionManager to manage the analysis session.
         /// </summary>
         private SessionManager.SessionManager m_manager;
+        private DataManager m_dManager;
         /// <summary>
         /// The max number of input data to be executed FFT.
         /// </summary>
@@ -106,6 +103,7 @@ namespace EcellLib.Analysis
 
             RARandomCheck.Checked = true;
             RAMatrixCheck.Checked = false;
+            m_dManager = DataManager.GetDataManager();
 
             ContextMenuStrip peCntMenu = new ContextMenuStrip();
             ToolStripMenuItem peit = new ToolStripMenuItem();
@@ -190,8 +188,7 @@ namespace EcellLib.Analysis
             BAParameterGridView.Rows.Clear();
             BAObservedGridView.Rows.Clear();
 
-            m_robustObservList.Clear();
-            m_bifurcationObservList.Clear();
+            m_observList.Clear();
         }
 
         /// <summary>
@@ -295,6 +292,89 @@ namespace EcellLib.Analysis
             PEEstimateView.Rows.Clear();
             SACCCGridView.Rows.Clear();
             SAFCCGridView.Rows.Clear();
+        }
+
+        public void SetObservedData(EcellObservedData data)
+        {
+            if (m_observList.ContainsKey(data.Key))
+            {
+                EditObservedRow(RAObservGridView, data);
+                EditObservedRow(BAObservedGridView, data);
+                m_observList[data.Key] = data;
+
+                return;
+            }
+
+            AddObservedRow(RAObservGridView, data);
+            AddObservedRow(BAObservedGridView, data);
+            m_observList.Add(data.Key, data);
+        }
+
+        private void AddObservedRow(DataGridView v, EcellObservedData data)
+        {
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+            c1.Value = data.Key;
+            r.Cells.Add(c1);
+
+            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+            c2.Value = data.Max;
+            r.Cells.Add(c2);
+
+            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
+            c3.Value = data.Min;
+            r.Cells.Add(c3);
+
+            DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
+            c4.Value = data.Differ;
+            r.Cells.Add(c4);
+
+            DataGridViewTextBoxCell c5 = new DataGridViewTextBoxCell();
+            c5.Value = data.Rate;
+            r.Cells.Add(c5);
+
+            r.Tag = data;
+            v.Rows.Add(r);
+        }
+
+        private void EditObservedRow(DataGridView v, EcellObservedData data)
+        {
+            foreach (DataGridViewRow r in v.Rows)
+            {
+                if (r.Tag == null) continue;
+                EcellObservedData obj = r.Tag as EcellObservedData;
+                if (obj == null) continue;
+
+                if (!obj.Equals(data)) continue;
+                r.Cells[1].Value = data.Max;
+                r.Cells[2].Value = data.Min;
+                r.Cells[3].Value = data.Differ;
+                r.Cells[4].Value = data.Rate;
+
+                r.Tag = data;
+
+                return;
+            }
+        }
+
+        public void RemoveObservedData(EcellObservedData data)
+        {
+            RemoveObservedRow(RAObservGridView, data);
+            RemoveObservedRow(BAObservedGridView, data);
+        }
+
+        private void RemoveObservedRow(DataGridView v, EcellObservedData data)
+        {
+            foreach (DataGridViewRow r in v.Rows)
+            {
+                if (r.Tag == null) continue;
+                EcellObservedData obj = r.Tag as EcellObservedData;
+                if (obj == null) continue;
+
+                if (!obj.Equals(data)) continue;
+                v.Rows.Remove(r);
+                return;
+            }
         }
 
         #endregion
@@ -871,21 +951,8 @@ namespace EcellLib.Analysis
         /// <param name="key">the key of observed value.</param>
         public void RemoveObservEntry(string key)
         {
-            if (m_robustObservList.ContainsKey(key))
-                m_robustObservList.Remove(key);
-            else
-                return;
-
-            for (int i = 0; i < RAObservGridView.Rows.Count; i++)
-            {
-                String ind = RAObservGridView[0, i].Value.ToString();
-                if (ind.Equals(key))
-                {
-                    RAObservGridView.Rows.RemoveAt(i);
-                    continue;
-                }
-            }
-
+            EcellObservedData data = new EcellObservedData(key, 0.0);
+            m_dManager.RemoveObservedData(data);
         }
 
         #region Events
@@ -993,73 +1060,11 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
-        /// Event to drop the object on the observe DataGridView.
-        /// </summary>
-        /// <param name="sender">DataGridView.</param>
-        /// <param name="e">DragEventArgs</param>
-        private void DragDropObservForRobust(object sender, DragEventArgs e)
-        {
-            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
-            if (obj == null) return;
-            EcellDragObject dobj = obj as EcellDragObject;
-
-            DataManager dManager = DataManager.GetDataManager();
-            EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
-            foreach (EcellData d in t.Value)
-            {
-                if (d.EntityPath.Equals(dobj.Path))
-                {
-                    DataGridViewRow r = new DataGridViewRow();
-                    DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                    c1.Value = d.EntityPath;
-                    r.Cells.Add(c1);
-                    DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                    if (d.Max == 0.0)
-                    {
-                        c2.Value = Convert.ToDouble(d.Value.ToString()) * 1.5;
-                    }
-                    else
-                    {
-                        c2.Value = d.Max;
-                    }
-                    r.Cells.Add(c2);
-                    DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-                    if (d.Min == 0.0)
-                    {
-                        c3.Value = Convert.ToDouble(d.Value.ToString()) * 0.5;
-                    }
-                    else
-                    {
-                        c3.Value = d.Min;
-                    }
-                    r.Cells.Add(c3);
-                    DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
-                    if (d.Max == 0.0 && d.Min == 0.0)
-                    {
-                        c4.Value = Convert.ToDouble(d.Value.ToString());
-                    }
-                    else
-                    {
-                        c4.Value = d.Max - d.Min;
-                    }
-                    r.Cells.Add(c4);
-                    DataGridViewTextBoxCell c5 = new DataGridViewTextBoxCell();
-                    c5.Value = 0.5;
-                    r.Cells.Add(c5);
-                    r.Tag = t;
-                    AssignObservPopupMenu(r);
-                    RAObservGridView.Rows.Add(r);
-                    m_robustObservList.Add(d.EntityPath, d);
-                }
-            }
-        }
-
-        /// <summary>
         /// Event to enter in the observe DataGridView.
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DragEventArgs</param>
-        private void DragEnterObservForRobust(object sender, DragEventArgs e)
+        private void DragEnterObservedData(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
             if (obj != null)
@@ -1073,7 +1078,7 @@ namespace EcellLib.Analysis
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DragEventArgs</param>
-        private void DragDropObservForBifurcation(object sender, DragEventArgs e)
+        private void DragDropObservedData(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
             
@@ -1086,68 +1091,13 @@ namespace EcellLib.Analysis
             {
                 if (d.EntityPath.Equals(dobj.Path))
                 {
-                    DataGridViewRow r = new DataGridViewRow();
-                    DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                    c1.Value = d.EntityPath;
-                    r.Cells.Add(c1);
-                    DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                    if (d.Max == 0.0)
-                    {
-                        c2.Value = Convert.ToDouble(d.Value.ToString()) * 1.5;
-                    }
-                    else
-                    {
-                        c2.Value = d.Max;
-                    }
-                    r.Cells.Add(c2);
-                    c2.ReadOnly = false;
-                    DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-                    if (d.Min == 0.0)
-                    {
-                        c3.Value = Convert.ToDouble(d.Value.ToString()) * 0.5;
-                    }
-                    else
-                    {
-                        c3.Value = d.Min;
-                    }
-                    r.Cells.Add(c3);
-                    c3.ReadOnly = false;
-                    DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
-                    if (d.Max == 0.0 && d.Min == 0.0)
-                    {
-                        c4.Value = Convert.ToDouble(d.Value.ToString());
-                    }
-                    else
-                    {
-                        c4.Value = d.Max - d.Min;
-                    }
-                    r.Cells.Add(c4);
-                    c4.ReadOnly = false;
-                    DataGridViewTextBoxCell c5 = new DataGridViewTextBoxCell();
-                    c5.Value = 0.5;
-                    r.Cells.Add(c5);
-                    r.Tag = t;
-                    c5.ReadOnly = false;                  
-                    BAObservedGridView.Rows.Add(r);
-                    m_bifurcationObservList.Add(d.EntityPath, d);
+                    EcellObservedData data = new EcellObservedData(d.EntityPath, d.Value.CastToDouble());
+                    m_dManager.SetObservedData(data);
+
+                    return;
                 }
             }
         }
-
-        /// <summary>
-        /// Event to enter in the observe DataGridView.
-        /// </summary>
-        /// <param name="sender">DataGridView.</param>
-        /// <param name="e">DragEventArgs</param>
-        private void DragEnterObservForBifurcation(object sender, DragEventArgs e)
-        {
-            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
-            if (obj != null)
-                e.Effect = DragDropEffects.Move;
-            else
-                e.Effect = DragDropEffects.None;
-        }
-
 
         /// <summary>
         /// Event to delete the item on the observe DataGridView.
@@ -1340,6 +1290,30 @@ namespace EcellLib.Analysis
             this.Close();
         }
         #endregion
+
+        private void ObserbedCellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView v = sender  as DataGridView;
+            if (v == null) return;
+            DataGridViewRow r = v.Rows[e.RowIndex];
+            if (r.Tag == null) return;
+            EcellObservedData obj = r.Tag as EcellObservedData;
+            if (obj == null) return;
+
+            EcellObservedData p = ExtractObservedDataFromRow(r);
+            m_dManager.SetObservedData(p);
+        }
+
+        private EcellObservedData ExtractObservedDataFromRow(DataGridViewRow r)
+        {
+            string key = Convert.ToString(r.Cells[0].Value.ToString());
+            double max = Convert.ToDouble(r.Cells[1].Value.ToString());
+            double min = Convert.ToDouble(r.Cells[2].Value.ToString());
+            double diff = Convert.ToDouble(r.Cells[3].Value.ToString());
+            double rate = Convert.ToDouble(r.Cells[4].Value.ToString());
+
+            return new EcellObservedData(key, max, min, diff, rate);
+        }
     }
 
 }

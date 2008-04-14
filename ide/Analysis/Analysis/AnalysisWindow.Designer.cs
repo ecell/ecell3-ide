@@ -200,6 +200,8 @@
             resources.ApplyResources(this.robustTabControl, "robustTabControl");
             this.robustTabControl.Name = "robustTabControl";
             this.robustTabControl.SelectedIndex = 0;
+            this.robustTabControl.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropObservedData);
+            this.robustTabControl.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterObservedData);
             // 
             // AWRobustTabPage
             // 
@@ -277,8 +279,9 @@
             this.RAObservGridView.Name = "RAObservGridView";
             this.RAObservGridView.RowHeadersVisible = false;
             this.RAObservGridView.RowTemplate.Height = 21;
-            this.RAObservGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterObservForRobust);
-            this.RAObservGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropObservForRobust);
+            this.RAObservGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ObserbedCellEndEdit);
+            this.RAObservGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterObservedData);
+            this.RAObservGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropObservedData);
             // 
             // OIDColumn
             // 
@@ -950,8 +953,7 @@
             this.BAObservedGridView.Name = "BAObservedGridView";
             this.BAObservedGridView.RowHeadersVisible = false;
             this.BAObservedGridView.RowTemplate.Height = 21;
-            this.BAObservedGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterObservForBifurcation);
-            this.BAObservedGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropObservForBifurcation);
+            this.BAObservedGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ObserbedCellEndEdit);
             // 
             // BAOIDColumn
             // 

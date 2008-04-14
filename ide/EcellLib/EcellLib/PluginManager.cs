@@ -364,6 +364,54 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// The event sequence when the user set and change the observed data.
+        /// </summary>
+        /// <param name="data">The observed data.</param>
+        public virtual void SetObservedData(EcellObservedData data)
+        {
+            foreach (IEcellPlugin p in m_pluginList.Values)
+            {
+                p.SetObservedData(data);
+            }
+        }
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of observed data.
+        /// </summary>
+        /// <param name="data">The removed observed data.</param>
+        public virtual void RemoveObservedData(EcellObservedData data)
+        {
+            foreach (IEcellPlugin p in m_pluginList.Values)
+            {
+                p.RemoveObservedData(data);
+            }
+        }
+
+        /// <summary>
+        /// The event sequence when the user add and change the parameter data.
+        /// </summary>
+        /// <param name="data">The parameter data.</param>
+        public virtual void SetParameterData(EcellParameterData data)
+        {
+            foreach (IEcellPlugin p in m_pluginList.Values)
+            {
+                p.SetParameterData(data);
+            }
+        }
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of parameter data.
+        /// </summary>
+        /// <param name="data">The removed parameter data.</param>
+        public virtual void RemoveParameterData(EcellParameterData data)
+        {
+            foreach (IEcellPlugin p in m_pluginList.Values)
+            {
+                p.RemoveParameterData(data);
+            }
+        }
+
+        /// <summary>
         /// event sequence on generating warning data at other plugin.
         /// </summary>
         /// <param name="modelID">the model ID generating warning data</param>

@@ -178,9 +178,28 @@ namespace EcellLib.Plugin
         /// <param name="parameterID">The set parameter ID.</param>
         void ParameterSet(string projectID, string parameterID);
 
+        /// <summary>
+        /// The event sequence when the user add and change the observed data.
+        /// </summary>
+        /// <param name="data">the observed data.</param>
         void SetObservedData(EcellObservedData data);
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of observed data.
+        /// </summary>
+        /// <param name="data">The removed observed data.</param>
         void RemoveObservedData(EcellObservedData data);
+
+        /// <summary>
+        /// The event sequence when the user add and change the parameter data.
+        /// </summary>
+        /// <param name="data">The parameter data.</param>
         void SetParameterData(EcellParameterData data);
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of parameter data.
+        /// </summary>
+        /// <param name="data">The removed parameter data.</param>
         void RemoveParameterData(EcellParameterData data);
 
         /// <summary>

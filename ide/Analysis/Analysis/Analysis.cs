@@ -420,6 +420,11 @@ namespace EcellLib.Analysis
             m_sensitivityAnalysis.ExecuteAnalysis();
         }
 
+        /// <summary>
+        /// Stop the all process of analysis.
+        /// </summary>
+        /// <param name="sender">MenuItem.</param>
+        /// <param name="e">EventArgs.</param>
         private void StopAnalysis(object sender, EventArgs e)
         {
             if (m_bifurcationAnalysis != null)
@@ -663,6 +668,18 @@ namespace EcellLib.Analysis
                 if (m_win != null)
                     m_win.RemoveParameterEntry(data);
             }
+        }
+
+        public override void SetObservedData(EcellObservedData data)
+        {
+            if (m_win != null)
+                m_win.SetObservedData(data);
+        }
+
+        public override void RemoveObservedData(EcellObservedData data)
+        {
+            if (m_win != null)
+                m_win.RemoveObservedData(data);
         }
 
         /// <summary>

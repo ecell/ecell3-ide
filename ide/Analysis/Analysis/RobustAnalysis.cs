@@ -69,6 +69,7 @@ namespace EcellLib.Analysis
         /// The flag whether the analysis is running.
         /// </summary>
         private bool m_isRunning = false;
+        private Dictionary<int, ExecuteParameter> m_paramDic;
         #endregion
 
         /// <summary>
@@ -191,11 +192,11 @@ namespace EcellLib.Analysis
             m_manager.SetLoggerData(saveList);
             if (m_param.IsRandomCheck == true)
             {
-                m_manager.RunSimParameterRange(tmpDir, model, num, simTime, false);
+                m_paramDic = m_manager.RunSimParameterRange(tmpDir, model, num, simTime, false);
             }
             else
             {
-                m_manager.RunSimParameterMatrix(tmpDir, model, simTime, false);
+                m_paramDic = m_manager.RunSimParameterMatrix(tmpDir, model, simTime, false);
             }
             m_isRunning = true;
             m_timer.Enabled = true;
@@ -257,7 +258,7 @@ namespace EcellLib.Analysis
             m_control.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
 
             List<AnalysisJudgementParam> judgeList = m_win.ExtractObserved();
-            foreach (int jobid in m_manager.SessionList.Keys)
+            foreach (int jobid in m_paramDic.Keys)
             {
                 if (m_manager.SessionList[jobid].Status != JobStatus.FINISHED)
                     continue;

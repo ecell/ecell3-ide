@@ -133,5 +133,14 @@ namespace EcellLib.Objects
                 return true;
             return false;
         }
+
+        /// <summary>
+        /// Get the hash code of this object.
+        /// </summary>
+        /// <returns>the hash code.</returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
