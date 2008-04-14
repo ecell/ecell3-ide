@@ -233,6 +233,7 @@ namespace EcellLib.Analysis
             if (isY) RAYComboBox.SelectedText = name;
         }
 
+        #region Events
         /// <summary>
         /// Event to close this window.
         /// </summary>
@@ -246,6 +247,27 @@ namespace EcellLib.Analysis
             }
             m_control = null;
         }
+
+        /// <summary>
+        /// Event to change the index of selected data.
+        /// </summary>
+        /// <param name="sender">object(ComboBox).</param>
+        /// <param name="e">EventArgs.</param>
+        private void XSelectedIndexChanged(object sender, EventArgs e)
+        {
+            ChangeAxisIndex();
+        }
+
+        /// <summary>
+        /// Event to change the index of selected data.
+        /// </summary>
+        /// <param name="sender">object(ComboBox).</param>
+        /// <param name="e">EventArgs.</param>
+        private void YSelectedIndexChanged(object sender, EventArgs e)
+        {
+            ChangeAxisIndex();
+        }
+        #endregion
     }
 
 

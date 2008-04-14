@@ -178,15 +178,10 @@ namespace EcellLib.Plugin
         /// <param name="parameterID">The set parameter ID.</param>
         void ParameterSet(string projectID, string parameterID);
 
-        /// <summary>
-        /// The event sequence on changing value with the simulation.
-        /// </summary>
-        /// <param name="modelID">The model ID of object changed value.</param>
-        /// <param name="key">The ID of object changed value.</param>
-        /// <param name="type">The object type of object changed value.</param>
-        /// <param name="propName">The property name of object changed value.</param>
-        /// <param name="data">Changed value of object.</param>
-        void LogData(string modelID, string key, string type, string propName, List<LogData> data);
+        void SetObservedData(EcellObservedData data);
+        void RemoveObservedData(EcellObservedData data);
+        void SetParameterData(EcellParameterData data);
+        void RemoveParameterData(EcellParameterData data);
 
         /// <summary>
         /// The event sequence on generating warning data at other plugin.

@@ -284,22 +284,6 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// event sequence on changing value on executing the simulation.
-        /// </summary>
-        /// <param name="modelID">the model ID of changing value.</param>
-        /// <param name="key">the key of changing value.</param>
-        /// <param name="type">the data type of changing value.</param>
-        /// <param name="propName">the property name of changin value.</param>
-        /// <param name="data">the simulation result.</param>
-        public void LogData(string modelID, string key, string type, string propName, List<LogData> data)
-        {
-            foreach (IEcellPlugin p in m_pluginList.Values)
-            {
-                p.LogData(modelID, key, type, propName, data);
-            }
-        }
-
-        /// <summary>
         /// event sequence on changing value of data at other plugin.
         /// </summary>
         /// <param name="modelID">the model ID before value change</param>

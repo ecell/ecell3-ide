@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2008 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -172,7 +172,7 @@ namespace EcellLib.Plugin
         /// <param name="data">The value of the adding object.</param>
         public virtual void DataAdd(List<EcellObject> data)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace EcellLib.Plugin
         /// <param name="data">Changed value of object.</param>
         public virtual void DataChanged(string modelID, string key, string type, EcellObject data)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace EcellLib.Plugin
         /// <param name="type">The object type of deleted object.</param>
         public virtual void DataDelete(string modelID, string key, string type)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace EcellLib.Plugin
         /// <param name="data">EcellObject, whose position will be set</param>
         public virtual void SetPosition(EcellObject data)
         {
-            // not implement
+            // nothing
         }
         #endregion
 
@@ -216,7 +216,7 @@ namespace EcellLib.Plugin
         /// <param name="type">Selected the data type.</param>
         public virtual void SelectChanged(string modelID, string key, string type)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace EcellLib.Plugin
         /// <param name="type">Type of object added to selected objects.</param>
         public virtual void AddSelect(string modelID, string key, string type)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace EcellLib.Plugin
         /// <param name="type">Type of object removed from selected objects.</param>
         public virtual void RemoveSelect(string modelID, string key, string type)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace EcellLib.Plugin
         /// </summary>
         public virtual void ResetSelect()
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace EcellLib.Plugin
         /// <param name="parameterID">The added parameter ID/</param>
         public virtual void ParameterAdd(string projectID, string parameterID)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace EcellLib.Plugin
         /// <param name="parameterID">The deleted parameter ID.</param>
         public virtual void ParameterDelete(string projectID, string parameterID)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -276,20 +276,43 @@ namespace EcellLib.Plugin
         /// <param name="parameterID">The set parameter ID.</param>
         public virtual void ParameterSet(string projectID, string parameterID)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
-        /// The event sequence on changing value with the simulation.
+        /// The event sequence when the user set and change the observed data.
         /// </summary>
-        /// <param name="modelID">The model ID of object changed value.</param>
-        /// <param name="key">The ID of object changed value.</param>
-        /// <param name="type">The object type of object changed value.</param>
-        /// <param name="propName">The property name of object changed value.</param>
-        /// <param name="data">Changed value of object.</param>
-        public virtual void LogData(string modelID, string key, string type, string propName, List<LogData> data)
+        /// <param name="data">The observed data.</param>
+        public virtual void SetObservedData(EcellObservedData data)
         {
-            // not implement
+            // nothing
+        }
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of observed data.
+        /// </summary>
+        /// <param name="data">The removed observed data.</param>
+        public virtual void RemoveObservedData(EcellObservedData data)
+        {
+            // nothing
+        }
+
+        /// <summary>
+        /// The event sequence when the user add and change the parameter data.
+        /// </summary>
+        /// <param name="data">The parameter data.</param>
+        public virtual void SetParameterData(EcellParameterData data)
+        {
+            // nothing
+        }
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of parameter data.
+        /// </summary>
+        /// <param name="data">The removed parameter data.</param>
+        public virtual void RemoveParameterData(EcellParameterData data)
+        {
+            // nothing
         }
 
         /// <summary>
@@ -301,7 +324,7 @@ namespace EcellLib.Plugin
         /// <param name="warntype">The type of waring data.</param>
         public virtual void WarnData(string modelID, string key, string type, string warntype)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -313,7 +336,7 @@ namespace EcellLib.Plugin
         /// <param name="path">The path of entity.</param>
         public virtual void LoggerAdd(string modelID, string type, string key, string path)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -323,7 +346,7 @@ namespace EcellLib.Plugin
         /// <param name="message">Message.</param>
         public virtual void Message(string type, string message)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -332,7 +355,7 @@ namespace EcellLib.Plugin
         /// <param name="time">The current simulation time.</param>
         public virtual void AdvancedTime(double time)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -342,7 +365,7 @@ namespace EcellLib.Plugin
         /// <param name="type">System status.</param>
         public virtual void ChangeStatus(ProjectStatus type)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -351,7 +374,7 @@ namespace EcellLib.Plugin
         /// <param name="status"></param>
         public virtual void ChangeUndoStatus(UndoStatus status)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -361,7 +384,7 @@ namespace EcellLib.Plugin
         /// <param name="directory">A saved file must be under this directory </param>
         public virtual void SaveModel(string modelID, string directory)
         {
-            // not implement
+            // nothing
         }
 
         /// <summary>
@@ -369,7 +392,7 @@ namespace EcellLib.Plugin
         /// </summary>        
         public virtual void Clear()
         {
-            // not implement
+            // nothing
         }
         #endregion
         #endregion

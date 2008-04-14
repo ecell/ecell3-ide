@@ -72,12 +72,14 @@
             resources.ApplyResources(this.RAXComboBox, "RAXComboBox");
             this.RAXComboBox.FormattingEnabled = true;
             this.RAXComboBox.Name = "RAXComboBox";
+            this.RAXComboBox.SelectedIndexChanged += new System.EventHandler(this.XSelectedIndexChanged);
             // 
             // RAYComboBox
             // 
             resources.ApplyResources(this.RAYComboBox, "RAYComboBox");
             this.RAYComboBox.FormattingEnabled = true;
             this.RAYComboBox.Name = "RAYComboBox";
+            this.RAYComboBox.SelectedIndexChanged += new System.EventHandler(this.YSelectedIndexChanged);
             // 
             // AnalysisResultWindow
             // 
