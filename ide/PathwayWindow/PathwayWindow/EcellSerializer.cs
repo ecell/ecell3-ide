@@ -316,11 +316,18 @@ namespace EcellLib.PathwayWindow {
         /// <returns></returns>
         private static string GetStringAttribute(XmlNode node, string key)
         {
-            string value = node.Attributes[key].Value;
-            if (value == null)
-                return "";
-            else
-                return value;
+            try
+            {
+                XmlAttribute attribute = node.Attributes[key];
+                if (attribute == null)
+                    return null;
+                else
+                    return attribute.Value;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
         /// <summary>
         /// GetXMLAttributeFloat
