@@ -953,6 +953,41 @@ namespace EcellLib.MainWindow
         public void SetPosition(EcellObject data)
         {
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        public void SetObservedData(EcellObservedData data)
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        public void RemoveObservedData(EcellObservedData data)
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        public void SetParameterData(EcellParameterData data)
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        public void RemoveParameterData(EcellParameterData data)
+        {
+        }
+
+
+
         #endregion
 
         #region Event

@@ -285,6 +285,9 @@ namespace EcellLib.PathwayWindow {
         /// <param name="comments"></param>
         private static void SetComments(CanvasControl canvas, XmlNode comments)
         {
+            if (comments == null || comments.ChildNodes.Count <= 0)
+                return;
+
             foreach (XmlNode node in comments.ChildNodes)
             {
                 if (!node.Name.Equals(PathwayConstants.xPathComment))
