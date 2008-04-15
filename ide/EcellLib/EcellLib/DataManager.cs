@@ -1057,7 +1057,6 @@ namespace EcellLib
         private void DataAdd4Entity(EcellObject l_ecellObject, bool l_messageFlag)
         {
             Dictionary<string, List<EcellObject>> sysDic = m_systemDic[this.m_currentProjectID];
-            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_initialCondition[this.m_currentProjectID];
             string l_modelID = l_ecellObject.ModelID;
             string l_key = l_ecellObject.Key;
             string l_type = l_ecellObject.Type;
@@ -1139,18 +1138,18 @@ namespace EcellLib
                         {
                             if (l_data.Value.IsDouble())
                             {
-                                foreach (string l_keyParameterID in initialCondition.Keys)
+                                foreach (string l_keyParameterID in this.m_initialCondition[this.m_currentProjectID].Keys)
                                 {
-                                    initialCondition[l_keyParameterID]
+                                    this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
                                             [l_modelID][l_type][l_data.EntityPath]
                                         = l_data.Value.CastToDouble();
                                 }
                             }
                             else if (l_data.Value.IsInt())
                             {
-                                foreach (string l_keyParameterID in initialCondition.Keys)
+                                foreach (string l_keyParameterID in this.m_initialCondition[this.m_currentProjectID].Keys)
                                 {
-                                    initialCondition[l_keyParameterID]
+                                    this.m_initialCondition[this.m_currentProjectID][l_keyParameterID]
                                             [l_modelID][l_type][l_data.EntityPath]
                                         = l_data.Value.CastToInt();
                                 }
@@ -1169,9 +1168,7 @@ namespace EcellLib
         private void DataAdd4Model(EcellObject l_ecellObject, List<EcellObject> l_usableList)
         {
             List<EcellObject> modelDic = this.m_modelDic[this.m_currentProjectID];
-            Dictionary<string, List<EcellObject>> sysDic = m_systemDic[this.m_currentProjectID];
-            Dictionary<string, Dictionary<string, List<EcellObject>>> stepperDic = this.m_stepperDic[this.m_currentProjectID];
-            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_initialCondition[this.m_currentProjectID];
+
             string l_modelID = l_ecellObject.ModelID;
 
             string l_message = "[" + l_modelID + "]";
@@ -1199,14 +1196,12 @@ namespace EcellLib
             //
             // Sets the root "System".
             //
-            if (sysDic == null)
-            {
-                sysDic = new Dictionary<string, List<EcellObject>>();
-            }
+            if (!m_systemDic.ContainsKey(this.m_currentProjectID))
+                m_systemDic[this.m_currentProjectID] = new Dictionary<string, List<EcellObject>>();
+            Dictionary<string, List<EcellObject>> sysDic = m_systemDic[this.m_currentProjectID];
             if (!sysDic.ContainsKey(l_modelID))
-            {
                 sysDic[l_modelID] = new List<EcellObject>();
-            }
+
             Dictionary<string, EcellObject> l_dic = GetDefaultSystem(l_modelID);
             Debug.Assert(l_dic != null);
             sysDic[l_modelID].Add(l_dic[Constants.xpathSystem]);
@@ -1217,7 +1212,8 @@ namespace EcellLib
             if (string.IsNullOrEmpty(this.m_currentParameterID))
             {
                 this.m_currentParameterID = Constants.defaultSimParam;
-                stepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
+                this.m_stepperDic[this.m_currentProjectID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
+                Dictionary<string, Dictionary<string, List<EcellObject>>> stepperDic = this.m_stepperDic[this.m_currentProjectID];
                 stepperDic[this.m_currentParameterID] = new Dictionary<string, List<EcellObject>>();
                 stepperDic[this.m_currentParameterID][l_modelID] = new List<EcellObject>();
                 stepperDic[this.m_currentParameterID][l_modelID].Add(l_dic[Constants.xpathStepper]);
@@ -1232,7 +1228,8 @@ namespace EcellLib
                 //
                 // Sets initial conditions.
                 //
-                initialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
+                this.m_initialCondition[this.m_currentProjectID] = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
+                Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_initialCondition[this.m_currentProjectID];
                 initialCondition[this.m_currentParameterID] = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
                 initialCondition[this.m_currentParameterID][l_modelID] = new Dictionary<string, Dictionary<string, double>>();
                 initialCondition[this.m_currentParameterID][l_modelID][Constants.xpathSystem] = new Dictionary<string, double>();
@@ -4549,12 +4546,13 @@ namespace EcellLib
         public void Initialize(bool l_flag)
         {
             Dictionary<string, List<EcellObject>> stepperList = this.m_stepperDic[this.m_currentProjectID][this.m_currentParameterID];
-            WrappedSimulator simulator = this.m_simulatorDic[this.m_currentProjectID];
+            WrappedSimulator simulator = null;
             Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = this.m_initialCondition[this.m_currentProjectID][this.m_currentParameterID];
 
             try
             {
-                simulator = CreateSimulatorInstance();
+                this.m_simulatorDic[this.m_currentProjectID] = CreateSimulatorInstance();
+                simulator = this.m_simulatorDic[this.m_currentProjectID];
                 //
                 // Loads steppers on the simulator.
                 //
