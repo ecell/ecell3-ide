@@ -739,7 +739,7 @@ namespace EcellLib.SessionManager
         // The following member and function is in here or
         // EcellLib.AnalysisManager.
         //======================================================
-        private List<ParameterRange> m_paramList = new List<ParameterRange>();
+        private List<EcellParameterData> m_paramList = new List<EcellParameterData>();
         private List<SaveLoggerProperty> m_logList = new List<SaveLoggerProperty>();
 
         /// <summary>
@@ -761,11 +761,11 @@ namespace EcellLib.SessionManager
         /// If you use RunSimParameterMatrix, the number of list must be 2.
         /// </summary>
         /// <param name="pList">the list of range for initial parameters.</param>
-        public void SetParameterRange(List<ParameterRange> pList)
+        public void SetParameterRange(List<EcellParameterData> pList)
         {
             m_paramList.Clear();
 
-            foreach (ParameterRange p in pList)
+            foreach (EcellParameterData p in pList)
             {
                 m_paramList.Add(p);
             }
@@ -884,7 +884,7 @@ namespace EcellLib.SessionManager
             for (int i = 0 ; i < num ; i++ )
             {
                 paramDic.Clear();
-                foreach (ParameterRange p in m_paramList)
+                foreach (EcellParameterData p in m_paramList)
                 {
                     double data = 0.0;
                     if (p.Step <= 0.0)
@@ -896,7 +896,7 @@ namespace EcellLib.SessionManager
                     {
                         data = p.Step * i + p.Min;
                     }
-                    paramDic.Add(p.FullPath, data);
+                    paramDic.Add(p.Key, data);
                 }
                 string dirName = topDir + "/" + i;
                 string fileName = topDir + "/" + i + ".ess";
@@ -1017,12 +1017,12 @@ namespace EcellLib.SessionManager
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             Random hRandom = new Random();
             paramDic.Clear();
-            foreach (ParameterRange p in m_paramList)
+            foreach (EcellParameterData p in m_paramList)
             {
                 double data = 0.0;
                 double d = hRandom.NextDouble();
                 data = d * (p.Max - p.Min) + p.Min;
-                paramDic.Add(p.FullPath, data);
+                paramDic.Add(p.Key, data);
             }
             return new ExecuteParameter(paramDic);
         }
@@ -1048,8 +1048,8 @@ namespace EcellLib.SessionManager
                 MessageBox.Show("ERROR", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return resList; 
             }
-            ParameterRange x = m_paramList[0];
-            ParameterRange y = m_paramList[1];
+            EcellParameterData x = m_paramList[0];
+            EcellParameterData y = m_paramList[1];
             int i = 0;
             for (double xd = x.Min ; xd <= x.Max; xd += x.Step)
             {
@@ -1074,15 +1074,15 @@ namespace EcellLib.SessionManager
                         {
                             foreach (EcellData d in sysObj.Value)
                             {
-                                if (d.EntityPath.Equals(x.FullPath))
+                                if (d.EntityPath.Equals(x.Key))
                                 {
                                     d.Value.Value = xd;
-                                    paramDic.Add(x.FullPath, xd);
+                                    paramDic.Add(x.Key, xd);
                                 }
-                                else if (d.EntityPath.Equals(y.FullPath))
+                                else if (d.EntityPath.Equals(y.Key))
                                 {
                                     d.Value.Value = yd;
-                                    paramDic.Add(y.FullPath, yd);
+                                    paramDic.Add(y.Key, yd);
                                 }
                             }
                         }
@@ -1096,15 +1096,15 @@ namespace EcellLib.SessionManager
                             if (obj.Value == null) continue;
                             foreach (EcellData d in obj.Value)
                             {
-                                if (d.EntityPath.Equals(x.FullPath))
+                                if (d.EntityPath.Equals(x.Key))
                                 {
                                     d.Value.Value = xd;
-                                    paramDic.Add(x.FullPath, xd);
+                                    paramDic.Add(x.Key, xd);
                                 }
-                                else if (d.EntityPath.Equals(y.FullPath))
+                                else if (d.EntityPath.Equals(y.Key))
                                 {
                                     d.Value.Value = yd;
-                                    paramDic.Add(y.FullPath, yd);
+                                    paramDic.Add(y.Key, yd);
                                 }
                             }
                         }

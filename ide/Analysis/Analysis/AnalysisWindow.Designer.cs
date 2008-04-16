@@ -30,41 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnalysisWindow));
             this.robustTabControl = new System.Windows.Forms.TabControl();
-            this.AWRobustTabPage = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.RAParamGridView = new System.Windows.Forms.DataGridView();
-            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MaxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StepColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RAObservGridView = new System.Windows.Forms.DataGridView();
-            this.OIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OMaxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OMinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ODiffColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ORateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
-            this.RAWinSizeText = new System.Windows.Forms.TextBox();
-            this.RAWinSizeLabel = new System.Windows.Forms.Label();
-            this.RASimTimeText = new System.Windows.Forms.TextBox();
-            this.RASimLabel = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
-            this.RASampleNumText = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.RARandomCheck = new System.Windows.Forms.CheckBox();
-            this.RAMatrixCheck = new System.Windows.Forms.CheckBox();
-            this.RASampleNumLabel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
-            this.RAMinFreqText = new System.Windows.Forms.TextBox();
-            this.RAMaxFreqText = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.RMAMaxData = new System.Windows.Forms.TextBox();
             this.AWParameterTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -111,6 +76,41 @@
             this.SACCCGridView = new System.Windows.Forms.DataGridView();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.SAFCCGridView = new System.Windows.Forms.DataGridView();
+            this.AWRobustTabPage = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.RAParamGridView = new System.Windows.Forms.DataGridView();
+            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MaxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StepColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RAObservGridView = new System.Windows.Forms.DataGridView();
+            this.OIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OMaxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OMinColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ODiffColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ORateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
+            this.RAWinSizeText = new System.Windows.Forms.TextBox();
+            this.RAWinSizeLabel = new System.Windows.Forms.Label();
+            this.RASimTimeText = new System.Windows.Forms.TextBox();
+            this.RASimLabel = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
+            this.RASampleNumText = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.RARandomCheck = new System.Windows.Forms.CheckBox();
+            this.RAMatrixCheck = new System.Windows.Forms.CheckBox();
+            this.RASampleNumLabel = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
+            this.RAMinFreqText = new System.Windows.Forms.TextBox();
+            this.RAMaxFreqText = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.RMAMaxData = new System.Windows.Forms.TextBox();
             this.AWBifurcationTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
@@ -145,17 +145,6 @@
             this.AEOKButton = new System.Windows.Forms.Button();
             this.AECancelButton = new System.Windows.Forms.Button();
             this.robustTabControl.SuspendLayout();
-            this.AWRobustTabPage.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RAParamGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RAObservGridView)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.tableLayoutPanel9.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.tableLayoutPanel10.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.tableLayoutPanel11.SuspendLayout();
             this.AWParameterTabPage.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -177,6 +166,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).BeginInit();
             this.groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).BeginInit();
+            this.AWRobustTabPage.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.RAParamGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RAObservGridView)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel9.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.tableLayoutPanel10.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.tableLayoutPanel11.SuspendLayout();
             this.AWBifurcationTabPage.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
             this.groupBox10.SuspendLayout();
@@ -193,15 +193,348 @@
             // 
             // robustTabControl
             // 
-            this.robustTabControl.Controls.Add(this.AWRobustTabPage);
             this.robustTabControl.Controls.Add(this.AWParameterTabPage);
             this.robustTabControl.Controls.Add(this.AWSensitivityTabPage);
+            this.robustTabControl.Controls.Add(this.AWRobustTabPage);
             this.robustTabControl.Controls.Add(this.AWBifurcationTabPage);
             resources.ApplyResources(this.robustTabControl, "robustTabControl");
             this.robustTabControl.Name = "robustTabControl";
             this.robustTabControl.SelectedIndex = 0;
             this.robustTabControl.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropObservedData);
             this.robustTabControl.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterObservedData);
+            // 
+            // AWParameterTabPage
+            // 
+            this.AWParameterTabPage.Controls.Add(this.tableLayoutPanel3);
+            resources.ApplyResources(this.AWParameterTabPage, "AWParameterTabPage");
+            this.AWParameterTabPage.Name = "AWParameterTabPage";
+            this.AWParameterTabPage.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel3
+            // 
+            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.Controls.Add(this.groupBox4, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.groupBox5, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.groupBox6, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.groupBox7, 0, 2);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.tableLayoutPanel7);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
+            // tableLayoutPanel7
+            // 
+            resources.ApplyResources(this.tableLayoutPanel7, "tableLayoutPanel7");
+            this.tableLayoutPanel7.Controls.Add(this.label8, 0, 1);
+            this.tableLayoutPanel7.Controls.Add(this.label9, 0, 2);
+            this.tableLayoutPanel7.Controls.Add(this.PEGenerationText, 1, 1);
+            this.tableLayoutPanel7.Controls.Add(this.PEPopulationText, 1, 2);
+            this.tableLayoutPanel7.Controls.Add(this.PEAdvancedButton, 1, 3);
+            this.tableLayoutPanel7.Controls.Add(this.label10, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.PESimulationText, 1, 0);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // PEGenerationText
+            // 
+            resources.ApplyResources(this.PEGenerationText, "PEGenerationText");
+            this.PEGenerationText.Name = "PEGenerationText";
+            // 
+            // PEPopulationText
+            // 
+            resources.ApplyResources(this.PEPopulationText, "PEPopulationText");
+            this.PEPopulationText.Name = "PEPopulationText";
+            // 
+            // PEAdvancedButton
+            // 
+            resources.ApplyResources(this.PEAdvancedButton, "PEAdvancedButton");
+            this.PEAdvancedButton.Name = "PEAdvancedButton";
+            this.PEAdvancedButton.UseVisualStyleBackColor = true;
+            this.PEAdvancedButton.Click += new System.EventHandler(this.PEAdvancedButtonClicked);
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // PESimulationText
+            // 
+            resources.ApplyResources(this.PESimulationText, "PESimulationText");
+            this.PESimulationText.Name = "PESimulationText";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.tableLayoutPanel8);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.TabStop = false;
+            // 
+            // tableLayoutPanel8
+            // 
+            resources.ApplyResources(this.tableLayoutPanel8, "tableLayoutPanel8");
+            this.tableLayoutPanel8.Controls.Add(this.PEEstmationFormula, 1, 0);
+            this.tableLayoutPanel8.Controls.Add(this.PEEstimationCombo, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this.PEFormulaButton, 2, 0);
+            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
+            // 
+            // PEEstmationFormula
+            // 
+            resources.ApplyResources(this.PEEstmationFormula, "PEEstmationFormula");
+            this.PEEstmationFormula.Name = "PEEstmationFormula";
+            this.PEEstmationFormula.ReadOnly = true;
+            // 
+            // PEEstimationCombo
+            // 
+            resources.ApplyResources(this.PEEstimationCombo, "PEEstimationCombo");
+            this.PEEstimationCombo.FormattingEnabled = true;
+            this.PEEstimationCombo.Items.AddRange(new object[] {
+            resources.GetString("PEEstimationCombo.Items"),
+            resources.GetString("PEEstimationCombo.Items1"),
+            resources.GetString("PEEstimationCombo.Items2"),
+            resources.GetString("PEEstimationCombo.Items3"),
+            resources.GetString("PEEstimationCombo.Items4"),
+            resources.GetString("PEEstimationCombo.Items5")});
+            this.PEEstimationCombo.Name = "PEEstimationCombo";
+            // 
+            // PEFormulaButton
+            // 
+            resources.ApplyResources(this.PEFormulaButton, "PEFormulaButton");
+            this.PEFormulaButton.Name = "PEFormulaButton";
+            this.PEFormulaButton.UseVisualStyleBackColor = true;
+            this.PEFormulaButton.Click += new System.EventHandler(this.PEFormulaButtonClicked);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.tableLayoutPanel4);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.TabStop = false;
+            // 
+            // tableLayoutPanel4
+            // 
+            resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
+            this.tableLayoutPanel4.Controls.Add(this.PEEstimateView, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel6, 0, 0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            // 
+            // PEEstimateView
+            // 
+            this.PEEstimateView.AllowUserToAddRows = false;
+            this.PEEstimateView.AllowUserToDeleteRows = false;
+            this.PEEstimateView.AllowUserToResizeColumns = false;
+            this.PEEstimateView.AllowUserToResizeRows = false;
+            this.PEEstimateView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.PEEstimateView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.PEEstimateView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PRIDColumn,
+            this.PRValueColumn});
+            resources.ApplyResources(this.PEEstimateView, "PEEstimateView");
+            this.PEEstimateView.Name = "PEEstimateView";
+            this.PEEstimateView.RowHeadersVisible = false;
+            this.PEEstimateView.RowTemplate.Height = 21;
+            // 
+            // PRIDColumn
+            // 
+            this.PRIDColumn.FillWeight = 40F;
+            resources.ApplyResources(this.PRIDColumn, "PRIDColumn");
+            this.PRIDColumn.Name = "PRIDColumn";
+            // 
+            // PRValueColumn
+            // 
+            this.PRValueColumn.FillWeight = 60F;
+            resources.ApplyResources(this.PRValueColumn, "PRValueColumn");
+            this.PRValueColumn.Name = "PRValueColumn";
+            // 
+            // tableLayoutPanel6
+            // 
+            resources.ApplyResources(this.tableLayoutPanel6, "tableLayoutPanel6");
+            this.tableLayoutPanel6.Controls.Add(this.label7, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.PEEstimationValue, 1, 0);
+            this.tableLayoutPanel6.Controls.Add(this.label11, 2, 0);
+            this.tableLayoutPanel6.Controls.Add(this.PEGenerateValue, 3, 0);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // PEEstimationValue
+            // 
+            resources.ApplyResources(this.PEEstimationValue, "PEEstimationValue");
+            this.PEEstimationValue.Name = "PEEstimationValue";
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // PEGenerateValue
+            // 
+            resources.ApplyResources(this.PEGenerateValue, "PEGenerateValue");
+            this.PEGenerateValue.Name = "PEGenerateValue";
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.PEParamGridView);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.TabStop = false;
+            // 
+            // PEParamGridView
+            // 
+            this.PEParamGridView.AllowDrop = true;
+            this.PEParamGridView.AllowUserToAddRows = false;
+            this.PEParamGridView.AllowUserToDeleteRows = false;
+            this.PEParamGridView.AllowUserToResizeColumns = false;
+            this.PEParamGridView.AllowUserToResizeRows = false;
+            this.PEParamGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.PEParamGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.PEParamGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PIDColumn,
+            this.PMaxColumn,
+            this.PMinColumn});
+            resources.ApplyResources(this.PEParamGridView, "PEParamGridView");
+            this.PEParamGridView.Name = "PEParamGridView";
+            this.PEParamGridView.RowHeadersVisible = false;
+            this.PEParamGridView.RowTemplate.Height = 21;
+            this.PEParamGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterCellEndEdit);
+            this.PEParamGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterParam);
+            this.PEParamGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropParam);
+            // 
+            // PIDColumn
+            // 
+            resources.ApplyResources(this.PIDColumn, "PIDColumn");
+            this.PIDColumn.Name = "PIDColumn";
+            // 
+            // PMaxColumn
+            // 
+            this.PMaxColumn.FillWeight = 40F;
+            resources.ApplyResources(this.PMaxColumn, "PMaxColumn");
+            this.PMaxColumn.Name = "PMaxColumn";
+            // 
+            // PMinColumn
+            // 
+            this.PMinColumn.FillWeight = 40F;
+            resources.ApplyResources(this.PMinColumn, "PMinColumn");
+            this.PMinColumn.Name = "PMinColumn";
+            // 
+            // AWSensitivityTabPage
+            // 
+            this.AWSensitivityTabPage.Controls.Add(this.tableLayoutPanel12);
+            resources.ApplyResources(this.AWSensitivityTabPage, "AWSensitivityTabPage");
+            this.AWSensitivityTabPage.Name = "AWSensitivityTabPage";
+            this.AWSensitivityTabPage.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel12
+            // 
+            resources.ApplyResources(this.tableLayoutPanel12, "tableLayoutPanel12");
+            this.tableLayoutPanel12.Controls.Add(this.tableLayoutPanel13, 0, 0);
+            this.tableLayoutPanel12.Controls.Add(this.tableLayoutPanel14, 0, 1);
+            this.tableLayoutPanel12.Controls.Add(this.tableLayoutPanel15, 0, 2);
+            this.tableLayoutPanel12.Controls.Add(this.groupBox8, 0, 3);
+            this.tableLayoutPanel12.Controls.Add(this.groupBox9, 0, 4);
+            this.tableLayoutPanel12.Name = "tableLayoutPanel12";
+            // 
+            // tableLayoutPanel13
+            // 
+            resources.ApplyResources(this.tableLayoutPanel13, "tableLayoutPanel13");
+            this.tableLayoutPanel13.Controls.Add(this.label12, 0, 0);
+            this.tableLayoutPanel13.Controls.Add(this.SAStepTextBox, 1, 0);
+            this.tableLayoutPanel13.Name = "tableLayoutPanel13";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // SAStepTextBox
+            // 
+            resources.ApplyResources(this.SAStepTextBox, "SAStepTextBox");
+            this.SAStepTextBox.Name = "SAStepTextBox";
+            // 
+            // tableLayoutPanel14
+            // 
+            resources.ApplyResources(this.tableLayoutPanel14, "tableLayoutPanel14");
+            this.tableLayoutPanel14.Controls.Add(this.label13, 0, 0);
+            this.tableLayoutPanel14.Controls.Add(this.SARelativePertTextBox, 1, 0);
+            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
+            // 
+            // SARelativePertTextBox
+            // 
+            resources.ApplyResources(this.SARelativePertTextBox, "SARelativePertTextBox");
+            this.SARelativePertTextBox.Name = "SARelativePertTextBox";
+            // 
+            // tableLayoutPanel15
+            // 
+            resources.ApplyResources(this.tableLayoutPanel15, "tableLayoutPanel15");
+            this.tableLayoutPanel15.Controls.Add(this.label14, 0, 0);
+            this.tableLayoutPanel15.Controls.Add(this.SAAbsolutePertTextBox, 1, 0);
+            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // SAAbsolutePertTextBox
+            // 
+            resources.ApplyResources(this.SAAbsolutePertTextBox, "SAAbsolutePertTextBox");
+            this.SAAbsolutePertTextBox.Name = "SAAbsolutePertTextBox";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.SACCCGridView);
+            resources.ApplyResources(this.groupBox8, "groupBox8");
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.TabStop = false;
+            // 
+            // SACCCGridView
+            // 
+            this.SACCCGridView.AllowUserToAddRows = false;
+            this.SACCCGridView.AllowUserToDeleteRows = false;
+            this.SACCCGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.SACCCGridView.ColumnHeadersVisible = false;
+            resources.ApplyResources(this.SACCCGridView, "SACCCGridView");
+            this.SACCCGridView.Name = "SACCCGridView";
+            this.SACCCGridView.RowHeadersVisible = false;
+            this.SACCCGridView.RowTemplate.Height = 21;
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.SAFCCGridView);
+            resources.ApplyResources(this.groupBox9, "groupBox9");
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.TabStop = false;
+            // 
+            // SAFCCGridView
+            // 
+            this.SAFCCGridView.AllowUserToAddRows = false;
+            this.SAFCCGridView.AllowUserToDeleteRows = false;
+            this.SAFCCGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.SAFCCGridView.ColumnHeadersVisible = false;
+            resources.ApplyResources(this.SAFCCGridView, "SAFCCGridView");
+            this.SAFCCGridView.Name = "SAFCCGridView";
+            this.SAFCCGridView.RowHeadersVisible = false;
+            this.SAFCCGridView.RowTemplate.Height = 21;
             // 
             // AWRobustTabPage
             // 
@@ -236,6 +569,7 @@
             this.RAParamGridView.Name = "RAParamGridView";
             this.RAParamGridView.RowHeadersVisible = false;
             this.RAParamGridView.RowTemplate.Height = 21;
+            this.RAParamGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterCellEndEdit);
             this.RAParamGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterParam);
             this.RAParamGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropParam);
             // 
@@ -448,338 +782,6 @@
             resources.ApplyResources(this.RMAMaxData, "RMAMaxData");
             this.RMAMaxData.Name = "RMAMaxData";
             // 
-            // AWParameterTabPage
-            // 
-            this.AWParameterTabPage.Controls.Add(this.tableLayoutPanel3);
-            resources.ApplyResources(this.AWParameterTabPage, "AWParameterTabPage");
-            this.AWParameterTabPage.Name = "AWParameterTabPage";
-            this.AWParameterTabPage.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel3
-            // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.groupBox4, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.groupBox5, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.groupBox6, 0, 3);
-            this.tableLayoutPanel3.Controls.Add(this.groupBox7, 0, 2);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.tableLayoutPanel7);
-            resources.ApplyResources(this.groupBox4, "groupBox4");
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.TabStop = false;
-            // 
-            // tableLayoutPanel7
-            // 
-            resources.ApplyResources(this.tableLayoutPanel7, "tableLayoutPanel7");
-            this.tableLayoutPanel7.Controls.Add(this.label8, 0, 1);
-            this.tableLayoutPanel7.Controls.Add(this.label9, 0, 2);
-            this.tableLayoutPanel7.Controls.Add(this.PEGenerationText, 1, 1);
-            this.tableLayoutPanel7.Controls.Add(this.PEPopulationText, 1, 2);
-            this.tableLayoutPanel7.Controls.Add(this.PEAdvancedButton, 1, 3);
-            this.tableLayoutPanel7.Controls.Add(this.label10, 0, 0);
-            this.tableLayoutPanel7.Controls.Add(this.PESimulationText, 1, 0);
-            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
-            // 
-            // label8
-            // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
-            // 
-            // label9
-            // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
-            // 
-            // PEGenerationText
-            // 
-            resources.ApplyResources(this.PEGenerationText, "PEGenerationText");
-            this.PEGenerationText.Name = "PEGenerationText";
-            // 
-            // PEPopulationText
-            // 
-            resources.ApplyResources(this.PEPopulationText, "PEPopulationText");
-            this.PEPopulationText.Name = "PEPopulationText";
-            // 
-            // PEAdvancedButton
-            // 
-            resources.ApplyResources(this.PEAdvancedButton, "PEAdvancedButton");
-            this.PEAdvancedButton.Name = "PEAdvancedButton";
-            this.PEAdvancedButton.UseVisualStyleBackColor = true;
-            this.PEAdvancedButton.Click += new System.EventHandler(this.PEAdvancedButtonClicked);
-            // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
-            // PESimulationText
-            // 
-            resources.ApplyResources(this.PESimulationText, "PESimulationText");
-            this.PESimulationText.Name = "PESimulationText";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.tableLayoutPanel8);
-            resources.ApplyResources(this.groupBox5, "groupBox5");
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.TabStop = false;
-            // 
-            // tableLayoutPanel8
-            // 
-            resources.ApplyResources(this.tableLayoutPanel8, "tableLayoutPanel8");
-            this.tableLayoutPanel8.Controls.Add(this.PEEstmationFormula, 1, 0);
-            this.tableLayoutPanel8.Controls.Add(this.PEEstimationCombo, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this.PEFormulaButton, 2, 0);
-            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            // 
-            // PEEstmationFormula
-            // 
-            resources.ApplyResources(this.PEEstmationFormula, "PEEstmationFormula");
-            this.PEEstmationFormula.Name = "PEEstmationFormula";
-            this.PEEstmationFormula.ReadOnly = true;
-            // 
-            // PEEstimationCombo
-            // 
-            resources.ApplyResources(this.PEEstimationCombo, "PEEstimationCombo");
-            this.PEEstimationCombo.FormattingEnabled = true;
-            this.PEEstimationCombo.Items.AddRange(new object[] {
-            resources.GetString("PEEstimationCombo.Items"),
-            resources.GetString("PEEstimationCombo.Items1"),
-            resources.GetString("PEEstimationCombo.Items2"),
-            resources.GetString("PEEstimationCombo.Items3"),
-            resources.GetString("PEEstimationCombo.Items4"),
-            resources.GetString("PEEstimationCombo.Items5")});
-            this.PEEstimationCombo.Name = "PEEstimationCombo";
-            // 
-            // PEFormulaButton
-            // 
-            resources.ApplyResources(this.PEFormulaButton, "PEFormulaButton");
-            this.PEFormulaButton.Name = "PEFormulaButton";
-            this.PEFormulaButton.UseVisualStyleBackColor = true;
-            this.PEFormulaButton.Click += new System.EventHandler(this.PEFormulaButtonClicked);
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.tableLayoutPanel4);
-            resources.ApplyResources(this.groupBox6, "groupBox6");
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.TabStop = false;
-            // 
-            // tableLayoutPanel4
-            // 
-            resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
-            this.tableLayoutPanel4.Controls.Add(this.PEEstimateView, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel6, 0, 0);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            // 
-            // PEEstimateView
-            // 
-            this.PEEstimateView.AllowUserToAddRows = false;
-            this.PEEstimateView.AllowUserToDeleteRows = false;
-            this.PEEstimateView.AllowUserToResizeColumns = false;
-            this.PEEstimateView.AllowUserToResizeRows = false;
-            this.PEEstimateView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.PEEstimateView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.PEEstimateView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PRIDColumn,
-            this.PRValueColumn});
-            resources.ApplyResources(this.PEEstimateView, "PEEstimateView");
-            this.PEEstimateView.Name = "PEEstimateView";
-            this.PEEstimateView.RowHeadersVisible = false;
-            this.PEEstimateView.RowTemplate.Height = 21;
-            // 
-            // PRIDColumn
-            // 
-            this.PRIDColumn.FillWeight = 40F;
-            resources.ApplyResources(this.PRIDColumn, "PRIDColumn");
-            this.PRIDColumn.Name = "PRIDColumn";
-            // 
-            // PRValueColumn
-            // 
-            this.PRValueColumn.FillWeight = 60F;
-            resources.ApplyResources(this.PRValueColumn, "PRValueColumn");
-            this.PRValueColumn.Name = "PRValueColumn";
-            // 
-            // tableLayoutPanel6
-            // 
-            resources.ApplyResources(this.tableLayoutPanel6, "tableLayoutPanel6");
-            this.tableLayoutPanel6.Controls.Add(this.label7, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.PEEstimationValue, 1, 0);
-            this.tableLayoutPanel6.Controls.Add(this.label11, 2, 0);
-            this.tableLayoutPanel6.Controls.Add(this.PEGenerateValue, 3, 0);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
-            // 
-            // PEEstimationValue
-            // 
-            resources.ApplyResources(this.PEEstimationValue, "PEEstimationValue");
-            this.PEEstimationValue.Name = "PEEstimationValue";
-            // 
-            // label11
-            // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
-            // 
-            // PEGenerateValue
-            // 
-            resources.ApplyResources(this.PEGenerateValue, "PEGenerateValue");
-            this.PEGenerateValue.Name = "PEGenerateValue";
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.PEParamGridView);
-            resources.ApplyResources(this.groupBox7, "groupBox7");
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.TabStop = false;
-            // 
-            // PEParamGridView
-            // 
-            this.PEParamGridView.AllowDrop = true;
-            this.PEParamGridView.AllowUserToAddRows = false;
-            this.PEParamGridView.AllowUserToDeleteRows = false;
-            this.PEParamGridView.AllowUserToResizeColumns = false;
-            this.PEParamGridView.AllowUserToResizeRows = false;
-            this.PEParamGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.PEParamGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.PEParamGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PIDColumn,
-            this.PMaxColumn,
-            this.PMinColumn});
-            resources.ApplyResources(this.PEParamGridView, "PEParamGridView");
-            this.PEParamGridView.Name = "PEParamGridView";
-            this.PEParamGridView.RowHeadersVisible = false;
-            this.PEParamGridView.RowTemplate.Height = 21;
-            this.PEParamGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterParam);
-            this.PEParamGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropParam);
-            // 
-            // PIDColumn
-            // 
-            resources.ApplyResources(this.PIDColumn, "PIDColumn");
-            this.PIDColumn.Name = "PIDColumn";
-            // 
-            // PMaxColumn
-            // 
-            this.PMaxColumn.FillWeight = 40F;
-            resources.ApplyResources(this.PMaxColumn, "PMaxColumn");
-            this.PMaxColumn.Name = "PMaxColumn";
-            // 
-            // PMinColumn
-            // 
-            this.PMinColumn.FillWeight = 40F;
-            resources.ApplyResources(this.PMinColumn, "PMinColumn");
-            this.PMinColumn.Name = "PMinColumn";
-            // 
-            // AWSensitivityTabPage
-            // 
-            this.AWSensitivityTabPage.Controls.Add(this.tableLayoutPanel12);
-            resources.ApplyResources(this.AWSensitivityTabPage, "AWSensitivityTabPage");
-            this.AWSensitivityTabPage.Name = "AWSensitivityTabPage";
-            this.AWSensitivityTabPage.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel12
-            // 
-            resources.ApplyResources(this.tableLayoutPanel12, "tableLayoutPanel12");
-            this.tableLayoutPanel12.Controls.Add(this.tableLayoutPanel13, 0, 0);
-            this.tableLayoutPanel12.Controls.Add(this.tableLayoutPanel14, 0, 1);
-            this.tableLayoutPanel12.Controls.Add(this.tableLayoutPanel15, 0, 2);
-            this.tableLayoutPanel12.Controls.Add(this.groupBox8, 0, 3);
-            this.tableLayoutPanel12.Controls.Add(this.groupBox9, 0, 4);
-            this.tableLayoutPanel12.Name = "tableLayoutPanel12";
-            // 
-            // tableLayoutPanel13
-            // 
-            resources.ApplyResources(this.tableLayoutPanel13, "tableLayoutPanel13");
-            this.tableLayoutPanel13.Controls.Add(this.label12, 0, 0);
-            this.tableLayoutPanel13.Controls.Add(this.SAStepTextBox, 1, 0);
-            this.tableLayoutPanel13.Name = "tableLayoutPanel13";
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
-            // 
-            // SAStepTextBox
-            // 
-            resources.ApplyResources(this.SAStepTextBox, "SAStepTextBox");
-            this.SAStepTextBox.Name = "SAStepTextBox";
-            // 
-            // tableLayoutPanel14
-            // 
-            resources.ApplyResources(this.tableLayoutPanel14, "tableLayoutPanel14");
-            this.tableLayoutPanel14.Controls.Add(this.label13, 0, 0);
-            this.tableLayoutPanel14.Controls.Add(this.SARelativePertTextBox, 1, 0);
-            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
-            // 
-            // label13
-            // 
-            resources.ApplyResources(this.label13, "label13");
-            this.label13.Name = "label13";
-            // 
-            // SARelativePertTextBox
-            // 
-            resources.ApplyResources(this.SARelativePertTextBox, "SARelativePertTextBox");
-            this.SARelativePertTextBox.Name = "SARelativePertTextBox";
-            // 
-            // tableLayoutPanel15
-            // 
-            resources.ApplyResources(this.tableLayoutPanel15, "tableLayoutPanel15");
-            this.tableLayoutPanel15.Controls.Add(this.label14, 0, 0);
-            this.tableLayoutPanel15.Controls.Add(this.SAAbsolutePertTextBox, 1, 0);
-            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
-            // 
-            // label14
-            // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
-            // 
-            // SAAbsolutePertTextBox
-            // 
-            resources.ApplyResources(this.SAAbsolutePertTextBox, "SAAbsolutePertTextBox");
-            this.SAAbsolutePertTextBox.Name = "SAAbsolutePertTextBox";
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.SACCCGridView);
-            resources.ApplyResources(this.groupBox8, "groupBox8");
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.TabStop = false;
-            // 
-            // SACCCGridView
-            // 
-            this.SACCCGridView.AllowUserToAddRows = false;
-            this.SACCCGridView.AllowUserToDeleteRows = false;
-            this.SACCCGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.SACCCGridView.ColumnHeadersVisible = false;
-            resources.ApplyResources(this.SACCCGridView, "SACCCGridView");
-            this.SACCCGridView.Name = "SACCCGridView";
-            this.SACCCGridView.RowHeadersVisible = false;
-            this.SACCCGridView.RowTemplate.Height = 21;
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Controls.Add(this.SAFCCGridView);
-            resources.ApplyResources(this.groupBox9, "groupBox9");
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.TabStop = false;
-            // 
-            // SAFCCGridView
-            // 
-            this.SAFCCGridView.AllowUserToAddRows = false;
-            this.SAFCCGridView.AllowUserToDeleteRows = false;
-            this.SAFCCGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.SAFCCGridView.ColumnHeadersVisible = false;
-            resources.ApplyResources(this.SAFCCGridView, "SAFCCGridView");
-            this.SAFCCGridView.Name = "SAFCCGridView";
-            this.SAFCCGridView.RowHeadersVisible = false;
-            this.SAFCCGridView.RowTemplate.Height = 21;
-            // 
             // AWBifurcationTabPage
             // 
             this.AWBifurcationTabPage.Controls.Add(this.tableLayoutPanel16);
@@ -903,6 +905,7 @@
             this.BAParameterGridView.Name = "BAParameterGridView";
             this.BAParameterGridView.RowHeadersVisible = false;
             this.BAParameterGridView.RowTemplate.Height = 21;
+            this.BAParameterGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterCellEndEdit);
             this.BAParameterGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragEnterParam);
             this.BAParameterGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropParam);
             // 
@@ -1023,21 +1026,6 @@
             this.Controls.Add(this.tableLayoutPanel5);
             this.Name = "AnalysisWindow";
             this.robustTabControl.ResumeLayout(false);
-            this.AWRobustTabPage.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.RAParamGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RAObservGridView)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.tableLayoutPanel9.ResumeLayout(false);
-            this.tableLayoutPanel9.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.tableLayoutPanel10.ResumeLayout(false);
-            this.tableLayoutPanel10.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.tableLayoutPanel11.ResumeLayout(false);
-            this.tableLayoutPanel11.PerformLayout();
             this.AWParameterTabPage.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
@@ -1065,6 +1053,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).EndInit();
             this.groupBox9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).EndInit();
+            this.AWRobustTabPage.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.RAParamGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RAObservGridView)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.tableLayoutPanel9.ResumeLayout(false);
+            this.tableLayoutPanel9.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.tableLayoutPanel10.ResumeLayout(false);
+            this.tableLayoutPanel10.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.tableLayoutPanel11.ResumeLayout(false);
+            this.tableLayoutPanel11.PerformLayout();
             this.AWBifurcationTabPage.ResumeLayout(false);
             this.tableLayoutPanel16.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);

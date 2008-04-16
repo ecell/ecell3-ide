@@ -82,10 +82,6 @@ namespace EcellLib.Objects
         /// </summary>
         private bool m_isSettable;
         /// <summary>
-        /// The flag of commitment.
-        /// </summary>
-        private bool m_isCommit;
-        /// <summary>
         /// Max value of this data.
         /// </summary>
         private double m_max;
@@ -115,7 +111,6 @@ namespace EcellLib.Objects
             this.m_isSavable = true;
             this.m_isLogable = false;
             this.m_isLogger = false;
-            this.m_isCommit = true;
             this.m_max = 0.0;
             this.m_min = 0.0;
             this.m_step = 0.0;
@@ -138,7 +133,6 @@ namespace EcellLib.Objects
             this.m_isSavable = true;
             this.m_isLogable = false;
             this.m_isLogger = false;
-            this.m_isCommit = true;
             this.m_max = 0.0;
             this.m_min = 0.0;
             this.m_step = 0.0;
@@ -228,15 +222,6 @@ namespace EcellLib.Objects
         }
 
         /// <summary>
-        /// get/set m_isCommit
-        /// </summary>
-        public bool Committed
-        {
-            get { return m_isCommit; }
-            set { this.m_isCommit = value; }
-        }
-
-        /// <summary>
         /// get/set the max value of this data.
         /// </summary>
         public double Max
@@ -280,7 +265,6 @@ namespace EcellLib.Objects
                 l_newData.Logged = this.m_isLogger;
                 l_newData.Saveable = this.m_isSavable;
                 l_newData.Settable = this.m_isSettable;
-                l_newData.Committed = this.m_isCommit;
                 l_newData.Max = this.m_max;
                 l_newData.Min = this.m_min;
                 l_newData.Step = this.m_step;

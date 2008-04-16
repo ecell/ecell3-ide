@@ -58,6 +58,10 @@ namespace EcellLib.Analysis
         /// </summary>
         private Dictionary<string, EcellObservedData> m_observList = new Dictionary<string, EcellObservedData>();
         /// <summary>
+        /// The dictionary of the parameter data.
+        /// </summary>
+        private Dictionary<string, EcellParameterData> m_parameterList = new Dictionary<string, EcellParameterData>();
+        /// <summary>
         /// The parent plugin include this form.
         /// </summary>
         private Analysis m_parent = null;
@@ -65,6 +69,9 @@ namespace EcellLib.Analysis
         /// SessionManager to manage the analysis session.
         /// </summary>
         private SessionManager.SessionManager m_manager;
+        /// <summary>
+        /// DataManager.
+        /// </summary>
         private DataManager m_dManager;
         /// <summary>
         /// The max number of input data to be executed FFT.
@@ -221,29 +228,29 @@ namespace EcellLib.Analysis
             return type;
         }
 
-        /// <summary>
-        /// Get the list of property to set the initial value for analysis.
-        /// If there are any problems, this function return null.
-        /// </summary>
-        /// <returns>the list of parameter property.</returns>
-        public List<ParameterRange> ExtractParameterForRobustAnalysis()
-        {
-            List<ParameterRange> resList = new List<ParameterRange>();
+        ///// <summary>
+        ///// Get the list of property to set the initial value for analysis.
+        ///// If there are any problems, this function return null.
+        ///// </summary>
+        ///// <returns>the list of parameter property.</returns>
+        //public List<ParameterRange> ExtractParameterForRobustAnalysis()
+        //{
+        //    List<ParameterRange> resList = new List<ParameterRange>();
 
-            for (int i = 0; i < RAParamGridView.Rows.Count; i++)
-            {
-                string path = RAParamGridView[0, i].Value.ToString();
-                double max = Convert.ToDouble(RAParamGridView[1, i].Value);
-                double min = Convert.ToDouble(RAParamGridView[2, i].Value);
-                double step = Convert.ToDouble(RAParamGridView[3, i].Value);
+        //    for (int i = 0; i < RAParamGridView.Rows.Count; i++)
+        //    {
+        //        string path = RAParamGridView[0, i].Value.ToString();
+        //        double max = Convert.ToDouble(RAParamGridView[1, i].Value);
+        //        double min = Convert.ToDouble(RAParamGridView[2, i].Value);
+        //        double step = Convert.ToDouble(RAParamGridView[3, i].Value);
 
-                if (min > max) continue;
-                ParameterRange p = new ParameterRange(path, min, max, step);
-                resList.Add(p);
-            }
+        //        if (min > max) continue;
+        //        ParameterRange p = new ParameterRange(path, min, max, step);
+        //        resList.Add(p);
+        //    }
 
-            return resList;
-        }
+        //    return resList;
+        //}
 
         /// <summary>
         /// Add the parameter data.
@@ -252,10 +259,23 @@ namespace EcellLib.Analysis
         /// <param name="d">the parameter data.</param>
         public void AddParameterEntry(EcellObject obj, EcellData d)
         {
-            if (d.Committed) return;
-            AddRobustAnalysisParameterEntry(obj, d);
-            AddParameterEstimateEntry(obj, d);
-            AddBifurcationAnalysisParameterEntry(obj, d);
+            if (!m_dManager.IsContainsParameterData(d.EntityPath)) return;
+            EcellParameterData data = m_dManager.GetParameterData(d.EntityPath);
+
+            SetParameterData(data);
+        }
+
+        /// <summary>
+        /// Add the parameter data.
+        /// </summary>
+        /// <param name="obj">object include the parameter data.</param>
+        /// <param name="d">the parameter data.</param>
+        public void AddObservedEntry(EcellObject obj, EcellData d)
+        {
+            if (!m_dManager.IsContainsObservedData(d.EntityPath)) return;
+            EcellObservedData data = m_dManager.GetObservedData(d.EntityPath);
+
+            SetObservedData(data);
         }
 
         /// <summary>
@@ -281,6 +301,7 @@ namespace EcellLib.Analysis
             foreach (EcellData d in obj.Value)
             {
                 AddParameterEntry(obj, d);
+                AddObservedEntry(obj, d);
             }
         }
 
@@ -294,6 +315,112 @@ namespace EcellLib.Analysis
             SAFCCGridView.Rows.Clear();
         }
 
+        /// <summary>
+        /// The event sequence when the user add and change the parameter data.
+        /// </summary>
+        /// <param name="data">The parameter data.</param>
+        public void SetParameterData(EcellParameterData data)
+        {
+            if (m_parameterList.ContainsKey(data.Key))
+            {
+                EditParameterRow(RAParamGridView, data);
+                EditParameterRow(BAParameterGridView, data);
+                m_parameterList[data.Key] = data;
+
+                return;
+            }
+
+            AddParameterRow(RAParamGridView, data);
+            AddParameterRow(BAParameterGridView, data);
+            AddParameterRow(PEParamGridView, data);
+            m_parameterList.Add(data.Key, data);
+        }
+
+        /// <summary>
+        /// Add the row of parameter data to DataGridView.
+        /// </summary>
+        /// <param name="v">DataGridView to add the row.</param>
+        /// <param name="data">the parameter data.</param>
+        private void AddParameterRow(DataGridView v, EcellParameterData data)
+        {
+            DataGridViewRow r = new DataGridViewRow();
+            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+            c1.Value = data.Key;
+            r.Cells.Add(c1);
+
+            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
+            c2.Value = data.Max;
+            r.Cells.Add(c2);
+
+            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
+            c3.Value = data.Min;
+            r.Cells.Add(c3);
+
+            if (v.ColumnCount >= 4)
+            {
+                DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
+                c4.Value = data.Step;
+                r.Cells.Add(c4);
+            }
+
+            r.Tag = data;
+            v.Rows.Add(r);
+        }
+
+        /// <summary>
+        /// Edit the parameter data in DataGridView.
+        /// </summary>
+        /// <param name="v">DataGridView.</param>
+        /// <param name="data">the edited data.</param>
+        private void EditParameterRow(DataGridView v, EcellParameterData data)
+        {
+            foreach (DataGridViewRow r in v.Rows)
+            {
+                if (r.Tag == null) continue;
+                EcellParameterData obj = r.Tag as EcellParameterData;
+                if (obj == null) continue;
+
+                if (!obj.Equals(data)) continue;
+                r.Cells[1].Value = data.Max;
+                r.Cells[2].Value = data.Min;
+                if (r.Cells.Count >= 4)
+                    r.Cells[3].Value = data.Step;
+
+                r.Tag = data;
+
+                return;
+            }
+        }
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of parameter data.
+        /// </summary>
+        /// <param name="data">The removed parameter data.</param>
+        public void RemoveParameterData(EcellParameterData data)
+        {
+            RemoveParameterRow(RAParamGridView, data);
+            RemoveParameterRow(BAParameterGridView, data);
+            RemoveParameterRow(PEParamGridView, data);
+        }
+
+        private void RemoveParameterRow(DataGridView v, EcellParameterData data)
+        {
+            foreach (DataGridViewRow r in v.Rows)
+            {
+                if (r.Tag == null) continue;
+                EcellParameterData obj = r.Tag as EcellParameterData;
+                if (obj == null) continue;
+
+                if (!obj.Equals(data)) continue;
+                v.Rows.Remove(r);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// The event sequence when the user set and change the observed data.
+        /// </summary>
+        /// <param name="data">The observed data.</param>
         public void SetObservedData(EcellObservedData data)
         {
             if (m_observList.ContainsKey(data.Key))
@@ -310,6 +437,11 @@ namespace EcellLib.Analysis
             m_observList.Add(data.Key, data);
         }
 
+        /// <summary>
+        /// Add the row of observed data to DataGridView.
+        /// </summary>
+        /// <param name="v">DataGridView.</param>
+        /// <param name="data">the observed data.</param>
         private void AddObservedRow(DataGridView v, EcellObservedData data)
         {
             DataGridViewRow r = new DataGridViewRow();
@@ -337,6 +469,11 @@ namespace EcellLib.Analysis
             v.Rows.Add(r);
         }
 
+        /// <summary>
+        /// Edit the observed data in DataGridView.
+        /// </summary>
+        /// <param name="v">DataGridView.</param>
+        /// <param name="data">the observed data.</param>
         private void EditObservedRow(DataGridView v, EcellObservedData data)
         {
             foreach (DataGridViewRow r in v.Rows)
@@ -357,6 +494,10 @@ namespace EcellLib.Analysis
             }
         }
 
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of observed data.
+        /// </summary>
+        /// <param name="data">The removed observed data.</param>
         public void RemoveObservedData(EcellObservedData data)
         {
             RemoveObservedRow(RAObservGridView, data);
@@ -537,28 +678,36 @@ namespace EcellLib.Analysis
 
 
         /// <summary>
-        /// Add the parameter entry to use at the bifurcation analysis.
+        /// Extract the observed data from the row data.
         /// </summary>
-        /// <param name="obj">object include the parameter data.</param>
-        /// <param name="d">the parameter data.</param>
-        private void AddBifurcationAnalysisParameterEntry(EcellObject obj, EcellData d)
+        /// <param name="r">The row of data.</param>
+        /// <returns>the observed data.</returns>
+        private EcellObservedData ExtractObservedDataFromRow(DataGridViewRow r)
         {
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            c1.Value = d.EntityPath;
-            r.Cells.Add(c1);
-            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-            c2.Value = d.Max;
-            r.Cells.Add(c2);
-            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-            c3.Value = d.Min;
-            r.Cells.Add(c3);
-            DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
-            c4.Value = d.Step;
-            r.Cells.Add(c4);
-            r.Tag = obj;
+            string key = Convert.ToString(r.Cells[0].Value.ToString());
+            double max = Convert.ToDouble(r.Cells[1].Value.ToString());
+            double min = Convert.ToDouble(r.Cells[2].Value.ToString());
+            double diff = Convert.ToDouble(r.Cells[3].Value.ToString());
+            double rate = Convert.ToDouble(r.Cells[4].Value.ToString());
 
-            BAParameterGridView.Rows.Add(r);
+            return new EcellObservedData(key, max, min, diff, rate);
+        }
+
+        /// <summary>
+        /// Extract the parameter data from the row data.
+        /// </summary>
+        /// <param name="r">The row of data.</param>
+        /// <returns>the parameter data.</returns>
+        private EcellParameterData ExtractParameterDataFromRow(DataGridViewRow r)
+        {
+            string key = Convert.ToString(r.Cells[0].Value.ToString());
+            double max = Convert.ToDouble(r.Cells[1].Value.ToString());
+            double min = Convert.ToDouble(r.Cells[2].Value.ToString());
+            double step = 0.0;
+            if (r.Cells.Count >= 4)
+                step = Convert.ToDouble(r.Cells[3].Value.ToString());
+
+            return new EcellParameterData(key, max, min, step);
         }
 
         /// <summary>
@@ -589,9 +738,9 @@ namespace EcellLib.Analysis
         /// If there are any problems, this function return null.
         /// </summary>
         /// <returns>the list of parameter property.</returns>
-        public List<ParameterRange> ExtractParameterForBifurcation()
+        public List<EcellParameterData> ExtractParameterForBifurcation()
         {
-            List<ParameterRange> resList = new List<ParameterRange>();
+            List<EcellParameterData> resList = new List<EcellParameterData>();
 
             for (int i = 0; i < BAParameterGridView.Rows.Count; i++)
             {
@@ -604,7 +753,7 @@ namespace EcellLib.Analysis
                     step = (max - min) / 10.0;
 
                 if (min > max) continue;
-                ParameterRange p = new ParameterRange(path, min, max, step);
+                EcellParameterData p = new EcellParameterData(path, min, max, step);
                 resList.Add(p);
             }
 
@@ -732,31 +881,6 @@ namespace EcellLib.Analysis
             return resList;
         }
 
-        /// <summary>
-        /// Add the parameter entry to use at the robust analysis.
-        /// </summary>
-        /// <param name="obj">object include the parameter data.</param>
-        /// <param name="d">the parameter data.</param>
-        private void AddRobustAnalysisParameterEntry(EcellObject obj, EcellData d)
-        {
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            c1.Value = d.EntityPath;
-            r.Cells.Add(c1);
-            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-            c2.Value = d.Max;
-            r.Cells.Add(c2);
-            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-            c3.Value = d.Min;
-            r.Cells.Add(c3);
-            DataGridViewTextBoxCell c4 = new DataGridViewTextBoxCell();
-            c4.Value = d.Step;
-            r.Cells.Add(c4);
-            r.Tag = obj;
-
-            RAParamGridView.Rows.Add(r);
-        }
-
         #endregion
 
         #region ParameterEstimation
@@ -792,9 +916,9 @@ namespace EcellLib.Analysis
         /// If there are any problems, this function return null.
         /// </summary>
         /// <returns>the list of parameter property.</returns>
-        public List<ParameterRange> ExtractParameterForParameterEstimation()
+        public List<EcellParameterData> ExtractParameterForParameterEstimation()
         {
-            List<ParameterRange> resList = new List<ParameterRange>();
+            List<EcellParameterData> resList = new List<EcellParameterData>();
 
             for (int i = 0; i < PEParamGridView.Rows.Count; i++)
             {
@@ -804,7 +928,7 @@ namespace EcellLib.Analysis
                 double step = 0.0;
 
                 if (min > max) continue;
-                ParameterRange p = new ParameterRange(path, min, max, step);
+                EcellParameterData p = new EcellParameterData(path, min, max, step);
                 resList.Add(p);
             }
 
@@ -835,30 +959,6 @@ namespace EcellLib.Analysis
             }
             return resList;
         }
-
-        /// <summary>
-        /// Add the parameter entry to use at parameter estimation.
-        /// </summary>
-        /// <param name="obj">object include the parameter data.</param>
-        /// <param name="d">the parameter data.</param>
-        private void AddParameterEstimateEntry(EcellObject obj, EcellData d)
-        {
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            c1.Value = d.EntityPath;
-            r.Cells.Add(c1);
-            DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-            c2.Value = d.Max;
-            r.Cells.Add(c2);
-            DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-            c3.Value = d.Min;
-            r.Cells.Add(c3);
-            r.Tag = obj;
-
-            PEParamGridView.Rows.Add(r);
-        }
-
-
 
         /// <summary>
         /// Set the estimated parameter.
@@ -992,11 +1092,10 @@ namespace EcellLib.Analysis
                     if (d.EntityPath.Equals(path))
                     {
                         d.Value = new EcellValue(v);
-                        d.Committed = true;
-                        break;
+                        m_dManager.RemoveParameterData(new EcellParameterData(d.EntityPath, 0.0));
+                        return;
                     }
                 }
-                manager.DataChanged(modelList[0], objId, ele[0], obj);
             }
         }
 
@@ -1038,11 +1137,10 @@ namespace EcellLib.Analysis
                         d.Max = Convert.ToDouble(d.Value.ToString()) * 1.5;
                         d.Min = Convert.ToDouble(d.Value.ToString()) * 0.5;
                     }
-                    d.Committed = false;
+                    dManager.SetParameterData(new EcellParameterData(d.EntityPath, d.Max, d.Min, d.Step));
                     break;
                 }
             }
-            dManager.DataChanged(t.ModelID, t.Key, t.Type, t);
         }
 
         /// <summary>
@@ -1274,12 +1372,21 @@ namespace EcellLib.Analysis
             m_fwin.Close();
         }
 
-
+        /// <summary>
+        /// The event sequence when cancel button is clicked.
+        /// </summary>
+        /// <param name="sender">object(Button).</param>
+        /// <param name="e">EventArgs.</param>
         private void AECancelButtonClicked(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// The event sequence when ok button is clicked.
+        /// </summary>
+        /// <param name="sender">object(Button).</param>
+        /// <param name="e">EventArgs.</param>
         private void AEOKButtonClicked(object sender, EventArgs e)
         {
             m_parent.SetBifurcationAnalysisParameter(GetBifurcationAnalysisPrameter());
@@ -1289,8 +1396,30 @@ namespace EcellLib.Analysis
 
             this.Close();
         }
-        #endregion
 
+        /// <summary>
+        /// The event sequence when user finish to edit the cell of parameter data.
+        /// </summary>
+        /// <param name="sender">object(DataGridView).</param>
+        /// <param name="e">DataGridViewEcellEventArgs.</param>
+        private void ParameterCellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView v = sender as DataGridView;
+            if (v == null) return;
+            DataGridViewRow r = v.Rows[e.RowIndex];
+            if (r.Tag == null) return;
+            EcellParameterData obj = r.Tag as EcellParameterData;
+            if (obj == null) return;
+
+            EcellParameterData p = ExtractParameterDataFromRow(r);
+            m_dManager.SetParameterData(p);
+        }
+
+        /// <summary>
+        /// The event sequence when user finish to edit the cell of observed data.
+        /// </summary>
+        /// <param name="sender">object(DataGridView).</param>
+        /// <param name="e">DataGridViewEcellEventArgs.</param>
         private void ObserbedCellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView v = sender  as DataGridView;
@@ -1303,17 +1432,7 @@ namespace EcellLib.Analysis
             EcellObservedData p = ExtractObservedDataFromRow(r);
             m_dManager.SetObservedData(p);
         }
-
-        private EcellObservedData ExtractObservedDataFromRow(DataGridViewRow r)
-        {
-            string key = Convert.ToString(r.Cells[0].Value.ToString());
-            double max = Convert.ToDouble(r.Cells[1].Value.ToString());
-            double min = Convert.ToDouble(r.Cells[2].Value.ToString());
-            double diff = Convert.ToDouble(r.Cells[3].Value.ToString());
-            double rate = Convert.ToDouble(r.Cells[4].Value.ToString());
-
-            return new EcellObservedData(key, max, min, diff, rate);
-        }
+        #endregion
     }
 
 }

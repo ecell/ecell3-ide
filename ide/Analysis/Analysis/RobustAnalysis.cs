@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
+using EcellLib.Objects;
 using EcellLib.SessionManager;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
@@ -177,7 +178,7 @@ namespace EcellLib.Analysis
             List<string> modelList = DataManager.GetDataManager().GetModelList();
             if (modelList.Count > 0) model = modelList[0];
 
-            List<ParameterRange> paramList = m_win.ExtractParameterForRobustAnalysis();
+            List<EcellParameterData> paramList = DataManager.GetDataManager().GetParameterData();
             if (paramList == null) return;
             if (paramList.Count < 2)
             {
@@ -225,7 +226,7 @@ namespace EcellLib.Analysis
             double xmin = 0.0;
             double ymax = 0.0;
             double ymin = 0.0;
-            List<ParameterRange> pList = m_win.ExtractParameterForRobustAnalysis();
+            List<EcellParameterData> pList = DataManager.GetDataManager().GetParameterData();
             if (pList == null) return;
             if (pList.Count < 2)
             {
@@ -234,25 +235,25 @@ namespace EcellLib.Analysis
                 return;
             }
             int count = 0;
-            foreach (ParameterRange r in pList)
+            foreach (EcellParameterData r in pList)
             {
                 bool isX = false;
                 bool isY = false;
                 if (count == 0)
                 {
                     isX = true;
-                    xPath = r.FullPath;
+                    xPath = r.Key;
                     xmax = r.Max;
                     xmin = r.Min;
                 }
                 else if (count == 1)
                 {
                     isY = true;
-                    yPath = r.FullPath;
+                    yPath = r.Key;
                     ymax = r.Max;
                     ymin = r.Min;
                 }
-                m_control.SetResultEntryBox(r.FullPath, isX, isY);
+                m_control.SetResultEntryBox(r.Key, isX, isY);
                 count++;
             }
             m_control.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);

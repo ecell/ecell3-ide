@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
+using EcellLib.Objects;
 using EcellLib.SessionManager;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
@@ -192,7 +193,7 @@ namespace EcellLib.Analysis
             List<string> modelList = DataManager.GetDataManager().GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];
 
-            List<ParameterRange> paramList = m_win.ExtractParameterForBifurcation();
+            List<EcellParameterData> paramList = m_win.ExtractParameterForBifurcation();
             if (paramList == null) return;
             if (paramList.Count != 2)
             {
@@ -222,7 +223,7 @@ namespace EcellLib.Analysis
 
             Dictionary<int, ExecuteParameter> tmpDic = new Dictionary<int, ExecuteParameter>();
             int jobid = 0;
-            foreach (ParameterRange p in paramList)
+            foreach (EcellParameterData p in paramList)
             {
                 double step = (p.Max - p.Min) / (double)s_num;
                 bool isX = false;
@@ -230,7 +231,7 @@ namespace EcellLib.Analysis
                 if (count == 0)
                 {
                     isX = true;
-                    m_xPath = p.FullPath;
+                    m_xPath = p.Key;
                     m_xMax = p.Max;
                     m_xMin = p.Min;
                     m_xList.Clear();
@@ -243,7 +244,7 @@ namespace EcellLib.Analysis
                 else if (count == 1)
                 {
                     isY = true;
-                    m_yPath = p.FullPath;
+                    m_yPath = p.Key;
                     m_yMax = p.Max;
                     m_yMin = p.Min;
                     m_yList.Clear();
@@ -253,7 +254,7 @@ namespace EcellLib.Analysis
                         m_yList.Add(d);
                     }
                 }
-                m_control.SetResultEntryBox(p.FullPath, isX, isY);
+                m_control.SetResultEntryBox(p.Key, isX, isY);
                 count++;
             }
             m_control.SetResultGraphSize(m_xMax, m_xMin, m_yMax, m_yMin, false, false);

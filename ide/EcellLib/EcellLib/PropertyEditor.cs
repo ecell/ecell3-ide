@@ -197,28 +197,6 @@ namespace EcellLib
         /// <param name="type">data type of object.</param>
         private void SetDataType(string type)
         {
-            /*
-            if (type.Equals("Model"))
-            {
-                if (m_currentObj == null) button1.Click += new EventHandler(this.AddModel);
-                else button1.Click += new EventHandler(this.UpdateProperty);
-            }
-            else if (type.Equals("Process"))
-            {
-                if (m_currentObj == null) button1.Click += new EventHandler(this.AddNodeElement);
-                else button1.Click += new EventHandler(this.UpdateProperty);
-            }
-            else if (type.Equals("System"))
-            {
-                if (m_currentObj== null) button1.Click += new EventHandler(this.AddSystem);
-                else button1.Click += new EventHandler(this.UpdateProperty);
-            }
-            else if (type.Equals("Variable"))
-            {
-                if (m_currentObj == null) button1.Click += new EventHandler(this.AddNodeElement);
-                else button1.Click += new EventHandler(this.UpdateProperty);
-            }
-             */
             m_type = type;
         }
 
@@ -228,6 +206,7 @@ namespace EcellLib
         /// <param name="d">data object.</param>
         private void GetCommitInfo(EcellData d)
         {
+            bool isCheck = false;
             IEnumerator iter = commitLayoutPanel.Controls.GetEnumerator();
             while (iter.MoveNext())
             {
@@ -241,7 +220,8 @@ namespace EcellLib
                 {
                     CheckBox c1 = c as CheckBox;
                     if (c1 == null) continue;
-                    d.Committed = c1.Checked;
+                    if (c1.Checked)
+                        isCheck = true;
                 }
                 else if (pos.Column == 2) // Max
                 {
@@ -269,6 +249,11 @@ namespace EcellLib
             {
                 throw new Exception("Invalid parameter(MAX < Min).");
             }
+            if (!isCheck)
+                m_dManager.SetParameterData(new EcellParameterData(d.EntityPath, 
+                    d.Max, d.Min, d.Step));
+            else
+                m_dManager.RemoveParameterData(new EcellParameterData(d.EntityPath, 0.0));
         }
 
         /// <summary>
@@ -296,14 +281,6 @@ namespace EcellLib
         private void LayoutModelCommit()
         {
             m_propDict.Clear();
-            int width = commitLayoutPanel.Width;
-            commitLayoutPanel.SuspendLayout();
-            commitLayoutPanel.Controls.Clear();
-            commitLayoutPanel.RowStyles.Clear();
-
-            commitLayoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
-            commitLayoutPanel.RowCount = m_propDict.Keys.Count + 5;
-            commitLayoutPanel.ResumeLayout(false);
         }
 
         /// <summary>
@@ -351,13 +328,19 @@ namespace EcellLib
                     continue;
                 }
 
+                EcellParameterData param = m_dManager.GetParameterData(key);
+                if (param == null)
+                {
+                    param = new EcellParameterData(key, m_propDict[key].Value.CastToDouble());
+                }
                 commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 if (m_propDict[key].Settable &&
                     m_propDict[key].Value.Type == typeof(double))
                 {
                     CheckBox c = new CheckBox();
-                    if (m_propDict[key].Committed) c.Checked = true;
-                    else c.Checked = false;
+                    if (m_dManager.IsContainsParameterData(m_propDict[key].EntityPath)) 
+                        c.Checked = false;
+                    else c.Checked = true;
                     c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                     c.Text = "";
                     c.Tag = key;
@@ -390,7 +373,7 @@ namespace EcellLib
                     m_propDict[key].Value.Type != typeof(double))
                 {
                     t1.ReadOnly = true;
-                    t1.Text = m_propDict[key].Max.ToString();
+                    t1.Text = param.Max.ToString();
                 }
                 else
                 {
@@ -400,7 +383,7 @@ namespace EcellLib
                     }
                     else
                     {
-                        t1.Text = m_propDict[key].Max.ToString();
+                        t1.Text = param.Max.ToString();
                     }
                 }
                 //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
@@ -413,7 +396,7 @@ namespace EcellLib
                     m_propDict[key].Value.Type != typeof(double))
                 {
                     t2.ReadOnly = true;
-                    t2.Text = m_propDict[key].Min.ToString();
+                    t2.Text = param.Min.ToString();
                 }
                 else
                 {
@@ -423,7 +406,7 @@ namespace EcellLib
                     }
                     else
                     {
-                        t2.Text = m_propDict[key].Min.ToString();
+                        t2.Text = param.Min.ToString();
                     }
                 }
 
@@ -432,7 +415,7 @@ namespace EcellLib
                 commitLayoutPanel.Controls.Add(t2, 3, i);
 
                 TextBox t3 = new TextBox();
-                t3.Text = m_propDict[key].Step.ToString();
+                t3.Text = param.Step.ToString();
                 t3.Dock = DockStyle.Fill;
                 t3.Tag = key;
                 if (!m_propDict[key].Settable ||
@@ -531,9 +514,15 @@ namespace EcellLib
                             {
                                 if (d.EntityPath.EndsWith(":Value"))
                                 {
-                                    t1.Text = d.Max.ToString();
-                                    t2.Text = d.Min.ToString();
-                                    t3.Text = d.Step.ToString();
+                                    EcellParameterData pvalue = m_dManager.GetParameterData(d.EntityPath);
+                                    if (pvalue == null)
+                                    {
+                                        pvalue = new EcellParameterData(d.EntityPath,
+                                            d.Value.CastToDouble());
+                                    }
+                                    t1.Text = pvalue.Max.ToString();
+                                    t2.Text = pvalue.Min.ToString();
+                                    t3.Text = pvalue.Step.ToString();
                                 }
                             }
                         }
@@ -1433,10 +1422,10 @@ namespace EcellLib
 
         #region Event
         /// <summary>
-        /// 
+        /// The event sequence when user remove the property of object.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object.</param>
+        /// <param name="e">EventArgs.</param>
         private void DeletePropertyForProcess(object sender, EventArgs e)
         {
             Button b = sender as Button;
@@ -1452,10 +1441,10 @@ namespace EcellLib
             LayoutNodePropertyEditor();
         }
         /// <summary>
-        /// 
+        /// The event sequence when user add the property of object.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object.</param>
+        /// <param name="e">EventArgs</param>
         private void AddPropertyForProcess(object sender, EventArgs e)
         {
             AddPropertyDialog dialog = new AddPropertyDialog();
@@ -1547,10 +1536,10 @@ namespace EcellLib
             this.ActiveControl = cnt;
         }
         /// <summary>
-        /// 
+        /// The event sequence when user press return in text box.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object(TextBox)</param>
+        /// <param name="e">KeyPresssEventArgs.</param>
         private void EnterKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)

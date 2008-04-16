@@ -33,6 +33,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
+using EcellLib;
+using EcellLib.Objects;
 using EcellLib.SessionManager;
 
 namespace EcellLib.Analysis
@@ -74,7 +76,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Range of pameter to use parameter estimation.
         /// </summary>
-        private List<ParameterRange> m_paramList;
+        private List<EcellParameterData> m_paramList;
         /// <summary>
         /// Obserbed data list to calculate the estimation.
         /// </summary>
@@ -521,9 +523,9 @@ namespace EcellLib.Analysis
                         tmpPramDic.Add(path, p.ParamDic[path]);
                         continue;
                     }
-                    foreach (ParameterRange range in m_paramList)
+                    foreach (EcellParameterData range in m_paramList)
                     {
-                        if (!range.FullPath.Equals(path)) continue;
+                        if (!range.Key.Equals(path)) continue;
                         double maxV = range.Max;
                         double minV = range.Min;
                         double V = (maxV - minV) * hRandom.NextDouble() + minV;

@@ -168,6 +168,7 @@ namespace EcellLib
         private int m_systemNumbering = 0;
         private int m_variableNumbering = 0;
         private Dictionary<string, EcellObservedData> m_observedList;
+        private Dictionary<string, EcellParameterData> m_parameterList;
         /// <summary>
         /// ResourceManager for StaticDebugSetupWindow.
         /// </summary>
@@ -195,6 +196,7 @@ namespace EcellLib
             this.m_systemDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
             this.m_loadDirList = new Dictionary<string, string>();
             this.m_observedList = new Dictionary<string, EcellObservedData>();
+            this.m_parameterList = new Dictionary<string, EcellParameterData>();
             m_aManager = ActionManager.GetActionManager();
         }
 
@@ -1925,6 +1927,11 @@ namespace EcellLib
             }
         }
 
+        /// <summary>
+        /// Check whether this key is included in observed data.
+        /// </summary>
+        /// <param name="key">the key of data.</param>
+        /// <returns>if this key is included, return true.</returns>
         public bool IsContainsObservedData(string key)
         {
             return m_observedList.ContainsKey(key);
@@ -1954,6 +1961,90 @@ namespace EcellLib
             if (m_observedList.ContainsKey(data.Key))
                 m_observedList.Remove(data.Key);
             m_pManager.RemoveObservedData(data);
+        }
+
+        /// <summary>
+        /// Check whether this key is included in parameter data.
+        /// </summary>
+        /// <param name="key">the key of data.</param>
+        /// <returns>if this key is included, return true.</returns>
+        public bool IsContainsParameterData(string key)
+        {
+            return m_parameterList.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// The event sequence when the user set and change the prameter data.
+        /// </summary>
+        /// <param name="data">The observed data.</param>
+        public void SetParameterData(EcellParameterData data)
+        {
+            if (m_parameterList.ContainsKey(data.Key))
+            {
+                m_parameterList[data.Key] = data;
+            }
+            else
+                m_parameterList.Add(data.Key, data);
+            m_pManager.SetParameterData(data);
+        }
+
+        /// <summary>
+        /// Get the parameter data from the key. if the parameter data does not exist, return null.
+        /// </summary>
+        /// <param name="key">the key of parameter data.</param>
+        /// <returns>the parameter data.</returns>
+        public EcellParameterData GetParameterData(string key)
+        {
+            if (m_parameterList.ContainsKey(key))
+                return m_parameterList[key];            
+            return null;
+        }
+
+        /// <summary>
+        /// Get the list of all parameter data.
+        /// </summary>
+        /// <returns>the list of parameter data.</returns>
+        public List<EcellParameterData> GetParameterData()
+        {
+            List<EcellParameterData> resList = new List<EcellParameterData>();
+            foreach (string key in m_parameterList.Keys)
+                resList.Add(m_parameterList[key]);
+            return resList;
+        }
+
+        /// <summary>
+        /// Get the observed data from the key, if the observed data does not exist, return null.
+        /// </summary>
+        /// <param name="key">the key of observed data.</param>
+        /// <returns>the observed data.</returns>
+        public EcellObservedData GetObservedData(string key)
+        {
+            if (m_observedList.ContainsKey(key))
+                return m_observedList[key];
+            return null;
+        }
+
+        /// <summary>
+        /// Get the list of all observed data.
+        /// </summary>
+        /// <returns>the list of observed data.</returns>
+        public List<EcellObservedData> GetObservedData()
+        {
+            List<EcellObservedData> resList = new List<EcellObservedData>();
+            foreach (string key in m_observedList.Keys)
+                resList.Add(m_observedList[key]);
+            return resList;
+        }
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of parameter data.
+        /// </summary>
+        /// <param name="data">The removed observed data.</param>
+        public void RemoveParameterData(EcellParameterData data)
+        {
+            if (m_parameterList.ContainsKey(data.Key))
+                m_parameterList.Remove(data.Key);
+            m_pManager.RemoveParameterData(data);
         }
 
         /// <summary>

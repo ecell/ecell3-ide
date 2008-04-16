@@ -73,6 +73,9 @@ namespace EcellLib.Analysis
         /// Window to analysis the robustness of model.
         /// </summary>
         private AnalysisWindow m_win = null;
+        /// <summary>
+        /// For to display the result of analysis.
+        /// </summary>
         private AnalysisResultWindow m_rWin = null;
         /// <summary>
         /// ResourceManager for AnalysisTemplate.
@@ -94,10 +97,21 @@ namespace EcellLib.Analysis
         /// Sensitivity Analysis Class.
         /// </summary>
         private SensitivityAnalysis m_sensitivityAnalysis;
-
+        /// <summary>
+        /// The parameter data for bifurcation analysis.
+        /// </summary>
         private BifurcationAnalysisParameter m_bifurcateParameter;
+        /// <summary>
+        /// The parameter data for parameter estimation.
+        /// </summary>
         private ParameterEstimationParameter m_estimationParameter;
+        /// <summary>
+        /// The parameter data for robust analysis.
+        /// </summary>
         private RobustAnalysisParameter m_robustParameter;
+        /// <summary>
+        /// The parameter data for sensitivity analysis.
+        /// </summary>
         private SensitivityAnalysisParameter m_sensitivityParameter;
         /// <summary>
         /// The dictionary of the data to be set by random.
@@ -593,7 +607,8 @@ namespace EcellLib.Analysis
 
                         foreach (EcellData d in child.Value)
                         {
-                            if (d.Committed) continue;
+                            if (d.EntityPath == null) continue;
+                            if (!m_dManager.IsContainsParameterData(d.EntityPath)) continue;
                             m_paramList.Add(d.EntityPath, d);
                             if (m_win != null)
                                 m_win.AddParameterEntry(child, d);
@@ -605,7 +620,8 @@ namespace EcellLib.Analysis
 
                 foreach (EcellData d in obj.Value)
                 {
-                    if (d.Committed) continue;
+                    if (d.EntityPath == null) continue;
+                    if (!m_dManager.IsContainsParameterData(d.EntityPath)) continue;
                     m_paramList.Add(d.EntityPath, d);
                     if (m_win != null)
                         m_win.AddParameterEntry(obj, d);
@@ -625,7 +641,8 @@ namespace EcellLib.Analysis
             if (obj.Value == null) return;
             foreach (EcellData d in obj.Value)
             {
-                if (d.Committed)
+                if (d.EntityPath == null) continue;
+                if (!m_dManager.IsContainsParameterData(d.EntityPath))
                 {
                     if (m_paramList.ContainsKey(d.EntityPath))
                     {
@@ -670,12 +687,40 @@ namespace EcellLib.Analysis
             }
         }
 
+        /// <summary>
+        /// The event sequence when the user add and change the parameter data.
+        /// </summary>
+        /// <param name="data">The parameter data.</param>
+        public override void SetParameterData(EcellParameterData data)
+        {
+            if (m_win != null)
+                m_win.SetParameterData(data);
+        }
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of parameter data.
+        /// </summary>
+        /// <param name="data">The removed parameter data.</param>
+        public override void RemoveParameterData(EcellParameterData data)
+        {
+            if (m_win != null)
+                m_win.RemoveParameterData(data);
+        }
+
+        /// <summary>
+        /// The event sequence when the user set and change the observed data.
+        /// </summary>
+        /// <param name="data">The observed data.</param>
         public override void SetObservedData(EcellObservedData data)
         {
             if (m_win != null)
                 m_win.SetObservedData(data);
         }
 
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of observed data.
+        /// </summary>
+        /// <param name="data">The removed observed data.</param>
         public override void RemoveObservedData(EcellObservedData data)
         {
             if (m_win != null)
