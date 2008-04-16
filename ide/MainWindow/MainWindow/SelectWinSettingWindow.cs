@@ -73,7 +73,7 @@ namespace EcellLib.MainWindow
                 throw new IgnoreException("Not found the registry key");
             }
             StreamReader reader = new StreamReader(
-                (System.IO.Stream)File.OpenRead(path + "/" + Constants.fileWinSetting));
+                (System.IO.Stream)File.OpenRead(path + "/" + Constants.fileWinSettingList));
             while (i <= 5)
             {
                 string line = reader.ReadLine();

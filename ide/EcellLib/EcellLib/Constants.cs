@@ -52,9 +52,17 @@ namespace EcellLib
         /// </summary>
         public const string fileProjectXML = "project.xml";
         /// <summary>
+        /// Reserved the file name of window setting.
+        /// </summary>
+        public const string fileWinSetting = "window.config";
+        /// <summary>
         /// Reserved the file name of window setting list.
         /// </summary>
-        public const string fileWinSetting = "settinglist.conf";
+        public const string fileWinSettingList = "settinglist.conf";
+        /// <summary>
+        /// Reserved the file name of startup html.
+        /// </summary>
+        public const string fileStartupHTML = "startup.html";
 
         #endregion
 

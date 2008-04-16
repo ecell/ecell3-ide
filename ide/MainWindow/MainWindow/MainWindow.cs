@@ -57,14 +57,6 @@ namespace EcellLib.MainWindow
 {
     public partial class MainWindow : Form, IEcellPlugin
     {
-        #region Readonly Fields 
-        /// <summary>
-        /// Setting file of Docking window. 
-        /// </summary>
-        private readonly string defaultWindowSettingsFile = "window.config";
-
-        #endregion
-
         #region Fields
         /// <summary>
         /// m_entityListDock (DockContent)
@@ -77,11 +69,11 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// defaultWindowSettingPath (string)
         /// </summary>
-        private string defaultWindowSettingPath;
+        private string m_defaultWindowSettingPath;
         /// <summary>
         /// userWindowSettingPath (string)
         /// </summary>
-        private string userWindowSettingPath;
+        private string m_userWindowSettingPath;
         /// <summary>
         /// m_pManager (PluginManager)
         /// </summary>
@@ -148,36 +140,34 @@ namespace EcellLib.MainWindow
         public WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
         #endregion
 
-        /// <summary>
-        /// get / set projectID.
-        /// </summary>
-        public String projetID
-        {
-            get { return this.m_project; }
-            set { 
-                this.m_project = value;
-                if (value == null)
-                    this.m_isLoadProject = false;
-                else
-                    this.m_isLoadProject = true;
-            }
-        }
-
+        #region Constructor
         /// <summary>
         /// Constructor for MainWindow plugin.
         /// </summary>
         public MainWindow()
         {
-            InitializeComponent();
-            m_dockWindowDic = new Dictionary<string,EcellDockContent>();
-            m_dockMenuDic = new Dictionary<string,ToolStripMenuItem>();
-            PluginManager pm = PluginManager.GetPluginManager();
-            pm.DockPanel = this.dockPanel;
-            LoadPlugins();
-            //Load default window settings.
-            setFilePath();
-            LoadDefaultWindowSetting();
-            SetStartUpWindow();
+            try
+            {
+                InitializeComponent();
+                m_dockWindowDic = new Dictionary<string,EcellDockContent>();
+                m_dockMenuDic = new Dictionary<string,ToolStripMenuItem>();
+                m_dManager = DataManager.GetDataManager();
+                m_pManager = PluginManager.GetPluginManager();
+                m_pManager.DockPanel = this.dockPanel;
+                // Load plugins
+                LoadPlugins();
+                //Load default window settings.
+                setFilePath();
+                LoadDefaultWindowSetting();
+                SetStartUpWindow();
+            }
+            catch (Exception e)
+            {
+                String errmes = MainWindow.s_resources.GetString("ErrStartup");
+                MessageBox.Show(errmes + "\n\n" + e.Message,
+                        "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
         }
 
         /// <summary>
@@ -185,10 +175,153 @@ namespace EcellLib.MainWindow
         /// </summary>
         private void setFilePath()
         {
-            defaultWindowSettingPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), defaultWindowSettingsFile);
-            userWindowSettingPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Application.ProductName);
-            userWindowSettingPath = Path.Combine(userWindowSettingPath, defaultWindowSettingsFile);
+            m_defaultWindowSettingPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), Constants.fileWinSetting);
+            m_userWindowSettingPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Application.ProductName);
+            m_userWindowSettingPath = Path.Combine(m_userWindowSettingPath, Constants.fileWinSetting);
         }
+        
+        /// <summary>
+        /// Load plugins.
+        /// </summary>
+        void LoadPlugins()
+        {
+            m_pManager.AddPlugin(this);
+            m_pManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            m_pManager.CopyRight = global::EcellLib.MainWindow.Properties.Resources.CopyrightNotice;
+
+            m_pluginList = new List<string>();
+            m_isLoadProject = false;
+
+            m_currentDir = Util.GetBaseDir();
+            if (m_currentDir == null)
+            {
+                m_currentDir =
+                    System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+                m_currentDir = m_currentDir + "\\e-cell\\project";
+            }
+            
+            LoadAllPlugins();
+            m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
+
+            foreach (ToolStripItem tool in menustrip.Items)
+            {
+                ToolStripMenuItem menu = (ToolStripMenuItem)tool;
+
+                if (menu.DropDownItems.Count <= 0)
+                {
+                    menu.Enabled = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// set base plugin data and load plugin.
+        /// </summary>
+        void LoadAllPlugins()
+        {
+            List<string> pluginList = new List<string>();
+
+            foreach (string pluginDir in Util.GetPluginDirs())
+            {
+                string[] files = Directory.GetFiles(
+                    pluginDir,
+                    Constants.delimiterWildcard + Constants.FileExtPlugin);
+                foreach (string fileName in files)
+                {
+                    pluginList.Add(fileName);
+                }
+            }
+
+            foreach (string pName in pluginList)
+            {
+                LoadPlugin(pName);
+            }
+        }
+
+        /// <summary>
+        /// Load plugin in plugin directory and add the plugin menus to MainWindow.
+        /// </summary>
+        /// <param name="path">path of plugin.</param>
+        void LoadPlugin(string path)
+        {
+            IEcellPlugin pb = null;
+            string pName = Path.GetFileNameWithoutExtension(path);
+            string className = "EcellLib." + pName + "." + pName;
+
+            if (m_pluginList.Contains(pName)) return;
+            m_pluginList.Add(pName);
+
+            try
+            {
+                pb = m_pManager.LoadPlugin(path, className);
+            }
+            catch (Exception ex)
+            {
+                String errmes = MainWindow.s_resources.GetString("ErrLoadPlugin");
+                MessageBox.Show(String.Format(errmes, new object[] { pName, path }) + "\n"
+                        + ex.GetType().Name + ": " + ex.Message + "\n" + ex.StackTrace.ToString(),
+                    "", MessageBoxButtons.OK, MessageBoxIcon.Warning, 0,
+                    MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+            // Set DockContent.
+            List<EcellDockContent> winList = pb.GetWindowsForms();
+            if (winList != null && winList.Count > 0)
+                foreach (EcellDockContent dock in winList)
+                    SetDockContent(dock);
+
+            // Set Menu.
+            List<ToolStripMenuItem> menuList = pb.GetMenuStripItems();
+            if (menuList != null)
+            {
+                foreach (ToolStripMenuItem menu in menuList)
+                {
+                    if (!this.menustrip.Items.ContainsKey(menu.Name))
+                    {
+                        // if you want to sort menu item at first plugin,
+                        // you copy above program sequence.
+                        this.menustrip.Items.AddRange(new ToolStripItem[] { menu });
+                        continue;
+                    }
+
+                    while (menu.DropDownItems.Count > 0)
+                    {
+                        ToolStripItem[] tmp = this.menustrip.Items.Find(menu.Name, false);
+                        ToolStripMenuItem menuItem = (ToolStripMenuItem)tmp[0];
+                        ToolStripItem item = menu.DropDownItems[0];
+                        IEnumerator iter = menuItem.DropDownItems.GetEnumerator();
+                        int i = 0;
+                        while (iter.MoveNext())
+                        {
+                            ToolStripItem t = (ToolStripItem)iter.Current;
+                            if (Convert.ToInt32(t.Tag) > Convert.ToInt32(item.Tag))
+                            {
+                                menuItem.DropDownItems.Insert(i, item);
+                                i = -1;
+                                break;
+                            }
+                            i++;
+                        }
+                        if (i != -1)
+                        {
+                            menuItem.DropDownItems.AddRange(new ToolStripItem[] { item });
+                        }
+                    }
+                }
+            }
+            // Set ToolBar
+            List<ToolStripItem> toolList = pb.GetToolBarMenuStripItems();
+            if (toolList != null)
+            {
+                ToolStrip toolStrip = new ToolStrip();
+                toolStrip.Items.AddRange(toolList.ToArray());
+                this.toolStripContainer.TopToolStripPanel.Join(toolStrip);
+            }
+        }
+
+        #endregion
+
+        #region WindowSetting
         /// <summary>
         /// Save default window settings.
         /// </summary>
@@ -207,7 +340,6 @@ namespace EcellLib.MainWindow
                 MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         /// <summary>
         /// Load window settings.
@@ -240,7 +372,7 @@ namespace EcellLib.MainWindow
         {
             //Load user window settings.
             // Load default window settings when failed.
-            if (!loadWindowSetting(userWindowSettingPath))
+            if (!loadWindowSetting(m_userWindowSettingPath))
             {
                 SelectWinSettingWindow win = new SelectWinSettingWindow();
                 try
@@ -258,62 +390,16 @@ namespace EcellLib.MainWindow
                 }
                 finally
                 {
-                    loadWindowSetting(defaultWindowSettingPath);
+                    loadWindowSetting(m_defaultWindowSettingPath);
                 }
             }
         }
-
-        /// <summary>
-        /// Load plugins.
-        /// </summary>
-        void LoadPlugins()
-        {
-            try
-            {
-                m_dManager = DataManager.GetDataManager();
-            }
-            catch (Exception e)
-            {
-                String errmes = MainWindow.s_resources.GetString("ErrStartup");
-                MessageBox.Show(errmes + "\n\n" + e.Message,
-                        "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-
-            m_pManager = PluginManager.GetPluginManager();
-            m_pManager.AddPlugin(this);
-            m_pManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            m_pManager.CopyRight = global::EcellLib.MainWindow.Properties.Resources.CopyrightNotice;
-
-            m_pluginList = new List<string>();
-            m_isLoadProject = false;
-
-            m_currentDir = Util.GetBaseDir();
-            if (m_currentDir == null)
-            {
-                m_currentDir =
-                    System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-                m_currentDir = m_currentDir + "\\e-cell\\project";
-            }
-            
-            LoadAllPlugins();
-            m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
-
-            foreach (ToolStripItem tool in menustrip.Items)
-            {
-                ToolStripMenuItem menu = (ToolStripMenuItem)tool;
-
-                if (menu.DropDownItems.Count <= 0)
-                {
-                    menu.Enabled = false;
-                }
-            }
-        }
+        #endregion
 
         /// <summary>
         /// Load model in the thread, if this thread is sub thread.
         /// </summary>
-        void LoadModelData()
+        private void LoadModelData()
         {
             Util.InitialLanguage();
             try
@@ -430,87 +516,6 @@ namespace EcellLib.MainWindow
             m_editCount = 0;
         }
 
-        /// <summary>
-        /// Load plugin in plugin directory and add the plugin menus to MainWindow.
-        /// </summary>
-        /// <param name="path">path of plugin.</param>
-        void LoadPlugin(string path)
-        {
-            IEcellPlugin pb = null;
-            string pName = Path.GetFileNameWithoutExtension(path);
-            string className = "EcellLib." + pName + "." + pName;
-
-            if (m_pluginList.Contains(pName)) return;
-            m_pluginList.Add(pName);
-
-            try
-            {
-                pb = m_pManager.LoadPlugin(path, className);
-            }
-            catch (Exception ex)
-            {
-                String errmes = MainWindow.s_resources.GetString("ErrLoadPlugin");
-                MessageBox.Show(String.Format(errmes, new object[] { pName, path } ) + "\n"
-                        + ex.GetType().Name + ": " + ex.Message + "\n" + ex.StackTrace.ToString(),
-                    "", MessageBoxButtons.OK, MessageBoxIcon.Warning, 0,
-                    MessageBoxOptions.DefaultDesktopOnly);
-                return;
-            }
-            // Set DockContent.
-            List<EcellDockContent> winList = pb.GetWindowsForms();
-            if (winList != null && winList.Count > 0)
-                foreach (EcellDockContent dock in winList)
-                    SetDockContent(dock);
-
-            // Set Menu.
-            List<ToolStripMenuItem> menuList = pb.GetMenuStripItems();
-            if (menuList != null)
-            {
-                foreach (ToolStripMenuItem menu in menuList)
-                {
-                    if (!this.menustrip.Items.ContainsKey(menu.Name))
-                    {
-                        // if you want to sort menu item at first plugin,
-                        // you copy above program sequence.
-                        this.menustrip.Items.AddRange(new ToolStripItem[] { menu });
-                        continue;
-                    }
-
-                    while (menu.DropDownItems.Count > 0)
-                    {
-                        ToolStripItem[] tmp = this.menustrip.Items.Find(menu.Name, false);
-                        ToolStripMenuItem menuItem = (ToolStripMenuItem)tmp[0];
-                        ToolStripItem item = menu.DropDownItems[0];
-                        IEnumerator iter = menuItem.DropDownItems.GetEnumerator();
-                        int i = 0;
-                        while (iter.MoveNext())
-                        {
-                            ToolStripItem t = (ToolStripItem)iter.Current;
-                            if (Convert.ToInt32(t.Tag) > Convert.ToInt32(item.Tag))
-                            {
-                                menuItem.DropDownItems.Insert(i, item);
-                                i = -1;
-                                break;
-                            }
-                            i++;
-                        }
-                        if (i != -1)
-                        {
-                            menuItem.DropDownItems.AddRange(new ToolStripItem[] { item });
-                        }
-                    }
-                }
-            }
-            // Set ToolBar
-            List<ToolStripItem> toolList = pb.GetToolBarMenuStripItems();
-            if (toolList != null)
-            {
-                ToolStrip toolStrip = new ToolStrip();
-                toolStrip.Items.AddRange(toolList.ToArray());
-                this.toolStripContainer.TopToolStripPanel.Join(toolStrip);
-            }
-        }
-
         private void SetStartUpWindow()
         {
             EcellDockContent content = new StartUpWindow();
@@ -590,30 +595,6 @@ namespace EcellLib.MainWindow
         public void CheckWindowMenu(String name, bool bChecked)
         {
             m_dockMenuDic[name].Checked = bChecked;
-        }
-
-        /// <summary>
-        /// set base plugin data and load plugin.
-        /// </summary>
-        void LoadAllPlugins()
-        {
-            List<string> pluginList = new List<string>();
-
-            foreach (string pluginDir in Util.GetPluginDirs())
-            {
-                string[] files = Directory.GetFiles(
-                    pluginDir,
-                    Constants.delimiterWildcard + Constants.FileExtPlugin);
-                foreach (string fileName in files)
-                {
-                    pluginList.Add(fileName);
-                }
-            }
-
-            foreach (string pName in pluginList)
-            {
-                LoadPlugin(pName);
-            }
         }
 
         #region PluginBase
@@ -1889,7 +1870,7 @@ namespace EcellLib.MainWindow
             {
                 CloseProject(m_project);
             }
-            saveWindowSetting(userWindowSettingPath);
+            saveWindowSetting(m_userWindowSettingPath);
         }
 
         /// <summary>

@@ -32,18 +32,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace EcellLib.MainWindow
 {
     class StartUpWindow : EcellDockContent
     {
         private WebBrowser EcellBrowser;
-        private static string URL = "http://chaperone.e-cell.org/trac/ecell-ide";
+        private const string URL = "http://chaperone.e-cell.org/trac/ecell-ide";
 
         public StartUpWindow()
         {
             InitializeComponent();
-            this.EcellBrowser.Navigate(URL);
+            Uri uri = new Uri(Path.Combine(Application.StartupPath, Constants.fileStartupHTML));
+            this.EcellBrowser.Navigate(uri);
         }
 
         private void InitializeComponent()

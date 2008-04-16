@@ -95,7 +95,7 @@ namespace EcellLib
         /// <summary>
         /// m_dialog (Printer Dialog with .NET framerowk)
         /// </summary>
-        private System.Windows.Forms.PrintDialog m_dialog;
+        private PrintDialog m_dialog;
         /// <summary>
         /// m_imageList
         /// </summary>
