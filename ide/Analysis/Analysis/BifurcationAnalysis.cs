@@ -51,10 +51,6 @@ namespace EcellLib.Analysis
         /// </summary>
         private SessionManager.SessionManager m_manager;
         /// <summary>
-        /// Form to display the setting and result of analysis.
-        /// </summary>
-        private AnalysisWindow m_win;
-        /// <summary>
         /// Timer to update the status of jobs.
         /// </summary>
         private System.Windows.Forms.Timer m_timer;
@@ -134,7 +130,6 @@ namespace EcellLib.Analysis
         /// </summary>
         public BifurcationAnalysis()
         {
-            m_win = AnalysisWindow.GetWindow();
             m_manager = SessionManager.SessionManager.GetManager();
 
             m_result = new BifurcationResult[s_num + 1, s_num + 1];
@@ -193,7 +188,7 @@ namespace EcellLib.Analysis
             List<string> modelList = DataManager.GetDataManager().GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];
 
-            List<EcellParameterData> paramList = m_win.ExtractParameterForBifurcation();
+            List<EcellParameterData> paramList = DataManager.GetDataManager().GetParameterData();
             if (paramList == null) return;
             if (paramList.Count != 2)
             {
@@ -201,7 +196,7 @@ namespace EcellLib.Analysis
                 MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            List<SaveLoggerProperty> saveList = m_win.GetBifurcationObservedDataList();
+            List<SaveLoggerProperty> saveList = m_control.GetBAObservedDataList();
             if (saveList == null) return;
 
             int count = 0;
@@ -478,7 +473,7 @@ namespace EcellLib.Analysis
         /// </summary>
         private void JudgeBifurcationAnalysis()
         {
-            List<AnalysisJudgementParam> judgeList = m_win.ExtractBifurcationObserved();
+            List<EcellObservedData> judgeList = DataManager.GetDataManager().GetObservedData();
             foreach (int jobid in m_execParam.Keys)
             {
                 if (m_manager.SessionList[jobid].Status != JobStatus.FINISHED)
@@ -487,10 +482,10 @@ namespace EcellLib.Analysis
                 double y = m_manager.ParameterDic[jobid].GetParameter(m_yPath);
 
                 bool isOK = true;
-                foreach (AnalysisJudgementParam p in judgeList)
+                foreach (EcellObservedData p in judgeList)
                 {
                     Dictionary<double, double> logList =
-                        m_manager.SessionList[jobid].GetLogData(p.Path);
+                        m_manager.SessionList[jobid].GetLogData(p.Key);
 
                     double simTime = Convert.ToDouble(m_param.SimulationTime);
                     double winSize = Convert.ToDouble(m_param.WindowSize);
@@ -510,7 +505,7 @@ namespace EcellLib.Analysis
                         }
                     }
                     Application.DoEvents();
-                    bool rJudge = JudgeBifurcationAnalysisByRange(logList, p.Max, p.Min, p.Difference);
+                    bool rJudge = JudgeBifurcationAnalysisByRange(logList, p.Max, p.Min, p.Differ);
                     bool pJudge = JudgeBifurcationAnalysisByFFT(logList, p.Rate);
                     if (rJudge == false || pJudge == false)
                     {

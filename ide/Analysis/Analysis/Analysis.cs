@@ -117,7 +117,9 @@ namespace EcellLib.Analysis
         /// The dictionary of the data to be set by random.
         /// </summary>
         private Dictionary<string, EcellData> m_paramList = new Dictionary<string, EcellData>();
-
+        private List<string> m_headerList = new List<string>();
+        private Dictionary<string, List<double>> m_cccResult = new Dictionary<string, List<double>>();
+        private Dictionary<string, List<double>> m_fccResult = new Dictionary<string, List<double>>();
         #endregion
 
         /// <summary>
@@ -297,6 +299,46 @@ namespace EcellLib.Analysis
         }
 
         /// <summary>
+        /// Set the header string of sensitivity matrix.
+        /// </summary>
+        /// <param name="headerList">the list of activity.</param>
+        public void SetSensitivityHeader(List<string> headerList)
+        {
+            m_headerList.Clear();
+            m_cccResult.Clear();
+            m_fccResult.Clear();
+            foreach (string d in headerList)
+                m_headerList.Add(d);
+            if (m_win != null)
+                m_win.SetSensitivityHeader(headerList);
+        }
+
+        /// <summary>
+        /// Create the the row data of analysis result for variable.
+        /// </summary>
+        /// <param name="name">the property name of parameter.</param>
+        /// <param name="result">the list of sensitivity analysis result.</param>
+        public void AddSensitivityDataOfCCC(string name, List<double> result)
+        {
+            m_cccResult.Add(name, result);
+            if (m_win != null)
+                m_win.AddSensitivityDataOfCCC(name, result);
+        }
+
+        /// <summary>
+        /// Create the row data of analysis result for process
+        /// </summary>
+        /// <param name="name">the property name of parameter.</param>
+        /// <param name="result">the list of sensitivity analysis result.</param>
+        public void AddSensitivityDataOfFCC(string name, List<double> result)
+        {
+            m_fccResult.Add(name, result);
+            if (m_win != null)
+                m_win.AddSensitivityDataOfFCC(name, result);
+        }
+        
+
+        /// <summary>
         /// Clear the result of analysis.
         /// </summary>
         public void ClearResult()
@@ -333,13 +375,116 @@ namespace EcellLib.Analysis
                 m_rWin.SetResultGraphSize(xmax, xmin, ymax, ymin, isAutoX, isAutoY);
         }
 
+        /// <summary>
+        /// Get the list of observed property to judge for analysis.
+        /// If there are any problems, this function return null. 
+        /// </summary>
+        /// <returns>the list of observed property.</returns>
+        public List<SaveLoggerProperty> GetPEObservedDataList()
+        {
+            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+            
+            String dir = manager.TmpDir;
+            double start = 0.0;
+            double end = m_estimationParameter.SimulationTime;
+            string formulator = m_estimationParameter.EstimationFormulator;
+            string[] ele = formulator.Split(new char[] { '+', '-', '*' });
+            for (int i = 0; i < ele.Length; i++)
+            {
+                string element = ele[i].Replace(" ", "");
+                if (element.StartsWith("Variable") ||
+                    element.StartsWith("Process"))
+                    resList.Add(new SaveLoggerProperty(element, start, end, dir));
+            }
+            return resList;
+        }
+
+        /// <summary>
+        /// Get the list of observed property to judge for analysis.
+        /// If there are any problems, this function return null. 
+        /// </summary>
+        /// <returns>the list of observed property.</returns>
+        public List<SaveLoggerProperty> GetRAObservedDataList()
+        {
+            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+            List<EcellObservedData> obsList = m_dManager.GetObservedData();
+
+            foreach (EcellObservedData data in obsList)
+            {
+                string dir = manager.TmpDir;
+                string path = data.Key;
+                double start = 0.0;
+                double end = m_robustParameter.SimulationTime;
+
+                SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
+                resList.Add(p);
+            }
+
+            if (resList.Count < 1)
+            {
+                String mes = Analysis.s_resources.GetString("ErrObservProp");
+                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            return resList;
+        }
+
+        /// <summary>
+        /// Get the list of observed property to judge for analysis.
+        /// If there are any problems, this function return null. 
+        /// </summary>
+        /// <returns>the list of observed property.</returns>
+        public List<SaveLoggerProperty> GetBAObservedDataList()
+        {
+            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+            List<EcellObservedData> obsList = m_dManager.GetObservedData();
+
+            foreach (EcellObservedData data in obsList)
+            {
+                String dir = manager.TmpDir;
+                string path = data.Key;
+                double start = 0.0;
+                double end = m_bifurcateParameter.SimulationTime;
+
+                SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
+                resList.Add(p);
+            }
+
+            if (resList.Count < 1)
+            {
+                String mes = Analysis.s_resources.GetString("ErrObservProp");
+                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            return resList;
+        }
+
+        /// <summary>
+        /// Set the estimated parameter.
+        /// </summary>
+        /// <param name="param">the execution parameter.</param>
+        /// <param name="result">the estimated value.</param>
+        /// <param name="generation">the generation.</param>
+        public void AddEstimateParameter(ExecuteParameter param, double result, int generation)
+        {
+            if (m_win != null)
+            {
+                m_win.AddEstimateParameter(param, result, generation);
+            }
+        }
+
         #region Events
         /// <summary>
         /// Event when this form of robust analysis is shown.
         /// </summary>
         /// <param name="sender">RobustAnalysis.</param>
         /// <param name="e">EventArgs.</param>
-        private void ShowRobustAnalysisWindow(object sender, EventArgs e)
+        private void ShowAnalysisWindow(object sender, EventArgs e)
         {
             if (m_win == null)
             {
@@ -353,6 +498,15 @@ namespace EcellLib.Analysis
                                     m_win.FloatPane,
                                     new Rectangle(m_win.Left, m_win.Top, m_win.Width, m_win.Height));
                 m_win.Pane.DockTo(fw);
+                m_win.SetSensitivityHeader(m_headerList);
+                foreach (string key in m_cccResult.Keys)
+                {
+                    m_win.AddSensitivityDataOfCCC(key, m_cccResult[key]);
+                }
+                foreach (string key in m_fccResult.Keys)
+                {
+                    m_win.AddSensitivityDataOfFCC(key, m_fccResult[key]);
+                }
                 m_win.Show();
             }
             else
@@ -490,7 +644,7 @@ namespace EcellLib.Analysis
             m_showAnalysisSetupItem.Text = resources.GetString("MenuItemAnalysisWindow");
             m_showAnalysisSetupItem.ToolTipText = resources.GetString("MenuItemAnalysisWindow");
             m_showAnalysisSetupItem.Tag = 50;
-            m_showAnalysisSetupItem.Click += new EventHandler(ShowRobustAnalysisWindow);
+            m_showAnalysisSetupItem.Click += new EventHandler(ShowAnalysisWindow);
 
             ToolStripMenuItem setupMenu = new ToolStripMenuItem();
             setupMenu.DropDownItems.AddRange(new ToolStripItem[] { m_showAnalysisSetupItem });

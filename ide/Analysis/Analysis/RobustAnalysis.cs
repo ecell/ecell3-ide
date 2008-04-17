@@ -55,10 +55,6 @@ namespace EcellLib.Analysis
         /// </summary>
         private SessionManager.SessionManager m_manager;
         /// <summary>
-        /// Form to display the setting and result of analysis.
-        /// </summary>
-        private AnalysisWindow m_win;
-        /// <summary>
         /// Plugin controller.
         /// </summary>
         private Analysis m_control;
@@ -78,7 +74,6 @@ namespace EcellLib.Analysis
         /// </summary>
         public RobustAnalysis()
         {
-            m_win = AnalysisWindow.GetWindow();
             m_manager = SessionManager.SessionManager.GetManager();
 
             m_timer = new System.Windows.Forms.Timer();
@@ -186,7 +181,7 @@ namespace EcellLib.Analysis
                 MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            List<SaveLoggerProperty> saveList = m_win.GetRobustObservedDataList();
+            List<SaveLoggerProperty> saveList = m_control.GetRAObservedDataList();
             if (saveList == null) return;
 
             m_manager.SetParameterRange(paramList);
@@ -258,7 +253,7 @@ namespace EcellLib.Analysis
             }
             m_control.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
 
-            List<AnalysisJudgementParam> judgeList = m_win.ExtractObserved();
+            List<EcellObservedData> judgeList = DataManager.GetDataManager().GetObservedData();
             foreach (int jobid in m_paramDic.Keys)
             {
                 if (m_manager.SessionList[jobid].Status != JobStatus.FINISHED)
@@ -266,10 +261,10 @@ namespace EcellLib.Analysis
                 double x = m_manager.ParameterDic[jobid].GetParameter(xPath);
                 double y = m_manager.ParameterDic[jobid].GetParameter(yPath);
                 bool isOK = true;
-                foreach (AnalysisJudgementParam p in judgeList)
+                foreach (EcellObservedData p in judgeList)
                 {
                     Dictionary<double, double> logList =
-                        m_manager.SessionList[jobid].GetLogData(p.Path);
+                        m_manager.SessionList[jobid].GetLogData(p.Key);
 
                     double simTime = Convert.ToDouble(m_param.SimulationTime);
                     double winSize = Convert.ToDouble(m_param.WinSize);
@@ -289,7 +284,7 @@ namespace EcellLib.Analysis
                         }
                     }
 
-                    bool rJudge = JudgeRobustAnalysisByRange(logList, p.Max, p.Min, p.Difference);
+                    bool rJudge = JudgeRobustAnalysisByRange(logList, p.Max, p.Min, p.Differ);
                     bool pJudge = JudgeRobustAnalysisByFFT(logList, p.Rate);
                     if (rJudge == false || pJudge == false)
                     {

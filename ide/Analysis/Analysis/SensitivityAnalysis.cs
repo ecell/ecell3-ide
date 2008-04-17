@@ -52,10 +52,6 @@ namespace EcellLib.Analysis
         /// </summary>
         private SessionManager.SessionManager m_manager;
         /// <summary>
-        /// Form to display the setting and result of analysis.
-        /// </summary>
-        private AnalysisWindow m_win;
-        /// <summary>
         /// Timer to update the status of jobs.
         /// </summary>
         private System.Windows.Forms.Timer m_timer;
@@ -158,7 +154,6 @@ namespace EcellLib.Analysis
         /// </summary>
         public SensitivityAnalysis()
         {
-            m_win = AnalysisWindow.GetWindow();
             m_manager = SessionManager.SessionManager.GetManager();
 
             m_timer = new System.Windows.Forms.Timer();
@@ -744,7 +739,7 @@ namespace EcellLib.Analysis
                 CalculateUnScaledControlCoefficient();
                 CalculateScaledControlCoefficient();
 
-                m_win.SetSensitivityHeader(m_activityList);
+                m_control.SetSensitivityHeader(m_activityList);
                 for (int i = 0; i < m_scaledCCCMatrix.RowCount; i++)
                 {
                     List<double> res = new List<double>();
@@ -752,7 +747,7 @@ namespace EcellLib.Analysis
                     {
                         res.Add(m_scaledCCCMatrix[i, j]);
                     }
-                    m_win.AddSensitivityDataOfCCC(m_valueList[i], res);
+                    m_control.AddSensitivityDataOfCCC(m_valueList[i], res);
                 }
                 for (int i = 0; i < m_scaledFCCMatrix.RowCount; i++)
                 {
@@ -761,7 +756,7 @@ namespace EcellLib.Analysis
                     {
                         res.Add(m_scaledFCCMatrix[i, j]);
                     }
-                    m_win.AddSensitivityDataOfFCC(m_activityList[i], res);
+                    m_control.AddSensitivityDataOfFCC(m_activityList[i], res);
                 }
 
                 String finMes = Analysis.s_resources.GetString("FinishSAnalysis");

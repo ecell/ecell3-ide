@@ -504,6 +504,11 @@ namespace EcellLib.Analysis
             RemoveObservedRow(BAObservedGridView, data);
         }
 
+        /// <summary>
+        /// The event sequence when the data entry is removed.
+        /// </summary>
+        /// <param name="v">the data entry in DataGridView.</param>
+        /// <param name="data">the observed data.</param>
         private void RemoveObservedRow(DataGridView v, EcellObservedData data)
         {
             foreach (DataGridViewRow r in v.Rows)
@@ -710,86 +715,86 @@ namespace EcellLib.Analysis
             return new EcellParameterData(key, max, min, step);
         }
 
-        /// <summary>
-        /// Extract the judgement condition from DataGridView.
-        /// </summary>
-        /// <returns>the list of judgement condition.</returns>
-        public List<AnalysisJudgementParam> ExtractBifurcationObserved()
-        {
-            List<AnalysisJudgementParam> resList = new List<AnalysisJudgementParam>();
+        ///// <summary>
+        ///// Extract the judgement condition from DataGridView.
+        ///// </summary>
+        ///// <returns>the list of judgement condition.</returns>
+        //public List<AnalysisJudgementParam> ExtractBifurcationObserved()
+        //{
+        //    List<AnalysisJudgementParam> resList = new List<AnalysisJudgementParam>();
 
-            for (int i = 0; i < BAObservedGridView.Rows.Count; i++)
-            {
-                string path = BAObservedGridView[0, i].Value.ToString();
-                double max = Convert.ToDouble(BAObservedGridView[1, i].Value);
-                double min = Convert.ToDouble(BAObservedGridView[2, i].Value);
-                double diff = Convert.ToDouble(BAObservedGridView[3, i].Value);
-                double rate = Convert.ToDouble(BAObservedGridView[4, i].Value);
+        //    for (int i = 0; i < BAObservedGridView.Rows.Count; i++)
+        //    {
+        //        string path = BAObservedGridView[0, i].Value.ToString();
+        //        double max = Convert.ToDouble(BAObservedGridView[1, i].Value);
+        //        double min = Convert.ToDouble(BAObservedGridView[2, i].Value);
+        //        double diff = Convert.ToDouble(BAObservedGridView[3, i].Value);
+        //        double rate = Convert.ToDouble(BAObservedGridView[4, i].Value);
 
-                AnalysisJudgementParam p = new AnalysisJudgementParam(path, max, min, diff, rate);
-                resList.Add(p);
-            }
+        //        AnalysisJudgementParam p = new AnalysisJudgementParam(path, max, min, diff, rate);
+        //        resList.Add(p);
+        //    }
 
-            return resList;
-        }
+        //    return resList;
+        //}
 
-        /// <summary>
-        /// Get the list of property to set the initial value for analysis.
-        /// If there are any problems, this function return null.
-        /// </summary>
-        /// <returns>the list of parameter property.</returns>
-        public List<EcellParameterData> ExtractParameterForBifurcation()
-        {
-            List<EcellParameterData> resList = new List<EcellParameterData>();
+        ///// <summary>
+        ///// Get the list of property to set the initial value for analysis.
+        ///// If there are any problems, this function return null.
+        ///// </summary>
+        ///// <returns>the list of parameter property.</returns>
+        //public List<EcellParameterData> ExtractParameterForBifurcation()
+        //{
+        //    List<EcellParameterData> resList = new List<EcellParameterData>();
 
-            for (int i = 0; i < BAParameterGridView.Rows.Count; i++)
-            {
-                string path = BAParameterGridView[0, i].Value.ToString();
-                double max = Convert.ToDouble(BAParameterGridView[1, i].Value);
-                double min = Convert.ToDouble(BAParameterGridView[2, i].Value);
-                double step = Convert.ToDouble(BAParameterGridView[3, i].Value);
+        //    for (int i = 0; i < BAParameterGridView.Rows.Count; i++)
+        //    {
+        //        string path = BAParameterGridView[0, i].Value.ToString();
+        //        double max = Convert.ToDouble(BAParameterGridView[1, i].Value);
+        //        double min = Convert.ToDouble(BAParameterGridView[2, i].Value);
+        //        double step = Convert.ToDouble(BAParameterGridView[3, i].Value);
 
-                if (step <= 0.0)
-                    step = (max - min) / 10.0;
+        //        if (step <= 0.0)
+        //            step = (max - min) / 10.0;
 
-                if (min > max) continue;
-                EcellParameterData p = new EcellParameterData(path, min, max, step);
-                resList.Add(p);
-            }
+        //        if (min > max) continue;
+        //        EcellParameterData p = new EcellParameterData(path, min, max, step);
+        //        resList.Add(p);
+        //    }
 
-            return resList;
-        }
+        //    return resList;
+        //}
 
-        /// <summary>
-        /// Get the list of observed property to judge for analysis.
-        /// If there are any problems, this function return null. 
-        /// </summary>
-        /// <returns>the list of observed property.</returns>
-        public List<SaveLoggerProperty> GetBifurcationObservedDataList()
-        {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+        ///// <summary>
+        ///// Get the list of observed property to judge for analysis.
+        ///// If there are any problems, this function return null. 
+        ///// </summary>
+        ///// <returns>the list of observed property.</returns>
+        //public List<SaveLoggerProperty> GetBifurcationObservedDataList()
+        //{
+        //    SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+        //    List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
 
-            for (int i = 0; i < BAObservedGridView.Rows.Count; i++)
-            {
-                String dir = manager.TmpDir;
-                string path = BAObservedGridView[0, i].Value.ToString();
-                double start = 0.0;
-                double end = Convert.ToDouble(BASimTimeText.Text);
-                SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
+        //    for (int i = 0; i < BAObservedGridView.Rows.Count; i++)
+        //    {
+        //        String dir = manager.TmpDir;
+        //        string path = BAObservedGridView[0, i].Value.ToString();
+        //        double start = 0.0;
+        //        double end = Convert.ToDouble(BASimTimeText.Text);
+        //        SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
 
-                resList.Add(p);
-            }
+        //        resList.Add(p);
+        //    }
 
-            if (resList.Count < 1)
-            {
-                String mes = Analysis.s_resources.GetString("ErrObservProp");
-                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
+        //    if (resList.Count < 1)
+        //    {
+        //        String mes = Analysis.s_resources.GetString("ErrObservProp");
+        //        MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return null;
+        //    }
 
-            return resList;
-        }
+        //    return resList;
+        //}
         #endregion
 
         #region RobustAnalysis
@@ -827,59 +832,59 @@ namespace EcellLib.Analysis
             else RAMatrixCheck.Checked = true;
         }
 
-        /// <summary>
-        /// Extract the judgement condition from DataGridView.
-        /// </summary>
-        /// <returns>the list of judgement condition.</returns>
-        public List<AnalysisJudgementParam> ExtractObserved()
-        {
-            List<AnalysisJudgementParam> resList = new List<AnalysisJudgementParam>();
+        ///// <summary>
+        ///// Extract the judgement condition from DataGridView.
+        ///// </summary>
+        ///// <returns>the list of judgement condition.</returns>
+        //public List<AnalysisJudgementParam> ExtractObserved()
+        //{
+        //    List<AnalysisJudgementParam> resList = new List<AnalysisJudgementParam>();
 
-            for (int i = 0; i < RAObservGridView.Rows.Count; i++)
-            {
-                string path = RAObservGridView[0, i].Value.ToString();
-                double max = Convert.ToDouble(RAObservGridView[1, i].Value);
-                double min = Convert.ToDouble(RAObservGridView[2, i].Value);
-                double diff = Convert.ToDouble(RAObservGridView[3, i].Value);
-                double rate = Convert.ToDouble(RAObservGridView[4, i].Value);
+        //    for (int i = 0; i < RAObservGridView.Rows.Count; i++)
+        //    {
+        //        string path = RAObservGridView[0, i].Value.ToString();
+        //        double max = Convert.ToDouble(RAObservGridView[1, i].Value);
+        //        double min = Convert.ToDouble(RAObservGridView[2, i].Value);
+        //        double diff = Convert.ToDouble(RAObservGridView[3, i].Value);
+        //        double rate = Convert.ToDouble(RAObservGridView[4, i].Value);
 
-                AnalysisJudgementParam p = new AnalysisJudgementParam(path, max, min, diff, rate);
-                resList.Add(p);
-            }
+        //        AnalysisJudgementParam p = new AnalysisJudgementParam(path, max, min, diff, rate);
+        //        resList.Add(p);
+        //    }
 
-            return resList;
-        }
+        //    return resList;
+        //}
 
-        /// <summary>
-        /// Get the list of observed property to judge for analysis.
-        /// If there are any problems, this function return null. 
-        /// </summary>
-        /// <returns>the list of observed property.</returns>
-        public List<SaveLoggerProperty> GetRobustObservedDataList()
-        {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+        ///// <summary>
+        ///// Get the list of observed property to judge for analysis.
+        ///// If there are any problems, this function return null. 
+        ///// </summary>
+        ///// <returns>the list of observed property.</returns>
+        //public List<SaveLoggerProperty> GetRobustObservedDataList()
+        //{
+        //    SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+        //    List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
 
-            for (int i = 0; i < RAObservGridView.Rows.Count; i++)
-            {
-                String dir = manager.TmpDir;
-                string path = RAObservGridView[0, i].Value.ToString();
-                double start = 0.0;
-                double end = Convert.ToDouble(RASimTimeText.Text);
-                SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
+        //    for (int i = 0; i < RAObservGridView.Rows.Count; i++)
+        //    {
+        //        String dir = manager.TmpDir;
+        //        string path = RAObservGridView[0, i].Value.ToString();
+        //        double start = 0.0;
+        //        double end = Convert.ToDouble(RASimTimeText.Text);
+        //        SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
 
-                resList.Add(p);
-            }
+        //        resList.Add(p);
+        //    }
 
-            if (resList.Count < 1)
-            {
-                String mes = Analysis.s_resources.GetString("ErrObservProp");
-                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
+        //    if (resList.Count < 1)
+        //    {
+        //        String mes = Analysis.s_resources.GetString("ErrObservProp");
+        //        MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return null;
+        //    }
 
-            return resList;
-        }
+        //    return resList;
+        //}
 
         #endregion
 
@@ -911,54 +916,54 @@ namespace EcellLib.Analysis
             m_peParam = param.Param;
         }
 
-        /// <summary>
-        /// Get the list of property to set the initial value for analysis.
-        /// If there are any problems, this function return null.
-        /// </summary>
-        /// <returns>the list of parameter property.</returns>
-        public List<EcellParameterData> ExtractParameterForParameterEstimation()
-        {
-            List<EcellParameterData> resList = new List<EcellParameterData>();
+        ///// <summary>
+        ///// Get the list of property to set the initial value for analysis.
+        ///// If there are any problems, this function return null.
+        ///// </summary>
+        ///// <returns>the list of parameter property.</returns>
+        //public List<EcellParameterData> ExtractParameterForParameterEstimation()
+        //{
+        //    List<EcellParameterData> resList = new List<EcellParameterData>();
 
-            for (int i = 0; i < PEParamGridView.Rows.Count; i++)
-            {
-                string path = PEParamGridView[0, i].Value.ToString();
-                double max = Convert.ToDouble(PEParamGridView[1, i].Value);
-                double min = Convert.ToDouble(PEParamGridView[2, i].Value);
-                double step = 0.0;
+        //    for (int i = 0; i < PEParamGridView.Rows.Count; i++)
+        //    {
+        //        string path = PEParamGridView[0, i].Value.ToString();
+        //        double max = Convert.ToDouble(PEParamGridView[1, i].Value);
+        //        double min = Convert.ToDouble(PEParamGridView[2, i].Value);
+        //        double step = 0.0;
 
-                if (min > max) continue;
-                EcellParameterData p = new EcellParameterData(path, min, max, step);
-                resList.Add(p);
-            }
+        //        if (min > max) continue;
+        //        EcellParameterData p = new EcellParameterData(path, min, max, step);
+        //        resList.Add(p);
+        //    }
 
-            return resList;
-        }
+        //    return resList;
+        //}
 
-        /// <summary>
-        /// Get the list of observed property to judge for analysis.
-        /// If there are any problems, this function return null. 
-        /// </summary>
-        /// <returns>the list of observed property.</returns>
-        public List<SaveLoggerProperty> GetParameterObservedDataList()
-        {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+        ///// <summary>
+        ///// Get the list of observed property to judge for analysis.
+        ///// If there are any problems, this function return null. 
+        ///// </summary>
+        ///// <returns>the list of observed property.</returns>
+        //public List<SaveLoggerProperty> GetParameterObservedDataList()
+        //{
+        //    SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+        //    List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
 
-            String dir = manager.TmpDir;
-            double start = 0.0;
-            double end = Convert.ToDouble(RASimTimeText.Text);
-            string formulator = PEEstmationFormula.Text;
-            string[] ele = formulator.Split(new char[] { '+', '-', '*' });
-            for (int i = 0; i < ele.Length; i++)
-            {
-                string element = ele[i].Replace(" ", "");
-                if (element.StartsWith("Variable") ||
-                    element.StartsWith("Process"))
-                    resList.Add(new SaveLoggerProperty(element, start, end, dir));
-            }
-            return resList;
-        }
+        //    String dir = manager.TmpDir;
+        //    double start = 0.0;
+        //    double end = Convert.ToDouble(RASimTimeText.Text);
+        //    string formulator = PEEstmationFormula.Text;
+        //    string[] ele = formulator.Split(new char[] { '+', '-', '*' });
+        //    for (int i = 0; i < ele.Length; i++)
+        //    {
+        //        string element = ele[i].Replace(" ", "");
+        //        if (element.StartsWith("Variable") ||
+        //            element.StartsWith("Process"))
+        //            resList.Add(new SaveLoggerProperty(element, start, end, dir));
+        //    }
+        //    return resList;
+        //}
 
         /// <summary>
         /// Set the estimated parameter.

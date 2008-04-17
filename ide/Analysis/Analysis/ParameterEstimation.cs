@@ -46,10 +46,6 @@ namespace EcellLib.Analysis
     {
         #region Fields
         /// <summary>
-        /// Form to display the setting and result of analysis.
-        /// </summary>
-        private AnalysisWindow m_win;
-        /// <summary>
         /// Manage of session.
         /// </summary>
         private SessionManager.SessionManager m_manager;
@@ -116,7 +112,6 @@ namespace EcellLib.Analysis
         /// </summary>
         public ParameterEstimation()
         {
-            m_win = AnalysisWindow.GetWindow();
             m_manager = SessionManager.SessionManager.GetManager();
 
             m_timer = new System.Windows.Forms.Timer();
@@ -178,7 +173,7 @@ namespace EcellLib.Analysis
             List<string> modelList = DataManager.GetDataManager().GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];
 
-            m_paramList = m_win.ExtractParameterForParameterEstimation();
+            m_paramList = DataManager.GetDataManager().GetParameterData();
             if (m_paramList == null) return;
             if (m_paramList.Count < 1)
             {
@@ -188,7 +183,7 @@ namespace EcellLib.Analysis
             }
 
             m_manager.SetParameterRange(m_paramList);
-            m_saveList = m_win.GetParameterObservedDataList();
+            m_saveList = m_control.GetPEObservedDataList();
             if (m_saveList == null) return;
             m_manager.SetLoggerData(m_saveList);
             m_control.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
@@ -368,7 +363,7 @@ namespace EcellLib.Analysis
             }
             m_estimation.Add(m_generation, value);
             m_elite = m_execParamList[elite];
-            m_win.AddEstimateParameter(m_elite, value, m_generation);
+            m_control.AddEstimateParameter(m_elite, value, m_generation);
             m_control.AddEstimationData(m_generation, value);
             m_eliteNum = elite;
         }
