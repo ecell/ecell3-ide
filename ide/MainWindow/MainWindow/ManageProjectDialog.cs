@@ -458,7 +458,7 @@ namespace EcellLib.MainWindow
         /// <param name="dmList"></param>
         private void CreateNewProject(Project project, string path, string modelName, List<string> dmList)
         {
-            Project.SaveProject(project, path);
+            project.Save(path);
             // DataManagerに新規プロジェクトを作成する関数を追加する。
             // 
         }

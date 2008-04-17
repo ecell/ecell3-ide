@@ -476,18 +476,6 @@ namespace EcellLib
         }
 
         [Test()]
-        public void TestGetDirPath()
-        {
-            string modelName = null;
-            string expectedString = null;
-            string resultString = null;
-            resultString = _unitUnderTest.GetDirPath(modelName);
-            Assert.AreEqual(expectedString, resultString, "GetDirPath method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-
-        [Test()]
         public void TestGetEntityList()
         {
             string l_modelID = null;
@@ -729,14 +717,6 @@ namespace EcellLib
             string resultString = null;
             resultString = _unitUnderTest.GetTemporaryID(modelID, type, systemID);
             Assert.AreEqual(expectedString, resultString, "GetTemporaryID method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-
-        [Test()]
-        public void TestResetTemporaryID()
-        {
-            _unitUnderTest.ResetTemporaryID();
             Assert.Fail("Create or modify test(s).");
 
         }

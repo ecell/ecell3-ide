@@ -1144,7 +1144,7 @@ namespace EcellLib.MainWindow
                 {
                     project.Name = prjID;
                     project.Comment = comment;
-                    Project.SaveProject(project, m_managePrjDialog.FileName);
+                    project.Save(m_managePrjDialog.FileName);
                 }
                 m_dManager.LoadProject(prjID, fileName);
                 m_isLoadProject = true;

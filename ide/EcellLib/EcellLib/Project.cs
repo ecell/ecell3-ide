@@ -1,9 +1,44 @@
-﻿using System;
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Xml;
 using System.Windows.Forms;
+using EcellCoreLib;
+using EcellLib.Objects;
 
 namespace EcellLib
 {
@@ -16,7 +51,7 @@ namespace EcellLib
         /// <summary>
         /// File Path.
         /// </summary>
-        private string m_filePath;
+        private string m_prjPath;
         /// <summary>
         /// The comment
         /// </summary>
@@ -33,6 +68,49 @@ namespace EcellLib
         /// The simulation parameter.
         /// </summary>
         private string m_simParam;
+
+        /// <summary>
+        /// The list of the DM
+        /// </summary>
+        private Dictionary<string, List<string>> m_dmDic = null;
+        /// <summary>
+        /// The ModelList of this project
+        /// </summary>
+        private List<EcellObject> m_modelList = null;
+        /// <summary>
+        /// The ModelFileList of this project
+        /// </summary>
+        private Dictionary<string, string> m_modelFileList = new Dictionary<string,string>();
+        /// <summary>
+        /// The Simulator of this project.
+        /// </summary>
+        private WrappedSimulator m_simulator = null;
+        /// <summary>
+        /// The dictionary of the logable entity path
+        /// </summary>
+        private Dictionary<string, string> m_logableEntityPathDic = null;
+        /// <summary>
+        /// The dictionary of the "System" with the model ID 
+        /// </summary>
+        private Dictionary<string, List<EcellObject>> m_systemDic = null;
+
+        /// <summary>
+        /// The executed flag of Simulator.
+        /// </summary>
+        private int m_simulatorExecFlag = 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        private int m_processNumbering = 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        private int m_systemNumbering = 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        private int m_variableNumbering = 0;
+
         #endregion
 
         #region Constructor
@@ -42,6 +120,20 @@ namespace EcellLib
         public Project()
         {
             SetParams(Constants.defaultPrjID, Constants.defaultComment, "", Constants.defaultSimParam);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        public Project(string filePath)
+        {
+            Project prj = Project.LoadProject(filePath);
+            this.m_prjName = prj.m_prjName;
+            this.m_comment = prj.m_comment;
+            this.m_simParam = prj.m_simParam;
+            this.m_updateTime = prj.m_updateTime;
+            this.m_prjPath = prj.m_prjPath;
         }
 
         /// <summary>
@@ -80,6 +172,7 @@ namespace EcellLib
             this.Comment = l_comment;
             this.UpdateTime = l_time;
             this.SimulationParam = l_simParam;
+            this.ProjectPath = Path.Combine(Util.GetBaseDir(), this.Name);
         }
         #endregion
 
@@ -141,12 +234,192 @@ namespace EcellLib
         /// <summary>
         /// get/set the filePath
         /// </summary>
-        public string FilePath
+        public string ProjectPath
         {
-            get { return m_filePath; }
-            set { this.m_filePath = value; }
+            get { return m_prjPath; }
+            set { this.m_prjPath = value; }
         }
 
+        /// <summary>
+        /// The list of the DM
+        /// </summary>
+        public Dictionary<string, List<string>> DmDic
+        {
+            get { return m_dmDic; }
+            set { m_dmDic = value; }
+        }
+
+        /// <summary>
+        /// The List of the Model
+        /// </summary>
+        public List<EcellObject> ModelList
+        {
+            get { return m_modelList; }
+            set { m_modelList = value; }
+        }
+
+        /// <summary>
+        /// The dictionary of the "System" with the model ID 
+        /// </summary>
+        public Dictionary<string, List<EcellObject>> SystemDic
+        {
+            get { return m_systemDic; }
+            set { m_systemDic = value; }
+        }
+
+        /// <summary>
+        /// The List of the Model
+        /// </summary>
+        public Dictionary<string, string> ModelFileDic
+        {
+            get { return m_modelFileList; }
+            set { m_modelFileList = value; }
+        }
+
+        /// <summary>
+        /// The Simulator of this project.
+        /// </summary>
+        public WrappedSimulator Simulator
+        {
+            get { return m_simulator; }
+            set { m_simulator = value; }
+        }
+
+        /// <summary>
+        /// The executed flag of Simulator.
+        /// </summary>
+        public int SimulatorExecFlag
+        {
+            get { return m_simulatorExecFlag; }
+            set { m_simulatorExecFlag = value; }
+        }
+
+        /// <summary>
+        /// The dictionary of the logable entity path
+        /// </summary>
+        public Dictionary<string, string> LogableEntityPathDic
+        {
+            get { return m_logableEntityPathDic; }
+            set { m_logableEntityPathDic = value; }
+        }
+
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Save project.
+        /// </summary>
+        /// <param name="filePath"></param>
+        public void Save(string filePath)
+        {
+            SaveProject(this, filePath);
+        }
+
+        /// <summary>
+        /// Sets the list of the DM.
+        /// </summary>
+        internal void SetDMList()
+        {
+            //
+            // Initialize
+            //
+            this.m_dmDic = new Dictionary<string, List<string>>();
+            // 4 Process
+            this.m_dmDic.Add(Constants.xpathProcess, new List<string>());
+            // 4 Stepper
+            this.m_dmDic.Add(Constants.xpathStepper, new List<string>());
+            // 4 System
+            List<string> l_systemList = new List<string>();
+            l_systemList.Add(Constants.xpathSystem);
+            this.m_dmDic.Add(Constants.xpathSystem, l_systemList);
+            // 4 Variable
+            List<string> l_variableList = new List<string>();
+            l_variableList.Add(Constants.xpathVariable);
+            this.m_dmDic.Add(Constants.xpathVariable, l_variableList);
+            //
+            // Searches the DM paths
+            //
+            string[] l_dmPathArray = Util.GetDMDirs(Path.GetDirectoryName(m_prjPath));
+            if (l_dmPathArray == null)
+            {
+                throw new Exception("ErrFindDmDir");
+            }
+            foreach (string dmPath in l_dmPathArray)
+            {
+                if (!Directory.Exists(dmPath))
+                {
+                    continue;
+                }
+                // 4 Process
+                string[] l_processDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathProcess + Constants.FileExtDM
+                    );
+                foreach (string l_processDM in l_processDMArray)
+                {
+                    this.m_dmDic[Constants.xpathProcess].Add(Path.GetFileNameWithoutExtension(l_processDM));
+                }
+                // 4 Stepper
+                string[] l_stepperDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathStepper + Constants.FileExtDM
+                    );
+                foreach (string l_stepperDM in l_stepperDMArray)
+                {
+                    this.m_dmDic[Constants.xpathStepper].Add(Path.GetFileNameWithoutExtension(l_stepperDM));
+                }
+                // 4 System
+                string[] l_systemDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathSystem + Constants.FileExtDM
+                    );
+                foreach (string l_systemDM in l_systemDMArray)
+                {
+                    this.m_dmDic[Constants.xpathSystem].Add(Path.GetFileNameWithoutExtension(l_systemDM));
+                }
+                // 4 Variable
+                string[] l_variableDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathVariable + Constants.FileExtDM
+                    );
+                foreach (string l_variableDM in l_variableDMArray)
+                {
+                    this.m_dmDic[Constants.xpathVariable].Add(Path.GetFileNameWithoutExtension(l_variableDM));
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Get the temporary id in projects.
+        /// </summary>
+        /// <param name="modelID">model ID.</param>
+        /// <param name="type">object type.</param>
+        /// <param name="systemID">ID of parent system.</param>
+        /// <returns>the temporary id.</returns>
+        public string GetTemporaryID(string modelID, string type, string systemID)
+        {
+            // Set Preface
+            string pref = "";
+            int i = 0;
+            if (type.Equals(EcellObject.PROCESS))
+            {
+                pref = systemID + ":P";
+                i = m_processNumbering;
+            }
+            else if (type.Equals(EcellObject.VARIABLE))
+            {
+                pref = systemID + ":V";
+                i = m_variableNumbering;
+            }
+            else
+            {
+                if (systemID == null || systemID == "/")
+                    systemID = "";
+                pref = systemID + "/S";
+                i = m_systemNumbering;
+            }
+            return pref;
+        }
         #endregion
 
         #region Loader
@@ -159,12 +432,16 @@ namespace EcellLib
         {
             Project project = null;
             string ext = Path.GetExtension(filepath);
+            if (string.IsNullOrEmpty(ext))
+                return project;
+
             if (ext.Equals(Constants.FileExtXML))
                 project = LoadProjectFromXML(filepath);
             else if (ext.Equals(Constants.FileExtINFO))
                 project = LoadProjectFromInfo(filepath);
             else if (ext.Equals(Constants.FileExtEML))
                 project = LoadProjectFromEml(filepath);
+            project.ProjectPath = Path.GetDirectoryName(filepath);
             return project;
         }
 
@@ -175,9 +452,9 @@ namespace EcellLib
         /// <returns></returns>
         private static Project LoadProjectFromXML(string filepath)
         {
+            Project project = null;
             if (!File.Exists(filepath))
-                return null;
-
+                return project;
             string dirPathName = Path.GetDirectoryName(filepath);
             string prjName = Path.GetFileName(dirPathName);
             string comment = "";
@@ -228,7 +505,8 @@ namespace EcellLib
                 string errmsg = "ErrLoadProjectSettings" + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
                 MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return new Project(prjName, comment, time, param);
+            project =  new Project(prjName, comment, time, param);
+            return project;
         }
 
         /// <summary>
@@ -238,9 +516,10 @@ namespace EcellLib
         /// <returns></returns>
         private static Project LoadProjectFromInfo(string filepath)
         {
+            Project project = null;
             if (!File.Exists(filepath))
             {
-                return null;
+                return project;
             }
             string line = "";
             string comment = "";
@@ -284,7 +563,8 @@ namespace EcellLib
                 }
             }
             l_reader.Close();
-            return new Project(prjName, comment, time, simParam);
+            project = new Project(prjName, comment, time, simParam);
+            return project;
         }
 
         /// <summary>
@@ -294,11 +574,17 @@ namespace EcellLib
         /// <returns></returns>
         private static Project LoadProjectFromEml(string filepath)
         {
+            Project project = null;
+            if (!File.Exists(filepath))
+            {
+                return project;
+            }
+
             string name = Path.GetFileNameWithoutExtension(filepath);
             string comment = "";
             string time = File.GetLastWriteTime(filepath).ToString();
-
-            return new Project(name, comment, time);
+            project = new Project(name, comment, time);
+            return project;
         }
         #endregion
 

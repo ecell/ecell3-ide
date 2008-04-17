@@ -133,7 +133,8 @@ namespace EcellLib.PathwayWindow
         /// <returns>LEML file name.</returns>
         public string GetLEMLFileName(string modelID)
         {
-            return m_dManager.GetDirPath(modelID) + "\\" + modelID + ".leml";
+            string filepath = m_dManager.GetEMLPath(modelID);
+            return filepath.Replace(Constants.FileExtEML, Constants.FileExtLEML);
         }
         #endregion
 
