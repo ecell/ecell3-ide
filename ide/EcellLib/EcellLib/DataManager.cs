@@ -1197,19 +1197,38 @@ namespace EcellLib
             bool l_isRecorded,
             bool l_isAnchor)
         {
+            //if (m_currentProject.SimulatorExecFlag == SimulationRun ||
+            //    m_currentProject.SimulatorExecFlag == SimulationSuspended)
+            //{
+            //    String mes = m_resources.GetString("ConfirmReset");
+            //    DialogResult r = MessageBox.Show(mes,
+            //        "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            //    if (r != DialogResult.OK)
+            //    {
+            //        throw new IgnoreException("Can't change the object.");
+            //        //return; // TODO
+            //    }
+            //    SimulationStop();
+            //    m_pManager.ChangeStatus(ProjectStatus.Loaded);
+            //}
+            // test code
             if (m_currentProject.SimulatorExecFlag == SimulationRun ||
                 m_currentProject.SimulatorExecFlag == SimulationSuspended)
             {
-                String mes = m_resources.GetString("ConfirmReset");
-                DialogResult r = MessageBox.Show(mes,
-                    "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                if (r != DialogResult.OK)
+                EcellObject obj = GetEcellObject(l_modelID, l_key, l_type);
+                foreach (EcellData d in obj.Value)
                 {
-                    throw new IgnoreException("Can't change the object.");
-                    //return; // TODO
+                    foreach (EcellData d1 in l_ecellObject.Value)
+                    {
+                        if (!d.Name.Equals(d1.Name)) continue;
+                        if (!d.Value.ToString().Equals(d1.Value.ToString()))
+                        {
+                            WrappedPolymorph l_newValue = EcellValue.CastToWrappedPolymorph4EcellValue(d1.Value);
+                            m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, l_newValue);
+                        }
+                        break;
+                    }
                 }
-                SimulationStop();
-                m_pManager.ChangeStatus(ProjectStatus.Loaded);
             }
             string l_message = null;
             try

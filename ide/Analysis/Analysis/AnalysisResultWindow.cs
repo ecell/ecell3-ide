@@ -412,7 +412,11 @@ namespace EcellLib.Analysis
             ChangeAxisIndex();
         }
 
-
+        /// <summary>
+        /// Event to click the menu of result for PE.
+        /// </summary>
+        /// <param name="sender">object(MenuToolStrip)</param>
+        /// <param name="e">EventArgs.</param>
         private void ClickReflectMenu(object sender, EventArgs e)
         {
             DataManager manager = DataManager.GetDataManager();
