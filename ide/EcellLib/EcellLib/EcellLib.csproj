@@ -210,7 +210,6 @@
     <Compile Include="EcellDockContent.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MessageManager.cs" />
     <Compile Include="Objects\EcellData.cs" />
     <Compile Include="Objects\EcellDragObject.cs" />
     <Compile Include="Objects\EcellModel.cs" />
