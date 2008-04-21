@@ -1211,25 +1211,6 @@ namespace EcellLib
                 SimulationStop();
                 m_pManager.ChangeStatus(ProjectStatus.Loaded);
             }
-            // test code
-            //if (m_currentProject.SimulatorExecFlag == SimulationRun ||
-            //    m_currentProject.SimulatorExecFlag == SimulationSuspended)
-            //{
-            //    EcellObject obj = GetEcellObject(l_modelID, l_key, l_type);
-            //    foreach (EcellData d in obj.Value)
-            //    {
-            //        foreach (EcellData d1 in l_ecellObject.Value)
-            //        {
-            //            if (!d.Name.Equals(d1.Name)) continue;
-            //            if (!d.Value.Equals(d1.Value))
-            //            {
-            //                WrappedPolymorph l_newValue = EcellValue.CastToWrappedPolymorph4EcellValue(d1.Value);
-            //                m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, l_newValue);
-            //            }
-            //            break;
-            //        }
-            //    }
-            //}
             string l_message = null;
             try
             {
@@ -1243,7 +1224,7 @@ namespace EcellLib
                 //if (!l_oldObj.IsPosSet)
                 //    m_pManager.SetPosition(l_oldObj);
                 if (l_isRecorded && !m_isAdded)
-                    this.m_aManager.AddAction(new DataChangeAction(l_modelID, l_type, l_oldObj, l_ecellObject.Copy(), l_isAnchor));
+                    this.m_aManager.AddAction(new DataChangeAction(l_modelID, l_type, l_oldObj.Copy(), l_ecellObject.Copy(), l_isAnchor));
 
                 // Searches the "System".
                 List<EcellObject> l_systemList = m_currentProject.SystemDic[l_modelID];
@@ -1640,25 +1621,24 @@ namespace EcellLib
             Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_currentProject.InitialCondition;
 
             string l_message = "[" + l_model + "][" + l_key + "]";
-            string[] keys = l_key.Split(Constants.delimiterColon.ToCharArray());
             List<EcellObject> l_delList = new List<EcellObject>();
 
             List<EcellObject> sysList = m_currentProject.SystemDic[l_model];
-            foreach (EcellObject l_sys in sysList)
+            foreach (EcellObject system in sysList)
             {
-                if (l_sys.ModelID != l_model || l_sys.Key != keys[0])
+                if (system.ModelID != l_model || system.Key != EcellObject.GetParentSystemId(l_key))
                     continue;
-                if (l_sys.Children == null)
+                if (system.Children == null)
                     continue;
 
-                foreach (EcellObject l_child in l_sys.Children)
+                foreach (EcellObject l_child in system.Children)
                 {
                     if (l_child.Key == l_key && l_child.Type == l_type)
                         l_delList.Add(l_child);
                 }
                 foreach (EcellObject l_child in l_delList)
                 {
-                    l_sys.Children.Remove(l_child);
+                    system.Children.Remove(l_child);
                     if (l_messageFlag)
                     {
                         MessageDeleteEntity(l_type, l_message);
@@ -2579,27 +2559,7 @@ namespace EcellLib
                 EcellObject l_ecellObject,
                 Dictionary<string, double> l_initialCondition)
         {
-            //
-            // Creates a not null properties.
-            //
-            /*
-            List<EcellData> l_notNullPropertyList = new List<EcellData>();
-            EcellData l_ecellDataSize = new EcellData(Constants.xpathSize, new EcellValue(0.0), "");
-            l_ecellDataSize.Settable = false;
-            l_ecellDataSize.Gettable = true;
-            l_ecellDataSize.Loadable = false;
-            l_ecellDataSize.Saveable = false;
-            l_notNullPropertyList.Add(l_ecellDataSize);
-            EcellData l_ecellDataSID = new EcellData(Constants.xpathStepper + Constants.xpathID, new EcellValue(""), "");
-            l_ecellDataSID.Settable = true;
-            l_ecellDataSID.Gettable = true;
-            l_ecellDataSID.Loadable = true;
-            l_ecellDataSID.Saveable = true;
-            l_notNullPropertyList.Add(l_ecellDataSID);
-             */
-            //
             // Creates an entityPath.
-            //
             string l_parentPath = l_ecellObject.Key.Substring(0, l_ecellObject.Key.LastIndexOf(
                     Constants.delimiterPath));
             string l_childPath = l_ecellObject.Key.Substring(l_ecellObject.Key.LastIndexOf(
@@ -2626,9 +2586,7 @@ namespace EcellLib
                     l_parentPath + Constants.delimiterColon +
                     l_childPath;
             }
-            //
             // Property List
-            //
             WrappedPolymorph l_wrappedPolymorph = l_simulator.GetEntityPropertyList(l_key);
             if (!l_wrappedPolymorph.IsList())
             {
@@ -3260,37 +3218,11 @@ namespace EcellLib
         /// <returns>EcellObject</returns>
         public EcellObject GetEcellObject(string modelId, string key, string type)
         {
-            if (string.IsNullOrEmpty(key))
-                return null;
-            List<EcellObject> list = null;
-            if (key.Contains(":"))
-            {
-                String[] data = key.Split(new char[] { ':' });
-                list = GetData(modelId, data[0]);
-            }
-            else
-                list = GetData(modelId, key);
-
-            if (list == null)
-            {
-                return null;
-            }
-            foreach (EcellObject eo in list)
-            {
-                if (key.Equals(eo.Key) && type.Equals(eo.Type))
-                {
-                    return eo;
-                }
-                if (eo.Children == null) continue;
-                foreach (EcellObject subEo in eo.Children)
-                {
-                    if (key.Equals(subEo.Key) && type.Equals(subEo.Type))
-                    {
-                        return subEo;
-                    }
-                }
-            }
-            return null;
+            EcellObject obj = m_currentProject.GetEcellObject(modelId, type, key);
+            if (obj == null)
+                return obj;
+            else 
+                return obj.Copy();
         }
 
         /// <summary>
@@ -4312,9 +4244,10 @@ namespace EcellLib
         /// </summary>
         public void Initialize(bool l_flag)
         {
-            Dictionary<string, List<EcellObject>> stepperList = m_currentProject.StepperDic[m_currentProject.SimulationParam];
+            string simParam = m_currentProject.SimulationParam;
+            Dictionary<string, List<EcellObject>> stepperList = m_currentProject.StepperDic[simParam];
             WrappedSimulator simulator = null;
-            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = m_currentProject.InitialCondition[m_currentProject.SimulationParam];
+            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = m_currentProject.InitialCondition[simParam];
 
             try
             {

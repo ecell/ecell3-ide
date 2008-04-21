@@ -807,7 +807,7 @@ namespace EcellLib.PathwayWindow
             bool isAnchor)
         {
             obj.ViewMode = false;
-            EcellObject eo = obj.EcellObject;
+            EcellObject eo = m_window.GetEcellObject(this.Canvas.ModelID, oldKey, obj.EcellObject.Type);
 
             eo.Key = newKey;
             eo.LayerID = obj.Layer.Name;

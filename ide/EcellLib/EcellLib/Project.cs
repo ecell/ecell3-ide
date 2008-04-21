@@ -503,7 +503,7 @@ namespace EcellLib
             {
                 if (!sys.Key.Equals(key))
                     continue;
-                system = sys.Copy();
+                system = sys;
                 break;
             }
             return system;
@@ -526,7 +526,7 @@ namespace EcellLib
             {
                 if (!child.Type.Equals(EcellObject.PROCESS) ||  !child.Key.Equals(key))
                     continue;
-                process = child.Copy();
+                process = child;
                 break;
             }
             return process;
@@ -549,7 +549,7 @@ namespace EcellLib
             {
                 if (!child.Type.Equals(EcellObject.VARIABLE) || !child.Key.Equals(key))
                     continue;
-                process = child.Copy();
+                process = child;
                 break;
             }
             return process;

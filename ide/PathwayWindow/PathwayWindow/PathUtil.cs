@@ -113,30 +113,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Get parent system's key from child node's key
-        ///  ex) When an argument is "/CELL/CYTOPLASM", a return value is "/CELL"
-        /// </summary>
-        /// <param name="childId">Child node's key that you want to know it's parent</param>
-        /// <returns>Parent system's key. "" will be returned when the argument is null or the root system</returns>
-        public static string GetParentSystemId(string childId)
-        {
-            if (childId == null || childId.Equals("/"))
-                return "";
-            else if(childId.Contains(":"))
-            {
-                return m_postColonRegex.Replace(childId, "");
-            }
-            else
-            {
-                string returnStr = m_postSlashRegex.Replace(childId, "");
-                if (returnStr.Equals(""))
-                    return "/";
-                else
-                    return returnStr;
-            }
-        }
-
-        /// <summary>
         /// Get distance between two points
         /// </summary>
         /// <param name="point1">point 1</param>
