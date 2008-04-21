@@ -86,6 +86,10 @@ namespace EcellLib
         /// </summary>
         private WrappedSimulator m_simulator = null;
         /// <summary>
+        /// The dictionary of the "LoggerPolicy" with the parameter ID
+        /// </summary>
+        private Dictionary<string, LoggerPolicy> m_loggerPolicyDic = null;
+        /// <summary>
         /// The dictionary of the logable entity path
         /// </summary>
         private Dictionary<string, string> m_logableEntityPathDic = null;
@@ -98,6 +102,10 @@ namespace EcellLib
         ///     the parameter ID, the model ID, the data type and the full ID
         /// </summary>
         private Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> m_initialCondition = null;
+        /// <summary>
+        /// The dictionary of the "Stepper" with the parameter ID and the model ID
+        /// </summary>
+        private Dictionary<string, Dictionary<string, List<EcellObject>>> m_stepperDic = null;
 
         /// <summary>
         /// The executed flag of Simulator.
@@ -318,6 +326,24 @@ namespace EcellLib
             set { m_initialCondition = value; }
         }
 
+        /// <summary>
+        /// The dictionary of the "LoggerPolicy" with the parameter ID
+        /// </summary>
+        public Dictionary<string, LoggerPolicy> LoggerPolicyDic
+        {
+            get { return m_loggerPolicyDic; }
+            set { m_loggerPolicyDic = value; }
+        }
+
+        /// <summary>
+        /// The dictionary of the "Stepper" with the parameter ID and the model ID
+        /// </summary>
+        public Dictionary<string, Dictionary<string, List<EcellObject>>> StepperDic
+        {
+            get { return m_stepperDic; }
+            set { m_stepperDic = value; }
+        }
+
         #endregion
 
         #region Methods
@@ -403,7 +429,8 @@ namespace EcellLib
                 }
             }
         }
-        
+
+        #region Getter
         /// <summary>
         /// Get the temporary id in projects.
         /// </summary>
@@ -420,11 +447,13 @@ namespace EcellLib
             {
                 pref = systemID + ":P";
                 i = m_processNumbering;
+                m_processNumbering++;
             }
             else if (type.Equals(EcellObject.VARIABLE))
             {
                 pref = systemID + ":V";
                 i = m_variableNumbering;
+                m_variableNumbering++;
             }
             else
             {
@@ -432,8 +461,9 @@ namespace EcellLib
                     systemID = "";
                 pref = systemID + "/S";
                 i = m_systemNumbering;
+                m_systemNumbering++;
             }
-            return pref;
+            return pref + i.ToString();
         }
 
         /// <summary>
@@ -524,6 +554,8 @@ namespace EcellLib
             }
             return process;
         }
+
+        #endregion
 
         #endregion
 

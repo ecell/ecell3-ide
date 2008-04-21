@@ -673,19 +673,6 @@ namespace EcellLib
         }
 
         [Test()]
-        public void TestGetSystemListModelIDKey()
-        {
-            string modelID = null;
-            string key = null;
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> expectedList = null;
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> resultList = null;
-            resultList = _unitUnderTest.GetSystemList(modelID, key);
-            Assert.AreEqual(expectedList, resultList, "GetSystemList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-
-        [Test()]
         public void TestGetSystemProperty()
         {
             System.Collections.Generic.Dictionary<System.String, EcellLib.Objects.EcellData> expectedDictionary = null;

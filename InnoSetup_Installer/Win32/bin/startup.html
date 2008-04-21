@@ -1,0 +1,74 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>E-Cell IDE - StartUp</title>
+<link rel="help" href="http://chaperone.e-cell.org/trac/ecell-ide/wiki/TracGuide" />
+<link rel="stylesheet" href="http://chaperone.e-cell.org/trac/ecell-ide/chrome/common/css/trac.css" type="text/css" />
+<link rel="icon" href="http://chaperone.e-cell.org/trac/ecell-ide/chrome/common/trac.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="http://chaperone.e-cell.org/trac/ecell-ide/chrome/common/trac.ico" type="image/x-icon" />
+</head>
+<body>
+<div id="banner">
+
+<div id="header">
+<a id="logo" href="http://chaperone.e-cell.org/trac/ecell-ide"><img src="http://chaperone.e-cell.org/trac/ecell-ide/chrome/site/ecell-banner.png" width="248" height="72" alt="E-Cell IDE banner" /></a>
+</div>
+<hr />
+<div id="main">
+<div id="content" class="wiki">
+<div class="wikipage">
+<h2 id="RecentFiles">最近使ったファイル</h2>
+<ul>
+	<li><a href="#" onclick="OpenEml('C:/Documents and Settings/c1901/My Documents/My E-Cell Projects/sample/Oscillation.eml')">Oscillation</a></li>
+	<li><a href="#" onclick="OpenEml('C:/Documents and Settings/c1901/My Documents/My E-Cell Projects/sample/simple.eml')">simple</a></li>
+	<li><a href="#" onclick="OpenEml('C:/Documents and Settings/c1901/My Documents/My E-Cell Projects/sample/QuorumSensing1.eml')">QuorumSensing1</a></li>
+	<li><a href="#" onclick="OpenEml('C:/Documents and Settings/c1901/My Documents/My E-Cell Projects/sample/QuorumSensing2.eml')">QuorumSensing2</a></li>
+	<li><a href="#" onclick="OpenEml('C:/Documents and Settings/c1901/My Documents/My E-Cell Projects/sample/Drosophila.eml')">Drosophila</a></li>
+</ul>
+
+<div id="searchable"><h1 id="E-CellIDE開発Wiki">E-Cell IDE 開発状況</h1>
+<h2>クイックリンク</h2>
+<ul>
+	<li><a href="http://chaperone.e-cell.org/downloads/E-Cell_IDE_installer_20080407.exe">最新のインストーラ(β1) (2008/04/07 15:14)</a>
+	</li>
+	<li><a href="http://chaperone.e-cell.org/trac/ecell-ide/wiki/">E-Cell IDE Wiki</a>
+	</li>
+	<li><a href="http://chaperone.e-cell.org/downloads/usermanual_j.pdf">日本語ユーザマニュアル (2008/03/12 08:40)</a>
+	</li>
+	<li><a href="http://chaperone.e-cell.org/downloads/developer_j.pdf">日本語開発者マニュアル (2007/11/12 15:24)</a>
+	</li>
+	<li><a class="ext-link" href="http://e-cell.projectpath.com/"><span class="icon">Basecamp (TODO管理)</span></a>
+	</li>
+</ul>
+<h2>ニュース</h2>
+<ul>
+<li>Apr 07 2008: 最新インストーラ(β1)がアップロードされました
+</li>
+<li>Mar 12 2008: 日本語開発者マニュアルがアップロードされました
+</li>
+<li>Nov 07 2007: 日本語ユーザマニュアルがアップロードされました
+</li>
+<li>Jul 06 2007: プライオリティを明確にするため、α2.5 というマイルストーンを追加しました。
+</li>
+<li>Jun 23 2007: プロジェクト全体のTODO管理のために<a class="ext-link" href="http://e-cell.projectpath.com/"><span class="icon">Basecamp</span></a>を試験的に使用しています
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+</body>
+<SCRIPT LANGUAGE="VBScript"> 
+<!--
+	Function OpenEml(filename)
+		Set WSHShell = CreateObject("WScript.Shell")
+		'WSHShell.Run "C:\Windows\notepad.exe " + filename
+		WSHShell.Run """C:\Program Files\E-Cell IDE\bin\MainWindow.exe"" """ + filename + ""
+	End Function
+-->
+</SCRIPT>
+</html>
+

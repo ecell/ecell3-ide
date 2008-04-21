@@ -1180,8 +1180,7 @@ namespace EcellLib.PathwayWindow
                 m_processes.Add(newkey, (PPathwayProcess)obj);
                 m_processes[newkey].Refresh();
             }
-            string sysKey = PathUtil.GetParentSystemId(newkey);
-            obj.ParentObject = m_systems[sysKey];
+            obj.ParentObject = m_systems[obj.EcellObject.ParentSystemID];
 
         }
         /// <summary>
