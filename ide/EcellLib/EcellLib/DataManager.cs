@@ -87,12 +87,6 @@ namespace EcellLib
         private string m_defaultDir = null;
 
         /// <summary>
-        /// The dictionary of the "InitialCondition" with
-        ///     the project ID, the parameter ID, the model ID, the data type and the full ID
-        /// </summary>
-        private Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string,
-                Dictionary<string, double>>>>> m_initialCondition = null;
-        /// <summary>
         /// The dictionary of the "LoggerPolicy" with the project ID and the parameter ID
         /// </summary>
         private Dictionary<string, Dictionary<string, LoggerPolicy>> m_loggerPolicyDic = null;
@@ -154,8 +148,6 @@ namespace EcellLib
         /// </summary>
         private DataManager()
         {
-            this.m_initialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string,
-                    Dictionary<string, double>>>>>();
             this.m_loggerPolicyDic = new Dictionary<string, Dictionary<string, LoggerPolicy>>();
             this.m_pManager = PluginManager.GetPluginManager();
             this.m_projectList = new List<Project>();
@@ -294,7 +286,7 @@ namespace EcellLib
         /// <param name="l_parameterID">The simulation parameter ID</param>
         private void CheckDifferences(EcellObject l_src, EcellObject l_dest, string l_parameterID)
         {
-            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_initialCondition[m_currentProject.Name];
+            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_currentProject.InitialCondition;
 
             // Set Message
             string l_message = null;
@@ -460,8 +452,7 @@ namespace EcellLib
                         if (l_parameterID != null && l_parameterID.Length > 0)
                         {
                             Dictionary<string, double> condition = initialCondition[l_parameterID][l_src.ModelID][l_src.Type];
-                            if (!this.m_initialCondition[m_currentProject.Name][l_parameterID]
-                                [l_src.ModelID][l_src.Type].ContainsKey(l_srcEcellData.EntityPath))
+                            if (!condition.ContainsKey(l_srcEcellData.EntityPath))
                                 continue;
 
                             if (l_destEcellData.Value.IsDouble())
@@ -719,10 +710,6 @@ namespace EcellLib
                     {
                         this.m_loggerPolicyDic.Remove(l_str);
                     }
-                    if (this.m_initialCondition.ContainsKey(l_str))
-                    {
-                        this.m_initialCondition.Remove(l_str);
-                    }
 
                     foreach (Project prj in m_projectList)
                     {
@@ -922,39 +909,35 @@ namespace EcellLib
 
             List<EcellObject> l_usableList = new List<EcellObject>();
             string l_message = null;
+            string l_type = null;
             bool l_isUndoable = true; // Whether DataAdd action is undoable or not
             try
             {
                 foreach (EcellObject l_ecellObject in l_ecellObjectList)
                 {
-                    l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
                     if (!this.IsUsable(l_ecellObject))
-                    {
                         continue;
-                    }
-                    if (l_ecellObject.Type.Equals(Constants.xpathProcess))
+
+                    l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
+                    l_type = l_ecellObject.Type;
+                    if (l_type.Equals(Constants.xpathProcess) || l_type.Equals(Constants.xpathVariable))
                     {
                         this.DataAdd4Entity(l_ecellObject, true);
                         l_usableList.Add(l_ecellObject);
                     }
-                    else if (l_ecellObject.Type.Equals(Constants.xpathStepper))
-                    {
-                        // this.DataAdd4Stepper(l_ecellObject);
-                        // l_usableList.Add(l_ecellObject);
-                    }
-                    else if (l_ecellObject.Type.Equals(Constants.xpathSystem))
+                    else if (l_type.Equals(Constants.xpathSystem))
                     {
                         this.DataAdd4System(l_ecellObject, true);
                         if ("/".Equals(l_ecellObject.Key))
                             l_isUndoable = false;
                         l_usableList.Add(l_ecellObject);
                     }
-                    else if (l_ecellObject.Type.Equals(Constants.xpathVariable))
+                    else if (l_type.Equals(Constants.xpathStepper))
                     {
-                        this.DataAdd4Entity(l_ecellObject, true);
-                        l_usableList.Add(l_ecellObject);
+                        // this.DataAdd4Stepper(l_ecellObject);
+                        // l_usableList.Add(l_ecellObject);
                     }
-                    else if (l_ecellObject.Type.Equals(Constants.xpathModel))
+                    else if (l_type.Equals(Constants.xpathModel))
                     {
                         l_isUndoable = false;
                         this.DataAdd4Model(l_ecellObject, l_usableList);
@@ -989,117 +972,6 @@ namespace EcellLib
         }
 
         bool m_isAdded = false;
-
-        /// <summary>
-        /// Adds the "Process" or the "Variable".
-        /// </summary>
-        /// <param name="l_ecellObject">The "Variable"</param>
-        /// <param name="l_messageFlag">The flag of the messages</param>
-        private void DataAdd4Entity(EcellObject l_ecellObject, bool l_messageFlag)
-        {
-            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-            string l_modelID = l_ecellObject.ModelID;
-            string l_key = l_ecellObject.Key;
-            string l_type = l_ecellObject.Type;
-            string l_systemKey = l_ecellObject.ParentSystemID;
-
-            string l_message = "[" + l_modelID + "][" + l_key + "]";
-
-            if (sysDic == null || sysDic.Count <= 0 || !sysDic.ContainsKey(l_modelID))
-            {
-                throw new Exception(m_resources.GetString("ErrFindSuper"));
-            }
-
-            bool l_findFlag = false;
-
-            foreach (EcellObject l_parentSystem in sysDic[l_modelID])
-            {
-                if (l_parentSystem.ModelID.Equals(l_modelID) && l_parentSystem.Key.Equals(l_systemKey))
-                {
-                    if (l_parentSystem.Children == null)
-                    {
-                        l_parentSystem.Children = new List<EcellObject>();
-                        this.CheckEntityPath(l_ecellObject);
-                        l_parentSystem.Children.Add(l_ecellObject.Copy());
-                        l_findFlag = true;
-                        if (l_messageFlag)
-                        {
-                            this.m_pManager.Message(
-                                Constants.messageSimulation,
-                                "Create " + l_type + ": " + l_message + System.Environment.NewLine);
-                        }
-                        break;
-                    }
-                    else
-                    {
-                        foreach (EcellObject l_child in l_parentSystem.Children)
-                        {
-                            if (l_child.Key.Equals(l_key) && l_child.Type.Equals(l_type))
-                            {
-                                throw new Exception(
-                                    String.Format(
-                                        m_resources.GetString("ErrExistObj"),
-                                        new object[] {
-                                            l_message + " " + l_type.ToLower()
-                                        }
-                                    )
-                                );
-                                ;
-                            }
-                        }
-                        this.CheckEntityPath(l_ecellObject);
-                        l_parentSystem.Children.Add(l_ecellObject.Copy());
-                        l_findFlag = true;
-                        if (l_messageFlag)
-                        {
-                            this.m_pManager.Message(
-                            Constants.messageSimulation,
-                            "Create " + l_type + ": " + l_message + System.Environment.NewLine);
-                        }
-                    }
-                }
-            }
-            if (!l_findFlag)
-            {
-                l_message = l_message + " " + l_type.ToLower() + m_resources.GetString("ErrAddObj");
-                if (l_messageFlag)
-                {
-                    this.m_pManager.Message(
-                        Constants.messageSimulation, l_message + System.Environment.NewLine);
-                }
-                throw new Exception(l_message);
-            }
-            else
-            {
-                if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
-                {
-                    foreach (EcellData l_data in l_ecellObject.Value)
-                    {
-                        if (l_data.IsInitialized())
-                        {
-                            if (l_data.Value.IsDouble())
-                            {
-                                foreach (string l_keyParameterID in this.m_initialCondition[m_currentProject.Name].Keys)
-                                {
-                                    this.m_initialCondition[m_currentProject.Name][l_keyParameterID]
-                                            [l_modelID][l_type][l_data.EntityPath]
-                                        = l_data.Value.CastToDouble();
-                                }
-                            }
-                            else if (l_data.Value.IsInt())
-                            {
-                                foreach (string l_keyParameterID in this.m_initialCondition[m_currentProject.Name].Keys)
-                                {
-                                    this.m_initialCondition[m_currentProject.Name][l_keyParameterID]
-                                            [l_modelID][l_type][l_data.EntityPath]
-                                        = l_data.Value.CastToInt();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
         /// <summary>
         /// Adds the "Model"
@@ -1169,8 +1041,8 @@ namespace EcellLib
                 //
                 // Sets initial conditions.
                 //
-                this.m_initialCondition[m_currentProject.Name] = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
-                Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_initialCondition[m_currentProject.Name];
+                m_currentProject.InitialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
+                Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = m_currentProject.InitialCondition;
                 initialCondition[m_currentProject.SimulationParam] = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
                 initialCondition[m_currentProject.SimulationParam][l_modelID] = new Dictionary<string, Dictionary<string, double>>();
                 initialCondition[m_currentProject.SimulationParam][l_modelID][Constants.xpathSystem] = new Dictionary<string, double>();
@@ -1208,60 +1080,128 @@ namespace EcellLib
         {
             string l_modelID = l_ecellObject.ModelID;
             string l_type = l_ecellObject.Type;
-            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_initialCondition[m_currentProject.Name];
-
             string l_message = "[" + l_modelID + "][" + l_ecellObject.Key + "]";
-            if (sysDic.ContainsKey(l_modelID))
-            {
-                foreach (EcellObject l_system in sysDic[l_modelID])
-                {
-                    if (l_system.Key.Equals(l_ecellObject.Key))
-                    {
-                        throw new Exception(l_message + m_resources.GetString("ErrAddObj"));
-                    }
-                }
-            }
-            else
-            {
+
+            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
+
+            if (!sysDic.ContainsKey(l_modelID))
                 sysDic[l_modelID] = new List<EcellObject>();
+            // Check duplicated system.
+            foreach (EcellObject l_system in sysDic[l_modelID])
+            {
+                if (!l_system.Key.Equals(l_ecellObject.Key))
+                    continue;
+                throw new Exception(l_message + m_resources.GetString("ErrAddObj"));
             }
             this.CheckEntityPath(l_ecellObject);
             sysDic[l_modelID].Add(l_ecellObject.Copy());
-            if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
-            {
-                foreach (EcellData l_data in l_ecellObject.Value)
-                {
-                    if (l_data.IsInitialized())
-                    {
-                        if (l_data.Value.IsDouble())
-                        {
-                            foreach (string l_keyParameterID
-                                    in initialCondition.Keys)
-                            {
-                                initialCondition[l_keyParameterID]
-                                        [l_modelID][l_type][l_data.EntityPath]
-                                    = l_data.Value.CastToDouble();
-                            }
-                        }
-                        else if (l_data.Value.IsInt())
-                        {
-                            foreach (string l_keyParameterID
-                                    in initialCondition.Keys)
-                            {
-                                initialCondition[l_keyParameterID]
-                                        [l_modelID][l_type][l_data.EntityPath]
-                                    = l_data.Value.CastToInt();
-                            }
-                        }
-                    }
-                }
-            }
+
             if (l_messageFlag)
             {
                 this.m_pManager.Message(
                     Constants.messageSimulation,
                     "Create System: " + l_message + System.Environment.NewLine);
+            }
+
+            if (l_ecellObject.Value == null || l_ecellObject.Value.Count <= 0)
+                return;
+
+            // Set simulation parameter
+            SetSimulationParameter(l_ecellObject, l_modelID, l_type);
+        }
+
+        /// <summary>
+        /// Adds the "Process" or the "Variable".
+        /// </summary>
+        /// <param name="l_ecellObject">The "Variable"</param>
+        /// <param name="l_messageFlag">The flag of the messages</param>
+        private void DataAdd4Entity(EcellObject l_ecellObject, bool l_messageFlag)
+        {
+            string l_modelID = l_ecellObject.ModelID;
+            string l_key = l_ecellObject.Key;
+            string l_type = l_ecellObject.Type;
+            string l_systemKey = l_ecellObject.ParentSystemID;
+            string l_message = "[" + l_modelID + "][" + l_key + "]";
+
+            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
+            if (sysDic == null || sysDic.Count <= 0 || !sysDic.ContainsKey(l_modelID))
+                throw new Exception(m_resources.GetString("ErrFindSuper"));
+
+            // Add object.
+            bool l_findFlag = false;
+            foreach (EcellObject l_system in sysDic[l_modelID])
+            {
+                if (!l_system.ModelID.Equals(l_modelID) || !l_system.Key.Equals(l_systemKey))
+                    continue;
+                if (l_system.Children == null)
+                    l_system.Children = new List<EcellObject>();
+                // Check duplicated object.
+                foreach (EcellObject l_child in l_system.Children)
+                {
+                    if (!l_child.Key.Equals(l_key) || !l_child.Type.Equals(l_type))
+                        continue;
+                    throw new Exception(
+                        string.Format(
+                            m_resources.GetString("ErrExistObj"),
+                            new object[] { l_message + " " + l_type.ToLower() }
+                        )
+                    );
+                }
+                // Set object.
+                this.CheckEntityPath(l_ecellObject);
+                l_system.Children.Add(l_ecellObject.Copy());
+                l_findFlag = true;
+                if (l_messageFlag)
+                {
+                    this.m_pManager.Message(
+                        Constants.messageSimulation,
+                        "Create " + l_type + ": " + l_message + System.Environment.NewLine);
+                }
+                break;
+            }
+            // Throw Error if object is not found.
+            if (!l_findFlag)
+            {
+                l_message = l_message + " " + l_type.ToLower() + m_resources.GetString("ErrAddObj");
+                if (l_messageFlag)
+                {
+                    this.m_pManager.Message(
+                        Constants.messageSimulation, l_message + System.Environment.NewLine);
+                }
+                throw new Exception(l_message);
+            }
+
+            if (l_ecellObject.Value == null || l_ecellObject.Value.Count <= 0)
+                return;
+
+            // Set Simulation param
+            SetSimulationParameter(l_ecellObject, l_modelID, l_type);
+        }
+
+        /// <summary>
+        /// Set simulation parameter
+        /// </summary>
+        /// <param name="l_ecellObject"></param>
+        /// <param name="l_modelID"></param>
+        /// <param name="l_type"></param>
+        private void SetSimulationParameter(EcellObject l_ecellObject, string l_modelID, string l_type)
+        {
+            foreach (string l_keyParameterID in m_currentProject.InitialCondition.Keys)
+            {
+                Dictionary<string, double> initialCondition = m_currentProject.InitialCondition[l_keyParameterID][l_modelID][l_type];
+                foreach (EcellData l_data in l_ecellObject.Value)
+                {
+                    if (!l_data.IsInitialized())
+                        continue;
+
+                    double value = 0;
+                    if (l_data.Value.IsDouble())
+                        value = l_data.Value.CastToDouble();
+                    else if (l_data.Value.IsInt())
+                        value = l_data.Value.CastToInt();
+
+                    initialCondition[l_data.EntityPath] = value;
+                }
             }
         }
 
@@ -1331,19 +1271,10 @@ namespace EcellLib
             string l_message = null;
             try
             {
+                // Check null.
                 l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
-                if (l_modelID == null || l_modelID.Length <= 0)
-                {
+                if (string.IsNullOrEmpty(l_modelID) || string.IsNullOrEmpty(l_key) || string.IsNullOrEmpty(l_type))
                     throw new Exception(m_resources.GetString("ErrNullData") + l_message);
-                }
-                else if (l_key == null || l_key.Length <= 0)
-                {
-                    throw new Exception(m_resources.GetString("ErrNullData") + l_message);
-                }
-                else if (l_type == null || l_type.Length <= 0)
-                {
-                    throw new Exception(m_resources.GetString("ErrNullData") + l_message);
-                }
 
                 // Record action
                 EcellObject l_oldObj = GetEcellObject(l_modelID, l_key, l_type);
@@ -1352,19 +1283,14 @@ namespace EcellLib
                 if (l_isRecorded && !m_isAdded)
                     this.m_aManager.AddAction(new DataChangeAction(l_modelID, l_type, l_oldObj, l_ecellObject.Copy(), l_isAnchor));
 
-                //
                 // Searches the "System".
-                //
                 List<EcellObject> l_systemList = m_currentProject.SystemDic[l_modelID];
                 if (l_systemList == null || l_systemList.Count <= 0)
                     throw new Exception(m_resources.GetString("ErrFindSystem") + l_message);
-                //
+
                 // Checks the EcellObject
-                //
                 this.CheckEntityPath(l_ecellObject);
-                //
                 // 4 System & Entity
-                //
                 if (l_ecellObject.Type.Equals(Constants.xpathSystem))
                 {
                     this.DataChanged4System(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
@@ -1417,43 +1343,36 @@ namespace EcellLib
         {
             string l_message = "[" + l_modelID + "][" + l_ecellObject.Key + "]";
             List<EcellObject> l_changedProcessList = new List<EcellObject>();
-            List<EcellObject> l_systemList = m_currentProject.SystemDic[l_modelID];
-            for (int i = 0; i < l_systemList.Count; i++)
-            {
-                if (l_systemList[i].Children == null || l_systemList[i].Children.Count <= 0)
-                    continue;
 
-                for (int j = 0; j < l_systemList[i].Children.Count; j++)
-                {
-                    if (l_systemList[i].Children[j].ModelID.Equals(l_modelID)
-                        && l_systemList[i].Children[j].Key.Equals(l_key)
-                        && l_systemList[i].Children[j].Type.Equals(l_type))
-                    {
-                        this.CheckDifferences(l_systemList[i].Children[j], l_ecellObject, null);
-                        if (l_modelID.Equals(l_ecellObject.ModelID)
-                            && l_key.Equals(l_ecellObject.Key)
-                            && l_type.Equals(l_ecellObject.Type))
-                        {
-                            l_systemList[i].Children[j] = l_ecellObject.Copy();
-                            this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
-                        }
-                        else
-                        {
-                            //
-                            // Adds the new object.
-                            //
-                            this.DataAdd4Entity(l_ecellObject.Copy(), false);
-                            this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
-                            //
-                            // Deletes the old object.
-                            //
-                            this.DataDelete4Node(l_modelID, l_key, l_type, false, l_isRecorded, l_isAnchor);
-                        }
-                        goto LOOP;
-                    }
-                }
+            // Get parent system.
+            EcellObject oldSystem = m_currentProject.GetSystem(l_modelID, EcellObject.GetParentSystemId(l_key));
+            EcellObject newSystem = m_currentProject.GetSystem(l_ecellObject.ModelID, l_ecellObject.ParentSystemID);
+            if (oldSystem == null || newSystem == null)
+                throw new Exception(m_resources.GetString("ErrFindSystem") + l_message);
+
+            // Get changed node.
+            EcellObject oldNode = m_currentProject.GetEcellObject(l_modelID, l_type, l_key);
+            if (oldNode == null)
+                throw new Exception(m_resources.GetString("ErrExistObj") + l_message);
+
+            this.CheckDifferences(oldNode, l_ecellObject, null);
+            if (l_modelID.Equals(l_ecellObject.ModelID)
+                && l_key.Equals(l_ecellObject.Key)
+                && l_type.Equals(l_ecellObject.Type))
+            {
+                newSystem.Children.Remove(oldNode);
+                newSystem.Children.Add(l_ecellObject);
+                this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
             }
-        LOOP:
+            else
+            {
+                // Add new object.
+                this.DataAdd4Entity(l_ecellObject.Copy(), false);
+                this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
+                // Deletes the old object.
+                this.DataDelete4Node(l_modelID, l_key, l_type, false, l_isRecorded, l_isAnchor);
+            }
+
             return;
         }
 
@@ -1762,16 +1681,16 @@ namespace EcellLib
             bool l_isRecorded,
             bool l_isAnchor)
         {
-            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_initialCondition[m_currentProject.Name];
-            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-            if (!sysDic.ContainsKey(l_model))
+            if (!m_currentProject.SystemDic.ContainsKey(l_model))
                 return;
+
+            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_currentProject.InitialCondition;
 
             string l_message = "[" + l_model + "][" + l_key + "]";
             string[] keys = l_key.Split(Constants.delimiterColon.ToCharArray());
             List<EcellObject> l_delList = new List<EcellObject>();
 
-            List<EcellObject> sysList = sysDic[l_model];
+            List<EcellObject> sysList = m_currentProject.SystemDic[l_model];
             foreach (EcellObject l_sys in sysList)
             {
                 if (l_sys.ModelID != l_model || l_sys.Key != keys[0])
@@ -1781,7 +1700,8 @@ namespace EcellLib
 
                 foreach (EcellObject l_child in l_sys.Children)
                 {
-                    if (l_child.Key == l_key && l_child.Type == l_type) l_delList.Add(l_child);
+                    if (l_child.Key == l_key && l_child.Type == l_type)
+                        l_delList.Add(l_child);
                 }
                 foreach (EcellObject l_child in l_delList)
                 {
@@ -1792,21 +1712,19 @@ namespace EcellLib
                             Constants.messageSimulation,
                             "Delete " + l_type + ": " + l_message + System.Environment.NewLine);
                     }
+
                     if (l_child.Value == null || l_child.Value.Count <= 0)
                         continue;
-
-                    foreach (EcellData l_data in l_child.Value)
+                    foreach (string l_keyParameterID in initialCondition.Keys)
                     {
-                        if (!l_data.Settable)
-                            continue;
-                        foreach (string l_keyParameterID in initialCondition.Keys)
+                        Dictionary<string, double> condition = initialCondition[l_keyParameterID][l_child.ModelID][l_child.Type];
+                        foreach (EcellData l_data in l_child.Value)
                         {
-                            if (initialCondition[l_keyParameterID]
-                                    [l_child.ModelID][l_child.Type].ContainsKey(l_data.EntityPath))
-                            {
-                                initialCondition[l_keyParameterID]
-                                        [l_child.ModelID][l_child.Type].Remove(l_data.EntityPath);
-                            }
+                            if (!l_data.Settable)
+                                continue;
+                            if (!condition.ContainsKey(l_data.EntityPath))
+                                continue;
+                            condition.Remove(l_data.EntityPath);
                         }
                     }
                 }
@@ -2313,18 +2231,19 @@ namespace EcellLib
         /// <param name="l_messageFlag">The flag of the messages</param>
         private void DataDelete4System(string l_model, string l_key, bool l_messageFlag)
         {
-            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_initialCondition[m_currentProject.Name];
+            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_currentProject.InitialCondition;
             Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
 
             string l_message = "[" + l_model + "][" + l_key + "]";
             List<EcellObject> l_delList = new List<EcellObject>();
-            if (sysDic.ContainsKey(l_model))
+            if (!sysDic.ContainsKey(l_model))
+                return;
+            foreach (EcellObject obj in sysDic[l_model])
             {
-                foreach (EcellObject obj in sysDic[l_model])
-                {
-                    if (obj.ModelID == l_model && obj.Key.StartsWith(l_key) &&
-                        (obj.Key.Length == l_key.Length || obj.Key[l_key.Length] == '/')) l_delList.Add(obj);
-                }
+                if (obj.ModelID != l_model || !obj.Key.StartsWith(l_key))
+                    continue;
+                if (obj.Key.Length == l_key.Length || obj.Key[l_key.Length] == '/')
+                    l_delList.Add(obj);
             }
             foreach (EcellObject l_obj in l_delList)
             {
@@ -3580,7 +3499,7 @@ namespace EcellLib
             try
             {
                 l_message = "[" + l_paremterID + "][" + l_modelID + "]";
-                return this.m_initialCondition[m_currentProject.Name][l_paremterID][l_modelID];
+                return this.m_currentProject.InitialCondition[l_paremterID][l_modelID];
             }
             catch (Exception l_ex)
             {
@@ -3604,7 +3523,7 @@ namespace EcellLib
             try
             {
                 l_message = "[" + l_paremterID + "][" + l_modelID + "][" + l_type + "]";
-                return this.m_initialCondition[m_currentProject.Name][l_paremterID][l_modelID]
+                return this.m_currentProject.InitialCondition[l_paremterID][l_modelID]
                         [l_type];
             }
             catch (Exception l_ex)
@@ -4512,7 +4431,7 @@ namespace EcellLib
         {
             Dictionary<string, List<EcellObject>> stepperList = this.m_stepperDic[m_currentProject.Name][m_currentProject.SimulationParam];
             WrappedSimulator simulator = null;
-            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = this.m_initialCondition[m_currentProject.Name][m_currentProject.SimulationParam];
+            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = this.m_currentProject.InitialCondition[m_currentProject.SimulationParam];
 
             try
             {
@@ -4803,7 +4722,7 @@ namespace EcellLib
             DataStored(
                 m_currentProject.Simulator,
                 l_ecellObject,
-                this.m_initialCondition[m_currentProject.Name][m_currentProject.SimulationParam][l_ecellObject.ModelID]);
+                this.m_currentProject.InitialCondition[m_currentProject.SimulationParam][l_ecellObject.ModelID]);
             //
             // Sets the "EcellObject".
             //
@@ -4908,12 +4827,13 @@ namespace EcellLib
                 //
                 // Sets initial conditions.
                 //
-                this.m_initialCondition[m_currentProject.Name] = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
-                this.m_initialCondition[m_currentProject.Name][m_currentProject.SimulationParam] = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
-                this.m_initialCondition[m_currentProject.Name][m_currentProject.SimulationParam][l_modelID] = new Dictionary<string, Dictionary<string, double>>();
-                this.m_initialCondition[m_currentProject.Name][m_currentProject.SimulationParam][l_modelID][Constants.xpathSystem] = new Dictionary<string, double>();
-                this.m_initialCondition[m_currentProject.Name][m_currentProject.SimulationParam][l_modelID][Constants.xpathProcess] = new Dictionary<string, double>();
-                this.m_initialCondition[m_currentProject.Name][m_currentProject.SimulationParam][l_modelID][Constants.xpathVariable] = new Dictionary<string, double>();
+                string l_simParam = m_currentProject.SimulationParam;
+                this.m_currentProject.InitialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
+                this.m_currentProject.InitialCondition[l_simParam] = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
+                this.m_currentProject.InitialCondition[l_simParam][l_modelID] = new Dictionary<string, Dictionary<string, double>>();
+                this.m_currentProject.InitialCondition[l_simParam][l_modelID][Constants.xpathSystem] = new Dictionary<string, double>();
+                this.m_currentProject.InitialCondition[l_simParam][l_modelID][Constants.xpathProcess] = new Dictionary<string, double>();
+                this.m_currentProject.InitialCondition[l_simParam][l_modelID][Constants.xpathVariable] = new Dictionary<string, double>();
                 InitializeModel(l_modelObj);
                 //
                 // Stores the "LoggerPolicy"
@@ -4994,9 +4914,7 @@ namespace EcellLib
                     m_stepperDic.Add(l_prjID, new Dictionary<string, Dictionary<string, List<EcellObject>>>());
                     m_currentProject.ModelList = new List<EcellObject>();
                     m_currentProject.SystemDic = new Dictionary<string, List<EcellObject>>();
-                    this.m_initialCondition[l_prjID]
-                        = new Dictionary<string,
-                            Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
+                    m_currentProject.InitialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
                 }
                 finally
                 {
@@ -5079,10 +4997,6 @@ namespace EcellLib
                 if (this.m_stepperDic.ContainsKey(l_prjID))
                 {
                     this.m_stepperDic.Remove(l_prjID);
-                }
-                if (this.m_initialCondition.ContainsKey(l_prjID))
-                {
-                    this.m_initialCondition.Remove(l_prjID);
                 }
                 Trace.WriteLine(l_ex.ToString());
                 l_message = m_resources.GetString("ErrLoadPrj") + "[" + l_message + "]";
@@ -5274,7 +5188,7 @@ namespace EcellLib
                     }
                 }
                 this.m_loggerPolicyDic[m_currentProject.Name][simParam.ID] = simParam.LoggerPolicy;
-                this.m_initialCondition[m_currentProject.Name][simParam.ID] = simParam.InitialConditions;
+                this.m_currentProject.InitialCondition[simParam.ID] = simParam.InitialConditions;
                 this.m_pManager.Message(
                     Constants.messageSimulation,
                     "Load Simulation Parameter: " + l_message + System.Environment.NewLine);
@@ -5861,11 +5775,11 @@ namespace EcellLib
                 // 4 Initial Condition
                 //
                 Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_srcInitialCondition
-                    = this.m_initialCondition[m_currentProject.Name][l_storedParameterID];
+                    = this.m_currentProject.InitialCondition[l_storedParameterID];
                 Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_dstInitialCondition
                     = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
                 this.Copy4InitialCondition(l_srcInitialCondition, l_dstInitialCondition);
-                this.m_initialCondition[m_currentProject.Name][l_parameterID] = l_dstInitialCondition;
+                this.m_currentProject.InitialCondition[l_parameterID] = l_dstInitialCondition;
                 m_pManager.ParameterAdd(m_currentProject.Name, l_parameterID);
                 this.m_pManager.Message(
                     Constants.messageSimulation,
@@ -6186,7 +6100,7 @@ namespace EcellLib
                 // Picks the "InitialCondition" up.
                 //
                 Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_initialCondition
-                        = this.m_initialCondition[m_currentProject.Name][l_paramID];
+                        = this.m_currentProject.InitialCondition[l_paramID];
                 //
                 // Creates.
                 //
@@ -6942,32 +6856,29 @@ namespace EcellLib
         public void UpdateInitialCondition(
                 string l_parameterID, string l_modelID, string l_type, Dictionary<string, double> l_initialList)
         {
+            // Check null.
+            if (l_initialList == null || l_initialList.Count <= 0)
+                return;
+
             string l_message = null;
             try
             {
-                if (l_parameterID == null || l_parameterID.Length <= 0)
-                {
+                if (string.IsNullOrEmpty(l_parameterID))
                     l_parameterID = m_currentProject.SimulationParam;
-                }
+
                 l_message = "[" + l_parameterID + "][" + l_modelID + "][" + l_type + "]";
-                if (l_initialList != null && l_initialList.Count > 0)
+                Dictionary<string, double> parameters = this.m_currentProject.InitialCondition[l_parameterID][l_modelID][l_type];
+                foreach (string l_key in l_initialList.Keys)
                 {
-                    foreach (string l_key in l_initialList.Keys)
-                    {
-                        if (this.m_initialCondition[m_currentProject.Name][l_parameterID][l_modelID][l_type]
-                                .ContainsKey(l_key))
-                        {
-                            this.m_initialCondition[m_currentProject.Name][l_parameterID][l_modelID][l_type]
-                                .Remove(l_key);
-                        }
-                        this.m_initialCondition[m_currentProject.Name][l_parameterID][l_modelID][l_type][l_key]
-                                = l_initialList[l_key];
-                    }
-                    this.m_pManager.Message(
-                        Constants.messageSimulation,
-                        "Update Initial Condition: " + l_message + System.Environment.NewLine
-                        );
+                    if (parameters.ContainsKey(l_key))
+                        parameters.Remove(l_key);
+
+                    parameters[l_key] = l_initialList[l_key];
                 }
+                this.m_pManager.Message(
+                    Constants.messageSimulation,
+                    "Update Initial Condition: " + l_message + System.Environment.NewLine
+                    );
             }
             catch (Exception l_ex)
             {

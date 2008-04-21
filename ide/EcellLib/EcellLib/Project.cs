@@ -93,6 +93,11 @@ namespace EcellLib
         /// The dictionary of the "System" with the model ID 
         /// </summary>
         private Dictionary<string, List<EcellObject>> m_systemDic = null;
+        /// <summary>
+        /// The dictionary of the "InitialCondition" with
+        ///     the parameter ID, the model ID, the data type and the full ID
+        /// </summary>
+        private Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> m_initialCondition = null;
 
         /// <summary>
         /// The executed flag of Simulator.
@@ -303,6 +308,16 @@ namespace EcellLib
             set { m_logableEntityPathDic = value; }
         }
 
+        /// <summary>
+        /// The dictionary of the "InitialCondition" with
+        ///     the parameter ID, the model ID, the data type and the full ID
+        /// </summary>
+        public Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> InitialCondition
+        {
+            get { return m_initialCondition; }
+            set { m_initialCondition = value; }
+        }
+
         #endregion
 
         #region Methods
@@ -420,6 +435,96 @@ namespace EcellLib
             }
             return pref;
         }
+
+        /// <summary>
+        /// Get EcellObject of this project.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="type"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public EcellObject GetEcellObject(string model, string type, string key)
+        {
+            if (type.Equals(EcellObject.SYSTEM))
+                return GetSystem(model, key);
+            else if (type.Equals(EcellObject.PROCESS))
+                return GetProcess(model, key);
+            else if (type.Equals(EcellObject.VARIABLE))
+                return GetVariable(model, key);
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Get System.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public EcellObject GetSystem(string model, string key)
+        {
+            // Check systemList
+            if(m_systemDic == null || !m_systemDic.ContainsKey(model))
+                return null;
+            List<EcellObject> systemList = m_systemDic[model];
+
+            EcellObject system = null;
+            foreach (EcellObject sys in systemList)
+            {
+                if (!sys.Key.Equals(key))
+                    continue;
+                system = sys.Copy();
+                break;
+            }
+            return system;
+        }
+
+        /// <summary>
+        /// Get Process.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public EcellObject GetProcess(string model, string key)
+        {
+            EcellObject system = GetSystem(model, EcellObject.GetParentSystemId(key));
+            if (system == null || system.Children == null || system.Children.Count <= 0)
+                return null;
+
+            EcellObject process = null;
+            foreach (EcellObject child in system.Children)
+            {
+                if (!child.Type.Equals(EcellObject.PROCESS) ||  !child.Key.Equals(key))
+                    continue;
+                process = child.Copy();
+                break;
+            }
+            return process;
+        }
+
+        /// <summary>
+        /// Get Variable.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public EcellObject GetVariable(string model, string key)
+        {
+            EcellObject system = GetSystem(model, EcellObject.GetParentSystemId(key));
+            if (system == null || system.Children == null || system.Children.Count <= 0)
+                return null;
+
+            EcellObject process = null;
+            foreach (EcellObject child in system.Children)
+            {
+                if (!child.Type.Equals(EcellObject.VARIABLE) || !child.Key.Equals(key))
+                    continue;
+                process = child.Copy();
+                break;
+            }
+            return process;
+        }
+
         #endregion
 
         #region Loader

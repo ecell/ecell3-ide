@@ -519,7 +519,7 @@ namespace EcellLib.Objects
         /// get parent system ID.
         /// </summary>
         /// <param name="key">The key</param>
-        private string GetParentSystemId(string key)
+        public static string GetParentSystemId(string key)
         {
             Regex postColonRegex = new Regex(":\\w*$");
             Regex postSlashRegex = new Regex("/\\w*$");
