@@ -157,11 +157,23 @@
   <data name="PopCreLoggerText" xml:space="preserve">
     <value>ロガー設定</value>
   </data>
+  <data name="PopCreObservText" xml:space="preserve">
+    <value>解析評価データ設定</value>
+  </data>
+  <data name="PopCreParamText" xml:space="preserve">
+    <value>パラメータ未定設定</value>
+  </data>
   <data name="PopDeleteText" xml:space="preserve">
     <value>削除</value>
   </data>
   <data name="PopDelLoggerText" xml:space="preserve">
     <value>ロガー解除</value>
+  </data>
+  <data name="PopDelObservText" xml:space="preserve">
+    <value>解析評価データ解除</value>
+  </data>
+  <data name="PopDelParamText" xml:space="preserve">
+    <value>パラメータ未定解除</value>
   </data>
   <data name="PopMergeText" xml:space="preserve">
     <value>マージ</value>

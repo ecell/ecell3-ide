@@ -144,6 +144,9 @@
   <data name="ErrNotCheckParam" xml:space="preserve">
     <value>チェックパラメータとして設定されたパラメータが存在しません。</value>
   </data>
+  <data name="ErrNotEstimateFormulator" xml:space="preserve">
+    <value>推定を推評価する式が見つかりません。</value>
+  </data>
   <data name="ErrObservProp" xml:space="preserve">
     <value>監視対象パラメータが設定されていません。１つの監視パラメータは設定してください。</value>
   </data>

@@ -169,6 +169,14 @@ namespace EcellLib.Analysis
                 MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (m_param.EstimationFormulator == null ||
+                m_param.EstimationFormulator.Equals(""))
+            {
+                string errmes = Analysis.s_resources.GetString("ErrNotEstimateFormulator");
+                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             m_model = "";
             List<string> modelList = DataManager.GetDataManager().GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];

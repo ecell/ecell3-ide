@@ -156,11 +156,23 @@
   <data name="PopCreLoggerText" xml:space="preserve">
     <value>Create logger</value>
   </data>
+  <data name="PopCreObservText" xml:space="preserve">
+    <value>Create Observed</value>
+  </data>
+  <data name="PopCreParamText" xml:space="preserve">
+    <value>Create Parameter</value>
+  </data>
   <data name="PopDeleteText" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="PopDelLoggerText" xml:space="preserve">
     <value>Delete logger</value>
+  </data>
+  <data name="PopDelObservText" xml:space="preserve">
+    <value>Delete Observed</value>
+  </data>
+  <data name="PopDelParamText" xml:space="preserve">
+    <value>Delete Parameter</value>
   </data>
   <data name="PopMergeText" xml:space="preserve">
     <value>Merge to supersystem</value>

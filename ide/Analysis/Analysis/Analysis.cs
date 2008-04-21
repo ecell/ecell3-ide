@@ -123,6 +123,18 @@ namespace EcellLib.Analysis
         #endregion
 
         /// <summary>
+        /// constructor.
+        /// </summary>
+        public Analysis()
+        {
+            m_win = null;
+            m_bifurcateParameter = new BifurcationAnalysisParameter();
+            m_estimationParameter = new ParameterEstimationParameter();
+            m_robustParameter = new RobustAnalysisParameter();
+            m_sensitivityParameter = new SensitivityAnalysisParameter();
+        }
+
+        /// <summary>
         /// Set the parameter set of bifurcation analysis in this form.
         /// </summary>
         /// <param name="p">the parameter set of bifurcation analysis.</param>
@@ -216,11 +228,6 @@ namespace EcellLib.Analysis
             StopParameterEstimation();
             StopRobustAnalysis();
             StopSensitivityAnalysis();
-
-            m_bifurcateParameter = new BifurcationAnalysisParameter();
-            m_estimationParameter = new ParameterEstimationParameter();
-            m_robustParameter = new RobustAnalysisParameter();
-            m_sensitivityParameter = new SensitivityAnalysisParameter();
         }
 
         /// <summary>
@@ -309,8 +316,8 @@ namespace EcellLib.Analysis
             m_fccResult.Clear();
             foreach (string d in headerList)
                 m_headerList.Add(d);
-            if (m_win != null)
-                m_win.SetSensitivityHeader(headerList);
+            if (m_rWin != null)
+                m_rWin.SetSensitivityHeader(headerList);
         }
 
         /// <summary>
@@ -321,8 +328,8 @@ namespace EcellLib.Analysis
         public void AddSensitivityDataOfCCC(string name, List<double> result)
         {
             m_cccResult.Add(name, result);
-            if (m_win != null)
-                m_win.AddSensitivityDataOfCCC(name, result);
+            if (m_rWin != null)
+                m_rWin.AddSensitivityDataOfCCC(name, result);
         }
 
         /// <summary>
@@ -333,8 +340,8 @@ namespace EcellLib.Analysis
         public void AddSensitivityDataOfFCC(string name, List<double> result)
         {
             m_fccResult.Add(name, result);
-            if (m_win != null)
-                m_win.AddSensitivityDataOfFCC(name, result);
+            if (m_rWin != null)
+                m_rWin.AddSensitivityDataOfFCC(name, result);
         }
         
 
@@ -472,9 +479,9 @@ namespace EcellLib.Analysis
         /// <param name="generation">the generation.</param>
         public void AddEstimateParameter(ExecuteParameter param, double result, int generation)
         {
-            if (m_win != null)
+            if (m_rWin != null)
             {
-                m_win.AddEstimateParameter(param, result, generation);
+                m_rWin.AddEstimateParameter(param, result, generation);
             }
         }
 
@@ -498,22 +505,12 @@ namespace EcellLib.Analysis
                                     m_win.FloatPane,
                                     new Rectangle(m_win.Left, m_win.Top, m_win.Width, m_win.Height));
                 m_win.Pane.DockTo(fw);
-                m_win.SetSensitivityHeader(m_headerList);
-                foreach (string key in m_cccResult.Keys)
-                {
-                    m_win.AddSensitivityDataOfCCC(key, m_cccResult[key]);
-                }
-                foreach (string key in m_fccResult.Keys)
-                {
-                    m_win.AddSensitivityDataOfFCC(key, m_fccResult[key]);
-                }
                 m_win.Show();
             }
             else
             {
                 m_win.Activate();
             }
-            m_robustAnalysisItem.Enabled = true;
         }
 
         /// <summary>
@@ -524,7 +521,6 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteRobustAnalysis(object sender, EventArgs e)
         {
-            if (m_win == null) return;
             if (m_robustAnalysis != null && m_robustAnalysis.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
@@ -548,7 +544,6 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteParameterEstimation(object sender, EventArgs e)
         {
-            if (m_win == null) return;
             if (m_parameterEstimation != null && m_parameterEstimation.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
@@ -572,7 +567,6 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteSensitivityAnalysis(object sender, EventArgs e)
         {
-            if (m_win == null) return;
             if (m_sensitivityAnalysis != null && m_sensitivityAnalysis.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
@@ -613,7 +607,6 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteBifurcationAnalysis(object sender, EventArgs e)
         {
-            if (m_win == null) return;
             if (m_bifurcationAnalysis != null && m_bifurcationAnalysis.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
@@ -682,16 +675,16 @@ namespace EcellLib.Analysis
             m_bifurcationAnalysisItem.Click += new EventHandler(ExecuteBifurcationAnalysis);
 
             ToolStripMenuItem stopAnalysisItem = new ToolStripMenuItem();
-            m_bifurcationAnalysisItem.Text = resources.GetString("MenuItemStopAnalysis");
-            m_bifurcationAnalysisItem.ToolTipText = resources.GetString("MenuItemStopAnalysis");
-            m_bifurcationAnalysisItem.Tag = 80;
-            m_bifurcationAnalysisItem.Enabled = true;
-            m_bifurcationAnalysisItem.Click += new EventHandler(StopAnalysis);
+            stopAnalysisItem.Text = resources.GetString("MenuItemStopAnalysis");
+            stopAnalysisItem.ToolTipText = resources.GetString("MenuItemStopAnalysis");
+            stopAnalysisItem.Tag = 80;
+            stopAnalysisItem.Enabled = true;
+            stopAnalysisItem.Click += new EventHandler(StopAnalysis);
 
 
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem, m_parameterEstimationItem, 
-                m_sensitivityAnalysisItem, m_bifurcationAnalysisItem });
+                m_sensitivityAnalysisItem, m_bifurcationAnalysisItem, stopAnalysisItem });
             analysisMenu.Text = "Analysis";
             analysisMenu.Name = "MenuItemAnalysis";
 
@@ -721,6 +714,7 @@ namespace EcellLib.Analysis
             if (ProjectStatus.Loaded == type)
             {
                 m_showAnalysisSetupItem.Enabled = true;
+                m_robustAnalysisItem.Enabled = true;
                 m_parameterEstimationItem.Enabled = true;
                 m_sensitivityAnalysisItem.Enabled = true;
                 m_bifurcationAnalysisItem.Enabled = true;
@@ -728,6 +722,7 @@ namespace EcellLib.Analysis
             else
             {
                 m_showAnalysisSetupItem.Enabled = false;
+                m_robustAnalysisItem.Enabled = false;
                 m_parameterEstimationItem.Enabled = false;
                 m_sensitivityAnalysisItem.Enabled = false;
                 m_bifurcationAnalysisItem.Enabled = false;

@@ -142,6 +142,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   Can&apos;t find the formulator of estimation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNotEstimateFormulator {
+            get {
+                return ResourceManager.GetString("ErrNotEstimateFormulator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can&apos;t get the observed parameter. Please set at least one property. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrObservProp {

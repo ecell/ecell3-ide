@@ -144,6 +144,9 @@
   <data name="ErrNotCheckParam" xml:space="preserve">
     <value>Can't find the checked parameter for judgment.</value>
   </data>
+  <data name="ErrNotEstimateFormulator" xml:space="preserve">
+    <value>Can't find the formulator of estimation.</value>
+  </data>
   <data name="ErrObservProp" xml:space="preserve">
     <value>Can't get the observed parameter. Please set at least one property.</value>
   </data>

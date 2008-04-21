@@ -178,6 +178,24 @@ namespace EcellLib.EntityListWindow {
         }
         
         /// <summary>
+        ///   Create Observed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PopCreObservText {
+            get {
+                return ResourceManager.GetString("PopCreObservText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create Parameter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PopCreParamText {
+            get {
+                return ResourceManager.GetString("PopCreParamText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PopDeleteText {
@@ -192,6 +210,24 @@ namespace EcellLib.EntityListWindow {
         internal static string PopDelLoggerText {
             get {
                 return ResourceManager.GetString("PopDelLoggerText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete Observed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PopDelObservText {
+            get {
+                return ResourceManager.GetString("PopDelObservText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete Parameter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PopDelParamText {
+            get {
+                return ResourceManager.GetString("PopDelParamText", resourceCulture);
             }
         }
         

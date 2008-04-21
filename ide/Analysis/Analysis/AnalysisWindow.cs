@@ -98,7 +98,6 @@ namespace EcellLib.Analysis
         /// </summary>
         private static AnalysisWindow s_win = null;
 
-        private Color m_headerColor;
         #endregion
 
         /// <summary>
@@ -112,20 +111,13 @@ namespace EcellLib.Analysis
             RAMatrixCheck.Checked = false;
             m_dManager = DataManager.GetDataManager();
 
-            ContextMenuStrip peCntMenu = new ContextMenuStrip();
-            ToolStripMenuItem peit = new ToolStripMenuItem();
-            peit.Text = Analysis.s_resources.GetString("ReflectMenuText");
-            peit.Click += new EventHandler(ClickPEReflectMenu);
-            peCntMenu.Items.AddRange(new ToolStripItem[] { peit });
-            PEEstimateView.ContextMenuStrip = peCntMenu;
-
 
             m_manager = SessionManager.SessionManager.GetManager();
             this.FormClosed += new FormClosedEventHandler(CloseRobustAnalysisForm);
 
             InitializeData();
             s_win = this;
-            m_headerColor = Color.LightCyan;
+
         }
 
         #region accessor
@@ -303,16 +295,6 @@ namespace EcellLib.Analysis
                 AddParameterEntry(obj, d);
                 AddObservedEntry(obj, d);
             }
-        }
-
-        /// <summary>
-        /// Clear the entries in result data.
-        /// </summary>
-        public void ClearResult()
-        {
-            PEEstimateView.Rows.Clear();
-            SACCCGridView.Rows.Clear();
-            SAFCCGridView.Rows.Clear();
         }
 
         /// <summary>
@@ -552,103 +534,7 @@ namespace EcellLib.Analysis
             SAAbsolutePertTextBox.Text = Convert.ToString(p.AbsolutePerturbation);
         }
 
-        /// <summary>
-        /// Create the header of sensitivity matrix.
-        /// </summary>
-        /// <param name="gridView">DataGridView.</param>
-        /// <param name="data">Header List.</param>
-        private void CreateSensitivityHeader(DataGridView gridView, List<string> data)
-        {
-            DataGridViewTextBoxColumn c = new DataGridViewTextBoxColumn();
-            gridView.Columns.Add(c);
-            foreach (string key in data)
-            {
-                c = new DataGridViewTextBoxColumn();
-                c.Name = key;
-                c.HeaderText = key;
-                gridView.Columns.Add(c);
-            }
 
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            c1.Style.BackColor = m_headerColor;
-            r.Cells.Add(c1);
-            c1.ReadOnly = true;
-
-            foreach (string key in data)
-            {
-                c1 = new DataGridViewTextBoxCell();
-                c1.Style.BackColor = m_headerColor;
-                c1.Value = key;
-                r.Cells.Add(c1);
-                c1.ReadOnly = true;
-            }
-            gridView.Rows.Add(r);
-        }
-
-        /// <summary>
-        /// Set the header string of sensitivity matrix.
-        /// </summary>
-        /// <param name="activityList">the list of activity.</param>
-        public void SetSensitivityHeader(List<string> activityList)
-        {
-            SACCCGridView.Columns.Clear();
-            SACCCGridView.Rows.Clear();
-            SAFCCGridView.Columns.Clear();
-            SAFCCGridView.Rows.Clear();
-
-            CreateSensitivityHeader(SACCCGridView, activityList);
-            CreateSensitivityHeader(SAFCCGridView, activityList);
-        }
-
-        /// <summary>
-        /// Create the the row data of analysis result for variable.
-        /// </summary>
-        /// <param name="key">the property name of parameter.</param>
-        /// <param name="sensList">the list of sensitivity analysis result.</param>
-        public void AddSensitivityDataOfCCC(string key, List<double> sensList)
-        {
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-            c.Value = key;
-            c.Style.BackColor = m_headerColor;
-            r.Cells.Add(c);
-            c.ReadOnly = true;
-
-            foreach (double d in sensList)
-            {
-                c = new DataGridViewTextBoxCell();
-                c.Value = d;
-                c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
-                r.Cells.Add(c);
-                c.ReadOnly = true;
-            }
-            SACCCGridView.Rows.Add(r);
-        }
-
-        /// <summary>
-        /// Create the row data of analysis result for process
-        /// </summary>
-        /// <param name="key">the property name of parameter.</param>
-        /// <param name="sensList">the list of sensitivity analysis result.</param>
-        public void AddSensitivityDataOfFCC(string key, List<double> sensList)
-        {
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-            c.Value = key;
-            c.Style.BackColor = m_headerColor;
-            r.Cells.Add(c);
-            c.ReadOnly = true;
-
-            foreach (double d in sensList)
-            {
-                c = new DataGridViewTextBoxCell();
-                c.Value = d;
-                r.Cells.Add(c);
-                c.ReadOnly = true;
-            }
-            SAFCCGridView.Rows.Add(r);
-        }
         #endregion
 
         #region BifurcationAnalysis
@@ -965,32 +851,7 @@ namespace EcellLib.Analysis
         //    return resList;
         //}
 
-        /// <summary>
-        /// Set the estimated parameter.
-        /// </summary>
-        /// <param name="param">the execution parameter.</param>
-        /// <param name="result">the estimated value.</param>
-        /// <param name="generation">the generation.</param>
-        public void AddEstimateParameter(ExecuteParameter param, double result, int generation)
-        {
-            PEEstimateView.Rows.Clear();
-            foreach (string key in param.ParamDic.Keys)
-            {
-                DataGridViewRow r = new DataGridViewRow();
 
-                DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                c1.Value = Convert.ToString(key);
-                r.Cells.Add(c1);
-
-                DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                c2.Value = Convert.ToString(param.ParamDic[key]);
-                r.Cells.Add(c2);
-
-                PEEstimateView.Rows.Add(r);
-            }
-            PEEstimationValue.Text = Convert.ToString(result);
-            PEGenerateValue.Text = Convert.ToString(generation);
-        }
         #endregion
 
         /// <summary>
@@ -1073,35 +934,6 @@ namespace EcellLib.Analysis
                 m_parent.CloseAnalysisWindow();
             }
             m_parent = null;
-        }
-
-        /// <summary>
-        /// Reflect the parameter condition to the model property.
-        /// </summary>
-        /// <param name="sender">MenuItem.</param>
-        /// <param name="e">EventArgs.</param>
-        private void ClickPEReflectMenu(object sender, EventArgs e)
-        {
-            DataManager manager = DataManager.GetDataManager();
-            foreach (DataGridViewRow r in PEEstimateView.Rows)
-            {
-                string path = Convert.ToString(r.Cells[0].Value);
-                double v = Convert.ToDouble(r.Cells[1].Value);
-                String[] ele = path.Split(new char[] { ':' });
-                String objId = ele[1] + ":" + ele[2];
-                List<string> modelList = manager.GetModelList();
-                EcellObject obj = manager.GetEcellObject(modelList[0], objId, ele[0]);
-                if (obj == null) continue;
-                foreach (EcellData d in obj.Value)
-                {
-                    if (d.EntityPath.Equals(path))
-                    {
-                        d.Value = new EcellValue(v);
-                        m_dManager.RemoveParameterData(new EcellParameterData(d.EntityPath, 0.0));
-                        return;
-                    }
-                }
-            }
         }
 
         /// <summary>

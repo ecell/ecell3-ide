@@ -1252,6 +1252,25 @@ namespace EcellLib
                 SimulationStop();
                 m_pManager.ChangeStatus(ProjectStatus.Loaded);
             }
+            // test code
+            //if (m_currentProject.SimulatorExecFlag == SimulationRun ||
+            //    m_currentProject.SimulatorExecFlag == SimulationSuspended)
+            //{
+            //    EcellObject obj = GetEcellObject(l_modelID, l_key, l_type);
+            //    foreach (EcellData d in obj.Value)
+            //    {
+            //        foreach (EcellData d1 in l_ecellObject.Value)
+            //        {
+            //            if (!d.Name.Equals(d1.Name)) continue;
+            //            if (!d.Value.Equals(d1.Value))
+            //            {
+            //                WrappedPolymorph l_newValue = EcellValue.CastToWrappedPolymorph4EcellValue(d1.Value);
+            //                m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, l_newValue);
+            //            }
+            //            break;
+            //        }
+            //    }
+            //}
             string l_message = null;
             try
             {
@@ -6127,10 +6146,6 @@ namespace EcellLib
                         }
                     }
                 }
-                //
-                // 4 Project
-                //
-                //this.SaveProject(m_currentProject.Name);
             }
             catch (Exception l_ex)
             {
