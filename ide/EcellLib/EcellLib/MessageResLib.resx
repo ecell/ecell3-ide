@@ -189,6 +189,9 @@
   <data name="ErrFindDmDir" xml:space="preserve">
     <value>Could not find the DM directory</value>
   </data>
+  <data name="ErrFindEnt" xml:space="preserve">
+    <value>Can not find entity.</value>
+  </data>
   <data name="ErrFindModel" xml:space="preserve">
     <value>Could not find the model.</value>
   </data>
@@ -233,6 +236,9 @@
   </data>
   <data name="ErrIDMalformed" xml:space="preserve">
     <value>This ID is malformed.</value>
+  </data>
+  <data name="ErrIDUnform" xml:space="preserve">
+    <value>Invarid Full ID.</value>
   </data>
   <data name="ErrInitParam" xml:space="preserve">
     <value>Could not obtain the initial parameters.</value>
@@ -323,6 +329,9 @@
   </data>
   <data name="ErrShowPropEditor" xml:space="preserve">
     <value>Fail to show property editor.\nPlease confirm the property of object.\n</value>
+  </data>
+  <data name="ErrSimParam" xml:space="preserve">
+    <value>Can not get simulation parameter.</value>
   </data>
   <data name="ErrSuspendSim" xml:space="preserve">
     <value>Can not suspend the simulation.</value>

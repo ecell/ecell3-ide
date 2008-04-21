@@ -189,6 +189,9 @@
   <data name="ErrFindDmDir" xml:space="preserve">
     <value>DMディレクトリが見つかりません。</value>
   </data>
+  <data name="ErrFindEnt" xml:space="preserve">
+    <value>エンティティの取得に失敗しました。</value>
+  </data>
   <data name="ErrFindModel" xml:space="preserve">
     <value>指定したモデルが見つかりませんでした。</value>
   </data>
@@ -233,6 +236,9 @@
   </data>
   <data name="ErrIDMalformed" xml:space="preserve">
     <value>このIDの形式は異常です。</value>
+  </data>
+  <data name="ErrIDUnform" xml:space="preserve">
+    <value>Full IDが不正です。</value>
   </data>
   <data name="ErrInitParam" xml:space="preserve">
     <value>初期パラメータを取得できませんでした。</value>
@@ -323,6 +329,9 @@
   </data>
   <data name="ErrShowPropEditor" xml:space="preserve">
     <value>プロパティ編集ダイアログの表示に失敗しました。\n表示するオブジェクトを確認してください。</value>
+  </data>
+  <data name="ErrSimParam" xml:space="preserve">
+    <value>シミュレーションパラメータの取得に失敗しました。</value>
   </data>
   <data name="ErrSuspendSim" xml:space="preserve">
     <value>シミュレーションを一時停止できませんでした。</value>

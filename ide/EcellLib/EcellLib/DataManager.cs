@@ -239,7 +239,7 @@ namespace EcellLib
                             {
                                 throw new Exception(
                                     String.Format(
-                                        m_resources.GetString("ErrExistStepper"),
+                                        m_resources.GetString(ErrorConstants.ErrExistStepper),
                                         new object[] { l_message }
                                     )
                                 );
@@ -261,7 +261,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = l_message + m_resources.GetString("ErrNotCreStepper");
+                l_message = l_message + m_resources.GetString(ErrorConstants.ErrNotCreStepper);
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -693,7 +693,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = l_message + m_resources.GetString("ErrClosePrj");
+                l_message = l_message + m_resources.GetString(ErrorConstants.ErrClosePrj);
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -723,7 +723,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrFindModel") + l_message;
+                l_message = m_resources.GetString(ErrorConstants.ErrFindModel) + l_message;
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -828,7 +828,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                    s_resources.GetString("ErrCombiStepProc") +
+                    m_resources.GetString(ErrorConstants.ErrCombiStepProc) +
                     "[" + l_defaultStepper + ", " + l_defaultProcess + "]", l_ex);
             }
         }
@@ -904,7 +904,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 l_usableList = null;
-                l_message = l_message + m_resources.GetString("ErrAddObj");
+                l_message = l_message + m_resources.GetString(ErrorConstants.ErrAddObj);
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -945,7 +945,7 @@ namespace EcellLib
                 {
                     throw new Exception(
                         String.Format(
-                            m_resources.GetString("ErrExistObj"),
+                            m_resources.GetString(ErrorConstants.ErrExistObj),
                             new object[] { l_message }
                         )
                     );
@@ -1039,7 +1039,7 @@ namespace EcellLib
             {
                 if (!l_system.Key.Equals(l_ecellObject.Key))
                     continue;
-                throw new Exception(l_message + m_resources.GetString("ErrAddObj"));
+                throw new Exception(l_message + m_resources.GetString(ErrorConstants.ErrAddObj));
             }
             this.CheckEntityPath(l_ecellObject);
             sysDic[l_modelID].Add(l_ecellObject.Copy());
@@ -1071,7 +1071,7 @@ namespace EcellLib
 
             Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
             if (sysDic == null || sysDic.Count <= 0 || !sysDic.ContainsKey(l_modelID))
-                throw new Exception(m_resources.GetString("ErrFindSuper"));
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSuper));
 
             // Add object.
             bool l_findFlag = false;
@@ -1088,7 +1088,7 @@ namespace EcellLib
                         continue;
                     throw new Exception(
                         string.Format(
-                            m_resources.GetString("ErrExistObj"),
+                            m_resources.GetString(ErrorConstants.ErrExistObj),
                             new object[] { l_message + " " + l_type.ToLower() }
                         )
                     );
@@ -1106,7 +1106,7 @@ namespace EcellLib
             // Throw Error if object is not found.
             if (!l_findFlag)
             {
-                l_message = l_message + " " + l_type.ToLower() + m_resources.GetString("ErrAddObj");
+                l_message = l_message + " " + l_type.ToLower() + m_resources.GetString(ErrorConstants.ErrAddObj);
                 if (l_messageFlag)
                 {
                     Message(l_message);
@@ -1236,7 +1236,7 @@ namespace EcellLib
                 // Check null.
                 l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
                 if (string.IsNullOrEmpty(l_modelID) || string.IsNullOrEmpty(l_key) || string.IsNullOrEmpty(l_type))
-                    throw new Exception(m_resources.GetString("ErrNullData") + l_message);
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrNullData) + l_message);
 
                 // Record action
                 EcellObject l_oldObj = GetEcellObject(l_modelID, l_key, l_type);
@@ -1248,7 +1248,7 @@ namespace EcellLib
                 // Searches the "System".
                 List<EcellObject> l_systemList = m_currentProject.SystemDic[l_modelID];
                 if (l_systemList == null || l_systemList.Count <= 0)
-                    throw new Exception(m_resources.GetString("ErrFindSystem") + l_message);
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSystem) + l_message);
 
                 // Checks the EcellObject
                 this.CheckEntityPath(l_ecellObject);
@@ -1280,7 +1280,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 l_message = String.Format(
-                    m_resources.GetString("ErrUpdate"),
+                    m_resources.GetString(ErrorConstants.ErrUpdate),
                     new object[] { l_ecellObject.Type }
                 ) + l_message + " " + l_ecellObject.Type;
                 Message(l_message);
@@ -1307,12 +1307,12 @@ namespace EcellLib
             EcellObject oldSystem = m_currentProject.GetSystem(l_modelID, EcellObject.GetParentSystemId(l_key));
             EcellObject newSystem = m_currentProject.GetSystem(l_ecellObject.ModelID, l_ecellObject.ParentSystemID);
             if (oldSystem == null || newSystem == null)
-                throw new Exception(m_resources.GetString("ErrFindSystem") + l_message);
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSystem) + l_message);
 
             // Get changed node.
             EcellObject oldNode = m_currentProject.GetEcellObject(l_modelID, l_type, l_key);
             if (oldNode == null)
-                throw new Exception(m_resources.GetString("ErrExistObj") + l_message);
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrExistObj) + l_message);
 
             this.CheckDifferences(oldNode, l_ecellObject, null);
             if (l_modelID.Equals(l_ecellObject.ModelID)
@@ -1561,7 +1561,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrDelete") + l_message + " " + l_type;
+                l_message = m_resources.GetString(ErrorConstants.ErrDelete) + l_message + " " + l_type;
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -1595,7 +1595,7 @@ namespace EcellLib
             }
             if (!l_isDelete)
             {
-                throw new Exception(m_resources.GetString("ErrFindModel") + l_message);
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindModel) + l_message);
             }
             //
             // Deletes "System"s.
@@ -1905,7 +1905,7 @@ namespace EcellLib
             EcellObject system = GetEcellObject(modelID, key, EcellObject.SYSTEM);
             if (system.Key.Equals("/"))
             {
-                MessageBox.Show(m_resources.GetString("ErrDelRoot"),
+                MessageBox.Show(m_resources.GetString(ErrorConstants.ErrDelRoot),
                                 "Error",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
@@ -1922,7 +1922,7 @@ namespace EcellLib
                 string newKey = Util.GetMovedKey(eo.Key, sysKey, parentSysKey);
                 if (GetEcellObject(modelID, newKey, eo.Type) != null)
                 {
-                    MessageBox.Show(newKey + m_resources.GetString("ErrExistObj"),
+                    MessageBox.Show(newKey + m_resources.GetString(ErrorConstants.ErrExistObj),
                                     "Error",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.Error);
@@ -1975,139 +1975,6 @@ namespace EcellLib
                 }
             }
             return eoList;
-        }
-
-        /// <summary>
-        /// Move the component to the upper system, when system is deleted.
-        /// </summary>
-        /// <param name="modelID">modelID of deleted system.</param>
-        /// <param name="key">key of deleted system.</param>
-        /// <param name="isRecorded">whether this action will be recorded or not</param>
-        /// <param name="isAnchor">whether this action is an anchor or not</param>
-        public void SystemDeleteAndMove2(string modelID, string key, bool isRecorded, bool isAnchor)
-        {
-            string sizeKey = key + ":SIZE";
-            Dictionary<String, String> variableList = new Dictionary<String, String>();
-            List<EcellObject> targetSysList = new List<EcellObject>();
-            List<EcellObject> targetObjList = new List<EcellObject>();
-
-            List<EcellObject> saveSysList = new List<EcellObject>();
-            List<EcellObject> saveObjList = new List<EcellObject>();
-
-            EcellObject toBeDeleted = GetEcellObject(modelID, key, "System");
-            toBeDeleted.Children = new List<EcellObject>();
-
-            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-            if (sysDic.ContainsKey(modelID))
-            {
-                foreach (EcellObject obj in sysDic[modelID])
-                {
-                    if (obj.ModelID == modelID && obj.Key.StartsWith(key) &&
-                        (obj.Key.Length == key.Length || obj.Key[key.Length] == '/'))
-                    {
-                        if (obj.Key.Length == key.Length)
-                        {
-                            if (obj.Children == null) continue;
-                            foreach (EcellObject ins in obj.Children)
-                            {
-                                if (sizeKey.Equals(ins.Key)) continue;
-                                targetObjList.Add(ins.Copy());
-                                saveObjList.Add(ins.Copy());
-                            }
-                        }
-                        else if (obj.Type == "System")
-                        {
-                            targetSysList.Add(obj.Copy());
-                            saveSysList.Add(obj.Copy());
-                        }
-                    }
-                }
-            }
-
-            DataDelete(modelID, key, "System", false, false);
-            string[] el = key.Split(new char[] { '/' });
-            int delPoint = el.Length - 1;
-            List<EcellObject> list = new List<EcellObject>();
-            foreach (EcellObject obj in targetSysList)
-            {
-                String orgKey = obj.Key;
-                String newKey = "";
-                string[] nel = orgKey.Split(new char[] { '/' });
-                for (int i = 0; i < nel.Length; i++)
-                {
-                    if (i == delPoint) continue;
-                    if (nel[i] == "") newKey = "";
-                    else newKey = newKey + "/" + nel[i];
-                }
-                List<EcellObject> tmpList = new List<EcellObject>();
-                if (obj.Children != null)
-                {
-                    foreach (EcellObject ins in obj.Children)
-                    {
-                        saveObjList.Add(ins);
-                        String iNewKey = "";
-                        if (sizeKey.Equals(ins.Key)) continue;
-                        string[] iel = ins.Key.Split(new char[] { '/' });
-                        for (int j = 0; j < iel.Length; j++)
-                        {
-                            if (j == delPoint) continue;
-                            if (iel[j] == "") iNewKey = "";
-                            else iNewKey = iNewKey + "/" + iel[j];
-                        }
-                        if (ins.Type == "Variable")
-                            variableList.Add(ins.Key, iNewKey);
-                        ins.Key = iNewKey;
-                        tmpList.Add(ins);
-                    }
-                }
-                obj.Key = newKey;
-                obj.Children = new List<EcellObject>();
-                //                obj.Children = new List<EcellObject>();
-                //                DataChanged(modelID, orgKey, obj.type, obj);
-                CheckEntityPath(obj);
-                list.Add(obj);
-                foreach (EcellObject p in tmpList)
-                {
-                    list.Add(p);
-                }
-            }
-            foreach (EcellObject obj in targetObjList)
-            {
-                String iNewKey = "";
-                string[] iel = obj.Key.Split(new char[] { '/' });
-                for (int j = 0; j < iel.Length; j++)
-                {
-                    if (j == delPoint)
-                    {
-                        if (j == 1) iNewKey = "/";
-                        iNewKey = iNewKey + iel[j].Substring(iel[j].LastIndexOf(":"));
-                    }
-                    else if (iel[j] == "") iNewKey = "";
-                    else iNewKey = iNewKey + "/" + iel[j];
-                }
-                if (obj.Type == "Variable")
-                    variableList.Add(obj.Key, iNewKey);
-                obj.Key = iNewKey;
-                list.Add(obj);
-            }
-            DataAdd(list, false, isAnchor);
-
-            foreach (String oldKey in variableList.Keys)
-            {
-                List<EcellObject> changeProcList = new List<EcellObject>();
-                String newKey = variableList[oldKey];
-                CheckVariableReferenceList(modelID, newKey, oldKey, changeProcList);
-                foreach (EcellObject cProcess in changeProcList)
-                {
-                    DataChanged4Entity(modelID, cProcess.Key, cProcess.Type, cProcess, isRecorded, isAnchor);
-                }
-            }
-
-            // Add action
-            if (isRecorded)
-                m_aManager.AddAction(new SystemMergeAction(modelID, toBeDeleted, saveSysList, saveObjList, isAnchor));
-
-
         }
 
         /// <summary>
@@ -2890,12 +2757,12 @@ namespace EcellLib
                 //
                 if (l_parameterID == null || l_parameterID.Length <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrNullData") + "[ParameterID]");
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrNullData) + "[ParameterID]");
                 }
                 this.SetDefaultDir();
                 if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrBaseDir"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrBaseDir));
                 }
                 if (m_currentProject.StepperDic.ContainsKey(l_parameterID))
                 {
@@ -2921,7 +2788,7 @@ namespace EcellLib
                 }
                 else
                 {
-                    throw new Exception(m_resources.GetString("ErrFindSimParam") + l_message);
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSimParam) + l_message);
                 }
 
                 if (l_isRecorded)
@@ -2929,7 +2796,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrDeleteSimParam") + l_message;
+                l_message = m_resources.GetString(ErrorConstants.ErrDeleteSimParam) + l_message;
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -2982,7 +2849,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrDelete") + l_message;
+                l_message = m_resources.GetString(ErrorConstants.ErrDelete) + l_message;
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -3003,13 +2870,13 @@ namespace EcellLib
                 string[] l_infos = l_fullID.Split(Constants.delimiterColon.ToCharArray());
                 if (l_infos.Length != 3)
                 {
-                    throw new Exception(m_resources.GetString("ErrIDUnform") + l_message);
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrIDUnform) + l_message);
                 }
                 else if (!l_infos[0].Equals(Constants.xpathSystem)
                         && !l_infos[0].Equals(Constants.xpathProcess)
                         && !l_infos[0].Equals(Constants.xpathVariable))
                 {
-                    throw new Exception(m_resources.GetString("ErrIDUnform") + l_message);
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrIDUnform) + l_message);
                 }
                 string l_key = null;
                 if (l_infos[1].Equals("") && l_infos[2].Equals(Constants.delimiterPath))
@@ -3057,7 +2924,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrCheckID") + l_message + " {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrCheckID) + l_message + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -3107,11 +2974,11 @@ namespace EcellLib
                 }
                 if (l_storedStepperList == null || l_storedStepperList.Count <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrFindStepper"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindStepper));
                 }
                 else if (l_storedSystemList == null || l_storedSystemList.Count <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrFindSystem"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSystem));
                 }
                 //
                 // Exports.
@@ -3122,7 +2989,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrExportFile") + l_fileName + " {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrExportFile) + l_fileName + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -3350,7 +3217,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrGetData") + " {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrGetData) + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -3372,7 +3239,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                        m_resources.GetString("ErrInitParam") + l_message + " {"
+                        m_resources.GetString(ErrorConstants.ErrInitParam) + l_message + " {"
                         + l_ex.ToString() + "}");
             }
         }
@@ -3397,7 +3264,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                        m_resources.GetString("ErrInitParam") + l_message + " {"
+                        m_resources.GetString(ErrorConstants.ErrInitParam) + l_message + " {"
                         + l_ex.ToString() + "}");
             }
         }
@@ -3441,7 +3308,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 l_logDataList = null;
-                throw new Exception(m_resources.GetString("ErrGetData") + " {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrGetData) + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -3683,7 +3550,7 @@ namespace EcellLib
             {
                 l_entityList.Clear();
                 l_entityList = null;
-                throw new Exception(m_resources.GetString("ErrFindEnt") +
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindEnt) +
                     " [" + l_entityName + "][" + l_modelID + "]. {"
                     + l_ex.ToString() + "}");
             }
@@ -3710,7 +3577,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrGetProp") +
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrGetProp) +
                     l_message + " {" + l_ex.ToString() + "}");
             }
         }
@@ -3779,7 +3646,7 @@ namespace EcellLib
                 l_ex.ToString();
                 return false;
                 //throw new Exception(
-                //    s_resources.GetString("ErrGetProp") +
+                //    s_resources.GetString(ErrorConstants.ErrGetProp) +
                 //    "[" + l_dmName + "] {" + l_ex.ToString() + "}", l_ex);
             }
             return isEnable;
@@ -3812,7 +3679,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                    s_resources.GetString("ErrGetProp") +
+                    m_resources.GetString(ErrorConstants.ErrGetProp) +
                     "[" + l_dmName + "] {" + l_ex.ToString() + "}", l_ex);
             }
             return l_dic;
@@ -3898,7 +3765,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrFindModel") +
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindModel) +
                     " {" + l_ex.ToString() + "}");
             }
         }
@@ -3937,7 +3804,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrSimParam") +
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrSimParam) +
                     " {" + l_ex.ToString() + "}");
             }
         }
@@ -3963,12 +3830,12 @@ namespace EcellLib
             try
             {
                 if (l_modelID == null || l_modelID.Length <= 0)
-                    throw new Exception(m_resources.GetString("ErrNullData"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrNullData));
 
                 if (string.IsNullOrEmpty(l_parameterID))
                     l_parameterID = m_currentProject.SimulationParam;
                 if (string.IsNullOrEmpty(l_parameterID))
-                    throw new Exception(m_resources.GetString("ErrCurParamID"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrCurParamID));
 
                 List<EcellObject> tempList = m_currentProject.StepperDic[l_parameterID][l_modelID];
                 foreach (EcellObject l_stepper in tempList)
@@ -3981,7 +3848,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                    m_resources.GetString("ErrGetStep") +
+                    m_resources.GetString(ErrorConstants.ErrGetStep) +
                     " [" + l_parameterID + ", " + l_modelID + "] {" +
                     l_ex.ToString() + "}");
             }
@@ -4002,7 +3869,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrGetSimParams") + " {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrGetSimParams) + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -4121,7 +3988,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrGetSysList") + " [" + l_modelID + "] {"
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrGetSysList) + " [" + l_modelID + "] {"
                         + l_ex.ToString() + "}");
             }
         }
@@ -4416,7 +4283,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrInitSim"), l_ex);
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrInitSim), l_ex);
             }
         }
 
@@ -4628,7 +4495,7 @@ namespace EcellLib
                     {
                         throw new Exception(
                             String.Format(
-                                m_resources.GetString("ErrExistObj"),
+                                m_resources.GetString(ErrorConstants.ErrExistObj),
                                 new object[] { l_message + "[Model]" }
                             )
                         );
@@ -4643,7 +4510,7 @@ namespace EcellLib
                 }
                 catch (Exception)
                 {
-                    l_message = m_resources.GetString("ErrInitSim") + "[" + m_currentProject.Name + "]";
+                    l_message = m_resources.GetString(ErrorConstants.ErrInitSim) + "[" + m_currentProject.Name + "]";
                 }
                 //
                 // Checks the current parameter ID.
@@ -4687,7 +4554,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrLoadModel") + "[" + l_message + "]";
+                l_message = m_resources.GetString(ErrorConstants.ErrLoadModel) + "[" + l_message + "]";
                 Message(l_message);
                 throw new Exception(l_message, l_ex);
             }
@@ -4712,7 +4579,7 @@ namespace EcellLib
                 //
                 if (l_prjID == null || l_prjID.Length <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrNullData"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrNullData));
                 }
 
                 List<EcellData> l_ecellDataList = new List<EcellData>();
@@ -4745,21 +4612,21 @@ namespace EcellLib
 
                 if (l_prj == null)
                 {
-                    throw new Exception(m_resources.GetString("ErrFindPrjFile") + " [" + Constants.fileProject + "]");
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindPrjFile) + " [" + Constants.fileProject + "]");
                 }
                 //
                 // Loads the model.
                 //
                 string l_modelDirName = Path.GetDirectoryName(l_prjFile) + Constants.delimiterPath + Constants.xpathModel;
                 if (!Directory.Exists(l_modelDirName))
-                    throw new Exception(m_resources.GetString("ErrFindModel"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindModel));
 
                 string[] l_models = Directory.GetFileSystemEntries(
                     l_modelDirName,
                     Constants.delimiterWildcard + Constants.FileExtEML
                     );
                 if (l_models == null || l_models.Length <= 0)
-                    throw new Exception(m_resources.GetString("ErrFindModel"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindModel));
 
                 foreach (string l_model in l_models)
                 {
@@ -4812,7 +4679,7 @@ namespace EcellLib
                     }
                 }
                 Trace.WriteLine(l_ex.ToString());
-                l_message = m_resources.GetString("ErrLoadPrj") + "[" + l_message + "]";
+                l_message = m_resources.GetString(ErrorConstants.ErrLoadPrj) + "[" + l_message + "]";
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -4847,7 +4714,7 @@ namespace EcellLib
                 //
                 if (l_fileName == null || l_fileName.Length <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrNullData"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrNullData));
                 }
                 //
                 // Parses the simulation parameter.
@@ -5004,7 +4871,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrLoadSimParam") + "[" + l_message + "]";
+                l_message = m_resources.GetString(ErrorConstants.ErrLoadSimParam) + "[" + l_message + "]";
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5023,7 +4890,7 @@ namespace EcellLib
         {
             if (l_stepperList == null || l_stepperList.Count <= 0)
             {
-                throw new Exception(m_resources.GetString("ErrFindSimParam"));
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSimParam));
             }
             bool l_existStepper = false;
             foreach (EcellObject l_stepper in l_stepperList)
@@ -5106,7 +4973,7 @@ namespace EcellLib
             }
             if (!l_existStepper)
             {
-                throw new Exception(m_resources.GetString("ErrFindSimParam"));
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSimParam));
             }
         }
 
@@ -5127,7 +4994,7 @@ namespace EcellLib
         {
             if (l_systemList == null || l_systemList.Count <= 0)
             {
-                throw new Exception(m_resources.GetString("ErrFindSystem"));
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSystem));
             }
             bool l_existSystem = false;
             Dictionary<string, WrappedPolymorph> l_processPropertyDic = new Dictionary<string, WrappedPolymorph>();
@@ -5228,7 +5095,7 @@ namespace EcellLib
                 }
                 if (!l_existSystem)
                 {
-                    throw new Exception(m_resources.GetString("ErrFindSystem"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSystem));
                 }
             }
             catch (WrappedException e)
@@ -5308,7 +5175,7 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrAddObj");
+                String errmes = m_resources.GetString(ErrorConstants.ErrAddObj);
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
@@ -5350,7 +5217,7 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrAddObj");
+                String errmes = m_resources.GetString(ErrorConstants.ErrAddObj);
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
@@ -5405,7 +5272,7 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrAddObj");
+                String errmes = m_resources.GetString(ErrorConstants.ErrAddObj);
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
@@ -5472,7 +5339,7 @@ namespace EcellLib
                     }
                 }
                 string l_message = String.Format(
-                        m_resources.GetString("ErrCrePrj"),
+                        m_resources.GetString(ErrorConstants.ErrCrePrj),
                         new object[] { l_prjID });
                 Message(l_message);
                 throw new Exception(l_message, l_ex);
@@ -5527,7 +5394,7 @@ namespace EcellLib
                         }
                         else
                         {
-                            throw new Exception(m_resources.GetString("ErrFindSimParam"));
+                            throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSimParam));
                         }
                     }
                     //
@@ -5549,7 +5416,7 @@ namespace EcellLib
                 {
                     throw new Exception(
                         String.Format(
-                            m_resources.GetString("ErrExistSimParam"),
+                            m_resources.GetString(ErrorConstants.ErrExistSimParam),
                             new object[] { l_message }
                         )
                     );
@@ -5580,7 +5447,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrCreSimParam") + l_message;
+                l_message = m_resources.GetString(ErrorConstants.ErrCreSimParam) + l_message;
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5655,12 +5522,12 @@ namespace EcellLib
                 //
                 if (l_modelID == null || l_modelID.Length <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrNullData"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrNullData));
                 }
                 this.SetDefaultDir();
                 if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrBaseDir"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrBaseDir));
                 }
                 if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Name))
                 {
@@ -5682,7 +5549,7 @@ namespace EcellLib
                     = m_currentProject.StepperDic[m_currentProject.SimulationParam][l_modelID];
                 if (l_stepperList == null || l_stepperList.Count <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrFindStepper"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindStepper));
                 }
                 l_storedList.AddRange(l_stepperList);
                 //
@@ -5691,7 +5558,7 @@ namespace EcellLib
                 List<EcellObject> l_systemList = m_currentProject.SystemDic[l_modelID];
                 if (l_systemList == null || l_systemList.Count <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrFindSystem"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSystem));
                 }
                 l_storedList.AddRange(l_systemList);
                 //
@@ -5708,7 +5575,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 l_storedList = null;
-                l_message = m_resources.GetString("ErrSaveModel") + l_message;
+                l_message = m_resources.GetString(ErrorConstants.ErrSaveModel) + l_message;
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5722,15 +5589,15 @@ namespace EcellLib
         private Project GetProject(string l_prjID)
         {
             if (string.IsNullOrEmpty(l_prjID))
-                throw new Exception(m_resources.GetString("ErrNullData"));
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrNullData));
             if (this.m_projectList == null || this.m_projectList.Count <= 0)
-                throw new Exception(m_resources.GetString("ErrFindPrj"));
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindPrj));
 
             foreach (Project l_prj in this.m_projectList)
                 if (l_prj.Name.Equals(l_prjID))
                     return l_prj;
 
-            throw new Exception(m_resources.GetString("ErrFindPrj"));
+            throw new Exception(m_resources.GetString(ErrorConstants.ErrFindPrj));
         }
         /// <summary>
         /// Saves only the project using the project ID.
@@ -5747,7 +5614,7 @@ namespace EcellLib
                 l_thisPrj = GetProject(l_prjID);
                 this.SetDefaultDir();
                 if (string.IsNullOrEmpty(m_defaultDir))
-                    throw new Exception(m_resources.GetString("ErrBaseDir"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrBaseDir));
 
                 // Saves the project.
                 string l_prjFile = Path.Combine(this.m_defaultDir, l_prjID);
@@ -5757,7 +5624,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrSavePrj") + l_message;
+                l_message = m_resources.GetString(ErrorConstants.ErrSavePrj) + l_message;
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5841,12 +5708,12 @@ namespace EcellLib
                 //
                 if (l_paramID == null || l_paramID.Length <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrNullData"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrNullData));
                 }
                 this.SetDefaultDir();
                 if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrBaseDir"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrBaseDir));
                 }
                 if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Name))
                 {
@@ -5871,7 +5738,7 @@ namespace EcellLib
                 }
                 if (l_stepperList == null || l_stepperList.Count <= 0)
                 {
-                    throw new Exception(m_resources.GetString("ErrFindStepper"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindStepper));
                 }
                 //
                 // Picks the "LoggerPolicy" up.
@@ -5899,7 +5766,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrSaveSim") + l_message;
+                l_message = m_resources.GetString(ErrorConstants.ErrSaveSim) + l_message;
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -5951,7 +5818,7 @@ namespace EcellLib
                     this.SetDefaultDir();
                     if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
                     {
-                        throw new Exception(m_resources.GetString("ErrBaseDir"));
+                        throw new Exception(m_resources.GetString(ErrorConstants.ErrBaseDir));
                     }
                     if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Name))
                     {
@@ -5998,7 +5865,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrSaveSim") + l_message;
+                l_message = m_resources.GetString(ErrorConstants.ErrSaveSim) + l_message;
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -6069,7 +5936,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrSetProp") + l_message + " {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrSetProp) + l_message + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -6089,7 +5956,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrUpdateLogPol") + l_message;
+                l_message = m_resources.GetString(ErrorConstants.ErrUpdateLogPol) + l_message;
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -6220,7 +6087,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = m_resources.GetString("ErrSetSimParam") + l_message;
+                l_message = m_resources.GetString(ErrorConstants.ErrSetSimParam) + l_message;
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -6254,7 +6121,7 @@ namespace EcellLib
                 }
                 else
                 {
-                    throw new Exception(m_resources.GetString("ErrRunning"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrRunning));
                 }
                 //
                 // Debug
@@ -6309,7 +6176,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 m_currentProject.SimulatorExecFlag = SimulationWait;
-                throw new Exception(m_resources.GetString("ErrRunSim") + " {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrRunSim) + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -6344,7 +6211,7 @@ namespace EcellLib
                 }
                 else
                 {
-                    throw new Exception(m_resources.GetString("ErrRunning"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrRunning));
                 }
                 //
                 // Selects the type of the simulation and Starts.
@@ -6406,7 +6273,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 m_currentProject.SimulatorExecFlag = SimulationWait;
-                string l_message = m_resources.GetString("ErrRunSim");
+                string l_message = m_resources.GetString(ErrorConstants.ErrRunSim);
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -6440,14 +6307,14 @@ namespace EcellLib
             {
                 if (m_currentProject.SimulatorExecFlag == SimulationRun)
                 {
-                    throw new Exception(m_resources.GetString("ErrRunnning"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrRunning));
                 }
                 this.SimulationStart(l_stepLimit, SimulationSuspended);
             }
             catch (Exception l_ex)
             {
                 m_currentProject.SimulatorExecFlag = SimulationWait;
-                throw new Exception(m_resources.GetString("ErrRunSim") + " {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrRunSim) + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -6461,7 +6328,7 @@ namespace EcellLib
             {
                 if (m_currentProject.SimulatorExecFlag == SimulationRun)
                 {
-                    throw new Exception(m_resources.GetString("ErrRunning"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrRunning));
                 }
                 // double l_currentSimulationTime = this.m_simulatorDic[m_currentProject.Name].GetCurrentTime();
                 // this.SimulationStart(l_currentSimulationTime + l_timeLimit);
@@ -6477,7 +6344,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 m_currentProject.SimulatorExecFlag = SimulationWait;
-                throw new Exception(m_resources.GetString("ErrRunSim") + " {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrRunSim) + " {" + l_ex.ToString() + "}");
             }
         }
 
@@ -6490,7 +6357,7 @@ namespace EcellLib
             {
                 if (m_currentProject.Simulator == null)
                 {
-                    throw new Exception(m_resources.GetString("ErrFindRunSim"));
+                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindRunSim));
                 }
                 lock (m_currentProject.Simulator)
                 {
@@ -6500,7 +6367,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                string l_message = m_resources.GetString("ErrResetSim");
+                string l_message = m_resources.GetString(ErrorConstants.ErrResetSim);
                 Message(l_message);
                 throw new Exception(l_message + "{" + l_ex.ToString() + "}");
             }
@@ -6523,7 +6390,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                string l_message = m_resources.GetString("ErrSuspendSim");
+                string l_message = m_resources.GetString(ErrorConstants.ErrSuspendSim);
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
@@ -6602,7 +6469,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrSetInitParam") + l_message
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrSetInitParam) + l_message
                     + " {" + l_ex.ToString() + "}");
             }
         }
@@ -6634,7 +6501,7 @@ namespace EcellLib
                     l_message = "[" + l_parameterID + "][" + l_stepper.ModelID + "][" + l_stepper.Key + "]";
                     if (!m_currentProject.StepperDic[l_parameterID].ContainsKey(l_stepper.ModelID))
                     {
-                        throw new Exception(m_resources.GetString("ErrFindStepper") + l_message);
+                        throw new Exception(m_resources.GetString(ErrorConstants.ErrFindStepper) + l_message);
                     }
                     bool l_updateFlag = false;
                     List<EcellObject> l_storedStepperList
@@ -6652,7 +6519,7 @@ namespace EcellLib
                     }
                     if (!l_updateFlag)
                     {
-                        throw new Exception(m_resources.GetString("ErrFindStepper") + l_message);
+                        throw new Exception(m_resources.GetString(ErrorConstants.ErrFindStepper) + l_message);
                     }
                 }
                 if (l_isRecorded)
@@ -6660,7 +6527,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(m_resources.GetString("ErrSetStepper") + l_message + " {" + l_ex.ToString() + "}");
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrSetStepper) + l_message + " {" + l_ex.ToString() + "}");
             }
         }
 

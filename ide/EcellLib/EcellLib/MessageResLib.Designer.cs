@@ -277,6 +277,15 @@ namespace EcellLib {
         }
         
         /// <summary>
+        ///   Can not find entity. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrFindEnt {
+            get {
+                return ResourceManager.GetString("ErrFindEnt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Could not find the model. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindModel {
@@ -408,6 +417,15 @@ namespace EcellLib {
         internal static string ErrIDMalformed {
             get {
                 return ResourceManager.GetString("ErrIDMalformed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Invarid Full ID. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrIDUnform {
+            get {
+                return ResourceManager.GetString("ErrIDUnform", resourceCulture);
             }
         }
         
@@ -678,6 +696,15 @@ namespace EcellLib {
         internal static string ErrShowPropEditor {
             get {
                 return ResourceManager.GetString("ErrShowPropEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not get simulation parameter. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSimParam {
+            get {
+                return ResourceManager.GetString("ErrSimParam", resourceCulture);
             }
         }
         
