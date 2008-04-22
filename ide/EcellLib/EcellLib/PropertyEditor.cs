@@ -1493,7 +1493,7 @@ namespace EcellLib
                             chk.Text = "";
                             chk.AutoSize = true;
                             chk.Checked = false;
-                            chk.Enabled = true;
+                            chk.Enabled = false;
                             layoutPanel.Controls.Add(chk, 0, pos.Row);
 
                             Label l = new Label();

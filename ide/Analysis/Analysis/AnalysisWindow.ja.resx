@@ -120,6 +120,9 @@
   <data name="$this.Text" xml:space="preserve">
     <value>解析</value>
   </data>
+  <data name="AECancelButton.Text" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
   <data name="AnalysisTab.Text" xml:space="preserve">
     <value>解析結果</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="AWSensitivityTabPage.Text" xml:space="preserve">
     <value>感度解析設定</value>
+  </data>
+  <data name="PEAdvancedButton.Text" xml:space="preserve">
+    <value>詳細 ...</value>
   </data>
   <data name="ResultTab.Text" xml:space="preserve">
     <value>解析結果</value>
