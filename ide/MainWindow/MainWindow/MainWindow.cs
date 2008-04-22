@@ -52,6 +52,7 @@ using EcellLib;
 using EcellLib.Plugin;
 using WeifenLuo.WinFormsUI.Docking;
 using EcellLib.Objects;
+using System.Xml;
 
 namespace EcellLib.MainWindow
 {
@@ -138,6 +139,10 @@ namespace EcellLib.MainWindow
         /// Docking Windows object.
         /// </summary>
         public WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
+        /// <summary>
+        /// m_recentProjects
+        /// </summary>
+        private Dictionary<string, string> m_recentProjects = new Dictionary<string, string>();
         #endregion
 
         #region Constructor
@@ -159,6 +164,7 @@ namespace EcellLib.MainWindow
                 //Load default window settings.
                 setFilePath();
                 LoadDefaultWindowSetting();
+                LoadRecentProject();
                 SetStartUpWindow();
             }
             catch (Exception e)
@@ -217,7 +223,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// set base plugin data and load plugin.
         /// </summary>
-        void LoadAllPlugins()
+        private void LoadAllPlugins()
         {
             List<string> pluginList = new List<string>();
 
@@ -242,7 +248,7 @@ namespace EcellLib.MainWindow
         /// Load plugin in plugin directory and add the plugin menus to MainWindow.
         /// </summary>
         /// <param name="path">path of plugin.</param>
-        void LoadPlugin(string path)
+        private void LoadPlugin(string path)
         {
             IEcellPlugin pb = null;
             string pName = Path.GetFileNameWithoutExtension(path);
@@ -321,11 +327,162 @@ namespace EcellLib.MainWindow
 
         #endregion
 
+        private void LoadRecentProject()
+        {
+            // load xml file
+            string filename = Path.Combine(Util.GetUserDir(), "RecentFile.xml");
+
+            XmlDocument xmlD = new XmlDocument();
+            try
+            {
+                xmlD.Load(filename);
+                m_recentProjects.Clear();
+                XmlNode recentFiles = GetNodeByKey(xmlD, "RecentFiles");
+                foreach (XmlNode node in recentFiles.ChildNodes)
+                {
+                    string name = GetStringChild(node, "Name");
+                    string file = GetStringChild(node, "File");
+                    m_recentProjects.Add(name, file);
+                }
+                ResetRecentProject();
+            }
+            catch (Exception ex)
+            {
+                string errmsg = s_resources.GetString("ErrLoadWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ResetRecentProject()
+        {
+            openProjectToolStripMenuItem.DropDownItems.Clear();
+            foreach (KeyValuePair<string, string> project in m_recentProjects)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem(project.Key);
+                item.ToolTipText = project.Value;
+                item.Click += new EventHandler(RecentProject_Click);
+                openProjectToolStripMenuItem.DropDownItems.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Event on RecentProject_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void RecentProject_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            LoadProject(item.Text, item.ToolTipText);
+        }
+        /// <summary>
+        /// GetNodeByKey
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <param name="key"></param>
+        /// <returns>Selected XmlNode</returns>
+        private static XmlNode GetNodeByKey(XmlNode xml, string key)
+        {
+            XmlNode selected = null;
+            foreach (XmlNode node in xml.ChildNodes)
+            {
+                if (node.Name.Equals(key))
+                    selected = node;
+            }
+            return selected;
+        }
+
+        /// <summary>
+        /// GetNodeByKey
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <param name="key"></param>
+        /// <returns>Selected XmlNode</returns>
+        private static string GetStringChild(XmlNode xml, string key)
+        {
+            XmlNode selected = null;
+            foreach (XmlNode node in xml.ChildNodes)
+            {
+                if (node.Name.Equals(key))
+                    selected = node;
+            }
+            return selected.InnerText;
+        }
+
+        /// <summary>
+        /// GetStringAttribute
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private static string GetStringAttribute(XmlNode node, string key)
+        {
+            try
+            {
+                XmlAttribute attribute = node.Attributes[key];
+                if (attribute == null)
+                    return null;
+                else
+                    return attribute.Value;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// SaveRecentProject
+        /// </summary>
+        private void SaveRecentProject()
+        {
+            // Create xml file
+            string filename = Path.Combine(Util.GetUserDir(), "RecentFile.xml");
+
+            FileStream fs = null;
+            XmlTextWriter xmlOut = null;
+            try
+            {
+                fs = new FileStream(filename, FileMode.Create);
+                xmlOut = new XmlTextWriter(fs, Encoding.UTF8);
+
+                // Use indenting for readability
+                xmlOut.Formatting = Formatting.Indented;
+                xmlOut.WriteStartDocument();
+
+                // Always begin file with identification and warning
+                xmlOut.WriteComment(Constants.xPathFileHeader1);
+                xmlOut.WriteComment(Constants.xPathFileHeader2);
+
+                // Application settings
+                xmlOut.WriteStartElement("RecentFiles");
+                int count = m_recentProjects.Count;
+                int i = 0;
+                foreach (KeyValuePair<string,string> project in m_recentProjects)
+                {
+                    i++;
+                    if (i <= count - 5)
+                        continue;
+                    xmlOut.WriteStartElement("RecentFile");
+                    xmlOut.WriteElementString("Name", project.Key);
+                    xmlOut.WriteElementString("File", project.Value);
+                    xmlOut.WriteEndElement();
+                }
+                xmlOut.WriteEndElement();
+                xmlOut.WriteEndDocument();
+            }
+            finally
+            {
+                if (xmlOut != null) xmlOut.Close();
+                if (fs != null) fs.Close();
+            }
+
+        }
+
         #region WindowSetting
         /// <summary>
         /// Save default window settings.
         /// </summary>
-        private void saveWindowSetting(string filename)
+        private void SaveWindowSetting(string filename)
         {
             //Save current window settings.
             try
@@ -1119,16 +1276,16 @@ namespace EcellLib.MainWindow
         {
             try
             {
-                String prjID = m_managePrjDialog.MPPrjIDText.Text;
-                String comment = m_managePrjDialog.MPPrjCommentText.Text;
-                String fileName = m_managePrjDialog.FileName;
+                string prjID = m_managePrjDialog.MPPrjIDText.Text;
+                string comment = m_managePrjDialog.MPPrjCommentText.Text;
+                string fileName = m_managePrjDialog.FileName;
 
                 if (!CheckProjectID(prjID))
                     return;
                 
                 if (fileName.EndsWith("eml"))
                 {
-                    String modelDir = Path.GetDirectoryName(fileName);
+                    string modelDir = Path.GetDirectoryName(fileName);
                     if (modelDir.EndsWith(Constants.xpathModel))
                     {
                         modelDir = modelDir.Substring(0, modelDir.Length - 5);
@@ -1146,12 +1303,7 @@ namespace EcellLib.MainWindow
                     project.Comment = comment;
                     project.Save(m_managePrjDialog.FileName);
                 }
-                m_dManager.LoadProject(prjID, fileName);
-                m_isLoadProject = true;
-                m_project = prjID;
-                m_pManager.ChangeStatus(ProjectStatus.Loaded);
-                m_editCount = 0;
-
+                LoadProject(prjID, fileName);
             }
             catch (Exception ex)
             {
@@ -1161,6 +1313,25 @@ namespace EcellLib.MainWindow
             }
 
             CloseOpenProjectDialog();
+        }
+
+        /// <summary>
+        /// Load Project.
+        /// </summary>
+        /// <param name="prjID"></param>
+        /// <param name="fileName"></param>
+        private void LoadProject(string prjID, string fileName)
+        {
+            m_dManager.LoadProject(prjID, fileName);
+            m_isLoadProject = true;
+            m_project = prjID;
+            m_pManager.ChangeStatus(ProjectStatus.Loaded);
+            m_editCount = 0;
+            // Set recent Project.
+            if (m_recentProjects.ContainsKey(prjID))
+                m_recentProjects.Remove(prjID);
+            m_recentProjects.Add(prjID, fileName);
+            ResetRecentProject();
         }
 
         /// <summary>
@@ -1788,7 +1959,7 @@ namespace EcellLib.MainWindow
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 // Save window settings.
-                saveWindowSetting(sfd.FileName);
+                SaveWindowSetting(sfd.FileName);
             }
 
         }
@@ -1870,7 +2041,8 @@ namespace EcellLib.MainWindow
             {
                 CloseProject(m_project);
             }
-            saveWindowSetting(m_userWindowSettingPath);
+            SaveRecentProject();
+            SaveWindowSetting(m_userWindowSettingPath);
         }
 
         /// <summary>

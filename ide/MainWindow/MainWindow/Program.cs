@@ -115,7 +115,7 @@ namespace EcellLib.MainWindow
                 DataManager manager = DataManager.GetDataManager();
                 foreach (string fPath in fileList)
                 {
-                    if (fPath.EndsWith(".eml"))
+                    if (fPath.EndsWith(Constants.FileExtEML))
                     {
                         frmMainWnd.LoadModel(fPath);
                     }

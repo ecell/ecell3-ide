@@ -79,8 +79,8 @@ namespace EcellLib.MainWindow {
                 xmlOut.WriteStartDocument();
 
                 // Always begin file with identification and warning
-                xmlOut.WriteComment("E-Cell configuration file.");
-                xmlOut.WriteComment("Automatically generated file. DO NOT modify!");
+                xmlOut.WriteComment(Constants.xPathFileHeader1);
+                xmlOut.WriteComment(Constants.xPathFileHeader2);
 
                 // Application settings
                 xmlOut.WriteStartElement("Application");
