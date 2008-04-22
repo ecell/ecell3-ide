@@ -228,6 +228,7 @@
       <DependentUpon>ImageResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Project.cs" />
+    <Compile Include="ScriptWriter.cs" />
     <Compile Include="SimulationParameter.cs" />
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />
