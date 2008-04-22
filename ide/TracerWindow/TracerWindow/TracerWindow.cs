@@ -243,6 +243,32 @@ namespace EcellLib.TracerWindow
         {
             if (data.Value == null) return;
 
+            if (!key.Equals(data.Key))
+            {
+                foreach (TagData t in m_entry.Keys)
+                {
+                    if (t.M_modelID != modelID ||
+                        t.M_key != key ||
+                        t.Type != type) continue;
+
+                    foreach (EcellData d in data.Value)
+                    {
+                        if (!t.M_path.EndsWith(":" + d.Name)) continue;
+                        foreach (TraceWindow w in m_entry[t])
+                        {
+                            w.ChangeLoggerEntry(t, data.Key, d.EntityPath);
+                        }
+                        m_tagList.Remove(t.ToString());                          
+                        t.M_key = data.Key;
+                        t.M_path = d.EntityPath;
+                        m_tagList.Add(t.ToString(), t);
+                        break;
+                    }
+                }
+
+                return;
+            }
+
             List<TagData> tagList = new List<TagData>();
             foreach (TagData t in m_entry.Keys)
             {

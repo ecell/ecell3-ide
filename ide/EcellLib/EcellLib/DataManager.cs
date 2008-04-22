@@ -1216,6 +1216,21 @@ namespace EcellLib
                 m_currentProject.SimulatorExecFlag == SimulationSuspended)
             {
                 EcellObject obj = GetEcellObject(l_modelID, l_key, l_type);
+                if (!l_key.Equals(l_ecellObject.Key) ||
+                    obj.Value.Count != l_ecellObject.Value.Count)
+                {
+                    String mes = m_resources.GetString("ConfirmReset");
+                    DialogResult r = MessageBox.Show(mes,
+                        "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                    if (r != DialogResult.OK)
+                    {
+                        throw new IgnoreException("Can't change the object.");
+                        //return; // TODO
+                    }
+                    SimulationStop();
+                    m_pManager.ChangeStatus(ProjectStatus.Loaded);
+                }
+
                 foreach (EcellData d in obj.Value)
                 {
                     foreach (EcellData d1 in l_ecellObject.Value)

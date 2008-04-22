@@ -1462,7 +1462,7 @@ namespace EcellLib
 
             data.Gettable = true;
             data.Loadable = true;
-            data.Logable = true;
+            data.Logable = false;
             data.Logged = false;
             data.Saveable = true;
             data.Settable = true;

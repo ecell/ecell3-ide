@@ -263,6 +263,41 @@ namespace EcellLib.TracerWindow
         }
 
         /// <summary>
+        /// Change the entry id of logger.
+        /// </summary>
+        /// <param name="org">the original entry data.</param>
+        /// <param name="key">the new entry id.</param>
+        /// <param name="path">the new entry path.</param>
+        public void ChangeLoggerEntry(TagData org, string key, string path)
+        {
+            foreach (DataGridViewRow r in dgv.Rows)
+            {
+                if (!r.Cells[3].Value.ToString().Equals(org.M_path)) continue;
+                r.Cells[3].Value = path;
+
+                r.Tag = new TagData(org.M_modelID, key, org.Type, path, org.IsContinue);
+                break;
+            }
+
+            foreach (string entPath in m_entryDic.Keys)
+            {
+                if (!entPath.Equals(org.M_path)) continue;
+                TraceEntry p = m_entryDic[entPath];
+                m_entryDic.Add(path, new TraceEntry(path, p.CurrentLineItem, p.TmpLineItem, p.IsContinuous));
+                m_entryDic.Remove(entPath);
+                break;
+            }
+
+            foreach (string entPath in m_tagDic.Keys)
+            {
+                if (!entPath.Equals(org.M_path)) continue;
+                m_tagDic.Add(path, org.IsContinue);
+                m_tagDic.Remove(entPath);
+                break;
+            }
+        }
+
+        /// <summary>
         /// Remove logger entry from DataGridView,
         /// </summary>
         /// <param name="tag">logger entry.</param>
