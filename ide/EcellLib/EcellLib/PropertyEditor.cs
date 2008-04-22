@@ -124,21 +124,21 @@ namespace EcellLib
                 DataManager dManager = DataManager.GetDataManager();
                 PluginManager pManager = PluginManager.GetPluginManager();
 
-                if (pManager.Status == ProjectStatus.Suspended ||
-                    pManager.Status == ProjectStatus.Stepping ||
-                    pManager.Status == ProjectStatus.Running)
-                {
-                    String mes = m_resources.GetString("ConfirmReset");
-                    DialogResult r = MessageBox.Show(mes,
-                        "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                    if (r != DialogResult.OK)
-                    {
-                        throw new IgnoreException("Can't change the object.");
-                        //return; // TODO
-                    }
-                    dManager.SimulationStop();
-                    pManager.ChangeStatus(ProjectStatus.Loaded);
-                }
+                //if (pManager.Status == ProjectStatus.Suspended ||
+                //    pManager.Status == ProjectStatus.Stepping ||
+                //    pManager.Status == ProjectStatus.Running)
+                //{
+                //    String mes = m_resources.GetString("ConfirmReset");
+                //    DialogResult r = MessageBox.Show(mes,
+                //        "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                //    if (r != DialogResult.OK)
+                //    {
+                //        throw new IgnoreException("Can't change the object.");
+                //        //return; // TODO
+                //    }
+                //    dManager.SimulationStop();
+                //    pManager.ChangeStatus(ProjectStatus.Loaded);
+                //}
                 editor.layoutPanel.SuspendLayout();
                 editor.SetCurrentObject(obj);
                 editor.SetDataType(obj.Type);
