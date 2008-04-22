@@ -785,6 +785,8 @@ namespace EcellLib.SessionManager
             double count, bool isStep, Dictionary<int, ExecuteParameter> setparam)
         {
             DataManager manager = DataManager.GetDataManager();
+            Project prj = manager.CurrentProject;
+            ScriptWriter writer = new ScriptWriter(prj);
             List<EcellObject> sysList = manager.GetData(modelName, null); 
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             foreach (int i in setparam.Keys)
@@ -800,11 +802,11 @@ namespace EcellLib.SessionManager
                     Directory.CreateDirectory(dirName);
                 }
 
-                manager.ClearScriptInfo();
+                writer.ClearScriptInfo();
                 File.WriteAllText(fileName, "", enc);
-                manager.WritePrefix(fileName, enc);
-                manager.WriteModelEntry(fileName, enc, modelName);
-                manager.WriteModelProperty(fileName, enc, modelName);
+                writer.WritePrefix(fileName, enc);
+                writer.WriteModelEntry(fileName, enc, modelName);
+                writer.WriteModelProperty(fileName, enc, modelName);
                 File.AppendAllText(fileName, "\n# System\n", enc);
                 foreach (EcellObject sysObj in sysList)
                 {
@@ -818,8 +820,8 @@ namespace EcellLib.SessionManager
                             break;
                         }
                     }
-                    manager.WriteSystemEntry(fileName, enc, modelName, sysObj);
-                    manager.WriteSystemProperty(fileName, enc, modelName, sysObj);
+                    writer.WriteSystemEntry(fileName, enc, modelName, sysObj);
+                    writer.WriteSystemProperty(fileName, enc, modelName, sysObj);
                 }
                 Application.DoEvents();
                 foreach (EcellObject sysObj in sysList)
@@ -838,8 +840,8 @@ namespace EcellLib.SessionManager
                             }
                         }
                     }
-                    manager.WriteComponentEntry(fileName, enc, tmpObj);
-                    manager.WriteComponentProperty(fileName, enc, tmpObj);
+                    writer.WriteComponentEntry(fileName, enc, tmpObj);
+                    writer.WriteComponentProperty(fileName, enc, tmpObj);
                 }
                 Application.DoEvents();
                 File.AppendAllText(fileName, "session.initialize()\n", enc);
@@ -848,12 +850,12 @@ namespace EcellLib.SessionManager
                 {
                     sList.Add(s.FullPath);
                 }
-                manager.WriteLoggerProperty(fileName, enc, sList);
+                writer.WriteLoggerProperty(fileName, enc, sList);
                 if (isStep)
-                    manager.WriteSimulationForStep(fileName, (int)(count), enc);
+                    writer.WriteSimulationForStep(fileName, (int)(count), enc);
                 else
-                    manager.WriteSimulationForTime(fileName, count, enc);
-                manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
+                    writer.WriteSimulationForTime(fileName, count, enc);
+                writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
                 List<string> extFileList = ExtractExtFileList(m_logList);
                 int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
                 m_parameterDic.Add(job, new ExecuteParameter(paramDic));
@@ -878,6 +880,8 @@ namespace EcellLib.SessionManager
         {
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             DataManager manager = DataManager.GetDataManager();
+            Project prj = manager.CurrentProject;
+            ScriptWriter writer = new ScriptWriter(prj);
             List<EcellObject> sysList = manager.GetData(modelName, null);
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             Random hRandom = new Random();
@@ -907,11 +911,11 @@ namespace EcellLib.SessionManager
                     Directory.CreateDirectory(dirName);
                 }
 
-                manager.ClearScriptInfo();
+                writer.ClearScriptInfo();
                 File.WriteAllText(fileName, "", enc);
-                manager.WritePrefix(fileName, enc);
-                manager.WriteModelEntry(fileName, enc, modelName);
-                manager.WriteModelProperty(fileName, enc, modelName);
+                writer.WritePrefix(fileName, enc);
+                writer.WriteModelEntry(fileName, enc, modelName);
+                writer.WriteModelProperty(fileName, enc, modelName);
                 File.AppendAllText(fileName, "\n# System\n", enc);
                 foreach (EcellObject sysObj in sysList)
                 {
@@ -925,8 +929,8 @@ namespace EcellLib.SessionManager
                             break;
                         }
                     }
-                    manager.WriteSystemEntry(fileName, enc, modelName, sysObj);
-                    manager.WriteSystemProperty(fileName, enc, modelName, sysObj);
+                    writer.WriteSystemEntry(fileName, enc, modelName, sysObj);
+                    writer.WriteSystemProperty(fileName, enc, modelName, sysObj);
                 }
                 Application.DoEvents();
                 foreach (EcellObject sysObj in sysList)
@@ -944,8 +948,8 @@ namespace EcellLib.SessionManager
                             }
                         }
                     }
-                    manager.WriteComponentEntry(fileName, enc, sysObj);
-                    manager.WriteComponentProperty(fileName, enc, sysObj);
+                    writer.WriteComponentEntry(fileName, enc, sysObj);
+                    writer.WriteComponentProperty(fileName, enc, sysObj);
                 }
                 Application.DoEvents();
                 File.AppendAllText(fileName, "session.initialize()\n", enc);
@@ -954,12 +958,12 @@ namespace EcellLib.SessionManager
                 {
                     sList.Add(s.FullPath);
                 }
-                manager.WriteLoggerProperty(fileName, enc, sList);
+                writer.WriteLoggerProperty(fileName, enc, sList);
                 if (isStep)
-                    manager.WriteSimulationForStep(fileName, (int)count, enc);
+                    writer.WriteSimulationForStep(fileName, (int)count, enc);
                 else
-                    manager.WriteSimulationForTime(fileName, count, enc);
-                manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
+                    writer.WriteSimulationForTime(fileName, count, enc);
+                writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
                 List<string> extFileList = ExtractExtFileList(m_logList);
                 int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
                 m_parameterDic.Add(job, new ExecuteParameter(paramDic));
@@ -1041,6 +1045,8 @@ namespace EcellLib.SessionManager
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             m_parameterDic.Clear();
             DataManager manager = DataManager.GetDataManager();
+            Project prj = manager.CurrentProject;
+            ScriptWriter writer = new ScriptWriter(prj);
             List<EcellObject> sysList = manager.GetData(modelName, null);
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             if (m_paramList.Count != 2)
@@ -1062,11 +1068,11 @@ namespace EcellLib.SessionManager
                     Encoding enc = Encoding.GetEncoding(932);
                     SetLogTopDirectory(dirName);
 
-                    manager.ClearScriptInfo();
+                    writer.ClearScriptInfo();
                     File.WriteAllText(fileName, "", enc);
-                    manager.WritePrefix(fileName, enc);
-                    manager.WriteModelEntry(fileName, enc, modelName);
-                    manager.WriteModelProperty(fileName, enc, modelName);
+                    writer.WritePrefix(fileName, enc);
+                    writer.WriteModelEntry(fileName, enc, modelName);
+                    writer.WriteModelProperty(fileName, enc, modelName);
                     File.AppendAllText(fileName, "\n# System\n", enc);
                     foreach (EcellObject sysObj in sysList)
                     {
@@ -1086,8 +1092,8 @@ namespace EcellLib.SessionManager
                                 }
                             }
                         }
-                        manager.WriteSystemEntry(fileName, enc, modelName, sysObj);
-                        manager.WriteSystemProperty(fileName, enc, modelName, sysObj);
+                        writer.WriteSystemEntry(fileName, enc, modelName, sysObj);
+                        writer.WriteSystemProperty(fileName, enc, modelName, sysObj);
                     }
                     foreach (EcellObject sysObj in sysList)
                     {
@@ -1108,8 +1114,8 @@ namespace EcellLib.SessionManager
                                 }
                             }
                         }
-                        manager.WriteComponentEntry(fileName, enc, sysObj);
-                        manager.WriteComponentProperty(fileName, enc, sysObj);
+                        writer.WriteComponentEntry(fileName, enc, sysObj);
+                        writer.WriteComponentProperty(fileName, enc, sysObj);
                     }
                     File.AppendAllText(fileName, "session.initialize()\n", enc);
 
@@ -1118,12 +1124,12 @@ namespace EcellLib.SessionManager
                     {
                         sList.Add(s.FullPath);
                     }
-                    manager.WriteLoggerProperty(fileName, enc, sList);
+                    writer.WriteLoggerProperty(fileName, enc, sList);
                     if (isStep)
-                        manager.WriteSimulationForStep(fileName, (int)count, enc);
+                        writer.WriteSimulationForStep(fileName, (int)count, enc);
                     else
-                        manager.WriteSimulationForTime(fileName, count, enc);
-                    manager.WriteLoggerSaveEntry(fileName, enc, m_logList);
+                        writer.WriteSimulationForTime(fileName, count, enc);
+                    writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
                     List<string> extFileList = ExtractExtFileList(m_logList);
                     int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
                     m_parameterDic.Add(job, new ExecuteParameter(paramDic));
