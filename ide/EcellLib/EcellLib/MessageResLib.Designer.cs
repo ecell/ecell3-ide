@@ -61,15 +61,6 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Are you sure merge the component in system to upper system. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ConfirmMerge {
-            get {
-                return ResourceManager.GetString("ConfirmMerge", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Simulation is running. Would you reset the simulation? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmReset {

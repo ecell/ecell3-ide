@@ -49,9 +49,13 @@ namespace EcellLib
     {
         #region Field
         /// <summary>
-        /// File Path.
+        /// Project Path.
         /// </summary>
         private string m_prjPath;
+        /// <summary>
+        /// File Path
+        /// </summary>
+        private string m_filePath;
         /// <summary>
         /// The comment
         /// </summary>
@@ -146,6 +150,7 @@ namespace EcellLib
             this.m_comment = prj.m_comment;
             this.m_simParam = prj.m_simParam;
             this.m_updateTime = prj.m_updateTime;
+            this.m_filePath = prj.m_filePath;
             this.m_prjPath = prj.m_prjPath;
         }
 
@@ -246,6 +251,19 @@ namespace EcellLib
 
         /// <summary>
         /// get/set the filePath
+        /// </summary>
+        public string FilePath
+        {
+            get { return m_filePath; }
+            set
+            {
+                this.m_filePath = value;
+                this.m_prjPath = Path.GetDirectoryName(value);
+            }
+        }
+
+        /// <summary>
+        /// get/set the ProjectPath
         /// </summary>
         public string ProjectPath
         {
@@ -569,8 +587,6 @@ namespace EcellLib
         {
             Project project = null;
             string ext = Path.GetExtension(filepath);
-            if (string.IsNullOrEmpty(ext))
-                return project;
 
             if (ext.Equals(Constants.FileExtXML))
                 project = LoadProjectFromXML(filepath);
@@ -578,6 +594,9 @@ namespace EcellLib
                 project = LoadProjectFromInfo(filepath);
             else if (ext.Equals(Constants.FileExtEML))
                 project = LoadProjectFromEml(filepath);
+            else
+                return project;
+            project.m_filePath = filepath;
             project.ProjectPath = Path.GetDirectoryName(filepath);
             return project;
         }
