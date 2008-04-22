@@ -58,7 +58,7 @@ namespace EcellLib
         /// <summary>
         /// 
         /// </summary>
-        private int s_proCount = 0;
+        private int m_proCount = 0;
         /// <summary>
         /// 
         /// </summary>
@@ -82,7 +82,7 @@ namespace EcellLib
         /// <summary>
         /// 
         /// </summary>
-        private Dictionary<string, int> s_exportVariable = new Dictionary<string, int>();
+        private Dictionary<string, int> m_exportVariable = new Dictionary<string, int>();
         /// <summary>
         /// 
         /// </summary>
@@ -104,6 +104,7 @@ namespace EcellLib
         {
             try
             {
+                ClearScriptInfo();
                 Encoding enc = Encoding.GetEncoding(932);
                 File.WriteAllText(l_fileName, "", enc);
                 WritePrefix(l_fileName, enc);
@@ -134,11 +135,27 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Clear the counter to count object in model.
+        /// </summary>
+        public void ClearScriptInfo()
+        {
+            m_stepperCount = 0;
+            m_sysCount = 0;
+            m_varCount = 0;
+            m_proCount = 0;
+            m_logCount = 0;
+            m_exportSystem.Clear();
+            m_exportProcess.Clear();
+            m_exportVariable.Clear();
+            m_exportStepper.Clear();
+        }
+
+        /// <summary>
         /// Write the prefix information in script file.
         /// </summary>
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
-        private void WritePrefix(string fileName, Encoding enc)
+        public void WritePrefix(string fileName, Encoding enc)
         {
             DateTime n = DateTime.Now;
             String timeStr = n.ToString("d");
@@ -157,7 +174,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="count">step count.</param>
         /// <param name="enc">encoding(SJIS)</param>
-        private void WriteSimulationForStep(string fileName, int count, Encoding enc)
+        public void WriteSimulationForStep(string fileName, int count, Encoding enc)
         {
             for (int i = 0; i < count; i++)
             {
@@ -173,7 +190,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="time">simulation time.</param>
         /// <param name="enc">encoding(SJIS)</param>
-        private void WriteSimulationForTime(string fileName, double time, Encoding enc)
+        public void WriteSimulationForTime(string fileName, double time, Encoding enc)
         {
             File.AppendAllText(fileName, "session.run(" + time + ")\n", enc);
             File.AppendAllText(fileName, "while session.isActive():\n", enc);
@@ -186,7 +203,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
-        private void WriteModelEntry(string fileName, Encoding enc, string modelName)
+        public void WriteModelEntry(string fileName, Encoding enc, string modelName)
         {
             File.AppendAllText(fileName, "session.createModel(\"" + modelName + "\")\n\n", enc);
             File.AppendAllText(fileName, "# Stepper\n", enc);
@@ -206,7 +223,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
-        private void WriteModelProperty(string fileName, Encoding enc, string modelName)
+        public void WriteModelProperty(string fileName, Encoding enc, string modelName)
         {
             File.AppendAllText(fileName, "\n# Stepper\n", enc);
             foreach (EcellObject stepObj in
@@ -233,7 +250,7 @@ namespace EcellLib
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
         /// <param name="sysObj">written system object.</param>
-        private void WriteSystemEntry(string fileName, Encoding enc, string modelName, EcellObject sysObj)
+        public void WriteSystemEntry(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
             if (sysObj == null) return;
             m_exportSystem.Add(sysObj.Key, m_sysCount);
@@ -273,7 +290,7 @@ namespace EcellLib
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="modelName">model name.</param>
         /// <param name="sysObj">written system object.</param>
-        private void WriteSystemProperty(string fileName, Encoding enc, string modelName, EcellObject sysObj)
+        public void WriteSystemProperty(string fileName, Encoding enc, string modelName, EcellObject sysObj)
         {
             if (sysObj == null)
                 return;
@@ -295,7 +312,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="logList">Logger list.</param>
-        private void WriteLoggerProperty(string fileName, Encoding enc, List<string> logList)
+        public void WriteLoggerProperty(string fileName, Encoding enc, List<string> logList)
         {
             string curParam = m_currentProject.SimulationParam;
             if (curParam == null)
@@ -329,7 +346,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="saveList">save property list.</param>
-        private void WriteLoggerSaveEntry(string fileName, Encoding enc, List<SaveLoggerProperty> saveList)
+        public void WriteLoggerSaveEntry(string fileName, Encoding enc, List<SaveLoggerProperty> saveList)
         {
             File.AppendAllText(fileName, "\n# Save logging\n", enc);
             if (saveList == null)
@@ -351,7 +368,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="sysObj">system object.</param>
-        private void WriteComponentEntry(string fileName, Encoding enc, EcellObject sysObj)
+        public void WriteComponentEntry(string fileName, Encoding enc, EcellObject sysObj)
         {
             File.AppendAllText(fileName, "\n# Variable\n", enc);
             if (sysObj.Children == null) return;
@@ -367,7 +384,7 @@ namespace EcellLib
                     enc);
                 File.AppendAllText(fileName,
                     "variableStub" + m_varCount + name + ".create(\"Variable\")\n", enc);
-                s_exportVariable.Add(obj.Key, m_varCount);
+                m_exportVariable.Add(obj.Key, m_varCount);
                 m_varCount++;
             }
 
@@ -380,12 +397,12 @@ namespace EcellLib
                 string name = names[names.Length - 1];
 
                 File.AppendAllText(fileName,
-                    "processStub" + s_proCount + name + "= session.createEntityStub(\"Process:" + obj.Key + "\")\n",
+                    "processStub" + m_proCount + name + "= session.createEntityStub(\"Process:" + obj.Key + "\")\n",
                     enc);
                 File.AppendAllText(fileName,
-                    "processStub" + s_proCount + name + ".create(\"" + obj.Classname + "\")\n", enc);
-                m_exportProcess.Add(obj.Key, s_proCount);
-                s_proCount++;
+                    "processStub" + m_proCount + name + ".create(\"" + obj.Classname + "\")\n", enc);
+                m_exportProcess.Add(obj.Key, m_proCount);
+                m_proCount++;
             }
         }
 
@@ -395,7 +412,7 @@ namespace EcellLib
         /// <param name="fileName">script file name.</param>
         /// <param name="enc">encoding(SJIS)</param>
         /// <param name="sysObj">system object.</param>
-        private void WriteComponentProperty(string fileName, Encoding enc, EcellObject sysObj)
+        public void WriteComponentProperty(string fileName, Encoding enc, EcellObject sysObj)
         {
             File.AppendAllText(fileName, "\n# Variable\n", enc);
             if (sysObj.Children == null) return;
@@ -405,7 +422,7 @@ namespace EcellLib
                     continue;
                 string[] names = obj.Key.Split(new char[] { ':' });
                 string name = names[names.Length - 1];
-                int count = s_exportVariable[obj.Key];
+                int count = m_exportVariable[obj.Key];
 
                 foreach (EcellData d in obj.Value)
                 {

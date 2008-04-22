@@ -160,7 +160,7 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// get / set CurrentProjectID
+        /// get CurrentProjectID
         /// </summary>
         public string CurrentProjectID
         {
@@ -168,7 +168,18 @@ namespace EcellLib
             {
                 if (m_currentProject == null)
                     return null;
-                return m_currentProject.Name; 
+                return m_currentProject.Name;
+            }
+        }
+
+        /// <summary>
+        /// get CurrentProject
+        /// </summary>
+        public Project CurrentProject
+        {
+            get
+            {
+                return m_currentProject;
             }
         }
 
