@@ -523,7 +523,7 @@ namespace EcellLib.Objects
         {
             Regex postColonRegex = new Regex(":\\w*$");
             Regex postSlashRegex = new Regex("/\\w*$");
-            if (key == null || key.Equals("") || key.Equals("/"))
+            if (string.IsNullOrEmpty(key) || key.Equals("/"))
                 return "";
             else if (key.Contains(":"))
             {

@@ -55,39 +55,15 @@ namespace EcellLib
     public class DataManager
     {
         #region Fields
-        #region Constants
-        /// <summary>
-        /// The default process name
-        /// </summary>
-        private const string DefaultProcessName = "ConstantFluxProcess"; // "BisectionRapidEquilibriumProcess";
-        /// <summary>
-        /// The default stepper name
-        /// </summary>
-        private const string DefaultStepperName = "FixedODE1Stepper";
-        /// <summary>
-        /// The waiting flag of the simulation
-        /// </summary>
-        private const int SimulationWait = 0;
-        /// <summary>
-        /// The running flag of the simulation
-        /// </summary>
-        private const int SimulationRun = 1;
-        /// <summary>
-        /// The suspending flag of the simulation
-        /// </summary>
-        private const int SimulationSuspended = 2;
-
-        #endregion
-
         #region Managers
-        /// <summary>
-        /// The "PluginManager"
-        /// </summary>
-        private PluginManager m_pManager = null;
         /// <summary>
         /// s_instance (singleton instance)
         /// </summary>
         private static DataManager s_instance = null;
+        /// <summary>
+        /// The "PluginManager"
+        /// </summary>
+        private PluginManager m_pManager = null;
         /// <summary>
         /// ActionManager.
         /// </summary>
@@ -112,7 +88,7 @@ namespace EcellLib
         /// <summary>
         /// The default count of the step 
         /// </summary>
-        private int s_defaultStepCount = 10;
+        private int m_defaultStepCount = 10;
         /// <summary>
         /// The step limit of the simulation
         /// </summary>
@@ -155,8 +131,8 @@ namespace EcellLib
         /// </summary>
         public int StepCount
         {
-            get { return this.s_defaultStepCount; }
-            set { this.s_defaultStepCount = value; }
+            get { return this.m_defaultStepCount; }
+            set { this.m_defaultStepCount = value; }
         }
 
         /// <summary>
@@ -230,43 +206,40 @@ namespace EcellLib
         public void AddStepperID(string l_parameterID, EcellObject l_stepper, bool l_isRecorded)
         {
             string l_message = null;
+            Dictionary<string, List<EcellObject>> stepperDic = null;
             try
             {
+                // Get stepperDic
                 l_message = "[" + l_parameterID + "][" + l_stepper.ModelID + "][" + l_stepper.Key + "]";
-                if (l_stepper != null && l_stepper.ModelID != null && l_stepper.ModelID.Length > 0)
+                if (l_stepper == null || string.IsNullOrEmpty(l_parameterID) ||string.IsNullOrEmpty(l_stepper.ModelID))
+                    throw new Exception();
+                if (!m_currentProject.StepperDic.ContainsKey(l_parameterID))
+                    m_currentProject.StepperDic[l_parameterID] = new Dictionary<string, List<EcellObject>>();
+                stepperDic = m_currentProject.StepperDic[l_parameterID];
+                if (!stepperDic.ContainsKey(l_stepper.ModelID))
+                    throw new Exception();
+
+                // Check duplication.
+                foreach (EcellObject l_storedStepper in stepperDic[l_stepper.ModelID])
                 {
-                    if (!m_currentProject.StepperDic.ContainsKey(l_parameterID))
-                    {
-                        m_currentProject.StepperDic[l_parameterID]
-                                = new Dictionary<string, List<EcellObject>>();
-                    }
-                    if (m_currentProject.StepperDic[l_parameterID]
-                            .ContainsKey(l_stepper.ModelID))
-                    {
-                        foreach (EcellObject l_storedStepper in
-                            m_currentProject.StepperDic[l_parameterID][l_stepper.ModelID])
-                        {
-                            if (l_stepper.Key.Equals(l_storedStepper.Key))
-                            {
-                                throw new Exception(
-                                    String.Format(
-                                        m_resources.GetString(ErrorConstants.ErrExistStepper),
-                                        new object[] { l_message }
-                                    )
-                                );
-                            }
-                        }
-                        m_currentProject.StepperDic[l_parameterID][l_stepper.ModelID]
-                                .Add(l_stepper);
-                        if (m_currentProject.SimulationParam.Equals(l_parameterID))
-                        {
-                            List<EcellObject> stepperList = new List<EcellObject>();
-                            stepperList.Add(l_stepper);
-                            m_pManager.DataAdd(stepperList);
-                        }
-                        MessageCreateEntity("Stepper", l_message);
-                    }
+                    if (!l_stepper.Key.Equals(l_storedStepper.Key))
+                        continue;
+                    throw new Exception(
+                        string.Format(
+                            m_resources.GetString(ErrorConstants.ErrExistStepper),
+                            new object[] { l_message }
+                        )
+                    );
                 }
+                // Set Stteper.
+                stepperDic[l_stepper.ModelID].Add(l_stepper);
+                if (m_currentProject.SimulationParam.Equals(l_parameterID))
+                {
+                    List<EcellObject> stepperList = new List<EcellObject>();
+                    stepperList.Add(l_stepper);
+                    m_pManager.DataAdd(stepperList);
+                }
+                MessageCreateEntity("Stepper", l_message);
                 if (l_isRecorded)
                     m_aManager.AddAction(new AddStepperAction(l_parameterID, l_stepper));
             }
@@ -478,24 +451,8 @@ namespace EcellLib
             if (l_ecellObject.Type.Equals(Constants.xpathSystem))
             {
                 string l_entityPath = null;
-                string l_parentPath
-                    = l_ecellObject.Key.Substring(0, l_ecellObject.Key.LastIndexOf(Constants.delimiterPath));
-                string l_childPath
-                    = l_ecellObject.Key.Substring(l_ecellObject.Key.LastIndexOf(Constants.delimiterPath) + 1);
-                if (l_ecellObject.Key.Equals(Constants.delimiterPath))
-                {
-                    if (l_childPath.Length == 0)
-                    {
-                        l_childPath = Constants.delimiterPath;
-                    }
-                }
-                else
-                {
-                    if (l_parentPath.Length == 0)
-                    {
-                        l_parentPath = Constants.delimiterPath;
-                    }
-                }
+                string l_parentPath = l_ecellObject.ParentSystemID;
+                string l_childPath = l_ecellObject.Name;
                 l_entityPath = l_ecellObject.Type + Constants.delimiterColon
                     + l_parentPath + Constants.delimiterColon
                     + l_childPath + Constants.delimiterColon;
@@ -601,49 +558,45 @@ namespace EcellLib
             foreach (EcellObject l_system in this.GetData(l_modelID, null))
             {
                 if (l_system.Children == null || l_system.Children.Count <= 0)
-                {
                     continue;
-                }
+
                 foreach (EcellObject l_instance in l_system.Children)
                 {
                     EcellObject l_entity = l_instance.Copy();
                     if (!l_entity.Type.Equals(Constants.xpathProcess))
-                    {
                         continue;
-                    }
                     else if (l_entity.Value == null || l_entity.Value.Count <= 0)
-                    {
                         continue;
-                    }
+
                     bool l_changedFlag = false;
                     foreach (EcellData l_ecellData in l_entity.Value)
                     {
-                        if (l_ecellData.Name.Equals(Constants.xpathVRL))
+                        if (!l_ecellData.Name.Equals(Constants.xpathVRL))
+                            continue;
+
+                        List<EcellValue> l_changedValue = new List<EcellValue>();
+                        if (l_ecellData.Value == null) continue;
+                        if (l_ecellData.Value.ToString() == "") continue;
+                        foreach (EcellValue l_ecellValue in l_ecellData.Value.CastToList())
                         {
-                            List<EcellValue> l_changedValue = new List<EcellValue>();
-                            if (l_ecellData.Value == null) continue;
-                            if (l_ecellData.Value.ToString() == "") continue;
-                            foreach (EcellValue l_ecellValue in l_ecellData.Value.CastToList())
+                            List<EcellValue> l_changedElements = new List<EcellValue>();
+                            foreach (EcellValue l_element in l_ecellValue.CastToList())
                             {
-                                List<EcellValue> l_changedElements = new List<EcellValue>();
-                                foreach (EcellValue l_element in l_ecellValue.CastToList())
+                                if (l_element.IsString()
+                                    && l_element.CastToString().Equals(Constants.delimiterColon + l_oldKey))
                                 {
-                                    if (l_element.IsString()
-                                        && l_element.CastToString().Equals(Constants.delimiterColon + l_oldKey))
-                                    {
-                                        l_changedElements.Add(
-                                            new EcellValue(Constants.delimiterColon + l_newKey));
-                                        l_changedFlag = true;
-                                    }
-                                    else
-                                    {
-                                        l_changedElements.Add(l_element);
-                                    }
+                                    l_changedElements.Add(
+                                        new EcellValue(Constants.delimiterColon + l_newKey));
+                                    l_changedFlag = true;
                                 }
-                                l_changedValue.Add(new EcellValue(l_changedElements));
+                                else
+                                {
+                                    l_changedElements.Add(l_element);
+                                }
                             }
-                            l_ecellData.Value = new EcellValue(l_changedValue);
+                            l_changedValue.Add(new EcellValue(l_changedElements));
                         }
+                        l_ecellData.Value = new EcellValue(l_changedValue);
                     }
                     if (l_changedFlag)
                     {
@@ -782,7 +735,7 @@ namespace EcellLib
                     //
                     if (!l_processFlag)
                     {
-                        l_defaultProcess = DefaultProcessName;
+                        l_defaultProcess = Constants.DefaultProcessName;
                         l_processFlag = true;
                     }
                     //
@@ -790,7 +743,7 @@ namespace EcellLib
                     //
                     if (!l_stepperFlag)
                     {
-                        l_defaultStepper = DefaultStepperName;
+                        l_defaultStepper = Constants.DefaultStepperName;
                         l_stepperFlag = true;
                     }
                 }
@@ -852,8 +805,8 @@ namespace EcellLib
         /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
         public void DataAdd(List<EcellObject> l_ecellObjectList, bool l_isRecorded, bool l_isAnchor)
         {
-            if (m_currentProject.SimulatorExecFlag == SimulationRun ||
-                m_currentProject.SimulatorExecFlag == SimulationSuspended)
+            if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
+                m_currentProject.SimulationStatus == SimulationStatus.Suspended)
             {
                 String mes = m_resources.GetString("ConfirmReset");
                 DialogResult r = MessageBox.Show(mes,
@@ -1199,23 +1152,9 @@ namespace EcellLib
             bool l_isRecorded,
             bool l_isAnchor)
         {
-            //if (m_currentProject.SimulatorExecFlag == SimulationRun ||
-            //    m_currentProject.SimulatorExecFlag == SimulationSuspended)
-            //{
-            //    String mes = m_resources.GetString("ConfirmReset");
-            //    DialogResult r = MessageBox.Show(mes,
-            //        "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-            //    if (r != DialogResult.OK)
-            //    {
-            //        throw new IgnoreException("Can't change the object.");
-            //        //return; // TODO
-            //    }
-            //    SimulationStop();
-            //    m_pManager.ChangeStatus(ProjectStatus.Loaded);
-            //}
-            // test code
-            if (m_currentProject.SimulatorExecFlag == SimulationRun ||
-                m_currentProject.SimulatorExecFlag == SimulationSuspended)
+            // StatusCheck
+            if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
+                m_currentProject.SimulationStatus == SimulationStatus.Suspended)
             {
                 EcellObject obj = GetEcellObject(l_modelID, l_key, l_type);
                 if (!l_key.Equals(l_ecellObject.Key) ||
@@ -1509,8 +1448,8 @@ namespace EcellLib
         /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
         public void DataDelete(string l_modelID, string l_key, string l_type, bool l_isRecorded, bool l_isAnchor)
         {
-            if (m_currentProject.SimulatorExecFlag == SimulationRun ||
-                m_currentProject.SimulatorExecFlag == SimulationSuspended)
+            if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
+                m_currentProject.SimulationStatus == SimulationStatus.Suspended)
             {
                 String mes = m_resources.GetString("ConfirmReset");
                 DialogResult r = MessageBox.Show(mes,
@@ -3040,42 +2979,35 @@ namespace EcellLib
                 if (string.IsNullOrEmpty(l_modelID))
                 {
                     // Searches the model.
-                    foreach (EcellObject l_model in m_currentProject.ModelList)
-                    {
-                        l_ecellObjectList.Add(l_model.Copy());
-                    }
+                    l_ecellObjectList.AddRange(m_currentProject.ModelList);
                     // Searches the "System".
-                    foreach (string l_storedModelID in sysDic.Keys)
+                    m_currentProject.SortSystems();
+                    foreach (List<EcellObject> systemList in sysDic.Values)
                     {
-                        foreach (EcellObject l_system in sysDic[l_storedModelID])
-                        {
-                            l_ecellObjectList.Add(l_system.Copy());
-                        }
+                        l_ecellObjectList.AddRange(systemList);
                     }
                 }
+                // Searches the model.
+                else if (string.IsNullOrEmpty(l_key))
+                {
+                    foreach (EcellObject l_model in m_currentProject.ModelList)
+                    {
+                        if (!l_model.ModelID.Equals(l_modelID))
+                            continue;
+                        l_ecellObjectList.Add(l_model.Copy());
+                        break;
+                    }
+                    l_ecellObjectList.AddRange(sysDic[l_modelID]);
+                }
+                // Searches the "System".
                 else
                 {
-                    // Searches the model.
-                    if (l_key == null || l_key.Length <= 0)
-                    {
-                        foreach (EcellObject l_model in m_currentProject.ModelList)
-                        {
-                            if (l_model.ModelID.Equals(l_modelID))
-                            {
-                                l_ecellObjectList.Add(l_model.Copy());
-                                break;
-                            }
-                        }
-                    }
-                    // Searches the "System".
                     foreach (EcellObject l_system in sysDic[l_modelID])
                     {
-                        if (l_key == null
-                            || l_key.Length <= 0
-                            || (l_system.Key != null && l_system.Key.Equals(l_key)))
-                        {
-                            l_ecellObjectList.Add(l_system.Copy());
-                        }
+                        if (!l_key.Equals(l_system.Key))
+                            continue;
+                        l_ecellObjectList.Add(l_system.Copy());
+                        break;
                     }
                 }
                 return l_ecellObjectList;
@@ -4271,7 +4203,7 @@ namespace EcellLib
         public bool IsActive()
         {
             bool l_runningFlag = false;
-            if (m_currentProject != null && m_currentProject.SimulatorExecFlag == SimulationRun)
+            if (m_currentProject != null && m_currentProject.SimulationStatus == SimulationStatus.Run)
                 l_runningFlag = true;
 
             return l_runningFlag;
@@ -4565,7 +4497,7 @@ namespace EcellLib
                 m_currentProject.SetDMList();
                 m_pManager.ParameterSet(l_prjID, m_currentProject.SimulationParam);
                 m_currentProject.Simulator = CreateSimulatorInstance();
-                m_currentProject.SimulatorExecFlag = SimulationWait;
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
                 m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
                 m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 m_currentProject.ModelList = new List<EcellObject>();
@@ -5110,7 +5042,7 @@ namespace EcellLib
                     stepperID = d.Value.ToString();
                 }
 
-                Dictionary<string, EcellData> list = GetProcessProperty(DataManager.DefaultProcessName);
+                Dictionary<string, EcellData> list = GetProcessProperty(Constants.DefaultProcessName);
                 List<EcellData> data = new List<EcellData>();
                 foreach (EcellData d in list.Values)
                 {
@@ -5121,7 +5053,7 @@ namespace EcellLib
                     data.Add(d);
                 }
                 EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
-                    Constants.xpathProcess, DataManager.DefaultProcessName, data);
+                    Constants.xpathProcess, Constants.DefaultProcessName, data);
 
                 if (isProper)
                 {
@@ -5270,7 +5202,7 @@ namespace EcellLib
                 m_currentProject.SetDMList();
                 m_currentProject.Simulator = CreateSimulatorInstance();
                 CreateProjectDir(l_prjID, l_setDirList);
-                m_currentProject.SimulatorExecFlag = SimulationWait;
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
                 m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
                 // this.m_stepperDic[l_prjID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
@@ -5717,14 +5649,14 @@ namespace EcellLib
                     return;
                 }
                 string l_simulationDirName = null;
-                if (l_savedDirName != null && l_savedDirName.Length > 0)
+                if (!string.IsNullOrEmpty(l_savedDirName))
                 {
                     l_simulationDirName = l_savedDirName;
                 }
                 else
                 {
                     this.SetDefaultDir();
-                    if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
+                    if (string.IsNullOrEmpty(m_defaultDir))
                     {
                         throw new Exception(m_resources.GetString(ErrorConstants.ErrBaseDir));
                     }
@@ -6011,13 +5943,13 @@ namespace EcellLib
             try
             {
                 // Checks the simulator's status.
-                if (m_currentProject.SimulatorExecFlag == SimulationWait)
+                if (m_currentProject.SimulationStatus == SimulationStatus.Wait)
                 {
                     this.Initialize(true);
                     this.m_simulationStepLimit = l_stepLimit;
                     Message("Start Simulator: [" + m_currentProject.Simulator.GetCurrentTime() + "]");
                 }
-                else if (m_currentProject.SimulatorExecFlag == SimulationSuspended)
+                else if (m_currentProject.SimulationStatus == SimulationStatus.Suspended)
                 {
                     if (this.m_simulationStepLimit == -1)
                     {
@@ -6032,23 +5964,23 @@ namespace EcellLib
                 // Debug
                 // this.LookIntoSimulator(m_currentProject.Simulator);
                 // Selects the type of the simulation and Starts.
-                m_currentProject.SimulatorExecFlag = SimulationRun;
+                m_currentProject.SimulationStatus = SimulationStatus.Run;
                 if (this.m_simulationStepLimit > 0)
                 {
-                    while (m_currentProject.SimulatorExecFlag == SimulationRun)
+                    while (m_currentProject.SimulationStatus == SimulationStatus.Run)
                     {
-                        if (this.m_simulationStepLimit <= s_defaultStepCount)
+                        if (this.m_simulationStepLimit <= m_defaultStepCount)
                         {
                             m_currentProject.Simulator.Step(this.m_simulationStepLimit);
                             Application.DoEvents();
                             double l_currentTime = m_currentProject.Simulator.GetCurrentTime();
-                            if (l_statusNum == SimulationSuspended)
+                            if (l_statusNum == (int)SimulationStatus.Suspended)
                             {
-                                m_currentProject.SimulatorExecFlag = SimulationSuspended;
+                                m_currentProject.SimulationStatus = SimulationStatus.Suspended;
                             }
                             else
                             {
-                                m_currentProject.SimulatorExecFlag = SimulationWait;
+                                m_currentProject.SimulationStatus = SimulationStatus.Wait;
                             }
                             this.m_pManager.AdvancedTime(l_currentTime);
                             this.m_simulationStepLimit = -1;
@@ -6056,19 +5988,19 @@ namespace EcellLib
                         }
                         else
                         {
-                            m_currentProject.Simulator.Step(s_defaultStepCount);
+                            m_currentProject.Simulator.Step(m_defaultStepCount);
                             Application.DoEvents();
                             double l_currentTime = m_currentProject.Simulator.GetCurrentTime();
                             this.m_pManager.AdvancedTime(l_currentTime);
-                            this.m_simulationStepLimit = this.m_simulationStepLimit - s_defaultStepCount;
+                            this.m_simulationStepLimit = this.m_simulationStepLimit - m_defaultStepCount;
                         }
                     }
                 }
                 else
                 {
-                    while (m_currentProject.SimulatorExecFlag == SimulationRun)
+                    while (m_currentProject.SimulationStatus == SimulationStatus.Run)
                     {
-                        m_currentProject.Simulator.Step(s_defaultStepCount);
+                        m_currentProject.Simulator.Step(m_defaultStepCount);
                         Application.DoEvents();
                         double l_currentTime = m_currentProject.Simulator.GetCurrentTime();
                         this.m_pManager.AdvancedTime(l_currentTime);
@@ -6077,7 +6009,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                m_currentProject.SimulatorExecFlag = SimulationWait;
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
                 throw new Exception(m_resources.GetString(ErrorConstants.ErrRunSim) + " {" + l_ex.ToString() + "}");
             }
         }
@@ -6095,14 +6027,14 @@ namespace EcellLib
                 // Checks the simulator's status.
                 //
                 double l_startTime = 0.0;
-                if (m_currentProject.SimulatorExecFlag == SimulationWait)
+                if (m_currentProject.SimulationStatus == SimulationStatus.Wait)
                 {
                     this.Initialize(true);
                     this.m_simulationTimeLimit = l_timeLimit;
                     this.m_simulationStartTime = 0.0;
                     Message("Start Simulator: [" + m_currentProject.Simulator.GetCurrentTime() + "]");
                 }
-                else if (m_currentProject.SimulatorExecFlag == SimulationSuspended)
+                else if (m_currentProject.SimulationStatus == SimulationStatus.Suspended)
                 {
                     if (this.m_simulationTimeLimit == -1.0 || this.m_simulationTimeLimit == 0.0)
                     {
@@ -6118,14 +6050,14 @@ namespace EcellLib
                 //
                 // Selects the type of the simulation and Starts.
                 //
-                m_currentProject.SimulatorExecFlag = SimulationRun;
+                m_currentProject.SimulationStatus = SimulationStatus.Run;
                 if (this.m_simulationTimeLimit > 0.0)
                 {
                     l_startTime = m_currentProject.Simulator.GetCurrentTime();
                     Thread l_thread = new Thread(new ThreadStart(SimulationStartByThreadWithLimit));
                     l_thread.Start();
                     int i = 0;
-                    while (m_currentProject.SimulatorExecFlag == SimulationRun)
+                    while (m_currentProject.SimulationStatus == SimulationStatus.Run)
                     {
                         i++;
                         if (i == 1000)
@@ -6138,13 +6070,13 @@ namespace EcellLib
                         this.m_pManager.AdvancedTime(l_currentTime);
                         if (l_currentTime >= (this.m_simulationStartTime + this.m_simulationTimeLimit))
                         {
-                            if (l_statusNum == SimulationSuspended)
+                            if (l_statusNum == (int)SimulationStatus.Suspended)
                             {
-                                m_currentProject.SimulatorExecFlag = SimulationSuspended;
+                                m_currentProject.SimulationStatus = SimulationStatus.Suspended;
                             }
                             else
                             {
-                                m_currentProject.SimulatorExecFlag = SimulationWait;
+                                m_currentProject.SimulationStatus = SimulationStatus.Wait;
                             }
                             l_currentTime = m_currentProject.Simulator.GetCurrentTime();
                             this.m_pManager.AdvancedTime(l_currentTime);
@@ -6158,14 +6090,14 @@ namespace EcellLib
                     // Thread l_thread = new Thread(new ThreadStart(SimulationStartByThreadWithLimit));
                     // l_thread.Start();
                     int i = 0;
-                    while (m_currentProject.SimulatorExecFlag == SimulationRun)
+                    while (m_currentProject.SimulationStatus == SimulationStatus.Run)
                     {
                         if (i == 1000)
                         {
                             Thread.Sleep(1);
                             i = 0;
                         }
-                        m_currentProject.Simulator.Step(s_defaultStepCount);
+                        m_currentProject.Simulator.Step(m_defaultStepCount);
                         Application.DoEvents();
                         double l_currentTime = m_currentProject.Simulator.GetCurrentTime();
                         this.m_pManager.AdvancedTime(l_currentTime);
@@ -6174,7 +6106,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                m_currentProject.SimulatorExecFlag = SimulationWait;
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
                 string l_message = m_resources.GetString(ErrorConstants.ErrRunSim);
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
@@ -6207,15 +6139,15 @@ namespace EcellLib
         {
             try
             {
-                if (m_currentProject.SimulatorExecFlag == SimulationRun)
+                if (m_currentProject.SimulationStatus == SimulationStatus.Run)
                 {
                     throw new Exception(m_resources.GetString(ErrorConstants.ErrRunning));
                 }
-                this.SimulationStart(l_stepLimit, SimulationSuspended);
+                this.SimulationStart(l_stepLimit, (int)SimulationStatus.Suspended);
             }
             catch (Exception l_ex)
             {
-                m_currentProject.SimulatorExecFlag = SimulationWait;
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
                 throw new Exception(m_resources.GetString(ErrorConstants.ErrRunSim) + " {" + l_ex.ToString() + "}");
             }
         }
@@ -6228,24 +6160,15 @@ namespace EcellLib
         {
             try
             {
-                if (m_currentProject.SimulatorExecFlag == SimulationRun)
+                if (m_currentProject.SimulationStatus == SimulationStatus.Run)
                 {
                     throw new Exception(m_resources.GetString(ErrorConstants.ErrRunning));
                 }
-                // double l_currentSimulationTime = this.m_simulatorDic[m_currentProject.Name].GetCurrentTime();
-                // this.SimulationStart(l_currentSimulationTime + l_timeLimit);
-                /*
-                this.SimulationStart(l_timeLimit);
-                if (this.m_simulatorExeFlagDic[m_currentProject.Name] == s_simulationRun)
-                {
-                    this.m_simulatorExeFlagDic[m_currentProject.Name] = s_simulationSuspend;
-                }
-                 */
-                this.SimulationStart(l_timeLimit, SimulationSuspended);
+                this.SimulationStart(l_timeLimit, (int)SimulationStatus.Suspended);
             }
             catch (Exception l_ex)
             {
-                m_currentProject.SimulatorExecFlag = SimulationWait;
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
                 throw new Exception(m_resources.GetString(ErrorConstants.ErrRunSim) + " {" + l_ex.ToString() + "}");
             }
         }
@@ -6275,7 +6198,7 @@ namespace EcellLib
             }
             finally
             {
-                m_currentProject.SimulatorExecFlag = SimulationWait;
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
             }
         }
 
@@ -6287,7 +6210,7 @@ namespace EcellLib
             try
             {
                 m_currentProject.Simulator.Suspend();
-                m_currentProject.SimulatorExecFlag = SimulationSuspended;
+                m_currentProject.SimulationStatus = SimulationStatus.Suspended;
                 Message("Suspend Simulator: [" + m_currentProject.Simulator.GetCurrentTime() + "]");
             }
             catch (Exception l_ex)

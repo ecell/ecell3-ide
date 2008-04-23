@@ -42,7 +42,7 @@ namespace EcellLib
     /// </summary>
     public class Constants
     {
-        #region Default Setting Files
+        #region Default Settings
         /// <summary>
         /// Reserved the name of file..
         /// </summary>
@@ -63,6 +63,14 @@ namespace EcellLib
         /// Reserved the file name of startup html.
         /// </summary>
         public const string fileStartupHTML = "startup.html";
+        /// <summary>
+        /// The default process name
+        /// </summary>
+        public const string DefaultProcessName = "ConstantFluxProcess"; // "BisectionRapidEquilibriumProcess";
+        /// <summary>
+        /// The default stepper name
+        /// </summary>
+        public const string DefaultStepperName = "FixedODE1Stepper";
 
         #endregion
 
@@ -569,6 +577,25 @@ namespace EcellLib
         /// </summary>
         Stepping = 4
     }
+
+    /// <summary>
+    /// SimulationStatus
+    /// </summary>
+    public enum SimulationStatus
+    {
+        /// <summary>
+        /// The waiting flag of the simulation
+        /// </summary>
+        Wait = 0,
+        /// <summary>
+        /// The running flag of the simulation
+        /// </summary>
+        Run = 1,
+        /// <summary>
+        /// The suspending flag of the simulation
+        /// </summary>
+        Suspended = 2
+    };
 
     /// <summary>
     /// ErrorConstants

@@ -114,7 +114,7 @@ namespace EcellLib
         /// <summary>
         /// The executed flag of Simulator.
         /// </summary>
-        private int m_simulatorExecFlag = 0;
+        private SimulationStatus m_simulationStatus = 0;
         /// <summary>
         /// 
         /// </summary>
@@ -319,10 +319,10 @@ namespace EcellLib
         /// <summary>
         /// The executed flag of Simulator.
         /// </summary>
-        public int SimulatorExecFlag
+        public SimulationStatus SimulationStatus
         {
-            get { return m_simulatorExecFlag; }
-            set { m_simulatorExecFlag = value; }
+            get { return m_simulationStatus; }
+            set { m_simulationStatus = value; }
         }
 
         /// <summary>
