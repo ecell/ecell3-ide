@@ -420,17 +420,6 @@ namespace EcellLib.MainWindow
         /// 
         /// </summary>
         [Test()]
-        public void TestLoadModel()
-        {
-            string path = null;
-            _unitUnderTest.LoadModel(path);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestExportModelCancel()
         {
             object sender = null;

@@ -163,7 +163,6 @@ namespace EcellLib.MainWindow
                 LoadPlugins();
                 //Load default window settings.
                 setFilePath();
-                LoadDefaultWindowSetting();
                 LoadRecentProject();
                 SetStartUpWindow();
             }
