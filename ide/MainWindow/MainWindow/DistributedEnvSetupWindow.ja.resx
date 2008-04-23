@@ -124,6 +124,6 @@
     <value>OK</value>
   </data>
   <data name="DECloseButton.Text" xml:space="preserve">
-    <value>閉じる</value>
+    <value>キャンセル</value>
   </data>
 </root>
