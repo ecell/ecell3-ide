@@ -164,7 +164,6 @@ namespace EcellLib.MainWindow
                 //Load default window settings.
                 setFilePath();
                 LoadRecentProject();
-                SetStartUpWindow();
             }
             catch (Exception e)
             {
@@ -679,7 +678,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// 
         /// </summary>
-        private void SetStartUpWindow()
+        internal void SetStartUpWindow()
         {
             EcellDockContent content = new StartUpWindow();
             content.Name = "StartUpWindow";

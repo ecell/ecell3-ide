@@ -39,35 +39,51 @@ namespace EcellLib.MainWindow
     class StartUpWindow : EcellDockContent
     {
         private WebBrowser EcellBrowser;
+        private PictureBox pictureBox1;
         private const string URL = "http://chaperone.e-cell.org/trac/ecell-ide";
 
         public StartUpWindow()
         {
             InitializeComponent();
-            Uri uri = new Uri(Path.Combine(Application.StartupPath, Constants.fileStartupHTML));
-            this.EcellBrowser.Navigate(uri);
+            //Uri uri = new Uri(Path.Combine(Application.StartupPath, Constants.fileStartupHTML));
+            //this.EcellBrowser.Navigate(uri);
+            this.EcellBrowser.Navigate(URL);
         }
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartUpWindow));
             this.EcellBrowser = new System.Windows.Forms.WebBrowser();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // webBrowser1
+            // EcellBrowser
             // 
-            this.EcellBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EcellBrowser.Location = new System.Drawing.Point(0, 0);
+            this.EcellBrowser.Location = new System.Drawing.Point(-2, 94);
             this.EcellBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.EcellBrowser.Name = "webBrowser1";
-            this.EcellBrowser.Size = new System.Drawing.Size(688, 501);
+            this.EcellBrowser.Name = "EcellBrowser";
+            this.EcellBrowser.Size = new System.Drawing.Size(567, 335);
             this.EcellBrowser.TabIndex = 0;
-            this.EcellBrowser.Url = new System.Uri(URL, System.UriKind.Absolute);
+            this.EcellBrowser.Url = new System.Uri("http://chaperone.e-cell.org/trac/ecell-ide", System.UriKind.Absolute);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(-2, -1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(191, 89);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // StartUpWindow
             // 
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(688, 501);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.EcellBrowser);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StartUpWindow";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
