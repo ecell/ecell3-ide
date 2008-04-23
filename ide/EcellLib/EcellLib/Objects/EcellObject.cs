@@ -178,19 +178,19 @@ namespace EcellLib.Objects
         {
             get {
                 string name;
-                if (Key == null || Key.Equals("/"))
+                if (string.IsNullOrEmpty(m_key) || m_key.Equals("/"))
                     name = "/";
-                else if (Key.Contains(":"))
-                    name = Key.Substring(Key.LastIndexOf(":") + 1);
+                else if (m_key.Contains(":"))
+                    name = m_key.Substring(m_key.LastIndexOf(":") + 1);
                 else
-                    name = Key.Substring(Key.LastIndexOf("/") + 1);
+                    name = m_key.Substring(m_key.LastIndexOf("/") + 1);
                 return name;
             }
             set
             {
-                if (Key == null || Key.Equals("/"))
+                if (m_key == null || m_key.Equals("/"))
                     this.m_key = "/";
-                else if (Key.Contains(":"))
+                else if (m_key.Contains(":"))
                     this.m_key = ParentSystemID + ":" + value;
                 else
                     this.m_key = ParentSystemID + "/" + value;
@@ -211,7 +211,7 @@ namespace EcellLib.Objects
         /// </summary>
         public virtual string ParentSystemID
         {
-            get { return GetParentSystemId(Key); }
+            get { return GetParentSystemId(m_key); }
             set
             {
                 if (this.m_type == EcellObject.PROCESS || this.m_type == EcellObject.VARIABLE)
@@ -219,7 +219,7 @@ namespace EcellLib.Objects
                     this.m_key = value + ":" + this.Name;
                     return;
                 }
-                else if (Key == null || Key.Equals("/"))
+                else if (m_key == null || m_key.Equals("/"))
                     this.m_key = "/";
                 else if (value.Equals("/"))
                     this.m_key = value + this.Name;
@@ -648,7 +648,7 @@ namespace EcellLib.Objects
         /// </summary>
         protected void AddEcellValue(string name, EcellValue value)
         {
-            string entytyPath = this.Type + ":" + this.Key + ":" + name;
+            string entytyPath = this.m_type + ":" + this.m_key + ":" + name;
             EcellData data = new EcellData(name, value, entytyPath);
             AddValue(data);
         }

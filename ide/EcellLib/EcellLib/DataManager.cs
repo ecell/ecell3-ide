@@ -3212,37 +3212,6 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="l_startTime"></param>
-        /// <param name="l_endTime"></param>
-        /// <param name="l_interval"></param>
-        /// <param name="l_fullID"></param>
-        /// <returns></returns>
-        public LogData GetLogData(double l_startTime, double l_endTime, double l_interval, string l_fullID)
-        {
-            try
-            {
-                //
-                // Initialize
-                //
-                if (m_currentProject.Simulator == null)
-                    return null;
-                if (m_currentProject.LogableEntityPathDic == null ||
-                    m_currentProject.LogableEntityPathDic.Count == 0)
-                    return null;
-                //
-                // GetLogData
-                //
-                return this.GetUniqueLogData(l_startTime, l_endTime, l_interval, l_fullID);
-            }
-            catch (Exception l_ex)
-            {
-                throw new Exception(m_resources.GetString(ErrorConstants.ErrGetData) + " {" + l_ex.ToString() + "}");
-            }
-        }
-
-        /// <summary>
         /// Returns the initial condition.
         /// </summary>
         /// <param name="l_paremterID">The parameter ID</param>
@@ -3291,6 +3260,33 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="l_startTime"></param>
+        /// <param name="l_endTime"></param>
+        /// <param name="l_interval"></param>
+        /// <param name="l_fullID"></param>
+        /// <returns></returns>
+        public LogData GetLogData(double l_startTime, double l_endTime, double l_interval, string l_fullID)
+        {
+            try
+            {
+                // Initialize
+                if (m_currentProject.Simulator == null)
+                    return null;
+                if (m_currentProject.LogableEntityPathDic == null ||
+                    m_currentProject.LogableEntityPathDic.Count == 0)
+                    return null;
+                // GetLogData
+                return this.GetUniqueLogData(l_startTime, l_endTime, l_interval, l_fullID);
+            }
+            catch (Exception l_ex)
+            {
+                throw new Exception(m_resources.GetString(ErrorConstants.ErrGetData) + " {" + l_ex.ToString() + "}");
+            }
+        }
+
+        /// <summary>
         /// Returns the list of the "LogData".
         /// </summary>
         /// <param name="l_startTime">The start time</param>
@@ -3302,9 +3298,7 @@ namespace EcellLib
             List<LogData> l_logDataList = new List<LogData>();
             try
             {
-                //
                 // Initialize
-                //
                 if (m_currentProject.Simulator == null)
                     return null;
                 if (m_currentProject.LogableEntityPathDic == null ||
@@ -3312,17 +3306,13 @@ namespace EcellLib
                     return null;
 
                 WrappedPolymorph l_loggerList = m_currentProject.Simulator.GetLoggerList();
-                if (l_loggerList.IsList())
+                if (!l_loggerList.IsList())
+                    return l_logDataList;
+
+                foreach (WrappedPolymorph l_logger in l_loggerList.CastToList())
                 {
-                    foreach (WrappedPolymorph l_logger in l_loggerList.CastToList())
-                    {
-                        l_logDataList.Add(
-                                this.GetUniqueLogData(l_startTime, l_endTime, l_interval, l_logger.CastToString()));
-                    }
-                }
-                else
-                {
-                    ; // do nothing
+                    l_logDataList.Add(
+                            this.GetUniqueLogData(l_startTime, l_endTime, l_interval, l_logger.CastToString()));
                 }
                 return l_logDataList;
             }
@@ -3531,7 +3521,7 @@ namespace EcellLib
                     if (l_entityName.Equals(Constants.xpathSystem))
                     {
                         string l_parentPath = l_system.ParentSystemID;
-                        string l_childPath = l_system.Key.Substring(l_system.Key.LastIndexOf(Constants.delimiterPath) + 1);
+                        string l_childPath = l_system.Name;
                         if (l_system.Key.Equals(Constants.delimiterPath))
                         {
                             if (l_childPath.Length == 0)
@@ -3553,15 +3543,12 @@ namespace EcellLib
                     else
                     {
                         if (l_system.Children == null || l_system.Children.Count <= 0)
-                        {
                             continue;
-                        }
                         foreach (EcellObject l_entity in l_system.Children)
                         {
-                            if (l_entity.Type.Equals(l_entityName))
-                            {
-                                l_entityList.Add(l_entity.Type + Constants.delimiterColon + l_entity.Key);
-                            }
+                            if (!l_entity.Type.Equals(l_entityName))
+                                continue;
+                            l_entityList.Add(l_entity.Type + Constants.delimiterColon + l_entity.Key);
                         }
                     }
                 }
@@ -6051,9 +6038,7 @@ namespace EcellLib
         {
             try
             {
-                //
                 // Checks the simulator's status.
-                //
                 if (m_currentProject.SimulatorExecFlag == SimulationWait)
                 {
                     this.Initialize(true);
@@ -6072,13 +6057,9 @@ namespace EcellLib
                 {
                     throw new Exception(m_resources.GetString(ErrorConstants.ErrRunning));
                 }
-                //
                 // Debug
-                //
-                // this.LookIntoSimulator(this.m_simulatorDic[m_currentProject.Name]);
-                //
+                // this.LookIntoSimulator(m_currentProject.Simulator);
                 // Selects the type of the simulation and Starts.
-                //
                 m_currentProject.SimulatorExecFlag = SimulationRun;
                 if (this.m_simulationStepLimit > 0)
                 {
@@ -6343,27 +6324,6 @@ namespace EcellLib
                 Message(l_message);
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
-            /*
-            try
-            {
-                if (this.m_simulatorDic[m_currentProject.Name] == null)
-                {
-                    throw new Exception("Can't find the suspentable simulator.");
-                }
-                lock (this.m_simulatorDic[m_currentProject.Name])
-                {
-                    this.m_simulatorDic[m_currentProject.Name].Stop();
-                }
-            }
-            catch (Exception l_ex)
-            {
-                throw new Exception("Can't suspend the simulation. {" + l_ex.ToString() + "}");
-            }
-            finally
-            {
-                this.m_simulatorExeFlagDic[m_currentProject.Name] = s_simulationSuspend;
-            }
-             */
         }
 
         /// <summary>
@@ -6479,8 +6439,11 @@ namespace EcellLib
                 throw new Exception(m_resources.GetString(ErrorConstants.ErrSetStepper) + l_message + " {" + l_ex.ToString() + "}");
             }
         }
-
-        void LookIntoSimulator(WrappedSimulator l_simulator)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="l_simulator"></param>
+        private void LookIntoSimulator(WrappedSimulator l_simulator)
         {
             List<string> entityList = new List<string>();
             entityList.Add(Constants.xpathProcess);

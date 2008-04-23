@@ -331,7 +331,8 @@ namespace EcellLib.MainWindow
         {
             // load xml file
             string filename = Path.Combine(Util.GetUserDir(), "RecentFile.xml");
-
+            if (!File.Exists(filename))
+                return;
             XmlDocument xmlD = new XmlDocument();
             try
             {
