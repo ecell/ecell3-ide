@@ -808,19 +808,18 @@ namespace EcellLib.PathwayWindow
         {
             obj.ViewMode = false;
             EcellObject eo = m_window.GetEcellObject(this.Canvas.ModelID, oldKey, obj.EcellObject.Type);
-
-            eo.Key = newKey;
-            eo.LayerID = obj.Layer.Name;
-            eo.X = obj.X;
-            eo.Y = obj.Y;
-            eo.Width = obj.Width;
-            eo.Height = obj.Height;
-            eo.OffsetX = obj.OffsetX;
-            eo.OffsetY = obj.OffsetY;
-
-            obj.ViewMode = m_isViewMode;
             try
             {
+                eo.Key = newKey;
+                eo.LayerID = obj.Layer.Name;
+                eo.X = obj.X;
+                eo.Y = obj.Y;
+                eo.Width = obj.Width;
+                eo.Height = obj.Height;
+                eo.OffsetX = obj.OffsetX;
+                eo.OffsetY = obj.OffsetY;
+
+                obj.ViewMode = m_isViewMode;
                 NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
             }
             catch (Exception e)

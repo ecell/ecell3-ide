@@ -1482,9 +1482,9 @@ namespace EcellLib
                 }
             }
             // Deletes old "System"s.
-            foreach (string l_deletedKey in l_deletedSystemKeyList)
+            for (int i = l_deletedSystemKeyList.Count -1; i >= 0; i--)
             {
-                this.DataDelete4System(l_modelID, l_deletedKey, false);
+                this.DataDelete4System(l_modelID, l_deletedSystemKeyList[i], false);
             }
     }
 
