@@ -637,7 +637,11 @@ namespace EcellLib.MainWindow
 
             return true;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="l_modelID"></param>
+        /// <returns></returns>
         private bool CheckModelID(string l_modelID)
         {
             if (l_modelID == "")
@@ -673,7 +677,9 @@ namespace EcellLib.MainWindow
             DataManager.GetDataManager().SetPositions(modelID);
             m_editCount = 0;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void SetStartUpWindow()
         {
             EcellDockContent content = new StartUpWindow();
@@ -700,14 +706,14 @@ namespace EcellLib.MainWindow
             content.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
 
             //Create DockWindow Menu
-            setDockMenu(content.Text);
+            SetDockContentMenu(content.Text);
             m_dockWindowDic.Add(content.Text, content);
             content.Show(this.dockPanel, DockState.Document);
         }
         /// <summary>
         /// set Window Menu
         /// </summary>
-        private void setDockMenu(string name)
+        private void SetDockContentMenu(string name)
         {
             ToolStripMenuItem item = new ToolStripMenuItem(name);
             item.Text = name;
@@ -1606,7 +1612,7 @@ namespace EcellLib.MainWindow
         /// Load model from input file.
         /// </summary>
         /// <param name="path">file nane.</param>
-        public void LoadModel(string path)
+        internal void LoadModel(string path)
         {
             if (m_isLoadProject == false)
             {
@@ -2082,50 +2088,4 @@ namespace EcellLib.MainWindow
         public static extern bool SetProcessWorkingSetSize(IntPtr hwnd, int min, int max);
 
     }
-
-    /// <summary>
-    /// select directory dialog for set e-cell base directory.
-    /// </summary>
-    public class SelectDirectory : FolderNameEditor
-    {
-        private String m_directoryPath;
-        private String m_description;
-
-        /// <summary>
-        /// get selected directry at dialog.
-        /// </summary>
-        public String DirectoryPath
-        {
-            get { return m_directoryPath; }
-        }
-
-        /// <summary>
-        /// get/set description of dialog.
-        /// </summary>
-        public String Description
-        {
-            set { m_description = value; }
-            get { return m_description; }
-        }
-
-        /// <summary>
-        /// display select directory dialog.
-        /// </summary>
-        /// <returns>button of dialog</returns>
-        public DialogResult ShowDialog()
-        {
-            FolderBrowser fb = new FolderBrowser();
-            fb.Description = m_description;
-            fb.StartLocation = FolderBrowserFolder.MyComputer;
-            DialogResult result = fb.ShowDialog();
-            m_directoryPath = fb.DirectoryPath;
-
-            if (m_directoryPath == "")
-            {
-                return DialogResult.Cancel;
-            }
-            return result;
-        }
-    }
-
 }

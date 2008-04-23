@@ -447,7 +447,24 @@ namespace EcellLib
                 }
             }
         }
-
+        /// <summary>
+        /// SortSystems
+        /// </summary>
+        public void SortSystems()
+        {
+            SortedDictionary<string, EcellObject> tempDic = new SortedDictionary<string, EcellObject>();
+            List<EcellObject> systemList = null;
+            foreach (KeyValuePair<string, List<EcellObject>> systemDic in m_systemDic)
+            {
+                tempDic.Clear();
+                systemList = systemDic.Value;
+                foreach (EcellObject system in systemList)
+                    tempDic.Add(system.Key, system);
+                systemList.Clear();
+                foreach (EcellObject system in tempDic.Values)
+                    systemList.Add(system);
+            }
+        }
         #region Getter
         /// <summary>
         /// Get the temporary id in projects.

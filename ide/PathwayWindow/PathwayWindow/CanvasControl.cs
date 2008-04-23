@@ -54,6 +54,7 @@ using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Graphic;
 using EcellLib.Objects;
+using EcellLib.PathwayWindow.Exceptions;
 
 namespace EcellLib.PathwayWindow
 {
@@ -648,16 +649,22 @@ namespace EcellLib.PathwayWindow
             if (obj is PPathwaySystem)
             {
                 PPathwaySystem system = (PPathwaySystem)obj;
+                if (m_systems.ContainsKey(system.EcellObject.Key))
+                    throw new PathwayException(m_resources.GetString(""));
                 m_systems.Add(system.EcellObject.Key, system);
             }
             else if (obj is PPathwayVariable)
             {
                 PPathwayVariable node = (PPathwayVariable)obj;
+                if (m_variables.ContainsKey(node.EcellObject.Key))
+                    throw new PathwayException(m_resources.GetString(""));
                 m_variables.Add(node.EcellObject.Key, node);
             }
             else if (obj is PPathwayProcess)
             {
                 PPathwayProcess node = (PPathwayProcess)obj;
+                if (m_processes.ContainsKey(node.EcellObject.Key))
+                    throw new PathwayException(m_resources.GetString("ErrSameObj"));
                 m_processes.Add(node.EcellObject.Key, node);
             }
             if (obj.CanvasControl == null)

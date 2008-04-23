@@ -140,6 +140,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SelectDirectory.cs" />
     <Compile Include="SelectWinSettingWindow.cs">
       <SubType>Form</SubType>
     </Compile>

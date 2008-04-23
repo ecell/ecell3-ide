@@ -1364,160 +1364,129 @@ namespace EcellLib
         private void DataChanged4System(string l_modelID, string l_key, string l_type, EcellObject l_ecellObject, bool l_isRecorded, bool l_isAnchor)
         {
             string l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
+            m_currentProject.SortSystems();
             List<EcellObject> l_systemList = m_currentProject.SystemDic[l_modelID];
 
             if (l_modelID.Equals(l_ecellObject.ModelID)
                 && l_key.Equals(l_ecellObject.Key)
                 && l_type.Equals(l_ecellObject.Type))
             {
-                //
                 // Changes some properties.
-                //
                 for (int i = 0; i < l_systemList.Count; i++)
                 {
-                    if (l_systemList[i].ModelID.Equals(l_modelID) && l_systemList[i].Key.Equals(l_key))
-                    {
-                        this.CheckDifferences(l_systemList[i], l_ecellObject, null);
-                        l_systemList[i] = l_ecellObject.Copy();
-                        this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
-                        /* Deleted by m.ishikawa
-                        this.m_aManager.AddAction(new DataChangeAction(l_modelID, l_key, l_type, l_ecellObject));*/
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                //
-                // Changes the key.
-                //
-                Dictionary<string, string> l_variableKeyDic = new Dictionary<string, string>();
-                Dictionary<string, string> l_processKeyDic = new Dictionary<string, string>();
-                List<string> l_createdSystemKeyList = new List<string>();
-                List<string> l_deletedSystemKeyList = new List<string>();
-                foreach (EcellObject l_system in l_systemList)
-                {
-                    bool l_deletedFlag = false;
-                    if (l_system.ModelID.Equals(l_modelID)
-                        && (l_system.Key.Equals(l_key)
-                            || l_system.Key.StartsWith(l_key + Constants.delimiterPath)))
-                    {
-                        //
-                        // Adds the new "System" object.
-                        //
-                        string l_newKey = l_ecellObject.Key + l_system.Key.Substring(l_key.Length);
-                        EcellObject l_createdSystem
-                            = EcellObject.CreateObject(l_system.ModelID, l_newKey, l_system.Type, l_system.Classname, l_system.Value);
-                        l_createdSystem.SetPosition(l_system);
-                        this.CheckEntityPath(l_createdSystem);
-                        this.DataAdd4System(l_createdSystem, false);
-                        this.CheckDifferences(l_system, l_createdSystem, null);
-                        this.m_pManager.DataChanged(l_modelID, l_system.Key, l_type, l_createdSystem);
-                        /* deleted by m.ishikawa
-                        this.m_aManager.AddAction(new DataChangeAction(
-                            l_modelID, l_systemList[i].key, l_type, l_createdSystem)); */
-                        l_createdSystemKeyList.Add(l_newKey);
-                        //
-                        // Deletes the old "System" object.
-                        //
-                        l_deletedFlag = true;
-                        //
-                        // 4 Children
-                        //
-                        if (l_system.Children != null && l_system.Children.Count > 0)
-                        {
-                            List<EcellObject> l_instanceList = new List<EcellObject>();
-                            l_instanceList.AddRange(l_system.Children);
-                            foreach (EcellObject l_childObject in l_instanceList)
-                            {
-                                EcellObject l_copy = l_childObject.Copy();
-                                string l_childKey = l_copy.Key;
-                                string l_keyName = l_childKey.Split(Constants.delimiterColon.ToCharArray())[1];
-                                if ((l_system.Key.Equals(l_key)))
-                                {
-                                    l_copy.Key = l_ecellObject.Key + Constants.delimiterColon + l_keyName;
-                                }
-                                else
-                                {
-                                    l_copy.Key = l_ecellObject.Key + l_copy.Key.Substring(l_key.Length);
-                                }
-                                this.CheckEntityPath(l_copy);
-                                if (l_copy.Type.Equals(Constants.xpathVariable))
-                                {
-                                    l_variableKeyDic[l_childKey] = l_copy.Key;
-                                    this.DataChanged4Entity(l_copy.ModelID, l_childKey, l_copy.Type, l_copy, l_isRecorded, l_isAnchor);
-                                }
-                                else
-                                {
-                                    l_processKeyDic[l_childKey] = l_copy.Key;
-                                }
-                            }
-                        }
-                    }
-                    //
-                    // Deletes the old object.
-                    //
-                    if (l_deletedFlag)
-                    {
-                        l_deletedSystemKeyList.Add(l_system.Key);
-                    }
-                }
-                //
-                // Checks all processes.
-                //
-                l_systemList = m_currentProject.SystemDic[l_modelID];
-                foreach (EcellObject l_system in l_systemList)
-                {
-                    if (l_createdSystemKeyList.Contains(l_system.Key))
-                    {
+                    if (!l_systemList[i].Key.Equals(l_key))
                         continue;
-                    }
-                    if (l_system.Children == null || l_system.Children.Count <= 0)
-                    {
-                        continue;
-                    }
-                    List<EcellObject> l_instanceList = new List<EcellObject>();
-                    l_instanceList.AddRange(l_system.Children);
-                    foreach (EcellObject l_childObject in l_instanceList)
-                    {
-                        if (!l_childObject.Type.Equals(Constants.xpathProcess))
-                            continue;
 
-                        bool l_changedFlag = false;
-                        //
-                        // 4 VariableReferenceList
-                        //
-                        EcellObject l_dest = null;
-                        if (this.CheckVariableReferenceList(l_childObject, ref l_dest, l_variableKeyDic))
-                        {
-                            l_changedFlag = true;
-                        }
-                        //
-                        // 4 key
-                        //
-                        string l_oldKey = l_dest.Key;
-                        string l_keyName = l_oldKey.Split(Constants.delimiterColon.ToCharArray())[1];
-                        if (l_processKeyDic.ContainsKey(l_oldKey))
-                        {
-                            l_dest.Key = l_processKeyDic[l_oldKey];
-                            this.CheckEntityPath(l_dest);
-                            l_changedFlag = true;
-                        }
-                        if (l_changedFlag)
-                        {
-                            this.DataChanged4Entity(l_dest.ModelID, l_oldKey, l_dest.Type, l_dest, l_isRecorded, l_isAnchor);
-                        }
+                    this.CheckDifferences(l_systemList[i], l_ecellObject, null);
+                    l_systemList[i] = l_ecellObject.Copy();
+                    this.m_pManager.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
+                    break;
+                }
+                return;
+            }
+
+            // Changes the key.
+            Dictionary<string, string> l_variableKeyDic = new Dictionary<string, string>();
+            Dictionary<string, string> l_processKeyDic = new Dictionary<string, string>();
+            List<string> l_createdSystemKeyList = new List<string>();
+            List<string> l_deletedSystemKeyList = new List<string>();
+            List<EcellObject> tempList = new List<EcellObject>();
+            tempList.AddRange(l_systemList);
+
+            foreach (EcellObject l_system in tempList)
+            {
+                if (!l_system.Key.Equals(l_key) && !l_system.Key.StartsWith(l_key + Constants.delimiterPath))
+                    continue;
+
+                // Adds the new "System" object.
+                string l_newKey = l_ecellObject.Key + l_system.Key.Substring(l_key.Length);
+                EcellObject l_newSystem
+                    = EcellObject.CreateObject(l_modelID, l_newKey, l_system.Type, l_system.Classname, l_system.Value);
+                l_newSystem.SetPosition(l_system);
+                this.CheckEntityPath(l_newSystem);
+                this.DataAdd4System(l_newSystem, false);
+                this.CheckDifferences(l_system, l_newSystem, null);
+                this.m_pManager.DataChanged(l_modelID, l_system.Key, l_type, l_newSystem);
+                l_createdSystemKeyList.Add(l_newKey);
+
+                // Deletes the old "System" object.
+                l_deletedSystemKeyList.Add(l_system.Key);
+                // 4 Children
+                if (l_system.Children == null || l_system.Children.Count <= 0)
+                    continue;
+
+                List<EcellObject> l_instanceList = new List<EcellObject>();
+                l_instanceList.AddRange(l_system.Children);
+                foreach (EcellObject l_childObject in l_instanceList)
+                {
+                    EcellObject l_copy = l_childObject.Copy();
+                    string l_childKey = l_childObject.Key;
+                    string l_keyName = l_childObject.Name;
+                    if ((l_system.Key.Equals(l_key)))
+                    {
+                        l_copy.Key = l_ecellObject.Key + Constants.delimiterColon + l_keyName;
+                    }
+                    else
+                    {
+                        l_copy.Key = l_ecellObject.Key + l_copy.Key.Substring(l_key.Length);
+                    }
+                    this.CheckEntityPath(l_copy);
+                    if (l_copy.Type.Equals(Constants.xpathVariable))
+                    {
+                        l_variableKeyDic[l_childKey] = l_copy.Key;
+                        this.DataChanged4Entity(l_copy.ModelID, l_childKey, l_copy.Type, l_copy, l_isRecorded, l_isAnchor);
+                    }
+                    else
+                    {
+                        l_processKeyDic[l_childKey] = l_copy.Key;
                     }
                 }
-                //
-                // Deletes old "System"s.
-                //
-                foreach (string l_deletedKey in l_deletedSystemKeyList)
+            }
+            // Checks all processes.
+            m_currentProject.SortSystems();
+            l_systemList = m_currentProject.SystemDic[l_modelID];
+            foreach (EcellObject l_system in l_systemList)
+            {
+                if (l_createdSystemKeyList.Contains(l_system.Key))
+                    continue;
+                if (l_system.Children == null || l_system.Children.Count <= 0)
+                    continue;
+
+                List<EcellObject> l_instanceList = new List<EcellObject>();
+                l_instanceList.AddRange(l_system.Children);
+                foreach (EcellObject l_childObject in l_instanceList)
                 {
-                    this.DataDelete4System(l_modelID, l_deletedKey, false);
+                    if (!l_childObject.Type.Equals(Constants.xpathProcess))
+                        continue;
+
+                    bool l_changedFlag = false;
+                    // 4 VariableReferenceList
+                    EcellObject l_dest = null;
+                    if (this.CheckVariableReferenceList(l_childObject, ref l_dest, l_variableKeyDic))
+                    {
+                        l_changedFlag = true;
+                    }
+                    // 4 key
+                    string l_oldKey = l_dest.Key;
+                    string l_keyName = l_oldKey.Split(Constants.delimiterColon.ToCharArray())[1];
+                    if (l_processKeyDic.ContainsKey(l_oldKey))
+                    {
+                        l_dest.Key = l_processKeyDic[l_oldKey];
+                        this.CheckEntityPath(l_dest);
+                        l_changedFlag = true;
+                    }
+                    if (l_changedFlag)
+                    {
+                        this.DataChanged4Entity(l_dest.ModelID, l_oldKey, l_dest.Type, l_dest, l_isRecorded, l_isAnchor);
+                    }
                 }
             }
-        }
+            // Deletes old "System"s.
+            foreach (string l_deletedKey in l_deletedSystemKeyList)
+            {
+                this.DataDelete4System(l_modelID, l_deletedKey, false);
+            }
+    }
 
         /// <summary>
         /// Deletes the "EcellObject" using the model ID and the key of the "EcellObject".
@@ -1559,7 +1528,8 @@ namespace EcellLib
             try
             {
                 l_message = "[" + l_modelID + "][" + l_key + "]";
-                if (l_modelID == null || l_modelID.Length <= 0) return;
+                if (l_modelID == null || l_modelID.Length <= 0)
+                    return;
 
                 deleteObj = GetEcellObject(l_modelID, l_key, l_type);
 
