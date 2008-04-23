@@ -1525,7 +1525,6 @@ namespace EcellLib
 
                             break;
                         }
-
                     }
 
             } catch (Exception ex)

@@ -2220,7 +2220,9 @@ namespace EcellLib
                     l_processEcellDataList.Add(l_storedEcellData);
                     if (l_initialCondition != null && l_storedEcellData.Settable)
                     {
-                        if (l_storedEcellData.Value.IsDouble())
+                        if (l_storedEcellData.Value.IsDouble() &&
+                            (l_storedEcellData.Settable == false ||
+                            l_storedEcellData.Saveable == false))
                         {
                             l_storedEcellData.Logable = true;
                             l_initialCondition[l_storedEcellData.EntityPath]
@@ -2302,7 +2304,9 @@ namespace EcellLib
                     l_ecellData.Saveable = l_flag[WrappedSimulator.s_flagSavable];
                     if (l_ecellData.Value != null)
                     {
-                        if (l_ecellData.Value.IsDouble())
+                        if (l_ecellData.Value.IsDouble() &&
+                            (l_ecellData.Settable == false ||
+                            l_ecellData.Saveable == false))
                         {
                             l_ecellData.Logable = true;
                             if (l_initialCondition != null && l_ecellData.Settable)
