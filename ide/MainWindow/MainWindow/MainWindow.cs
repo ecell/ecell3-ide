@@ -1589,7 +1589,7 @@ namespace EcellLib.MainWindow
                         string modelName = Path.GetFileNameWithoutExtension(filepath);
                         if (modelDir.EndsWith(Constants.xpathModel))
                         {
-                            modelDir = modelDir.Substring(0, modelDir.Length - 5);
+                            modelDir = modelDir.Substring(0, modelDir.Length - 6);
                         }
                         CreateProject(modelName, modelDir, Constants.defaultComment, new List<string>());
                     }

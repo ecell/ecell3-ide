@@ -398,7 +398,7 @@ namespace EcellLib
             //
             // Searches the DM paths
             //
-            string[] l_dmPathArray = Util.GetDMDirs(Path.GetDirectoryName(m_prjPath));
+            string[] l_dmPathArray = Util.GetDMDirs(m_prjPath);
             if (l_dmPathArray == null)
             {
                 throw new Exception("ErrFindDmDir");

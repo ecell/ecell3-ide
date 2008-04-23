@@ -5265,6 +5265,8 @@ namespace EcellLib
                 l_prj = new Project(l_prjID, l_comment, DateTime.Now.ToString());
                 m_projectList.Add(l_prj);
                 m_currentProject = l_prj;
+                if (l_projectPath != null)
+                    m_currentProject.ProjectPath = l_projectPath;
                 m_currentProject.SetDMList();
                 m_currentProject.Simulator = CreateSimulatorInstance();
                 CreateProjectDir(l_prjID, l_setDirList);
