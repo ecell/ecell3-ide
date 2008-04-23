@@ -33,58 +33,142 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing;
 
 namespace EcellLib.MainWindow
 {
     class StartUpWindow : EcellDockContent
     {
-        private WebBrowser EcellBrowser;
         private PictureBox pictureBox1;
+        private GroupBox groupBox1;
+        private WebBrowser webBrowser1;
         private const string URL = "http://chaperone.e-cell.org/trac/ecell-ide";
-
-        public StartUpWindow()
+        MainWindow m_window = null;
+        public StartUpWindow(MainWindow window)
         {
+            m_window = window;
             InitializeComponent();
-            //Uri uri = new Uri(Path.Combine(Application.StartupPath, Constants.fileStartupHTML));
-            //this.EcellBrowser.Navigate(uri);
-            this.EcellBrowser.Navigate(URL);
+            Uri uri = new Uri(Path.Combine(Application.StartupPath, Constants.fileStartupHTML));
+            webBrowser1.Navigate(uri);
+            SetRecentFiles();
+        }
+
+        private void SetRecentFiles()
+        {
+            PluginManager manager = PluginManager.GetPluginManager();
+            int i = 0;
+            foreach (KeyValuePair<string, string> project in m_window.RecentProjects)
+            {
+                i++;
+                ProjectLabel label = new ProjectLabel(project.Key, project.Value);
+                label.Text = i.ToString() + ". " + project.Key;
+                label.Left = 20;
+                label.Top = i * 25;
+                label.MouseClick += new MouseEventHandler(label_MouseClick);
+                groupBox1.Controls.Add(label);
+            }
         }
 
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartUpWindow));
-            this.EcellBrowser = new System.Windows.Forms.WebBrowser();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // EcellBrowser
-            // 
-            this.EcellBrowser.Location = new System.Drawing.Point(-2, 94);
-            this.EcellBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.EcellBrowser.Name = "EcellBrowser";
-            this.EcellBrowser.Size = new System.Drawing.Size(567, 335);
-            this.EcellBrowser.TabIndex = 0;
-            this.EcellBrowser.Url = new System.Uri("http://chaperone.e-cell.org/trac/ecell-ide", System.UriKind.Absolute);
-            // 
             // pictureBox1
             // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(-2, -1);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(191, 89);
+            this.pictureBox1.Size = new System.Drawing.Size(259, 89);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.groupBox1.Location = new System.Drawing.Point(-2, 94);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(259, 405);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Recent Projects";
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowser1.Location = new System.Drawing.Point(263, -1);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(423, 500);
+            this.webBrowser1.TabIndex = 3;
             // 
             // StartUpWindow
             // 
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(688, 501);
+            this.Controls.Add(this.webBrowser1);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.EcellBrowser);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StartUpWindow";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+
+        }
+
+        void label_MouseClick(object sender, MouseEventArgs e)
+        {
+            ProjectLabel label = (ProjectLabel)sender;
+            m_window.LoadProject(label.Project, label.FilePath);
+        }
+
+        private class ProjectLabel : Label
+        {
+            private string m_project;
+            private string m_filePath;
+
+            public string Project
+            {
+                get { return m_project; }
+                set { m_project = value; }
+            }
+
+            public string FilePath
+            {
+                get { return m_filePath; }
+                set { m_filePath = value; }
+            }
+
+            public ProjectLabel(string project, string file)
+            {
+                m_project = project;
+                m_filePath = file;
+
+                this.Text = project;
+                this.Font = new Font(Font.OriginalFontName, 12);
+                this.MouseHover += new EventHandler(label_MouseHover);
+                this.MouseLeave += new EventHandler(label_MouseLeave);
+            }
+
+            void label_MouseLeave(object sender, EventArgs e)
+            {
+                Label label = (Label)sender;
+                label.Font = new Font(label.Font, FontStyle.Regular);
+            }
+
+            void label_MouseHover(object sender, EventArgs e)
+            {
+                Label label = (Label)sender;
+                label.Font = new Font(label.Font, FontStyle.Underline);
+            }
 
         }
     }

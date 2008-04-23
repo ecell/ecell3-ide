@@ -140,9 +140,20 @@ namespace EcellLib.MainWindow
         /// </summary>
         public WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
         /// <summary>
-        /// m_recentProjects
+        /// RecentProjects
         /// </summary>
         private Dictionary<string, string> m_recentProjects = new Dictionary<string, string>();
+        #endregion
+
+        #region Accessor
+        /// <summary>
+        /// RecentProjects
+        /// </summary>
+        public Dictionary<string, string> RecentProjects
+        {
+            get { return m_recentProjects; }
+            set { m_recentProjects = value; }
+        }
         #endregion
 
         #region Constructor
@@ -680,7 +691,7 @@ namespace EcellLib.MainWindow
         /// </summary>
         internal void SetStartUpWindow()
         {
-            EcellDockContent content = new StartUpWindow();
+            EcellDockContent content = new StartUpWindow(this);
             content.Name = "StartUpWindow";
             content.Text = "StartUpWindow";
             content.DockHandler.DockPanel = this.dockPanel;
@@ -1325,8 +1336,10 @@ namespace EcellLib.MainWindow
         /// </summary>
         /// <param name="prjID"></param>
         /// <param name="fileName"></param>
-        private void LoadProject(string prjID, string fileName)
+        public void LoadProject(string prjID, string fileName)
         {
+            if (m_project != null)
+                CloseProject(m_project);
             m_dManager.LoadProject(prjID, fileName);
             m_isLoadProject = true;
             m_project = prjID;
