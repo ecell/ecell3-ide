@@ -134,6 +134,8 @@ namespace EcellLib.PathwayWindow
         public string GetLEMLFileName(string modelID)
         {
             string filepath = m_dManager.GetEMLPath(modelID);
+            if (filepath == null)
+                return null;
             return filepath.Replace(Constants.FileExtEML, Constants.FileExtLEML);
         }
         #endregion
