@@ -192,7 +192,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="e">PInputEventArgs.</param>
         public override void OnMouseDown(PInputEventArgs e)
         {
-            Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
+            Mode mode = m_canvas.Control.SelectedHandle.Mode;
             if (mode == Mode.CreateOneWayReaction
                 || mode == Mode.CreateMutualReaction
                 || mode == Mode.CreateConstant)
@@ -214,7 +214,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="e"></param>
         public override void OnMouseEnter(PInputEventArgs e)
         {
-            Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
+            Mode mode = m_canvas.Control.SelectedHandle.Mode;
             if (mode == Mode.CreateOneWayReaction
                 || mode == Mode.CreateMutualReaction
                 || mode == Mode.CreateConstant)
@@ -237,7 +237,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="e"></param>
         public override void OnMouseLeave(PInputEventArgs e)
         {
-            Mode mode = m_canvas.PathwayControl.SelectedHandle.Mode;
+            Mode mode = m_canvas.Control.SelectedHandle.Mode;
             if (mode == Mode.CreateOneWayReaction
                 || mode == Mode.CreateMutualReaction
                 || mode == Mode.CreateConstant)

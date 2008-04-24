@@ -56,10 +56,10 @@ namespace EcellLib.PathwayWindow.Graphic
             writer.WriteLine(XML_HEADER);
             writer.WriteLine(CreateSVGHeader(canvas));
             // Create brushes.
-            foreach (ComponentSetting setting in canvas.PathwayControl.ComponentManager.ComponentSettings)
+            foreach (ComponentSetting setting in canvas.Control.ComponentManager.ComponentSettings)
                 writer.WriteLine(GetGradationBrush(setting));
             // Create SVG objects.
-            foreach (PNode node in canvas.PathwayCanvas.Root.ChildrenReference)
+            foreach (PNode node in canvas.PCanvas.Root.ChildrenReference)
             {
                 if (!(node is PPathwayLayer) || !node.Visible)
                     continue;

@@ -133,8 +133,8 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             base.OnDoubleClick(e);
             PointF pos = new PointF(base.X + base.OffsetX, base.Y + base.OffsetY);
-            m_canvas.PathwayCanvas.Controls.Add(m_tbox);
-            float viewScale = m_canvas.PathwayCanvas.Camera.ViewScale;
+            m_canvas.PCanvas.Controls.Add(m_tbox);
+            float viewScale = m_canvas.PCanvas.Camera.ViewScale;
             m_tbox.Text = base.Text;
             m_tbox.Location = m_canvas.CanvasPosToSystemPos(pos);
             m_tbox.Width = (int)(base.Width * viewScale + 5);
@@ -155,10 +155,16 @@ namespace EcellLib.PathwayWindow.Nodes
 
         private void SetText()
         {
-            m_canvas.PathwayCanvas.Controls.Remove(m_tbox);
-            base.Text = m_tbox.Text;
+            m_canvas.PCanvas.Controls.Remove(m_tbox);
             if (string.IsNullOrEmpty(base.Text))
-                m_canvas.PathwayControl.NotifyDataDelete(m_ecellObj, true);
+            {
+                m_canvas.Control.NotifyDataDelete(m_ecellObj, true);
+            }
+            else if (!((EcellText)m_ecellObj).Comment.Equals(m_tbox.Text))
+            {
+                ((EcellText)m_ecellObj).Comment = m_tbox.Text;
+                m_canvas.Control.NotifyDataChanged(m_ecellObj.Key, m_ecellObj, true, true);
+            }
         }
 
     }

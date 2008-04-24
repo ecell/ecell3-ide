@@ -121,7 +121,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         private void SetBackToDefault()
         {
-            m_canvas.PathwayCanvas.BackColor = Color.White;
+            m_canvas.PCanvas.BackColor = Color.White;
             foreach (PPathwaySystem system in m_canvas.Systems.Values)
                 system.BackgroundBrush = null;
         }
@@ -134,7 +134,7 @@ namespace EcellLib.PathwayWindow.Handler
         {
             if (systemName != null && m_canvas.Systems.ContainsKey(systemName))
             {
-                m_canvas.PathwayCanvas.BackColor = Color.Silver;
+                m_canvas.PCanvas.BackColor = Color.Silver;
                 m_canvas.Systems[systemName].BackgroundBrush = Brushes.White;
 
                 foreach (PPathwaySystem system in m_canvas.Systems.Values)
@@ -143,7 +143,7 @@ namespace EcellLib.PathwayWindow.Handler
             }
             else
             {
-                m_canvas.PathwayCanvas.BackColor = Color.White;
+                m_canvas.PCanvas.BackColor = Color.White;
                 foreach (PPathwaySystem system in m_canvas.Systems.Values)
                     system.BackgroundBrush = Brushes.Silver;
             }
@@ -260,7 +260,7 @@ namespace EcellLib.PathwayWindow.Handler
                 system.RefreshView();
             }
             //SetBackToDefault();
-            m_canvas.PathwayCanvas.Refresh();
+            m_canvas.PCanvas.Refresh();
             m_canvas.UpdateOverview();
         }
 
@@ -327,7 +327,7 @@ namespace EcellLib.PathwayWindow.Handler
                     node.Refresh();
                     newSystem = m_canvas.GetSurroundingSystemKey(node.PointF);
                     newKey = newSystem + ":" + node.EcellObject.Name;
-                    m_canvas.PathwayControl.NotifyDataChanged(
+                    m_canvas.Control.NotifyDataChanged(
                         node.EcellObject.Key,
                         newKey,
                         node,
@@ -357,7 +357,7 @@ namespace EcellLib.PathwayWindow.Handler
                 obj.X = obj.X + offset.X;
                 obj.Y = obj.Y + offset.Y;
                 obj.Offset = PointF.Empty;
-                m_canvas.PathwayControl.NotifyDataChanged(
+                m_canvas.Control.NotifyDataChanged(
                     obj.EcellObject.Key,
                     obj.EcellObject.Key,
                     obj,
@@ -366,7 +366,7 @@ namespace EcellLib.PathwayWindow.Handler
             }
 
             // Move system path.
-            m_canvas.PathwayControl.NotifyDataChanged(
+            m_canvas.Control.NotifyDataChanged(
                 oldKey,
                 newKey,
                 system,
@@ -386,7 +386,7 @@ namespace EcellLib.PathwayWindow.Handler
                     continue;
 
                 string newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.Key, parentSystemName, newKey);
-                m_canvas.PathwayControl.NotifyDataChanged(
+                m_canvas.Control.NotifyDataChanged(
                     obj.EcellObject.Key,
                     newNodeKey,
                     obj,
@@ -398,7 +398,7 @@ namespace EcellLib.PathwayWindow.Handler
             system.X = system.X + offset.X;
             system.Y = system.Y + offset.Y;
             system.Offset = PointF.Empty;
-            m_canvas.PathwayControl.NotifyDataChanged(
+            m_canvas.Control.NotifyDataChanged(
                 newKey,
                 newKey,
                 system,

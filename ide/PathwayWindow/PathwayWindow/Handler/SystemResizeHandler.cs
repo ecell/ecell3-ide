@@ -92,7 +92,7 @@ namespace EcellLib.PathwayWindow.Handler
         public SystemResizeHandler(CanvasControl canvas)
         {
             this.m_canvas = canvas;
-            this.m_resources = m_canvas.PathwayControl.Resources;
+            this.m_resources = m_canvas.Control.Resources;
             // Preparing system resize handlers
             // position of each handle is shown below.
             //  0 | 1 | 2
@@ -323,14 +323,14 @@ namespace EcellLib.PathwayWindow.Handler
                 string oldKey = obj.EcellObject.Key;
                 string newKey = PathUtil.GetMovedKey(oldKey, parentKey, systemName);
                 // Set node change
-                m_canvas.PathwayControl.NotifyDataChanged(oldKey, newKey, obj, true, false);
+                m_canvas.Control.NotifyDataChanged(oldKey, newKey, obj, true, false);
             }
             foreach (PPathwayObject obj in beforeDict.Values)
             {
                 string oldKey = obj.EcellObject.Key;
                 string newKey = PathUtil.GetMovedKey(oldKey, systemName, parentKey);
                 // Set node change
-                m_canvas.PathwayControl.NotifyDataChanged(oldKey, newKey, obj, true, false);
+                m_canvas.Control.NotifyDataChanged(oldKey, newKey, obj, true, false);
             }
 
             // Fire DataChanged for child in system.!
@@ -339,7 +339,7 @@ namespace EcellLib.PathwayWindow.Handler
             ClearSurroundState();
 
             // Update systems
-            m_canvas.PathwayControl.NotifyDataChanged(
+            m_canvas.Control.NotifyDataChanged(
                 system.EcellObject.Key,
                 system.EcellObject.Key,
                 system,

@@ -110,16 +110,6 @@ namespace EcellLib.PathwayWindow
         private PathwayControl m_con;
 
         /// <summary>
-        /// The unique ID of this canvas.
-        /// </summary>
-        private string m_modelId;
-
-        /// <summary>
-        /// Whether each node is showing it's ID or not;
-        /// </summary>
-        private bool m_showingId = true;
-
-        /// <summary>
         /// PCanvas for pathways.
         /// </summary>
         private PPathwayCanvas m_pCanvas;
@@ -145,7 +135,7 @@ namespace EcellLib.PathwayWindow
         protected SortedDictionary<string, PPathwayProcess> m_processes = new SortedDictionary<string, PPathwayProcess>();
 
         /// <summary>
-        /// Comments
+        /// The dictionary for all comments
         /// </summary>
         protected Dictionary<string, PPathwayText> m_comments = new Dictionary<string, PPathwayText>();
 
@@ -181,6 +171,16 @@ namespace EcellLib.PathwayWindow
         PPathwaySystem m_selectedSystem = null;
 
         /// <summary>
+        /// The unique ID of this canvas.
+        /// </summary>
+        private string m_modelId;
+
+        /// <summary>
+        /// Whether each node is showing it's ID or not;
+        /// </summary>
+        private bool m_showingId = true;
+
+        /// <summary>
         /// SelectChange flag.
         /// </summary>
         bool m_isSelectChanged = false;
@@ -209,7 +209,9 @@ namespace EcellLib.PathwayWindow
         /// Clicked PathwayObject.
         /// </summary>
         private PNode m_focusNode = null;
-
+        /// <summary>
+        /// BackGroundBrush
+        /// </summary>
         private Brush m_bgBrush = null;
 
         /// <summary>
@@ -220,15 +222,6 @@ namespace EcellLib.PathwayWindow
 
         #region Accessors
         /// <summary>
-        /// Accessor for m_pathwayView.
-        /// </summary>
-        public PathwayControl PathwayControl
-        {
-            get { return m_con; }
-            set { m_con = value; }
-        }
-
-        /// <summary>
         /// Accessor for m_canvasId.
         /// </summary>
         public string ModelID
@@ -238,11 +231,28 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_ctrlLayer.
+        /// Accessor for m_pathwayView.
         /// </summary>
-        public PLayer ControlLayer
+        public PathwayControl Control
         {
-            get { return m_ctrlLayer; }
+            get { return m_con; }
+            set { m_con = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_pathwayCanvas.
+        /// </summary>
+        public PCanvas PCanvas
+        {
+            get { return m_pCanvas; }
+        }
+
+        /// <summary>
+        /// Accessor for m_overviewCanvas.
+        /// </summary>
+        public PCanvas OverviewCanvas
+        {
+            get { return m_overviewCanvas; }
         }
 
         /// <summary>
@@ -263,22 +273,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_pathwayCanvas.
-        /// </summary>
-        public PCanvas PathwayCanvas
-        {
-            get { return m_pCanvas; }
-        }
-
-        /// <summary>
-        /// Accessor for m_overviewCanvas.
-        /// </summary>
-        public PCanvas OverviewCanvas
-        {
-            get { return m_overviewCanvas; }
-        }
-
-        /// <summary>
         /// Accessor for m_selectedNodes.
         /// </summary>
         public List<PPathwayObject> SelectedNodes
@@ -292,6 +286,14 @@ namespace EcellLib.PathwayWindow
         public PPathwaySystem SelectedSystem
         {
             get { return m_selectedSystem; }
+        }
+
+        /// <summary>
+        /// Accessor for m_ctrlLayer.
+        /// </summary>
+        public PLayer ControlLayer
+        {
+            get { return m_ctrlLayer; }
         }
 
         /// <summary>
@@ -957,7 +959,7 @@ namespace EcellLib.PathwayWindow
         /// <returns>"TemporaryID"</returns> 
         public string GetTemporaryID(string type, string systemID)
         {
-            return this.PathwayControl.Window.GetTemporaryID(m_modelId, type, systemID);
+            return this.Control.Window.GetTemporaryID(m_modelId, type, systemID);
         }
         /// <summary>
         /// Return a system which surrounds a given point.
@@ -1397,9 +1399,9 @@ namespace EcellLib.PathwayWindow
             if (newScale < MIN_SCALE || MAX_SCALE < newScale)
                 rate = 1f;
 
-            float zoomX = this.PathwayCanvas.Camera.ViewBounds.X + (this.PathwayCanvas.Camera.ViewBounds.Width / 2);
-            float zoomY = this.PathwayCanvas.Camera.ViewBounds.Y + (this.PathwayCanvas.Camera.ViewBounds.Height / 2);
-            this.PathwayCanvas.Camera.ScaleViewBy(rate, zoomX, zoomY);
+            float zoomX = this.PCanvas.Camera.ViewBounds.X + (this.PCanvas.Camera.ViewBounds.Width / 2);
+            float zoomY = this.PCanvas.Camera.ViewBounds.Y + (this.PCanvas.Camera.ViewBounds.Height / 2);
+            this.PCanvas.Camera.ScaleViewBy(rate, zoomX, zoomY);
             UpdateOverview();
         }
 

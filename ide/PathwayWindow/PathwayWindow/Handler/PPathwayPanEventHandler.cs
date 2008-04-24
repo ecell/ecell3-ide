@@ -80,9 +80,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         public void Initialize()
         {
-            m_con.Canvas.PathwayCanvas.Cursor = new Cursor(new MemoryStream(PathwayResource.move));
+            m_con.Canvas.PCanvas.Cursor = new Cursor(new MemoryStream(PathwayResource.move));
             m_con.Canvas.ResetSelectedObjects();
-            PCanvas canvas = m_con.Canvas.PathwayCanvas;
+            PCanvas canvas = m_con.Canvas.PCanvas;
             canvas.Camera.Pickable = false;
         }
         /// <summary>
@@ -90,8 +90,8 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         public void Reset()
         {
-            m_con.Canvas.PathwayCanvas.Cursor = Cursors.Arrow;
-            PCanvas canvas = m_con.Canvas.PathwayCanvas;
+            m_con.Canvas.PCanvas.Cursor = Cursors.Arrow;
+            PCanvas canvas = m_con.Canvas.PCanvas;
             canvas.Camera.Pickable = true;
         }
         #endregion

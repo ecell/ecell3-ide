@@ -917,7 +917,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             if (m_ecellObj == null || m_canvas == null)
                 return;
-            EcellObject obj = m_canvas.PathwayControl.Window.GetEcellObject(m_ecellObj.ModelID, m_ecellObj.Key, m_ecellObj.Type);
+            EcellObject obj = m_canvas.Control.Window.GetEcellObject(m_ecellObj.ModelID, m_ecellObj.Key, m_ecellObj.Type);
             PropertyEditor.Show(obj);
         }
 

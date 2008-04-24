@@ -88,7 +88,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             if (m_con.Canvas == null)
                 return;
 
-            PCanvas canvas = m_con.Canvas.PathwayCanvas;
+            PCanvas canvas = m_con.Canvas.PCanvas;
             m_scrolCtrl.Canvas = canvas;
             this.Controls.Add(canvas);
             this.Controls.Add(m_scrolCtrl);

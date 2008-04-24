@@ -243,7 +243,7 @@ namespace EcellLib.PathwayWindow
                 RaiseCanvasChange();
                 if (m_canvas == null)
                     return;
-                m_canvas.PathwayCanvas.AddInputEventListener(m_selectedHandle.EventHandler);
+                m_canvas.PCanvas.AddInputEventListener(m_selectedHandle.EventHandler);
             }
         }
 
@@ -494,6 +494,13 @@ namespace EcellLib.PathwayWindow
             // If case SystemSize
             if (oldKey.EndsWith(":SIZE"))
                 return;
+            // Set Text
+            if(eo is EcellText)
+            {
+                PPathwayText text = m_canvas.Comments[oldKey];
+                text.EcellObject = eo;
+                return;
+            }
             // Select changed object.
             PPathwayObject obj = m_canvas.GetSelectedObject(oldKey, type);
             if (obj == null)
@@ -1354,7 +1361,7 @@ namespace EcellLib.PathwayWindow
             // Exception condition 
             if (m_canvas == null)
                 return;
-            m_canvas.PathwayCanvas.AddInputEventListener(handler);
+            m_canvas.PCanvas.AddInputEventListener(handler);
         }
 
         /// <summary>
@@ -1367,7 +1374,7 @@ namespace EcellLib.PathwayWindow
             if (m_canvas == null)
                 return;
 
-            m_canvas.PathwayCanvas.RemoveInputEventListener(handler);
+            m_canvas.PCanvas.RemoveInputEventListener(handler);
         }
         #endregion
     }

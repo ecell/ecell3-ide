@@ -155,7 +155,7 @@ namespace EcellLib.PathwayWindow.Handler
         public LineHandler(CanvasControl canvas)
         {
             this.m_canvas = canvas;
-            this.m_con = canvas.PathwayControl;
+            this.m_con = canvas.Control;
 
             // Prepare line handles
             m_lineHandle4V = new LineHandle();

@@ -155,7 +155,7 @@ namespace EcellLib.PathwayWindow.Handler
 
             Point systemPos = GetSystemPos(e);
             Point CanvasPos = m_con.PathwayView.GetDesktopLocation();
-            Rectangle rect = m_canvas.PathwayCanvas.Bounds;
+            Rectangle rect = m_canvas.PCanvas.Bounds;
             rect.X = CanvasPos.X;
             rect.Y = CanvasPos.Y;
             // Add new object and reset EventHandler.
@@ -182,7 +182,7 @@ namespace EcellLib.PathwayWindow.Handler
             eo.Y = m_object.Y;
             eo.Width = m_object.Width;
             eo.Height = m_object.Height;
-            m_canvas.PathwayControl.NotifyDataAdd(eo, true);
+            m_canvas.Control.NotifyDataAdd(eo, true);
         }
 
         /// <summary>

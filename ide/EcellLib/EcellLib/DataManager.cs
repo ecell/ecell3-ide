@@ -1210,6 +1210,10 @@ namespace EcellLib
                 {
                     this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                 }
+                else if (l_ecellObject.Type.Equals(Constants.xpathText))
+                {
+                    this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
+                }
                 else if (l_ecellObject.Type.Equals(Constants.xpathVariable))
                 {
                     this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);

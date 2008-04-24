@@ -71,7 +71,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         public PPathwayCanvas(CanvasControl canvas)
         {
             m_canvas = canvas;
-            m_con = canvas.PathwayControl;
+            m_con = canvas.Control;
             // Preparing context menus.
             this.ContextMenuStrip = m_con.Menu.PopupMenu;
             //

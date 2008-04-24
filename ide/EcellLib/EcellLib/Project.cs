@@ -379,6 +379,25 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// Initialize objects.
+        /// </summary>
+        public void Initialize(string modelID)
+        {
+            // Checks the current parameter ID.
+            if (string.IsNullOrEmpty(m_simParam))
+                m_simParam = Constants.defaultSimParam;
+
+            m_initialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
+            m_initialCondition[m_simParam] = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
+            m_initialCondition[m_simParam][modelID] = new Dictionary<string, Dictionary<string, double>>();
+            m_initialCondition[m_simParam][modelID][Constants.xpathSystem] = new Dictionary<string, double>();
+            m_initialCondition[m_simParam][modelID][Constants.xpathProcess] = new Dictionary<string, double>();
+            m_initialCondition[m_simParam][modelID][Constants.xpathVariable] = new Dictionary<string, double>();
+            m_initialCondition[m_simParam][modelID][Constants.xpathText] = new Dictionary<string, double>();
+
+        }
+
+        /// <summary>
         /// Sets the list of the DM.
         /// </summary>
         internal void SetDMList()
@@ -526,12 +545,8 @@ namespace EcellLib
         {
             if (type.Equals(EcellObject.SYSTEM))
                 return GetSystem(model, key);
-            else if (type.Equals(EcellObject.PROCESS))
-                return GetProcess(model, key);
-            else if (type.Equals(EcellObject.VARIABLE))
-                return GetVariable(model, key);
-            else
-                return null;
+            else 
+                return GetEntity(model, key, type);
         }
 
         /// <summary>
@@ -559,68 +574,26 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// Initialize objects.
-        /// </summary>
-        public void Initialize(string modelID)
-        {
-            // Checks the current parameter ID.
-            if (string.IsNullOrEmpty(m_simParam))
-                m_simParam = Constants.defaultSimParam;
-
-            m_initialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
-            m_initialCondition[m_simParam] = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
-            m_initialCondition[m_simParam][modelID] = new Dictionary<string, Dictionary<string, double>>();
-            m_initialCondition[m_simParam][modelID][Constants.xpathSystem] = new Dictionary<string, double>();
-            m_initialCondition[m_simParam][modelID][Constants.xpathProcess] = new Dictionary<string, double>();
-            m_initialCondition[m_simParam][modelID][Constants.xpathVariable] = new Dictionary<string, double>();
-            m_initialCondition[m_simParam][modelID][Constants.xpathText] = new Dictionary<string, double>();
-
-        }
-
-        /// <summary>
-        /// Get Process.
+        /// Get Entity.
         /// </summary>
         /// <param name="model"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public EcellObject GetProcess(string model, string key)
+        public EcellObject GetEntity(string model, string key, string type)
         {
             EcellObject system = GetSystem(model, EcellObject.GetParentSystemId(key));
             if (system == null || system.Children == null || system.Children.Count <= 0)
                 return null;
 
-            EcellObject process = null;
+            EcellObject entity = null;
             foreach (EcellObject child in system.Children)
             {
-                if (!child.Type.Equals(EcellObject.PROCESS) ||  !child.Key.Equals(key))
+                if (!child.Type.Equals(type) || !child.Key.Equals(key))
                     continue;
-                process = child;
+                entity = child;
                 break;
             }
-            return process;
-        }
-
-        /// <summary>
-        /// Get Variable.
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public EcellObject GetVariable(string model, string key)
-        {
-            EcellObject system = GetSystem(model, EcellObject.GetParentSystemId(key));
-            if (system == null || system.Children == null || system.Children.Count <= 0)
-                return null;
-
-            EcellObject process = null;
-            foreach (EcellObject child in system.Children)
-            {
-                if (!child.Type.Equals(EcellObject.VARIABLE) || !child.Key.Equals(key))
-                    continue;
-                process = child;
-                break;
-            }
-            return process;
+            return entity;
         }
 
         #endregion
