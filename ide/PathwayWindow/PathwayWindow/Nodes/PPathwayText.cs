@@ -34,6 +34,7 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Event;
 using System.Drawing;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -43,6 +44,7 @@ namespace EcellLib.PathwayWindow.Nodes
     public class PPathwayText : PText
     {
         private CanvasControl m_canvas;
+        private EcellObject m_ecellObj;
         private TextBox m_tbox = new TextBox();
         private string m_name;
 
@@ -53,6 +55,34 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             get { return m_name; }
             set { m_name = value; }
+        }
+
+        /// <summary>
+        /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
+        /// </summary>
+        public virtual CanvasControl CanvasControl
+        {
+            get { return m_canvas; }
+            set
+            {
+                m_canvas = value;
+            }
+        }
+
+        /// <summary>
+        /// EcellObject
+        /// </summary>
+        public EcellObject EcellObject
+        {
+            get { return m_ecellObj; }
+            set
+            {
+                m_ecellObj = value;
+                this.Text = ((EcellText)value).Comment;
+                this.Name = value.Name;
+                this.X = value.X;
+                this.Y = value.Y;
+            }
         }
 
         /// <summary>
@@ -107,8 +137,8 @@ namespace EcellLib.PathwayWindow.Nodes
             float viewScale = m_canvas.PathwayCanvas.Camera.ViewScale;
             m_tbox.Text = base.Text;
             m_tbox.Location = m_canvas.CanvasPosToSystemPos(pos);
-            m_tbox.Width = (int)(base.Width * viewScale);
-            m_tbox.Height = (int)(base.Height * viewScale);
+            m_tbox.Width = (int)(base.Width * viewScale + 5);
+            m_tbox.Height = (int)(base.Height * viewScale + 5);
             m_tbox.Focus();
         }
 
@@ -128,7 +158,7 @@ namespace EcellLib.PathwayWindow.Nodes
             m_canvas.PathwayCanvas.Controls.Remove(m_tbox);
             base.Text = m_tbox.Text;
             if (string.IsNullOrEmpty(base.Text))
-                m_canvas.RemoveText(this);
+                m_canvas.PathwayControl.NotifyDataDelete(m_ecellObj, true);
         }
 
     }

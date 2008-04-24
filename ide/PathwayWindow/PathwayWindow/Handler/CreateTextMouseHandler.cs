@@ -33,6 +33,7 @@ using System.Text;
 using EcellLib.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow.Handler
 {
@@ -62,10 +63,12 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
 
             CanvasControl canvas = m_con.Canvas;
-            PPathwayText text = new PPathwayText(canvas);
-            text.X = e.Position.X;
-            text.Y = e.Position.Y;
-            canvas.AddText(text);
+            string key = canvas.GetTemporaryID(EcellObject.TEXT, "/");
+            EcellText eo = (EcellText)EcellObject.CreateObject(canvas.ModelID, key, EcellObject.TEXT, EcellObject.TEXT, new List<EcellData>());
+            eo.X = e.Position.X;
+            eo.Y = e.Position.Y;
+            eo.Comment = eo.Name;
+            m_con.NotifyDataAdd(eo, true);
         }
     }
 }

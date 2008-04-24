@@ -147,7 +147,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Comments
         /// </summary>
-        protected List<PPathwayText> m_comments = new List<PPathwayText>();
+        protected Dictionary<string, PPathwayText> m_comments = new Dictionary<string, PPathwayText>();
 
         /// <summary>
         /// DataTable for DataGridView displayed layer list.
@@ -337,7 +337,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_comments.
         /// </summary>
-        public List<PPathwayText> Comments
+        public Dictionary<string, PPathwayText> Comments
         {
             get { return m_comments; }
             set { m_comments = value; }
@@ -575,7 +575,7 @@ namespace EcellLib.PathwayWindow
             if (obj is PPathwayNode)
                 ((PPathwayNode)obj).ShowingID = this.m_showingId;
             // Set Root System
-            if (systemName == null || systemName.Equals("") )
+            if (string.IsNullOrEmpty(systemName))
             {
                 if (!hasCoords)
                     SetSystemSize(obj);
@@ -677,8 +677,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="text"></param>
         public void AddText(PPathwayText text)
         {
-            m_comments.Add(text);
             m_ctrlLayer.AddChild(text);
+            m_comments.Add(text.EcellObject.Key, text);
         }
         /// <summary>
         /// 
@@ -689,7 +689,8 @@ namespace EcellLib.PathwayWindow
             if (!m_ctrlLayer.ChildrenReference.Contains(text))
                 return;
             m_ctrlLayer.RemoveChild(text);
-            m_comments.Remove(text);
+            m_comments.Remove(text.EcellObject.Key);
+            m_con.NotifyDataDelete(text.EcellObject, true);
         }
         #endregion
 
@@ -1213,6 +1214,13 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">the type of deleted object.</param>
         public void DataDelete(string key, string type)
         {
+            if (type.Equals(EcellObject.TEXT))
+            {
+                PPathwayText text = m_comments[key];
+                RemoveText(text);
+                return;
+            }
+
             PPathwayObject obj = GetSelectedObject(key, type);
             if (obj == null)
                 return;

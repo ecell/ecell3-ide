@@ -795,7 +795,10 @@ namespace EcellLib.PathwayWindow
                 return;
             // Delete Selected Text
             if (canvas.FocusNode is PPathwayText)
-                canvas.RemoveText((PPathwayText)canvas.FocusNode);
+            {
+                m_con.NotifyDataDelete(((PPathwayText)canvas.FocusNode).EcellObject, true);
+                return;
+            }
             // Delete Selected Line
             PPathwayLine line = canvas.LineHandler.SelectedLine;
             if (line != null)

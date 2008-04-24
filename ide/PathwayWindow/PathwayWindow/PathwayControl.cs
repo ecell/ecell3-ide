@@ -452,6 +452,17 @@ namespace EcellLib.PathwayWindow
                 this.CreateCanvas(eo.ModelID);
                 return;
             }
+            // create new canvas
+            if (eo.Type.Equals(EcellObject.TEXT))
+            {
+                PPathwayText text = new PPathwayText(m_canvas);
+                text.EcellObject = eo;
+                text.Text = ((EcellText)eo).Comment;
+                text.X = eo.X;
+                text.Y = eo.Y;
+                m_canvas.AddText(text);
+                return;
+            }
             // Error check.
             if (string.IsNullOrEmpty(eo.Key))
                 throw new PathwayException(m_resources.GetString("ErrKeyNot"));

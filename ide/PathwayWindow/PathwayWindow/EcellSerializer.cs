@@ -128,7 +128,7 @@ namespace EcellLib.PathwayWindow {
 
                 // Comments
                 xmlOut.WriteStartElement(PathwayConstants.xPathCommentList);
-                foreach (PPathwayText text in canvas.Comments)
+                foreach (PPathwayText text in canvas.Comments.Values)
                 {
                     xmlOut.WriteStartElement(PathwayConstants.xPathComment);
                     xmlOut.WriteAttributeString(PathwayConstants.xPathName, text.Name);
