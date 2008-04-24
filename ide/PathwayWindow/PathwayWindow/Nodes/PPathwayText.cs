@@ -156,11 +156,11 @@ namespace EcellLib.PathwayWindow.Nodes
         private void SetText()
         {
             m_canvas.PCanvas.Controls.Remove(m_tbox);
-            if (string.IsNullOrEmpty(base.Text))
+            if (string.IsNullOrEmpty(m_tbox.Text))
             {
                 m_canvas.Control.NotifyDataDelete(m_ecellObj, true);
             }
-            else if (!((EcellText)m_ecellObj).Comment.Equals(m_tbox.Text))
+            else if (!m_tbox.Text.Equals(((EcellText)m_ecellObj).Comment))
             {
                 ((EcellText)m_ecellObj).Comment = m_tbox.Text;
                 m_canvas.Control.NotifyDataChanged(m_ecellObj.Key, m_ecellObj, true, true);

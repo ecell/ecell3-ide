@@ -440,12 +440,17 @@ namespace EcellLib.PathwayWindow
             // Null check.
             if (eo == null)
                 throw new PathwayException(m_resources.GetString("ErrAddObjNot"));
+            // Ignore Stepper
+            if (Constants.xpathStepper.Equals(eo.Type))
+                return;
+
             // Load new project
             if (EcellObject.PROJECT.Equals(eo.Type))
             {
                 this.Clear();
                 return;
             }
+
             // create new canvas
             if (eo.Type.Equals(EcellObject.MODEL))
             {
