@@ -578,6 +578,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="model"></param>
         /// <param name="key"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public EcellObject GetEntity(string model, string key, string type)
         {

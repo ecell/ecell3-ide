@@ -326,20 +326,17 @@ namespace EcellLib
                 throw new EmlParseException("Invalid entity node found");
             }
             // 4 "EcellCoreLib"
-            if (!l_flag.Equals(Constants.xpathText))
+            try
             {
-                try
-                {
-                    m_simulator.CreateEntity(
-                        l_nodeClass.InnerText,
-                        Util.BuildFullID(l_flag, l_systemID, l_nodeID.InnerText));
-                }
-                catch (Exception l_ex)
-                {
-                    Trace.WriteLine(l_ex.ToString());
-                    isCreated = false;
-                    m_isWarn = true;
-                }
+                m_simulator.CreateEntity(
+                    l_nodeClass.InnerText,
+                    Util.BuildFullID(l_flag, l_systemID, l_nodeID.InnerText));
+            }
+            catch (Exception l_ex)
+            {
+                Trace.WriteLine(l_ex.ToString());
+                isCreated = false;
+                m_isWarn = true;
             }
             // 4 children
             List<EcellData> l_ecellDataList = new List<EcellData>();
@@ -377,7 +374,7 @@ namespace EcellLib
                     if (isCreated == true)
                         m_simulator.LoadEntityProperty(l_entityPath, l_polymorph);
                 }
-                else if (!l_flag.Equals(Constants.xpathText))
+                else
                 {
                     m_processPropertyDic[l_entityPath] = l_polymorph;
                 }
@@ -387,6 +384,64 @@ namespace EcellLib
             //
             // 4 "EcellLib"
             //
+            return EcellObject.CreateObject(
+                    m_modelID,
+                    l_systemID + Constants.delimiterColon + l_nodeID.InnerText,
+                    l_flag,
+                    l_nodeClass.InnerText,
+                    l_ecellDataList);
+        }
+
+        /// <summary>
+        /// Loads the "process" or "variable" element.
+        /// </summary>
+        /// <param name="l_node">The "process" or "variable" element</param>
+        /// <param name="l_systemID">The system ID of the parent "System" element</param>
+        /// <param name="l_flag">"Process" if this element is "Process" element; "Variable" otherwise</param>
+        private EcellObject ParseText(
+            XmlNode l_node,
+            string l_systemID,
+            string l_flag)
+        {
+            XmlNode l_nodeClass = l_node.Attributes.GetNamedItem(Constants.xpathClass);
+            XmlNode l_nodeID = l_node.Attributes.GetNamedItem(Constants.xpathID.ToLower());
+            if (!this.IsValidNode(l_nodeClass) || !this.IsValidNode(l_nodeID))
+            {
+                throw new EmlParseException("Invalid text node found");
+            }
+            // 4 children
+            List<EcellData> l_ecellDataList = new List<EcellData>();
+            XmlNodeList l_nodePropertyList = l_node.ChildNodes;
+            foreach (XmlNode l_nodeProperty in l_nodePropertyList)
+            {
+                if (l_nodeProperty.NodeType == XmlNodeType.Whitespace)
+                    continue;
+                if (l_nodeProperty.NodeType != XmlNodeType.Element)
+                    throw new EmlParseException("Unexpected node");
+                if (!l_nodeProperty.Name.Equals(Constants.xpathProperty))
+                    throw new EmlParseException(
+                        String.Format(
+                            "Element {0} found where {1} is expected",
+                            l_nodeProperty.Name, Constants.xpathProperty));
+                XmlNode l_nodePropertyName = l_nodeProperty.Attributes.GetNamedItem(Constants.xpathName.ToLower());
+                if (!this.IsValidNode(l_nodePropertyName))
+                    continue;
+
+                EcellValue l_ecellValue = new EcellValue(l_nodeProperty.InnerText);
+                if (l_ecellValue == null)
+                    continue;
+
+                // 4 "EcellCoreLib"
+                string l_entityPath =
+                    l_flag + Constants.delimiterColon +
+                    l_systemID + Constants.delimiterColon +
+                    l_nodeID.InnerText + Constants.delimiterColon +
+                    l_nodePropertyName.InnerText;
+
+                EcellData l_ecellData = new EcellData(l_nodePropertyName.InnerText, l_ecellValue, l_entityPath);
+                l_ecellDataList.Add(l_ecellData);
+            }
+            // 4 "EcellLib"
             return EcellObject.CreateObject(
                     m_modelID,
                     l_systemID + Constants.delimiterColon + l_nodeID.InnerText,
@@ -548,7 +603,7 @@ namespace EcellLib
                 else if (l_systemProperty.Name.Equals(Constants.xpathText.ToLower()))
                 {
                     l_childEcellObjectList.Add(
-                        this.ParseEntity(
+                        this.ParseText(
                             l_systemProperty,
                             l_systemID.InnerText,
                             Constants.xpathText));

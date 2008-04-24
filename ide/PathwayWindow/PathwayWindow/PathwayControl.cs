@@ -1066,6 +1066,7 @@ namespace EcellLib.PathwayWindow
             List<EcellObject> list = new List<EcellObject>();
             list.AddRange(GetSystemList());
             list.AddRange(GetNodeList());
+            list.AddRange(GetCommentList());
             return list;
         }
 
@@ -1091,6 +1092,18 @@ namespace EcellLib.PathwayWindow
             foreach (PPathwayObject obj in m_canvas.GetNodeList())
                 nodeList.Add(obj.EcellObject);
 
+            return nodeList;
+        }
+
+        /// <summary>
+        /// Get the list of EcellObject in the target model.
+        /// </summary>
+        /// <returns>the list of EcellObject.</returns>
+        private List<EcellObject> GetCommentList()
+        {
+            List<EcellObject> nodeList = new List<EcellObject>();
+            foreach (PPathwayText obj in m_canvas.Comments.Values)
+                nodeList.Add(obj.EcellObject);
             return nodeList;
         }
 

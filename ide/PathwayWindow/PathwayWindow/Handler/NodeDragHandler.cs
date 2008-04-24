@@ -217,18 +217,19 @@ namespace EcellLib.PathwayWindow.Handler
         {
             base.OnEndDrag(sender, e);
 
-            if (!(e.PickedNode is PPathwayObject) || (e.PickedNode.OffsetX == 0 && e.PickedNode.OffsetY == 0) )
+            if (e.PickedNode.OffsetX == 0 && e.PickedNode.OffsetY == 0)
                 return;
-            PPathwayObject obj = e.PickedNode as PPathwayObject;
-            if (obj is PPathwayNode)
+            // Move Nodes
+            if (e.PickedNode is PPathwayNode)
             {
                 TransferNodes(m_canvas.SelectedNodes);
             }
-            else if (obj is PPathwaySystem)
+            // Move System.
+            else if (e.PickedNode is PPathwaySystem)
             {
-                PPathwaySystem system = (PPathwaySystem)obj;
+                PPathwaySystem system = (PPathwaySystem)e.PickedNode;
                 string oldSysKey = system.EcellObject.Key;
-                string parentSysKey = m_canvas.GetSurroundingSystemKey(obj.PointF, oldSysKey);
+                string parentSysKey = m_canvas.GetSurroundingSystemKey(system.PointF, oldSysKey);
                 string newSysKey = null;
                 if (parentSysKey == null)
                     newSysKey = "/";
@@ -258,6 +259,12 @@ namespace EcellLib.PathwayWindow.Handler
                     TransferSystemTo(newSysKey, oldSysKey, system);
                 }
                 system.RefreshView();
+            }
+            // Move Text
+            else if (e.PickedNode is PPathwayText)
+            {
+                PPathwayText text = (PPathwayText)e.PickedNode;
+                text.NotifyDataChanged();
             }
             //SetBackToDefault();
             m_canvas.PCanvas.Refresh();

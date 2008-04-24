@@ -137,7 +137,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The dictionary for all comments
         /// </summary>
-        protected Dictionary<string, PPathwayText> m_comments = new Dictionary<string, PPathwayText>();
+        protected SortedDictionary<string, PPathwayText> m_comments = new SortedDictionary<string, PPathwayText>();
 
         /// <summary>
         /// DataTable for DataGridView displayed layer list.
@@ -339,7 +339,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_comments.
         /// </summary>
-        public Dictionary<string, PPathwayText> Comments
+        public SortedDictionary<string, PPathwayText> Comments
         {
             get { return m_comments; }
             set { m_comments = value; }

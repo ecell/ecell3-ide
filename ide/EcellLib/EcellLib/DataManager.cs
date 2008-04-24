@@ -4254,20 +4254,20 @@ namespace EcellLib
             Dictionary<string, WrappedPolymorph> l_setPropertyDic)
         {
             if (l_entityList == null || l_entityList.Count <= 0)
-            {
                 return;
-            }
+
             try
             {
                 foreach (EcellObject l_entity in l_entityList)
                 {
+                    if (l_entity is EcellText)
+                        continue;
                     l_simulator.CreateEntity(
                         l_entity.Classname,
                         l_entity.Type + Constants.delimiterColon + l_entity.Key);
                     if (l_entity.Value == null || l_entity.Value.Count <= 0)
-                    {
                         continue;
-                    }
+
                     foreach (EcellData l_ecellData in l_entity.Value)
                     {
                         if (l_ecellData.Name == null
@@ -4293,7 +4293,8 @@ namespace EcellLib
                             }
                             else
                             {
-                                if (l_ecellData.EntityPath.EndsWith("FluxDistributionList")) continue;
+                                if (l_ecellData.EntityPath.EndsWith("FluxDistributionList"))
+                                    continue;
                                 if (l_ecellData.Value.IsDouble()
                                     &&
                                     (Double.IsInfinity(l_ecellData.Value.CastToDouble())
@@ -4866,9 +4867,8 @@ namespace EcellLib
             Dictionary<string, WrappedPolymorph> l_setPropertyDic)
         {
             if (l_systemList == null || l_systemList.Count <= 0)
-            {
                 throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSystem));
-            }
+
             bool l_existSystem = false;
             Dictionary<string, WrappedPolymorph> l_processPropertyDic = new Dictionary<string, WrappedPolymorph>();
             try
@@ -4876,37 +4876,22 @@ namespace EcellLib
                 foreach (EcellObject l_system in l_systemList)
                 {
                     if (l_system == null)
-                    {
                         continue;
-                    }
+
                     l_existSystem = true;
-                    string l_parentPath = l_system.Key.Substring(0, l_system.Key.LastIndexOf(Constants.delimiterPath));
-                    string l_childPath = l_system.Key.Substring(l_system.Key.LastIndexOf(Constants.delimiterPath) + 1);
-                    if (l_system.Key.Equals(Constants.delimiterPath))
+                    string l_parentPath = l_system.ParentSystemID;
+                    string l_childPath = l_system.Name;
+                    if (!l_system.Key.Equals(Constants.delimiterPath))
                     {
-                        if (l_childPath.Length == 0)
-                        {
-                            l_childPath = Constants.delimiterPath;
-                        }
-                    }
-                    else
-                    {
-                        if (l_parentPath.Length == 0)
-                        {
-                            l_parentPath = Constants.delimiterPath;
-                        }
                         l_simulator.CreateEntity(
                             l_system.Classname,
                             l_system.Classname + Constants.delimiterColon
                                 + l_parentPath + Constants.delimiterColon + l_childPath);
                     }
-                    //
                     // 4 property
-                    //
                     if (l_system.Value == null || l_system.Value.Count <= 0)
-                    {
                         continue;
-                    }
+
                     foreach (EcellData l_ecellData in l_system.Value)
                     {
                         if (l_ecellData.Name == null || l_ecellData.Name.Length <= 0
@@ -4931,19 +4916,16 @@ namespace EcellLib
                             l_loggerList.Add(l_ecellData.EntityPath);
                         }
                     }
-                    //
                     // 4 children
-                    //
-                    if (l_system.Children != null && l_system.Children.Count > 0)
-                    {
-                        this.LoadEntity(
-                            l_simulator,
-                            l_system.Children,
-                            l_loggerList,
-                            l_processPropertyDic,
-                            l_initialCondition,
-                            l_setPropertyDic);
-                    }
+                    if (l_system.Children == null || l_system.Children.Count <= 0)
+                        continue;
+                    this.LoadEntity(
+                        l_simulator,
+                        l_system.Children,
+                        l_loggerList,
+                        l_processPropertyDic,
+                        l_initialCondition,
+                        l_setPropertyDic);
                 }
                 if (l_processPropertyDic.Count > 0)
                 {

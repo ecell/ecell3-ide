@@ -35,6 +35,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Event;
 using System.Drawing;
 using EcellLib.Objects;
+using EcellLib.PathwayWindow.Handler;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -82,6 +83,8 @@ namespace EcellLib.PathwayWindow.Nodes
                 this.Name = value.Name;
                 this.X = value.X;
                 this.Y = value.Y;
+                this.OffsetX = value.OffsetX;
+                this.OffsetY = value.OffsetY;
             }
         }
 
@@ -107,7 +110,7 @@ namespace EcellLib.PathwayWindow.Nodes
             base.Text = "Text";
             this.m_canvas = canvas;
             base.Brush = Brushes.Beige;
-            base.AddInputEventListener(new ObjectDragHandler());
+            base.AddInputEventListener(new NodeDragHandler(canvas));
             this.m_tbox.LostFocus += new EventHandler(m_tbox_LostFocus);
             this.m_tbox.KeyPress += new KeyPressEventHandler(m_tbox_KeyPress);
             this.m_tbox.Multiline = true;
@@ -166,6 +169,17 @@ namespace EcellLib.PathwayWindow.Nodes
                 m_canvas.Control.NotifyDataChanged(m_ecellObj.Key, m_ecellObj, true, true);
             }
         }
-
+        /// <summary>
+        /// NotifyDataChanged()
+        /// </summary>
+        public void NotifyDataChanged()
+        {
+            EcellObject eo = m_ecellObj.Copy();
+            eo.X = this.X + this.OffsetX;
+            eo.Y = this.Y + this.OffsetY;
+            eo.OffsetX = 0;
+            eo.OffsetY = 0;
+            m_canvas.Control.NotifyDataChanged(eo.Key, eo, true, true);
+        }
     }
 }
