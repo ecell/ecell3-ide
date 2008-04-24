@@ -62,6 +62,7 @@ namespace EcellLib.MainWindow
                 i++;
                 ProjectLabel label = new ProjectLabel(project.Key, project.Value);
                 label.Text = i.ToString() + ". " + project.Key;
+                label.Width = 220;
                 label.Left = 20;
                 label.Top = i * 25;
                 label.MouseClick += new MouseEventHandler(label_MouseClick);
@@ -153,7 +154,7 @@ namespace EcellLib.MainWindow
                 m_filePath = file;
 
                 this.Text = project;
-                this.Font = new Font(Font.OriginalFontName, 12);
+                this.Font = new Font(Font.SystemFontName, 12);
                 this.MouseHover += new EventHandler(label_MouseHover);
                 this.MouseLeave += new EventHandler(label_MouseLeave);
             }
