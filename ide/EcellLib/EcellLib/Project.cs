@@ -127,6 +127,10 @@ namespace EcellLib
         /// 
         /// </summary>
         private int m_variableNumbering = 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        private int m_textNumbering = 0;
 
         #endregion
 
@@ -490,6 +494,12 @@ namespace EcellLib
                 i = m_variableNumbering;
                 m_variableNumbering++;
             }
+            else if (type.Equals(EcellObject.TEXT))
+            {
+                pref = systemID + ":Text";
+                i = m_textNumbering;
+                m_textNumbering++;
+            }
             else
             {
                 if (systemID == null || systemID == "/")
@@ -497,6 +507,10 @@ namespace EcellLib
                 pref = systemID + "/S";
                 i = m_systemNumbering;
                 m_systemNumbering++;
+            }
+            while (GetEcellObject(modelID, type, pref + i.ToString()) != null)
+            {
+                i++;
             }
             return pref + i.ToString();
         }
@@ -542,6 +556,25 @@ namespace EcellLib
                 break;
             }
             return system;
+        }
+
+        /// <summary>
+        /// Initialize objects.
+        /// </summary>
+        public void Initialize(string modelID)
+        {
+            // Checks the current parameter ID.
+            if (string.IsNullOrEmpty(m_simParam))
+                m_simParam = Constants.defaultSimParam;
+
+            m_initialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
+            m_initialCondition[m_simParam] = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
+            m_initialCondition[m_simParam][modelID] = new Dictionary<string, Dictionary<string, double>>();
+            m_initialCondition[m_simParam][modelID][Constants.xpathSystem] = new Dictionary<string, double>();
+            m_initialCondition[m_simParam][modelID][Constants.xpathProcess] = new Dictionary<string, double>();
+            m_initialCondition[m_simParam][modelID][Constants.xpathVariable] = new Dictionary<string, double>();
+            m_initialCondition[m_simParam][modelID][Constants.xpathText] = new Dictionary<string, double>();
+
         }
 
         /// <summary>

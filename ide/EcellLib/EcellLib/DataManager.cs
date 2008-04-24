@@ -832,7 +832,7 @@ namespace EcellLib
 
                     l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
                     l_type = l_ecellObject.Type;
-                    if (l_type.Equals(Constants.xpathProcess) || l_type.Equals(Constants.xpathVariable))
+                    if (l_type.Equals(Constants.xpathProcess) || l_type.Equals(Constants.xpathVariable) || l_type.Equals(Constants.xpathText))
                     {
                         this.DataAdd4Entity(l_ecellObject, true);
                         l_usableList.Add(l_ecellObject);
@@ -933,30 +933,22 @@ namespace EcellLib
             //
             if (string.IsNullOrEmpty(m_currentProject.SimulationParam))
             {
-                string simulationParam = Constants.defaultSimParam;
-                m_currentProject.SimulationParam = simulationParam;
+                // Sets initial conditions.
+                m_currentProject.Initialize(l_modelID);
+                string l_simParam = m_currentProject.SimulationParam;
+
                 m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
-                m_currentProject.StepperDic[simulationParam] = new Dictionary<string, List<EcellObject>>();
-                m_currentProject.StepperDic[simulationParam][l_modelID] = new List<EcellObject>();
-                m_currentProject.StepperDic[simulationParam][l_modelID].Add(l_dic[Constants.xpathStepper]);
+                m_currentProject.StepperDic[l_simParam] = new Dictionary<string, List<EcellObject>>();
+                m_currentProject.StepperDic[l_simParam][l_modelID] = new List<EcellObject>();
+                m_currentProject.StepperDic[l_simParam][l_modelID].Add(l_dic[Constants.xpathStepper]);
                 m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
-                m_currentProject.LoggerPolicyDic[simulationParam]
+                m_currentProject.LoggerPolicyDic[l_simParam]
                     = new LoggerPolicy(
                         LoggerPolicy.s_reloadStepCount,
                         LoggerPolicy.s_reloadInterval,
                         LoggerPolicy.s_diskFullAction,
                         LoggerPolicy.s_maxDiskSpace
                         );
-                //
-                // Sets initial conditions.
-                //
-                m_currentProject.InitialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
-                Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = m_currentProject.InitialCondition;
-                initialCondition[simulationParam] = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
-                initialCondition[simulationParam][l_modelID] = new Dictionary<string, Dictionary<string, double>>();
-                initialCondition[simulationParam][l_modelID][Constants.xpathSystem] = new Dictionary<string, double>();
-                initialCondition[simulationParam][l_modelID][Constants.xpathProcess] = new Dictionary<string, double>();
-                initialCondition[simulationParam][l_modelID][Constants.xpathVariable] = new Dictionary<string, double>();
             }
             //
             // Messages
@@ -1006,7 +998,6 @@ namespace EcellLib
 
             if (l_ecellObject.Value == null || l_ecellObject.Value.Count <= 0)
                 return;
-
             // Set simulation parameter
             SetSimulationParameter(l_ecellObject, l_modelID, l_type);
         }
@@ -1070,6 +1061,8 @@ namespace EcellLib
             }
 
             if (l_ecellObject.Value == null || l_ecellObject.Value.Count <= 0)
+                return;
+            if (l_ecellObject is EcellText)
                 return;
 
             // Set Simulation param
@@ -1591,6 +1584,9 @@ namespace EcellLib
 
                     if (l_child.Value == null || l_child.Value.Count <= 0)
                         continue;
+                    if (l_child is EcellText)
+                        continue;
+
                     foreach (string l_keyParameterID in initialCondition.Keys)
                     {
                         Dictionary<string, double> condition = initialCondition[l_keyParameterID][l_child.ModelID][l_child.Type];
@@ -4331,7 +4327,7 @@ namespace EcellLib
             DataStored(
                 m_currentProject.Simulator,
                 l_ecellObject,
-                this.m_currentProject.InitialCondition[m_currentProject.SimulationParam][l_ecellObject.ModelID]);
+                m_currentProject.InitialCondition[m_currentProject.SimulationParam][l_ecellObject.ModelID]);
             // Sets the "EcellObject".
             string modelID = l_ecellObject.ModelID;
             string simParam = m_currentProject.SimulationParam;
@@ -4421,27 +4417,11 @@ namespace EcellLib
                 {
                     l_message = m_resources.GetString(ErrorConstants.ErrInitSim) + "[" + m_currentProject.Name + "]";
                 }
-                //
-                // Checks the current parameter ID.
-                //
-                if (m_currentProject.SimulationParam == null || m_currentProject.SimulationParam.Length <= 0)
-                {
-                    m_currentProject.SimulationParam = Constants.defaultSimParam;
-                }
-                //
                 // Sets initial conditions.
-                //
+                m_currentProject.Initialize(l_modelID);
                 string l_simParam = m_currentProject.SimulationParam;
-                this.m_currentProject.InitialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
-                this.m_currentProject.InitialCondition[l_simParam] = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
-                this.m_currentProject.InitialCondition[l_simParam][l_modelID] = new Dictionary<string, Dictionary<string, double>>();
-                this.m_currentProject.InitialCondition[l_simParam][l_modelID][Constants.xpathSystem] = new Dictionary<string, double>();
-                this.m_currentProject.InitialCondition[l_simParam][l_modelID][Constants.xpathProcess] = new Dictionary<string, double>();
-                this.m_currentProject.InitialCondition[l_simParam][l_modelID][Constants.xpathVariable] = new Dictionary<string, double>();
                 InitializeModel(l_modelObj);
-                //
                 // Stores the "LoggerPolicy"
-                //
                 if (!m_currentProject.LoggerPolicyDic.ContainsKey(l_simParam))
                 {
                     m_currentProject.LoggerPolicyDic[l_simParam]
@@ -4497,12 +4477,10 @@ namespace EcellLib
                 m_currentProject.SetDMList();
                 m_pManager.ParameterSet(l_prjID, m_currentProject.SimulationParam);
                 m_currentProject.Simulator = CreateSimulatorInstance();
-                m_currentProject.SimulationStatus = SimulationStatus.Wait;
                 m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
                 m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 m_currentProject.ModelList = new List<EcellObject>();
                 m_currentProject.SystemDic = new Dictionary<string, List<EcellObject>>();
-                m_currentProject.InitialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
                 m_projectList.Add(l_prj);
 
                 List<EcellData> l_ecellDataList = new List<EcellData>();
@@ -5202,9 +5180,7 @@ namespace EcellLib
                 m_currentProject.SetDMList();
                 m_currentProject.Simulator = CreateSimulatorInstance();
                 CreateProjectDir(l_prjID, l_setDirList);
-                m_currentProject.SimulationStatus = SimulationStatus.Wait;
                 m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
-                // this.m_stepperDic[l_prjID] = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 m_currentProject.ModelList = new List<EcellObject>();
                 m_currentProject.SystemDic = new Dictionary<string, List<EcellObject>>();
@@ -5328,11 +5304,11 @@ namespace EcellLib
                 // 4 Initial Condition
                 //
                 Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_srcInitialCondition
-                    = this.m_currentProject.InitialCondition[l_storedParameterID];
+                    = m_currentProject.InitialCondition[l_storedParameterID];
                 Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_dstInitialCondition
                     = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
                 this.Copy4InitialCondition(l_srcInitialCondition, l_dstInitialCondition);
-                this.m_currentProject.InitialCondition[l_parameterID] = l_dstInitialCondition;
+                m_currentProject.InitialCondition[l_parameterID] = l_dstInitialCondition;
                 m_pManager.ParameterAdd(m_currentProject.Name, l_parameterID);
                 Message("Create Simulation Parameter: " + l_message);
                 if (l_isRecorded)

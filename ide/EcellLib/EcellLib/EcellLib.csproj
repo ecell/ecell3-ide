@@ -218,6 +218,7 @@
     <Compile Include="Objects\EcellProcess.cs" />
     <Compile Include="Objects\EcellReference.cs" />
     <Compile Include="Objects\EcellSystem.cs" />
+    <Compile Include="Objects\EcellText.cs" />
     <Compile Include="Objects\EcellValue.cs" />
     <Compile Include="Objects\EcellVariable.cs" />
     <Compile Include="EcellXml.cs" />

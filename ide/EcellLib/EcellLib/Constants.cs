@@ -351,6 +351,10 @@ namespace EcellLib
         /// </summary>
         public const string xpathProcess = "Process";
         /// <summary>
+        /// Reserved XML path name for Process.
+        /// </summary>
+        public const string xpathText = "Text";
+        /// <summary>
         /// Reserved XML path name for Project.
         /// </summary>
         public const string xpathProject = "Project";

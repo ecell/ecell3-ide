@@ -72,6 +72,10 @@ namespace EcellLib.Objects
         /// Type string of "Variable".
         /// </summary>
         public const string VARIABLE = "Variable";
+        /// <summary>
+        /// Type string of "Variable".
+        /// </summary>
+        public const string TEXT = "Text";
         #endregion
 
         #region Fields
@@ -557,6 +561,8 @@ namespace EcellLib.Objects
                 return new EcellVariable(l_modelID, l_key, l_type, l_class, l_data);
             else if (SYSTEM.Equals(l_type))
                 return new EcellSystem(l_modelID, l_key, l_type, l_class, l_data);
+            else if (TEXT.Equals(l_type))
+                return new EcellText(l_modelID, l_key, l_type, l_class, l_data);
             else
                 return new EcellObject(l_modelID, l_key, l_type, l_class, l_data);
         }

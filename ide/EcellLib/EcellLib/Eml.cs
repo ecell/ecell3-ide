@@ -1,4 +1,37 @@
-﻿using System;
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -42,25 +75,8 @@ namespace EcellLib
             m_tx.WriteStartElement(l_entityName.ToLower());
             m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.Classname);
             m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_ecellObject.Name);
-            if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
-            {
-                foreach (EcellData l_ecellData in l_ecellObject.Value)
-                {
-                    if (l_ecellData == null || !l_ecellData.Saveable)
-                    {
-                        continue;
-                    }
-                    if (l_ecellData.Value == null
-                        || (l_ecellData.Value.IsString() && l_ecellData.Value.CastToString().Length <= 0))
-                    {
-                        continue;
-                    }
-                    m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
-                    m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, l_ecellData.Name);
-                    WriteValueElements(l_ecellData.Value, false);
-                    m_tx.WriteEndElement();
-                }
-            }
+            if (l_ecellObject.Value != null)
+                WriteDataElement(l_ecellObject);
             m_tx.WriteEndElement();
         }
 
@@ -73,29 +89,8 @@ namespace EcellLib
             m_tx.WriteStartElement(Constants.xpathStepper.ToLower());
             m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.Classname);
             m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_ecellObject.Key);
-            if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
-            {
-                foreach (EcellData l_ecellData in l_ecellObject.Value)
-                {
-                    if (l_ecellData == null)
-                    {
-                        continue;
-                    }
-                    if (!l_ecellData.Saveable)
-                    {
-                        continue;
-                    }
-                    if (l_ecellData.Value == null
-                        || (l_ecellData.Value.IsString() && l_ecellData.Value.CastToString().Length <= 0))
-                    {
-                        continue;
-                    }
-                    m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
-                    m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, l_ecellData.Name);
-                    WriteValueElements(l_ecellData.Value, false);
-                    m_tx.WriteEndElement();
-                }
-            }
+            if (l_ecellObject.Value != null)
+                WriteDataElement(l_ecellObject);
             m_tx.WriteEndElement();
         }
 
@@ -108,67 +103,80 @@ namespace EcellLib
             m_tx.WriteStartElement(Constants.xpathSystem.ToLower());
             m_tx.WriteAttributeString(Constants.xpathClass, null, l_ecellObject.Classname);
             m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, l_ecellObject.Key);
-            if (l_ecellObject.Value != null && l_ecellObject.Value.Count > 0)
+            if (l_ecellObject.Value != null)
+                WriteDataElement(l_ecellObject);
+
+            // 4 children
+            if (l_ecellObject.Children != null && l_ecellObject.Children.Count > 0)
             {
-                foreach (EcellData l_ecellData in l_ecellObject.Value)
+                List<EcellObject> l_processList = new List<EcellObject>();
+                List<EcellObject> l_variableList = new List<EcellObject>();
+                foreach (EcellObject l_childEcellObject in l_ecellObject.Children)
                 {
-                    if (l_ecellData == null || !l_ecellData.Saveable)
+                    if (l_childEcellObject.Type.Equals(Constants.xpathProcess))
                     {
-                        continue;
+                        l_processList.Add(l_childEcellObject);
                     }
-                    if (l_ecellData.Value == null
-                        || (l_ecellData.Value.IsString() && l_ecellData.Value.CastToString().Length <= 0))
+                    else if (l_childEcellObject.Type.Equals(Constants.xpathVariable))
                     {
-                        continue;
+                        l_variableList.Add(l_childEcellObject);
                     }
-                    m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
-                    m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, l_ecellData.Name);
-                    WriteValueElements(l_ecellData.Value, false);
-                    m_tx.WriteEndElement();
                 }
-                //
-                // 4 children
-                //
-                if (l_ecellObject.Children != null && l_ecellObject.Children.Count > 0)
+                foreach (EcellObject l_variableEcellObject in l_variableList)
                 {
-                    List<EcellObject> l_processList = new List<EcellObject>();
-                    List<EcellObject> l_variableList = new List<EcellObject>();
-                    foreach (EcellObject l_childEcellObject in l_ecellObject.Children)
-                    {
-                        if (l_childEcellObject.Type.Equals(Constants.xpathProcess))
-                        {
-                            l_processList.Add(l_childEcellObject);
-                        }
-                        else if (l_childEcellObject.Type.Equals(Constants.xpathVariable))
-                        {
-                            l_variableList.Add(l_childEcellObject);
-                        }
-                    }
-                    foreach (EcellObject l_variableEcellObject in l_variableList)
-                    {
-                        WriteEntityElements(l_variableEcellObject, Constants.xpathVariable);
-                    }
-                    foreach (EcellObject l_processEcellObject in l_processList)
-                    {
-                        WriteEntityElements(l_processEcellObject, Constants.xpathProcess);
-                    }
+                    WriteEntityElements(l_variableEcellObject, Constants.xpathVariable);
+                }
+                foreach (EcellObject l_processEcellObject in l_processList)
+                {
+                    WriteEntityElements(l_processEcellObject, Constants.xpathProcess);
                 }
             }
             m_tx.WriteEndElement();
         }
 
+        /// <summary>
+        /// Creates the "EcellData" elements.
+        /// </summary>
+        /// <param name="l_ecellObject"></param>
+        private void WriteDataElement(EcellObject l_ecellObject)
+        {
+            foreach (EcellData l_ecellData in l_ecellObject.Value)
+            {
+                if (l_ecellData == null || !l_ecellData.Saveable)
+                    continue;
+                if (l_ecellData.Value == null
+                    || (l_ecellData.Value.IsString() && l_ecellData.Value.CastToString().Length <= 0))
+                    continue;
+
+                m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
+                m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, l_ecellData.Name);
+                WriteValueElements(l_ecellData.Value, false);
+                m_tx.WriteEndElement();
+            }
+        }
+
+        /// <summary>
+        /// WriteStartDocument
+        /// </summary>
         public void WriteStartDocument()
         {
             m_tx.WriteStartDocument(true);
             m_tx.WriteStartElement(Constants.xpathEml);
         }
 
+        /// <summary>
+        /// WriteEndDocument
+        /// </summary>
         public void WriteEndDocument()
         {
             m_tx.WriteEndElement();
             m_tx.WriteEndDocument();
         }
 
+        /// <summary>
+        /// Write EML
+        /// </summary>
+        /// <param name="storedList"></param>
         public void Write(List<EcellObject> storedList)
         {
             foreach (EcellObject ecellObject in storedList)
@@ -183,7 +191,10 @@ namespace EcellLib
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tx"></param>
         public EmlWriter(XmlTextWriter tx): base(tx)
         {
         }
@@ -201,7 +212,7 @@ namespace EcellLib
             //
             if (File.Exists(l_fileName))
             {
-                string l_date
+                string l_date 
                     = File.GetLastAccessTime(l_fileName).ToString().Replace(
                         Constants.delimiterColon, Constants.delimiterUnderbar);
                 l_date = l_date.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
