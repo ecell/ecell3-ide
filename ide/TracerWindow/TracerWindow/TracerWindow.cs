@@ -365,6 +365,11 @@ namespace EcellLib.TracerWindow
                     win.RemoveLoggerEntry(t);
                 }
             }
+            foreach (TraceWindow win in m_winList)
+            {
+                win.Clear();
+            }
+
             m_tagList.Clear();
             m_entry.Clear();
         }

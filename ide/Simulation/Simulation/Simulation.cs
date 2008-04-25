@@ -462,10 +462,10 @@ namespace EcellLib.Simulation
         {
             if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Uninitialized) return;
             ProjectStatus preType = m_type;
-            m_dManager.Initialize(true);
-            m_pManager.ChangeStatus(ProjectStatus.Running);
+
             try
             {
+                m_pManager.ChangeStatus(ProjectStatus.Running);
                 m_dManager.SimulationStart(0.0, 0);
             }
             catch (Exception ex)

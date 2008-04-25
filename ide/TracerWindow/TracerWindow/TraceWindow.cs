@@ -206,6 +206,16 @@ namespace EcellLib.TracerWindow
         }
 
         /// <summary>
+        /// Clear the information of project.
+        /// </summary>
+        public void Clear()
+        {
+            m_tagDic.Clear();
+            m_entry.Clear();
+            m_entryDic.Clear();
+        }
+
+        /// <summary>
         /// Add logger entry to DataGridView and ZedGraphControl.
         /// Added logger entry is registed to m_paneDic.
         /// </summary>

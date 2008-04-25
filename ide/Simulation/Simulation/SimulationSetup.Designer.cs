@@ -85,15 +85,15 @@
             this.InitProDGV = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.initialvalue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
             this.SSCreateButton = new System.Windows.Forms.Button();
-            this.SSDeleteButton = new System.Windows.Forms.Button();
             this.paramCombo = new System.Windows.Forms.ComboBox();
+            this.SSDeleteButton = new System.Windows.Forms.Button();
             this.SSSetButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.SSApplyButton = new System.Windows.Forms.Button();
             this.SSCloseButton = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -120,9 +120,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.InitVarDGV)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.InitProDGV)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.tableLayoutPanel11.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -528,6 +528,14 @@
             resources.ApplyResources(this.initialvalue, "initialvalue");
             this.initialvalue.Name = "initialvalue";
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.tableLayoutPanel11);
+            this.groupBox4.Cursor = System.Windows.Forms.Cursors.Default;
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
             // tableLayoutPanel11
             // 
             resources.ApplyResources(this.tableLayoutPanel11, "tableLayoutPanel11");
@@ -543,17 +551,17 @@
             this.SSCreateButton.Name = "SSCreateButton";
             this.SSCreateButton.UseVisualStyleBackColor = true;
             // 
-            // SSDeleteButton
-            // 
-            resources.ApplyResources(this.SSDeleteButton, "SSDeleteButton");
-            this.SSDeleteButton.Name = "SSDeleteButton";
-            this.SSDeleteButton.UseVisualStyleBackColor = true;
-            // 
             // paramCombo
             // 
             resources.ApplyResources(this.paramCombo, "paramCombo");
             this.paramCombo.FormattingEnabled = true;
             this.paramCombo.Name = "paramCombo";
+            // 
+            // SSDeleteButton
+            // 
+            resources.ApplyResources(this.SSDeleteButton, "SSDeleteButton");
+            this.SSDeleteButton.Name = "SSDeleteButton";
+            this.SSDeleteButton.UseVisualStyleBackColor = true;
             // 
             // SSSetButton
             // 
@@ -580,14 +588,6 @@
             resources.ApplyResources(this.SSCloseButton, "SSCloseButton");
             this.SSCloseButton.Name = "SSCloseButton";
             this.SSCloseButton.UseVisualStyleBackColor = true;
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.tableLayoutPanel11);
-            this.groupBox4.Cursor = System.Windows.Forms.Cursors.No;
-            resources.ApplyResources(this.groupBox4, "groupBox4");
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.TabStop = false;
             // 
             // SimulationSetup
             // 
@@ -632,9 +632,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.InitVarDGV)).EndInit();
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.InitProDGV)).EndInit();
+            this.groupBox4.ResumeLayout(false);
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel12.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
